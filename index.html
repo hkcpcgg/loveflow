@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사랑흐름 · 관계 나침반 (무료)</title>
-<!-- 사랑흐름 무료 나침반 v17 · 260612 · r-full(유형설명) 제거 -->
+<!-- 사랑흐름 무료 나침반 v18 · 260612 · 이모지복구/LFRI낮은2개공개+높은2개잠금/철학문구2줄크게/블록순서변경/공유버튼색조정 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -112,7 +112,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .res-action-label{font-size:10px;color:rgba(184,146,62,0.7);font-weight:700;letter-spacing:0.18em;margin-bottom:6px;text-transform:uppercase}
 .res-action-desc{font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:18px;line-height:1.7}
 .btn-res-paid{display:block;width:100%;padding:15px;background:#B8923E;border:none;border-radius:14px;color:#22243A;font-size:16px;font-weight:900;cursor:pointer;text-align:center;text-decoration:none;margin-bottom:10px;min-height:52px;box-sizing:border-box}
-.btn-res-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:rgba(255,255,255,0.08);border:1.5px solid rgba(184,146,62,0.4);border-radius:14px;color:#E8D49A;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;min-height:52px}
+.btn-res-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:#fff;border:1.5px solid #B8923E;border-radius:14px;color:#8A5C00;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:10px;min-height:52px}
 .rel-card{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(15,27,45,0.06)}
 .rel-title{font-size:20px;font-weight:900;color:#1A1A3A;text-align:center;margin-bottom:6px;letter-spacing:-0.02em}
 .rel-sub{font-size:13px;color:#6B7280;text-align:center;line-height:1.6;margin-bottom:14px}
@@ -339,58 +339,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
         <div class="res-hero-cath" id="r-cath">꺼내는 것만으로, 흐름이 다시 움직이기 시작합니다.</div>
       </div>
 
-      <!-- 블록2: LFRI 게이지 (수치 잠금) -->
+      <!-- 블록2: LFRI 게이지 (낮은 2개 공개, 높은 2개 잠금) -->
       <div class="res-lfri">
         <div class="res-lfri-title">✦ 이 관계의 좌표 · LFRI™</div>
-        <div class="res-lfri-item">
-          <div class="res-lfri-row">
-            <span class="res-lfri-name">🔗 연결 <span style="font-size:10px;color:#9090A0">Connection</span></span>
-            <span style="font-size:13px;color:#C0BDD8;letter-spacing:4px">• • •</span>
-          </div>
-          <div class="res-bar-bg"><div class="res-bar-fill" id="rCBar" style="width:0%;background:linear-gradient(90deg,#4A90D9,#7AB8F5)"></div></div>
-        </div>
-        <div class="res-lfri-item">
-          <div class="res-lfri-row">
-            <span class="res-lfri-name">🌡 온기 <span style="font-size:10px;color:#9090A0">Warmth</span></span>
-            <span style="font-size:13px;color:#C0BDD8;letter-spacing:4px">• • •</span>
-          </div>
-          <div class="res-bar-bg"><div class="res-bar-fill" id="rWBar" style="width:0%;background:linear-gradient(90deg,#E67E22,#F5A55A)"></div></div>
-        </div>
-        <div class="res-lfri-item">
-          <div class="res-lfri-row">
-            <span class="res-lfri-name">💬 표현 <span style="font-size:10px;color:#9090A0">Expression</span></span>
-            <span style="font-size:13px;color:#C0BDD8;letter-spacing:4px">• • •</span>
-          </div>
-          <div class="res-bar-bg"><div class="res-bar-fill" id="rEBar" style="width:0%;background:linear-gradient(90deg,#9B59B6,#C39BD3)"></div></div>
-        </div>
-        <div class="res-lfri-item" style="margin-bottom:0">
-          <div class="res-lfri-row">
-            <span class="res-lfri-name">🔄 회복 <span style="font-size:10px;color:#9090A0">Recovery</span></span>
-            <span style="font-size:13px;color:#C0BDD8;letter-spacing:4px">• • •</span>
-          </div>
-          <div class="res-bar-bg"><div class="res-bar-fill" id="rRBar" style="width:0%;background:linear-gradient(90deg,#27AE60,#6FCF97)"></div></div>
-        </div>
+        <div id="lfri-rows"></div>
       </div>
 
-      <!-- 블록3: 유료 전환 -->
-      <div style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:24px 20px;margin-bottom:12px">
-        <div style="font-size:14px;color:#4B5563;line-height:2;text-align:center;margin-bottom:20px">
-          많은 관계는<br>
-          사랑이 부족해서가 아니라<br>
-          <strong style="color:#102543;font-size:15px">서로의 언어를 몰라서 멀어집니다.</strong>
-        </div>
-        <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:12px;text-align:center">🧭 사랑흐름과 함께하는 다음 여정</div>
-        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px">
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>상대가 이해하지 못했던 나의 진심</div>
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>내가 놓치고 있던 상대의 마음</div>
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>지금 관계를 바꾸는 행동카드 3장</div>
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>다시 연결될 수 있는 회복 방향</div>
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>사랑흐름 여행지도 PDF</div>
-        </div>
-        <a href="https://sites.google.com/view/loveflow/%ED%99%88" target="_blank" style="display:block;width:100%;padding:17px;background:#B8923E;border-radius:16px;color:#fff;font-size:17px;font-weight:900;text-align:center;text-decoration:none;box-sizing:border-box">💛 이 관계의 다음 걸음 내딛기 · ₩9,900</a>
-      </div>
-
-      <!-- 블록4: 이메일 수집 박스 -->
+      <!-- 블록3: 이메일 수집 박스 -->
       <div id="emailCollectBox" style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:20px;margin-bottom:12px;text-align:left">
         <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:6px">✦ 오늘 결과를 기억해 드릴게요</div>
         <div style="font-size:13px;color:#4B5563;line-height:1.7;margin-bottom:14px">이메일을 남겨두시면 다음 여정에서 이어갈 수 있어요.</div>
@@ -413,6 +368,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
           <button onclick="saveResultEmail()" style="flex:1;padding:12px;background:#B8923E;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;min-height:48px">🌊 저장하기</button>
           <button onclick="document.getElementById('emailCollectBox').style.display='none'" style="flex:1;padding:12px;background:#fff;border:1px solid #E6E2D7;border-radius:10px;color:#9090A0;font-size:13px;cursor:pointer;min-height:48px">지금은 건너뛰기</button>
         </div>
+      </div>
+
+      <!-- 블록4: 유료 전환 -->
+      <div style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:24px 20px;margin-bottom:12px">
+        <div style="font-size:17px;font-weight:800;color:#102543;line-height:1.9;text-align:center;margin-bottom:20px">
+          많은 관계는<br>
+          사랑이 부족해서가 아니라<br>
+          서로의 언어를 몰라서 멀어집니다.
+        </div>
+        <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:12px;text-align:center">🧭 사랑흐름과 함께하는 다음 여정</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px">
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>상대가 이해하지 못했던 나의 진심</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>내가 놓치고 있던 상대의 마음</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>지금 관계를 바꾸는 행동카드 3장</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>다시 연결될 수 있는 회복 방향</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>사랑흐름 여행지도 PDF</div>
+        </div>
+        <a href="https://sites.google.com/view/loveflow/%ED%99%88" target="_blank" style="display:block;width:100%;padding:17px;background:#B8923E;border-radius:16px;color:#fff;font-size:17px;font-weight:900;text-align:center;text-decoration:none;box-sizing:border-box">💛 이 관계의 다음 걸음 내딛기 · ₩9,900</a>
       </div>
 
       <!-- 블록5: 공유하기 (맨 아래 단독) -->
@@ -632,17 +605,48 @@ function showResult() {
   document.getElementById('r-name').textContent = t.short;
   document.getElementById('r-cath').textContent = t.cath;
 
-  // 블록2: LFRI 게이지 — sc 점수로 퍼센트 계산
+  // 블록2: LFRI 게이지 — 낮은 2개 공개, 높은 2개 잠금
   var pct = function(a, b) { return Math.round((a / (a + b + 0.01)) * 100); };
-  var cP = pct(sc.C, sc.D);
-  var wP = pct(sc.W, sc.G);
-  var eP = pct(sc.E, sc.H);
-  var rP = pct(sc.R, sc.P);
+  var axes = [
+    {id:'C', name:'🔗 연결', eng:'Connection', pct:pct(sc.C,sc.D), bar:'linear-gradient(90deg,#4A90D9,#7AB8F5)'},
+    {id:'W', name:'🌡 온기',  eng:'Warmth',     pct:pct(sc.W,sc.G), bar:'linear-gradient(90deg,#E67E22,#F5A55A)'},
+    {id:'E', name:'💬 표현', eng:'Expression', pct:pct(sc.E,sc.H), bar:'linear-gradient(90deg,#9B59B6,#C39BD3)'},
+    {id:'R', name:'🔄 회복', eng:'Recovery',   pct:pct(sc.R,sc.P), bar:'linear-gradient(90deg,#27AE60,#6FCF97)'}
+  ];
+  // 낮은순 정렬 → 낮은 2개 공개, 높은 2개 잠금
+  var sorted = axes.slice().sort(function(a,b){ return a.pct - b.pct; });
+  var openIds = [sorted[0].id, sorted[1].id];
+
+  var html = '';
+  axes.forEach(function(ax) {
+    var isOpen = openIds.indexOf(ax.id) !== -1;
+    var last = ax.id === 'R' ? 'margin-bottom:0' : '';
+    if (isOpen) {
+      html += '<div class="res-lfri-item" style="' + last + '">';
+      html += '<div class="res-lfri-row">';
+      html += '<span class="res-lfri-name">' + ax.name + ' <span style="font-size:10px;color:#9090A0">' + ax.eng + '</span></span>';
+      html += '<span style="font-size:14px;font-weight:900;color:#1A1A3A">' + ax.pct + '%</span>';
+      html += '</div>';
+      html += '<div class="res-bar-bg"><div class="res-bar-fill" id="rBar' + ax.id + '" style="width:0%;background:' + ax.bar + '"></div></div>';
+      html += '</div>';
+    } else {
+      html += '<div class="res-lfri-item" style="' + last + '">';
+      html += '<div class="res-lfri-row">';
+      html += '<span class="res-lfri-name" style="color:#B0AABF">' + ax.name + ' <span style="font-size:10px;color:#C8C5D8">' + ax.eng + '</span></span>';
+      html += '<span style="font-size:12px;color:#B0AABF;letter-spacing:2px">다음 여정에서 확인 →</span>';
+      html += '</div>';
+      html += '<div class="res-bar-bg"><div style="height:11px;border-radius:8px;width:100%;background:repeating-linear-gradient(90deg,#E6E2D7 0px,#E6E2D7 6px,#F0EEF8 6px,#F0EEF8 12px)"></div></div>';
+      html += '</div>';
+    }
+  });
+  document.getElementById('lfri-rows').innerHTML = html;
+
   setTimeout(function() {
-    document.getElementById('rCBar').style.width = Math.min(cP, 100) + '%';
-    document.getElementById('rWBar').style.width = Math.min(wP, 100) + '%';
-    document.getElementById('rEBar').style.width = Math.min(eP, 100) + '%';
-    document.getElementById('rRBar').style.width = Math.min(rP, 100) + '%';
+    openIds.forEach(function(id) {
+      var el = document.getElementById('rBar' + id);
+      var ax = axes.find(function(a){ return a.id === id; });
+      if (el && ax) el.style.width = Math.min(ax.pct, 100) + '%';
+    });
   }, 300);
 
   saveEvent();
