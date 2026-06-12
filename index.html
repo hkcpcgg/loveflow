@@ -88,7 +88,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .analyzing-msg{font-size:13px;color:#B8923E;font-weight:700;margin-top:20px;min-height:20px;text-align:center}
 
 /* ── 감성 결과 카드 ── */
-.res-hero{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 50%,#22243A 100%);border-radius:20px;padding:32px 20px 28px;text-align:center;margin-bottom:12px;position:relative;overflow:hidden}
+.res-hero{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 50%,#22243A 100%);border-radius:20px;padding:28px 20px 24px;text-align:center;margin-bottom:12px;position:relative;overflow:hidden}
 .res-hero::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,62,0.18) 0%,transparent 70%)}
 .res-hero-label{font-size:10px;color:rgba(184,146,62,0.7);font-weight:700;letter-spacing:0.22em;margin-bottom:16px;text-transform:uppercase}
 .res-hero-icon{font-size:56px;margin-bottom:12px;display:block}
@@ -194,24 +194,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
         <div class="nick-hint">닉네임은 결과에 사용돼요.</div>
       </div>
 
-      <div style="margin-top:16px">
-        <div style="font-weight:900;font-size:14px;color:#0F1B2D;margin-bottom:8px">여행자 확인 이메일</div>
-        <div style="display:flex;gap:8px;align-items:center">
-          <input type="text" id="email-id" placeholder="이메일 아이디" style="flex:1;height:44px;padding:0 12px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:15px;outline:none;background:#fff">
-          <span style="color:#0F1B2D;font-weight:900">@</span>
-          <select id="email-domain" onchange="checkCustomDomain()" style="width:140px;height:44px;padding:0 8px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:14px;background:#fff;outline:none">
-            <option value="naver.com">naver.com</option>
-            <option value="gmail.com">gmail.com</option>
-            <option value="daum.net">daum.net</option>
-            <option value="hanmail.net">hanmail.net</option>
-            <option value="nate.com">nate.com</option>
-            <option value="custom">직접 입력</option>
-          </select>
-        </div>
-        <input type="text" id="custom-domain" placeholder="도메인 직접 입력 (예: gmail.com)" style="display:none;width:100%;height:44px;padding:0 12px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:15px;margin-top:8px;outline:none;background:#fff">
-        <input type="hidden" id="final-email">
-        <div style="font-size:11px;color:#6B7280;margin-top:6px">입력하신 이메일은 여행자 확인 용도로 사용됩니다.</div>
-      </div>
+
     </div>
 
     <div class="mbti-tab-wrap">
@@ -347,11 +330,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
       <!-- 블록1: 여행자 유형 감성 카드 -->
       <div class="res-hero">
         <div class="res-hero-label">✦ 사랑흐름 · 관계 나침반 결과</div>
-        <span class="res-hero-icon" id="r-icon">🌊</span>
-        <div class="res-hero-code" id="r-code">—</div>
-        <div class="res-hero-type" id="r-name">—</div>
-        <div class="res-hero-full" id="r-full">—</div>
-        <div style="font-size:10px;color:rgba(184,146,62,0.5);letter-spacing:0.18em;margin-bottom:14px">Love Flow Type™</div>
+        <span class="res-hero-icon" id="r-icon" style="font-size:60px;margin:20px 0 16px;display:block">🌊</span>
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
+          <span id="r-code" style="font-size:12px;font-weight:900;color:#0F2747;background:#B8923E;padding:4px 14px;border-radius:20px;letter-spacing:3px">—</span>
+          <span id="r-name" style="font-size:26px;font-weight:900;color:#FFFFFF;letter-spacing:-0.02em">—</span>
+        </div>
+        <div id="r-full" style="font-size:13px;color:#E8D49A;font-weight:600;margin-bottom:8px">—</div>
+        <div style="font-size:11px;color:#D4A94F;letter-spacing:0.15em;font-weight:700;margin-bottom:20px">Love Flow Type™</div>
         <div class="res-hero-cath" id="r-cath">꺼내는 것만으로, 흐름이 다시 움직이기 시작합니다.</div>
       </div>
 
@@ -403,6 +388,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
           이 결과 공유하기
         </button>
         <button class="btn-res-restart" onclick="resetAll()">🧭 다시 시작</button>
+
+      <!-- 이메일 수집 박스 -->
+      <div id="emailCollectBox" style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:20px;margin-top:12px;text-align:left">
+        <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:6px">✦ 오늘 결과를 저장해 드릴게요</div>
+        <div style="font-size:13px;color:#4B5563;line-height:1.7;margin-bottom:14px">이메일을 남겨두시면 다음 여정에서 이어갈 수 있어요.</div>
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
+          <input type="text" id="collect-email-id" placeholder="이메일 아이디" style="width:0;flex:1;min-width:0;height:44px;padding:0 12px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:15px;outline:none;background:#FAFAF8">
+          <span style="color:#0F1B2D;font-weight:900;font-size:14px;flex-shrink:0">@</span>
+          <select id="collect-email-domain" onchange="document.getElementById('collect-email-custom').style.display=this.value==='custom'?'block':'none'" style="width:130px;flex-shrink:0;height:44px;padding:0 8px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:13px;background:#FAFAF8;outline:none;cursor:pointer">
+            <option value="naver.com">naver.com</option>
+            <option value="gmail.com">gmail.com</option>
+            <option value="daum.net">daum.net</option>
+            <option value="kakao.com">kakao.com</option>
+            <option value="nate.com">nate.com</option>
+            <option value="hanmail.net">hanmail.net</option>
+            <option value="custom">직접 입력</option>
+          </select>
+        </div>
+        <input type="text" id="collect-email-custom" placeholder="도메인 직접 입력" style="display:none;width:100%;height:40px;padding:0 12px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:14px;outline:none;background:#FAFAF8;margin-bottom:8px">
+        <div style="font-size:11px;color:#9090A0;margin-bottom:12px">입력하신 이메일은 결과 저장 및 사랑흐름 소식 안내 용도로만 사용됩니다.</div>
+        <div style="display:flex;gap:8px">
+          <button onclick="saveResultEmail()" style="flex:1;padding:12px;background:#B8923E;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:800;cursor:pointer;min-height:48px">🌊 저장하기</button>
+          <button onclick="document.getElementById('emailCollectBox').style.display='none'" style="flex:1;padding:12px;background:#fff;border:1px solid #E6E2D7;border-radius:10px;color:#9090A0;font-size:13px;cursor:pointer;min-height:48px">지금은 건너뛰기</button>
+        </div>
+      </div>
         <a class="btn-res-paid" href="https://sites.google.com/view/loveflow/%ED%99%88" target="_blank" style="margin-top:4px">🗺 전체 여행지도 보기 · ₩9,900</a>
       </div>
 
@@ -438,7 +448,7 @@ const MBTI_LIST = [
 
 /* ── 유형 DB ── */
 const T = {
-  CWER:{icon:'🌧',short:'봄비 여행자',full:'대지를 적시는 강물형',badge:'👑 왕관',bc:'#1A5C0A',bg:'#DCF5E0',desc:'주변과 밀착되어 온기가 넘치며 표현도 잘하고 회복 의지가 강한, 가장 축복받은 여행자입니다.',cath:'당신의 여행에는 지켜낸 온기가 있습니다. 이건 이미 큰 복입니다.'},
+  CWER:{icon:'🌧',short:'봄비 여행자',full:'대지를 적시는 강물형',badge:'👑 왕관',bc:'#1A5C0A',bg:'#DCF5E0',desc:'주변과 밀착되어 온기가 넘치며 표현도 잘하고 회복 의지가 강한, 가장 축복받은 여행자입니다.',cath:'당신의 여행에는 지켜낸 온기가 있습니다. 이건 이미 큰 축복입니다.'},
   CWEP:{icon:'🌿',short:'울타리 여행자',full:'따뜻한 울타리형',badge:'👑 왕관',bc:'#1A5C0A',bg:'#DCF5E0',desc:'가족·지인과 끈끈하고 표현도 잘하지만, 갈등은 평화롭게 품어 안는 유연한 여행자입니다.',cath:'지금의 풍경은 아름답습니다. 남은 여행이 더 가벼워질 여지가 있습니다.'},
   CWHR:{icon:'🌲',short:'소나무 여행자',full:'속 깊은 소나무형',badge:'⛵ 등대',bc:'#0C4A8A',bg:'#D6EAFF',desc:'관계는 밀착되어 있고 온기도 가득하지만, 진심을 표현하지 못하고 가슴에 묻어둔 채 회복을 갈망하는 여행자입니다.',cath:'말하지 않아도 전해지는 사랑이 있습니다. 이제 그 사랑에 문장을 얹어보는 건 어떨까요.'},
   CWHP:{icon:'🏔',short:'호수 여행자',full:'마음 깊은 호수형',badge:'👑 왕관',bc:'#1A5C0A',bg:'#DCF5E0',desc:'가족 곁에 머물며 따뜻한 마음을 갖고 있으나, 자연스러운 평화를 바라는 여행자입니다.',cath:'당신의 관계는 흐름을 기억하고 있습니다. 그 기억이 나침반이 됩니다.'},
@@ -647,6 +657,33 @@ function showResult() {
   saveEvent();
 }
 
+/* ── 결과 이메일 저장 ── */
+async function saveResultEmail() {
+  var id = document.getElementById('collect-email-id').value.trim();
+  if (!id) { showToast('이메일 아이디를 입력해주세요'); return; }
+  var domSel = document.getElementById('collect-email-domain').value;
+  var domCustom = document.getElementById('collect-email-custom').value.trim();
+  var domain = domSel === 'custom' ? domCustom : domSel;
+  if (!domain) { showToast('도메인을 입력해주세요'); return; }
+  var email = id + '@' + domain;
+  var payload = {
+    action: 'saveEvent',
+    visitorId: VID,
+    email: email,
+    eventType: 'free_email_saved',
+    version: 'free_v11',
+    relType: relType, relNick: relNick, myMBTI: myMBTI, partnerMBTI: partnerMBTI,
+    freeCode: currentCode,
+    q1: ans.q1||'', q2: ans.q2||'', q3: ans.q3||'', q4: ans.q4||'', q5: ans.q5||'',
+    sc: Object.assign({}, sc),
+  };
+  try {
+    await fetch(DB_URL, { method: 'POST', body: JSON.stringify(payload) });
+  } catch(e) {}
+  document.getElementById('emailCollectBox').style.display = 'none';
+  showToast('✦ 기억해뒀어요. 다음 여정에서 이어갈 수 있어요.');
+}
+
 /* ── 초기화 ── */
 function resetAll() {
   step = -1;
@@ -654,15 +691,15 @@ function resetAll() {
   picked = {}; ans = {};
   currentCode = ''; relType = ''; relNick = ''; myMBTI = ''; partnerMBTI = 'UNKNOWN';
   document.getElementById('relNick').value = '';
-  document.getElementById('email-id').value = '';
-  document.getElementById('custom-domain').value = '';
-  document.getElementById('email-domain').value = 'naver.com';
-  document.getElementById('final-email').value = '';
-  document.getElementById('custom-domain').style.display = 'none';
+
   document.querySelectorAll('.rel-btn').forEach(function(b){ b.classList.remove('sel'); });
   document.querySelectorAll('.mbti-btn').forEach(function(b){ b.classList.remove('sel'); });
   document.querySelectorAll('.btn-next-main').forEach(function(b){ b.style.display = 'none'; });
   document.querySelectorAll('.opt').forEach(function(b){ b.classList.remove('sel'); });
+  var ecb = document.getElementById('emailCollectBox');
+  if (ecb) ecb.style.display = 'block';
+  var cid = document.getElementById('collect-email-id');
+  if (cid) cid.value = '';
   var tabMeVal = document.getElementById('tabMeVal');
   var tabPtVal = document.getElementById('tabPtVal');
   if (tabMeVal) { tabMeVal.textContent = '내 MBTI 유형은'; tabMeVal.style.color = '#B8923E'; }
@@ -679,20 +716,11 @@ function checkCustomDomain() {
   ci.style.display = sel.value === 'custom' ? 'block' : 'none';
   if (sel.value !== 'custom') ci.value = '';
 }
-function getCombinedEmail() {
-  var id = document.getElementById('email-id').value.trim();
-  if (!id) return '';
-  var sel = document.getElementById('email-domain').value;
-  var domain = sel === 'custom' ? document.getElementById('custom-domain').value.trim() : sel;
-  if (!domain) return '';
-  var full = id + '@' + domain;
-  document.getElementById('final-email').value = full;
-  return full;
-}
+function getCombinedEmail() { return ''; }
 
 /* ── 저장 ── */
 async function saveEvent() {
-  var emailVal = getCombinedEmail();
+  var emailVal = '';
   if (!emailVal) return;
   var payload = {
     action: 'saveEvent',
@@ -721,7 +749,7 @@ async function doShare() {
     + t.icon + ' ' + t.short + '\n\n'
     + t.cath + '\n\n'
     + '당신도 전하지 못한 말이 있나요?';
-  var shareUrl = BASE_URL;
+  var shareUrl = 'https://www.loveflow.ai.kr';
   var shareTitle = '사랑흐름 · ' + t.icon + ' ' + t.short;
 
   /* 1순위: 카카오 */
@@ -735,7 +763,7 @@ async function doShare() {
           imageUrl: 'https://sites.google.com/view/loveflow/og-image.png',
           link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
         },
-        buttons: [{ title: '🧭 나도 해보기 →', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
+        buttons: [{ title: '🧭 나도 해보기 →', link: { mobileWebUrl: 'https://www.loveflow.ai.kr', webUrl: 'https://www.loveflow.ai.kr' } }]
       });
       return;
     } catch(e) {}
