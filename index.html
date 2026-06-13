@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr" />
 <meta property="og:site_name" content="사랑흐름" />
-<!-- 사랑흐름 무료 나침반 v25d · 260613 · DB저장/카카오공유 완전 투트랙 분리 -->
+<!-- 사랑흐름 무료 나침반 v25e · 260613 · 이메일등록 후 공유가능/saveEvent 이메일 전 완전 제거 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -503,6 +503,7 @@ var sc = {C:0,D:0,W:0,G:0,E:0,H:0,R:0,P:0};
 var picked = {}, ans = {};
 var relType = '', relNick = '', myMBTI = '', partnerMBTI = 'UNKNOWN';
 var currentCode = '';
+var emailSaved = false; /* 이메일 등록 여부 플래그 */
 var VID = 'v_' + Math.random().toString(36).substr(2,9);
 
 /* ── MBTI 그리드 생성 ── */
@@ -731,9 +732,7 @@ function showResult() {
       if (el && ax) el.style.width = Math.min(ax.pct, 100) + '%';
     });
   }, 400);
-
-  /* DB 저장 — 카카오 SDK와 완전 분리, 5초 뒤 독립 실행 */
-  setTimeout(function() { saveEvent(); }, 5000);
+  /* DB 저장은 이메일 등록 시에만 실행 — 자동 saveEvent 없음 */
 }
 
 /* ── 참여 블록 선택 ── */
@@ -759,7 +758,7 @@ async function saveResultEmail() {
     visitorId: VID,
     email: email,
     eventType: 'free_email_saved',
-    version: 'free_v25d',
+    version: 'free_v25e',
     relType: relType, relNick: relNick, myMBTI: myMBTI, partnerMBTI: partnerMBTI,
     freeCode: currentCode,
     q1: ans.q1||'', q2: ans.q2||'', q3: ans.q3||'', q4: ans.q4||'', q5: ans.q5||'',
@@ -768,8 +767,9 @@ async function saveResultEmail() {
   try {
     await fetch(DB_URL, { method: 'POST', body: JSON.stringify(payload) });
   } catch(e) {}
+  emailSaved = true; /* 이메일 등록 완료 플래그 */
   document.getElementById('emailCollectBox').style.display = 'none';
-  showToast('✦ 기억해뒀어요. 다음 여정에서 이어갈 수 있어요.');
+  showToast('✦ 기억해뒀어요. 이제 공유하기가 가능해요 💛');
 }
 
 /* ── 초기화 ── */
@@ -778,6 +778,7 @@ function resetAll() {
   sc = {C:0,D:0,W:0,G:0,E:0,H:0,R:0,P:0};
   picked = {}; ans = {};
   currentCode = ''; relType = ''; relNick = ''; myMBTI = ''; partnerMBTI = 'UNKNOWN';
+  emailSaved = false;
   document.getElementById('relNick').value = '';
   document.querySelectorAll('.rel-btn').forEach(function(b){ b.classList.remove('sel'); });
   document.querySelectorAll('.mbti-btn').forEach(function(b){ b.classList.remove('sel'); });
@@ -800,28 +801,14 @@ function resetAll() {
   showStep();
 }
 
-/* ── saveEvent (이메일 없을 때 스킵) ── */
-async function saveEvent() {
-  var payload = {
-    action: 'saveEvent',
-    visitorId: VID,
-    email: '',
-    eventType: 'free_completed',
-    version: 'free_v25d',
-    relType: relType, relNick: relNick, myMBTI: myMBTI, partnerMBTI: partnerMBTI,
-    freeCode: currentCode,
-    q1: ans.q1||'', q2: ans.q2||'', q3: ans.q3||'', q4: ans.q4||'', q5: ans.q5||'',
-    sc: Object.assign({}, sc),
-    referrer: document.referrer,
-    userAgent: navigator.userAgent,
-  };
-  try {
-    await fetch(DB_URL, {method:'POST', body:JSON.stringify(payload)});
-  } catch(e) {}
-}
-
 /* ── 공유하기 (투트랙 완전 분리 — DB와 무관) ── */
 function doShare() {
+  /* 이메일 미등록 시 안내 토스트 후 차단 */
+  if (!emailSaved) {
+    showToast('여행을 이어가려면 이메일을 남겨주세요 💛');
+    return;
+  }
+
   var t = T[currentCode] || T['DWHR'];
   var target = relNick || relType || '소중한 관계';
   var shareText = '나, 오늘 ' + target + '과의 관계를 들여다봤어.\n\n'
