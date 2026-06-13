@@ -1,1 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Love Flow · Relationship Compass (Free)</title>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Love Flow · Relationship Compass" />
+<meta property="og:description" content="It's not that love is missing — you just speak different languages. Discover your relationship flow." />
+<meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
+<meta property="og:url" content="https://www.loveflow.ai.kr/en" />
+<meta property="og:site_name" content="Love Flow" />
+<!-- Love Flow Relationship Compass EN v1 · 260613 · English version -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-serif;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);background-attachment:fixed;color:#1A1A3A;min-height:100vh}
+.page{max-width:540px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+.top-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.logo-txt{font-size:12px;color:#6B7280;font-weight:600;letter-spacing:0.06em}
+.hero-title{font-size:32px;font-weight:800;text-align:center;line-height:1.25;margin-bottom:10px;letter-spacing:-0.02em;color:#102543}
+.hero-sub{font-size:15px;color:#4B5563;text-align:center;margin-bottom:1.4rem;line-height:1.75}
+.axis-badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.4rem}
+.axis-badge{background:#fff;border:1.5px solid #E6E2D7;border-radius:14px;padding:12px 6px;text-align:center}
+.axis-badge-icon{font-size:20px;margin-bottom:4px}
+.axis-badge-name{font-size:12px;font-weight:700;color:#102543}
+.prog-wrap{margin-bottom:1.2rem}
+.prog{display:flex;gap:4px}
+.prog-dot{flex:1;height:8px;border-radius:10px;background:#E6E2D7}
+.prog-dot.done{background:linear-gradient(90deg,#B8923E,#D4A94F)}
+.prog-label{font-size:11px;color:#6B7280;margin-top:5px;text-align:right}
+.step{display:none}.step.active{display:block}
+.q-num{font-size:11px;color:#0F1B2D;font-weight:900;letter-spacing:0.08em;margin-bottom:5px}
+.q-title{font-size:17px;font-weight:800;color:#1A1A3A;margin-bottom:4px;line-height:1.4}
+.q-sub{font-size:12px;color:#6B7280;margin-bottom:1rem;font-style:italic;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:1.25rem}
+.opt{background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;padding:11px 15px;font-size:14px;cursor:pointer;color:#1A1A3A;text-align:left;line-height:1.55;transition:all 0.15s}
+.opt:hover{border-color:#B8923E;background:rgba(184,146,62,0.06)}
+.opt.sel{background:#0F2747;color:#fff;border-color:#0F2747;font-weight:800;transform:scale(1.01)}
+.btn-next-main{width:100%;padding:14px;background:#0F2747;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:900;cursor:pointer;min-height:52px;margin-top:12px;display:none}
+.btn-back{padding:11px 16px;background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;font-size:14px;cursor:pointer;color:#6B7280;font-weight:800}
+.nav{display:flex;gap:8px}
+.interlude{background:#fff;border-left:3px solid #B8923E;border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:1rem;font-size:13px;color:#0F1B2D;font-style:italic;line-height:1.7}
+.result-wrap{animation:fi 0.4s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.analyzing{text-align:center;padding:40px 20px}
+.analyzing-title{font-size:20px;font-weight:800;color:#102543;margin-bottom:8px}
+.analyzing-sub{font-size:14px;color:#4B5563;margin-bottom:32px;line-height:1.7}
+.analyzing-item{margin-bottom:16px;text-align:left}
+.analyzing-label{font-size:13px;color:#4B5563;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.analyzing-bar-bg{background:#E6E2D7;border-radius:10px;height:10px;overflow:hidden}
+.analyzing-bar-fill{height:10px;border-radius:10px;width:0%;transition:width 0.8s ease}
+.analyzing-msg{font-size:13px;color:#B8923E;font-weight:700;margin-top:20px;min-height:20px;text-align:center}
+.res-hero{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 50%,#22243A 100%);border-radius:20px;padding:28px 20px 24px;text-align:center;margin-bottom:12px;position:relative;overflow:hidden}
+.res-hero::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,62,0.18) 0%,transparent 70%)}
+.res-hero-cath{font-size:15px;color:rgba(255,255,255,0.85);font-weight:600;line-height:1.8;padding:14px 16px;background:rgba(255,255,255,0.06);border-radius:12px;border-left:3px solid #B8923E;text-align:left;white-space:pre-line}
+.res-lfri{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:18px 16px;margin-bottom:12px}
+.res-lfri-title{font-size:10px;color:#B8923E;font-weight:700;letter-spacing:0.18em;margin-bottom:14px;text-transform:uppercase}
+.res-bar-bg{background:#F0EEF8;border-radius:8px;height:11px;overflow:hidden}
+.res-bar-fill{height:11px;border-radius:8px;transition:width 0.8s cubic-bezier(.4,0,.2,1)}
+.scholar-oneline{font-size:11px;color:#8A5C00;font-weight:700;text-align:center;margin-top:12px;line-height:1.6;letter-spacing:0.04em;padding:8px 12px;background:rgba(184,146,62,0.08);border-radius:8px;border:1px solid rgba(184,146,62,0.2)}
+.lfri-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.lfri-card{background:rgba(15,27,45,0.04);border:1.5px solid rgba(184,146,62,0.18);border-radius:14px;padding:14px 12px}
+.lfri-card-lock{background:#F8F7F3;border:1.5px solid #E6E2D7}
+.lfri-card-icon{font-size:20px;margin-bottom:6px;display:block}
+.lfri-card-name{font-size:12px;font-weight:900;color:#0F1B2D;margin-bottom:2px}
+.lfri-card-eng{font-size:10px;color:#9090A0;font-weight:600;margin-bottom:8px}
+.lfri-card-status{font-size:13px;font-weight:800;color:#B8923E;line-height:1.4}
+.lfri-card-bar-bg{background:#F0EEF8;border-radius:6px;height:6px;overflow:hidden;margin-top:8px}
+.lfri-card-bar-fill{height:6px;border-radius:6px;width:0%;transition:width 0.9s cubic-bezier(.4,0,.2,1)}
+.lfri-card-lock-txt{font-size:11px;color:#C0BAD0;font-weight:700;margin-top:8px;letter-spacing:0.04em}
+.engage-block{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 100%);border-radius:16px;padding:20px 18px;margin-bottom:12px}
+.engage-label{font-size:10px;color:rgba(184,146,62,0.7);font-weight:700;letter-spacing:0.18em;margin-bottom:8px;text-transform:uppercase}
+.engage-q{font-size:16px;font-weight:800;color:#fff;margin-bottom:16px;line-height:1.5}
+.engage-opts{display:flex;flex-direction:column;gap:8px}
+.engage-btn{background:rgba(255,255,255,0.07);border:1.5px solid rgba(184,146,62,0.25);border-radius:12px;padding:12px 16px;font-size:14px;color:rgba(255,255,255,0.8);font-weight:700;cursor:pointer;text-align:left;transition:all 0.15s}
+.engage-btn:hover{background:rgba(184,146,62,0.12);border-color:#B8923E}
+.engage-btn.sel{background:rgba(184,146,62,0.18);border-color:#B8923E;color:#E8D49A;font-weight:900}
+.engage-result{display:none;margin-top:14px;padding:14px;background:rgba(255,255,255,0.06);border-radius:12px;border-left:3px solid #B8923E;font-size:15px;color:rgba(255,255,255,0.92);line-height:1.85;font-weight:600;white-space:pre-line}
+.mbti-hint-block{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:18px 16px;margin-bottom:12px}
+.mbti-hint-label{font-size:10px;color:#B8923E;font-weight:700;letter-spacing:0.18em;margin-bottom:10px;text-transform:uppercase}
+.mbti-hint-body{font-size:14px;color:#1A1A3A;line-height:1.8}
+.btn-res-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:#E6E2D7;border:1.5px solid #D0CCC0;border-radius:14px;color:#9090A0;font-size:15px;font-weight:700;cursor:not-allowed;margin-bottom:10px;min-height:52px;transition:all 0.3s}
+.btn-res-share.active{background:#fff;border:1.5px solid #B8923E;color:#8A5C00;cursor:pointer}
+.rel-card{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(15,27,45,0.06)}
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-btn{background:#fff;border:1.5px solid #E6E2D7;border-radius:14px;padding:14px 10px;font-size:14px;font-weight:900;color:#0F1B2D;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.rel-btn:hover{border-color:#B8923E}
+.rel-btn.sel{background:#FFF8E6;border:2px solid #D4A94F;color:#7A4800;font-weight:900}
+.nick-input{width:100%;padding:14px 12px;border:1.5px solid #E6E2D7;border-radius:12px;font-size:16px;color:#1A1A3A;background:#FAFAF8;outline:none}
+.mbti-tab-wrap{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:1.25rem;margin-bottom:1rem}
+.mbti-tabs{display:flex;gap:8px;margin-bottom:14px}
+.mbti-tab{flex:1;padding:10px 8px;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid #E6E2D7;background:#fff;color:#6B7280;text-align:center}
+.mbti-tab.active-me{background:rgba(184,146,62,0.12);border-color:#B8923E;color:#8A5C00}
+.mbti-tab.active-pt{background:rgba(74,144,217,0.10);border-color:#4A90D9;color:#1A4A8A}
+.mbti-tab-label{font-size:10px;font-weight:700;letter-spacing:0.06em;margin-bottom:2px}
+.mbti-tab-val{font-size:14px;font-weight:900}
+.mbti-panel{display:none}
+.mbti-panel.active{display:block}
+.mbti-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mbti-btn{background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;padding:10px 6px;font-size:12px;font-weight:900;color:#0F1B2D;cursor:pointer;text-align:center}
+.mbti-btn small{display:block;font-size:10px;color:#4B5563;font-weight:700;margin-top:3px}
+.mbti-btn:hover{border-color:#B8923E}
+.mbti-grid-me .mbti-btn.sel{background:#B8923E;border-color:#B8923E;color:#fff}
+.mbti-grid-pt .mbti-btn.sel{background:#4A90D9;border-color:#4A90D9;color:#fff}
+.mbti-btn-unknown{grid-column:1/-1;width:100%;padding:10px 12px;border:1.5px solid #E6E2D7;border-radius:12px;font-size:13px;font-weight:700;color:#9090A0;cursor:pointer;text-align:center;background:#fff;margin-top:4px}
+.mbti-btn-unknown.sel{background:rgba(74,144,217,0.10);border-color:#4A90D9;color:#4A90D9}
+.start-btn{width:100%;padding:0;background:#0F2747;border:none;border-radius:20px;color:#fff;font-size:18px;font-weight:900;cursor:pointer;height:64px;display:flex;align-items:center;justify-content:center}
+.start-btn:disabled{opacity:0.4;cursor:not-allowed}
+.toast{display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#B8923E;color:#fff;padding:14px 28px;border-radius:24px;font-size:15px;font-weight:800;z-index:999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.res-block{opacity:0}
+.res-block.show{animation:slideUp 0.45s ease forwards}
+@keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(184,146,62,0.45)}70%{box-shadow:0 0 0 14px rgba(184,146,62,0)}100%{box-shadow:0 0 0 0 rgba(184,146,62,0)}}
+.cta-pulse{animation:ctaPulse 2s infinite}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="top-nav">
+    <a href="https://sites.google.com/view/loveflow/%ED%99%88" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;gap:1px">
+      <span style="font-size:15px;font-weight:900;color:#102543;letter-spacing:-0.02em;line-height:1">Love Flow</span>
+      <span style="font-size:9px;font-weight:700;color:#B8923E;letter-spacing:0.18em;line-height:1">LOVE FLOW™</span>
+    </a>
+    <a href="/" style="display:flex;align-items:center;gap:5px;padding:6px 14px;border:1.5px solid #B8923E;border-radius:20px;background:#fff;text-decoration:none;font-size:13px;font-weight:700;color:#8A5C00;letter-spacing:0.04em">🇰🇷 한국어</a>
+  </div>
 
+  <div style="text-align:center;font-size:28px;margin-bottom:8px">🧭</div>
+  <div class="hero-title">How is your heart<br>right now?</div>
+  <div class="hero-sub">It's not that love is missing —<br>you just speak different languages.</div>
+  <div class="axis-badges">
+    <div class="axis-badge"><div class="axis-badge-icon">💛</div><div class="axis-badge-name">Connection</div></div>
+    <div class="axis-badge"><div class="axis-badge-icon">🔥</div><div class="axis-badge-name">Warmth</div></div>
+    <div class="axis-badge"><div class="axis-badge-icon">💬</div><div class="axis-badge-name">Expression</div></div>
+    <div class="axis-badge"><div class="axis-badge-icon">🌱</div><div class="axis-badge-name">Recovery</div></div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog" id="prog"></div>
+    <div class="prog-label" id="plabel">Choose Relationship</div>
+  </div>
+
+  <!-- Relationship Selection -->
+  <div class="step active" id="s_rel">
+    <div class="rel-card">
+      <div style="font-size:20px;font-weight:900;color:#1A1A3A;text-align:center;margin-bottom:6px">What was their true intention?</div>
+      <div style="font-size:13px;color:#6B7280;text-align:center;line-height:1.6;margin-bottom:14px">Today, we translate your relationship for you.</div>
+      <div class="rel-grid" id="relGrid">
+        <button class="rel-btn" onclick="pickRel('Mother',this)">👩 Mother</button>
+        <button class="rel-btn" onclick="pickRel('Father',this)">👨 Father</button>
+        <button class="rel-btn" onclick="pickRel('Partner',this)">💑 Partner</button>
+        <button class="rel-btn" onclick="pickRel('Friend',this)">🫂 Friend</button>
+        <button class="rel-btn" onclick="pickRel('Sibling',this)">🤝 Sibling</button>
+        <button class="rel-btn" onclick="pickRel('Child',this)">👶 Child</button>
+        <button class="rel-btn" onclick="pickRel('Myself',this)">🧭 Myself</button>
+        <button class="rel-btn" onclick="pickRel('Other',this)">✨ Other</button>
+      </div>
+      <div style="margin-top:12px">
+        <div style="font-size:12px;color:#0F1B2D;font-weight:900;margin-bottom:6px">What do you call this person? <span style="font-size:11px;color:#6B7280">(optional)</span></div>
+        <input class="nick-input" id="relNick" placeholder="e.g. Mom, Dad, Alex, my best friend…" />
+        <div style="font-size:11px;color:#6B7280;margin-top:6px">This nickname will appear in your results.</div>
+      </div>
+    </div>
+
+    <div class="mbti-tab-wrap">
+      <div class="mbti-tabs">
+        <button class="mbti-tab active-me" id="tabMe" onclick="switchTab('me')">
+          <div class="mbti-tab-label">🟡 My MBTI <span style="font-size:10px;color:#B8923E">(required)</span></div>
+          <div class="mbti-tab-val" id="tabMeVal" style="color:#B8923E">My type is</div>
+        </button>
+        <button class="mbti-tab" id="tabPt" onclick="switchTab('pt')">
+          <div class="mbti-tab-label">🔵 Their MBTI <span style="font-size:10px;color:#6B7280">(optional)</span></div>
+          <div class="mbti-tab-val" id="tabPtVal" style="color:#9090A0">Their type is</div>
+        </button>
+      </div>
+      <div class="mbti-panel active" id="panelMe">
+        <div class="mbti-grid mbti-grid-me" id="myMbtiGrid"></div>
+      </div>
+      <div class="mbti-panel" id="panelPt">
+        <div class="mbti-grid mbti-grid-pt" id="ptMbtiGrid"></div>
+      </div>
+    </div>
+
+    <div style="font-size:12px;color:#4B5563;margin-bottom:10px;text-align:center">In 3 minutes, your relationship flow will appear.</div>
+    <button class="start-btn" id="btnStart" onclick="startCompass()" disabled>Start Relationship Compass →</button>
+    <div style="font-size:12px;color:#6B7280;margin-top:8px;text-align:center">1 relationship · 5 questions · Free</div>
+  </div>
+
+  <div class="step" id="s0"></div>
+
+  <!-- Q1 -->
+  <div class="step" id="s1">
+    <div style="font-size:12px;color:#B8923E;font-weight:700;margin-bottom:10px">🧭 Measuring your relationship compass · Results in 3 minutes</div>
+    <div class="q-num">Relationship Compass · Q1 / 5</div>
+    <div class="q-title">What's the temperature of this relationship lately?</div>
+    <div class="q-sub">Answer based on how you feel right now</div>
+    <div class="opts" id="o1">
+      <button class="opt" onclick="pick(1,0,'W',2,'warm')">Warm — I feel comfortable around them</button>
+      <button class="opt" onclick="pick(1,1,'W',1,'lukewarm')">Lukewarm — it's not like it used to be</button>
+      <button class="opt" onclick="pick(1,2,'G',1,'cold')">Cold — it feels awkward or uncomfortable</button>
+      <button class="opt" onclick="pick(1,3,'G',2,'burning')">Burning — a lot of emotions are coming up</button>
+      <button class="opt" onclick="pick(1,4,'G',1,'numb')">Not sure — I feel nothing at all</button>
+    </div>
+    <div class="nav"><div id="n1"></div></div>
+    <button class="btn-next-main" id="next1" onclick="goNext()">Next →</button>
+  </div>
+
+  <!-- Q2 -->
+  <div class="step" id="s2">
+    <div class="q-num">Relationship Compass · Q2 / 5</div>
+    <div class="q-title">How often do you think about this person lately?</div>
+    <div class="q-sub">Based on frequency</div>
+    <div class="opts" id="o2">
+      <button class="opt" onclick="pick(2,0,'D',2,'everyday')">Almost every day — they come to mind even when I try not to think about them</button>
+      <button class="opt" onclick="pick(2,1,'D',1,'sometimes')">Sometimes — on special occasions or moments</button>
+      <button class="opt" onclick="pick(2,2,'C',1,'rarely')">Rarely — much less than before</button>
+      <button class="opt" onclick="pick(2,3,'C',2,'hardly')">Hardly ever — we've naturally grown apart</button>
+    </div>
+    <div class="nav"><button class="btn-back" onclick="goBack()">← Back</button></div>
+    <button class="btn-next-main" id="next2" onclick="goNext()">Next →</button>
+  </div>
+
+  <!-- Q3 -->
+  <div class="step" id="s3">
+    <div class="interlude">"These questions are already moving something inside you."</div>
+    <div class="q-num">Relationship Compass · Q3 / 5</div>
+    <div class="q-title">Are there things you still haven't said?</div>
+    <div class="q-sub">Words that have piled up in your heart</div>
+    <div class="opts" id="o3">
+      <button class="opt" onclick="pick(3,0,'H',2,'alot')">A lot — so much that I don't know where to start</button>
+      <button class="opt" onclick="pick(3,1,'H',1,'abit')">A little — just a word or two</button>
+      <button class="opt" onclick="pick(3,2,'E',1,'notsure')">Not sure — I can't quite figure out what I want to say</button>
+      <button class="opt" onclick="pick(3,3,'E',2,'nothing')">Nothing — I've said it all, or I no longer want to</button>
+    </div>
+    <div class="nav"><button class="btn-back" onclick="goBack()">← Back</button></div>
+    <button class="btn-next-main" id="next3" onclick="goNext()">Next →</button>
+  </div>
+
+  <!-- Q4 -->
+  <div class="step" id="s4">
+    <div class="q-num">Relationship Compass · Q4 / 5</div>
+    <div class="q-title">In one word, this relationship right now is…</div>
+    <div class="q-sub">The first word that comes to mind</div>
+    <div class="opts" id="o4">
+      <button class="opt" onclick="pick(4,0,'D',2,'missed')">Missed</button>
+      <button class="opt" onclick="pick(4,1,'D',1,'frustrating')">Frustrating</button>
+      <button class="opt" onclick="pick(4,2,'G',2,'heavy')">Heavy</button>
+      <button class="opt" onclick="pick(4,3,'C',2,'comfortable')">Comfortable</button>
+      <button class="opt" onclick="pick(4,4,'C',1,'unsure')">Not sure</button>
+    </div>
+    <div class="nav"><button class="btn-back" onclick="goBack()">← Back</button></div>
+    <button class="btn-next-main" id="next4" onclick="goNext()">Next →</button>
+  </div>
+
+  <!-- Q5 -->
+  <div class="step" id="s5">
+    <div class="q-num">Relationship Compass · Q5 / 5</div>
+    <div class="q-title">What do you want from this relationship right now?</div>
+    <div class="q-sub">Be as honest as you can</div>
+    <div class="opts" id="o5">
+      <button class="opt" onclick="pick(5,0,'R',2,'closer')">I want to get closer again</button>
+      <button class="opt" onclick="pick(5,1,'R',2,'unsaid')">I want to say the things I never said</button>
+      <button class="opt" onclick="pick(5,2,'P',1,'clarity')">I just want to sort out my own feelings</button>
+      <button class="opt" onclick="pick(5,3,'P',2,'distance')">I want to keep a healthy distance</button>
+      <button class="opt" onclick="pick(5,4,'R',1,'dontknow')">I'm not sure yet</button>
+    </div>
+    <div class="interlude">"This map is not a verdict — it's a starting point."</div>
+    <div class="nav"><button class="btn-back" onclick="goBack()">← Back</button></div>
+    <button class="btn-next-main" id="next5" onclick="startAnalyzing()">See Results →</button>
+  </div>
+
+  <!-- Analyzing -->
+  <div class="step" id="s_analyzing">
+    <div class="analyzing">
+      <div style="font-size:36px;margin-bottom:16px">🧭</div>
+      <div class="analyzing-title">Reading your<br>relationship flow…</div>
+      <div class="analyzing-sub">Just a moment, almost there.</div>
+      <div class="analyzing-item">
+        <div class="analyzing-label">💛 Analyzing Connection… <span style="font-size:10px;color:#9090A0">Connection</span></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarC" style="background:linear-gradient(90deg,#4A90D9,#7AB8F5)"></div></div>
+      </div>
+      <div class="analyzing-item">
+        <div class="analyzing-label">🔥 Analyzing Warmth… <span style="font-size:10px;color:#9090A0">Warmth</span></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarW" style="background:linear-gradient(90deg,#E67E22,#F5A55A)"></div></div>
+      </div>
+      <div class="analyzing-item">
+        <div class="analyzing-label">💬 Analyzing Expression… <span style="font-size:10px;color:#9090A0">Expression</span></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarE" style="background:linear-gradient(90deg,#9B59B6,#C39BD3)"></div></div>
+      </div>
+      <div class="analyzing-item">
+        <div class="analyzing-label">🌱 Analyzing Recovery… <span style="font-size:10px;color:#9090A0">Recovery</span></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarR" style="background:linear-gradient(90deg,#27AE60,#6FCF97)"></div></div>
+      </div>
+      <div class="analyzing-msg" id="analyzingMsg"></div>
+    </div>
+  </div>
+
+  <!-- Result -->
+  <div class="step" id="s_result">
+    <div class="result-wrap">
+
+      <!-- Block1: Type Card -->
+      <div class="res-hero res-block" id="rb1">
+        <div style="font-size:10px;color:rgba(184,146,62,0.7);font-weight:700;letter-spacing:0.22em;margin-bottom:16px;text-transform:uppercase">✦ Love Flow · Relationship Compass Results</div>
+        <span id="r-icon" style="font-size:64px;margin:22px 0 18px;display:block">🌊</span>
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
+          <span id="r-code" style="font-size:12px;font-weight:900;color:#0F2747;background:#B8923E;padding:4px 14px;border-radius:20px;letter-spacing:3px">—</span>
+          <span id="r-name" style="font-size:26px;font-weight:900;color:#FFFFFF;letter-spacing:-0.02em">—</span>
+        </div>
+        <div style="font-size:10px;color:#D4A94F;letter-spacing:0.15em;font-weight:700;margin-bottom:20px">Love Flow Type™</div>
+        <div class="res-hero-cath" id="r-cath">The moment you open the map, the flow begins to move again.</div>
+      </div>
+
+      <!-- Block2: LFRI Grid -->
+      <div class="res-lfri res-block" id="rb2">
+        <div class="res-lfri-title">✦ Your Relationship Coordinates · LFRI™</div>
+        <div class="lfri-grid" id="lfri-rows"></div>
+        <div style="font-size:11px;color:#9090A0;text-align:center;margin-top:12px;line-height:1.6">The two lower axes hold the key to this relationship. The rest is revealed in the Journey Map.</div>
+        <div class="scholar-oneline">LFRI™ is designed based on international research by Pennebaker, Bowen, Neff and others.</div>
+      </div>
+
+      <!-- Block4: Engage -->
+      <div class="engage-block res-block" id="rb4">
+        <div class="engage-label">✦ Right now, in this relationship</div>
+        <div class="engage-q">What do you want most?</div>
+        <div class="engage-opts">
+          <button class="engage-btn" onclick="selectEngage(this,'A','Because deep down, you know\nthis relationship isn\'t over yet.')">💛 I want to get closer again</button>
+          <button class="engage-btn" onclick="selectEngage(this,'B','The longer those words go unsaid,\nthe further apart you drift.')">💬 I have words I never said</button>
+          <button class="engage-btn" onclick="selectEngage(this,'C','Before you can understand them,\nyou need to understand why you got here.')">🧭 I just want clarity for myself</button>
+        </div>
+        <div class="engage-result" id="engageResult"></div>
+      </div>
+
+      <!-- Block5: MBTI Hint -->
+      <div class="mbti-hint-block res-block" id="rb5">
+        <div class="mbti-hint-label">✦ Love Flow Translation</div>
+        <div class="mbti-hint-body" id="mbtiHintBody">Where your MBTI meets theirs, that's where the hurt lives. Your Journey Map translates why.</div>
+      </div>
+
+      <!-- Block6: Email -->
+      <div id="emailCollectBox" class="res-block" style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:20px;margin-bottom:12px;text-align:left">
+        <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:6px">✦ Leave your email and</div>
+        <div style="font-size:14px;color:#1A1A3A;font-weight:700;line-height:1.7;margin-bottom:14px">continue your journey and share your results 💛</div>
+        <input type="email" id="collect-email" placeholder="your@email.com" style="width:100%;height:44px;padding:0 12px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:15px;outline:none;background:#FAFAF8;margin-bottom:8px">
+        <div style="font-size:11px;color:#9090A0;margin-bottom:12px">Your email is used only for saving results and Love Flow updates.</div>
+        <button onclick="saveResultEmailEN()" style="width:100%;padding:14px;background:#B8923E;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:800;cursor:pointer;min-height:52px">🌊 Save</button>
+      </div>
+
+      <!-- Block7: CTA -->
+      <div class="res-block" id="rb7" style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:24px 20px;margin-bottom:12px">
+        <div style="font-size:17px;font-weight:800;color:#102543;line-height:1.9;text-align:center;margin-bottom:20px">
+          Most relationships don't end<br>
+          because love ran out —<br>
+          they end because the languages didn't match.
+        </div>
+        <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:12px;text-align:center">🧭 Your next journey with Love Flow</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px">
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>What you truly meant that they never understood</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>What they felt that you may have missed</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>Action cards to shift this relationship</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>A direction toward reconnection</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>Love Flow Journey Map</div>
+        </div>
+        <div style="font-size:13px;color:#6B7280;text-align:center;margin-bottom:16px;line-height:1.7">Find the pattern that keeps repeating<br>in this relationship.</div>
+        <a href="https://sites.google.com/view/loveflow/%ED%99%88" target="_blank" class="cta-pulse" style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 22px;background:linear-gradient(135deg,#0F2747 0%,#1A3A5C 100%);border:1.5px solid rgba(184,146,62,0.5);border-radius:16px;text-decoration:none;box-sizing:border-box">
+          <div>
+            <div style="font-size:11px;color:rgba(184,146,62,0.8);font-weight:700;letter-spacing:0.12em;margin-bottom:4px">🧭 Love Flow Journey Map</div>
+            <div style="font-size:17px;font-weight:900;color:#fff;letter-spacing:-0.02em">See the full map of this relationship</div>
+            <div style="font-size:12px;color:rgba(184,146,62,0.7);font-weight:700;margin-top:4px">(₩9,900 · Full access)</div>
+          </div>
+          <div style="font-size:22px;color:#B8923E;font-weight:900">›</div>
+        </a>
+        <div style="font-size:13px;color:#6B7280;text-align:center;margin-top:10px;line-height:1.7">Before it's too late — open the map.</div>
+      </div>
+
+      <!-- Block8: Share -->
+      <div class="res-block" id="rb8" style="margin-bottom:12px">
+        <button id="shareBtn" class="btn-res-share" onclick="doShareEN()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share my results
+        </button>
+        <div id="shareBtnHint" style="font-size:12px;color:#9090A0;text-align:center;margin-top:4px">Save your email first to share</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+<script>
+var DB_URL = atob('aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6ZHhNeUppYkUxcFE5d0Q3UVBTNWJSU21fQ3lzbFhENF9qRTRiNktZNDFKcVVVVUlWVF9PZ2VWODd2cmN5U045RXUvZXhlYw==');
+var KAKAO_KEY = 'fd00345a71b480f95b1d6653b5586a7c';
+
+if (window.Kakao && !Kakao.isInitialized()) Kakao.init(KAKAO_KEY);
+
+var MBTI_LIST = [
+  ['ISTJ','Logistician'],['ISFJ','Defender'],['INFJ','Advocate'],['INTJ','Architect'],
+  ['ISTP','Virtuoso'],['ISFP','Adventurer'],['INFP','Mediator'],['INTP','Thinker'],
+  ['ESTP','Entrepreneur'],['ESFP','Entertainer'],['ENFP','Campaigner'],['ENTP','Debater'],
+  ['ESTJ','Executive'],['ESFJ','Consul'],['ENFJ','Protagonist'],['ENTJ','Commander'],
+];
+
+var T = {
+  CWER:{icon:'🌧',short:'Spring Rain Traveler',full:'River that nourishes the earth',cath:'You haven\'t given up on this relationship.\nBut there\'s one flow that hasn\'t been discovered yet.'},
+  CWEP:{icon:'🌿',short:'Fence Traveler',full:'Warm shelter type',cath:'This relationship can grow stronger.\nBut there\'s still one word left unsaid.'},
+  CWHR:{icon:'🌲',short:'Pine Traveler',full:'Deep pine tree type',cath:'Your heart is warm enough.\nBut you still don\'t know why that warmth never reaches them.'},
+  CWHP:{icon:'🏔',short:'Lake Traveler',full:'Deep lake type',cath:'There\'s still water in this relationship that hasn\'t flowed.\nYou just haven\'t found it yet.'},
+  CGER:{icon:'🌋',short:'Volcano Traveler',full:'Volcano holding flames',cath:'This heat comes from love.\nBut why it became this way hasn\'t been translated yet.'},
+  CGEP:{icon:'🪨',short:'Rocky Island Traveler',full:'Solid rocky island type',cath:'It seems settled — but one thing still remains.\nYou just haven\'t faced it yet.'},
+  CGHR:{icon:'🦔',short:'Hedgehog Traveler',full:'Curled hedgehog type',cath:'It\'s not that you can\'t speak.\nThere\'s a reason the words won\'t come. That reason isn\'t visible yet.'},
+  CGHP:{icon:'🧊',short:'Glacier Traveler',full:'Frozen glacier type',cath:'The door is closed right now.\nBut the moment it closed — that hasn\'t been found yet.'},
+  DWER:{icon:'🌙',short:'Moonlight Traveler',full:'Soft moonlight type',cath:'You keep your distance — but something still lingers.\nYou just haven\'t put it into words yet.'},
+  DWEP:{icon:'🍃',short:'Wind Traveler',full:'Free wind type',cath:'You seem ready to let go — but there\'s still one thing left.\nYou just haven\'t found it yet.'},
+  DWHR:{icon:'🏮',short:'Lighthouse Traveler',full:'Lighthouse on the sea',cath:'You\'re waiting from a distance.\nBut you still don\'t know why you can\'t take the first step.'},
+  DWHP:{icon:'❄️',short:'Winter Forest Traveler',full:'Silent winter forest type',cath:'You\'ve been holding on quietly.\nBut inside that silence, there\'s something still unspoken.'},
+  DGER:{icon:'⛵',short:'Sailboat Traveler',full:'Sailboat in rough waves',cath:'It seems distant — but something unfinished remains.\nIt just doesn\'t have a name yet.'},
+  DGEP:{icon:'🧘',short:'Seeker Traveler',full:'Solitary seeker type',cath:'You\'re trying to let go.\nBut the reason it\'s not fully over yet — that still remains.'},
+  DGHR:{icon:'🧭',short:'Compass Traveler',full:'Compass in the fog',cath:'You want to reconnect.\nBut you still can\'t see where to begin.'},
+  DGHP:{icon:'🌱',short:'Seed Traveler',full:'Seed inside the rock',cath:'You\'re quietly holding on right now.\nBut what\'s growing beneath this silence — it\'s not visible yet.'},
+};
+
+var MBTI_HINT_EN = {
+  INTJ:'Planning without emotional expression is hard for you — and others may read that as coldness.',
+  INFJ:'You try to understand and resolve everything alone, which can make others feel you don\'t trust them.',
+  INTP:'You respond with logic over emotion, and that can leave others feeling unheard.',
+  INFP:'Your inner expectations run high — but when unspoken, others have no way of knowing.',
+  ISTJ:'Your principle-centered communication can feel like warmth is missing to those around you.',
+  ISFJ:'You hold things in until they overflow — which can catch others completely off guard.',
+  ISTP:'When you withdraw to be alone, others can interpret it as rejection.',
+  ISFP:'Avoiding conflict can make others feel like you\'ve stopped caring.',
+  ENTJ:'Your drive to lead can sometimes feel like others\' voices aren\'t being heard.',
+  ENFJ:'You give so much to others that you forget to express your own feelings.',
+  ENTP:'Your love of debate can feel like an attack to those who aren\'t ready for it.',
+  ENFP:'When your emotions fluctuate, others around you can feel lost.',
+  ESTJ:'Judging by right and wrong can make others feel their emotions are being dismissed.',
+  ESFJ:'You stay quiet to keep the peace — until it all builds up and spills over.',
+  ESTP:'Living in the present can clash with those who worry about the future.',
+  ESFP:'Your strong, spontaneous expression can be hard for others to keep up with.',
+};
+
+var step = -1;
+var sc = {C:0,D:0,W:0,G:0,E:0,H:0,R:0,P:0};
+var picked = {}, ans = {};
+var relType = '', relNick = '', myMBTI = '', partnerMBTI = 'UNKNOWN';
+var currentCode = '';
+var emailSaved = false;
+var VID = 'v_' + Math.random().toString(36).substr(2,9);
+
+function buildMbtiGrid(targetId, onPick, includeUnknown) {
+  var el = document.getElementById(targetId);
+  if (!el) return;
+  var html = MBTI_LIST.map(function(item) {
+    return '<button class="mbti-btn" onclick="' + onPick + '(\'' + item[0] + '\',this)">' + item[0] + '<small>' + item[1] + '</small></button>';
+  }).join('');
+  if (includeUnknown) html += '<button class="mbti-btn-unknown" onclick="' + onPick + '(\'UNKNOWN\',this)">Not sure<small>Don\'t know their type</small></button>';
+  el.innerHTML = html;
+}
+
+function pickRel(v, btn) {
+  relType = v;
+  document.querySelectorAll('#relGrid .rel-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if (btn) btn.classList.add('sel');
+  validateStart();
+}
+
+function switchTab(which) {
+  var tabMe = document.getElementById('tabMe');
+  var tabPt = document.getElementById('tabPt');
+  var panelMe = document.getElementById('panelMe');
+  var panelPt = document.getElementById('panelPt');
+  if (which === 'me') {
+    tabMe.className = 'mbti-tab active-me'; tabPt.className = 'mbti-tab';
+    panelMe.className = 'mbti-panel active'; panelPt.className = 'mbti-panel';
+  } else {
+    tabMe.className = 'mbti-tab'; tabPt.className = 'mbti-tab active-pt';
+    panelMe.className = 'mbti-panel'; panelPt.className = 'mbti-panel active';
+  }
+}
+
+function pickMyMbti(code, btn) {
+  myMBTI = code;
+  document.querySelectorAll('#myMbtiGrid .mbti-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if (btn) btn.classList.add('sel');
+  var valEl = document.getElementById('tabMeVal');
+  if (valEl) { valEl.textContent = code; valEl.style.color = '#B8923E'; }
+  validateStart();
+}
+
+function pickPtMbti(code, btn) {
+  partnerMBTI = code;
+  document.querySelectorAll('#ptMbtiGrid .mbti-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if (btn) btn.classList.add('sel');
+  var valEl = document.getElementById('tabPtVal');
+  if (valEl) { valEl.textContent = code === 'UNKNOWN' ? '—' : code; valEl.style.color = code === 'UNKNOWN' ? '#9090A0' : '#4A90D9'; }
+  validateStart();
+}
+
+function validateStart() {
+  var ok = !!relType && !!myMBTI;
+  var b = document.getElementById('btnStart');
+  if (b) b.disabled = !ok;
+}
+
+function startCompass() {
+  relNick = (document.getElementById('relNick') ? document.getElementById('relNick').value : '').trim();
+  step = 1; showStep();
+}
+
+function updateProg() {
+  var p = document.getElementById('prog');
+  p.innerHTML = '';
+  for (var i = 0; i < 7; i++) {
+    var d = document.createElement('div');
+    d.className = 'prog-dot' + (i <= step + 1 ? ' done' : '');
+    p.appendChild(d);
+  }
+  var labels = ['Choose Relationship','Q1/5','Q2/5','Q3/5','Q4/5','Q5/5','Results'];
+  document.getElementById('plabel').textContent = labels[Math.min(step + 1, 6)];
+}
+
+function goNext() { step++; showStep(); }
+function goBack() { step = Math.max(1, step - 1); showStep(); }
+
+function showStep() {
+  document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('active'); });
+  var id = step === -1 ? 's_rel' : step === 6 ? 's_result' : 's' + step;
+  document.getElementById(id).classList.add('active');
+  updateProg();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function pick(q, idx, axis, val, label) {
+  if (picked[q]) { sc[picked[q].axis] = Math.max(0, sc[picked[q].axis] - picked[q].val); }
+  picked[q] = {idx:idx, axis:axis, val:val};
+  ans['q' + q] = label;
+  sc[axis] += val;
+  document.querySelectorAll('#o' + q + ' .opt').forEach(function(b, i){ b.classList.toggle('sel', i === idx); });
+  var nextBtn = document.getElementById('next' + q);
+  if (nextBtn) nextBtn.style.display = 'block';
+}
+
+function startAnalyzing() {
+  document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById('s_analyzing').classList.add('active');
+  updateProg();
+  window.scrollTo({top:0, behavior:'smooth'});
+  var msgs = ['Stronger connection than expected detected.','Recovery potential remains.','Unspoken feelings sensed.','Your relationship flow is complete.'];
+  var bars = ['aBarC','aBarW','aBarE','aBarR'];
+  var msgEl = document.getElementById('analyzingMsg');
+  var delay = 0;
+  bars.forEach(function(id, i) {
+    setTimeout(function() {
+      var bar = document.getElementById(id);
+      if (bar) bar.style.width = '100%';
+      if (msgEl) msgEl.textContent = msgs[i] || '';
+    }, delay);
+    delay += 700;
+  });
+  setTimeout(function() { showResult(); }, delay + 200);
+}
+
+function calcCode() {
+  return (sc.C >= sc.D ? 'C' : 'D') + (sc.W >= sc.G ? 'W' : 'G') + (sc.E >= sc.H ? 'E' : 'H') + (sc.R >= sc.P ? 'R' : 'P');
+}
+
+function getStatusEN(id, p) {
+  var map = {
+    C: p <= 39 ? 'Door closed between you' : p <= 65 ? 'Distance has grown' : 'Still connected',
+    W: p <= 39 ? 'Warmth not reaching them' : p <= 65 ? 'Feeling still remains' : 'Warmth is flowing',
+    E: p <= 39 ? 'Words held back' : p <= 65 ? 'Something to express' : 'Expression is alive',
+    R: p <= 39 ? 'Still at a standstill' : p <= 65 ? 'Wanting to begin again' : 'Strong will to recover'
+  };
+  return map[id] || '';
+}
+
+function showResult() {
+  step = 6; showStep();
+  currentCode = calcCode();
+  var t = T[currentCode] || T['DWHR'];
+  document.getElementById('r-icon').textContent = t.icon;
+  document.getElementById('r-code').textContent = currentCode;
+  document.getElementById('r-name').textContent = t.short;
+  document.getElementById('r-cath').textContent = t.cath;
+
+  var pct = function(a, b) { return Math.round((a / (a + b + 0.01)) * 100); };
+  var axes = [
+    {id:'C', icon:'🔗', name:'Connection', eng:'Connection', pct:pct(sc.C,sc.D), bar:'linear-gradient(90deg,#4A90D9,#7AB8F5)'},
+    {id:'W', icon:'🌡', name:'Warmth', eng:'Warmth', pct:pct(sc.W,sc.G), bar:'linear-gradient(90deg,#E67E22,#F5A55A)'},
+    {id:'E', icon:'💬', name:'Expression', eng:'Expression', pct:pct(sc.E,sc.H), bar:'linear-gradient(90deg,#9B59B6,#C39BD3)'},
+    {id:'R', icon:'🌱', name:'Recovery', eng:'Recovery', pct:pct(sc.R,sc.P), bar:'linear-gradient(90deg,#27AE60,#6FCF97)'}
+  ];
+  var sorted = axes.slice().sort(function(a,b){ return a.pct - b.pct; });
+  var openIds = [sorted[0].id, sorted[1].id];
+
+  var html = '';
+  axes.forEach(function(ax) {
+    var isOpen = openIds.indexOf(ax.id) !== -1;
+    if (isOpen) {
+      html += '<div class="lfri-card"><span class="lfri-card-icon">' + ax.icon + '</span>';
+      html += '<div class="lfri-card-name">' + ax.name + '</div>';
+      html += '<div class="lfri-card-eng">' + ax.eng + '</div>';
+      html += '<div class="lfri-card-status">' + getStatusEN(ax.id, ax.pct) + '</div>';
+      html += '<div class="lfri-card-bar-bg"><div class="lfri-card-bar-fill" id="rBar' + ax.id + '" style="background:' + ax.bar + '"></div></div></div>';
+    } else {
+      html += '<div class="lfri-card lfri-card-lock"><span class="lfri-card-icon" style="opacity:0.35">' + ax.icon + '</span>';
+      html += '<div class="lfri-card-name" style="color:#C0BAD0">' + ax.name + '</div>';
+      html += '<div class="lfri-card-eng" style="color:#D0CDE0">' + ax.eng + '</div>';
+      html += '<div class="lfri-card-lock-txt">🔒 Revealed in Journey Map</div></div>';
+    }
+  });
+  document.getElementById('lfri-rows').innerHTML = html;
+
+  var hint = MBTI_HINT_EN[myMBTI];
+  var hintEl = document.getElementById('mbtiHintBody');
+  if (hint && hintEl) hintEl.textContent = 'As an ' + myMBTI + ' — ' + hint;
+
+  var blocks = ['rb1','rb2','rb4','rb5','emailCollectBox','rb7','rb8'];
+  blocks.forEach(function(id, i) {
+    setTimeout(function() {
+      var el = document.getElementById(id);
+      if (el) el.classList.add('show');
+    }, i * 180);
+  });
+
+  setTimeout(function() {
+    openIds.forEach(function(id) {
+      var el = document.getElementById('rBar' + id);
+      var ax = axes.find(function(a){ return a.id === id; });
+      if (el && ax) el.style.width = Math.min(ax.pct, 100) + '%';
+    });
+  }, 400);
+}
+
+function selectEngage(btn, label, msg) {
+  document.querySelectorAll('.engage-btn').forEach(function(b){ b.classList.remove('sel'); });
+  btn.classList.add('sel');
+  var r = document.getElementById('engageResult');
+  r.textContent = msg; r.style.display = 'block';
+}
+
+async function saveResultEmailEN() {
+  var email = document.getElementById('collect-email').value.trim();
+  if (!email || email.indexOf('@') === -1) { showToast('Please enter a valid email'); return; }
+  var payload = {
+    action: 'saveEvent', visitorId: VID, email: email,
+    eventType: 'free_email_saved', version: 'free_en_v1',
+    relType: relType, relNick: relNick, myMBTI: myMBTI, partnerMBTI: partnerMBTI,
+    freeCode: currentCode, q1: ans.q1||'', q2: ans.q2||'', q3: ans.q3||'', q4: ans.q4||'', q5: ans.q5||'',
+    sc: Object.assign({}, sc), lang: 'en'
+  };
+  try { await fetch(DB_URL, { method: 'POST', body: JSON.stringify(payload) }); } catch(e) {}
+  emailSaved = true;
+  document.getElementById('emailCollectBox').style.display = 'none';
+  var shareBtn = document.getElementById('shareBtn');
+  var hint = document.getElementById('shareBtnHint');
+  if (shareBtn) shareBtn.classList.add('active');
+  if (hint) hint.style.display = 'none';
+  showToast('✦ Saved! You can now share your results 💛');
+}
+
+function doShareEN() {
+  if (!emailSaved) { showToast('Save your email first to share 💛'); return; }
+  var t = T[currentCode] || T['DWHR'];
+  var shareUrl = 'https://www.loveflow.ai.kr/en';
+  var shareTitle = 'Love Flow · ' + t.icon + ' ' + t.short;
+  var shareText = 'I just discovered my relationship type.\n\n' + t.icon + ' ' + t.short + '\n\n' + t.cath + '\n\nWhat\'s your relationship type?';
+
+  if (navigator.share) {
+    navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+    return;
+  }
+  try {
+    navigator.clipboard.writeText(shareText + '\n\n' + shareUrl);
+    showToast('✦ Link copied!');
+  } catch(e) { showToast('Share: ' + shareUrl); }
+}
+
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(function(){ t.style.display = 'none'; }, 3500);
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  buildMbtiGrid('myMbtiGrid', 'pickMyMbti', false);
+  buildMbtiGrid('ptMbtiGrid', 'pickPtMbti', true);
+  var nick = document.getElementById('relNick');
+  if (nick) nick.addEventListener('input', validateStart);
+  updateProg();
+});
+</script>
+
+<!-- Footer -->
+<div style="font-size:11px;color:#6B7280;text-align:center;line-height:1.5;padding:14px 10px;border-top:1px solid #E5E7EB;background:#fff;margin-top:4px">
+  © 2026 Love Flow (사랑흐름) · LFRI™ · LOVE FLOW LETTER™. All rights reserved. Unauthorized reproduction or commercial use is strictly prohibited.<br>
+  Love Flow | CEO Hwang Gyu-chan | 17-13 Maebong-gil, Paju-si, Gyeonggi-do, Korea | hkcpcgg@gmail.com | Biz Reg. 285-17-02228
+</div>
+</body>
+</html>
