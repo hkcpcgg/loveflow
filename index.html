@@ -10,7 +10,7 @@
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr" />
 <meta property="og:site_name" content="사랑흐름" />
-<!-- 사랑흐름 무료 나침반 v25c · 260613 · GAS URL Base64 인코딩(카카오크롤러차단) -->
+<!-- 사랑흐름 무료 나침반 v25d · 260613 · DB저장/카카오공유 완전 투트랙 분리 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -732,7 +732,8 @@ function showResult() {
     });
   }, 400);
 
-  saveEvent();
+  /* DB 저장 — 카카오 SDK와 완전 분리, 5초 뒤 독립 실행 */
+  setTimeout(function() { saveEvent(); }, 5000);
 }
 
 /* ── 참여 블록 선택 ── */
@@ -758,7 +759,7 @@ async function saveResultEmail() {
     visitorId: VID,
     email: email,
     eventType: 'free_email_saved',
-    version: 'free_v25',
+    version: 'free_v25d',
     relType: relType, relNick: relNick, myMBTI: myMBTI, partnerMBTI: partnerMBTI,
     freeCode: currentCode,
     q1: ans.q1||'', q2: ans.q2||'', q3: ans.q3||'', q4: ans.q4||'', q5: ans.q5||'',
@@ -806,7 +807,7 @@ async function saveEvent() {
     visitorId: VID,
     email: '',
     eventType: 'free_completed',
-    version: 'free_v25',
+    version: 'free_v25d',
     relType: relType, relNick: relNick, myMBTI: myMBTI, partnerMBTI: partnerMBTI,
     freeCode: currentCode,
     q1: ans.q1||'', q2: ans.q2||'', q3: ans.q3||'', q4: ans.q4||'', q5: ans.q5||'',
@@ -819,17 +820,18 @@ async function saveEvent() {
   } catch(e) {}
 }
 
-/* ── 공유하기 ── */
-async function doShare() {
+/* ── 공유하기 (투트랙 완전 분리 — DB와 무관) ── */
+function doShare() {
   var t = T[currentCode] || T['DWHR'];
   var target = relNick || relType || '소중한 관계';
   var shareText = '나, 오늘 ' + target + '과의 관계를 들여다봤어.\n\n'
     + t.icon + ' ' + t.short + '\n\n'
     + t.cath + '\n\n'
     + '당신도 전하지 못한 말이 있나요?';
-  var shareUrl = 'https://www.loveflow.ai.kr?v=25';
+  var shareUrl = 'https://www.loveflow.ai.kr';
   var shareTitle = '사랑흐름 · ' + t.icon + ' ' + t.short;
 
+  /* 트랙2: 순수 카카오 공유 — GAS URL 완전 무관 */
   if (window.Kakao && Kakao.isInitialized()) {
     try {
       Kakao.Share.sendDefault({
@@ -840,18 +842,19 @@ async function doShare() {
           imageUrl: 'https://hkcpcgg.github.io/loveflow/og-image.png',
           link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
         },
-        buttons: [{ title: '🧭 나도 해보기 →', link: { mobileWebUrl: 'https://www.loveflow.ai.kr?v=25', webUrl: 'https://www.loveflow.ai.kr?v=25' } }]
+        buttons: [{ title: '🧭 나도 해보기 →', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
       });
       return;
     } catch(e) {}
   }
 
   if (navigator.share) {
-    try { await navigator.share({ title: shareTitle, text: shareText, url: shareUrl }); return; } catch(e) {}
+    navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+    return;
   }
 
   try {
-    await navigator.clipboard.writeText(shareText + '\n\n' + shareUrl);
+    navigator.clipboard.writeText(shareText + '\n\n' + shareUrl);
     showToast('✦ 링크와 메시지를 복사했어요');
   } catch(e) { showToast('공유 링크: ' + shareUrl); }
 }
