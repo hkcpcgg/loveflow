@@ -480,17 +480,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 
 <!-- Q2 -->
 <div class="step" id="s2">
-  <div class="sec-banner sec-banner-p1"><div class="sec-label">PART 1 · 나 자신</div><div class="sec-title">조금씩 보이기 시작해요 ✨</div></div>
+  <div class="sec-banner sec-banner-p1"><div class="sec-label">PART 1 · 나 자신</div><div class="sec-title">지도의 두 번째 좌표를 찍습니다 ✨</div></div>
   <div class="q-num">Q2 · 존엄 치료 · 생애 회고</div>
-  <div class="q-title">요즘 문득 생각나는 분이 있으신가요?</div>
-  <div class="q-sub">이유가 없어도 괜찮습니다 — 그냥 불쑥 떠오르는 그 얼굴</div>
+  <div class="q-title" id="q2title">그 분을 생각할 때 — 요즘 어떤 감정이 먼저 올라오나요?</div>
+  <div class="q-sub">판단하지 않아도 됩니다 — 지금 올라오는 그 감정이 이 여행의 나침반이에요</div>
   <div class="opts" id="o2">
-    <button class="opt" onclick="pick(2,0,'D',2,'거의매일')">거의 매일 — 지우려 해도 떠오른다</button>
-    <button class="opt" onclick="pick(2,1,'D',1,'가끔')">가끔 — 특별한 날이나 순간에</button>
-    <button class="opt" onclick="pick(2,2,'C',1,'드물게')">드물게 — 예전보다 많이 줄었다</button>
-    <button class="opt" onclick="pick(2,3,'C',2,'거의없다')">거의 없다 — 자연스럽게 멀어졌다</button>
+    <button class="opt" onclick="pickEmpathy(2,0,'D',2,'그립다','그립다는 것 — 아직 마음에 자리가 있다는 뜻이에요.')">그립다 — 자꾸 떠오르고 보고 싶다</button>
+    <button class="opt" onclick="pickEmpathy(2,1,'W',1,'걱정된다','걱정한다는 것 — 아직 그 분이 소중하다는 신호예요.')">걱정된다 — 잘 지내는지 마음이 쓰인다</button>
+    <button class="opt" onclick="pickEmpathy(2,2,'G',1,'섭섭하다','섭섭함이 남아있다는 것 — 그만큼 기대했다는 뜻이에요.')">섭섭하다 — 아직 풀리지 않은 게 있다</button>
+    <button class="opt" onclick="pickEmpathy(2,3,'G',2,'무겁다','무겁다면 — 혼자 너무 오래 들고 있었던 거예요.')">무겁다 — 생각하면 부담스럽고 힘들다</button>
+    <button class="opt" onclick="pickEmpathy(2,4,'C',1,'모르겠다','복잡한 감정, 그대로도 괜찮아요. 이 여행이 조금씩 정리해드릴게요.')">모르겠다 — 감정이 복잡하거나 없다</button>
   </div>
-  <div class="interlude">"여기까지 떠올리신 것만으로도 이미 여행은 시작됐습니다.<br>눈물이 나도 괜찮습니다. 그 눈물이 당신의 나침반입니다."</div>
+  <div class="empathy-msg" id="emp2"></div>
   <div class="nav-row">
     <button class="btn-back" onclick="goBack()">← 이전</button>
     <button class="btn-next-main" id="next2" onclick="goNext()" style="display:flex;flex:1">다음 →</button>
@@ -698,8 +699,27 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div class="res-hero-cath" id="r-cath"></div>
   </div>
 
-  <!-- 2: LFRI 4축 (연결·온기·표현 공개 / 회복 잠금) -->
-  <div class="res-block lfri-section" id="rb2">
+  <!-- 2: 나의 여행자 초상화 -->
+  <div class="res-block" id="rb2" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:22px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
+    <div style="font-size:10px;color:var(--gold-dark);font-weight:700;letter-spacing:0.18em;margin-bottom:16px;text-transform:uppercase">🪞 나의 여행자 초상화</div>
+    <div id="portraitText" style="font-size:14px;color:var(--navy);line-height:2;white-space:pre-line"></div>
+  </div>
+
+  <!-- 3: 오늘 꺼낸 말 (Q8) -->
+  <div class="res-block" id="rb3" style="background:linear-gradient(135deg,#0F1B2D,#1E4A76);border-radius:18px;padding:22px 18px;margin-bottom:14px">
+    <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.18em;margin-bottom:12px">✍️ 오늘 당신이 꺼낸 말</div>
+    <div id="q8Display" style="font-size:16px;color:#fff;font-weight:700;line-height:1.9;font-style:italic;padding:16px;background:rgba(255,255,255,0.07);border-radius:12px;border-left:3px solid var(--gold)"></div>
+    <div style="font-size:12px;color:rgba(255,255,255,0.55);margin-top:10px">꺼내는 것만으로 이미 치유가 시작됐습니다</div>
+  </div>
+
+  <!-- 4: 막힘 분석 -->
+  <div class="res-block" id="rb4" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:22px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
+    <div style="font-size:10px;color:var(--gold-dark);font-weight:700;letter-spacing:0.18em;margin-bottom:16px;text-transform:uppercase">🔍 이 관계가 막힌 이유</div>
+    <div id="blockAnalysis" style="font-size:14px;color:var(--text);line-height:1.95;white-space:pre-line"></div>
+  </div>
+
+  <!-- 5: LFRI 4축 전체 공개 -->
+  <div class="res-block lfri-section" id="rb5">
     <div class="lfri-section-title">LFRI™ · 관계 흐름 지수</div>
     <div class="lfri-grid" id="lfri-rows"></div>
     <div class="lfri-scholar">LFRI™는 Bowenian Therapy · Pennebaker · Dignity Therapy 기반의 관계 회복 지수입니다</div>
@@ -712,14 +732,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   </div>
 
   <!-- 4: MBTI × MBTI 관계 번역 -->
-  <div class="res-block" id="rb4" style="background:var(--navy);border-radius:18px;padding:20px 18px;margin-bottom:14px;box-shadow:0 6px 24px rgba(30,74,118,0.25)">
+  <div class="res-block" id="rb6m" style="background:var(--navy);border-radius:18px;padding:20px 18px;margin-bottom:14px;box-shadow:0 6px 24px rgba(30,74,118,0.25)">
     <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.18em;margin-bottom:6px;text-transform:uppercase">💬 사랑흐름 관계 번역</div>
     <div id="mbtiHookText" style="font-size:14px;color:rgba(255,255,255,0.85);font-weight:600;line-height:1.85;margin-bottom:14px;font-style:italic"></div>
     <div id="mbtiFullText" style="font-size:13px;color:rgba(255,255,255,0.78);line-height:1.9;padding:14px 16px;background:rgba(255,255,255,0.07);border-radius:12px;border-left:3px solid var(--gold)"></div>
   </div>
 
   <!-- 5: 나침반 3단계 -->
-  <div class="res-block" id="rb5" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
+  <div class="res-block" id="rb7c" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
     <div style="font-size:10px;color:var(--gold-dark);font-weight:700;letter-spacing:0.18em;margin-bottom:16px;text-transform:uppercase">🧭 나침반 — 당신만의 항로</div>
     <div class="compass-step" id="compassStep1Wrap">
       <div class="compass-num">STEP 1</div>
@@ -736,15 +756,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   </div>
 
   <!-- 6: 행동카드 -->
-  <div class="res-block action-card" id="rb6">
+  <div class="res-block action-card" id="rb8a">
     <div class="action-title">⚡ 지금 당신에게 필요한 것들</div>
     <div id="actionRows"></div>
   </div>
 
-  <!-- 7: 이메일 수집 -->
+  <!-- 오늘의 한 문장 -->
+  <div class="res-block" id="rb10" style="background:linear-gradient(135deg,#0F1B2D,#1E4A76);border-radius:18px;padding:24px 20px;margin-bottom:14px;text-align:center">
+    <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.18em;margin-bottom:14px">🌊 오늘의 한 문장</div>
+    <div id="todaySentence" style="font-size:17px;color:#fff;font-weight:700;line-height:1.9;font-style:italic"></div>
+  </div>
+
+  <!-- 이메일 수집 -->
   <div class="res-block email-box" id="rb7">
-    <div class="email-box-title">완성된 여행지도를 이메일로 받아보세요 💛</div>
-    <div class="email-box-sub">이메일을 입력하시면 지금 완성된 여행지도 전체가<br>파일로 즉시 전송됩니다.<br>언제든 열어볼 수 있고, 소중한 분께 공유할 수도 있어요.</div>
+    <div class="email-box-title">📬 당신만을 위한 특별한 여행지도를<br>소중하게 보관해 드립니다</div>
+    <div class="email-box-sub">✅ 이메일을 입력하시면 여행지도가 저장됩니다</div>
     <div class="email-row">
       <input class="email-id" id="collect-email-id" placeholder="이메일 아이디" />
       <div class="email-at">@</div>
@@ -781,7 +807,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     </button>
   </div>
 
-  <!-- 9: 보물상자 + 공유 -->
+  <!-- 9: 보물상자 -->
   <div class="res-block" id="rb9" style="margin-bottom:40px">
     <div style="background:#fff;border:2px solid var(--gold);border-radius:20px;padding:22px 18px;text-align:center">
       <div style="font-size:11px;color:var(--gold-dark);font-weight:700;letter-spacing:0.14em;margin-bottom:6px">🗝 내 소중한 여행지도</div>
@@ -789,13 +815,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
       <div style="display:flex;flex-direction:column;gap:10px">
         <button onclick="saveAsHtml()" style="width:100%;padding:15px;background:var(--navy);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(30,74,118,0.25)">
           🪙 보물상자에 담기
-          <span style="font-size:11px;opacity:0.7;font-weight:600">HTML 파일 저장</span>
         </button>
         <button onclick="doShare()" style="width:100%;padding:15px;background:var(--gold);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(212,175,55,0.3)">
           💬 카카오로 공유·간직
         </button>
       </div>
-      <div style="font-size:11px;color:var(--text-mute);margin-top:12px;line-height:1.7">저장한 파일은 언제든 열면 그대로 보여요<br>거기서 프린트 → PDF 저장도 가능해요</div>
     </div>
   </div>
 
@@ -1146,14 +1170,70 @@ function showResult() {
   document.getElementById('r-full').textContent=t.full;
   document.getElementById('r-cath').textContent=t.cath;
 
-  /* LFRI 4축 — 연결·온기·표현 공개 / 회복 잠금 */
+  /* LFRI 4축 — 전체 공개 */
   var pC=pct(sc.C,sc.D), pW=pct(sc.W,sc.G), pE=pct(sc.E,sc.H), pR=pct(sc.R,sc.P);
   var axes=[
     {id:'C',icon:'🔗',name:'연결',eng:'Connection',p:pC,bar:'linear-gradient(90deg,#1E4A76,#4A90D9)',open:true},
     {id:'W',icon:'🌡',name:'온기',eng:'Warmth',p:pW,bar:'linear-gradient(90deg,#C05621,#F5A55A)',open:true},
     {id:'E',icon:'💬',name:'표현',eng:'Expression',p:pE,bar:'linear-gradient(90deg,#6B21A8,#C39BD3)',open:true},
-    {id:'R',icon:'🌱',name:'회복',eng:'Recovery',p:pR,bar:'linear-gradient(90deg,#2A7F6E,#6FCF97)',open:false}
+    {id:'R',icon:'🌱',name:'회복',eng:'Recovery',p:pR,bar:'linear-gradient(90deg,#2A7F6E,#6FCF97)',open:true}
   ];
+
+  /* ── 나의 여행자 초상화 ── */
+  var portraitEl=document.getElementById('portraitText');
+  if(portraitEl){
+    var p1='';
+    if(sc.C>=sc.D){
+      p1='당신은 관계에서 늘 먼저 다가가는 여행자였어요.\n상대가 편해야 나도 편하다고 느끼면서,\n정작 당신의 마음은 얼마나 기다려왔는지 모릅니다.';
+    } else {
+      p1='당신은 혼자만의 공간이 필요한 여행자예요.\n거리를 둔다는 건 마음이 없어서가 아니라,\n그렇게라도 자신을 지켜온 방식이었을 거예요.';
+    }
+    var p2='';
+    if(sc.E>=sc.H){
+      p2='\n\n감정을 표현하려는 용기가 있는 분이에요.\n그 용기 덕분에 관계가 버텨온 순간들이 있었을 거예요.';
+    } else {
+      p2='\n\n많은 것을 혼자 삭이며 버텨온 여행자예요.\n말하지 못한 것들이 가슴 안에 오래 쌓여있었겠죠.';
+    }
+    var p3='';
+    if(sc.R>=sc.P){
+      p3='\n\n그럼에도 불구하고 — 이 관계가 다시 따뜻해지길\n아직 바라고 있다는 걸, 이 지도가 보여주고 있어요.';
+    } else {
+      p3='\n\n지금은 마음을 정리하는 시간이 필요한 것 같아요.\n그것도 용기있는 선택이에요.';
+    }
+    portraitEl.textContent = p1 + p2 + p3;
+  }
+
+  /* ── Q8 꺼낸 말 ── */
+  var ans8val = document.getElementById('ans8') ? document.getElementById('ans8').value.trim() : '';
+  var rb3el = document.getElementById('rb3');
+  var q8el = document.getElementById('q8Display');
+  if(ans8val && rb3el && q8el){
+    rb3el.style.display='block';
+    q8el.textContent = '"' + ans8val + '"';
+  } else if(rb3el){
+    rb3el.style.display='none';
+  }
+
+  /* ── 막힘 분석 ── */
+  var blockEl = document.getElementById('blockAnalysis');
+  if(blockEl){
+    var b1='';
+    if(pC<=40){
+      b1='연결('+pC+'%) \u2014 두 사람 사이에 감정적 거리가 생겨있어요.\n가깝고 싶지만 가까워지기 어려운 구조가 반복됐을 거예요.';
+    } else if(pC<=65){
+      b1='연결('+pC+'%) \u2014 연결은 있지만 뭔가 막혀있는 느낌이에요.\n가까운 것 같으면서도 속 이야기는 못 꺼냈을 수 있어요.';
+    } else {
+      b1='연결('+pC+'%) \u2014 아직 이 관계에 연결되어 있어요.\n그 연결이 이 여행의 출발점이에요.';
+    }
+    var b2='';
+    if(pE<=40){
+      b2='\n\n표현('+pE+'%) \u2014 하고 싶은 말을 꺼내지 못하고\n혼자 감내해온 시간이 길었던 것 같아요.\n그 침묵이 오해를 만들었을 수 있어요.';
+    } else {
+      b2='\n\n표현('+pE+'%) \u2014 마음을 표현하려는 의지가 있었어요.\n그런데 그 표현이 상대에게 잘 닿았는지가 관건이에요.';
+    }
+    var b3='\n\n사랑흐름이 번역합니다:\n"이 관계가 막힌 건 사랑이 부족해서가 아니에요.\n서로의 언어가 달랐던 거예요."';
+    blockEl.textContent = b1 + b2 + b3;
+  }
   function getStatus(id,p){
     var m={C:p<=39?'서로의 문이 닫혀 있음':p<=65?'거리가 생긴 상태':'아직 연결되어 있음',W:p<=39?'따뜻함이 전달되지 못함':p<=65?'마음은 아직 남아 있음':'온기가 흐르고 있음',E:p<=39?'말하지 못하고 있음':p<=65?'전하고 싶은 것이 있음':'표현이 살아있음',R:p<=39?'아직 멈춰 있는 상태':p<=65?'다시 시작하고 싶은 마음':'회복 의지가 강함'};
     return m[id]||'';
@@ -1216,8 +1296,21 @@ function showResult() {
     '<div class="action-row"><div class="action-dot"></div><div class="action-text"><strong>이번 주 안에</strong><br>'+action.do_week+'</div></div>'+
     '<div class="action-row"><div class="action-dot red"></div><div class="action-text"><strong>하지 말 것</strong><br>'+action.never+'</div></div>';
 
+  /* ── 오늘의 한 문장 ── */
+  var todayEl = document.getElementById('todaySentence');
+  if(todayEl){
+    var sentences = {
+      'CW': '사랑은 있었어요.\n다만 흐르는 길을 몰랐을 뿐이에요.',
+      'CG': '뜨거웠던 만큼 상처도 깊었겠지만,\n그 뜨거움이 사랑이었다는 걸 잊지 마세요.',
+      'DW': '멀어진 것 같지만 — 이 여행을 떠난 당신,\n아직 마음속에 그 분이 있다는 증거예요.',
+      'DG': '지금은 조용히 버티고 있는 시간이에요.\n그 침묵 안에서 무언가 자라고 있어요.'
+    };
+    var sKey = currentCode.substring(0,2);
+    todayEl.textContent = sentences[sKey] || '사랑은 끝난 것이 아니라,\n잠시 흐름을 잃었을 뿐입니다.';
+  }
+
   /* 블록 순차 페이드인 */
-  var blocks=['rb0','rb1','rb2','rb3','rb4','rb5','rb6','rb7','rb8','rb9'];
+  var blocks=['rb0','rb1','rb2','rb3','rb4','rb5','rb6m','rb7c','rb8a','rb10','rb7','rb8','rb9'];
   blocks.forEach(function(id,i){
     setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, i*180);
   });
