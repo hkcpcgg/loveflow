@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6 · 260615 · 5축ACWER · 오감질문 · 관심지수 · 스크롤수정 · 증명서 · UI개선 -->
+<!-- 사랑흐름 유료 여행지도 v6-2 · 260615 · 5축ACWER · 오감질문 · 관심지수 · 스크롤수정 · 증명서 · UI개선 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -885,7 +885,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   </div>
 
   <!-- 3: 4축 상세 해석 (퍼센트별 맞춤 문장) -->
-  <div class="res-block" id="rb3" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
+  <div class="res-block" id="rb3b" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
     <div style="font-size:10px;color:var(--gold-dark);font-weight:700;letter-spacing:0.18em;margin-bottom:16px;text-transform:uppercase">🔍 관계 흐름 상세 해석</div>
     <div id="axisDetailRows"></div>
   </div>
@@ -1515,9 +1515,11 @@ function showResult() {
 
   /* 4축 상세 해석 */
   var axisData=[
+    {label:'관심 축 · '+aiPct+'%', text:aiPct>=50?'이 관계를 향한 당신의 관심이 아직 살아있습니다. 관심지수 '+aiPct+'%는 이 관계가 여전히 당신에게 의미 있다는 뜻입니다. 관심이 있는 한 관계는 회복될 수 있어요.':'이 관계에 쏟을 에너지가 많이 줄어들어 있습니다. 관심지수 '+aiPct+'%는 지쳐있다는 신호예요. 관심이 흐려진 것이지 사랑이 없어진 게 아닙니다.'},
     {label:'연결 축 · '+pC+'%', text:pC>=50?'이 관계는 여전히 당신의 일상 속에 살아있습니다. 연결도 '+pC+'%는 그 분이 지금도 당신 삶에 실질적으로 가까이 있음을 보여줍니다. 가깝기에 더 조심스럽고, 가깝기에 더 많은 것을 기대하게 됩니다.':'이 관계와는 어느 정도 감정적 거리가 생겨 있습니다. 연결도 '+pC+'%는 두 사람이 서로에게 일정한 간격을 유지하고 있음을 나타냅니다. 그 거리는 상처에서 왔을 수도 있고, 시간이 만들어낸 틈일 수도 있습니다.'},
     {label:'온기 축 · '+pW+'%', text:pW>=50?'이 관계 안에는 아직 따뜻한 기억과 좋은 감정이 남아있습니다. 온기도 '+pW+'%는 갈등이 있더라도 그 아래에 여전히 따뜻함이 살아있다는 뜻입니다.':'이 관계에서 갈등과 상처의 흔적이 온기보다 더 크게 남아있습니다. 갈등도 '+pW+'%는 말하지 못한 감정들이 아직 해소되지 않았음을 보여줍니다.'},
-    {label:'표현 축 · '+pE+'%', text:pE>=50?'당신은 이 관계에서 마음을 표현하려는 시도를 해왔습니다. 표현도 '+pE+'%는 감정을 꺼내는 용기를 가진 사람임을 보여줍니다.':'당신은 이 관계에서 많은 것을 삭이고 혼자 감내해왔습니다. 억제도 '+pE+'%는 하고 싶은 말을 꺼내지 못하고 혼자 지고 온 시간이 많았음을 보여줍니다.'}
+    {label:'표현 축 · '+pE+'%', text:pE>=50?'당신은 이 관계에서 마음을 표현하려는 시도를 해왔습니다. 표현도 '+pE+'%는 감정을 꺼내는 용기를 가진 사람임을 보여줍니다.':'당신은 이 관계에서 많은 것을 삭이고 혼자 감내해왔습니다. 억제도 '+pE+'%는 하고 싶은 말을 꺼내지 못하고 혼자 지고 온 시간이 많았음을 보여줍니다.'},
+    {label:'회복 축 · '+pR+'%', text:pR>=50?'이 관계를 다시 시작하고 싶은 의지가 남아있습니다. 회복도 '+pR+'%는 그 의지가 있는 한 길은 열려있다는 뜻입니다. 먼저 움직이는 쪽이 이 여행의 흐름을 엽니다.':'지금은 회복보다 마음을 정리하는 시간이 더 필요할 수 있습니다. 회복도 '+pR+'%는 아직 준비가 되지 않았다는 신호예요. 그것도 괜찮습니다.'}
   ];
   var adr=document.getElementById('axisDetailRows');
   if(adr) adr.innerHTML=axisData.map(function(a){
@@ -1635,7 +1637,7 @@ function showResult() {
   }
 
   /* 블록 순차 페이드인 */
-  var blocks=['rb0','rb1','rb2','rb3','rb4','rb5','rb6m','rb7c','rb8a','rb_attention','rb_cert','rb10','rb7','rb8','rb9'];
+  var blocks=['rb0','rb1','rb2','rb3','rb3b','rb4','rb5','rb6m','rb7c','rb8a','rb_attention','rb_cert','rb10','rb7','rb8','rb9'];
   blocks.forEach(function(id,i){
     setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, i*180);
   });
@@ -1825,21 +1827,8 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <!-- 푸터 -->
-<div style="background:#fff;border-top:1px solid #E2E8F0;padding:20px 16px;margin-top:8px;text-align:center">
-  <div style="font-size:13px;font-weight:900;color:var(--navy);margin-bottom:4px">사랑흐름 · Love Flow™</div>
-  <div style="font-size:9px;color:var(--gold-dark);font-weight:700;letter-spacing:0.18em;margin-bottom:12px">RELATIONSHIP HEALING JOURNEY</div>
-  <div style="font-size:12px;color:var(--text-sub);margin-bottom:4px">📩 제휴·문의 <a href="mailto:hkcpcgg@gmail.com" style="color:var(--navy);font-weight:700">hkcpcgg@gmail.com</a></div>
-  <div style="font-size:11px;color:var(--text-mute);margin-bottom:12px">070-4158-7786</div>
-  <div style="font-size:10px;color:#E05C5C;font-weight:700;margin-bottom:8px;padding:8px 12px;background:#FFF5F5;border-radius:8px;border:1px solid rgba(224,92,92,0.2)">
-    ⚠️ 무단 복제·배포·스크래핑·상업적 이용 엄금<br>
-    <span style="font-weight:400;color:var(--text-sub)">위반 시 저작권법 제136조에 따라 민·형사상 법적 조치</span>
-  </div>
-  <div style="font-size:10px;color:var(--text-mute);line-height:1.8">
-    대표 황규찬 | 경기도 파주시 매봉길 17-13<br>
-    사업자 285-17-02228 | 통판 제2025-경기파주-1747호 | 개보책 유상열<br>
-    © 2026 사랑흐름 · LFRI™. All rights reserved. 무단 복제·상업적 이용 금지.<br>
-    Unauthorized reproduction strictly prohibited.
-  </div>
+<div style="background:#fff;border-top:1px solid #E2E8F0;padding:12px 16px;margin-top:8px;text-align:center;font-size:9px;color:var(--text-mute);line-height:1.8">
+  <span style="font-size:11px;font-weight:900;color:var(--navy)">사랑흐름 · Love Flow™</span> · 대표 황규찬 | 경기도 파주시 매봉길 17-13 | 사업자등록번호 285-17-02228 | 통신판매업신고번호 제2025-경기파주-1747호 | 개인정보보호책임자 유상열 · 제휴문의 <a href="mailto:hkcpcgg@gmail.com" style="color:var(--navy);font-weight:700">hkcpcgg@gmail.com</a> 이메일 무단수집금지 · © 2026 사랑흐름 · LFRI™. All rights reserved. Unauthorized reproduction strictly prohibited. ⚠️ 무단 복제·배포·스크래핑·상업적 이용 엄금 | 위반 시 저작권법 제136조에 따라 민·형사상 법적 조치
 </div>
 </body>
 </html>
