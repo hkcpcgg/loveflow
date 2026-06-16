@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-6 · 260617 · 5축ACWER 전체일관성 · saveAsHtml풍성하게 -->
+<!-- 사랑흐름 유료 여행지도 v6-7 · 260617 · 로딩5축 · saveAsHtml전면교체 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -829,6 +829,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div style="font-size:40px;margin-bottom:14px">🧭</div>
     <div class="analyzing-title">당신의 여행지도를 그리는 중</div>
     <div class="analyzing-sub">29개의 마음 좌표를 분석합니다.<br>잠시만요…</div>
+    <div class="analyzing-item"><div class="analyzing-label">🔍 관심 (Attention)</div><div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarA" style="background:linear-gradient(90deg,#A8880A,#D4AF37)"></div></div></div>
     <div class="analyzing-item"><div class="analyzing-label">🔗 연결 (Connection)</div><div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarC" style="background:linear-gradient(90deg,#1E4A76,#4A90D9)"></div></div></div>
     <div class="analyzing-item"><div class="analyzing-label">🌡 온기 (Warmth)</div><div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarW" style="background:linear-gradient(90deg,#C05621,#F5A55A)"></div></div></div>
     <div class="analyzing-item"><div class="analyzing-label">💬 표현 (Expression)</div><div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarE" style="background:linear-gradient(90deg,#6B21A8,#C39BD3)"></div></div></div>
@@ -1328,8 +1329,8 @@ function startPart2() { step=9; showStep(); }
 /* ── 분석 ── */
 function startAnalyzing() {
   step=99; showStep();
-  var msgs=['당신의 연결 흐름을 분석하고 있습니다…','온기의 온도를 측정하고 있습니다…','전하지 못한 말들을 감지하고 있습니다…','당신의 여행지도가 완성되고 있습니다.'];
-  var bars=['aBarC','aBarW','aBarE','aBarR'];
+  var msgs=['관심의 에너지를 측정하고 있습니다…','연결의 흐름을 분석하고 있습니다…','온기의 온도를 감지하고 있습니다…','표현의 언어를 읽고 있습니다…','회복의 의지를 확인하고 있습니다…','당신의 여행지도가 완성되고 있습니다.'];
+  var bars=['aBarA','aBarC','aBarW','aBarE','aBarR'];
   var msgEl=document.getElementById('analyzingMsg');
   var delay=0;
   bars.forEach(function(id,i){ setTimeout(function(){ var b=document.getElementById(id); if(b) b.style.width='100%'; if(msgEl) msgEl.textContent=msgs[i]||''; },delay); delay+=800; });
@@ -1657,47 +1658,131 @@ async function saveAll(){
 function saveAsHtml(){
   var t=T[currentCode]||T['DWHR'];
   var target=relNick||relType||'소중한 분';
-  var aiPct2=Math.min(100,Math.round((attentionScore/9)*100));
+  var ai2=Math.min(100,Math.round((attentionScore/9)*100));
   var pC=pct(sc.C,sc.D), pW=pct(sc.W,sc.G), pE=pct(sc.E,sc.H), pR=pct(sc.R,sc.P);
-  var compassHtml='';
-  if(myMBTI && partnerMBTI && partnerMBTI!=='UNKNOWN'){
-    var compass=getCompass(myMBTI,partnerMBTI,sc);
-    if(compass){
-      compassHtml='<div style="background:#1E4A76;border-radius:16px;padding:20px;margin-bottom:16px;color:#fff"><div style="font-size:10px;color:#D4AF37;font-weight:700;letter-spacing:0.15em;margin-bottom:12px">🧭 나침반 — 당신만의 항로</div>'
-        +'<div style="margin-bottom:10px"><span style="font-size:10px;font-weight:900;color:#D4AF37">STEP 1</span><div style="font-size:13px;line-height:1.8;margin-top:4px">'+compass.step1+'</div></div>'
-        +'<div style="margin-bottom:10px"><span style="font-size:10px;font-weight:900;color:#D4AF37">STEP 2</span><div style="font-size:13px;line-height:1.8;margin-top:4px">'+compass.step2+'</div></div>'
-        +'<div><span style="font-size:10px;font-weight:900;color:#D4AF37">STEP 3</span><div style="font-size:13px;line-height:1.8;margin-top:4px">'+compass.step3+'</div></div></div>';
-    }
+  var issueDate=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace('.','.').trim();
+  var certNum='LF-'+new Date().getFullYear()+'-'+Math.floor(10000+Math.random()*90000);
+  var myId=(collectEmail||'').split('@')[0]||'여행자';
+
+  /* 레이더 차트 SVG */
+  function radar(a,c,w,e,r){
+    var cx=130,cy=130,R=100;
+    function pt(deg,v){var rad=(deg-90)*Math.PI/180;return [(cx+R*(v/100)*Math.cos(rad)).toFixed(1),(cy+R*(v/100)*Math.sin(rad)).toFixed(1)];}
+    var p0=pt(0,a),p1=pt(72,c),p2=pt(144,w),p3=pt(216,e),p4=pt(288,r);
+    var poly=p0[0]+','+p0[1]+' '+p1[0]+','+p1[1]+' '+p2[0]+','+p2[1]+' '+p3[0]+','+p3[1]+' '+p4[0]+','+p4[1];
+    var lines='';
+    [0,72,144,216,288].forEach(function(d){var pp=pt(d,100);lines+='<line x1="'+cx+'" y1="'+cy+'" x2="'+pp[0]+'" y2="'+pp[1]+'" stroke="#E2E8F0" stroke-width="1"/>';});
+    [20,40,60,80,100].forEach(function(v){var pts=[0,72,144,216,288].map(function(d){var pp=pt(d,v);return pp[0]+','+pp[1];}).join(' ');lines+=(v===100?'<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#1E4A76" stroke-width="2"/>':'<polygon points="'+pts+'" fill="none" stroke="#E2E8F0" stroke-width="1"/>');});
+    return '<svg width="260" height="260" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">'
+      +lines
+      +'<polygon points="'+poly+'" fill="rgba(30,74,118,0.18)" stroke="#1E4A76" stroke-width="2" stroke-linejoin="round"/>'
+      +'<circle cx="'+p0[0]+'" cy="'+p0[1]+'" r="4" fill="#D4AF37"/>'
+      +'<circle cx="'+p1[0]+'" cy="'+p1[1]+'" r="4" fill="#4A90D9"/>'
+      +'<circle cx="'+p2[0]+'" cy="'+p2[1]+'" r="4" fill="#F5A55A"/>'
+      +'<circle cx="'+p3[0]+'" cy="'+p3[1]+'" r="4" fill="#C39BD3"/>'
+      +'<circle cx="'+p4[0]+'" cy="'+p4[1]+'" r="4" fill="#6FCF97"/>'
+      +'<text x="130" y="18" text-anchor="middle" font-size="11" font-weight="800" fill="#A8880A">관심</text>'
+      +'<text x="240" y="108" text-anchor="start" font-size="11" font-weight="800" fill="#1E4A76">연결</text>'
+      +'<text x="200" y="238" text-anchor="middle" font-size="11" font-weight="800" fill="#C05621">온기</text>'
+      +'<text x="58" y="238" text-anchor="middle" font-size="11" font-weight="800" fill="#6B21A8">표현</text>'
+      +'<text x="18" y="108" text-anchor="end" font-size="11" font-weight="800" fill="#2A7F6E">회복</text>'
+      +'</svg>';
   }
+
+  function bar(icon,name,color,val,grad){
+    return '<div style="margin-bottom:10px">'
+      +'<div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px">'
+      +'<span>'+icon+' '+name+'</span><span style="color:'+color+'">'+val+'%</span></div>'
+      +'<div style="background:#E2E8F0;border-radius:6px;height:8px">'
+      +'<div style="background:'+grad+';height:8px;border-radius:6px;width:'+val+'%"></div></div></div>';
+  }
+
+  /* MBTI 번역 */
   var mbtiHtml='';
   if(myMBTI && partnerMBTI && partnerMBTI!=='UNKNOWN'){
-    var content=getMBTIContent(myMBTI,partnerMBTI);
-    if(content){
-      mbtiHtml='<div style="background:#1E4A76;border-radius:16px;padding:20px;margin-bottom:16px;color:#fff"><div style="font-size:10px;color:#D4AF37;font-weight:700;letter-spacing:0.15em;margin-bottom:8px">💬 사랑흐름 관계 번역</div><div style="font-size:13px;line-height:1.9;color:rgba(255,255,255,0.85)">'+content.hook+'<br><br>'+content.full+'</div></div>';
-    }
+    var mc=getMBTIContent(myMBTI,partnerMBTI);
+    if(mc) mbtiHtml='<div style="background:#1E4A76;border-radius:16px;padding:20px;margin-bottom:16px;color:#fff">'
+      +'<div style="font-size:10px;color:#D4AF37;font-weight:700;letter-spacing:0.15em;margin-bottom:8px">💬 사랑흐름 관계 번역</div>'
+      +'<div style="font-size:13px;line-height:1.9;color:rgba(255,255,255,0.85)">'+mc.hook+'<br><br>'+mc.full+'</div></div>';
   }
-  var html='<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>'+target+'와의 사랑흐름 여행지도</title>'
+
+  /* 나침반 */
+  var compassHtml='';
+  if(myMBTI && partnerMBTI && partnerMBTI!=='UNKNOWN'){
+    var cmp=getCompass(myMBTI,partnerMBTI,sc);
+    if(cmp) compassHtml='<div style="background:#1E4A76;border-radius:16px;padding:20px;margin-bottom:16px;color:#fff">'
+      +'<div style="font-size:10px;color:#D4AF37;font-weight:700;letter-spacing:0.15em;margin-bottom:12px">🧭 나침반 — 당신만의 항로</div>'
+      +'<div style="margin-bottom:10px"><span style="font-size:10px;font-weight:900;color:#D4AF37">STEP 1</span><div style="font-size:13px;line-height:1.8;margin-top:4px">'+cmp.step1+'</div></div>'
+      +'<div style="margin-bottom:10px"><span style="font-size:10px;font-weight:900;color:#D4AF37">STEP 2</span><div style="font-size:13px;line-height:1.8;margin-top:4px">'+cmp.step2+'</div></div>'
+      +'<div><span style="font-size:10px;font-weight:900;color:#D4AF37">STEP 3</span><div style="font-size:13px;line-height:1.8;margin-top:4px">'+cmp.step3+'</div></div></div>';
+  }
+
+  /* 증명서 */
+  var certHtml='<div style="background:#fff;border:2px solid #D4AF37;border-radius:16px;padding:20px;margin-bottom:16px;text-align:center">'
+    +'<div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:12px">사랑흐름 마음관리청™ · 관계흐름증명서</div>'
+    +'<div style="font-size:11px;color:#6B7280;margin-bottom:8px">발급번호 '+certNum+'</div>'
+    +'<div style="font-size:14px;font-weight:900;color:#1E4A76;margin-bottom:4px">'+myId+'</div>'
+    +'<div style="font-size:12px;color:#6B7280;margin-bottom:12px">↔ '+target+'</div>'
+    +'<div style="font-size:11px;color:#6B7280;margin-bottom:16px">발급일 '+issueDate+' · 유형 '+t.short+'</div>'
+    +'<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px">'
+    +'<div style="background:#F8F9FA;border-radius:10px;padding:10px"><div style="font-size:10px;color:#A8880A;font-weight:700">관심</div><div style="font-size:18px;font-weight:900;color:#1E2A3A">'+ai2+'%</div></div>'
+    +'<div style="background:#F8F9FA;border-radius:10px;padding:10px"><div style="font-size:10px;color:#1E4A76;font-weight:700">연결</div><div style="font-size:18px;font-weight:900;color:#1E2A3A">'+pC+'%</div></div>'
+    +'<div style="background:#F8F9FA;border-radius:10px;padding:10px"><div style="font-size:10px;color:#C05621;font-weight:700">온기</div><div style="font-size:18px;font-weight:900;color:#1E2A3A">'+pW+'%</div></div>'
+    +'<div style="background:#F8F9FA;border-radius:10px;padding:10px"><div style="font-size:10px;color:#6B21A8;font-weight:700">표현</div><div style="font-size:18px;font-weight:900;color:#1E2A3A">'+pE+'%</div></div>'
+    +'<div style="background:#F8F9FA;border-radius:10px;padding:10px"><div style="font-size:10px;color:#2A7F6E;font-weight:700">회복</div><div style="font-size:18px;font-weight:900;color:#1E2A3A">'+pR+'%</div></div>'
+    +'<div style="background:#F8F9FA;border-radius:10px;padding:10px"><div style="font-size:10px;color:#6B7280;font-weight:700">코드</div><div style="font-size:13px;font-weight:900;color:#1E2A3A">'+currentCode+'</div></div>'
+    +'</div>'
+    +'<div style="font-size:11px;color:#6B7280;line-height:1.7">관계는 완성이 아니라 — 함께 자라나는 것입니다<br>사랑흐름 마음관리청 발급 · LFRI™ 기반</div></div>';
+
+  var html='<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">'
+    +'<title>'+target+'와의 사랑흐름 여행지도</title>'
     +'<style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;background:#F4F7FA;color:#1E2A3A;padding:20px;max-width:540px;margin:0 auto}</style>'
     +'</head><body>'
-    +'<div style="text-align:center;margin-bottom:20px"><div style="font-size:11px;color:#D4AF37;font-weight:700;letter-spacing:0.2em;margin-bottom:6px">LOVE FLOW™ · 여행지도</div>'
-    +'<div style="font-size:22px;font-weight:900;color:#1E4A76">'+target+'와의 사랑흐름 여행지도</div></div>'
+
+    /* 헤더 */
+    +'<div style="text-align:center;margin-bottom:20px">'
+    +'<div style="font-size:11px;color:#D4AF37;font-weight:700;letter-spacing:0.2em;margin-bottom:6px">🧭 LOVE FLOW™ · 여행지도</div>'
+    +'<div style="font-size:22px;font-weight:900;color:#1E4A76">'+target+'와의 사랑흐름 여행지도</div>'
+    +'<div style="font-size:12px;color:#6B7280;margin-top:4px">'+myId+' · '+issueDate+'</div></div>'
+
+    /* 여행자 유형 카드 */
     +'<div style="background:linear-gradient(160deg,#0D1829,#1E4A76);border-radius:20px;padding:28px 22px;text-align:center;margin-bottom:16px;color:#fff">'
     +'<div style="font-size:42px;margin-bottom:8px">'+t.icon+'</div>'
     +'<div style="font-size:18px;font-weight:700;color:#D4AF37;letter-spacing:3px;margin-bottom:8px">'+currentCode+'</div>'
     +'<div style="font-size:22px;font-weight:900;margin-bottom:4px">'+t.short+'</div>'
     +'<div style="font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:16px">'+t.full+'</div>'
     +'<div style="font-size:14px;line-height:1.9;color:rgba(255,255,255,0.85);padding:14px 16px;background:rgba(255,255,255,0.07);border-radius:12px;border-left:3px solid #D4AF37;text-align:left;white-space:pre-line">'+t.cath+'</div></div>'
-    +'<div style="background:#fff;border-radius:16px;padding:18px;margin-bottom:16px">'
-    +'<div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:14px">LFRI™ · 관계 흐름 지수</div>'
-    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🔍 관심</span><span style="color:#A8880A">'+aiPct2+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#A8880A,#D4AF37);height:8px;border-radius:6px;width:'+aiPct2+'%"></div></div></div>'
-    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🔗 연결</span><span style="color:#1E4A76">'+pC+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#1E4A76,#4A90D9);height:8px;border-radius:6px;width:'+pC+'%"></div></div></div>'
-    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🌡 온기</span><span style="color:#C05621">'+pW+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#C05621,#F5A55A);height:8px;border-radius:6px;width:'+pW+'%"></div></div></div>'
-    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>💬 표현</span><span style="color:#6B21A8">'+pE+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#6B21A8,#C39BD3);height:8px;border-radius:6px;width:'+pE+'%"></div></div></div>'
-    +'<div><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🌱 회복</span><span style="color:#2A7F6E">'+pR+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#2A7F6E,#6FCF97);height:8px;border-radius:6px;width:'+pR+'%"></div></div></div>'
+
+    /* 레이더 차트 */
+    +'<div style="background:#fff;border-radius:16px;padding:18px;margin-bottom:16px;text-align:center">'
+    +'<div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:14px">LFRI™ · 5축 관계 흐름 지수</div>'
+    +radar(ai2,pC,pW,pE,pR)
     +'</div>'
+
+    /* 5축 게이지바 */
+    +'<div style="background:#fff;border-radius:16px;padding:18px;margin-bottom:16px">'
+    +'<div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:14px">LFRI™ · 축별 수치</div>'
+    +bar('🔍','관심','#A8880A',ai2,'linear-gradient(90deg,#A8880A,#D4AF37)')
+    +bar('🔗','연결','#1E4A76',pC,'linear-gradient(90deg,#1E4A76,#4A90D9)')
+    +bar('🌡','온기','#C05621',pW,'linear-gradient(90deg,#C05621,#F5A55A)')
+    +bar('💬','표현','#6B21A8',pE,'linear-gradient(90deg,#6B21A8,#C39BD3)')
+    +'<div>'
+    +bar('🌱','회복','#2A7F6E',pR,'linear-gradient(90deg,#2A7F6E,#6FCF97)')
+    +'</div></div>'
+
     +mbtiHtml
     +compassHtml
-    +'<div style="font-size:11px;color:#6B7280;text-align:center;line-height:1.6;padding:14px;border-top:1px solid #E2E8F0;margin-top:8px">© 2026 사랑흐름 · LFRI™ | 대표 황규찬 | 070-4158-7786<br>사업자등록번호 285-17-02228 | www.loveflow.ai.kr</div>'
+    +certHtml
+
+    /* 푸터 */
+    +'<div style="font-size:10px;color:#6B7280;text-align:center;line-height:1.8;padding:16px;border-top:1px solid #E2E8F0;margin-top:8px">'
+    +'사랑흐름 · Love Flow™ · 대표 황규찬<br>'
+    +'경기도 파주시 매봉길 17-13 | 사업자등록번호 285-17-02228<br>'
+    +'통신판매업신고번호 제2025-경기파주-1747호<br>'
+    +'개인정보보호책임자 유상열 · 제휴문의 hkcpcgg@gmail.com<br>'
+    +'이메일 무단수집금지 · www.loveflow.ai.kr<br>'
+    +'© 2026 사랑흐름 · LFRI™. All rights reserved.<br>'
+    +'⚠️ 무단 복제·배포·상업적 이용 엄금 | 위반 시 민·형사상 법적 조치</div>'
     +'</body></html>';
 
   var blob=new Blob([html],{type:'text/html;charset=utf-8'});
