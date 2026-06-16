@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-5-2 · 260617 · DB fetch no-cors+헤더 · payload q1~q29 전체 · 오감①~⑤ · 관심지수 -->
+<!-- 사랑흐름 유료 여행지도 v6-5-3 · 260617 · fetch no-cors제거+CORS헤더 · Q26선택 추가 · DB완성 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -1797,6 +1797,7 @@ async function saveEmail(){
     q24:gp('ans24'),
     q25:picked[25]?picked[25].val:'',
     q26:gp('ans26'),
+    q26sel:q26Ans,
     /* 오감①~⑤ */
     ogam1:sessionStorage.getItem('ogam1')||'',
     ogam2:sessionStorage.getItem('ogam2')||'',
@@ -1815,7 +1816,7 @@ async function saveEmail(){
   };
   try{
     showToast('여행지도를 저장하고 있어요... 💛');
-    await fetch(DB_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    await fetch(DB_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     showToast('✦ 여행지도가 저장됐어요! 💛');
   }catch(e){
     showToast('전송 오류가 생겼어요. 다시 시도해 주세요.');
