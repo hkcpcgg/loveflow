@@ -1759,38 +1759,64 @@ async function saveEmail(){
     +'© 2026 사랑흐름 · LFRI | 대표 황규찬 | 070-4158-7786 | 사업자 285-17-02228'
     +'</div></body></html>';
 
+  function gp(id){var el=document.getElementById(id);return el?el.value:'';}
   var payload={
     action:'saveJourney',
     email:email,
-    ogam1:sessionStorage.getItem('ogam1')||'',
-    ogam2:sessionStorage.getItem('ogam2')||'',
-    ogam3:sessionStorage.getItem('ogam3')||'',
-    ogam4:sessionStorage.getItem('ogam4')||'',
-    ogam5:sessionStorage.getItem('ogam5')||'',
-    q27:sessionStorage.getItem('q27')||'',
-    q28:sessionStorage.getItem('q28')||'',
-    q29:sessionStorage.getItem('q29')||'',
-    scA:attentionScore,
     lfriCode:currentCode,
     myMBTI:myMBTI,
     ptMBTI:partnerMBTI,
     relType:relType,
     relNick:relNick,
     typeName:t.short,
-    typeIcon:t.icon,
-    q8:document.getElementById('ans8')?document.getElementById('ans8').value:'',
-    q15:document.getElementById('ans15')?document.getElementById('ans15').value:'',
-    q23:document.getElementById('ans23')?document.getElementById('ans23').value:'',
-    q24:document.getElementById('ans24')?document.getElementById('ans24').value:'',
-    q26:document.getElementById('ans26')?document.getElementById('ans26').value:'',
-    scC:sc.C,scD:sc.D,scW:sc.W,scG:sc.G,scE:sc.E,scH:sc.H,scR:sc.R,scP:sc.P,
+    /* INTRO Q1~Q3 */
+    q1:introPicked[1]?introPicked[1].val:'',
+    q2:introPicked[2]?introPicked[2].val:'',
+    q3:introPicked[3]?introPicked[3].val:'',
+    /* Q4~Q26 */
+    q4:picked[4]?picked[4].val:'',
+    q5:picked[5]?picked[5].val:'',
+    q6:picked[6]?picked[6].val:'',
+    q7:picked[7]?picked[7].val:'',
+    q8:gp('ans8'),
+    q9:picked[9]?picked[9].val:'',
+    q10:picked[10]?picked[10].val:'',
+    q11:picked[11]?picked[11].val:'',
+    q12:picked[12]?picked[12].val:'',
+    q13:picked[13]?picked[13].val:'',
+    q14:picked[14]?picked[14].val:'',
+    q15:gp('ans15'),
+    q16:picked[16]?picked[16].val:'',
+    q17:picked[17]?picked[17].val:'',
+    q18:picked[18]?picked[18].val:'',
+    q19:picked[19]?picked[19].val:'',
+    q20:picked[20]?picked[20].val:'',
+    q21:picked[21]?picked[21].val:'',
+    q22:picked[22]?picked[22].val:'',
+    q23:gp('ans23'),
+    q24:gp('ans24'),
+    q25:picked[25]?picked[25].val:'',
+    q26:gp('ans26'),
+    /* 오감①~⑤ */
+    ogam1:sessionStorage.getItem('ogam1')||'',
+    ogam2:sessionStorage.getItem('ogam2')||'',
+    ogam3:sessionStorage.getItem('ogam3')||'',
+    ogam4:sessionStorage.getItem('ogam4')||'',
+    ogam5:sessionStorage.getItem('ogam5')||'',
+    /* 관심지수 Q27~Q29 */
+    q27:sessionStorage.getItem('q27')||'',
+    q28:sessionStorage.getItem('q28')||'',
+    q29:sessionStorage.getItem('q29')||'',
+    /* 5축 점수 */
+    scA:attentionScore,
+    scC:sc.C,scD:sc.D,scW:sc.W,scG:sc.G,
+    scE:sc.E,scH:sc.H,scR:sc.R,scP:sc.P,
     htmlContent:hc
   };
   try{
-    showToast('여행지도를 전송하고 있어요... 💛');
+    showToast('여행지도를 저장하고 있어요... 💛');
     await fetch(DB_URL,{method:'POST',body:JSON.stringify(payload)});
-    document.getElementById('rb7').style.display='none';
-    showToast('✦ 이메일로 여행지도를 보냈어요! 확인해 보세요 💛');
+    showToast('✦ 여행지도가 저장됐어요! 💛');
   }catch(e){
     showToast('전송 오류가 생겼어요. 다시 시도해 주세요.');
   }
