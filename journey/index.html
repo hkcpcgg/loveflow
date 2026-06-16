@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-5-4 · 260617 · 보물상자→DB저장연결 · fetch헤더제거 -->
+<!-- 사랑흐름 유료 여행지도 v6-6 · 260617 · 5축ACWER 전체일관성 · saveAsHtml풍성하게 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -48,7 +48,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .hero-title em{font-style:normal;color:var(--gold)}
 .hero-sub{font-size:14px;color:var(--text-sub);line-height:1.85;margin-bottom:0}
 
-/* ── 4축 카드 (컬러풀) ── */
+/* ── 5축 ACWER 카드 (컬러풀) ── */
 .axis-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;margin-bottom:1.5rem}
 .axis-card{border-radius:14px;padding:12px 6px;text-align:center;position:relative;overflow:hidden}
 .axis-card-a{background:linear-gradient(145deg,#B8860B,#D4AF37);box-shadow:0 4px 14px rgba(184,134,11,0.25)}
@@ -194,7 +194,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 /* LFRI 카드 */
 .lfri-section{background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06)}
 .lfri-section-title{font-size:10px;color:var(--gold-dark);font-weight:700;letter-spacing:0.18em;margin-bottom:16px;text-transform:uppercase}
-.lfri-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lfri-grid{display:grid;grid-template-columns:1fr;gap:10px}
 .lfri-card{background:var(--bg);border:1.5px solid rgba(212,175,55,0.2);border-radius:16px;padding:16px 14px}
 .lfri-card-icon{font-size:22px;margin-bottom:7px;display:block}
 .lfri-card-name{font-size:13px;font-weight:900;color:var(--navy);margin-bottom:2px}
@@ -286,7 +286,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   <p class="hero-sub">나를 먼저 만나고 — 그 분과 함께 떠납니다</p>
 </div>
 
-<!-- 4축 컬러풀 카드 -->
+<!-- 5축 ACWER 컬러풀 카드 -->
 <div class="axis-grid">
   <div class="axis-card axis-card-a"><span class="axis-card-icon">🔍</span><div class="axis-card-name">관심</div><div class="axis-card-eng">Attention</div></div>
   <div class="axis-card axis-card-c"><span class="axis-card-icon">🔗</span><div class="axis-card-name">연결</div><div class="axis-card-eng">Connection</div></div>
@@ -876,14 +876,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div id="blockAnalysis" style="font-size:14px;color:var(--text);line-height:1.95;white-space:pre-line"></div>
   </div>
 
-  <!-- 5: LFRI 4축 전체 공개 -->
+  <!-- 5: LFRI 5축 ACWER 전체 공개 -->
   <div class="res-block lfri-section" id="rb5">
     <div class="lfri-section-title">LFRI™ · 관계 흐름 지수</div>
     <div class="lfri-grid" id="lfri-rows"></div>
     <div class="lfri-scholar">LFRI™는 Bowenian Therapy · Pennebaker · Dignity Therapy 기반의 관계 회복 지수입니다</div>
   </div>
 
-  <!-- 3: 4축 상세 해석 (퍼센트별 맞춤 문장) -->
+  <!-- 3: 5축 ACWER 상세 해석 (퍼센트별 맞춤 문장) -->
   <div class="res-block" id="rb3b" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06)">
     <div style="font-size:10px;color:var(--gold-dark);font-weight:700;letter-spacing:0.18em;margin-bottom:16px;text-transform:uppercase">🔍 관계 흐름 상세 해석</div>
     <div id="axisDetailRows"></div>
@@ -1423,9 +1423,11 @@ function showResult() {
   document.getElementById('r-full').textContent=t.full;
   document.getElementById('r-cath').textContent=t.cath;
 
-  /* LFRI 4축 — 전체 공개 */
+  /* LFRI 5축 ACWER — 전체 공개 */
+  var aiPct=Math.min(100,Math.round((attentionScore/9)*100));
   var pC=pct(sc.C,sc.D), pW=pct(sc.W,sc.G), pE=pct(sc.E,sc.H), pR=pct(sc.R,sc.P);
   var axes=[
+    {id:'A',icon:'🔍',name:'관심',eng:'Attention',p:aiPct,bar:'linear-gradient(90deg,#A8880A,#D4AF37)',open:true},
     {id:'C',icon:'🔗',name:'연결',eng:'Connection',p:pC,bar:'linear-gradient(90deg,#1E4A76,#4A90D9)',open:true},
     {id:'W',icon:'🌡',name:'온기',eng:'Warmth',p:pW,bar:'linear-gradient(90deg,#C05621,#F5A55A)',open:true},
     {id:'E',icon:'💬',name:'표현',eng:'Expression',p:pE,bar:'linear-gradient(90deg,#6B21A8,#C39BD3)',open:true},
@@ -1501,7 +1503,7 @@ function showResult() {
   });
   document.getElementById('lfri-rows').innerHTML=lh;
 
-  /* 4축 상세 해석 */
+  /* 5축 ACWER 상세 해석 */
   var axisData=[
     {label:'관심 축 · '+aiPct+'%', text:aiPct>=50?'이 관계를 향한 당신의 관심이 아직 살아있습니다. 관심지수 '+aiPct+'%는 이 관계가 여전히 당신에게 의미 있다는 뜻입니다. 관심이 있는 한 관계는 회복될 수 있어요.':'이 관계에 쏟을 에너지가 많이 줄어들어 있습니다. 관심지수 '+aiPct+'%는 지쳐있다는 신호예요. 관심이 흐려진 것이지 사랑이 없어진 게 아닙니다.'},
     {label:'연결 축 · '+pC+'%', text:pC>=50?'이 관계는 여전히 당신의 일상 속에 살아있습니다. 연결도 '+pC+'%는 그 분이 지금도 당신 삶에 실질적으로 가까이 있음을 보여줍니다. 가깝기에 더 조심스럽고, 가깝기에 더 많은 것을 기대하게 됩니다.':'이 관계와는 어느 정도 감정적 거리가 생겨 있습니다. 연결도 '+pC+'%는 두 사람이 서로에게 일정한 간격을 유지하고 있음을 나타냅니다. 그 거리는 상처에서 왔을 수도 있고, 시간이 만들어낸 틈일 수도 있습니다.'},
@@ -1552,7 +1554,6 @@ function showResult() {
     '<div class="action-row"><div class="action-dot red"></div><div class="action-text"><strong>하지 말 것</strong><br>'+action.never+'</div></div>';
 
   /* ── 관심지수 결과 카드 ── */
-  var aiPct = Math.min(100, Math.round((attentionScore/9)*100));
   var attEl = document.getElementById('attentionCard');
   if(attEl){
     var aiLabel='', aiMsg='', aiMission='';
@@ -1656,6 +1657,7 @@ async function saveAll(){
 function saveAsHtml(){
   var t=T[currentCode]||T['DWHR'];
   var target=relNick||relType||'소중한 분';
+  var aiPct2=Math.min(100,Math.round((attentionScore/9)*100));
   var pC=pct(sc.C,sc.D), pW=pct(sc.W,sc.G), pE=pct(sc.E,sc.H), pR=pct(sc.R,sc.P);
   var compassHtml='';
   if(myMBTI && partnerMBTI && partnerMBTI!=='UNKNOWN'){
@@ -1687,6 +1689,7 @@ function saveAsHtml(){
     +'<div style="font-size:14px;line-height:1.9;color:rgba(255,255,255,0.85);padding:14px 16px;background:rgba(255,255,255,0.07);border-radius:12px;border-left:3px solid #D4AF37;text-align:left;white-space:pre-line">'+t.cath+'</div></div>'
     +'<div style="background:#fff;border-radius:16px;padding:18px;margin-bottom:16px">'
     +'<div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:14px">LFRI™ · 관계 흐름 지수</div>'
+    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🔍 관심</span><span style="color:#A8880A">'+aiPct2+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#A8880A,#D4AF37);height:8px;border-radius:6px;width:'+aiPct2+'%"></div></div></div>'
     +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🔗 연결</span><span style="color:#1E4A76">'+pC+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#1E4A76,#4A90D9);height:8px;border-radius:6px;width:'+pC+'%"></div></div></div>'
     +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🌡 온기</span><span style="color:#C05621">'+pW+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#C05621,#F5A55A);height:8px;border-radius:6px;width:'+pW+'%"></div></div></div>'
     +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>💬 표현</span><span style="color:#6B21A8">'+pE+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#6B21A8,#C39BD3);height:8px;border-radius:6px;width:'+pE+'%"></div></div></div>'
@@ -1765,10 +1768,11 @@ async function saveEmail(){
     +'</div>'
     +'<div style="background:#fff;border-radius:16px;padding:18px;margin-bottom:16px">'
     +'<div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:14px">LFRI · 관계 흐름 지수</div>'
-    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>연결</span><span>'+pC+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#1E4A76,#4A90D9);height:8px;border-radius:6px;width:'+pC+'%"></div></div></div>'
-    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>온기</span><span>'+pW+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#C05621,#F5A55A);height:8px;border-radius:6px;width:'+pW+'%"></div></div></div>'
-    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>표현</span><span>'+pE+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#6B21A8,#C39BD3);height:8px;border-radius:6px;width:'+pE+'%"></div></div></div>'
-    +'<div><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>회복</span><span>'+pR+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#2A7F6E,#6FCF97);height:8px;border-radius:6px;width:'+pR+'%"></div></div></div>'
+    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🔍 관심</span><span style="color:#A8880A">'+aiPct+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#A8880A,#D4AF37);height:8px;border-radius:6px;width:'+aiPct+'%"></div></div></div>'
+    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🔗 연결</span><span style="color:#1E4A76">'+pC+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#1E4A76,#4A90D9);height:8px;border-radius:6px;width:'+pC+'%"></div></div></div>'
+    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🌡 온기</span><span style="color:#C05621">'+pW+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#C05621,#F5A55A);height:8px;border-radius:6px;width:'+pW+'%"></div></div></div>'
+    +'<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>💬 표현</span><span style="color:#6B21A8">'+pE+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#6B21A8,#C39BD3);height:8px;border-radius:6px;width:'+pE+'%"></div></div></div>'
+    +'<div><div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px"><span>🌱 회복</span><span style="color:#2A7F6E">'+pR+'%</span></div><div style="background:#E2E8F0;border-radius:6px;height:8px"><div style="background:linear-gradient(90deg,#2A7F6E,#6FCF97);height:8px;border-radius:6px;width:'+pR+'%"></div></div></div>'
     +'</div>'
     +mbtiHtml+compassHtml
     +'<div style="font-size:11px;color:#6B7280;text-align:center;line-height:1.6;padding:14px;border-top:1px solid #E2E8F0;margin-top:8px">'
