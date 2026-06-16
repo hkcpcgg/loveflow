@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-8 · 260617 · 26잔재제거 · 사운드 · 중간토스트 -->
+<!-- 사랑흐름 유료 여행지도 v6-9 · 260617 · 결과화면레이더차트 · Q15쉬어가기 · 카카오2개 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -878,6 +878,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   </div>
 
   <!-- 5: LFRI 5축 ACWER 전체 공개 -->
+  <!-- 레이더 차트 블록 -->
+  <div class="res-block" id="rb_radar" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:22px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06);text-align:center">
+    <div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:14px">LFRI™ · 5축 관계 흐름 지수</div>
+    <svg id="radarSvg" width="100%" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg"></svg>
+  </div>
   <div class="res-block lfri-section" id="rb5">
     <div class="lfri-section-title">LFRI™ · 관계 흐름 지수</div>
     <div class="lfri-grid" id="lfri-rows"></div>
@@ -1272,6 +1277,11 @@ function goNext() {
   if(step===19){step='o3';showOgamStep('so3');return;}
   if(step===23){step='o4';showOgamStep('so4');return;}
   if(step===24){step='o5';showOgamStep('so5');return;}
+  if(step===15){
+    playDing(660,1.5);
+    showMidToast('✦ 절반을 지나왔어요 🌿 잠깐, 숨 한번 고르고 가요');
+    step=16;showStep();return;
+  }
   if(step===26){step=27;showStep();return;}
   if(step===27){step=28;showStep();return;}
   if(step===28){step=29;showStep();return;}
@@ -1508,6 +1518,33 @@ function showResult() {
     }
   });
   document.getElementById('lfri-rows').innerHTML=lh;
+  /* ── 레이더 차트 동적 생성 ── */
+  (function(){
+    var svg=document.getElementById('radarSvg');if(!svg)return;
+    var cx=130,cy=130,R=100;
+    function pt(deg,v){var rad=(deg-90)*Math.PI/180;return [(cx+R*(v/100)*Math.cos(rad)).toFixed(1),(cy+R*(v/100)*Math.sin(rad)).toFixed(1)];}
+    var vals=[aiPct,pC,pW,pE,pR];
+    var degs=[0,72,144,216,288];
+    var colors=['#D4AF37','#4A90D9','#F5A55A','#C39BD3','#6FCF97'];
+    var labels=['관심','연결','온기','표현','회복'];
+    var lx=[130,248,195,62,10],ly=[12,108,238,238,108],la=['middle','start','middle','middle','end'];
+    var h='';
+    /* 격자 원 */
+    [20,40,60,80,100].forEach(function(v){
+      if(v===100){h+='<circle cx="130" cy="130" r="100" fill="none" stroke="#1E4A76" stroke-width="2"/>';}
+      else{var pp=degs.map(function(d){var p=pt(d,v);return p[0]+','+p[1];}).join(' ');h+='<polygon points="'+pp+'" fill="none" stroke="#E2E8F0" stroke-width="1"/>';}
+    });
+    /* 축선 */
+    degs.forEach(function(d){var p=pt(d,100);h+='<line x1="130" y1="130" x2="'+p[0]+'" y2="'+p[1]+'" stroke="#E2E8F0" stroke-width="1"/>';});
+    /* 데이터 영역 */
+    var poly=vals.map(function(v,i){var p=pt(degs[i],v);return p[0]+','+p[1];}).join(' ');
+    h+='<polygon points="'+poly+'" fill="rgba(30,74,118,0.18)" stroke="#1E4A76" stroke-width="2" stroke-linejoin="round"/>';
+    /* 꼭짓점 점 */
+    vals.forEach(function(v,i){var p=pt(degs[i],v);h+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="'+colors[i]+'"/>';});
+    /* 레이블 */
+    labels.forEach(function(lb,i){h+='<text x="'+lx[i]+'" y="'+ly[i]+'" text-anchor="'+la[i]+'" font-size="11" font-weight="800" fill="'+colors[i]+'" font-family="sans-serif">'+lb+'</text>';});
+    svg.innerHTML=h;
+  })();
 
   /* 5축 ACWER 상세 해석 */
   var axisData=[
@@ -1667,7 +1704,11 @@ function saveAsHtml(){
   var pC=pct(sc.C,sc.D), pW=pct(sc.W,sc.G), pE=pct(sc.E,sc.H), pR=pct(sc.R,sc.P);
   var issueDate=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace('.','.').trim();
   var certNum='LF-'+new Date().getFullYear()+'-'+Math.floor(10000+Math.random()*90000);
-  var myId=(collectEmail||'').split('@')[0]||'여행자';
+  var _ei=document.getElementById('collect-email-id')?document.getElementById('collect-email-id').value.trim():'';
+  var _ds=document.getElementById('collect-email-domain')?document.getElementById('collect-email-domain').value:'';
+  var _dc=document.getElementById('collect-email-custom')?document.getElementById('collect-email-custom').value.trim():'';
+  var _domain=_ds==='custom'?_dc:_ds;
+  var myId=_ei?_ei:'여행자';
 
   /* 레이더 차트 SVG */
   function radar(a,c,w,e,r){
@@ -1946,7 +1987,7 @@ function doShare(){
   var t=T[currentCode]||T['DWHR']; var shareUrl=BASE_URL;
   var shareTitle='사랑흐름 · '+t.icon+' '+t.short;
   var shareText='나, 오늘 '+(relNick||relType||'소중한 분')+'과의 관계를 들여다봤어.\n\n'+t.icon+' '+t.short+'\n\n'+t.cath+'\n\n당신도 나를 만나는 여행 떠나볼까요?';
-  if(window.Kakao&&Kakao.isInitialized()){try{Kakao.Share.sendDefault({objectType:'feed',content:{title:shareTitle,description:t.cath,imageUrl:'https://hkcpcgg.github.io/loveflow/og-image.png',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},buttons:[{title:'🧭 나도 떠나보기 →',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]});return;}catch(e){}}
+  if(window.Kakao&&Kakao.isInitialized()){try{Kakao.Share.sendDefault({objectType:'feed',content:{title:shareTitle,description:t.cath,imageUrl:'https://hkcpcgg.github.io/loveflow/og-image.png',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},buttons:[{title:'🧭 결과 보러가기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},{title:'💬 공유·보관하기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]});return;}catch(e){}}
   if(navigator.share){navigator.share({title:shareTitle,text:shareText,url:shareUrl});return;}
   try{navigator.clipboard.writeText(shareText+'\n\n'+shareUrl);showToast('✦ 링크와 메시지를 복사했어요');}catch(e){showToast('공유 링크: '+shareUrl);}
 }
