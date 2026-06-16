@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-5-3 · 260617 · fetch no-cors제거+CORS헤더 · Q26선택 추가 · DB완성 -->
+<!-- 사랑흐름 유료 여행지도 v6-5-4 · 260617 · 보물상자→DB저장연결 · fetch헤더제거 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -981,7 +981,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
       </div>
 
       <div style="border-top:1px solid var(--border);padding-top:14px;display:flex;flex-direction:column;gap:10px">
-        <button onclick="saveAsHtml()"
+        <button onclick="saveAll()"
           style="width:100%;padding:14px;background:var(--navy);border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 4px 16px rgba(30,74,118,0.25)">
           🪙 보물상자에 담기
         </button>
@@ -1636,6 +1636,22 @@ function showResult() {
   }, 700);
 }
 
+/* ── 보물상자 + DB 저장 통합 ── */
+async function saveAll(){
+  var agreeEl=document.getElementById('privacy-agree');
+  if(!agreeEl||!agreeEl.checked){showToast('개인정보 수집 및 이용에 동의해주세요');return;}
+  var id=document.getElementById('collect-email-id').value.trim();
+  if(!id){showToast('이메일 아이디를 입력해주세요');return;}
+  var ds=document.getElementById('collect-email-domain').value;
+  var dc=document.getElementById('collect-email-custom').value.trim();
+  var domain=ds==='custom'?dc:ds;
+  if(!domain){showToast('도메인을 입력해주세요');return;}
+  /* DB 저장 먼저 */
+  await saveEmail();
+  /* HTML 다운로드 */
+  saveAsHtml();
+}
+
 /* ── 보물상자에 담기 (HTML 다운로드) ── */
 function saveAsHtml(){
   var t=T[currentCode]||T['DWHR'];
@@ -1816,7 +1832,7 @@ async function saveEmail(){
   };
   try{
     showToast('여행지도를 저장하고 있어요... 💛');
-    await fetch(DB_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    await fetch(DB_URL,{method:'POST',body:JSON.stringify(payload)});
     showToast('✦ 여행지도가 저장됐어요! 💛');
   }catch(e){
     showToast('전송 오류가 생겼어요. 다시 시도해 주세요.');
