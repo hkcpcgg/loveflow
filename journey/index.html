@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-7 · 260617 · 로딩5축 · saveAsHtml전면교체 -->
+<!-- 사랑흐름 유료 여행지도 v6-8 · 260617 · 26잔재제거 · 사운드 · 중간토스트 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -456,9 +456,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     </div>
   </div>
 
-  <div style="font-size:12px;color:var(--text-mute);margin-bottom:12px;text-align:center">26개 문항으로 당신의 여행지도를 그립니다</div>
+  
   <button class="start-btn" id="btnStart" onclick="startJourney()" disabled>✨ 여행 시작하기 →</button>
-  <div class="start-meta">PART1 나 자신 8문항 + PART2 관계 탐색 18문항</div>
+  
 </div>
 
 <!-- Q1 -->
@@ -769,7 +769,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 
 <div class="step" id="s25"><div class="sec-banner sec-banner-p2"><div class="sec-label">PART 2 · 관계 탐색</div><div class="sec-title">이 관계의 방향을 정해봐요 🌸</div></div><div class="q-num">Q25 · 관계 마무리 방향</div><div class="q-title">이 관계가 어떻게 마무리되길 바라나요?</div><div class="opts" id="o25"><button class="opt" onclick="pick(25,0,'R',2,'회복되길원한다')">회복되길 원한다 — 다시 따뜻해졌으면 한다</button><button class="opt" onclick="pick(25,1,'R',1,'화해하고싶다')">화해하고 싶다 — 앙금 없이 마무리되길</button><button class="opt" onclick="pick(25,2,'P',1,'자연스럽게')">자연스럽게 흘러가길 — 억지로 하지 않겠다</button><button class="opt" onclick="pick(25,3,'P',2,'마음으로만')">마음으로만 — 연락은 안 해도 잘 되길 바란다</button><button class="opt" onclick="pick(25,4,'D',1,'모르겠다')">모르겠다</button></div><div class="nav-row"><button class="btn-back" onclick="goBack()">← 이전</button><button class="btn-next-main" id="next25" onclick="goNext()" style="display:flex;flex:1">다음 →</button></div></div>
 
-<div class="step" id="s26"><div class="sec-banner sec-banner-p2"><div class="sec-label">PART 2 · 마지막 질문</div><div class="sec-title">마지막 한 문항이에요 🧭</div></div><div class="q-num">Q26 · 카타르시스 완결</div><div class="q-title">이 지도를 모두 그리고 나서 — 지금 내 마음은 어떤가요?</div><div class="q-sub">26개의 질문을 모두 지나온 지금 — 솔직하게</div><div class="opts" id="o26"><button class="opt" onclick="pickQ26(0,'후련하다')">후련하다 — 꺼내고 나니 가벼워진 것 같다</button><button class="opt" onclick="pickQ26(1,'눈물이난다')">눈물이 난다 — 말로 표현이 안 된다</button><button class="opt" onclick="pickQ26(2,'더생각해봐야겠다')">더 생각해봐야겠다 — 정리가 필요하다</button><button class="opt" onclick="pickQ26(3,'용기가생겼다')">용기가 생겼다 — 뭔가 해볼 수 있을 것 같다</button><button class="opt" onclick="pickQ26(4,'모르겠다')">모르겠다 — 아직은 복잡하다</button></div><textarea class="ta" id="ans26" placeholder="(선택) 지금 이 순간 떠오르는 것을 자유롭게 적어도 좋아요…" rows="3" style="margin-top:10px"></textarea><div class="nav-row"><button class="btn-back" onclick="goBack()">← 이전</button><button class="btn-next-main" id="next26" onclick="goNext()" style="display:flex;flex:1">다음 →</button></div></div>
+<div class="step" id="s26"><div class="sec-banner sec-banner-p2"><div class="sec-label">PART 2 · 마지막 질문</div><div class="sec-title">마지막 한 문항이에요 🧭</div></div><div class="q-num">Q26 · 카타르시스 완결</div><div class="q-title">이 지도를 모두 그리고 나서 — 지금 내 마음은 어떤가요?</div><div class="q-sub">이 여행을 모두 지나온 지금 — 솔직하게</div><div class="opts" id="o26"><button class="opt" onclick="pickQ26(0,'후련하다')">후련하다 — 꺼내고 나니 가벼워진 것 같다</button><button class="opt" onclick="pickQ26(1,'눈물이난다')">눈물이 난다 — 말로 표현이 안 된다</button><button class="opt" onclick="pickQ26(2,'더생각해봐야겠다')">더 생각해봐야겠다 — 정리가 필요하다</button><button class="opt" onclick="pickQ26(3,'용기가생겼다')">용기가 생겼다 — 뭔가 해볼 수 있을 것 같다</button><button class="opt" onclick="pickQ26(4,'모르겠다')">모르겠다 — 아직은 복잡하다</button></div><textarea class="ta" id="ans26" placeholder="(선택) 지금 이 순간 떠오르는 것을 자유롭게 적어도 좋아요…" rows="3" style="margin-top:10px"></textarea><div class="nav-row"><button class="btn-back" onclick="goBack()">← 이전</button><button class="btn-next-main" id="next26" onclick="goNext()" style="display:flex;flex:1">다음 →</button></div></div>
 
 <!-- Q27 관심지수 -->
 <div class="step" id="s27">
@@ -1222,7 +1222,8 @@ function showStep() {
     el.classList.add('active');
     /* 결과·관계선택·분석은 맨 위로, 질문은 질문 위치로 */
     if(step===100||step===-1||step===99||step===50){
-      window.scrollTo({top:0,behavior:'smooth'});
+      if(step===100){playDing(880,2);setTimeout(function(){var r=document.getElementById('s_result');if(r){var top=window.pageYOffset+r.getBoundingClientRect().top-20;window.scrollTo({top:top,behavior:'smooth'});}},100);}
+      else{window.scrollTo({top:0,behavior:'smooth'});}
     } else {
       setTimeout(function(){
         var rect=el.getBoundingClientRect();
@@ -1261,7 +1262,11 @@ function onTextInput(taId,btnId) {
 
 /* ── 다음/이전 ── */
 function goNext() {
-  if(step===8){showRewardCard();return;}
+  if(step===8){
+    playDing(660,1.5);
+    showMidToast('✦ PART 1 완료 — 나의 여정이 기록됐어요 🌿');
+    showRewardCard();return;
+  }
   if(step===9){step='o1';showOgamStep('so1');return;}
   if(step===14){step='o2';showOgamStep('so2');return;}
   if(step===19){step='o3';showOgamStep('so3');return;}
@@ -1415,7 +1420,7 @@ function showResult() {
     '모르겠다':'복잡한 마음, 그대로 괜찮습니다.\n모르겠다는 것을 아는 것 — 그것도 하나의 발견입니다.'
   };
   var c26=document.getElementById('r-cath26');
-  if(c26) c26.textContent='"'+(cath26Map[q26Ans]||'29개의 문항을 모두 지나왔습니다. 오늘 이 여행, 수고하셨습니다.')+'"';
+  if(c26) c26.textContent='"'+(cath26Map[q26Ans]||'이 여행을 모두 지나왔습니다. 오늘 이 여행, 수고하셨습니다.')+'"';
 
   /* 여행자 유형 */
   document.getElementById('r-icon').textContent=t.icon;
@@ -1944,6 +1949,42 @@ function doShare(){
   if(window.Kakao&&Kakao.isInitialized()){try{Kakao.Share.sendDefault({objectType:'feed',content:{title:shareTitle,description:t.cath,imageUrl:'https://hkcpcgg.github.io/loveflow/og-image.png',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},buttons:[{title:'🧭 나도 떠나보기 →',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]});return;}catch(e){}}
   if(navigator.share){navigator.share({title:shareTitle,text:shareText,url:shareUrl});return;}
   try{navigator.clipboard.writeText(shareText+'\n\n'+shareUrl);showToast('✦ 링크와 메시지를 복사했어요');}catch(e){showToast('공유 링크: '+shareUrl);}
+}
+
+function playError(){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    var osc=ctx.createOscillator();var gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.frequency.value=280;osc.type='sine';
+    gain.gain.setValueAtTime(0.2,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);
+    osc.start(ctx.currentTime);osc.stop(ctx.currentTime+0.4);
+  }catch(e){}
+}
+function playDing(freq,dur){
+  try{
+    var ctx=new(window.AudioContext||window.webkitAudioContext)();
+    var osc=ctx.createOscillator();var gain=ctx.createGain();
+    osc.connect(gain);gain.connect(ctx.destination);
+    osc.frequency.value=freq||880;osc.type='sine';
+    gain.gain.setValueAtTime(0.25,ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+(dur||1.2));
+    osc.start(ctx.currentTime);osc.stop(ctx.currentTime+(dur||1.2));
+  }catch(e){}
+}
+function showMidToast(msg){
+  var el=document.createElement('div');
+  el.textContent=msg;
+  el.style.cssText='position:fixed;top:60px;left:50%;transform:translateX(-50%);background:#1E4A76;color:#fff;padding:12px 20px;border-radius:12px;font-size:13px;font-weight:700;z-index:9999;transition:opacity 0.5s;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.2)';
+  document.body.appendChild(el);
+  setTimeout(function(){el.style.opacity='0';setTimeout(function(){el.remove();},500);},2500);
+}
+function goRelNext(){
+  if(!relNick||relNick.trim()===''){playError();showToast('그 분의 이름을 입력해주세요 💛');return;}
+  if(!myMBTI){playError();showToast('내 MBTI를 선택해주세요');return;}
+  if(!partnerMBTI||partnerMBTI==='UNKNOWN'){playError();showToast('그 분의 MBTI를 선택해주세요');return;}
+  step=1;showStep();
 }
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(function(){t.style.display='none';},3500);}
 
