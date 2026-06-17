@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-12 · 260617 · MBTI오류수정·outerHTML다운로드·PNG품질개선 -->
+<!-- 사랑흐름 유료 여행지도 v6-13-1 · 260617 · PNG제거·PDF추가·저장버튼2개추가·HTML다운로드개선 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -163,6 +163,16 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .analyzing-bar-bg{background:var(--border);border-radius:10px;height:10px;overflow:hidden}
 .analyzing-bar-fill{height:10px;border-radius:10px;width:0%;transition:width 0.85s ease}
 .analyzing-msg{font-size:13px;color:var(--gold-dark);font-weight:700;margin-top:22px;min-height:20px;text-align:center}
+/* ── PDF 인쇄 ── */
+@media print{
+  body{background:white!important;padding:0!important}
+  .page,.step,.hero,.footer-wrap,.progress-wrap,#s_rel,#s_intro,#s_analyzing,#s_mbti,.sec-banner,.q-block,.opts,.next-btn,.res-actions,.collect-box,header,footer{display:none!important;visibility:hidden!important}
+  #s_result{display:block!important;visibility:visible!important;position:absolute!important;left:0!important;top:0!important;width:100%!important;max-width:100%!important;box-shadow:none!important;padding:20px!important}
+  #s_result *{visibility:visible!important}
+  #s_result .res-block{page-break-inside:avoid}
+  *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  svg{max-width:100%!important}
+}
 
 /* ── 중간 보상 카드 ── */
 .reward-card{background:linear-gradient(160deg,#0D1829 0%,#1E4A76 100%);border-radius:22px;padding:36px 24px;text-align:center;margin-bottom:16px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(30,74,118,0.3)}
@@ -266,7 +276,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .compass-num{min-width:48px;font-size:10px;font-weight:900;color:var(--gold-dark);letter-spacing:0.1em;padding-top:2px;flex-shrink:0}
 .compass-text{font-size:14px;color:var(--text);line-height:1.8}
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="page">
@@ -998,6 +1007,17 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
         </button>
       </div>
     </div>
+    <!-- 저장 버튼 -->
+    <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
+      <button onclick="savePDF()"
+        style="width:100%;padding:14px;background:#2A7F6E;border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px">
+        📱 스마트폰에 저장 (PDF)
+      </button>
+      <button onclick="saveAsHtml()"
+        style="width:100%;padding:14px;background:#1E4A76;border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px">
+        💻 컴퓨터에 저장 (HTML)
+      </button>
+    </div>
   </div>
 
 </div>
@@ -1268,11 +1288,7 @@ function onTextInput(taId,btnId) {
 
 /* ── 다음/이전 ── */
 function goNext() {
-  if(step===8){
-    playDing(660,1.5);
-    showMidToast('✦ PART 1 완료 — 나의 여정이 기록됐어요 🌿');
-    showRewardCard();return;
-  }
+  if(step===8){showRewardCard();return;}
   if(step===9){step='o1';showOgamStep('so1');return;}
   if(step===14){step='o2';showOgamStep('so2');return;}
   if(step===19){step='o3';showOgamStep('so3');return;}
@@ -1691,29 +1707,36 @@ async function saveAll(){
   var dc=document.getElementById('collect-email-custom').value.trim();
   var domain=ds==='custom'?dc:ds;
   if(!domain){showToast('도메인을 입력해주세요');return;}
-  /* DB 저장 먼저 */
+  /* DB 저장 */
   await saveEmail();
-  /* HTML 다운로드 */
-  saveAsHtml();
+  showToast('🪙 보물상자에 담겼어요! 아래 버튼으로 저장하세요');
 }
 
 /* ── 보물상자에 담기 (HTML 다운로드) ── */
 function saveAsHtml(){
   var target=relNick||relType||'소중한 분';
-  /* CSS 전체 추출 */
-  var allCSS='';
+  var resultEl=document.getElementById('s_result');
+  if(!resultEl){showToast('결과 화면을 찾을 수 없어요');return;}
+  /* CSS 변수 직접 추출 */
+  var rootSt=getComputedStyle(document.documentElement);
+  var cssVars=':root{';
+  for(var i=0;i<rootSt.length;i++){
+    if(rootSt[i].indexOf('--')===0){
+      cssVars+=rootSt[i]+':'+rootSt.getPropertyValue(rootSt[i])+';';
+    }
+  }
+  cssVars+='}';
+  /* styleSheets 추출 */
+  var allCSS=cssVars+' ';
   try{
-    for(var i=0;i<document.styleSheets.length;i++){
-      var sheet=document.styleSheets[i];
+    for(var si=0;si<document.styleSheets.length;si++){
+      var sheet=document.styleSheets[si];
       try{
         var rules=sheet.cssRules||sheet.rules;
         for(var j=0;j<rules.length;j++){allCSS+=rules[j].cssText+' ';}
       }catch(e){}
     }
   }catch(e){}
-  /* s_result outerHTML 추출 */
-  var resultEl=document.getElementById('s_result');
-  if(!resultEl){showToast('결과 화면을 찾을 수 없어요');return;}
   var bodyHTML=resultEl.outerHTML;
   /* 푸터 추가 */
   var footerHTML='<div style="font-size:10px;color:#6B7280;text-align:center;line-height:1.8;padding:16px;border-top:1px solid #E2E8F0;margin-top:8px">'
@@ -1736,26 +1759,7 @@ function saveAsHtml(){
   a.download=target+'의_사랑흐름_여행지도.html';
   a.click();
   URL.revokeObjectURL(a.href);
-  /* PNG 다운로드 - 품질 개선 */
-  if(window.html2canvas){
-    var dpr=window.devicePixelRatio||1;
-    var sc=Math.min(dpr*2,4);
-    html2canvas(resultEl,{
-      backgroundColor:'#F4F7FA',
-      scale:sc,
-      width:540,
-      windowWidth:540,
-      useCORS:true,
-      logging:false
-    }).then(function(canvas){
-      var imgA=document.createElement('a');
-      imgA.href=canvas.toDataURL('image/png',1.0);
-      imgA.download=target+'의_사랑흐름_여행지도.png';
-      imgA.click();
-    }).catch(function(){});
-  }
-  showToast('🪙 보물상자에 담겼어요! HTML + 이미지 파일을 확인해보세요');
-  /* 아래 기존 코드는 사용 안 함 - return으로 막기 */
+  showToast('💻 여행지도 HTML 파일이 저장됐어요!');
   return;
   var t=T[currentCode]||T['DWHR'];
   var target=relNick||relType||'소중한 분';
@@ -1897,16 +1901,7 @@ function saveAsHtml(){
   a.download=(target)+'의_사랑흐름_여행지도.html';
   a.click();
   URL.revokeObjectURL(a.href);
-  /* PNG 다운로드 (결과 화면 캡처) */
-  var resultEl=document.getElementById('s_result');
-  if(resultEl && window.html2canvas){
-    html2canvas(resultEl,{backgroundColor:'#F4F7FA',scale:2,useCORS:true,logging:false}).then(function(canvas){
-      var imgA=document.createElement('a');
-      imgA.href=canvas.toDataURL('image/png');
-      imgA.download=(target)+'의_사랑흐름_여행지도.png';
-      imgA.click();
-    }).catch(function(){});
-  }
+
   showToast('🪙 보물상자에 담겼어요! HTML + 이미지 파일을 확인해보세요');
 }
 
@@ -2062,6 +2057,12 @@ function doShare(){
   try{navigator.clipboard.writeText(shareText+'\n\n'+shareUrl);showToast('✦ 링크와 메시지를 복사했어요');}catch(e){showToast('공유 링크: '+shareUrl);}
 }
 
+
+/* ── PDF 저장 (window.print) ── */
+function savePDF(){
+  showToast('인쇄 창에서 PDF로 저장을 선택해주세요 📄');
+  setTimeout(function(){window.print();},500);
+}
 function playError(){
   try{
     var ctx=new(window.AudioContext||window.webkitAudioContext)();
