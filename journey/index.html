@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-9-1 · 260617 · 결과화면레이더차트 · Q15쉬어가기 · 카카오2개 · rb_radar블록추가 -->
+<!-- 사랑흐름 유료 여행지도 v6-10 · 260617 · 5글자코드·아이콘흰색·푸터통일·보물상자제거·볼륨조절·닉네임포커스 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -180,7 +180,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .res-hero{background:linear-gradient(160deg,#0D1829 0%,#1E4A76 60%,#2A5F8F 100%);border-radius:22px;padding:32px 22px 28px;text-align:center;margin-bottom:14px;position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(30,74,118,0.3)}
 .res-hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(212,175,55,0.18) 0%,transparent 70%)}
 .res-hero-label{font-size:10px;color:rgba(212,175,55,0.75);font-weight:700;letter-spacing:0.22em;margin-bottom:12px;text-transform:uppercase}
-.res-hero-icon{font-size:44px;margin-bottom:10px;display:block}
+.res-hero-icon{font-size:44px;margin-bottom:10px;display:block;filter:brightness(0) invert(1)}
 .res-hero-code{display:inline-block;background:rgba(212,175,55,0.18);border:1px solid rgba(212,175,55,0.5);color:var(--gold);font-size:20px;font-weight:700;padding:5px 18px;border-radius:10px;letter-spacing:3px;margin-bottom:8px}
 .res-hero-name{font-size:24px;font-weight:900;color:#fff;margin-bottom:4px}
 .res-hero-full{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:16px}
@@ -1434,7 +1434,7 @@ function showResult() {
 
   /* 여행자 유형 */
   document.getElementById('r-icon').textContent=t.icon;
-  document.getElementById('r-code').textContent=currentCode;
+  document.getElementById('r-code').textContent='A'+currentCode;
   document.getElementById('r-name').textContent=t.short;
   document.getElementById('r-full').textContent=t.full;
   document.getElementById('r-cath').textContent=t.cath;
@@ -1915,7 +1915,7 @@ async function saveEmail(){
   var payload={
     action:'saveJourney',
     email:email,
-    lfriCode:currentCode,
+    lfriCode:'A'+currentCode,
     myMBTI:myMBTI,
     ptMBTI:partnerMBTI,
     relType:relType,
@@ -1987,7 +1987,7 @@ function doShare(){
   var t=T[currentCode]||T['DWHR']; var shareUrl=BASE_URL;
   var shareTitle='사랑흐름 · '+t.icon+' '+t.short;
   var shareText='나, 오늘 '+(relNick||relType||'소중한 분')+'과의 관계를 들여다봤어.\n\n'+t.icon+' '+t.short+'\n\n'+t.cath+'\n\n당신도 나를 만나는 여행 떠나볼까요?';
-  if(window.Kakao&&Kakao.isInitialized()){try{Kakao.Share.sendDefault({objectType:'feed',content:{title:shareTitle,description:t.cath,imageUrl:'https://hkcpcgg.github.io/loveflow/og-image.png',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},buttons:[{title:'🧭 결과 보러가기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},{title:'💬 공유·보관하기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]});return;}catch(e){}}
+  if(window.Kakao&&Kakao.isInitialized()){try{Kakao.Share.sendDefault({objectType:'feed',content:{title:shareTitle,description:t.cath,imageUrl:'https://hkcpcgg.github.io/loveflow/og-image.png',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},buttons:[{title:'🧭 내 여행지도 다시 보기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},{title:'💛 소중한 분께 여행 선물하기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]});return;}catch(e){}}
   if(navigator.share){navigator.share({title:shareTitle,text:shareText,url:shareUrl});return;}
   try{navigator.clipboard.writeText(shareText+'\n\n'+shareUrl);showToast('✦ 링크와 메시지를 복사했어요');}catch(e){showToast('공유 링크: '+shareUrl);}
 }
@@ -1998,7 +1998,7 @@ function playError(){
     var osc=ctx.createOscillator();var gain=ctx.createGain();
     osc.connect(gain);gain.connect(ctx.destination);
     osc.frequency.value=280;osc.type='sine';
-    gain.gain.setValueAtTime(0.2,ctx.currentTime);
+    gain.gain.setValueAtTime(0.06,ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+0.4);
     osc.start(ctx.currentTime);osc.stop(ctx.currentTime+0.4);
   }catch(e){}
@@ -2009,7 +2009,7 @@ function playDing(freq,dur){
     var osc=ctx.createOscillator();var gain=ctx.createGain();
     osc.connect(gain);gain.connect(ctx.destination);
     osc.frequency.value=freq||880;osc.type='sine';
-    gain.gain.setValueAtTime(0.25,ctx.currentTime);
+    gain.gain.setValueAtTime(0.08,ctx.currentTime);
     gain.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+(dur||1.2));
     osc.start(ctx.currentTime);osc.stop(ctx.currentTime+(dur||1.2));
   }catch(e){}
@@ -2022,7 +2022,7 @@ function showMidToast(msg){
   setTimeout(function(){el.style.opacity='0';setTimeout(function(){el.remove();},500);},2500);
 }
 function goRelNext(){
-  if(!relNick||relNick.trim()===''){playError();showToast('그 분의 이름을 입력해주세요 💛');return;}
+  if(!relNick||relNick.trim()===''){playError();showToast('그 분의 이름을 입력해주세요 💛');var ni=document.getElementById('rel-nick-input');if(ni)ni.focus();return;}
   if(!myMBTI){playError();showToast('내 MBTI를 선택해주세요');return;}
   if(!partnerMBTI||partnerMBTI==='UNKNOWN'){playError();showToast('그 분의 MBTI를 선택해주세요');return;}
   step=1;showStep();
