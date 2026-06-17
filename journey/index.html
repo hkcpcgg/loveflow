@@ -9,7 +9,8 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-15-2 · 260617 · PDF완성·히어로헤더·타이틀동적·토스트숨김·SVG viewBox확장 -->
+<!-- 사랑흐름 유료 여행지도 v6-15-3 · 260617 · 인쇄CSS재설계: 와일드카드avoid제거(빈공백해결)·레이더블록분리+220px축소·root13px압축(9장→5장)·@page여백·매장하단푸터8pt고정·머리글끄기안내토스트 -->
+<!-- 잔여과제(v6-15-4 예정): 관심축 게이지 상태텍스트 누락 + 나침반 STEP 빈칸(FI×FE 등 미매칭) 버그 수정 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -163,17 +164,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .analyzing-bar-bg{background:var(--border);border-radius:10px;height:10px;overflow:hidden}
 .analyzing-bar-fill{height:10px;border-radius:10px;width:0%;transition:width 0.85s ease}
 .analyzing-msg{font-size:13px;color:var(--gold-dark);font-weight:700;margin-top:22px;min-height:20px;text-align:center}
-/* ── PDF 인쇄 ── */
+/* ══════════════════════════════
+   PDF 인쇄 (v6-15-3 재설계)
+   - 와일드카드 avoid 제거(빈 공백 주범)
+   - 레이더 블록 분리 + 220px 축소
+   - root 13px로 페이지 압축
+   - 매 장 하단 8pt 회색 푸터 고정
+══════════════════════════════ */
+@page{ size:A4; margin:11mm 9mm; }
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+  /* 전체 폰트 축소 → 페이지 수 압축 (9장 → 5장 목표) */
+  html{font-size:13px!important}
   body{background:white!important;margin:0!important;padding:0!important}
-  .page{display:block!important}
+  .page{display:block!important;padding:0!important;max-width:none!important}
   .step{display:none!important}
-  footer,.toast,.no-print,#rb9,button{display:none!important}
-  #s_result{display:block!important;width:100%!important;max-width:540px!important;margin:0 auto!important;box-shadow:none!important;background:white!important;position:static!important;padding:20px!important}
-  #s_result *{visibility:visible!important;page-break-inside:avoid!important}
-  .res-block{page-break-inside:avoid!important;break-inside:avoid!important}
-  svg{overflow:visible!important;max-width:100%!important;height:auto!important}
+  .toast,.no-print,#rb9,button{display:none!important}
+  /* 결과 영역: 종이 폭 전체 사용 (사파리 대응 max-width:none) */
+  #s_result{display:block!important;width:100%!important;max-width:none!important;margin:0 auto!important;box-shadow:none!important;background:white!important;position:static!important;padding:0 2mm 26mm 2mm!important}
+  /* ★ 와일드카드 avoid 제거 — 자식 요소는 자유롭게 분할 (빈 공백 해결) */
+  #s_result *{page-break-inside:auto!important}
+  /* ★ 블록 단위로만 분할 방지 (크롬 break-inside + 사파리 page-break-inside 병기) */
+  .res-block{display:block!important;page-break-inside:avoid!important;break-inside:avoid!important;margin-bottom:7px!important;box-shadow:none!important}
+  /* ★ 레이더 블록만 예외: 분할 허용 + 크기 축소로 한 장 독점 방지 */
+  .radar-block{page-break-inside:auto!important;break-inside:auto!important}
+  #rb_radar svg{width:220px!important;max-width:220px!important;height:220px!important;margin:0 auto!important}
+  svg{overflow:visible!important;height:auto!important}
+  /* 본문 줄간격 축소(가독성 유지선) */
+  #s_result div{line-height:1.6}
+  /* ★ 매 장 하단 고정 푸터 — 8pt 회색 (대표님 지시: 매 장 반복 OK) */
+  #siteFooter{display:block!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;background:#fff!important;border-top:1px solid #E2E8F0!important;padding:3px 9mm!important;margin:0!important;font-size:8px!important;line-height:1.45!important;color:#9CA3AF!important;text-align:center!important;z-index:9999}
+  #siteFooter a{color:#9CA3AF!important;text-decoration:none!important}
+  #siteFooter span{font-size:8px!important;color:#6B7785!important}
 }
 
 /* ── 중간 보상 카드 ── */
@@ -906,7 +928,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div><span style="font-weight:900">Gottman(1994)</span> — 관계에서 긍정적 관심의 비율이 5:1 이상일 때 관계가 안정적으로 유지됩니다.</div>
   </div>
   <!-- 레이더 차트 블록 -->
-  <div class="res-block" id="rb_radar" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:22px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06);text-align:center">
+  <div class="res-block radar-block" id="rb_radar" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:22px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06);text-align:center">
     <div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:14px">LFRI™ · 5축 관계 흐름 지수</div>
     <svg id="radarSvg" width="100%" viewBox="-20 -20 300 300" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
@@ -2108,8 +2130,8 @@ function doShare(){
 
 /* ── PDF 저장 (window.print) ── */
 function savePDF(){
-  showToast('인쇄 버튼을 누르시면 PDF로 저장할 수 있어요 🖨️');
-  setTimeout(function(){window.print();},800);
+  showToast('🖨️ PDF 저장 팁 — 인쇄 설정에서 "머리글 및 바닥글"을 꺼주시면 가장 깔끔하게 저장됩니다');
+  setTimeout(function(){window.print();},1600);
 }
 function playError(){
   try{
@@ -2170,7 +2192,7 @@ document.addEventListener('DOMContentLoaded',function(){
 });
 </script>
 <!-- 푸터 -->
-<div style="background:#fff;border-top:1px solid #E2E8F0;padding:12px 16px;margin-top:8px;text-align:center;font-size:9px;color:var(--text-mute);line-height:1.8">
+<div id="siteFooter" style="background:#fff;border-top:1px solid #E2E8F0;padding:12px 16px;margin-top:8px;text-align:center;font-size:9px;color:var(--text-mute);line-height:1.8">
   <span style="font-size:11px;font-weight:900;color:var(--navy)">사랑흐름 · Love Flow™</span> · 대표 황규찬 | 경기도 파주시 매봉길 17-13 | 사업자등록번호 285-17-02228 | 통신판매업신고번호 제2025-경기파주-1747호 | 개인정보보호책임자 유상열 · 제휴문의 <a href="mailto:hkcpcgg@gmail.com" style="color:var(--navy);font-weight:700">hkcpcgg@gmail.com</a> 이메일 무단수집금지 · © 2026 사랑흐름 · LFRI™. All rights reserved. Unauthorized reproduction strictly prohibited. ⚠️ 무단 복제·배포·스크래핑·상업적 이용 엄금 | 위반 시 저작권법 제136조에 따라 민·형사상 법적 조치
 </div>
 </body>
