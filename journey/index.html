@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-11 · 260617 · 닉네임자동대체·카카오버튼1개·HTML+PNG동시다운로드 -->
+<!-- 사랑흐름 유료 여행지도 v6-12 · 260617 · MBTI오류수정·outerHTML다운로드·PNG품질개선 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -1137,7 +1137,7 @@ function pickPtMbti(code,btn) {
 function validateStart() {
   relNick=(document.getElementById('relNick')?document.getElementById('relNick').value:'').trim();
   var b=document.getElementById('btnStart');
-  if(b) b.disabled=!(!!relType && !!myMBTI && !!partnerMBTI && partnerMBTI!=='UNKNOWN');
+  if(b) b.disabled=!(!!relType && !!myMBTI);
 }
 
 /* ── INTRO 공감 선택 ── */
@@ -1699,6 +1699,64 @@ async function saveAll(){
 
 /* ── 보물상자에 담기 (HTML 다운로드) ── */
 function saveAsHtml(){
+  var target=relNick||relType||'소중한 분';
+  /* CSS 전체 추출 */
+  var allCSS='';
+  try{
+    for(var i=0;i<document.styleSheets.length;i++){
+      var sheet=document.styleSheets[i];
+      try{
+        var rules=sheet.cssRules||sheet.rules;
+        for(var j=0;j<rules.length;j++){allCSS+=rules[j].cssText+' ';}
+      }catch(e){}
+    }
+  }catch(e){}
+  /* s_result outerHTML 추출 */
+  var resultEl=document.getElementById('s_result');
+  if(!resultEl){showToast('결과 화면을 찾을 수 없어요');return;}
+  var bodyHTML=resultEl.outerHTML;
+  /* 푸터 추가 */
+  var footerHTML='<div style="font-size:10px;color:#6B7280;text-align:center;line-height:1.8;padding:16px;border-top:1px solid #E2E8F0;margin-top:8px">'
+    +'<strong>사랑흐름 · Love Flow™</strong> · 대표 황규찬 | 경기도 파주시 매봉길 17-13<br>'
+    +'사업자등록번호 285-17-02228 | 통신판매업신고번호 제2025-경기파주-1747호 | 개인정보보호책임자 유상열<br>'
+    +'제휴문의 hkcpcgg@gmail.com | 이메일 무단수집금지 | www.loveflow.ai.kr<br>'
+    +'© 2026 사랑흐름 · LFRI™. All rights reserved. ⚠️ 무단 복제·배포·상업적 이용 엄금 | 위반 시 민·형사상 법적 조치</div>';
+  var html='<!DOCTYPE html><html lang="ko"><head>'
+    +'<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">'
+    +'<title>'+target+'와의 사랑흐름 여행지도</title>'
+    +'<style>body{max-width:540px;margin:0 auto;padding:20px;background:#F4F7FA;font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;color:#1E2A3A}'+allCSS+'</style>'
+    +'</head><body>'
+    +bodyHTML
+    +footerHTML
+    +'</body></html>';
+  /* HTML 다운로드 */
+  var blob=new Blob([html],{type:'text/html;charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=target+'의_사랑흐름_여행지도.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  /* PNG 다운로드 - 품질 개선 */
+  if(window.html2canvas){
+    var dpr=window.devicePixelRatio||1;
+    var sc=Math.min(dpr*2,4);
+    html2canvas(resultEl,{
+      backgroundColor:'#F4F7FA',
+      scale:sc,
+      width:540,
+      windowWidth:540,
+      useCORS:true,
+      logging:false
+    }).then(function(canvas){
+      var imgA=document.createElement('a');
+      imgA.href=canvas.toDataURL('image/png',1.0);
+      imgA.download=target+'의_사랑흐름_여행지도.png';
+      imgA.click();
+    }).catch(function(){});
+  }
+  showToast('🪙 보물상자에 담겼어요! HTML + 이미지 파일을 확인해보세요');
+  /* 아래 기존 코드는 사용 안 함 - return으로 막기 */
+  return;
   var t=T[currentCode]||T['DWHR'];
   var target=relNick||relType||'소중한 분';
   var ai2=Math.min(100,Math.round((attentionScore/9)*100));
