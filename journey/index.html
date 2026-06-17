@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-15-1 · 260617 · @mediaPrint재수정·블록순서변경·savePDF타이밍 -->
+<!-- 사랑흐름 유료 여행지도 v6-15-2 · 260617 · PDF완성·히어로헤더·타이틀동적·토스트숨김·SVG viewBox확장 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -167,11 +167,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
   body{background:white!important;margin:0!important;padding:0!important}
-  footer,#s_intro,#s_rel,#s_analyzing,#s_mbti,#rb9,button,.no-print{display:none!important}
-  .page,.step{display:block!important}
+  .page{display:block!important}
+  .step{display:none!important}
+  footer,.toast,.no-print,#rb9,button{display:none!important}
   #s_result{display:block!important;width:100%!important;max-width:540px!important;margin:0 auto!important;box-shadow:none!important;background:white!important;position:static!important;padding:20px!important}
+  #s_result *{visibility:visible!important;page-break-inside:avoid!important}
   .res-block{page-break-inside:avoid!important;break-inside:avoid!important}
-  svg{max-width:100%!important;height:auto!important}
+  svg{overflow:visible!important;max-width:100%!important;height:auto!important}
 }
 
 /* ── 중간 보상 카드 ── */
@@ -852,6 +854,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 <div class="step" id="s_result">
 
   <!-- 0: Q26 카타르시스 -->
+  <!-- PDF 히어로 헤더 (인쇄 시 맨 위에 표시) -->
+  <div id="rb_pdf_header" class="res-block" style="text-align:center;padding:20px 0 14px;border-bottom:2px solid var(--gold);margin-bottom:18px">
+    <div style="font-size:11px;color:var(--gold-dark);font-weight:700;letter-spacing:0.2em;margin-bottom:6px">🧭 LOVE FLOW™ · 여행지도</div>
+    <div style="font-size:22px;font-weight:900;color:var(--navy);margin-bottom:4px" id="pdf-title-name">나로부터 시작되는 관계의 여행</div>
+    <div style="font-size:12px;color:var(--text-sub)" id="pdf-title-sub"></div>
+  </div>
   <div class="res-block cath26-card" id="rb0">
     <div class="cath26-label">🧭 지도를 다 그리고 난 후, 당신의 마음</div>
     <div class="cath26-text" id="r-cath26"></div>
@@ -900,7 +908,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   <!-- 레이더 차트 블록 -->
   <div class="res-block" id="rb_radar" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:22px 18px;margin-bottom:14px;box-shadow:0 4px 16px rgba(0,0,0,0.06);text-align:center">
     <div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:14px">LFRI™ · 5축 관계 흐름 지수</div>
-    <svg id="radarSvg" width="100%" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg"></svg>
+    <svg id="radarSvg" width="100%" viewBox="-20 -20 300 300" xmlns="http://www.w3.org/2000/svg"></svg>
   </div>
   <div class="res-block lfri-section" id="rb5">
     <div class="lfri-section-title">LFRI™ · 관계 흐름 지수</div>
@@ -1563,6 +1571,12 @@ function showResult() {
     }
   });
   document.getElementById('lfri-rows').innerHTML=lh;
+  /* 타이틀 동적 변경 */
+  var tgt=relNick||relType||'소중한 분';
+  document.title=tgt+'님의 사랑흐름 여행지도';
+  /* PDF 히어로 헤더 내용 세팅 */
+  var pdfSub=document.getElementById('pdf-title-sub');
+  if(pdfSub) pdfSub.textContent=tgt+'님과의 여행지도 · '+new Date().toLocaleDateString('ko-KR');
   /* ── 레이더 차트 동적 생성 ── */
   (function(){
     var svg=document.getElementById('radarSvg');if(!svg)return;
@@ -1714,7 +1728,7 @@ function showResult() {
   }
 
   /* 블록 순차 페이드인 */
-  var blocks=['rb0','rb1','rb2','rb3','rb3b','rb4','rb_academic','rb_radar','rb5','rb6m','rb7c','rb8a','rb_attention','rb_cert','rb10','rb8','rb9','rb_letter','rb_next'];
+  var blocks=['rb_pdf_header','rb0','rb1','rb2','rb3','rb3b','rb4','rb_academic','rb_radar','rb5','rb6m','rb7c','rb8a','rb_attention','rb_cert','rb10','rb8','rb9','rb_letter','rb_next'];
   blocks.forEach(function(id,i){
     setTimeout(function(){ var el=document.getElementById(id); if(el) el.classList.add('show'); }, i*180);
   });
@@ -1816,7 +1830,7 @@ function saveAsHtml(){
     var lines='';
     [0,72,144,216,288].forEach(function(d){var pp=pt(d,100);lines+='<line x1="'+cx+'" y1="'+cy+'" x2="'+pp[0]+'" y2="'+pp[1]+'" stroke="#E2E8F0" stroke-width="1"/>';});
     [20,40,60,80,100].forEach(function(v){var pts=[0,72,144,216,288].map(function(d){var pp=pt(d,v);return pp[0]+','+pp[1];}).join(' ');lines+=(v===100?'<circle cx="'+cx+'" cy="'+cy+'" r="'+R+'" fill="none" stroke="#1E4A76" stroke-width="2"/>':'<polygon points="'+pts+'" fill="none" stroke="#E2E8F0" stroke-width="1"/>');});
-    return '<svg width="260" height="260" viewBox="0 0 260 260" xmlns="http://www.w3.org/2000/svg">'
+    return '<svg width="100%" viewBox="-20 -20 300 300" xmlns="http://www.w3.org/2000/svg">'
       +lines
       +'<polygon points="'+poly+'" fill="rgba(30,74,118,0.18)" stroke="#1E4A76" stroke-width="2" stroke-linejoin="round"/>'
       +'<circle cx="'+p0[0]+'" cy="'+p0[1]+'" r="4" fill="#D4AF37"/>'
