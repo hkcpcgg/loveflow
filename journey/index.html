@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-10 · 260617 · 5글자코드·아이콘흰색·푸터통일·보물상자제거·볼륨조절·닉네임포커스 -->
+<!-- 사랑흐름 유료 여행지도 v6-11 · 260617 · 닉네임자동대체·카카오버튼1개·HTML+PNG동시다운로드 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -266,6 +266,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .compass-num{min-width:48px;font-size:10px;font-weight:900;color:var(--gold-dark);letter-spacing:0.1em;padding-top:2px;flex-shrink:0}
 .compass-text{font-size:14px;color:var(--text);line-height:1.8}
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
 <div class="page">
@@ -1136,7 +1137,7 @@ function pickPtMbti(code,btn) {
 function validateStart() {
   relNick=(document.getElementById('relNick')?document.getElementById('relNick').value:'').trim();
   var b=document.getElementById('btnStart');
-  if(b) b.disabled=!(!!relType && !!myMBTI);
+  if(b) b.disabled=!(!!relType && !!myMBTI && !!partnerMBTI && partnerMBTI!=='UNKNOWN');
 }
 
 /* ── INTRO 공감 선택 ── */
@@ -1831,13 +1832,24 @@ function saveAsHtml(){
     +'⚠️ 무단 복제·배포·상업적 이용 엄금 | 위반 시 민·형사상 법적 조치</div>'
     +'</body></html>';
 
+  /* HTML 다운로드 */
   var blob=new Blob([html],{type:'text/html;charset=utf-8'});
   var a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
   a.download=(target)+'의_사랑흐름_여행지도.html';
   a.click();
   URL.revokeObjectURL(a.href);
-  showToast('🪙 보물상자에 담겼어요! 저장된 파일을 열어보세요');
+  /* PNG 다운로드 (결과 화면 캡처) */
+  var resultEl=document.getElementById('s_result');
+  if(resultEl && window.html2canvas){
+    html2canvas(resultEl,{backgroundColor:'#F4F7FA',scale:2,useCORS:true,logging:false}).then(function(canvas){
+      var imgA=document.createElement('a');
+      imgA.href=canvas.toDataURL('image/png');
+      imgA.download=(target)+'의_사랑흐름_여행지도.png';
+      imgA.click();
+    }).catch(function(){});
+  }
+  showToast('🪙 보물상자에 담겼어요! HTML + 이미지 파일을 확인해보세요');
 }
 
 function toggleCustomDomain(sel){var c=document.getElementById('collect-email-custom');if(c) c.style.display=sel.value==='custom'?'block':'none';}
@@ -1987,7 +1999,7 @@ function doShare(){
   var t=T[currentCode]||T['DWHR']; var shareUrl=BASE_URL;
   var shareTitle='사랑흐름 · '+t.icon+' '+t.short;
   var shareText='나, 오늘 '+(relNick||relType||'소중한 분')+'과의 관계를 들여다봤어.\n\n'+t.icon+' '+t.short+'\n\n'+t.cath+'\n\n당신도 나를 만나는 여행 떠나볼까요?';
-  if(window.Kakao&&Kakao.isInitialized()){try{Kakao.Share.sendDefault({objectType:'feed',content:{title:shareTitle,description:t.cath,imageUrl:'https://hkcpcgg.github.io/loveflow/og-image.png',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},buttons:[{title:'🧭 내 여행지도 다시 보기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},{title:'💛 소중한 분께 여행 선물하기',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}}]});return;}catch(e){}}
+  if(window.Kakao&&Kakao.isInitialized()){try{Kakao.Share.sendDefault({objectType:'feed',content:{title:shareTitle,description:t.cath,imageUrl:'https://hkcpcgg.github.io/loveflow/og-image.png',link:{mobileWebUrl:shareUrl,webUrl:shareUrl}},buttons:[{title:'💛 소중한 분께 무료 여행 선물하기',link:{mobileWebUrl:'https://www.loveflow.ai.kr',webUrl:'https://www.loveflow.ai.kr'}}]});return;}catch(e){}}
   if(navigator.share){navigator.share({title:shareTitle,text:shareText,url:shareUrl});return;}
   try{navigator.clipboard.writeText(shareText+'\n\n'+shareUrl);showToast('✦ 링크와 메시지를 복사했어요');}catch(e){showToast('공유 링크: '+shareUrl);}
 }
@@ -2022,7 +2034,10 @@ function showMidToast(msg){
   setTimeout(function(){el.style.opacity='0';setTimeout(function(){el.remove();},500);},2500);
 }
 function goRelNext(){
-  if(!relNick||relNick.trim()===''){playError();showToast('그 분의 이름을 입력해주세요 💛');var ni=document.getElementById('rel-nick-input');if(ni)ni.focus();return;}
+  /* 닉네임 없으면 관계유형으로 자동 대체 */
+  if(!relNick||relNick.trim()===''){
+    relNick=relType||'소중한 분';
+  }
   if(!myMBTI){playError();showToast('내 MBTI를 선택해주세요');return;}
   if(!partnerMBTI||partnerMBTI==='UNKNOWN'){playError();showToast('그 분의 MBTI를 선택해주세요');return;}
   step=1;showStep();
