@@ -9,12 +9,11 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-16-0 · 260617 · 결과지 4막서사 재설계 -->
-<!-- [구조] 1막 나를만나다 / 2막 관계를읽다 / 3막 길을찾다 / 4막 다음여정 -->
-<!-- [삭제] LFRI게이지카드(레이더중복) · 진단초반 학술블록(편지로 일원화) -->
-<!-- [버그] 나침반STEP 범용fallback(빈칸해결) · 증명서 여행자=나/관계대상=닉네임 -->
-<!-- [철학] ①정체성"진단아닌번역" ②막사이 사랑흐름의목소리3 ③오늘가져가는것 ④rb10 시적여운 유지 -->
-<!-- [잔여 v6-16-1] PDF 글자깨짐(5축카드영문·증명서박스) + 코드(ACWHP) 일관성 -->
+<!-- 사랑흐름 유료 여행지도 v6-16-1 · 260617 · 최종 마무리 -->
+<!-- [v6-16-1] PDF 흑백음영테마(화면=컬러/인쇄=흑백) · 자간제거로 글자깨짐 교정 · 편지버튼→goToLetter 연결(이메일·LFRI코드·점수 자동전달) -->
+<!-- [구조] 4막: 나를만나다 / 관계를읽다 / 길을찾다 / 다음여정 -->
+<!-- [완료내역] 게이지카드삭제 · 학술일원화 · 나침반STEP범용fallback · 증명서 여행자=나/관계대상=닉네임 · 철학장치4 · 인쇄CSS · 흑백음영 · 편지연동 -->
+<!-- [확인요망] 흑백 첫 출력 — 잔존 깨짐이나 음영 어색한 곳 있으면 그 지점만 미세조정 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -200,6 +199,34 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   #siteFooter{display:block!important;position:fixed!important;left:0!important;right:0!important;bottom:0!important;background:#fff!important;border-top:1px solid #E2E8F0!important;padding:3px 9mm!important;margin:0!important;font-size:8px!important;line-height:1.45!important;color:#9CA3AF!important;text-align:center!important;z-index:9999}
   #siteFooter a{color:#9CA3AF!important;text-decoration:none!important}
   #siteFooter span{font-size:8px!important;color:#6B7785!important}
+
+  /* ══════════════════════════════
+     PDF 흑백 음영 테마 (v6-16-1)
+     화면=컬러 유지 / 인쇄만 흑백 음영
+     → 잉크 절약 + 진한배경 위 흰글자 깨짐 근본 해소
+  ══════════════════════════════ */
+  /* ★ 자간 전면 제거 — 작은글자+자간이 PDF 글자깨짐의 1차 원인 */
+  *{letter-spacing:normal!important}
+  /* 진한 배경 카드 → 연회색 배경 + 검정 글자 */
+  #rb3,#rb6m,#rb_cert,#rb10,#rb_letter{background:#f2f2f2!important;border:1px solid #999!important;box-shadow:none!important}
+  #rb3 *,#rb6m *,#rb_cert *,#rb10 *,#rb_letter *{color:#1a1a1a!important;border-color:#999!important}
+  /* 증명서 점수 게이지 막대 → 음영 */
+  #cert-scores [style*="width"]{background:#666!important}
+  /* 여행자 유형 코드박스(ACWHR) → 진회색 음영 */
+  .res-hero-code{background:#444!important;color:#fff!important}
+  /* '오늘 가져가는 것' 골드 카드 → 연회색 */
+  #rb_takeaway{background:#f7f7f7!important;border:1px solid #999!important;box-shadow:none!important}
+  #rb_takeaway *{color:#1a1a1a!important}
+  /* 5축 컬러 카드 → 음영 농도로 구분 */
+  .axis-card{background:#ededed!important;border:1px solid #aaa!important;box-shadow:none!important}
+  .axis-card-name{color:#111!important}
+  .axis-card-eng{color:#555!important}
+  /* 진행바 완료 점 → 음영 */
+  .prog-dot.done{background:#666!important}
+  /* 레이더 차트 → 흑백 */
+  #rb_radar svg{filter:grayscale(1) contrast(1.05)!important}
+  /* 인터루드(사랑흐름의 목소리) 골드라인 → 진회색 */
+  .interlude{border-left-color:#666!important;box-shadow:none!important}
 }
 
 /* ── 중간 보상 카드 ── */
@@ -1079,7 +1106,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
       <div style="margin-bottom:8px">Smyth(1998)는 감정 표현 글쓰기가 신체적·심리적 건강 지표를 동시에 개선하는 유일한 비약물적 개입임을 입증했습니다.</div>
       <div>보내지 않아도 됩니다. 읽히지 않아도 됩니다.<br>꺼내는 것만으로, 막혔던 흐름이 다시 움직입니다.</div>
     </div>
-    <a href="https://www.loveflow.ai.kr" style="display:block;width:100%;padding:14px;background:var(--gold);border:none;border-radius:12px;color:#1E2A3A;font-size:14px;font-weight:900;text-align:center;text-decoration:none;box-sizing:border-box">✉️ 마음편지 쓰러 가기</a>
+    <a href="javascript:void(0)" onclick="goToLetter();return false;" style="display:block;width:100%;padding:14px;background:var(--gold);border:none;border-radius:12px;color:#1E2A3A;font-size:14px;font-weight:900;text-align:center;text-decoration:none;box-sizing:border-box;cursor:pointer">✉️ 마음편지 쓰러 가기</a>
   </div>
   <div class="res-block" id="rb_next" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 18px;margin-bottom:14px;text-align:center">
     <div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:10px">💛 소중한 분께 이 여행을 선물하세요</div>
