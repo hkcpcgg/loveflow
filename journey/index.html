@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-14-3 · 260617 · 테스트모드삭제 -->
+<!-- 사랑흐름 유료 여행지도 v6-14-4 · 260617 · 테스트모드재추가 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -1096,6 +1096,7 @@ var attentionScore = 0; /* 관심지수 */
 var picked = {}, multiPicked = {}, introPicked = {};
 var relType = '', relNick = '', myMBTI = '', partnerMBTI = 'UNKNOWN';
 var currentCode = '', q26Ans = '', emailSaved = false;
+var TEST_MODE = location.search.indexOf('test=1') > -1;
 
 var VID = 'v_' + Math.random().toString(36).substr(2,9);
 
@@ -2113,6 +2114,13 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('next16').style.display='flex';
   step=-2; introStep=1;
   updateProg();
+  if(TEST_MODE){
+    currentCode='ACGHR';relType='배우자·연인';relNick='테스트님';
+    myMBTI='ISFJ';partnerMBTI='INFJ';
+    sc={C:6,D:2,W:4,G:3,E:3,H:4,R:5,P:2};attentionScore=6;
+    step=100;showStep();
+    setTimeout(function(){showResult();},500);
+  }
 });
 </script>
 <!-- 푸터 -->
