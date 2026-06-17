@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-13-1 · 260617 · PNG제거·PDF추가·저장버튼2개추가·HTML다운로드개선 -->
+<!-- 사랑흐름 유료 여행지도 v6-14 · 260617 · 보물상자문구수정·버튼문구·테스트모드 -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -974,7 +974,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div style="background:#fff;border:2px solid var(--gold);border-radius:20px;padding:22px 18px;text-align:center">
       <div style="font-size:11px;color:var(--gold-dark);font-weight:700;letter-spacing:0.14em;margin-bottom:6px">🗝 내 소중한 여행지도</div>
       <div style="font-size:17px;font-weight:900;color:var(--navy);margin-bottom:6px">보물상자에 담기</div>
-      <div style="font-size:12px;color:var(--text-sub);margin-bottom:16px">✅ 이메일을 입력하시면 여행지도가 저장됩니다</div>
+      <div style="font-size:12px;color:var(--text-sub);margin-bottom:16px;line-height:1.7">💛 이메일을 남겨주시면<br>사랑흐름이 당신의 여행지도를 기억합니다</div>
 
       <!-- 이메일 입력 세로 레이아웃 -->
       <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
@@ -1011,7 +1011,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div style="margin-top:14px;display:flex;flex-direction:column;gap:10px">
       <button onclick="savePDF()"
         style="width:100%;padding:14px;background:#2A7F6E;border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px">
-        📱 스마트폰에 저장 (PDF)
+        🖨️ 인쇄하기 / PDF 저장
       </button>
       <button onclick="saveAsHtml()"
         style="width:100%;padding:14px;background:#1E4A76;border:none;border-radius:14px;color:#fff;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px">
@@ -1096,6 +1096,22 @@ var attentionScore = 0; /* 관심지수 */
 var picked = {}, multiPicked = {}, introPicked = {};
 var relType = '', relNick = '', myMBTI = '', partnerMBTI = 'UNKNOWN';
 var currentCode = '', q26Ans = '', emailSaved = false;
+
+/* ── 테스트 모드 (URL에 ?test=1 추가 시 결과 화면 바로 진입) ── */
+(function(){
+  if(location.search.indexOf('test=1') > -1){
+    currentCode='ACGHR';
+    relType='배우자·연인';
+    relNick='테스트님';
+    myMBTI='ISFJ';
+    partnerMBTI='INFJ';
+    sc={C:6,D:2,W:4,G:3,E:3,H:4,R:5,P:2};
+    attentionScore=6;
+    window.addEventListener('DOMContentLoaded', function(){
+      step=100; showStep();
+    });
+  }
+})();
 var VID = 'v_' + Math.random().toString(36).substr(2,9);
 
 /* ── 슬라이드 카드 ── */
@@ -2060,7 +2076,7 @@ function doShare(){
 
 /* ── PDF 저장 (window.print) ── */
 function savePDF(){
-  showToast('인쇄 창에서 PDF로 저장을 선택해주세요 📄');
+  showToast('인쇄 버튼을 누르시면 PDF로 저장할 수 있어요 🖨️');
   setTimeout(function(){window.print();},500);
 }
 function playError(){
