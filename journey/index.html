@@ -9,11 +9,16 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v6-16-1 · 260617 · 최종 마무리 -->
-<!-- [v6-16-1] PDF 흑백음영테마(화면=컬러/인쇄=흑백) · 자간제거로 글자깨짐 교정 · 편지버튼→goToLetter 연결(이메일·LFRI코드·점수 자동전달) -->
+<!-- 사랑흐름 유료 여행지도 v7-1 · 260618 · 계절 판정 로직 정교화 -->
+<!-- [v7-1] 계절 판정을 "평균·최고축 단독" → "5축 지배 축 조합"으로 교체 (친구들 검증 반영) -->
+<!-- [계절공식] 봄=연결+관심 / 여름=표현+온기 / 가을=관심+회복 / 겨울=전반 저조(5축 평균<40) -->
+<!--   판정순서: ①전반 평균<40 → 겨울 ②else 봄·여름·가을 조합점수 최고 계절 -->
+<!--   ※ 폐기: 4축 평균 단독판정(관심축 누락·모순데이터 오류 허점) → 5축 전체 반영으로 수정 -->
+<!-- [근거] 5축=정밀 측정 / 4계절=국면(차원축소). "정밀한 나침반은 5방향을 가리키지만 길의 풍경은 사계절로 기록" -->
+<!-- [v7-0 유지] 증명서→관계여권™+계절도장(SVG동적·미니레이더·소인느낌) · 오늘의한문장→세계관선언문 · 도장토스트 -->
+<!-- [v6-16-1 유지] PDF 흑백음영 · 자간교정 · 편지버튼 goToLetter 연결 -->
 <!-- [구조] 4막: 나를만나다 / 관계를읽다 / 길을찾다 / 다음여정 -->
-<!-- [완료내역] 게이지카드삭제 · 학술일원화 · 나침반STEP범용fallback · 증명서 여행자=나/관계대상=닉네임 · 철학장치4 · 인쇄CSS · 흑백음영 · 편지연동 -->
-<!-- [확인요망] 흑백 첫 출력 — 잔존 깨짐이나 음영 어색한 곳 있으면 그 지점만 미세조정 -->
+<!-- [다음단계] ①모순상태'해빙기' 특수도장(관심·연결↓+온기·회복↑) ②계절별 나침반 처방전(유료전환) ③무료 흐릿도장 ④관계우주 누적(DB) -->
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#F0F4F8 0%,#FFFFFF 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
@@ -1018,14 +1023,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 이 한 가지가, 내일의 대화를 바꿉니다.</div>
   </div>
 
-  <!-- 관계흐름증명서 -->
+  <!-- 관계 여권 + 계절 도장 (v7-0) -->
   <div class="res-block" id="rb_cert" style="background:linear-gradient(160deg,#0D1829,#1E4A76);border-radius:18px;padding:24px 20px;margin-bottom:14px">
     <div style="text-align:center;margin-bottom:16px">
-      <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.2em;margin-bottom:4px">사랑흐름 마음관리청™</div>
-      <div style="font-size:16px;font-weight:900;color:#fff;margin-bottom:2px">관계흐름증명서</div>
+      <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.2em;margin-bottom:4px">사랑흐름 관계 여권™</div>
+      <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:2px;letter-spacing:0.08em">RELATIONSHIP PASSPORT</div>
       <div style="font-size:10px;color:rgba(255,255,255,0.4)" id="cert-number"></div>
     </div>
-    <div style="background:rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:14px">
+    <div style="background:rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:16px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;color:rgba(255,255,255,0.75);line-height:2">
         <div>여행자 <span style="color:#fff;font-weight:700" id="cert-traveler"></span></div>
         <div>관계대상 <span style="color:#fff;font-weight:700" id="cert-target"></span></div>
@@ -1033,16 +1038,19 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
         <div>유형 <span style="color:var(--gold);font-weight:700" id="cert-type"></span></div>
       </div>
     </div>
-    <div id="cert-scores" style="margin-bottom:14px"></div>
+    <!-- 계절 도장 (SVG 동적) -->
+    <div id="cert-stamp" style="display:flex;justify-content:center;margin-bottom:12px"></div>
+    <div id="cert-season-desc" style="text-align:center;font-size:12.5px;line-height:1.85;margin-bottom:14px;padding:0 6px"></div>
     <div style="text-align:center;padding:12px;background:rgba(212,175,55,0.1);border-radius:10px;border:1px solid rgba(212,175,55,0.3)">
-      <div style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.8">관계는 완성이 아니라 — 함께 자라나는 것입니다<br><span style="color:rgba(212,175,55,0.7);font-size:10px">사랑흐름 마음관리청 발급 · LFRI™ 기반</span></div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.6);line-height:1.8">관계는 완성이 아니라 — 함께 자라나는 것입니다<br><span style="color:rgba(212,175,55,0.7);font-size:10px">사랑흐름 관계 여권 · LFRI™ 기반</span></div>
     </div>
   </div>
 
-  <!-- 오늘의 한 문장 -->
-  <div class="res-block" id="rb10" style="background:linear-gradient(135deg,#0F1B2D,#1E4A76);border-radius:18px;padding:24px 20px;margin-bottom:14px;text-align:center">
-    <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.18em;margin-bottom:14px">🌊 오늘의 한 문장</div>
-    <div id="todaySentence" style="font-size:17px;color:#fff;font-weight:700;line-height:1.9;font-style:italic"></div>
+  <!-- 세계관 선언문 (v7-0) -->
+  <div class="res-block" id="rb10" style="background:linear-gradient(135deg,#0F1B2D,#1E4A76);border-radius:18px;padding:26px 22px;margin-bottom:14px;text-align:center">
+    <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.18em;margin-bottom:16px">🌊 사랑흐름 선언</div>
+    <div id="todaySentence" style="font-size:17px;color:#fff;font-weight:700;line-height:1.9;font-style:italic;margin-bottom:18px"></div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.72);line-height:2;font-style:italic">한 관계가 회복되면,<br>그 변화는 또 다른 관계로 번집니다.<br><span style="color:rgba(212,175,55,0.85)">한 송이 꽃이 피면, 세상의 봄이 시작되듯이.</span></div>
   </div>
 
   <!-- 이메일 수집 -->
@@ -1530,6 +1538,37 @@ function getCompass(m,p,sc){
   return compassMap[key]||compassMap[mg+'×'+pg+'|'+rel+'|E']||compassMap[mg+'×'+pg+'|R|E']||(rel==='R'?DEFAULT_R:DEFAULT_L);
 }
 
+/* ── 계절 도장 시스템 (v7-0) ── */
+var SEASONS={
+  spring:{ko:'봄',en:'SPRING FLOW',sub:'새로운 연결',icon:'🌱',c:'#5A8C4A',light:'#A8D49A',desc:'막 피어나는 새싹처럼, 이 관계에 새로운 연결의 기운이 돌고 있어요.'},
+  summer:{ko:'여름',en:'SUMMER FLOW',sub:'강한 표현',icon:'☀️',c:'#D4782C',light:'#F5B97A',desc:'마음을 표현하는 힘이 살아있어요. 그 온기가 관계를 데웁니다.'},
+  autumn:{ko:'가을',en:'AUTUMN FLOW',sub:'깊은 이해',icon:'🍂',c:'#B5562E',light:'#E0936A',desc:'서로를 깊이 이해하는 계절. 무르익은 온기가 아직 남아있어요.'},
+  winter:{ko:'겨울',en:'WINTER FLOW',sub:'회복과 기다림',icon:'❄️',c:'#3A6B9C',light:'#9BC4E8',desc:'지금은 조용히 회복을 기다리는 시간. 눈 아래에서 봄이 준비되고 있어요.'}
+};
+function buildStamp(SE, vals, dateStr){
+  var rcx=110, rcy=132, rr=30, ptsArr=[], gridArr=[];
+  for(var i=0;i<5;i++){
+    var ang=-Math.PI/2 + i*2*Math.PI/5;
+    var rad=rr*Math.min(vals[i]||0,100)/100;
+    ptsArr.push((rcx+rad*Math.cos(ang)).toFixed(1)+','+(rcy+rad*Math.sin(ang)).toFixed(1));
+    gridArr.push((rcx+rr*Math.cos(ang)).toFixed(1)+','+(rcy+rr*Math.sin(ang)).toFixed(1));
+  }
+  var s='<svg width="210" height="210" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" style="filter:drop-shadow(0 2px 8px rgba(0,0,0,0.35))">';
+  s+='<circle cx="110" cy="110" r="98" fill="#F5EFE1"/>';
+  s+='<circle cx="110" cy="110" r="98" fill="none" stroke="'+SE.c+'" stroke-width="2.5" stroke-dasharray="5 3" opacity="0.9"/>';
+  s+='<circle cx="110" cy="110" r="89" fill="none" stroke="'+SE.c+'" stroke-width="1.2" opacity="0.55"/>';
+  s+='<text x="110" y="38" text-anchor="middle" font-size="9.5" fill="'+SE.c+'" font-weight="bold" letter-spacing="1.5" opacity="0.9">LOVE FLOW PASSPORT</text>';
+  s+='<text x="110" y="69" text-anchor="middle" font-size="22">'+SE.icon+'</text>';
+  s+='<text x="110" y="91" text-anchor="middle" font-size="16" fill="'+SE.c+'" font-weight="bold" letter-spacing="0.5">'+SE.en+'</text>';
+  s+='<text x="110" y="106" text-anchor="middle" font-size="10.5" fill="'+SE.c+'" opacity="0.85">'+SE.ko+' · '+SE.sub+'</text>';
+  s+='<polygon points="'+gridArr.join(' ')+'" fill="none" stroke="'+SE.c+'" stroke-width="0.7" opacity="0.3"/>';
+  s+='<polygon points="'+ptsArr.join(' ')+'" fill="'+SE.c+'" fill-opacity="0.22" stroke="'+SE.c+'" stroke-width="1.5"/>';
+  s+='<text x="110" y="181" text-anchor="middle" font-size="8" fill="'+SE.c+'" opacity="0.72" letter-spacing="0.5">LFRI '+dateStr+'</text>';
+  s+='<text x="110" y="195" text-anchor="middle" font-size="7.5" fill="'+SE.c+'" opacity="0.58" letter-spacing="1.5">COLLECT · CONNECT · GROW</text>';
+  s+='</svg>';
+  return s;
+}
+
 /* ── 결과 표시 ── */
 function showResult() {
   step=100; showStep();
@@ -1753,7 +1792,8 @@ function showResult() {
   var certTarget=document.getElementById('cert-target');
   var certDate=document.getElementById('cert-date');
   var certType=document.getElementById('cert-type');
-  var certScores=document.getElementById('cert-scores');
+  var stampEl=document.getElementById('cert-stamp');
+  var seasonDescEl=document.getElementById('cert-season-desc');
   var now=new Date();
   var dateStr=now.getFullYear()+'.'+(String(now.getMonth()+1).padStart(2,'0'))+'.'+String(now.getDate()).padStart(2,'0');
   if(certNum) certNum.textContent='LF-'+now.getFullYear()+'-'+String(Math.floor(Math.random()*99999)).padStart(5,'0');
@@ -1761,21 +1801,24 @@ function showResult() {
   if(certTarget) certTarget.textContent=relNick||relType||'소중한 분';
   if(certDate) certDate.textContent=dateStr;
   if(certType) certType.textContent=(T[currentCode]||T['DWHR']).short;
-  if(certScores){
-    var axes2=[
-      {n:'관심',v:aiPct,c:'#D4AF37'},
-      {n:'연결',v:pC,c:'#4A90D9'},
-      {n:'온기',v:pW,c:'#F5A55A'},
-      {n:'표현',v:pE,c:'#C39BD3'},
-      {n:'회복',v:pR,c:'#6FCF97'}
-    ];
-    certScores.innerHTML=axes2.map(function(ax){
-      return '<div style="margin-bottom:8px">'
-        +'<div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,0.75);margin-bottom:3px"><span>'+ax.n+'</span><span style="color:'+ax.c+';font-weight:700">'+ax.v+'%</span></div>'
-        +'<div style="background:rgba(255,255,255,0.1);border-radius:4px;height:6px"><div style="background:'+ax.c+';height:6px;border-radius:4px;width:'+ax.v+'%"></div></div>'
-        +'</div>';
-    }).join('');
+  /* 계절 판정 (v7-1) — 5축 "지배 축 조합"으로 국면 판정 (평균·최고축 단독판정 폐기) */
+  /* 봄=연결+관심(새 연결) / 여름=표현+온기(강한 표현) / 가을=관심+회복(깊은 이해) / 겨울=전반 저조(회복·기다림) */
+  var overall=(aiPct+pC+pW+pE+pR)/5;
+  var springScore=pC+aiPct;
+  var summerScore=pE+pW;
+  var autumnScore=aiPct+pR;
+  var seasonKey;
+  if(overall<40){
+    seasonKey='winter';
+  } else {
+    var topScore=Math.max(springScore,summerScore,autumnScore);
+    if(topScore===summerScore) seasonKey='summer';
+    else if(topScore===autumnScore) seasonKey='autumn';
+    else seasonKey='spring';
   }
+  var SE=SEASONS[seasonKey];
+  if(stampEl) stampEl.innerHTML=buildStamp(SE,[aiPct,pC,pW,pE,pR],dateStr);
+  if(seasonDescEl) seasonDescEl.innerHTML='<span style="color:'+SE.light+';font-weight:700">'+SE.ko+' · '+SE.sub+'</span><br><span style="color:rgba(255,255,255,0.68)">'+SE.desc+'</span>';
 
   /* ── 오늘의 한 문장 ── */
   var todayEl = document.getElementById('todaySentence');
@@ -1800,6 +1843,8 @@ function showResult() {
       if(ax.open){ var el=document.getElementById('rBar'+ax.id); if(el) el.style.width=Math.min(ax.p,100)+'%'; }
     });
   }, 700);
+  /* 관계 여권 도장 토스트 (v7-0) */
+  setTimeout(function(){ if(typeof showToast==='function'){ showToast('🎉 관계 여권에 첫 도장이 찍혔습니다'); } }, blocks.length*180+300);
 }
 
 /* ── 보물상자 + DB 저장 통합 ── */
