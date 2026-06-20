@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v7-6 · 260620 · [작업] A안: 여권번호 하단 관계여권카드로 일원화+골드 강조+용도안내, hero 중복줄 제거 / 유료 결과→관계우주 버튼 추가 · v7-5 기반 -->
+<!-- 사랑흐름 유료 여행지도 v7-7 · 260620 · [작업] 여권번호에 관계유형 코드 삽입 LF-{유형}{랜덤4} (M·D·L·C·F·B·W·S·X) · v7-6 기반 -->
 <!-- [v7-4] ①큰 계절도장 제거 → 관계 우주맵이 도장 역할 흡수 (중복·공간낭비 해소, 도장 글자깨짐 제거) -->
 <!--   ②우주맵 '포도송이'로 확대 — 원 크게+라벨 노드 안 · 채워진 자리(이번 관계)=계절색+아이콘=도장 -->
 <!--   ③이메일 수집란 안내문구 보강: "관계 우주 저장 → 다음 관계 분석 시 도장 이어 쌓임"(텍스트만, saveEmail·doShare 로직 불변) -->
@@ -1614,11 +1614,23 @@ function buildUniverse(relType, SE){
 }
 
 /* ★ v7-5: 관계 여권번호 생성 (LF-XXXXX, 0·O·1·I·L 제외) */
-function genPassport(){
+function relCode(rt){
+  rt=String(rt||'');
+  if(rt.indexOf('어머니')>=0)return 'M';
+  if(rt.indexOf('아버지')>=0)return 'D';
+  if(rt.indexOf('배우자')>=0||rt.indexOf('연인')>=0)return 'L';
+  if(rt.indexOf('자녀')>=0)return 'C';
+  if(rt.indexOf('친구')>=0)return 'F';
+  if(rt.indexOf('형제')>=0||rt.indexOf('자매')>=0)return 'B';
+  if(rt.indexOf('직장')>=0||rt.indexOf('동료')>=0||rt.indexOf('상사')>=0)return 'W';
+  if(rt.indexOf('자신')>=0)return 'S';
+  return 'X';
+}
+function genPassport(rt){
   var chars='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
   var s='';
-  for(var i=0;i<5;i++){s+=chars.charAt(Math.floor(Math.random()*chars.length));}
-  return 'LF-'+s;
+  for(var i=0;i<4;i++){s+=chars.charAt(Math.floor(Math.random()*chars.length));}
+  return 'LF-'+relCode(rt)+s;
 }
 
 /* ── 결과 표시 ── */
@@ -1643,7 +1655,7 @@ function showResult() {
   document.getElementById('r-icon').textContent=t.icon;
   document.getElementById('r-code').textContent='A'+currentCode;
   /* ★ v7-5: 관계 여권번호 발급 (프론트 생성 → localStorage → 화면 표시) */
-  var _passport=genPassport();
+  var _passport=genPassport(relType);
   window.lfPassport=_passport;
   try{localStorage.setItem('lf_passport',_passport);}catch(e){}
   document.getElementById('r-name').textContent=t.short;
