@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 랜딩(현관) index.html v2-7 · 260618 · 로고+상단내비+og+공유5종+푸터링크5종 -->
+<!-- 사랑흐름 랜딩(현관) index.html v2-9 · 260620 · [작업] 공유버튼 5종→3종(카카오·X·링크) 축소+크기 축소+화려한색 제거 / 재방문 조회창(v2-8) 유지 -->
 <!-- [v2-7] 푸터에서 사업자정보 텍스트 제거 → 소개페이지(about.html)로 이동 / 푸터=링크5종+저작권1줄만 -->
 <!-- [푸터링크] 소개(/about.html)·이용약관·개인정보·환불·FAQ / 공유5종(카카오·페북·X·인스타·링크) 유지 -->
 <html lang="ko">
@@ -81,17 +81,24 @@
   @keyframes pulse{0%,100%{box-shadow:0 6px 20px rgba(201,169,110,0.45)}50%{box-shadow:0 6px 30px rgba(201,169,110,0.7)}}
   .curiosity{font-size:13px; color:var(--text-sub); margin-top:18px; font-style:italic}
 
+  /* 재방문 여권번호 조회 (v2-8) */
+  .revisit{margin-top:32px; padding-top:24px; border-top:1px solid rgba(201,169,110,0.3)}
+  .rv-label{font-size:13px; color:var(--text-sub); margin-bottom:13px; font-weight:600}
+  .rv-row{display:flex; gap:8px; justify-content:center; max-width:340px; margin:0 auto}
+  .rv-input{flex:1; min-width:0; padding:11px 14px; border:1.5px solid var(--gold); border-radius:10px; font-size:14px; font-family:inherit; color:var(--navy); text-transform:uppercase; letter-spacing:0.04em; outline:none; background:#fff}
+  .rv-input::placeholder{color:#B0A48A; text-transform:none; letter-spacing:0}
+  .rv-btn{padding:11px 18px; background:var(--navy); color:#fff; border:none; border-radius:10px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; white-space:nowrap}
+  .rv-btn:hover{background:var(--navy-dark)}
+
   /* 공유 버튼 (현대식 입구) */
   .share{margin-top:36px}
   .share-label{font-size:11px; color:var(--text-sub); letter-spacing:0.15em; margin-bottom:13px; font-weight:600}
   .share-btns{display:flex; justify-content:center; gap:10px; flex-wrap:wrap}
-  .sb{display:inline-flex; align-items:center; gap:6px; border:none; cursor:pointer; font-size:13px; font-weight:700; padding:11px 19px; border-radius:24px; font-family:inherit; transition:transform 0.12s; text-decoration:none}
+  .sb{display:inline-flex; align-items:center; gap:5px; border:none; cursor:pointer; font-size:12px; font-weight:600; padding:8px 14px; border-radius:18px; font-family:inherit; transition:transform 0.12s; text-decoration:none}
   .sb:hover{transform:translateY(-2px)}
   .sb.kakao{background:#FEE500; color:#391B1B}
-  .sb.fb{background:#1877F2; color:#fff}
-  .sb.x{background:#000; color:#fff}
-  .sb.insta{background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF); color:#fff}
-  .sb.link{background:#fff; color:var(--navy); border:1.5px solid var(--gold)}
+  .sb.x{background:#26262A; color:#fff}
+  .sb.link{background:#fff; color:var(--text-sub); border:1px solid #D8D2C4}
 
   /* 깔끔한 푸터 (네이비 배너) */
   footer{background:var(--navy-dark); color:rgba(255,255,255,0.75); padding:30px 20px 26px; text-align:center}
@@ -148,13 +155,20 @@
       <a class="enter" href="/compass.html">마음 지도 펼치기 <span class="free">무료</span></a>
       <div class="curiosity">당신의 관계엔 지금, 어떤 흐름이 흐르고 있을까요?</div>
 
+      <!-- 재방문 여권번호 조회 (v2-8) -->
+      <div class="revisit">
+        <div class="rv-label">이미 여행하셨나요?</div>
+        <div class="rv-row">
+          <input id="pp-input" class="rv-input" placeholder="여권번호 (예: LF-TH58V)" maxlength="8">
+          <button class="rv-btn" onclick="lookupResult()">내 결과 보기</button>
+        </div>
+      </div>
+
       <!-- 공유 버튼 (카카오·페북·링크복사) -->
       <div class="share">
         <div class="share-btns">
           <button class="sb kakao" onclick="shareKakao()">카카오톡</button>
-          <button class="sb fb" onclick="shareFacebook()">페이스북</button>
-          <button class="sb x" onclick="shareX()">X (트위터)</button>
-          <a class="sb insta" href="https://www.instagram.com/loveflow.ai/" target="_blank" rel="noopener">인스타그램</a>
+          <button class="sb x" onclick="shareX()">X</button>
           <button class="sb link" onclick="copyLink()">링크 복사</button>
         </div>
       </div>
@@ -177,6 +191,12 @@
   </footer>
   <script>
     try{ Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); }catch(e){}
+    function lookupResult(){
+      var v=document.getElementById('pp-input').value.trim().toUpperCase();
+      if(!v){alert('여권번호를 입력해주세요');return;}
+      v=v.replace(/^LF-?/,'');
+      location.href='/universe.html?id=LF-'+encodeURIComponent(v);
+    }
     function shareKakao(){
       if(typeof Kakao==='undefined' || !Kakao.Share){ alert('카카오 공유를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'); return; }
       Kakao.Share.sendDefault({
