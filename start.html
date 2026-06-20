@@ -1,0 +1,130 @@
+<!-- 사랑흐름 입국 게이트 v3 · 260620 · 상품 브랜드/카피 노출('내가 산 것' 인지) + 구매처 버튼 가로 2칸 + 세로 압축 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>관계 여행권 확인 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --navy:#1E4A76; --navy-d:#143257; --gold:#C9A96E; --gold-d:#A8851E; --bg:#EEF1F5;
+         --card:#fff; --line:#E3E7EC; --text:#2E3A48; --sub:#6B7585;
+         --naver:#03C75A; --kakao:#FEE500; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15.5px;padding:0 0 24px}
+  .wrap{max-width:440px;margin:0 auto;padding:0 16px}
+  .serif{font-family:'Nanum Myeongjo',serif}
+
+  /* 헤더 컴팩트 */
+  .head{text-align:center;padding:22px 0 8px}
+  .head .ey{font-size:10px;color:var(--gold-d);letter-spacing:0.24em;font-weight:700}
+  .head h1{font-size:21px;font-weight:800;color:var(--navy);margin-top:4px}
+
+  /* ★ 상품 카드 (내가 산 것 인지) -->  */
+  .product{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#1E4A76,#143257);border-radius:18px;padding:16px 18px;margin-top:12px;box-shadow:0 4px 16px rgba(30,74,118,0.2)}
+  .product .thumb{width:54px;height:54px;border-radius:12px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(201,169,110,0.4)}
+  .product .meta{flex:1;color:#fff}
+  .product .brand{font-size:10px;color:var(--gold);letter-spacing:0.1em;font-weight:700}
+  .product .name{font-size:16px;font-weight:800;margin:1px 0 2px}
+  .product .copy{font-size:11.5px;color:rgba(255,255,255,0.7)}
+  .product .price{font-size:15px;font-weight:800;color:#E5C687;text-align:right;flex-shrink:0}
+
+  /* 입력 영역 */
+  .gate{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:12px;box-shadow:0 2px 12px rgba(30,74,118,0.06)}
+  .gate .q{text-align:center;font-size:14px;color:var(--text);margin-bottom:12px}
+  .gate .q b{color:var(--navy)}
+  .input-row{display:flex;gap:8px}
+  .input-row input{flex:1;padding:14px 14px;border:2px solid var(--line);border-radius:12px;font-size:16px;color:var(--navy);font-weight:700;min-width:0}
+  .input-row input:focus{outline:none;border-color:var(--gold)}
+  .input-row button{flex-shrink:0;background:linear-gradient(135deg,var(--gold),#B8923E);color:#fff;font-size:15px;font-weight:800;padding:0 18px;border:none;border-radius:12px;cursor:pointer;white-space:nowrap}
+  #msg{text-align:center;font-size:12.5px;margin-top:10px;min-height:16px}
+  #msg.warn{color:#C0392B} #msg.load{color:var(--navy)} #msg.info{color:var(--sub)}
+
+  /* 구매처 박스 가로 2칸 */
+  .buy-sec{margin-top:18px}
+  .buy-sec .t{text-align:center;font-size:13px;color:var(--sub);margin-bottom:10px}
+  .buy-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .buy-box{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 10px;text-decoration:none;box-shadow:0 2px 8px rgba(30,74,118,0.05)}
+  .buy-box .logo{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
+  .buy-box.naver .logo{background:var(--naver);color:#fff}
+  .buy-box.kakao .logo{background:var(--kakao);color:#3A1D1D}
+  .buy-box .nm{font-size:13px;font-weight:800;color:var(--navy)}
+  .buy-box .sub{font-size:10.5px;color:var(--sub)}
+
+  .tip{text-align:center;font-size:11.5px;color:var(--gold-d);margin-top:14px}
+  .tip b{color:var(--navy)}
+  .foot{text-align:center;font-size:9.5px;color:var(--sub);line-height:1.6;margin-top:18px;padding:0 4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="head">
+    <div class="ey">RELATIONSHIP TRAVEL · IMMIGRATION</div>
+    <h1 class="serif">관계 여행권 확인</h1>
+  </div>
+
+  <!-- ★ 내가 산 상품 -->
+  <div class="product">
+    <div class="thumb">
+      <svg viewBox="0 0 40 40" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="20" cy="20" r="17" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
+        <g fill="#E5C687"><polygon points="20,6 23,18 20,20 17,18"/><polygon points="20,34 17,22 20,20 23,22" opacity="0.5"/><polygon points="6,20 18,17 20,20 18,23"/><polygon points="34,20 22,23 20,20 22,17" opacity="0.5"/></g>
+        <circle cx="20" cy="20" r="2" fill="#E5C687"/>
+      </svg>
+    </div>
+    <div class="meta">
+      <div class="brand">LOVE FLOW · 사랑흐름</div>
+      <div class="name">관계 여행지도</div>
+      <div class="copy">관계를 분석하지 않습니다, 번역합니다</div>
+    </div>
+    <div class="price">₩9,900</div>
+  </div>
+
+  <!-- 주문번호 입력 (한 줄) -->
+  <div class="gate">
+    <div class="q">구매 시 받으신 <b>주문번호</b>를 넣어주세요</div>
+    <div class="input-row">
+      <input id="orderNo" type="text" placeholder="주문번호" autocomplete="off">
+      <button onclick="startJourney()">여행 시작</button>
+    </div>
+    <div id="msg"></div>
+  </div>
+
+  <!-- 구매처 가로 2칸 -->
+  <div class="buy-sec">
+    <div class="t">아직 구매 전이신가요?</div>
+    <div class="buy-grid">
+      <a href="#" class="buy-box naver">
+        <div class="logo">N</div>
+        <div class="nm">네이버 스토어</div>
+        <div class="sub">바로 구매</div>
+      </a>
+      <a href="#" class="buy-box kakao">
+        <div class="logo">k</div>
+        <div class="nm">카카오 선물하기</div>
+        <div class="sub">선물 보내기</div>
+      </a>
+    </div>
+    <div class="tip">💡 링크가 안 되면 <b>loveflow.ai.kr/start</b> 직접 입력</div>
+  </div>
+
+  <div class="foot">
+    사랑흐름 · 대표 황규찬 · 파주시 매봉길 17-13 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열 · hkcpcgg@gmail.com<br>
+    © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.
+  </div>
+
+</div>
+<script>
+function startJourney(){
+  var num=document.getElementById('orderNo').value.trim();
+  var msg=document.getElementById('msg');
+  if(!num){ msg.className='warn'; msg.textContent='주문번호를 넣어주세요.'; return; }
+  msg.className='load'; msg.textContent='여행권을 확인하고 있어요...';
+  // ★ GAS: google.script.run.withSuccessHandler(ok).validateOrder(num); → location.href='/journey/?id='+여권번호;
+  setTimeout(function(){ msg.className='info'; msg.textContent='※ 실제 확인은 GAS 연동 후 작동합니다'; },1300);
+}
+document.getElementById('orderNo').addEventListener('keydown',function(e){ if(e.key==='Enter') startJourney(); });
+</script>
+</body>
+</html>
