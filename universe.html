@@ -1,0 +1,208 @@
+<!-- 사랑흐름 관계 우주 화면 v4 · 260620 · 여권번호 LF-7K2M9 형식(A안) 적용 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>나의 관계 우주 · 사랑흐름</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --navy:#1E4A76; --gold:#D4AF37; --gold-soft:#C9A96E;
+         --bg:#EEF1F5; --card:#FFFFFF; --line:#E3E7EC; --text:#2E3A48; --sub:#6B7585;
+         --spring:#4A8C5C; --summer:#D4762A; --autumn:#B8863A; --winter:#4A6A8C; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;font-size:16px;padding:0 0 44px}
+  .wrap{max-width:440px;margin:0 auto;padding:0 18px}
+  .serif{font-family:'Nanum Myeongjo',serif}
+
+  .uni-head{text-align:center;padding:30px 0 16px}
+  .uni-head .ey{font-size:12px;color:var(--gold-soft);letter-spacing:0.3em;font-weight:700}
+  .uni-head h1{font-size:28px;font-weight:800;color:var(--navy);margin-top:9px;letter-spacing:0.03em}
+  .uni-head .pp{font-size:13px;color:var(--sub);margin-top:8px;letter-spacing:0.08em;font-family:'Courier New',monospace}
+
+  .universe{margin:8px 0 6px}
+
+  .legend{display:flex;justify-content:center;gap:16px;font-size:12px;color:var(--sub);margin:6px 0 18px;flex-wrap:wrap}
+  .legend span{display:inline-flex;align-items:center;gap:6px}
+  .lg-dot{width:12px;height:12px;border-radius:50%}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 20px;margin-bottom:16px;box-shadow:0 2px 12px rgba(30,74,118,0.06)}
+  .card .ct{font-size:13px;color:var(--gold-soft);font-weight:800;letter-spacing:0.08em;margin-bottom:16px}
+
+  /* 완성도 + 계절 2열 */
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .donut-wrap{display:flex;flex-direction:column;align-items:center}
+  .donut-sub{font-size:12.5px;color:var(--sub);margin-top:10px;text-align:center;line-height:1.6}
+
+  .seasons{display:flex;flex-direction:column;gap:12px}
+  .season{display:flex;align-items:center;gap:12px}
+  .season .ic{font-size:22px;width:28px;text-align:center}
+  .season .nm{font-size:15px;color:var(--text);font-weight:600;flex:1}
+  .season .ct2{font-size:20px;font-weight:800;color:var(--navy)}
+
+  /* 최근 여행 기록 */
+  .recent{display:flex;flex-direction:column;gap:14px}
+  .rec{display:flex;align-items:center;gap:14px}
+  .rec .ric{font-size:26px;width:42px;height:42px;line-height:42px;text-align:center;background:#F4F6F9;border-radius:50%;flex-shrink:0}
+  .rec .rmid{flex:1}
+  .rec .rname{font-size:16px;font-weight:800;color:var(--navy)}
+  .rec .rdate{font-size:12.5px;color:var(--sub)}
+  .rec .rstate{font-size:13.5px;font-weight:700;text-align:right}
+
+  /* 이번 여행 */
+  .trip{background:linear-gradient(160deg,#1E4A76,#143257);border:none;box-shadow:0 4px 16px rgba(30,74,118,0.22)}
+  .trip .ct{color:#9DC9A8}
+  .trip-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+  .trip-top .who{font-size:19px;font-weight:800;color:#fff}
+  .trip-top .who .sea{font-size:13px;color:#9DC9A8;font-weight:700;margin-left:7px}
+  .trip-top .badge{font-size:12px;color:#9DC9A8;background:rgba(157,201,168,0.18);padding:5px 12px;border-radius:20px;font-weight:700}
+  .lfri{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;text-align:center}
+  .lfri .k{font-size:12px;color:rgba(255,255,255,0.65)}
+  .lfri .v{font-size:23px;font-weight:800;color:#E5C687}
+
+  .cta{display:block;text-align:center;background:var(--navy);color:#fff;font-size:17px;font-weight:800;padding:17px;border-radius:30px;text-decoration:none;margin-top:8px;box-shadow:0 4px 14px rgba(30,74,118,0.22)}
+
+  .closing{text-align:center;font-size:15px;color:var(--navy);font-family:'Nanum Myeongjo',serif;line-height:2;margin:26px 0 8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="uni-head">
+    <div class="ey">LOVE FLOW UNIVERSE</div>
+    <h1 class="serif">나의 관계 우주</h1>
+    <div class="pp">관계 여권 · LF-7K2M9</div>
+  </div>
+
+  <!-- ★ 우주 (텍스트 키움) -->
+  <div class="universe">
+    <svg viewBox="0 0 360 380" width="100%" style="display:block;max-width:420px;margin:0 auto;border-radius:20px;box-shadow:0 6px 20px rgba(30,74,118,0.18)" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="sky" cx="50%" cy="44%" r="62%">
+          <stop offset="0%" stop-color="#23436A"/><stop offset="55%" stop-color="#152D49"/><stop offset="100%" stop-color="#0C1B2E"/>
+        </radialGradient>
+        <radialGradient id="meGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FBEFCB"/><stop offset="45%" stop-color="#E5C687"/><stop offset="100%" stop-color="rgba(201,169,110,0)"/>
+        </radialGradient>
+        <filter id="soft"><feGaussianBlur stdDeviation="2.2"/></filter>
+      </defs>
+      <rect width="360" height="380" rx="20" fill="url(#sky)"/>
+      <g fill="#fff">
+        <circle cx="40" cy="50" r="1.1" opacity="0.55"/><circle cx="320" cy="40" r="1.4" opacity="0.5"/>
+        <circle cx="300" cy="120" r="0.9" opacity="0.6"/><circle cx="60" cy="150" r="1.1" opacity="0.4"/>
+        <circle cx="180" cy="28" r="1.2" opacity="0.55"/><circle cx="330" cy="250" r="1.1" opacity="0.45"/>
+        <circle cx="36" cy="290" r="1.3" opacity="0.45"/><circle cx="150" cy="358" r="1" opacity="0.5"/>
+        <circle cx="260" cy="345" r="1.1" opacity="0.4"/><circle cx="100" cy="335" r="0.9" opacity="0.45"/>
+        <circle cx="24" cy="210" r="1" opacity="0.45"/><circle cx="340" cy="190" r="1.1" opacity="0.55"/>
+      </g>
+      <!-- 연결선 -->
+      <g stroke="#C9A96E" stroke-width="1.1" fill="none">
+        <line x1="180" y1="190" x2="180" y2="52" opacity="0.4"/>
+        <line x1="180" y1="190" x2="280" y2="92" opacity="0.4"/>
+        <line x1="180" y1="190" x2="320" y2="190" opacity="0.5"/>
+        <line x1="180" y1="190" x2="280" y2="288" opacity="0.16"/>
+        <line x1="180" y1="190" x2="180" y2="328" opacity="0.16"/>
+        <line x1="180" y1="190" x2="80" y2="288" opacity="0.16"/>
+        <line x1="180" y1="190" x2="40" y2="190" opacity="0.16"/>
+        <line x1="180" y1="190" x2="80" y2="92" opacity="0.16"/>
+      </g>
+      <!-- 완료: 엄마(봄) -->
+      <circle cx="180" cy="52" r="30" fill="#10293E" stroke="#5A8C4A" stroke-width="3"/>
+      <text x="180" y="50" text-anchor="middle" font-size="20">🌱</text>
+      <text x="180" y="66" text-anchor="middle" font-size="12.5" fill="#B5DCA8" font-weight="800">엄마</text>
+      <!-- 완료: 아빠(겨울) -->
+      <circle cx="280" cy="92" r="30" fill="#10293E" stroke="#5B82AD" stroke-width="3"/>
+      <text x="280" y="90" text-anchor="middle" font-size="20">❄️</text>
+      <text x="280" y="106" text-anchor="middle" font-size="12.5" fill="#AECBE8" font-weight="800">아빠</text>
+      <!-- 이번 여행: 배우자(봄) -->
+      <circle cx="320" cy="190" r="37" fill="url(#meGlow)" opacity="0.45" filter="url(#soft)"/>
+      <circle cx="320" cy="190" r="31" fill="#10293E" stroke="#E5C687" stroke-width="3.5"/>
+      <text x="320" y="187" text-anchor="middle" font-size="21">🌱</text>
+      <text x="320" y="204" text-anchor="middle" font-size="12.5" fill="#E5C687" font-weight="800">배우자</text>
+      <!-- 미여행 -->
+      <g>
+        <circle cx="280" cy="288" r="28" fill="rgba(255,255,255,0.03)" stroke="rgba(234,241,248,0.32)" stroke-width="1.6" stroke-dasharray="3 3"/>
+        <text x="280" y="293" text-anchor="middle" font-size="12.5" fill="rgba(234,241,248,0.6)" font-weight="700">자녀</text>
+        <circle cx="180" cy="328" r="28" fill="rgba(255,255,255,0.03)" stroke="rgba(234,241,248,0.32)" stroke-width="1.6" stroke-dasharray="3 3"/>
+        <text x="180" y="333" text-anchor="middle" font-size="12.5" fill="rgba(234,241,248,0.6)" font-weight="700">친구</text>
+        <circle cx="80" cy="288" r="28" fill="rgba(255,255,255,0.03)" stroke="rgba(234,241,248,0.32)" stroke-width="1.6" stroke-dasharray="3 3"/>
+        <text x="80" y="293" text-anchor="middle" font-size="12.5" fill="rgba(234,241,248,0.6)" font-weight="700">형제</text>
+        <circle cx="40" cy="190" r="28" fill="rgba(255,255,255,0.03)" stroke="rgba(234,241,248,0.32)" stroke-width="1.6" stroke-dasharray="3 3"/>
+        <text x="40" y="187" text-anchor="middle" font-size="11" fill="rgba(234,241,248,0.6)" font-weight="700">소중한</text>
+        <text x="40" y="199" text-anchor="middle" font-size="11" fill="rgba(234,241,248,0.6)" font-weight="700">사람</text>
+        <circle cx="80" cy="92" r="28" fill="rgba(255,255,255,0.03)" stroke="rgba(234,241,248,0.32)" stroke-width="1.6" stroke-dasharray="3 3"/>
+        <text x="80" y="97" text-anchor="middle" font-size="12.5" fill="rgba(234,241,248,0.6)" font-weight="700">멘토</text>
+      </g>
+      <!-- 중앙: 나 -->
+      <circle cx="180" cy="190" r="52" fill="url(#meGlow)" opacity="0.5" filter="url(#soft)"/>
+      <circle cx="180" cy="190" r="35" fill="#10293E" stroke="#E5C687" stroke-width="3"/>
+      <circle cx="180" cy="190" r="35" fill="url(#meGlow)" opacity="0.35"/>
+      <text x="180" y="198" text-anchor="middle" font-size="19" font-weight="900" fill="#FBEFCB" font-family="'Nanum Myeongjo',serif">나</text>
+    </svg>
+  </div>
+
+  <div class="legend">
+    <span><span class="lg-dot" style="background:#E5C687"></span>이번 여행</span>
+    <span><span class="lg-dot" style="background:#5A8C4A"></span>여행 완료</span>
+    <span><span class="lg-dot" style="border:1.5px dashed #B8C0CA"></span>아직 여행 전</span>
+  </div>
+
+  <!-- 완성도 + 계절 (2열) -->
+  <div class="two">
+    <div class="card" style="margin-bottom:0">
+      <div class="ct">관계 우주 완성도</div>
+      <div class="donut-wrap">
+        <svg viewBox="0 0 100 100" width="104" height="104" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#EAEDF1" stroke-width="10"/>
+          <circle cx="50" cy="50" r="42" fill="none" stroke="#1E4A76" stroke-width="10" stroke-linecap="round" stroke-dasharray="100.3 263.9" transform="rotate(-90 50 50)"/>
+          <text x="50" y="58" text-anchor="middle" font-size="24" font-weight="800" fill="#1E4A76" font-family="'Nanum Myeongjo',serif">38%</text>
+        </svg>
+        <div class="donut-sub">8개 인연 중<br>3개 여행 완료</div>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:0">
+      <div class="ct">계절 분포</div>
+      <div class="seasons">
+        <div class="season"><span class="ic">🌱</span><span class="nm">봄</span><span class="ct2">2</span></div>
+        <div class="season"><span class="ic">☀️</span><span class="nm">여름</span><span class="ct2">0</span></div>
+        <div class="season"><span class="ic">🍂</span><span class="nm">가을</span><span class="ct2">0</span></div>
+        <div class="season"><span class="ic">❄️</span><span class="nm">겨울</span><span class="ct2">1</span></div>
+      </div>
+    </div>
+  </div>
+  <div style="height:16px"></div>
+
+  <!-- 최근 여행 기록 -->
+  <div class="card">
+    <div class="ct">최근 여행 기록</div>
+    <div class="recent">
+      <div class="rec"><span class="ric">🌱</span><div class="rmid"><div class="rname">배우자</div><div class="rdate">2026.06.20 여행 완료</div></div><div class="rstate" style="color:var(--spring)">봄으로 변화 중</div></div>
+      <div class="rec"><span class="ric">🌱</span><div class="rmid"><div class="rname">어머니</div><div class="rdate">2026.06.15 여행 완료</div></div><div class="rstate" style="color:var(--spring)">봄의 시작</div></div>
+      <div class="rec"><span class="ric">❄️</span><div class="rmid"><div class="rname">아버지</div><div class="rdate">2026.06.10 여행 완료</div></div><div class="rstate" style="color:var(--winter)">겨울의 깊이</div></div>
+    </div>
+  </div>
+
+  <!-- 이번 여행 요약 -->
+  <div class="card trip">
+    <div class="ct">이번 여행 결과</div>
+    <div class="trip-top">
+      <div class="who">배우자<span class="sea">🌱 봄으로 변화 중</span></div>
+      <div class="badge">해빙기</div>
+    </div>
+    <div class="lfri">
+      <div><div class="k">관심</div><div class="v">72</div></div>
+      <div><div class="k">연결</div><div class="v">81</div></div>
+      <div><div class="k">온기</div><div class="v">78</div></div>
+      <div><div class="k">표현</div><div class="v">74</div></div>
+      <div><div class="k">회복</div><div class="v">69</div></div>
+    </div>
+  </div>
+
+  <a href="/journey/" class="cta">+ 새로운 관계 여행 시작</a>
+
+  <div class="closing serif">한 송이 꽃이 피면,<br>세상의 봄이 시작됩니다.</div>
+
+</div>
+</body>
+</html>
