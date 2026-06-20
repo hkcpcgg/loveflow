@@ -1,4 +1,4 @@
-<!-- 사랑흐름 관계 우주 화면 v4 · 260620 · 여권번호 LF-7K2M9 형식(A안) 적용 -->
+<!-- 사랑흐름 관계 우주 화면 v7 · 260620 · [작업] 재방문 재조회 — URL ?id=여권번호 → JSONP(여행지도 GAS doGet) 조회 → 여권번호·대상·5축 채움 / id없으면 데모 유지 · v6 기반 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -12,14 +12,14 @@
          --bg:#EEF1F5; --card:#FFFFFF; --line:#E3E7EC; --text:#2E3A48; --sub:#6B7585;
          --spring:#4A8C5C; --summer:#D4762A; --autumn:#B8863A; --winter:#4A6A8C; }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;font-size:16px;padding:0 0 44px}
+  body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);line-height:1.8;font-size:16px;padding:0 0 96px}
   .wrap{max-width:440px;margin:0 auto;padding:0 18px}
   .serif{font-family:'Nanum Myeongjo',serif}
 
-  .uni-head{text-align:center;padding:30px 0 16px}
+  .uni-head{text-align:center;padding:6px 0 16px}
   .uni-head .ey{font-size:12px;color:var(--gold-soft);letter-spacing:0.3em;font-weight:700}
   .uni-head h1{font-size:28px;font-weight:800;color:var(--navy);margin-top:9px;letter-spacing:0.03em}
-  .uni-head .pp{font-size:13px;color:var(--sub);margin-top:8px;letter-spacing:0.08em;font-family:'Courier New',monospace}
+  .uni-head .pp{font-size:14px;color:var(--navy);font-weight:800;margin-top:8px;letter-spacing:0.08em;font-family:'Courier New',monospace}
 
   .universe{margin:8px 0 6px}
 
@@ -64,15 +64,40 @@
   .cta{display:block;text-align:center;background:var(--navy);color:#fff;font-size:17px;font-weight:800;padding:17px;border-radius:30px;text-decoration:none;margin-top:8px;box-shadow:0 4px 14px rgba(30,74,118,0.22)}
 
   .closing{text-align:center;font-size:15px;color:var(--navy);font-family:'Nanum Myeongjo',serif;line-height:2;margin:26px 0 8px}
+
+  /* 상단 브랜드 로고 (v6) */
+  .brandbar{padding:16px 0 0;display:flex;align-items:center;justify-content:center}
+  .bb-logo{display:flex;align-items:baseline;gap:8px;font-size:18px;font-weight:900;color:var(--navy);letter-spacing:0.04em}
+  .bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.26em;font-weight:700}
+
+  /* 액션 버튼 4종 (v5) */
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+  .act-btn{display:flex;align-items:center;justify-content:center;gap:7px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px 10px;font-size:14px;font-weight:700;color:var(--navy);text-decoration:none;box-shadow:0 2px 8px rgba(30,74,118,0.05);min-height:52px;text-align:center;line-height:1.3}
+  .act-btn .ai{font-size:17px}
+  .act-btn.disabled{color:#9AA3AE;background:#F4F6F9;box-shadow:none;cursor:default}
+  .act-btn.disabled small{font-size:10px;color:#B0B7C0;font-weight:600;margin-left:3px}
+
+  /* 하단 고정 탭바 (v5) */
+  .tabbar{position:fixed;left:0;right:0;bottom:0;max-width:440px;margin:0 auto;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(30,74,118,0.07);z-index:50}
+  .tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:10.5px;color:var(--sub);text-decoration:none;font-weight:600;flex:1;padding:4px 0}
+  .tab .ti{font-size:19px;line-height:1}
+  .tab.active{color:var(--navy);font-weight:800}
+  .tab-mid .ti{width:42px;height:42px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:300;margin-top:-22px;box-shadow:0 4px 12px rgba(30,74,118,0.3)}
+  .tab-mid{color:var(--navy);font-weight:800}
+
+  /* 사업자정보 푸터 (v6) */
+  .uni-foot{text-align:center;font-size:9.5px;color:var(--sub);line-height:1.7;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
 </style>
 </head>
 <body>
 <div class="wrap">
 
+  <!-- 상단 브랜드 로고 (v6) -->
+  <div class="brandbar"><div class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></div></div>
+
   <div class="uni-head">
-    <div class="ey">LOVE FLOW UNIVERSE</div>
     <h1 class="serif">나의 관계 우주</h1>
-    <div class="pp">관계 여권 · LF-7K2M9</div>
+    <div class="pp" id="u-passport">관계 여권 · LF-7K2M9</div>
   </div>
 
   <!-- ★ 우주 (텍스트 키움) -->
@@ -187,22 +212,70 @@
   <div class="card trip">
     <div class="ct">이번 여행 결과</div>
     <div class="trip-top">
-      <div class="who">배우자<span class="sea">🌱 봄으로 변화 중</span></div>
+      <div class="who"><span id="u-target">배우자</span><span class="sea">🌱 봄으로 변화 중</span></div>
       <div class="badge">해빙기</div>
     </div>
     <div class="lfri">
-      <div><div class="k">관심</div><div class="v">72</div></div>
-      <div><div class="k">연결</div><div class="v">81</div></div>
-      <div><div class="k">온기</div><div class="v">78</div></div>
-      <div><div class="k">표현</div><div class="v">74</div></div>
-      <div><div class="k">회복</div><div class="v">69</div></div>
+      <div><div class="k">관심</div><div class="v" id="u-att">72</div></div>
+      <div><div class="k">연결</div><div class="v" id="u-con">81</div></div>
+      <div><div class="k">온기</div><div class="v" id="u-warm">78</div></div>
+      <div><div class="k">표현</div><div class="v" id="u-exp">74</div></div>
+      <div><div class="k">회복</div><div class="v" id="u-rec">69</div></div>
     </div>
   </div>
 
-  <a href="/journey/" class="cta">+ 새로운 관계 여행 시작</a>
+  <!-- 액션 버튼 4종 (v5) -->
+  <div class="actions">
+    <a href="/journey/" class="act-btn"><span class="ai">🗺</span>여행 지도 보기</a>
+    <a href="certificate.html" class="act-btn"><span class="ai">📘</span>관계 여권 보기</a>
+    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="act-btn" target="_blank" rel="noopener"><span class="ai">✍️</span>편지 쓰기</a>
+    <span class="act-btn disabled"><span class="ai">📖</span>자서전 기록<small>준비중</small></span>
+  </div>
 
   <div class="closing serif">한 송이 꽃이 피면,<br>세상의 봄이 시작됩니다.</div>
 
+  <!-- 사업자정보 푸터 (v6) -->
+  <div class="uni-foot">
+    사랑흐름 · 대표 황규찬 · 파주시 매봉길 17-13 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열 · hkcpcgg@gmail.com<br>
+    © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.
+  </div>
+
 </div>
+
+<!-- 하단 고정 탭바 (v5) -->
+<nav class="tabbar">
+  <a href="/" class="tab active"><span class="ti">🏠</span>홈</a>
+  <a href="#" class="tab"><span class="ti">🧭</span>여행기록</a>
+  <a href="/journey/" class="tab tab-mid"><span class="ti">＋</span>여행시작</a>
+  <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="tab" target="_blank" rel="noopener"><span class="ti">✉️</span>편지</a>
+  <a href="#" class="tab"><span class="ti">👤</span>내정보</a>
+</nav>
+
+  <!-- 재조회 JSONP (v7) — ?id=여권번호로 여행지도 GAS doGet 조회 -->
+  <script>
+  (function(){
+    var GAS=atob('aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4Sl9VM0I1YTBMR3g2MmpWNDMxRC1LejJzU3VMOWoySGNqQW1BaDFIcUNXR3J4NkZ2RklFS2d5cHBNZmxjT2NoOTgvZXhlYw==');
+    var id=new URLSearchParams(location.search).get('id');
+    if(!id) return; /* id 없으면 데모 화면 유지 */
+    id=id.trim().toUpperCase();
+    var cb='lfcb'+Date.now();
+    window[cb]=function(d){
+      if(!d||d.status!=='ok'){ alert('해당 여권번호의 결과를 찾을 수 없어요. 번호를 다시 확인해 주세요.'); return; }
+      function setT(i,t){var el=document.getElementById(i);if(el)el.textContent=t;}
+      function pct(a,b){a=+a||0;b=+b||0;return (a+b)?Math.round(a/(a+b)*100):0;}
+      setT('u-passport','관계 여권 · '+d.passport);
+      setT('u-target', d.relNick||d.relType||'소중한 분');
+      setT('u-att', Math.min(100,Math.round((+d.scA||0)/9*100)));
+      setT('u-con', pct(d.scC,d.scD));
+      setT('u-warm', pct(d.scW,d.scG));
+      setT('u-exp', pct(d.scE,d.scH));
+      setT('u-rec', pct(d.scR,d.scP));
+    };
+    var s=document.createElement('script');
+    s.src=GAS+'?id='+encodeURIComponent(id)+'&callback='+cb;
+    s.onerror=function(){ alert('조회 중 오류가 발생했어요. 잠시 후 다시 시도해 주세요.'); };
+    document.head.appendChild(s);
+  })();
+  </script>
 </body>
 </html>
