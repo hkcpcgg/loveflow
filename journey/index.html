@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v7-7 · 260620 · [작업] 여권번호에 관계유형 코드 삽입 LF-{유형}{랜덤4} (M·D·L·C·F·B·W·S·X) · v7-6 기반 -->
+<!-- 사랑흐름 유료 여행지도 v7-8 · 260620 · [작업] 진단 번호를 기기 목록(lf_history)에 저장 — 여행기록용 · v7-7(유형코드) 기반 -->
 <!-- [v7-4] ①큰 계절도장 제거 → 관계 우주맵이 도장 역할 흡수 (중복·공간낭비 해소, 도장 글자깨짐 제거) -->
 <!--   ②우주맵 '포도송이'로 확대 — 원 크게+라벨 노드 안 · 채워진 자리(이번 관계)=계절색+아이콘=도장 -->
 <!--   ③이메일 수집란 안내문구 보강: "관계 우주 저장 → 다음 관계 분석 시 도장 이어 쌓임"(텍스트만, saveEmail·doShare 로직 불변) -->
@@ -1658,6 +1658,11 @@ function showResult() {
   var _passport=genPassport(relType);
   window.lfPassport=_passport;
   try{localStorage.setItem('lf_passport',_passport);}catch(e){}
+  try{
+    var _hist=JSON.parse(localStorage.getItem('lf_history')||'[]');
+    _hist.push({pp:_passport, rel:(relNick||relType||''), type:'paid', date:(new Date()).toISOString().slice(0,10)});
+    localStorage.setItem('lf_history', JSON.stringify(_hist));
+  }catch(e){}
   document.getElementById('r-name').textContent=t.short;
   document.getElementById('r-full').textContent=t.full;
   document.getElementById('r-cath').textContent=t.cath;
