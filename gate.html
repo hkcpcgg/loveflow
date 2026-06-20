@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<!-- 사랑흐름 입국 게이트 gate.html v1 · 260621 · [작업] 결제 후 받은 접속코드 입력 → 통과 → /journey/ 진단 / 테스트용 고정코드(CODES) -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>입국 게이트 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--gold:#D4AF37;--gold-soft:#C9A96E;--cream:#FBF5EA;--line:#E6E2D7;--text:#2E2A24;--text-sub:#6B6357}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.brandbar{text-align:center;padding:22px 0 6px}
+.bb-logo{font-size:18px;font-weight:900;color:var(--navy);letter-spacing:0.04em}
+.bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.3em;margin-left:7px;font-weight:700}
+.main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 24px 60px}
+.gate-card{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:32px 24px;box-shadow:0 8px 28px rgba(30,74,118,0.08);text-align:center}
+.stamp{width:74px;height:74px;margin:0 auto 18px;border:2.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--gold);transform:rotate(-8deg)}
+.gate-label{font-size:10px;color:var(--gold-soft);font-weight:800;letter-spacing:0.25em;margin-bottom:7px}
+.gate-title{font-size:24px;font-weight:800;color:var(--navy);font-family:'Nanum Myeongjo',serif;margin-bottom:10px}
+.gate-sub{font-size:13px;color:var(--text-sub);line-height:1.75;margin-bottom:26px}
+.code-input{width:100%;padding:16px;border:1.5px solid var(--gold);border-radius:13px;font-size:18px;font-family:'Courier New',monospace;color:var(--navy);text-align:center;text-transform:uppercase;letter-spacing:0.14em;outline:none;background:#FFFDF8;font-weight:700}
+.code-input::placeholder{color:#C7BCA3;font-weight:400;letter-spacing:0.05em}
+.enter-btn{width:100%;margin-top:13px;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;transition:background 0.15s}
+.enter-btn:hover{background:#16395C}
+.msg{font-size:12.5px;margin-top:13px;min-height:18px;font-weight:600}
+.msg.err{color:#C0392B}
+.no-code{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--text-sub);line-height:1.7}
+.no-code a{color:var(--navy);font-weight:700;text-decoration:none}
+.foot{text-align:center;font-size:10px;color:#A8A095;padding:16px;line-height:1.7}
+</style>
+</head>
+<body>
+  <div class="brandbar"><span class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></span></div>
+
+  <div class="main">
+    <div class="gate-card">
+      <div class="stamp">🧭</div>
+      <div class="gate-label">RELATIONSHIP PASSPORT</div>
+      <div class="gate-title">입국 게이트</div>
+      <div class="gate-sub">결제 후 받으신 <b>접속코드</b>를 입력하시면<br>관계 여행이 시작됩니다.</div>
+
+      <input id="code" class="code-input" placeholder="접속코드 입력" maxlength="20" autocomplete="off">
+      <button class="enter-btn" onclick="enterGate()">입장하기</button>
+      <div class="msg" id="msg"></div>
+
+      <div class="no-code">아직 코드가 없으신가요?<br><a href="/">홈으로 돌아가 안내 보기 →</a></div>
+    </div>
+  </div>
+
+  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
+
+  <script>
+  // ★ 테스트용 고정 접속코드 (실전에서는 GAS 1회용 코드 검증으로 교체)
+  var CODES = ['LF-START', 'LFTEST', 'LF-OPEN'];
+
+  function enterGate(){
+    var v = document.getElementById('code').value.trim().toUpperCase();
+    var msg = document.getElementById('msg');
+    if(!v){ msg.className='msg err'; msg.textContent='접속코드를 입력해 주세요.'; return; }
+    if(CODES.indexOf(v) >= 0){
+      try{ sessionStorage.setItem('lf_unlock','1'); }catch(e){}
+      msg.className='msg'; msg.style.color='#1E7A4A'; msg.textContent='확인됐어요. 입장합니다…';
+      setTimeout(function(){ location.href='/journey/'; }, 700);
+    }else{
+      msg.className='msg err'; msg.textContent='코드가 맞지 않아요. 결제 후 받은 코드를 확인해 주세요.';
+    }
+  }
+  document.getElementById('code').addEventListener('keydown', function(e){ if(e.key==='Enter') enterGate(); });
+  </script>
+</body>
+</html>
