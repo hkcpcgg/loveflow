@@ -1,4 +1,4 @@
-<!-- 사랑흐름 관계 우주 화면 v7 · 260620 · [작업] 재방문 재조회 — URL ?id=여권번호 → JSONP(여행지도 GAS doGet) 조회 → 여권번호·대상·5축 채움 / id없으면 데모 유지 · v6 기반 -->
+<!-- 사랑흐름 관계 우주 화면 v8 · 260620 · [작업] 여권번호 강조(22px navy)+라벨+용도안내 (여행지도 v7-6과 톤 통일) / v7 재조회 유지 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -19,7 +19,9 @@
   .uni-head{text-align:center;padding:6px 0 16px}
   .uni-head .ey{font-size:12px;color:var(--gold-soft);letter-spacing:0.3em;font-weight:700}
   .uni-head h1{font-size:28px;font-weight:800;color:var(--navy);margin-top:9px;letter-spacing:0.03em}
-  .uni-head .pp{font-size:14px;color:var(--navy);font-weight:800;margin-top:8px;letter-spacing:0.08em;font-family:'Courier New',monospace}
+  .uni-head .pp-label{font-size:10px;color:var(--gold-soft);letter-spacing:0.25em;font-weight:700;margin-top:11px}
+  .uni-head .pp{font-size:22px;color:var(--navy);font-weight:800;margin-top:3px;letter-spacing:0.14em;font-family:'Courier New',monospace}
+  .uni-head .pp-note{font-size:11.5px;color:#8A8170;margin-top:7px;font-weight:500}
 
   .universe{margin:8px 0 6px}
 
@@ -97,7 +99,9 @@
 
   <div class="uni-head">
     <h1 class="serif">나의 관계 우주</h1>
-    <div class="pp" id="u-passport">관계 여권 · LF-7K2M9</div>
+    <div class="pp-label">RELATIONSHIP PASSPORT</div>
+    <div class="pp" id="u-passport">LF-7K2M9</div>
+    <div class="pp-note">이 번호로 언제든 내 관계우주를 다시 볼 수 있어요</div>
   </div>
 
   <!-- ★ 우주 (텍스트 키움) -->
@@ -263,7 +267,7 @@
       if(!d||d.status!=='ok'){ alert('해당 여권번호의 결과를 찾을 수 없어요. 번호를 다시 확인해 주세요.'); return; }
       function setT(i,t){var el=document.getElementById(i);if(el)el.textContent=t;}
       function pct(a,b){a=+a||0;b=+b||0;return (a+b)?Math.round(a/(a+b)*100):0;}
-      setT('u-passport','관계 여권 · '+d.passport);
+      setT('u-passport', d.passport);
       setT('u-target', d.relNick||d.relType||'소중한 분');
       setT('u-att', Math.min(100,Math.round((+d.scA||0)/9*100)));
       setT('u-con', pct(d.scC,d.scD));
