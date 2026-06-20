@@ -9,7 +9,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v7-5 · 260620 · [작업] 관계여권번호 LF-XXXXX: 프론트 생성(genPassport)+localStorage+결과 hero 표시+payload 전송 (A안) · v7-4 기반, 기존 로직 전부 보존 -->
+<!-- 사랑흐름 유료 여행지도 v7-6 · 260620 · [작업] A안: 여권번호 하단 관계여권카드로 일원화+골드 강조+용도안내, hero 중복줄 제거 / 유료 결과→관계우주 버튼 추가 · v7-5 기반 -->
 <!-- [v7-4] ①큰 계절도장 제거 → 관계 우주맵이 도장 역할 흡수 (중복·공간낭비 해소, 도장 글자깨짐 제거) -->
 <!--   ②우주맵 '포도송이'로 확대 — 원 크게+라벨 노드 안 · 채워진 자리(이번 관계)=계절색+아이콘=도장 -->
 <!--   ③이메일 수집란 안내문구 보강: "관계 우주 저장 → 다음 관계 분석 시 도장 이어 쌓임"(텍스트만, saveEmail·doShare 로직 불변) -->
@@ -251,7 +251,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 .res-hero-label{font-size:10px;color:rgba(212,175,55,0.75);font-weight:700;letter-spacing:0.22em;margin-bottom:12px;text-transform:uppercase}
 .res-hero-icon{font-size:44px;margin-bottom:10px;display:block;filter:brightness(0) invert(1)}
 .res-hero-code{display:inline-block;background:rgba(212,175,55,0.18);border:1px solid rgba(212,175,55,0.5);color:var(--gold);font-size:20px;font-weight:700;padding:5px 18px;border-radius:10px;letter-spacing:3px;margin-bottom:8px}
-.res-hero-pass{font-size:13px;color:var(--gold);font-weight:700;letter-spacing:0.12em;margin:4px 0 10px;font-family:'Courier New',monospace}
 .res-hero-name{font-size:24px;font-weight:900;color:#fff;margin-bottom:4px}
 .res-hero-full{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:16px}
 .res-hero-cath{font-size:14px;color:rgba(255,255,255,0.88);font-weight:600;line-height:1.9;padding:16px 18px;background:rgba(255,255,255,0.07);border-radius:14px;border-left:3px solid var(--gold);text-align:left;white-space:pre-line}
@@ -929,7 +928,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div class="res-hero-label">LFRI™ · 여행자 유형</div>
     <div class="res-hero-icon" id="r-icon"></div>
     <div class="res-hero-code" id="r-code"></div>
-    <div class="res-hero-pass" id="r-passport"></div>
     <div class="res-hero-name" id="r-name"></div>
     <div class="res-hero-full" id="r-full"></div>
     <div style="margin:14px 0 0"></div>
@@ -1029,7 +1027,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div style="text-align:center;margin-bottom:16px">
       <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.2em;margin-bottom:4px">사랑흐름 관계 여권™</div>
       <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:2px;letter-spacing:0.08em">RELATIONSHIP PASSPORT</div>
-      <div style="font-size:10px;color:rgba(255,255,255,0.4)" id="cert-number"></div>
+      <div style="font-size:19px;color:var(--gold);font-weight:700;letter-spacing:0.14em;margin-top:3px;font-family:'Courier New',monospace" id="cert-number"></div>
+      <div style="font-size:10.5px;color:rgba(255,255,255,0.55);margin-top:7px;line-height:1.5">이 번호로 나중에 결과를 다시 볼 수 있어요</div>
     </div>
     <div style="background:rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:16px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;color:rgba(255,255,255,0.75);line-height:2">
@@ -1124,6 +1123,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
       <div>보내지 않아도 됩니다. 읽히지 않아도 됩니다.<br>꺼내는 것만으로, 막혔던 흐름이 다시 움직입니다.</div>
     </div>
     <a href="javascript:void(0)" onclick="goToLetter();return false;" style="display:block;width:100%;padding:14px;background:var(--gold);border:none;border-radius:12px;color:#1E2A3A;font-size:14px;font-weight:900;text-align:center;text-decoration:none;box-sizing:border-box;cursor:pointer">✉️ 마음편지 쓰러 가기</a>
+    <a href="/universe.html" onclick="if(window.lfPassport)this.href='/universe.html?id='+encodeURIComponent(window.lfPassport);" style="display:block;width:100%;padding:13px;margin-top:10px;background:transparent;border:1px solid rgba(212,175,55,0.6);border-radius:12px;color:#D4AF37;font-size:14px;font-weight:800;text-align:center;text-decoration:none;box-sizing:border-box;cursor:pointer">🌌 내 관계우주 보기</a>
   </div>
   <div class="res-block" id="rb_next" style="background:#fff;border:1.5px solid var(--border);border-radius:18px;padding:20px 18px;margin-bottom:14px;text-align:center">
     <div style="font-size:10px;color:#A8880A;font-weight:700;letter-spacing:0.15em;margin-bottom:10px">💛 소중한 분께 이 여행을 선물하세요</div>
@@ -1646,8 +1646,6 @@ function showResult() {
   var _passport=genPassport();
   window.lfPassport=_passport;
   try{localStorage.setItem('lf_passport',_passport);}catch(e){}
-  var _pel=document.getElementById('r-passport');
-  if(_pel)_pel.textContent='관계 여권 · '+_passport;
   document.getElementById('r-name').textContent=t.short;
   document.getElementById('r-full').textContent=t.full;
   document.getElementById('r-cath').textContent=t.cath;
@@ -1854,7 +1852,7 @@ function showResult() {
   var seasonDescEl=document.getElementById('cert-season-desc');
   var now=new Date();
   var dateStr=now.getFullYear()+'.'+(String(now.getMonth()+1).padStart(2,'0'))+'.'+String(now.getDate()).padStart(2,'0');
-  if(certNum) certNum.textContent='LF-'+now.getFullYear()+'-'+String(Math.floor(Math.random()*99999)).padStart(5,'0');
+  if(certNum) certNum.textContent=(window.lfPassport||'LF-?????');
   if(certTraveler) certTraveler.textContent='나';
   if(certTarget) certTarget.textContent=relNick||relType||'소중한 분';
   if(certDate) certDate.textContent=dateStr;
@@ -1993,7 +1991,7 @@ function saveAsHtml(){
   var ai2=Math.min(100,Math.round((attentionScore/9)*100));
   var pC=pct(sc.C,sc.D), pW=pct(sc.W,sc.G), pE=pct(sc.E,sc.H), pR=pct(sc.R,sc.P);
   var issueDate=new Date().toLocaleDateString('ko-KR',{year:'numeric',month:'2-digit',day:'2-digit'}).replace(/\. /g,'.').replace('.','.').trim();
-  var certNum='LF-'+new Date().getFullYear()+'-'+Math.floor(10000+Math.random()*90000);
+  var certNum=(window.lfPassport||'LF-?????');
   var _ei=document.getElementById('collect-email-id')?document.getElementById('collect-email-id').value.trim():'';
   var _ds=document.getElementById('collect-email-domain')?document.getElementById('collect-email-domain').value:'';
   var _dc=document.getElementById('collect-email-custom')?document.getElementById('collect-email-custom').value.trim():'';
