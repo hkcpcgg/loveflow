@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 무료 나침반 compass.html v8 · 260620 · [작업] 여권번호에 관계유형 코드 삽입 LC-{유형}{랜덤4} (어머니M·아버지D·연인L·자녀C·친구F·형제B·직장W·자신S·기타X) / v7 유지 -->
+<!-- 사랑흐름 무료 나침반 compass.html v9 · 260620 · [작업] 진단 번호를 기기 목록(lf_history)에 저장 — 여행기록용 / v8(유형코드) 유지 -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
@@ -692,6 +692,11 @@ function showResult() {
   var _pp = genPassport(relType);
   window.lfPassport = _pp;
   try { localStorage.setItem('lf_passport_free', _pp); } catch(e){}
+  try {
+    var _hist = JSON.parse(localStorage.getItem('lf_history')||'[]');
+    _hist.push({pp:_pp, rel:(relNick||relType||''), type:'free', date:(new Date()).toISOString().slice(0,10)});
+    localStorage.setItem('lf_history', JSON.stringify(_hist));
+  } catch(e){}
   var _ppel = document.getElementById('r-passport');
   if (_ppel) _ppel.textContent = _pp;
 
