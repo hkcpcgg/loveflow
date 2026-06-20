@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!-- 사랑흐름 무료 재조회 free-result.html v1 · 260620 · [작업] ?id=LC- → 무료 GAS 조회(JSONP) → 관계·유형·MBTI·4축 표시 + 유료 유도(/journey/) -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>관계 나침반 결과 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--gold:#D4AF37;--gold-soft:#C9A96E;--cream:#FBF5EA;--line:#E6E2D7;--text:#2E2A24;--text-sub:#6B6357}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);max-width:440px;margin:0 auto;padding-bottom:40px;min-height:100vh}
+.brandbar{text-align:center;padding:18px 0 4px}
+.bb-logo{font-size:18px;font-weight:900;color:var(--navy);letter-spacing:0.04em}
+.bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.3em;margin-left:7px;font-weight:700}
+.wrap{padding:8px 16px}
+/* hero */
+.hero{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 50%,#22243A 100%);border-radius:20px;padding:26px 20px;text-align:center;margin-bottom:14px}
+.hero-label{font-size:10px;color:rgba(184,146,62,0.75);font-weight:700;letter-spacing:0.2em;margin-bottom:14px}
+.hero-rel{font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:6px}
+.hero-code{display:inline-block;font-size:13px;font-weight:900;color:#0F2747;background:#B8923E;padding:5px 16px;border-radius:20px;letter-spacing:3px;margin-bottom:10px}
+.hero-mbti{font-size:15px;color:#fff;font-weight:800}
+.hero-mbti .x{color:var(--gold-soft);margin:0 7px;font-weight:400}
+.pp-label{font-size:9px;color:rgba(212,169,79,0.85);letter-spacing:0.2em;font-weight:700;margin-top:18px}
+.pp{font-size:20px;color:#D4A94F;font-weight:800;letter-spacing:0.14em;font-family:'Courier New',monospace;margin-top:3px}
+.pp-note{font-size:10.5px;color:rgba(255,255,255,0.55);margin-top:6px}
+/* 4축 */
+.lfri-card{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:20px 18px;margin-bottom:14px}
+.lfri-title{font-size:12px;color:var(--gold-soft);font-weight:800;letter-spacing:0.08em;text-align:center;margin-bottom:18px}
+.lfri{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;text-align:center}
+.lfri .k{font-size:12px;color:var(--text-sub);margin-bottom:5px}
+.lfri .v{font-size:24px;font-weight:900;color:var(--navy)}
+.lfri .bar{height:5px;background:#EFEAE0;border-radius:3px;margin-top:7px;overflow:hidden}
+.lfri .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-soft),var(--gold));border-radius:3px}
+.note{font-size:11px;color:#9090A0;text-align:center;margin-top:14px;line-height:1.6}
+/* 유료 CTA */
+.cta-box{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:22px 18px;text-align:center}
+.cta-lead{font-size:15px;font-weight:800;color:var(--navy);line-height:1.7;margin-bottom:16px}
+.cta-btn{display:flex;align-items:center;justify-content:space-between;width:100%;padding:17px 20px;background:linear-gradient(135deg,#0F2747,#1A3A5C);border:1.5px solid rgba(184,146,62,0.5);border-radius:14px;text-decoration:none;box-sizing:border-box}
+.cta-btn .t1{font-size:11px;color:rgba(184,146,62,0.85);font-weight:700;letter-spacing:0.1em;margin-bottom:3px;text-align:left}
+.cta-btn .t2{font-size:16px;font-weight:900;color:#fff;text-align:left}
+.cta-btn .t3{font-size:11px;color:rgba(184,146,62,0.7);font-weight:700;margin-top:3px;text-align:left}
+.cta-btn .arr{font-size:22px;color:#B8923E;font-weight:900}
+.loading,.errbox{text-align:center;padding:60px 20px;color:var(--text-sub);font-size:14px;line-height:1.8}
+.errbox a{display:inline-block;margin-top:18px;padding:12px 24px;background:var(--navy);color:#fff;border-radius:24px;text-decoration:none;font-weight:700}
+.foot{text-align:center;font-size:10px;color:#A8A095;padding:24px 16px 6px;line-height:1.7}
+</style>
+</head>
+<body>
+  <div class="brandbar"><span class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></span></div>
+  <div class="wrap" id="body"><div class="loading">결과를 불러오는 중…</div></div>
+  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
+
+  <script>
+  (function(){
+    var GAS=atob('aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6ZHhNeUppYkUxcFE5d0Q3UVBTNWJSU21fQ3lzbFhENF9qRTRiNktZNDFKcVVVVUlWVF9PZ2VWODd2cmN5U045RXUvZXhlYw==');
+    var body=document.getElementById('body');
+    var id=new URLSearchParams(location.search).get('id');
+    if(!id){ body.innerHTML='<div class="errbox">여권번호가 없어요.<br><a href="/">홈으로</a></div>'; return; }
+    id=id.trim().toUpperCase();
+
+    var cb='lfcf'+Date.now();
+    window[cb]=function(d){
+      if(!d || d.status!=='ok'){
+        var msg=(d&&d.status==='denied')?'이 번호는 무료 결과가 아니에요.':'결과를 찾을 수 없어요. 번호를 확인해 주세요.';
+        body.innerHTML='<div class="errbox">'+msg+'<br><a href="/">홈으로</a></div>';
+        return;
+      }
+      function pct(a,b){a=+a||0;b=+b||0;return (a+b)?Math.round(a/(a+b)*100):0;}
+      var sc=d.sc||{};
+      var con=pct(sc.C,sc.D), warm=pct(sc.W,sc.G), exp=pct(sc.E,sc.H), rec=pct(sc.R,sc.P);
+      var rel=d.relNick||d.relType||'소중한 분';
+      var mbti=(d.myMBTI||'?')+'';
+      var pmbti=(d.partnerMBTI && d.partnerMBTI!=='UNKNOWN')?d.partnerMBTI:'?';
+
+      var h='';
+      h+='<div class="hero">';
+      h+='<div class="hero-label">✦ 사랑흐름 · 관계 나침반 결과</div>';
+      h+='<div class="hero-rel">'+rel+'님과의 관계</div>';
+      h+='<div class="hero-code">'+(d.freeCode||'—')+'</div>';
+      h+='<div class="hero-mbti">'+mbti+'<span class="x">×</span>'+pmbti+'</div>';
+      h+='<div class="pp-label">RELATIONSHIP PASSPORT</div>';
+      h+='<div class="pp">'+d.passport+'</div>';
+      h+='<div class="pp-note">이 번호로 결과를 다시 볼 수 있어요</div>';
+      h+='</div>';
+
+      h+='<div class="lfri-card"><div class="lfri-title">✦ 이 관계의 좌표 · LFRI™</div>';
+      h+='<div class="lfri">';
+      h+='<div><div class="k">연결</div><div class="v">'+con+'</div><div class="bar"><i style="width:'+con+'%"></i></div></div>';
+      h+='<div><div class="k">온기</div><div class="v">'+warm+'</div><div class="bar"><i style="width:'+warm+'%"></i></div></div>';
+      h+='<div><div class="k">표현</div><div class="v">'+exp+'</div><div class="bar"><i style="width:'+exp+'%"></i></div></div>';
+      h+='<div><div class="k">회복</div><div class="v">'+rec+'</div><div class="bar"><i style="width:'+rec+'%"></i></div></div>';
+      h+='</div>';
+      h+='<div class="note">관심 축과 더 깊은 진단은 유료 여행지도에서 확인됩니다.</div></div>';
+
+      h+='<div class="cta-box"><div class="cta-lead">더 깊은 진단으로<br>관계의 진짜 열쇠를 찾아보세요</div>';
+      h+='<a class="cta-btn" href="/journey/"><div><div class="t1">🧭 사랑흐름 여행지도</div><div class="t2">우리 관계의 여행지도 보기</div><div class="t3">(₩9,900 · 전체 공개)</div></div><div class="arr">›</div></a></div>';
+
+      body.innerHTML=h;
+    };
+    var s=document.createElement('script');
+    s.src=GAS+'?id='+encodeURIComponent(id)+'&callback='+cb;
+    s.onerror=function(){ body.innerHTML='<div class="errbox">불러오기 중 오류가 났어요.<br><a href="/">홈으로</a></div>'; };
+    document.head.appendChild(s);
+  })();
+  </script>
+</body>
+</html>
