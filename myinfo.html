@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!-- 사랑흐름 내정보 myinfo.html v1 · 260620 · [작업] 여행 요약(총·유료/무료)+여권번호 목록(복사·보관)+회원없음 안내 / lf_history 기반 -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>내 정보 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--gold:#D4AF37;--gold-soft:#C9A96E;--cream:#FBF5EA;--line:#E6E2D7;--text:#2E2A24;--text-sub:#6B6357}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);max-width:440px;margin:0 auto;padding-bottom:84px;min-height:100vh}
+.brandbar{text-align:center;padding:18px 0 4px}
+.bb-logo{font-size:18px;font-weight:900;color:var(--navy);letter-spacing:0.04em}
+.bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.3em;margin-left:7px;font-weight:700}
+.head{text-align:center;padding:12px 20px 18px}
+.head h1{font-size:26px;font-weight:800;color:var(--navy);margin:6px 0 4px;font-family:'Nanum Myeongjo',serif}
+.wrap{padding:0 16px}
+/* 요약 */
+.summary{display:flex;gap:10px;margin-bottom:16px}
+.sm-card{flex:1;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:18px 12px;text-align:center}
+.sm-num{font-size:28px;font-weight:900;color:var(--navy)}
+.sm-lab{font-size:11.5px;color:var(--text-sub);margin-top:4px;font-weight:600}
+.sm-card.gold .sm-num{color:#B8923E}
+/* 섹션 라벨 */
+.sec-lab{font-size:12px;color:var(--gold-soft);font-weight:800;letter-spacing:0.08em;margin:8px 2px 11px}
+/* 여권번호 카드 */
+.pp-card{display:flex;align-items:center;gap:12px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:14px;margin-bottom:9px}
+.pp-icon{font-size:24px;flex-shrink:0;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:var(--cream);border-radius:12px;border:1px solid var(--line)}
+.pp-mid{flex:1;min-width:0}
+.pp-rel{font-size:14px;font-weight:800;color:var(--navy)}
+.pp-num{font-size:12px;color:var(--gold-soft);font-family:'Courier New',monospace;font-weight:700;margin-top:2px;letter-spacing:0.06em}
+.pp-copy{flex-shrink:0;font-size:11px;font-weight:700;padding:7px 12px;border-radius:10px;background:var(--navy);color:#fff;border:none;cursor:pointer}
+.pp-copy:active{transform:scale(0.95)}
+/* 안내 */
+.notice{background:#FFF8E6;border:1.5px solid rgba(212,175,55,0.3);border-radius:14px;padding:16px 16px;margin-top:18px;font-size:12.5px;color:#7A5A1A;line-height:1.85}
+.notice b{color:#5A4310}
+.empty{text-align:center;color:var(--text-sub);font-size:14px;line-height:1.9;padding:40px 20px}
+.empty .ei{font-size:40px;display:block;margin-bottom:14px}
+.empty a{display:inline-block;margin-top:18px;padding:12px 24px;background:var(--navy);color:#fff;border-radius:24px;text-decoration:none;font-size:14px;font-weight:700}
+.foot{text-align:center;font-size:10px;color:#A8A095;padding:24px 16px 10px;line-height:1.7}
+.tabbar{position:fixed;left:0;right:0;bottom:0;max-width:440px;margin:0 auto;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(30,74,118,0.07);z-index:50}
+.tab{flex:1;text-align:center;font-size:10px;color:var(--text-sub);text-decoration:none;padding:4px 0}
+.tab.active{color:var(--navy);font-weight:700}
+.tab .ti{display:block;font-size:18px;margin-bottom:2px}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%);background:rgba(30,74,118,0.95);color:#fff;font-size:13px;font-weight:600;padding:11px 20px;border-radius:22px;opacity:0;transition:opacity 0.25s;z-index:60;pointer-events:none}
+.toast.on{opacity:1}
+</style>
+</head>
+<body>
+  <div class="brandbar"><span class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></span></div>
+  <div class="head"><h1>내 정보</h1></div>
+
+  <div class="wrap" id="info-body"></div>
+
+  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
+
+  <div class="toast" id="toast">복사되었어요</div>
+
+  <nav class="tabbar">
+    <a href="/" class="tab"><span class="ti">🏠</span>홈</a>
+    <a href="/history.html" class="tab"><span class="ti">🧭</span>여행기록</a>
+    <a href="/journey/" class="tab"><span class="ti">＋</span>여행시작</a>
+    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="tab" target="_blank" rel="noopener"><span class="ti">✉️</span>편지</a>
+    <a href="/myinfo.html" class="tab active"><span class="ti">👤</span>내정보</a>
+  </nav>
+
+  <script>
+  (function(){
+    var TYPE={M:{n:'어머니',i:'👩'},D:{n:'아버지',i:'👨'},L:{n:'배우자·연인',i:'💑'},C:{n:'자녀',i:'👶'},F:{n:'친구',i:'🫂'},B:{n:'형제·자매',i:'🤝'},W:{n:'직장',i:'💼'},S:{n:'나 자신',i:'🧭'},X:{n:'기타',i:'✨'}};
+    var hist=[];
+    try{ hist=JSON.parse(localStorage.getItem('lf_history')||'[]'); }catch(e){}
+    var body=document.getElementById('info-body');
+
+    if(!hist || !hist.length){
+      body.innerHTML='<div class="empty"><span class="ei">👤</span>아직 여행 기록이 없어요.<br>관계 여행을 시작하면 여기 모입니다.<br><a href="/journey/">여행 시작하기</a></div>';
+      return;
+    }
+
+    var paid=0, free=0;
+    for(var i=0;i<hist.length;i++){ (hist[i].type==='paid'?paid++:free++); }
+
+    var html='';
+    // 요약
+    html+='<div class="summary">';
+    html+='<div class="sm-card"><div class="sm-num">'+hist.length+'</div><div class="sm-lab">총 관계 여행</div></div>';
+    html+='<div class="sm-card gold"><div class="sm-num">'+paid+'</div><div class="sm-lab">유료 (LF)</div></div>';
+    html+='<div class="sm-card"><div class="sm-num">'+free+'</div><div class="sm-lab">무료 (LC)</div></div>';
+    html+='</div>';
+
+    // 여권번호 목록
+    html+='<div class="sec-lab">✦ 나의 여권번호</div>';
+    for(var j=hist.length-1;j>=0;j--){
+      var h=hist[j]||{}; var pp=h.pp||''; var code=pp.charAt(3)||'X';
+      var t=TYPE[code]||TYPE.X; var rel=h.rel||t.n;
+      html+='<div class="pp-card"><div class="pp-icon">'+t.i+'</div>';
+      html+='<div class="pp-mid"><div class="pp-rel">'+rel+'</div><div class="pp-num">'+pp+'</div></div>';
+      html+='<button class="pp-copy" onclick="lfCopy(\''+pp+'\')">복사</button></div>';
+    }
+
+    // 안내
+    html+='<div class="notice"><b>사랑흐름은 회원가입 없이 여권번호로 운영됩니다.</b><br>이 번호가 곧 당신의 출입증이에요. 번호를 잃어버리면 결과를 다시 찾기 어려우니, 꼭 복사해서 보관해 주세요. (이메일은 소식 안내 용도로만 사용됩니다)</div>';
+
+    body.innerHTML=html;
+  })();
+
+  function lfCopy(t){
+    function done(){ var el=document.getElementById('toast'); el.classList.add('on'); setTimeout(function(){el.classList.remove('on');},1400); }
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(t).then(done, function(){ done(); });
+    }else{
+      var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
+      try{ document.execCommand('copy'); }catch(e){}
+      document.body.removeChild(ta); done();
+    }
+  }
+  </script>
+</body>
+</html>
