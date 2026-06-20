@@ -1,0 +1,96 @@
+<!-- 사랑흐름 이메일 수집 공지 + 여권번호 안내 v3 · 260620 · [작업] ①배포 파일명 email-notice.html 고정 ②사업자정보 푸터 추가(타 4개 파일과 통일) ③개인정보처리방침 페이지 미존재(404)로 /privacy 링크 임시 제거(주석으로 보존) · 본문/디자인은 v2 원본 유지 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>이메일 수집 안내 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{ --navy:#1E4A76; --gold:#C9A96E; --gold-d:#A8851E; --bg:#EEF1F5; --card:#fff; --line:#E3E7EC; --text:#2E3A48; --sub:#6B7585; --mint:#2A7F6E; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);line-height:1.85;font-size:15.5px;padding:24px 16px}
+  .wrap{max-width:440px;margin:0 auto}
+  .serif{font-family:'Nanum Myeongjo',serif}
+  .note{font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px}
+
+  .box{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 22px;margin-bottom:18px;box-shadow:0 2px 12px rgba(30,74,118,0.06)}
+  .box .head{display:flex;align-items:center;gap:9px;margin-bottom:14px}
+  .box .head .ic{font-size:20px}
+  .box .head .t{font-size:16px;font-weight:800;color:var(--navy)}
+
+  .purpose{display:flex;flex-direction:column;gap:12px;margin-bottom:14px}
+  .pp{display:flex;gap:11px;align-items:flex-start}
+  .pp .n{flex-shrink:0;width:24px;height:24px;background:var(--navy);color:#fff;border-radius:50%;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:2px}
+  .pp .x{font-size:14.5px;color:var(--text)}
+  .pp .x b{color:var(--navy)}
+
+  .guard{background:#F4F7FA;border-left:3px solid var(--mint);border-radius:0 10px 10px 0;padding:13px 15px;font-size:13px;color:var(--sub);line-height:1.75}
+  .guard b{color:var(--mint)}
+
+  /* 여권번호 안내 */
+  .pass .lead{font-size:14.5px;color:var(--text);margin-bottom:14px;line-height:1.8}
+  .pass .lead b{color:var(--navy)}
+  .pass-num{text-align:center;background:linear-gradient(160deg,#1E4A76,#143257);border-radius:14px;padding:18px;margin-bottom:14px}
+  .pass-num .lab{font-size:11px;color:#9DC9A8;letter-spacing:0.15em;font-weight:700}
+  .pass-num .num{font-size:21px;color:#E5C687;font-weight:800;font-family:'Courier New',monospace;letter-spacing:0.06em;margin-top:5px}
+  .pass-use{display:flex;flex-direction:column;gap:9px}
+  .pu{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--text)}
+  .pu .ck{color:var(--gold-d);font-weight:900;flex-shrink:0}
+
+  .agree{display:flex;gap:10px;align-items:flex-start;background:#FFF;border:1.5px solid var(--gold);border-radius:12px;padding:14px 16px;font-size:13px;color:var(--text);line-height:1.7}
+  .agree input{margin-top:3px;width:18px;height:18px;flex-shrink:0}
+  .agree b{color:var(--navy)}
+  .privacy-link{font-size:12px;color:var(--sub);text-decoration:underline;margin-left:4px}
+
+  /* 사업자정보 푸터 (타 파일과 통일) */
+  .foot{text-align:center;font-size:9.5px;color:var(--sub);line-height:1.6;margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="note">— 결제·진단 시작 전 안내 화면 (랜딩/관문 삽입용) —</div>
+
+  <!-- 이메일 수집 안내 -->
+  <div class="box">
+    <div class="head"><span class="ic">📧</span><span class="t">이메일 수집에 관한 안내</span></div>
+    <div style="font-size:14px;color:var(--sub);margin-bottom:16px">사랑흐름은 아래의 목적으로만 이메일을 수집합니다.</div>
+    <div class="purpose">
+      <div class="pp"><span class="n">1</span><span class="x"><b>여행지도 결과물</b>을 안전하게 보내드리기 위해</span></div>
+      <div class="pp"><span class="n">2</span><span class="x"><b>관계 여권과 증명서</b>를 소유자님께 전달하기 위해</span></div>
+      <div class="pp"><span class="n">3</span><span class="x">앞으로의 <b>관계 여정</b>을 이어가실 수 있도록 안내하기 위해</span></div>
+    </div>
+    <div class="guard">수집된 이메일은 <b>위 목적 외에는 사용되지 않으며</b>, 언제든 수신 거부와 삭제를 요청하실 수 있습니다.</div>
+  </div>
+
+  <!-- 여권번호 안내 -->
+  <div class="box pass">
+    <div class="head"><span class="ic">🛂</span><span class="t">관계 여권번호란?</span></div>
+    <div class="lead">여행을 마치면 당신만의 <b>관계 여권번호</b>가 발급됩니다. 단순한 숫자가 아니라, <b>당신이 이 관계를 여행한 단 하나의 증표</b>예요.</div>
+    <div class="pass-num">
+      <div class="lab">YOUR PASSPORT NO.</div>
+      <div class="num">LF-7K2M9</div>
+    </div>
+    <div class="pass-use">
+      <div class="pu"><span class="ck">✓</span><div>이 번호로 결과와 증명서를 <b style="color:var(--navy)">언제든 다시</b> 열어볼 수 있어요</div></div>
+      <div class="pu"><span class="ck">✓</span><div>여행을 거듭할수록 번호가 모여 <b style="color:var(--navy)">나만의 관계 우주</b>가 됩니다</div></div>
+      <div class="pu"><span class="ck">✓</span><div>이메일과 함께 보관되어, 폰을 바꿔도 <b style="color:var(--navy)">잃어버리지 않아요</b></div></div>
+    </div>
+  </div>
+
+  <!-- 동의 (v3: privacy.html 미존재로 링크 임시 제거) -->
+  <label class="agree">
+    <input type="checkbox">
+    <span>위 <b>이메일 수집·이용 목적</b>을 확인했으며 이에 동의합니다.</span>
+    <!-- privacy.html 생성 후 복원: <a href="/privacy.html" class="privacy-link">개인정보처리방침 전문</a> -->
+  </label>
+
+  <!-- 사업자정보 푸터 -->
+  <div class="foot">
+    사랑흐름 · 대표 황규찬 · 파주시 매봉길 17-13 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열 · hkcpcgg@gmail.com<br>
+    © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.
+  </div>
+
+</div>
+</body>
+</html>
