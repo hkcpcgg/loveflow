@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<!-- 사랑흐름 여행기록 history.html v1 · 260620 · [작업] lf_history(기기 목록) → "누구와의 여행" 선택 → 관계우주(?id=) / 유형코드 아이콘 분류 -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 여행기록 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--gold:#D4AF37;--gold-soft:#C9A96E;--cream:#FBF5EA;--line:#E6E2D7;--text:#2E2A24;--text-sub:#6B6357}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);max-width:440px;margin:0 auto;padding-bottom:84px;min-height:100vh}
+.brandbar{text-align:center;padding:18px 0 4px}
+.bb-logo{font-size:18px;font-weight:900;color:var(--navy);letter-spacing:0.04em}
+.bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.3em;margin-left:7px;font-weight:700}
+.head{text-align:center;padding:12px 20px 20px}
+.head h1{font-size:26px;font-weight:800;color:var(--navy);margin:6px 0 6px;font-family:'Nanum Myeongjo',serif}
+.head .sub{font-size:13px;color:var(--text-sub)}
+.wrap{padding:0 16px}
+.hist-card{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:15px;margin-bottom:11px;cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;text-decoration:none;color:inherit}
+.hist-card:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(30,74,118,0.1)}
+.hc-icon{font-size:28px;flex-shrink:0;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:var(--cream);border-radius:14px;border:1px solid var(--line)}
+.hc-mid{flex:1;min-width:0}
+.hc-rel{font-size:16px;font-weight:800;color:var(--navy)}
+.hc-meta{font-size:11.5px;color:var(--text-sub);margin-top:3px}
+.hc-pp{font-size:11px;color:var(--gold-soft);font-family:'Courier New',monospace;font-weight:700;margin-top:3px;letter-spacing:0.06em}
+.hc-badge{font-size:10px;font-weight:700;padding:4px 10px;border-radius:11px;flex-shrink:0}
+.hc-badge.paid{background:var(--navy);color:#fff}
+.hc-badge.free{background:#F0EBE0;color:var(--text-sub)}
+.empty{text-align:center;color:var(--text-sub);font-size:14px;line-height:1.9;padding:54px 20px}
+.empty .ei{font-size:42px;display:block;margin-bottom:16px}
+.empty a{display:inline-block;margin-top:20px;padding:13px 26px;background:var(--navy);color:#fff;border-radius:26px;text-decoration:none;font-size:14px;font-weight:700}
+.foot{text-align:center;font-size:10px;color:#A8A095;padding:26px 16px 10px;line-height:1.7}
+.tabbar{position:fixed;left:0;right:0;bottom:0;max-width:440px;margin:0 auto;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(30,74,118,0.07);z-index:50}
+.tab{flex:1;text-align:center;font-size:10px;color:var(--text-sub);text-decoration:none;padding:4px 0}
+.tab.active{color:var(--navy);font-weight:700}
+.tab .ti{display:block;font-size:18px;margin-bottom:2px}
+</style>
+</head>
+<body>
+  <div class="brandbar"><span class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></span></div>
+  <div class="head">
+    <h1>나의 여행기록</h1>
+    <div class="sub">누구와의 여행을 보시겠어요?</div>
+  </div>
+
+  <div class="wrap" id="hist-list"></div>
+
+  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
+
+  <nav class="tabbar">
+    <a href="/" class="tab"><span class="ti">🏠</span>홈</a>
+    <a href="/history.html" class="tab active"><span class="ti">🧭</span>여행기록</a>
+    <a href="/journey/" class="tab"><span class="ti">＋</span>여행시작</a>
+    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="tab" target="_blank" rel="noopener"><span class="ti">✉️</span>편지</a>
+    <a href="#" class="tab"><span class="ti">👤</span>내정보</a>
+  </nav>
+
+  <script>
+  (function(){
+    var TYPE={
+      M:{n:'어머니',i:'👩'}, D:{n:'아버지',i:'👨'}, L:{n:'배우자·연인',i:'💑'},
+      C:{n:'자녀',i:'👶'}, F:{n:'친구',i:'🫂'}, B:{n:'형제·자매',i:'🤝'},
+      W:{n:'직장',i:'💼'}, S:{n:'나 자신',i:'🧭'}, X:{n:'기타',i:'✨'}
+    };
+    var hist=[];
+    try{ hist=JSON.parse(localStorage.getItem('lf_history')||'[]'); }catch(e){}
+    var el=document.getElementById('hist-list');
+    if(!hist || !hist.length){
+      el.innerHTML='<div class="empty"><span class="ei">🧭</span>아직 여행기록이 없어요.<br>첫 관계 여행을 시작해보세요.<br><a href="/journey/">여행 시작하기</a></div>';
+      return;
+    }
+    var html='';
+    for(var i=hist.length-1;i>=0;i--){
+      var h=hist[i]||{};
+      var pp=h.pp||'';
+      var code=pp.charAt(3)||'X';
+      var t=TYPE[code]||TYPE.X;
+      var rel=h.rel||t.n;
+      var paid=(h.type==='paid');
+      if(paid){
+        html+='<a class="hist-card" href="/universe.html?id='+encodeURIComponent(pp)+'">';
+      }else{
+        html+='<a class="hist-card" href="javascript:void(0)" onclick="alert(\'무료 결과 재조회는 준비 중이에요. 유료 여행지도에서 깊은 진단을 받아보세요.\')">';
+      }
+      html+='<div class="hc-icon">'+t.i+'</div>';
+      html+='<div class="hc-mid"><div class="hc-rel">'+rel+'</div><div class="hc-meta">'+(h.date||'')+' 여행</div><div class="hc-pp">'+pp+'</div></div>';
+      html+='<div class="hc-badge '+(paid?'paid':'free')+'">'+(paid?'유료':'무료')+'</div>';
+      html+='</a>';
+    }
+    el.innerHTML=html;
+  })();
+  </script>
+</body>
+</html>
