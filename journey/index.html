@@ -10,7 +10,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v7-10 · 260621 · [작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
+<!-- 사랑흐름 유료 여행지도 v7-11 · 260621 · [작업] 모바일 PDF출력 수정 (savePDF: setTimeout 1.6초 제거 → confirm 후 즉시 window.print, 모바일 인쇄차단 해결 / 잠금·GAS·기타 미변경) · v7-10 · 260621 · [작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
 <!-- [v7-4] ①큰 계절도장 제거 → 관계 우주맵이 도장 역할 흡수 (중복·공간낭비 해소, 도장 글자깨짐 제거) -->
 <!--   ②우주맵 '포도송이'로 확대 — 원 크게+라벨 노드 안 · 채워진 자리(이번 관계)=계절색+아이콘=도장 -->
 <!--   ③이메일 수집란 안내문구 보강: "관계 우주 저장 → 다음 관계 분석 시 도장 이어 쌓임"(텍스트만, saveEmail·doShare 로직 불변) -->
@@ -2304,8 +2304,10 @@ function doShare(){
 
 /* ── PDF 저장 (window.print) ── */
 function savePDF(){
-  showToast('🖨️ PDF 저장 팁 — 인쇄 설정에서 "머리글 및 바닥글"을 꺼주시면 가장 깔끔하게 저장됩니다');
-  setTimeout(function(){window.print();},1600);
+  /* [v7-11] 모바일은 setTimeout 뒤 window.print를 차단함 → confirm(동기 안내) 후 같은 클릭 핸들러 안에서 즉시 호출 */
+  if(confirm('PDF로 저장합니다.\n\n인쇄 설정에서 "머리글 및 바닥글"을 끄시면 가장 깔끔하게 저장됩니다.\n\n[확인]을 누르면 인쇄 화면이 열립니다.')){
+    window.print();
+  }
 }
 function playError(){
   try{
