@@ -1,5 +1,5 @@
+<!-- 사랑흐름 입국 게이트 gate.html v5 · 260621 · [작업 v5] 구입처 드롭다운 10개(주요 오픈마켓+사랑흐름직접+기타직접입력) + 휴대폰 뒷4자리(필수, 복합키) + 문의 안내 / issuePassport에 channel·orderNo·phone4 전달 · [v4]다채널 · [v3]GAS URL ...M1A · [v2]A방식 발급 -->
 <!DOCTYPE html>
-<!-- 사랑흐름 입국 게이트 gate.html v1 · 260621 · [작업] 결제 후 받은 접속코드 입력 → 통과 → /journey/ 진단 / 테스트용 고정코드(CODES) -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -13,60 +13,168 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
 .brandbar{text-align:center;padding:22px 0 6px}
 .bb-logo{font-size:18px;font-weight:900;color:var(--navy);letter-spacing:0.04em}
 .bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.3em;margin-left:7px;font-weight:700}
-.main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 24px 60px}
-.gate-card{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:32px 24px;box-shadow:0 8px 28px rgba(30,74,118,0.08);text-align:center}
-.stamp{width:74px;height:74px;margin:0 auto 18px;border:2.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--gold);transform:rotate(-8deg)}
+.main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 24px 50px}
+.gate-card{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:30px 24px;box-shadow:0 8px 28px rgba(30,74,118,0.08);text-align:center}
+.stamp{width:70px;height:70px;margin:0 auto 16px;border:2.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);transform:rotate(-8deg)}
 .gate-label{font-size:10px;color:var(--gold-soft);font-weight:800;letter-spacing:0.25em;margin-bottom:7px}
-.gate-title{font-size:24px;font-weight:800;color:var(--navy);font-family:'Nanum Myeongjo',serif;margin-bottom:10px}
-.gate-sub{font-size:13px;color:var(--text-sub);line-height:1.75;margin-bottom:26px}
-.code-input{width:100%;padding:16px;border:1.5px solid var(--gold);border-radius:13px;font-size:18px;font-family:'Courier New',monospace;color:var(--navy);text-align:center;text-transform:uppercase;letter-spacing:0.14em;outline:none;background:#FFFDF8;font-weight:700}
-.code-input::placeholder{color:#C7BCA3;font-weight:400;letter-spacing:0.05em}
-.enter-btn{width:100%;margin-top:13px;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;transition:background 0.15s}
+.gate-title{font-size:23px;font-weight:800;color:var(--navy);font-family:'Nanum Myeongjo',serif;margin-bottom:9px}
+.gate-sub{font-size:13px;color:var(--text-sub);line-height:1.7;margin-bottom:20px}
+.gate-sub b{color:var(--navy)}
+.field-label{font-size:11px;color:var(--gold-soft);font-weight:800;letter-spacing:0.1em;text-align:left;margin:0 0 6px 2px}
+.sel,.code-input{width:100%;padding:14px 16px;border:1.5px solid var(--gold);border-radius:13px;font-size:15px;color:var(--navy);background:#FFFDF8;font-weight:700;outline:none;margin-bottom:13px}
+.sel{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A96E' stroke-width='2.5'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 14px center;background-size:18px}
+.code-input{font-family:'Courier New',monospace;text-align:center;letter-spacing:0.06em}
+.code-input::placeholder{color:#C7BCA3;font-weight:400;letter-spacing:0.03em;font-family:-apple-system,sans-serif}
+.enter-btn{width:100%;margin-top:8px;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;transition:background 0.15s}
 .enter-btn:hover{background:#16395C}
-.msg{font-size:12.5px;margin-top:13px;min-height:18px;font-weight:600}
+.enter-btn:disabled{background:#9AA8B5;cursor:default}
+.hintbox{margin-top:13px;font-size:11.5px;color:var(--text-sub);line-height:1.7;text-align:left;background:#FBF5EA;border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+.hintbox b{color:var(--navy)}
+.msg{font-size:12.5px;margin-top:12px;min-height:18px;font-weight:600}
 .msg.err{color:#C0392B}
-.no-code{margin-top:24px;padding-top:20px;border-top:1px solid var(--line);font-size:12.5px;color:var(--text-sub);line-height:1.7}
-.no-code a{color:var(--navy);font-weight:700;text-decoration:none}
-.foot{text-align:center;font-size:10px;color:#A8A095;padding:16px;line-height:1.7}
+.ask{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--text-sub);line-height:1.7}
+.ask b{color:var(--navy)}
+.ask a{color:var(--navy);font-weight:700;text-decoration:none}
+.issued{display:none}
+.issued.show{display:block}
+.input-wrap.hide{display:none}
+.pp-badge{font-size:11px;color:var(--gold-soft);font-weight:800;letter-spacing:0.18em;margin-bottom:10px}
+.pp-no{font-family:'Nanum Myeongjo',serif;font-size:34px;font-weight:800;color:var(--navy);letter-spacing:0.04em;margin-bottom:8px}
+.pp-sub{font-size:12.5px;color:var(--text-sub);line-height:1.7;margin-bottom:18px}
+.pp-moving{font-size:12.5px;color:var(--gold-soft);font-weight:700}
+.foot{text-align:center;font-size:10px;color:#A8A095;padding:14px;line-height:1.7}
 </style>
 </head>
 <body>
-  <div class="brandbar"><span class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></span></div>
+
+  <div class="brandbar"><div class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></div></div>
 
   <div class="main">
     <div class="gate-card">
       <div class="stamp">🧭</div>
       <div class="gate-label">RELATIONSHIP PASSPORT</div>
-      <div class="gate-title">입국 게이트</div>
-      <div class="gate-sub">결제 후 받으신 <b>접속코드</b>를 입력하시면<br>관계 여행이 시작됩니다.</div>
 
-      <input id="code" class="code-input" placeholder="접속코드 입력" maxlength="20" autocomplete="off">
-      <button class="enter-btn" onclick="enterGate()">입장하기</button>
-      <div class="msg" id="msg"></div>
+      <!-- 입력 상태 -->
+      <div class="input-wrap" id="inputWrap">
+        <div class="gate-title">관계 여행 입장</div>
+        <div class="gate-sub">구입하신 곳·주문번호·휴대폰 뒷자리를 입력하시면<br><b>관계 여권</b>이 발급되고 여행이 시작됩니다.</div>
 
-      <div class="no-code">아직 코드가 없으신가요?<br><a href="/">홈으로 돌아가 안내 보기 →</a></div>
+        <div class="field-label">구입처</div>
+        <select id="channel" class="sel" onchange="onChannel()">
+          <option value="네이버 스마트스토어">네이버 스마트스토어</option>
+          <option value="크몽">크몽</option>
+          <option value="쿠팡">쿠팡</option>
+          <option value="11번가">11번가</option>
+          <option value="G마켓">G마켓</option>
+          <option value="옥션">옥션</option>
+          <option value="인터파크">인터파크</option>
+          <option value="카카오 선물하기">카카오 선물하기</option>
+          <option value="사랑흐름(직접결제)">사랑흐름 (직접결제)</option>
+          <option value="__etc__">기타 (직접 입력)</option>
+        </select>
+        <input id="channelEtc" class="code-input" style="display:none;text-align:left;font-family:-apple-system,sans-serif" placeholder="구입처를 직접 입력해 주세요" maxlength="20" autocomplete="off">
+
+        <div class="field-label">주문번호</div>
+        <input id="orderNo" class="code-input" placeholder="주문번호 입력" maxlength="30" autocomplete="off">
+
+        <div class="field-label">휴대폰 뒷 4자리</div>
+        <input id="phone4" class="code-input" placeholder="결제 시 휴대폰 뒷 4자리" maxlength="4" inputmode="numeric" autocomplete="off">
+
+        <button class="enter-btn" id="btnIssue" onclick="issue()">관계 여권 발급받기 →</button>
+        <div class="msg" id="msg"></div>
+
+        <div class="hintbox">
+          ▸ <b>결제 후 1~2분 뒤</b> 입력해 주세요<br>
+          ▸ 주문번호는 <b>구입하신 곳의 주문내역</b>에서 확인하세요<br>
+          ▸ 휴대폰 뒷자리는 <b>결제 시 입력한 번호</b> 기준입니다
+        </div>
+
+        <div class="ask">
+          입력이 안 되거나 문제가 있으신가요?<br>
+          <b>070-4158-7786</b> · <a href="mailto:hkcpcgg@gmail.com">hkcpcgg@gmail.com</a><br>
+          주문번호·휴대폰번호 알려주시면 확인 후 열어드립니다.
+        </div>
+      </div>
+
+      <!-- 발급완료 상태 -->
+      <div class="issued" id="issuedView">
+        <div class="pp-badge">✦ 관계 여권 발급 완료</div>
+        <div class="pp-no" id="ppNo">LF-—</div>
+        <div class="pp-sub">이 번호로 언제든 당신의 관계 여행을<br>다시 볼 수 있어요</div>
+        <div class="pp-moving">여행지도로 이동합니다…</div>
+      </div>
+
     </div>
   </div>
 
-  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
+  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
 
   <script>
-  // ★ 테스트용 고정 접속코드 (실전에서는 GAS 1회용 코드 검증으로 교체)
-  var CODES = ['LF-START', 'LFTEST', 'LF-OPEN'];
+  // 유료 GAS URL (base64) · ...M1A 배포
+  var GAS_B64 = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4TElHX0xSQVpEM0FNSkgyNmdQaGVmZGt3TGJYbUE1aXBfVXVyQmZRLTUzYnhncTJUNjNkU3JlNllPOWo0aHhCWk0xQS9leGVj';
 
-  function enterGate(){
-    var v = document.getElementById('code').value.trim().toUpperCase();
-    var msg = document.getElementById('msg');
-    if(!v){ msg.className='msg err'; msg.textContent='접속코드를 입력해 주세요.'; return; }
-    if(CODES.indexOf(v) >= 0){
-      try{ sessionStorage.setItem('lf_unlock','1'); }catch(e){}
-      msg.className='msg'; msg.style.color='#1E7A4A'; msg.textContent='확인됐어요. 입장합니다…';
-      setTimeout(function(){ location.href='/journey/'; }, 700);
-    }else{
-      msg.className='msg err'; msg.textContent='코드가 맞지 않아요. 결제 후 받은 코드를 확인해 주세요.';
-    }
+  function onChannel(){
+    var sel=document.getElementById('channel').value;
+    document.getElementById('channelEtc').style.display = (sel==='__etc__') ? 'block' : 'none';
   }
-  document.getElementById('code').addEventListener('keydown', function(e){ if(e.key==='Enter') enterGate(); });
+  function setMsg(t, err){ var m=document.getElementById('msg'); m.textContent=t||''; m.className='msg'+(err?' err':''); if(!err)m.style.color='#1E7A4A'; }
+
+  function issue(){
+    var sel = document.getElementById('channel').value;
+    var channel = (sel==='__etc__') ? (document.getElementById('channelEtc').value||'').trim() : sel;
+    var no = (document.getElementById('orderNo').value || '').trim();
+    var phone4 = (document.getElementById('phone4').value || '').trim();
+
+    if(sel==='__etc__' && !channel){ setMsg('구입처를 직접 입력해 주세요.', true); return; }
+    if(!no){ setMsg('주문번호를 입력해 주세요.', true); return; }
+    if(!/^[A-Za-z0-9\-]{4,30}$/.test(no)){ setMsg('주문번호를 다시 확인해 주세요. (구입처 주문내역 참고)', true); return; }
+    if(!/^[0-9]{4}$/.test(phone4)){ setMsg('휴대폰 뒷 4자리를 숫자로 입력해 주세요.', true); return; }
+
+    var btn=document.getElementById('btnIssue');
+    btn.disabled=true; setMsg('확인 중입니다…', false);
+
+    var cb = 'lfissue' + Date.now();
+    var done = false;
+    var timer = setTimeout(function(){
+      if(done) return; done=true;
+      btn.disabled=false; setMsg('잠시 후 다시 시도해 주세요. (네트워크 지연)', true);
+      try{ delete window[cb]; }catch(e){}
+    }, 12000);
+
+    window[cb] = function(res){
+      if(done) return; done=true;
+      clearTimeout(timer);
+      try{ delete window[cb]; }catch(e){}
+      if(res && res.status==='ok' && res.passport){
+        try{ sessionStorage.setItem('lf_unlock','1'); }catch(e){}
+        try{ sessionStorage.setItem('lf_passport', res.passport); }catch(e){}
+        document.getElementById('ppNo').textContent = res.passport;
+        document.getElementById('inputWrap').classList.add('hide');
+        document.getElementById('issuedView').classList.add('show');
+        setTimeout(function(){ location.href='/journey/?id='+encodeURIComponent(res.passport); }, 1600);
+      } else {
+        btn.disabled=false;
+        setMsg((res && res.msg) ? res.msg : '주문번호를 확인할 수 없어요. 다시 확인해 주세요.', true);
+      }
+    };
+
+    var url = atob(GAS_B64)
+      + '?action=issuePassport'
+      + '&channel=' + encodeURIComponent(channel)
+      + '&orderNo=' + encodeURIComponent(no)
+      + '&phone4=' + encodeURIComponent(phone4)
+      + '&callback=' + cb;
+    var s = document.createElement('script');
+    s.src = url;
+    s.onerror = function(){
+      if(done) return; done=true; clearTimeout(timer);
+      btn.disabled=false; setMsg('연결에 실패했어요. 잠시 후 다시 시도해 주세요.', true);
+      try{ delete window[cb]; }catch(e){}
+    };
+    document.body.appendChild(s);
+  }
+
+  document.getElementById('phone4').addEventListener('keydown', function(e){ if(e.key==='Enter') issue(); });
   </script>
 </body>
 </html>
