@@ -1,4 +1,4 @@
-<!-- 사랑흐름 관계 우주 화면 v10 · 260620 · [작업] 탭바 '내정보' → /myinfo.html 연결 / v9(여행기록 연결) 유지 -->
+<!-- 사랑흐름 관계 우주 화면 v11 · 260621 · [작업] '관계 여권 보기' 버튼이 certificate.html?id=여권번호 로 넘기도록 연결(certificate v8 동적화 대응) / v10 유지 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -231,7 +231,7 @@
   <!-- 액션 버튼 4종 (v5) -->
   <div class="actions">
     <a href="/journey/" class="act-btn"><span class="ai">🗺</span>여행 지도 보기</a>
-    <a href="certificate.html" class="act-btn"><span class="ai">📘</span>관계 여권 보기</a>
+    <a href="certificate.html" id="btn-cert" class="act-btn"><span class="ai">📘</span>관계 여권 보기</a>
     <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="act-btn" target="_blank" rel="noopener"><span class="ai">✍️</span>편지 쓰기</a>
     <span class="act-btn disabled"><span class="ai">📖</span>자서전 기록<small>준비중</small></span>
   </div>
@@ -262,6 +262,7 @@
     var id=new URLSearchParams(location.search).get('id');
     if(!id) return; /* id 없으면 데모 화면 유지 */
     id=id.trim().toUpperCase();
+    var bc=document.getElementById('btn-cert'); if(bc) bc.href='certificate.html?id='+encodeURIComponent(id);
     var cb='lfcb'+Date.now();
     window[cb]=function(d){
       if(!d||d.status!=='ok'){ alert('해당 여권번호의 결과를 찾을 수 없어요. 번호를 다시 확인해 주세요.'); return; }
