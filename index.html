@@ -1,12 +1,10 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 랜딩(현관) index.html v2-10 · 260621 · [작업] 네이버 서치어드바이저 소유확인 메타태그 추가 / v2-9(공유3종) 유지 -->
-<!-- [v2-7] 푸터에서 사업자정보 텍스트 제거 → 소개페이지(about.html)로 이동 / 푸터=링크5종+저작권1줄만 -->
-<!-- [푸터링크] 소개(/about.html)·이용약관·개인정보·환불·FAQ / 공유5종(카카오·페북·X·인스타·링크) 유지 -->
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사랑흐름 · 관계 회복의 나침반</title>
+<!-- 사랑흐름 랜딩(현관) index.html v3-1 · 260622 · [작업] ①히어로 배경이미지 적용(/hero-bg.jpg 메인 나침반·길) 풀블리드 + 상단 nav 투명 오버레이 ②인용구 카드 배경(/quote-bg.jpg 작약·빛줄기) ③상단 '유료 버전' 중복 버튼 제거 → English + 햄버거만 ④유료 버튼 키워드 합의문구 '소중한 분과 관계여행 시작하기' + 「유료」 배지 ⑤배경 이미지는 2종만 사용 / [보존·미변경] 카카오 init 키(0c7493...)·shareKakao/shareX/shareFacebook/copyLink/lookupResult·네이버 SEO·og 5종·여권조회(→universe)·유료 진입 전부 /gate.html·푸터 about·trust#앵커 / v3-0 기반 -->
 <meta name="description" content="많은 관계는 사랑이 부족해서가 아니라, 서로의 언어를 몰라서 멀어집니다. 사랑흐름은 관계 회복의 나침반입니다.">
 <meta name="naver-site-verification" content="5a1b56279649d9d611d086243dbe0e799a7834c8" />
 <!-- 카카오·링크 공유 미리보기 (og-image) -->
@@ -16,157 +14,237 @@
 <meta property="og:description" content="많은 관계는 사랑이 부족해서가 아니라, 서로의 언어를 몰라서 멀어집니다.">
 <meta property="og:image" content="https://www.loveflow.ai.kr/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FBF5EA; --navy:#1E4A76; --navy-dark:#0F1B2D;
-    --gold:#C9A96E; --gold-dark:#A8880A; --text:#2E2A24; --text-sub:#6B6357;
+    --cream:#FDF6E3; --cream-2:#F7EFDD; --card:#FFFFFF;
+    --gold:#D4AF37; --gold-deep:#B8923E; --gold-dark:#A8870C;
+    --cocoa:#5D4037; --navy:#1E4A76; --navy-deep:#0A162B; --navy-2:#16294A;
+    --text:#2E2A24; --text-sub:#6B6357; --line:#E8DFC9;
+    --serif:'Noto Serif KR',serif; --display:'Playfair Display',serif;
+    --sans:'Noto Sans KR','Pretendard','Apple SD Gothic Neo',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
   body{
     min-height:100vh; display:flex; flex-direction:column;
-    background:
-      radial-gradient(circle at 50% 0%, rgba(201,169,110,0.18), transparent 55%),
-      radial-gradient(circle at 50% 100%, rgba(30,74,118,0.08), transparent 50%),
-      var(--cream);
-    color:var(--text);
-    font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
-    line-height:1.8; -webkit-text-size-adjust:100%;
+    background:linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%);
+    color:var(--text); font-family:var(--sans); line-height:1.8; -webkit-text-size-adjust:100%;
   }
+  .container{max-width:620px; width:100%; margin:0 auto; padding:0 20px}
 
-  /* 상단 내비 */
-  .topnav{
-    display:flex; justify-content:flex-end; align-items:center; gap:4px;
-    padding:14px 20px;
+  /* ── 히어로 (배경 이미지 풀블리드) ── */
+  .hero{
+    position:relative; width:100%;
+    background:url('/hero-bg.jpg') center top / cover no-repeat;
+    padding-bottom:30px;
   }
-  .topnav a{
-    font-size:13px; color:var(--navy); text-decoration:none; font-weight:600;
-    padding:7px 13px; border-radius:18px; transition:all 0.15s;
+  /* 상단 텍스트 가독성 — 위쪽만 살짝 크림 베일 */
+  .hero::before{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(253,246,227,0.55) 0%, rgba(253,246,227,0.12) 26%, rgba(253,246,227,0) 50%);
+    pointer-events:none;
   }
-  .topnav a:hover{background:rgba(30,74,118,0.08)}
-  .topnav a.paid{color:var(--gold-dark); border:1.5px solid var(--gold); font-weight:700}
+  .hero-inner{position:relative; z-index:2; max-width:620px; margin:0 auto; padding:0 20px}
 
-  /* 메인 */
-  main{flex:1; display:flex; justify-content:center; align-items:center; padding:20px 20px 50px}
-  .wrap{max-width:600px; width:100%; text-align:center}
+  /* 상단 내비 (투명 오버레이) */
+  .topnav{display:flex; justify-content:space-between; align-items:center; padding:16px 0 6px; position:relative}
+  .brand{display:flex; align-items:center; gap:9px; text-decoration:none}
+  .brand .mark{width:34px; height:34px; flex-shrink:0}
+  .brand .bt{line-height:1.05}
+  .brand .ko{font-family:var(--serif); font-size:19px; font-weight:900; color:var(--navy); letter-spacing:-0.01em}
+  .brand .en{font-family:var(--display); font-size:9px; font-weight:700; color:var(--gold-dark); letter-spacing:0.34em}
+  .nav-right{display:flex; align-items:center; gap:6px}
+  .nav-right a{font-size:13px; color:var(--navy); text-decoration:none; font-weight:700; padding:7px 11px; border-radius:18px; background:rgba(255,255,255,0.5); transition:all .15s}
+  .nav-right a:hover{background:rgba(255,255,255,0.85)}
+  .hamb{width:38px; height:38px; border:none; background:rgba(255,255,255,0.5); cursor:pointer; display:flex; flex-direction:column; justify-content:center; align-items:center; gap:4px; border-radius:11px}
+  .hamb span{width:19px; height:2px; background:var(--navy); border-radius:2px}
+  .menu{position:absolute; top:58px; right:0; background:#fff; border:1px solid var(--line); border-radius:14px; box-shadow:0 12px 34px rgba(10,22,43,0.2); padding:8px; min-width:210px; z-index:60; display:none}
+  .menu.open{display:block}
+  .menu a{display:block; padding:11px 14px; font-size:14px; color:var(--text); text-decoration:none; border-radius:9px; font-weight:600}
+  .menu a:hover{background:var(--cream)}
+  .menu .div{height:1px; background:var(--line); margin:6px 4px}
+  .menu a.paid-m{color:var(--gold-dark)}
 
-  /* 로고 */
-  .logo-img{max-width:140px; height:auto; margin:0 auto 18px; display:block}
-  .logo-fallback{display:none}
-  .logo-fallback .ko{font-size:34px; font-weight:900; color:var(--navy); letter-spacing:0.08em}
-  .logo-fallback .en{font-size:12px; color:var(--gold-dark); letter-spacing:0.4em; font-weight:700; margin-top:2px}
+  /* 히어로 텍스트 */
+  .hero-head{text-align:center; padding:14px 0 0}
+  .hero-head .title{font-family:var(--serif); font-size:48px; font-weight:900; color:var(--navy); letter-spacing:-0.01em; line-height:1.1; text-shadow:0 1px 16px rgba(253,246,227,0.9)}
+  .hero-head .title-en{font-family:var(--display); font-size:15px; font-weight:700; color:var(--gold-dark); letter-spacing:0.42em; margin-top:6px; text-shadow:0 1px 12px rgba(253,246,227,0.9)}
+  .hero-head .flourish{color:var(--gold); font-size:13px; margin:14px 0 0}
+  .hero-head .slogan{font-family:var(--serif); font-size:21px; font-weight:700; color:var(--navy); line-height:1.6; letter-spacing:-0.01em; margin:14px auto 0; max-width:430px; text-shadow:0 1px 14px rgba(253,246,227,0.92)}
+  .hero-head .eyebrow{display:inline-block; font-size:14px; color:var(--gold-dark); font-weight:700; margin-top:14px; text-shadow:0 1px 12px rgba(253,246,227,0.9)}
+  .hero-head .eyebrow .h{color:var(--gold); margin:0 6px}
+  /* 풍경 감상 공간 (강·나침반이 보이도록 하단 여백) */
+  .hero-scape{height:300px}
 
-  /* 슬로건 */
-  .slogan{font-size:20px; font-weight:800; color:var(--navy); line-height:1.7; letter-spacing:-0.01em; margin-bottom:26px}
+  /* ── 소개 ── */
+  main{padding:0 0 46px}
+  .intro{text-align:center; font-size:15.5px; color:var(--text-sub); line-height:2.0; margin:26px 0 30px}
+  .intro b{color:var(--navy); font-weight:700}
 
-  /* 소개 */
-  .intro-tag{font-size:13px; color:var(--gold-dark); font-weight:700; letter-spacing:0.1em; margin-bottom:12px}
-  .intro{font-size:15px; color:var(--text-sub); line-height:1.95; margin-bottom:32px}
-
-  /* 철학 인용 */
+  /* ── 철학 인용 (배경=작약) ── */
   .philo{
-    background:rgba(255,255,255,0.55); border:1px solid rgba(201,169,110,0.35);
-    border-radius:16px; padding:22px 24px; margin-bottom:38px;
-    font-size:14.5px; color:var(--navy); line-height:2; font-style:italic;
+    position:relative; overflow:hidden;
+    border:1px solid rgba(212,175,55,0.45); border-radius:18px; padding:30px 24px 24px; margin-bottom:36px;
+    font-family:var(--serif); font-size:15.5px; color:var(--navy); line-height:2.0; text-align:center;
+    box-shadow:0 6px 22px rgba(10,22,43,0.07);
+    background:linear-gradient(rgba(253,246,227,0.80),rgba(253,246,227,0.86)), url('/quote-bg.jpg') right center / cover no-repeat;
   }
-  .philo .flower{color:var(--gold-dark); font-weight:700}
+  .philo .qm{font-family:var(--display); font-size:40px; color:var(--gold); line-height:0.4; display:block; margin-bottom:8px}
+  .philo .spring{color:var(--gold-dark); font-weight:700; font-style:italic; display:block; margin-top:6px}
+  .philo .heart{color:var(--gold); margin-top:12px; font-size:12px}
 
-  /* 입장 버튼 */
-  .enter{
-    display:inline-flex; align-items:center; gap:9px;
-    background:linear-gradient(135deg,var(--gold),#B8923E); color:#fff;
-    font-size:18px; font-weight:800; text-decoration:none;
-    padding:17px 38px; border-radius:40px; letter-spacing:0.02em;
-    box-shadow:0 6px 20px rgba(201,169,110,0.45); animation:pulse 2.4s ease-in-out infinite;
+  /* ── 두 버튼 (유료/무료) ── */
+  .cta-stack{display:flex; flex-direction:column; gap:13px; margin-bottom:14px}
+  .cta{
+    display:flex; align-items:center; justify-content:center; gap:10px; position:relative;
+    text-decoration:none; font-family:var(--serif); font-weight:700; font-size:18px;
+    padding:18px 20px; border-radius:44px; letter-spacing:0.01em; transition:all .2s; text-align:center;
   }
-  .enter .free{font-size:11px; background:rgba(255,255,255,0.25); padding:3px 9px; border-radius:12px; font-weight:700}
-  @keyframes pulse{0%,100%{box-shadow:0 6px 20px rgba(201,169,110,0.45)}50%{box-shadow:0 6px 30px rgba(201,169,110,0.7)}}
-  .curiosity{font-size:13px; color:var(--text-sub); margin-top:18px; font-style:italic}
+  .cta .ico{width:23px; height:23px; flex-shrink:0}
+  .cta .badge{font-family:var(--sans); font-size:11px; font-weight:800; padding:3px 10px; border-radius:13px; flex-shrink:0}
+  .cta-paid{background:linear-gradient(135deg,var(--gold) 0%,var(--gold-deep) 100%); color:#fff; box-shadow:0 8px 24px rgba(184,146,62,0.42); animation:pulse 2.6s ease-in-out infinite}
+  .cta-paid .badge{background:rgba(255,255,255,0.26); color:#fff}
+  .cta-paid:hover{transform:translateY(-2px); box-shadow:0 12px 30px rgba(184,146,62,0.5)}
+  @keyframes pulse{0%,100%{box-shadow:0 8px 24px rgba(184,146,62,0.42)}50%{box-shadow:0 8px 34px rgba(184,146,62,0.62)}}
+  .cta-free{background:#fff; color:var(--navy); border:2px solid var(--gold); box-shadow:0 4px 14px rgba(10,22,43,0.06)}
+  .cta-free .badge{background:var(--cream); color:var(--gold-dark)}
+  .cta-free:hover{background:var(--cream); transform:translateY(-1px)}
+  .curiosity{font-size:13.5px; color:var(--text-sub); margin:8px 0 0; font-style:italic; text-align:center}
 
-  /* 재방문 여권번호 조회 (v2-8) */
-  .revisit{margin-top:32px; padding-top:24px; border-top:1px solid rgba(201,169,110,0.3)}
-  .rv-label{font-size:13px; color:var(--text-sub); margin-bottom:13px; font-weight:600}
-  .rv-row{display:flex; gap:8px; justify-content:center; max-width:340px; margin:0 auto}
-  .rv-input{flex:1; min-width:0; padding:11px 14px; border:1.5px solid var(--gold); border-radius:10px; font-size:14px; font-family:inherit; color:var(--navy); text-transform:uppercase; letter-spacing:0.04em; outline:none; background:#fff}
-  .rv-input::placeholder{color:#B0A48A; text-transform:none; letter-spacing:0}
-  .rv-btn{padding:11px 18px; background:var(--navy); color:#fff; border:none; border-radius:10px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; white-space:nowrap}
-  .rv-btn:hover{background:var(--navy-dark)}
+  /* ── 재방문 여권조회 ── */
+  .revisit{margin-top:34px; background:#fff; border:1px solid var(--line); border-radius:18px; padding:20px 18px; box-shadow:0 4px 14px rgba(10,22,43,0.05)}
+  .rv-label{font-size:14px; color:var(--navy); margin-bottom:13px; font-weight:700; text-align:center}
+  .rv-label .pin{color:var(--gold-dark); margin-right:5px}
+  .rv-row{display:flex; flex-direction:column; gap:9px}
+  .rv-input{width:100%; padding:13px 15px; border:1.5px solid var(--gold); border-radius:12px; font-size:15px; font-family:inherit; color:var(--navy); text-transform:uppercase; letter-spacing:0.04em; outline:none; background:#fff; text-align:center}
+  .rv-input::placeholder{color:#B7A77F; text-transform:none; letter-spacing:0}
+  .rv-btn{padding:13px; background:var(--navy); color:#fff; border:none; border-radius:12px; font-size:14.5px; font-weight:700; font-family:inherit; cursor:pointer}
+  .rv-btn:hover{background:var(--navy-2)}
 
-  /* 공유 버튼 (현대식 입구) */
-  .share{margin-top:36px}
-  .share-label{font-size:11px; color:var(--text-sub); letter-spacing:0.15em; margin-bottom:13px; font-weight:600}
+  /* ── 공유 ── */
+  .share{margin-top:34px; text-align:center}
+  .share-label{font-size:12px; color:var(--text-sub); letter-spacing:0.12em; margin-bottom:14px; font-weight:600}
+  .share-label .s{color:var(--gold)}
   .share-btns{display:flex; justify-content:center; gap:10px; flex-wrap:wrap}
-  .sb{display:inline-flex; align-items:center; gap:5px; border:none; cursor:pointer; font-size:12px; font-weight:600; padding:8px 14px; border-radius:18px; font-family:inherit; transition:transform 0.12s; text-decoration:none}
+  .sb{display:inline-flex; align-items:center; gap:6px; border:none; cursor:pointer; font-size:13px; font-weight:700; padding:10px 18px; border-radius:22px; font-family:inherit; transition:transform .12s; text-decoration:none}
   .sb:hover{transform:translateY(-2px)}
   .sb.kakao{background:#FEE500; color:#391B1B}
-  .sb.x{background:#26262A; color:#fff}
-  .sb.link{background:#fff; color:var(--text-sub); border:1px solid #D8D2C4}
+  .sb.x{background:#16161A; color:#fff}
+  .sb.link{background:#fff; color:var(--text-sub); border:1px solid var(--line)}
 
-  /* 깔끔한 푸터 (네이비 배너) */
-  footer{background:var(--navy-dark); color:rgba(255,255,255,0.75); padding:30px 20px 26px; text-align:center}
-  footer .f-brand{font-size:16px; font-weight:800; color:#fff; letter-spacing:0.05em; margin-bottom:5px}
-  footer .f-sub{font-size:12px; color:rgba(255,255,255,0.55); margin-bottom:18px}
-  footer .f-links{margin-bottom:18px}
-  footer .f-links a{font-size:12.5px; color:rgba(255,255,255,0.85); text-decoration:none; margin:0 7px; font-weight:600}
+  /* ── 푸터 ── */
+  footer{background:linear-gradient(180deg,var(--navy-2) 0%,var(--navy-deep) 100%); color:rgba(255,255,255,0.78); padding:34px 20px 28px; text-align:center; margin-top:46px}
+  footer .f-brand{display:flex; align-items:center; justify-content:center; gap:9px; margin-bottom:6px}
+  footer .f-brand .fb-ko{font-family:var(--serif); font-size:18px; font-weight:800; color:#fff; letter-spacing:0.03em}
+  footer .f-brand .fb-en{font-family:var(--display); font-size:14px; color:var(--gold); letter-spacing:0.18em}
+  footer .f-sub{font-size:12px; color:rgba(255,255,255,0.55); letter-spacing:0.08em; margin-bottom:18px}
+  footer .f-sub::before,footer .f-sub::after{content:"—"; color:var(--gold); margin:0 8px; opacity:0.6}
+  footer .f-links{margin-bottom:18px; line-height:2.1}
+  footer .f-links a{font-size:12.5px; color:rgba(255,255,255,0.85); text-decoration:none; margin:0 6px; font-weight:600}
   footer .f-links a:hover{color:var(--gold)}
-  .biz-toggle{margin-bottom:4px}
-  .biz-toggle summary{font-size:11.5px; color:rgba(255,255,255,0.6); cursor:pointer; font-weight:600; list-style:none; display:inline-block; padding:6px 16px; border:1px solid rgba(255,255,255,0.22); border-radius:16px; transition:all 0.15s}
-  .biz-toggle summary::-webkit-details-marker{display:none}
-  .biz-toggle summary:hover{color:#fff; border-color:var(--gold)}
-  .biz-toggle .f-inner{margin-top:16px}
-  footer .f-biz{font-size:10.5px; color:rgba(255,255,255,0.4); line-height:1.9; margin-top:13px}
-  footer .f-copy{font-size:10.5px; color:rgba(255,255,255,0.4); margin-top:16px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.12)}
+  footer .f-links .sep{color:rgba(255,255,255,0.25)}
+  footer .f-copy{font-size:10.5px; color:rgba(255,255,255,0.4); margin-top:8px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.12)}
 </style>
 <script src="https://t1.kakao.com/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 </head>
 <body>
 
-  <!-- 상단 내비 (링크는 채워주세요) -->
-  <nav class="topnav">
-    <a href="/">홈</a>
-    <a href="/en/">English</a>
-    <a class="paid" href="/journey/">유료 버전</a>
-  </nav>
+  <!-- ── 히어로 (배경 이미지) ── -->
+  <header class="hero">
+    <div class="hero-inner">
 
-  <main>
-    <div class="wrap">
+      <!-- 상단 내비 (투명) -->
+      <nav class="topnav">
+        <a class="brand" href="/">
+          <svg class="mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M24 38C24 38 9 29 9 19.5C9 14.3 13.0 10.5 17.8 10.5C20.7 10.5 23.2 12.0 24 14.2C24.8 12.0 27.3 10.5 30.2 10.5C35.0 10.5 39 14.3 39 19.5C39 29 24 38 24 38Z" stroke="#D4AF37" stroke-width="2.4" stroke-linejoin="round"/>
+            <circle cx="24" cy="20" r="3.4" stroke="#D4AF37" stroke-width="2.2"/>
+          </svg>
+          <span class="bt"><span class="ko">사랑흐름</span><br><span class="en">LOVE FLOW</span></span>
+        </a>
+        <div class="nav-right">
+          <a href="/en/">English</a>
+          <button class="hamb" aria-label="메뉴" onclick="toggleMenu()"><span></span><span></span><span></span></button>
+        </div>
+        <div class="menu" id="navMenu">
+          <a href="/">홈</a>
+          <a href="/about.html">소개</a>
+          <a class="paid-m" href="/gate.html">소중한 분과 관계여행 시작하기</a>
+          <a href="/en/">English</a>
+          <div class="div"></div>
+          <a href="/trust.html#terms">이용약관</a>
+          <a href="/trust.html#privacy">개인정보처리방침</a>
+          <a href="/trust.html#refund">환불·교환정책</a>
+          <a href="/trust.html#faq">자주 묻는 질문</a>
+        </div>
+      </nav>
 
-      <!-- 로고: 이미지 우선, 안 뜨면 텍스트 폴백 -->
-      <img src="logo.png" alt="사랑흐름" class="logo-img"
-           onerror="this.style.display='none';document.getElementById('logoText').style.display='block'">
-      <div id="logoText" class="logo-fallback">
-        <div class="ko">사랑흐름</div><div class="en">LOVE FLOW</div>
+      <!-- 히어로 텍스트 -->
+      <div class="hero-head">
+        <div class="title">사랑흐름</div>
+        <div class="title-en">LOVE FLOW</div>
+        <div class="flourish">✦ ✦ ✦</div>
+        <div class="slogan">많은 관계는 사랑이 부족해서가 아니라,<br>서로의 언어를 몰라서 멀어집니다</div>
+        <div class="eyebrow"><span class="h">♡</span> 사랑은 멈추지 않고, 흐릅니다 <span class="h">♡</span></div>
       </div>
+      <!-- 강·나침반 풍경이 보이는 여백 -->
+      <div class="hero-scape"></div>
 
-      <div class="slogan">많은 관계는 사랑이 부족해서가 아니라,<br>서로의 언어를 몰라서 멀어집니다</div>
+    </div>
+  </header>
 
-      <div class="intro-tag">✦ 사랑은 멈추지 않고, 흐릅니다</div>
+  <div class="container">
+    <main>
+      <!-- 소개 -->
       <div class="intro">
         사랑흐름은 당신의 관계 흐름을 읽고,<br>
         서로 다른 마음의 언어를 번역해<br>
         멀어진 사이에 다시 길을 내어주는<br>
-        <b style="color:var(--navy)">관계 회복의 나침반</b>입니다.
+        <b>관계 회복의 나침반</b>입니다.
       </div>
 
+      <!-- 철학 인용 (배경=작약) -->
       <div class="philo">
-        한 관계가 회복되면,<br>그 변화는 또 다른 관계로 번집니다.<br>
-        <span class="flower">한 송이 꽃이 피면, 세상의 봄이 시작되듯이.</span>
+        <span class="qm">&ldquo;</span>
+        한 관계가 회복되면,<br>그 변화는 또 다른 관계를 바꿉니다.
+        <span class="spring">한 송이 꽃이 피면, 세상의 봄이 시작되듯이.</span>
+        <div class="heart">♡</div>
       </div>
 
-      <!-- ⬇️ href를 무료 나침반 주소로 교체하세요 -->
-      <a class="enter" href="/compass.html">마음 지도 펼치기 <span class="free">무료</span></a>
+      <!-- 두 버튼: 유료(관계여행 시작) + 무료(마음 지도) -->
+      <div class="cta-stack">
+        <a class="cta cta-paid" href="/gate.html">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="#fff" stroke-width="1.8"/>
+            <path d="M12 5.5L13.7 10.3L18.5 12L13.7 13.7L12 18.5L10.3 13.7L5.5 12L10.3 10.3L12 5.5Z" fill="#fff"/>
+          </svg>
+          소중한 분과 관계여행 시작하기 <span class="badge">유료</span>
+        </a>
+        <a class="cta cta-free" href="/compass.html">
+          <svg class="ico" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M4 6.5C4 6.5 7 5 12 5C17 5 20 6.5 20 6.5V18.5C20 18.5 17 17 12 17C7 17 4 18.5 4 18.5V6.5Z" stroke="#1E4A76" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M12 5V17" stroke="#1E4A76" stroke-width="1.7"/>
+          </svg>
+          마음 지도 펼치기 <span class="badge">무료</span>
+        </a>
+      </div>
       <div class="curiosity">당신의 관계엔 지금, 어떤 흐름이 흐르고 있을까요?</div>
 
-      <!-- 재방문 여권번호 조회 (v2-8) -->
+      <!-- 재방문 여권번호 조회 -->
       <div class="revisit">
-        <div class="rv-label">이미 여행하셨나요?</div>
+        <div class="rv-label"><span class="pin">⚲</span>이미 여행하셨나요?</div>
         <div class="rv-row">
           <input id="pp-input" class="rv-input" placeholder="여권번호 (예: LF-TH58V)" maxlength="8">
           <button class="rv-btn" onclick="lookupResult()">내 결과 보기</button>
         </div>
       </div>
 
-      <!-- 공유 버튼 (카카오·페북·링크복사) -->
+      <!-- 공유 -->
       <div class="share">
+        <div class="share-label"><span class="s">✦</span> 결과 공유하기</div>
         <div class="share-btns">
           <button class="sb kakao" onclick="shareKakao()">카카오톡</button>
           <button class="sb x" onclick="shareX()">X</button>
@@ -174,30 +252,54 @@
         </div>
       </div>
 
-    </div>
-  </main>
+    </main>
+  </div>
 
-  <!-- 깔끔한 푸터 -->
+  <!-- 푸터 -->
   <footer>
-    <div class="f-brand">사랑흐름 · LOVE FLOW</div>
+    <div class="f-brand">
+      <svg width="26" height="26" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M24 38C24 38 9 29 9 19.5C9 14.3 13.0 10.5 17.8 10.5C20.7 10.5 23.2 12.0 24 14.2C24.8 12.0 27.3 10.5 30.2 10.5C35.0 10.5 39 14.3 39 19.5C39 29 24 38 24 38Z" stroke="#D4AF37" stroke-width="2.6" stroke-linejoin="round"/>
+        <circle cx="24" cy="20" r="3.4" stroke="#D4AF37" stroke-width="2.4"/>
+      </svg>
+      <span class="fb-ko">사랑흐름</span><span class="fb-en">LOVE FLOW</span>
+    </div>
     <div class="f-sub">관계 회복의 나침반</div>
     <div class="f-links">
-      <a href="/about.html">소개</a> ·
-      <a href="https://www.loveflow.ai.kr/trust.html#terms">이용약관</a> ·
-      <a href="https://www.loveflow.ai.kr/trust.html#privacy">개인정보처리방침</a> ·
-      <a href="https://www.loveflow.ai.kr/trust.html#refund">환불·교환정책</a> ·
-      <a href="https://www.loveflow.ai.kr/trust.html#faq">자주 묻는 질문</a>
+      <a href="/about.html">소개</a><span class="sep">|</span>
+      <a href="/trust.html#terms">이용약관</a><span class="sep">|</span>
+      <a href="/trust.html#privacy">개인정보처리방침</a><span class="sep">|</span>
+      <a href="/trust.html#refund">환불·교환정책</a><span class="sep">|</span>
+      <a href="/trust.html#faq">자주 묻는 질문</a>
     </div>
     <div class="f-copy">© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
   </footer>
+
   <script>
+    /* ── 카카오 SDK 초기화 (v2-10/v3-0 그대로 보존 · 키 변경 금지) ── */
     try{ Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); }catch(e){}
+
+    /* 햄버거 메뉴 토글 */
+    function toggleMenu(){
+      document.getElementById('navMenu').classList.toggle('open');
+    }
+    document.addEventListener('click',function(e){
+      var m=document.getElementById('navMenu');
+      var h=document.querySelector('.hamb');
+      if(m && m.classList.contains('open') && !m.contains(e.target) && !h.contains(e.target)){
+        m.classList.remove('open');
+      }
+    });
+
+    /* ── 재방문 여권번호 조회 (그대로) ── */
     function lookupResult(){
       var v=document.getElementById('pp-input').value.trim().toUpperCase();
       if(!v){alert('여권번호를 입력해주세요');return;}
       v=v.replace(/^LF-?/,'');
       location.href='/universe.html?id=LF-'+encodeURIComponent(v);
     }
+
+    /* ── 카카오톡 공유 (그대로 · 공유용, 채널 문의와 별개) ── */
     function shareKakao(){
       if(typeof Kakao==='undefined' || !Kakao.Share){ alert('카카오 공유를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'); return; }
       Kakao.Share.sendDefault({
