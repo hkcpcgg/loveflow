@@ -1,4 +1,4 @@
-<!-- 사랑흐름 입국 게이트 gate.html v5 · 260621 · [작업 v5] 구입처 드롭다운 10개(주요 오픈마켓+사랑흐름직접+기타직접입력) + 휴대폰 뒷4자리(필수, 복합키) + 문의 안내 / issuePassport에 channel·orderNo·phone4 전달 · [v4]다채널 · [v3]GAS URL ...M1A · [v2]A방식 발급 -->
+<!-- 사랑흐름 입국 게이트 gate.html v8 · 260622 · [작업 v8] ①상단 가로 재배치(도장 왼쪽+제목/영문 오른쪽, 세로스크롤↓) ②도장 ✦ 키우고 원 작게+반짝임 애니메이션 ③제목 '관계 여행 입장'→'관계 여행 떠나기' ④주문번호→상품주문번호(주민번호 오인방지) ⑤문의 '연락드리겠습니다' ⑥버튼 '사랑흐름 관계 여권 발급받기' ⑦관계 여권 설명 한 줄 추가 / v6·v7 유지 · [v7]도장✦·전화→카톡 · [v6]구매하러가기 · [v5]구입처10개+휴대폰뒷4 · [v3]GAS ...M1A · [v2]A방식 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,9 +15,15 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
 .bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.3em;margin-left:7px;font-weight:700}
 .main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 24px 50px}
 .gate-card{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:30px 24px;box-shadow:0 8px 28px rgba(30,74,118,0.08);text-align:center}
-.stamp{width:70px;height:70px;margin:0 auto 16px;border:2.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);transform:rotate(-8deg)}
-.gate-label{font-size:10px;color:var(--gold-soft);font-weight:800;letter-spacing:0.25em;margin-bottom:7px}
-.gate-title{font-size:23px;font-weight:800;color:var(--navy);font-family:'Nanum Myeongjo',serif;margin-bottom:9px}
+.gate-head{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:20px}
+.gate-head-txt{text-align:left}
+.stamp{width:58px;height:58px;flex-shrink:0;border:2.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--gold);transform:rotate(-8deg)}
+.lf-spark{display:inline-block}
+@keyframes lfTwinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.82)}}
+@media(prefers-reduced-motion:no-preference){.lf-spark{animation:lfTwinkle 1.7s ease-in-out infinite}}
+.gate-label{font-size:10px;color:var(--gold-soft);font-weight:800;letter-spacing:0.22em}
+.gate-title{font-size:22px;font-weight:800;color:var(--navy);font-family:'Nanum Myeongjo',serif;margin-bottom:4px;line-height:1.25}
+.pp-explain{font-size:11.5px;color:var(--gold-soft);line-height:1.6;margin:-6px 0 18px;text-align:center}
 .gate-sub{font-size:13px;color:var(--text-sub);line-height:1.7;margin-bottom:20px}
 .gate-sub b{color:var(--navy)}
 .field-label{font-size:11px;color:var(--gold-soft);font-weight:800;letter-spacing:0.1em;text-align:left;margin:0 0 6px 2px}
@@ -28,6 +34,9 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
 .enter-btn{width:100%;margin-top:8px;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;transition:background 0.15s}
 .enter-btn:hover{background:#16395C}
 .enter-btn:disabled{background:#9AA8B5;cursor:default}
+.buy-first{margin-bottom:18px;padding:13px 15px;background:var(--cream);border:1.5px solid var(--gold);border-radius:13px;font-size:12.5px;color:var(--text-sub);line-height:1.7;text-align:center}
+.buy-first b{color:var(--navy)}
+.buy-first a{display:inline-block;margin-top:7px;color:var(--navy);font-weight:800;text-decoration:none;font-size:13.5px}
 .hintbox{margin-top:13px;font-size:11.5px;color:var(--text-sub);line-height:1.7;text-align:left;background:#FBF5EA;border:1px solid var(--line);border-radius:11px;padding:11px 13px}
 .hintbox b{color:var(--navy)}
 .msg{font-size:12.5px;margin-top:12px;min-height:18px;font-weight:600}
@@ -51,13 +60,23 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
 
   <div class="main">
     <div class="gate-card">
-      <div class="stamp">🧭</div>
-      <div class="gate-label">RELATIONSHIP PASSPORT</div>
+      <div class="gate-head">
+        <div class="stamp"><span class="lf-spark">✦</span></div>
+        <div class="gate-head-txt">
+          <div class="gate-title">관계 여행 떠나기</div>
+          <div class="gate-label">RELATIONSHIP PASSPORT</div>
+        </div>
+      </div>
 
       <!-- 입력 상태 -->
       <div class="input-wrap" id="inputWrap">
-        <div class="gate-title">관계 여행 입장</div>
-        <div class="gate-sub">구입하신 곳·주문번호·휴대폰 뒷자리를 입력하시면<br><b>관계 여권</b>이 발급되고 여행이 시작됩니다.</div>
+        <div class="gate-sub">구입하신 곳·상품주문번호·휴대폰 뒷자리를 입력하시면<br><b>관계 여권</b>이 발급되고 여행이 시작됩니다.</div>
+        <div class="pp-explain">✦ 관계 여권 = 내 관계 여행을 담아 언제든 다시 보는 나만의 번호예요</div>
+
+        <div class="buy-first">
+          처음이신가요? 여행지도는 <b>구매 후 입장</b>이에요<br>
+          <a href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener">스마트스토어에서 구매하러 가기 →</a>
+        </div>
 
         <div class="field-label">구입처</div>
         <select id="channel" class="sel" onchange="onChannel()">
@@ -74,25 +93,25 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
         </select>
         <input id="channelEtc" class="code-input" style="display:none;text-align:left;font-family:-apple-system,sans-serif" placeholder="구입처를 직접 입력해 주세요" maxlength="20" autocomplete="off">
 
-        <div class="field-label">주문번호</div>
-        <input id="orderNo" class="code-input" placeholder="주문번호 입력" maxlength="30" autocomplete="off">
+        <div class="field-label">상품주문번호</div>
+        <input id="orderNo" class="code-input" placeholder="상품주문번호 입력" maxlength="30" autocomplete="off">
 
         <div class="field-label">휴대폰 뒷 4자리</div>
         <input id="phone4" class="code-input" placeholder="결제 시 휴대폰 뒷 4자리" maxlength="4" inputmode="numeric" autocomplete="off">
 
-        <button class="enter-btn" id="btnIssue" onclick="issue()">관계 여권 발급받기 →</button>
+        <button class="enter-btn" id="btnIssue" onclick="issue()">사랑흐름 관계 여권 발급받기 →</button>
         <div class="msg" id="msg"></div>
 
         <div class="hintbox">
           ▸ <b>결제 후 1~2분 뒤</b> 입력해 주세요<br>
-          ▸ 주문번호는 <b>구입하신 곳의 주문내역</b>에서 확인하세요<br>
+          ▸ 상품주문번호는 <b>구입하신 곳의 주문내역</b>에서 확인하세요<br>
           ▸ 휴대폰 뒷자리는 <b>결제 시 입력한 번호</b> 기준입니다
         </div>
 
         <div class="ask">
           입력이 안 되거나 문제가 있으신가요?<br>
-          <b>070-4158-7786</b> · <a href="mailto:hkcpcgg@gmail.com">hkcpcgg@gmail.com</a><br>
-          주문번호·휴대폰번호 알려주시면 확인 후 열어드립니다.
+          <a href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 문의</a> · <a href="mailto:hkcpcgg@gmail.com">hkcpcgg@gmail.com</a><br>
+          상품주문번호·휴대폰번호 알려주시면 연락드리겠습니다.
         </div>
       </div>
 
@@ -126,8 +145,8 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
     var phone4 = (document.getElementById('phone4').value || '').trim();
 
     if(sel==='__etc__' && !channel){ setMsg('구입처를 직접 입력해 주세요.', true); return; }
-    if(!no){ setMsg('주문번호를 입력해 주세요.', true); return; }
-    if(!/^[A-Za-z0-9\-]{4,30}$/.test(no)){ setMsg('주문번호를 다시 확인해 주세요. (구입처 주문내역 참고)', true); return; }
+    if(!no){ setMsg('상품주문번호를 입력해 주세요.', true); return; }
+    if(!/^[A-Za-z0-9\-]{4,30}$/.test(no)){ setMsg('상품주문번호를 다시 확인해 주세요. (구입처 주문내역 참고)', true); return; }
     if(!/^[0-9]{4}$/.test(phone4)){ setMsg('휴대폰 뒷 4자리를 숫자로 입력해 주세요.', true); return; }
 
     var btn=document.getElementById('btnIssue');
@@ -154,7 +173,7 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
         setTimeout(function(){ location.href='/journey/?id='+encodeURIComponent(res.passport); }, 1600);
       } else {
         btn.disabled=false;
-        setMsg((res && res.msg) ? res.msg : '주문번호를 확인할 수 없어요. 다시 확인해 주세요.', true);
+        setMsg((res && res.msg) ? res.msg : '상품주문번호를 확인할 수 없어요. 다시 확인해 주세요.', true);
       }
     };
 
