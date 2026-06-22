@@ -10,66 +10,69 @@
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/en" />
 <meta property="og:site_name" content="Love Flow" />
-<!-- Love Flow Relationship Compass EN v1 · 260613 · English version -->
+<!-- Love Flow Relationship Compass EN v2 · 260622 · [작업] 디자인 톤 통일 — 색 팔레트를 확립기준으로(navy #1E4A76·gold #D4AF37·mint #2A7F6E·border #E2E8F0), body 배경 cream(#FDF6E3) 통일, Playfair Display 제목 serif+Noto Sans 본문 적용. [보존] 나침반 진단 로직·Web Share API(navigator.share)·모든 함수(calcCode/showResult/doShareEN 등)·링크·MBTI 기능 일절 미변경 — CSS/폰트만 교체 · v1 · 260613 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Noto+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-serif;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);background-attachment:fixed;color:#1A1A3A;min-height:100vh}
+body{font-family:'Noto Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:16px;background:linear-gradient(180deg,#FDF6E3 0%,#F7EFDD 55%,#F2EAD6 100%);background-attachment:fixed;color:#1E2A3A;min-height:100vh}
 .page{max-width:540px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
 .top-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
 .logo-txt{font-size:12px;color:#6B7280;font-weight:600;letter-spacing:0.06em}
-.hero-title{font-size:32px;font-weight:800;text-align:center;line-height:1.25;margin-bottom:10px;letter-spacing:-0.02em;color:#102543}
+.hero-title{font-family:'Playfair Display',Georgia,serif;font-size:34px;font-weight:700;text-align:center;line-height:1.25;margin-bottom:10px;letter-spacing:-0.02em;color:#1E4A76}
 .hero-sub{font-size:15px;color:#4B5563;text-align:center;margin-bottom:1.4rem;line-height:1.75}
 .axis-badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.4rem}
-.axis-badge{background:#fff;border:1.5px solid #E6E2D7;border-radius:14px;padding:12px 6px;text-align:center}
+.axis-badge{background:#fff;border:1.5px solid #E2E8F0;border-radius:14px;padding:12px 6px;text-align:center}
 .axis-badge-icon{font-size:20px;margin-bottom:4px}
-.axis-badge-name{font-size:12px;font-weight:700;color:#102543}
+.axis-badge-name{font-size:12px;font-weight:700;color:#1E4A76}
 .prog-wrap{margin-bottom:1.2rem}
 .prog{display:flex;gap:4px}
-.prog-dot{flex:1;height:8px;border-radius:10px;background:#E6E2D7}
-.prog-dot.done{background:linear-gradient(90deg,#B8923E,#D4A94F)}
+.prog-dot{flex:1;height:8px;border-radius:10px;background:#E2E8F0}
+.prog-dot.done{background:linear-gradient(90deg,#B8923E,#D4AF37)}
 .prog-label{font-size:11px;color:#6B7280;margin-top:5px;text-align:right}
 .step{display:none}.step.active{display:block}
-.q-num{font-size:11px;color:#0F1B2D;font-weight:900;letter-spacing:0.08em;margin-bottom:5px}
-.q-title{font-size:17px;font-weight:800;color:#1A1A3A;margin-bottom:4px;line-height:1.4}
+.q-num{font-size:11px;color:#163756;font-weight:900;letter-spacing:0.08em;margin-bottom:5px}
+.q-title{font-size:17px;font-weight:800;color:#1E2A3A;margin-bottom:4px;line-height:1.4}
 .q-sub{font-size:12px;color:#6B7280;margin-bottom:1rem;font-style:italic;line-height:1.6}
 .opts{display:flex;flex-direction:column;gap:7px;margin-bottom:1.25rem}
-.opt{background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;padding:11px 15px;font-size:14px;cursor:pointer;color:#1A1A3A;text-align:left;line-height:1.55;transition:all 0.15s}
+.opt{background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;padding:11px 15px;font-size:14px;cursor:pointer;color:#1E2A3A;text-align:left;line-height:1.55;transition:all 0.15s}
 .opt:hover{border-color:#B8923E;background:rgba(184,146,62,0.06)}
-.opt.sel{background:#0F2747;color:#fff;border-color:#0F2747;font-weight:800;transform:scale(1.01)}
-.btn-next-main{width:100%;padding:14px;background:#0F2747;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:900;cursor:pointer;min-height:52px;margin-top:12px;display:none}
-.btn-back{padding:11px 16px;background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;font-size:14px;cursor:pointer;color:#6B7280;font-weight:800}
+.opt.sel{background:#1E4A76;color:#fff;border-color:#1E4A76;font-weight:800;transform:scale(1.01)}
+.btn-next-main{width:100%;padding:14px;background:#1E4A76;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:900;cursor:pointer;min-height:52px;margin-top:12px;display:none}
+.btn-back{padding:11px 16px;background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;font-size:14px;cursor:pointer;color:#6B7280;font-weight:800}
 .nav{display:flex;gap:8px}
-.interlude{background:#fff;border-left:3px solid #B8923E;border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:1rem;font-size:13px;color:#0F1B2D;font-style:italic;line-height:1.7}
+.interlude{background:#fff;border-left:3px solid #B8923E;border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:1rem;font-size:13px;color:#163756;font-style:italic;line-height:1.7}
 .result-wrap{animation:fi 0.4s ease}
 @keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .analyzing{text-align:center;padding:40px 20px}
-.analyzing-title{font-size:20px;font-weight:800;color:#102543;margin-bottom:8px}
+.analyzing-title{font-family:'Playfair Display',Georgia,serif;font-size:22px;font-weight:700;color:#1E4A76;margin-bottom:8px}
 .analyzing-sub{font-size:14px;color:#4B5563;margin-bottom:32px;line-height:1.7}
 .analyzing-item{margin-bottom:16px;text-align:left}
 .analyzing-label{font-size:13px;color:#4B5563;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.analyzing-bar-bg{background:#E6E2D7;border-radius:10px;height:10px;overflow:hidden}
+.analyzing-bar-bg{background:#E2E8F0;border-radius:10px;height:10px;overflow:hidden}
 .analyzing-bar-fill{height:10px;border-radius:10px;width:0%;transition:width 0.8s ease}
 .analyzing-msg{font-size:13px;color:#B8923E;font-weight:700;margin-top:20px;min-height:20px;text-align:center}
-.res-hero{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 50%,#22243A 100%);border-radius:20px;padding:28px 20px 24px;text-align:center;margin-bottom:12px;position:relative;overflow:hidden}
+.res-hero{background:linear-gradient(160deg,#0A162B 0%,#16294A 50%,#1E2A3A 100%);border-radius:20px;padding:28px 20px 24px;text-align:center;margin-bottom:12px;position:relative;overflow:hidden}
 .res-hero::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,62,0.18) 0%,transparent 70%)}
 .res-hero-cath{font-size:15px;color:rgba(255,255,255,0.85);font-weight:600;line-height:1.8;padding:14px 16px;background:rgba(255,255,255,0.06);border-radius:12px;border-left:3px solid #B8923E;text-align:left;white-space:pre-line}
-.res-lfri{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:18px 16px;margin-bottom:12px}
+.res-lfri{background:#fff;border:1.5px solid #E2E8F0;border-radius:16px;padding:18px 16px;margin-bottom:12px}
 .res-lfri-title{font-size:10px;color:#B8923E;font-weight:700;letter-spacing:0.18em;margin-bottom:14px;text-transform:uppercase}
 .res-bar-bg{background:#F0EEF8;border-radius:8px;height:11px;overflow:hidden}
 .res-bar-fill{height:11px;border-radius:8px;transition:width 0.8s cubic-bezier(.4,0,.2,1)}
-.scholar-oneline{font-size:11px;color:#8A5C00;font-weight:700;text-align:center;margin-top:12px;line-height:1.6;letter-spacing:0.04em;padding:8px 12px;background:rgba(184,146,62,0.08);border-radius:8px;border:1px solid rgba(184,146,62,0.2)}
+.scholar-oneline{font-size:11px;color:#A8880A;font-weight:700;text-align:center;margin-top:12px;line-height:1.6;letter-spacing:0.04em;padding:8px 12px;background:rgba(184,146,62,0.08);border-radius:8px;border:1px solid rgba(184,146,62,0.2)}
 .lfri-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
 .lfri-card{background:rgba(15,27,45,0.04);border:1.5px solid rgba(184,146,62,0.18);border-radius:14px;padding:14px 12px}
-.lfri-card-lock{background:#F8F7F3;border:1.5px solid #E6E2D7}
+.lfri-card-lock{background:#F7F5EE;border:1.5px solid #E2E8F0}
 .lfri-card-icon{font-size:20px;margin-bottom:6px;display:block}
-.lfri-card-name{font-size:12px;font-weight:900;color:#0F1B2D;margin-bottom:2px}
+.lfri-card-name{font-size:12px;font-weight:900;color:#163756;margin-bottom:2px}
 .lfri-card-eng{font-size:10px;color:#9090A0;font-weight:600;margin-bottom:8px}
 .lfri-card-status{font-size:13px;font-weight:800;color:#B8923E;line-height:1.4}
 .lfri-card-bar-bg{background:#F0EEF8;border-radius:6px;height:6px;overflow:hidden;margin-top:8px}
 .lfri-card-bar-fill{height:6px;border-radius:6px;width:0%;transition:width 0.9s cubic-bezier(.4,0,.2,1)}
 .lfri-card-lock-txt{font-size:11px;color:#C0BAD0;font-weight:700;margin-top:8px;letter-spacing:0.04em}
-.engage-block{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 100%);border-radius:16px;padding:20px 18px;margin-bottom:12px}
+.engage-block{background:linear-gradient(160deg,#0A162B 0%,#16294A 100%);border-radius:16px;padding:20px 18px;margin-bottom:12px}
 .engage-label{font-size:10px;color:rgba(184,146,62,0.7);font-weight:700;letter-spacing:0.18em;margin-bottom:8px;text-transform:uppercase}
 .engage-q{font-size:16px;font-weight:800;color:#fff;margin-bottom:16px;line-height:1.5}
 .engage-opts{display:flex;flex-direction:column;gap:8px}
@@ -77,35 +80,35 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-se
 .engage-btn:hover{background:rgba(184,146,62,0.12);border-color:#B8923E}
 .engage-btn.sel{background:rgba(184,146,62,0.18);border-color:#B8923E;color:#E8D49A;font-weight:900}
 .engage-result{display:none;margin-top:14px;padding:14px;background:rgba(255,255,255,0.06);border-radius:12px;border-left:3px solid #B8923E;font-size:15px;color:rgba(255,255,255,0.92);line-height:1.85;font-weight:600;white-space:pre-line}
-.mbti-hint-block{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:18px 16px;margin-bottom:12px}
+.mbti-hint-block{background:#fff;border:1.5px solid #E2E8F0;border-radius:16px;padding:18px 16px;margin-bottom:12px}
 .mbti-hint-label{font-size:10px;color:#B8923E;font-weight:700;letter-spacing:0.18em;margin-bottom:10px;text-transform:uppercase}
-.mbti-hint-body{font-size:14px;color:#1A1A3A;line-height:1.8}
-.btn-res-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:#E6E2D7;border:1.5px solid #D0CCC0;border-radius:14px;color:#9090A0;font-size:15px;font-weight:700;cursor:not-allowed;margin-bottom:10px;min-height:52px;transition:all 0.3s}
-.btn-res-share.active{background:#fff;border:1.5px solid #B8923E;color:#8A5C00;cursor:pointer}
-.rel-card{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(15,27,45,0.06)}
+.mbti-hint-body{font-size:14px;color:#1E2A3A;line-height:1.8}
+.btn-res-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:#E2E8F0;border:1.5px solid #CBD5E1;border-radius:14px;color:#9090A0;font-size:15px;font-weight:700;cursor:not-allowed;margin-bottom:10px;min-height:52px;transition:all 0.3s}
+.btn-res-share.active{background:#fff;border:1.5px solid #B8923E;color:#A8880A;cursor:pointer}
+.rel-card{background:#fff;border:1.5px solid #E2E8F0;border-radius:16px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(15,27,45,0.06)}
 .rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.rel-btn{background:#fff;border:1.5px solid #E6E2D7;border-radius:14px;padding:14px 10px;font-size:14px;font-weight:900;color:#0F1B2D;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.rel-btn{background:#fff;border:1.5px solid #E2E8F0;border-radius:14px;padding:14px 10px;font-size:14px;font-weight:900;color:#163756;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .rel-btn:hover{border-color:#B8923E}
-.rel-btn.sel{background:#FFF8E6;border:2px solid #D4A94F;color:#7A4800;font-weight:900}
-.nick-input{width:100%;padding:14px 12px;border:1.5px solid #E6E2D7;border-radius:12px;font-size:16px;color:#1A1A3A;background:#FAFAF8;outline:none}
-.mbti-tab-wrap{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:1.25rem;margin-bottom:1rem}
+.rel-btn.sel{background:#FDF6E3;border:2px solid #D4AF37;color:#A8880A;font-weight:900}
+.nick-input{width:100%;padding:14px 12px;border:1.5px solid #E2E8F0;border-radius:12px;font-size:16px;color:#1E2A3A;background:#FFFDF7;outline:none}
+.mbti-tab-wrap{background:#fff;border:1.5px solid #E2E8F0;border-radius:16px;padding:1.25rem;margin-bottom:1rem}
 .mbti-tabs{display:flex;gap:8px;margin-bottom:14px}
-.mbti-tab{flex:1;padding:10px 8px;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid #E6E2D7;background:#fff;color:#6B7280;text-align:center}
-.mbti-tab.active-me{background:rgba(184,146,62,0.12);border-color:#B8923E;color:#8A5C00}
-.mbti-tab.active-pt{background:rgba(74,144,217,0.10);border-color:#4A90D9;color:#1A4A8A}
+.mbti-tab{flex:1;padding:10px 8px;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid #E2E8F0;background:#fff;color:#6B7280;text-align:center}
+.mbti-tab.active-me{background:rgba(184,146,62,0.12);border-color:#B8923E;color:#A8880A}
+.mbti-tab.active-pt{background:rgba(42,127,110,0.10);border-color:#2A7F6E;color:#1E4A76}
 .mbti-tab-label{font-size:10px;font-weight:700;letter-spacing:0.06em;margin-bottom:2px}
 .mbti-tab-val{font-size:14px;font-weight:900}
 .mbti-panel{display:none}
 .mbti-panel.active{display:block}
 .mbti-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
-.mbti-btn{background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;padding:10px 6px;font-size:12px;font-weight:900;color:#0F1B2D;cursor:pointer;text-align:center}
+.mbti-btn{background:#fff;border:1.5px solid #E2E8F0;border-radius:12px;padding:10px 6px;font-size:12px;font-weight:900;color:#163756;cursor:pointer;text-align:center}
 .mbti-btn small{display:block;font-size:10px;color:#4B5563;font-weight:700;margin-top:3px}
 .mbti-btn:hover{border-color:#B8923E}
 .mbti-grid-me .mbti-btn.sel{background:#B8923E;border-color:#B8923E;color:#fff}
-.mbti-grid-pt .mbti-btn.sel{background:#4A90D9;border-color:#4A90D9;color:#fff}
-.mbti-btn-unknown{grid-column:1/-1;width:100%;padding:10px 12px;border:1.5px solid #E6E2D7;border-radius:12px;font-size:13px;font-weight:700;color:#9090A0;cursor:pointer;text-align:center;background:#fff;margin-top:4px}
-.mbti-btn-unknown.sel{background:rgba(74,144,217,0.10);border-color:#4A90D9;color:#4A90D9}
-.start-btn{width:100%;padding:0;background:#0F2747;border:none;border-radius:20px;color:#fff;font-size:18px;font-weight:900;cursor:pointer;height:64px;display:flex;align-items:center;justify-content:center}
+.mbti-grid-pt .mbti-btn.sel{background:#2A7F6E;border-color:#2A7F6E;color:#fff}
+.mbti-btn-unknown{grid-column:1/-1;width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:12px;font-size:13px;font-weight:700;color:#9090A0;cursor:pointer;text-align:center;background:#fff;margin-top:4px}
+.mbti-btn-unknown.sel{background:rgba(42,127,110,0.10);border-color:#2A7F6E;color:#2A7F6E}
+.start-btn{width:100%;padding:0;background:#1E4A76;border:none;border-radius:20px;color:#fff;font-size:18px;font-weight:900;cursor:pointer;height:64px;display:flex;align-items:center;justify-content:center}
 .start-btn:disabled{opacity:0.4;cursor:not-allowed}
 .toast{display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#B8923E;color:#fff;padding:14px 28px;border-radius:24px;font-size:15px;font-weight:800;z-index:999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.2)}
 @keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
@@ -119,10 +122,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-se
 <div class="page">
   <div class="top-nav">
     <a href="https://sites.google.com/view/loveflow/%ED%99%88" target="_blank" style="text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;gap:1px">
-      <span style="font-size:15px;font-weight:900;color:#102543;letter-spacing:-0.02em;line-height:1">Love Flow</span>
+      <span style="font-size:15px;font-weight:900;color:#1E4A76;letter-spacing:-0.02em;line-height:1">Love Flow</span>
       <span style="font-size:9px;font-weight:700;color:#B8923E;letter-spacing:0.18em;line-height:1">LOVE FLOW™</span>
     </a>
-    <a href="/" style="display:flex;align-items:center;gap:5px;padding:6px 14px;border:1.5px solid #B8923E;border-radius:20px;background:#fff;text-decoration:none;font-size:13px;font-weight:700;color:#8A5C00;letter-spacing:0.04em">🇰🇷 한국어</a>
+    <a href="/" style="display:flex;align-items:center;gap:5px;padding:6px 14px;border:1.5px solid #B8923E;border-radius:20px;background:#fff;text-decoration:none;font-size:13px;font-weight:700;color:#A8880A;letter-spacing:0.04em">🇰🇷 한국어</a>
   </div>
 
   <div style="text-align:center;font-size:28px;margin-bottom:8px">🧭</div>
@@ -143,7 +146,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-se
   <!-- Relationship Selection -->
   <div class="step active" id="s_rel">
     <div class="rel-card">
-      <div style="font-size:20px;font-weight:900;color:#1A1A3A;text-align:center;margin-bottom:6px">What was their true intention?</div>
+      <div style="font-size:20px;font-weight:900;color:#1E2A3A;text-align:center;margin-bottom:6px">What was their true intention?</div>
       <div style="font-size:13px;color:#6B7280;text-align:center;line-height:1.6;margin-bottom:14px">Today, we translate your relationship for you.</div>
       <div class="rel-grid" id="relGrid">
         <button class="rel-btn" onclick="pickRel('Mother',this)">👩 Mother</button>
@@ -156,7 +159,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-se
         <button class="rel-btn" onclick="pickRel('Other',this)">✨ Other</button>
       </div>
       <div style="margin-top:12px">
-        <div style="font-size:12px;color:#0F1B2D;font-weight:900;margin-bottom:6px">What do you call this person? <span style="font-size:11px;color:#6B7280">(optional)</span></div>
+        <div style="font-size:12px;color:#163756;font-weight:900;margin-bottom:6px">What do you call this person? <span style="font-size:11px;color:#6B7280">(optional)</span></div>
         <input class="nick-input" id="relNick" placeholder="e.g. Mom, Dad, Alex, my best friend…" />
         <div style="font-size:11px;color:#6B7280;margin-top:6px">This nickname will appear in your results.</div>
       </div>
@@ -277,7 +280,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-se
       <div class="analyzing-sub">Just a moment, almost there.</div>
       <div class="analyzing-item">
         <div class="analyzing-label">💛 Analyzing Connection… <span style="font-size:10px;color:#9090A0">Connection</span></div>
-        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarC" style="background:linear-gradient(90deg,#4A90D9,#7AB8F5)"></div></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarC" style="background:linear-gradient(90deg,#2A7F6E,#7AB8F5)"></div></div>
       </div>
       <div class="analyzing-item">
         <div class="analyzing-label">🔥 Analyzing Warmth… <span style="font-size:10px;color:#9090A0">Warmth</span></div>
@@ -304,10 +307,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-se
         <div style="font-size:10px;color:rgba(184,146,62,0.7);font-weight:700;letter-spacing:0.22em;margin-bottom:16px;text-transform:uppercase">✦ Love Flow · Relationship Compass Results</div>
         <span id="r-icon" style="font-size:64px;margin:22px 0 18px;display:block">🌊</span>
         <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
-          <span id="r-code" style="font-size:12px;font-weight:900;color:#0F2747;background:#B8923E;padding:4px 14px;border-radius:20px;letter-spacing:3px">—</span>
+          <span id="r-code" style="font-size:12px;font-weight:900;color:#1E4A76;background:#B8923E;padding:4px 14px;border-radius:20px;letter-spacing:3px">—</span>
           <span id="r-name" style="font-size:26px;font-weight:900;color:#FFFFFF;letter-spacing:-0.02em">—</span>
         </div>
-        <div style="font-size:10px;color:#D4A94F;letter-spacing:0.15em;font-weight:700;margin-bottom:20px">Love Flow Type™</div>
+        <div style="font-size:10px;color:#D4AF37;letter-spacing:0.15em;font-weight:700;margin-bottom:20px">Love Flow Type™</div>
         <div class="res-hero-cath" id="r-cath">The moment you open the map, the flow begins to move again.</div>
       </div>
 
@@ -338,31 +341,31 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',sans-se
       </div>
 
       <!-- Block6: Email -->
-      <div id="emailCollectBox" class="res-block" style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:20px;margin-bottom:12px;text-align:left">
+      <div id="emailCollectBox" class="res-block" style="background:#fff;border:1.5px solid #E2E8F0;border-radius:16px;padding:20px;margin-bottom:12px;text-align:left">
         <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:6px">✦ Leave your email and</div>
-        <div style="font-size:14px;color:#1A1A3A;font-weight:700;line-height:1.7;margin-bottom:14px">continue your journey and share your results 💛</div>
-        <input type="email" id="collect-email" placeholder="your@email.com" style="width:100%;height:44px;padding:0 12px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:15px;outline:none;background:#FAFAF8;margin-bottom:8px">
+        <div style="font-size:14px;color:#1E2A3A;font-weight:700;line-height:1.7;margin-bottom:14px">continue your journey and share your results 💛</div>
+        <input type="email" id="collect-email" placeholder="your@email.com" style="width:100%;height:44px;padding:0 12px;border:1.5px solid #E2E8F0;border-radius:10px;font-size:15px;outline:none;background:#FAFAF8;margin-bottom:8px">
         <div style="font-size:11px;color:#9090A0;margin-bottom:12px">Your email is used only for saving results and Love Flow updates.</div>
         <button onclick="saveResultEmailEN()" style="width:100%;padding:14px;background:#B8923E;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:800;cursor:pointer;min-height:52px">🌊 Save</button>
       </div>
 
       <!-- Block7: CTA -->
-      <div class="res-block" id="rb7" style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:24px 20px;margin-bottom:12px">
-        <div style="font-size:17px;font-weight:800;color:#102543;line-height:1.9;text-align:center;margin-bottom:20px">
+      <div class="res-block" id="rb7" style="background:#fff;border:1.5px solid #E2E8F0;border-radius:16px;padding:24px 20px;margin-bottom:12px">
+        <div style="font-size:17px;font-weight:800;color:#1E4A76;line-height:1.9;text-align:center;margin-bottom:20px">
           Most relationships don't end<br>
           because love ran out —<br>
           they end because the languages didn't match.
         </div>
         <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:12px;text-align:center">🧭 Your next journey with Love Flow</div>
         <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px">
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>What you truly meant that they never understood</div>
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>What they felt that you may have missed</div>
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>Action cards to shift this relationship</div>
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>A direction toward reconnection</div>
-          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>Love Flow Journey Map</div>
+          <div style="font-size:14px;color:#1E2A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>What you truly meant that they never understood</div>
+          <div style="font-size:14px;color:#1E2A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>What they felt that you may have missed</div>
+          <div style="font-size:14px;color:#1E2A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>Action cards to shift this relationship</div>
+          <div style="font-size:14px;color:#1E2A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>A direction toward reconnection</div>
+          <div style="font-size:14px;color:#1E2A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>Love Flow Journey Map</div>
         </div>
         <div style="font-size:13px;color:#6B7280;text-align:center;margin-bottom:16px;line-height:1.7">Find the pattern that keeps repeating<br>in this relationship.</div>
-        <a href="https://sites.google.com/view/loveflow/%ED%99%88" target="_blank" class="cta-pulse" style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 22px;background:linear-gradient(135deg,#0F2747 0%,#1A3A5C 100%);border:1.5px solid rgba(184,146,62,0.5);border-radius:16px;text-decoration:none;box-sizing:border-box">
+        <a href="https://sites.google.com/view/loveflow/%ED%99%88" target="_blank" class="cta-pulse" style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 22px;background:linear-gradient(135deg,#1E4A76 0%,#1A3A5C 100%);border:1.5px solid rgba(184,146,62,0.5);border-radius:16px;text-decoration:none;box-sizing:border-box">
           <div>
             <div style="font-size:11px;color:rgba(184,146,62,0.8);font-weight:700;letter-spacing:0.12em;margin-bottom:4px">🧭 Love Flow Journey Map</div>
             <div style="font-size:17px;font-weight:900;color:#fff;letter-spacing:-0.02em">See the full map of this relationship</div>
@@ -493,7 +496,7 @@ function pickPtMbti(code, btn) {
   document.querySelectorAll('#ptMbtiGrid .mbti-btn').forEach(function(b){ b.classList.remove('sel'); });
   if (btn) btn.classList.add('sel');
   var valEl = document.getElementById('tabPtVal');
-  if (valEl) { valEl.textContent = code === 'UNKNOWN' ? '—' : code; valEl.style.color = code === 'UNKNOWN' ? '#9090A0' : '#4A90D9'; }
+  if (valEl) { valEl.textContent = code === 'UNKNOWN' ? '—' : code; valEl.style.color = code === 'UNKNOWN' ? '#9090A0' : '#2A7F6E'; }
   validateStart();
 }
 
@@ -586,7 +589,7 @@ function showResult() {
 
   var pct = function(a, b) { return Math.round((a / (a + b + 0.01)) * 100); };
   var axes = [
-    {id:'C', icon:'🔗', name:'Connection', eng:'Connection', pct:pct(sc.C,sc.D), bar:'linear-gradient(90deg,#4A90D9,#7AB8F5)'},
+    {id:'C', icon:'🔗', name:'Connection', eng:'Connection', pct:pct(sc.C,sc.D), bar:'linear-gradient(90deg,#2A7F6E,#7AB8F5)'},
     {id:'W', icon:'🌡', name:'Warmth', eng:'Warmth', pct:pct(sc.W,sc.G), bar:'linear-gradient(90deg,#E67E22,#F5A55A)'},
     {id:'E', icon:'💬', name:'Expression', eng:'Expression', pct:pct(sc.E,sc.H), bar:'linear-gradient(90deg,#9B59B6,#C39BD3)'},
     {id:'R', icon:'🌱', name:'Recovery', eng:'Recovery', pct:pct(sc.R,sc.P), bar:'linear-gradient(90deg,#27AE60,#6FCF97)'}
