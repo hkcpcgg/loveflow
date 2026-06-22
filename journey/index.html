@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<script>(function(){try{if(window.top===window.self&&/^https?:/.test(location.protocol)&&sessionStorage.getItem("lf_unlock")!=="1"){location.replace("/gate.html");}}catch(e){}})();</script>
+<script>(function(){try{var hasId=/[?&]id=LF-/i.test(location.search);if(hasId){try{sessionStorage.setItem("lf_unlock","1");}catch(e){}}if(window.top===window.self&&/^https?:/.test(location.protocol)&&!hasId&&sessionStorage.getItem("lf_unlock")!=="1"){location.replace("/gate.html");}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사랑흐름 · 여행지도</title>
 <meta property="og:type" content="website" />
@@ -10,7 +10,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v7-13 · 260622 · [작업] A방식 번호 통일: showResult에서 journey 자체 genPassport(관계코드) 생성→window.lfPassport 덮어쓰기 제거, gate가 발급한 ?id 번호(window.lfPassport||localStorage)를 그대로 사용 → 주문대장=진단 번호 일치, H열 연동 가능 (옛 genPassport/relCode 함수는 죽은코드로 잔존·무해, GAS·DB_URL·잠금 미변경) · v7-12 · 260622 · [작업] 여권번호 귀속(STEP8 프론트): journey 진입 시 ?id→sessionStorage→localStorage 순으로 관계여권번호 읽어 window.lfPassport 보관 · v7-11 · 260621 · [작업] 모바일 PDF출력 수정 (savePDF: setTimeout 1.6초 제거 → confirm 후 즉시 window.print, 모바일 인쇄차단 해결 / 잠금·GAS·기타 미변경) · v7-10 · 260621 · [작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
+<!-- 사랑흐름 유료 여행지도 v7-15 · 260622 · [작업] ①편지 GAS URL 통일: 구 M1H7IS → 신 DTLjdA (전 창 v7-14 미배포분 반영) ②문자 링크 잠금 예외: location.search에 ?id=LF-가 있으면 sessionStorage lf_unlock=1 세팅 후 통과 → 옵션1(다음날 문자발송)로 받은 /journey/?id=여권번호 링크가 gate로 튕기지 않고 바로 진단 시작 (번호 없는 직접접근은 그대로 gate로 차단, 보안 유지: LF번호는 구매자만 앎) · DB_URL(M1A)·여권로직·기타 미변경 · v7-13 · 260622 · [작업] A방식 번호 통일: showResult에서 journey 자체 genPassport(관계코드) 생성→window.lfPassport 덮어쓰기 제거, gate가 발급한 ?id 번호(window.lfPassport||localStorage)를 그대로 사용 → 주문대장=진단 번호 일치, H열 연동 가능 (옛 genPassport/relCode 함수는 죽은코드로 잔존·무해, GAS·DB_URL·잠금 미변경) · v7-12 · 260622 · [작업] 여권번호 귀속(STEP8 프론트): journey 진입 시 ?id→sessionStorage→localStorage 순으로 관계여권번호 읽어 window.lfPassport 보관 · v7-11 · 260621 · [작업] 모바일 PDF출력 수정 (savePDF: setTimeout 1.6초 제거 → confirm 후 즉시 window.print, 모바일 인쇄차단 해결 / 잠금·GAS·기타 미변경) · v7-10 · 260621 · [작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
 <!-- [v7-4] ①큰 계절도장 제거 → 관계 우주맵이 도장 역할 흡수 (중복·공간낭비 해소, 도장 글자깨짐 제거) -->
 <!--   ②우주맵 '포도송이'로 확대 — 원 크게+라벨 노드 안 · 채워진 자리(이번 관계)=계절색+아이콘=도장 -->
 <!--   ③이메일 수집란 안내문구 보강: "관계 우주 저장 → 다음 관계 분석 시 도장 이어 쌓임"(텍스트만, saveEmail·doShare 로직 불변) -->
@@ -2303,7 +2303,7 @@ async function saveEmail(){
   }
 }
 function goToLetter(){
-  var LB='https://script.google.com/macros/s/AKfycbyvv6gjzN_ODMaseGjl1iLtzviMdE-heuvEK88M1H7ISSGUya9kJmiOGUqIwNFW4xPT/exec';
+  var LB='https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec';
   var ei=document.getElementById('collect-email-id')?document.getElementById('collect-email-id').value.trim():'';
   var ds=document.getElementById('collect-email-domain')?document.getElementById('collect-email-domain').value:'naver.com';
   var dc=document.getElementById('collect-email-custom')?document.getElementById('collect-email-custom').value.trim():'';
