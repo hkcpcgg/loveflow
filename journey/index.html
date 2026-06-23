@@ -10,7 +10,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 유료 여행지도 v7-15 · 260622 · [작업] ①편지 GAS URL 통일: 구 M1H7IS → 신 DTLjdA (전 창 v7-14 미배포분 반영) ②문자 링크 잠금 예외: location.search에 ?id=LF-가 있으면 sessionStorage lf_unlock=1 세팅 후 통과 → 옵션1(다음날 문자발송)로 받은 /journey/?id=여권번호 링크가 gate로 튕기지 않고 바로 진단 시작 (번호 없는 직접접근은 그대로 gate로 차단, 보안 유지: LF번호는 구매자만 앎) · DB_URL(M1A)·여권로직·기타 미변경 · v7-13 · 260622 · [작업] A방식 번호 통일: showResult에서 journey 자체 genPassport(관계코드) 생성→window.lfPassport 덮어쓰기 제거, gate가 발급한 ?id 번호(window.lfPassport||localStorage)를 그대로 사용 → 주문대장=진단 번호 일치, H열 연동 가능 (옛 genPassport/relCode 함수는 죽은코드로 잔존·무해, GAS·DB_URL·잠금 미변경) · v7-12 · 260622 · [작업] 여권번호 귀속(STEP8 프론트): journey 진입 시 ?id→sessionStorage→localStorage 순으로 관계여권번호 읽어 window.lfPassport 보관 · v7-11 · 260621 · [작업] 모바일 PDF출력 수정 (savePDF: setTimeout 1.6초 제거 → confirm 후 즉시 window.print, 모바일 인쇄차단 해결 / 잠금·GAS·기타 미변경) · v7-10 · 260621 · [작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
+<!-- 사랑흐름 유료 여행지도 v7-16 · 260623 · [작업 v7-16] 결과 화면 "🎫 여행 도장 받기" 버튼 추가(친구들 만장일치 안: 결과 자동표시 유지 + 수령확인 버튼). 클릭→③확인음(587→440)+주문대장 J열 수령시각 기록(no-cors,markViewed)+"기록됨" 피드백. 중복방지 플래그. [절대보존] showResult·showStep·결과띵(playDing880)·보물상자(H열)·DB_URL·여권로직 미변경. ※GAS markJourneyViewed.gs(J열함수)+doPost markViewed분기 추가 필요. · 여행지도 v7-15 · 260622 · [작업] ①편지 GAS URL 통일: 구 M1H7IS → 신 DTLjdA (전 창 v7-14 미배포분 반영) ②문자 링크 잠금 예외: location.search에 ?id=LF-가 있으면 sessionStorage lf_unlock=1 세팅 후 통과 → 옵션1(다음날 문자발송)로 받은 /journey/?id=여권번호 링크가 gate로 튕기지 않고 바로 진단 시작 (번호 없는 직접접근은 그대로 gate로 차단, 보안 유지: LF번호는 구매자만 앎) · DB_URL(M1A)·여권로직·기타 미변경 · v7-13 · 260622 · [작업] A방식 번호 통일: showResult에서 journey 자체 genPassport(관계코드) 생성→window.lfPassport 덮어쓰기 제거, gate가 발급한 ?id 번호(window.lfPassport||localStorage)를 그대로 사용 → 주문대장=진단 번호 일치, H열 연동 가능 (옛 genPassport/relCode 함수는 죽은코드로 잔존·무해, GAS·DB_URL·잠금 미변경) · v7-12 · 260622 · [작업] 여권번호 귀속(STEP8 프론트): journey 진입 시 ?id→sessionStorage→localStorage 순으로 관계여권번호 읽어 window.lfPassport 보관 · v7-11 · 260621 · [작업] 모바일 PDF출력 수정 (savePDF: setTimeout 1.6초 제거 → confirm 후 즉시 window.print, 모바일 인쇄차단 해결 / 잠금·GAS·기타 미변경) · v7-10 · 260621 · [작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
 <!-- [v7-4] ①큰 계절도장 제거 → 관계 우주맵이 도장 역할 흡수 (중복·공간낭비 해소, 도장 글자깨짐 제거) -->
 <!--   ②우주맵 '포도송이'로 확대 — 원 크게+라벨 노드 안 · 채워진 자리(이번 관계)=계절색+아이콘=도장 -->
 <!--   ③이메일 수집란 안내문구 보강: "관계 우주 저장 → 다음 관계 분석 시 도장 이어 쌓임"(텍스트만, saveEmail·doShare 로직 불변) -->
@@ -1060,6 +1060,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.18em;margin-bottom:16px">🌊 사랑흐름 선언</div>
     <div id="todaySentence" style="font-size:17px;color:#fff;font-weight:700;line-height:1.9;font-style:italic;margin-bottom:18px"></div>
     <div style="font-size:13px;color:rgba(255,255,255,0.72);line-height:2;font-style:italic">한 관계가 회복되면,<br>그 변화는 또 다른 관계로 번집니다.<br><span style="color:rgba(212,175,55,0.85)">한 송이 꽃이 피면, 세상의 봄이 시작되듯이.</span></div>
+  </div>
+
+  <!-- ★ 여행 도장 받기 (수령확인 → 주문대장 J열 기록) -->
+  <div class="res-block" id="rb-stamp" style="background:#fff;border:2px solid #D4AF37;border-radius:18px;padding:24px 20px;margin-bottom:14px;text-align:center">
+    <div id="stampBox">
+      <div style="font-size:11px;color:#A8880A;font-weight:700;letter-spacing:0.14em;margin-bottom:8px">✨ 여행이 완료되었습니다</div>
+      <div style="font-size:14px;color:#1E2A3A;line-height:1.7;margin-bottom:18px">관계 여권에 오늘의 여행을<br>기록해 주세요</div>
+      <button onclick="confirmJourney()" style="background:linear-gradient(135deg,#D4AF37,#C9A96E);color:#fff;border:none;padding:15px 34px;border-radius:26px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 6px 18px rgba(212,175,55,0.35)">🎫 여행 도장 받기</button>
+    </div>
   </div>
 
   <!-- 이메일 수집 -->
@@ -2366,6 +2375,28 @@ function goRelNext(){
   if(!partnerMBTI||partnerMBTI==='UNKNOWN'){playError();showToast('그 분의 MBTI를 선택해주세요');return;}
   step=1;showStep();
 }
+/* ★ 여행 도장 받기 — 수령확인 시각을 주문대장 J열에 기록 (친구들 만장일치 안) */
+var lfJourneyConfirmed = false;
+function confirmJourney(){
+  if(lfJourneyConfirmed) return;   /* 중복 클릭 방지 (프론트 방어선) */
+  lfJourneyConfirmed = true;
+  /* ③ 확인음 2음 (587->440 하강 = 완료감) · 기존 playDing 재사용 */
+  try{ playDing(587,0.2); setTimeout(function(){ playDing(440,0.35); },230); }catch(e){}
+  /* J열 신호 — no-cors fire-and-forget, 헤더 없음(CORS preflight 회피) · DB_URL 재사용 */
+  try{
+    var pp = (window.lfPassport || localStorage.getItem('lf_passport') || '');
+    if(pp){
+      fetch(DB_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'markViewed',passport:pp})});
+    }
+  }catch(e){}
+  /* 피드백 — 도장 찍힌 모습으로 */
+  var box = document.getElementById('stampBox');
+  if(box){
+    box.innerHTML = '<div style="font-size:15px;color:#2A7F6E;font-weight:800;padding:6px">✓ 여행이 기록되었습니다</div>'
+      + '<div style="font-size:12px;color:#6B7585;margin-top:6px;line-height:1.6">관계 여권에 오늘의 도장이 찍혔어요 🌱<br>언제든 다시 열람하실 수 있어요</div>';
+  }
+}
+
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(function(){t.style.display='none';},3500);}
 
 document.addEventListener('DOMContentLoaded',function(){
