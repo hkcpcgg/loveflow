@@ -1,231 +1,263 @@
+<!-- 사랑흐름 입국 게이트 gate.html v9-8 · 260623 · [작업 v9-8] 상단 brandbar에 "← 홈으로" 추가(홈 링크 0개→탈출구 신설, about·trust와 통일 스타일). 입력·발급완료 화면 공통 상단. [기능 전부 보존] [작업 v9-7] 사각직인 기울기 -7→-15도(왼쪽으로 더). [작업 v9-6] 사각직인 테두리 두껍게(2→3.5px)+선명도↑(opacity 0.78→0.85). 크기·위치 동일. [작업 v9-5] 발행청 직인 배치: 기관명 텍스트 3pt↑(15→18px), 사각직인 2pt↓(60→48px), 직인을 기관명 오른쪽("관리청")에 반쯤 겹쳐 반투명으로 찍음(실제 공문서 직인 느낌, 글씨 비침). [작업 v9-4] ①명칭"관계흐름 번호"→"사랑흐름 관계 여권"(LOVE FLOW·RELATIONSHIP PASSPORT) ②상단 원형✦도장 완전삭제(거슬림)→제목 30px로 키움 ③발행청 사랑흐름 마음관리청 가운데정렬+키움(15px) ④빨간 원형직인→CSS 사각 관공서 직인(認證, 빨강 사각틀) ⑤발행청 가운데+사각도장 공문서 느낌. 한영병기·기능 유지. [작업 v9-3] gate 정체성 정정: "증서/증명서"(여행끝 certificate 몫) 제거 → "관계흐름 번호 / RELATIONSHIP PASSPORT"(여권·입국비자 컨셉, 여행 시작). 글로벌 대비 한·영 병기 전면(번호·발급·기관·안내·저작권). 발행청(사랑흐름 마음관리청™·MINISTRY OF LOVE FLOW) 하단 이동+빨간 직인(OFFICIAL). 원형도장 안 삐딱텍스트 제거(✦만). 출발톤("이제 관계 여행을 떠날 수 있습니다"). [작업 v9-2] 발급완료 화면을 "관계흐름 증서" 권위 디자인으로 격상: 발급기관(사랑흐름 마음관리청™)·인장(사랑흐름마음관리청 각인)·증서제목·소지자 증명문·고유번호·발급일·모서리 장식·하단 저작권/민형사 경고(무단복제 금지). 한 화면 꽉채워 캡처 소장욕구↑. [작업 v9] 발급완료 화면만 수정: ①자동이동(1.6초 setTimeout) 삭제→"여행지도로 이동" 버튼(goJourney, 사용자가 번호 확인 후 직접 이동) ②소장가치 네이비 여권카드 디자인(골드 이중보더·도장·RELATIONSHIP PASSPORT 영문각인·번호 골드 크게·발급일자) ③한국어"여권"노출→"관계흐름 번호"(여권느낌은 영문각인·도장 디자인으로만). [절대보존] GAS_B64·issuePassport·lf_unlock·lf_passport·journey이동경로(/journey/?id=)·입력검증·JSONP콜백. 입력화면 단어는 미변경(다음 단계) / v8 · [작업 v8] ①상단 가로 재배치(도장 왼쪽+제목/영문 오른쪽, 세로스크롤↓) ②도장 ✦ 키우고 원 작게+반짝임 애니메이션 ③제목 '관계 여행 입장'→'관계 여행 떠나기' ④주문번호→상품주문번호(주민번호 오인방지) ⑤문의 '연락드리겠습니다' ⑥버튼 '사랑흐름 관계 여권 발급받기' ⑦관계 여권 설명 한 줄 추가 / v6·v7 유지 · [v7]도장✦·전화→카톡 · [v6]구매하러가기 · [v5]구입처10개+휴대폰뒷4 · [v3]GAS ...M1A · [v2]A방식 -->
 <!DOCTYPE html>
-<!-- 사랑흐름 신뢰 세트 trust.html v4 · 260623 · [작업 v4 푸터통일] 사업자정보 네이비박스 → 문의(카톡·이메일)+사업자정보 한 줄(about v4와 동일 표준). 전화는 문의처 제거·사업자줄에만. 약관 조항 전부 불변. [v3 복구+통일] about 덮어쓰기로 사라졌던 약관 원본(v2) 복구 — 약관 조항(이용약관·개인정보처리방침·환불교환·FAQ) 텍스트 절대 불변 / 색·폰트를 새 홈 기준 통일(cream#FDF6E3·gold#D4AF37·Noto Serif 제목) + 상단 "← 홈으로" 추가(내비게이션). 앵커 #terms/#privacy/#refund/#faq 보존
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>사랑흐름 · 이용약관 · 개인정보 · 환불정책 · FAQ</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700;900&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<title>입국 게이트 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --cream:#FDF6E3; --card:#FFFFFF; --navy:#1E4A76; --navy-dark:#163756;
-    --gold:#D4AF37; --gold-deep:#B8923E; --gold-dark:#A8880A; --mint:#2A7F6E; --text:#1E2A3A; --text-sub:#4B5563; --border:#E2E8F0;
-    --serif:'Noto Serif KR',serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{background:var(--cream);color:var(--text);font-family:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;line-height:1.8;font-size:15px;-webkit-text-size-adjust:100%}
-  .wrap{max-width:760px;margin:0 auto;padding:28px 18px 60px}
+:root{--navy:#1E4A76;--gold:#D4AF37;--gold-soft:#C9A96E;--cream:#FBF5EA;--line:#E6E2D7;--text:#2E2A24;--text-sub:#6B6357}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
+.brandbar{position:relative;text-align:center;padding:22px 0 6px}
+.home-back{position:absolute;left:14px;top:18px;font-size:12px;color:var(--navy);text-decoration:none;font-weight:700;padding:6px 13px;border:1.5px solid var(--line);border-radius:18px;background:#fff;box-shadow:0 1px 6px rgba(30,74,118,0.06)}
+.bb-logo{font-size:18px;font-weight:900;color:var(--navy);letter-spacing:0.04em}
+.bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.3em;margin-left:7px;font-weight:700}
+.main{flex:1;display:flex;flex-direction:column;justify-content:center;padding:20px 24px 50px}
+.gate-card{background:#fff;border:1.5px solid var(--line);border-radius:22px;padding:30px 24px;box-shadow:0 8px 28px rgba(30,74,118,0.08);text-align:center}
+.gate-head{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:20px}
+.gate-head-txt{text-align:left}
+.stamp{width:58px;height:58px;flex-shrink:0;border:2.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--gold);transform:rotate(-8deg)}
+.lf-spark{display:inline-block}
+@keyframes lfTwinkle{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.82)}}
+@media(prefers-reduced-motion:no-preference){.lf-spark{animation:lfTwinkle 1.7s ease-in-out infinite}}
+.gate-label{font-size:10px;color:var(--gold-soft);font-weight:800;letter-spacing:0.22em}
+.gate-title{font-size:22px;font-weight:800;color:var(--navy);font-family:'Nanum Myeongjo',serif;margin-bottom:4px;line-height:1.25}
+.pp-explain{font-size:11.5px;color:var(--gold-soft);line-height:1.6;margin:-6px 0 18px;text-align:center}
+.gate-sub{font-size:13px;color:var(--text-sub);line-height:1.7;margin-bottom:20px}
+.gate-sub b{color:var(--navy)}
+.field-label{font-size:11px;color:var(--gold-soft);font-weight:800;letter-spacing:0.1em;text-align:left;margin:0 0 6px 2px}
+.sel,.code-input{width:100%;padding:14px 16px;border:1.5px solid var(--gold);border-radius:13px;font-size:15px;color:var(--navy);background:#FFFDF8;font-weight:700;outline:none;margin-bottom:13px}
+.sel{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C9A96E' stroke-width='2.5'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 14px center;background-size:18px}
+.code-input{font-family:'Courier New',monospace;text-align:center;letter-spacing:0.06em}
+.code-input::placeholder{color:#C7BCA3;font-weight:400;letter-spacing:0.03em;font-family:-apple-system,sans-serif}
+.enter-btn{width:100%;margin-top:8px;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;transition:background 0.15s}
+.enter-btn:hover{background:#16395C}
+.enter-btn:disabled{background:#9AA8B5;cursor:default}
+.buy-first{margin-bottom:18px;padding:13px 15px;background:var(--cream);border:1.5px solid var(--gold);border-radius:13px;font-size:12.5px;color:var(--text-sub);line-height:1.7;text-align:center}
+.buy-first b{color:var(--navy)}
+.buy-first a{display:inline-block;margin-top:7px;color:var(--navy);font-weight:800;text-decoration:none;font-size:13.5px}
+.hintbox{margin-top:13px;font-size:11.5px;color:var(--text-sub);line-height:1.7;text-align:left;background:#FBF5EA;border:1px solid var(--line);border-radius:11px;padding:11px 13px}
+.hintbox b{color:var(--navy)}
+.msg{font-size:12.5px;margin-top:12px;min-height:18px;font-weight:600}
+.msg.err{color:#C0392B}
+.ask{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);font-size:12px;color:var(--text-sub);line-height:1.7}
+.ask b{color:var(--navy)}
+.ask a{color:var(--navy);font-weight:700;text-decoration:none}
+.issued{display:none}
+.issued.show{display:block}
+.input-wrap.hide{display:none}
+.pp-badge{font-size:11px;color:var(--gold-soft);font-weight:800;letter-spacing:0.18em;margin-bottom:10px}
+.pp-no{font-family:'Nanum Myeongjo',serif;font-size:34px;font-weight:800;color:var(--navy);letter-spacing:0.04em;margin-bottom:8px}
+.pp-sub{font-size:12.5px;color:var(--text-sub);line-height:1.7;margin-bottom:18px}
+.pp-moving{font-size:12.5px;color:var(--gold-soft);font-weight:700}
+.foot{text-align:center;font-size:10px;color:#A8A095;padding:14px;line-height:1.7}
 
-  /* 헤더 */
-  .head{text-align:center;padding:24px 0 18px}
-  .head .brand{font-size:11px;letter-spacing:0.25em;color:var(--gold-dark);font-weight:700;margin-bottom:8px}
-  .head h1{font-family:var(--serif);font-size:26px;color:var(--navy);font-weight:800;letter-spacing:-0.01em}
-  .head .sub{font-size:12.5px;color:var(--text-sub);margin-top:8px}
-
-  /* 법률 안내 배너 */
-  .notice{background:rgba(201,169,110,0.12);border:1px solid rgba(201,169,110,0.4);border-radius:12px;padding:13px 16px;font-size:12.5px;color:#7A6420;line-height:1.7;margin:14px 0 22px}
-
-  /* 목차 */
-  .toc{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:26px}
-  .toc a{font-size:13px;color:var(--navy);text-decoration:none;border:1.5px solid var(--navy);border-radius:20px;padding:7px 15px;font-weight:600;transition:all 0.15s}
-  .toc a:hover{background:var(--navy);color:#fff}
-
-  /* 섹션 */
-  section{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px 22px;margin-bottom:18px;box-shadow:0 3px 14px rgba(0,0,0,0.04);scroll-margin-top:18px}
-  .sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;flex-wrap:wrap;border-bottom:2px solid var(--border);padding-bottom:12px;margin-bottom:16px}
-  .sec-head h2{font-family:var(--serif);font-size:19px;color:var(--navy);font-weight:800}
-  .ver{font-size:11px;color:var(--gold-dark);font-weight:700;background:rgba(201,169,110,0.14);border-radius:14px;padding:3px 11px;white-space:nowrap}
-  h3{font-size:14.5px;color:var(--navy);font-weight:800;margin:18px 0 7px}
-  p{margin-bottom:10px;color:var(--text)}
-  ul{margin:0 0 12px 2px;padding-left:18px}
-  li{margin-bottom:6px}
-  .small{font-size:13px;color:var(--text-sub)}
-  .quote{background:rgba(30,74,118,0.05);border-left:3px solid var(--gold);border-radius:8px;padding:12px 15px;font-size:13.5px;color:var(--navy);margin:12px 0;font-style:italic}
-  .warn{background:rgba(201,169,110,0.1);border:1px solid rgba(201,169,110,0.35);border-radius:10px;padding:12px 15px;font-size:13px;color:#7A6420;margin:10px 0}
-
-  /* FAQ */
-  .qa{margin-bottom:16px}
-  .qa .q{font-weight:800;color:var(--navy);font-size:14.5px;margin-bottom:5px}
-  .qa .a{color:var(--text);font-size:14px}
-
-  /* 사업자정보 */
-  .biz{background:var(--navy-dark);color:rgba(255,255,255,0.85);border-radius:16px;padding:22px;font-size:13.5px;line-height:2.1}
-  .biz .sec-head{border-bottom-color:rgba(255,255,255,0.15)}
-  .biz .sec-head h2{color:#fff}
-  .biz .row span{color:var(--gold);font-weight:600;display:inline-block;min-width:120px}
-
-  /* 푸터 */
-  .foot{text-align:center;font-size:11px;color:var(--text-sub);margin-top:30px;line-height:1.9;padding-top:20px;border-top:1px solid var(--border)}
-  .top{display:block;text-align:center;margin-top:24px}
-  .top a{font-size:12.5px;color:var(--navy);text-decoration:none;font-weight:600}
-  .home-back{display:inline-block;margin-bottom:16px;font-size:13px;color:var(--navy);text-decoration:none;font-weight:700;padding:7px 15px;border:1.5px solid var(--border);border-radius:20px;background:#fff;box-shadow:0 1px 6px rgba(30,74,118,0.06)}
-  .home-back:hover{background:var(--navy);color:#fff}
-  .contact-box{text-align:center;background:rgba(30,74,118,0.04);border:1px solid var(--border);border-radius:14px;padding:20px 18px;margin-bottom:16px}
-  .contact-q{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:14px}
-  .contact-btn{display:inline-block;margin:0 5px 6px;font-size:13.5px;font-weight:700;text-decoration:none;padding:10px 20px;border-radius:24px}
-  .contact-btn.kakao{background:#FEE500;color:#3C1E1E}
-  .contact-btn.mail{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
-  .bizline{font-size:11px;color:var(--text-sub);line-height:1.85;text-align:center;margin-bottom:6px}
+.cert{position:relative;background:linear-gradient(165deg,#1E4A76 0%,#16395C 55%,#102A45 100%);border:2px solid var(--gold);border-radius:16px;padding:30px 24px 22px;margin-bottom:14px;box-shadow:0 14px 40px rgba(16,42,69,0.4);overflow:hidden}
+.cert::before{content:'';position:absolute;inset:7px;border:1px solid rgba(212,175,55,0.4);border-radius:11px;pointer-events:none}
+.cert-corner{position:absolute;width:18px;height:18px;border:2px solid var(--gold);opacity:0.7}
+.cert-corner.tl{top:13px;left:13px;border-right:none;border-bottom:none}
+.cert-corner.tr{top:13px;right:13px;border-left:none;border-bottom:none}
+.cert-corner.bl{bottom:13px;left:13px;border-right:none;border-top:none}
+.cert-corner.br{bottom:13px;right:13px;border-left:none;border-top:none}
+.cert-title{font-family:'Nanum Myeongjo',serif;font-size:30px;font-weight:800;color:#fff;letter-spacing:0.08em;margin:6px 0 5px}
+.cert-en{font-size:9px;color:var(--gold);letter-spacing:0.34em;font-weight:700;margin-bottom:14px}
+.cert-desc{font-size:12.5px;color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:16px}
+.cert-desc-en{font-size:10px;color:rgba(255,255,255,0.5);font-style:italic;letter-spacing:0.02em}
+.cert-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.6),transparent);margin:0 0 16px}
+.cert-label{font-size:9.5px;color:rgba(212,175,55,0.92);font-weight:700;letter-spacing:0.18em;margin-bottom:9px}
+.cert .pp-no{font-family:'Nanum Myeongjo',serif;font-size:clamp(32px,10vw,42px);font-weight:800;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px}
+.cert-date{font-size:10.5px;color:rgba(255,255,255,0.6);margin-bottom:16px;letter-spacing:0.05em}
+.cert-note{font-size:11px;color:rgba(255,255,255,0.72);line-height:1.65;margin-bottom:18px}
+.cert-note-en{font-size:9.5px;color:rgba(255,255,255,0.45);font-style:italic}
+.cert-divider2{height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.4),transparent);margin:4px 0 16px}
+.cert-issuer-c{text-align:center;margin-bottom:16px}
+.ci-ko-wrap{position:relative;display:inline-block;margin-bottom:13px}
+.ci-ko{font-size:18px;font-weight:900;color:var(--gold);letter-spacing:0.03em}
+.ci-ko .tm{font-size:9px;vertical-align:super}
+.ci-en{font-size:9px;color:rgba(212,175,55,0.7);letter-spacing:0.16em;font-weight:700}
+.cert-stamp-sq{position:absolute;right:-14px;top:50%;transform:translateY(-50%) rotate(-15deg);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:48px;height:48px;border:3.5px solid #C0392B;border-radius:6px;color:#C0392B;opacity:0.85;padding:3px;background:rgba(192,57,43,0.04)}
+.cert-stamp-sq .sq-l1,.cert-stamp-sq .sq-l2{font-size:7px;font-weight:900;letter-spacing:0.01em;line-height:1.15}
+.cert-stamp-sq .sq-l3{font-size:9px;font-weight:900;margin-top:1px;letter-spacing:0.08em}
+.cert-legal{font-size:8.5px;color:rgba(255,255,255,0.4);letter-spacing:0.02em;line-height:1.6;text-align:center}
+.go-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 6px 18px rgba(212,175,55,0.35);transition:filter 0.15s}
+.go-btn:hover{filter:brightness(1.05)}
 </style>
 </head>
 <body>
-<div class="wrap">
 
-  <a class="home-back" href="/">← 홈으로</a>
+  <div class="brandbar"><a class="home-back" href="/">← 홈으로</a><div class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></div></div>
 
-  <div class="head">
-    <div class="brand">LOVE FLOW · 사랑흐름</div>
-    <h1>이용 안내 · 약관 · 정책</h1>
-    <div class="sub">이용약관 · 개인정보처리방침 · 환불·교환 정책 · 자주 묻는 질문 · 사업자정보</div>
+  <div class="main">
+    <div class="gate-card">
+      <div class="gate-head">
+        <div class="stamp"><span class="lf-spark">✦</span></div>
+        <div class="gate-head-txt">
+          <div class="gate-title">관계 여행 떠나기</div>
+          <div class="gate-label">RELATIONSHIP PASSPORT</div>
+        </div>
+      </div>
+
+      <!-- 입력 상태 -->
+      <div class="input-wrap" id="inputWrap">
+        <div class="gate-sub">구입하신 곳·상품주문번호·휴대폰 뒷자리를 입력하시면<br><b>관계 여권</b>이 발급되고 여행이 시작됩니다.</div>
+        <div class="pp-explain">✦ 관계 여권 = 내 관계 여행을 담아 언제든 다시 보는 나만의 번호예요</div>
+
+        <div class="buy-first">
+          처음이신가요? 여행지도는 <b>구매 후 입장</b>이에요<br>
+          <a href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener">스마트스토어에서 구매하러 가기 →</a>
+        </div>
+
+        <div class="field-label">구입처</div>
+        <select id="channel" class="sel" onchange="onChannel()">
+          <option value="네이버 스마트스토어">네이버 스마트스토어</option>
+          <option value="크몽">크몽</option>
+          <option value="쿠팡">쿠팡</option>
+          <option value="11번가">11번가</option>
+          <option value="G마켓">G마켓</option>
+          <option value="옥션">옥션</option>
+          <option value="인터파크">인터파크</option>
+          <option value="카카오 선물하기">카카오 선물하기</option>
+          <option value="사랑흐름(직접결제)">사랑흐름 (직접결제)</option>
+          <option value="__etc__">기타 (직접 입력)</option>
+        </select>
+        <input id="channelEtc" class="code-input" style="display:none;text-align:left;font-family:-apple-system,sans-serif" placeholder="구입처를 직접 입력해 주세요" maxlength="20" autocomplete="off">
+
+        <div class="field-label">상품주문번호</div>
+        <input id="orderNo" class="code-input" placeholder="상품주문번호 입력" maxlength="30" autocomplete="off">
+
+        <div class="field-label">휴대폰 뒷 4자리</div>
+        <input id="phone4" class="code-input" placeholder="결제 시 휴대폰 뒷 4자리" maxlength="4" inputmode="numeric" autocomplete="off">
+
+        <button class="enter-btn" id="btnIssue" onclick="issue()">사랑흐름 관계 여권 발급받기 →</button>
+        <div class="msg" id="msg"></div>
+
+        <div class="hintbox">
+          ▸ <b>결제 후 1~2분 뒤</b> 입력해 주세요<br>
+          ▸ 상품주문번호는 <b>구입하신 곳의 주문내역</b>에서 확인하세요<br>
+          ▸ 휴대폰 뒷자리는 <b>결제 시 입력한 번호</b> 기준입니다
+        </div>
+
+        <div class="ask">
+          입력이 안 되거나 문제가 있으신가요?<br>
+          <a href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 문의</a> · <a href="mailto:hkcpcgg@gmail.com">hkcpcgg@gmail.com</a><br>
+          상품주문번호·휴대폰번호 알려주시면 연락드리겠습니다.
+        </div>
+      </div>
+
+      <!-- 발급완료 상태 (여권/입국 비자 컨셉 · 한영병기 글로벌대응 · 발행청 하단 · 자동이동 삭제→버튼) -->
+      <div class="issued" id="issuedView">
+        <div class="cert">
+          <div class="cert-corner tl"></div><div class="cert-corner tr"></div>
+          <div class="cert-corner bl"></div><div class="cert-corner br"></div>
+
+          <div class="cert-title">사랑흐름 관계 여권</div>
+          <div class="cert-en">LOVE FLOW · RELATIONSHIP PASSPORT</div>
+          <div class="cert-desc">이제, 당신의 관계 여행을 떠날 수 있습니다<br><span class="cert-desc-en">Your relationship journey now begins</span></div>
+
+          <div class="cert-divider"></div>
+
+          <div class="cert-label">MY NUMBER · 나의 번호</div>
+          <div class="pp-no" id="ppNo">LF-—</div>
+          <div class="cert-date" id="ppDate">— 발급 / Issued</div>
+
+          <div class="cert-note">이 번호로 언제든 나의 관계 여행을 다시 펼쳐볼 수 있습니다<br><span class="cert-note-en">Keep this number to revisit your journey anytime</span></div>
+
+          <div class="cert-divider2"></div>
+
+          <div class="cert-issuer-c">
+            <div class="ci-ko-wrap">
+              <div class="ci-ko">사랑흐름 마음관리청<span class="tm">™</span></div>
+              <div class="cert-stamp-sq">
+                <span class="sq-l1">사랑흐름</span>
+                <span class="sq-l2">마음관리청</span>
+                <span class="sq-l3">認證</span>
+              </div>
+            </div>
+            <div class="ci-en">MINISTRY OF LOVE FLOW</div>
+          </div>
+
+          <div class="cert-legal">© 2026 사랑흐름 · LFRI™ · 무단복제 및 상업적 이용 금지<br>Unauthorized use strictly prohibited. All rights reserved.</div>
+        </div>
+        <button class="go-btn" id="btnGo" onclick="goJourney()">여행지도로 이동 · Enter →</button>
+      </div>
+
+    </div>
   </div>
 
-  <div class="notice">
-    ⚠️ 본 페이지의 약관·정책은 회사가 성실히 작성한 것이며, 관련 법령에 따라 일부 내용이 개정될 수 있습니다. 각 항목의 버전과 적용일을 확인해 주세요.
-  </div>
+  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
 
-  <nav class="toc">
-    <a href="#terms">이용약관</a>
-    <a href="#privacy">개인정보처리방침</a>
-    <a href="#refund">환불·교환 정책</a>
-    <a href="#faq">자주 묻는 질문</a>
-    <a href="#business">사업자정보</a>
-  </nav>
+  <script>
+  // 유료 GAS URL (base64) · ...M1A 배포
+  var GAS_B64 = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4TElHX0xSQVpEM0FNSkgyNmdQaGVmZGt3TGJYbUE1aXBfVXVyQmZRLTUzYnhncTJUNjNkU3JlNllPOWo0aHhCWk0xQS9leGVj';
 
-  <!-- 1. 이용약관 -->
-  <section id="terms">
-    <div class="sec-head"><h2>1. 이용약관</h2><span class="ver">v1 · 2026.06.18</span></div>
+  function onChannel(){
+    var sel=document.getElementById('channel').value;
+    document.getElementById('channelEtc').style.display = (sel==='__etc__') ? 'block' : 'none';
+  }
+  function setMsg(t, err){ var m=document.getElementById('msg'); m.textContent=t||''; m.className='msg'+(err?' err':''); if(!err)m.style.color='#1E7A4A'; }
 
-    <h3>제1조 (목적)</h3>
-    <p>이 약관은 사랑흐름(이하 "회사")이 제공하는 관계 분석·편지·기록 등 디지털 콘텐츠 서비스(이하 "서비스")의 이용에 관한 회사와 이용자의 권리·의무 및 책임사항을 규정합니다.</p>
+  function issue(){
+    var sel = document.getElementById('channel').value;
+    var channel = (sel==='__etc__') ? (document.getElementById('channelEtc').value||'').trim() : sel;
+    var no = (document.getElementById('orderNo').value || '').trim();
+    var phone4 = (document.getElementById('phone4').value || '').trim();
 
-    <h3>제2조 (서비스의 성격)</h3>
-    <p>① 서비스는 LFRI™(Love Flow Relationship Index)와 MBTI 등을 활용해 이용자의 관계 흐름을 해석하고, 자기 이해와 관계 회복을 돕기 위한 <b>참고용 콘텐츠</b>입니다.</p>
-    <p>② 서비스는 <b>의료 행위나 전문 심리 상담·치료를 대체하지 않습니다.</b> 전문적 도움이 필요한 경우 의료기관·전문 상담기관을 이용하시기 바랍니다.</p>
+    if(sel==='__etc__' && !channel){ setMsg('구입처를 직접 입력해 주세요.', true); return; }
+    if(!no){ setMsg('상품주문번호를 입력해 주세요.', true); return; }
+    if(!/^[A-Za-z0-9\-]{4,30}$/.test(no)){ setMsg('상품주문번호를 다시 확인해 주세요. (구입처 주문내역 참고)', true); return; }
+    if(!/^[0-9]{4}$/.test(phone4)){ setMsg('휴대폰 뒷 4자리를 숫자로 입력해 주세요.', true); return; }
 
-    <h3>제3조 (이용 계약)</h3>
-    <p>이용자는 무료 서비스를 자유롭게 이용할 수 있으며, 유료 서비스는 결제 완료 시 이용 계약이 성립합니다.</p>
+    var btn=document.getElementById('btnIssue');
+    btn.disabled=true; setMsg('확인 중입니다…', false);
 
-    <h3>제4조 (이용료 및 결제)</h3>
-    <p>유료 서비스의 이용료와 결제 수단은 결제 화면에 표시되며, 이용자는 표시된 내용을 확인하고 결제합니다.</p>
+    var cb = 'lfissue' + Date.now();
+    var done = false;
+    var timer = setTimeout(function(){
+      if(done) return; done=true;
+      btn.disabled=false; setMsg('잠시 후 다시 시도해 주세요. (네트워크 지연)', true);
+      try{ delete window[cb]; }catch(e){}
+    }, 12000);
 
-    <h3>제5조 (지식재산권)</h3>
-    <p>① LFRI™, "사랑흐름", 결과지·도장·여권 디자인 및 모든 콘텐츠의 저작권은 회사에 귀속됩니다.</p>
-    <p>② 이용자는 개인적·비상업적 용도로만 결과물을 이용할 수 있으며, 무단 복제·배포·상업적 이용을 금합니다.</p>
+    window[cb] = function(res){
+      if(done) return; done=true;
+      clearTimeout(timer);
+      try{ delete window[cb]; }catch(e){}
+      if(res && res.status==='ok' && res.passport){
+        try{ sessionStorage.setItem('lf_unlock','1'); }catch(e){}
+        try{ sessionStorage.setItem('lf_passport', res.passport); }catch(e){}
+        window.lfIssuedPassport = res.passport;
+        document.getElementById('ppNo').textContent = res.passport;
+        try{ var d=new Date(); document.getElementById('ppDate').textContent = d.getFullYear()+'.'+('0'+(d.getMonth()+1)).slice(-2)+'.'+('0'+d.getDate()).slice(-2)+' 발급'; }catch(e){}
+        document.getElementById('inputWrap').classList.add('hide');
+        document.getElementById('issuedView').classList.add('show');
+        // 자동이동 삭제 — 사용자가 번호 확인 후 "여행지도로 이동" 버튼으로 직접 이동
+      } else {
+        btn.disabled=false;
+        setMsg((res && res.msg) ? res.msg : '상품주문번호를 확인할 수 없어요. 다시 확인해 주세요.', true);
+      }
+    };
 
-    <h3>제6조 (이용자의 의무)</h3>
-    <p>이용자는 타인의 정보를 도용하거나, 서비스의 정상 운영을 방해하는 행위를 해서는 안 됩니다.</p>
+    var url = atob(GAS_B64)
+      + '?action=issuePassport'
+      + '&channel=' + encodeURIComponent(channel)
+      + '&orderNo=' + encodeURIComponent(no)
+      + '&phone4=' + encodeURIComponent(phone4)
+      + '&callback=' + cb;
+    var s = document.createElement('script');
+    s.src = url;
+    s.onerror = function(){
+      if(done) return; done=true; clearTimeout(timer);
+      btn.disabled=false; setMsg('연결에 실패했어요. 잠시 후 다시 시도해 주세요.', true);
+      try{ delete window[cb]; }catch(e){}
+    };
+    document.body.appendChild(s);
+  }
 
-    <h3>제7조 (면책)</h3>
-    <p>① 서비스가 제공하는 해석·조언은 참고 자료이며, 이를 바탕으로 한 이용자의 판단·행동의 결과에 대해 회사는 법령이 허용하는 범위에서 책임을 지지 않습니다.</p>
-    <p>② 천재지변, 외부 서비스(결제·호스팅 등) 장애 등 회사의 통제를 벗어난 사유로 인한 손해에 대해서는 책임이 제한됩니다.</p>
+  function goJourney(){ var p = window.lfIssuedPassport; if(!p){ try{ p=sessionStorage.getItem('lf_passport'); }catch(e){} } if(p){ location.href='/journey/?id='+encodeURIComponent(p); } }
 
-    <h3>제8조 (약관의 변경)</h3>
-    <p>회사는 관련 법령을 위반하지 않는 범위에서 약관을 변경할 수 있으며, 변경 시 적용일자와 사유를 명시해 사전 공지합니다.</p>
-
-    <h3>제9조 (분쟁 해결 및 준거법)</h3>
-    <p>이 약관은 대한민국 법령에 따라 해석되며, 분쟁은 관계 법령 및 상관례에 따릅니다.</p>
-    <p class="small">부칙: 이 약관은 게시일(2026.06.18)부터 시행합니다.</p>
-  </section>
-
-  <!-- 2. 개인정보처리방침 -->
-  <section id="privacy">
-    <div class="sec-head"><h2>2. 개인정보처리방침</h2><span class="ver">v1 · 2026.06.18</span></div>
-
-    <h3>제1조 (수집하는 개인정보 항목)</h3>
-    <ul>
-      <li>필수: 분석을 위한 설문 응답 데이터, 관계 유형 등 입력값</li>
-      <li>선택: 이메일 주소(결과 보관·재열람, 마음편지 연동 목적)</li>
-    </ul>
-
-    <h3>제2조 (수집·이용 목적)</h3>
-    <ul>
-      <li>관계 분석 결과 제공 및 결과물 보관</li>
-      <li>마음편지 등 연계 서비스 제공</li>
-      <li>서비스 품질 개선을 위한 통계 분석(개인 식별 불가 형태)</li>
-    </ul>
-
-    <h3>제3조 (보유 및 이용 기간)</h3>
-    <p>수집된 개인정보는 수집·이용 목적이 달성되면 지체 없이 파기합니다. 단, 관련 법령에 따라 보존이 필요한 경우 해당 기간 동안 보관합니다. 이용자는 언제든 본인 정보의 삭제를 요청할 수 있습니다.</p>
-
-    <h3>제4조 (제3자 제공)</h3>
-    <p>회사는 이용자의 개인정보를 동의 없이 제3자에게 제공하지 않습니다. 단, 법령에 의해 요구되는 경우는 예외로 합니다.</p>
-
-    <h3>제5조 (처리 위탁)</h3>
-    <p>서비스 운영을 위해 결제·호스팅·이메일 발송 등 일부 업무를 외부에 위탁할 수 있으며, 위탁 시 개인정보가 안전하게 관리되도록 합니다.</p>
-
-    <h3>제6조 (이용자의 권리)</h3>
-    <p>이용자는 본인 개인정보의 열람·정정·삭제·처리정지를 요청할 수 있으며, 회사는 지체 없이 조치합니다.</p>
-
-    <h3>제7조 (개인정보 보호책임자)</h3>
-    <p>개인정보 보호책임자: 유상열<br>문의: hkcpcgg@gmail.com</p>
-    <p class="small">부칙: 이 방침은 게시일(2026.06.18)부터 적용됩니다.</p>
-  </section>
-
-  <!-- 3. 환불·교환 정책 -->
-  <section id="refund">
-    <div class="sec-head"><h2>3. 환불·교환 정책</h2><span class="ver">v1 · 2026.06.18</span></div>
-
-    <div class="warn">디지털 콘텐츠 특성상 일반 상품과 환불 기준이 다릅니다. 결제 전 아래 내용을 꼭 확인해 주세요.</div>
-
-    <h3>제1조 (청약철회의 기본 원칙)</h3>
-    <p>이용자는 결제일 또는 콘텐츠 이용 가능일로부터 <b>7일 이내</b>에 청약철회를 할 수 있습니다.</p>
-
-    <h3>제2조 (디지털 콘텐츠의 청약철회 제한)</h3>
-    <p>① 본 서비스의 결과물(분석 결과 열람·다운로드, 여권·도장 생성 등)은 <b>제공이 개시되면 복제가 가능한 디지털 콘텐츠</b>의 특성상, 제공 개시 이후에는 청약철회가 제한될 수 있습니다.</p>
-    <p>② 회사는 이러한 청약철회 제한 사항을 <b>결제 전에 명확히 고지</b>하고, 이용자의 <b>동의(확인)를 받은 경우에 한해</b> 위 제한을 적용합니다.</p>
-    <p>③ <b>결제 후 아직 결과물 제공이 개시되지 않은 경우(결과를 열람하지 않은 경우)에는 전액 환불</b>이 가능합니다.</p>
-
-    <h3>제3조 (환불이 가능한 경우)</h3>
-    <ul>
-      <li>결제 후 결과물을 제공받지 못한 경우(시스템 오류 등)</li>
-      <li>표시·광고 내용과 실제 제공된 서비스가 현저히 다른 경우</li>
-      <li>콘텐츠에 중대한 하자가 있는 경우</li>
-    </ul>
-
-    <h3>제4조 (환불 신청 방법)</h3>
-    <p>이메일(hkcpcgg@gmail.com)로 결제 정보와 사유를 보내주시면 확인 후 처리합니다. 환불은 원 결제수단으로 진행되며, 결제대행사 정책에 따라 일정 기간이 소요될 수 있습니다.</p>
-
-    <h3>제5조 (결제 전 동의 문구)</h3>
-    <div class="quote">"본 콘텐츠는 결과 열람 시 제공이 개시되며, 개시 후에는 청약철회가 제한됨을 확인하였습니다."</div>
-    <p class="small">※ 위 문구는 결제 버튼 옆에 체크박스로 배치하시길 권장합니다.</p>
-  </section>
-
-  <!-- 4. 자주 묻는 질문 -->
-  <section id="faq">
-    <div class="sec-head"><h2>4. 자주 묻는 질문</h2><span class="ver">v1 · 2026.06.18</span></div>
-
-    <div class="qa"><div class="q">Q. 무료와 유료는 뭐가 다른가요?</div><div class="a">무료(나침반)는 내 관계 흐름을 짧게 맛보는 단계이고, 유료(여행지도)는 5축(관심·연결·온기·표현·회복) 전체 해석, 상세 분석, 관계 여권·계절 도장, 마음편지 연동 등 깊이 있는 결과를 제공합니다.</div></div>
-
-    <div class="qa"><div class="q">Q. MBTI를 모르면 못 하나요?</div><div class="a">아니요. MBTI를 모르셔도 분석은 가능합니다. 알고 계시면 상대와의 관계 번역이 더 정교해집니다.</div></div>
-
-    <div class="qa"><div class="q">Q. 결과가 정확한가요?</div><div class="a">서비스는 연구 기반으로 설계되었지만, <b>참고용 해석</b>입니다. 의료적 판단이나 전문 심리 상담·치료를 대체하지 않습니다.</div></div>
-
-    <div class="qa"><div class="q">Q. 제 답변과 개인정보는 안전한가요?</div><div class="a">이메일은 결과 보관·재열람을 위해서만 선택적으로 수집하며, 동의 없이 제3자에게 제공하지 않습니다. 삭제 요청도 가능합니다.</div></div>
-
-    <div class="qa"><div class="q">Q. 환불이 되나요?</div><div class="a">결과를 아직 열람하지 않으셨다면 전액 환불됩니다. 결과 열람 후에는 디지털 콘텐츠 특성상 환불이 제한될 수 있으며, 이 점은 결제 전에 안내드립니다. 자세한 내용은 환불 정책을 참고하세요.</div></div>
-
-    <div class="qa"><div class="q">Q. 결과를 나중에 다시 볼 수 있나요?</div><div class="a">이메일을 남겨주시면 결과를 보관해, 다시 찾아보실 수 있습니다.</div></div>
-
-    <div class="qa"><div class="q">Q. 마음편지는 무엇인가요?</div><div class="a">분석 결과를 바탕으로, 전하지 못한 마음을 상대에게 전할 수 있도록 돕는 편지 작성 서비스입니다.</div></div>
-  </section>
-
-  <!-- 문의 -->
-  <div class="contact-box" id="business">
-    <div class="contact-q">궁금한 점은 카카오톡이나 이메일로 편하게 보내주세요</div>
-    <a class="contact-btn kakao" href="https://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">💬 카카오톡 문의</a>
-    <a class="contact-btn mail" href="mailto:hkcpcgg@gmail.com">✉ 이메일 문의</a>
-  </div>
-
-  <div class="top"><a href="#terms">↑ 맨 위로</a></div>
-
-  <div class="bizline">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 070-4158-7786 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열 · www.loveflow.ai.kr</div>
-
-  <div class="foot">
-    © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.<br>
-    Unauthorized use strictly prohibited. Violators subject to civil and criminal penalties.
-  </div>
-
-</div>
+  document.getElementById('phone4').addEventListener('keydown', function(e){ if(e.key==='Enter') issue(); });
+  </script>
 </body>
 </html>
