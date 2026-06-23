@@ -1,4 +1,4 @@
-<!-- 사랑흐름 관계 우주 화면 v13 · 260623 · [작업 v13] 하단 "＋여행시작" 탭 → 직접 /journey/ 이동 대신 부드러운 안내 모달(기존 고객 재구매 동선). "지금 여행지도는 간직돼요+새 관계는 새 여행지도 필요" 안내 후 본인 선택([새 여행지도 보러가기→스토어]/[다음에 할게요→닫기]). 강매 아닌 안내·빠져나갈 문 보장. 한·영 병기(글로벌 대비). v12(여행지도보기 id넘김) 유지 -->
+<!-- 사랑흐름 관계 우주 화면 v14 · 260623 · [작업 v14] "여행시작" 팝업 차단톤→놀이터톤(친구 논리): "여행지도 잘 간직됨+여권번호로 언제든 재열람+관계우주·여행지도·편지 둘러보세요+또다른 분 궁금?" → [내 여행지도 둘러보기]/[새로운 여행 떠나기](스토어). v13(여행지도보기 id넘김) 유지 · 260623 · [작업 v13] 하단 "＋여행시작" 탭 → 직접 /journey/ 이동 대신 부드러운 안내 모달(기존 고객 재구매 동선). "지금 여행지도는 간직돼요+새 관계는 새 여행지도 필요" 안내 후 본인 선택([새 여행지도 보러가기→스토어]/[다음에 할게요→닫기]). 강매 아닌 안내·빠져나갈 문 보장. 한·영 병기(글로벌 대비). v12(여행지도보기 id넘김) 유지 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -99,7 +99,9 @@
   .nj-title{font-size:19px;font-weight:800;color:var(--navy);margin-bottom:4px;letter-spacing:-0.01em}
   .nj-en{font-size:10.5px;color:var(--sub);font-style:italic;letter-spacing:0.04em;margin-bottom:18px}
   .nj-desc{font-size:13.5px;color:var(--text);line-height:1.85;margin-bottom:24px}
+  .nj-desc b{color:var(--navy);font-weight:800}
   .nj-desc .keep{color:var(--gold-soft);font-weight:700}
+  .nj-look{display:block;width:100%;background:var(--navy);color:#fff;border:none;padding:14px;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;margin-bottom:10px;box-shadow:0 5px 16px rgba(30,74,118,0.25)}
   .nj-go{display:block;background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#fff;padding:15px;border-radius:13px;font-size:15px;font-weight:800;text-decoration:none;margin-bottom:10px;box-shadow:0 6px 18px rgba(212,175,55,0.35)}
   .nj-later{display:block;width:100%;background:none;border:none;color:var(--sub);font-size:13px;padding:9px;cursor:pointer;font-family:inherit}
   .nj-later:hover{color:var(--text)}
@@ -302,11 +304,11 @@
 <div class="nj-overlay" id="njModal" onclick="if(event.target===this)closeNewJourney()">
   <div class="nj-box">
     <div class="nj-emoji">🌿</div>
-    <div class="nj-title">새로운 여행을 떠나시겠어요?</div>
-    <div class="nj-en">Begin a new journey?</div>
-    <div class="nj-desc">지금 보고 계신 여행지도는 <span class="keep">소중히 간직</span>돼요.<br>다른 소중한 분과의 관계를 새로 떠나려면<br>새 여행지도가 필요해요.</div>
-    <a class="nj-go" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener">🗺️ 새 여행지도 보러가기</a>
-    <button class="nj-later" onclick="closeNewJourney()">다음에 할게요</button>
+    <div class="nj-title">여행지도는 잘 간직되어 있어요</div>
+    <div class="nj-en">Your map is safely kept</div>
+    <div class="nj-desc">여권 번호로 언제든 지난 여행 기록을<br>다시 펼쳐볼 수 있어요.<br><span class="keep">관계 우주 · 여행지도 · 마음편지</span>까지<br>천천히 둘러보세요.<br><br>혹시 <b>또 다른 소중한 분</b>과의 관계도<br>들여다보고 싶으신가요?</div>
+    <button class="nj-look" onclick="closeNewJourney()">🧭 내 여행지도 둘러보기</button>
+    <a class="nj-go" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener">💛 새로운 여행 떠나기</a>
   </div>
 </div>
 <script>
