@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8" />
-<script>(function(){try{if(window.top===window.self&&/^https?:/.test(location.protocol)&&sessionStorage.getItem("lf_unlock")!=="1"){location.replace("/gate.html");}}catch(e){}})();</script>
+<script>(function(){try{var hasId=/[?&]id=LF-/i.test(location.search);if(hasId){try{sessionStorage.setItem("lf_unlock","1");}catch(e){}}if(window.top===window.self&&/^https?:/.test(location.protocol)&&!hasId&&sessionStorage.getItem("lf_unlock")!=="1"){location.replace("/gate.html");}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사랑흐름 · 여행지도</title>
 <meta property="og:type" content="website" />
@@ -10,7 +10,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 증명서 certificate.html v7-11 · 260622 · [작업] 구 GAS주소 2개를 현행으로 교체 — ①DB_URL: 구 유료GAS(lcOch98, 폐기됨)→현행 M1A ②LB(편지): 구 편지GAS(M1H7IS)→현행 DTLjdA. 잠금·디자인·로직 불변 · v7-10 · 260621 · [원작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
+<!-- 사랑흐름 증명서 certificate.html v7-12 · 260624 · [작업 v7-12] ①재조회 완성(?id= 잠금통과+lookupPassport JSONP로 DB값→변수주입→showResult, journey v7-17동일) ②여권번호 복사 버튼 추가(📋, 클립보드+fallback). [보존]showResult·산식·도share·savePDF·DB_URL 미변경. certificate.html v7-11 · 260622 · [작업] 구 GAS주소 2개를 현행으로 교체 — ①DB_URL: 구 유료GAS(lcOch98, 폐기됨)→현행 M1A ②LB(편지): 구 편지GAS(M1H7IS)→현행 DTLjdA. 잠금·디자인·로직 불변 · v7-10 · 260621 · [원작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
 <!-- [v7-4] ①큰 계절도장 제거 → 관계 우주맵이 도장 역할 흡수 (중복·공간낭비 해소, 도장 글자깨짐 제거) -->
 <!--   ②우주맵 '포도송이'로 확대 — 원 크게+라벨 노드 안 · 채워진 자리(이번 관계)=계절색+아이콘=도장 -->
 <!--   ③이메일 수집란 안내문구 보강: "관계 우주 저장 → 다음 관계 분석 시 도장 이어 쌓임"(텍스트만, saveEmail·doShare 로직 불변) -->
@@ -1029,7 +1029,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
       <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.2em;margin-bottom:4px">사랑흐름 관계 여권™</div>
       <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:2px;letter-spacing:0.08em">RELATIONSHIP PASSPORT</div>
       <div style="font-size:19px;color:var(--gold);font-weight:700;letter-spacing:0.14em;margin-top:3px;font-family:'Courier New',monospace" id="cert-number"></div>
-      <div style="font-size:10.5px;color:rgba(255,255,255,0.55);margin-top:7px;line-height:1.5">이 번호로 나중에 결과를 다시 볼 수 있어요</div>
+      <div style="font-size:10.5px;color:rgba(255,255,255,0.55);margin-top:7px;line-height:1.5">이 번호로 나중에 결과를 다시 볼 수 있어요</div><button onclick="copyPassport()" id="copyPassBtn" style="margin-top:8px;padding:7px 16px;background:rgba(212,175,55,0.18);border:1px solid rgba(212,175,55,0.5);border-radius:18px;color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">📋 여권번호 복사</button>
     </div>
     <div style="background:rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:16px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;color:rgba(255,255,255,0.75);line-height:2">
@@ -1209,6 +1209,39 @@ var picked = {}, multiPicked = {}, introPicked = {};
 var relType = '', relNick = '', myMBTI = '', partnerMBTI = 'UNKNOWN';
 var currentCode = '', q26Ans = '', emailSaved = false;
 var TEST_MODE = location.search.indexOf('test=1') > -1;
+
+/* v7-12: 재조회 — ?id=여권번호 진입 시 GAS lookupPassport(JSONP)로 DB값 받아
+   신규와 동일 전역변수에 주입 후 기존 showResult() 그대로 호출 (축약 아님, 동일 풀버전).
+   점수 0/조회실패 시 정상 흐름 유지. journey v7-17과 동일 방식. */
+(function(){
+  try{
+    var rid = (new URLSearchParams(location.search).get('id') || '').trim().toUpperCase();
+    if(!rid || rid.indexOf('LF-')!==0) return;
+    window.__lfReview = true;
+    var cbName = 'lfCertCb_' + Date.now();
+    window[cbName] = function(d){
+      try{
+        if(!d || d.status!=='ok'){ window.__lfReview=false; return; }
+        var hasScore = (Number(d.scA)||0)+(Number(d.scC)||0)+(Number(d.scD)||0)+(Number(d.scW)||0)+(Number(d.scG)||0)+(Number(d.scE)||0)+(Number(d.scH)||0)+(Number(d.scR)||0)+(Number(d.scP)||0);
+        if(hasScore===0){ window.__lfReview=false; return; }
+        sc = {C:Number(d.scC)||0, D:Number(d.scD)||0, W:Number(d.scW)||0, G:Number(d.scG)||0, E:Number(d.scE)||0, H:Number(d.scH)||0, R:Number(d.scR)||0, P:Number(d.scP)||0};
+        attentionScore = Number(d.scA)||0;
+        relType = d.relType || '';
+        relNick = d.relNick || '';
+        myMBTI = d.myMBTI || '';
+        partnerMBTI = d.ptMBTI || '';
+        window.lfPassport = d.passport || rid;
+        try{ localStorage.setItem('lf_passport', window.lfPassport); }catch(e){}
+        step = 100; showStep();
+        showResult();
+      }catch(e){ window.__lfReview=false; }
+    };
+    var s = document.createElement('script');
+    s.src = DB_URL + '?id=' + encodeURIComponent(rid) + '&callback=' + cbName;
+    s.onerror = function(){ window.__lfReview=false; };
+    document.head.appendChild(s);
+  }catch(e){ window.__lfReview=false; }
+})();
 
 var VID = 'v_' + Math.random().toString(36).substr(2,9);
 
@@ -2292,6 +2325,26 @@ function goToLetter(){
   var params=new URLSearchParams({code:currentCode,c:pct(sc.C,sc.D),w:pct(sc.W,sc.G),e:pct(sc.E,sc.H),r:pct(sc.R,sc.P),myMBTI:myMBTI,ptMBTI:partnerMBTI,rel:relType,nick:relNick,email:email,ts:Date.now()});
   window.open(LB+'?'+params.toString(),'_blank');
 }
+function copyPassport(){
+  var el=document.getElementById('cert-number');
+  var pp=(window.lfPassport || (el?el.textContent:'') || '').trim();
+  if(!pp || pp.indexOf('LF-')!==0){ if(typeof showToast==='function') showToast('여권번호를 찾을 수 없어요'); return; }
+  function done(){
+    var b=document.getElementById('copyPassBtn');
+    if(b){ var o=b.innerHTML; b.innerHTML='✓ 복사됨'; setTimeout(function(){ b.innerHTML=o; },1500); }
+    if(typeof showToast==='function') showToast('✓ 여권번호 '+pp+' 복사됨');
+  }
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(pp).then(done, function(){ fbCopy(pp); done(); });
+    } else { fbCopy(pp); done(); }
+  }catch(e){ fbCopy(pp); done(); }
+}
+function fbCopy(t){
+  try{ var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+  }catch(e){}
+}
 function doShare(){
   var t=T[currentCode]||T['DWHR']; var shareUrl=BASE_URL;
   var shareTitle='사랑흐름 · '+t.icon+' '+t.short;
@@ -2356,7 +2409,7 @@ document.addEventListener('DOMContentLoaded',function(){
   document.getElementById('next16').style.display='flex';
   step=-2; introStep=1;
   updateProg();
-  if(TEST_MODE){
+  if(TEST_MODE && !window.__lfReview){
     currentCode='ACGHR';relType='배우자·연인';relNick='테스트님';
     myMBTI='ISFJ';partnerMBTI='INFJ';
     sc={C:6,D:2,W:4,G:3,E:3,H:4,R:5,P:2};attentionScore=6;
