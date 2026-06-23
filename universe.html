@@ -1,4 +1,4 @@
-<!-- 사랑흐름 관계 우주 화면 v11 · 260621 · [작업] '관계 여권 보기' 버튼이 certificate.html?id=여권번호 로 넘기도록 연결(certificate v8 동적화 대응) / v10 유지 -->
+<!-- 사랑흐름 관계 우주 화면 v13 · 260623 · [작업 v13] 하단 "＋여행시작" 탭 → 직접 /journey/ 이동 대신 부드러운 안내 모달(기존 고객 재구매 동선). "지금 여행지도는 간직돼요+새 관계는 새 여행지도 필요" 안내 후 본인 선택([새 여행지도 보러가기→스토어]/[다음에 할게요→닫기]). 강매 아닌 안내·빠져나갈 문 보장. 한·영 병기(글로벌 대비). v12(여행지도보기 id넘김) 유지 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -89,6 +89,20 @@
 
   /* 사업자정보 푸터 (v6) */
   .uni-foot{text-align:center;font-size:9.5px;color:var(--sub);line-height:1.7;margin-top:22px;padding-top:16px;border-top:1px solid var(--line)}
+
+  /* 새 여행 안내 모달 (v13) */
+  .nj-overlay{display:none;position:fixed;inset:0;background:rgba(16,41,62,0.6);z-index:9999;align-items:center;justify-content:center;padding:24px}
+  .nj-overlay.show{display:flex}
+  .nj-box{background:#fff;border-radius:22px;padding:32px 26px 24px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,0.35);animation:njPop 0.22s ease}
+  @keyframes njPop{from{transform:scale(0.92);opacity:0}to{transform:scale(1);opacity:1}}
+  .nj-emoji{font-size:40px;margin-bottom:12px}
+  .nj-title{font-size:19px;font-weight:800;color:var(--navy);margin-bottom:4px;letter-spacing:-0.01em}
+  .nj-en{font-size:10.5px;color:var(--sub);font-style:italic;letter-spacing:0.04em;margin-bottom:18px}
+  .nj-desc{font-size:13.5px;color:var(--text);line-height:1.85;margin-bottom:24px}
+  .nj-desc .keep{color:var(--gold-soft);font-weight:700}
+  .nj-go{display:block;background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#fff;padding:15px;border-radius:13px;font-size:15px;font-weight:800;text-decoration:none;margin-bottom:10px;box-shadow:0 6px 18px rgba(212,175,55,0.35)}
+  .nj-later{display:block;width:100%;background:none;border:none;color:var(--sub);font-size:13px;padding:9px;cursor:pointer;font-family:inherit}
+  .nj-later:hover{color:var(--text)}
 </style>
 </head>
 <body>
@@ -230,7 +244,7 @@
 
   <!-- 액션 버튼 4종 (v5) -->
   <div class="actions">
-    <a href="/journey/" class="act-btn"><span class="ai">🗺</span>여행 지도 보기</a>
+    <a href="/journey/" id="btn-journey" class="act-btn"><span class="ai">🗺</span>여행 지도 보기</a>
     <a href="certificate.html" id="btn-cert" class="act-btn"><span class="ai">📘</span>관계 여권 보기</a>
     <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="act-btn" target="_blank" rel="noopener"><span class="ai">✍️</span>편지 쓰기</a>
     <span class="act-btn disabled"><span class="ai">📖</span>자서전 기록<small>준비중</small></span>
@@ -250,7 +264,7 @@
 <nav class="tabbar">
   <a href="/" class="tab active"><span class="ti">🏠</span>홈</a>
   <a href="/history.html" class="tab"><span class="ti">🧭</span>여행기록</a>
-  <a href="/journey/" class="tab tab-mid"><span class="ti">＋</span>여행시작</a>
+  <a href="javascript:void(0)" onclick="openNewJourney();return false;" class="tab tab-mid"><span class="ti">＋</span>여행시작</a>
   <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="tab" target="_blank" rel="noopener"><span class="ti">✉️</span>편지</a>
   <a href="/myinfo.html" class="tab"><span class="ti">👤</span>내정보</a>
 </nav>
@@ -263,6 +277,7 @@
     if(!id) return; /* id 없으면 데모 화면 유지 */
     id=id.trim().toUpperCase();
     var bc=document.getElementById('btn-cert'); if(bc) bc.href='certificate.html?id='+encodeURIComponent(id);
+    var bj=document.getElementById('btn-journey'); if(bj && id) bj.href='/journey/?id='+encodeURIComponent(id);
     var cb='lfcb'+Date.now();
     window[cb]=function(d){
       if(!d||d.status!=='ok'){ alert('해당 여권번호의 결과를 찾을 수 없어요. 번호를 다시 확인해 주세요.'); return; }
@@ -282,5 +297,22 @@
     document.head.appendChild(s);
   })();
   </script>
+
+<!-- 새 여행 안내 모달 (v13) -->
+<div class="nj-overlay" id="njModal" onclick="if(event.target===this)closeNewJourney()">
+  <div class="nj-box">
+    <div class="nj-emoji">🌿</div>
+    <div class="nj-title">새로운 여행을 떠나시겠어요?</div>
+    <div class="nj-en">Begin a new journey?</div>
+    <div class="nj-desc">지금 보고 계신 여행지도는 <span class="keep">소중히 간직</span>돼요.<br>다른 소중한 분과의 관계를 새로 떠나려면<br>새 여행지도가 필요해요.</div>
+    <a class="nj-go" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener">🗺️ 새 여행지도 보러가기</a>
+    <button class="nj-later" onclick="closeNewJourney()">다음에 할게요</button>
+  </div>
+</div>
+<script>
+function openNewJourney(){var m=document.getElementById('njModal');if(m)m.classList.add('show');}
+function closeNewJourney(){var m=document.getElementById('njModal');if(m)m.classList.remove('show');}
+</script>
+
 </body>
 </html>
