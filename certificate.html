@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- Google tag (gtag.js) - GA4 G-DWCSSE71NS -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DWCSSE71NS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DWCSSE71NS');
+  </script>
+
 <meta charset="UTF-8" />
 <script>(function(){try{var hasId=/[?&]id=LF-/i.test(location.search);if(hasId){try{sessionStorage.setItem("lf_unlock","1");}catch(e){}}if(window.top===window.self&&/^https?:/.test(location.protocol)&&!hasId&&sessionStorage.getItem("lf_unlock")!=="1"){location.replace("/gate.html");}}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,7 +19,7 @@
 <meta property="og:description" content="나로부터 시작되는 여행 — 사랑흐름 LFRI™" />
 <meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
 <meta property="og:url" content="https://www.loveflow.ai.kr/journey" />
-<!-- 사랑흐름 증명서 certificate.html v7-13 · 260624 · [작업 v7-13] 진짜문서 상단 top-nav(로고+무료나침반 배지)를 통일 길잡이(좌 브랜드=홈 + 우 ☰)로 교체 — 전 페이지 통일. [절대보존] head 잠금(lf_unlock·location.replace)·재조회(lookupPassport)·임베드 인쇄문서 3개·slide-nav·saveJourney. ?id= 있으면 메뉴에 내 여행 표시. / v7-12 · 260624 · [작업 v7-12] ①재조회 완성(?id= 잠금통과+lookupPassport JSONP로 DB값→변수주입→showResult, journey v7-17동일) ②여권번호 복사 버튼 추가(📋, 클립보드+fallback). [보존]showResult·산식·도share·savePDF·DB_URL 미변경. certificate.html v7-11 · 260622 · [작업] 구 GAS주소 2개를 현행으로 교체 — ①DB_URL: 구 유료GAS(lcOch98, 폐기됨)→현행 M1A ②LB(편지): 구 편지GAS(M1H7IS)→현행 DTLjdA. 잠금·디자인·로직 불변 · v7-10 · 260621 · [원작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
+<!-- 사랑흐름 유료 여행지도 v7-19 · 260624 · [작업 v7-19] GA4 측정 삽입 / v7-18 · 260624 · [작업 v7-18] 진짜문서 상단 top-nav(로고+무료나침반 배지)를 통일 길잡이(좌 브랜드=홈 + 우 ☰)로 교체 — 전 페이지 통일. 결과화면 갇힘 해소(홈·우주·여권·편지 항상 접근). [절대보존] head 잠금(lf_unlock·location.replace)·showResult·산식·도장(confirmJourney)·DB_URL·JSONP·재조회·임베드 인쇄문서 3개. ?id= 있으면 메뉴에 내 여행 표시. / v7-17 · 260624 · [작업 v7-17] 재조회 완성 — ?id=여권번호 진입 시 GAS lookupPassport(JSONP)로 DB값(점수·MBTI·관계유형) 받아 신규와 동일 전역변수(sc·attentionScore·relType·relNick·myMBTI·partnerMBTI)에 주입 후 기존 showResult() 그대로 호출 → 신규와 100%동일 풀버전(축약 폐기). 점수 0/조회실패 시 정상 진단흐름 유지. TEST_MODE에 !__lfReview 가드. [보존]showResult·showStep·산식·도장(v7-16)·DB_URL 미변경. 여행지도 v7-16 · 260623 · [작업 v7-16] 결과 화면 "🎫 여행 도장 받기" 버튼 추가(친구들 만장일치 안: 결과 자동표시 유지 + 수령확인 버튼). 클릭→③확인음(587→440)+주문대장 J열 수령시각 기록(no-cors,markViewed)+"기록됨" 피드백. 중복방지 플래그. [절대보존] showResult·showStep·결과띵(playDing880)·보물상자(H열)·DB_URL·여권로직 미변경. ※GAS markJourneyViewed.gs(J열함수)+doPost markViewed분기 추가 필요. · 여행지도 v7-15 · 260622 · [작업] ①편지 GAS URL 통일: 구 M1H7IS → 신 DTLjdA (전 창 v7-14 미배포분 반영) ②문자 링크 잠금 예외: location.search에 ?id=LF-가 있으면 sessionStorage lf_unlock=1 세팅 후 통과 → 옵션1(다음날 문자발송)로 받은 /journey/?id=여권번호 링크가 gate로 튕기지 않고 바로 진단 시작 (번호 없는 직접접근은 그대로 gate로 차단, 보안 유지: LF번호는 구매자만 앎) · DB_URL(M1A)·여권로직·기타 미변경 · v7-13 · 260622 · [작업] A방식 번호 통일: showResult에서 journey 자체 genPassport(관계코드) 생성→window.lfPassport 덮어쓰기 제거, gate가 발급한 ?id 번호(window.lfPassport||localStorage)를 그대로 사용 → 주문대장=진단 번호 일치, H열 연동 가능 (옛 genPassport/relCode 함수는 죽은코드로 잔존·무해, GAS·DB_URL·잠금 미변경) · v7-12 · 260622 · [작업] 여권번호 귀속(STEP8 프론트): journey 진입 시 ?id→sessionStorage→localStorage 순으로 관계여권번호 읽어 window.lfPassport 보관 · v7-11 · 260621 · [작업] 모바일 PDF출력 수정 (savePDF: setTimeout 1.6초 제거 → confirm 후 즉시 window.print, 모바일 인쇄차단 해결 / 잠금·GAS·기타 미변경) · v7-10 · 260621 · [작업] 잠금을 [최상위창+https]에서만 작동 — 미리보기(iframe)/로컬에선 정상 표시, 실제 사이트 직접접근만 차단 · v7-9 기반 -->
 <!-- [v7-4] ①큰 계절도장 제거 → 관계 우주맵이 도장 역할 흡수 (중복·공간낭비 해소, 도장 글자깨짐 제거) -->
 <!--   ②우주맵 '포도송이'로 확대 — 원 크게+라벨 노드 안 · 채워진 자리(이번 관계)=계절색+아이콘=도장 -->
 <!--   ③이메일 수집란 안내문구 보강: "관계 우주 저장 → 다음 관계 분석 시 도장 이어 쌓임"(텍스트만, saveEmail·doShare 로직 불변) -->
@@ -1056,7 +1065,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
       <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.2em;margin-bottom:4px">사랑흐름 관계 여권™</div>
       <div style="font-size:15px;font-weight:900;color:#fff;margin-bottom:2px;letter-spacing:0.08em">RELATIONSHIP PASSPORT</div>
       <div style="font-size:19px;color:var(--gold);font-weight:700;letter-spacing:0.14em;margin-top:3px;font-family:'Courier New',monospace" id="cert-number"></div>
-      <div style="font-size:10.5px;color:rgba(255,255,255,0.55);margin-top:7px;line-height:1.5">이 번호로 나중에 결과를 다시 볼 수 있어요</div><button onclick="copyPassport()" id="copyPassBtn" style="margin-top:8px;padding:7px 16px;background:rgba(212,175,55,0.18);border:1px solid rgba(212,175,55,0.5);border-radius:18px;color:var(--gold);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">📋 여권번호 복사</button>
+      <div style="font-size:10.5px;color:rgba(255,255,255,0.55);margin-top:7px;line-height:1.5">이 번호로 나중에 결과를 다시 볼 수 있어요</div>
     </div>
     <div style="background:rgba(255,255,255,0.06);border-radius:14px;padding:16px;margin-bottom:16px">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:12px;color:rgba(255,255,255,0.75);line-height:2">
@@ -1087,6 +1096,15 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
     <div style="font-size:10px;color:rgba(212,175,55,0.8);font-weight:700;letter-spacing:0.18em;margin-bottom:16px">🌊 사랑흐름 선언</div>
     <div id="todaySentence" style="font-size:17px;color:#fff;font-weight:700;line-height:1.9;font-style:italic;margin-bottom:18px"></div>
     <div style="font-size:13px;color:rgba(255,255,255,0.72);line-height:2;font-style:italic">한 관계가 회복되면,<br>그 변화는 또 다른 관계로 번집니다.<br><span style="color:rgba(212,175,55,0.85)">한 송이 꽃이 피면, 세상의 봄이 시작되듯이.</span></div>
+  </div>
+
+  <!-- ★ 여행 도장 받기 (수령확인 → 주문대장 J열 기록) -->
+  <div class="res-block" id="rb-stamp" style="background:#fff;border:2px solid #D4AF37;border-radius:18px;padding:24px 20px;margin-bottom:14px;text-align:center">
+    <div id="stampBox">
+      <div style="font-size:11px;color:#A8880A;font-weight:700;letter-spacing:0.14em;margin-bottom:8px">✨ 여행이 완료되었습니다</div>
+      <div style="font-size:14px;color:#1E2A3A;line-height:1.7;margin-bottom:18px">관계 여권에 오늘의 여행을<br>기록해 주세요</div>
+      <button onclick="confirmJourney()" style="background:linear-gradient(135deg,#D4AF37,#C9A96E);color:#fff;border:none;padding:15px 34px;border-radius:26px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 6px 18px rgba(212,175,55,0.35)">🎫 여행 도장 받기</button>
+    </div>
   </div>
 
   <!-- 이메일 수집 -->
@@ -1172,6 +1190,58 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
 var DB_URL = 'https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A/exec';
 var KAKAO_KEY = 'fd00345a71b480f95b1d6653b5586a7c';
 var BASE_URL = 'https://www.loveflow.ai.kr';
+
+/* ── 관계여권 번호 귀속 (gate → journey) v7-12 ──
+   gate.html이 발급 후 /journey/?id=여권번호 로 보냄(+sessionStorage 저장).
+   진입 시 ?id → sessionStorage → localStorage 순으로 읽어 window.lfPassport에 보관.
+   ?id가 있으면 sessionStorage에 재저장(중간 새로고침·뒤로가기 대비).
+   → 진단 저장 payload.passport(아래 saveEmail)에 여권번호가 정상 적재됨. */
+(function(){
+  try{
+    var fromUrl = (new URLSearchParams(location.search).get('id') || '').trim();
+    var fromSes = (sessionStorage.getItem('lf_passport') || '').trim();
+    var fromLoc = (localStorage.getItem('lf_passport') || '').trim();
+    var pp = fromUrl || fromSes || fromLoc || '';
+    if (pp && /^LF-/i.test(pp)) {
+      window.lfPassport = pp;
+      try{ sessionStorage.setItem('lf_passport', pp); }catch(e){}
+    }
+  }catch(e){}
+})();
+
+/* v7-17: 재조회 — ?id=여권번호로 들어오면 DB값을 신규와 동일한 변수에 채우고
+   기존 showResult()를 그대로 호출 (축약 아님, 신규와 동일한 풀버전).
+   universe와 동일 JSONP. 점수 전부 0이면 미저장으로 보고 정상 진단 흐름 유지. */
+(function(){
+  try{
+    var rid = (new URLSearchParams(location.search).get('id') || '').trim().toUpperCase();
+    if(!rid || rid.indexOf('LF-')!==0) return;
+    window.__lfReview = true;
+    var cbName = 'lfReviewCb_' + Date.now();
+    window[cbName] = function(d){
+      try{
+        if(!d || d.status!=='ok'){ window.__lfReview=false; return; }
+        var hasScore = (Number(d.scA)||0)+(Number(d.scC)||0)+(Number(d.scD)||0)+(Number(d.scW)||0)+(Number(d.scG)||0)+(Number(d.scE)||0)+(Number(d.scH)||0)+(Number(d.scR)||0)+(Number(d.scP)||0);
+        if(hasScore===0){ window.__lfReview=false; return; }
+        sc = {C:Number(d.scC)||0, D:Number(d.scD)||0, W:Number(d.scW)||0, G:Number(d.scG)||0, E:Number(d.scE)||0, H:Number(d.scH)||0, R:Number(d.scR)||0, P:Number(d.scP)||0};
+        attentionScore = Number(d.scA)||0;
+        relType = d.relType || '';
+        relNick = d.relNick || '';
+        myMBTI = d.myMBTI || '';
+        partnerMBTI = d.ptMBTI || '';
+        window.lfPassport = d.passport || rid;
+        try{ localStorage.setItem('lf_passport', window.lfPassport); }catch(e){}
+        step = 100; showStep();
+        showResult();
+      }catch(e){ window.__lfReview=false; }
+    };
+    var s = document.createElement('script');
+    s.src = DB_URL + '?id=' + encodeURIComponent(rid) + '&callback=' + cbName;
+    s.onerror = function(){ window.__lfReview=false; };
+    document.head.appendChild(s);
+  }catch(e){ window.__lfReview=false; }
+})();
+
 if (window.Kakao && !Kakao.isInitialized()) Kakao.init(KAKAO_KEY);
 
 var MBTI_LIST = [
@@ -1236,39 +1306,6 @@ var picked = {}, multiPicked = {}, introPicked = {};
 var relType = '', relNick = '', myMBTI = '', partnerMBTI = 'UNKNOWN';
 var currentCode = '', q26Ans = '', emailSaved = false;
 var TEST_MODE = location.search.indexOf('test=1') > -1;
-
-/* v7-12: 재조회 — ?id=여권번호 진입 시 GAS lookupPassport(JSONP)로 DB값 받아
-   신규와 동일 전역변수에 주입 후 기존 showResult() 그대로 호출 (축약 아님, 동일 풀버전).
-   점수 0/조회실패 시 정상 흐름 유지. journey v7-17과 동일 방식. */
-(function(){
-  try{
-    var rid = (new URLSearchParams(location.search).get('id') || '').trim().toUpperCase();
-    if(!rid || rid.indexOf('LF-')!==0) return;
-    window.__lfReview = true;
-    var cbName = 'lfCertCb_' + Date.now();
-    window[cbName] = function(d){
-      try{
-        if(!d || d.status!=='ok'){ window.__lfReview=false; return; }
-        var hasScore = (Number(d.scA)||0)+(Number(d.scC)||0)+(Number(d.scD)||0)+(Number(d.scW)||0)+(Number(d.scG)||0)+(Number(d.scE)||0)+(Number(d.scH)||0)+(Number(d.scR)||0)+(Number(d.scP)||0);
-        if(hasScore===0){ window.__lfReview=false; return; }
-        sc = {C:Number(d.scC)||0, D:Number(d.scD)||0, W:Number(d.scW)||0, G:Number(d.scG)||0, E:Number(d.scE)||0, H:Number(d.scH)||0, R:Number(d.scR)||0, P:Number(d.scP)||0};
-        attentionScore = Number(d.scA)||0;
-        relType = d.relType || '';
-        relNick = d.relNick || '';
-        myMBTI = d.myMBTI || '';
-        partnerMBTI = d.ptMBTI || '';
-        window.lfPassport = d.passport || rid;
-        try{ localStorage.setItem('lf_passport', window.lfPassport); }catch(e){}
-        step = 100; showStep();
-        showResult();
-      }catch(e){ window.__lfReview=false; }
-    };
-    var s = document.createElement('script');
-    s.src = DB_URL + '?id=' + encodeURIComponent(rid) + '&callback=' + cbName;
-    s.onerror = function(){ window.__lfReview=false; };
-    document.head.appendChild(s);
-  }catch(e){ window.__lfReview=false; }
-})();
 
 var VID = 'v_' + Math.random().toString(36).substr(2,9);
 
@@ -1716,7 +1753,7 @@ function showResult() {
   document.getElementById('r-icon').textContent=t.icon;
   document.getElementById('r-code').textContent='A'+currentCode;
   /* ★ v7-5: 관계 여권번호 발급 (프론트 생성 → localStorage → 화면 표시) */
-  var _passport=genPassport(relType);
+  var _passport = window.lfPassport || localStorage.getItem('lf_passport') || '';  /* v7-13: A방식 통일 — gate가 발급한 여권번호(?id)를 그대로 사용. journey 자체 생성(genPassport) 안 함 → 주문대장과 번호 일치 */
   window.lfPassport=_passport;
   try{localStorage.setItem('lf_passport',_passport);}catch(e){}
   try{
@@ -2352,26 +2389,6 @@ function goToLetter(){
   var params=new URLSearchParams({code:currentCode,c:pct(sc.C,sc.D),w:pct(sc.W,sc.G),e:pct(sc.E,sc.H),r:pct(sc.R,sc.P),myMBTI:myMBTI,ptMBTI:partnerMBTI,rel:relType,nick:relNick,email:email,ts:Date.now()});
   window.open(LB+'?'+params.toString(),'_blank');
 }
-function copyPassport(){
-  var el=document.getElementById('cert-number');
-  var pp=(window.lfPassport || (el?el.textContent:'') || '').trim();
-  if(!pp || pp.indexOf('LF-')!==0){ if(typeof showToast==='function') showToast('여권번호를 찾을 수 없어요'); return; }
-  function done(){
-    var b=document.getElementById('copyPassBtn');
-    if(b){ var o=b.innerHTML; b.innerHTML='✓ 복사됨'; setTimeout(function(){ b.innerHTML=o; },1500); }
-    if(typeof showToast==='function') showToast('✓ 여권번호 '+pp+' 복사됨');
-  }
-  try{
-    if(navigator.clipboard && navigator.clipboard.writeText){
-      navigator.clipboard.writeText(pp).then(done, function(){ fbCopy(pp); done(); });
-    } else { fbCopy(pp); done(); }
-  }catch(e){ fbCopy(pp); done(); }
-}
-function fbCopy(t){
-  try{ var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
-    document.body.appendChild(ta); ta.focus(); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
-  }catch(e){}
-}
 function doShare(){
   var t=T[currentCode]||T['DWHR']; var shareUrl=BASE_URL;
   var shareTitle='사랑흐름 · '+t.icon+' '+t.short;
@@ -2384,8 +2401,10 @@ function doShare(){
 
 /* ── PDF 저장 (window.print) ── */
 function savePDF(){
-  showToast('🖨️ PDF 저장 팁 — 인쇄 설정에서 "머리글 및 바닥글"을 꺼주시면 가장 깔끔하게 저장됩니다');
-  setTimeout(function(){window.print();},1600);
+  /* [v7-11] 모바일은 setTimeout 뒤 window.print를 차단함 → confirm(동기 안내) 후 같은 클릭 핸들러 안에서 즉시 호출 */
+  if(confirm('PDF로 저장합니다.\n\n인쇄 설정에서 "머리글 및 바닥글"을 끄시면 가장 깔끔하게 저장됩니다.\n\n[확인]을 누르면 인쇄 화면이 열립니다.')){
+    window.print();
+  }
 }
 function playError(){
   try{
@@ -2425,6 +2444,28 @@ function goRelNext(){
   if(!partnerMBTI||partnerMBTI==='UNKNOWN'){playError();showToast('그 분의 MBTI를 선택해주세요');return;}
   step=1;showStep();
 }
+/* ★ 여행 도장 받기 — 수령확인 시각을 주문대장 J열에 기록 (친구들 만장일치 안) */
+var lfJourneyConfirmed = false;
+function confirmJourney(){
+  if(lfJourneyConfirmed) return;   /* 중복 클릭 방지 (프론트 방어선) */
+  lfJourneyConfirmed = true;
+  /* ③ 확인음 2음 (587->440 하강 = 완료감) · 기존 playDing 재사용 */
+  try{ playDing(587,0.2); setTimeout(function(){ playDing(440,0.35); },230); }catch(e){}
+  /* J열 신호 — no-cors fire-and-forget, 헤더 없음(CORS preflight 회피) · DB_URL 재사용 */
+  try{
+    var pp = (window.lfPassport || localStorage.getItem('lf_passport') || '');
+    if(pp){
+      fetch(DB_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({action:'markViewed',passport:pp})});
+    }
+  }catch(e){}
+  /* 피드백 — 도장 찍힌 모습으로 */
+  var box = document.getElementById('stampBox');
+  if(box){
+    box.innerHTML = '<div style="font-size:15px;color:#2A7F6E;font-weight:800;padding:6px">✓ 여행이 기록되었습니다</div>'
+      + '<div style="font-size:12px;color:#6B7585;margin-top:6px;line-height:1.6">관계 여권에 오늘의 도장이 찍혔어요 🌱<br>언제든 다시 열람하실 수 있어요</div>';
+  }
+}
+
 function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.style.display='block';setTimeout(function(){t.style.display='none';},3500);}
 
 document.addEventListener('DOMContentLoaded',function(){
