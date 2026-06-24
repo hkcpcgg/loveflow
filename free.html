@@ -1,90 +1,964 @@
-<!-- 사랑흐름 무료 효용 메시지 v3 · 260620 · v5 · 하단 사업자정보 푸터 추가 -->
 <!DOCTYPE html>
+<!-- 사랑흐름 무료 나침반 compass.html v10 · 260624 · [작업 v10] 통일 길잡이 적용 / v9 · 260620 · [작업] 진단 번호를 기기 목록(lf_history)에 저장 — 여행기록용 / v8(유형코드) 유지 -->
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>무료 나침반의 가치 · 사랑흐름</title>
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>사랑흐름 · 관계 나침반 (무료)</title>
+<meta property="og:type" content="website" />
+<meta property="og:title" content="사랑흐름 · 관계 나침반" />
+<meta property="og:description" content="사랑이 없어서가 아니라, 서로의 언어를 몰라서 멀어집니다. 지금 당신의 관계를 들여다보세요." />
+<meta property="og:image" content="https://hkcpcgg.github.io/loveflow/og-image.png" />
+<meta property="og:url" content="https://www.loveflow.ai.kr" />
+<meta property="og:site_name" content="사랑흐름" />
+<!-- 사랑흐름 무료 나침반 v26 · 260613 · 상단 English 버튼 추가 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
-  :root{ --navy:#102543; --navy2:#0F1B2D; --gold:#B8923E; --gold2:#D4A94F;
-         --text:#1A1A3A; --sub:#4B5563; --sub2:#6B7280; --card:#fff; --border:#E6E2D7; --spring:#3E8E5A; }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;
-       background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);background-attachment:fixed;color:var(--text);min-height:100vh;line-height:1.7}
-  .page{max-width:540px;margin:0 auto;padding:1.5rem 1.25rem 3rem}
-  .serif{font-family:'Nanum Myeongjo',serif}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);background-attachment:fixed;color:#1A1A3A;min-height:100vh}
+.page{max-width:540px;margin:0 auto;padding:1.5rem 1.25rem 4rem}
+.top-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem}
+.home-btn{font-size:13px;color:#0F1B2D;text-decoration:none;font-weight:600;display:flex;align-items:center;gap:4px;padding:6px 12px;border:1.5px solid #E6E2D7;border-radius:20px;background:#fff}
+.logo-txt{font-size:12px;color:#6B7280;font-weight:600;letter-spacing:0.06em}
+.hero-title{font-size:34px;font-weight:800;text-align:center;line-height:1.25;margin-bottom:10px;letter-spacing:-0.03em;color:#102543}
+.hero-sub{font-size:15px;color:#4B5563;text-align:center;margin-bottom:1.4rem;line-height:1.75}
+.axis-badges{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1.4rem}
+.axis-badge{background:#fff;border:1.5px solid #E6E2D7;border-radius:14px;padding:12px 6px;text-align:center}
+.axis-badge-icon{font-size:20px;margin-bottom:4px}
+.axis-badge-name{font-size:12px;font-weight:700;color:#102543}
+.prog-wrap{margin-bottom:1.2rem}
+.prog{display:flex;gap:4px}
+.prog-dot{flex:1;height:8px;border-radius:10px;background:#E6E2D7}
+.prog-dot.done{background:linear-gradient(90deg,#B8923E,#D4A94F)}
+.prog-label{font-size:11px;color:#6B7280;margin-top:5px;text-align:right}
+.step{display:none}.step.active{display:block}
+.q-num{font-size:11px;color:#0F1B2D;font-weight:900;letter-spacing:0.08em;margin-bottom:5px}
+.q-title{font-size:17px;font-weight:800;color:#1A1A3A;margin-bottom:4px;line-height:1.4}
+.q-sub{font-size:12px;color:#6B7280;margin-bottom:1rem;font-style:italic;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:7px;margin-bottom:1.25rem}
+.opt{background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;padding:11px 15px;font-size:14px;cursor:pointer;color:#1A1A3A;text-align:left;line-height:1.55;transition:all 0.15s}
+.opt:hover{border-color:#B8923E;background:rgba(184,146,62,0.06)}
+.opt.sel{background:#0F2747;color:#fff;border-color:#0F2747;font-weight:800;transform:scale(1.01)}
+.nav{display:flex;gap:8px}
+.btn-next{padding:11px 22px;background:#B8923E;border:none;border-radius:12px;color:#22243A;font-size:14px;font-weight:900;cursor:pointer}
+.btn-next-main{width:100%;padding:14px;background:#0F2747;border:none;border-radius:14px;color:#fff;font-size:16px;font-weight:900;cursor:pointer;min-height:52px;margin-top:12px;display:none}
+.btn-next:disabled{opacity:0.3;cursor:not-allowed}
+.btn-back{padding:11px 16px;background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;font-size:14px;cursor:pointer;color:#6B7280;font-weight:800}
+.interlude{background:#fff;border-left:3px solid #B8923E;border-radius:0 12px 12px 0;padding:10px 14px;margin-bottom:1rem;font-size:13px;color:#0F1B2D;font-style:italic;line-height:1.7}
+.result-wrap{animation:fi 0.4s ease}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.result-top{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:1.5rem;text-align:center;margin-bottom:1rem;box-shadow:0 2px 12px rgba(15,27,45,0.08)}
+.metric-card{background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;padding:1rem;margin-bottom:1rem;display:none}
+.radar-card{display:none}
+.next-card{background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;padding:1rem;margin-bottom:1rem}
+.go-btn{display:block;padding:10px 12px;background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;color:#0F1B2D;font-size:14px;font-weight:900;text-decoration:none;text-align:center;margin-top:8px}
+.go-btn:hover{border-color:#B8923E}
+.start-btn{width:100%;padding:0;background:#0F2747;border:none;border-radius:20px;color:#fff;font-size:18px;font-weight:900;cursor:pointer;height:64px;display:flex;align-items:center;justify-content:center}
+.start-btn:disabled{opacity:0.4;cursor:not-allowed}
+.start-meta{font-size:12px;color:#6B7280;margin-top:8px;text-align:center;line-height:1.6}
+.toast{display:none;position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:#B8923E;color:#fff;padding:14px 28px;border-radius:24px;font-size:15px;font-weight:800;z-index:999;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.2);text-align:center}
+.analyzing{display:none;text-align:center;padding:40px 20px}
+.analyzing-title{font-size:20px;font-weight:800;color:#102543;margin-bottom:8px}
+.analyzing-sub{font-size:14px;color:#4B5563;margin-bottom:32px;line-height:1.7}
+.analyzing-item{margin-bottom:16px;text-align:left}
+.analyzing-label{font-size:13px;color:#4B5563;font-weight:700;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.analyzing-bar-bg{background:#E6E2D7;border-radius:10px;height:10px;overflow:hidden}
+.analyzing-bar-fill{height:10px;border-radius:10px;width:0%;transition:width 0.8s ease}
+.analyzing-msg{font-size:13px;color:#B8923E;font-weight:700;margin-top:20px;min-height:20px;text-align:center}
 
-  .top-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.6rem}
-  .logo-txt{font-size:12px;color:var(--sub2);font-weight:600;letter-spacing:0.06em}
-  .nav-badge{font-size:13px;color:var(--navy2);font-weight:700;padding:6px 13px;border:1.5px solid var(--border);border-radius:20px;background:#fff}
+/* ── 감성 결과 카드 ── */
+.res-hero{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 50%,#22243A 100%);border-radius:20px;padding:28px 20px 24px;text-align:center;margin-bottom:12px;position:relative;overflow:hidden}
+.res-hero::before{content:'';position:absolute;top:-50px;right:-50px;width:180px;height:180px;border-radius:50%;background:radial-gradient(circle,rgba(184,146,62,0.18) 0%,transparent 70%)}
+.res-hero-label{font-size:10px;color:rgba(184,146,62,0.7);font-weight:700;letter-spacing:0.22em;margin-bottom:16px;text-transform:uppercase}
+.res-hero-cath{font-size:15px;color:rgba(255,255,255,0.85);font-weight:600;line-height:1.8;padding:14px 16px;background:rgba(255,255,255,0.06);border-radius:12px;border-left:3px solid #B8923E;text-align:left;white-space:pre-line}
+.res-pp-label{font-size:9px;color:rgba(212,169,79,0.85);letter-spacing:0.2em;font-weight:700;margin-top:18px}
+.res-pp{font-size:21px;color:#D4A94F;font-weight:800;letter-spacing:0.14em;font-family:'Courier New',monospace;margin-top:4px}
+.res-pp-note{font-size:10.5px;color:rgba(255,255,255,0.6);margin-top:7px}
+.res-lfri{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:18px 16px;margin-bottom:12px}
+.res-lfri-title{font-size:10px;color:#B8923E;font-weight:700;letter-spacing:0.18em;margin-bottom:14px;text-transform:uppercase}
+.res-lfri-item{margin-bottom:12px}
+.res-lfri-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
+.res-lfri-name{font-size:14px;color:#1A1A3A;font-weight:700}
+.res-bar-bg{background:#F0EEF8;border-radius:8px;height:11px;overflow:hidden}
+.res-bar-fill{height:11px;border-radius:8px;transition:width 0.8s cubic-bezier(.4,0,.2,1)}
+.btn-res-share{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;background:#E6E2D7;border:1.5px solid #D0CCC0;border-radius:14px;color:#9090A0;font-size:15px;font-weight:700;cursor:not-allowed;margin-bottom:10px;min-height:52px;transition:all 0.3s}
+.btn-res-share.active{background:#fff;border:1.5px solid #B8923E;color:#8A5C00;cursor:pointer}
+.rel-card{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:1.25rem;margin-bottom:1rem;box-shadow:0 2px 12px rgba(15,27,45,0.06)}
+.rel-title{font-size:20px;font-weight:900;color:#1A1A3A;text-align:center;margin-bottom:6px;letter-spacing:-0.02em}
+.rel-sub{font-size:13px;color:#6B7280;text-align:center;line-height:1.6;margin-bottom:14px}
+.rel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rel-btn{background:#fff;border:1.5px solid #E6E2D7;border-radius:14px;padding:14px 10px;font-size:14px;font-weight:900;color:#0F1B2D;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+.rel-btn:hover{border-color:#B8923E}
+.rel-btn.sel{background:#FFF8E6;border:2px solid #D4A94F;color:#7A4800;font-weight:900}
+.nick-wrap{margin-top:12px}
+.nick-label{font-size:12px;color:#0F1B2D;font-weight:900;margin-bottom:6px}
+.nick-input{width:100%;padding:14px 12px;border:1.5px solid #E6E2D7;border-radius:12px;font-size:16px;color:#1A1A3A;background:#FAFAF8;outline:none}
+.nick-hint{font-size:11px;color:#6B7280;margin-top:6px;line-height:1.6}
+.mbti-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.mbti-btn{background:#fff;border:1.5px solid #E6E2D7;border-radius:12px;padding:10px 6px;font-size:12px;font-weight:900;color:#0F1B2D;cursor:pointer;text-align:center}
+.mbti-btn small{display:block;font-size:11px;color:#4B5563;font-weight:700;margin-top:3px}
+.mbti-btn:hover{border-color:#B8923E}
+.rel-btn:active,.mbti-btn:active,.opt:active{transform:scale(0.97);transition:transform 0.1s}
+.mbti-btn-unknown{grid-column:1/-1;width:100%;padding:10px 12px;border:1.5px solid #E6E2D7;border-radius:12px;font-size:13px;font-weight:700;color:#9090A0;cursor:pointer;text-align:center;background:#fff;margin-top:4px}
+.mbti-btn-unknown small{display:block;font-size:10px;color:#B0B0C0;font-weight:600;margin-top:2px}
+.mbti-btn-unknown.sel{background:rgba(74,144,217,0.10);border-color:#4A90D9;color:#4A90D9}
 
-  .hero-eyebrow{text-align:center;font-size:12px;color:var(--gold);font-weight:800;letter-spacing:0.18em;margin-bottom:13px}
-  .hero-title{font-size:31px;font-weight:800;text-align:center;line-height:1.34;letter-spacing:-0.02em;color:var(--navy)}
-  .hero-title .pt{color:var(--spring)}
-  .intro-box{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:15px 18px;margin:18px 0 22px;font-size:14px;color:var(--navy2);font-style:italic;text-align:center;line-height:1.8}
+/* ── MBTI 탭 ── */
+.mbti-tab-wrap{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:1.25rem;margin-bottom:1rem}
+.mbti-tabs{display:flex;gap:8px;margin-bottom:14px}
+.mbti-tab{flex:1;padding:10px 8px;border-radius:10px;font-size:13px;font-weight:900;cursor:pointer;border:2px solid #E6E2D7;background:#fff;color:#6B7280;transition:all 0.15s;text-align:center}
+.mbti-tab.active-me{background:rgba(184,146,62,0.12);border-color:#B8923E;color:#8A5C00}
+.mbti-tab.active-pt{background:rgba(74,144,217,0.10);border-color:#4A90D9;color:#1A4A8A}
+.mbti-tab-label{font-size:10px;font-weight:700;letter-spacing:0.06em;margin-bottom:2px}
+.mbti-tab-val{font-size:14px;font-weight:900}
+.mbti-panel{display:none}
+.mbti-panel.active{display:block}
+.mbti-grid-me .mbti-btn.sel{background:#B8923E;border-color:#B8923E;color:#fff;font-weight:900}
+.mbti-grid-pt .mbti-btn.sel{background:#4A90D9;border-color:#4A90D9;color:#fff;font-weight:900}
+.mbti-grid-pt .mbti-btn-unknown.sel{background:rgba(74,144,217,0.10);border-color:#4A90D9;color:#4A90D9}
 
-  /* 효용 4개 버튼형 2x2 */
-  .benefits{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .bf{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;background:#fff;border:1.5px solid var(--border);border-radius:16px;padding:20px 12px;text-align:center;transition:transform .15s}
-  .bf .ic{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,#FBF6EC,#F3EAD6);display:flex;align-items:center;justify-content:center;font-size:22px;border:1px solid var(--border)}
-  .bf .t{font-size:14.5px;font-weight:800;color:var(--navy);line-height:1.4}
+/* ── 결과 블록 페이드인 애니메이션 ── */
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.res-block{opacity:0}
+.res-block.show{animation:slideUp 0.45s ease forwards}
 
-  /* 핵심 메시지 */
-  .core{background:linear-gradient(160deg,#13294A,#0F1B2D);border-radius:20px;padding:28px 24px;margin:20px 0;text-align:center}
-  .core .q{font-size:21px;font-weight:800;color:#fff;line-height:1.55}
-  .core .q .em{color:var(--gold2)}
-  .core .s{font-size:13.5px;color:rgba(255,255,255,0.72);margin-top:14px;line-height:1.8}
+/* ── 학술 한줄 주석 (LFRI 블록 하단에 삽입) ── */
+.scholar-oneline{font-size:11px;color:#8A5C00;font-weight:700;text-align:center;margin-top:12px;line-height:1.6;letter-spacing:0.04em;padding:8px 12px;background:rgba(184,146,62,0.08);border-radius:8px;border:1px solid rgba(184,146,62,0.2)}
 
-  /* 학술 한 줄 */
-  .science-line{text-align:center;font-size:12px;color:var(--sub);letter-spacing:0.02em;margin-bottom:22px}
-  .science-line b{color:var(--gold);font-weight:800}
+/* ── 참여 블록 (Cialdini) ── */
+.engage-block{background:linear-gradient(160deg,#0D0F1E 0%,#1A1C35 100%);border-radius:16px;padding:20px 18px;margin-bottom:12px}
+.engage-label{font-size:10px;color:rgba(184,146,62,0.7);font-weight:700;letter-spacing:0.18em;margin-bottom:8px;text-transform:uppercase}
+.engage-q{font-size:16px;font-weight:800;color:#fff;margin-bottom:16px;line-height:1.5}
+.engage-opts{display:flex;flex-direction:column;gap:8px}
+.engage-btn{background:rgba(255,255,255,0.07);border:1.5px solid rgba(184,146,62,0.25);border-radius:12px;padding:12px 16px;font-size:14px;color:rgba(255,255,255,0.8);font-weight:700;cursor:pointer;text-align:left;transition:all 0.15s}
+.engage-btn:hover{background:rgba(184,146,62,0.12);border-color:#B8923E}
+.engage-btn.sel{background:rgba(184,146,62,0.18);border-color:#B8923E;color:#E8D49A;font-weight:900}
+.engage-result{display:none;margin-top:14px;padding:14px;background:rgba(255,255,255,0.06);border-radius:12px;border-left:3px solid #B8923E;font-size:15px;color:rgba(255,255,255,0.92);line-height:1.85;font-weight:600;white-space:pre-line}
 
-  .cta{display:block;text-align:center;background:linear-gradient(90deg,var(--gold),var(--gold2));color:#fff;font-size:17px;font-weight:800;padding:17px;border-radius:30px;text-decoration:none;box-shadow:0 6px 18px rgba(184,146,62,0.3)}
+/* ── MBTI 번역 힌트 블록 ── */
+.mbti-hint-block{background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:18px 16px;margin-bottom:12px}
+.mbti-hint-label{font-size:10px;color:#B8923E;font-weight:700;letter-spacing:0.18em;margin-bottom:10px;text-transform:uppercase}
+.mbti-hint-body{font-size:14px;color:#1A1A3A;line-height:1.8}
+.mbti-hint-lock{font-size:13px;color:#9090A0;margin-top:10px;padding:10px 14px;background:#F8F7F3;border-radius:10px;border-left:3px solid #E6E2D7;line-height:1.6}
 
-  .closing{text-align:center;font-size:14px;color:var(--navy);font-family:'Nanum Myeongjo',serif;line-height:2;margin-top:24px}
-  .foot{text-align:center;font-size:10px;color:var(--sub2);line-height:1.7;margin-top:26px;padding-top:16px;border-top:1px solid var(--border)}
+/* ── LFRI 2x2 카드 그리드 ── */
+.lfri-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:4px}
+.lfri-card{background:rgba(15,27,45,0.04);border:1.5px solid rgba(184,146,62,0.18);border-radius:14px;padding:14px 12px;position:relative}
+.lfri-card-lock{background:#F8F7F3;border:1.5px solid #E6E2D7}
+.lfri-card-icon{font-size:20px;margin-bottom:6px;display:block}
+.lfri-card-name{font-size:12px;font-weight:900;color:#0F1B2D;margin-bottom:2px}
+.lfri-card-eng{font-size:10px;color:#9090A0;font-weight:600;margin-bottom:8px}
+.lfri-card-status{font-size:13px;font-weight:800;color:#B8923E;line-height:1.4}
+.lfri-card-bar-bg{background:#F0EEF8;border-radius:6px;height:6px;overflow:hidden;margin-top:8px}
+.lfri-card-bar-fill{height:6px;border-radius:6px;width:0%;transition:width 0.9s cubic-bezier(.4,0,.2,1)}
+.lfri-card-lock-txt{font-size:11px;color:#C0BAD0;font-weight:700;margin-top:8px;letter-spacing:0.04em}
+
+/* ── CTA 펄스 ── */
+@keyframes ctaPulse{0%{box-shadow:0 0 0 0 rgba(184,146,62,0.45)}70%{box-shadow:0 0 0 14px rgba(184,146,62,0)}100%{box-shadow:0 0 0 0 rgba(184,146,62,0)}}
+.cta-pulse{animation:ctaPulse 2s infinite}
+  /* ── 통일 길잡이 (lf-nav) — 전 페이지 공통 ── */
+  .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,227,0.95);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid #E2E8F0;padding:10px 14px}
+  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}
+  .lf-nav-burger{background:none;border:none;cursor:pointer;color:#1E4A76;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px}
+  .lf-nav-burger:hover{background:rgba(30,74,118,0.08)}
+  .lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,0.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
+  .lf-menu.open{transform:translateX(0)}
+  .lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:4px 18px 14px;border-bottom:1px solid #E2E8F0;margin-bottom:6px}
+  .lf-menu-head .t{font-family:'Noto Serif KR',serif;color:#1E4A76;font-weight:800;font-size:15px}
+  .lf-menu-close{background:none;border:none;font-size:24px;color:#4B5563;cursor:pointer;line-height:1}
+  .lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
+  .lf-menu a:hover{background:#FAF7EE}
+  .lf-menu a .ic{width:22px;text-align:center;font-size:16px}
+  .lf-menu .lf-grp{font-size:11px;letter-spacing:.12em;color:#B8923E;font-weight:700;padding:14px 20px 5px;border-top:1px solid #E2E8F0;margin-top:8px}
+  .lf-menu a.lf-buy{color:#B8923E}
+  .lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+  .lf-backdrop.open{opacity:1;visibility:visible}
 </style>
 </head>
 <body>
+  <!-- 통일 길잡이 -->
+  <div class="lf-nav">
+    <a class="lf-nav-home" href="/">사랑흐름</a>
+    <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+  </div>
+  <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+  <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+    <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+    <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
+    <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
+    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
+    <a href="/about.html"><span class="ic">📖</span>소개</a>
+    <div id="lfMineGrp" style="display:none">
+      <div class="lf-grp">내 여행</div>
+      <a id="lfMineUniverse" href="#"><span class="ic">🌌</span>내 관계우주</a>
+      <a id="lfMineCert" href="#"><span class="ic">📜</span>내 관계여권</a>
+      <a id="lfMineJourney" href="#"><span class="ic">🗺️</span>내 여행지도</a>
+    </div>
+  </nav>
 <div class="page">
-
   <div class="top-nav">
-    <span class="logo-txt">LOVE FLOW · 사랑흐름</span>
-    <span class="nav-badge">🧭 무료 나침반</span>
+    <a href="/" style="text-decoration:none;display:flex;flex-direction:column;align-items:flex-start;gap:1px"><span style="font-size:15px;font-weight:900;color:#102543;letter-spacing:-0.02em;line-height:1">사랑흐름</span><span style="font-size:9px;font-weight:700;color:#B8923E;letter-spacing:0.18em;line-height:1">LOVE FLOW</span></a>
+    <a href="/en" style="display:flex;align-items:center;gap:5px;padding:6px 14px;border:1.5px solid #B8923E;border-radius:20px;background:#fff;text-decoration:none;font-size:13px;font-weight:700;color:#8A5C00;letter-spacing:0.04em">🌐 English</a>
   </div>
 
-  <div class="hero-eyebrow">무료 나침반, 단 한 번의 가치</div>
-  <h1 class="hero-title serif">한 번의 여행이,<br><span class="pt">삶의 궤적</span>을 바꿉니다</h1>
-  <div class="intro-box">"사랑이 없어서가 아니라,<br>서로의 언어를 몰라서 멀어집니다.<br>지금, 당신의 관계를 들여다보세요."</div>
-
-  <!-- 효용 4개 버튼형 2x2 -->
-  <div class="benefits">
-    <div class="bf"><div class="ic">🧭</div><div class="t">관계가 달라집니다</div></div>
-    <div class="bf"><div class="ic">🌱</div><div class="t">일상이 달라집니다</div></div>
-    <div class="bf"><div class="ic">💗</div><div class="t">내면이 깨어납니다</div></div>
-    <div class="bf"><div class="ic">✨</div><div class="t">삶의 궤적이 바뀝니다</div></div>
+  <div style="text-align:center;font-size:28px;margin-bottom:8px">🧭</div>
+  <div class="hero-title">지금, 당신의 마음은...</div>
+  <div class="hero-sub">사랑하지 않아서가 아니라<br>서로의 언어가 달랐기 때문일 수 있습니다.</div>
+  <div class="axis-badges">
+    <div class="axis-badge"><div class="axis-badge-icon">💛</div><div class="axis-badge-name">연결</div><div style="font-size:9px;color:#9090A0;font-weight:600;margin-top:2px">Connection</div></div>
+    <div class="axis-badge"><div class="axis-badge-icon">🔥</div><div class="axis-badge-name">온기</div><div style="font-size:9px;color:#9090A0;font-weight:600;margin-top:2px">Warmth</div></div>
+    <div class="axis-badge"><div class="axis-badge-icon">💬</div><div class="axis-badge-name">표현</div><div style="font-size:9px;color:#9090A0;font-weight:600;margin-top:2px">Expression</div></div>
+    <div class="axis-badge"><div class="axis-badge-icon">🌱</div><div class="axis-badge-name">회복</div><div style="font-size:9px;color:#9090A0;font-weight:600;margin-top:2px">Recovery</div></div>
   </div>
 
-  <!-- 핵심 메시지 -->
-  <div class="core">
-    <div class="q serif">오늘 이 지도는<br><span class="em">판정이 아니라, 출발입니다.</span></div>
-    <div class="s">우리가 전하는 건 결과물이 아니라 —<br>당신이 자신을 들여다본, 바로 그 시간입니다.</div>
+  <div class="prog-wrap">
+    <div class="prog" id="prog"></div>
+    <div class="prog-label" id="plabel">관계 선택</div>
   </div>
 
-  <!-- 학술 한 줄 -->
-  <div class="science-line">⚜️ <b>Bowen · Neff · Chochinov · Gottman</b> 연구에 기반한 설계</div>
+  <!-- ── 관계 선택 ── -->
+  <div class="step active" id="s_rel">
+    <div class="rel-card">
+      <div class="rel-title">상대방의 진심은 무엇이었을까요?</div>
+      <div class="rel-sub">오늘, 당신의 관계를 통역해 드립니다.</div>
+      <div class="rel-grid" id="relGrid">
+        <button class="rel-btn" onclick="pickRel('어머니',this)">👩 어머니</button>
+        <button class="rel-btn" onclick="pickRel('아버지',this)">👨 아버지</button>
+        <button class="rel-btn" onclick="pickRel('배우자·연인',this)">💑 연인</button>
+        <button class="rel-btn" onclick="pickRel('친구',this)">🫂 친구</button>
+        <button class="rel-btn" onclick="pickRel('형제·자매',this)">🤝 형제·자매</button>
+        <button class="rel-btn" onclick="pickRel('자녀',this)">👶 자녀</button>
+        <button class="rel-btn" onclick="pickRel('나 자신',this)">🧭 나 자신</button>
+        <button class="rel-btn" onclick="pickRel('기타',this)">✨ 기타</button>
+      </div>
+      <div class="nick-wrap">
+        <div class="nick-label">이 분을 어떻게 부르시나요? <span style="font-size:11px;color:#6B7280;font-weight:800">(선택)</span></div>
+        <input class="nick-input" id="relNick" placeholder="예: 엄마, 아빠, 재민, 내 친구…" />
+        <div class="nick-hint">닉네임은 결과에 사용돼요.</div>
+      </div>
+    </div>
 
-  <!-- CTA (비용 문구 제거) -->
-  <a href="/compass.html" class="cta">관계 나침반 시작하기 <span style="font-size:13px;opacity:0.85;font-weight:700">(무료)</span> →</a>
+    <div class="mbti-tab-wrap">
+      <div class="mbti-tabs">
+        <button class="mbti-tab active-me" id="tabMe" onclick="switchTab('me')">
+          <div class="mbti-tab-label">🟡 내 MBTI <span style="font-size:10px;color:#B8923E">(필수)</span></div>
+          <div class="mbti-tab-val" id="tabMeVal" style="color:#B8923E">내 MBTI 유형은</div>
+        </button>
+        <button class="mbti-tab" id="tabPt" onclick="switchTab('pt')">
+          <div class="mbti-tab-label">🔵 상대 MBTI <span style="font-size:10px;color:#6B7280">(선택)</span></div>
+          <div class="mbti-tab-val" id="tabPtVal" style="color:#9090A0">상대 MBTI 유형은</div>
+        </button>
+      </div>
+      <div class="mbti-panel active" id="panelMe">
+        <div class="mbti-grid mbti-grid-me" id="myMbtiGrid"></div>
+      </div>
+      <div class="mbti-panel" id="panelPt">
+        <div class="mbti-grid mbti-grid-pt" id="ptMbtiGrid"></div>
+      </div>
+    </div>
 
-  <div class="closing serif">나로부터 시작되는 관계의 여행.<br>나를 먼저 만나는, 그 한 걸음.</div>
+    <div class="start-meta" style="margin-bottom:10px;color:#4B5563">3분 후, 당신의 관계 흐름이 나타납니다.</div>
+    <button class="start-btn" id="btnStart" onclick="startCompass()" disabled>관계 나침반 시작하기 →</button>
+    <div class="start-meta" style="margin-top:8px">관계 1개 · 5문항 · 무료</div>
+  </div>
 
-  <div class="foot">
-    사랑흐름 · 대표 황규찬 · 파주시 매봉길 17-13 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열 · hkcpcgg@gmail.com<br>
-    © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.
+  <div class="step" id="s0"></div>
+
+  <!-- ── Q1~5 ── -->
+  <div class="step" id="s1">
+    <div style="font-size:12px;color:#B8923E;font-weight:700;letter-spacing:0.05em;margin-bottom:10px">🧭 관계 나침반 측정중 · 3분 후 당신의 관계 흐름 좌표가 완성됩니다</div>
+    <div class="q-num">관계 나침반 · Q1 / 5</div>
+    <div class="q-title">그 사람과의 관계, 요즘 온도는?</div>
+    <div class="q-sub">지금 이 순간 느껴지는 대로</div>
+    <div class="opts" id="o1">
+      <button class="opt" onclick="pick(1,0,'W',2,'따뜻해')">따뜻해 — 곁에 있으면 편하다</button>
+      <button class="opt" onclick="pick(1,1,'W',1,'미지근해')">미지근해 — 예전 같지 않다</button>
+      <button class="opt" onclick="pick(1,2,'G',1,'차가워')">차가워 — 어색하거나 불편하다</button>
+      <button class="opt" onclick="pick(1,3,'G',2,'뜨겁게타오른다')">뜨겁게 타오른다 — 감정이 많이 올라온다</button>
+      <button class="opt" onclick="pick(1,4,'G',1,'잘모르겠다')">잘 모르겠다 — 느낌 자체가 없다</button>
+    </div>
+    <div class="nav"><div id="n1"></div></div>
+    <button class="btn-next-main" id="next1" onclick="goNext()">다음 →</button>
+  </div>
+
+  <div class="step" id="s2">
+    <div class="q-num">관계 나침반 · Q2 / 5</div>
+    <div class="q-title">그 사람 생각이 요즘 얼마나 나요?</div>
+    <div class="q-sub">떠오르는 빈도로</div>
+    <div class="opts" id="o2">
+      <button class="opt" onclick="pick(2,0,'D',2,'거의매일')">거의 매일 — 지우려 해도 떠오른다</button>
+      <button class="opt" onclick="pick(2,1,'D',1,'가끔')">가끔 — 특별한 날이나 순간에</button>
+      <button class="opt" onclick="pick(2,2,'C',1,'드물게')">드물게 — 예전보다 많이 줄었다</button>
+      <button class="opt" onclick="pick(2,3,'C',2,'거의없다')">거의 없다 — 자연스럽게 멀어졌다</button>
+    </div>
+    <div class="nav"><button class="btn-back" onclick="goBack()">이전</button><div id="n2"></div></div>
+    <button class="btn-next-main" id="next2" onclick="goNext()">다음 →</button>
+  </div>
+
+  <div class="step" id="s3">
+    <div class="interlude">"지금 이 질문들이 이미 당신 마음을 움직이고 있습니다."</div>
+    <div class="q-num">관계 나침반 · Q3 / 5</div>
+    <div class="q-title">하고 싶은 말이 아직 남아있나요?</div>
+    <div class="q-sub">전하지 못한 채 마음에 쌓인 것</div>
+    <div class="opts" id="o3">
+      <button class="opt" onclick="pick(3,0,'H',2,'많다')">많다 — 할 말이 너무 많아서 어디서부터 시작할지 모르겠다</button>
+      <button class="opt" onclick="pick(3,1,'H',1,'조금있다')">조금 있다 — 한두 마디 정도</button>
+      <button class="opt" onclick="pick(3,2,'E',1,'모르겠다')">잘 모르겠다 — 뭘 말하고 싶은지 정리가 안 된다</button>
+      <button class="opt" onclick="pick(3,3,'E',2,'없다')">없다 — 이미 다 했거나 더 이상 하고 싶지 않다</button>
+    </div>
+    <div class="nav"><button class="btn-back" onclick="goBack()">이전</button><div id="n3"></div></div>
+    <button class="btn-next-main" id="next3" onclick="goNext()">다음 →</button>
+  </div>
+
+  <div class="step" id="s4">
+    <div class="q-num">관계 나침반 · Q4 / 5</div>
+    <div class="q-title">지금 그 관계, 한마디로 표현하면?</div>
+    <div class="q-sub">가장 먼저 떠오르는 단어</div>
+    <div class="opts" id="o4">
+      <button class="opt" onclick="pick(4,0,'D',2,'그립다')">그립다</button>
+      <button class="opt" onclick="pick(4,1,'D',1,'답답하다')">답답하다</button>
+      <button class="opt" onclick="pick(4,2,'G',2,'무겁다')">무겁다</button>
+      <button class="opt" onclick="pick(4,3,'C',2,'편하다')">편하다</button>
+      <button class="opt" onclick="pick(4,4,'C',1,'모르겠다')">모르겠다</button>
+    </div>
+    <div class="nav"><button class="btn-back" onclick="goBack()">이전</button><div id="n4"></div></div>
+    <button class="btn-next-main" id="next4" onclick="goNext()">다음 →</button>
+  </div>
+
+  <div class="step" id="s5">
+    <div class="q-num">관계 나침반 · Q5 / 5</div>
+    <div class="q-title">그 관계에서 지금 원하는 것은?</div>
+    <div class="q-sub">가장 솔직한 마음으로</div>
+    <div class="opts" id="o5">
+      <button class="opt" onclick="pick(5,0,'R',2,'다시가까워지고싶다')">다시 가까워지고 싶다</button>
+      <button class="opt" onclick="pick(5,1,'R',2,'전하지못한말')">전하지 못한 말을 꺼내고 싶다</button>
+      <button class="opt" onclick="pick(5,2,'P',1,'마음정리')">내 마음만 정리하고 싶다</button>
+      <button class="opt" onclick="pick(5,3,'P',2,'거리유지')">아름답게 거리를 유지하고 싶다</button>
+      <button class="opt" onclick="pick(5,4,'R',1,'모르겠다')">아직 모르겠다</button>
+    </div>
+    <div class="interlude">"오늘 이 지도는 판정이 아니라 출발입니다."</div>
+    <div class="nav"><button class="btn-back" onclick="goBack()">이전</button><div id="n5"></div></div>
+    <button class="btn-next-main" id="next5" onclick="startAnalyzing()">결과 보기 →</button>
+  </div>
+
+  <!-- ── 분석중 ── -->
+  <div class="step" id="s_analyzing">
+    <div class="analyzing" id="analyzingBox" style="display:block">
+      <div style="font-size:36px;margin-bottom:16px">🧭</div>
+      <div class="analyzing-title">당신의 관계 흐름을<br>읽고 있습니다</div>
+      <div class="analyzing-sub">잠시만요, 거의 다 왔어요.</div>
+      <div class="analyzing-item">
+        <div class="analyzing-label">💛 연결 분석중... <span style="font-size:10px;color:#9090A0">Connection</span></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarC" style="background:linear-gradient(90deg,#4A90D9,#7AB8F5)"></div></div>
+      </div>
+      <div class="analyzing-item">
+        <div class="analyzing-label">🔥 온기 분석중... <span style="font-size:10px;color:#9090A0">Warmth</span></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarW" style="background:linear-gradient(90deg,#E67E22,#F5A55A)"></div></div>
+      </div>
+      <div class="analyzing-item">
+        <div class="analyzing-label">💬 표현 분석중... <span style="font-size:10px;color:#9090A0">Expression</span></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarE" style="background:linear-gradient(90deg,#9B59B6,#C39BD3)"></div></div>
+      </div>
+      <div class="analyzing-item">
+        <div class="analyzing-label">🌱 회복 분석중... <span style="font-size:10px;color:#9090A0">Recovery</span></div>
+        <div class="analyzing-bar-bg"><div class="analyzing-bar-fill" id="aBarR" style="background:linear-gradient(90deg,#27AE60,#6FCF97)"></div></div>
+      </div>
+      <div class="analyzing-msg" id="analyzingMsg"></div>
+    </div>
+  </div>
+
+  <!-- ── 결과 화면 ── -->
+  <div class="step" id="s_result">
+    <div class="result-wrap">
+
+      <!-- 블록1: 유형 감성 카드 -->
+      <div class="res-hero res-block" id="rb1">
+        <div class="res-hero-label">✦ 사랑흐름 · 관계 나침반 결과</div>
+        <span id="r-icon" style="font-size:64px;margin:22px 0 18px;display:block">🌊</span>
+        <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px">
+          <span id="r-code" style="font-size:12px;font-weight:900;color:#0F2747;background:#B8923E;padding:4px 14px;border-radius:20px;letter-spacing:3px">—</span>
+          <span id="r-name" style="font-size:26px;font-weight:900;color:#FFFFFF;letter-spacing:-0.02em">—</span>
+        </div>
+        <div style="font-size:10px;color:#D4A94F;letter-spacing:0.15em;font-weight:700;margin-bottom:20px">Love Flow Type™</div>
+        <div class="res-hero-cath" id="r-cath">꺼내는 것만으로, 흐름이 다시 움직이기 시작합니다.</div>
+        <div class="res-pp-label">RELATIONSHIP PASSPORT</div>
+        <div class="res-pp" id="r-passport">LC-XXXXX</div>
+        <div class="res-pp-note">이 번호로 결과를 다시 볼 수 있어요</div>
+      </div>
+
+      <!-- 블록2: LFRI 2x2 카드 그리드 -->
+      <div class="res-lfri res-block" id="rb2">
+        <div class="res-lfri-title">✦ 이 관계의 좌표 · LFRI™</div>
+        <div class="lfri-grid" id="lfri-rows"></div>
+        <div style="font-size:11px;color:#9090A0;text-align:center;margin-top:12px;line-height:1.6">낮은 두 축이 이 관계의 진짜 열쇠입니다. 나머지는 여행지도에서 확인됩니다.</div>
+        <div class="scholar-oneline">LFRI™는 Pennebaker·Bowen·Neff 등 국제 연구를 기반으로 설계되었습니다.</div>
+      </div>
+
+      <!-- 블록4: 참여 블록 Cialdini (NEW) -->
+      <div class="engage-block res-block" id="rb4">
+        <div class="engage-label">✦ 지금 이 관계에서</div>
+        <div class="engage-q">당신이 가장 원하는 게 무엇인가요?</div>
+        <div class="engage-opts">
+          <button class="engage-btn" onclick="selectEngage(this,'A','아직 이 관계가 끝나지 않았다는 걸,\n당신도 알고 있기 때문입니다.')">💛 다시 가까워지고 싶다</button>
+          <button class="engage-btn" onclick="selectEngage(this,'B','그 말이 전해지지 않은 채 쌓일수록,\n관계는 조금씩 더 멀어집니다.')">💬 전하지 못한 말이 있다</button>
+          <button class="engage-btn" onclick="selectEngage(this,'C','상대를 이해하기 전에\n내가 왜 이렇게 됐는지를 먼저 봐야 합니다.')">🧭 내 마음만 정리하고 싶다</button>
+        </div>
+        <div class="engage-result" id="engageResult"></div>
+      </div>
+
+      <!-- 블록5: MBTI 번역 힌트 (NEW) -->
+      <div class="mbti-hint-block res-block" id="rb5">
+        <div class="mbti-hint-label">✦ 사랑흐름의 통역</div>
+        <div class="mbti-hint-body" id="mbtiHintBody">당신의 MBTI와 상대의 성향이 만나는 지점에 상처가 생깁니다. 그 이유를 여행지도가 번역해 드립니다.</div>
+      </div>
+
+      <!-- 블록6: 이메일 수집 -->
+      <div id="emailCollectBox" class="res-block" style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:20px;margin-bottom:12px;text-align:left">
+        <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:6px">✦ 이메일을 남겨주시면</div>
+        <div style="font-size:14px;color:#1A1A3A;font-weight:700;line-height:1.7;margin-bottom:14px">다음 여정을 이어가고, 결과를 공유할 수 있어요 💛</div>
+        <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px">
+          <input type="text" id="collect-email-id" placeholder="이메일 아이디" style="width:0;flex:1;min-width:0;height:44px;padding:0 12px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:15px;outline:none;background:#FAFAF8">
+          <span style="color:#0F1B2D;font-weight:900;font-size:14px;flex-shrink:0">@</span>
+          <select id="collect-email-domain" onchange="document.getElementById('collect-email-custom').style.display=this.value==='custom'?'block':'none'" style="width:130px;flex-shrink:0;height:44px;padding:0 8px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:13px;background:#FAFAF8;outline:none;cursor:pointer">
+            <option value="naver.com">naver.com</option>
+            <option value="gmail.com">gmail.com</option>
+            <option value="daum.net">daum.net</option>
+            <option value="kakao.com">kakao.com</option>
+            <option value="nate.com">nate.com</option>
+            <option value="hanmail.net">hanmail.net</option>
+            <option value="custom">직접 입력</option>
+          </select>
+        </div>
+        <input type="text" id="collect-email-custom" placeholder="도메인 직접 입력" style="display:none;width:100%;height:40px;padding:0 12px;border:1.5px solid #E6E2D7;border-radius:10px;font-size:14px;outline:none;background:#FAFAF8;margin-bottom:8px">
+        <div style="font-size:11px;color:#9090A0;margin-bottom:12px">입력하신 이메일은 결과 저장 및 사랑흐름 소식 안내 용도로만 사용됩니다.</div>
+        <button onclick="saveResultEmail()" style="width:100%;padding:14px;background:#B8923E;border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:800;cursor:pointer;min-height:52px">🌊 저장하기</button>
+      </div>
+
+      <!-- 블록7: 유료 전환 CTA -->
+      <div class="res-block" id="rb7" style="background:#fff;border:1.5px solid #E6E2D7;border-radius:16px;padding:24px 20px;margin-bottom:12px">
+        <div style="font-size:17px;font-weight:800;color:#102543;line-height:1.9;text-align:center;margin-bottom:20px">
+          많은 관계는<br>
+          사랑이 부족해서가 아니라<br>
+          서로의 언어를 몰라서 멀어집니다.
+        </div>
+        <div style="font-size:11px;color:#B8923E;font-weight:700;letter-spacing:0.1em;margin-bottom:12px;text-align:center">🧭 사랑흐름과 함께하는 다음 여정</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:22px">
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>상대가 이해하지 못했던 나의 진심</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>내가 놓치고 있던 상대의 마음</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>지금 관계를 바꾸는 행동카드 제공</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>다시 연결될 수 있는 회복 방향</div>
+          <div style="font-size:14px;color:#1A1A3A;display:flex;align-items:flex-start;gap:8px;line-height:1.6"><span style="color:#B8923E;font-weight:900;flex-shrink:0">✓</span>사랑흐름 여행지도</div>
+        </div>
+        <div style="font-size:13px;color:#6B7280;text-align:center;margin-bottom:16px;line-height:1.7">이 관계에서 자꾸 반복되는 패턴,<br>원인을 찾아보세요.</div>
+        <a href="/journey/" class="cta-pulse" style="display:flex;align-items:center;justify-content:space-between;width:100%;padding:18px 22px;background:linear-gradient(135deg,#0F2747 0%,#1A3A5C 100%);border:1.5px solid rgba(184,146,62,0.5);border-radius:16px;text-decoration:none;box-sizing:border-box">
+          <div>
+            <div style="font-size:11px;color:rgba(184,146,62,0.8);font-weight:700;letter-spacing:0.12em;margin-bottom:4px">🧭 사랑흐름 여행지도</div>
+            <div style="font-size:17px;font-weight:900;color:#fff;letter-spacing:-0.02em">우리 관계의 여행지도 보기</div>
+            <div style="font-size:12px;color:rgba(184,146,62,0.7);font-weight:700;margin-top:4px">(₩9,900 · 전체 공개)</div>
+          </div>
+          <div style="font-size:22px;color:#B8923E;font-weight:900">›</div>
+        </a>
+        <div style="font-size:13px;color:#6B7280;text-align:center;margin-top:10px;line-height:1.7">지금 이 관계, 더 늦기 전에 지도를 펴보세요.</div>
+      </div>
+
+      <!-- 블록8: 공유하기 -->
+      <div class="res-block" id="rb8" style="margin-bottom:12px">
+        <button id="shareBtn" class="btn-res-share" onclick="doShare()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          이 결과 공유하기
+        </button>
+        <div id="shareBtnHint" style="font-size:12px;color:#9090A0;text-align:center;margin-top:4px">이메일 저장 후 공유할 수 있어요</div>
+      </div>
+
+    </div>
   </div>
 
 </div>
+<div class="toast" id="toast"></div>
+
+<!-- 카카오 SDK -->
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js"></script>
+
+<script>
+/* ── 상수 ── */
+/* ── GAS URL (Base64 인코딩 — 카카오 크롤러 차단) ── */
+var DB_URL = atob('aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J6ZHhNeUppYkUxcFE5d0Q3UVBTNWJSU21fQ3lzbFhENF9qRTRiNktZNDFKcVVVVUlWVF9PZ2VWODd2cmN5U045RXUvZXhlYw==');
+var HOME_URL = 'https://www.loveflow.ai.kr';
+var KAKAO_KEY = 'fd00345a71b480f95b1d6653b5586a7c';
+
+/* ── 카카오 초기화 ── */
+if (window.Kakao && !Kakao.isInitialized()) {
+  Kakao.init(KAKAO_KEY);
+}
+
+/* ── MBTI 목록 ── */
+var MBTI_LIST = [
+  ['ISTJ','신중한 관리자'],['ISFJ','따뜻한 수호자'],['INFJ','통찰력있는 옹호자'],['INTJ','전략적 사색가'],
+  ['ISTP','만능 재주꾼'],['ISFP','호기심 예술가'],['INFP','열정적 중재자'],['INTP','논리적 탐구자'],
+  ['ESTP','모험적 사업가'],['ESFP','자유로운 연예인'],['ENFP','재기발랄 활동가'],['ENTP','뜨거운 변론가'],
+  ['ESTJ','엄격한 관리자'],['ESFJ','사교적 외교관'],['ENFJ','정의로운 활동가'],['ENTJ','대담한 통솔자'],
+];
+
+/* ── 유형 DB ── */
+var T = {
+  CWER:{icon:'🌧',short:'봄비 여행자',full:'대지를 적시는 강물형',cath:'당신은 관계를 포기한 것이 아닙니다.\n하지만 아직 발견되지 않은 한 가지 흐름이 남아 있습니다.'},
+  CWEP:{icon:'🌿',short:'울타리 여행자',full:'따뜻한 울타리형',cath:'지금 이 관계, 더 단단해질 수 있습니다.\n그런데 아직 꺼내지 못한 말이 하나 남아 있습니다.'},
+  CWHR:{icon:'🌲',short:'소나무 여행자',full:'속 깊은 소나무형',cath:'마음은 충분히 따뜻합니다.\n그런데 그 따뜻함이 왜 상대에게 닿지 않는지, 아직 이유를 모르고 있습니다.'},
+  CWHP:{icon:'🏔',short:'호수 여행자',full:'마음 깊은 호수형',cath:'당신의 관계에는 아직 흐르지 않은 물이 있습니다.\n그것이 무엇인지, 아직 발견하지 못했을 뿐입니다.'},
+  CGER:{icon:'🌋',short:'화산 여행자',full:'불꽃을 품은 화산형',cath:'이 뜨거움은 사랑에서 나온 것입니다.\n그런데 왜 이렇게 됐는지, 그 이유가 아직 번역되지 않았습니다.'},
+  CGEP:{icon:'🪨',short:'바위섬 여행자',full:'단단한 바위섬형',cath:'다 정리된 것 같지만, 사실 아직 하나가 남아 있습니다.\n그게 무엇인지 아직 마주하지 않았을 뿐입니다.'},
+  CGHR:{icon:'🦔',short:'고슴도치 여행자',full:'웅크린 고슴도치형',cath:'말을 못 하고 있는 것이 아닙니다.\n말이 나오지 않는 이유가 있습니다. 그 이유가 아직 보이지 않습니다.'},
+  CGHP:{icon:'🧊',short:'빙하 여행자',full:'꽁꽁 얼어붙은 빙하형',cath:'지금은 닫혀 있습니다.\n하지만 왜 이 문이 닫혔는지, 그 순간이 아직 발견되지 않았습니다.'},
+  DWER:{icon:'🌙',short:'달빛 여행자',full:'은은한 달빛형',cath:'거리를 두고 있지만, 사실 아직 마음에 걸리는 것이 있습니다.\n그것이 무엇인지 아직 말로 꺼내지 못했을 뿐입니다.'},
+  DWEP:{icon:'🍃',short:'바람 여행자',full:'자유로운 바람형',cath:'가볍게 보내는 것 같지만, 아직 전하지 못한 한마디가 있습니다.\n그 한마디가 무엇인지, 아직 찾지 못했을 뿐입니다.'},
+  DWHR:{icon:'🏮',short:'등대 여행자',full:'바다 위의 등대형',cath:'멀리서 기다리고 있습니다.\n하지만 왜 먼저 다가가지 못하는지, 그 이유가 아직 보이지 않습니다.'},
+  DWHP:{icon:'❄️',short:'겨울숲 여행자',full:'고요한 겨울숲형',cath:'조용히 버텨왔습니다.\n그런데 그 침묵 안에 아직 꺼내지 못한 것이 하나 있습니다.'},
+  DGER:{icon:'⛵',short:'돛배 여행자',full:'거친 파도 돛배형',cath:'멀어진 것 같지만, 아직 포기하지 않은 무언가가 있습니다.\n그것이 무엇인지, 아직 이름이 붙지 않았을 뿐입니다.'},
+  DGEP:{icon:'🧘',short:'구도자 여행자',full:'홀로 걷는 구도자형',cath:'정리하려 하고 있습니다.\n하지만 완전히 끝나지 않은 이유가 아직 남아 있습니다.'},
+  DGHR:{icon:'🧭',short:'나침반 여행자',full:'안개 속의 나침반형',cath:'다시 연결되고 싶습니다.\n그런데 어디서부터 시작해야 할지, 아직 방향이 보이지 않습니다.'},
+  DGHP:{icon:'🌱',short:'씨앗 여행자',full:'바위 속의 씨앗형',cath:'지금은 조용히 버티고 있습니다.\n그런데 이 침묵 아래 무엇이 자라고 있는지, 아직 보이지 않습니다.'},
+};
+
+/* ── MBTI 번역 힌트 맵 (내 MBTI 기반) ── */
+var MBTI_HINT = {
+  INTJ:'계획하지 않은 감정표현이 어렵고, 상대는 그것을 냉담함으로 받아들이기 쉽습니다.',
+  INFJ:'혼자 모든 것을 이해하고 해결하려 해서, 상대가 "나를 믿지 않는다"고 느낄 수 있습니다.',
+  INTP:'감정보다 논리로 반응하는 패턴이, 상대에게 공감받지 못한다는 느낌을 줄 수 있습니다.',
+  INFP:'마음속의 기대치가 높고, 그것이 표현되지 않으면 상대는 이유를 알 수 없습니다.',
+  ISTJ:'원칙 중심의 소통이, 상대에게 따뜻함이 부족하다는 느낌을 줄 수 있습니다.',
+  ISFJ:'참다가 한꺼번에 폭발하는 패턴이, 상대를 당황하게 만들 수 있습니다.',
+  ISTP:'혼자 있고 싶을 때 철수하는 방식이, 상대에게 거부감으로 해석될 수 있습니다.',
+  ISFP:'갈등 상황에서 회피하는 경향이, 상대에게 관심 없는 것처럼 보일 수 있습니다.',
+  ENTJ:'주도적인 방식이 때로 상대의 의견을 무시하는 것처럼 느껴질 수 있습니다.',
+  ENFJ:'상대를 너무 많이 배려하다가 정작 자신의 감정을 못 전하는 경우가 생깁니다.',
+  ENTP:'논쟁을 즐기는 방식이 상대에게는 공격적으로 느껴질 수 있습니다.',
+  ENFP:'감정의 기복이 크고 일관성이 부족할 때, 상대가 혼란을 느낄 수 있습니다.',
+  ESTJ:'옳고 그름으로 판단하는 경향이, 상대의 감정을 무시하는 것처럼 보일 수 있습니다.',
+  ESFJ:'관계 유지를 위해 불편한 것을 말하지 않다가, 쌓인 감정이 폭발할 수 있습니다.',
+  ESTP:'현재 중심의 사고가, 미래를 걱정하는 상대와 충돌하기 쉽습니다.',
+  ESFP:'감정 표현이 강하고 즉흥적이어서, 상대가 대처하기 어려울 수 있습니다.',
+};
+
+/* ── 상태 변수 ── */
+var step = -1;
+var sc = {C:0,D:0,W:0,G:0,E:0,H:0,R:0,P:0};
+var picked = {}, ans = {};
+var relType = '', relNick = '', myMBTI = '', partnerMBTI = 'UNKNOWN';
+var currentCode = '';
+var emailSaved = false; /* 이메일 등록 여부 플래그 */
+var VID = 'v_' + Math.random().toString(36).substr(2,9);
+
+/* ── MBTI 그리드 생성 ── */
+function buildMbtiGrid(targetId, onPick, includeUnknown) {
+  var el = document.getElementById(targetId);
+  if (!el) return;
+  var html = MBTI_LIST.map(function(item) {
+    var code = item[0], label = item[1];
+    return '<button class="mbti-btn" data-code="' + code + '" onclick="' + onPick + '(\'' + code + '\',this)">' + code + '<small>' + label + '</small></button>';
+  }).join('');
+  if (includeUnknown) {
+    html += '<button class="mbti-btn-unknown" data-code="UNKNOWN" onclick="' + onPick + '(\'UNKNOWN\',this)">잘 모르겠어요<small>상대 MBTI 모름</small></button>';
+  }
+  el.innerHTML = html;
+}
+
+function pickRel(v, btn) {
+  relType = v;
+  document.querySelectorAll('#relGrid .rel-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if (btn) btn.classList.add('sel');
+  validateStart();
+}
+
+function switchTab(which) {
+  var tabMe = document.getElementById('tabMe');
+  var tabPt = document.getElementById('tabPt');
+  var panelMe = document.getElementById('panelMe');
+  var panelPt = document.getElementById('panelPt');
+  if (which === 'me') {
+    tabMe.className = 'mbti-tab active-me';
+    tabPt.className = 'mbti-tab';
+    panelMe.className = 'mbti-panel active';
+    panelPt.className = 'mbti-panel';
+  } else {
+    tabMe.className = 'mbti-tab';
+    tabPt.className = 'mbti-tab active-pt';
+    panelMe.className = 'mbti-panel';
+    panelPt.className = 'mbti-panel active';
+  }
+}
+
+function pickMyMbti(code, btn) {
+  myMBTI = code;
+  document.querySelectorAll('#myMbtiGrid .mbti-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if (btn) btn.classList.add('sel');
+  var valEl = document.getElementById('tabMeVal');
+  if (valEl) { valEl.textContent = code; valEl.style.color = '#B8923E'; }
+  validateStart();
+}
+
+function pickPtMbti(code, btn) {
+  partnerMBTI = code;
+  document.querySelectorAll('#ptMbtiGrid .mbti-btn').forEach(function(b){ b.classList.remove('sel'); });
+  if (btn) btn.classList.add('sel');
+  var valEl = document.getElementById('tabPtVal');
+  if (valEl) {
+    valEl.textContent = code === 'UNKNOWN' ? '—' : code;
+    valEl.style.color = code === 'UNKNOWN' ? '#9090A0' : '#4A90D9';
+  }
+  validateStart();
+}
+
+function validateStart() {
+  relNick = (document.getElementById('relNick') ? document.getElementById('relNick').value : '').trim();
+  var ok = !!relType && !!myMBTI;
+  var b = document.getElementById('btnStart');
+  if (b) b.disabled = !ok;
+}
+
+function startCompass() {
+  relNick = (document.getElementById('relNick') ? document.getElementById('relNick').value : '').trim();
+  step = 1;
+  showStep();
+}
+
+/* ── 진행바 ── */
+function updateProg() {
+  var p = document.getElementById('prog');
+  p.innerHTML = '';
+  for (var i = 0; i < 7; i++) {
+    var d = document.createElement('div');
+    d.className = 'prog-dot' + (i <= step + 1 ? ' done' : '');
+    p.appendChild(d);
+  }
+  var labels = ['관계 선택','Q1/5','Q2/5','Q3/5','Q4/5','Q5/5','결과'];
+  document.getElementById('plabel').textContent = labels[Math.min(step + 1, 6)];
+}
+
+function goNext() { step++; showStep(); }
+function goBack() { step = Math.max(1, step - 1); showStep(); }
+
+function showStep() {
+  document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('active'); });
+  var id = step === -1 ? 's_rel' : step === 6 ? 's_result' : 's' + step;
+  document.getElementById(id).classList.add('active');
+  updateProg();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+/* ── 답변 선택 ── */
+function pick(q, idx, axis, val, label) {
+  if (picked[q]) { sc[picked[q].axis] = Math.max(0, sc[picked[q].axis] - picked[q].val); }
+  picked[q] = {idx:idx, axis:axis, val:val};
+  ans['q' + q] = label;
+  sc[axis] += val;
+  document.querySelectorAll('#o' + q + ' .opt').forEach(function(b, i){
+    b.classList.toggle('sel', i === idx);
+  });
+  var nextBtn = document.getElementById('next' + q);
+  if (nextBtn) nextBtn.style.display = 'block';
+}
+
+/* ── 분석 화면 ── */
+function startAnalyzing() {
+  document.querySelectorAll('.step').forEach(function(s){ s.classList.remove('active'); });
+  document.getElementById('s_analyzing').classList.add('active');
+  updateProg();
+  window.scrollTo({top:0, behavior:'smooth'});
+
+  var msgs = [
+    '예상보다 따뜻한 연결이 발견되었습니다.',
+    '회복 가능성이 남아 있습니다.',
+    '전하지 못한 마음이 감지되었습니다.',
+    '당신의 관계 흐름이 완성되었습니다.'
+  ];
+  var bars = ['aBarC','aBarW','aBarE','aBarR'];
+  var msgEl = document.getElementById('analyzingMsg');
+  var delay = 0;
+
+  bars.forEach(function(id, i) {
+    setTimeout(function() {
+      var bar = document.getElementById(id);
+      if (bar) bar.style.width = '100%';
+      if (msgEl) msgEl.textContent = msgs[i] || '';
+    }, delay);
+    delay += 700;
+  });
+
+  setTimeout(function() {
+    showResult();
+  }, delay + 200);
+}
+
+function calcCode() {
+  return (sc.C >= sc.D ? 'C' : 'D') + (sc.W >= sc.G ? 'W' : 'G') + (sc.E >= sc.H ? 'E' : 'H') + (sc.R >= sc.P ? 'R' : 'P');
+}
+
+/* ── 결과 표시 (블록 순차 페이드인) ── */
+function relCode(rt){
+  rt=String(rt||'');
+  if(rt.indexOf('어머니')>=0)return 'M';
+  if(rt.indexOf('아버지')>=0)return 'D';
+  if(rt.indexOf('배우자')>=0||rt.indexOf('연인')>=0)return 'L';
+  if(rt.indexOf('자녀')>=0)return 'C';
+  if(rt.indexOf('친구')>=0)return 'F';
+  if(rt.indexOf('형제')>=0||rt.indexOf('자매')>=0)return 'B';
+  if(rt.indexOf('직장')>=0||rt.indexOf('동료')>=0||rt.indexOf('상사')>=0)return 'W';
+  if(rt.indexOf('자신')>=0)return 'S';
+  return 'X';
+}
+function genPassport(rt){
+  var chars='ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  var s='';
+  for(var i=0;i<4;i++){s+=chars.charAt(Math.floor(Math.random()*chars.length));}
+  return 'LC-'+relCode(rt)+s;
+}
+
+function showResult() {
+  step = 6; showStep();
+  currentCode = calcCode();
+  var t = T[currentCode] || T['DWHR'];
+
+  /* 블록1: 유형 카드 */
+  document.getElementById('r-icon').textContent = t.icon;
+  document.getElementById('r-code').textContent = currentCode;
+  document.getElementById('r-name').textContent = t.short;
+  document.getElementById('r-cath').textContent = t.cath;
+
+  /* 무료 여권번호 (LC-) 생성·표시 */
+  var _pp = genPassport(relType);
+  window.lfPassport = _pp;
+  try { localStorage.setItem('lf_passport_free', _pp); } catch(e){}
+  try {
+    var _hist = JSON.parse(localStorage.getItem('lf_history')||'[]');
+    _hist.push({pp:_pp, rel:(relNick||relType||''), type:'free', date:(new Date()).toISOString().slice(0,10)});
+    localStorage.setItem('lf_history', JSON.stringify(_hist));
+  } catch(e){}
+  var _ppel = document.getElementById('r-passport');
+  if (_ppel) _ppel.textContent = _pp;
+
+  /* 블록2: LFRI 2x2 카드 그리드 */
+  var pct = function(a, b) { return Math.round((a / (a + b + 0.01)) * 100); };
+
+  function getStatus(id, p) {
+    var map = {
+      C: p <= 39 ? '서로의 문이 닫혀 있음' : p <= 65 ? '거리가 생긴 상태' : '아직 연결되어 있음',
+      W: p <= 39 ? '따뜻함이 전달되지 못함' : p <= 65 ? '마음은 아직 남아 있음' : '온기가 흐르고 있음',
+      E: p <= 39 ? '말하지 못하고 있음' : p <= 65 ? '전하고 싶은 것이 있음' : '표현이 살아있음',
+      R: p <= 39 ? '아직 멈춰 있는 상태' : p <= 65 ? '다시 시작하고 싶은 마음' : '회복 의지가 강함'
+    };
+    return map[id] || '';
+  }
+
+  var axes = [
+    {id:'C', icon:'🔗', name:'연결', eng:'Connection', pct:pct(sc.C,sc.D), bar:'linear-gradient(90deg,#4A90D9,#7AB8F5)'},
+    {id:'W', icon:'🌡', name:'온기', eng:'Warmth',     pct:pct(sc.W,sc.G), bar:'linear-gradient(90deg,#E67E22,#F5A55A)'},
+    {id:'E', icon:'💬', name:'표현', eng:'Expression', pct:pct(sc.E,sc.H), bar:'linear-gradient(90deg,#9B59B6,#C39BD3)'},
+    {id:'R', icon:'🌱', name:'회복', eng:'Recovery',   pct:pct(sc.R,sc.P), bar:'linear-gradient(90deg,#27AE60,#6FCF97)'}
+  ];
+  var sorted = axes.slice().sort(function(a,b){ return a.pct - b.pct; });
+  var openIds = [sorted[0].id, sorted[1].id];
+
+  var html = '';
+  axes.forEach(function(ax) {
+    var isOpen = openIds.indexOf(ax.id) !== -1;
+    if (isOpen) {
+      var status = getStatus(ax.id, ax.pct);
+      html += '<div class="lfri-card">';
+      html += '<span class="lfri-card-icon">' + ax.icon + '</span>';
+      html += '<div class="lfri-card-name">' + ax.name + '</div>';
+      html += '<div class="lfri-card-eng">' + ax.eng + '</div>';
+      html += '<div class="lfri-card-status">' + status + '</div>';
+      html += '<div class="lfri-card-bar-bg"><div class="lfri-card-bar-fill" id="rBar' + ax.id + '" style="background:' + ax.bar + '"></div></div>';
+      html += '</div>';
+    } else {
+      html += '<div class="lfri-card lfri-card-lock">';
+      html += '<span class="lfri-card-icon" style="opacity:0.35">' + ax.icon + '</span>';
+      html += '<div class="lfri-card-name" style="color:#C0BAD0">' + ax.name + '</div>';
+      html += '<div class="lfri-card-eng" style="color:#D0CDE0">' + ax.eng + '</div>';
+      html += '<div class="lfri-card-lock-txt">🔒 여행지도에서 확인</div>';
+      html += '</div>';
+    }
+  });
+  document.getElementById('lfri-rows').innerHTML = html;
+
+  /* MBTI 힌트 블록 */
+  var hint = MBTI_HINT[myMBTI];
+  var hintEl = document.getElementById('mbtiHintBody');
+  if (hint && hintEl) {
+    hintEl.textContent = myMBTI + ' 유형인 당신 — ' + hint;
+  }
+
+  /* 블록 순차 페이드인 */
+  var blocks = ['rb1','rb2','rb4','rb5','emailCollectBox','rb7','rb8'];
+  blocks.forEach(function(id, i) {
+    setTimeout(function() {
+      var el = document.getElementById(id);
+      if (el) el.classList.add('show');
+    }, i * 180);
+  });
+
+  /* LFRI 게이지 바 채우기 */
+  setTimeout(function() {
+    openIds.forEach(function(id) {
+      var el = document.getElementById('rBar' + id);
+      var ax = axes.find(function(a){ return a.id === id; });
+      if (el && ax) el.style.width = Math.min(ax.pct, 100) + '%';
+    });
+  }, 400);
+  /* DB 저장은 이메일 등록 시에만 실행 — 자동 saveEvent 없음 */
+}
+
+/* ── 참여 블록 선택 ── */
+function selectEngage(btn, label, msg) {
+  document.querySelectorAll('.engage-btn').forEach(function(b){ b.classList.remove('sel'); });
+  btn.classList.add('sel');
+  var r = document.getElementById('engageResult');
+  r.textContent = msg;
+  r.style.display = 'block';
+}
+
+/* ── 이메일 저장 ── */
+async function saveResultEmail() {
+  var id = document.getElementById('collect-email-id').value.trim();
+  if (!id) { showToast('이메일 아이디를 입력해주세요'); return; }
+  var domSel = document.getElementById('collect-email-domain').value;
+  var domCustom = document.getElementById('collect-email-custom').value.trim();
+  var domain = domSel === 'custom' ? domCustom : domSel;
+  if (!domain) { showToast('도메인을 입력해주세요'); return; }
+  var email = id + '@' + domain;
+  var payload = {
+    action: 'saveEvent',
+    visitorId: VID,
+    email: email,
+    eventType: 'free_email_saved',
+    version: 'free_v25g',
+    relType: relType, relNick: relNick, myMBTI: myMBTI, partnerMBTI: partnerMBTI,
+    passport: (window.lfPassport || ''),
+    freeCode: currentCode,
+    q1: ans.q1||'', q2: ans.q2||'', q3: ans.q3||'', q4: ans.q4||'', q5: ans.q5||'',
+    sc: Object.assign({}, sc),
+  };
+  try {
+    await fetch(DB_URL, { method: 'POST', body: JSON.stringify(payload) });
+  } catch(e) {}
+  emailSaved = true;
+  document.getElementById('emailCollectBox').style.display = 'none';
+  /* 공유 버튼 활성화 */
+  var shareBtn = document.getElementById('shareBtn');
+  var hint = document.getElementById('shareBtnHint');
+  if (shareBtn) shareBtn.classList.add('active');
+  if (hint) hint.style.display = 'none';
+  showToast('✦ 기억해뒀어요. 이제 공유하기가 가능해요 💛');
+}
+
+/* ── 초기화 ── */
+function resetAll() {
+  step = -1;
+  sc = {C:0,D:0,W:0,G:0,E:0,H:0,R:0,P:0};
+  picked = {}; ans = {};
+  currentCode = ''; relType = ''; relNick = ''; myMBTI = ''; partnerMBTI = 'UNKNOWN';
+  emailSaved = false;
+  var shareBtn = document.getElementById('shareBtn');
+  var hint = document.getElementById('shareBtnHint');
+  if (shareBtn) shareBtn.classList.remove('active');
+  if (hint) hint.style.display = 'block';
+  document.getElementById('relNick').value = '';
+  document.querySelectorAll('.rel-btn').forEach(function(b){ b.classList.remove('sel'); });
+  document.querySelectorAll('.mbti-btn').forEach(function(b){ b.classList.remove('sel'); });
+  document.querySelectorAll('.btn-next-main').forEach(function(b){ b.style.display = 'none'; });
+  document.querySelectorAll('.opt').forEach(function(b){ b.classList.remove('sel'); });
+  document.querySelectorAll('.res-block').forEach(function(b){ b.classList.remove('show'); });
+  var ecb = document.getElementById('emailCollectBox');
+  if (ecb) { ecb.style.display = 'block'; }
+  var cid = document.getElementById('collect-email-id');
+  if (cid) cid.value = '';
+  var er = document.getElementById('engageResult');
+  if (er) er.style.display = 'none';
+  document.querySelectorAll('.engage-btn').forEach(function(b){ b.classList.remove('sel'); });
+  var tabMeVal = document.getElementById('tabMeVal');
+  var tabPtVal = document.getElementById('tabPtVal');
+  if (tabMeVal) { tabMeVal.textContent = '내 MBTI 유형은'; tabMeVal.style.color = '#B8923E'; }
+  if (tabPtVal) { tabPtVal.textContent = '상대 MBTI 유형은'; tabPtVal.style.color = '#9090A0'; }
+  switchTab('me');
+  validateStart();
+  showStep();
+}
+
+/* ── 공유하기 (투트랙 완전 분리 — DB와 무관) ── */
+function doShare() {
+  /* 이메일 미등록 시 안내 토스트 후 차단 */
+  if (!emailSaved) {
+    showToast('여행을 이어가려면 이메일을 남겨주세요 💛');
+    return;
+  }
+
+  var t = T[currentCode] || T['DWHR'];
+  var target = relNick || relType || '소중한 관계';
+  var shareText = '나, 오늘 ' + target + '과의 관계를 들여다봤어.\n\n'
+    + t.icon + ' ' + t.short + '\n\n'
+    + t.cath + '\n\n'
+    + '당신도 전하지 못한 말이 있나요?';
+  var shareUrl = 'https://www.loveflow.ai.kr';
+  var shareTitle = '사랑흐름 · ' + t.icon + ' ' + t.short;
+
+  /* 트랙2: 순수 카카오 공유 — GAS URL 완전 무관 */
+  if (window.Kakao && Kakao.isInitialized()) {
+    try {
+      Kakao.Share.sendDefault({
+        objectType: 'feed',
+        content: {
+          title: shareTitle,
+          description: t.cath,
+          imageUrl: 'https://hkcpcgg.github.io/loveflow/og-image.png',
+          link: { mobileWebUrl: shareUrl, webUrl: shareUrl }
+        },
+        buttons: [{ title: '🧭 나도 해보기 →', link: { mobileWebUrl: shareUrl, webUrl: shareUrl } }]
+      });
+      return;
+    } catch(e) {}
+  }
+
+  if (navigator.share) {
+    navigator.share({ title: shareTitle, text: shareText, url: shareUrl });
+    return;
+  }
+
+  try {
+    navigator.clipboard.writeText(shareText + '\n\n' + shareUrl);
+    showToast('✦ 링크와 메시지를 복사했어요');
+  } catch(e) { showToast('공유 링크: ' + shareUrl); }
+}
+
+/* ── 토스트 ── */
+function showToast(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.display = 'block';
+  setTimeout(function(){ t.style.display = 'none'; }, 3500);
+}
+
+/* ── DOMContentLoaded ── */
+document.addEventListener('DOMContentLoaded', function() {
+  buildMbtiGrid('myMbtiGrid', 'pickMyMbti', false);
+  buildMbtiGrid('ptMbtiGrid', 'pickPtMbti', true);
+  var nick = document.getElementById('relNick');
+  if (nick) nick.addEventListener('input', validateStart);
+  updateProg();
+});
+</script>
+
+<!-- 푸터 -->
+<div style="font-size:11px;color:#6B7280;text-align:center;line-height:1.5;padding:14px 10px;border-top:1px solid #E5E7EB;background:#fff;margin-top:4px">
+  © 2026 사랑흐름 (Love Flow) · LFRI™ · LOVE FLOW LETTER™. All rights reserved. 무단 복제·배포·2차 저작·상업적 이용 금지. Unauthorized reproduction or commercial use is strictly prohibited. Violators may be subject to civil and criminal penalties.<br>
+  (주)사랑흐름 | 대표 황규찬 | 경기도 파주시 매봉길 17-13 | 070-4158-7786 | hkcpcgg@gmail.com | 사업자등록번호 285-17-02228 | 통신판매업 신고번호 제2025-경기파주-1747호 | 개인정보보호책임자 유상열
+</div>
+<script>
+function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
+function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
+(function(){var m=location.search.match(/[?&]id=(LF-[A-Za-z0-9]+)/i);if(m){var id=m[1].toUpperCase();
+document.getElementById("lfMineUniverse").href="/universe.html?id="+id;
+document.getElementById("lfMineCert").href="/certificate.html?id="+id;
+document.getElementById("lfMineJourney").href="/journey/?id="+id;
+document.getElementById("lfMineGrp").style.display="block";}})();
+</script>
 </body>
 </html>
