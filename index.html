@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사랑흐름 · 관계 회복의 나침반</title>
 <!-- ════════════════════════════════════════════════════════════════
- 사랑흐름 홈 · index.html · v8 · 2026.06.24 · [작업 v8] 조회창 아래 "여권번호를 잊으셨나요?" 찾기 기능 추가
+ 사랑흐름 홈 · index.html · v9 · 2026.06.24 · [작업 v9] 자체 topnav(SVG로고·English·햄버거 드롭다운)을 통일 길잡이(좌 브랜드=홈 + 우 ☰ 슬라이드)로 교체 — 전 페이지 통일. 메뉴=무료나침반·여행지도구매·마음편지·소개·English·관계자서전(준비중). [보존] 모든 CTA·findPassport·카카오·SEO. / v8 · 2026.06.24 · [작업 v8] 조회창 아래 "여권번호를 잊으셨나요?" 찾기 기능 추가
    · 찾기 패널(전화뒤4·이메일·결제날짜·결제시간·구입처) → GAS findPassport(JSONP, M1A) 호출
    · (전화 OR 이메일) 필수 + 총 3개 이상 일치 시에만 후보 노출 / 여권번호는 가려 표시 / 선택 시 기존 lookupResult 흐름 재사용
    · [보존] 조회창(pp-input·lookupResult)·카카오·공유·SEO·CTA 전부 미변경
@@ -256,6 +256,23 @@
   .cta-gate-label{font-size:14.5px; font-weight:700; color:var(--navy); margin-bottom:14px; line-height:1.6}
   .cta-gate-btn{display:inline-block; background:var(--navy); color:#fff; font-size:15px; font-weight:800; padding:13px 30px; border-radius:30px; text-decoration:none; box-shadow:0 6px 18px rgba(30,74,118,0.3)}
   .share{margin-top:22px}
+  /* ── 통일 길잡이 (lf-nav) — 전 페이지 공통 ── */
+  .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,227,0.95);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid #E2E8F0;padding:10px 14px}
+  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}
+  .lf-nav-burger{background:none;border:none;cursor:pointer;color:#1E4A76;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px}
+  .lf-nav-burger:hover{background:rgba(30,74,118,0.08)}
+  .lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,0.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
+  .lf-menu.open{transform:translateX(0)}
+  .lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:4px 18px 14px;border-bottom:1px solid #E2E8F0;margin-bottom:6px}
+  .lf-menu-head .t{font-family:'Noto Serif KR',serif;color:#1E4A76;font-weight:800;font-size:15px}
+  .lf-menu-close{background:none;border:none;font-size:24px;color:#4B5563;cursor:pointer;line-height:1}
+  .lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
+  .lf-menu a:hover{background:#FAF7EE}
+  .lf-menu a .ic{width:22px;text-align:center;font-size:16px}
+  .lf-menu .lf-grp{font-size:11px;letter-spacing:.12em;color:#B8923E;font-weight:700;padding:14px 20px 5px;border-top:1px solid #E2E8F0;margin-top:8px}
+  .lf-menu a.lf-buy{color:#B8923E}
+  .lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+  .lf-backdrop.open{opacity:1;visibility:visible}
 </style>
 <script src="https://t1.kakao.com/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 </head>
@@ -264,26 +281,24 @@
   <!-- ── 히어로 ── -->
   <header class="hero">
     <div class="hero-inner">
-      <nav class="topnav">
-        <a class="brand" href="/">
-          <svg class="mark" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M24 38C24 38 9 29 9 19.5C9 14.3 13.0 10.5 17.8 10.5C20.7 10.5 23.2 12.0 24 14.2C24.8 12.0 27.3 10.5 30.2 10.5C35.0 10.5 39 14.3 39 19.5C39 29 24 38 24 38Z" stroke="#D4AF37" stroke-width="2.4" stroke-linejoin="round"/>
-            <circle cx="24" cy="20" r="3.4" stroke="#D4AF37" stroke-width="2.2"/>
-          </svg>
-          <span class="bt"><span class="ko">사랑흐름</span><br><span class="en">LOVE FLOW</span></span>
-        </a>
-        <div class="nav-right">
-          <a href="/en/">English</a>
-          <button class="hamb" aria-label="메뉴" onclick="toggleMenu()"><span></span><span></span><span></span></button>
-        </div>
-        <div class="menu" id="navMenu">
-          <a href="/">홈</a>
-          <a href="/about.html">사랑흐름 소개</a>
-          <a href="/compass.html">무료 나침반</a>
-          <a class="paid-m" href="/gate.html">여행지도</a>
-          <a href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener">여행지도 구매하기</a>
-          <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener">마음편지</a>
-          <a href="#" onclick="alert('관계 자서전은 준비 중이에요 🌱'); return false;">관계 자서전 <span style="font-size:11px;color:var(--text-mute);font-weight:400">준비 중</span></a>
+      <nav class="lf-nav">
+        <a class="lf-nav-home" href="/">사랑흐름</a>
+        <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+      </nav>
+      <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+      <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+        <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+        <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
+        <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
+        <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
+        <a href="/about.html"><span class="ic">📖</span>소개</a>
+        <a href="/en/"><span class="ic">🌐</span>English</a>
+        <a href="#" onclick="alert('관계 자서전은 준비 중이에요 🌱');return false;"><span class="ic">📕</span>관계 자서전 <span style="font-size:11px;color:#9CA3AF;font-weight:400">준비 중</span></a>
+        <div id="lfMineGrp" style="display:none">
+          <div class="lf-grp">내 여행</div>
+          <a id="lfMineUniverse" href="#"><span class="ic">🌌</span>내 관계우주</a>
+          <a id="lfMineCert" href="#"><span class="ic">📜</span>내 관계여권</a>
+          <a id="lfMineJourney" href="#"><span class="ic">🗺️</span>내 여행지도</a>
         </div>
       </nav>
       <div class="hero-head">
@@ -591,5 +606,14 @@
     }
   </script>
 
+<script>
+function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
+function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
+(function(){var m=location.search.match(/[?&]id=(LF-[A-Za-z0-9]+)/i);if(m){var id=m[1].toUpperCase();
+document.getElementById("lfMineUniverse").href="/universe.html?id="+id;
+document.getElementById("lfMineCert").href="/certificate.html?id="+id;
+document.getElementById("lfMineJourney").href="/journey/?id="+id;
+document.getElementById("lfMineGrp").style.display="block";}})();
+</script>
 </body>
 </html>
