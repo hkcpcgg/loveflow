@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 신뢰 세트 trust.html v3 · 260623 · [복구+통일] about 덮어쓰기로 사라졌던 약관 원본(v2) 복구 — 약관 조항(이용약관·개인정보처리방침·환불교환·FAQ) 텍스트 절대 불변 / 색·폰트를 새 홈 기준 통일(cream#FDF6E3·gold#D4AF37·Noto Serif 제목) + 상단 "← 홈으로" 추가(내비게이션). 앵커 #terms/#privacy/#refund/#faq 보존
+<!-- 사랑흐름 신뢰 세트 trust.html v4 · 260624 · [작업 v4] 통일 길잡이(상단 좌측 "← 사랑흐름" 홈 + 우측 ☰ 메뉴) 첫 적용·견본 확정. 메뉴=홈·무료나침반·여행지도구매·마음편지·소개·약관 + (URL ?id=LF- 있을 때만) 내 관계우주·관계여권·여행지도. 약관 조항 텍스트 절대 불변, 기존 "← 홈으로" → 통일 길잡이로 교체. / v3 · 260623 · [복구+통일] about 덮어쓰기로 사라졌던 약관 원본(v2) 복구 — 약관 조항(이용약관·개인정보처리방침·환불교환·FAQ) 텍스트 절대 불변 / 색·폰트를 새 홈 기준 통일(cream#FDF6E3·gold#D4AF37·Noto Serif 제목) + 상단 "← 홈으로" 추가(내비게이션). 앵커 #terms/#privacy/#refund/#faq 보존
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -61,12 +61,49 @@
   .top a{font-size:12.5px;color:var(--navy);text-decoration:none;font-weight:600}
   .home-back{display:inline-block;margin-bottom:16px;font-size:13px;color:var(--navy);text-decoration:none;font-weight:700;padding:7px 15px;border:1.5px solid var(--border);border-radius:20px;background:#fff;box-shadow:0 1px 6px rgba(30,74,118,0.06)}
   .home-back:hover{background:var(--navy);color:#fff}
+  /* ── 통일 길잡이 (lf-nav) v1 — 전 페이지 공통 ── */
+  .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,227,0.95);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid var(--border);padding:10px 4px;margin:0 0 14px}
+  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:var(--navy);font-weight:700;font-size:14px;text-decoration:none;font-family:var(--serif)}
+  .lf-nav-burger{background:none;border:none;cursor:pointer;color:var(--navy);font-size:22px;line-height:1;padding:4px 10px;border-radius:8px}
+  .lf-nav-burger:hover{background:rgba(30,74,118,0.08)}
+  .lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,0.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
+  .lf-menu.open{transform:translateX(0)}
+  .lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:4px 18px 14px;border-bottom:1px solid var(--border);margin-bottom:6px}
+  .lf-menu-head .t{font-family:var(--serif);color:var(--navy);font-weight:800;font-size:15px}
+  .lf-menu-close{background:none;border:none;font-size:24px;color:var(--text-sub);cursor:pointer;line-height:1}
+  .lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:var(--text);text-decoration:none;font-size:15px;font-weight:600}
+  .lf-menu a:hover{background:#FAF7EE}
+  .lf-menu a .ic{width:22px;text-align:center;font-size:16px}
+  .lf-menu .lf-grp{font-size:11px;letter-spacing:.12em;color:var(--gold-dark);font-weight:700;padding:14px 20px 5px;border-top:1px solid var(--border);margin-top:8px}
+  .lf-menu a.lf-buy{color:var(--gold-dark)}
+  .lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+  .lf-backdrop.open{opacity:1;visibility:visible}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <a class="home-back" href="/">← 홈으로</a>
+  <!-- 통일 길잡이 -->
+  <div class="lf-nav">
+    <a class="lf-nav-home" href="/">&larr; 사랑흐름</a>
+    <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+  </div>
+  <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+  <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+    <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+    <a href="/"><span class="ic">🏠</span>홈</a>
+    <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
+    <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
+    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
+    <a href="/about.html"><span class="ic">📖</span>소개</a>
+    <a href="/trust.html"><span class="ic">📋</span>이용약관·환불</a>
+    <div id="lfMineGrp" style="display:none">
+      <div class="lf-grp">내 여행</div>
+      <a id="lfMineUniverse" href="#"><span class="ic">🌌</span>내 관계우주</a>
+      <a id="lfMineCert" href="#"><span class="ic">📜</span>내 관계여권</a>
+      <a id="lfMineJourney" href="#"><span class="ic">🗺️</span>내 여행지도</a>
+    </div>
+  </nav>
 
   <div class="head">
     <div class="brand">LOVE FLOW · 사랑흐름</div>
@@ -225,5 +262,14 @@
   </div>
 
 </div>
+<script>
+function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
+function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
+(function(){var m=location.search.match(/[?&]id=(LF-[A-Za-z0-9]+)/i);if(m){var id=m[1].toUpperCase();
+document.getElementById("lfMineUniverse").href="/universe.html?id="+id;
+document.getElementById("lfMineCert").href="/certificate.html?id="+id;
+document.getElementById("lfMineJourney").href="/journey/?id="+id;
+document.getElementById("lfMineGrp").style.display="block";}})();
+</script>
 </body>
 </html>
