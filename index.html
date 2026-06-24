@@ -5,7 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사랑흐름 · 관계 회복의 나침반</title>
 <!-- ════════════════════════════════════════════════════════════════
- 사랑흐름 홈 · index.html · v7 · 2026.06.24 · [작업 v7] 조회창 placeholder 용어 통일 "관계흐름 번호"→"사랑흐름 관계 여권 번호". v6
+ 사랑흐름 홈 · index.html · v8 · 2026.06.24 · [작업 v8] 조회창 아래 "여권번호를 잊으셨나요?" 찾기 기능 추가
+   · 찾기 패널(전화뒤4·이메일·결제날짜·결제시간·구입처) → GAS findPassport(JSONP, M1A) 호출
+   · (전화 OR 이메일) 필수 + 총 3개 이상 일치 시에만 후보 노출 / 여권번호는 가려 표시 / 선택 시 기존 lookupResult 흐름 재사용
+   · [보존] 조회창(pp-input·lookupResult)·카카오·공유·SEO·CTA 전부 미변경
+   · v7 · 2026.06.24 · [작업 v7] 조회창 placeholder 용어 통일 "관계흐름 번호"→"사랑흐름 관계 여권 번호". v6
  [홈 전면 개편 — 영역별 순차 정리 (v4-2 기반)]
    ① 메뉴      : 햄버거=서비스 7개만(홈·소개·무료나침반·여행지도·구매하기·마음편지·관계자서전), 약관4종은 푸터로, English 상단버튼만
    ② 히어로    : 다이아몬드(✦✦✦)·로고중복·eyebrow 제거 / 헤드라인 가변형 clamp(21~25px, 앞 네이비·뒤 골드) / 소개 4줄→2줄 / 메뉴바-헤드라인 여백
@@ -167,6 +171,25 @@
   .rv-input::placeholder{color:#B7A77F; text-transform:none; letter-spacing:0}
   .rv-btn{padding:14px; background:var(--navy); color:#fff; border:none; border-radius:13px; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer}
   .rv-btn:hover{background:var(--navy-2)}
+  /* v8: 여권번호 찾기 */
+  .rv-forgot{margin-top:13px; text-align:center}
+  .rv-forgot a{color:#1E4A76; font-size:13px; text-decoration:underline; cursor:pointer}
+  .find-panel{margin-top:14px; background:#FAFAF8; border:1.5px solid #E2E8F0; border-radius:18px; padding:20px 18px; text-align:left}
+  .find-panel h4{margin:0 0 6px; font-family:'Noto Serif KR',serif; font-size:16px; color:#1E4A76}
+  .find-guide{font-size:12.5px; color:#4B5563; line-height:1.7; margin-bottom:15px}
+  .find-field{margin-bottom:11px}
+  .find-field label{display:block; font-size:12px; color:#1E4A76; font-weight:700; margin-bottom:5px}
+  .find-field input, .find-field select{width:100%; box-sizing:border-box; padding:11px 13px; border:1.5px solid #E2E8F0; border-radius:11px; font-size:14px; font-family:inherit; color:#1E2A3A; outline:none; background:#fff}
+  .find-actions{display:flex; gap:8px; margin-top:8px}
+  .find-actions button{flex:1; padding:12px; border:none; border-radius:12px; font-size:14px; font-weight:700; font-family:inherit; cursor:pointer}
+  .find-go{background:#1E4A76; color:#fff}
+  .find-cancel{background:#EDEAE0; color:#1E4A76}
+  .find-result{margin-top:15px}
+  .find-cand{background:#fff; border:1.5px solid #D4AF37; border-radius:13px; padding:13px 14px; margin-bottom:9px}
+  .fc-title{font-size:14.5px; font-weight:700; color:#1E4A76}
+  .fc-sub{font-size:12px; color:#4B5563; margin:3px 0 9px}
+  .fc-btn{width:100%; padding:9px; background:#D4AF37; color:#3a2e0a; border:none; border-radius:9px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer}
+  .find-empty{font-size:13px; color:#4B5563; text-align:center; line-height:1.8; padding:12px 4px}
 
   /* ── 공유 ── */
   .share{text-align:center; padding:30px 0 6px}
@@ -422,6 +445,37 @@
             <input id="pp-input" class="rv-input" placeholder="사랑흐름 관계 여권 번호 (예: LF-TH58V)" maxlength="8">
             <button class="rv-btn" onclick="lookupResult()">내 여행지도 펼쳐보기</button>
           </div>
+          <div class="rv-forgot"><a href="#" onclick="openFind();return false;">여권번호를 잊으셨나요?</a></div>
+        </div>
+
+        <div id="findPanel" class="find-panel" style="display:none">
+          <h4>여권번호 찾기</h4>
+          <div class="find-guide">전화 뒤 4자리 또는 이메일 중 <b>하나는 꼭</b> 넣어 주세요.<br>여기에 다른 정보를 <b>2개 이상</b> 더 채우시면(총 3개 이상), 같은 정보로 떠난 여행지도를 찾아 드려요.</div>
+          <div class="find-field"><label>전화 뒤 4자리</label><input id="f-phone4" inputmode="numeric" maxlength="4" placeholder="예: 1234"></div>
+          <div class="find-field"><label>이메일</label><input id="f-email" type="email" placeholder="예: love@naver.com"></div>
+          <div class="find-field"><label>결제 날짜</label><input id="f-date" type="date"></div>
+          <div class="find-field"><label>결제 시간</label><input id="f-time" type="time"></div>
+          <div class="find-field"><label>구입처 (모르면 비워두세요)</label>
+            <select id="f-channel" onchange="onFindChannel()">
+              <option value="">선택 안 함</option>
+              <option value="네이버 스마트스토어">네이버 스마트스토어</option>
+              <option value="크몽">크몽</option>
+              <option value="쿠팡">쿠팡</option>
+              <option value="11번가">11번가</option>
+              <option value="G마켓">G마켓</option>
+              <option value="옥션">옥션</option>
+              <option value="인터파크">인터파크</option>
+              <option value="카카오 선물하기">카카오 선물하기</option>
+              <option value="사랑흐름(직접결제)">사랑흐름 (직접결제)</option>
+              <option value="__etc__">기타 (직접 입력)</option>
+            </select>
+            <input id="f-channel-etc" placeholder="구입처를 직접 입력" style="display:none; margin-top:8px">
+          </div>
+          <div class="find-actions">
+            <button class="find-cancel" onclick="closeFind()">닫기</button>
+            <button class="find-go" id="f-go" onclick="runFind()">여행지도 찾기</button>
+          </div>
+          <div class="find-result" id="findResult"></div>
         </div>
 
         <div class="share">
@@ -463,6 +517,57 @@
       var m=document.getElementById('navMenu'); var h=document.querySelector('.hamb');
       if(m && m.classList.contains('open') && !m.contains(e.target) && !h.contains(e.target)){ m.classList.remove('open'); }
     });
+    /* v8: 여권번호 찾기 (GAS findPassport JSONP, M1A) */
+    var FIND_URL = 'https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A/exec';
+    function openFind(){ var p=document.getElementById('findPanel'); p.style.display='block'; p.scrollIntoView({behavior:'smooth',block:'center'}); }
+    function closeFind(){ document.getElementById('findPanel').style.display='none'; document.getElementById('findResult').innerHTML=''; }
+    function onFindChannel(){ var v=document.getElementById('f-channel').value; document.getElementById('f-channel-etc').style.display=(v==='__etc__')?'block':'none'; }
+    function runFind(){
+      var phone4=document.getElementById('f-phone4').value.trim();
+      var email=document.getElementById('f-email').value.trim();
+      var date=document.getElementById('f-date').value.trim();
+      var time=document.getElementById('f-time').value.trim();
+      var ch=document.getElementById('f-channel').value;
+      if(ch==='__etc__') ch=document.getElementById('f-channel-etc').value.trim();
+      var hasPhone=/^[0-9]{4}$/.test(phone4); var hasEmail=email.length>0;
+      if(!hasPhone && !hasEmail){ alert('전화 뒤 4자리 또는 이메일 중 하나는 꼭 넣어 주세요.'); return; }
+      var cnt=(hasPhone?1:0)+(hasEmail?1:0)+(date?1:0)+(time?1:0)+(ch?1:0);
+      if(cnt<3){ alert('본인 확인을 위해 정보를 총 3개 이상 채워 주세요. (전화 뒤 4자리·이메일·결제 날짜·결제 시간·구입처 중에서)'); return; }
+      var btn=document.getElementById('f-go'); btn.disabled=true; btn.textContent='찾는 중...';
+      document.getElementById('findResult').innerHTML='<div class="find-empty">여행지도를 찾고 있어요...</div>';
+      var cb='lfFind_'+Date.now(); var done=false; var s;
+      window[cb]=function(d){ done=true; renderFind(d); cleanup(); };
+      function cleanup(){ var b=document.getElementById('f-go'); if(b){b.disabled=false; b.textContent='여행지도 찾기';} try{ delete window[cb]; }catch(e){ window[cb]=undefined; } if(s&&s.parentNode) s.parentNode.removeChild(s); }
+      var url=FIND_URL+'?action=findPassport'
+        +'&phone4='+encodeURIComponent(phone4)
+        +'&email='+encodeURIComponent(email)
+        +'&date='+encodeURIComponent(date)
+        +'&time='+encodeURIComponent(time)
+        +'&channel='+encodeURIComponent(ch)
+        +'&callback='+cb;
+      s=document.createElement('script'); s.src=url;
+      s.onerror=function(){ if(!done){ document.getElementById('findResult').innerHTML='<div class="find-empty">잠시 연결이 어려워요. 잠시 후 다시 시도해 주세요.</div>'; cleanup(); } };
+      document.head.appendChild(s);
+      setTimeout(function(){ if(!done){ document.getElementById('findResult').innerHTML='<div class="find-empty">잠시 연결이 어려워요. 잠시 후 다시 시도해 주세요.</div>'; cleanup(); } }, 12000);
+    }
+    function renderFind(d){
+      var box=document.getElementById('findResult');
+      var list=(d && d.candidates) ? d.candidates : [];
+      if(!list.length){ box.innerHTML='<div class="find-empty">앗, 일치하는 여행지도를 찾지 못했어요.<br>입력하신 정보를 다시 확인하시거나, 정보를 하나 더 채워 보세요.</div>'; return; }
+      var html='';
+      for(var i=0;i<list.length;i++){
+        var c=list[i];
+        var rel=(c.relType||'').trim(); var nick=(c.relNick||'').trim();
+        var title = rel ? (nick ? rel+' · '+nick : rel) : (nick || '관계 여행');
+        var sub=(c.datetime||'')+(c.nth?'  ·  '+c.nth+'번째 여행':'');
+        var pp=encodeURIComponent((c.passport||'').toUpperCase());
+        html+='<div class="find-cand"><div class="fc-title">'+esc(title)+'</div><div class="fc-sub">'+esc(sub)+'</div>'
+          +'<button class="fc-btn" onclick="pickFound(decodeURIComponent(\''+pp+'\'))">이 여행지도 펼치기 &rarr;</button></div>';
+      }
+      box.innerHTML=html;
+    }
+    function esc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+    function pickFound(pp){ document.getElementById('pp-input').value=pp; closeFind(); lookupResult(); }
     function lookupResult(){
       var v=document.getElementById('pp-input').value.trim().toUpperCase();
       if(!v){alert('여권번호를 입력해주세요');return;}
