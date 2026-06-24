@@ -1,59 +1,61 @@
-<!-- 사랑흐름 입국 게이트 v4 · 260624 · [작업 v4] 통일 길잡이 적용 / v3 · 260620 · 상품 브랜드/카피 노출('내가 산 것' 인지) + 구매처 버튼 가로 2칸 + 세로 압축 -->
 <!DOCTYPE html>
+<!-- 사랑흐름 여행기록 history.html v5 · 260624 · [작업 v5] GA4 측정 삽입 / v4 · 260624 · [작업 v4] 통일 길잡이 적용 / v3 · 260623 · [작업 v3] 팝업 문구 "들여다보고"→"새로운 여행을 떠나보고" 수정. v2 · 260623 · [작업 v2] "+여행시작"·"여행 시작하기" → 놀이터 안내 팝업(universe v14 동일). 재진단 직행 차단·재구매 유도. v1-2 · 260620 · [작업] 무료 항목 클릭 → /free-result.html (무료 재조회) 연결 / v1-1 유지 -->
 <html lang="ko">
 <head>
+  <!-- Google tag (gtag.js) - GA4 G-DWCSSE71NS -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DWCSSE71NS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DWCSSE71NS');
+  </script>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>관계 여행권 확인 · 사랑흐름</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나의 여행기록 · 사랑흐름</title>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
 <style>
-  :root{ --navy:#1E4A76; --navy-d:#143257; --gold:#C9A96E; --gold-d:#A8851E; --bg:#EEF1F5;
-         --card:#fff; --line:#E3E7EC; --text:#2E3A48; --sub:#6B7585;
-         --naver:#03C75A; --kakao:#FEE500; }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15.5px;padding:0 0 24px}
-  .wrap{max-width:440px;margin:0 auto;padding:0 16px}
-  .serif{font-family:'Nanum Myeongjo',serif}
+:root{--navy:#1E4A76;--gold:#D4AF37;--gold-soft:#C9A96E;--cream:#FBF5EA;--line:#E6E2D7;--text:#2E2A24;--text-sub:#6B6357}
+*{box-sizing:border-box}
+body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);max-width:440px;margin:0 auto;padding-bottom:84px;min-height:100vh}
+.brandbar{text-align:center;padding:18px 0 4px}
+.bb-logo{font-size:18px;font-weight:900;color:var(--navy);letter-spacing:0.04em}
+.bb-logo .en{font-size:10px;color:var(--gold-soft);letter-spacing:0.3em;margin-left:7px;font-weight:700}
+.head{text-align:center;padding:12px 20px 20px}
+.head h1{font-size:26px;font-weight:800;color:var(--navy);margin:6px 0 6px;font-family:'Nanum Myeongjo',serif}
+.head .sub{font-size:13px;color:var(--text-sub)}
+.wrap{padding:0 16px}
+.hist-card{display:flex;align-items:center;gap:13px;background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:15px;margin-bottom:11px;cursor:pointer;transition:transform 0.12s,box-shadow 0.12s;text-decoration:none;color:inherit}
+.hist-card:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(30,74,118,0.1)}
+.hc-icon{font-size:28px;flex-shrink:0;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:var(--cream);border-radius:14px;border:1px solid var(--line)}
+.hc-mid{flex:1;min-width:0}
+.hc-rel{font-size:16px;font-weight:800;color:var(--navy)}
+.hc-meta{font-size:11.5px;color:var(--text-sub);margin-top:3px}
+.hc-pp{font-size:11px;color:var(--gold-soft);font-family:'Courier New',monospace;font-weight:700;margin-top:3px;letter-spacing:0.06em}
+.hc-badge{font-size:10px;font-weight:700;padding:4px 10px;border-radius:11px;flex-shrink:0}
+.hc-badge.paid{background:var(--navy);color:#fff}
+.hc-badge.free{background:#F0EBE0;color:var(--text-sub)}
+.empty{text-align:center;color:var(--text-sub);font-size:14px;line-height:1.9;padding:54px 20px}
+.empty .ei{font-size:42px;display:block;margin-bottom:16px}
+.empty a{display:inline-block;margin-top:20px;padding:13px 26px;background:var(--navy);color:#fff;border-radius:26px;text-decoration:none;font-size:14px;font-weight:700}
+.foot{text-align:center;font-size:10px;color:#A8A095;padding:26px 16px 10px;line-height:1.7}
+.tabbar{position:fixed;left:0;right:0;bottom:0;max-width:440px;margin:0 auto;background:#fff;border-top:1px solid var(--line);display:flex;justify-content:space-around;align-items:center;padding:7px 4px calc(7px + env(safe-area-inset-bottom));box-shadow:0 -2px 12px rgba(30,74,118,0.07);z-index:50}
+.tab{flex:1;text-align:center;font-size:10px;color:var(--text-sub);text-decoration:none;padding:4px 0}
+.tab.active{color:var(--navy);font-weight:700}
+.tab .ti{display:block;font-size:18px;margin-bottom:2px}
 
-  /* 헤더 컴팩트 */
-  .head{text-align:center;padding:22px 0 8px}
-  .head .ey{font-size:10px;color:var(--gold-d);letter-spacing:0.24em;font-weight:700}
-  .head h1{font-size:21px;font-weight:800;color:var(--navy);margin-top:4px}
-
-  /* ★ 상품 카드 (내가 산 것 인지) -->  */
-  .product{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#1E4A76,#143257);border-radius:18px;padding:16px 18px;margin-top:12px;box-shadow:0 4px 16px rgba(30,74,118,0.2)}
-  .product .thumb{width:54px;height:54px;border-radius:12px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;border:1px solid rgba(201,169,110,0.4)}
-  .product .meta{flex:1;color:#fff}
-  .product .brand{font-size:10px;color:var(--gold);letter-spacing:0.1em;font-weight:700}
-  .product .name{font-size:16px;font-weight:800;margin:1px 0 2px}
-  .product .copy{font-size:11.5px;color:rgba(255,255,255,0.7)}
-  .product .price{font-size:15px;font-weight:800;color:#E5C687;text-align:right;flex-shrink:0}
-
-  /* 입력 영역 */
-  .gate{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;margin-top:12px;box-shadow:0 2px 12px rgba(30,74,118,0.06)}
-  .gate .q{text-align:center;font-size:14px;color:var(--text);margin-bottom:12px}
-  .gate .q b{color:var(--navy)}
-  .input-row{display:flex;gap:8px}
-  .input-row input{flex:1;padding:14px 14px;border:2px solid var(--line);border-radius:12px;font-size:16px;color:var(--navy);font-weight:700;min-width:0}
-  .input-row input:focus{outline:none;border-color:var(--gold)}
-  .input-row button{flex-shrink:0;background:linear-gradient(135deg,var(--gold),#B8923E);color:#fff;font-size:15px;font-weight:800;padding:0 18px;border:none;border-radius:12px;cursor:pointer;white-space:nowrap}
-  #msg{text-align:center;font-size:12.5px;margin-top:10px;min-height:16px}
-  #msg.warn{color:#C0392B} #msg.load{color:var(--navy)} #msg.info{color:var(--sub)}
-
-  /* 구매처 박스 가로 2칸 */
-  .buy-sec{margin-top:18px}
-  .buy-sec .t{text-align:center;font-size:13px;color:var(--sub);margin-bottom:10px}
-  .buy-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .buy-box{display:flex;flex-direction:column;align-items:center;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 10px;text-decoration:none;box-shadow:0 2px 8px rgba(30,74,118,0.05)}
-  .buy-box .logo{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:18px}
-  .buy-box.naver .logo{background:var(--naver);color:#fff}
-  .buy-box.kakao .logo{background:var(--kakao);color:#3A1D1D}
-  .buy-box .nm{font-size:13px;font-weight:800;color:var(--navy)}
-  .buy-box .sub{font-size:10.5px;color:var(--sub)}
-
-  .tip{text-align:center;font-size:11.5px;color:var(--gold-d);margin-top:14px}
-  .tip b{color:var(--navy)}
-  .foot{text-align:center;font-size:9.5px;color:var(--sub);line-height:1.6;margin-top:18px;padding:0 4px}
+  .nj-overlay{display:none;position:fixed;inset:0;background:rgba(16,41,62,0.6);z-index:9999;align-items:center;justify-content:center;padding:24px}
+  .nj-overlay.show{display:flex}
+  .nj-box{background:#fff;border-radius:22px;padding:32px 26px 24px;max-width:340px;width:100%;text-align:center;box-shadow:0 24px 70px rgba(0,0,0,0.35)}
+  .nj-emoji{font-size:40px;margin-bottom:12px}
+  .nj-title{font-size:19px;font-weight:800;color:var(--navy);margin-bottom:4px}
+  .nj-en{font-size:10.5px;color:var(--sub,#6B7585);font-style:italic;margin-bottom:18px}
+  .nj-desc{font-size:13.5px;color:var(--text,#1E2A3A);line-height:1.85;margin-bottom:24px}
+  .nj-desc b{color:var(--navy);font-weight:800}
+  .nj-desc .keep{color:var(--gold,#D4AF37);font-weight:700}
+  .nj-look{display:block;width:100%;background:var(--navy);color:#fff;border:none;padding:14px;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;margin-bottom:10px}
+  .nj-go{display:block;background:linear-gradient(135deg,var(--gold,#D4AF37),var(--gold-soft,#C9A96E));color:#fff;padding:15px;border-radius:13px;font-size:15px;font-weight:800;text-decoration:none}
   /* ── 통일 길잡이 (lf-nav) — 전 페이지 공통 ── */
   .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,227,0.95);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid #E2E8F0;padding:10px 14px}
   .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}
@@ -93,75 +95,75 @@
       <a id="lfMineJourney" href="#"><span class="ic">🗺️</span>내 여행지도</a>
     </div>
   </nav>
-<div class="wrap">
-
+  <div class="brandbar"><span class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></span></div>
   <div class="head">
-    <div class="ey">RELATIONSHIP TRAVEL · IMMIGRATION</div>
-    <h1 class="serif">관계 여행권 확인</h1>
+    <h1>나의 여행기록</h1>
+    <div class="sub">누구와의 여행을 보시겠어요?</div>
   </div>
 
-  <!-- ★ 내가 산 상품 -->
-  <div class="product">
-    <div class="thumb">
-      <svg viewBox="0 0 40 40" width="32" height="32" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="20" cy="20" r="17" fill="none" stroke="#C9A96E" stroke-width="1.5"/>
-        <g fill="#E5C687"><polygon points="20,6 23,18 20,20 17,18"/><polygon points="20,34 17,22 20,20 23,22" opacity="0.5"/><polygon points="6,20 18,17 20,20 18,23"/><polygon points="34,20 22,23 20,20 22,17" opacity="0.5"/></g>
-        <circle cx="20" cy="20" r="2" fill="#E5C687"/>
-      </svg>
-    </div>
-    <div class="meta">
-      <div class="brand">LOVE FLOW · 사랑흐름</div>
-      <div class="name">관계 여행지도</div>
-      <div class="copy">관계를 분석하지 않습니다, 번역합니다</div>
-    </div>
-    <div class="price">₩9,900</div>
-  </div>
+  <div class="wrap" id="hist-list"></div>
 
-  <!-- 주문번호 입력 (한 줄) -->
-  <div class="gate">
-    <div class="q">구매 시 받으신 <b>주문번호</b>를 넣어주세요</div>
-    <div class="input-row">
-      <input id="orderNo" type="text" placeholder="주문번호" autocomplete="off">
-      <button onclick="startJourney()">여행 시작</button>
-    </div>
-    <div id="msg"></div>
-  </div>
+  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
 
-  <!-- 구매처 가로 2칸 -->
-  <div class="buy-sec">
-    <div class="t">아직 구매 전이신가요?</div>
-    <div class="buy-grid">
-      <a href="#" class="buy-box naver">
-        <div class="logo">N</div>
-        <div class="nm">네이버 스토어</div>
-        <div class="sub">바로 구매</div>
-      </a>
-      <a href="#" class="buy-box kakao">
-        <div class="logo">k</div>
-        <div class="nm">카카오 선물하기</div>
-        <div class="sub">선물 보내기</div>
-      </a>
-    </div>
-    <div class="tip">💡 링크가 안 되면 <b>loveflow.ai.kr/start</b> 직접 입력</div>
-  </div>
+  <nav class="tabbar">
+    <a href="/" class="tab"><span class="ti">🏠</span>홈</a>
+    <a href="/history.html" class="tab active"><span class="ti">🧭</span>여행기록</a>
+    <a href="javascript:void(0)" onclick="openNewJourney();return false;" class="tab"><span class="ti">＋</span>여행시작</a>
+    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="tab" target="_blank" rel="noopener"><span class="ti">✉️</span>편지</a>
+    <a href="/myinfo.html" class="tab"><span class="ti">👤</span>내정보</a>
+  </nav>
 
-  <div class="foot">
-    사랑흐름 · 대표 황규찬 · 파주시 매봉길 17-13 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열 · hkcpcgg@gmail.com<br>
-    © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.
-  </div>
+  <script>
+  (function(){
+    var TYPE={
+      M:{n:'어머니',i:'👩'}, D:{n:'아버지',i:'👨'}, L:{n:'배우자·연인',i:'💑'},
+      C:{n:'자녀',i:'👶'}, F:{n:'친구',i:'🫂'}, B:{n:'형제·자매',i:'🤝'},
+      W:{n:'직장',i:'💼'}, S:{n:'나 자신',i:'🧭'}, X:{n:'기타',i:'✨'}
+    };
+    var hist=[];
+    try{ hist=JSON.parse(localStorage.getItem('lf_history')||'[]'); }catch(e){}
+    var el=document.getElementById('hist-list');
+    if(!hist || !hist.length){
+      el.innerHTML='<div class="empty"><span class="ei">🧭</span>아직 여행기록이 없어요.<br>첫 관계 여행을 시작해보세요.<br><a href="javascript:void(0)" onclick="openNewJourney();return false;">여행 시작하기</a></div>';
+      return;
+    }
+    var html='';
+    for(var i=hist.length-1;i>=0;i--){
+      var h=hist[i]||{};
+      var pp=h.pp||'';
+      var code=pp.charAt(3)||'X';
+      var t=TYPE[code]||TYPE.X;
+      var rel=h.rel||t.n;
+      var paid=(h.type==='paid');
+      if(paid){
+        html+='<a class="hist-card" href="/universe.html?id='+encodeURIComponent(pp)+'">';
+      }else{
+        html+='<a class="hist-card" href="/free-result.html?id='+encodeURIComponent(pp)+'">';
+      }
+      html+='<div class="hc-icon">'+t.i+'</div>';
+      html+='<div class="hc-mid"><div class="hc-rel">'+rel+'</div><div class="hc-meta">'+(h.date||'')+' 여행</div><div class="hc-pp">'+pp+'</div></div>';
+      html+='<div class="hc-badge '+(paid?'paid':'free')+'">'+(paid?'유료':'무료')+'</div>';
+      html+='</a>';
+    }
+    el.innerHTML=html;
+  })();
+  </script>
 
+<div class="nj-overlay" id="njModal" onclick="if(event.target===this)closeNewJourney()">
+  <div class="nj-box">
+    <div class="nj-emoji">🌿</div>
+    <div class="nj-title">여행지도는 잘 간직되어 있어요</div>
+    <div class="nj-en">Your map is safely kept</div>
+    <div class="nj-desc">여권 번호로 언제든 지난 여행 기록을<br>다시 펼쳐볼 수 있어요.<br><span class="keep">관계 우주 · 여행지도 · 마음편지</span>까지<br>천천히 둘러보세요.<br><br>혹시 <b>또 다른 소중한 분</b>과<br>새로운 여행을 떠나보고 싶으신가요?</div>
+    <button class="nj-look" onclick="closeNewJourney()">🧭 내 여행지도 둘러보기</button>
+    <a class="nj-go" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener">💛 새로운 여행 떠나기</a>
+  </div>
 </div>
 <script>
-function startJourney(){
-  var num=document.getElementById('orderNo').value.trim();
-  var msg=document.getElementById('msg');
-  if(!num){ msg.className='warn'; msg.textContent='주문번호를 넣어주세요.'; return; }
-  msg.className='load'; msg.textContent='여행권을 확인하고 있어요...';
-  // ★ GAS: google.script.run.withSuccessHandler(ok).validateOrder(num); → location.href='/journey/?id='+여권번호;
-  setTimeout(function(){ msg.className='info'; msg.textContent='※ 실제 확인은 GAS 연동 후 작동합니다'; },1300);
-}
-document.getElementById('orderNo').addEventListener('keydown',function(e){ if(e.key==='Enter') startJourney(); });
+function openNewJourney(){var m=document.getElementById('njModal');if(m)m.classList.add('show');}
+function closeNewJourney(){var m=document.getElementById('njModal');if(m)m.classList.remove('show');}
 </script>
+
 <script>
 function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
 function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
