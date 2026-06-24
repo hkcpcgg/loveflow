@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 무료 나침반 compass.html v11 · 260624 · [작업 v11] GA4 측정 삽입 / v10 · 260624 · [작업 v10] 통일 길잡이 적용 / v9 · 260620 · [작업] 진단 번호를 기기 목록(lf_history)에 저장 — 여행기록용 / v8(유형코드) 유지 -->
+<!-- 사랑흐름 무료 나침반 compass.html v12 · 260624 · [작업 v12] GA4 이벤트 start_compass(나침반 시작 1줄) / v11 · 260624 · [작업 v11] GA4 측정 삽입 / v10 · 260624 · [작업 v10] 통일 길잡이 적용 / v9 · 260620 · [작업] 진단 번호를 기기 목록(lf_history)에 저장 — 여행기록용 / v8(유형코드) 유지 -->
 <html lang="ko">
 <head>
   <!-- Google tag (gtag.js) - GA4 G-DWCSSE71NS -->
@@ -625,6 +625,7 @@ function validateStart() {
 }
 
 function startCompass() {
+  try{ gtag('event','start_compass'); }catch(e){}
   relNick = (document.getElementById('relNick') ? document.getElementById('relNick').value : '').trim();
   step = 1;
   showStep();
