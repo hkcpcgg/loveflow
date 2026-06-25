@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!-- 사랑흐름 여권저장 테스트 pptest.html v2 · 260625 · [수정] 배경 경량 JPG(/passport_bg.jpg, 288KB)로 교체, 로딩을 시간초과 포기 대신 onload까지 대기+원인 명확표시. 같은출처 이미지+canvas 텍스트 → taint 없음. gate 미수정 별도 테스트. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>여권 이미지 저장 테스트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@700;800&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F5F3ED;color:#1E2A3A;font-family:'Noto Sans KR',sans-serif;padding:24px 16px;text-align:center}
+  h1{font-size:18px;margin:0 0 6px}
+  p.desc{font-size:13px;color:#5F5E5A;margin:0 0 18px}
+  .row{margin:10px 0}
+  label{font-size:13px;color:#5F5E5A;display:block;margin-bottom:6px}
+  input{font-size:18px;padding:10px 14px;border:1.5px solid #C9A24B;border-radius:10px;text-align:center;width:200px;font-family:inherit;letter-spacing:0.08em}
+  .btn{display:inline-block;margin-top:6px;padding:14px 28px;font-size:16px;font-weight:800;font-family:inherit;border:none;border-radius:26px;background:linear-gradient(135deg,#1E4A76,#102A45);color:#fff;cursor:pointer;box-shadow:0 6px 18px rgba(30,74,118,0.3)}
+  .btn:disabled{opacity:0.6}
+  .hint{font-size:12px;color:#888;margin-top:14px;line-height:1.7}
+  #err{display:none;margin:14px auto 0;max-width:440px;background:#fdecec;border:1px solid #e3b3b3;color:#a32d2d;padding:10px 12px;border-radius:8px;font-size:12px;word-break:break-all;line-height:1.6}
+  #ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;overflow:auto;padding:18px;text-align:center}
+  #ov .guide{color:#fff;font-size:15px;font-weight:700;margin:6px 0 12px}
+  #ov img{max-width:92%;height:auto;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.5)}
+  #ov .close{margin-top:16px;padding:12px 30px;font-size:15px;border:none;border-radius:22px;background:#fff;color:#1E2A3A;font-weight:700;cursor:pointer}
+</style>
+</head>
+<body>
+  <h1>여권 이미지 저장 테스트</h1>
+  <p class="desc">번호를 넣고 버튼을 누르면 여권 이미지가 떠요.<br>그 이미지를 <b>꾹 눌러 저장</b>하면 됩니다.</p>
+
+  <div class="row">
+    <label>테스트 번호</label>
+    <input id="ppNo" value="LF-746B8" maxlength="12">
+  </div>
+  <button class="btn" id="makeBtn" onclick="makePassport()">🖼️ 여권 만들어 띄우기</button>
+
+  <p class="hint">※ 폰: 뜬 이미지를 <b>길게(꾹) 눌러</b> "이미지 저장"<br>※ PC: 이미지에서 <b>마우스 오른쪽 → 이미지 저장</b></p>
+  <div id="err"></div>
+
+  <div id="ov">
+    <div class="guide">📌 이미지를 꾹 눌러 저장하세요</div>
+    <img id="ovImg" alt="관계 여권">
+    <div><button class="close" onclick="closeOv()">✕ 닫기</button></div>
+  </div>
+
+<script>
+  var BG_URL = "/passport_bg.jpg";   // 같은 출처(www.loveflow.ai.kr) → canvas taint 없음
+  var bgImg = new Image();
+  var bgState = "loading";   // loading | ok | error
+  var pending = false;
+
+  bgImg.onload = function(){ bgState="ok"; if(pending){ pending=false; afterFont(); } };
+  bgImg.onerror = function(){ bgState="error"; if(pending){ pending=false; resetBtn(); showErr("이미지를 못 불러왔어요. pptest.html을 사이트에 올린 뒤 www.loveflow.ai.kr/pptest.html 로 열었는지, 그리고 /passport_bg.jpg 가 올라갔는지 확인하세요."); } };
+  bgImg.src = BG_URL;
+
+  function showErr(m){ var e=document.getElementById('err'); e.style.display='block'; e.textContent='⚠ '+m; }
+  function hideErr(){ document.getElementById('err').style.display='none'; }
+  function setBtn(t){ var b=document.getElementById('makeBtn'); b.textContent=t; b.disabled=true; }
+  function resetBtn(){ var b=document.getElementById('makeBtn'); b.textContent='🖼️ 여권 만들어 띄우기'; b.disabled=false; }
+  function todayStr(){ var d=new Date(); var mm=('0'+(d.getMonth()+1)).slice(-2); var dd=('0'+d.getDate()).slice(-2); return d.getFullYear()+'년 '+mm+'월 '+dd+'일 발급'; }
+
+  function makePassport(){
+    hideErr();
+    if(bgState==="ok"){ afterFont(); return; }
+    if(bgState==="error"){ showErr("이미지를 못 불러왔어요. 사이트(www.loveflow.ai.kr/pptest.html)로 열었는지, /passport_bg.jpg 업로드됐는지 확인."); return; }
+    // 아직 로딩중 → 끝까지 기다림(최대 25초 안전장치)
+    pending=true; setBtn('⏳ 이미지 준비 중...');
+    setTimeout(function(){ if(pending){ pending=false; resetBtn(); showErr("이미지 로딩이 너무 오래 걸려요. 새로고침 후 다시 시도해주세요."); } }, 25000);
+  }
+
+  function afterFont(){
+    setBtn('⏳ 만드는 중...');
+    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(function(){ drawAndShow(); }); }
+    else { drawAndShow(); }
+  }
+
+  function drawAndShow(){
+    try{
+      var W=bgImg.naturalWidth||1122, H=bgImg.naturalHeight||1402;
+      var cv=document.createElement('canvas'); cv.width=W; cv.height=H;
+      var ctx=cv.getContext('2d');
+      ctx.drawImage(bgImg,0,0,W,H);
+
+      var num=(document.getElementById('ppNo').value||'').trim()||'LF-—';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      try{ ctx.letterSpacing='8px'; }catch(e){}
+      ctx.fillStyle='#C9A24B';
+      ctx.font="800 96px 'Nanum Myeongjo', serif";
+      ctx.fillText(num, W/2, 675);
+      try{ ctx.letterSpacing='2px'; }catch(e){}
+      ctx.fillStyle='#C8C8CD';
+      ctx.font="700 38px 'Nanum Myeongjo', serif";
+      ctx.fillText(todayStr(), W/2, 840);
+
+      var data=cv.toDataURL('image/png');
+      document.getElementById('ovImg').src=data;
+      document.getElementById('ov').style.display='block';
+      resetBtn();
+    }catch(e){
+      resetBtn();
+      showErr("이미지 생성 실패: "+(e&&e.message?e.message:e));
+    }
+  }
+
+  function closeOv(){ document.getElementById('ov').style.display='none'; }
+</script>
+</body>
+</html>
