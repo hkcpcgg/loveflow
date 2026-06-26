@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 표지(랜딩) v6 · 무료나침반/홈입장 버튼 · 2026.06.26 · 노드10~15·우아·몰입카메라·부드러운페이드리셋·끌리는버튼 · Three.js r128 -->
+<!-- 사랑흐름 표지(랜딩) v8 · 버튼위 마퀴(옆으로 흐르는 카피) · [배포시 파일명 cover.html 로 저장] · 무료나침반/홈입장 버튼 · 2026.06.26 · 노드10~15·우아·몰입카메라·부드러운페이드리셋·끌리는버튼 · Three.js r128 -->
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -17,6 +17,12 @@
   @keyframes floaty{0%,100%{transform:translateX(0)}50%{transform:translateX(10px)}}
   .spin-hint.hide{opacity:0;transition:opacity .6s}
   .bottom{bottom:34px;display:flex;flex-direction:column;align-items:center;gap:12px;z-index:6}
+  .marquee{position:fixed;left:0;right:0;bottom:210px;z-index:6;overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);pointer-events:none}
+  .marquee-track{display:inline-block;white-space:nowrap;will-change:transform;animation:flow 95s linear infinite}
+  .marquee-track span{font-size:19px;color:#EBDCB0;letter-spacing:.01em;text-shadow:0 1px 12px rgba(0,0,0,.7)}
+  .marquee-track .dot{color:#C9A24B;margin:0 16px;font-size:16px}
+  @keyframes flow{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media(max-width:600px){.marquee{bottom:215px}.marquee-track span{font-size:17px}}
   .cta{pointer-events:auto;width:300px;max-width:84vw;border-radius:18px;padding:15px 20px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
   .cta .t{font-size:17px;font-weight:800;letter-spacing:.01em}
   .cta .d{font-size:13px;font-weight:500;opacity:.92}
@@ -33,6 +39,7 @@
   <div class="title">관계 우주</div>
 </div>
 <div class="spin-hint" id="spinHint">👆 손으로 돌려보세요</div>
+<div class="marquee" id="marquee"><div class="marquee-track" id="mtrack"></div></div>
 <div class="ui bottom">
   <button class="cta cta-free" id="ctaMain"><span class="t">🧭 무료 나침반</span><span class="d">내 관계의 계절을 읽다 →</span></button>
   <button class="cta cta-paid" id="ctaSub"><span class="t">🏠 홈으로 입장</span><span class="d">사랑흐름 이야기 둘러보기 →</span></button>
@@ -167,6 +174,23 @@
   }
   tick();
   addEventListener('resize',function(){W=innerWidth;H=innerHeight;camera.aspect=W/H;camera.updateProjectionMatrix();renderer.setSize(W,H);});
+})();
+</script>
+
+<script>
+(function(){
+  var phrases=[
+    // A
+    "사랑흐름은 당신과 그 사람 사이의 나침반입니다","못다 한 이야기를 꺼내보고","그 사람 말에 담긴 진심도 헤아려보고","왜 그랬는지 서로의 마음을 읽어가다 보면","내일은 어떻게 다가갈지, 작은 한 걸음까지 손에 쥐어집니다",
+    // B
+    "나로부터 시작되는 관계의 여행","오늘은 엄마와, 다음엔 아빠와, 또 그리운 친구와","미워서가 아니라, 서로의 언어가 달랐을 뿐","건넬 수 있는 말 한마디가 보입니다","당신의 봄이 다시 오기를",
+    // C
+    "관계에도 계절이 있습니다","서로의 MBTI를 이해했다고 믿었지만","그 너머, 그 사람의 진짜 속마음은 어땠을까요","사랑흐름은 성격 너머의 마음을 함께 읽어요","막힘이 보인다는 건 방향이 보인다는 뜻","오늘 건넬 한마디가 봄을 부릅니다"
+  ];
+  // 한 줄로 점 연결
+  var line = phrases.join(' <span class="dot">·</span> ') + ' <span class="dot">·</span> ';
+  // 끊김 없는 흐름 위해 동일 내용 2회 (track 50%에서 리셋)
+  document.getElementById('mtrack').innerHTML = '<span>'+line+'</span><span>'+line+'</span>';
 })();
 </script>
 </body>
