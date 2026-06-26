@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 표지(랜딩) v8 · 버튼위 마퀴(옆으로 흐르는 카피) · [배포시 파일명 cover.html 로 저장] · 무료나침반/홈입장 버튼 · 2026.06.26 · 노드10~15·우아·몰입카메라·부드러운페이드리셋·끌리는버튼 · Three.js r128 -->
+<!-- 사랑흐름 표지(랜딩) v11 · 마퀴 한칸 내림+글자 2pt 키움 · 기능헤드라인 상단(관계우주 밑)/2줄 · 마퀴 버튼서 띄움 · 기능 헤드라인 고정(MBTI 너머/5분무료) + 시적카피 흐름 · 버튼위 마퀴(옆으로 흐르는 카피) · [배포시 파일명 cover.html 로 저장] · 무료나침반/홈입장 버튼 · 2026.06.26 · 노드10~15·우아·몰입카메라·부드러운페이드리셋·끌리는버튼 · Three.js r128 -->
 <html lang="ko">
 <head>
 <meta charset="utf-8">
@@ -17,12 +17,17 @@
   @keyframes floaty{0%,100%{transform:translateX(0)}50%{transform:translateX(10px)}}
   .spin-hint.hide{opacity:0;transition:opacity .6s}
   .bottom{bottom:34px;display:flex;flex-direction:column;align-items:center;gap:12px;z-index:6}
-  .marquee{position:fixed;left:0;right:0;bottom:210px;z-index:6;overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);pointer-events:none}
+  .lead{margin-top:14px;text-align:center;padding:0 22px}
+  .lead-main{font-family:'Nanum Myeongjo',serif;font-size:18px;font-weight:800;line-height:1.5;color:#F7ECCB;text-shadow:0 2px 16px rgba(0,0,0,.8)}
+  .lead-main b{color:#E8C46A}
+  .lead-sub{font-size:13px;color:#C9BA88;margin-top:7px;letter-spacing:.02em;text-shadow:0 1px 10px rgba(0,0,0,.7)}
+  @media(max-width:600px){.lead-main{font-size:16px}.lead-sub{font-size:12px}}
+  .marquee{position:fixed;left:0;right:0;bottom:215px;z-index:6;overflow:hidden;white-space:nowrap;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);pointer-events:none}
   .marquee-track{display:inline-block;white-space:nowrap;will-change:transform;animation:flow 95s linear infinite}
-  .marquee-track span{font-size:19px;color:#EBDCB0;letter-spacing:.01em;text-shadow:0 1px 12px rgba(0,0,0,.7)}
+  .marquee-track span{font-size:18px;color:#EBDCB0;letter-spacing:.01em;text-shadow:0 1px 12px rgba(0,0,0,.7)}
   .marquee-track .dot{color:#C9A24B;margin:0 16px;font-size:16px}
   @keyframes flow{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-  @media(max-width:600px){.marquee{bottom:215px}.marquee-track span{font-size:17px}}
+  @media(max-width:600px){.marquee{bottom:218px}.marquee-track span{font-size:17px}}
   .cta{pointer-events:auto;width:300px;max-width:84vw;border-radius:18px;padding:15px 20px;cursor:pointer;text-align:center;display:flex;flex-direction:column;align-items:center;gap:3px}
   .cta .t{font-size:17px;font-weight:800;letter-spacing:.01em}
   .cta .d{font-size:13px;font-weight:500;opacity:.92}
@@ -37,6 +42,7 @@
 <div class="ui top">
   <div class="brand">LOVE FLOW</div>
   <div class="title">관계 우주</div>
+  <div class="lead" id="lead"><div class="lead-main">MBTI로 성격은 알아도, <b>나와 그 사람 사이</b>는 몰랐죠</div><div class="lead-sub">사랑흐름이 그 관계를 읽어드려요 · 5분 · 무료</div></div>
 </div>
 <div class="spin-hint" id="spinHint">👆 손으로 돌려보세요</div>
 <div class="marquee" id="marquee"><div class="marquee-track" id="mtrack"></div></div>
