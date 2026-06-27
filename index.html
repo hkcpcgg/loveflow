@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+<!-- 사랑흐름 홈 index v12 · (라이브 v11 다음)  벽깨기 문구 추가(다섯축 위) · 2026.06.27 · 첫화면 재설계(기능헤드라인+결과물5종 액자 무한회전 갤러리+자물쇠) · STEP1~4 삭제(전체는 햄버거) · 슬로건 철학은 하단유지 · 헤더메뉴/발급/카카오/하단CTA/푸터 0손댐 -->
   <!-- Google tag (gtag.js) - GA4 G-DWCSSE71NS -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DWCSSE71NS"></script>
   <script>
@@ -282,6 +283,46 @@
   .lf-menu a.lf-buy{color:#B8923E}
   .lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
   .lf-backdrop.open{opacity:1;visibility:visible}
+
+/* 홈 결과물 갤러리 (v5 재설계) */
+.lf-head-sub{margin-top:14px;font-size:14px;color:var(--navy);font-weight:700;line-height:1.55;max-width:440px;margin-left:auto;margin-right:auto}
+.lf-head-sub b{color:var(--gold-deep)}
+.lf-gallery-cap{text-align:center;font-size:12.5px;color:#A89B72;margin:6px 0 0;letter-spacing:.01em}
+.lf-gallery{overflow:hidden;position:relative;margin:12px 0 4px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 13%,#000 87%,transparent);mask-image:linear-gradient(90deg,transparent,#000 13%,#000 87%,transparent)}
+.lf-track{display:flex;gap:20px;width:max-content;animation:lfRoll 34s linear infinite;will-change:transform}
+.lf-track.paused{animation-play-state:paused}
+@keyframes lfRoll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.lf-fr{width:248px;flex:0 0 auto;background:linear-gradient(160deg,#fff,#FBF7EC);border:1px solid var(--line);border-radius:14px;padding:13px;box-shadow:0 18px 44px rgba(20,30,60,.26);position:relative}
+.lf-lock{position:absolute;top:9px;left:9px;z-index:4;font-size:9.5px;font-weight:700;color:#7A6A3E;background:rgba(255,255,255,.92);border:1px solid #E0D7BF;padding:3px 8px;border-radius:999px}
+.lf-mt{background:linear-gradient(160deg,#F7F2E4,#EFE7D2);border:1px solid #E0D7BF;border-radius:9px;padding:10px}
+.lf-art{aspect-ratio:4/5;border-radius:7px;overflow:hidden;position:relative;display:flex;flex-direction:column;box-shadow:inset 0 0 0 1px rgba(184,146,62,.4)}
+.lf-pl{margin-top:11px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 12px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.lf-pl .nm{font-family:var(--serif);font-size:14px;font-weight:800;color:var(--navy)}
+.lf-pl .ds{font-size:11px;color:var(--text-sub);margin-top:2px}
+.lf-pass{background:linear-gradient(160deg,#13243f,#0A162B);color:#EBD9A8;align-items:center;justify-content:center;text-align:center;padding:16px}
+.lf-pass .fr{border:1px solid #C9A24B;border-radius:6px;padding:16px 10px;width:100%}
+.lf-pass .ttl{font-family:var(--serif);font-size:16px;color:#F4E8C2;font-weight:800}
+.lf-pass .en{font-size:6.5px;letter-spacing:.18em;color:#C9A24B;margin-top:4px}
+.lf-pass .no{font-family:'Courier New',monospace;font-size:24px;color:#D4AF37;font-weight:800;margin:14px 0 5px}
+.lf-pass .sub{font-size:8px;color:#BFB088}
+.lf-univ{background:radial-gradient(120% 80% at 50% 40%,#16243d,#0A1322)}
+.lf-univ svg{width:100%;height:100%}
+.lf-radar{background:#fff;align-items:center;justify-content:center;padding:14px}
+.lf-radar .t{font-size:9px;color:var(--gold-deep);font-weight:700;letter-spacing:.1em;margin-bottom:6px;text-align:center}
+.lf-type{background:linear-gradient(160deg,#1E4A76,#102543);color:#fff;align-items:center;justify-content:center;text-align:center;padding:18px}
+.lf-type .ic{font-size:38px}
+.lf-type .tn{font-family:var(--serif);font-size:20px;font-weight:800;margin-top:8px;color:#F4E8C2}
+.lf-type .en{font-size:8px;letter-spacing:.18em;color:#C9A24B;margin-top:3px}
+.lf-type .q{font-size:10.5px;color:rgba(255,255,255,.82);margin-top:11px;font-style:italic;line-height:1.6}
+.lf-stamp{background:var(--cream);align-items:center;justify-content:center;text-align:center}
+.lf-stamp .ring{width:118px;height:118px;border-radius:50%;border:3px solid var(--gold-deep);display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold-deep);transform:rotate(-8deg);box-shadow:0 2px 10px rgba(184,146,62,.25)}
+.lf-stamp .ring .em{font-size:30px}
+.lf-stamp .ring .se{font-family:var(--serif);font-size:16px;font-weight:800;margin-top:3px}
+.lf-stamp .ring .en{font-size:6.5px;letter-spacing:.12em;margin-top:2px}
+
+
+.lf-wall{text-align:center;font-size:15px;color:var(--navy);line-height:2.0;padding:24px 16px 8px;font-family:var(--serif)}
+.lf-wall b{color:var(--gold-deep);font-weight:800}
 </style>
 <script src="https://t1.kakao.com/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 </head>
@@ -311,7 +352,8 @@
         </div>
       </nav>
       <div class="hero-head">
-        <div class="slogan">많은 관계는 사랑이 부족해서가 아니라,<br><span style="color:var(--gold-deep)">서로의 언어를 몰라서 멀어집니다</span></div>
+        <div class="slogan lf-head">MBTI로 성격은 알아도,<br><span style="color:var(--gold-deep)">나와 그 사람 사이</span>는 몰랐죠</div>
+        <div class="lf-head-sub">무료 나침반 <b>5분</b>이면 — 내 관계 유형과 5가지 흐름을 읽어드려요</div>
       </div>
       <div class="hero-scape"></div>
     </div>
@@ -320,52 +362,26 @@
   <!-- ── 소개 ── -->
   <div class="container">
     <div class="section" style="padding-top:8px; text-align:center">
-      <div style="font-size:16px; color:var(--text-sub); line-height:2.05">
-        당신의 관계 흐름을 읽어, 멀어진 사이에 다시 길을 내는<br><b style="color:var(--navy)">관계 회복의 나침반</b>입니다.
-      </div>
+      <div class="lf-gallery-cap">관계 여행을 마치면 받게 되는 결과물 견본</div>
+      <div class="lf-gallery"><div class="lf-track" id="lfTrack">
+      <div class="lf-fr"><div class="lf-mt"><div class="lf-art lf-type"><div class="ic">🪨</div><div class="tn">따뜻한 관찰자</div><div class="en">THE WARM OBSERVER</div><div class="q">"마음은 있는데,<br>표현이 멈춘 계절"</div></div></div><div class="lf-pl"><div class="nm">여행자 유형</div><div class="ds">나의 관계 성향</div></div></div>
+      <div class="lf-fr"><div class="lf-mt"><div class="lf-art lf-radar"><div class="t">LFRI™ · 5축 관계 흐름</div><svg width="160" height="160" viewBox="0 0 220 220"><g stroke="#E2E8F0" fill="none" stroke-width="1"><polygon points="110,20 200,80 165,185 55,185 20,80"/><polygon points="110,56 158,96 139,167 81,167 56,96"/></g><polygon points="110,38 175,88 150,170 70,150 45,92" fill="rgba(201,162,75,.22)" stroke="#C9A24B" stroke-width="2"/><g font-size="11" fill="#1E4A76" font-weight="700" text-anchor="middle"><text x="110" y="14">관심</text><text x="210" y="80">연결</text><text x="168" y="200">온기</text><text x="52" y="200">표현</text><text x="12" y="80">회복</text></g></svg></div></div><div class="lf-pl"><div class="nm">5축 관계 흐름</div><div class="ds">관심·연결·온기·표현·회복</div></div></div>
+      <div class="lf-fr"><span class="lf-lock">🔒 발급은 여행지도에서</span><div class="lf-mt"><div class="lf-art lf-pass"><div class="fr"><div class="ttl">사랑흐름 관계 여권</div><div class="en">RELATIONSHIP PASSPORT</div><div class="no">LF-EF599</div><div class="sub">이 번호로 언제든 다시 펼쳐봐요</div></div></div></div><div class="lf-pl"><div class="nm">관계 여권</div><div class="ds">나만의 고유 번호</div></div></div>
+      <div class="lf-fr"><span class="lf-lock">🔒 발급은 여행지도에서</span><div class="lf-mt"><div class="lf-art lf-univ"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice"><g stroke="#3A567E" stroke-width="1" opacity=".5"><line x1="120" y1="155" x2="120" y2="72"/><line x1="120" y1="155" x2="186" y2="96"/><line x1="120" y1="155" x2="196" y2="172"/></g><g><circle cx="120" cy="72" r="18" fill="#1b3a2a" stroke="#6FCF97" stroke-width="2"/><text x="120" y="69" font-size="11" fill="#9AD0A0" text-anchor="middle">🌱</text><text x="120" y="80" font-size="7.5" fill="#cfe8d4" text-anchor="middle">엄마</text></g><g><circle cx="186" cy="96" r="18" fill="#1a2c44" stroke="#6FA8C9" stroke-width="2"/><text x="186" y="93" font-size="10" fill="#9CC3E0" text-anchor="middle">❄</text><text x="186" y="104" font-size="7.5" fill="#cfe0f0" text-anchor="middle">아빠</text></g><g><circle cx="196" cy="172" r="18" fill="#2e2418" stroke="#E0A85A" stroke-width="2"/><text x="196" y="169" font-size="10" fill="#E8C06A" text-anchor="middle">🌱</text><text x="196" y="180" font-size="7.5" fill="#f0dcb8" text-anchor="middle">배우자</text></g><circle cx="120" cy="155" r="22" fill="#1a2333" stroke="#D4AF37" stroke-width="2.5"/><text x="120" y="161" font-size="12" fill="#F4E8C2" text-anchor="middle" font-weight="bold">나</text><g fill="none" stroke="#5A6478" stroke-width="1.1" stroke-dasharray="4 4"><circle cx="56" cy="96" r="15"/><circle cx="44" cy="180" r="15"/><circle cx="76" cy="240" r="15"/><circle cx="144" cy="252" r="15"/><circle cx="180" cy="240" r="15"/></g><g font-size="7.5" fill="#8A93A8" text-anchor="middle"><text x="56" y="99">멘토</text><text x="44" y="183">소중한</text><text x="76" y="243">형제</text><text x="144" y="255">친구</text><text x="180" y="243">자녀</text></g></svg></div></div><div class="lf-pl"><div class="nm">나의 관계 우주</div><div class="ds">채울수록 별이 켜져요</div></div></div>
+      <div class="lf-fr"><span class="lf-lock">🔒 발급은 여행지도에서</span><div class="lf-mt"><div class="lf-art lf-stamp"><div class="ring"><div class="em">🍂</div><div class="se">늦가을</div><div class="en">LATE AUTUMN</div></div></div></div><div class="lf-pl"><div class="nm">계절 도장</div><div class="ds">지금 우리 관계의 계절</div></div></div>
+
+      <div class="lf-fr"><div class="lf-mt"><div class="lf-art lf-type"><div class="ic">🪨</div><div class="tn">따뜻한 관찰자</div><div class="en">THE WARM OBSERVER</div><div class="q">"마음은 있는데,<br>표현이 멈춘 계절"</div></div></div><div class="lf-pl"><div class="nm">여행자 유형</div><div class="ds">나의 관계 성향</div></div></div>
+      <div class="lf-fr"><div class="lf-mt"><div class="lf-art lf-radar"><div class="t">LFRI™ · 5축 관계 흐름</div><svg width="160" height="160" viewBox="0 0 220 220"><g stroke="#E2E8F0" fill="none" stroke-width="1"><polygon points="110,20 200,80 165,185 55,185 20,80"/><polygon points="110,56 158,96 139,167 81,167 56,96"/></g><polygon points="110,38 175,88 150,170 70,150 45,92" fill="rgba(201,162,75,.22)" stroke="#C9A24B" stroke-width="2"/><g font-size="11" fill="#1E4A76" font-weight="700" text-anchor="middle"><text x="110" y="14">관심</text><text x="210" y="80">연결</text><text x="168" y="200">온기</text><text x="52" y="200">표현</text><text x="12" y="80">회복</text></g></svg></div></div><div class="lf-pl"><div class="nm">5축 관계 흐름</div><div class="ds">관심·연결·온기·표현·회복</div></div></div>
+      <div class="lf-fr"><span class="lf-lock">🔒 발급은 여행지도에서</span><div class="lf-mt"><div class="lf-art lf-pass"><div class="fr"><div class="ttl">사랑흐름 관계 여권</div><div class="en">RELATIONSHIP PASSPORT</div><div class="no">LF-EF599</div><div class="sub">이 번호로 언제든 다시 펼쳐봐요</div></div></div></div><div class="lf-pl"><div class="nm">관계 여권</div><div class="ds">나만의 고유 번호</div></div></div>
+      <div class="lf-fr"><span class="lf-lock">🔒 발급은 여행지도에서</span><div class="lf-mt"><div class="lf-art lf-univ"><svg viewBox="0 0 240 300" preserveAspectRatio="xMidYMid slice"><g stroke="#3A567E" stroke-width="1" opacity=".5"><line x1="120" y1="155" x2="120" y2="72"/><line x1="120" y1="155" x2="186" y2="96"/><line x1="120" y1="155" x2="196" y2="172"/></g><g><circle cx="120" cy="72" r="18" fill="#1b3a2a" stroke="#6FCF97" stroke-width="2"/><text x="120" y="69" font-size="11" fill="#9AD0A0" text-anchor="middle">🌱</text><text x="120" y="80" font-size="7.5" fill="#cfe8d4" text-anchor="middle">엄마</text></g><g><circle cx="186" cy="96" r="18" fill="#1a2c44" stroke="#6FA8C9" stroke-width="2"/><text x="186" y="93" font-size="10" fill="#9CC3E0" text-anchor="middle">❄</text><text x="186" y="104" font-size="7.5" fill="#cfe0f0" text-anchor="middle">아빠</text></g><g><circle cx="196" cy="172" r="18" fill="#2e2418" stroke="#E0A85A" stroke-width="2"/><text x="196" y="169" font-size="10" fill="#E8C06A" text-anchor="middle">🌱</text><text x="196" y="180" font-size="7.5" fill="#f0dcb8" text-anchor="middle">배우자</text></g><circle cx="120" cy="155" r="22" fill="#1a2333" stroke="#D4AF37" stroke-width="2.5"/><text x="120" y="161" font-size="12" fill="#F4E8C2" text-anchor="middle" font-weight="bold">나</text><g fill="none" stroke="#5A6478" stroke-width="1.1" stroke-dasharray="4 4"><circle cx="56" cy="96" r="15"/><circle cx="44" cy="180" r="15"/><circle cx="76" cy="240" r="15"/><circle cx="144" cy="252" r="15"/><circle cx="180" cy="240" r="15"/></g><g font-size="7.5" fill="#8A93A8" text-anchor="middle"><text x="56" y="99">멘토</text><text x="44" y="183">소중한</text><text x="76" y="243">형제</text><text x="144" y="255">친구</text><text x="180" y="243">자녀</text></g></svg></div></div><div class="lf-pl"><div class="nm">나의 관계 우주</div><div class="ds">채울수록 별이 켜져요</div></div></div>
+      <div class="lf-fr"><span class="lf-lock">🔒 발급은 여행지도에서</span><div class="lf-mt"><div class="lf-art lf-stamp"><div class="ring"><div class="em">🍂</div><div class="se">늦가을</div><div class="en">LATE AUTUMN</div></div></div></div><div class="lf-pl"><div class="nm">계절 도장</div><div class="ds">지금 우리 관계의 계절</div></div></div>
+</div></div>
     </div>
   </div>
 
-  <!-- ── 관계를 회복하는 첫 걸음 ── -->
-  <div class="steps">
-    <div class="container">
-      <div class="section">
-        <div class="sec-eyebrow">HOW IT WORKS</div>
-        <div class="sec-title">관계를 회복하는 첫 걸음</div>
-
-        <div class="step-card s1">
-          <div class="step-top"><span class="step-no">STEP 1</span><span class="step-tag free">무료</span></div>
-          <div class="step-name" onclick="toggleStep(this)"><span class="emoji">🧭</span>무료 나침반 — 내 관계의 계절을 읽다</div>
-          <div class="step-detail"><div class="step-body">가볍게 나침반을 펼치면, 지금 이 관계가 어떤 계절에 있는지 보입니다. 부담 없이 시작하는 첫 걸음이에요.</div>
-          <div class="step-meta">계절 읽기 · MBTI 관계 유형 · LFRI 첫 신호</div>
-          <a class="step-go" href="/compass.html">무료 나침반 시작하기 →</a></div>
-        </div>
-
-        <div class="step-card s2">
-          <div class="step-top"><span class="step-no">STEP 2</span><span class="step-tag paid">유료</span></div>
-          <div class="step-name" onclick="toggleStep(this)"><span class="emoji">🗺️</span>여행지도 — 관계의 좌표를 그리다</div>
-          <div class="step-detail"><div class="step-body">관심·연결·온기·표현·회복, 다섯 축을 깊이 들여다봅니다. 계절 처방전, 나만의 관계 여권™, 그리고 관계 우주까지 — 상대의 언어를 알아내는 번역기를 손에 쥡니다.</div>
-          <div class="step-meta">LFRI 5축 · 계절 처방전 · 관계 여권™ · 관계 우주</div>
-          <a class="step-go" href="/gate.html">여행지도 시작하기 →</a></div>
-        </div>
-
-        <div class="step-card s3">
-          <div class="step-top"><span class="step-no">STEP 3</span><span class="step-tag act">행동</span></div>
-          <div class="step-name" onclick="toggleStep(this)"><span class="emoji">💌</span>마음편지 — 전하지 못한 말을 꺼내다</div>
-          <div class="step-detail"><div class="step-body">읽어낸 마음을 실제로 전하기 위한 도움. 당신의 관계 흐름을 바탕으로 그 사람에게 닿을 편지를 함께 씁니다. 알기만 하는 관계가 아니라, 움직이는 관계로.</div>
-          <div class="step-meta">개인화 편지 · 관계 톤 맞춤</div>
-          <a class="step-go" href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec">마음편지 쓰기 →</a></div>
-        </div>
-
-        <div class="step-card s4">
-          <div class="step-top"><span class="step-no">STEP 4</span><span class="step-tag act">기록</span></div>
-          <div class="step-name" onclick="toggleStep(this)"><span class="emoji">📖</span>관계 자서전 — 나의 관계 우주를 완성하다</div>
-          <div class="step-detail"><div class="step-body">한 사람, 한 사람과의 여행이 쌓이면 그것이 당신의 관계 우주가 됩니다. 계절이 바뀌듯 변해가는 흐름을 기록하고, 언젠가 한 권의 자서전이 되어갑니다.</div>
-          <div class="step-meta">관계 아카이브 · 계절 변화 기록 · 시계열 흐름</div></div>
-          <div class="step-incl">✦ 여행을 거듭할수록 채워져요</div>
-        </div>
-      </div>
-    </div>
+  <!-- ── 벽 깨기 ── -->
+  <div class="container">
+    <div class="lf-wall">좋은 사이는 <b>더 깊게</b> · 궁금한 사이는 <b>새롭게</b><br>멀어진 사이는 <b>다시 가까이</b></div>
   </div>
 
   <!-- ── 다섯 축 ── -->
@@ -623,6 +639,11 @@ document.getElementById("lfMineUniverse").href="/universe.html?id="+id;
 document.getElementById("lfMineCert").href="/certificate.html?id="+id;
 document.getElementById("lfMineJourney").href="/journey/?id="+id;
 document.getElementById("lfMineGrp").style.display="block";}})();
+</script>
+<script>
+(function(){var t=document.getElementById('lfTrack');if(!t)return;var g=t.parentElement;
+function pause(){t.classList.add('paused');clearTimeout(window._lfrt);window._lfrt=setTimeout(function(){t.classList.remove('paused');},4000);}
+['mousedown','touchstart','wheel'].forEach(function(e){g.addEventListener(e,pause,{passive:true});});})();
 </script>
 </body>
 </html>
