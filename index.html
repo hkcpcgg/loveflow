@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- 사랑흐름 홈 index v12 · (라이브 v11 다음)  벽깨기 문구 추가(다섯축 위) · 2026.06.27 · 첫화면 재설계(기능헤드라인+결과물5종 액자 무한회전 갤러리+자물쇠) · STEP1~4 삭제(전체는 햄버거) · 슬로건 철학은 하단유지 · 헤더메뉴/발급/카카오/하단CTA/푸터 0손댐 -->
+<!-- 사랑흐름 홈 index v14 · 과학적근거 (가)안 적용: 네이비=제목띠(과학적근거+설명문 안잘림)/본문=흰색/접혀도 안쪼그라듦 · 네이비=container동일폭(max600+auto) + 조회버튼/입력창 가운데 · 네이비=5축 동일폭(max-width제거) + 모든버튼/입력창 max440 통일 · 전체 폭통일(네이비 556꽉참, 입력창=버튼 동일폭) · 과학근거 네이비 container폭(600)으로 가운데정렬 — 전체 폭통일 · 과학근거 네이비 안으로(여백+둥근) + 버튼4종 규격통일 · 햄버거서 English·소개 제거(English 상단아이콘, 소개는 푸터에 이미있음) · 버튼 하단모음(무료나침반/관계여행떠나기유료)+용어통일+외부팝업 · 벽깨기밑 무료나침반 버튼 하나 · 벽깨기밑 사족버튼 제거(하단 원래버튼 유지) + 유료 스토어이동 팝업안내 · (라이브 v11 다음)  벽깨기 문구 추가(다섯축 위) · 2026.06.27 · 첫화면 재설계(기능헤드라인+결과물5종 액자 무한회전 갤러리+자물쇠) · STEP1~4 삭제(전체는 햄버거) · 슬로건 철학은 하단유지 · 헤더메뉴/발급/카카오/하단CTA/푸터 0손댐 -->
   <!-- Google tag (gtag.js) - GA4 G-DWCSSE71NS -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DWCSSE71NS"></script>
   <script>
@@ -146,7 +146,8 @@
   .philo .heart{color:var(--mint); margin-top:12px; font-size:13px}
 
   /* ── 근거 ── */
-  .why{background:linear-gradient(180deg,var(--navy-2),var(--navy-deep)); color:#fff}
+  .why{background:linear-gradient(180deg,var(--navy-2),var(--navy-deep)); color:#fff; border-radius:20px; overflow:hidden; max-width:556px; margin:0 auto}
+  .why .container{padding:0; max-width:100%}
   .why .sec-eyebrow{color:rgba(212,175,55,0.8)}
   .why .sec-title{color:#fff}
   .why .sec-desc{color:rgba(255,255,255,0.6)}
@@ -176,10 +177,10 @@
   .revisit{margin-top:26px; background:#fff; border:1.5px solid var(--line); border-radius:20px; padding:22px 20px; box-shadow:0 5px 18px rgba(10,22,43,0.06)}
   .rv-label{font-size:14.5px; color:var(--navy); margin-bottom:14px; font-weight:700}
   .rv-label .pin{color:var(--gold-dark); margin-right:6px}
-  .rv-row{display:flex; flex-direction:column; gap:10px}
-  .rv-input{width:100%; padding:14px 16px; border:1.5px solid var(--gold); border-radius:13px; font-size:15px; font-family:inherit; color:var(--navy); text-transform:uppercase; letter-spacing:0.04em; outline:none; text-align:center}
+  .rv-row{display:flex; flex-direction:column; align-items:center; gap:10px}
+  .rv-input{display:block;width:100%;max-width:440px;margin:0 auto 10px;box-sizing:border-box; padding:16px; border:1.5px solid var(--gold); border-radius:13px; font-size:15px; font-family:inherit; color:var(--navy); text-transform:uppercase; letter-spacing:0.04em; outline:none; text-align:center}
   .rv-input::placeholder{color:#B7A77F; text-transform:none; letter-spacing:0}
-  .rv-btn{padding:14px; background:var(--navy); color:#fff; border:none; border-radius:13px; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer}
+  .rv-btn{display:block;width:100%;max-width:440px;margin:0 auto;box-sizing:border-box;padding:16px; background:var(--navy); color:#fff; border:none; border-radius:14px; font-size:16px; font-weight:800; font-family:inherit; cursor:pointer}
   .rv-btn:hover{background:var(--navy-2)}
   /* v8: 여권번호 찾기 */
   .rv-forgot{margin-top:13px; text-align:center}
@@ -323,6 +324,46 @@
 
 .lf-wall{text-align:center;font-size:15px;color:var(--navy);line-height:2.0;padding:24px 16px 8px;font-family:var(--serif)}
 .lf-wall b{color:var(--gold-deep);font-weight:800}
+
+.lf-cta2{display:flex;flex-direction:column;gap:11px;max-width:440px;margin:14px auto 0;padding:0 16px}
+.lf-c{display:flex;flex-direction:column;align-items:center;gap:3px;padding:15px;border-radius:16px;text-decoration:none;text-align:center}
+.lf-c .t{font-size:16px;font-weight:800}
+.lf-c .t small{font-size:11px;font-weight:700;opacity:.8}
+.lf-c .d{font-size:12.5px}
+.lf-c-free{background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#0A162B;box-shadow:0 6px 20px rgba(201,162,75,.4)}
+.lf-c-paid{background:#fff;color:var(--navy);border:1.5px solid #C9A24B}
+
+.lf-freebtn-wrap{text-align:center;margin:16px auto 0;padding:0 16px}
+.lf-freebtn{display:inline-block;background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#0A162B;font-size:16px;font-weight:800;padding:15px 32px;border-radius:16px;text-decoration:none;box-shadow:0 6px 20px rgba(201,162,75,.4)}
+
+.cta-free-btn{display:block;background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#0A162B;font-size:16px;font-weight:800;padding:15px 24px;border-radius:14px;text-decoration:none;margin-bottom:10px;box-shadow:0 6px 18px rgba(201,162,75,.35)}
+
+.lf-nav-en{font-size:13px;font-weight:700;color:var(--navy);text-decoration:none;border:1.5px solid var(--line);border-radius:20px;padding:5px 12px;margin-right:10px;background:#fff}
+
+/* 버튼 규격 통일 (v13-2) */
+.cta-shop-btn,.cta-free-btn,.cta-gate-btn{display:block;width:100%;max-width:440px;margin:0 auto 10px;box-sizing:border-box;padding:16px;border-radius:14px;font-size:16px;font-weight:800;text-decoration:none;text-align:center;box-shadow:0 6px 18px rgba(30,40,70,.18)}
+.cta-free-btn{background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#0A162B}
+.cta-shop-btn{background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#fff}
+.cta-gate-btn{background:#fff;color:var(--navy);border:1.5px solid var(--gold-deep);box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.rv-btn{padding:16px;width:100%;box-sizing:border-box;margin:0;background:var(--navy);color:#fff;border:none;border-radius:14px;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer;box-sizing:border-box}
+
+/* 과학적 근거 (가)안 v14 */
+.sci-box{max-width:556px;margin:0 auto;border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(10,22,43,.14)}
+.sci-head{background:linear-gradient(180deg,var(--navy-2),var(--navy-deep));color:#fff;padding:26px 24px;cursor:pointer}
+.sci-eye{font-size:11px;letter-spacing:.2em;color:var(--gold);font-weight:700;text-align:center}
+.sci-ttl{font-family:var(--display);font-size:22px;font-weight:800;text-align:center;margin:8px 0 10px;display:flex;align-items:center;justify-content:center;gap:10px}
+.sci-arw{font-size:13px;color:var(--gold);transition:.3s}
+.sci-box.open .sci-arw{transform:rotate(180deg)}
+.sci-desc{font-size:13.5px;color:rgba(255,255,255,.82);text-align:center;line-height:1.7}
+.sci-body{background:#fff;max-height:0;overflow:hidden;transition:max-height .4s ease}
+.sci-box.open .sci-body{max-height:2400px}
+.sci-body-in{padding:20px 18px}
+.sci-item{border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:10px}
+.sci-item:last-child{margin-bottom:0}
+.sci-axis{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.08em;color:#fff;background:linear-gradient(135deg,var(--gold-deep),var(--gold));padding:4px 12px;border-radius:20px;margin-bottom:8px}
+.sci-author{font-family:var(--display);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.sci-find{font-size:13px;color:var(--text-sub);line-height:1.75;margin-bottom:8px}
+.sci-apply{font-size:12.5px;color:var(--navy);line-height:1.6;font-weight:500}
 </style>
 <script src="https://t1.kakao.com/kakao_js_sdk/2.7.2/kakao.min.js"></script>
 </head>
@@ -333,16 +374,15 @@
     <div class="hero-inner">
       <nav class="lf-nav">
         <a class="lf-nav-home" href="/">사랑흐름</a>
+        <a class="lf-nav-en" href="/en/" aria-label="English">🌐 EN</a>
         <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
       </nav>
       <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
       <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
         <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
         <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
-        <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener" onclick="try{gtag('event','click_store',{from:'menu'});}catch(e){}"><span class="ic">🗺️</span>여행지도 구매</a>
+        <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener" onclick="try{gtag('event','click_store',{from:'menu'});}catch(e){}"><span class="ic">🗺️</span>관계 여행 떠나기</a>
         <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
-        <a href="/about.html"><span class="ic">📖</span>소개</a>
-        <a href="/en/"><span class="ic">🌐</span>English</a>
         <a href="#" onclick="alert('관계 자서전은 준비 중이에요 🌱');return false;"><span class="ic">📕</span>관계 자서전 <span style="font-size:11px;color:#9CA3AF;font-weight:400">준비 중</span></a>
         <div id="lfMineGrp" style="display:none">
           <div class="lf-grp">내 여행</div>
@@ -425,46 +465,21 @@
   </div>
 
   <!-- ── 근거 ── -->
-  <div class="why">
-    <div class="container">
-      <div class="section">
-        <div class="sec-eyebrow">WHY IT WORKS</div>
-        <div class="sec-title sci-title" onclick="toggleSci(this)">과학적 근거</div>
-        <div class="sec-desc">LFRI의 다섯 축은 검증된 심리학 연구에 뿌리를 둡니다.</div>
-        <div class="sci-wrap">
-        <div class="sci-item">
-          <div class="sci-axis">관심 · ATTENTION</div>
-          <div class="sci-author">Gottman (1994)</div>
-          <div class="sci-find">관계에서 긍정적 관심과 부정적 반응의 비율이 <b>5:1 이상</b>일 때, 관계가 안정적으로 유지된다는 것을 수천 쌍의 관찰로 밝혀냈습니다.</div>
-          <div class="sci-apply">→ 사랑흐름은 이 관심의 흐름이 아직 살아있는지를 가장 먼저 읽습니다.</div>
-        </div>
-        <div class="sci-item">
-          <div class="sci-axis">연결 · CONNECTION</div>
-          <div class="sci-author">Bowen (1978)</div>
-          <div class="sci-find">가족 체계 이론. 특정 사람 앞에서 유독 흔들리는 것은 <b>자아 분화</b>와 정서적 거리의 문제이며, 이것이 관계 연결의 질을 결정합니다.</div>
-          <div class="sci-apply">→ 사랑흐름은 두 사람 사이의 정서적 거리를 좌표로 그려냅니다.</div>
-        </div>
-        <div class="sci-item">
-          <div class="sci-axis">온기 · WARMTH</div>
-          <div class="sci-author">Neff (2003)</div>
-          <div class="sci-find"><b>자기 자비</b>(self-compassion)가 높은 사람일수록, 관계에서 받은 상처를 회복하는 탄력성이 유의미하게 높았습니다.</div>
-          <div class="sci-apply">→ 사랑흐름은 상대를 보기 전에, 먼저 나를 따뜻하게 대하는 법부터 짚습니다.</div>
-        </div>
-        <div class="sci-item">
-          <div class="sci-axis">표현 · EXPRESSION</div>
-          <div class="sci-author">Pennebaker (1997)</div>
-          <div class="sci-find">표현하지 못한 감정을 단 며칠간 글로 기록한 것만으로, 관계 만족도가 <b>평균 34% 향상</b>되었습니다.</div>
-          <div class="sci-apply">→ 사랑흐름은 끝내 꺼내지 못한 한 문장을 글로 옮기게 합니다.</div>
-        </div>
-        <div class="sci-item">
-          <div class="sci-axis">회복 · RECOVERY</div>
-          <div class="sci-author">Chochinov (2005)</div>
-          <div class="sci-find"><b>존엄 치료</b>(Dignity Therapy). 자신의 이야기를 정리해 기록하는 것만으로도 심리적 안정감이 유의미하게 상승했습니다.</div>
-          <div class="sci-apply">→ 사랑흐름은 관계의 이야기를 기록해, 다시 다가설 힘을 만듭니다.</div>
-        </div>
-        <div class="sci-close" onclick="toggleSci(document.querySelector('.sci-title'))">접기 ▴</div>
-        </div>
+  <!-- ── 과학적 근거 (가)안: 네이비 제목띠 + 흰색 본문 ── -->
+  <div class="container" style="padding-top:42px;padding-bottom:42px">
+    <div class="sci-box" id="sciBox">
+      <div class="sci-head" onclick="toggleSci2()">
+        <div class="sci-eye">WHY IT WORKS</div>
+        <div class="sci-ttl">과학적 근거 <span class="sci-arw">&#9662;</span></div>
+        <div class="sci-desc">LFRI&trade;의 다섯 축은 검증된 심리학 연구에 뿌리를 둡니다</div>
       </div>
+      <div class="sci-body"><div class="sci-body-in">
+        <div class="sci-item"><span class="sci-axis">관심 · ATTENTION</span><div class="sci-author">Gottman (1994)</div><div class="sci-find">관계에서 긍정적 관심과 부정적 반응의 비율이 <b>5:1 이상</b>일 때, 관계가 안정적으로 유지된다는 것을 수천 쌍의 관찰로 밝혀냈습니다.</div><div class="sci-apply">&rarr; 사랑흐름은 이 관심의 흐름이 아직 살아있는지를 가장 먼저 읽습니다.</div></div>
+        <div class="sci-item"><span class="sci-axis">연결 · CONNECTION</span><div class="sci-author">Bowen (1978)</div><div class="sci-find">가족 체계 이론. 특정 사람 앞에서 유독 흔들리는 것은 <b>자아 분화</b>와 정서적 거리의 문제이며, 이것이 관계 연결의 질을 결정합니다.</div><div class="sci-apply">&rarr; 사랑흐름은 두 사람 사이의 정서적 거리를 좌표로 그려냅니다.</div></div>
+        <div class="sci-item"><span class="sci-axis">온기 · WARMTH</span><div class="sci-author">Neff (2003)</div><div class="sci-find"><b>자기 자비</b>(self-compassion)가 높은 사람일수록, 관계에서 받은 상처를 회복하는 탄력성이 유의미하게 높았습니다.</div><div class="sci-apply">&rarr; 사랑흐름은 상대를 보기 전에, 먼저 나를 따뜻하게 대하는 법부터 짚습니다.</div></div>
+        <div class="sci-item"><span class="sci-axis">표현 · EXPRESSION</span><div class="sci-author">Pennebaker (1997)</div><div class="sci-find">표현하지 못한 감정을 단 며칠간 글로 기록한 것만으로, 관계 만족도가 <b>평균 34% 향상</b>되었습니다.</div><div class="sci-apply">&rarr; 사랑흐름은 끝내 꺼내지 못한 한 문장을 글로 옮기게 합니다.</div></div>
+        <div class="sci-item"><span class="sci-axis">회복 · RECOVERY</span><div class="sci-author">Chochinov (2005)</div><div class="sci-find"><b>존엄 치료</b>(Dignity Therapy). 자신의 이야기를 정리해 기록하는 것만으로도 심리적 안정감이 유의미하게 상승했습니다.</div><div class="sci-apply">&rarr; 사랑흐름은 관계의 이야기를 기록해, 다시 다가설 힘을 만듭니다.</div></div>
+      </div></div>
     </div>
   </div>
 
@@ -473,8 +488,9 @@
     <div class="container">
       <div class="section">
         <div class="cta-shop">
-          <div class="cta-shop-label">이제, 여행을 떠나 봐요 🌿</div>
-          <a class="cta-shop-btn" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener" onclick="try{gtag('event','click_store',{from:'hero'});}catch(e){}">🗺️ 여행지도 시작하기 →</a>
+          <div class="cta-shop-label">이제, 관계 여행을 떠나 봐요 🌿</div>
+          <a class="cta-free-btn" href="/compass.html" onclick="try{gtag('event','click_compass',{from:'home_cta'});}catch(e){}">🧭 무료 나침반 →</a>
+          <a class="cta-shop-btn" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener" onclick="try{gtag('event','click_store',{from:'hero'});}catch(e){}return confirm('네이버 스마트스토어(외부)로 이동합니다.\n구매 후, 받으신 주문번호로 관계 여권을 발급받으세요.');">🗺️ 관계 여행 떠나기 (유료) →</a>
         </div>
         <div class="cta-gate">
           <div class="cta-gate-label">이미 구매하셨나요?<br>관계 여권을 발급받고 여행을 시작하세요</div>
@@ -549,6 +565,7 @@
   <script>
     /* ── 카카오 SDK (v3 그대로 보존 · 키 변경 금지) ── */
     try{ Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); }catch(e){}
+    function toggleSci2(){var b=document.getElementById("sciBox");if(b)b.classList.toggle("open");}
     function toggleSci(el){ el.classList.toggle("open"); var w=el.parentElement.querySelector(".sci-wrap"); if(w) w.classList.toggle("open"); }
     function toggleAxis(el){ el.classList.toggle("open"); }
     function toggleStep(el){ var c=el.closest(".step-card"); if(c) c.classList.toggle("open"); }
