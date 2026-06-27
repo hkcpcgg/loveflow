@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- 사랑흐름 share.html v4 · shareCard imageUrl도 og-share_v1로 통일 · og:image=og-share_v1_260627 지정(카톡 썸네일 연결) · 나눠주기 버튼 추가(문득 떠오르는 사람이 있나요 → 그 사람에게 보내기, 네이비 아웃라인=무료버튼보다 약하게) · 설명박스 제거+사업자/저작권 추가 · 친구만장일치 반영: 카피강화(A①읽어줍니다)+버튼강화(B①5분무료확인)+QR제거→관계초대장 · 영문 악센트 소량 추가(계절 영문라벨 토글연동·시그니처·브랜드 LOVE FLOW) — 떡칠 금지 · 경로안내+설득 버튼 추가(다번: 내 관계는 어떤 계절일까·무료로 보기 → /compass) · 2026.06.27 · 계절 질문형(친구 6/20 결론: "엄마와의 관계는 지금 어떤 계절?") + 관계대상 토글 · 카톡/인스타 공유용 · [독립시안] -->
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>사랑흐름 공유카드 시안</title>
+<meta property="og:title" content="우리 관계는 지금 어떤 계절일까요?">
+<meta property="og:description" content="MBTI는 성격까지, 우리 사이의 계절은 사랑흐름이 읽어줍니다. 5분 무료.">
+<meta property="og:image" content="https://www.loveflow.ai.kr/og-share_v1_260627.png">
+<meta property="og:url" content="https://www.loveflow.ai.kr/share.html">
+<meta property="og:type" content="website">
+
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#102543;--navy2:#1E4A76;--gold:#D4AF37;--gold2:#C9A24B;--cream:#FDF6E3;--ink:#1A1A2E}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;background:#EDEAE0;padding:30px 16px;color:var(--ink)}
+.wrap{max-width:400px;margin:0 auto}
+.lab{text-align:center;font-size:12px;color:#8A8270;margin:18px 0 10px;letter-spacing:.02em}
+
+/* 토글 */
+.toggle{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-bottom:16px}
+.toggle button{font-family:'Noto Sans KR';font-size:13px;font-weight:700;padding:8px 14px;border-radius:999px;border:1.5px solid #D8D2C2;background:#fff;color:#6B6655;cursor:pointer;transition:.2s}
+.toggle button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+
+/* 카드 본체 (9:16 느낌, 카톡/스토리) */
+.card{position:relative;aspect-ratio:4/5;border-radius:22px;overflow:hidden;box-shadow:0 20px 50px rgba(16,37,67,.3);background:linear-gradient(165deg,#16243f 0%,#0C1A30 55%,#0A1322 100%)}
+/* 계절 별·인드라망 분위기 */
+.stars{position:absolute;inset:0;opacity:.5}
+.card-in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px 28px;color:#fff}
+.sig-en{font-size:9.5px;letter-spacing:.34em;color:rgba(212,175,55,.75);font-weight:700;margin-bottom:20px}
+.season-en{font-family:'Nanum Myeongjo',serif;font-size:11px;letter-spacing:.22em;color:rgba(255,255,255,.55);margin:8px 0 16px;font-weight:400}
+.season-emoji{font-size:54px;line-height:1;margin-bottom:0;filter:drop-shadow(0 4px 16px rgba(212,175,55,.4))}
+.q{font-family:'Nanum Myeongjo',serif;font-size:25px;font-weight:800;line-height:1.5;color:#F4ECD6}
+.q .who{color:var(--gold);border-bottom:2px solid rgba(212,175,55,.5)}
+.sub{margin-top:22px;font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.7;font-weight:500}
+.sub b{color:#EBD9A8;font-weight:700}
+.brand{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(0deg,rgba(8,16,30,.85),transparent);font-size:12px;color:rgba(255,255,255,.75)}
+.brand .logo{font-family:'Nanum Myeongjo',serif;font-weight:800;color:#F4ECD6;font-size:14px}
+.brand .dot{color:var(--gold)}
+
+/* QR 자리 */
+.invite{position:absolute;top:16px;right:16px;z-index:3;padding:7px 12px;border-radius:999px;border:1px solid rgba(212,175,55,.6);background:rgba(212,175,55,.12);font-family:'Nanum Myeongjo',serif;font-size:10px;font-weight:700;color:#EBD9A8;text-align:center;line-height:1.35;letter-spacing:.04em}
+
+.cta-btn{display:block;margin:18px 6px 0;text-align:center;background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#0A162B;font-size:16.5px;font-weight:800;padding:18px;border-radius:15px;text-decoration:none;box-shadow:0 10px 26px rgba(201,162,75,.5)}
+.cta-cap{text-align:center;font-size:11.5px;color:#8A8270;margin-top:9px;line-height:1.6}
+.note{background:#fff;border:1px solid #E6E2D7;border-radius:14px;padding:16px;margin-top:20px;font-size:13px;color:#5A5648;line-height:1.8}
+.note b{color:var(--navy2)}
+
+.share-ask{text-align:center;font-size:13.5px;color:#6B6655;margin:18px 0 9px;font-family:'Nanum Myeongjo',serif}
+.share-btn{display:block;width:100%;max-width:440px;margin:0 auto;box-sizing:border-box;padding:15px;background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:14px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
+</style></head><body>
+<div class="wrap">
+  <div class="lab">관계 대상을 골라보세요 (보내는 사람이 선택)</div>
+  <div class="toggle" id="tg">
+    <button class="on" data-who="엄마" data-em="🍂" data-en="LATE AUTUMN">엄마</button>
+    <button data-who="아빠" data-em="🌳" data-en="DEEP WINTER">아빠</button>
+    <button data-who="그 사람" data-em="🌸" data-en="EARLY SPRING">연인</button>
+    <button data-who="오랜 친구" data-em="☀️" data-en="LATE SUMMER">친구</button>
+    <button data-who="나 자신" data-em="🌙" data-en="QUIET NIGHT">나 자신</button>
+  </div>
+
+  <div class="card">
+    <svg class="stars" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+      <g fill="#fff"><circle cx="50" cy="60" r="1.3"/><circle cx="120" cy="40" r="1"/><circle cx="320" cy="70" r="1.4"/><circle cx="360" cy="130" r="1"/><circle cx="40" cy="160" r="1.1"/><circle cx="280" cy="200" r="1"/><circle cx="90" cy="430" r="1.2"/><circle cx="340" cy="400" r="1"/><circle cx="200" cy="470" r="1.1"/><circle cx="160" cy="100" r=".9"/></g>
+      <g stroke="rgba(212,175,55,.25)" stroke-width="1"><line x1="200" y1="250" x2="120" y2="180"/><line x1="200" y1="250" x2="300" y2="190"/><line x1="200" y1="250" x2="250" y2="350"/></g>
+      <circle cx="120" cy="180" r="4" fill="rgba(111,207,151,.6)"/><circle cx="300" cy="190" r="4" fill="rgba(111,168,201,.6)"/><circle cx="250" cy="350" r="4" fill="rgba(224,168,90,.6)"/>
+      <circle cx="200" cy="250" r="6" fill="var(--gold)" opacity=".7"/>
+    </svg>
+    <div class="invite">관계<br>초대장</div>
+    <div class="card-in">
+      <div class="sig-en">WHAT SEASON ARE WE IN?</div>
+      <div class="season-emoji" id="cEm">🍂</div>
+      <div class="season-en" id="cEn">LATE AUTUMN</div>
+      <div class="q"><span class="who" id="cWho">엄마</span>와 나,<br>지금 어떤 계절일까요?</div>
+      <div class="sub">MBTI는 성격까지,<br>우리 사이의 계절은<br><b>사랑흐름이 읽어줍니다</b></div>
+    </div>
+    <div class="brand"><span class="logo">사랑흐름</span><span style="font-size:9px;letter-spacing:.18em;color:rgba(212,175,55,.8)">LOVE FLOW</span><span class="dot">·</span><span>loveflow.ai.kr</span></div>
+  </div>
+
+  <a class="cta-btn" href="/compass.html" onclick="try{gtag('event','click_compass',{from:'sharecard'});}catch(e){}">🧭 우리 관계의 계절 · 5분 무료로 확인 →</a>
+  <div class="cta-cap">5분 · 무료 · loveflow.ai.kr</div>
+
+  <div class="share-ask">문득 떠오르는 사람이 있나요?</div>
+  <button class="share-btn" onclick="shareCard()">💌 그 사람에게 보내기</button>
+  <div style="text-align:center;font-size:10px;color:#9A9484;margin-top:18px;line-height:1.7">
+    사랑흐름 · LFRI™ · LOVE FLOW<br>
+    대표 황규찬 · 경기 파주시 매봉길 17-13 · 070-4158-7786 · hkcpcgg@gmail.com<br>
+    사업자 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열<br>
+    © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.
+  </div>
+</div>
+<script>
+var tg=document.getElementById('tg');
+tg.addEventListener('click',function(e){
+  var b=e.target.closest('button'); if(!b)return;
+  [].forEach.call(tg.children,function(x){x.classList.remove('on');});
+  b.classList.add('on');
+  document.getElementById('cWho').textContent=b.dataset.who;
+  document.getElementById('cEm').textContent=b.dataset.em;
+  document.getElementById('cEn').textContent=b.dataset.en;
+});
+</script>
+<script>
+function shareCard(){
+  try{
+    if(window.Kakao && Kakao.Share){
+      Kakao.Share.sendDefault({
+        objectType:'feed',
+        content:{
+          title:'우리 관계는 지금 어떤 계절일까요?',
+          description:'문득 당신이 떠올랐어요. 5분이면 우리 사이의 계절을 읽어준대요.',
+          imageUrl:'https://www.loveflow.ai.kr/og-share_v1_260627.png',
+          link:{mobileWebUrl:'https://www.loveflow.ai.kr/compass.html',webUrl:'https://www.loveflow.ai.kr/compass.html'}
+        },
+        buttons:[{title:'우리 계절 확인하기',link:{mobileWebUrl:'https://www.loveflow.ai.kr/compass.html',webUrl:'https://www.loveflow.ai.kr/compass.html'}}]
+      });
+    } else {
+      var url='https://www.loveflow.ai.kr/compass.html';
+      if(navigator.share){navigator.share({title:'우리 관계의 계절',text:'문득 당신이 떠올랐어요. 우리 사이는 지금 어떤 계절일까요?',url:url});}
+      else{navigator.clipboard.writeText(url);alert('링크가 복사되었어요. 그 사람에게 붙여넣어 보내세요 🌿');}
+    }
+  }catch(e){
+    var u='https://www.loveflow.ai.kr/compass.html';
+    try{navigator.clipboard.writeText(u);alert('링크가 복사되었어요 🌿');}catch(e2){}
+  }
+}
+</script>
+</body></html>
