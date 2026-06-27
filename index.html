@@ -15,7 +15,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사랑흐름 · 관계 회복의 나침반</title>
 <!-- ════════════════════════════════════════════════════════════════
- 사랑흐름 홈 · index.html · v11 · 2026.06.24 · [작업 v11] GA4 깔때기 이벤트 click_store(스토어 CTA 2곳: 메뉴·히어로) / v10 · 2026.06.24 · [작업 v10] GA4 측정(G-DWCSSE71NS) head 삽입 / v9 · 2026.06.24 · [작업 v9] 자체 topnav(SVG로고·English·햄버거 드롭다운)을 통일 길잡이(좌 브랜드=홈 + 우 ☰ 슬라이드)로 교체 — 전 페이지 통일. 메뉴=무료나침반·여행지도구매·마음편지·소개·English·관계자서전(준비중). [보존] 모든 CTA·findPassport·카카오·SEO. / v8 · 2026.06.24 · [작업 v8] 조회창 아래 "여권번호를 잊으셨나요?" 찾기 기능 추가
+ 사랑흐름 홈 · index.html · v15 · 2026.06.27 · [작업 v15] 첫화면에 "찔림 카드" 메인 삽입(엄마/아빠/연인/친구/나 5관계 자동페이드+도트, 가운데 대상별 SVG아이콘, CTA 의미연결) — 친구4 만장일치 "수정후GO: 찔림 위/결과물 아래". 결과물 견본 갤러리는 찔림 아래로 위치이동+캡션 "여행을 마치면, 당신에게 남는 결과물". 헤더 EN→"🌐 English" 풀네임+햄버거 옆 묶음(lf-nav-right). [절대보존·검증완료] 유료GAS(M1A)·편지GAS(DTLjdA)·카카오키·GA4·스마트스토어CTA·여권조회(findPassport/lookupResult)·gate/issuePassport·잠금·5축·과학근거 전부 라이브와 1:1 동일. / v11 · 2026.06.24 · [작업 v11] GA4 깔때기 이벤트 click_store(스토어 CTA 2곳: 메뉴·히어로) / v10 · 2026.06.24 · [작업 v10] GA4 측정(G-DWCSSE71NS) head 삽입 / v9 · 2026.06.24 · [작업 v9] 자체 topnav(SVG로고·English·햄버거 드롭다운)을 통일 길잡이(좌 브랜드=홈 + 우 ☰ 슬라이드)로 교체 — 전 페이지 통일. 메뉴=무료나침반·여행지도구매·마음편지·소개·English·관계자서전(준비중). [보존] 모든 CTA·findPassport·카카오·SEO. / v8 · 2026.06.24 · [작업 v8] 조회창 아래 "여권번호를 잊으셨나요?" 찾기 기능 추가
    · 찾기 패널(전화뒤4·이메일·결제날짜·결제시간·구입처) → GAS findPassport(JSONP, M1A) 호출
    · (전화 OR 이메일) 필수 + 총 3개 이상 일치 시에만 후보 노출 / 여권번호는 가려 표시 / 선택 시 기존 lookupResult 흐름 재사용
    · [보존] 조회창(pp-input·lookupResult)·카카오·공유·SEO·CTA 전부 미변경
@@ -338,7 +338,8 @@
 
 .cta-free-btn{display:block;background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#0A162B;font-size:16px;font-weight:800;padding:15px 24px;border-radius:14px;text-decoration:none;margin-bottom:10px;box-shadow:0 6px 18px rgba(201,162,75,.35)}
 
-.lf-nav-en{font-size:13px;font-weight:700;color:var(--navy);text-decoration:none;border:1.5px solid var(--line);border-radius:20px;padding:5px 12px;margin-right:10px;background:#fff}
+.lf-nav-right{display:flex;align-items:center;gap:10px}
+.lf-nav-en{font-size:13px;font-weight:700;color:var(--navy);text-decoration:none;border:1.5px solid var(--line);border-radius:20px;padding:5px 13px;background:#fff;white-space:nowrap}
 
 /* 버튼 규격 통일 (v13-2) */
 .cta-shop-btn,.cta-free-btn,.cta-gate-btn{display:block;width:100%;max-width:440px;margin:0 auto 10px;box-sizing:border-box;padding:16px;border-radius:14px;font-size:16px;font-weight:800;text-decoration:none;text-align:center;box-shadow:0 6px 18px rgba(30,40,70,.18)}
@@ -374,8 +375,10 @@
     <div class="hero-inner">
       <nav class="lf-nav">
         <a class="lf-nav-home" href="/">사랑흐름</a>
-        <a class="lf-nav-en" href="/en/" aria-label="English">🌐 EN</a>
-        <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+        <div class="lf-nav-right">
+          <a class="lf-nav-en" href="/en/" aria-label="English">🌐 English</a>
+          <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+        </div>
       </nav>
       <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
       <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
@@ -401,8 +404,42 @@
 
   <!-- ── 소개 ── -->
   <div class="container">
+  <!-- ── 찔림 카드 (신규 메인) ── -->
+  <style>
+  .jj-wrap{max-width:556px;margin:18px auto 0;padding:0 22px}
+  .jj-card{position:relative;border-radius:20px;overflow:hidden;background:linear-gradient(165deg,#16243f,#0C1A30 60%,#0A1322);box-shadow:0 18px 44px rgba(16,37,67,.3);min-height:330px}
+  .jj-stars{position:absolute;inset:0;opacity:.5}
+  .jj-in{position:relative;z-index:2;padding:34px 26px 30px;text-align:center;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .jj-en{font-family:'Nanum Myeongjo',serif;font-size:11px;letter-spacing:.28em;color:rgba(212,175,55,.8);font-weight:700;transition:opacity .9s ease,transform .9s ease}
+  .jj-ic{height:60px;display:flex;align-items:center;justify-content:center;margin:16px 0 14px;transition:opacity .9s ease,transform .9s ease}
+  .jj-q{font-family:'Nanum Myeongjo',serif;font-size:25px;font-weight:800;line-height:1.5;color:#F4ECD6;transition:opacity .9s ease,transform .9s ease}
+  .jj-q .hl{color:#D4AF37;border-bottom:2px solid rgba(212,175,55,.5)}
+  .jj-sub{margin-top:18px;font-size:14px;color:rgba(255,255,255,.72);line-height:1.7;transition:opacity .9s ease,transform .9s ease}
+  .jj-in.fade .jj-en,.jj-in.fade .jj-ic,.jj-in.fade .jj-q,.jj-in.fade .jj-sub{opacity:0;transform:translateY(10px)}
+  .jj-dots{display:flex;gap:7px;justify-content:center;margin:16px 0 0;position:relative;z-index:3}
+  .jj-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.28);transition:.3s;cursor:pointer}
+  .jj-dot.on{background:#D4AF37;width:20px;border-radius:4px}
+  .jj-cta{display:block;max-width:440px;margin:16px auto 0;text-align:center;background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#0A162B;font-size:16px;font-weight:800;padding:16px;border-radius:14px;text-decoration:none;box-shadow:0 10px 26px rgba(201,162,75,.45)}
+  </style>
+  <div class="jj-wrap">
+    <div class="jj-card">
+      <svg class="jj-stars" viewBox="0 0 560 330" preserveAspectRatio="xMidYMid slice">
+        <g fill="#fff"><circle cx="60" cy="40" r="1.3"/><circle cx="180" cy="30" r="1"/><circle cx="460" cy="55" r="1.4"/><circle cx="510" cy="120" r="1"/><circle cx="40" cy="150" r="1.1"/><circle cx="420" cy="200" r="1"/><circle cx="120" cy="280" r="1.2"/><circle cx="490" cy="270" r="1"/><circle cx="280" cy="300" r="1.1"/><circle cx="230" cy="70" r=".9"/></g>
+      </svg>
+      <div class="jj-in" id="jjIn">
+        <div class="jj-en" id="jjEn">LATE AUTUMN</div>
+        <div class="jj-ic" id="jjIc"></div>
+        <div class="jj-q" id="jjQ">요즘,<br><span class="hl">엄마</span> 생각이 나시나요?</div>
+        <div class="jj-sub" id="jjSub">사랑하지 않아서가 아니라,<br>서로의 계절이 달랐을지도 모릅니다.</div>
+      </div>
+      <div class="jj-dots" id="jjDots"></div>
+    </div>
+    <a class="jj-cta" href="/compass.html" id="jjCta">🧭 내 관계, 5분 무료로 읽어보기 →</a>
+  </div>
+
+  <div class="lf-gallery-cap" style="margin-top:30px">여행을 마치면, 당신에게 남는 결과물</div>
+
     <div class="section" style="padding-top:8px; text-align:center">
-      <div class="lf-gallery-cap">관계 여행을 마치면 받게 되는 결과물 견본</div>
       <div class="lf-gallery"><div class="lf-track" id="lfTrack">
       <div class="lf-fr"><div class="lf-mt"><div class="lf-art lf-type"><div class="ic">🪨</div><div class="tn">따뜻한 관찰자</div><div class="en">THE WARM OBSERVER</div><div class="q">"마음은 있는데,<br>표현이 멈춘 계절"</div></div></div><div class="lf-pl"><div class="nm">여행자 유형</div><div class="ds">나의 관계 성향</div></div></div>
       <div class="lf-fr"><div class="lf-mt"><div class="lf-art lf-radar"><div class="t">LFRI™ · 5축 관계 흐름</div><svg width="160" height="160" viewBox="0 0 220 220"><g stroke="#E2E8F0" fill="none" stroke-width="1"><polygon points="110,20 200,80 165,185 55,185 20,80"/><polygon points="110,56 158,96 139,167 81,167 56,96"/></g><polygon points="110,38 175,88 150,170 70,150 45,92" fill="rgba(201,162,75,.22)" stroke="#C9A24B" stroke-width="2"/><g font-size="11" fill="#1E4A76" font-weight="700" text-anchor="middle"><text x="110" y="14">관심</text><text x="210" y="80">연결</text><text x="168" y="200">온기</text><text x="52" y="200">표현</text><text x="12" y="80">회복</text></g></svg></div></div><div class="lf-pl"><div class="nm">5축 관계 흐름</div><div class="ds">관심·연결·온기·표현·회복</div></div></div>
@@ -661,6 +698,39 @@ document.getElementById("lfMineGrp").style.display="block";}})();
 (function(){var t=document.getElementById('lfTrack');if(!t)return;var g=t.parentElement;
 function pause(){t.classList.add('paused');clearTimeout(window._lfrt);window._lfrt=setTimeout(function(){t.classList.remove('paused');},4000);}
 ['mousedown','touchstart','wheel'].forEach(function(e){g.addEventListener(e,pause,{passive:true});});})();
+</script>
+<script>
+(function(){
+ var IC={
+  mom:'<svg viewBox="0 0 48 48" width="58" height="58"><circle cx="24" cy="15" r="7" fill="none" stroke="#E0A85A" stroke-width="2.2"/><path d="M12 40c0-8 5.4-13 12-13s12 5 12 13" fill="none" stroke="#E0A85A" stroke-width="2.2" stroke-linecap="round"/><path d="M17 13c2-4 12-4 14 0" fill="none" stroke="#E0A85A" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  dad:'<svg viewBox="0 0 48 48" width="58" height="58"><circle cx="24" cy="15" r="7" fill="none" stroke="#6FA8C9" stroke-width="2.2"/><path d="M13 41c0-7 5-12 11-12s11 5 11 12" fill="none" stroke="#6FA8C9" stroke-width="2.2" stroke-linecap="round"/><path d="M18 11h12" stroke="#6FA8C9" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  lover:'<svg viewBox="0 0 48 48" width="58" height="58"><path d="M24 39C13 31 8 24 8 17.5 8 12.8 11.8 9 16.5 9c2.9 0 5.6 1.5 7.5 3.9C25.9 10.5 28.6 9 31.5 9 36.2 9 40 12.8 40 17.5 40 24 35 31 24 39z" fill="none" stroke="#E69BB4" stroke-width="2.2" stroke-linejoin="round"/></svg>',
+  friend:'<svg viewBox="0 0 48 48" width="58" height="58"><circle cx="16" cy="16" r="6" fill="none" stroke="#6FCF97" stroke-width="2.2"/><circle cx="32" cy="16" r="6" fill="none" stroke="#6FCF97" stroke-width="2.2"/><path d="M6 40c0-7 4.5-11 10-11s10 4 10 11" fill="none" stroke="#6FCF97" stroke-width="2.2" stroke-linecap="round"/><path d="M22 40c0-7 4.5-11 10-11s10 4 10 11" fill="none" stroke="#6FCF97" stroke-width="2.2" stroke-linecap="round" opacity=".75"/></svg>',
+  self:'<svg viewBox="0 0 48 48" width="58" height="58"><circle cx="24" cy="15" r="7" fill="none" stroke="#A7AEDB" stroke-width="2.2"/><path d="M12 40c0-8 5.4-13 12-13s12 5 12 13" fill="none" stroke="#A7AEDB" stroke-width="2.2" stroke-linecap="round"/><circle cx="38" cy="11" r="5" fill="none" stroke="#A7AEDB" stroke-width="1.6" opacity=".6"/></svg>'
+ };
+ var S=[
+  {ic:'mom',en:'LATE AUTUMN',q:'요즘,<br><span class="hl">엄마</span> 생각이 나시나요?',sub:'사랑하지 않아서가 아니라,<br>서로의 계절이 달랐을지도 모릅니다.',cta:'🧭 엄마와의 계절, 무료로 읽어보기 →'},
+  {ic:'dad',en:'DEEP WINTER',q:'<span class="hl">아빠</span>는 왜 늘<br>그렇게 말했을까요?',sub:'미워서가 아니라,<br>표현의 계절이 달랐을 뿐입니다.',cta:'🧭 아빠와의 계절, 무료로 읽어보기 →'},
+  {ic:'lover',en:'EARLY SPRING',q:'사랑이 식은 걸까요,<br>계절이 달라진 걸까요?',sub:'<span class="hl">그 사람</span>과 나 사이,<br>지금 어디쯤 와 있을까요.',cta:'🧭 우리의 계절, 무료로 읽어보기 →'},
+  {ic:'friend',en:'LATE SUMMER',q:'왜 멀어졌는지<br>모를 사람이 있나요?',sub:'<span class="hl">오랜 친구</span>와의 계절,<br>다시 읽어볼 수 있어요.',cta:'🧭 그 사람과의 계절, 무료로 읽어보기 →'},
+  {ic:'self',en:'QUIET NIGHT',q:'나는 언제부터<br>내 마음을 미뤘을까요?',sub:'<span class="hl">나 자신</span>과의 계절도<br>들여다볼 때가 됐어요.',cta:'🧭 나와의 계절, 무료로 읽어보기 →'}
+ ];
+ var i=0,t=null;
+ var jin=document.getElementById('jjIn'),en=document.getElementById('jjEn'),ic=document.getElementById('jjIc'),
+     q=document.getElementById('jjQ'),sub=document.getElementById('jjSub'),cta=document.getElementById('jjCta'),
+     dots=document.getElementById('jjDots');
+ S.forEach(function(_,k){var d=document.createElement('div');d.className='jj-dot'+(k===0?' on':'');d.onclick=function(){go(k);rest();};dots.appendChild(d);});
+ function paint(k){var s=S[k];jin.classList.add('fade');
+   setTimeout(function(){en.textContent=s.en;ic.innerHTML=IC[s.ic];q.innerHTML=s.q;sub.innerHTML=s.sub;cta.textContent=s.cta;
+     [].forEach.call(dots.children,function(x,xi){x.classList.toggle('on',xi===k);});
+     jin.classList.remove('fade');},900);}
+ function go(k){i=k;paint(i);}
+ function nx(){i=(i+1)%S.length;paint(i);}
+ function start(){stop();t=setInterval(nx,4600);}
+ function stop(){if(t){clearInterval(t);t=null;}}
+ function rest(){stop();setTimeout(start,6000);}
+ ic.innerHTML=IC['mom'];start();
+})();
 </script>
 </body>
 </html>
