@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 관계여권 발급 신청 apply.html · v7 · 2026.06.29 · [작업 v4] 대표 확정 구조 전면 반영: ①한 화면 통합 ②계좌 먼저(맨위) ③2단계 잠금(입금완료 버튼 눌러야 접수 단계 열림 — 의무→권리) ④필수4개 전부검증(은행명·입금자명·전화뒤4·입금완료), 하나라도 빠지면 접수거부 ⑤은행 드롭다운+기타 ⑥주문번호=날짜+전화뒤4(0629-3565, 매출노출·충돌없음) ⑦입금알림=별도 카톡타이핑 불필요(버튼이 신고). JSONP방식(CORS회피). GAS=board v2(AKfycbxaUO...exec, doGet apply 처리). 시트=18q8ut APPLY탭. 계좌=기업은행 019.355.3565(황규찬). 채널=pf.kakao.com/_ExndxfX. [v7] 버튼 3개(계좌복사·이용정책·입금완료) 사이즈 통일(width100%·padding9/18·radius20·13px·border1.5). [v6] 긴 제공기간·환불 문구 삭제(중복-약관에 있음), "서비스 이용정책" 링크 배너(/trust.html, 계좌복사버튼 크기)로 대체. 예금주="사랑흐름(예금주 황규찬)". 입구 가볍게. [v5] 의결 반영분 일부. 발급엔진(gate·issuePassport·주문대장·journey) 0손댐. -->
+<!-- 사랑흐름 관계여권 발급 신청 apply.html · v8 · 2026.06.29 · [작업 v4] 대표 확정 구조 전면 반영: ①한 화면 통합 ②계좌 먼저(맨위) ③2단계 잠금(입금완료 버튼 눌러야 접수 단계 열림 — 의무→권리) ④필수4개 전부검증(은행명·입금자명·전화뒤4·입금완료), 하나라도 빠지면 접수거부 ⑤은행 드롭다운+기타 ⑥주문번호=날짜+전화뒤4(0629-3565, 매출노출·충돌없음) ⑦입금알림=별도 카톡타이핑 불필요(버튼이 신고). JSONP방식(CORS회피). GAS=board v2(AKfycbxaUO...exec, doGet apply 처리). 시트=18q8ut APPLY탭. 계좌=기업은행 019.355.3565(황규찬). 채널=pf.kakao.com/_ExndxfX. [v8] ①접수증 카카오·이메일 버튼 삭제(앞 단계서 입금완료+정보입력으로 신고완료, 중복) ②gate식 통일 햄버거 네비(lf-nav 좌 사랑흐름+우 ☰ + lf-menu 슬라이드 + lf-backdrop, lfMenuOpen/Close) 이식 — 고객 길잃음 해결·전페이지 일관성. 저장안내 유지. [v7] 버튼3개 통일(width100%·padding9/18·radius20·13px·border1.5). [v6] 긴 제공기간·환불 문구 삭제(중복-약관에 있음), "서비스 이용정책" 링크 배너(/trust.html, 계좌복사버튼 크기)로 대체. 예금주="사랑흐름(예금주 황규찬)". 입구 가볍게. [v5] 의결 반영분 일부. 발급엔진(gate·issuePassport·주문대장·journey) 0손댐. -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -11,7 +11,20 @@
 *{box-sizing:border-box}
 body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;color:var(--text);max-width:440px;margin:0 auto;min-height:100vh;display:flex;flex-direction:column}
 .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,227,0.95);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid #E2E8F0;padding:10px 14px}
-.lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;text-decoration:none;font-family:'Nanum Myeongjo',serif}
+.lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Nanum Myeongjo',serif}
+.lf-nav-burger{background:none;border:none;cursor:pointer;color:#1E4A76;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px}
+.lf-nav-burger:hover{background:rgba(30,74,118,0.08)}
+.lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,0.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
+.lf-menu.open{transform:translateX(0)}
+.lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:4px 18px 14px;border-bottom:1px solid #E2E8F0;margin-bottom:6px}
+.lf-menu-head .t{font-family:'Nanum Myeongjo',serif;color:#1E4A76;font-weight:800;font-size:15px}
+.lf-menu-close{background:none;border:none;font-size:24px;color:#4B5563;cursor:pointer;line-height:1}
+.lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
+.lf-menu a:hover{background:#FAF7EE}
+.lf-menu a .ic{width:22px;text-align:center;font-size:16px}
+.lf-menu a.lf-buy{color:#B8923E}
+.lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+.lf-backdrop.open{opacity:1;visibility:visible}
 .wrap{flex:1;padding:22px 20px 38px}
 .card{background:#fff;border:1.5px solid var(--line);border-radius:20px;padding:26px 20px;box-shadow:0 4px 24px rgba(30,74,118,0.06)}
 .stamp{width:58px;height:58px;margin:0 auto 12px;border:2.5px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:30px;color:var(--gold);transform:rotate(-8deg)}
@@ -67,7 +80,18 @@ footer b{color:rgba(255,255,255,0.85)}
 </style>
 </head>
 <body>
-<div class="lf-nav"><a class="lf-nav-home" href="/">사랑흐름</a></div>
+<div class="lf-nav">
+  <a class="lf-nav-home" href="/">사랑흐름</a>
+  <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+</div>
+<div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+<nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+  <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+  <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
+  <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
+  <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
+  <a href="/about.html"><span class="ic">📖</span>소개</a>
+</nav>
 
 <div class="wrap">
   <!-- 신청 화면 -->
@@ -150,13 +174,7 @@ footer b{color:rgba(255,255,255,0.85)}
       받으시면 <b>화면 캡처나 PDF로 꼭 저장</b>해 주세요.<br>
       재열람은 보장되지 않으며, 보관은 본인 책임입니다.
     </div>
-    <div class="ritual" style="margin-top:14px;font-size:12px;color:var(--text-sub)">
-      혹시 문의가 있으시면 아래로 연락 주세요.
-    </div>
-    <div class="ch-row">
-      <a class="ch-btn" href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">💬 카카오 채널</a>
-      <a class="mail-btn" href="mailto:hkcpcgg@gmail.com">✉ 이메일 문의</a>
-    </div>
+
   </div>
 </div>
 
@@ -168,6 +186,8 @@ footer b{color:rgba(255,255,255,0.85)}
 </footer>
 
 <script>
+function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
+function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
 var RECEIPT_GAS = 'https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec';
 var isPaid = false;
 
