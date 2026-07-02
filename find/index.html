@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>여권번호 조회 부품 · 시안</title>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
-<!-- 사랑흐름 여권 찾기 부품 · 버전 260702-v2 (신규) · find.html로 배포 예정 · · 관계 선택 전면 강조(다중관계 암시) · 공용(메인·편지·여행지도·자서전) · 실제 파일 아님 -->
+<!-- 사랑흐름 여권 찾기 부품 · 버전 260702-v3 (신규) · find.html로 배포 예정 · · 관계 선택 전면 강조(다중관계 암시) · 공용(메인·편지·여행지도·자서전) · 실제 파일 아님 -->
 <style>
   :root{--cream:#FAFAF8;--cream2:#F5F3ED;--card:#fff;--line:#E6E2D7;--navy:#1E4A76;--navyd:#102543;--gold:#C9A96E;--goldd:#B8923E;--ink:#2A2A28;--sub:#7A7368;--serif:'Nanum Myeongjo',serif}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -147,24 +147,12 @@
 
     <button class="btn" id="findBtn" onclick="doFind()">🌊 내 사랑흐름 여권 찾기</button>
 
-    <!-- 결과 (시안: 예시 표시 / 실제는 JS가 채움) -->
-    <div class="result" id="result">
-      <div class="rmore" style="margin-bottom:10px;color:var(--goldd);font-weight:700;text-align:center">✦ 찾은 사랑흐름 여행 (관계별)</div>
-      <div class="rcard">
-        <div class="rc-rel">🌷 어머니 · 엄마</div>
-        <div class="rc-pp">LF-N8J2U</div>
-        <div class="rc-cardbtns"><button class="rc-cbtn rc-copy" onclick="copyOne('LF-N8J2U')">📋 복사</button><a class="rc-cbtn rc-letter" href="https://www.loveflow.ai.kr/letter?id=LF-N8J2U" target="_top">✍️ 이 여권으로 편지</a></div>
-      </div>
-      <div class="rmore">같은 날 여러 분과 여행하셨다면 관계별로 모두 나와요.</div>
-    </div>
-    <div class="result" id="resultLive" style="display:none">
-      <div class="rmore" style="margin-bottom:10px;color:var(--goldd);font-weight:700">✦ 찾은 사랑흐름 여행 (관계별)</div>
-      
-  </div>
+    <!-- 결과 (조회 시에만 JS가 채움) -->
+    <div class="result" id="result" style="display:none"></div>
 
   <div class="foot">
     <div class="fb">사랑흐름 · 대표 황규찬 · 파주시 매봉길 17-13 · 070-4158-7786 · hkcpcgg@gmail.com · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열</div>
-    <div class="fc">© 2026 사랑흐름 · LFRI™ · 무단복제·상업적 이용 금지<br><span style="color:rgba(255,255,255,.3)">find v1</span></div>
+    <div class="fc">© 2026 사랑흐름 · LFRI™ · 무단복제·상업적 이용 금지<br><span style="color:rgba(255,255,255,.3)">find v3</span></div>
   </div>
   <div class="bottom-link"><a>← 홈으로</a></div>
 
@@ -173,7 +161,6 @@
 <div class="toast" id="toast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:11px 22px;border-radius:22px;font-size:13.5px;opacity:0;transition:.3s;pointer-events:none;z-index:99;white-space:nowrap"></div>
 <script>
 var GAS='https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A/exec';
-var PICKED='';
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';setTimeout(function(){t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)';},2500);}
 function onDom(){var d=document.getElementById('emailDom').value;document.getElementById('emailDomCustom').style.display=d?'none':'block';}
 function getEmail(){var id=(document.getElementById('emailId').value||'').trim();if(!id)return '';var dom=document.getElementById('emailDom').value||(document.getElementById('emailDomCustom').value||'').trim();if(!dom)return '';return id+'@'+dom;}
@@ -192,23 +179,22 @@ function doFind(){
   var sc=document.createElement('script');sc.src=url;sc.onerror=function(){btn.disabled=false;btn.textContent='🌊 내 사랑흐름 여권 찾기';toast('잠시 후 다시 시도해주세요');};document.body.appendChild(sc);
 }
 function render(list){
-  var demo=document.getElementById('result');if(demo)demo.style.display='none';
-  var box=document.getElementById('resultLive');box.style.display='block';
+  var box=document.getElementById('result');box.style.display='block';
   if(!list.length){box.innerHTML='<div style="text-align:center;color:var(--sub);font-size:14px;padding:20px 10px;line-height:1.7">일치하는 여행 기록을 찾지 못했어요 🔒<br>입력 정보를 다시 확인해보세요.<br><br>도움이 필요하시면 070-4158-7786 으로 문의해주세요.</div>';return;}
-  PICKED=list[0].passport;
-  var h='<div class="rmore" style="margin-bottom:10px;color:var(--goldd);font-weight:700;text-align:center">✦ 찾은 사랑흐름 여행 (관계별)</div>';
+  var h='<div class="rmore" style="margin-bottom:4px;color:var(--goldd);font-weight:700;text-align:center">✦ 찾았어요!</div><div style="font-size:12px;color:#8A6D28;text-align:center;margin-bottom:14px;line-height:1.6;background:#FBEFD5;border:1px solid #EBD9A8;border-radius:10px;padding:10px 12px">아래 <b>여권번호를 복사</b>해서,<br>편지 쓰는 곳의 입력칸에 <b>붙여넣으세요</b> ✍️</div>';
   list.forEach(function(c){
     var rel=(c.relType||'')+(c.relNick?' · '+c.relNick:'');
     if(!rel.trim())rel='사랑흐름 여행 '+(c.nth||'')+'회차';
-    h+='<div class="rcard"><div><div class="rc-rel">'+esc(rel)+'</div><div class="rc-pp">'+esc(c.passport)+'</div></div><button class="rc-go" onclick="pick(\''+esc(c.passport)+'\')">불러오기 →</button></div>';
+    var pp=esc(c.passport);
+    h+='<div class="rcard">'
+      +'<div class="rc-rel">'+esc(rel)+'</div>'
+      +'<div class="rc-pp">'+pp+'</div>'
+      +'<button class="rc-cbtn rc-copy" style="width:100%;margin-top:10px" onclick="copyOne(\''+pp+'\')">📋 이 여권번호 복사하기</button>'
+      +'</div>';
   });
-  h+='<div class="rmore">찾으시는 여행의 [불러오기]를 눌러주세요.</div>';
-  h+='<div class="go-paths"><div class="gp-lbl">✦ 여권번호를 복사해 쓰시거나, 바로 편지로 이어가세요<br><span style="font-size:11px;color:#B0A794">홈·여행지도는 상단 ☰ 메뉴에서</span></div><div class="gp-grid"><a class="gp-btn gp-copy" onclick="copyPP()">📋 번호 복사</a><a class="gp-btn gp-letter" id="goLetter" href="#" onclick="return goLetter()">✍️ 편지 쓰기</a></div></div>';
   box.innerHTML=h;
 }
-function pick(pp){PICKED=pp;toast('✦ '+pp+' 선택됨');}
-function copyPP(){if(!PICKED){toast('먼저 여행을 골라주세요');return;}try{navigator.clipboard.writeText(PICKED);toast('📋 '+PICKED+' 복사됐어요');}catch(e){var ta=document.createElement('textarea');ta.value=PICKED;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('📋 복사됐어요');}}
-function goLetter(){if(!PICKED){toast('먼저 여행을 골라주세요');return false;}window.top.location.href='https://www.loveflow.ai.kr/letter?id='+encodeURIComponent(PICKED);return false;}
+function copyOne(pp){try{navigator.clipboard.writeText(pp);toast('📋 '+pp+' 복사됐어요! 편지 입력칸에 붙여넣으세요');}catch(e){var ta=document.createElement('textarea');ta.value=pp;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('📋 복사됐어요! 편지에 붙여넣으세요');}}
 </script>
 </body>
 </html>
