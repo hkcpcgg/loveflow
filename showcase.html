@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<!-- ============================================================
+  상품 진열장 showcase.html · v2 · 2026-07-10
+  · [v2] index배포 세트 정리: 메뉴 "무료 나침반"→"마음 한마디"(go home). letter 링크(편지 GAS) 채움. title 결제→진열장. ※원본이 pay 프레임 복사본이라 주석·title이 pay 잔재였음→바로잡음.
+  · 상품 5종 진열(마음여행 set·인생여행 life·지도 map·편지 letter·자서전 memoir). 예매 goItem→pay?item=.
+============================================================ -->
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상품 진열장 · 사랑흐름</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFBF5;--card:#FFFFFF;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;
+--navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59;--coral-d:#F0644A;
+--naver:#03C75A;--kakao:#FEE500;--acct:#1D9E75;
+--sans:'Noto Sans KR',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100vh;display:flex;justify-content:center;padding:22px 12px}
+.phone{width:100%;max-width:412px;background:var(--bg);border-radius:28px;overflow:hidden;box-shadow:0 18px 50px rgba(46,58,70,.18);position:relative;display:flex;flex-direction:column}
+
+/* ===== 기본 프레임 · 상단 내비 (고정) ===== */
+.gnav{display:flex;align-items:center;gap:8px;padding:11px 12px;background:#fff;border-bottom:1px solid var(--line);position:relative}
+.gnav .home{cursor:pointer;flex-shrink:0}
+.gnav .home img{height:40px;width:40px;object-fit:contain;display:block}
+.gnav .back{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:17px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:15px;font-weight:900;color:var(--navy);pointer-events:none}
+.gnav .ham{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gnav .back:active,.gnav .ham:active{transform:scale(.94)}
+
+/* ☰ 드로어 (고정 · 전 페이지 공용) */
+.drawer{position:absolute;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:50}
+.drawer.on{opacity:1;visibility:visible}
+.dpanel{position:absolute;top:0;right:0;width:80%;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.15);transform:translateX(100%);transition:.26s;display:flex;flex-direction:column}
+.drawer.on .dpanel{transform:none}
+.dhead{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid var(--line)}
+.dhead b{font-size:16px;font-weight:900;color:var(--navy)}
+.dhead .x{border:none;background:none;font-size:18px;color:var(--sub);cursor:pointer}
+.dbody{flex:1;overflow:auto;padding:6px 0}
+.dbody a{display:block;padding:14px 18px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;cursor:pointer;border-bottom:1px solid var(--line)}
+.dbody a:hover{background:#FFF6F2;color:var(--coral-d)}
+
+/* ===== 본문 (가변) ===== */
+.hero{text-align:center;padding:22px 20px 6px}
+.hero h1{font-size:21px;font-weight:900;line-height:1.35;color:var(--ink)}
+
+/* 가격 박스 */
+.price{margin:10px 18px 4px;border:1.5px solid var(--gold);border-radius:14px;padding:13px 15px;background:#fff}
+.price .pn{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.price .psub{font-size:11px;color:var(--sub);line-height:1.65;margin:0 0 9px;font-weight:500}
+.price .pinc{margin-top:9px;padding:8px 10px;background:#F2F6FA;border-radius:9px;font-size:11px;font-weight:700;color:var(--navy);text-align:center;line-height:1.55}
+.price .prow{display:flex;align-items:baseline;gap:8px;padding:1px 0}
+.price .plabel{font-size:12px;color:#B0A99A;min-width:76px}
+.price .nlabel{font-size:12px;color:var(--navy);font-weight:700;min-width:76px}
+.price .pl{font-size:14px;color:#9a9689}
+.price .pw{font-size:21px;font-weight:900;color:var(--navy)}
+
+.intro{text-align:center;font-size:13px;font-weight:700;color:var(--ink);padding:12px 20px 4px}
+
+/* ① 계좌이체 박스 */
+.acct{margin:12px 18px;border:2px solid var(--acct);border-radius:16px;padding:16px;background:#F4FBF8}
+.sec-t{font-size:16px;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:7px}
+.sec-t .no{color:var(--acct)}
+.g{font-size:12.5px;color:var(--sub);line-height:1.6;margin:6px 0 0}
+.acct-row{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.acct-row .a{flex:1;font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px}
+.acct-row .cp{flex-shrink:0;background:var(--acct);border:none;color:#fff;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:10px;cursor:pointer}
+.acct-row .cp:active{transform:scale(.96)}
+
+/* 통버튼 (고정 형태) */
+.btn{display:block;width:100%;text-align:center;text-decoration:none;border:none;font-family:inherit;cursor:pointer;border-radius:14px;padding:15px 14px;font-size:15px;font-weight:800;margin:10px 0}
+.btn:active{transform:scale(.985)}
+.btn .sub{display:block;font-size:11px;font-weight:600;margin-top:3px;opacity:.85}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy-o{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.btn-navy-o:active{background:#F2F6FA}
+.btn-naver{background:var(--naver);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-naver .n{width:22px;height:22px;border-radius:5px;background:#fff;color:var(--naver);font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center}
+.btn-kakao{background:var(--kakao);color:#3A2E00}
+
+.paid{padding:2px 18px 4px}
+.paid .sec-t{margin-top:8px}
+
+.toast{position:absolute;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:12px;opacity:0;visibility:hidden;transition:.2s;z-index:80;white-space:nowrap}
+.toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+
+/* ===== 기본 프레임 · 하단 푸터 (고정) ===== */
+.legal{text-align:center;padding:16px 18px 20px;border-top:1px solid var(--line);margin-top:10px}
+.legal .flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-bottom:12px}
+.legal .flinks a{font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer}
+.legal .flinks a:hover{color:var(--coral-d)}
+.legal .warn{font-size:10.5px;color:var(--sub);font-weight:500;line-height:1.7}
+.legal .home2{font-size:12px;font-weight:800;color:var(--navy);margin-top:14px;cursor:pointer;display:inline-block}
+.steps{display:flex;justify-content:center;align-items:flex-start;padding:16px 24px 4px;max-width:420px;margin:0 auto}
+.step{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;flex:1;max-width:78px}
+.step .dot{width:14px;height:14px;border-radius:50%;background:#E3DAC5;z-index:2}
+.step.done .dot{background:var(--navy)}
+.step.now .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.25)}
+.step .lb{font-size:10.5px;font-weight:700;color:var(--sub)}
+.step.done .lb{color:var(--navy)}
+.step.now .lb{color:#9A6F0B;font-weight:800}
+.step .line{position:absolute;top:6px;left:-50%;width:100%;height:2px;background:#E3DAC5;z-index:1}
+.step.done .line,.step.now .line{background:var(--navy)}
+.step:first-child .line{display:none}
+.ask-c{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);text-align:center;font-size:12px;color:var(--sub);line-height:1.7}
+.kakao-mini{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:12px;font-weight:700;color:#3A2E00;text-decoration:none;padding:7px 15px;border-radius:16px;background:var(--kakao)}
+.kakao-mini:active{transform:scale(.96)}
+.choice{padding:6px 18px 4px}
+.choice-h{text-align:center;font-size:14px;font-weight:800;color:var(--ink);margin:6px 0 14px}
+.choice-btn{display:block;width:100%;padding:18px;margin-bottom:12px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-size:15px;font-weight:800;color:var(--navy);cursor:pointer;font-family:inherit;text-align:center}
+.choice-btn .cd{display:block;font-size:12px;font-weight:600;color:var(--sub);margin-top:5px}
+.choice-btn .soon{display:inline-block;font-size:10.5px;font-weight:800;color:#9A6F0B;background:#FFF3D6;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.choice-btn:active{transform:scale(.99)}
+.choice-btn.main{background:var(--navy);color:#fff;border-color:var(--navy)}
+.choice-btn.main .cd{color:rgba(255,255,255,.82)}
+.pathback{display:inline-block;font-size:12.5px;color:var(--sub);font-weight:700;cursor:pointer;margin-bottom:12px}
+.hidden{display:none}
+.pass-need{text-align:center;font-size:13px;font-weight:700;color:var(--navy);line-height:1.6;margin:6px 0 12px}
+.choice-row2{display:flex;gap:12px}
+.choice-row2 .choice-btn{flex:1;margin-bottom:0;padding:16px 8px}
+.disp-h{text-align:center;font-size:19px;font-weight:900;color:var(--navy);padding:20px 20px 2px}
+.disp-sub{text-align:center;font-size:12.5px;color:var(--sub);margin-bottom:6px}
+.zone{padding:4px 18px 2px}
+.zone-t{font-size:13px;font-weight:800;color:var(--navy);margin:16px 0 10px;padding-left:8px;border-left:3px solid var(--gold)}
+.pcard{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;cursor:pointer;transition:.15s}
+.pcard:active{transform:scale(.99)}
+.pcard.hero{border:none;background:linear-gradient(140deg,#1E4A76,#2B5F92);color:#fff;box-shadow:0 6px 18px rgba(30,74,118,.22)}
+.pcard.hero .pcard-t{color:#fff}
+.pcard.hero .pcard-c{color:rgba(255,255,255,.85)}
+.pcard.hero .pcard-p{color:#fff}
+.pcard.hero .pcard-go{color:#FFD98A}
+.pcard.hero .pcard-prev{color:rgba(255,255,255,.72)}
+.pcard-row{display:flex;gap:12px}
+.pcard.half{flex:1;margin-bottom:12px;text-align:center;padding:16px 12px}
+.pcard.half .pcard-c{margin:4px 0 8px;min-height:30px}
+.pcard.half .pcard-p{font-size:18px}
+.pcard.half .pcard-prev{display:inline-block;margin-top:8px}
+.serif{font-family:'Noto Serif KR',serif}
+.memoir-zone{padding:6px 18px 4px}
+.memoir-card{background:linear-gradient(145deg,#FBF3DE,#FFFDF7);border:1.5px solid var(--gold);border-radius:14px;padding:18px;cursor:pointer;transition:.15s}
+.memoir-card:active{transform:scale(.99)}
+.memoir-t{font-size:17px;font-weight:800;color:#8A6D1E}
+.memoir-c{font-size:12px;color:var(--sub);margin-top:6px;line-height:1.6}
+.memoir-b{display:flex;align-items:center;justify-content:flex-start;gap:14px;margin-top:12px;flex-wrap:wrap}
+.pcard.life .pcard-b{justify-content:flex-start;gap:14px}
+.memoir-name{display:block;font-size:12px;font-weight:800;color:#8A6D1E;margin-bottom:6px}
+.price2{display:flex;flex-direction:column;line-height:1.3}
+.price2.col{align-items:center;margin:8px 0 6px}
+.p-list{font-size:11.5px;color:#9a9689}
+.p-now{font-size:20px;font-weight:900;color:var(--navy)}
+.pcard.hero .p-now{color:#FFE39A}
+.pcard.hero .p-list{color:rgba(255,255,255,.72)}
+.p-soon{font-size:13px;font-weight:800;color:var(--gold-soft)}
+.accent-map{border-top:5px solid var(--navy)}
+.accent-letter{border-top:5px solid var(--coral)}
+.pcard.life{border:1.5px solid var(--gold);background:linear-gradient(145deg,#FFFDF7,#FBF3DE)}
+.pcard.life .pcard-t{color:#8A6D1E}
+.zone-t{color:var(--navy)}
+.pcard-t{font-size:16px;font-weight:900;color:var(--navy)}
+.pcard-c{font-size:12px;color:var(--sub);margin-top:4px}
+.pcard-b{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.pcard-p{font-size:20px;font-weight:900;color:var(--navy)}
+.pcard-p .soon{font-size:12.5px;color:var(--sub);font-weight:700}
+.pcard-r{display:flex;align-items:center;gap:12px}
+.pcard-prev{font-size:12px;color:var(--sub);font-weight:700;text-decoration:underline;cursor:pointer}
+.pcard-go{font-size:12.5px;font-weight:800;color:var(--coral-d)}
+.revisit{text-align:center;margin-top:8px;padding:14px 18px}
+.revisit a{font-size:12.5px;color:var(--navy);font-weight:700;text-decoration:underline;cursor:pointer}
+</style></head>
+<body>
+<div class="phone">
+
+  <!-- ===== 상단 내비 (프레임) ===== -->
+  <div class="gnav">
+    <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
+    <button class="back" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
+    <div class="loc" id="loc">상품 진열장</div>
+    <button class="ham" onclick="openMenu()" aria-label="메뉴">☰</button>
+  </div>
+
+  <!-- ☰ 드로어 (프레임 · 공용) -->
+  <div class="drawer" id="drawer" onclick="if(event.target===this)closeMenu()">
+    <div class="dpanel">
+      <div class="dhead"><b>사랑흐름</b><button class="x" onclick="closeMenu()">✕</button></div>
+      <div class="dbody">
+        <a onclick="goHome()">홈</a>
+        <a onclick="go('home')">마음 한마디</a>
+        <a onclick="go('journey')">여행지도 보기</a>
+        <a onclick="go('letter')">편지</a>
+        <a onclick="go('find')">사랑흐름 여권 찾기</a>
+        <a onclick="location.reload()">다시 시작</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 상품 진열장 ===== -->
+  <div class="disp-h">어떻게 여행하시겠어요?</div>
+  <div class="disp-sub">가장 먼저 떠오른 그 사람에게로.</div>
+
+  <div class="zone">
+    <div class="zone-t">한 번에 여행하기</div>
+    <div class="pcard hero" onclick="goItem('set')">
+      <div class="pcard-t">마음여행</div>
+      <div class="pcard-c">내 마음의 여행 지도를 그려보고,<br>그 마음으로 편지를 씁니다.</div>
+      <div class="pcard-b">
+        <div class="price2"><span class="p-list">정가 50,000원</span><span class="p-now">런칭가 29,800원</span></div>
+        <span class="pcard-r"><a class="pcard-prev" onclick="event.stopPropagation();go('showroom')">미리보기</a><span class="pcard-go">예매 →</span></span>
+      </div>
+    </div>
+    <div class="pcard life" onclick="goItem('life')">
+      <div class="pcard-t">인생여행</div>
+      <div class="pcard-c">마음여행에 자서전까지 더한, 가장 깊은 여행</div>
+      <div class="pcard-b">
+        <div class="price2"><span class="p-list">정가 90,000원</span><span class="p-now">런칭가 59,800원</span></div>
+        <span class="pcard-r"><a class="pcard-prev" onclick="event.stopPropagation();go('showroom')">미리보기</a><span class="pcard-go">예매 →</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="zone">
+    <div class="zone-t">나누어 여행하기</div>
+    <div class="pcard-row">
+      <div class="pcard half accent-map" onclick="goItem('map')">
+        <div class="pcard-t">마음 여행지도</div>
+        <div class="pcard-c">내 마음을 발견하는 여행</div>
+        <div class="price2 col"><span class="p-list">정가 24,900원</span><span class="p-now">19,800원</span></div>
+        <a class="pcard-prev" onclick="event.stopPropagation();go('showroom')">미리보기</a>
+      </div>
+      <div class="pcard half accent-letter" onclick="goItem('letter')">
+        <div class="pcard-t">마음편지</div>
+        <div class="pcard-c">마음을 전하는 편지</div>
+        <div class="price2 col"><span class="p-list">정가 29,900원</span><span class="p-now">22,600원</span></div>
+        <a class="pcard-prev" onclick="event.stopPropagation();go('showroom')">미리보기</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="memoir-zone">
+    <div class="memoir-card" onclick="goItem('memoir')">
+      <div class="memoir-name">자서전 · 한 편의 기록</div>
+      <div class="memoir-t serif">당신의 이야기를, 기록으로 남겨요</div>
+      <div class="memoir-c">지나온 시간이 한 편의 기록이 됩니다.</div>
+      <div class="memoir-b"><div class="price2"><span class="p-list">정가 65,000원</span><span class="p-now">49,800원</span></div><a class="pcard-prev" onclick="event.stopPropagation();go('memoir')">미리보기 →</a></div>
+    </div>
+  </div>
+
+  <div class="revisit">
+    이미 사랑흐름 여권이 있으신가요? <a onclick="go('find')">여권 찾기</a>
+  </div>
+
+  <!-- ===== 하단 푸터 (프레임 · 통일형) =====
+     화면엔 © 한 줄 + 링크만. 사업자정보·개인정보 담당자 등은 [소개]/[약관] 페이지 안으로. -->
+  <div class="legal">
+    <div class="flinks">
+      <a onclick="go('about')">소개</a>
+      <a onclick="go('trust')">이용약관</a>
+      <a onclick="go('trust')">개인정보</a>
+      <a onclick="go('trust')">환불정책</a>
+    </div>
+    <div class="warn">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지.</div>
+    <span class="home2" onclick="goHome()">‹ 홈으로</span>
+  </div>
+
+  <div class="toast" id="toast">복사되었어요</div>
+</div>
+
+<script>
+/* ===== 가격표 · 상품 · 한 곳에서 관리 =====
+   상품이 늘면 여기 한 곳에 항목만 추가하면 됩니다.
+   금액을 바꾸려면 여기 숫자만 고치면 화면이 따라옵니다. */
+/* 진열장은 상품 카드에 정보 직접 표기 → PRODUCTS 세팅 불필요 */
+
+
+/* ===== 링크 (실제 URL은 다음 단계에서 연결) ===== */
+var LINK = {
+  home:    '/',
+  pay:     '/pay.html',
+  showroom:'/showroom.html',
+  memoir:  '/memoir/',
+  compass: '/',
+  journey: '/journey/',
+  letter:  'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec',
+  find:    '/find/',
+  gate:    '/gate.html',
+  apply:   '/apply.html',
+  about:   '/about.html',                   /* 소개 (라이브 확인됨) */
+  trust:   '/trust.html',                   /* 이용약관·개인정보·환불 (라이브 확인됨) */
+  store:   'https://smartstore.naver.com/wellnongbunet/products/13652635267',  /* 네이버 편지 상품 */
+  kakao:   'https://pf.kakao.com/_ExndxfX'  /* 카카오 채널 (확정) */
+};
+function goHome(){ if(LINK.home) location.href = LINK.home; }
+function go(k){
+  var u = LINK[k];
+  if(u){ location.href = u; }
+  else { showToast('연결 예정입니다'); }
+}
+function goItem(item){ location.href = (LINK.pay || '/pay.html') + '?item=' + item; }
+function soon(name){ showToast(name + '은(는) 곧 준비돼요'); }
+
+/* ===== 결제 갈림길 토글 ===== */
+function choosePath(k){
+  document.getElementById('choice').classList.add('hidden');
+  document.getElementById('pathToss').classList.toggle('hidden', k !== 'toss');
+  document.getElementById('pathAcct').classList.toggle('hidden', k !== 'acct');
+  document.getElementById('pathOnline').classList.toggle('hidden', k !== 'online');
+}
+function resetPath(){
+  document.getElementById('choice').classList.remove('hidden');
+  document.getElementById('pathToss').classList.add('hidden');
+  document.getElementById('pathAcct').classList.add('hidden');
+  document.getElementById('pathOnline').classList.add('hidden');
+}
+
+/* ===== 드로어 ===== */
+function openMenu(){ document.getElementById('drawer').classList.add('on'); }
+function closeMenu(){ document.getElementById('drawer').classList.remove('on'); }
+
+/* ===== 계좌번호 복사 (번호만) ===== */
+function copyAcct(){
+  var num = '019-355-3565';
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(num).then(function(){ showToast('계좌번호가 복사되었어요'); },
+      function(){ fallbackCopy(num); });
+  } else { fallbackCopy(num); }
+}
+function fallbackCopy(t){
+  var el = document.createElement('textarea'); el.value = t;
+  el.style.position='fixed'; el.style.opacity='0'; document.body.appendChild(el);
+  el.select(); try{ document.execCommand('copy'); showToast('계좌번호가 복사되었어요'); }catch(e){}
+  document.body.removeChild(el);
+}
+
+/* ===== 토스트 ===== */
+var _tt;
+function showToast(msg){
+  var t = document.getElementById('toast'); t.textContent = msg;
+  t.classList.add('on'); clearTimeout(_tt);
+  _tt = setTimeout(function(){ t.classList.remove('on'); }, 1900);
+}
+</script>
+</body></html>
