@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>사랑흐름 여권 찾기</title>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
-<!-- 사랑흐름 여권 찾기 find.html · v4 · 260710
+<!-- 사랑흐름 여권 찾기 find.html · v6 · 260710
   [v4 실제배포본] 라이브 v3 기준. ①결과 카드(rcard)를 gate 발급여권 톤(딥네이비·골드 이중테두리·골드 번호)으로 통일. ②푸터 진한네이비 제거→gate톤(링크줄+© 한 줄, 사업자상세는 about/trust로). ③날짜칸 전체클릭 시 달력(showPicker+calendar-picker-indicator 전체영역). ④"부품 시안·실제 파일 아님" 안내박스·title·주석 제거. 조회 실동작(M1A findPassport)·doFind·render 구조 무변경. -->
   <!-- (구) 260702-v3: 조회폼(관계·연락처4·날짜·구입처·이메일·결제번호)+결과 rcard. -->
 <style>
@@ -39,10 +39,14 @@
 
   /* 결과 */
   .result{margin-top:16px}
+  .modal-bg{position:fixed;inset:0;background:rgba(16,37,69,.62);display:none;align-items:center;justify-content:center;z-index:200;padding:22px}
+  .modal-bg.on{display:flex}
+  .modal-inner{position:relative;width:100%;max-width:350px;max-height:86vh;overflow-y:auto}
+  .modal-x{position:absolute;top:-10px;right:-10px;width:34px;height:34px;border-radius:50%;background:#fff;border:none;font-size:15px;font-weight:800;color:var(--navyd);cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25);z-index:3}
   .rcard{position:relative;border:1.5px solid var(--gold);background:linear-gradient(150deg,#1E4A76,#102543);border-radius:14px;padding:18px 18px 16px;margin-bottom:12px;overflow:hidden;text-align:center;box-shadow:0 10px 26px rgba(19,40,69,.28)}
   .rcard::before{content:'';position:absolute;inset:5px;border:1px solid rgba(212,175,55,.32);border-radius:10px;pointer-events:none}
   .rcard .rc-rel{position:relative;font-size:12px;color:rgba(212,175,55,.9);font-weight:700;margin-bottom:7px;letter-spacing:.03em}
-  .rcard .rc-pp{position:relative;font-family:var(--serif);font-size:26px;font-weight:800;color:var(--gold);letter-spacing:.1em;margin-bottom:2px}
+  .rcard .rc-pp{position:relative;font-family:var(--serif);font-size:34px;font-weight:800;color:var(--gold);letter-spacing:.1em;margin-bottom:2px}
   .rcard .rc-go{background:var(--navyd);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer}
   .rcard .rc-copy{position:relative;background:var(--gold);color:#102543;border:none;border-radius:10px;padding:11px 14px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer}
   .rmore{font-size:12px;color:var(--sub);text-align:center;margin-top:6px}
@@ -100,17 +104,18 @@
         <option>🌈 기타</option>
         <option>💗 나 자신</option>
       </select>
-      <div class="rel-hint">✦ 여러 사람과 여행하셨다면, 찾으시는 관계를 골라주세요.<br>같은 날 여러 명과 여행한 경우 관계로 구분해 드려요.</div>
     </div>
 
-    <div style="background:#F0F4F8;border:1px solid #C9D6E3;border-radius:12px;padding:11px 13px;font-size:12px;color:#42586E;line-height:1.6;margin-bottom:14px">
-      🔒 안전한 확인을 위해 <b>연락처 뒤 4자리</b>와 함께, <b>날짜·구입하신 곳·이메일·결제번호</b> 중 <b>2가지 이상</b>을 입력해주세요.
-    </div>
-
-    <!-- 전화 뒷4 = 필수 -->
-    <div class="field">
-      <div class="flabel">📱 연락처 뒤 4자리 <span class="req">* 확인용</span></div>
-      <input class="inp" id="phone4" maxlength="4" inputmode="numeric" placeholder="0000">
+    <!-- 연락처 + 결제번호 (한 줄) -->
+    <div class="row2">
+      <div class="field">
+        <div class="flabel">📱 연락처 뒤 4자리 <span class="req">*</span></div>
+        <input class="inp" id="phone4" maxlength="4" inputmode="numeric" placeholder="0000">
+      </div>
+      <div class="field">
+        <div class="flabel">🧾 결제번호 <span class="opt">(아시면)</span></div>
+        <input class="inp" id="orderNo" placeholder="주문 확인 번호">
+      </div>
     </div>
 
     <!-- 날짜 + 구입처 -->
@@ -147,15 +152,8 @@
       <input class="inp" id="emailDomCustom" style="margin-top:6px;display:none" placeholder="도메인 직접입력 (예: company.com)">
     </div>
 
-    <div class="field">
-      <div class="flabel">🧾 결제번호 <span class="opt">(주문 확인 번호 — 아시면)</span></div>
-      <input class="inp" id="orderNo" placeholder="예: 2026070157119051">
-    </div>
-
     <button class="btn" id="findBtn" onclick="doFind()">🌊 내 사랑흐름 여권 찾기</button>
 
-    <!-- 결과 (조회 시에만 JS가 채움) -->
-    <div class="result" id="result" style="display:none"></div>
 
   <div class="foot">
     <div class="flinks"><a href="/about.html">소개</a><a href="/trust.html">이용약관</a><a href="/trust.html">개인정보</a><a href="/trust.html">환불정책</a></div>
@@ -164,6 +162,13 @@
   <div class="bottom-link"><a>← 홈으로</a></div>
 
 
+</div>
+<!-- 결과 팝업(모달) -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal-inner">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
+  </div>
 </div>
 <div class="toast" id="toast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:11px 22px;border-radius:22px;font-size:13.5px;opacity:0;transition:.3s;pointer-events:none;z-index:99;white-space:nowrap"></div>
 <script>
@@ -186,9 +191,9 @@ function doFind(){
   var sc=document.createElement('script');sc.src=url;sc.onerror=function(){btn.disabled=false;btn.textContent='🌊 내 사랑흐름 여권 찾기';toast('잠시 후 다시 시도해주세요');};document.body.appendChild(sc);
 }
 function render(list){
-  var box=document.getElementById('result');box.style.display='block';
-  if(!list.length){box.innerHTML='<div style="text-align:center;color:var(--sub);font-size:14px;padding:20px 10px;line-height:1.7">일치하는 여행 기록을 찾지 못했어요 🔒<br>입력 정보를 다시 확인해보세요.<br><br>도움이 필요하시면 070-4158-7786 으로 문의해주세요.</div>';return;}
-  var h='<div class="rmore" style="margin-bottom:4px;color:var(--goldd);font-weight:700;text-align:center">✦ 찾았어요!</div><div style="font-size:12px;color:#8A6D28;text-align:center;margin-bottom:14px;line-height:1.6;background:#FBEFD5;border:1px solid #EBD9A8;border-radius:10px;padding:10px 12px">아래 <b>여권번호를 복사</b>해서,<br>편지 쓰는 곳의 입력칸에 <b>붙여넣으세요</b> ✍️</div>';
+  var body=document.getElementById('modalBody');
+  if(!list.length){body.innerHTML='<div style="background:#fff;border-radius:16px;padding:28px 22px;text-align:center;color:var(--sub);font-size:14px;line-height:1.8">일치하는 여행 기록을 찾지 못했어요 🔒<br>입력 정보를 다시 확인해보세요.<br><br>도움이 필요하시면<br>070-4158-7786 으로 문의해주세요.</div>';openModal();return;}
+  var h='<div class="rmore" style="margin-bottom:14px;color:#fff;font-weight:800;text-align:center;font-size:17px">✦ 찾았어요!</div>';
   list.forEach(function(c){
     var rel=(c.relType||'')+(c.relNick?' · '+c.relNick:'');
     if(!rel.trim())rel='사랑흐름 여행 '+(c.nth||'')+'회차';
@@ -199,8 +204,11 @@ function render(list){
       +'<button class="rc-cbtn rc-copy" style="width:100%;margin-top:10px" onclick="copyOne(\''+pp+'\')">📋 이 여권번호 복사하기</button>'
       +'</div>';
   });
-  box.innerHTML=h;
+  body.innerHTML=h;
+  openModal();
 }
+function openModal(){document.getElementById('modalBg').classList.add('on');}
+function closeModal(){document.getElementById('modalBg').classList.remove('on');}
 function copyOne(pp){try{navigator.clipboard.writeText(pp);toast('📋 '+pp+' 복사됐어요! 편지 입력칸에 붙여넣으세요');}catch(e){var ta=document.createElement('textarea');ta.value=pp;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('📋 복사됐어요! 편지에 붙여넣으세요');}}
 </script>
 </body>
