@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<!-- ============================================================
+  결제선택 pay · v2 · 2026-07-06
+  · 기본 프레임 표준본(첫 완성): [로고(홈) · ← 뒤로 · 화면이름 · ☰] + 법정 푸터 3줄 + ← 홈으로
+  · v11 배치 반영 / 색·통버튼 고정 / 가격표 한 곳(PRICE) 관리
+  · 딥네이비 = #1E4A76 (어제 메인과 통일)
+  · 실제 링크(스토어·gate·apply URL)는 다음 단계에서 한꺼번에 연결 — 지금은 자리+알려진 것만
+============================================================ -->
+<html lang="ko"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 편지 여행 · 결제</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#FFFBF5;--card:#FFFFFF;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;
+--navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59;--coral-d:#F0644A;
+--naver:#03C75A;--kakao:#FEE500;--acct:#1D9E75;
+--sans:'Noto Sans KR',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100vh;display:flex;justify-content:center;padding:22px 12px}
+.phone{width:100%;max-width:412px;background:var(--bg);border-radius:28px;overflow:hidden;box-shadow:0 18px 50px rgba(46,58,70,.18);position:relative;display:flex;flex-direction:column}
+
+/* ===== 기본 프레임 · 상단 내비 (고정) ===== */
+.gnav{display:flex;align-items:center;gap:8px;padding:11px 12px;background:#fff;border-bottom:1px solid var(--line);position:relative}
+.gnav .home{cursor:pointer;flex-shrink:0}
+.gnav .home img{height:40px;width:40px;object-fit:contain;display:block}
+.gnav .back{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:17px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:15px;font-weight:900;color:var(--navy);pointer-events:none}
+.gnav .ham{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gnav .back:active,.gnav .ham:active{transform:scale(.94)}
+
+/* ☰ 드로어 (고정 · 전 페이지 공용) */
+.drawer{position:absolute;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:50}
+.drawer.on{opacity:1;visibility:visible}
+.dpanel{position:absolute;top:0;right:0;width:80%;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.15);transform:translateX(100%);transition:.26s;display:flex;flex-direction:column}
+.drawer.on .dpanel{transform:none}
+.dhead{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid var(--line)}
+.dhead b{font-size:16px;font-weight:900;color:var(--navy)}
+.dhead .x{border:none;background:none;font-size:18px;color:var(--sub);cursor:pointer}
+.dbody{flex:1;overflow:auto;padding:6px 0}
+.dbody a{display:block;padding:14px 18px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;cursor:pointer;border-bottom:1px solid var(--line)}
+.dbody a:hover{background:#FFF6F2;color:var(--coral-d)}
+
+/* ===== 본문 (가변) ===== */
+.hero{text-align:center;padding:22px 20px 6px}
+.hero h1{font-size:21px;font-weight:900;line-height:1.35;color:var(--ink)}
+
+/* 가격 박스 */
+.price{margin:10px 18px 4px;border:1.5px solid var(--gold);border-radius:14px;padding:13px 15px;background:#fff}
+.price .pn{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.price .psub{font-size:11px;color:var(--sub);line-height:1.65;margin:0 0 9px;font-weight:500}
+.price .pinc{margin-top:9px;padding:8px 10px;background:#F2F6FA;border-radius:9px;font-size:11px;font-weight:700;color:var(--navy);text-align:center;line-height:1.55}
+.faq{margin-top:18px;padding:0 18px}
+.faq-t{font-size:14px;font-weight:800;color:var(--navy);text-align:center;margin-bottom:10px}
+.faq-item{background:#F7FAFC;border:1px solid #E3EBF2;border-radius:10px;margin-bottom:7px;padding:11px 13px;cursor:pointer}
+.faq-q{font-size:12.5px;font-weight:700;color:var(--navy);display:flex;justify-content:space-between;align-items:center;gap:8px}
+.faq-ar{transition:transform .2s;color:#9aabb8;font-size:11px;flex-shrink:0}
+.faq-item.open .faq-ar{transform:rotate(180deg)}
+.faq-a{font-size:12px;color:#5a6570;line-height:1.6;max-height:0;overflow:hidden;transition:max-height .25s ease,margin-top .25s ease;margin-top:0}
+.faq-item.open .faq-a{max-height:140px;margin-top:9px}
+.faq .ask-c{margin-top:12px}
+.price .prow{display:flex;align-items:baseline;gap:8px;padding:1px 0}
+.price .plabel{font-size:12px;color:#B0A99A;min-width:76px}
+.price .nlabel{font-size:12px;color:var(--navy);font-weight:700;min-width:76px}
+.price .pl{font-size:14px;color:#9a9689}
+.price .pw{font-size:21px;font-weight:900;color:var(--navy)}
+
+.intro{text-align:center;font-size:13px;font-weight:700;color:var(--ink);padding:12px 20px 4px}
+
+/* ① 계좌이체 박스 */
+.acct{margin:12px 18px;border:2px solid var(--acct);border-radius:16px;padding:16px;background:#F4FBF8}
+.sec-t{font-size:16px;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:7px}
+.sec-t .no{color:var(--acct)}
+.g{font-size:12.5px;color:var(--sub);line-height:1.6;margin:6px 0 0}
+.acct-row{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.acct-row .a{flex:1;font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px}
+.acct-row .cp{flex-shrink:0;background:var(--acct);border:none;color:#fff;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:10px;cursor:pointer}
+.acct-row .cp:active{transform:scale(.96)}
+
+/* 통버튼 (고정 형태) */
+.btn{display:block;width:100%;text-align:center;text-decoration:none;border:none;font-family:inherit;cursor:pointer;border-radius:14px;padding:15px 14px;font-size:15px;font-weight:800;margin:10px 0}
+.btn:active{transform:scale(.985)}
+.btn .sub{display:block;font-size:11px;font-weight:600;margin-top:3px;opacity:.85}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy-o{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.btn-navy-o:active{background:#F2F6FA}
+.btn-naver{background:var(--naver);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-naver .n{width:22px;height:22px;border-radius:5px;background:#fff;color:var(--naver);font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center}
+.btn-kakao{background:var(--kakao);color:#3A2E00}
+
+.paid{padding:2px 18px 4px}
+.paid .sec-t{margin-top:8px}
+
+.toast{position:absolute;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:12px;opacity:0;visibility:hidden;transition:.2s;z-index:80;white-space:nowrap}
+.toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+
+/* ===== 기본 프레임 · 하단 푸터 (고정) ===== */
+.legal{text-align:center;padding:16px 18px 20px;border-top:1px solid var(--line);margin-top:10px}
+.legal .flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-bottom:12px}
+.legal .flinks a{font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer}
+.legal .flinks a:hover{color:var(--coral-d)}
+.legal .warn{font-size:10.5px;color:var(--sub);font-weight:500;line-height:1.7}
+.legal .home2{font-size:12px;font-weight:800;color:var(--navy);margin-top:14px;cursor:pointer;display:inline-block}
+.steps{display:flex;justify-content:center;align-items:flex-start;padding:16px 24px 4px;max-width:420px;margin:0 auto}
+.step{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;flex:1;max-width:78px}
+.step .dot{width:14px;height:14px;border-radius:50%;background:#E3DAC5;z-index:2}
+.step.done .dot{background:var(--navy)}
+.step.now .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.25)}
+.step .lb{font-size:10.5px;font-weight:700;color:var(--sub)}
+.step.done .lb{color:var(--navy)}
+.step.now .lb{color:#9A6F0B;font-weight:800}
+.step .line{position:absolute;top:6px;left:-50%;width:100%;height:2px;background:#E3DAC5;z-index:1}
+.step.done .line,.step.now .line{background:var(--navy)}
+.step:first-child .line{display:none}
+.ask-c{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);text-align:center;font-size:12px;color:var(--sub);line-height:1.7}
+.kakao-mini{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:12px;font-weight:700;color:#3A2E00;text-decoration:none;padding:7px 15px;border-radius:16px;background:var(--kakao)}
+.kakao-mini:active{transform:scale(.96)}
+.choice{padding:6px 18px 4px}
+.choice-h{text-align:center;font-size:14px;font-weight:800;color:var(--ink);margin:6px 0 14px}
+.choice-btn{display:block;width:100%;padding:18px;margin-bottom:12px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-size:15px;font-weight:800;color:var(--navy);cursor:pointer;font-family:inherit;text-align:center}
+.choice-btn .cd{display:block;font-size:12px;font-weight:600;color:var(--sub);margin-top:5px}
+.choice-btn .soon{display:inline-block;font-size:10.5px;font-weight:800;color:#9A6F0B;background:#FFF3D6;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.choice-btn:active{transform:scale(.99)}
+.choice-btn.main{background:var(--navy);color:#fff;border-color:var(--navy)}
+.choice-btn.main .cd{color:rgba(255,255,255,.82)}
+.pathback{display:inline-block;font-size:12.5px;color:var(--sub);font-weight:700;cursor:pointer;margin-bottom:12px}
+.hidden{display:none}
+.pass-need{text-align:center;font-size:13px;font-weight:700;color:var(--navy);line-height:1.6;margin:6px 0 12px}
+.choice-row2{display:flex;gap:12px}
+.choice-row2 .choice-btn{flex:1;margin-bottom:0;padding:16px 8px}
+</style></head>
+<body>
+<div class="phone">
+
+  <!-- ===== 상단 내비 (프레임) ===== -->
+  <div class="gnav">
+    <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
+    <button class="back" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
+    <div class="loc" id="loc">결제</div>
+    <button class="ham" onclick="openMenu()" aria-label="메뉴">☰</button>
+  </div>
+
+  <!-- ☰ 드로어 (프레임 · 공용) -->
+  <div class="drawer" id="drawer" onclick="if(event.target===this)closeMenu()">
+    <div class="dpanel">
+      <div class="dhead"><b>사랑흐름</b><button class="x" onclick="closeMenu()">✕</button></div>
+      <div class="dbody">
+        <a onclick="goHome()">홈</a>
+        <a onclick="go('compass')">무료 나침반</a>
+        <a onclick="go('journey')">여행지도 보기</a>
+        <a onclick="go('letter')">편지</a>
+        <a onclick="go('find')">사랑흐름 여권 찾기</a>
+        <a onclick="location.reload()">다시 시작</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="steps">
+    <div class="step now"><span class="line"></span><span class="dot"></span><span class="lb">결제</span></div>
+    <div class="step"><span class="line"></span><span class="dot"></span><span class="lb">발권</span></div>
+    <div class="step"><span class="line"></span><span class="dot"></span><span class="lb">입장</span></div>
+    <div class="step"><span class="line"></span><span class="dot"></span><span class="lb">여행</span></div>
+  </div>
+
+  <!-- ===== 본문 (가변) ===== -->
+  <div class="hero"><h1 id="heroTitle">여행을 시작해요</h1></div>
+
+  <div class="price">
+    <div class="pn" id="pName">마음 여행편지</div>
+    <div class="psub" id="pSub">마음 여행지도로 나를 먼저 돌아보고,<br>그 마음을 토대로 편지를 완성하는 여정이에요.</div>
+    <div class="prow"><span class="plabel">정가</span><span class="pl" id="pList">50,000원</span></div>
+    <div class="prow"><span class="nlabel">국내 런칭가</span><span class="pw" id="pNow">29,800원</span></div>
+    <div class="pinc" id="pInc">마음 여행지도와 완성된 편지, 두 여정이 함께 담겨 있어요</div>
+  </div>
+
+  <div class="choice" id="choice">
+    <div class="pass-need">여행을 시작하려면,<br>사랑흐름 여권번호가 필요해요.</div>
+    <button class="choice-btn" onclick="choosePath('acct')">계좌이체<span class="cd">가장 쉬워요 · 입금 후 카톡 발권</span></button>
+    <div class="choice-row2">
+      <button class="choice-btn" onclick="choosePath('toss')">바로 예매 <span class="soon">곧</span></button>
+      <button class="choice-btn" onclick="choosePath('online')">오픈마켓</button>
+    </div>
+  </div>
+
+  <!-- 바로 결제 경로 (토스페이먼츠 · 자리 확보, 연동 대기) -->
+  <div class="paid hidden" id="pathToss">
+    <span class="pathback" onclick="resetPath()">‹ 다시 고르기</span>
+    <div class="sec-t">바로 결제하기</div>
+    <p class="g">카드·간편결제로 사이트에서 바로 결제하는 기능을 준비하고 있어요.<br>잠깐이면 돼요. 지금은 아래 방법으로 결제하실 수 있어요.</p>
+    <button class="btn btn-naver" onclick="choosePath('online')"><span class="n">N</span> 오픈마켓(네이버)으로 결제하기</button>
+    <button class="btn btn-navy-o" onclick="choosePath('acct')">계좌이체로 결제하기</button>
+  </div>
+
+  <!-- 계좌이체 경로 -->
+  <div class="acct hidden" id="pathAcct">
+    <span class="pathback" onclick="resetPath()">‹ 다시 고르기</span>
+    <div class="sec-t">계좌이체로 결제하기</div>
+    <p class="g">아래 계좌로 입금하신 뒤, 정보를 남겨 주세요.</p>
+    <div class="acct-row">
+      <span class="a">기업은행 019.355.3565 사랑흐름·황규찬</span>
+      <button class="cp" onclick="copyAcct()">복사</button>
+    </div>
+    <button class="btn btn-navy" onclick="go('apply')">입금 정보 남기고 발권받기<span class="sub">입금 은행 · 입금자명 · 연락처 뒤 4자리</span></button>
+    <p class="g">확인되면 카카오톡·문자로 여권번호를 보내드려요.</p>
+  </div>
+
+  <!-- 온라인 경로 -->
+  <div class="paid hidden" id="pathOnline">
+    <span class="pathback" onclick="resetPath()">‹ 다시 고르기</span>
+    <div class="sec-t">온라인으로 결제하기</div>
+    <p class="g">스마트스토어에서 결제하시면, 결제번호로 발권받으실 수 있어요.</p>
+    <button class="btn btn-naver" onclick="go('store')"><span class="n">N</span> 네이버 스마트스토어에서 결제하기</button>
+    <button class="btn btn-navy-o" onclick="go('gate')">결제하셨으면 · 발권하러 가기 →</button>
+  </div>
+
+  <div class="faq">
+    <div class="faq-t">궁금한 점이 있으신가요?</div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>계좌이체로도 되나요?</span><span class="faq-ar">▾</span></div>
+      <div class="faq-a">네. 입금이 확인되면 카톡으로 사랑흐름 여권번호를 보내드려요.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>바로 예매하면 어떻게 되나요?</span><span class="faq-ar">▾</span></div>
+      <div class="faq-a">여기서 결제하시면 사랑흐름 여권번호가 바로 나와요. (지금 준비 중이에요)</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>오픈마켓(네이버)은 뭐가 다른가요?</span><span class="faq-ar">▾</span></div>
+      <div class="faq-a">평소 쓰시던 익숙한 곳에서 구매하는 길이에요. 결제번호로 발권받으실 수 있어요.</div>
+    </div>
+    <div class="faq-item" onclick="toggleFaq(this)">
+      <div class="faq-q"><span>결제하면 바로 시작되나요?</span><span class="faq-ar">▾</span></div>
+      <div class="faq-a">여권번호를 받으시면 발권 → 입장 → 여행으로 이어져요.</div>
+    </div>
+    <div class="ask-c">그래도 궁금하시면 <a class="kakao-mini" onclick="go('kakao')">카카오톡 문의</a></div>
+  </div>
+
+  <!-- ===== 하단 푸터 (프레임 · 통일형) =====
+     화면엔 © 한 줄 + 링크만. 사업자정보·개인정보 담당자 등은 [소개]/[약관] 페이지 안으로. -->
+  <div class="legal">
+    <div class="flinks">
+      <a onclick="go('about')">소개</a>
+      <a onclick="go('trust')">이용약관</a>
+      <a onclick="go('trust')">개인정보</a>
+      <a onclick="go('trust')">환불정책</a>
+    </div>
+    <div class="warn">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지.</div>
+    <span class="home2" onclick="goHome()">‹ 홈으로</span>
+  </div>
+
+  <div class="toast" id="toast">복사되었어요</div>
+</div>
+
+<script>
+/* ===== 가격표 · 상품 · 한 곳에서 관리 =====
+   상품이 늘면 여기 한 곳에 항목만 추가하면 됩니다.
+   금액을 바꾸려면 여기 숫자만 고치면 화면이 따라옵니다. */
+var PRODUCTS = {
+  map: {                                   /* 마음 여행지도 (단품) */
+    name: '마음 여행지도',
+    loc:  '마음 여행지도 · 결제',
+    hero: '마음 여행지도를 시작해요',
+    sub:  '내 마음을 발견하는 여행 지도예요.',
+    inc:  '마음 여행지도 한 편이 담겨 있어요',
+    list: 24900, now: 19800,
+    store: 'https://smartstore.naver.com/wellnongbunet/products/13647249581'
+  },
+  letter: {                                /* 마음편지 (편지 단독) */
+    name: '마음편지',
+    loc:  '마음편지 · 결제',
+    hero: '마음편지를 시작해요',
+    sub:  '마음을 담아 편지를 완성하는 여정이에요.',
+    inc:  '완성된 편지 한 통이 담겨 있어요',
+    list: 29900, now: 22600,
+    store: ''
+  },
+  set: {                                   /* 마음여행 (지도 + 편지) */
+    name: '마음여행',
+    loc:  '마음여행 · 결제',
+    hero: '여행을 시작해요',
+    sub:  '마음 여행지도로 나를 돌아보고,<br>그 마음으로 편지를 완성하는 여정이에요.',
+    inc:  '마음 여행지도와 완성된 편지, 두 여정이 함께 담겨 있어요',
+    list: 50000, now: 29800,
+    store: 'https://smartstore.naver.com/wellnongbunet/products/13652635267'
+  },
+  life: {                                  /* 인생여행 (지도+편지+자서전) */
+    name: '인생여행',
+    loc:  '인생여행 · 결제',
+    hero: '인생을 여행해요',
+    sub:  '마음 여행에, 삶을 기록하는 자서전까지<br>더한 가장 깊은 여정이에요.',
+    inc:  '지도·편지에 자서전까지, 세 여정이 함께 담겨 있어요',
+    list: 90000, now: 59800,
+    store: ''
+  },
+  memoir: {                                /* 자서전 (프리미엄) */
+    name: '자서전 · 한 편의 기록',
+    loc:  '자서전 · 결제',
+    hero: '나의 기록을 시작해요',
+    sub:  '지나온 시간을 한 편의 기록으로<br>남기는 여정이에요.',
+    inc:  '당신의 이야기를 담는 한 편의 기록이에요',
+    list: 65000, now: 49800,
+    store: ''
+  }
+};
+/* 진입 시 ?item= (map/letter/set/memoir). 없거나 그 외면 세트(주력) */
+var _q = new URLSearchParams(location.search);
+var ITEM = PRODUCTS[_q.get('item')] ? _q.get('item') : 'set';
+var P = PRODUCTS[ITEM];
+document.getElementById('loc').textContent = P.loc;
+document.getElementById('heroTitle').textContent = P.hero;
+document.getElementById('pName').textContent = P.name;
+document.getElementById('pSub').innerHTML = P.sub || '';
+document.getElementById('pInc').innerHTML = P.inc || '';
+document.getElementById('pList').textContent = P.list ? P.list.toLocaleString() + '원' : '';
+document.getElementById('pNow').textContent  = P.now ? P.now.toLocaleString() + '원' : '가격 준비 중';
+
+/* ===== 링크 (실제 URL은 다음 단계에서 연결) ===== */
+var LINK = {
+  home:    '/',
+  compass: '/',
+  journey: '/journey/',
+  letter:  '',
+  find:    '/find/',
+  gate:    '/gate.html',
+  apply:   '/apply.html',
+  about:   '/about.html',                   /* 소개 (라이브 확인됨) */
+  trust:   '/trust.html',                   /* 이용약관·개인정보·환불 (라이브 확인됨) */
+  store:   'https://smartstore.naver.com/wellnongbunet/products/13652635267',  /* 네이버 편지 상품 */
+  kakao:   'https://pf.kakao.com/_ExndxfX'  /* 카카오 채널 (확정) */
+};
+function goHome(){ if(LINK.home) location.href = LINK.home; }
+function go(k){
+  var u = (k === 'store') ? P.store : LINK[k];   /* 네이버 스토어는 선택 상품별 주소 */
+  if(u){
+    if(k === 'gate'){ u += (u.indexOf('?')>-1?'&':'?') + 'item=' + encodeURIComponent(ITEM); }  /* 발급 시 상품종류 전달 → LFM/LFL */
+    location.href = u;
+  }
+  else { showToast('연결 예정입니다'); }
+}
+
+/* ===== 결제 갈림길 토글 ===== */
+function choosePath(k){
+  document.getElementById('choice').classList.add('hidden');
+  document.getElementById('pathToss').classList.toggle('hidden', k !== 'toss');
+  document.getElementById('pathAcct').classList.toggle('hidden', k !== 'acct');
+  document.getElementById('pathOnline').classList.toggle('hidden', k !== 'online');
+}
+function toggleFaq(el){ el.classList.toggle('open'); }
+function resetPath(){
+  document.getElementById('choice').classList.remove('hidden');
+  document.getElementById('pathToss').classList.add('hidden');
+  document.getElementById('pathAcct').classList.add('hidden');
+  document.getElementById('pathOnline').classList.add('hidden');
+}
+
+/* ===== 드로어 ===== */
+function openMenu(){ document.getElementById('drawer').classList.add('on'); }
+function closeMenu(){ document.getElementById('drawer').classList.remove('on'); }
+
+/* ===== 계좌번호 복사 (번호만) ===== */
+function copyAcct(){
+  var num = '019-355-3565';
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(num).then(function(){ showToast('계좌번호가 복사되었어요'); },
+      function(){ fallbackCopy(num); });
+  } else { fallbackCopy(num); }
+}
+function fallbackCopy(t){
+  var el = document.createElement('textarea'); el.value = t;
+  el.style.position='fixed'; el.style.opacity='0'; document.body.appendChild(el);
+  el.select(); try{ document.execCommand('copy'); showToast('계좌번호가 복사되었어요'); }catch(e){}
+  document.body.removeChild(el);
+}
+
+/* ===== 토스트 ===== */
+var _tt;
+function showToast(msg){
+  var t = document.getElementById('toast'); t.textContent = msg;
+  t.classList.add('on'); clearTimeout(_tt);
+  _tt = setTimeout(function(){ t.classList.remove('on'); }, 1900);
+}
+</script>
+</body></html>
