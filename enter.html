@@ -109,14 +109,37 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .ehero{text-align:center;padding:22px 22px 6px;background:radial-gradient(circle at 50% 6%,#FFF1E2,#FFFBF5 58%)}
 .ehero h1{font-size:22px;font-weight:900;line-height:1.4;color:var(--navy)}
 .hsub{font-size:13.5px;color:var(--sub);font-weight:600;margin-top:8px;line-height:1.6}
-.passcard{position:relative;margin:22px 2px 0;background:linear-gradient(150deg,#1E4A76,#10233E);border-radius:14px;padding:6px;box-shadow:0 14px 32px rgba(19,40,69,.34)}
-.pc-frame{border:1px solid rgba(212,175,55,.55);border-radius:10px;padding:20px 18px}
-.pc-head{font-size:9.5px;letter-spacing:.14em;color:var(--gold);font-weight:700}
-.pc-lb{font-size:10px;letter-spacing:.14em;color:rgba(212,175,55,.8);font-weight:700;margin-top:16px}
-.pc-no{font-size:32px;font-weight:900;color:#F1DE9A;letter-spacing:.12em;margin-top:6px;display:block}
-.pc-copy{background:transparent;color:#E8CE7E;border:1px solid rgba(212,175,55,.55);border-radius:8px;padding:7px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:16px}
+.cert{position:relative;background:linear-gradient(165deg,#1E4A76 0%,#16395C 55%,#102A45 100%);border:2px solid var(--gold);border-radius:16px;padding:30px 24px 22px;margin-bottom:14px;box-shadow:0 14px 40px rgba(16,42,69,0.4);overflow:hidden}
+.cert::before{content:'';position:absolute;inset:7px;border:1px solid rgba(212,175,55,0.4);border-radius:11px;pointer-events:none}
+.cert-corner{position:absolute;width:18px;height:18px;border:2px solid var(--gold);opacity:0.7}
+.cert-corner.tl{top:13px;left:13px;border-right:none;border-bottom:none}
+.cert-corner.tr{top:13px;right:13px;border-left:none;border-bottom:none}
+.cert-corner.bl{bottom:13px;left:13px;border-right:none;border-top:none}
+.cert-corner.br{bottom:13px;right:13px;border-left:none;border-top:none}
+.cert-title{font-family:'Nanum Myeongjo',serif;font-size:30px;font-weight:800;color:#fff;letter-spacing:0.08em;margin:6px 0 5px}
+.cert-en{font-size:9px;color:var(--gold);letter-spacing:0.34em;font-weight:700;margin-bottom:14px}
+.cert-desc{font-size:12.5px;color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:16px}
+.cert-desc-en{font-size:10px;color:rgba(255,255,255,0.5);font-style:italic;letter-spacing:0.02em}
+.cert-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.6),transparent);margin:0 0 16px}
+.cert-label{font-size:9.5px;color:rgba(212,175,55,0.92);font-weight:700;letter-spacing:0.18em;margin-bottom:9px}
+.cert .pp-no{font-family:'Nanum Myeongjo',serif;font-size:clamp(32px,10vw,42px);font-weight:800;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px}
+.cert-date{font-size:10.5px;color:rgba(255,255,255,0.6);margin-bottom:16px;letter-spacing:0.05em}
+.cert-note{font-size:11px;color:rgba(255,255,255,0.72);line-height:1.65;margin-bottom:18px}
+.cert-note-en{font-size:9.5px;color:rgba(255,255,255,0.45);font-style:italic}
+.cert-divider2{height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.4),transparent);margin:4px 0 16px}
+.cert-issuer-c{text-align:center;margin-bottom:16px}
+.ci-ko-wrap{position:relative;display:inline-block;margin-bottom:13px}
+.ci-ko{font-size:18px;font-weight:900;color:var(--gold);letter-spacing:0.03em}
+.ci-ko .tm{font-size:9px;vertical-align:super}
+.ci-en{font-size:9px;color:rgba(212,175,55,0.7);letter-spacing:0.16em;font-weight:700}
+.cert-stamp-sq{position:absolute;right:-14px;top:50%;transform:translateY(-50%) rotate(-15deg);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:48px;height:48px;border:3.5px solid #C0392B;border-radius:6px;color:#C0392B;opacity:0.85;padding:3px;background:rgba(192,57,43,0.04)}
+.cert-stamp-sq .sq-l1,.cert-stamp-sq .sq-l2{font-size:7px;font-weight:900;letter-spacing:0.01em;line-height:1.15}
+.cert-stamp-sq .sq-l3{font-size:9px;font-weight:900;margin-top:1px;letter-spacing:0.08em}
+.cert-legal{font-size:8.5px;color:rgba(255,255,255,0.4);letter-spacing:0.02em;line-height:1.6;text-align:center}
+/* 통일 여권: 번호칸 아래 복사버튼(입장·조회 공용) */
+.cert .pp-no{display:block}
+.pc-copy{background:transparent;color:#E8CE7E;border:1px solid rgba(212,175,55,.55);border-radius:8px;padding:7px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin:0 0 4px}
 .pc-copy:active{transform:scale(.96);background:rgba(212,175,55,.12)}
-.pc-seal{position:absolute;right:16px;bottom:14px;width:44px;height:44px;border:1.5px solid rgba(192,80,77,.7);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#D98A87;font-size:8px;font-weight:800;line-height:1.3}
 .brand{text-align:center;margin-top:24px}
 .brand img{height:34px;width:34px;object-fit:contain}
 .brand-name{font-size:17px;font-weight:900;color:var(--navy);margin-top:6px;letter-spacing:.02em}
@@ -163,14 +186,30 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
   <div class="ehero">
     <h1>이제, 당신의 여행이 시작됩니다.</h1>
     <div class="hsub">가장 먼저 떠오른 그 사람에게로, 이제 출발해요.</div>
-    <div class="passcard">
-      <div class="pc-frame">
-        <div class="pc-head">사랑흐름 관계 여권 · LOVE FLOW PASSPORT</div>
-        <div class="pc-lb">MY NUMBER · 나의 여권번호</div>
-        <span class="pc-no">LF-W8Z2Q</span>
-        <button class="pc-copy" onclick="copyPass()">번호 복사</button>
-        <div class="pc-seal">사랑흐름<br>마음<br>관리청</div>
+    <div class="cert">
+      <div class="cert-corner tl"></div><div class="cert-corner tr"></div>
+      <div class="cert-corner bl"></div><div class="cert-corner br"></div>
+      <div class="cert-title">사랑흐름<br>마음 여행여권</div>
+      <div class="cert-en">LOVE FLOW · MIND JOURNEY PASSPORT</div>
+      <div class="cert-desc">이제, 당신의 마음 여행을 시작할 수 있습니다<br><span class="cert-desc-en">Your mind journey now begins</span></div>
+      <div class="cert-divider"></div>
+      <div class="cert-label">MY NUMBER · 나의 여권번호</div>
+      <div class="pp-no pc-no">LF-W8Z2Q</div>
+      <button class="pc-copy" onclick="copyPass()">번호 복사</button>
+      <div class="cert-note">이 번호로 나의 마음 여행을 다시 펼쳐볼 수 있습니다<br><span class="cert-note-en">Keep this number to revisit your journey</span></div>
+      <div class="cert-divider2"></div>
+      <div class="cert-issuer-c">
+        <div class="ci-ko-wrap">
+          <div class="ci-ko">사랑흐름 마음관리청<span class="tm">™</span></div>
+          <div class="cert-stamp-sq">
+            <span class="sq-l1">사랑흐름</span>
+            <span class="sq-l2">마음관리청</span>
+            <span class="sq-l3">認證</span>
+          </div>
+        </div>
+        <div class="ci-en">MINISTRY OF LOVE FLOW</div>
       </div>
+      <div class="cert-legal">© 2026 사랑흐름 · LFRI™ · 무단복제 및 상업적 이용 금지<br>Unauthorized use strictly prohibited. All rights reserved.</div>
     </div>
     <div class="brand">
       <img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름">
