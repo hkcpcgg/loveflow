@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  사랑흐름 마음 한마디 = index.html (메인) · v6 · 2026-07-10
-  · [v6] 완성화면 "카카오톡으로 마음 전하기" 실제 공유 연결(SDK+JS키 0c74·sendDefault text, 완성한 한마디 카드). [v5] index 메인 배포본. 회의(260705) 결론 반영: 메인=첫클릭 출발역(피아노 대상선택+안심문구), 설명페이지 아님. 옛 긴 랜딩 index는 index_old로 보존.
+  사랑흐름 마음 한마디 = index.html (메인) · v7 · 2026-07-10
+  · [v7] "여권으로 입장" 링크 find→reenter(입장 페이지) 연결(메뉴 여권찾기는 find 유지). [v6] 완성화면 "카카오톡으로 마음 전하기" 실제 공유 연결(SDK+JS키 0c74·sendDefault text, 완성한 한마디 카드). [v5] index 메인 배포본. 회의(260705) 결론 반영: 메인=첫클릭 출발역(피아노 대상선택+안심문구), 설명페이지 아님. 옛 긴 랜딩 index는 index_old로 보존.
   · [v4→통합 v1] main_piano_v5(피아노) + 무료나침반_도입부_v10(심정→한마디→완성)
   · [통합] main_piano_v5(피아노 대상선택) + 무료나침반_도입부_v10(심정→한마디→완성)
   · 피아노에서 대상 선택 → 표준대상 9개를 SRC키로 매핑 → v10 P2(대상) 삭제(중복제거)
@@ -188,7 +188,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
       <div class="flowbox"><div class="track"><span>오늘 가장 먼저 떠오른 사람을 가볍게 눌러보세요</span><span>오늘 가장 먼저 떠오른 사람을 가볍게 눌러보세요</span></div></div>
       <div class="keys" id="keys"></div>
       <div class="tagline">전하지 못한 마음도 여행이 될 수 있습니다.<br><span style="font-size:11px;color:var(--sub);font-weight:500;display:inline-block;margin-top:10px">위 🔊 로 소리를 끌 수 있어요</span></div>
-      <div class="again"><a onclick="lgo('find')">이미 사랑흐름 여권이 있으신가요? · 여권으로 입장 →</a></div>
+      <div class="again"><a onclick="lgo('reenter')">이미 사랑흐름 여권이 있으신가요? · 여권으로 입장 →</a></div>
     </section>
 
     <!-- 1. 감정 -->
@@ -280,7 +280,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 /* 카카오 공유 초기화 (JS 키) */
 try{ if(window.Kakao && !Kakao.isInitialized()){ Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); } }catch(e){}
 /* ===== 링크 주소표 (공용) ===== */
-var LINK={home:'/',hanmadi:'/',showcase:'/showcase.html',showroom:'/showroom.html',journey:'/journey/',letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec',find:'/find/',about:'/about.html',trust:'/trust.html'};
+var LINK={home:'/',hanmadi:'/',showcase:'/showcase.html',showroom:'/showroom.html',journey:'/journey/',letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec',find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
 function goHome(){location.href=LINK.home;}
 function lgo(k){var u=LINK[k];if(u){location.href=u;}else{toast('연결 예정');}}
 function openMenu(){document.getElementById('drawer').classList.add('on');}
