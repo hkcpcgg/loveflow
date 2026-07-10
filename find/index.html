@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>여권번호 조회 부품 · 시안</title>
+<title>사랑흐름 여권 찾기</title>
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
-<!-- 사랑흐름 여권 찾기 부품 · 버전 260702-v3 (신규) · find.html로 배포 예정 · · 관계 선택 전면 강조(다중관계 암시) · 공용(메인·편지·여행지도·자서전) · 실제 파일 아님 -->
+<!-- 사랑흐름 여권 찾기 find.html · v4 · 260710
+  [v4 실제배포본] 라이브 v3 기준. ①결과 카드(rcard)를 gate 발급여권 톤(딥네이비·골드 이중테두리·골드 번호)으로 통일. ②푸터 진한네이비 제거→gate톤(링크줄+© 한 줄, 사업자상세는 about/trust로). ③날짜칸 전체클릭 시 달력(showPicker+calendar-picker-indicator 전체영역). ④"부품 시안·실제 파일 아님" 안내박스·title·주석 제거. 조회 실동작(M1A findPassport)·doFind·render 구조 무변경. -->
+  <!-- (구) 260702-v3: 조회폼(관계·연락처4·날짜·구입처·이메일·결제번호)+결과 rcard. -->
 <style>
   :root{--cream:#FAFAF8;--cream2:#F5F3ED;--card:#fff;--line:#E6E2D7;--navy:#1E4A76;--navyd:#102543;--gold:#C9A96E;--goldd:#B8923E;--ink:#2A2A28;--sub:#7A7368;--serif:'Nanum Myeongjo',serif}
   *{box-sizing:border-box;margin:0;padding:0}
@@ -37,10 +39,12 @@
 
   /* 결과 */
   .result{margin-top:16px}
-  .rcard{border:1.5px solid var(--gold);background:rgba(201,169,110,.06);border-radius:14px;padding:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
-  .rcard .rc-rel{font-size:13px;color:var(--sub)}
-  .rcard .rc-pp{font-family:var(--serif);font-size:20px;font-weight:800;color:var(--navyd);letter-spacing:.08em}
+  .rcard{position:relative;border:1.5px solid var(--gold);background:linear-gradient(150deg,#1E4A76,#102543);border-radius:14px;padding:18px 18px 16px;margin-bottom:12px;overflow:hidden;text-align:center;box-shadow:0 10px 26px rgba(19,40,69,.28)}
+  .rcard::before{content:'';position:absolute;inset:5px;border:1px solid rgba(212,175,55,.32);border-radius:10px;pointer-events:none}
+  .rcard .rc-rel{position:relative;font-size:12px;color:rgba(212,175,55,.9);font-weight:700;margin-bottom:7px;letter-spacing:.03em}
+  .rcard .rc-pp{position:relative;font-family:var(--serif);font-size:26px;font-weight:800;color:var(--gold);letter-spacing:.1em;margin-bottom:2px}
   .rcard .rc-go{background:var(--navyd);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer}
+  .rcard .rc-copy{position:relative;background:var(--gold);color:#102543;border:none;border-radius:10px;padding:11px 14px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer}
   .rmore{font-size:12px;color:var(--sub);text-align:center;margin-top:6px}
 
   .topbar{position:sticky;top:0;background:rgba(255,249,244,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20}
@@ -49,9 +53,12 @@
   .tb-back{font-size:14px;font-weight:700;color:var(--navy)}
   .tb-title{font-size:13px;font-weight:800;color:var(--goldd)}
   .tb-r{display:flex;gap:13px;align-items:center}.tb-home{font-size:16px}.tb-menu{font-size:20px;color:var(--navyd)}
-  .foot{background:var(--navyd);border-radius:14px;padding:14px 16px;margin-top:8px}
-  .foot .fb{font-size:10px;color:rgba(255,255,255,.6);line-height:1.7}
-  .foot .fc{font-size:9.5px;color:rgba(255,255,255,.42);line-height:1.6;margin-top:4px}
+  .foot{padding:18px 16px 6px;margin-top:16px;text-align:center;border-top:1px solid var(--line)}
+  .foot .flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-bottom:11px}
+  .foot .flinks a{font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer}
+  .foot .warn{font-size:10px;color:#A8A095;font-weight:500;line-height:1.7}
+  #date{position:relative}
+  #date::-webkit-calendar-picker-indicator{position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;margin:0;padding:0;opacity:0;cursor:pointer}
   .bottom-link{text-align:center;padding:16px 0 4px}.bottom-link a{font-size:13px;color:var(--goldd);font-weight:700;text-decoration:none}
   /* 찾은 뒤 경로 버튼들 */
   .go-paths{margin-top:12px}
@@ -71,7 +78,7 @@
   <span class="tb-r"><span class="tb-home">🏠</span><button class="tb-menu">☰</button></span>
 </div></div>
 <div class="wrap">
-  <div class="note">🖼️ <b>사랑흐름 여권 찾기 부품 시안</b> · 브랜드 전제(민증조회 느낌 제거) · 내비(뒤로·홈·☰) 통일 · 찾은뒤 경로 다양(편지/여행지도/홈/복사) · 재사용 · 실제 파일 아님</div>
+  <div class="note" style="display:none"></div>
 
   <div class="card">
     <div class="head">
@@ -110,7 +117,7 @@
     <div class="row2">
       <div class="field">
         <div class="flabel">📅 여행하신 날짜</div>
-        <input class="inp" id="date" type="date">
+        <input class="inp" id="date" type="date" onclick="try{this.showPicker&&this.showPicker()}catch(e){}" style="cursor:pointer">
       </div>
       <div class="field">
         <div class="flabel">🏪 구입하신 곳</div>
@@ -151,8 +158,8 @@
     <div class="result" id="result" style="display:none"></div>
 
   <div class="foot">
-    <div class="fb">사랑흐름 · 대표 황규찬 · 파주시 매봉길 17-13 · 070-4158-7786 · hkcpcgg@gmail.com · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열</div>
-    <div class="fc">© 2026 사랑흐름 · LFRI™ · 무단복제·상업적 이용 금지<br><span style="color:rgba(255,255,255,.3)">find v3</span></div>
+    <div class="flinks"><a href="/about.html">소개</a><a href="/trust.html">이용약관</a><a href="/trust.html">개인정보</a><a href="/trust.html">환불정책</a></div>
+    <div class="warn">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지.</div>
   </div>
   <div class="bottom-link"><a>← 홈으로</a></div>
 
