@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  사랑흐름 마음 한마디 = index.html (메인) · v5 · 2026-07-10
-  · [v5] index 메인 배포본. 회의(260705) 결론 반영: 메인=첫클릭 출발역(피아노 대상선택+안심문구), 설명페이지 아님. 옛 긴 랜딩 index는 index_old로 보존.
+  사랑흐름 마음 한마디 = index.html (메인) · v6 · 2026-07-10
+  · [v6] 완성화면 "카카오톡으로 마음 전하기" 실제 공유 연결(SDK+JS키 0c74·sendDefault text, 완성한 한마디 카드). [v5] index 메인 배포본. 회의(260705) 결론 반영: 메인=첫클릭 출발역(피아노 대상선택+안심문구), 설명페이지 아님. 옛 긴 랜딩 index는 index_old로 보존.
   · [v4→통합 v1] main_piano_v5(피아노) + 무료나침반_도입부_v10(심정→한마디→완성)
   · [통합] main_piano_v5(피아노 대상선택) + 무료나침반_도입부_v10(심정→한마디→완성)
   · 피아노에서 대상 선택 → 표준대상 9개를 SRC키로 매핑 → v10 P2(대상) 삭제(중복제거)
@@ -148,7 +148,9 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .stepnav button:active{transform:scale(.98)}
 .guide{background:#FFF6F2;border:1px solid #FFE0D5;border-radius:12px;padding:11px 14px;margin-bottom:16px;font-size:13px;color:#C2542E;font-weight:700;text-align:center;display:flex;align-items:center;justify-content:center;gap:6px}
 .guide .gnum{background:var(--coral);color:#fff;width:20px;height:20px;border-radius:50%;font-size:12px;display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
-</style></head>
+</style>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"></script>
+</head>
 <body>
 <div class="phone">
 
@@ -253,7 +255,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div class="p">이 한 줄에도 아직 꺼내지 못한 마음이 남아 있어요.<br>여행을 시작하면, 이 씨앗이 당신만의 편지로 자라요.</div>
       </div>
       <div class="btnrow">
-        <button class="cta" onclick="toast('카카오톡·문자 공유 카드가 만들어져요')"><span class="kico">💬</span>카카오톡으로 마음 전하기</button>
+        <button class="cta" onclick="shareKakao()"><span class="kico">💬</span>카카오톡으로 마음 전하기</button>
         <button class="cta coral" onclick="lgo('showcase')">이 마음을 이어서 · 여행 시작하기 →</button>
       </div>
       <div class="nopress">오늘은 한마디만 전해도 충분해요.<br>더 하고 싶은 말이 생기면, 그때 편지로 이어가요.</div>
@@ -275,6 +277,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 </div>
 
 <script>
+/* 카카오 공유 초기화 (JS 키) */
+try{ if(window.Kakao && !Kakao.isInitialized()){ Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); } }catch(e){}
 /* ===== 링크 주소표 (공용) ===== */
 var LINK={home:'/',hanmadi:'/',showcase:'/showcase.html',showroom:'/showroom.html',journey:'/journey/',letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec',find:'/find/',about:'/about.html',trust:'/trust.html'};
 function goHome(){location.href=LINK.home;}
@@ -363,6 +367,19 @@ function buildRecs(){var byT=SRC[state.target]||(state.target==='연인'?SRC['�
 function goEdit(){if(!state.picked){toast('전할 한마디를 먼저 골라주세요');return;}next();}
 function pickEmo2(el,e){var on=el.classList.contains('sel');document.querySelectorAll('#emos .emo').forEach(function(x){x.classList.remove('sel')});if(!on){el.classList.add('sel');state.emo2=e;}else{state.emo2='';}}
 function buildFinal(){var t=document.getElementById('edit').value||state.picked;var nk=nameOf();var q4=document.getElementById('q4');if(q4)q4.innerHTML=nk+'에게<br>이 마음을 전해보세요.';document.getElementById('fcPro').textContent=nk+'에게';document.getElementById('fcBody').textContent=t;document.getElementById('fcEmo').textContent=state.emo2;document.getElementById('fcTr').textContent=state.tr?('↳ '+state.tr):'';}
+function shareKakao(){
+  var msg=(document.getElementById('fcBody')||{}).textContent||'';
+  var who=(document.getElementById('fcPro')||{}).textContent||'';
+  if(!window.Kakao||!Kakao.Share){ toast('카카오톡 준비 중이에요. 잠시 후 다시 시도해 주세요'); return; }
+  try{
+    Kakao.Share.sendDefault({
+      objectType:'text',
+      text:'\u2726 \uc0ac\ub791\ud750\ub984 \u00b7 \ub9c8\uc74c \ud55c\ub9c8\ub514\n\n'+who+'\n'+msg,
+      link:{mobileWebUrl:'https://www.loveflow.ai.kr',webUrl:'https://www.loveflow.ai.kr'},
+      buttonTitle:'\ub098\ub3c4 \ub9c8\uc74c \uc804\ud558\uae30'
+    });
+  }catch(e){ toast('\uacf5\uc720 \uc911 \ubb38\uc81c\uac00 \uc0dd\uaca8\uc694. \uc7a0\uc2dc \ud6c4 \ub2e4\uc2dc \uc2dc\ub3c4\ud574 \uc8fc\uc138\uc694'); }
+}
 var toastT;function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;t.style.visibility='visible';t.style.transform='translateX(-50%) translateY(0)';clearTimeout(toastT);toastT=setTimeout(function(){t.style.opacity=0;t.style.visibility='hidden';t.style.transform='translateX(-50%) translateY(20px)';},1600);}
 
 /* ===== 흐름 제어 (피아노=s0, 심정=s2~) ===== */
