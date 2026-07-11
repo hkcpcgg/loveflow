@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ===================================================================
  사랑흐름 · 마음 한마디 편지 페이지  /m/?id=xxxx
+ v5  260711  상단 로고 왼쪽(홈링크)+"마음 한마디" 가운데 · 수신자 왼쪽정렬 · 하단문구 질문형(B) · 버튼 숨쉬기(C)
  v4  260711  발신자 서명 "— △△ 드림"(from 있을 때) 추가 · 수신자 조사포함형 그대로 표시(어머니께)
  v3  260711  상단 로고 마크 + "마음 한마디" 한 줄 가운데정렬 (브랜드명 중복 제거)
  v2  260711  상단 "사랑흐름·마음 한마디" 브랜드 + 버튼 "나도 마음 전하기" + 문구 "그리운 누군가에게 / 당신의 마음을 전해보세요"
@@ -30,7 +31,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
 .letter.show{opacity:1;transform:none}
 .brandtop{text-align:center;padding:22px 0 2px;font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#C9B79A;letter-spacing:.16em;font-weight:500}
 .body{padding:24px 30px 30px;text-align:center;font-family:'Nanum Pen Script',cursive}
-.to{font-size:24px;color:#6B5A45;margin-bottom:22px}
+.to{font-size:24px;color:#6B5A45;margin-bottom:22px;text-align:left}
 .msg{font-size:29px;color:#3A3228;line-height:1.65;white-space:pre-wrap;word-break:keep-all}
 .sign{font-family:'Nanum Pen Script',cursive;font-size:23px;color:#6B5A45;text-align:right;margin-top:26px}
 .line{height:1px;background:#EFE6D6;margin:0 30px}
@@ -40,6 +41,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
 .invite{font-size:13px;color:#9A917E;line-height:1.7;margin-bottom:16px}
 .btn{display:block;width:100%;padding:15px;border:none;border-radius:14px;background:#1E4A76;color:#fff;font-size:15.5px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;text-decoration:none}
 .btn:active{opacity:.9}
+.btn.breathe{animation:breathe 2.8s ease-in-out infinite}
+@keyframes breathe{0%,100%{box-shadow:0 0 0 0 rgba(30,74,118,0)}50%{box-shadow:0 6px 18px 0 rgba(30,74,118,.28)}}
 .brand{font-size:10px;color:#C9B79A;margin-top:14px;letter-spacing:.02em}
 
 /* 오류 */
@@ -56,8 +59,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
   <div id="load" class="load">편지를 여는 중<span class="dot">.</span></div>
 
   <div id="letter" class="letter" style="display:none">
-    <div style="display:flex;align-items:center;justify-content:center;gap:8px;padding:28px 0 4px">
-      <img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름" style="width:28px;height:28px;border-radius:50%;object-fit:cover;background:#fff">
+    <div style="position:relative;height:60px;display:flex;align-items:center;justify-content:center;padding:0 16px">
+      <a href="/" style="position:absolute;left:16px;top:50%;transform:translateY(-50%);display:inline-flex"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" style="width:30px;height:30px;border-radius:50%;object-fit:cover;background:#fff"></a>
       <span style="font-family:'Noto Sans KR',sans-serif;font-size:13px;color:#C9B79A;letter-spacing:.1em;font-weight:500">마음 한마디</span>
     </div>
     <div class="body">
@@ -67,8 +70,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
     </div>
     <div class="line"></div>
     <div class="foot">
-      <div class="invite">그리운 누군가에게<br>당신의 마음을 전해보세요.</div>
-      <a class="btn" href="/">나도 마음 전하기</a>
+      <div class="invite">이 편지를 읽는 동안,<br>문득 떠오른 사람이 있나요?</div>
+      <a class="btn breathe" href="/">나도 마음 전하기</a>
       <div class="brand">사랑흐름 · loveflow.ai.kr</div>
     </div>
   </div>
