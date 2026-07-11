@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!-- ===================================================================
+ 사랑흐름 · 마음 한마디 편지 페이지  /m/?id=xxxx
+ v1  260711  최초 생성 (이사회 C+ 확정 · ②시안 편지 화면 가득)
+ © 2026 사랑흐름 · LFRI™. 무단복제·상업적이용 금지.
+==================================================================== -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>마음 한마디</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px}
+.wrap{width:100%;max-width:400px}
+
+/* 로딩 */
+.load{text-align:center;padding:60px 0;color:#B9AE98;font-size:14px}
+.load .dot{display:inline-block;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* 편지 카드 */
+.letter{background:#FFFBF5;border:1px solid #F0E7D8;border-radius:20px;box-shadow:0 10px 34px rgba(46,58,70,.12);overflow:hidden;opacity:0;transform:translateY(10px);transition:opacity .7s ease,transform .7s ease}
+.letter.show{opacity:1;transform:none}
+.body{padding:44px 30px 30px;text-align:center;font-family:'Nanum Pen Script',cursive}
+.to{font-size:24px;color:#6B5A45;margin-bottom:22px}
+.msg{font-size:29px;color:#3A3228;line-height:1.65;white-space:pre-wrap;word-break:keep-all}
+.line{height:1px;background:#EFE6D6;margin:0 30px}
+
+/* 하단 바이럴 (편지 다 읽은 뒤 자연스럽게) */
+.foot{padding:22px 30px 28px;text-align:center}
+.invite{font-size:13px;color:#9A917E;line-height:1.7;margin-bottom:16px}
+.btn{display:block;width:100%;padding:15px;border:none;border-radius:14px;background:#1E4A76;color:#fff;font-size:15.5px;font-weight:800;font-family:'Noto Sans KR',sans-serif;cursor:pointer;text-decoration:none}
+.btn:active{opacity:.9}
+.brand{font-size:10px;color:#C9B79A;margin-top:14px;letter-spacing:.02em}
+
+/* 오류 */
+.err{text-align:center;padding:50px 20px;color:#9A917E}
+.err .big{font-size:20px;color:#6B5A45;margin-bottom:10px;font-family:'Nanum Pen Script',cursive}
+.err a{color:#1E4A76;font-weight:700;text-decoration:none}
+
+.copyr{font-size:9px;color:#D8CBB4;text-align:center;margin-top:16px;line-height:1.5;max-width:400px}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div id="load" class="load">편지를 여는 중<span class="dot">.</span></div>
+
+  <div id="letter" class="letter" style="display:none">
+    <div class="body">
+      <div class="to" id="to"></div>
+      <div class="msg" id="msg"></div>
+    </div>
+    <div class="line"></div>
+    <div class="foot">
+      <div class="invite">당신의 마음을<br>누군가에게 전해보세요.</div>
+      <a class="btn" href="/">마음 전하기</a>
+      <div class="brand">사랑흐름 · loveflow.ai.kr</div>
+    </div>
+  </div>
+
+  <div id="err" class="err" style="display:none">
+    <div class="big">편지를 찾지 못했어요</div>
+    <div style="font-size:13px;line-height:1.7">링크가 만료되었거나 주소가 정확하지 않아요.<br><a href="/">사랑흐름에서 마음 전하기 ›</a></div>
+  </div>
+
+</div>
+
+<div class="copyr">© 2026 사랑흐름 · LFRI™. 무단복제·상업적이용 금지.<br>Unauthorized use strictly prohibited.</div>
+
+<script>
+/* ── 편지 조회·저장 GAS (편지 GAS · DTLjdA) ──
+   조회/저장 모두 doPost(action)로 처리 → 기존 doGet(유료 편지)은 안 건드림.
+   action=get&id=xxxx → {ok, to, msg} JSON 반환.                    */
+var LETTER_GAS = 'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec';
+
+function $(id){return document.getElementById(id);}
+function showErr(){ $('load').style.display='none'; $('letter').style.display='none'; $('err').style.display='block'; }
+
+function render(to, msg){
+  $('to').textContent = (to && to.trim()) ? (to + '님에게') : '당신에게';
+  $('msg').textContent = msg || '';
+  $('load').style.display='none';
+  $('letter').style.display='block';
+  requestAnimationFrame(function(){ $('letter').classList.add('show'); });
+}
+
+(function(){
+  var id = new URLSearchParams(location.search).get('id');
+  if(!id){ showErr(); return; }
+
+  fetch(LETTER_GAS, {
+    method: 'POST',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify({ action: 'get', id: id })
+  })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      if(d && d.ok && (d.msg || d.message)){
+        render(d.to || d.target || '', d.msg || d.message || '');
+      } else { showErr(); }
+    })
+    .catch(function(){ showErr(); });
+})();
+</script>
+</body>
+</html>
