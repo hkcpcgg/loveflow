@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  사랑흐름 마음 한마디 = index.html (메인) · v8 · 2026-07-11
-  · [v8] 완성화면 재구성: 확정 카드 시안(손글씨·크림·하단 띠)+저장 가능한 이미지(html2canvas). 버튼=[카카오톡으로 보내기(카드 이미지 공유·링크 아님)]+[처음으로]+[여행지도 그리기]. 옛 카톡보내기(링크)·링크복사 제거. 피아노 볼륨 0.16→0.05. STEP4 정리: 제목 한 줄("내 마음을 담아보세요")·부제("더 하고 싶은 말을 추가해 보세요", 질문 제거)·빨간 guide 제거→하트/꽃 밑 흐릿 안내·그림 회색.
+  사랑흐름 마음 한마디 = index.html (메인) · v9 · 2026-07-11
+  · [v9] 완성화면 군더더기 제거(제목·"완성됐어요…"·맨밑 안내 삭제)→카드+씨앗 두 줄+버튼만. 단계표시 바→점(dots) 통일(피아노·STEP2·3·4·완성 5점, render는 현재 점만). · [v8] 완성화면 재구성: 확정 카드 시안(손글씨·크림·하단 띠)+저장 가능한 이미지(html2canvas). 버튼=[카카오톡으로 보내기(카드 이미지 공유·링크 아님)]+[처음으로]+[여행지도 그리기]. 옛 카톡보내기(링크)·링크복사 제거. 피아노 볼륨 0.16→0.05. STEP4 정리: 제목 한 줄("내 마음을 담아보세요")·부제("더 하고 싶은 말을 추가해 보세요", 질문 제거)·빨간 guide 제거→하트/꽃 밑 흐릿 안내·그림 회색.
   · [v7] "여권으로 입장" 링크 find→reenter(입장 페이지) 연결(메뉴 여권찾기는 find 유지). [v6] 완성화면 "카카오톡으로 마음 전하기" 실제 공유 연결(SDK+JS키 0c74·sendDefault text, 완성한 한마디 카드). [v5] index 메인 배포본. 회의(260705) 결론 반영: 메인=첫클릭 출발역(피아노 대상선택+안심문구), 설명페이지 아님. 옛 긴 랜딩 index는 index_old로 보존.
   · [v4→통합 v1] main_piano_v5(피아노) + 무료나침반_도입부_v10(심정→한마디→완성)
   · [통합] main_piano_v5(피아노 대상선택) + 무료나침반_도입부_v10(심정→한마디→완성)
@@ -82,8 +82,9 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .again a:active{transform:scale(.98);box-shadow:0 2px 8px rgba(30,74,118,.3)}
 
 /* ===== v10 흐름(심정~완성) 고유 스타일 ===== */
-.prog{height:3px;background:var(--line);margin:0}
-.prog i{display:block;height:100%;width:0;background:var(--coral);transition:.3s}
+.prog{display:flex;justify-content:center;gap:7px;padding:12px 0 2px;background:none}
+.prog i{width:7px;height:7px;border-radius:50%;background:#E3D9C8;transition:.3s}
+.prog i.on{width:20px;border-radius:4px;background:var(--coral)}
 .stage{flex:1}
 .screen{display:none;padding:26px 20px 20px;animation:fadeUp .5s ease both}
 .screen.on{display:block}
@@ -197,7 +198,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     </div>
   </div>
 
-  <div class="prog"><i id="prog"></i></div>
+  <div class="prog" id="prog"><i></i><i></i><i></i><i></i><i></i></div>
 
   <div class="stage">
 
@@ -258,9 +259,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
     <!-- 4. 완성 -->
     <section class="screen" data-s="5">
-      <div class="eyebrow">완성 · 이제 전하기</div>
-      <h2 class="q" id="q4" style="font-size:23px;margin-bottom:4px">이 마음을<br>전해보세요.</h2>
-      <div class="qsub">완성됐어요! 카드를 저장해 전하고, 여행으로 이어가요.</div>
+      <div class="eyebrow">완성</div>
             <div id="fcWrap">
         <div class="lfc" id="lfcCard">
           <div class="lfc-brand">사랑흐름 · 마음 한마디</div>
@@ -269,16 +268,15 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
           <div class="lfc-foot"><div class="lfc-mark">사랑흐름 · loveflow.ai.kr</div><div class="lfc-copy">© 2026 사랑흐름 · LFRI™</div></div>
         </div>
       </div>
-      <div class="seed">
-        <div class="h">오늘 남긴 이 한 줄은, <b>편지의 씨앗</b>이에요.</div>
-        <div class="p">이 한 줄에도 아직 꺼내지 못한 마음이 남아 있어요.<br>여행을 시작하면, 이 씨앗이 당신만의 편지로 자라요.</div>
+      <div style="text-align:center;padding:14px 22px 2px">
+        <div style="font-size:15px;color:#3A3228">오늘 남긴 한 줄은, <b style="color:#1E4A76">편지의 씨앗</b>이에요.</div>
+        <div style="font-size:12.5px;color:#9A917E;margin-top:5px">여행을 시작하면, 당신만의 편지로 자라요.</div>
       </div>
       <button class="lfshare" onclick="shareCard()"><span class="kico">💬</span>카카오톡으로 보내기</button>
       <div class="lfrow">
         <button class="lfpill lfpill-try" onclick="location.href='/'">처음으로</button>
         <button class="lfpill lfpill-map" onclick="lgo('showcase')">여행지도 그리기</button>
       </div>
-      <div class="nopress">오늘은 한마디만 전해도 충분해요.<br>더 하고 싶은 말이 생기면, 그때 편지로 이어가요.</div>
     </section>
 
 
@@ -405,7 +403,7 @@ var toastT;function toast(m){var t=document.getElementById('toast');t.textConten
 function shareCard(){var img=document.getElementById('fcImg');if(!img||!img.src){toast('잠시 후 다시 시도해 주세요');return;}fetch(img.src).then(function(r){return r.blob();}).then(function(blob){var file=new File([blob],'loveflow_hanmadi.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[file]})){return navigator.share({files:[file],text:'사랑흐름 · 마음 한마디'});}throw 0;}).catch(function(){try{var a=document.createElement('a');a.href=img.src;a.download='loveflow_hanmadi.png';a.click();}catch(e){}toast('이미지를 저장했어요. 카톡에 사진으로 보내세요');});}
 
 /* ===== 흐름 제어 (피아노=s0, 심정=s2~) ===== */
-function render(){document.querySelectorAll('.screen').forEach(function(e){e.classList.toggle('on',+e.dataset.s===state.s)});var step=state.s;document.getElementById('prog').style.width=(step<=0?0:(step-1)/4*100)+'%';window.scrollTo(0,0);}
+function render(){document.querySelectorAll('.screen').forEach(function(e){e.classList.toggle('on',+e.dataset.s===state.s)});var order={0:0,2:1,3:2,4:3,5:4};var di=order[state.s];document.querySelectorAll('#prog i').forEach(function(d,x){d.classList.toggle('on',di!==undefined&&x===di);});window.scrollTo(0,0);}
 function go(n){state.s=n;render();
   if(n===2){var nk=state.pianoNm||'그분';state.who=nk;document.getElementById('q1').innerHTML=nk+'에게,<br>지금 어떤 마음인가요?';}
 }
