@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ============================================================
   사랑흐름 마음 한마디 = index.html (메인) · v9-3 · 2026-07-11
-  · [v9-3] 첫 화면 카피 교체: "이름을 부르지 않아도 떠오르는 사람이 있나요?" → "오늘 문득 떠오른 사람이 있나요?"(관념적→즉각적, 얼굴 하나 바로 떠오르게). · [v9-2] 카톡 공유 텍스트→피드 카드: 브랜드 이미지(og-image)+대상·한마디(description)+[나도 마음 전하기] 버튼(loveflow.ai.kr). 개인 한마디가 카드에 실려 번지는 가벼운 길. 이미지렌더·DB·새페이지 0. 커스텀 템플릿(콘솔 templateId)은 원하면 다음 단계. · [v9-1] 카톡 공유 = 카카오 SDK 원터치(shareKakao·sendDefault text, 링크 loveflow.ai.kr만)로 복귀. 무거운 이미지 방식(html2canvas·makeCardImage·shareCard) 제거. · [v9] 완성화면 군더더기 제거(제목·"완성됐어요…"·맨밑 안내 삭제)→카드+씨앗 두 줄+버튼만. 단계표시 바→점(dots) 통일(피아노·STEP2·3·4·완성 5점, render는 현재 점만). · [v8] 완성화면 재구성: 확정 카드 시안(손글씨·크림·하단 띠)+저장 가능한 이미지(html2canvas). 버튼=[카카오톡으로 보내기(카드 이미지 공유·링크 아님)]+[처음으로]+[여행지도 그리기]. 옛 카톡보내기(링크)·링크복사 제거. 피아노 볼륨 0.16→0.05. STEP4 정리: 제목 한 줄("내 마음을 담아보세요")·부제("더 하고 싶은 말을 추가해 보세요", 질문 제거)·빨간 guide 제거→하트/꽃 밑 흐릿 안내·그림 회색.
+  · [v10] 완성화면 카톡=텍스트 공유+저장 연결(feed 카드 제거): shareKakao가 doPost(action=save)로 한마디 저장→id 받아→loveflow.ai.kr/m/?id= 링크를 objectType:text로 전송. 받는 사람은 /m/ 편지 페이지. og-image 카드·홈링크 제거. · [v9-3] 첫 화면 카피 교체: "이름을 부르지 않아도 떠오르는 사람이 있나요?" → "오늘 문득 떠오른 사람이 있나요?"(관념적→즉각적, 얼굴 하나 바로 떠오르게). · [v9-2] 카톡 공유 텍스트→피드 카드: 브랜드 이미지(og-image)+대상·한마디(description)+[나도 마음 전하기] 버튼(loveflow.ai.kr). 개인 한마디가 카드에 실려 번지는 가벼운 길. 이미지렌더·DB·새페이지 0. 커스텀 템플릿(콘솔 templateId)은 원하면 다음 단계. · [v9-1] 카톡 공유 = 카카오 SDK 원터치(shareKakao·sendDefault text, 링크 loveflow.ai.kr만)로 복귀. 무거운 이미지 방식(html2canvas·makeCardImage·shareCard) 제거. · [v9] 완성화면 군더더기 제거(제목·"완성됐어요…"·맨밑 안내 삭제)→카드+씨앗 두 줄+버튼만. 단계표시 바→점(dots) 통일(피아노·STEP2·3·4·완성 5점, render는 현재 점만). · [v8] 완성화면 재구성: 확정 카드 시안(손글씨·크림·하단 띠)+저장 가능한 이미지(html2canvas). 버튼=[카카오톡으로 보내기(카드 이미지 공유·링크 아님)]+[처음으로]+[여행지도 그리기]. 옛 카톡보내기(링크)·링크복사 제거. 피아노 볼륨 0.16→0.05. STEP4 정리: 제목 한 줄("내 마음을 담아보세요")·부제("더 하고 싶은 말을 추가해 보세요", 질문 제거)·빨간 guide 제거→하트/꽃 밑 흐릿 안내·그림 회색.
   · [v7] "여권으로 입장" 링크 find→reenter(입장 페이지) 연결(메뉴 여권찾기는 find 유지). [v6] 완성화면 "카카오톡으로 마음 전하기" 실제 공유 연결(SDK+JS키 0c74·sendDefault text, 완성한 한마디 카드). [v5] index 메인 배포본. 회의(260705) 결론 반영: 메인=첫클릭 출발역(피아노 대상선택+안심문구), 설명페이지 아님. 옛 긴 랜딩 index는 index_old로 보존.
   · [v4→통합 v1] main_piano_v5(피아노) + 무료나침반_도입부_v10(심정→한마디→완성)
   · [통합] main_piano_v5(피아노 대상선택) + 무료나침반_도입부_v10(심정→한마디→완성)
@@ -386,20 +386,24 @@ function pickEmo2(el,e){var on=el.classList.contains('sel');document.querySelect
 function buildFinal(){var t=document.getElementById('edit').value||state.picked;var nk=nameOf();document.getElementById('fcPro').textContent=nk+'에게';document.getElementById('fcBody').textContent=t;}
 function shareKakao(){
   var msg=(document.getElementById('fcBody')||{}).textContent||'';
-  var who=(document.getElementById('fcPro')||{}).textContent||'';
+  var nk=nameOf();
+  if(!msg){ toast('전할 한마디를 먼저 담아주세요'); return; }
   if(!window.Kakao||!Kakao.Share){ toast('카카오톡 준비 중이에요. 잠시 후 다시 시도해 주세요'); return; }
-  try{
-    Kakao.Share.sendDefault({
-      objectType:'feed',
-      content:{
-        title:'사랑흐름 · 마음 한마디',
-        description:who+'\n'+msg,
-        imageUrl:'https://hkcpcgg.github.io/loveflow/og-image.png',
-        link:{mobileWebUrl:'https://www.loveflow.ai.kr',webUrl:'https://www.loveflow.ai.kr'}
-      },
-      buttons:[{title:'나도 마음 전하기',link:{mobileWebUrl:'https://www.loveflow.ai.kr',webUrl:'https://www.loveflow.ai.kr'}}]
-    });
-  }catch(e){ toast('\uacf5\uc720 \uc911 \ubb38\uc81c\uac00 \uc0dd\uaca8\uc694. \uc7a0\uc2dc \ud6c4 \ub2e4\uc2dc \uc2dc\ub3c4\ud574 \uc8fc\uc138\uc694'); }
+  toast('마음을 담는 중이에요...');
+  fetch(LINK.letter,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'save',to:nk,msg:msg})})
+    .then(function(r){return r.json();})
+    .then(function(d){
+      if(d&&d.ok&&d.id){
+        var url='https://www.loveflow.ai.kr/m/?id='+d.id;
+        Kakao.Share.sendDefault({
+          objectType:'text',
+          text:nk+'님에게 마음 한마디가 도착했어요 💌',
+          link:{mobileWebUrl:url,webUrl:url},
+          buttonTitle:'편지 열어보기'
+        });
+      }else{ toast('전송 준비에 실패했어요. 잠시 후 다시 시도해 주세요'); }
+    })
+    .catch(function(){ toast('연결이 불안정해요. 잠시 후 다시 시도해 주세요'); });
 }
 var toastT;function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;t.style.visibility='visible';t.style.transform='translateX(-50%) translateY(0)';clearTimeout(toastT);toastT=setTimeout(function(){t.style.opacity=0;t.style.visibility='hidden';t.style.transform='translateX(-50%) translateY(20px)';},1600);}
 
