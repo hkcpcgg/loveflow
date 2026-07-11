@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 관계 여권 발급 신청 apply.html · v9 · 2026-07-11 · 대표 확정 재제작: ①표준 gnav[로고(홈)·‹뒤로·화면이름·☰]+드로어 ②금액 표기 제거 ③입금하신 은행 칸 제거 ④입금자명 예시(황규찬)·괄호 제거→박스 안내글 ⑤예금주 괄호 제거 ⑥수령방법 반반(문자/카톡)+선택 시 팝업(스크롤 방지) ⑦상단 딥네이비 절제·계좌번호 흐릿 ⑧접수 GAS(RECEIPT_GAS) 유지, method·contact 추가 전송. [다음 위험구간] 즉시발급(issuePassport→주문대장 통합)·GAS에 수령방법/연락처 컬럼 저장·카톡경로 주문번호 — 백업 후 상의. -->
+<!-- 관계 여권 발급 신청 apply.html · v9-1 · 2026-07-11 · [v9-1] 은행 드롭다운(입금하신 은행 select) 복원 — 앞서 잘못 제거한 것 원복, 접수 전송에 bank 재포함. · [v9] 대표 확정 재제작: ①표준 gnav[로고(홈)·‹뒤로·화면이름·☰]+드로어 ②금액 표기 제거 ③입금하신 은행 칸 제거 ④입금자명 예시(황규찬)·괄호 제거→박스 안내글 ⑤예금주 괄호 제거 ⑥수령방법 반반(문자/카톡)+선택 시 팝업(스크롤 방지) ⑦상단 딥네이비 절제·계좌번호 흐릿 ⑧접수 GAS(RECEIPT_GAS) 유지, method·contact 추가 전송. [다음 위험구간] 즉시발급(issuePassport→주문대장 통합)·GAS에 수령방법/연락처 컬럼 저장·카톡경로 주문번호 — 백업 후 상의. -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -41,6 +41,7 @@ body{background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemF
 .inp{width:100%;padding:13px 15px;border:1.5px solid var(--gold-soft);border-radius:12px;font-size:14px;color:var(--navy);background:#FFFDF8;font-weight:600;outline:none;box-sizing:border-box}
 .inp:focus{border-color:var(--navy)}
 .inp::placeholder{color:#B9AE93;font-weight:500}
+select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C6A94A' stroke-width='2.5'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 14px center;background-size:16px;cursor:pointer}
 .orow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
 .opt{display:flex;align-items:center;justify-content:center;gap:6px;padding:15px 10px;border-radius:12px;border:1.5px solid var(--gold-soft);font-size:13.5px;font-weight:700;color:var(--navy);background:#FFFDF8;cursor:pointer}
 .opt .ar{color:#C6A94A;font-size:14px}
@@ -113,6 +114,13 @@ body{background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemF
       <button class="cp" id="copyBtn" onclick="copyAcct()">계좌번호 복사</button>
     </div>
 
+    <div class="lbl">입금하신 은행</div>
+    <select class="inp" id="bank">
+      <option value="">은행 선택</option>
+      <option>기업은행</option><option>국민은행</option><option>신한은행</option>
+      <option>우리은행</option><option>하나은행</option><option>농협</option>
+      <option>카카오뱅크</option><option>토스뱅크</option><option>기타</option>
+    </select>
     <div class="lbl">입금자명</div>
     <input class="inp" id="payer" placeholder="입금하신 분 성함" maxlength="20" autocomplete="off">
 
@@ -207,7 +215,9 @@ function confirmKko(){
 
 /* ===== 접수 제출 (RECEIPT_GAS 유지 · method/contact 추가) ===== */
 function submitApply(){
+  var bank=document.getElementById('bank').value;
   var payer=(document.getElementById('payer').value||'').trim();
+  if(!bank){setMsg('입금하신 은행을 선택해 주세요.',true);return;}
   if(!payer){setMsg('입금자명을 입력해 주세요.',true);return;}
   if(!selMethod){setMsg('여권 받으실 방법을 선택해 주세요.',true);return;}
   var phone4=(selMethod==='sms')?selContact.replace(/[^0-9]/g,'').slice(-4):'';
@@ -220,6 +230,7 @@ function submitApply(){
     showReceipt(no);
   };
   var url=RECEIPT_GAS+'?action=apply'
+    +'&bank='+encodeURIComponent(bank)
     +'&payer='+encodeURIComponent(payer)
     +'&phone4='+encodeURIComponent(phone4)
     +'&method='+encodeURIComponent(selMethod)
