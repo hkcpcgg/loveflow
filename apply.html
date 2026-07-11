@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 관계 여권 발급 신청 apply.html · v9-1 · 2026-07-11 · [v9-1] 은행 드롭다운(입금하신 은행 select) 복원 — 앞서 잘못 제거한 것 원복, 접수 전송에 bank 재포함. · [v9] 대표 확정 재제작: ①표준 gnav[로고(홈)·‹뒤로·화면이름·☰]+드로어 ②금액 표기 제거 ③입금하신 은행 칸 제거 ④입금자명 예시(황규찬)·괄호 제거→박스 안내글 ⑤예금주 괄호 제거 ⑥수령방법 반반(문자/카톡)+선택 시 팝업(스크롤 방지) ⑦상단 딥네이비 절제·계좌번호 흐릿 ⑧접수 GAS(RECEIPT_GAS) 유지, method·contact 추가 전송. [다음 위험구간] 즉시발급(issuePassport→주문대장 통합)·GAS에 수령방법/연락처 컬럼 저장·카톡경로 주문번호 — 백업 후 상의. -->
+<!-- 관계 여권 발급 신청 apply.html · v9-2 · 2026-07-11 · [v9-2] 연락처(문자받기) 입력 숫자만 강제(oninput으로 하이픈·슬래시 자동제거)+placeholder/안내 정리, maxlength 11. · [v9-1] 은행 드롭다운(입금하신 은행 select) 복원 — 앞서 잘못 제거한 것 원복, 접수 전송에 bank 재포함. · [v9] 대표 확정 재제작: ①표준 gnav[로고(홈)·‹뒤로·화면이름·☰]+드로어 ②금액 표기 제거 ③입금하신 은행 칸 제거 ④입금자명 예시(황규찬)·괄호 제거→박스 안내글 ⑤예금주 괄호 제거 ⑥수령방법 반반(문자/카톡)+선택 시 팝업(스크롤 방지) ⑦상단 딥네이비 절제·계좌번호 흐릿 ⑧접수 GAS(RECEIPT_GAS) 유지, method·contact 추가 전송. [다음 위험구간] 즉시발급(issuePassport→주문대장 통합)·GAS에 수령방법/연락처 컬럼 저장·카톡경로 주문번호 — 백업 후 상의. -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -158,7 +158,8 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
     <div class="msheet">
       <div class="mtitle" id="mtitle">문자로 받기</div>
       <div id="mSms">
-        <input class="inp" id="phoneIn" placeholder="전화번호 (010-0000-0000)" inputmode="numeric" maxlength="13">
+        <input class="inp" id="phoneIn" placeholder="숫자만 입력 (예: 01012345678)" inputmode="numeric" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+        <div class="mhint" style="margin-top:8px">‘-’ 없이 숫자만 눌러주세요.</div>
         <button class="mbtn m-ok" onclick="confirmSms()">이 번호로 받기</button>
       </div>
       <div id="mKko" style="display:none">
