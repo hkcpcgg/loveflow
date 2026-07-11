@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  사랑흐름 마음 한마디 = index.html (메인) · v9 · 2026-07-11
-  · [v9] 완성화면 군더더기 제거(제목·"완성됐어요…"·맨밑 안내 삭제)→카드+씨앗 두 줄+버튼만. 단계표시 바→점(dots) 통일(피아노·STEP2·3·4·완성 5점, render는 현재 점만). · [v8] 완성화면 재구성: 확정 카드 시안(손글씨·크림·하단 띠)+저장 가능한 이미지(html2canvas). 버튼=[카카오톡으로 보내기(카드 이미지 공유·링크 아님)]+[처음으로]+[여행지도 그리기]. 옛 카톡보내기(링크)·링크복사 제거. 피아노 볼륨 0.16→0.05. STEP4 정리: 제목 한 줄("내 마음을 담아보세요")·부제("더 하고 싶은 말을 추가해 보세요", 질문 제거)·빨간 guide 제거→하트/꽃 밑 흐릿 안내·그림 회색.
+  사랑흐름 마음 한마디 = index.html (메인) · v9-1 · 2026-07-11
+  · [v9-1] 카톡 공유 = 카카오 SDK 원터치(shareKakao·sendDefault text, 링크 loveflow.ai.kr만)로 복귀. 무거운 이미지 방식(html2canvas·makeCardImage·shareCard) 제거. · [v9] 완성화면 군더더기 제거(제목·"완성됐어요…"·맨밑 안내 삭제)→카드+씨앗 두 줄+버튼만. 단계표시 바→점(dots) 통일(피아노·STEP2·3·4·완성 5점, render는 현재 점만). · [v8] 완성화면 재구성: 확정 카드 시안(손글씨·크림·하단 띠)+저장 가능한 이미지(html2canvas). 버튼=[카카오톡으로 보내기(카드 이미지 공유·링크 아님)]+[처음으로]+[여행지도 그리기]. 옛 카톡보내기(링크)·링크복사 제거. 피아노 볼륨 0.16→0.05. STEP4 정리: 제목 한 줄("내 마음을 담아보세요")·부제("더 하고 싶은 말을 추가해 보세요", 질문 제거)·빨간 guide 제거→하트/꽃 밑 흐릿 안내·그림 회색.
   · [v7] "여권으로 입장" 링크 find→reenter(입장 페이지) 연결(메뉴 여권찾기는 find 유지). [v6] 완성화면 "카카오톡으로 마음 전하기" 실제 공유 연결(SDK+JS키 0c74·sendDefault text, 완성한 한마디 카드). [v5] index 메인 배포본. 회의(260705) 결론 반영: 메인=첫클릭 출발역(피아노 대상선택+안심문구), 설명페이지 아님. 옛 긴 랜딩 index는 index_old로 보존.
   · [v4→통합 v1] main_piano_v5(피아노) + 무료나침반_도입부_v10(심정→한마디→완성)
   · [통합] main_piano_v5(피아노 대상선택) + 무료나침반_도입부_v10(심정→한마디→완성)
@@ -16,7 +16,6 @@
 <title>사랑흐름 · 마음 한마디</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 .lfc{position:relative;background:#FCF2EC;border-radius:16px;padding:26px 26px 0;overflow:hidden;font-family:'Noto Sans KR',sans-serif}
 .lfc-brand{text-align:center;font-size:11px;letter-spacing:3px;color:#BBA894;font-weight:500;margin-bottom:24px}
@@ -272,7 +271,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div style="font-size:15px;color:#3A3228">오늘 남긴 한 줄은, <b style="color:#1E4A76">편지의 씨앗</b>이에요.</div>
         <div style="font-size:12.5px;color:#9A917E;margin-top:5px">여행을 시작하면, 당신만의 편지로 자라요.</div>
       </div>
-      <button class="lfshare" onclick="shareCard()"><span class="kico">💬</span>카카오톡으로 보내기</button>
+      <button class="lfshare" onclick="shareKakao()"><span class="kico">💬</span>카카오톡으로 보내기</button>
       <div class="lfrow">
         <button class="lfpill lfpill-try" onclick="location.href='/'">처음으로</button>
         <button class="lfpill lfpill-map" onclick="lgo('showcase')">여행지도 그리기</button>
@@ -384,8 +383,7 @@ function buildRecs(){var byT=SRC[state.target]||(state.target==='연인'?SRC['�
     box.appendChild(d);});}
 function goEdit(){if(!state.picked){toast('전할 한마디를 먼저 골라주세요');return;}next();}
 function pickEmo2(el,e){var on=el.classList.contains('sel');document.querySelectorAll('#emos .emo').forEach(function(x){x.classList.remove('sel')});if(!on){el.classList.add('sel');state.emo2=e;}else{state.emo2='';}}
-function buildFinal(){var t=document.getElementById('edit').value||state.picked;var nk=nameOf();var q4=document.getElementById('q4');if(q4)q4.innerHTML=nk+'에게<br>이 마음을 전해보세요.';document.getElementById('fcPro').textContent=nk+'에게';document.getElementById('fcBody').textContent=t;var old=document.getElementById('fcImg');if(old&&old.parentNode)old.parentNode.removeChild(old);var card=document.getElementById('lfcCard');if(card)card.style.display='';makeCardImage();}
-function makeCardImage(){var card=document.getElementById('lfcCard');if(!card||!window.html2canvas){return;}var run=function(){html2canvas(card,{backgroundColor:null,scale:2}).then(function(cv){var img=new Image();img.id='fcImg';img.className='lfc-img';img.alt='마음 한마디 카드';img.src=cv.toDataURL('image/png');if(card.parentNode)card.parentNode.appendChild(img);card.style.display='none';}).catch(function(e){});};try{if(document.fonts&&document.fonts.load){document.fonts.load('30px "Nanum Pen Script"').then(function(){setTimeout(run,120);},function(){setTimeout(run,300);});return;}}catch(e){}setTimeout(run,400);}
+function buildFinal(){var t=document.getElementById('edit').value||state.picked;var nk=nameOf();document.getElementById('fcPro').textContent=nk+'에게';document.getElementById('fcBody').textContent=t;}
 function shareKakao(){
   var msg=(document.getElementById('fcBody')||{}).textContent||'';
   var who=(document.getElementById('fcPro')||{}).textContent||'';
@@ -400,7 +398,6 @@ function shareKakao(){
   }catch(e){ toast('\uacf5\uc720 \uc911 \ubb38\uc81c\uac00 \uc0dd\uaca8\uc694. \uc7a0\uc2dc \ud6c4 \ub2e4\uc2dc \uc2dc\ub3c4\ud574 \uc8fc\uc138\uc694'); }
 }
 var toastT;function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;t.style.visibility='visible';t.style.transform='translateX(-50%) translateY(0)';clearTimeout(toastT);toastT=setTimeout(function(){t.style.opacity=0;t.style.visibility='hidden';t.style.transform='translateX(-50%) translateY(20px)';},1600);}
-function shareCard(){var img=document.getElementById('fcImg');if(!img||!img.src){toast('잠시 후 다시 시도해 주세요');return;}fetch(img.src).then(function(r){return r.blob();}).then(function(blob){var file=new File([blob],'loveflow_hanmadi.png',{type:'image/png'});if(navigator.canShare&&navigator.canShare({files:[file]})){return navigator.share({files:[file],text:'사랑흐름 · 마음 한마디'});}throw 0;}).catch(function(){try{var a=document.createElement('a');a.href=img.src;a.download='loveflow_hanmadi.png';a.click();}catch(e){}toast('이미지를 저장했어요. 카톡에 사진으로 보내세요');});}
 
 /* ===== 흐름 제어 (피아노=s0, 심정=s2~) ===== */
 function render(){document.querySelectorAll('.screen').forEach(function(e){e.classList.toggle('on',+e.dataset.s===state.s)});var order={0:0,2:1,3:2,4:3,5:4};var di=order[state.s];document.querySelectorAll('#prog i').forEach(function(d,x){d.classList.toggle('on',di!==undefined&&x===di);});window.scrollTo(0,0);}
