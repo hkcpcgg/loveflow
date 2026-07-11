@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ===================================================================
  사랑흐름 · 마음 한마디 편지 페이지  /m/?id=xxxx
+ v4  260711  발신자 서명 "— △△ 드림"(from 있을 때) 추가 · 수신자 조사포함형 그대로 표시(어머니께)
  v3  260711  상단 로고 마크 + "마음 한마디" 한 줄 가운데정렬 (브랜드명 중복 제거)
  v2  260711  상단 "사랑흐름·마음 한마디" 브랜드 + 버튼 "나도 마음 전하기" + 문구 "그리운 누군가에게 / 당신의 마음을 전해보세요"
  v1  260711  최초 생성 (이사회 C+ 확정 · ②시안 편지 화면 가득)
@@ -31,6 +32,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
 .body{padding:24px 30px 30px;text-align:center;font-family:'Nanum Pen Script',cursive}
 .to{font-size:24px;color:#6B5A45;margin-bottom:22px}
 .msg{font-size:29px;color:#3A3228;line-height:1.65;white-space:pre-wrap;word-break:keep-all}
+.sign{font-family:'Nanum Pen Script',cursive;font-size:23px;color:#6B5A45;text-align:right;margin-top:26px}
 .line{height:1px;background:#EFE6D6;margin:0 30px}
 
 /* 하단 바이럴 (편지 다 읽은 뒤 자연스럽게) */
@@ -61,6 +63,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
     <div class="body">
       <div class="to" id="to"></div>
       <div class="msg" id="msg"></div>
+      <div class="sign" id="sign" style="display:none"></div>
     </div>
     <div class="line"></div>
     <div class="foot">
@@ -88,9 +91,13 @@ var LETTER_GAS = 'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZ
 function $(id){return document.getElementById(id);}
 function showErr(){ $('load').style.display='none'; $('letter').style.display='none'; $('err').style.display='block'; }
 
-function render(to, msg){
-  $('to').textContent = (to && to.trim()) ? (to + '님에게') : '당신에게';
+function render(to, msg, from){
+  $('to').textContent = (to && to.trim()) ? to : '당신에게';
   $('msg').textContent = msg || '';
+  if(from && from.trim()){
+    $('sign').textContent = '— ' + from.trim() + ' 드림';
+    $('sign').style.display = 'block';
+  }
   $('load').style.display='none';
   $('letter').style.display='block';
   requestAnimationFrame(function(){ $('letter').classList.add('show'); });
@@ -108,7 +115,7 @@ function render(to, msg){
     .then(function(r){ return r.json(); })
     .then(function(d){
       if(d && d.ok && (d.msg || d.message)){
-        render(d.to || d.target || '', d.msg || d.message || '');
+        render(d.to || d.target || '', d.msg || d.message || '', d.from || '');
       } else { showErr(); }
     })
     .catch(function(){ showErr(); });
