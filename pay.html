@@ -1,5 +1,24 @@
 <!DOCTYPE html>
 <!-- ============================================================
+  결제 pay.html · v13-2 · 2026-07-12
+  · [v13-2] HTML 자리표시자 정가 50,000 → 48,900(JS 주입 전 순간 노출 방지). PRODUCTS.letter 이름 '마음편지' → '마음 여행편지'(name·loc·hero). 260708 확정 원칙 원복.
+  · [v13-1] 진행바(결제›발권›입장›여행) 글자 붙는 문제 수정 — .steps가 flex 컬럼 안에서 margin:0 auto 때문에
+  ·      내용폭(136px)으로 쪼그라들어 각 칸이 22px밖에 안 됐음(실측). width:100% 추가로 4칸이 제 폭을 가짐.
+  · [v13] 화면 정리 + 버튼 패턴을 showcase(v4-1)와 통일
+  ·      ① pinc 삭제 — "마음 여행지도와 완성된 편지, 두 여정이 함께 담겨 있어요"는 바로 위 psub과 같은 말(중복)
+  ·      ② pass-need 삭제 — "여행을 시작하려면 사랑흐름 여권번호가 필요해요"(군더더기). 여긴 여권을 사는 곳이라 설명 불필요
+  ·      ③ 상품명(pn) 14px → 25px 딥네이비 900. 이 화면의 주인공이 상품명인데 가장 작았음
+  ·      ④ 계좌이체에 .main 클래스 부착 — CSS는 이미 있었는데 아무도 안 써서 세 버튼이 똑같은 흰 버튼이었음.
+  ·      "가장 쉬워요"라고 글로만 쓰고 색은 안 줬던 것 → 딥네이비 채움(화면에서 유일한 진한 버튼)
+  ·      ⑤ 바로예매·오픈마켓 테두리를 회색 → 네이비(showcase 카드와 같은 무게). 패턴 = 채움 1 + 테두리 N
+  ·      ⑥ "그래도 궁금하시면" 삭제 · 카카오톡 문의 가운데 정렬
+  ·      ※ 결제 로직·choosePath·계좌복사·네이버 URL·gate ?item= 전달·FAQ·진행바 무손상
+  · [v12] · 2026-07-12
+  · [v12] ① PRODUCTS 가격을 확정대장(260712)으로 교체 — 진열장(showcase v4)과 금액이 어긋나던 것 해소:
+  ·      map 24,900·19,800 → 19,900·14,900 / letter 29,900·22,600 → 29,000·19,900 / set 50,000·29,800 → 48,900·29,800
+  ·      life(90,000·59,800)·memoir(65,000·49,800)는 확정값과 이미 일치 → 무변경
+  ·      ② ☰ 첫 항목 '무료 나침반'(폐기 명칭·compass 링크) → '마음 한마디'(home). 표준 6항목 완성
+  ·      ※ 결제 로직·choosePath·계좌복사·네이버 스토어 URL·gate 전달(?item=)·디자인 전부 무손상
   결제선택 pay · v2 · 2026-07-06
   · 기본 프레임 표준본(첫 완성): [로고(홈) · ← 뒤로 · 화면이름 · ☰] + 법정 푸터 3줄 + ← 홈으로
   · v11 배치 반영 / 색·통버튼 고정 / 가격표 한 곳(PRICE) 관리
@@ -47,8 +66,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
 /* 가격 박스 */
 .price{margin:10px 18px 4px;border:1.5px solid var(--gold);border-radius:14px;padding:13px 15px;background:#fff}
-.price .pn{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:3px}
-.price .psub{font-size:11px;color:var(--sub);line-height:1.65;margin:0 0 9px;font-weight:500}
+.price .pn{font-size:25px;font-weight:900;color:var(--navy);margin-bottom:5px;letter-spacing:-.01em}
+.price .psub{font-size:12.5px;color:var(--sub);line-height:1.7;margin:0 0 11px;font-weight:500}
 .price .pinc{margin-top:9px;padding:8px 10px;background:#F2F6FA;border-radius:9px;font-size:11px;font-weight:700;color:var(--navy);text-align:center;line-height:1.55}
 .faq{margin-top:18px;padding:0 18px}
 .faq-t{font-size:14px;font-weight:800;color:var(--navy);text-align:center;margin-bottom:10px}
@@ -101,7 +120,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .legal .flinks a:hover{color:var(--coral-d)}
 .legal .warn{font-size:10.5px;color:var(--sub);font-weight:500;line-height:1.7}
 .legal .home2{font-size:12px;font-weight:800;color:var(--navy);margin-top:14px;cursor:pointer;display:inline-block}
-.steps{display:flex;justify-content:center;align-items:flex-start;padding:16px 24px 4px;max-width:420px;margin:0 auto}
+.steps{display:flex;justify-content:center;align-items:flex-start;padding:16px 24px 4px;width:100%;max-width:420px;margin:0 auto}
 .step{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;flex:1;max-width:78px}
 .step .dot{width:14px;height:14px;border-radius:50%;background:#E3DAC5;z-index:2}
 .step.done .dot{background:var(--navy)}
@@ -113,11 +132,11 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .step.done .line,.step.now .line{background:var(--navy)}
 .step:first-child .line{display:none}
 .ask-c{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);text-align:center;font-size:12px;color:var(--sub);line-height:1.7}
-.kakao-mini{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:12px;font-weight:700;color:#3A2E00;text-decoration:none;padding:7px 15px;border-radius:16px;background:var(--kakao)}
+.kakao-mini{display:inline-flex;justify-content:center;align-items:center;gap:5px;margin-top:8px;font-size:12px;font-weight:700;color:#3A2E00;text-decoration:none;padding:7px 15px;border-radius:16px;background:var(--kakao)}
 .kakao-mini:active{transform:scale(.96)}
 .choice{padding:6px 18px 4px}
 .choice-h{text-align:center;font-size:14px;font-weight:800;color:var(--ink);margin:6px 0 14px}
-.choice-btn{display:block;width:100%;padding:18px;margin-bottom:12px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-size:15px;font-weight:800;color:var(--navy);cursor:pointer;font-family:inherit;text-align:center}
+.choice-btn{display:block;width:100%;padding:18px;margin-bottom:12px;border-radius:14px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-size:15px;font-weight:800;color:var(--navy);cursor:pointer;font-family:inherit;text-align:center}
 .choice-btn .cd{display:block;font-size:12px;font-weight:600;color:var(--sub);margin-top:5px}
 .choice-btn .soon{display:inline-block;font-size:10.5px;font-weight:800;color:#9A6F0B;background:#FFF3D6;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:middle}
 .choice-btn:active{transform:scale(.99)}
@@ -146,7 +165,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
       <div class="dhead"><b>사랑흐름</b><button class="x" onclick="closeMenu()">✕</button></div>
       <div class="dbody">
         <a onclick="goHome()">홈</a>
-        <a onclick="go('compass')">무료 나침반</a>
+        <a onclick="go('home')">마음 한마디</a>
         <a onclick="go('journey')">여행지도 보기</a>
         <a onclick="go('letter')">편지</a>
         <a onclick="go('find')">사랑흐름 여권 찾기</a>
@@ -168,14 +187,12 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
   <div class="price">
     <div class="pn" id="pName">마음 여행편지</div>
     <div class="psub" id="pSub">마음 여행지도로 나를 먼저 돌아보고,<br>그 마음을 토대로 편지를 완성하는 여정이에요.</div>
-    <div class="prow"><span class="plabel">정가</span><span class="pl" id="pList">50,000원</span></div>
+    <div class="prow"><span class="plabel">정가</span><span class="pl" id="pList">48,900원</span></div>
     <div class="prow"><span class="nlabel">국내 런칭가</span><span class="pw" id="pNow">29,800원</span></div>
-    <div class="pinc" id="pInc">마음 여행지도와 완성된 편지, 두 여정이 함께 담겨 있어요</div>
   </div>
 
   <div class="choice" id="choice">
-    <div class="pass-need">여행을 시작하려면,<br>사랑흐름 여권번호가 필요해요.</div>
-    <button class="choice-btn" onclick="choosePath('acct')">계좌이체<span class="cd">가장 쉬워요 · 입금 후 카톡 발권</span></button>
+    <button class="choice-btn main" onclick="choosePath('acct')">계좌이체<span class="cd">가장 쉬워요 · 입금 후 카톡 발권</span></button>
     <div class="choice-row2">
       <button class="choice-btn" onclick="choosePath('toss')">바로 예매 <span class="soon">곧</span></button>
       <button class="choice-btn" onclick="choosePath('online')">오픈마켓</button>
@@ -231,7 +248,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
       <div class="faq-q"><span>결제하면 바로 시작되나요?</span><span class="faq-ar">▾</span></div>
       <div class="faq-a">여권번호를 받으시면 발권 → 입장 → 여행으로 이어져요.</div>
     </div>
-    <div class="ask-c">그래도 궁금하시면 <a class="kakao-mini" onclick="go('kakao')">카카오톡 문의</a></div>
+    <div class="ask-c"><a class="kakao-mini" onclick="go('kakao')">카카오톡 문의</a></div>
   </div>
 
   <!-- ===== 하단 푸터 (프레임 · 통일형) =====
@@ -261,16 +278,16 @@ var PRODUCTS = {
     hero: '마음 여행지도를 시작해요',
     sub:  '내 마음을 발견하는 여행 지도예요.',
     inc:  '마음 여행지도 한 편이 담겨 있어요',
-    list: 24900, now: 19800,
+    list: 19900, now: 14900,
     store: 'https://smartstore.naver.com/wellnongbunet/products/13647249581'
   },
-  letter: {                                /* 마음편지 (편지 단독) */
-    name: '마음편지',
-    loc:  '마음편지 · 결제',
-    hero: '마음편지를 시작해요',
+  letter: {                                /* 마음 여행편지 (편지 단독) */
+    name: '마음 여행편지',
+    loc:  '마음 여행편지 · 결제',
+    hero: '마음 여행편지를 시작해요',
     sub:  '마음을 담아 편지를 완성하는 여정이에요.',
     inc:  '완성된 편지 한 통이 담겨 있어요',
-    list: 29900, now: 22600,
+    list: 29000, now: 19900,
     store: ''
   },
   set: {                                   /* 마음여행 (지도 + 편지) */
@@ -279,7 +296,7 @@ var PRODUCTS = {
     hero: '여행을 시작해요',
     sub:  '마음 여행지도로 나를 돌아보고,<br>그 마음으로 편지를 완성하는 여정이에요.',
     inc:  '마음 여행지도와 완성된 편지, 두 여정이 함께 담겨 있어요',
-    list: 50000, now: 29800,
+    list: 48900, now: 29800,
     store: 'https://smartstore.naver.com/wellnongbunet/products/13652635267'
   },
   life: {                                  /* 인생여행 (지도+편지+자서전) */
@@ -309,7 +326,6 @@ document.getElementById('loc').textContent = P.loc;
 document.getElementById('heroTitle').textContent = P.hero;
 document.getElementById('pName').textContent = P.name;
 document.getElementById('pSub').innerHTML = P.sub || '';
-document.getElementById('pInc').innerHTML = P.inc || '';
 document.getElementById('pList').textContent = P.list ? P.list.toLocaleString() + '원' : '';
 document.getElementById('pNow').textContent  = P.now ? P.now.toLocaleString() + '원' : '가격 준비 중';
 
