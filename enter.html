@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <!-- ============================================================
+  입장 의식 enter.html · v4 · 2026-07-12
+  · [v4] ① LINK.letter '' → '/l/' (편지 통로 · ?id 자동첨부) ② 히어로 둘째줄(hsub) 삭제 — 제목 h1은 보존
+  ·      ③ 하단 브랜드 블록(로고+사랑흐름+LOVE FLOW) 삭제 — 상단 로고와 중복, 링크 없는 장식
+  ·      ④ 여백 회복(제목↓ 20px, 히어로 아래 22px) — 붙어버린 격식 복원
+  ·      [무변경] 디자인·레이아웃·여권카드·큰버튼(/journey/)·진행바·푸터·상단로고. 롤백=v2(19,046B)
   입장 의식 enter.html · v2 · 2026-07-10
   · [v2] 여권을 gate 발급여권(cert)으로 통일 — 제목("사랑흐름/마음 여행여권")·사각직인(認證)·모서리장식·발행청·저작권 동일. 번호 복사버튼 유지.
   · [v1] 입장 의식 신규: URL ?id= 수신→여권번호 표시·journey/letter로 id 자동전달(PASS). ※원본은 pay 프레임 복사본이라 주석·title이 pay 잔재였음 → v2에서 바로잡음.
@@ -104,8 +109,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .step:first-child .line{display:none}
 
 /* ===== 입장 의식 · 여권 주인공 + 브랜딩 ===== */
-.ehero{text-align:center;padding:22px 22px 6px;background:radial-gradient(circle at 50% 6%,#FFF1E2,#FFFBF5 58%)}
-.ehero h1{font-size:22px;font-weight:900;line-height:1.4;color:var(--navy)}
+.ehero{text-align:center;padding:24px 22px 22px;background:radial-gradient(circle at 50% 6%,#FFF1E2,#FFFBF5 58%)}
+.ehero h1{font-size:22px;font-weight:900;line-height:1.4;color:var(--navy);margin:0 0 20px}
 .hsub{font-size:13.5px;color:var(--sub);font-weight:600;margin-top:8px;line-height:1.6}
 .cert{position:relative;background:linear-gradient(165deg,#1E4A76 0%,#16395C 55%,#102A45 100%);border:2px solid var(--gold);border-radius:16px;padding:30px 24px 22px;margin-bottom:14px;box-shadow:0 14px 40px rgba(16,42,69,0.4);overflow:hidden}
 .cert::before{content:'';position:absolute;inset:7px;border:1px solid rgba(212,175,55,0.4);border-radius:11px;pointer-events:none}
@@ -183,7 +188,6 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
   <!-- ===== 의식 히어로 · 게이트 통과 ===== -->
   <div class="ehero">
     <h1>이제, 당신의 여행이 시작됩니다.</h1>
-    <div class="hsub">가장 먼저 떠오른 그 사람에게로, 이제 출발해요.</div>
     <div class="cert">
       <div class="cert-corner tl"></div><div class="cert-corner tr"></div>
       <div class="cert-corner bl"></div><div class="cert-corner br"></div>
@@ -208,11 +212,6 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div class="ci-en">MINISTRY OF LOVE FLOW</div>
       </div>
       <div class="cert-legal">© 2026 사랑흐름 · LFRI™ · 무단복제 및 상업적 이용 금지<br>Unauthorized use strictly prohibited. All rights reserved.</div>
-    </div>
-    <div class="brand">
-      <img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름">
-      <div class="brand-name">사랑흐름</div>
-      <div class="brand-en">LOVE FLOW</div>
     </div>
   </div>
 
@@ -244,7 +243,7 @@ var LINK = {
   hanmadi: '/',
   compass: '/',
   journey: '/journey/',
-  letter:  '',
+  letter:  '/l/',                          /* 260712: 빈 값 → /l/ (편지 통로). go()가 ?id=LF- 자동 첨부 */
   find:    '/find/',
   gate:    '/gate.html',
   apply:   '/apply.html',
