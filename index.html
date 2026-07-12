@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  사랑흐름 마음 한마디 = index.html (메인) · v17 · 2026-07-12
+  사랑흐름 마음 한마디 = index.html (메인) · v18 · 2026-07-12
+  · [v18] 카톡 보낸 뒤 화면(s=6) 신설 + 출구 정리 — 260712 이사회 확정 구조 반영(그동안 시안만 있고 index엔 미반영이었음)
+  ·      ① shareKakao 전송 성공 → goSent() → s=6 전환(기존엔 전환 자체가 없어 완성화면에 그대로 머물렀음)
+  ·      ② 보낸 뒤 화면: 카드 미니(.sentmini) + '✓ ○○께 마음을 전했습니다' + 다시 보내기(→s=5) / 벚꽃빛 구역에서 세상 전환 / '대신 말해줘서' 문구 / [또 다른 마음 전하기](메인) + [사랑흐름 여행 갤러리 →] + '둘러보는 건 무료예요'. 카톡 노랑·가격 없음. s=6에선 진행점(prog) 숨김
+  ·      ③ 완성화면 '처음으로'(location.href='/' = 홈=새로쓰기, 쓴 글 날림) 버튼 제거 → 카톡 버튼 통버튼화
+  ·      ④ '여행지도 그리기 →' → '사랑흐름 여행 갤러리 둘러보기 →' (진열장=고유명사 브랜딩). showcase.html 파일명은 유지(타 페이지 링크 보호), 페이지 제목 개명은 별건으로 분리
   · [v17] STEP4 편지지: ① 죽은 var(--serif) 정리 → --hand:'Nanum Pen Script' 신설(:root). 입력창이 손글씨를 의도하고도 변수 미정의로 Noto Sans로 떨어져 있던 버그 수정
   ·      ② .editbox = 편지지 — 위 .lp-to(수신자 '어머니께', josaKke 재사용) / 본문 textarea 손글씨 26px / 아래 .lp-sign(서명 '— 지수 드림', fromName 재사용)
   ·      ③ 보내는 분 미입력 시 회색 예시 '— ○○ 드림'(ghost), 입력하면 실시간 실명. paintLetterhead()·paintSign() 신설, render() 진입 훅 1줄
@@ -47,6 +52,22 @@
 .lfpill-kko{background:#FEE500;color:#3B2B14;font-size:13px}
 .lfmap{width:100%;padding:17px;margin-top:10px;border:none;border-radius:14px;background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:16px;font-weight:700;cursor:pointer}
 .lfmap:active{transform:scale(.99)}
+/* ===== 보낸 뒤 화면 (s=6) ===== */
+.sentwrap{padding:26px 22px 0;text-align:center}
+.sentmini{max-width:196px;margin:0 auto;background:#FCF2EC;border-radius:12px;padding:14px 14px 12px;border:1px solid #F1E3D8}
+.sentmini .m-to{font-family:var(--hand);font-size:17px;color:var(--navy);line-height:1.2}
+.sentmini .m-msg{font-family:var(--hand);font-size:16px;color:#1c3f63;line-height:1.35;margin-top:4px;max-height:44px;overflow:hidden}
+.sentok{margin-top:16px;font-size:15px;font-weight:700;color:#1E4A76}
+.sentok .ck{color:#1D9E75;margin-right:5px}
+.sentre{display:block;margin:9px auto 0;background:none;border:none;color:#9A917E;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;text-decoration:underline;cursor:pointer}
+.petal{margin-top:24px;background:#FDF2F2;border-top:1px solid #F6E1E1;padding:26px 22px 24px;text-align:center}
+.petal .pl{font-size:15px;line-height:1.75;color:#3A3228}
+.petal .pl b{color:#1E4A76}
+.petal .ps{margin-top:8px;font-size:12.5px;color:#9A917E}
+.pmain{width:100%;margin-top:20px;padding:17px;border:none;border-radius:14px;background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:16px;font-weight:700;cursor:pointer}
+.pgal{width:100%;margin-top:10px;padding:15px;border:1.5px solid #E3CFCF;border-radius:14px;background:#fff;color:#8B4A4A;font-family:'Noto Sans KR',sans-serif;font-size:14.5px;font-weight:500;cursor:pointer}
+.pfree{margin-top:7px;font-size:12px;color:#B0A79A}
+.pmain:active,.pgal:active{transform:scale(.99)}
 .lfshare{width:100%;padding:15px;border:none;border-radius:14px;background:#FEE500;color:#3B2B14;font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
 .lfback{display:block;margin:14px auto 12px;background:none;border:none;color:#6B6250;font-family:'Noto Sans KR',sans-serif;font-size:13px;cursor:pointer}
 .lfshare:active{transform:scale(.99)}.lfshare .kico{margin-right:5px}
@@ -304,11 +325,27 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div style="font-size:12.5px;color:#9A917E;margin-top:5px">여행을 시작하면, 당신만의 편지로 자라요.</div>
       </div>
       <button class="lfback" onclick="prev()">← 뒤로 가서 고치기</button>
-      <div class="lfrow">
-        <button class="lfpill lfpill-kko" onclick="shareKakao()"><span class="kico">💬</span>카카오톡으로 보내기</button>
-        <button class="lfpill lfpill-try" onclick="location.href='/'">처음으로</button>
+      <button class="lfpill lfpill-kko" style="width:100%;margin-top:4px" onclick="shareKakao()"><span class="kico">💬</span>카카오톡으로 보내기</button>
+      <button class="lfmap" onclick="lgo('showcase')">사랑흐름 여행 갤러리 둘러보기 →</button>
+    </section>
+
+    <!-- 5. 보낸 뒤 -->
+    <section class="screen" data-s="6">
+      <div class="sentwrap">
+        <div class="sentmini">
+          <div class="m-to" id="stTo">그분에게</div>
+          <div class="m-msg" id="stMsg">—</div>
+        </div>
+        <div class="sentok"><span class="ck">✓</span><span id="stOk">마음을 전했습니다</span></div>
+        <button class="sentre" onclick="go(5)">다시 보내기</button>
       </div>
-      <button class="lfmap" onclick="lgo('showcase')">여행지도 그리기 →</button>
+      <div class="petal">
+        <div class="pl">차마 못 했던 말을,<br><b>대신 말해줘서 고맙다</b>는 사람이 있습니다.</div>
+        <div class="ps">그 한마디에서 편지를 쓴 사람도, 자서전을 남긴 사람도 있어요.</div>
+        <button class="pmain" onclick="againHanmadi()">또 다른 마음 전하기</button>
+        <button class="pgal" onclick="lgo('showcase')">사랑흐름 여행 갤러리 →</button>
+        <div class="pfree">둘러보는 건 무료예요</div>
+      </div>
     </section>
 
 
@@ -452,6 +489,7 @@ function shareKakao(){
           link:{mobileWebUrl:url,webUrl:url},
           buttonTitle:'편지 열어보기'
         });
+        goSent();
       }else{ toast('전송 준비에 실패했어요. 잠시 후 다시 시도해 주세요'); }
     })
     .catch(function(){ toast('연결이 불안정해요. 잠시 후 다시 시도해 주세요'); });
@@ -486,7 +524,15 @@ function paintSign(){var g=document.getElementById('lpSign');if(!g)return;var fn
   else{g.textContent='— ○○ 드림';g.classList.add('ghost');}}
 function paintLetterhead(){var t=document.getElementById('lpTo');if(!t)return;
   var nk=state.pianoNm||state.who||'그분';t.textContent=nk+josaKke();paintSign();}
-function render(){if(state.s===4){paintLetterhead();}document.querySelectorAll('.screen').forEach(function(e){e.classList.toggle('on',+e.dataset.s===state.s)});var order={0:0,2:1,3:2,4:3,5:4};var di=order[state.s];document.querySelectorAll('#prog i').forEach(function(d,x){d.classList.toggle('on',di!==undefined&&x===di);});window.scrollTo(0,0);}
+function goSent(){var nk=nameOf(),j=josaKke();
+  var st=document.getElementById('stTo'); if(st){st.textContent=nk+j;}
+  var sm=document.getElementById('stMsg'); if(sm){sm.textContent=((document.getElementById('fcBody')||{}).textContent)||'';}
+  var so=document.getElementById('stOk'); if(so){so.textContent=nk+j+' 마음을 전했습니다';}
+  go(6);}
+function againHanmadi(){location.href=LINK.hanmadi;}
+function render(){if(state.s===4){paintLetterhead();}
+  var pg=document.getElementById('prog'); if(pg){pg.style.visibility=(state.s===6?'hidden':'visible');}
+document.querySelectorAll('.screen').forEach(function(e){e.classList.toggle('on',+e.dataset.s===state.s)});var order={0:0,2:1,3:2,4:3,5:4};var di=order[state.s];document.querySelectorAll('#prog i').forEach(function(d,x){d.classList.toggle('on',di!==undefined&&x===di);});window.scrollTo(0,0);}
 function go(n){state.s=n;render();
   if(n===2){var nk=state.pianoNm||'그분';state.who=nk;document.getElementById('q1').innerHTML=nk+josaKke()+',<br>지금 어떤 마음인가요?';}
 }
