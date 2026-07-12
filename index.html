@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  사랑흐름 마음 한마디 = index.html (메인) · v18 · 2026-07-12
+  사랑흐름 마음 한마디 = index.html (메인) · v19 · 2026-07-12
+  · [v19] v18에서 이사가 승인 없이 바꾼 두 곳 원복 — ①완성화면 버튼 반반 구조 복원(lfrow 유지): 왼쪽 [← 뒤로 가서 고치기](lfpill-try) / 오른쪽 [카카오톡으로 보내기](lfpill-kko). v16 확정 '카톡·처음으로 반반'에서 '처음으로'가 빠졌으면 그 반쪽에 고치기가 들어가는 것이지, 카톡을 통버튼으로 늘리는 게 아님
+  ·      ②갤러리 링크 showcase→showroom(2곳: 완성화면 통버튼·보낸뒤 pgal). 260712 이사회 확정 유도문구 '먼저 다녀간 분들의 여행에서 만나보세요' = 여행의 기록(showroom·구경하는 곳). showcase는 상품 진열장(파는 곳)이라 '둘러보는 건 무료예요'와 맞지 않음
   · [v18] 카톡 보낸 뒤 화면(s=6) 신설 + 출구 정리 — 260712 이사회 확정 구조 반영(그동안 시안만 있고 index엔 미반영이었음)
   ·      ① shareKakao 전송 성공 → goSent() → s=6 전환(기존엔 전환 자체가 없어 완성화면에 그대로 머물렀음)
   ·      ② 보낸 뒤 화면: 카드 미니(.sentmini) + '✓ ○○께 마음을 전했습니다' + 다시 보내기(→s=5) / 벚꽃빛 구역에서 세상 전환 / '대신 말해줘서' 문구 / [또 다른 마음 전하기](메인) + [사랑흐름 여행 갤러리 →] + '둘러보는 건 무료예요'. 카톡 노랑·가격 없음. s=6에선 진행점(prog) 숨김
@@ -324,9 +326,11 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div style="font-size:15px;color:#3A3228">오늘 남긴 한 줄은, <b style="color:#1E4A76">편지의 씨앗</b>이에요.</div>
         <div style="font-size:12.5px;color:#9A917E;margin-top:5px">여행을 시작하면, 당신만의 편지로 자라요.</div>
       </div>
-      <button class="lfback" onclick="prev()">← 뒤로 가서 고치기</button>
-      <button class="lfpill lfpill-kko" style="width:100%;margin-top:4px" onclick="shareKakao()"><span class="kico">💬</span>카카오톡으로 보내기</button>
-      <button class="lfmap" onclick="lgo('showcase')">사랑흐름 여행 갤러리 둘러보기 →</button>
+      <div class="lfrow">
+        <button class="lfpill lfpill-try" onclick="prev()">← 뒤로 가서 고치기</button>
+        <button class="lfpill lfpill-kko" onclick="shareKakao()"><span class="kico">💬</span>카카오톡으로 보내기</button>
+      </div>
+      <button class="lfmap" onclick="lgo('showroom')">사랑흐름 여행 갤러리 둘러보기 →</button>
     </section>
 
     <!-- 5. 보낸 뒤 -->
@@ -343,7 +347,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div class="pl">차마 못 했던 말을,<br><b>대신 말해줘서 고맙다</b>는 사람이 있습니다.</div>
         <div class="ps">그 한마디에서 편지를 쓴 사람도, 자서전을 남긴 사람도 있어요.</div>
         <button class="pmain" onclick="againHanmadi()">또 다른 마음 전하기</button>
-        <button class="pgal" onclick="lgo('showcase')">사랑흐름 여행 갤러리 →</button>
+        <button class="pgal" onclick="lgo('showroom')">사랑흐름 여행 갤러리 →</button>
         <div class="pfree">둘러보는 건 무료예요</div>
       </div>
     </section>
