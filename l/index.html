@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 마음 여행편지</title>
+<!-- l_letter v7 배포본 | 260712 | /l/index.html → loveflow.ai.kr/l/ | l = letter. /l/ = 편지 진입 통로. enter의 빈 letter 링크를 메꿀. ?id=LF- 받음 → 꽃비+입장음 연출 → 편지 GAS(DTLjdA)로 이동. ★목적지=편지(여행지도 아님). v6의 /journey/ 목적지를 GAS로 교체. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1E4A76;--navy-deep:#173A5A;--ink:#2A3542;--muted:#8A8580;--cream:#FFFBF5;--petal:#FFE4EC;--petal-line:#F3B8CC;--petal-deep:#D98BA6;--gold:#D4AF37;--line:#EFE6DA}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;background:#F7EFE6;color:var(--ink);min-height:100vh;display:flex;justify-content:center}
+  .serif{font-family:'Noto Serif KR',serif}
+  .wrap{width:100%;max-width:500px;min-height:100vh;background:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .aura{position:absolute;top:34%;left:50%;transform:translate(-50%,-50%);width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(217,139,166,.16) 0%,rgba(255,228,236,.12) 42%,rgba(255,228,236,0) 68%);pointer-events:none;opacity:0;animation:auraIn 2.8s ease forwards .3s}
+  @keyframes auraIn{to{opacity:1}}
+  .petals{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+  .petal{position:absolute;top:-8%;border-radius:50%;will-change:transform,opacity;opacity:0}
+  @keyframes fall{
+    0%{opacity:0;transform:translateY(-40px) translateX(0)}
+    10%{opacity:var(--peak)}
+    100%{opacity:calc(var(--peak) * .85);transform:translateY(112vh) translateX(var(--drift))}
+  }
+  .top{display:flex;align-items:center;gap:8px;padding:13px 18px;position:relative;z-index:5;min-height:52px}
+  .top .logo{height:26px;width:auto;cursor:pointer;display:block}
+  .top .back{background:none;border:none;color:var(--navy);font-size:22px;cursor:pointer;line-height:1;padding:0 2px}
+  .top .title{position:absolute;left:0;right:0;text-align:center;font-size:12.5px;font-weight:700;color:var(--navy);letter-spacing:.01em;pointer-events:none}
+  .top .snd{background:none;border:none;font-size:17px;cursor:pointer;line-height:1;padding:0 2px;margin-left:auto;opacity:.85}
+  .top .menu{background:none;border:none;color:var(--navy);font-size:19px;cursor:pointer;line-height:1;padding:0 2px}
+  .drawer{position:absolute;top:52px;right:14px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(30,74,118,.14);padding:6px;z-index:20;display:none;min-width:200px}
+  .drawer.open{display:block}
+  .drawer a{display:flex;align-items:center;gap:9px;padding:11px 14px;font-size:13.5px;color:var(--ink);text-decoration:none;border-radius:10px;cursor:pointer}
+  .drawer a:hover{background:var(--petal);color:var(--navy-deep)}
+  .drawer a .ic{width:18px;text-align:center;opacity:.8}
+  .drawer a .chk{margin-left:auto;font-size:11px}
+  .drawer a .chk.ok{color:#1D9E75}
+  .body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 30px 30px;position:relative;z-index:3}
+  .eyebrow{font-size:12px;letter-spacing:.2em;color:var(--petal-deep);font-weight:700;opacity:0;animation:rise .9s ease forwards .5s}
+  .halo{width:96px;height:96px;border-radius:50%;margin:20px auto 10px;display:flex;align-items:center;justify-content:center;font-size:40px;background:radial-gradient(circle at 50% 45%,var(--petal) 0%,rgba(255,228,236,.45) 46%,rgba(255,228,236,0) 74%);opacity:0;animation:rise 1s ease forwards 1.0s, breathe 4.5s ease-in-out infinite 2s}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  h1{font-family:'Noto Serif KR',serif;font-size:29px;font-weight:700;color:var(--navy-deep);line-height:1.5;margin-top:8px;opacity:0;animation:rise 1s ease forwards 1.5s}
+  .sub{font-family:'Noto Serif KR',serif;font-size:16.5px;color:var(--ink);line-height:2;margin-top:22px;max-width:340px;opacity:0;animation:rise 1s ease forwards 2.1s}
+  .sub .em{color:var(--petal-deep)}
+  .pass{font-size:12px;color:var(--muted);margin-top:20px;letter-spacing:.04em;opacity:0;animation:rise 1s ease forwards 2.6s}
+  .pass b{color:var(--navy);font-weight:500}
+  .door{margin-top:40px;opacity:0;animation:rise 1s ease forwards 3.2s}
+  .door button{border:none;background:var(--navy);color:#fff;border-radius:30px;padding:16px 40px;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:500;cursor:pointer;letter-spacing:.04em;box-shadow:0 8px 22px rgba(30,74,118,.22);transition:.18s}
+  .door button:hover{background:var(--navy-deep)}
+  .door .quiet{display:block;font-size:11.5px;color:var(--muted);margin-top:14px;font-family:'Noto Sans KR',sans-serif}
+  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .foot{text-align:center;padding:18px 20px 16px;position:relative;z-index:3}
+  .foot .links{font-size:11.5px;color:var(--navy);opacity:.75}
+  .foot .links a{color:inherit;text-decoration:none;margin:0 5px;cursor:pointer}
+  .foot .cr{font-size:10.5px;color:#C4BAAC;margin-top:6px}
+  .demo{background:#173A5A;color:#fff;font-size:11.5px;text-align:center;padding:7px 10px;line-height:1.5;position:relative;z-index:5}
+  .demo b{color:#FFE4EC}
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+
+  <div class="petals" id="petals"></div>
+  <div class="aura"></div>
+
+  <div class="top">
+    <img class="logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="go('/')">
+    <button class="back" onclick="history.back()" title="뒤로">&#8249;</button>
+    <div class="title">사랑흐름 마음 여행편지</div>
+    <button class="snd" id="sndbtn" onclick="toggleSound(event)" title="소리">🔊</button>
+    <button class="menu" onclick="toggleMenu(event)" title="메뉴">&#9776;</button>
+  </div>
+  <div class="drawer" id="drawer">
+    <a onclick="go('/')"><span class="ic">🏠</span>홈<span class="chk ok">● 있음</span></a>
+    <a onclick="go('/')"><span class="ic">✉️</span>마음 한마디<span class="chk ok">● 있음</span></a>
+    <a onclick="go('/journey/')"><span class="ic">🗺️</span>마음 여행지도<span class="chk ok">● 여기서 시작</span></a>
+    <a onclick="go('/find/')"><span class="ic">🔑</span>사랑흐름 여권 찾기<span class="chk ok">● 있음</span></a>
+    <a onclick="location.reload()"><span class="ic">↻</span>다시 시작<span class="chk ok">●</span></a>
+  </div>
+
+  <div class="body">
+    <div class="eyebrow">사랑흐름 · 마음 여행편지</div>
+    <div class="halo">🌸</div>
+    <h1 class="serif">이제,<br>꽃비를 맞으며<br>편지를 시작합니다.</h1>
+    <div class="sub serif">커피 한 잔 하시면서,<br><span class="em">그분에게</span> 전하지 못했던 마음을<br>천천히 적어볼게요.</div>
+    <div class="pass" id="passLine">여권 <b>LF-K7M3P</b> · 확인됐어요</div>
+    <div class="door">
+      <button onclick="enter()">그분에게로 · 들어갈게요</button>
+      <span class="quiet">천천히 오셔도 괜찮아요.</span>
+    </div>
+  </div>
+
+  <div class="foot">
+    <div class="links"><a onclick="go('/about.html')">소개</a>&middot;<a onclick="go('/trust.html')">이용약관</a>&middot;<a onclick="go('/trust.html')">개인정보</a>&middot;<a onclick="go('/trust.html')">환불정책</a></div>
+    <div class="cr">&copy; 2026 사랑흐름 &middot; LFRI&trade;</div>
+  </div>
+</div>
+</div>
+
+<script>
+var LETTER_GAS='https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec';
+var PETAL_COLORS=['#F7B9CD','#F3A9C2','#FBC7D6','#EFA7BE','#F6BBCB'];
+function spawnPetal(){
+  var box=document.getElementById('petals'); if(!box) return;
+  var p=document.createElement('div');
+  var size=9+Math.random()*13, left=Math.random()*100, dur=7+Math.random()*6;
+  var drift=(Math.random()*140-70)+'px', peak=(0.55+Math.random()*0.20).toFixed(2);
+  var c=PETAL_COLORS[(Math.random()*PETAL_COLORS.length)|0];
+  p.style.cssText='position:absolute;top:-8%;border-radius:50%;left:'+left+'%;width:'+size+'px;height:'+size+'px;background:'+c+';';
+  p.style.setProperty('--drift',drift); p.style.setProperty('--peak',peak);
+  p.style.animation='fall '+dur+'s linear forwards';
+  box.appendChild(p);
+  setTimeout(function(){ if(p&&p.parentNode) p.parentNode.removeChild(p); }, dur*1000+400);
+}
+for(var i=0;i<6;i++){ setTimeout(spawnPetal, i*300); }
+setInterval(spawnPetal, 950);
+
+function getId(){ return (new URLSearchParams(location.search)).get('id') || ''; }
+(function(){ var id=getId(); if(id){ document.getElementById('passLine').innerHTML = '여권 <b>'+id.replace(/[<>&]/g,'')+'</b> · 확인됐어요'; } })();
+function go(u){ location.href=u; }
+
+var AC=null, muted=false;
+function ac(){ if(!AC){ AC=new (window.AudioContext||window.webkitAudioContext)(); } return AC; }
+function tone(f,d,pk,ty,dl){ if(muted) return; var c=ac(),t=c.currentTime+(dl||0),o=c.createOscillator(),g=c.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(pk,t+0.03);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+0.05); }
+function welcomeChord(){ [130.81,164.81,196.00,261.63].forEach(function(f,k){ tone(f,1.1,0.07,'triangle',k*0.13); }); }
+function breathe(){ if(muted) return; var c=ac(),t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=65.41;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.05,t+0.9);g.gain.exponentialRampToValueAtTime(0.0001,t+3.0);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+3.1); }
+function departSound(){ [196.00,261.63,329.63,392.00].forEach(function(f,k){ tone(f,0.7,0.08,'triangle',k*0.12); }); }
+var greeted=false;
+function greet(){ if(greeted||muted) return; greeted=true; try{ welcomeChord(); breathe(); }catch(e){} }
+document.addEventListener('pointerdown', function(){ greet(); });
+function toggleSound(e){ e.stopPropagation(); muted=!muted; document.getElementById('sndbtn').textContent=muted?'🔇':'🔊'; if(!muted){ greeted=false; greet(); } }
+function toggleMenu(e){ e.stopPropagation(); document.getElementById('drawer').classList.toggle('open'); }
+document.addEventListener('click', function(){ document.getElementById('drawer').classList.remove('open'); });
+function enter(){ try{ departSound(); }catch(e){} var id=getId(); var u=LETTER_GAS; if(id){ u += '?id=' + encodeURIComponent(id); } setTimeout(function(){ location.href=u; }, 1100); }
+</script>
+</body>
+</html>
