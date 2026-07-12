@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <!-- ============================================================
   사랑흐름 마음 한마디 = index.html (메인) · v14 · 2026-07-12
+  · [v16] ① 한마디 60자→120자(창 키운 만큼) ② 완성카드에 "— ○○ 드림" 서명 살림(fcSign·fromName())
+  ·      ③ 보내는 분 비면: 1회 토스트 → 2회째 confirm 팝업("이름 없이 전할까요?") — 훅 넘어가지 않게
+  ·      ④ 완성화면 버튼 무게 재배치: 고치기(살짝·색 진하게) / 카톡·처음으로 반반 / 여행지도 그리기 → 맨아래 통버튼(딥네이비)
+  · [v15] 완성화면 버튼 순서 바로잡음: [← 뒤로 가서 고치기]를 카톡 버튼 아래→위로 이동(v11에서 카톡 밑에 넣은 것 수정). 고치기는 보내기 전에 하는 일. 마크업 줄 순서만 바꿈, 기능·GAS·카톡공유 무변경.
   · [v14] STEP4 정리: ① .eyebrow/.q/.qsub CSS 신설(원래 정의 자체가 없어 뭉쳐 보였음) — STEP라벨 좌측·헤드라인 가운데
   ·      ② 헤드라인 "전하고 싶은 마음을, / 여기에 적어보세요." · 부제·그림안내문 삭제
   ·      ③ 이모티콘 헤드라인 바로 밑으로 · 56px→40px ④ 편지창 78px→236px(글자수 표시 추가)
@@ -28,16 +32,19 @@
 .lfc-brand{text-align:center;font-size:11px;letter-spacing:3px;color:#BBA894;font-weight:500;margin-bottom:24px}
 .lfc-to{font-family:'Nanum Pen Script',cursive;font-size:30px;color:#1E4A76;margin-bottom:6px;line-height:1.2}
 .lfc-msg{font-family:'Nanum Pen Script',cursive;font-size:31px;line-height:1.45;color:#1c3f63}
+.lfc-sign{font-family:'Nanum Pen Script',cursive;font-size:25px;color:#3f6288;text-align:right;margin-top:18px}
 .lfc-foot{margin:30px -26px 0;padding:14px 26px 13px;text-align:center;background:#F4E0D3}
 .lfc-mark{font-size:11px;letter-spacing:3px;color:#B39F87;font-weight:500}
 .lfc-copy{font-size:11px;color:#E0D6C7;margin-top:5px}
 .lfc-img{width:100%;border-radius:16px;display:block}
 .lfrow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
 .lfpill{height:48px;border-radius:24px;border:none;font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:500;cursor:pointer;color:#fff}
-.lfpill-try{background:#FF7A59}
-.lfpill-map{background:#1E4A76}
+.lfpill-try{background:#F3EDE2;color:#8B8371}
+.lfpill-kko{background:#FEE500;color:#3B2B14;font-size:13px}
+.lfmap{width:100%;padding:17px;margin-top:10px;border:none;border-radius:14px;background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:16px;font-weight:700;cursor:pointer}
+.lfmap:active{transform:scale(.99)}
 .lfshare{width:100%;padding:15px;border:none;border-radius:14px;background:#FEE500;color:#3B2B14;font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:16px}
-.lfback{display:block;margin:10px auto 0;background:none;border:none;color:#9A917E;font-family:'Noto Sans KR',sans-serif;font-size:13px;cursor:pointer}
+.lfback{display:block;margin:14px auto 12px;background:none;border:none;color:#6B6250;font-family:'Noto Sans KR',sans-serif;font-size:13px;cursor:pointer}
 .lfshare:active{transform:scale(.99)}.lfshare .kico{margin-right:5px}
 .lfpill:active{transform:scale(.98)}
 </style>
@@ -259,8 +266,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div class="emo" onclick="pickEmo2(this,'😊')">😊</div>
         <div class="emo" onclick="pickEmo2(this,'🌸')">🌸</div>
       </div>
-      <div class="editbox"><textarea id="edit" rows="6" maxlength="60" oninput="editCount()"></textarea></div>
-      <div class="editcount" id="editCount">0 / 60</div>
+      <div class="editbox"><textarea id="edit" rows="6" maxlength="120" oninput="editCount()"></textarea></div>
+      <div class="editcount" id="editCount">0 / 120</div>
       <div style="margin-top:20px">
         <div class="qsub" style="text-align:left;font-size:13px;color:#B7B0A2;margin-bottom:7px">보내는 분</div>
         <input id="fromIn" maxlength="12" placeholder="예: 지수" autocomplete="off" style="width:100%;border:1px solid #EAE3D6;border-radius:12px;padding:12px 14px;font-size:14px;font-family:'Noto Sans KR',sans-serif;background:#FFFDF9;color:#3A3228;box-sizing:border-box">
@@ -276,6 +283,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
           <div class="lfc-brand">사랑흐름 · 마음 한마디</div>
           <div class="lfc-to" id="fcPro">그분에게</div>
           <div class="lfc-msg" id="fcBody">—</div>
+          <div class="lfc-sign" id="fcSign" style="display:none"></div>
           <div class="lfc-foot"><div class="lfc-mark">사랑흐름 · loveflow.ai.kr</div><div class="lfc-copy">© 2026 사랑흐름 · LFRI™</div></div>
         </div>
       </div>
@@ -283,12 +291,12 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div style="font-size:15px;color:#3A3228">오늘 남긴 한 줄은, <b style="color:#1E4A76">편지의 씨앗</b>이에요.</div>
         <div style="font-size:12.5px;color:#9A917E;margin-top:5px">여행을 시작하면, 당신만의 편지로 자라요.</div>
       </div>
-      <button class="lfshare" onclick="shareKakao()"><span class="kico">💬</span>카카오톡으로 보내기</button>
       <button class="lfback" onclick="prev()">← 뒤로 가서 고치기</button>
       <div class="lfrow">
+        <button class="lfpill lfpill-kko" onclick="shareKakao()"><span class="kico">💬</span>카카오톡으로 보내기</button>
         <button class="lfpill lfpill-try" onclick="location.href='/'">처음으로</button>
-        <button class="lfpill lfpill-map" onclick="lgo('showcase')">여행지도 그리기</button>
       </div>
+      <button class="lfmap" onclick="lgo('showcase')">여행지도 그리기 →</button>
     </section>
 
 
@@ -396,7 +404,19 @@ function buildRecs(){var byT=SRC[state.target]||(state.target==='연인'?SRC['�
     box.appendChild(d);});}
 function goEdit(){if(!state.picked){toast('전할 한마디를 먼저 골라주세요');return;}next();}
 function pickEmo2(el,e){var on=el.classList.contains('sel');document.querySelectorAll('#emos .emo').forEach(function(x){x.classList.remove('sel')});if(!on){el.classList.add('sel');state.emo2=e;}else{state.emo2='';}}
-function buildFinal(){var t=document.getElementById('edit').value||state.picked;var nk=nameOf();document.getElementById('fcPro').textContent=nk+josaKke();document.getElementById('fcBody').textContent=t;}
+function fromName(){ var f=document.getElementById('fromIn');
+  var v=((f&&f.value)||'').trim();
+  var junk=['이름','이름님','보내는사람','보내는 사람','보내는분','보내는 분','예: 지수'];
+  return (junk.indexOf(v)>=0) ? '' : v; }
+function buildFinal(){
+  var t=document.getElementById('edit').value||state.picked;
+  var nk=nameOf();
+  document.getElementById('fcPro').textContent=nk+josaKke();
+  document.getElementById('fcBody').textContent=t;
+  var sg=document.getElementById('fcSign'), fn=fromName();
+  if(sg){ if(fn){ sg.textContent='— '+fn+' 드림'; sg.style.display='block'; }
+          else { sg.textContent=''; sg.style.display='none'; } }
+}
 function shareKakao(){
   var msg=(document.getElementById('fcBody')||{}).textContent||'';
   var nk=nameOf();
@@ -426,17 +446,23 @@ function shareKakao(){
 }
 /* ── STEP4 (260712) : 글자수 + 보내는 분 한 번만 튕기기 ── */
 function editCount(){ var e=document.getElementById('edit'), c=document.getElementById('editCount');
-  if(e&&c) c.textContent = (e.value||'').length + ' / 60'; }
+  if(e&&c) c.textContent = (e.value||'').length + ' / 120'; }
 var fromNudged=false;
 function goFinal(){
   var f=document.getElementById('fromIn');
-  var v=(f && f.value ? f.value : '').trim();
-  if(!v && !fromNudged){
-    fromNudged=true;
-    try{ toast('보내는 분 성함을 기재해 주세요'); }catch(e){}
-    if(f){ f.classList.add('warn'); try{ f.focus(); }catch(e){}
-      setTimeout(function(){ f.classList.remove('warn'); }, 2200); }
-    return;
+  var v=fromName();
+  if(!v){
+    if(!fromNudged){
+      fromNudged=true;
+      try{ toast('보내는 분 성함을 기재해 주세요'); }catch(e){}
+      if(f){ f.classList.add('warn'); try{ f.focus(); }catch(e){}
+        setTimeout(function(){ f.classList.remove('warn'); }, 2200); }
+      return;
+    }
+    if(!confirm('보내는 분 성함이 비어 있어요.\n이름 없이 전할까요?')){
+      if(f){ try{ f.focus(); }catch(e){} }
+      return;
+    }
   }
   buildFinal(); next();
 }
