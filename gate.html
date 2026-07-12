@@ -1,4 +1,4 @@
-<!-- 사랑흐름 입국 게이트 gate.html v9-21 · 260710 · [작업 v9-21] F안(주문번호 형식검증) client 추가: 발급 전 채널별 형식 검사→네이버=16자리숫자 확정(실샘플 2026070519922551), 나머지=6자 이상(abc·1111 등 쓰레기 차단). issuePassport GAS도 동일검증 병행(우회방지). 발급엔진 무변경. · [작업 v9-20] 발급완료 여권 제목 줄바꿈: "사랑흐름 마음 여행여권"이 좁은 화면에서 "사랑흐름 마음 여"/"행여권"으로 깨지던 것 → "사랑흐름"<br>"마음 여행여권" 두 줄 명시(cert-title). 텍스트/발급엔진 무변경. · 260706 · [작업 v9-19] ①띄어쓰기 표준(마음 뒤만 한 칸) 전면 통일 "마음 여행 여권"→"마음 여행여권"(상단바·제목·버튼·여권카드·alt). ②순서 교체: 설명(무엇인지·pp-explain)을 위로, 안내("구입하신 곳의 정보를 입력해 주세요")를 아래로. ③①스토어 박스에 오픈마켓·온라인 스토어 안내문 추가 + "네이버 스마트스토어" 네이버 그린(.nvr). ④발급 버튼 "마음 여행여권 발급받기 →". [절대보존] 발급엔진 스크립트·입력/결과 ID(channel·orderNo·phone4·ppNo·ppDate)·select·onclick·GAS 호출·regex·드로어·?id=·GA4 미변경. [v9-18]용어 마음여행여권·계좌이체 접수·언제든 삭제 [v9-17]이사회 [v9-16]pay색토큰 [v9-15]pay프레임 · 260625 · [작업 v9-14] 여권 이미지 저장 방식 전면 교체 — html2canvas(인앱 폰트 taint로 실패) 폐기. 같은출처 배경 /passport_bg.jpg에 발급번호(#ppNo)+발급일을 canvas로 얹어(좌표 번호 W/2·675, 발급일 W/2·840) 오버레이로 크게 띄우고 "꾹 눌러 저장" 안내. taint 없음→인앱(카톡·네이버) 저장 검증완료(pptest). 외부 라이브러리·CDN 제거. [절대보존] issue()·JSONP콜백·GAS_B64·lf_unlock·lf_passport·lfIssuedPassport·goJourney·잠금·복사함수 미변경(DOM 읽기전용) / v9-13 · 260625 · [작업 v9-13] 이미지 저장 실패 수정 — html2canvas onclone으로 캡처 복제본에서만 .cert 배경 단색(#163A5C)+::before/그림자 제거(그라데이션·inset 파싱오류 회피), backgroundColor 단색. 실패 시 원인 alert(진단). 실제 화면 디자인·발급/데이터 로직 무손상 / [작업 v9-12] 발급완료 화면(issuedView)에 '번호 복사'·'여권 이미지 저장' 버튼 2개 추가. 복사=clipboard+execCommand 폴백(인앱브라우저 대비), 저장=html2canvas(클릭 시 동적 로드, .cert 카드 PNG, 인앱 새탭 폴백). 버튼은 .cert 밖(이동버튼 앞)에 배치→캡처에 안 찍힘. 피드백은 버튼 글자로. [절대보존] issue()·JSONP콜백·GAS_B64·lf_unlock·lf_passport·lfIssuedPassport·goJourney·잠금 미변경(신규 함수는 DOM 읽기전용) / v9-11 · 260624 · [작업 v9-11] GA4 이벤트 issue_passport(발급 성공 콜백 1줄, 발급로직 무손상) / v9-10 · 260624 · [작업 v9-10] GA4 측정 삽입 / v9-9 · 260624 · [작업 v9-9] 상단 brandbar(← 홈으로+로고)를 통일 길잡이(좌 브랜드=홈 + 우 ☰)로 교체. issuePassport·lf_unlock·발급/입력·/journey/?id= 이동·여권카드 전부 보존 / v9-8 · 260623 · [작업 v9-8] 상단 brandbar에 "← 홈으로" 추가(홈 링크 0개→탈출구 신설, about·trust와 통일 스타일). 입력·발급완료 화면 공통 상단. [기능 전부 보존] [작업 v9-7] 사각직인 기울기 -7→-15도(왼쪽으로 더). [작업 v9-6] 사각직인 테두리 두껍게(2→3.5px)+선명도↑(opacity 0.78→0.85). 크기·위치 동일. [작업 v9-5] 발행청 직인 배치: 기관명 텍스트 3pt↑(15→18px), 사각직인 2pt↓(60→48px), 직인을 기관명 오른쪽("관리청")에 반쯤 겹쳐 반투명으로 찍음(실제 공문서 직인 느낌, 글씨 비침). [작업 v9-4] ①명칭"관계흐름 번호"→"사랑흐름 관계 여권"(LOVE FLOW·RELATIONSHIP PASSPORT) ②상단 원형✦도장 완전삭제(거슬림)→제목 30px로 키움 ③발행청 사랑흐름 마음관리청 가운데정렬+키움(15px) ④빨간 원형직인→CSS 사각 관공서 직인(認證, 빨강 사각틀) ⑤발행청 가운데+사각도장 공문서 느낌. 한영병기·기능 유지. [작업 v9-3] gate 정체성 정정: "증서/증명서"(여행끝 certificate 몫) 제거 → "관계흐름 번호 / RELATIONSHIP PASSPORT"(여권·입국비자 컨셉, 여행 시작). 글로벌 대비 한·영 병기 전면(번호·발급·기관·안내·저작권). 발행청(사랑흐름 마음관리청™·MINISTRY OF LOVE FLOW) 하단 이동+빨간 직인(OFFICIAL). 원형도장 안 삐딱텍스트 제거(✦만). 출발톤("이제 관계 여행을 떠날 수 있습니다"). [작업 v9-2] 발급완료 화면을 "관계흐름 증서" 권위 디자인으로 격상: 발급기관(사랑흐름 마음관리청™)·인장(사랑흐름마음관리청 각인)·증서제목·소지자 증명문·고유번호·발급일·모서리 장식·하단 저작권/민형사 경고(무단복제 금지). 한 화면 꽉채워 캡처 소장욕구↑. [작업 v9] 발급완료 화면만 수정: ①자동이동(1.6초 setTimeout) 삭제→"여행지도로 이동" 버튼(goJourney, 사용자가 번호 확인 후 직접 이동) ②소장가치 네이비 여권카드 디자인(골드 이중보더·도장·RELATIONSHIP PASSPORT 영문각인·번호 골드 크게·발급일자) ③한국어"여권"노출→"관계흐름 번호"(여권느낌은 영문각인·도장 디자인으로만). [절대보존] GAS_B64·issuePassport·lf_unlock·lf_passport·journey이동경로(/journey/?id=)·입력검증·JSONP콜백. 입력화면 단어는 미변경(다음 단계) / v8 · [작업 v8] ①상단 가로 재배치(도장 왼쪽+제목/영문 오른쪽, 세로스크롤↓) ②도장 ✦ 키우고 원 작게+반짝임 애니메이션 ③제목 '관계 여행 입장'→'관계 여행 떠나기' ④주문번호→상품주문번호(주민번호 오인방지) ⑤문의 '연락드리겠습니다' ⑥버튼 '사랑흐름 관계 여권 발급받기' ⑦관계 여권 설명 한 줄 추가 / v6·v7 유지 · [v7]도장✦·전화→카톡 · [v6]구매하러가기 · [v5]구입처10개+휴대폰뒷4 · [v3]GAS ...M1A · [v2]A방식 -->
+<!-- 사랑흐름 입국 게이트 gate.html v9-22 · 260712 · [작업 v9-22] ★"구입하신 여행" 선택칸 신설 — 발권 시 상품종류(item)를 손님이 직접 고르게 함. [배경] gate는 v9-21부터 이미 ?item=을 읽어 GAS(issuePassport)로 넘기고 있었고(348·354줄), issuePassport는 item으로 LFM-(지도만)/LFL-(편지포함) 채번 + 주문대장 J열에 MAP/MAP+LETTER를 기록하고 있었음(라이브 실측: 260710부터 LFL- 실제 발급 중). 그런데 ?item=은 pay를 거쳐 온 손님에게만 붙음. 네이버 스마트스토어에서 사고 gate로 바로 들어온 손님(주문대장 실물 기준 대다수)은 ?item=이 없어 기본값 'map'으로 떨어져 LFM- 발급 → 편지까지 산 손님이 편지 화면(letter.html doLoad v57)에서 "편지가 없는 여행 상품"으로 막히는 사고. [해결] ①"구입하신 곳" 아래에 "구입하신 여행" select(#item) 추가. 손님이 결제한 금액으로 고름 ②미선택이면 발급 차단(기본값을 두면 그냥 넘겨 틀린 여권이 나감 — 돈이 걸린 칸이라 반드시 고르게) ③?item=이 있으면(=pay를 거쳐 온 손님) 자동 선택해 두고 변경 가능 ④상품·금액은 ITEMS 한 곳에서 관리(추후 prices.js로 들어낼 블록). 금액=260712 확정대장 국내 런칭가(마음여행29,800·마음 여행지도14,900·마음 여행편지19,900·인생여행59,800). 정가는 안 씀(여긴 파는 곳이 아니라 낸 금액을 확인하는 곳). 자서전 단품은 미배포+현 GAS가 map 아니면 전부 편지포함으로 봐서 제외. [절대보존] issue()·GAS_B64·JSONP콜백·issuePassport 호출 URL 조립·regex 검증·lf_unlock·lf_passport·goJourney·발급완료 여권카드·드로어·?id=·GA4 미변경 · v9-21 · 260710 · [작업 v9-21] F안(주문번호 형식검증) client 추가: 발급 전 채널별 형식 검사→네이버=16자리숫자 확정(실샘플 2026070519922551), 나머지=6자 이상(abc·1111 등 쓰레기 차단). issuePassport GAS도 동일검증 병행(우회방지). 발급엔진 무변경. · [작업 v9-20] 발급완료 여권 제목 줄바꿈: "사랑흐름 마음 여행여권"이 좁은 화면에서 "사랑흐름 마음 여"/"행여권"으로 깨지던 것 → "사랑흐름"<br>"마음 여행여권" 두 줄 명시(cert-title). 텍스트/발급엔진 무변경. · 260706 · [작업 v9-19] ①띄어쓰기 표준(마음 뒤만 한 칸) 전면 통일 "마음 여행 여권"→"마음 여행여권"(상단바·제목·버튼·여권카드·alt). ②순서 교체: 설명(무엇인지·pp-explain)을 위로, 안내("구입하신 곳의 정보를 입력해 주세요")를 아래로. ③①스토어 박스에 오픈마켓·온라인 스토어 안내문 추가 + "네이버 스마트스토어" 네이버 그린(.nvr). ④발급 버튼 "마음 여행여권 발급받기 →". [절대보존] 발급엔진 스크립트·입력/결과 ID(channel·orderNo·phone4·ppNo·ppDate)·select·onclick·GAS 호출·regex·드로어·?id=·GA4 미변경. [v9-18]용어 마음여행여권·계좌이체 접수·언제든 삭제 [v9-17]이사회 [v9-16]pay색토큰 [v9-15]pay프레임 · 260625 · [작업 v9-14] 여권 이미지 저장 방식 전면 교체 — html2canvas(인앱 폰트 taint로 실패) 폐기. 같은출처 배경 /passport_bg.jpg에 발급번호(#ppNo)+발급일을 canvas로 얹어(좌표 번호 W/2·675, 발급일 W/2·840) 오버레이로 크게 띄우고 "꾹 눌러 저장" 안내. taint 없음→인앱(카톡·네이버) 저장 검증완료(pptest). 외부 라이브러리·CDN 제거. [절대보존] issue()·JSONP콜백·GAS_B64·lf_unlock·lf_passport·lfIssuedPassport·goJourney·잠금·복사함수 미변경(DOM 읽기전용) / v9-13 · 260625 · [작업 v9-13] 이미지 저장 실패 수정 — html2canvas onclone으로 캡처 복제본에서만 .cert 배경 단색(#163A5C)+::before/그림자 제거(그라데이션·inset 파싱오류 회피), backgroundColor 단색. 실패 시 원인 alert(진단). 실제 화면 디자인·발급/데이터 로직 무손상 / [작업 v9-12] 발급완료 화면(issuedView)에 '번호 복사'·'여권 이미지 저장' 버튼 2개 추가. 복사=clipboard+execCommand 폴백(인앱브라우저 대비), 저장=html2canvas(클릭 시 동적 로드, .cert 카드 PNG, 인앱 새탭 폴백). 버튼은 .cert 밖(이동버튼 앞)에 배치→캡처에 안 찍힘. 피드백은 버튼 글자로. [절대보존] issue()·JSONP콜백·GAS_B64·lf_unlock·lf_passport·lfIssuedPassport·goJourney·잠금 미변경(신규 함수는 DOM 읽기전용) / v9-11 · 260624 · [작업 v9-11] GA4 이벤트 issue_passport(발급 성공 콜백 1줄, 발급로직 무손상) / v9-10 · 260624 · [작업 v9-10] GA4 측정 삽입 / v9-9 · 260624 · [작업 v9-9] 상단 brandbar(← 홈으로+로고)를 통일 길잡이(좌 브랜드=홈 + 우 ☰)로 교체. issuePassport·lf_unlock·발급/입력·/journey/?id= 이동·여권카드 전부 보존 / v9-8 · 260623 · [작업 v9-8] 상단 brandbar에 "← 홈으로" 추가(홈 링크 0개→탈출구 신설, about·trust와 통일 스타일). 입력·발급완료 화면 공통 상단. [기능 전부 보존] [작업 v9-7] 사각직인 기울기 -7→-15도(왼쪽으로 더). [작업 v9-6] 사각직인 테두리 두껍게(2→3.5px)+선명도↑(opacity 0.78→0.85). 크기·위치 동일. [작업 v9-5] 발행청 직인 배치: 기관명 텍스트 3pt↑(15→18px), 사각직인 2pt↓(60→48px), 직인을 기관명 오른쪽("관리청")에 반쯤 겹쳐 반투명으로 찍음(실제 공문서 직인 느낌, 글씨 비침). [작업 v9-4] ①명칭"관계흐름 번호"→"사랑흐름 관계 여권"(LOVE FLOW·RELATIONSHIP PASSPORT) ②상단 원형✦도장 완전삭제(거슬림)→제목 30px로 키움 ③발행청 사랑흐름 마음관리청 가운데정렬+키움(15px) ④빨간 원형직인→CSS 사각 관공서 직인(認證, 빨강 사각틀) ⑤발행청 가운데+사각도장 공문서 느낌. 한영병기·기능 유지. [작업 v9-3] gate 정체성 정정: "증서/증명서"(여행끝 certificate 몫) 제거 → "관계흐름 번호 / RELATIONSHIP PASSPORT"(여권·입국비자 컨셉, 여행 시작). 글로벌 대비 한·영 병기 전면(번호·발급·기관·안내·저작권). 발행청(사랑흐름 마음관리청™·MINISTRY OF LOVE FLOW) 하단 이동+빨간 직인(OFFICIAL). 원형도장 안 삐딱텍스트 제거(✦만). 출발톤("이제 관계 여행을 떠날 수 있습니다"). [작업 v9-2] 발급완료 화면을 "관계흐름 증서" 권위 디자인으로 격상: 발급기관(사랑흐름 마음관리청™)·인장(사랑흐름마음관리청 각인)·증서제목·소지자 증명문·고유번호·발급일·모서리 장식·하단 저작권/민형사 경고(무단복제 금지). 한 화면 꽉채워 캡처 소장욕구↑. [작업 v9] 발급완료 화면만 수정: ①자동이동(1.6초 setTimeout) 삭제→"여행지도로 이동" 버튼(goJourney, 사용자가 번호 확인 후 직접 이동) ②소장가치 네이비 여권카드 디자인(골드 이중보더·도장·RELATIONSHIP PASSPORT 영문각인·번호 골드 크게·발급일자) ③한국어"여권"노출→"관계흐름 번호"(여권느낌은 영문각인·도장 디자인으로만). [절대보존] GAS_B64·issuePassport·lf_unlock·lf_passport·journey이동경로(/journey/?id=)·입력검증·JSONP콜백. 입력화면 단어는 미변경(다음 단계) / v8 · [작업 v8] ①상단 가로 재배치(도장 왼쪽+제목/영문 오른쪽, 세로스크롤↓) ②도장 ✦ 키우고 원 작게+반짝임 애니메이션 ③제목 '관계 여행 입장'→'관계 여행 떠나기' ④주문번호→상품주문번호(주민번호 오인방지) ⑤문의 '연락드리겠습니다' ⑥버튼 '사랑흐름 관계 여권 발급받기' ⑦관계 여권 설명 한 줄 추가 / v6·v7 유지 · [v7]도장✦·전화→카톡 · [v6]구매하러가기 · [v5]구입처10개+휴대폰뒷4 · [v3]GAS ...M1A · [v2]A방식 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -51,6 +51,9 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
 .enter-btn:disabled{background:#9AA8B5;cursor:default}
 .buy-first{margin-top:20px;padding:14px 15px;background:var(--cream);border:1px solid var(--line);border-radius:12px;font-size:12.5px;color:var(--text-sub);line-height:1.7;text-align:center}
 .buy-first b{color:var(--navy)}
+/* [v9-22] 여행 고르러 가기 — 아직 안 산 사람만 쓰는 출구. 주인공(발급 버튼·딥네이비 채움)과 위계를 벌리려 회색 테두리 */
+.btn-go{display:flex;align-items:center;justify-content:center;width:100%;margin-top:9px;background:#fff;color:var(--navy);border:1px solid var(--line);border-radius:12px;padding:12px;font-size:13.5px;font-weight:700;text-decoration:none}
+.btn-go:active{transform:scale(.98)}
 .btn-naver{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin-top:10px;background:var(--naver);color:#fff;border-radius:12px;padding:13px;font-size:14px;font-weight:800;text-decoration:none}
 .btn-naver .n{width:22px;height:22px;border-radius:5px;background:#fff;color:var(--naver);font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center}
 .btn-kakao{display:block;width:100%;margin-top:12px;background:var(--kakao);color:#3A2E00;border-radius:12px;padding:13px;font-size:14px;font-weight:800;text-decoration:none;text-align:center}
@@ -58,6 +61,8 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
 .sec-h{font-size:14px;font-weight:800;color:var(--navy);text-align:left;margin-bottom:12px}
 .store-box{background:#F4FBF7;border:1px solid #D7EDE1;border-radius:14px;padding:16px 14px 14px;margin-bottom:14px}
 .store-box .store-g{font-size:12px;color:var(--text-sub);line-height:1.65;margin:-2px 0 13px;text-align:left}
+/* [v9-22] 구입하신 여행 — 선택칸 아래 안내 한 줄 (금액은 선택칸 옵션 안에 있음) */
+.item-note{font-size:11.5px;color:var(--text-sub);margin:7px 2px 14px;text-align:left}
 .nvr{color:var(--naver);font-weight:800}
 .acct-box{background:var(--cream);border:1px solid var(--line);border-radius:14px;padding:16px 14px;margin-bottom:8px}
 .acct-box .sec-g{font-size:12.5px;color:var(--text-sub);line-height:1.6;text-align:left;margin-bottom:12px}
@@ -162,18 +167,23 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
     <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
   </div>
   <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+  <!-- [v9-22] ☰ 표준 6항목으로 통일 (enter.html 라이브 기준: 홈·마음 한마디·여행지도 보기·편지·사랑흐름 여권 찾기·다시 시작)
+       [바뀐 것]
+       · "마음편지"(폐기 명칭) → "편지". 목적지도 날 GAS URL(주소창에 script.google.com 노출) → /l/ (260712 신설 편지 통로)
+       · "여행지도 구매"(네이버 지도 상품 직행) → "여행지도 보기" → /journey/
+       · "홈" · "사랑흐름 여권 찾기"(/find/) · "다시 시작" 신설 — 셋 다 없었음
+       · 삭제: 내 관계우주 · 내 사랑흐름 여권 · 내 여행지도 (href="#" 죽은 링크. ?id=가 있을 때만 살아나게 돼 있는데,
+         발권하러 온 손님에겐 아직 여권번호가 없어 이 화면에선 사실상 항상 죽어 있었음)
+       · "소개"는 하단 푸터에 이미 있어 메뉴에서 뺌
+       [보존] lf-menu 시스템(lfMenuOpen/lfMenuClose)·드로어 마크업 구조는 그대로. 항목만 교체. -->
   <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
     <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
-    <a href="/"><span class="ic">🧭</span>마음 한마디</a>
-    <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
-    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
-    <a href="/about.html"><span class="ic">📖</span>소개</a>
-    <div id="lfMineGrp" style="display:none">
-      <div class="lf-grp">내 여행</div>
-      <a id="lfMineUniverse" href="#"><span class="ic">🌌</span>내 관계우주</a>
-      <a id="lfMineCert" href="#"><span class="ic">📜</span>내 사랑흐름 여권</a>
-      <a id="lfMineJourney" href="#"><span class="ic">🗺️</span>내 여행지도</a>
-    </div>
+    <a href="/"><span class="ic">🏠</span>홈</a>
+    <a href="/"><span class="ic">🎹</span>마음 한마디</a>
+    <a href="/journey/"><span class="ic">🗺️</span>여행지도 보기</a>
+    <a href="/l/"><span class="ic">💌</span>편지</a>
+    <a href="/find/"><span class="ic">🔎</span>사랑흐름 여권 찾기</a>
+    <a href="javascript:void(0)" onclick="location.reload()"><span class="ic">↻</span>다시 시작</a>
   </nav>
 
   <div class="main">
@@ -195,13 +205,13 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
       <div class="input-wrap" id="inputWrap">
         <div class="pp-guide">
           <div class="pp-guide-t">✦ 마음 여행여권이란</div>
-          <p>마음 여행을 떠나기 위해 지니는, 나만의 번호예요.<br><b>마음 여행지도</b>를 구매하면 발급되고,<br>이 번호는 사랑흐름을 여행하는 동안 여러 곳에서 쓰여요.</p>
+          <p>마음 여행을 떠나기 위해 지니는, 나만의 번호예요.<br><b>여행</b>을 구매하면 발급되고,<br>이 번호는 사랑흐름을 여행하는 동안 여러 곳에서 쓰여요.</p>
         </div>
         <div class="gate-sub">구입하신 곳의 정보를 입력해 주세요.</div>
 
         <div class="store-box">
-          <div class="sec-h">스토어에서 구매하셨나요</div>
-          <p class="store-g"><b class="nvr">네이버 스마트스토어</b> 등 오픈마켓·온라인 스토어에서 결제하셨다면, 결제번호로 바로 발급돼요.</p>
+          <!-- [v9-22] 삭제: .sec-h "스토어에서 구매하셨나요" / .store-g "오픈마켓…결제번호로 바로 발급돼요"
+               → 바로 위 "구입하신 곳의 정보를 입력해 주세요"와 같은 말이고, 아래 선택칸·결제번호 칸이 다시 말합니다(3중복). -->
           <div class="field-label">구입하신 곳</div>
           <select id="channel" class="sel" onchange="onChannel()">
             <option value="네이버 스마트스토어">네이버 스마트스토어</option>
@@ -217,6 +227,15 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
           </select>
           <input id="channelEtc" class="code-input" style="display:none;text-align:left;font-family:-apple-system,sans-serif" placeholder="구입하신 곳을 직접 입력해 주세요" maxlength="20" autocomplete="off">
 
+          <!-- [v9-22] 구입하신 여행 (상품종류) — 옵션·금액은 아래 ITEMS 한 곳에서 채웁니다 -->
+          <div class="field-label" style="margin-top:12px">구입하신 여행</div>
+          <select id="item" class="sel">
+            <option value="">선택해 주세요</option>
+          </select>
+          <!-- [v9-22] 삭제: 선택칸 아래에 금액 목록을 따로 뿌리던 블록(.item-help)
+               → 선택칸을 열면 "마음여행 · 지도와 편지 · 29,800원"처럼 금액이 이미 다 들어 있음. 같은 걸 두 번 보여주던 중복. -->
+          <div class="item-note">결제하신 금액으로 골라 주세요.</div>
+
           <div class="field-label">결제번호</div>
           <input id="orderNo" class="code-input" placeholder="결제번호 입력" maxlength="30" autocomplete="off">
 
@@ -227,13 +246,19 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
           <div class="msg" id="msg"></div>
         </div>
 
+        <!-- [v9-22] "아직 마음 여행지도가 없으신가요?" → "아직 여행을 구매하지 않으셨나요?"
+             (한 줄 유지. 이건 버튼이 대신 말해줄 수 없는 맥락 — 이 줄이 없으면 구매 버튼이 뜬금없이 튀어나옴)
+             [v9-22] 목적지 변경: 네이버 여행지도 상품 직행 → /showcase.html(여행 고르기).
+             파는 여행이 넷(마음여행·마음 여행지도·마음 여행편지·인생여행)인데 지도 상품 하나로만 보내고 있었음.
+             showcase → pay 로 가면 ?item= 이 따라붙어 여권도 정확히(LFM/LFL) 발급됨.
+             색: 이 화면의 주인공은 발급 버튼(딥네이비 채움). 이건 아직 안 산 사람만 쓰는 출구라 회색 테두리로 한 단계 낮춤. -->
         <div class="buy-first">
-          아직 <b>마음 여행지도</b>가 없으신가요?
-          <a class="btn-naver" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="n">N</span> 네이버 스마트스토어에서 구매하기</a>
+          아직 <b>여행</b>을 구매하지 않으셨나요?
+          <a class="btn-go" href="/showcase.html">여행 고르러 가기 →</a>
         </div>
 
+        <!-- [v9-22] 삭제: "궁금한 점이 있으신가요?" — 카카오톡 문의 버튼이 이미 말하는 소리 -->
         <div class="ask">
-          궁금한 점이 있으신가요?
           <a class="kakao-mini" href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 문의</a>
         </div>
       </div>
@@ -296,15 +321,54 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
     var sel=document.getElementById('channel').value;
     document.getElementById('channelEtc').style.display = (sel==='__etc__') ? 'block' : 'none';
   }
+
+  /* ══════════════════════════════════════════════════════════
+     [v9-22] ★가격 관리 한 곳 — 금액이 바뀌면 여기 네 줄만 고칩니다.
+     (추후 prices.js 도입 시 이 블록만 들어내면 됩니다)
+     금액 = 260712 확정대장 "국내 런칭가" (손님이 실제로 결제한 금액).
+     정가는 쓰지 않습니다 — 여긴 파는 곳이 아니라, 낸 금액을 확인하는 곳입니다.
+     value(map/letter/set/life)는 pay.html PRODUCTS 키 및 GAS issuePassport의 item과 동일해야 합니다.
+     ※ GAS는 item !== 'map' 이면 전부 편지 포함(LFL-)으로 봅니다.
+        자서전 단품(memoir)은 아직 미배포 + 편지 없는 상품이라 목록에서 제외합니다.
+     ══════════════════════════════════════════════════════════ */
+  var ITEMS = [
+    { v:'set',    name:'마음여행 · 지도와 편지',        price:29800 },
+    { v:'map',    name:'마음 여행지도',                 price:14900 },
+    { v:'letter', name:'마음 여행편지',                 price:19900 },
+    { v:'life',   name:'인생여행 · 자서전까지',          price:59800 }
+  ];
+
+  (function initItems(){
+    var sel = document.getElementById('item');
+    if(!sel) return;
+
+    for(var i=0; i<ITEMS.length; i++){
+      var it = ITEMS[i];
+      var op = document.createElement('option');
+      op.value = it.v;
+      op.textContent = it.name + ' · ' + it.price.toLocaleString() + '원';   /* 금액은 여기 한 곳에만 */
+      sel.appendChild(op);
+    }
+
+    /* pay를 거쳐 온 손님(?item=)은 미리 골라 둡니다. 바꿀 수도 있습니다. */
+    var q = (new URLSearchParams(location.search).get('item') || '').toLowerCase();
+    for(var j=0; j<ITEMS.length; j++){
+      if(ITEMS[j].v === q){ sel.value = q; break; }
+    }
+  })();
+
   function setMsg(t, err){ var m=document.getElementById('msg'); m.textContent=t||''; m.className='msg'+(err?' err':''); if(!err)m.style.color='#1E7A4A'; }
 
   function issue(){
     var sel = document.getElementById('channel').value;
     var channel = (sel==='__etc__') ? (document.getElementById('channelEtc').value||'').trim() : sel;
+    var item = (document.getElementById('item').value || '').trim().toLowerCase();   /* [v9-22] 손님이 고른 상품종류 */
     var no = (document.getElementById('orderNo').value || '').trim();
     var phone4 = (document.getElementById('phone4').value || '').trim();
 
     if(sel==='__etc__' && !channel){ setMsg('구입하신 곳을 직접 입력해 주세요.', true); return; }
+    /* [v9-22] 기본값을 두지 않습니다 — 안 고르고 넘어가면 편지까지 산 분께 지도만 여권이 나갑니다. */
+    if(!item){ setMsg('구입하신 여행을 골라 주세요. (결제하신 금액으로 고르시면 됩니다)', true); return; }
     if(!no){ setMsg('결제번호를 입력해 주세요.', true); return; }
 
     // ── F안: 채널별 주문번호 형식 검증 (쓰레기 입력 1차 차단) ──
@@ -345,8 +409,9 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
       }
     };
 
-    var item = (new URLSearchParams(location.search).get('item') || 'map').toString().toLowerCase();
-    var url = atob(GAS_B64)
+      /* [v9-22] 옛 줄 삭제: var item = URLSearchParams... → item은 issue() 상단에서 선택칸(#item)으로 읽습니다.
+         이 줄을 남겨두면 손님이 고른 값을 주소창 값(없으면 'map')이 덮어써서 선택칸이 무용지물이 됩니다. */
+      var url = atob(GAS_B64)
       + '?action=issuePassport'
       + '&channel=' + encodeURIComponent(channel)
       + '&orderNo=' + encodeURIComponent(no)
@@ -440,11 +505,9 @@ body{margin:0;background:#FFFBF5;font-family:'Noto Sans KR',-apple-system,BlinkM
 <script>
 function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
 function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
-(function(){var m=location.search.match(/[?&]id=(LF-[A-Za-z0-9]+)/i);if(m){var id=m[1].toUpperCase();
-document.getElementById("lfMineUniverse").href="/universe.html?id="+id;
-document.getElementById("lfMineCert").href="/certificate.html?id="+id;
-document.getElementById("lfMineJourney").href="/journey/?id="+id;
-document.getElementById("lfMineGrp").style.display="block";}})();
+/* [v9-22] 삭제: lfMineUniverse·lfMineCert·lfMineJourney 에 ?id= 를 꽂아주던 블록.
+   메뉴에서 그 세 항목(href="#")을 뺐으므로 참조 대상이 없어짐 — 남겨두면 getElementById null 에러.
+   (게다가 이 정규식은 LF- 만 잡아 LFM-/LFL- 은 못 잡던 옛 코드였음) */
 </script>
 </body>
 </html>
