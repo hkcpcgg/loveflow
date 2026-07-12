@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<!-- 관계 여권 발급 신청 apply.html · v9-2 · 2026-07-11 · [v9-2] 연락처(문자받기) 입력 숫자만 강제(oninput으로 하이픈·슬래시 자동제거)+placeholder/안내 정리, maxlength 11. · [v9-1] 은행 드롭다운(입금하신 은행 select) 복원 — 앞서 잘못 제거한 것 원복, 접수 전송에 bank 재포함. · [v9] 대표 확정 재제작: ①표준 gnav[로고(홈)·‹뒤로·화면이름·☰]+드로어 ②금액 표기 제거 ③입금하신 은행 칸 제거 ④입금자명 예시(황규찬)·괄호 제거→박스 안내글 ⑤예금주 괄호 제거 ⑥수령방법 반반(문자/카톡)+선택 시 팝업(스크롤 방지) ⑦상단 딥네이비 절제·계좌번호 흐릿 ⑧접수 GAS(RECEIPT_GAS) 유지, method·contact 추가 전송. [다음 위험구간] 즉시발급(issuePassport→주문대장 통합)·GAS에 수령방법/연락처 컬럼 저장·카톡경로 주문번호 — 백업 후 상의. -->
+<!-- 마음 여행여권 발급 신청 apply.html · v13 · 2026-07-12
+  · [v13] ① 옛 명칭 전면 교체 — '관계 여권' 계열은 260711 계획서에서 옛말로 판정된 표기. gate.html 라이브(v9-21) 실측 표준으로 통일:
+  ·      화면이름 '마음 여행여권' / 제목 '마음 여행여권 발급 신청' / 영문 'LOVE FLOW · MIND JOURNEY PASSPORT' / 버튼 '마음 여행여권 발급받기 →' / <title>
+  ·      ② 포인트 = 계좌 박스 하나. 이 화면에서 손님이 실제로 하는 일은 '입금' 하나인데, 계좌 박스·입력칸·선택칸이 전부 같은 연한 골드라 구분이 안 됐고
+  ·      계좌번호가 15px 흐린 회청색(#6E8093)으로 가장 중요한 정보가 가장 흐렸음. → 계좌 테두리 골드 #D4AF37 2px, 계좌번호 딥네이비 900 21px, 복사버튼 딥네이비 채움.
+  ·      ※ 계좌초록(#1D9E75)은 대표 판단으로 불채택(너무 튐). 새 색 만들지 않고 기존 골드를 진하게. 시선 흐름: 골드(입금) → 연골드(확인 입력) → 딥네이비(접수).
+  · [v11] 신청 화면 안내 '저장 후 사용하세요.' 삭제 — 접수증에서 저장 버튼이 다시 말하므로 중복(버튼이 이미 말하는 소리 금지 원칙)
+  · [v10] ① SR 번호 깨짐 수정 — 원인: 수령방법이 '카톡'이면 phone4가 빈값이라 게시판 GAS makeOrderNo_가 'SR-0712-'만 만들고,
+  ·      같은 날 두 번째면 중복로직이 '-2'를 붙여 'SR-0712--2'가 됨. 해결: 신청 화면에 '연락처 뒤 4자리·확인용' 필수 입력 복원
+  ·      (260629 확정 = 은행·입금자명·전화뒤4 전부 필수. 그게 깨져 있었음). GAS 무손상.
+  ·      + localReceipt 폴백 패딩 버그 수정('0'+rand → '000'+rand, 4자리 보장)
+  ·      ② 접수증 = 카카오톡 대화창 연출(말풍선 순차 도착, 크림·딥네이비. 카톡 노랑 안 씀)
+  ·      ③ '화면을 캡처해 두세요' 삭제 → [결제번호 복사] + [접수증 저장하기](html2canvas PNG) 실제 저장 버튼
+  ·      ④ 출구 신설: [홈으로 돌아가기] + 카카오 채널 문의 링크 (기존엔 접수 후 나갈 버튼이 아예 없었음)
+  ·      ⑤ 금지용어 '주문번호' → '결제번호'
+  ·      ⑥ ☰ 메뉴 표준 6항목 복원 — '편지' 항목 추가(5개였음) + '여행지도 보기' showcase → /journey/ (260711 확정)
+  ·      ※ 접수 GAS·게시판 시트·입금 폼·수령방법 팝업 무손상. 상품명(마음 여행지도/편지) 표시는 결제동선 경로 확정 후 별건.
+  · [v9-2] [v9-2] 연락처(문자받기) 입력 숫자만 강제(oninput으로 하이픈·슬래시 자동제거)+placeholder/안내 정리, maxlength 11. · [v9-1] 은행 드롭다운(입금하신 은행 select) 복원 — 앞서 잘못 제거한 것 원복, 접수 전송에 bank 재포함. · [v9] 대표 확정 재제작: ①표준 gnav[로고(홈)·‹뒤로·화면이름·☰]+드로어 ②금액 표기 제거 ③입금하신 은행 칸 제거 ④입금자명 예시(황규찬)·괄호 제거→박스 안내글 ⑤예금주 괄호 제거 ⑥수령방법 반반(문자/카톡)+선택 시 팝업(스크롤 방지) ⑦상단 딥네이비 절제·계좌번호 흐릿 ⑧접수 GAS(RECEIPT_GAS) 유지, method·contact 추가 전송. [다음 위험구간] 즉시발급(issuePassport→주문대장 통합)·GAS에 수령방법/연락처 컬럼 저장·카톡경로 주문번호 — 백업 후 상의. -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>관계 여권 발급 신청 · 사랑흐름</title>
+<title>마음 여행여권 발급 · 사랑흐름</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -33,10 +50,10 @@ body{background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemF
 .wrap{padding:6px 22px 22px;flex:1}
 .atitle{text-align:center;font-size:20px;font-weight:800;color:var(--navy);margin:10px 0 3px}
 .aen{text-align:center;font-size:9px;letter-spacing:.22em;color:#C6A94A;font-weight:700;margin-bottom:18px}
-.acct{background:#FFFDF6;border:1.5px solid #E9D6A2;border-radius:14px;padding:15px 14px 13px;text-align:center}
-.acct .n{font-size:15px;font-weight:600;color:#6E8093;letter-spacing:.01em}
+.acct{background:#FFFDF6;border:2px solid var(--gold);border-radius:14px;padding:17px 14px 15px;text-align:center;box-shadow:0 6px 18px rgba(212,175,55,.14)}
+.acct .n{font-size:21px;font-weight:900;color:var(--navy);letter-spacing:.01em}
 .acct .o{font-size:11px;color:#9A917E;margin-top:3px}
-.acct .cp{display:block;width:100%;margin-top:11px;padding:9px;background:#fff;border:1.5px solid #E9D6A2;border-radius:20px;color:var(--navy);font-weight:800;font-size:12px;cursor:pointer}
+.acct .cp{display:block;width:100%;margin-top:12px;padding:11px;background:var(--navy);border:none;border-radius:20px;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;cursor:pointer}
 .lbl{font-size:11px;color:#C6A94A;font-weight:800;letter-spacing:.06em;margin:17px 2px 6px}
 .inp{width:100%;padding:13px 15px;border:1.5px solid var(--gold-soft);border-radius:12px;font-size:14px;color:var(--navy);background:#FFFDF8;font-weight:600;outline:none;box-sizing:border-box}
 .inp:focus{border-color:var(--navy)}
@@ -63,6 +80,22 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 .rc-no{font-size:24px;font-weight:900;color:var(--navy);font-family:'Courier New',monospace;letter-spacing:.04em;margin:4px 0 16px}
 .rc-p{font-size:13px;color:#4A5766;line-height:1.7}
 .rc-p b{color:var(--navy)}
+.chat{background:#FFFBF5;border:1px solid var(--line);border-radius:18px;padding:18px 16px 20px}
+.cline{display:flex;gap:8px;align-items:flex-start;margin-top:12px;opacity:0;transform:translateY(8px);animation:cin .42s ease forwards}
+.cline.b1{animation-delay:.05s}.cline.b2{animation-delay:.45s}.cline.b3{animation-delay:.9s}.cline.b4{animation-delay:1.3s}
+@keyframes cin{to{opacity:1;transform:translateY(0)}}
+.av{width:30px;height:30px;border-radius:9px;flex-shrink:0;overflow:hidden;background:transparent}
+.av img{width:100%;height:100%;object-fit:contain}
+.bub{background:#fff;border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:12px 14px;font-size:13.5px;color:#4A5766;line-height:1.65;max-width:100%}
+.bub b{color:var(--navy)}
+.bub.card{border-color:var(--gold-soft);background:#FFFDF6;text-align:center;width:100%}
+.bub.soft{background:#F7F4EC;color:#6E6858;font-size:12.5px}
+.cpno{margin-top:10px;padding:9px 18px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:20px;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer}
+.cpno:active{transform:scale(.98)}
+.sub2{width:100%;margin-top:10px;padding:15px;background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:13px;font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
+.sub2:active{transform:scale(.99)}
+.rlink{text-align:center;margin-top:12px}
+.rlink a{font-size:12.5px;color:var(--sub);text-decoration:underline;cursor:pointer}
 .savebox{background:#FBF5EA;border:1px dashed #D9C58B;border-radius:12px;padding:14px 16px;margin-top:18px;font-size:12px;color:var(--sub);line-height:1.75;text-align:center}
 /* 팝업 */
 .modal{position:absolute;inset:0;background:rgba(30,48,80,.38);display:none;align-items:flex-end;z-index:90}
@@ -86,7 +119,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
   <div class="gnav">
     <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
     <button class="back" onclick="onBack()" aria-label="뒤로">&#8249;</button><div style="flex:1"></div>
-    <div class="loc">관계 여권 발급</div>
+    <div class="loc">마음 여행여권</div>
     <button class="ham" onclick="openMenu()" aria-label="메뉴">&#9776;</button>
   </div>
 
@@ -95,7 +128,8 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
       <div class="dhead"><span class="t">사랑흐름</span><button class="x" onclick="closeMenu()" aria-label="닫기">&times;</button></div>
       <a onclick="lgo('home')">홈</a>
       <a onclick="lgo('hanmadi')">마음 한마디</a>
-      <a onclick="lgo('showcase')">여행지도 보기</a>
+      <a onclick="lgo('journey')">여행지도 보기</a>
+      <a onclick="lgo('letter')">편지</a>
       <a onclick="lgo('find')">사랑흐름 여권 찾기</a>
       <a onclick="location.reload()">다시 시작</a>
     </div>
@@ -105,8 +139,8 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 
   <!-- 신청 화면 -->
   <div class="wrap" id="applyView">
-    <div class="atitle">관계 여권 발급 신청</div>
-    <div class="aen">RELATIONSHIP PASSPORT · APPLICATION</div>
+    <div class="atitle">마음 여행여권 발급 신청</div>
+    <div class="aen">LOVE FLOW · MIND JOURNEY PASSPORT</div>
 
     <div class="acct">
       <div class="n">기업은행 019.355.3565</div>
@@ -124,6 +158,9 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
     <div class="lbl">입금자명</div>
     <input class="inp" id="payer" placeholder="입금하신 분 성함" maxlength="20" autocomplete="off">
 
+    <div class="lbl">연락처 뒤 4자리 · 확인용</div>
+    <input class="inp" id="phone4In" placeholder="예: 3565" inputmode="numeric" maxlength="4" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
+
     <div class="lbl">여권 받으실 방법</div>
     <div class="orow">
       <div class="opt" id="optSms" onclick="pick('sms')">문자로 받기 <span class="ar">&rarr;</span></div>
@@ -131,21 +168,44 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
     </div>
     <div class="picked" id="picked"></div>
 
-    <div class="note">접수하시면 사랑흐름 여권번호가 발급됩니다.<br>저장 후 사용하세요.</div>
+    <div class="note">접수하시면 사랑흐름 여권번호가 발급됩니다.</div>
     <div class="msg" id="msg"></div>
-    <button class="sub" id="btnApply" onclick="submitApply()">관계 여권 발급받기 &rarr;</button>
+    <button class="sub" id="btnApply" onclick="submitApply()">마음 여행여권 발급받기 &rarr;</button>
   </div>
 
-  <!-- 접수증 화면 -->
+  <!-- 접수증 화면 (대화창 연출) -->
   <div class="wrap hide" id="receiptView">
-    <div class="rcard">
+    <div class="chat" id="rcCap">
       <div class="rc-l">접수 완료 · RECEIVED</div>
-      <div class="rc-t">관계 여행이 접수되었습니다</div>
-      <div class="rc-nl">주문번호</div>
-      <div class="rc-no" id="rcNo">SR-0000-0000</div>
-      <div class="rc-p">보내주신 마음은 안전하게 도착했습니다.<br>입금 확인 후, <b id="rcWay">선택하신 방법</b>으로<br>사랑흐름 여권번호를 보내드립니다.</div>
-      <div class="savebox">이 화면을 캡처해 두시면 안심돼요.<br>주문번호로 접수를 확인해 드릴 수 있습니다.</div>
+
+      <div class="cline b1">
+        <div class="av"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""></div>
+        <div class="bub">보내주신 마음이 안전하게 도착했어요.</div>
+      </div>
+
+      <div class="cline b2">
+        <div class="av"></div>
+        <div class="bub card">
+          <div class="rc-nl">결제번호</div>
+          <div class="rc-no" id="rcNo">SR-0000-0000</div>
+          <button class="cpno" onclick="copyNo()">결제번호 복사</button>
+        </div>
+      </div>
+
+      <div class="cline b3">
+        <div class="av"></div>
+        <div class="bub">입금이 확인되면 <b id="rcWay">선택하신 방법</b>으로<br>사랑흐름 여권번호를 보내드릴게요.</div>
+      </div>
+
+      <div class="cline b4">
+        <div class="av"></div>
+        <div class="bub soft">이 결제번호로 접수를 확인해 드릴 수 있어요.<br>아래 버튼으로 저장해 두세요.</div>
+      </div>
     </div>
+
+    <button class="sub" onclick="saveReceipt()">접수증 저장하기</button>
+    <button class="sub2" onclick="goHome()">홈으로 돌아가기</button>
+    <div class="rlink"><a onclick="openKko()">입금 확인이 궁금하면 · 카카오 채널로 문의</a></div>
   </div>
 
   <div class="legal">
@@ -163,7 +223,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
         <button class="mbtn m-ok" onclick="confirmSms()">이 번호로 받기</button>
       </div>
       <div id="mKko" style="display:none">
-        <div class="mhint">카카오 채널 '사랑흐름'을 추가하고<br>주문번호만 보내주시면 됩니다.</div>
+        <div class="mhint">카카오 채널 '사랑흐름'을 추가하고<br>결제번호만 보내주시면 됩니다.</div>
         <button class="mbtn m-kko" onclick="confirmKko()">카카오 채널 열기</button>
       </div>
     </div>
@@ -174,7 +234,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 
 <script>
 /* ===== 링크(공용) ===== */
-var LINK={home:'/',hanmadi:'/',showcase:'/showcase.html',journey:'/journey/',find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
+var LINK={home:'/',hanmadi:'/',showcase:'/showcase.html',showroom:'/showroom.html',journey:'/journey/',letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec',find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
 function goHome(){location.href=LINK.home;}
 function onBack(){if(history.length>1){history.back();}else{location.href=LINK.home;}}
 function lgo(k){var u=LINK[k];if(u){location.href=u;}else{toast('연결 예정');}}
@@ -221,7 +281,8 @@ function submitApply(){
   if(!bank){setMsg('입금하신 은행을 선택해 주세요.',true);return;}
   if(!payer){setMsg('입금자명을 입력해 주세요.',true);return;}
   if(!selMethod){setMsg('여권 받으실 방법을 선택해 주세요.',true);return;}
-  var phone4=(selMethod==='sms')?selContact.replace(/[^0-9]/g,'').slice(-4):'';
+  var phone4=(document.getElementById('phone4In').value||'').replace(/[^0-9]/g,'');
+  if(phone4.length!==4){setMsg('연락처 뒤 4자리를 입력해 주세요.',true);return;}
   var btn=document.getElementById('btnApply');
   btn.disabled=true;setMsg('접수 중입니다…',false);
   var cb='lfApplyCb_'+Date.now();
@@ -242,9 +303,36 @@ function submitApply(){
   s.onerror=function(){try{delete window[cb];}catch(e){}showReceipt(localReceipt(phone4));};
   document.head.appendChild(s);
 }
+function copyNo(){var t=document.getElementById('rcNo').textContent;
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(function(){toast('결제번호를 복사했어요');},function(){fbCopy(t);});}
+  else{fbCopy(t);}}
+function fbCopy(t){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();
+  try{document.execCommand('copy');toast('결제번호를 복사했어요');}catch(e){toast('복사가 안 되면 길게 눌러 복사해 주세요');}
+  document.body.removeChild(a);}
+function openKko(){window.open(KAKAO_CH,'_blank');}
+function saveReceipt(){
+  var el=document.getElementById('rcCap');
+  if(window.html2canvas){ doCap(el); return; }
+  var sc=document.createElement('script');
+  sc.src='https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  sc.onload=function(){doCap(el);};
+  sc.onerror=function(){toast('저장이 어려우면 결제번호를 복사해 두세요');};
+  document.head.appendChild(sc);
+}
+function doCap(el){
+  toast('접수증을 저장하는 중이에요...');
+  html2canvas(el,{backgroundColor:'#FFFBF5',scale:2}).then(function(cv){
+    var no=document.getElementById('rcNo').textContent;
+    var a=document.createElement('a');
+    a.href=cv.toDataURL('image/png');
+    a.download='사랑흐름_접수증_'+no+'.png';
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    toast('접수증을 저장했어요');
+  }).catch(function(){toast('저장이 어려우면 결제번호를 복사해 두세요');});
+}
 function localReceipt(p4){
   var d=new Date();var mm=('0'+(d.getMonth()+1)).slice(-2);var dd=('0'+d.getDate()).slice(-2);
-  var tail=p4||('0'+Math.floor(Math.random()*10000)).slice(-4);
+  var tail=(p4&&p4.length===4)?p4:('000'+Math.floor(Math.random()*10000)).slice(-4);
   return 'SR-'+mm+dd+'-'+tail;
 }
 function showReceipt(no){
