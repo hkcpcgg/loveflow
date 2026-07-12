@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <!-- ============================================================
+  여행의 기록 showroom.html · v12 · 2026-07-12
+  · [v12] ★금액(정가·국내 런칭가) 삭제 — showroom은 '여행의 기록' = 구경하는 곳. 파는 곳(pay)이 아님.
+  ·      가격이 여기 있으면 갤러리가 아니라 진열장이 됨. 가격은 예매 버튼을 눌러 pay에서 본다.
+  · [v12] ① 정가 50,000 → 48,900 (확정대장 260712. showcase v4-1 · pay v13과 일치)
+  ·      ② 상품명 정정 — ?item=set은 '마음여행'인데 화면엔 '마음 여행편지'라고 적혀 있었음.
+  ·      '마음 여행편지'는 마음여행 안의 편지를 부를 때 쓰는 이름(확정대장). 가격 라벨·예매 버튼 둘 다 교체.
+  ·      ③ 예매 버튼 화살표 제거 (→는 '여권으로 입장 →'에만) — showcase v4-1 패턴 통일
+  ·      ④ 여권 입장: 작은 밑줄 텍스트 → 골드 박스 + 딥네이비 통버튼(VIP). showcase와 동일 형태
+  ·      ※ 여권 히어로·스와이프 카드덱·편지 봉투·사운드·☰·푸터 무손상
   사랑흐름 "여행의 기록" showroom.html · v11 · 2026-07-10
   · 이사회 확정 구조: 여권 대표작(화면 가득) → 스와이프 카드덱 → 편지 봉투 → 예매
   · "쇼룸"(판매자 언어) 폐기 → "여행의 기록"(고객 언어)
@@ -131,6 +140,11 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:rgba(255,251,245,.95);border-top:1px solid var(--line);backdrop-filter:blur(6px)}
 .sticky button{width:100%;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer}
 .sticky button:active{transform:scale(.99)}
+
+.vipbox{margin:22px 0 4px;padding:18px 16px;background:#FFFDF6;border:1.5px solid var(--gold);border-radius:16px;text-align:center}
+.vip-q{font-size:13px;color:#8A7B4E;margin-bottom:11px}
+.vip-b{width:100%;padding:14px;background:var(--navy);border:none;border-radius:24px;color:#fff;font-family:inherit;font-size:14.5px;font-weight:800;cursor:pointer}
+.vip-b:active{transform:scale(.99)}
 </style></head>
 <body>
 <div class="phone">
@@ -254,13 +268,14 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
   <div class="finale">
     <h3>사랑하는 <span id="rotT" style="color:var(--coral);transition:.4s">어머니</span><span id="rotJ">와</span> 함께<br>여행을 떠나보세요.</h3>
     <div class="price">
-      <div class="prow"><span class="nlabel">마음 여행편지</span></div>
+      <div class="prow"><span class="nlabel">마음여행</span></div>
       <div style="font-size:12px;color:#9a9689;margin-top:2px">내 마음의 여행 지도를 그려보고,<br>그 마음으로 편지를 씁니다.</div>
-      <div class="prow"><span class="plabel">정가</span><span class="pl">50,000원</span></div>
-      <div class="prow"><span class="nlabel">국내 런칭가</span><span class="pw">29,800원</span></div>
     </div>
-    <button onclick="location.href='/pay.html?item=set'" style="width:100%;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:22px">마음 여행편지 예매하기 →</button>
-    <div style="margin-top:16px"><a onclick="lgo('reenter')" style="font-size:12.5px;color:var(--navy);text-decoration:underline;cursor:pointer">이미 사랑흐름 여권이 있으신가요? · 여권으로 입장 →</a></div>
+    <button onclick="location.href='/pay.html?item=set'" style="width:100%;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:22px">마음여행 예매하러 가기</button>
+    <div class="vipbox">
+      <div class="vip-q">이미 사랑흐름 여권을 가지고 계신가요?</div>
+      <button class="vip-b" onclick="lgo('reenter')">여권으로 입장 →</button>
+    </div>
   </div>
 
   <!-- 법정 푸터 -->
