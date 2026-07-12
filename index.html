@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <!-- ============================================================
-  사랑흐름 마음 한마디 = index.html (메인) · v14 · 2026-07-12
+  사랑흐름 마음 한마디 = index.html (메인) · v17 · 2026-07-12
+  · [v17] STEP4 편지지: ① 죽은 var(--serif) 정리 → --hand:'Nanum Pen Script' 신설(:root). 입력창이 손글씨를 의도하고도 변수 미정의로 Noto Sans로 떨어져 있던 버그 수정
+  ·      ② .editbox = 편지지 — 위 .lp-to(수신자 '어머니께', josaKke 재사용) / 본문 textarea 손글씨 26px / 아래 .lp-sign(서명 '— 지수 드림', fromName 재사용)
+  ·      ③ 보내는 분 미입력 시 회색 예시 '— ○○ 드림'(ghost), 입력하면 실시간 실명. paintLetterhead()·paintSign() 신설, render() 진입 훅 1줄
+  ·      ④ 폰트 자동축소 코드 없음(확정 원칙). 120자 최악 케이스 Playwright 실측 → 236px 상자 내 넘침 0px 확인
   · [v16] ① 한마디 60자→120자(창 키운 만큼) ② 완성카드에 "— ○○ 드림" 서명 살림(fcSign·fromName())
   ·      ③ 보내는 분 비면: 1회 토스트 → 2회째 confirm 팝업("이름 없이 전할까요?") — 훅 넘어가지 않게
   ·      ④ 완성화면 버튼 무게 재배치: 고치기(살짝·색 진하게) / 카톡·처음으로 반반 / 여행지도 그리기 → 맨아래 통버튼(딥네이비)
@@ -50,7 +54,7 @@
 </style>
 <style>
 :root{--bg:#FFFBF5;--card:#fff;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;
---navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59;--coral-d:#F0644A;--kakao:#FEE500;--sans:'Noto Sans KR',system-ui,sans-serif}
+--navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59;--coral-d:#F0644A;--kakao:#FEE500;--sans:'Noto Sans KR',system-ui,sans-serif;--hand:'Nanum Pen Script',cursive}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100vh;display:flex;justify-content:center;padding:20px 12px}
 .phone{width:100%;max-width:412px;background:var(--bg);border-radius:28px;overflow:hidden;box-shadow:0 18px 50px rgba(46,58,70,.18);position:relative;display:flex;flex-direction:column;min-height:88vh}
@@ -147,7 +151,11 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .editcount{text-align:right;font-size:11px;color:#C9C1B2;margin-bottom:16px}
 #fromIn.warn{border-color:var(--coral)!important;background:#FFF3EF!important}
 
-.editbox textarea{width:100%;min-height:236px;border:none;resize:none;font-family:var(--serif);font-size:18px;line-height:1.6;color:var(--ink);outline:none;background:none}
+.editbox textarea{width:100%;min-height:236px;border:none;resize:none;font-family:var(--hand);font-size:26px;line-height:1.5;color:#1c3f63;outline:none;background:none}
+.editbox textarea::placeholder{color:#C9C1B2;font-family:var(--hand);font-size:26px}
+.lp-to{font-family:var(--hand);font-size:28px;color:var(--navy);line-height:1.2;padding-bottom:8px;border-bottom:1px solid #F1EBDD;margin-bottom:12px}
+.lp-sign{font-family:var(--hand);font-size:24px;color:#3f6288;text-align:right;padding-top:10px;border-top:1px solid #F1EBDD;margin-top:12px}
+.lp-sign.ghost{color:#C9C1B2}
 .emos{display:flex;gap:9px;justify-content:center;margin-bottom:14px}
 .emo{width:40px;height:40px;border-radius:11px;border:1.5px solid var(--line);background:#fff;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.12s}
 .emo.sel{border-color:var(--coral);background:#FFF3EF;transform:scale(1.1);box-shadow:0 6px 16px rgba(255,122,89,.2)}
@@ -266,11 +274,15 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div class="emo" onclick="pickEmo2(this,'😊')">😊</div>
         <div class="emo" onclick="pickEmo2(this,'🌸')">🌸</div>
       </div>
-      <div class="editbox"><textarea id="edit" rows="6" maxlength="120" oninput="editCount()"></textarea></div>
+      <div class="editbox">
+        <div class="lp-to" id="lpTo">그분에게</div>
+        <textarea id="edit" rows="6" maxlength="120" oninput="editCount()"></textarea>
+        <div class="lp-sign ghost" id="lpSign">— ○○ 드림</div>
+      </div>
       <div class="editcount" id="editCount">0 / 120</div>
       <div style="margin-top:20px">
         <div class="qsub" style="text-align:left;font-size:13px;color:#B7B0A2;margin-bottom:7px">보내는 분</div>
-        <input id="fromIn" maxlength="12" placeholder="예: 지수" autocomplete="off" style="width:100%;border:1px solid #EAE3D6;border-radius:12px;padding:12px 14px;font-size:14px;font-family:'Noto Sans KR',sans-serif;background:#FFFDF9;color:#3A3228;box-sizing:border-box">
+        <input id="fromIn" maxlength="12" placeholder="예: 지수" autocomplete="off" oninput="paintSign()" style="width:100%;border:1px solid #EAE3D6;border-radius:12px;padding:12px 14px;font-size:14px;font-family:'Noto Sans KR',sans-serif;background:#FFFDF9;color:#3A3228;box-sizing:border-box">
       </div>
       <div class="stepnav"><button class="bprev" onclick="prev()">← 이전</button><button class="bnext" onclick="goFinal()">이대로 전할게요 →</button></div>
     </section>
@@ -469,7 +481,12 @@ function goFinal(){
 var toastT;function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;t.style.visibility='visible';t.style.transform='translateX(-50%) translateY(0)';clearTimeout(toastT);toastT=setTimeout(function(){t.style.opacity=0;t.style.visibility='hidden';t.style.transform='translateX(-50%) translateY(20px)';},1600);}
 
 /* ===== 흐름 제어 (피아노=s0, 심정=s2~) ===== */
-function render(){document.querySelectorAll('.screen').forEach(function(e){e.classList.toggle('on',+e.dataset.s===state.s)});var order={0:0,2:1,3:2,4:3,5:4};var di=order[state.s];document.querySelectorAll('#prog i').forEach(function(d,x){d.classList.toggle('on',di!==undefined&&x===di);});window.scrollTo(0,0);}
+function paintSign(){var g=document.getElementById('lpSign');if(!g)return;var fn=fromName();
+  if(fn){g.textContent='— '+fn+' 드림';g.classList.remove('ghost');}
+  else{g.textContent='— ○○ 드림';g.classList.add('ghost');}}
+function paintLetterhead(){var t=document.getElementById('lpTo');if(!t)return;
+  var nk=state.pianoNm||state.who||'그분';t.textContent=nk+josaKke();paintSign();}
+function render(){if(state.s===4){paintLetterhead();}document.querySelectorAll('.screen').forEach(function(e){e.classList.toggle('on',+e.dataset.s===state.s)});var order={0:0,2:1,3:2,4:3,5:4};var di=order[state.s];document.querySelectorAll('#prog i').forEach(function(d,x){d.classList.toggle('on',di!==undefined&&x===di);});window.scrollTo(0,0);}
 function go(n){state.s=n;render();
   if(n===2){var nk=state.pianoNm||'그분';state.who=nk;document.getElementById('q1').innerHTML=nk+josaKke()+',<br>지금 어떤 마음인가요?';}
 }
