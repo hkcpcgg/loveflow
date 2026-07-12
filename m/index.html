@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ===================================================================
  사랑흐름 · 마음 한마디 편지 페이지  /m/?id=xxxx
+ v6  260712  한마디 넘침 수정 — .msg가 word-break:keep-all만 있어, 띄어쓰기 없이 이어진 글자(ㅅㅅㅅ… 등)를 한 단어로 보고 줄을 못 바꿔 카드 밖으로 흘러나감. overflow-wrap:anywhere 추가(.msg/.to/.sign). keep-all은 유지 → 한글 문장은 어절 단위로 자연스럽게, 붙어있는 긴 글자만 강제 줄바꿈.
  v5  260711  상단 로고 왼쪽(홈링크)+"마음 한마디" 가운데 · 수신자 왼쪽정렬 · 하단문구 질문형(B) · 버튼 숨쉬기(C)
  v4  260711  발신자 서명 "— △△ 드림"(from 있을 때) 추가 · 수신자 조사포함형 그대로 표시(어머니께)
  v3  260711  상단 로고 마크 + "마음 한마디" 한 줄 가운데정렬 (브랜드명 중복 제거)
@@ -31,9 +32,9 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
 .letter.show{opacity:1;transform:none}
 .brandtop{text-align:center;padding:22px 0 2px;font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#C9B79A;letter-spacing:.16em;font-weight:500}
 .body{padding:24px 30px 30px;text-align:center;font-family:'Nanum Pen Script',cursive}
-.to{font-size:24px;color:#6B5A45;margin-bottom:22px;text-align:left}
-.msg{font-size:29px;color:#3A3228;line-height:1.65;white-space:pre-wrap;word-break:keep-all}
-.sign{font-family:'Nanum Pen Script',cursive;font-size:23px;color:#6B5A45;text-align:right;margin-top:26px}
+.to{font-size:24px;color:#6B5A45;margin-bottom:22px;text-align:left;word-break:keep-all;overflow-wrap:anywhere}
+.msg{font-size:29px;color:#3A3228;line-height:1.65;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
+.sign{font-family:'Nanum Pen Script',cursive;font-size:23px;color:#6B5A45;text-align:right;margin-top:26px;overflow-wrap:anywhere}
 .line{height:1px;background:#EFE6D6;margin:0 30px}
 
 /* 하단 바이럴 (편지 다 읽은 뒤 자연스럽게) */
