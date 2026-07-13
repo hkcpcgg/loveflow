@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · showroom.html   v13-1 · 260713
-     [v13-1 · 260713 대표 지적] 옛 편지 주소 · 군더더기 문구 전수 정리
+     사랑흐름 · showcase.html   v5-1 · 260713
+     [v5-1 · 260713 대표 지적] 옛 편지 주소 · 군더더기 문구 전수 정리
        ① ★옛 표(LINK)의 letter 가 아직 GAS 주소(script.google.com)를 가리켰습니다.
           누르면 주소창에 script.google.com 이 뜨고 ★빈 칸 하나짜리 옛 편지로 갔습니다.
           (pay·showroom 은 빈 값이라 아예 안 눌렸습니다)
@@ -13,11 +13,11 @@
        ③ pay 의 "궁금한 점이 있으신가요?" 삭제 — 카카오톡 문의 버튼이 이미 말합니다.
           (gate v9-22 에서 같은 이유로 뺐던 문구)
 
-     [이전] v13
+     [이전] v5
      ───────────────────────────────────────────────────────────────────
-     [버전] 라이브 v12 → ★v13 (이 파일)
+     [버전] 라이브 v4-2 → ★v5 (이 파일)
 
-     [v13 · 260713 대표 확정] ☰ 표준 메뉴 9항목 + 앞뒤 방향 — 전 12화면 동시 적용
+     [v5 · 260713 대표 확정] ☰ 표준 메뉴 9항목 + 앞뒤 방향 — 전 12화면 동시 적용
        대표: "어디 들어갈 곳이 없어. 입구가 안 보여. 매우 답답해요."
              "내가 머물러 있는 곳이 내 자리가 아니라고 판단됐을 때
               빨리 어디론가 갈 수 있게는 해줘야 된다."
@@ -43,40 +43,57 @@
      [그 밖 무변경] 이 화면의 본래 내용·색·연출·로직은 그대로입니다.
      ═══════════════════════════════════════════════════════════════════ -->
 <!-- ============================================================
-  여행의 기록 showroom.html · v12 · 2026-07-12
-  · [v12] ★금액(정가·국내 런칭가) 삭제 — showroom은 '여행의 기록' = 구경하는 곳. 파는 곳(pay)이 아님.
-  ·      가격이 여기 있으면 갤러리가 아니라 진열장이 됨. 가격은 예매 버튼을 눌러 pay에서 본다.
-  · [v12] ① 정가 50,000 → 48,900 (확정대장 260712. showcase v4-1 · pay v13과 일치)
-  ·      ② 상품명 정정 — ?item=set은 '마음여행'인데 화면엔 '마음 여행편지'라고 적혀 있었음.
-  ·      '마음 여행편지'는 마음여행 안의 편지를 부를 때 쓰는 이름(확정대장). 가격 라벨·예매 버튼 둘 다 교체.
-  ·      ③ 예매 버튼 화살표 제거 (→는 '여권으로 입장 →'에만) — showcase v4-1 패턴 통일
-  ·      ④ 여권 입장: 작은 밑줄 텍스트 → 골드 박스 + 딥네이비 통버튼(VIP). showcase와 동일 형태
-  ·      ※ 여권 히어로·스와이프 카드덱·편지 봉투·사운드·☰·푸터 무손상
-  사랑흐름 "여행의 기록" showroom.html · v11 · 2026-07-10
-  · 이사회 확정 구조: 여권 대표작(화면 가득) → 스와이프 카드덱 → 편지 봉투 → 예매
-  · "쇼룸"(판매자 언어) 폐기 → "여행의 기록"(고객 언어)
-  · 70% 공개 30% 절제 · TOP3(여권·편지·유형) · 하단 예매 고정
+  여행 고르기 showcase.html · v4-2 · 2026-07-12
+  · [v4-2] 단품 편지 이름 '마음편지' → '마음 여행편지' 원복.
+  ·      260708 확정 원칙: 상품명 띄어쓰기는 '마음' 뒤에만 한 칸 → "마음 한마디"·"마음 여행지도"·"마음 여행편지" (이 셋은 변경 없음).
+  ·      260709 이사회 자료(대표 승인): 나누어 여행하기 = 마음 여행지도 · 마음 여행편지(편지 단독) · 자서전.
+  ·      260710에 이사회가 '마음편지'로 줄이자고 제안했으나 대표 채택된 적 없음 → 이사가 제안을 확정으로 착각한 것.
+  · [v4-1] '둘러보는 건 무료예요' 삭제 — 버튼이 이미 말하는 소리(안 해도 될 말) 금지 원칙
+  · [v4] 화면 정리 — 버튼 11개 → 6개. 어수선함의 원인은 '미리보기' 5개가 전부 같은 곳(showroom)으로 가고 있었던 것.
+  ·      ① 카드별 미리보기 5개 제거 → 하단 [먼저 다녀간 분들의 여행 보기] 버튼 하나로 통합
+  ·      위치는 상품을 다 본 뒤·여권 입장 바로 위 = 결정 직전의 안전망 자리(대표 지시). 목적지 showroom(여행의 기록).
+  ·      ② 예매 = 카드 폭 꽉 채운 통버튼. 화살표 제거(→는 긴 문구인 '여권으로 입장 →'에만 남김)
+  ·      ③ 색 위계: 마음여행(주력)=네이비 카드 위 흰 통버튼 / 나머지 4개=네이비 테두리만 / 여권=딥네이비 채움(화면에서 유일)
+  ·      ④ 화면 이름 '상품 진열장' → '여행 고르기'. 헤드라인 "어떻게 여행하시겠어요?/가장 먼저 떠오른 그 사람에게로."
+  ·      → "여기서부터는, 당신의 여행입니다 / 천천히 골라보세요. 되돌아와도 괜찮아요."
+  ·      ('어떻게'는 손님에게 방법을 되묻는 말이고, '떠오른 사람'은 마음 한마디에서 이미 물음)
+  ·      ⑤ 인생여행·자서전을 반반 한 줄로(왼쪽 작은 금액 49,800 / 오른쪽 59,800) → 스크롤 축소
+  ·      ⑥ 여권 = VIP. 골드 박스 + 딥네이비 통버튼으로 격상
+  · [v3] · 2026-07-12
+  · [v3] ① 금액을 확정대장(260712)으로 교체 — 라이브가 옛 값이었음:
+  ·      마음여행 정가 50,000→48,900 / 마음 여행지도 24,900·19,800→19,900·14,900 / 마음편지 29,900·22,600→29,000·19,900
+  ·      라벨 표준화(런칭가→국내 런칭가). 인생여행 59,800·자서전 49,800은 확정값과 일치해 유지.
+  ·      ② 순서 교체 — 인생여행 카드를 '나누어 여행하기' 아래로 이동(대표 지시).
+  ·      의도: 마음여행 29,800 → 단품 합 34,800(14,900+19,900, 더 비쌈) → 인생여행 순으로 읽혀
+  ·      '하나씩 사면 더 비싸다'가 체감되고 29,800으로 유도됨.
+  ·      ③ '여권으로 입장' 밑줄 텍스트링크 → 버튼(흰 배경 + 딥네이비 테두리 · 260708 확정 형태).
+  · [v2] index배포 세트 정리: 메뉴 "무료 나침반"→"마음 한마디"(go home). letter 링크(편지 GAS) 채움. title 결제→진열장. ※원본이 pay 프레임 복사본이라 주석·title이 pay 잔재였음→바로잡음.
+  · 상품 5종 진열(마음여행 set·인생여행 life·지도 map·편지 letter·자서전 memoir). 예매 goItem→pay?item=.
 ============================================================ -->
 <html lang="ko"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>사랑흐름 · 여행의 기록</title>
+<title>여행 고르기 · 사랑흐름</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@500;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FFFBF5;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;--navy:#1E4A76;--gold:#C9A227;--coral:#FF7A59;--sans:'Noto Sans KR',sans-serif;--serif:'Noto Serif KR',serif}
+:root{--bg:#FFFBF5;--card:#FFFFFF;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;
+--navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59;--coral-d:#F0644A;
+--naver:#03C75A;--kakao:#FEE500;--acct:#1D9E75;
+--sans:'Noto Sans KR',system-ui,sans-serif}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100vh;display:flex;justify-content:center;padding:16px 8px}
-.phone{width:100%;max-width:412px;background:var(--bg);border-radius:26px;overflow:hidden;box-shadow:0 16px 46px rgba(46,58,70,.18);position:relative;padding-bottom:74px}
+body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100vh;display:flex;justify-content:center;padding:22px 12px}
+.phone{width:100%;max-width:412px;background:var(--bg);border-radius:28px;overflow:hidden;box-shadow:0 18px 50px rgba(46,58,70,.18);position:relative;display:flex;flex-direction:column}
 
-.gnav{display:flex;align-items:center;gap:8px;padding:11px 14px;background:#fff;border-bottom:1px solid var(--line);position:relative}
-.gnav .home{display:flex;align-items:center;gap:8px}
-.gnav .home img{height:32px;width:32px;object-fit:contain}
-.gnav .home b{font-size:14px;font-weight:900;color:var(--navy)}
-.gnav .ic{border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--navy)}
+/* ===== 기본 프레임 · 상단 내비 (고정) ===== */
+.gnav{display:flex;align-items:center;gap:8px;padding:11px 12px;background:#fff;border-bottom:1px solid var(--line);position:relative}
+.gnav .home{cursor:pointer;flex-shrink:0}
+.gnav .home img{height:40px;width:40px;object-fit:contain;display:block}
 .gnav .back{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:17px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .gnav .loc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:15px;font-weight:900;color:var(--navy);pointer-events:none}
 .gnav .ham{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.gnav .home{cursor:pointer}
+.gnav .back:active,.gnav .ham:active{transform:scale(.94)}
+
+/* ☰ 드로어 (고정 · 전 페이지 공용) */
 .drawer{position:absolute;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:50}
 .drawer.on{opacity:1;visibility:visible}
 .dpanel{position:absolute;top:0;right:0;width:80%;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.15);transform:translateX(100%);transition:.26s;display:flex;flex-direction:column}
@@ -86,118 +103,167 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .dhead .x{border:none;background:none;font-size:18px;color:var(--sub);cursor:pointer}
 .dbody{flex:1;overflow:auto;padding:6px 0}
 .dbody a{display:block;padding:14px 18px;font-size:15px;font-weight:700;color:var(--ink);text-decoration:none;cursor:pointer;border-bottom:1px solid var(--line)}
-.dbody a:hover{background:#FFF6F2;color:var(--coral)}
+.dbody a:hover{background:#FFF6F2;color:var(--coral-d)}
+
+/* ===== 본문 (가변) ===== */
+.hero{text-align:center;padding:22px 20px 6px}
+.hero h1{font-size:21px;font-weight:900;line-height:1.35;color:var(--ink)}
+
+/* 가격 박스 */
+.price{margin:10px 18px 4px;border:1.5px solid var(--gold);border-radius:14px;padding:13px 15px;background:#fff}
+.price .pn{font-size:14px;font-weight:800;color:var(--ink);margin-bottom:3px}
+.price .psub{font-size:11px;color:var(--sub);line-height:1.65;margin:0 0 9px;font-weight:500}
+.price .pinc{margin-top:9px;padding:8px 10px;background:#F2F6FA;border-radius:9px;font-size:11px;font-weight:700;color:var(--navy);text-align:center;line-height:1.55}
+.price .prow{display:flex;align-items:baseline;gap:8px;padding:1px 0}
+.price .plabel{font-size:12px;color:#B0A99A;min-width:76px}
+.price .nlabel{font-size:12px;color:var(--navy);font-weight:700;min-width:76px}
+.price .pl{font-size:14px;color:#9a9689}
+.price .pw{font-size:21px;font-weight:900;color:var(--navy)}
+
+.intro{text-align:center;font-size:13px;font-weight:700;color:var(--ink);padding:12px 20px 4px}
+
+/* ① 계좌이체 박스 */
+.acct{margin:12px 18px;border:2px solid var(--acct);border-radius:16px;padding:16px;background:#F4FBF8}
+.sec-t{font-size:16px;font-weight:900;color:var(--ink);display:flex;align-items:center;gap:7px}
+.sec-t .no{color:var(--acct)}
+.g{font-size:12.5px;color:var(--sub);line-height:1.6;margin:6px 0 0}
+.acct-row{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;margin:10px 0}
+.acct-row .a{flex:1;font-size:13.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px}
+.acct-row .cp{flex-shrink:0;background:var(--acct);border:none;color:#fff;font-size:12.5px;font-weight:800;padding:8px 14px;border-radius:10px;cursor:pointer}
+.acct-row .cp:active{transform:scale(.96)}
+
+/* 통버튼 (고정 형태) */
+.btn{display:block;width:100%;text-align:center;text-decoration:none;border:none;font-family:inherit;cursor:pointer;border-radius:14px;padding:15px 14px;font-size:15px;font-weight:800;margin:10px 0}
+.btn:active{transform:scale(.985)}
+.btn .sub{display:block;font-size:11px;font-weight:600;margin-top:3px;opacity:.85}
+.btn-navy{background:var(--navy);color:#fff}
+.btn-navy-o{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.btn-navy-o:active{background:#F2F6FA}
+.btn-naver{background:var(--naver);color:#fff;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-naver .n{width:22px;height:22px;border-radius:5px;background:#fff;color:var(--naver);font-weight:900;font-size:14px;display:flex;align-items:center;justify-content:center}
+.btn-kakao{background:var(--kakao);color:#3A2E00}
+
+.paid{padding:2px 18px 4px}
+.paid .sec-t{margin-top:8px}
+
+.toast{position:absolute;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 18px;border-radius:12px;opacity:0;visibility:hidden;transition:.2s;z-index:80;white-space:nowrap}
+.toast.on{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+
+/* ===== 기본 프레임 · 하단 푸터 (고정) ===== */
 .legal{text-align:center;padding:16px 18px 20px;border-top:1px solid var(--line);margin-top:10px}
 .legal .flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-bottom:12px}
 .legal .flinks a{font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer}
+.legal .flinks a:hover{color:var(--coral-d)}
 .legal .warn{font-size:10.5px;color:var(--sub);font-weight:500;line-height:1.7}
 .legal .home2{font-size:12px;font-weight:800;color:var(--navy);margin-top:14px;cursor:pointer;display:inline-block}
-
-
-/* ── ① 여권 히어로 (화면 가득) ── */
-.hero{padding:26px 20px 30px;text-align:center;background:radial-gradient(circle at 50% 20%,#FFF7E8,#FFFBF5)}
-.hero .eye{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--gold)}
-.passport{background:#132845;border:2px solid #C9A227;border-radius:6px;padding:5px;margin:16px 4px 0;box-shadow:0 12px 30px rgba(19,40,69,.3)}
-.passport .inr{border:1px solid rgba(201,162,39,.55);border-radius:3px;padding:26px 18px}
-.passport .kt{font-family:var(--serif);font-size:27px;font-weight:700;color:#fff;letter-spacing:.05em}
-.passport .en{font-size:10px;font-weight:700;letter-spacing:.2em;color:#C9A227;margin-top:7px}
-.passport .dv{color:#C9A227;font-size:10px;margin:16px 0;letter-spacing:.4em}
-.passport .ml{font-size:11px;font-weight:700;letter-spacing:.2em;color:#C9A227}
-.passport .no{font-family:var(--serif);font-size:40px;font-weight:700;color:#D9B43A;letter-spacing:.05em;margin:8px 0 4px}
-.passport .dt{font-size:13px;color:rgba(255,255,255,.85)}
-.passport .min{position:relative;margin-top:20px;text-align:center}
-.passport .min .mc{font-family:var(--serif);font-size:17px;font-weight:700;color:#C9A227}
-.passport .min .en2{font-size:8px;letter-spacing:.15em;color:rgba(201,162,39,.7)}
-.passport .min .seal{position:absolute;left:50%;top:-18px;transform:translateX(70%) rotate(-15deg);width:52px;height:52px;border:3px solid #C0392B;border-radius:5px;box-shadow:inset 0 0 0 2px #C0392B;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#C0392B;font-family:var(--serif);font-size:11px;font-weight:700;line-height:1.15;background:rgba(192,57,43,.06);pointer-events:none}
-.passport .seal{width:44px;height:44px;border:2px solid #B23B3B;border-radius:7px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#C0504D;font-size:8px;font-weight:800;line-height:1.3;transform:rotate(-6deg)}
-.hero .line{font-family:var(--serif);font-size:15px;color:var(--ink);line-height:1.7;margin:24px 12px 0}
-.hero .scroll{margin-top:18px;font-size:13px;color:var(--sub);font-weight:700}
-.hero .scroll b{color:var(--navy)}
-
-/* 진행률 */
-.prog{display:flex;gap:5px;justify-content:center;padding:16px 20px 4px}
-.prog i{height:4px;flex:1;max-width:44px;background:#E7DFC9;border-radius:3px;transition:.3s}
-.prog i.on{background:var(--gold)}
-
-/* ── ② 스와이프 카드덱 ── */
-.deck-h{text-align:center;padding:8px 20px 2px}
-.deck-h .t{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--gold)}
-.deck-h .s{font-size:13px;color:var(--sub);margin-top:4px}
-.deckwrap{position:relative;padding:14px 20px 8px}
-.deck-vp{overflow:hidden;border-radius:18px}
-.deck{display:flex}
-.deck.anim{transition:transform .5s cubic-bezier(.4,0,.2,1)}
-.card{flex:0 0 100%;background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:22px 18px;box-shadow:0 6px 20px rgba(0,0,0,.06);min-height:250px;display:flex;flex-direction:column}
-.card .clb{font-size:10px;font-weight:800;letter-spacing:.14em;color:var(--gold);text-align:center}
-.card.type{background:linear-gradient(150deg,#1E4A76,#0F1B2D);border:none}
-.card.type .clb{color:rgba(201,162,39,.85)}
-.card.type .ci{font-size:48px;text-align:center;margin:14px 0 6px}
-.card.type .cn{font-size:22px;font-weight:900;color:#fff;text-align:center}
-.card.type .cf{font-size:12px;color:var(--gold);text-align:center;font-weight:700;margin-top:4px}
-.card.type .cc{font-size:12px;color:rgba(255,255,255,.72);line-height:1.85;text-align:center;margin-top:14px;font-style:italic}
-.card .poem{font-family:var(--serif);font-size:15px;color:var(--navy);text-align:center;line-height:1.7;margin:16px 0 10px}
-.axmini{margin-top:auto}
-.axmini .ar{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px;color:var(--ink);font-weight:700}
-.axmini .ar .lk{color:var(--sub);font-weight:500}
-.axmini .bar{height:7px;background:#F0ECE2;border-radius:5px;overflow:hidden;margin-bottom:9px}
-.axmini .fill{height:100%;background:linear-gradient(90deg,#C9A227,#1E4A76);border-radius:5px}
-.stampC{width:120px;height:120px;border-radius:50%;border:2.5px dashed var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:14px auto 0;background:#FEFCF6}
-.stampC .se{font-size:28px}.stampC .sn{font-size:14px;font-weight:900;color:#A8880A;margin-top:2px}.stampC .ss{font-size:11px;color:var(--sub)}
-.universe{flex:1;display:flex;align-items:center;justify-content:center;position:relative;min-height:150px}
-.universe .me{width:56px;height:56px;border-radius:50%;background:#C9A227;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:15px;z-index:2}
-.universe .node{position:absolute;width:38px;height:38px;border-radius:50%;background:#EAF0F6;border:1.5px solid #1E4A76;color:#1E4A76;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;top:14px}
-
-/* ── ③ 편지 봉투 ── */
-.letterZone{margin:14px 20px;background:linear-gradient(160deg,#3A2E22,#241B12);border-radius:20px;padding:30px 22px;text-align:center}
-.letterZone .lz1{font-family:var(--serif);font-size:16px;color:#F0E6D2;line-height:1.8}
-.envelope{width:150px;height:100px;margin:22px auto 8px;position:relative;cursor:pointer}
-.envelope .body{position:absolute;inset:0;background:#F5ECD8;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.3)}
-.envelope .addr{position:absolute;left:0;right:0;top:74%;transform:translateY(-50%);z-index:2;font-family:'Nanum Pen Script',cursive;font-size:20px;color:#6B5A45;text-align:center;letter-spacing:.02em;transition:.6s;pointer-events:none}
-.envelope.open .addr{opacity:0}
-.envelope .stamp{position:absolute;top:9px;right:11px;z-index:2;width:22px;height:26px;border:1.5px solid #C9A227;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:12px;color:#B23B3B;background:rgba(201,162,39,.08)}
-.envelope .flap{position:absolute;top:0;left:0;right:0;height:52px;background:#EADFC4;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:1.1s cubic-bezier(.4,0,.2,1);z-index:3}
-.envelope.open .flap{transform:rotateX(180deg);z-index:1}
-.envelope .seal2{position:absolute;top:38px;left:50%;transform:translateX(-50%);width:26px;height:26px;background:#B23B3B;border-radius:50%;z-index:4;transition:.5s;display:flex;align-items:center;justify-content:center;color:#fff;font-size:11px}
-.envelope.open .seal2{opacity:0}
-.envelope .paper{position:absolute;left:10px;right:10px;top:14px;background:#fff;border-radius:4px;padding:14px 12px 10px;font-family:'Nanum Pen Script',cursive;font-size:17px;color:#3A3228;line-height:1.6;opacity:0;transition:.9s 1s;z-index:2;text-align:left}
-.envelope.open .paper{opacity:1;top:-46px}
-.letterZone .tap{font-size:12px;color:rgba(240,230,210,.6);margin-top:12px;min-height:36px}
-@keyframes tapb{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
-.tapfinger{display:inline-block;font-size:30px;animation:tapb 1s ease-in-out infinite;filter:drop-shadow(0 3px 4px rgba(0,0,0,.3))}
-.letterZone.opened .tapfinger{display:none}
-.letterZone .more{display:none;margin-top:16px}
-.letterZone.opened .more{display:block}
-.letterZone .more p{font-size:12.5px;color:rgba(240,230,210,.75);line-height:1.7}
-
-/* ── ④ 마지막 CTA ── */
-.finale{text-align:center;padding:28px 22px 20px}
-.finale h3{font-family:var(--serif);font-size:19px;font-weight:700;color:var(--ink);line-height:1.6}
-.finale .price{margin:16px auto 0;max-width:260px}
-.finale .prow{display:flex;align-items:baseline;gap:8px;justify-content:center;padding:2px 0}
-.finale .plabel{font-size:12px;color:#B0A99A}
-.finale .nlabel{font-size:12px;color:var(--navy);font-weight:700}
-.finale .pl{font-size:14px;color:#9a9689}
-.finale .pw{font-size:22px;font-weight:900;color:var(--navy)}
-
-/* sticky 예매 */
-.sticky{position:absolute;left:0;right:0;bottom:0;padding:12px 16px;background:rgba(255,251,245,.95);border-top:1px solid var(--line);backdrop-filter:blur(6px)}
-.sticky button{width:100%;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:15px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer}
-.sticky button:active{transform:scale(.99)}
-
-.vipbox{margin:22px 0 4px;padding:18px 16px;background:#FFFDF6;border:1.5px solid var(--gold);border-radius:16px;text-align:center}
+.steps{display:flex;justify-content:center;align-items:flex-start;padding:16px 24px 4px;max-width:420px;margin:0 auto}
+.step{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;flex:1;max-width:78px}
+.step .dot{width:14px;height:14px;border-radius:50%;background:#E3DAC5;z-index:2}
+.step.done .dot{background:var(--navy)}
+.step.now .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.25)}
+.step .lb{font-size:10.5px;font-weight:700;color:var(--sub)}
+.step.done .lb{color:var(--navy)}
+.step.now .lb{color:#9A6F0B;font-weight:800}
+.step .line{position:absolute;top:6px;left:-50%;width:100%;height:2px;background:#E3DAC5;z-index:1}
+.step.done .line,.step.now .line{background:var(--navy)}
+.step:first-child .line{display:none}
+.ask-c{margin-top:18px;padding-top:16px;border-top:1px solid var(--line);text-align:center;font-size:12px;color:var(--sub);line-height:1.7}
+.kakao-mini{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-size:12px;font-weight:700;color:#3A2E00;text-decoration:none;padding:7px 15px;border-radius:16px;background:var(--kakao)}
+.kakao-mini:active{transform:scale(.96)}
+.choice{padding:6px 18px 4px}
+.choice-h{text-align:center;font-size:14px;font-weight:800;color:var(--ink);margin:6px 0 14px}
+.choice-btn{display:block;width:100%;padding:18px;margin-bottom:12px;border-radius:14px;border:1.5px solid var(--line);background:#fff;font-size:15px;font-weight:800;color:var(--navy);cursor:pointer;font-family:inherit;text-align:center}
+.choice-btn .cd{display:block;font-size:12px;font-weight:600;color:var(--sub);margin-top:5px}
+.choice-btn .soon{display:inline-block;font-size:10.5px;font-weight:800;color:#9A6F0B;background:#FFF3D6;border-radius:10px;padding:2px 8px;margin-left:6px;vertical-align:middle}
+.choice-btn:active{transform:scale(.99)}
+.choice-btn.main{background:var(--navy);color:#fff;border-color:var(--navy)}
+.choice-btn.main .cd{color:rgba(255,255,255,.82)}
+.pathback{display:inline-block;font-size:12.5px;color:var(--sub);font-weight:700;cursor:pointer;margin-bottom:12px}
+.hidden{display:none}
+.pass-need{text-align:center;font-size:13px;font-weight:700;color:var(--navy);line-height:1.6;margin:6px 0 12px}
+.choice-row2{display:flex;gap:12px}
+.choice-row2 .choice-btn{flex:1;margin-bottom:0;padding:16px 8px}
+.disp-h{text-align:center;font-size:19px;font-weight:900;color:var(--navy);padding:20px 20px 2px}
+.disp-sub{text-align:center;font-size:12.5px;color:var(--sub);margin-bottom:6px}
+.zone{padding:4px 18px 2px}
+.zone-t{font-size:13px;font-weight:800;color:var(--navy);margin:16px 0 10px;padding-left:8px;border-left:3px solid var(--gold)}
+.pcard{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;cursor:pointer;transition:.15s}
+.pcard:active{transform:scale(.99)}
+.pcard.hero{border:none;background:linear-gradient(140deg,#1E4A76,#2B5F92);color:#fff;box-shadow:0 6px 18px rgba(30,74,118,.22);text-align:left}
+.pcard.hero .pcard-t{color:#fff}
+.pcard.hero .pcard-c{color:rgba(255,255,255,.85)}
+.pcard.hero .pcard-p{color:#fff}
+.pcard.hero .pcard-go{color:#FFD98A}
+.pcard.hero .pcard-prev{color:rgba(255,255,255,.72)}
+.pcard-row{display:flex;gap:12px}
+.pcard.half{flex:1;margin-bottom:12px;text-align:center;padding:16px 12px}
+.pcard.half .pcard-c{margin:4px 0 8px;min-height:30px}
+.pcard.half .pcard-p{font-size:18px}
+.pcard.half .pcard-prev{display:inline-block;margin-top:8px}
+.serif{font-family:'Noto Serif KR',serif}
+.memoir-zone{padding:6px 18px 4px}
+.memoir-card{background:linear-gradient(145deg,#FBF3DE,#FFFDF7);border:1.5px solid var(--gold);border-radius:14px;padding:18px;cursor:pointer;transition:.15s}
+.memoir-card:active{transform:scale(.99)}
+.memoir-t{font-size:17px;font-weight:800;color:#8A6D1E}
+.memoir-c{font-size:12px;color:var(--sub);margin-top:6px;line-height:1.6}
+.memoir-b{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;margin-top:12px}
+.pcard.life .pcard-b{justify-content:flex-start;gap:14px}
+.memoir-name{display:block;font-size:12px;font-weight:800;color:#8A6D1E;margin-bottom:6px}
+.peekbox{margin:22px 18px 0;text-align:center}
+.peek-b{width:100%;padding:13px;background:#fff;border:1.5px solid var(--navy);border-radius:22px;color:var(--navy);font-family:'Noto Sans KR',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer}
+.peek-b:active{transform:scale(.99)}
+.btnrow{display:flex;margin-top:12px}
+.b-buy{width:100%;padding:12px 14px;border:1.5px solid var(--navy);background:#fff;border-radius:22px;color:var(--navy);font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:800;cursor:pointer}
+.pcard.hero .b-buy{background:#fff;border-color:#fff;color:var(--navy);font-size:14.5px;padding:14px}
+.pcard.half .b-buy{padding:11px 8px;font-size:12.5px}
+.b-buy:active{transform:scale(.98)}
+.revisit-vip{margin:14px 18px 6px;padding:18px 16px;background:#FFFDF6;border:1.5px solid var(--gold);border-radius:16px;text-align:center}
 .vip-q{font-size:13px;color:#8A7B4E;margin-bottom:11px}
-.vip-b{width:100%;padding:14px;background:var(--navy);border:none;border-radius:24px;color:#fff;font-family:inherit;font-size:14.5px;font-weight:800;cursor:pointer}
+.vip-b{width:100%;padding:14px;background:var(--navy);border:none;border-radius:24px;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:14.5px;font-weight:800;cursor:pointer}
 .vip-b:active{transform:scale(.99)}
+.price2{display:flex;flex-direction:column;line-height:1.3;min-width:0}
+.price2 .p-now{white-space:nowrap}
+.pcard-b .pcard-r{flex-shrink:0;white-space:nowrap;margin-left:auto}
+.pcard-b{gap:12px}
+.price2.col{align-items:center;margin:8px 0 6px}
+.p-list{font-size:11.5px;color:#9a9689}
+.p-now{font-size:20px;font-weight:900;color:var(--navy)}
+.pcard.hero .p-now{color:#FFE39A}
+.pcard.hero .p-list{color:rgba(255,255,255,.72)}
+.p-soon{font-size:13px;font-weight:800;color:var(--gold-soft)}
+.accent-map{border-top:5px solid var(--navy)}
+.accent-letter{border-top:5px solid var(--coral)}
+.pcard.life{border:1.5px solid var(--gold);background:linear-gradient(145deg,#FFFDF7,#FBF3DE)}
+.pcard.life .pcard-t{color:#8A6D1E}
+.pcard.half.accent-memoir{border-top:3px solid var(--gold)}
+.pcard.half.accent-life{border-top:3px solid #8A6D1E}
+.pcard.half.accent-life .pcard-t{color:#8A6D1E}
+.zone-t{color:var(--navy)}
+.pcard-t{font-size:16px;font-weight:900;color:var(--navy)}
+.pcard-c{font-size:12px;color:var(--sub);margin-top:4px}
+.pcard-b{display:flex;align-items:flex-end;justify-content:space-between;margin-top:12px}
+.pcard-p{font-size:20px;font-weight:900;color:var(--navy)}
+.pcard-p .soon{font-size:12.5px;color:var(--sub);font-weight:700}
+.pcard-r{display:flex;align-items:center;gap:12px;margin-left:auto}
+.pcard-prev{font-size:12px;color:var(--sub);font-weight:700;text-decoration:underline;cursor:pointer}
+.pcard-go{font-size:12.5px;font-weight:800;color:var(--coral-d)}
+.revisit{text-align:center;margin-top:8px;padding:18px 18px 6px}
+.revisit-q{font-size:13px;color:var(--sub);margin-bottom:10px}
+.revisit-b{width:100%;max-width:300px;padding:14px 18px;background:#fff;border:1.5px solid var(--navy);border-radius:24px;color:var(--navy);font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:700;cursor:pointer}
+.revisit-b:active{transform:scale(.99)}
 </style></head>
 <body>
 <div class="phone">
 
+  <!-- ===== 상단 내비 (프레임) ===== -->
   <div class="gnav">
     <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
     <button class="back" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
-    <div class="loc">여행의 기록</div>
+    <div class="loc" id="loc">여행 고르기</div>
     <button class="ham" onclick="openMenu()" aria-label="메뉴">☰</button>
   </div>
+
+  <!-- ☰ 드로어 (프레임 · 공용) -->
   <div class="drawer" id="drawer" onclick="if(event.target===this)closeMenu()">
     <div class="dpanel">
       <div class="dhead"><b>사랑흐름</b><button class="x" onclick="closeMenu()">✕</button></div>
@@ -215,206 +281,167 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     </div>
   </div>
 
-  <!-- ① 여권 히어로 -->
-  <div class="hero">
-    <div class="eye">여행의 기록 · 첫 번째</div>
-    <div style="font-family:var(--serif);font-size:19px;font-weight:700;color:var(--navy);margin-top:6px">마음 여행여권</div>
-    <div style="font-size:12px;color:var(--sub);margin-top:3px">사랑흐름만의 관계 여행 증표</div>
-    <div class="passport">
-      <div class="inr">
-        <div class="kt">사랑흐름<br>마음 여행여권</div>
-        <div class="en">LOVE FLOW · MIND JOURNEY PASSPORT</div>
-        <div class="dv">— ◆ —</div>
-        <div class="ml">MY NUMBER · 나의 번호</div>
-        <div class="no">LF-W8Z2Q</div>
-        <div class="dv">— ◆ —</div>
-        <div class="dt">2026년 07월 05일 발급</div>
-        <div class="min">
-          <div class="seal">사랑흐름<br>마음<br>관리청</div>
-          <div class="mc">사랑흐름 마음관리청™</div>
-          <div class="en2">MINISTRY OF LOVE FLOW</div>
-        </div>
+  <!-- ===== 상품 진열장 ===== -->
+  <div class="disp-h">여기서부터는,<br>당신의 여행입니다</div>
+  <div class="disp-sub">천천히 골라보세요. 되돌아와도 괜찮아요.</div>
+
+  <div class="zone">
+    <div class="zone-t">한 번에 여행하기</div>
+    <div class="pcard hero" onclick="goItem('set')">
+      <div class="pcard-t">마음여행</div>
+      <div class="pcard-c">내 마음의 여행 지도를 그려보고,<br>그 마음으로 편지를 씁니다.</div>
+      <div class="pcard-b">
+        <div class="price2"><span class="p-list">정가 48,900원</span><span class="p-now">국내 런칭가 29,800원</span></div>
+      </div>
+      <div class="btnrow">
+        <button class="b-buy" onclick="event.stopPropagation();goItem('set')">예매하러 가기</button>
       </div>
     </div>
-    <div class="line">당신의 마음은, 여행을 마치면<br>하나의 기록이 됩니다.</div>
-    <div class="scroll">아래로, <b>여행의 기록을 펼쳐보세요 ↓</b></div>
   </div>
 
-  <div class="prog"><i class="on"></i><i></i><i></i><i></i><i></i></div>
-
-  <!-- ② 스와이프 카드덱 -->
-  <div class="deck-h">
-    <div class="t">여행의 발견 · 마음 여행지도</div>
-    <div class="s">← 넘겨보세요 · 실제 결과물 견본이에요 →</div>
-  </div>
-  <div class="deckwrap">
-    <button onclick="slide(-1)" style="position:absolute;top:50%;left:4px;transform:translateY(-50%);z-index:5;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:rgba(255,255,255,.96);color:var(--navy);font-size:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)">‹</button>
-    <button onclick="slide(1)" style="position:absolute;top:50%;right:4px;transform:translateY(-50%);z-index:5;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--line);background:rgba(255,255,255,.96);color:var(--navy);font-size:20px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)">›</button>
-    <div class="deck-vp">
-      <div class="deck" id="deck">
-        <div class="card type">
-          <div class="clb">LFRI™ · 여행자 유형</div>
-          <div class="ci">🌋</div>
-          <div class="cn">화산 여행자</div>
-          <div class="cf">불꽃을 품은 화산형</div>
-          <div class="cc">이 뜨거움은 사랑에서 나온 것입니다.<br>그런데 왜 이렇게 됐는지, 그 이유가<br>아직 번역되지 않았습니다.</div>
+  <div class="zone">
+    <div class="zone-t">나누어 여행하기</div>
+    <div class="pcard-row">
+      <div class="pcard half accent-map" onclick="goItem('map')">
+        <div class="pcard-t">마음 여행지도</div>
+        <div class="pcard-c">내 마음을 발견하는 여행</div>
+        <div class="price2 col"><span class="p-list">정가 19,900원</span><span class="p-now">14,900원</span></div>
+        <div class="btnrow">
+          <button class="b-buy" onclick="event.stopPropagation();goItem('map')">예매</button>
         </div>
-        <div class="card">
-          <div class="clb">LFRI™ · 5축 관계 흐름</div>
-          <div class="poem">그날의 마음은<br>다섯 갈래 길로 남았습니다.</div>
-          <div class="axmini">
-            <div class="ar"><span>연결</span><span>60%</span></div><div class="bar"><div class="fill" style="width:60%"></div></div>
-            <div class="ar"><span>표현</span><span>67%</span></div><div class="bar"><div class="fill" style="width:67%"></div></div>
-            <div class="ar"><span class="lk">관심 · 온기 · 회복</span><span class="lk">🔒 예매 후</span></div>
-          </div>
-        </div>
-        <div class="card">
-          <div class="clb">이 관계의 계절</div>
-          <div class="stampC"><span class="se">🌱</span><span class="sn">봄</span><span class="ss">새로운 연결</span></div>
-          <div class="poem" style="font-size:13px;margin-top:14px">막 피어나는 새싹처럼,<br>새로운 연결의 기운이 돌고 있어요.</div>
-        </div>
-        <div class="card">
-          <div class="clb">나의 관계 우주</div>
-          <div class="universe">
-            <div class="node" style="left:32%">어머니</div>
-            <div class="me">나</div>
-          </div>
-          <div class="poem" style="font-size:13px">오늘 첫 별이 떴어요.<br>나머지 자리가 다음 관계를 기다립니다.</div>
-        </div>
-        <div class="card keep">
-          <div class="clb">오늘 여행에서 · 가장 오래 머문 마음</div>
-          <div class="poem" style="font-size:17px;margin:20px 0 6px">“고맙다는 말을,<br>끝내 하지 못했습니다.”</div>
-          <div style="font-size:12.5px;color:var(--sub);line-height:1.9;text-align:center;margin-top:auto">당신이 오늘 가장 오래 머문 그 자리를,<br>사랑흐름이 조용히 기억합니다.</div>
+      </div>
+      <div class="pcard half accent-letter" onclick="goItem('letter')">
+        <div class="pcard-t">마음 여행편지</div>
+        <div class="pcard-c">마음을 전하는 편지</div>
+        <div class="price2 col"><span class="p-list">정가 29,000원</span><span class="p-now">19,900원</span></div>
+        <div class="btnrow">
+          <button class="b-buy" onclick="event.stopPropagation();goItem('letter')">예매</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ③ 편지 봉투 -->
-  <div class="letterZone" id="lz">
-    <div style="font-size:11px;font-weight:800;letter-spacing:.12em;color:#D9B43A;margin-bottom:10px">여행의 마지막 · 마음 여행편지</div>
-    <div class="lz1">여행은 끝났습니다.<br>하지만 아직, 하지 못한 말이 남았습니다.</div>
-    <div class="envelope" id="env" onclick="openEnv()">
-      <div class="body">
-        <div class="stamp">♥</div>
-        <div class="addr">사랑하는 엄마에게</div>
+  <div class="zone">
+    <div class="zone-t">더 깊이 여행하기</div>
+    <div class="pcard-row">
+      <div class="pcard half accent-memoir" onclick="goItem('memoir')">
+        <div class="pcard-t">한 편의 기록</div>
+        <div class="pcard-c">지나온 시간을 기록으로</div>
+        <div class="price2 col"><span class="p-list">정가 65,000원</span><span class="p-now">49,800원</span></div>
+        <div class="btnrow">
+          <button class="b-buy" onclick="event.stopPropagation();goItem('memoir')">예매</button>
+        </div>
       </div>
-      <div class="paper">엄마.<br>그동안 한 번도 말하지<br>못했던 이야기를…</div>
-      <div class="flap"></div>
-      <div class="seal2">♥</div>
-    </div>
-    <div class="tap" id="tapHint"><span class="tapfinger">👆</span></div>
-    <div style="font-size:11px;color:rgba(240,230,210,.6);margin-top:8px">당신이 입력할 마음이, 이 편지에 깊이 새겨집니다.</div>
-    <div class="more">
-      <p>이 편지의 나머지는, 당신의 여행이 끝나면<br>당신의 이야기로 완성됩니다.</p>
-    </div>
-  </div>
-
-  <!-- ④ 마지막 -->
-  <div class="finale">
-    <h3>사랑하는 <span id="rotT" style="color:var(--coral);transition:.4s">어머니</span><span id="rotJ">와</span> 함께<br>여행을 떠나보세요.</h3>
-    <div class="price">
-      <div class="prow"><span class="nlabel">마음여행</span></div>
-      <div style="font-size:12px;color:#9a9689;margin-top:2px">내 마음의 여행 지도를 그려보고,<br>그 마음으로 편지를 씁니다.</div>
-    </div>
-    <button onclick="location.href='/pay.html?item=set'" style="width:100%;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:22px">마음여행 예매하러 가기</button>
-    <div class="vipbox">
-      <div class="vip-q">이미 사랑흐름 여권을 가지고 계신가요?</div>
-      <button class="vip-b" onclick="lgo('reenter')">여권으로 입장 →</button>
+      <div class="pcard half accent-life" onclick="goItem('life')">
+        <div class="pcard-t">인생여행</div>
+        <div class="pcard-c">마음여행 + 한 편의 기록</div>
+        <div class="price2 col"><span class="p-list">정가 90,000원</span><span class="p-now">59,800원</span></div>
+        <div class="btnrow">
+          <button class="b-buy" onclick="event.stopPropagation();goItem('life')">예매</button>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- 법정 푸터 -->
-  <div style="text-align:center;padding:18px 20px 14px;border-top:1px solid var(--line)">
-    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-bottom:9px">
-      <a style="font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer">소개</a>
-      <a style="font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer">이용약관</a>
-      <a style="font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer">개인정보</a>
-      <a style="font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer">환불정책</a>
-    </div>
-    <div style="font-size:10px;color:var(--sub);line-height:1.7">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지.</div>
+  <div class="peekbox">
+    <button class="peek-b" onclick="go('showroom')">먼저 다녀간 분들의 여행 보기</button>
   </div>
+
+  <div class="revisit-vip">
+    <div class="vip-q">이미 사랑흐름 여권을 가지고 계신가요?</div>
+    <button class="vip-b" onclick="go('reenter')">여권으로 입장 →</button>
+  </div>
+
+  <!-- ===== 하단 푸터 (프레임 · 통일형) =====
+     화면엔 © 한 줄 + 링크만. 사업자정보·개인정보 담당자 등은 [소개]/[약관] 페이지 안으로. -->
+  <div class="legal">
+    <div class="flinks">
+      <a onclick="go('about')">소개</a>
+      <a onclick="go('trust')">이용약관</a>
+      <a onclick="go('trust')">개인정보</a>
+      <a onclick="go('trust')">환불정책</a>
+    </div>
+    <div class="warn">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지.</div>
+    <span class="home2" onclick="goHome()">‹ 홈으로</span>
+  </div>
+
+  <div class="toast" id="toast">복사되었어요</div>
 </div>
 
 <script>
-/* ── 봉투 효과음: 열 때 솔(196), 닫을 때 미(165·더 낮게). 긴 여운 ── */
-var _ac=null;
-function playTone(freq){
-  try{
-    if(!_ac) _ac=new (window.AudioContext||window.webkitAudioContext)();
-    if(_ac.state==='suspended') _ac.resume();
-    var t=_ac.currentTime;
-    var o=_ac.createOscillator(),o2=_ac.createOscillator(),g=_ac.createGain();
-    o.type='sine'; o2.type='sine';
-    o.frequency.value=freq;
-    o2.frequency.value=freq*1.5;
-    g.gain.setValueAtTime(0,t);
-    g.gain.linearRampToValueAtTime(0.13,t+0.18);
-    g.gain.exponentialRampToValueAtTime(0.0003,t+5.0);
-    var g2=_ac.createGain(); g2.gain.value=0.35;
-    o.connect(g); o2.connect(g2); g2.connect(g); g.connect(_ac.destination);
-    o.start(t); o2.start(t); o.stop(t+5.2); o2.stop(t+5.2);
-  }catch(e){}
+/* ===== 가격표 · 상품 · 한 곳에서 관리 =====
+   상품이 늘면 여기 한 곳에 항목만 추가하면 됩니다.
+   금액을 바꾸려면 여기 숫자만 고치면 화면이 따라옵니다. */
+/* 진열장은 상품 카드에 정보 직접 표기 → PRODUCTS 세팅 불필요 */
+
+
+/* ===== 링크 (실제 URL은 다음 단계에서 연결) ===== */
+var LINK = {
+  home:    '/',
+  pay:     '/pay.html',
+  showroom:'/showroom.html',
+  memoir:  '/memoir/',
+  compass: '/',
+  journey: '/journey/',
+  letter:  '/l/'   /* [v21·260713] ★옛 GAS 주소(script.google.com) → /l/. 눌러도 옛 빈칸 편지로 가던 것 */,
+  find:    '/find/',
+  reenter: '/reenter.html',
+  gate:    '/gate.html',
+  apply:   '/apply.html',
+  about:   '/about.html',                   /* 소개 (라이브 확인됨) */
+  trust:   '/trust.html',                   /* 이용약관·개인정보·환불 (라이브 확인됨) */
+  store:   'https://smartstore.naver.com/wellnongbunet/products/13652635267',  /* 네이버 편지 상품 */
+  kakao:   'https://pf.kakao.com/_ExndxfX'  /* 카카오 채널 (확정) */
+};
+function goHome(){ if(LINK.home) location.href = LINK.home; }
+function go(k){
+  var u = LINK[k];
+  if(u){ location.href = u; }
+  else { showToast('연결 예정입니다'); }
 }
-function playOpenSound(){ playTone(196.00); }   /* 솔 */
-function playCloseSound(){ playTone(164.81); }  /* 미 (더 낮게) */
-function openEnv(){
-  var e=document.getElementById('env'), lz=document.getElementById('lz');
-  var opened=e.classList.toggle('open');
-  lz.classList.toggle('opened',opened);
-  document.getElementById('tapHint').innerHTML = opened ? '<span style="font-size:12px;color:rgba(240,230,210,.55)">↑ 다시 누르면 봉투가 닫혀요</span>' : '<span class="tapfinger">👆</span>';
-  if(opened) playOpenSound(); else playCloseSound();
+function goItem(item){ location.href = (LINK.pay || '/pay.html') + '?item=' + item; }
+function soon(name){ showToast(name + '은(는) 곧 준비돼요'); }
+
+/* ===== 결제 갈림길 토글 ===== */
+function choosePath(k){
+  document.getElementById('choice').classList.add('hidden');
+  document.getElementById('pathToss').classList.toggle('hidden', k !== 'toss');
+  document.getElementById('pathAcct').classList.toggle('hidden', k !== 'acct');
+  document.getElementById('pathOnline').classList.toggle('hidden', k !== 'online');
+}
+function resetPath(){
+  document.getElementById('choice').classList.remove('hidden');
+  document.getElementById('pathToss').classList.add('hidden');
+  document.getElementById('pathAcct').classList.add('hidden');
+  document.getElementById('pathOnline').classList.add('hidden');
 }
 
-/* ── 카드 무한 캐러셀 (뷰포트/트랙 · 앞뒤 클론으로 끊김 없이 빙글빙글) ── */
-var deck=document.getElementById('deck');
-var dots=document.querySelectorAll('.prog i');
-var real=deck.querySelectorAll('.card').length;   /* 실제 카드 수(5) */
-var idx=1;                                         /* 첫 실제 카드 위치(앞 클론 1장 뒤) */
+/* ===== 드로어 ===== */
+function openMenu(){ document.getElementById('drawer').classList.add('on'); }
+function closeMenu(){ document.getElementById('drawer').classList.remove('on'); }
 
-/* 앞뒤에 클론 한 장씩 붙여 끊김 없는 회전 만들기 */
-(function(){
-  var cards=deck.querySelectorAll('.card');
-  var firstClone=cards[0].cloneNode(true);
-  var lastClone=cards[real-1].cloneNode(true);
-  deck.insertBefore(lastClone,cards[0]);
-  deck.appendChild(firstClone);
-})();
-
-function place(anim){
-  deck.classList.toggle('anim',anim);
-  deck.style.transform='translateX('+(-idx*100)+'%)';
-  var r=(idx-1+real)%real;                         /* 실제 카드 인덱스 0~4 */
-  dots.forEach(function(d,x){d.classList.toggle('on',x===r);});
+/* ===== 계좌번호 복사 (번호만) ===== */
+function copyAcct(){
+  var num = '019-355-3565';
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(num).then(function(){ showToast('계좌번호가 복사되었어요'); },
+      function(){ fallbackCopy(num); });
+  } else { fallbackCopy(num); }
 }
-function slide(dir){ idx+=dir; place(true); }
+function fallbackCopy(t){
+  var el = document.createElement('textarea'); el.value = t;
+  el.style.position='fixed'; el.style.opacity='0'; document.body.appendChild(el);
+  el.select(); try{ document.execCommand('copy'); showToast('계좌번호가 복사되었어요'); }catch(e){}
+  document.body.removeChild(el);
+}
 
-deck.addEventListener('transitionend',function(){
-  if(idx===0){ idx=real; place(false); }           /* 맨 앞 클론 → 마지막 실제로 순간이동 */
-  else if(idx===real+1){ idx=1; place(false); }     /* 맨 뒤 클론 → 첫 실제로 순간이동 */
-});
-
-place(false);                                       /* 초기 위치 */
-
-var autoT=setInterval(function(){slide(1);},4200);
-deck.addEventListener('pointerdown',function(){ clearInterval(autoT); setTimeout(function(){autoT=setInterval(function(){slide(1);},4200);},6000); });
-
-/* ── 마지막 문구 회전 + 와/과 자동 판별 ── */
-function josa(w){var c=w.charCodeAt(w.length-1); if(c<0xAC00||c>0xD7A3) return '와'; return ((c-0xAC00)%28)===0 ? '와' : '과';}
-var TARGETS=['어머니','아버지','연인','자녀','형제·자매','친구','스승'];
-var ti=0, rt=document.getElementById('rotT'), rj=document.getElementById('rotJ');
-setInterval(function(){
-  rt.style.opacity=0;
-  setTimeout(function(){ ti=(ti+1)%TARGETS.length; rt.textContent=TARGETS[ti]; rj.textContent=josa(TARGETS[ti]); rt.style.opacity=1; },400);
-},2600);
-</script>
-
-<script>
-var LINK={home:'/',hanmadi:'/',showroom:'/showroom.html',pay:'/pay.html',gate:'/gate.html',journey:'/journey/',letter:'/l/'   /* [v21] ★빈 값이라 죽어 있던 버튼 */,find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
-function goHome(){location.href=LINK.home;}
-function lgo(k){var u=LINK[k];if(u){location.href=u;}}
-function openMenu(){var d=document.getElementById('drawer');if(d)d.classList.add('on');}
-function closeMenu(){var d=document.getElementById('drawer');if(d)d.classList.remove('on');}
+/* ===== 토스트 ===== */
+var _tt;
+function showToast(msg){
+  var t = document.getElementById('toast'); t.textContent = msg;
+  t.classList.add('on'); clearTimeout(_tt);
+  _tt = setTimeout(function(){ t.classList.remove('on'); }, 1900);
+}
 </script>
 
 <script>
