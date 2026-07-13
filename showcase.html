@@ -1,4 +1,34 @@
 <!DOCTYPE html>
+<!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · showcase.html   v5 · 260713
+     ───────────────────────────────────────────────────────────────────
+     [버전] 라이브 v4-2 → ★v5 (이 파일)
+
+     [v5 · 260713 대표 확정] ☰ 표준 메뉴 9항목 + 앞뒤 방향 — 전 12화면 동시 적용
+       대표: "어디 들어갈 곳이 없어. 입구가 안 보여. 매우 답답해요."
+             "내가 머물러 있는 곳이 내 자리가 아니라고 판단됐을 때
+              빨리 어디론가 갈 수 있게는 해줘야 된다."
+
+       ① ☰ 메뉴 9항목 (옛 6항목 → 9항목)
+          홈 · 마음 한마디 · 여행지도 보기 · 편지 ·
+          ★여권으로 입장 (번호를 아는 사람이 바로 들어가는 문 · reenter)
+          사랑흐름 여권 찾기 (번호를 잊은 사람 · find)
+          ★여행의 기록 (구경하는 문 · showroom)
+          ★마음 여행 예매하기 (예매하는 문 · showcase)
+             ※ "사기"가 아니라 ★"예매" — 여행이니까요 (대표 확정)
+          다시 시작
+          → 여권번호가 자동으로 따라갑니다(lfGo). 손님이 다시 안 넣어도 됩니다.
+          → pay 의 죽어 있던 편지 링크(빈 값)도 살렸습니다.
+
+       ② 화면 아래 길 셋 — ← 돌아가기 · ⌂ 홈으로 · → 앞으로
+          [돌아가기] 방금 온 곳. ★이름까지 보여줍니다("돌아가기 / 여행의 기록").
+          [앞으로]   화면마다 다릅니다. ★이게 매출 동선입니다.
+                     마음한마디 → 여행의기록 → 예매 → 결제 → 여행 → 여행일지 → 편지 → 다른 분과
+          [이사회 260713] 새 창은 카톡 인앱에서 제멋대로 열립니다. 팝업은 결제를 못 담습니다.
+                          → 같은 창에서 돌아가기. 창을 이탈시키지 않습니다.
+
+     [그 밖 무변경] 이 화면의 본래 내용·색·연출·로직은 그대로입니다.
+     ═══════════════════════════════════════════════════════════════════ -->
 <!-- ============================================================
   여행 고르기 showcase.html · v4-2 · 2026-07-12
   · [v4-2] 단품 편지 이름 '마음편지' → '마음 여행편지' 원복.
@@ -225,11 +255,14 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="dpanel">
       <div class="dhead"><b>사랑흐름</b><button class="x" onclick="closeMenu()">✕</button></div>
       <div class="dbody">
-        <a onclick="goHome()">홈</a>
-        <a onclick="go('home')">마음 한마디</a>
-        <a onclick="go('journey')">여행지도 보기</a>
-        <a onclick="go('letter')">편지</a>
-        <a onclick="go('find')">사랑흐름 여권 찾기</a>
+        <a onclick="lfGo('home')">홈</a>
+        <a onclick="lfGo('hanmadi')">마음 한마디</a>
+        <a onclick="lfGo('journey')">여행지도 보기</a>
+        <a onclick="lfGo('letter')">편지</a>
+        <a onclick="lfGo('reenter')">여권으로 입장</a>
+        <a onclick="lfGo('find')">사랑흐름 여권 찾기</a>
+        <a onclick="lfGo('showroom')">여행의 기록</a>
+        <a onclick="lfGo('showcase')">마음 여행 예매하기</a>
         <a onclick="location.reload()">다시 시작</a>
       </div>
     </div>
@@ -397,4 +430,222 @@ function showToast(msg){
   _tt = setTimeout(function(){ t.classList.remove('on'); }, 1900);
 }
 </script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   [260713 대표 확정] ☰ 표준 메뉴 9항목 — 전 화면 공용
+   ───────────────────────────────────────────────────────────────────
+   대표: "어디 들어갈 곳이 없어. 입구가 안 보여. 매우 답답해요."
+   → 세 개의 문을 뚫었습니다.
+       여권으로 입장       — 번호를 아는 사람이 바로 들어가는 문
+       여행의 기록         — 구경하는 문
+       마음 여행 예매하기  — ★예매하는 문 ("사기"가 아니라 "예매". 여행이니까요)
+
+   ★함수 이름을 lfGo 로 따로 뒀습니다.
+     화면마다 go() 가 이미 있고(index 는 화면 넘기는 함수), 이름이 부딪힙니다.
+
+   ★여권번호를 달고 갑니다.
+     여행지도·편지·여권으로 입장은 여권번호가 있어야 열립니다.
+     지금 보고 있는 화면에서 번호를 들고 가면, 손님이 다시 안 넣어도 됩니다.
+   ═══════════════════════════════════════════════════════════════════ */
+var LF_LINK = {
+  home:     '/',
+  hanmadi:  '/',
+  journey:  '/journey/',
+  letter:   '/l/',
+  reenter:  '/reenter.html',
+  find:     '/find/',
+  showroom: '/showroom.html',
+  showcase: '/showcase.html',
+  gate:     '/gate.html',
+  apply:    '/apply.html',
+  pay:      '/pay.html'
+};
+
+/* 여권번호가 따라가야 하는 곳 */
+var LF_NEEDS_ID = { journey:1, letter:1 };
+
+function lfPassport(){
+  var p = '';
+  try{
+    var m = location.search.match(/[?&]id=(LF[ML]?-[A-Za-z0-9]+)/i);
+    if (m) { p = m[1]; }
+  }catch(e){}
+  if (!p) { try{ p = sessionStorage.getItem('lf_passport') || ''; }catch(e){} }
+  if (!p) { try{ p = localStorage.getItem('lf_passport') || ''; }catch(e){} }
+  return p.trim().toUpperCase();
+}
+
+function lfGo(k){
+  var u = LF_LINK[k];
+  if (!u) { return; }
+  if (LF_NEEDS_ID[k]) {
+    var pp = lfPassport();
+    if (pp) { u += (u.indexOf('?') > -1 ? '&' : '?') + 'id=' + encodeURIComponent(pp); }
+  }
+  location.href = u;
+}
+</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   [260713 대표 확정] 앞뒤 방향 — 전 화면 공용
+   ───────────────────────────────────────────────────────────────────
+   대표: "내가 머물러 있는 곳이 지금 내 자리가 아니라고 판단됐을 때
+          ★빨리 어디론가 갈 수 있게는 해줘야 된다.
+          그 자리에 ★그 값이 살아 있어야 된다.
+          앞에서 뭘 보고 왔는데, 그 앞자리로 돌아가고 싶다는 욕구가 있다.
+          그래서 앞으로 가기도 필요한 거예요."
+   [이사회] 새 창은 카톡 인앱에서 제멋대로 열립니다. 팝업은 결제를 못 담습니다.
+            → ★같은 창에서 '돌아가기'. 창을 이탈시키지 않습니다.
+
+   [뒤로] 방금 온 곳. ★이름까지 보여줍니다. 어디로 가는지 알고 누르게.
+   [앞으로] 화면마다 다릅니다. ★이게 매출 동선입니다.
+   ═══════════════════════════════════════════════════════════════════ */
+var LF_NAME = {
+  '/':'홈', '/index.html':'홈',
+  '/journey/':'여행지도', '/journey/index.html':'여행지도',
+  '/journey/result.html':'여행일지',
+  '/l/':'편지', '/letter/':'편지', '/letter/index.html':'편지',
+  '/gate.html':'여권 발급', '/enter.html':'여권 발급',
+  '/pay.html':'결제', '/apply.html':'계좌이체',
+  '/showcase.html':'여행 예매', '/showroom.html':'여행의 기록',
+  '/reenter.html':'여권으로 입장', '/find/':'여권 찾기', '/m/':'마음 한마디'
+};
+
+/* 화면마다 "앞으로 갈 곳" — 다음 상품으로 미는 문 */
+var LF_NEXT = {
+  '/':                    { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/index.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/showroom.html':       { k:'showcase', t:'마음 여행 예매하기' },
+  '/showcase.html':       { k:'pay',      t:'결제하기' },
+  '/enter.html':          { k:'journey',  t:'여행 시작하기' },
+  '/journey/result.html': { k:'letter',   t:'이 여행을 편지로 이어가기' },
+  /* 편지·여행지도는 길을 안 깝니다(위 lfPaintWay 참조).
+     편지 완성 화면의 "다른 분과 여행하기"는 그 화면 안에 이미 있습니다. */
+  '/reenter.html':        { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/find/':               { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/pay.html':            { k:'gate',     t:'여권 발급받기' },
+  '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
+  '/gate.html':           { k:'journey',  t:'여행 시작하기' }
+};
+
+/* 지금 화면에 온 것을 기록해 둡니다 (다음 화면의 "뒤로"가 여기로 옵니다) */
+(function(){
+  try{
+    var here = location.pathname;
+    var prev = sessionStorage.getItem('lf_here') || '';
+    if (prev && prev !== here) { sessionStorage.setItem('lf_prev', prev); }
+    sessionStorage.setItem('lf_here', here);
+  }catch(e){}
+})();
+
+function lfPrev(){
+  try{ return sessionStorage.getItem('lf_prev') || ''; }catch(e){ return ''; }
+}
+
+function lfPrevName(){
+  var p = lfPrev();
+  if (!p) { return ''; }
+  return LF_NAME[p] || '';
+}
+
+function lfBack(){
+  var p = lfPrev();
+  if (!p) { location.href = '/'; return; }
+  var pp = (typeof lfPassport === 'function') ? lfPassport() : '';
+  if (pp && (p.indexOf('/journey') === 0 || p.indexOf('/letter') === 0 || p.indexOf('/l/') === 0)) {
+    p += (p.indexOf('?') > -1 ? '&' : '?') + 'id=' + encodeURIComponent(pp);
+  }
+  location.href = p;
+}
+
+function lfNext(){
+  var n = LF_NEXT[location.pathname];
+  if (!n) { return; }
+  if (typeof lfGo === 'function') { lfGo(n.k); }
+}
+
+/* 화면 아래에 길을 깝니다 */
+function lfPaintWay(){
+  if (document.getElementById('lfway')) { return; }
+
+  /* ★질문을 쓰는 화면에는 길을 깔지 않습니다.
+     · 여행지도·편지는 화면 아래에 이미 [이전][다음] 버튼이 있습니다. 넷이 되면 헷갈립니다.
+     · 그리고 여행 중에 "앞으로"를 누르면 ★적던 답이 날아갑니다.
+     · 이 화면들은 다 끝난 뒤(결과지·편지 완성)에 길이 나옵니다. */
+  var p = location.pathname;
+  if (p.indexOf('/journey/') === 0 && p.indexOf('result') < 0) { return; }
+  if (p.indexOf('/letter/') === 0) { return; }
+
+  var prev = lfPrev();
+  var next = LF_NEXT[location.pathname];
+  if (!prev && !next) { return; }          /* 갈 곳이 없으면 안 깝니다 */
+
+  var css = document.createElement('style');
+  css.textContent =
+    '.lfway{display:flex;gap:8px;max-width:420px;margin:22px auto 8px;padding:0 16px;box-sizing:border-box}'
+  + '.lfway a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;'
+  + 'padding:11px 6px;border:1px solid #E4DED2;border-radius:12px;background:#fff;'
+  + 'text-decoration:none;cursor:pointer;transition:.15s}'
+  + '.lfway a:active{transform:scale(.97)}'
+  + '.lfway .ic{font-size:15px;color:#1E4A76;line-height:1}'
+  + '.lfway .tt{font-size:11.5px;font-weight:700;color:#1E4A76}'
+  + '.lfway .sb{font-size:10px;color:#9A9287}'
+  + '.lfway .fwd{background:#1E4A76;border-color:#1E4A76}'
+  + '.lfway .fwd .ic,.lfway .fwd .tt{color:#fff}'
+  + '.lfway .fwd .sb{color:#C9D6E4}'
+  + '@media print{.lfway{display:none}}';
+  document.head.appendChild(css);
+
+  var h = '<div class="lfway" id="lfway">';
+  if (prev) {
+    var nm = lfPrevName();
+    h += '<a onclick="lfBack()"><span class="ic">←</span><span class="tt">돌아가기</span>'
+       + (nm ? '<span class="sb">' + nm + '</span>' : '') + '</a>';
+  }
+  h += '<a onclick="lfGo(\'home\')"><span class="ic">⌂</span><span class="tt">홈으로</span><span class="sb">처음부터</span></a>';
+  if (next) {
+    h += '<a class="fwd" onclick="lfNext()"><span class="ic">→</span><span class="tt">앞으로</span>'
+       + '<span class="sb">' + next.t + '</span></a>';
+  }
+  h += '</div>';
+
+  /* 푸터 바로 앞에 답니다.
+     화면마다 푸터 클래스가 제각각이라(.foot / footer / .glegal / 클래스 없음),
+     ★저작권 문구(© 2026)를 품은 덩어리를 찾아 그 앞에 답니다. 그게 제일 확실합니다. */
+  var foot = document.querySelector('.foot') || document.querySelector('footer')
+          || document.querySelector('.glegal') || document.querySelector('.legal');
+
+  if (!foot) {
+    var all = document.body.querySelectorAll('div');
+    for (var i = all.length - 1; i >= 0; i--) {
+      if ((all[i].textContent || '').indexOf('© 2026') > -1) {
+        var node = all[i];
+        /* 저작권 문구를 품은 가장 바깥 덩어리까지 올라갑니다 */
+        while (node.parentNode && node.parentNode !== document.body
+               && (node.parentNode.textContent || '').indexOf('© 2026') > -1
+               && (node.parentNode.textContent || '').length < 400) {
+          node = node.parentNode;
+        }
+        foot = node;
+        break;
+      }
+    }
+  }
+
+  if (foot && foot.parentNode && foot.parentNode !== document.documentElement) {
+    foot.insertAdjacentHTML('beforebegin', h);
+  } else {
+    document.body.insertAdjacentHTML('beforeend', h);
+  }
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', lfPaintWay);
+} else {
+  lfPaintWay();
+}
+</script>
+
 </body></html>
