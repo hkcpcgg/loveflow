@@ -39,10 +39,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>사랑흐름 · 마음 여행지도</title>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · 마음 여행지도  journey/index.html  v8 · 260713
+     사랑흐름 · 마음 여행지도  journey/index.html  v8-1 · 260713
      ───────────────────────────────────────────────────────────────────
      [버전 원칙] 이 자리(journey/index.html)의 번호를 이어받습니다.
-       라이브 v7-22 (260711 · 215KB) → ★v8 (이 파일)
+       라이브 v7-22 (260711 · 215KB) → v8 (재디자인 계열 전환) → ★v8-1 (이 파일)
+
+     [v8-1 · 260713] ★재여행 차단 — 매출 구멍
+       결과지 버튼만 결제로 돌리면, 주소창에 /journey/?id=LF-XXXXX 를 손으로 쳐서
+       같은 여권으로 또 여행할 수 있었습니다.
+       → guardReTravel() 신설: 이미 여행 기록이 있는 여권이면 결과지로 돌려보냅니다.
+       [이사회 3:1 의결 260713] "여권 하나 = 관계 하나 = 여행 하나."
+       [그 밖 무변경] 잠금·저장·임시저장·이어하기·드로어 전부 v8 그대로
 
      [무엇이 바뀌었나 — 계열이 통째로 바뀝니다]
        옛 v7-22 = 질문 26개 + 결과화면 + 인쇄문서가 한 파일(215KB)
@@ -522,6 +529,42 @@ function paintSaveRow(){
   else      { row.classList.remove('hide'); }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   [v8-1 · 260713] ★재여행 차단 — 이사회 의결 (여권 하나 = 관계 하나)
+   ───────────────────────────────────────────────────────────────────
+   결과지 버튼만 결제로 돌리면, 주소창에 /journey/?id=LF-XXXXX 를 손으로 쳐서
+   ★같은 여권으로 또 여행할 수 있습니다. 그래서 여행지도 자체를 막습니다.
+
+   [판정]
+     이 여권으로 이미 여행 기록이 있는가 → GAS lookupPassport 로 확인
+       · 기록 있음 + 진행 중인 임시저장 없음 → ★이미 마친 여행. 결과지로 보냄.
+       · 기록 있음 + 임시저장 있음         → 여행 중 새로고침. 그대로 통과(이어하기).
+       · 기록 없음                         → 첫 여행. 통과.
+     GAS가 늦거나 죽어도 손님을 막지 않습니다(통과시킵니다).
+   ═══════════════════════════════════════════════════════════════════ */
+function guardReTravel(){
+  var pp = myPassport();
+  if (!pp) { return; }
+
+  /* 여행 중이던 사람은 그대로 통과 (임시저장이 있으면 새로고침한 것) */
+  try{
+    if (localStorage.getItem(draftKey())) { return; }
+  }catch(e){}
+
+  var cb = 'lfg_' + Date.now();
+  window[cb] = function(res){
+    try{ delete window[cb]; }catch(e){}
+    if (res && res.status === 'ok') {
+      /* ★이미 마친 여행입니다. 새 여행은 새 결제. */
+      location.replace('/journey/result.html?id=' + encodeURIComponent(pp));
+    }
+  };
+  var s = document.createElement('script');
+  s.src = gasUrl() + '?id=' + encodeURIComponent(pp) + '&callback=' + cb;
+  s.onerror = function(){ try{ delete window[cb]; }catch(e){} };   /* 실패해도 막지 않습니다 */
+  document.body.appendChild(s);
+}
+
 /* 유료 GAS(M1A) — issuePassport·saveJourney·lookupPassport 가 사는 곳 */
 function gasUrl(){
   return 'https://script.google.com/macros/s/'
@@ -684,7 +727,8 @@ function go(d){
 }
 function fade(){var b=document.getElementById("stage");var slow=(steps[i]&&steps[i].t==="rite");b.classList.add("fade");setTimeout(function(){paint();setTimeout(function(){b.classList.remove("fade");},30);},slow?560:380);}
 paint();
-offerResume();   /* [v20] 담아둔 여행이 있으면 이어할지 물어봅니다 */
+offerResume();     /* [v20] 담아둔 여행이 있으면 이어할지 물어봅니다 */
+guardReTravel();   /* [v8-1] 이미 마친 여행이면 결과지로 — 같은 여권 재여행 차단 */
 
 /* [v20] 브라우저 뒤로가기·창 닫기로 나갈 때도 담아둡니다 */
 window.addEventListener('beforeunload', function(){
