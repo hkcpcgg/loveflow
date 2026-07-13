@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · index.html   v20 · 260713
+     사랑흐름 · index.html   v21-1 · 260713
+     [v21-1] 군더더기 문구 삭제 · 죽어 있던 여권 입장 링크 수정
+     ───────────────────────────────────────────────────────────────────
+     [v21 · 260713 대표 지시] 마음 한마디 — 첫 손님이 만나는 문
+       ① ★이모티콘을 누르면 글씨칸에 착 들어갑니다 (커서 자리에 · 톡 소리 · 살짝 튐)
+          대표: "눌러도 아무런 느낌이 없으니까 계속 누르게 되더라고."
+          옛 코드는 state 에 담아두기만 하고 화면엔 아무 일도 안 했습니다.
+       ② ★받는 사람을 고칠 수 있게 (아래 "○○ 드림"처럼, 위도 눌러서 고침)
+          대표: "상대를 선택하는데 그게 변경이 안 되네."
+       ③ ★버튼 위계 뒤집기 — 여행의 기록(showroom)이 주력, 또 다른 마음이 보조
+          한마디를 백 번 써도 매출은 0원입니다. 갤러리로 보내야 합니다.
+       ④ ★"둘러보는 건 무료예요" 삭제 → 그 자리에 볼거리(관계 도장)
+          빈 도장이 보이면 채우고 싶어집니다. 그게 갤러리로 끄는 힘입니다.
+
+     [이전] v20 · 260713
      ───────────────────────────────────────────────────────────────────
      [버전] 라이브 v19 → ★v20 (이 파일)
 
@@ -104,6 +118,41 @@
 .lfback{display:block;margin:14px auto 12px;background:none;border:none;color:#6B6250;font-family:'Noto Sans KR',sans-serif;font-size:13px;cursor:pointer}
 .lfshare:active{transform:scale(.99)}.lfshare .kico{margin-right:5px}
 .lfpill:active{transform:scale(.98)}
+
+  /* [v21] 받는 사람 고치기 — 아래 "드림"과 같은 결 */
+  .lp-to{cursor:pointer;position:relative}
+  .lp-to:after{content:'✎';font-size:11px;color:#C9BFA8;margin-left:6px;vertical-align:middle}
+  .lp-to:active{opacity:.6}
+  .lp-to-in{display:none;width:100%;border:none;border-bottom:1.5px dashed #D8CDB4;background:transparent;
+            font-family:inherit;font-size:inherit;font-weight:inherit;color:inherit;padding:0 0 3px;outline:none}
+  .lp-to-in.on{display:block}
+  .lp-to.hide{display:none}
+
+  /* [v21] 이모티콘 — 누르면 살짝 튑니다 */
+  .emo{transition:transform .16s, background .16s}
+  .emo.pop{transform:scale(1.35)}
+  .emo.full{animation:emoShake .3s}
+  @keyframes emoShake{0%,100%{transform:none}25%{transform:translateX(-3px)}75%{transform:translateX(3px)}}
+  @media (prefers-reduced-motion:reduce){.emo.pop{transform:none}.emo.full{animation:none}}
+
+  /* [v21] 마지막 화면 — 볼거리(관계 도장) */
+  .gstamps{margin:20px 0 22px;padding:16px 14px;background:rgba(255,255,255,.72);
+           border:1px solid rgba(212,175,55,.28);border-radius:16px}
+  .gs-lbl{font-size:11px;font-weight:800;color:#C68A2E;letter-spacing:.06em;text-align:center;margin-bottom:12px}
+  .gs-row{display:flex;justify-content:center;gap:9px;flex-wrap:wrap}
+  .gs{width:46px;height:46px;border-radius:50%;display:flex;flex-direction:column;
+      align-items:center;justify-content:center;line-height:1.1;flex-shrink:0}
+  .gs.on{background:#FFE9F0;border:1.5px solid #F2A0B4}
+  .gs.on .ic{font-size:16px}
+  .gs.on .nm{font-size:7.5px;color:#1E3A5C;font-weight:700;margin-top:1px}
+  .gs.off{background:#FBF7EF;border:1.5px dashed #E3D9C6}
+  .gs.off .ic{font-size:14px;opacity:.42}
+  .gs.off .nm{font-size:7.5px;color:#B5AFA5;margin-top:1px}
+  .gs-sub{margin-top:12px;font-size:11.5px;color:#8A8580;text-align:center;line-height:1.6}
+
+  /* [v21] ★위계 뒤집기 — 갤러리가 주력, 또 다른 마음이 보조 */
+  .petal .pmain{background:#1E4A76;color:#fff}
+  .petal .pgal{background:transparent;border:1px solid rgba(30,74,118,.28);color:#1E4A76;font-weight:700}
 </style>
 <style>
 :root{--bg:#FFFBF5;--card:#fff;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;
@@ -292,7 +341,13 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
       <div class="flowbox"><div class="track"><span>오늘 가장 먼저 떠오른 사람을 가볍게 눌러보세요</span><span>오늘 가장 먼저 떠오른 사람을 가볍게 눌러보세요</span></div></div>
       <div class="keys" id="keys"></div>
       <div class="tagline">전하지 못한 마음도 여행이 될 수 있습니다.<br><span style="font-size:11px;color:var(--sub);font-weight:500;display:inline-block;margin-top:10px">위 🔊 로 소리를 끌 수 있어요</span></div>
-      <div class="again"><a onclick="lgo('reenter')">이미 사랑흐름 여권이 있으신가요? · 여권으로 입장 →</a></div>
+      <!-- [v21-1 · 260713 대표 지시] 군더더기 삭제.
+             대표: " — 이 질문이 필요 없다고.
+                    그냥 ★사랑흐름 여권으로 입장. 이 버튼이면 되는데.
+                    앞에 요 텍스트가 너무 쓸데없는 텍스트가 너덜너덜해."
+             ★확정 원칙(기존): "버튼이 이미 말하는 당연한 소리 금지."
+             + lgo('reenter') → lfGo('reenter') (lgo 는 reenter 를 모르는 옛 함수) -->
+        <div class="again"><a onclick="lfGo('reenter')">사랑흐름 여권으로 입장 →</a></div>
     </section>
 
     <!-- 1. 감정 -->
@@ -331,7 +386,15 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div class="emo" onclick="pickEmo2(this,'🌸')">🌸</div>
       </div>
       <div class="editbox">
-        <div class="lp-to" id="lpTo">그분에게</div>
+        <!-- [v21 · 260713] ★받는 사람을 고칠 수 있게.
+             대표: "상대를 선택하잖아. 근데 그게 변경이 안 되네.
+                    그러면 ★하단에 누구누구 드림 하는 것처럼,
+                    상단에 받는 사람을 수정할 수 있게 해줘야 돼."
+             → 아래 "○○ 드림"(보내는 분)과 똑같이, 위도 눌러서 고칩니다. -->
+        <div class="lp-to" id="lpTo" onclick="editTo()" title="눌러서 고치기">그분에게</div>
+        <input class="lp-to-in" id="lpToIn" maxlength="12" placeholder="받는 분"
+               oninput="onToInput()" onblur="doneTo()"
+               onkeydown="if(event.key==='Enter'){this.blur();}">
         <textarea id="edit" rows="6" maxlength="120" oninput="editCount()"></textarea>
         <div class="lp-sign ghost" id="lpSign">— ○○ 드림</div>
       </div>
@@ -376,12 +439,42 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <div class="sentok"><span class="ck">✓</span><span id="stOk">마음을 전했습니다</span></div>
         <button class="sentre" onclick="go(5)">다시 보내기</button>
       </div>
+      <!-- ═══════════════════════════════════════════════════════════════
+           [v21 · 260713 대표 확정] 마지막 화면 — 깔때기를 놓습니다
+           ───────────────────────────────────────────────────────────────
+           [무엇이 문제였나]
+             ★버튼 위계가 뒤집혀 있었습니다.
+               "또 다른 마음 전하기"(무료)가 진하고, 갤러리는 흐렸습니다.
+               한마디를 백 번 써도 매출은 0원입니다.
+             대표: "빨리 갤러리로 보내야 되는 거 아니야?
+                    또 다른 마음 전하기 버튼이 더 강해."
+
+             ★"둘러보는 건 무료예요" — 쓸데없는 말.
+             대표: "이런 말은 뭐 하러 하는 거야? 차라리 그 자리만큼이면
+                    ★다른 볼거리를 포도송이라도 해서 뭔가 신기한 게 있다 하고
+                    사랑흐름 여행 갤러리로 연결을 시켜야지."
+
+           [고침]
+             ① 위계 뒤집기 — 여행의 기록(showroom)이 ★주력
+             ② "무료예요" 삭제
+             ③ 그 자리에 ★관계 도장 — 먼저 다녀간 분들의 여행 조각.
+                빈 도장이 보이면 채우고 싶어집니다. 그게 갤러리로 끄는 힘입니다.
+             ④ 목적지 = showroom (구경하는 곳). showcase(파는 곳) 아님.
+                260712 이사회 확정: "먼저 다녀간 분들의 여행에서 만나보세요"
+           ═══════════════════════════════════════════════════════════ -->
       <div class="petal">
         <div class="pl">차마 못 했던 말을,<br><b>대신 말해줘서 고맙다</b>는 사람이 있습니다.</div>
         <div class="ps">그 한마디에서 편지를 쓴 사람도, 자서전을 남긴 사람도 있어요.</div>
-        <button class="pmain" onclick="againHanmadi()">또 다른 마음 전하기</button>
-        <button class="pgal" onclick="lgo('showroom')">사랑흐름 여행 갤러리 →</button>
-        <div class="pfree">둘러보는 건 무료예요</div>
+
+        <!-- ★볼거리 — 먼저 다녀간 분들의 관계 도장 -->
+        <div class="gstamps">
+          <div class="gs-lbl">먼저 다녀간 분들의 여행</div>
+          <div class="gs-row" id="gsRow"></div>
+          <div class="gs-sub">지금도 누군가는, 잊고 있던 이름을 부르고 있어요.</div>
+        </div>
+
+        <button class="pmain" onclick="lfGo('showroom')">🌸 여행의 기록 보러 가기</button>
+        <button class="pgal" onclick="againHanmadi()">또 다른 마음 전하기</button>
       </div>
     </section>
 
@@ -404,7 +497,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 /* 카카오 공유 초기화 (JS 키) */
 try{ if(window.Kakao && !Kakao.isInitialized()){ Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); } }catch(e){}
 /* ===== 링크 주소표 (공용) ===== */
-var LINK={home:'/',hanmadi:'/',showcase:'/showcase.html',showroom:'/showroom.html',journey:'/journey/',letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec',find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
+var LINK={home:'/',hanmadi:'/',showcase:'/showcase.html',showroom:'/showroom.html',journey:'/journey/',letter:'/l/'   /* [v21·260713] ★옛 GAS 주소(script.google.com) → /l/. 눌러도 옛 빈칸 편지로 가던 것 */,find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
 function goHome(){location.href=LINK.home;}
 function lgo(k){var u=LINK[k];if(u){location.href=u;}else{toast('연결 예정');}}
 function openMenu(){document.getElementById('drawer').classList.add('on');}
@@ -489,7 +582,68 @@ function buildRecs(){var byT=SRC[state.target]||(state.target==='연인'?SRC['�
     d.onclick=function(){document.querySelectorAll('#recs .rec').forEach(function(x){x.classList.remove('sel')});d.classList.add('sel');state.picked=line;state.tr=p[1];document.getElementById('edit').value=line;};
     box.appendChild(d);});}
 function goEdit(){if(!state.picked){toast('전할 한마디를 먼저 골라주세요');return;}next();}
-function pickEmo2(el,e){var on=el.classList.contains('sel');document.querySelectorAll('#emos .emo').forEach(function(x){x.classList.remove('sel')});if(!on){el.classList.add('sel');state.emo2=e;}else{state.emo2='';}}
+/* ═══════════════════════════════════════════════════════════════════
+   [v21 · 260713] ★이모티콘을 누르면 글씨칸에 착 들어갑니다
+   ───────────────────────────────────────────────────────────────────
+   대표: "이모티콘을 누르면 반영이 안 되더라고. 창에 바로 보여줘야
+          '아 이게 들어가는 거구나' 하고 할 텐데.
+          ★눌러도 아무런 느낌이 없으니까 계속 누르게 되더라고."
+
+   [옛 코드] state.emo2 에 담아두기만 하고 글씨칸엔 안 넣었습니다.
+             그래서 눌러도 화면에 아무 일이 안 일어났습니다.
+   [고침]    커서 자리에 바로 꽂습니다. 커서도 그 뒤로 옮깁니다.
+             톡 소리가 나고, 살짝 튑니다. "들어갔다"가 눈에 보입니다.
+   ═══════════════════════════════════════════════════════════════════ */
+function pickEmo2(el, e){
+  var ta = document.getElementById('edit');
+  if (!ta) { return; }
+
+  var max = parseInt(ta.getAttribute('maxlength') || '120', 10);
+  var cur = ta.value;
+
+  /* 글자 수가 꽉 찼으면 넣지 않습니다 */
+  if (cur.length + e.length > max) {
+    el.classList.add('full');
+    setTimeout(function(){ el.classList.remove('full'); }, 600);
+    return;
+  }
+
+  /* 커서 자리에 꽂습니다 */
+  var s = (typeof ta.selectionStart === 'number') ? ta.selectionStart : cur.length;
+  var t2 = (typeof ta.selectionEnd   === 'number') ? ta.selectionEnd   : cur.length;
+  ta.value = cur.slice(0, s) + e + cur.slice(t2);
+
+  /* 커서를 이모지 뒤로 */
+  try{
+    ta.focus();
+    var np = s + e.length;
+    ta.setSelectionRange(np, np);
+  }catch(err){}
+
+  /* 글자 수 갱신 · 편지지 미리보기도 함께 */
+  if (typeof editCount === 'function') { editCount(); }
+
+  /* 눈에 보이는 반응 — 살짝 튀고, 톡 소리 */
+  el.classList.add('pop');
+  setTimeout(function(){ el.classList.remove('pop'); }, 260);
+  emoTick();
+}
+
+/* 톡 — 짧고 가벼운 소리 (피아노 도) */
+var _emoAC = null;
+function emoTick(){
+  try{
+    if (!_emoAC) { _emoAC = new (window.AudioContext || window.webkitAudioContext)(); }
+    var c = _emoAC, t = c.currentTime;
+    var o = c.createOscillator(), g = c.createGain();
+    o.type = 'sine'; o.frequency.value = 880;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.18, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
+    o.connect(g); g.connect(c.destination);
+    o.start(t); o.stop(t + 0.2);
+  }catch(e){}
+}
 function fromName(){ var f=document.getElementById('fromIn');
   var v=((f&&f.value)||'').trim();
   var junk=['이름','이름님','보내는사람','보내는 사람','보내는분','보내는 분','예: 지수'];
@@ -559,13 +713,98 @@ var toastT;function toast(m){var t=document.getElementById('toast');t.textConten
 function paintSign(){var g=document.getElementById('lpSign');if(!g)return;var fn=fromName();
   if(fn){g.textContent='— '+fn+' 드림';g.classList.remove('ghost');}
   else{g.textContent='— ○○ 드림';g.classList.add('ghost');}}
-function paintLetterhead(){var t=document.getElementById('lpTo');if(!t)return;
-  var nk=state.pianoNm||state.who||'그분';t.textContent=nk+josaKke();paintSign();}
+function paintLetterhead(){
+  var t = document.getElementById('lpTo');
+  if (!t) { return; }
+  var nk = state.toName || state.pianoNm || state.who || '그분';
+  state.toName = nk;
+  t.textContent = nk + josaKke();
+  paintSign();
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   [v21 · 260713] 받는 사람 고치기
+   눌러서 이름을 바꿉니다. 앞 화면에서 고른 사람이 아니어도 됩니다.
+   손님이 "엄마"라고 적으면, 편지지에도 카톡 카드에도 그대로 갑니다.
+   ═══════════════════════════════════════════════════════════════════ */
+function editTo(){
+  var lab = document.getElementById('lpTo');
+  var inp = document.getElementById('lpToIn');
+  if (!lab || !inp) { return; }
+  inp.value = state.toName || state.pianoNm || state.who || '';
+  lab.classList.add('hide');
+  inp.classList.add('on');
+  try{ inp.focus(); inp.select(); }catch(e){}
+}
+
+function onToInput(){
+  var inp = document.getElementById('lpToIn');
+  if (!inp) { return; }
+  var v = (inp.value || '').trim();
+  if (v) { state.toName = v; state.who = v; }
+}
+
+function doneTo(){
+  var lab = document.getElementById('lpTo');
+  var inp = document.getElementById('lpToIn');
+  if (!lab || !inp) { return; }
+  var v = (inp.value || '').trim();
+  if (v) { state.toName = v; state.who = v; }
+  inp.classList.remove('on');
+  lab.classList.remove('hide');
+  paintLetterhead();
+  /* 완성 화면·카톡 카드에도 반영 */
+  var nk = state.toName || '그분';
+  var f = document.getElementById('fcPro'); if (f) { f.textContent = nk + josaKke(); }
+  var s = document.getElementById('stTo');  if (s) { s.textContent = nk + josaKke(); }
+}
 function goSent(){var nk=nameOf(),j=josaKke();
   var st=document.getElementById('stTo'); if(st){st.textContent=nk+j;}
   var sm=document.getElementById('stMsg'); if(sm){sm.textContent=((document.getElementById('fcBody')||{}).textContent)||'';}
   var so=document.getElementById('stOk'); if(so){so.textContent=nk+j+' 마음을 전했습니다';}
-  go(6);}
+  go(6);
+  paintGuestStamps();   /* [v21] 볼거리 — 먼저 다녀간 분들의 관계 도장 */
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   [v21 · 260713] 마지막 화면 볼거리 — 관계 도장
+   손님이 방금 마음을 전한 그 관계는 ★핀 도장으로,
+   나머지는 아직 비어 있는 도장으로 보여줍니다.
+   빈 자리가 보이면 채우고 싶어집니다. 그게 갤러리로 끄는 힘입니다.
+   (260707 이사회 확정: "다른 사람을 추가하라"가 아니라
+    ★"당신의 관계 우주는 아직 완성되지 않았습니다")
+   ═══════════════════════════════════════════════════════════════════ */
+function paintGuestStamps(){
+  var row = document.getElementById('gsRow');
+  if (!row || row.childNodes.length) { return; }
+
+  var REL = [
+    { nm:'어머니', ic:'🌷' }, { nm:'아버지', ic:'🌰' }, { nm:'연인', ic:'💛' },
+    { nm:'자녀', ic:'🐣' },   { nm:'친구', ic:'🌿' },   { nm:'나 자신', ic:'💗' }
+  ];
+
+  /* 방금 마음을 전한 그 관계를 찾습니다.
+     ★손님이 별명("엄니")을 써도 켜지도록, 앞 화면(피아노)에서 고른
+       관계(state.target)를 먼저 봅니다. 이름은 그다음입니다. */
+  var picked = (state.target || '').trim();          /* 피아노에서 고른 관계 */
+  var who    = (state.toName || state.pianoNm || state.who || '').trim();
+
+  var h = '';
+  for (var i = 0; i < REL.length; i++) {
+    var r = REL[i];
+    var on = false;
+    if (picked) {
+      on = (picked.indexOf(r.nm) > -1 || r.nm.indexOf(picked) > -1);
+    }
+    if (!on && who) {
+      on = (who.indexOf(r.nm) > -1 || r.nm.indexOf(who) > -1);
+    }
+    h += '<div class="gs ' + (on ? 'on' : 'off') + '">'
+       + '<span class="ic">' + r.ic + '</span>'
+       + '<span class="nm">' + r.nm + '</span></div>';
+  }
+  row.innerHTML = h;
+}
 function againHanmadi(){location.href=LINK.hanmadi;}
 function render(){if(state.s===4){paintLetterhead();}
   var pg=document.getElementById('prog'); if(pg){pg.style.visibility=(state.s===6?'hidden':'visible');}
