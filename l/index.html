@@ -4,7 +4,24 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>사랑흐름 마음 여행편지</title>
-<!-- l_letter v7 배포본 | 260712 | /l/index.html → loveflow.ai.kr/l/ | l = letter. /l/ = 편지 진입 통로. enter의 빈 letter 링크를 메꿀. ?id=LF- 받음 → 꽃비+입장음 연출 → 편지 GAS(DTLjdA)로 이동. ★목적지=편지(여행지도 아님). v6의 /journey/ 목적지를 GAS로 교체. -->
+<!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · 편지 진입 통로   l/index.html   v8 · 260713
+     ───────────────────────────────────────────────────────────────────
+     [버전] 라이브 v7 (260712) → ★v8 (이 파일)
+
+     [v8 · 260713] ★목적지 변경 — 편지 GAS → /letter/
+       옛날: /l/ → 편지 GAS(DTLjdA)가 편지 화면을 서빙
+             → 손님 주소창에 script.google.com 이 떴습니다.
+             → 그 편지 화면은 ★빈 칸 하나뿐이었습니다(질문 없음).
+       지금: /l/ → ★/letter/ (새 편지 화면 · 질문 5개 · 초안 · 승인)
+             → 주소가 loveflow.ai.kr 로 남습니다.
+             → 편지 GAS 는 이제 데이터만 줍니다(getLetter · saveLetter).
+
+     [무변경] 꽃비 연출 · 입장음 · 여권 확인 문구 · 드로어 — 전부 v7 그대로.
+
+     [이전] v7 · 260712 | ?id=LF- 받음 → 꽃비+입장음 → 편지 GAS로 이동
+            v6 의 /journey/ 목적지를 GAS로 교체했던 버전
+     ═══════════════════════════════════════════════════════════════════ -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
@@ -98,7 +115,8 @@
 </div>
 
 <script>
-var LETTER_GAS='https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec';
+/* [v8] 편지 화면이 GitHub 으로 나왔습니다. GAS 는 이제 데이터만 줍니다. */
+var LETTER_TARGET = '/letter/';
 var PETAL_COLORS=['#F7B9CD','#F3A9C2','#FBC7D6','#EFA7BE','#F6BBCB'];
 function spawnPetal(){
   var box=document.getElementById('petals'); if(!box) return;
@@ -131,7 +149,7 @@ document.addEventListener('pointerdown', function(){ greet(); });
 function toggleSound(e){ e.stopPropagation(); muted=!muted; document.getElementById('sndbtn').textContent=muted?'🔇':'🔊'; if(!muted){ greeted=false; greet(); } }
 function toggleMenu(e){ e.stopPropagation(); document.getElementById('drawer').classList.toggle('open'); }
 document.addEventListener('click', function(){ document.getElementById('drawer').classList.remove('open'); });
-function enter(){ try{ departSound(); }catch(e){} var id=getId(); var u=LETTER_GAS; if(id){ u += '?id=' + encodeURIComponent(id); } setTimeout(function(){ location.href=u; }, 1100); }
+function enter(){ try{ departSound(); }catch(e){} var id=getId(); var u=LETTER_TARGET; if(id){ u += '?id=' + encodeURIComponent(id); } setTimeout(function(){ location.href=u; }, 1100); }
 </script>
 </body>
 </html>
