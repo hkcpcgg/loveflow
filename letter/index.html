@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · 마음 여행편지   letter/index.html   v1 · 260713
+     ───────────────────────────────────────────────────────────────────
+     [버전 원칙] ★이 자리(/letter/)의 첫 파일 → v1
+       뿌리 = 260708 재디자인본 "편지여정_표준v4"
+
+     [자리 정리 · 260713]
+       /l/       = 꽃비 통로 (v7 → v8). 여권 받아 연출하고 여기로 보냅니다.
+       /letter/  = ★편지 화면 (이 파일). 질문 5개 · 초안 · 승인.
+       편지 GAS  = 데이터만 (getLetter · saveLetter). 화면은 더 이상 안 서빙합니다.
+       → 주소가 loveflow.ai.kr 로 남습니다. 옛날엔 script.google.com 이 떴습니다.
+
+     [왜 갈아엎나]
+       옛 편지: 화면 열자마자 ★빈 칸 하나. 쓰면 바로 완성. 질문이 없었습니다.
+       여행지도(14,900원)는 25문항을 쓰는데, 편지(29,800원)는 0문항.
+       대표: "이거는 사기야."
+
+     [260707 이사회 만장일치 — 발견과 번역]
+       여행지도 = 발견 질문 (감각으로 기억을 꺼낸다)
+       편지     = 번역 질문 (그 기억에 말을 붙인다)
+       세계관: "당신은 작가, 나는 당신 말을 아름다운 순서로 배열하는 편집자."
+       흐름:  ① 맞이 → ② 질문 5각도 → ③ 편집 대기 → ④ 확인·승인
+
+     [260713 이사회 만장일치 — 빈 칸부터 보여주지 마라]
+       질문 5개 → 답을 모으고 → ★초안이 엮이고 → 손님이 다듬어 승인.
+       그리고 ★여행지도에서 남긴 말을 편지가 실제로 인용한다.
+       "내 이야기를 기억하고 있네" — 그게 29,800원의 값입니다.
+
+     [v2 에 붙인 것]
+       · 잠금 — 여권 없이 들어오면 게이트로
+       · 여행지도 기록 불러오기 — 편지 GAS(DTLjdA) getLetter
+       · ★여행지도 답을 초안에 인용 (Q8 장면 · Q24 계절 · Q16 못 전한 말)
+       · 편지 저장 · 완성 화면 · 인쇄
+       · 드로어 표준 6항목 · 홈으로
+       · 편지 없는 상품이면 안내 (주문대장 상품구분 기준 · GAS가 판단)
+     ═══════════════════════════════════════════════════════════════════ -->
+<script>(function(){
+  try{
+    var m = location.search.match(/[?&]id=(LF[ML]?-[A-Za-z0-9]+)/i);
+    if (m) {
+      var pp = m[1].toUpperCase();
+      try{ sessionStorage.setItem('lf_unlock','1'); }catch(e){}
+      try{ sessionStorage.setItem('lf_passport', pp); }catch(e){}
+      try{ localStorage.setItem('lf_passport', pp); }catch(e){}
+    }
+    var unlocked = false;
+    try{ unlocked = (sessionStorage.getItem('lf_unlock') === '1'); }catch(e){}
+    if (window.top === window.self && /^https?:/.test(location.protocol) && !m && !unlocked) {
+      location.replace('/gate.html');
+    }
+  }catch(e){}
+})();</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 마음 여행편지</title>
+<!-- letter_journey_v2 | 260707 | L4 편지 여정: ①맞이 ②편찬 5각도(표현·이유·변화·전달·미래) ③편집대기 → (다음)승인 / v18 톤·프레임·색·사운드 계승 / 편지=기억에 말을 붙이는 여행 / 데모 D(→GAS 주입) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1E4A76;--navy-deep:#173A5A;--ink:#2A3542;--muted:#8A8580;--cream:#FFFBF5;--petal:#FFE4EC;--petal-line:#F3B8CC;--petal-deep:#D98BA6;--gold:#D4AF37;--line:#EFE6DA;}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;background:#F7EFE6;color:var(--ink);min-height:100vh;display:flex;justify-content:center}
+  .wrap{width:100%;max-width:500px;min-height:100vh;background:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden}
+  .petal-bg{position:absolute;top:-20px;right:-16px;width:120px;height:120px;opacity:.12;pointer-events:none}
+  .top{display:flex;align-items:center;gap:8px;padding:13px 18px;position:relative;z-index:3;min-height:52px}
+  .top .logo{height:26px;width:auto;cursor:pointer;display:block}
+  .top .back{background:none;border:none;color:var(--navy);font-size:22px;cursor:pointer;line-height:1;padding:0 2px}
+  .top .title{position:absolute;left:0;right:0;text-align:center;font-size:13px;font-weight:500;color:var(--navy);letter-spacing:.02em;pointer-events:none}
+  .top .snd{background:none;border:none;font-size:17px;cursor:pointer;line-height:1;padding:0 2px;margin-left:auto;opacity:.85}
+  .top .menu{background:none;border:none;color:var(--navy);font-size:19px;cursor:pointer;line-height:1;padding:0 2px}
+  .drawer{position:absolute;top:52px;right:14px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(30,74,118,.14);padding:6px;z-index:9;display:none;min-width:168px}
+  .drawer.open{display:block}
+  .drawer a{display:block;padding:11px 14px;font-size:13.5px;color:var(--ink);text-decoration:none;border-radius:10px}
+  .drawer a:hover{background:var(--petal);color:var(--navy-deep)}
+  .prog{height:5px;background:#F0E7DC;border-radius:20px;margin:0 20px;overflow:hidden;position:relative;z-index:2}
+  .prog>i{display:block;height:100%;width:0%;background:linear-gradient(90deg,var(--petal-line),var(--petal-deep));border-radius:20px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+  .pcount{font-size:11px;color:var(--petal-deep);text-align:center;padding:6px 0 0}
+  .body{flex:1;display:flex;flex-direction:column;justify-content:flex-start;padding:32px 26px 22px;position:relative;z-index:2;opacity:1;transition:opacity .55s ease;background:radial-gradient(130% 62% at 50% -6%, rgba(255,228,236,.42) 0%, rgba(255,228,236,.10) 42%, rgba(255,228,236,0) 66%)}
+  .body.fade{opacity:0}
+  .body.shake{animation:shake .32s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}60%{transform:translateX(5px)}}
+  .guide{font-size:13.5px;color:var(--petal-deep);font-weight:500;margin-bottom:15px;line-height:1.65}
+  .q{font-size:20px;font-weight:700;line-height:1.62;color:var(--navy-deep);margin-bottom:11px}
+  .hint{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:20px}
+  textarea{width:100%;min-height:230px;border:1.5px solid var(--line);border-radius:16px;padding:17px;font-family:inherit;font-size:15px;line-height:1.8;background:#fff;resize:none;color:var(--ink);margin-top:6px}
+  textarea:focus{outline:none;border-color:var(--petal-deep)}
+  .philo{margin-top:auto;padding-top:20px;font-size:13.5px;color:var(--petal-deep);font-weight:500;font-style:italic;line-height:1.75;position:relative}
+  .philo::before{content:"";display:block;width:26px;height:1.5px;background:var(--petal-line);border-radius:2px;margin-bottom:12px}
+  /* 맞이 의식 */
+  .rite{text-align:center;margin:auto 0;position:relative;padding:10px 0}
+  .rite .aura{position:absolute;top:50%;left:50%;width:300px;height:300px;transform:translate(-50%,-52%);border-radius:50%;background:radial-gradient(circle,rgba(217,139,166,.20) 0%,rgba(255,228,236,.12) 38%,rgba(255,228,236,0) 66%);opacity:0;animation:auraIn 2.6s ease forwards;pointer-events:none;z-index:0}
+  @keyframes auraIn{0%{opacity:0;transform:translate(-50%,-52%) scale(.6)}100%{opacity:1;transform:translate(-50%,-52%) scale(1)}}
+  .rite>*{position:relative;z-index:1}
+  .rite .spell{font-size:14px;color:var(--petal-deep);font-style:italic;font-weight:500;line-height:1.7;opacity:0;animation:riseIn .9s ease forwards .5s}
+  .rite .halo{width:88px;height:88px;border-radius:50%;margin:18px auto 16px;display:flex;align-items:center;justify-content:center;font-size:36px;background:radial-gradient(circle at 50% 45%, var(--petal) 0%, rgba(255,228,236,.4) 46%, rgba(255,228,236,0) 74%);opacity:0;animation:riseIn .9s ease forwards 1.3s}
+  .rite .q{font-size:20px;opacity:0;animation:riseIn .9s ease forwards 2.0s}
+  .rite .to{font-size:14px;color:var(--navy);margin-top:14px;opacity:0;animation:riseIn .9s ease forwards 2.5s}
+  .rite .to b{color:var(--petal-deep)}
+  .rite .door{margin-top:52px;opacity:0;animation:riseIn .9s ease forwards 3.1s}
+  .rite .door button{border:1.5px solid var(--petal-deep);background:#fff;color:var(--navy-deep);border-radius:30px;padding:13px 26px;font-family:inherit;font-size:14.5px;font-weight:600;cursor:pointer;transition:.18s}
+  .rite .door button:hover{background:var(--petal)}
+  @keyframes riseIn{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:translateY(0)}}
+  /* 되받기(경청) */
+  .echo{margin-top:16px;font-size:13px;color:var(--petal-deep);font-style:italic;line-height:1.7;opacity:0;transition:opacity .6s}
+  .echo.on{opacity:1}
+  /* 대기 */
+  .waiting{text-align:center;margin:auto 0}
+  .waiting .halo{width:80px;height:80px;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:32px;background:radial-gradient(circle at 50% 45%,var(--petal) 0%,rgba(255,228,236,.35) 50%,rgba(255,228,236,0) 75%);animation:pulse 1.8s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.08);opacity:1}}
+  .waiting p{font-size:15px;color:var(--navy-deep);line-height:1.85;font-weight:500}
+  .nav{display:flex;gap:11px;padding:14px 26px 12px;position:relative;z-index:2}
+  .nav.hide{display:none}
+  .nav.nonext .next{display:none}
+  .nav.nonext .prev{flex:1}
+  .nav button{flex:1;border-radius:16px;padding:15px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;border:none;transition:.15s}
+  .prev{background:#fff;border:1.5px solid var(--line);color:var(--muted)}
+  .next{background:var(--navy);color:#fff}
+  .next.off{opacity:.4}
+  .next:hover{background:var(--navy-deep)}
+  /* 편지 초안·승인 */
+  .draft-wrap{padding:4px 0}
+  .draft-head{text-align:center;margin-bottom:18px}
+  .draft-head .em{font-size:24px}
+  .draft-head h2{font-size:17px;color:var(--navy-deep);font-weight:700;margin-top:8px;line-height:1.5}
+  .draft-head p{font-size:12.5px;color:var(--petal-deep);margin-top:8px;line-height:1.6}
+  .letter-paper{background:#fff;border:1.5px solid var(--petal-line);border-radius:18px;padding:26px 22px;line-height:1.95;font-size:14.5px;color:var(--ink);box-shadow:0 6px 20px rgba(217,139,166,.10)}
+  .letter-paper .lp{margin-bottom:14px}
+  .letter-paper .lp:last-child{margin-bottom:0}
+  .letter-paper .frm{margin-top:20px;text-align:right;font-size:13.5px;color:var(--navy)}
+  .draft-note{font-size:12px;color:var(--muted);text-align:center;margin-top:14px;line-height:1.7}
+  .draft-edit{width:100%;min-height:260px;border:1.5px solid var(--petal-line);border-radius:18px;padding:22px;font-family:inherit;font-size:14.5px;line-height:1.95;background:#fff;resize:vertical;color:var(--ink);display:none}
+  .draft-edit:focus{outline:none;border-color:var(--petal-deep)}
+  .draft-btns{display:flex;gap:11px;margin-top:18px}
+  .btn-edit{flex:1;border:1.5px solid var(--line);background:#fff;color:var(--navy);border-radius:16px;padding:15px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer}
+  .btn-approve{flex:2;border:none;background:var(--navy);color:#fff;border-radius:16px;padding:15px;font-family:inherit;font-size:15px;font-weight:700;cursor:pointer;transition:.15s}
+  .btn-approve:hover{background:var(--navy-deep)}
+  .foot{text-align:center;padding:4px 20px 16px;position:relative;z-index:2}
+  .foot .links{font-size:11.5px;color:var(--navy);opacity:.75}
+  .foot .links a{color:inherit;text-decoration:none;margin:0 5px}
+  .foot .cr{font-size:10.5px;color:#C4BAAC;margin-top:6px}
+
+  /* [v2] 홈으로 — 편지 끝나고 나갈 문 */
+  .homeout{text-align:center;padding:22px 0 8px}
+  .homeout a{font-size:13px;color:#C68A2E;font-weight:700;text-decoration:none}
+  /* [v2] 저장 → 인쇄에서는 조작거리를 뺍니다 */
+  @media print{
+    .top,.drawer,.draft-btns,.draft-note,.homeout,.nav,.prog{display:none !important}
+    body{background:#fff !important}
+    .letter-paper{box-shadow:none;border:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap" id="wrap">
+  <svg class="petal-bg" viewBox="0 0 100 100"><path d="M50 12 C58 30 78 34 88 30 C74 42 74 62 82 74 C64 66 50 78 50 88 C50 78 36 66 18 74 C26 62 26 42 12 30 C22 34 42 30 50 12Z" fill="#F3B8CC"/></svg>
+  <div class="top">
+    <img class="logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="location.href='/'">
+    <button class="back" onclick="go(-1)" title="뒤로">&#8249;</button>
+    <div class="title">마음 여행편지</div>
+    <button class="snd" id="sndbtn" onclick="toggleSound(event)" title="소리">🔊</button>
+    <button class="menu" onclick="toggleMenu(event)" title="메뉴">&#9776;</button>
+  </div>
+  <div class="drawer" id="drawer">
+    <a href="/">홈</a><a href="/">마음 한마디</a><a href="/journey/">여행지도 보기</a><a href="/l/">편지</a><a href="/find/">사랑흐름 여권 찾기</a><a onclick="location.reload()">다시 시작</a>
+  </div>
+  <div class="prog"><i id="bar"></i></div>
+  <div class="pcount" id="pcount"></div>
+  <div class="body" id="stage"></div>
+  <div class="nav"><button class="prev" onclick="go(-1)">이전</button><button class="next" id="nextbtn" onclick="go(1)">다음 &#8250;</button></div>
+  <div class="foot">
+    <div class="links"><a href="/about.html">소개</a>&middot;<a href="/trust.html">이용약관</a>&middot;<a href="/trust.html">개인정보</a>&middot;<a href="/trust.html">환불정책</a></div>
+    <div class="cr">&copy; 2026 사랑흐름 &middot; LFRI&trade;</div>
+  </div>
+</div>
+<script>
+/* 데모 데이터 (실제로는 GAS가 여권번호로 주입) */
+/* ═══════════════════════════════════════════════════════════════════
+   [v2] 여행지도 기록 불러오기  ★29,800원의 핵심
+   손님이 "내가 여행지도에서 쓴 말을 편지가 기억하고 있네" 를 느껴야 합니다.
+   (260713 이사회: "질문을 만든 게 아니라 질문의 답이 살아야 한다")
+   GAS가 늦거나 죽어도 편지는 씁니다. 손님을 막지 않습니다.
+   ═══════════════════════════════════════════════════════════════════ */
+var D = { target:"", nick:"" };
+var TRIP = { Q8:'', Q15:'', Q16:'', Q23:'', Q24:'', Q26:'' };
+
+var LETTER_GAS = 'https://script.google.com/macros/s/'
+               + 'AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA'
+               + '/exec';
+
+function myPassport(){
+  var p = '';
+  try{
+    var m = location.search.match(/[?&]id=(LF[ML]?-[A-Za-z0-9]+)/i);
+    if (m) { p = m[1]; }
+  }catch(e){}
+  if (!p) { try{ p = sessionStorage.getItem('lf_passport') || ''; }catch(e){} }
+  if (!p) { try{ p = localStorage.getItem('lf_passport') || ''; }catch(e){} }
+  return p.trim().toUpperCase();
+}
+
+function loadTrip(){
+  var pp = myPassport();
+  if (!pp) { return; }
+  fetch(LETTER_GAS + '?action=getLetter&passport=' + encodeURIComponent(pp))
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if (!res || !res.success || !res.data) { return; }
+      var d = res.data;
+      if (d.locked) { showLocked(); return; }   /* 편지 없는 상품 */
+      D.target = d['관계유형'] || '';
+      D.nick   = d['관계닉네임'] || d['관계유형'] || '';
+      TRIP.Q8  = d['Q8']  || '';
+      TRIP.Q15 = d['Q15'] || '';
+      TRIP.Q16 = d['Q16'] || '';
+      TRIP.Q23 = d['Q23'] || '';
+      TRIP.Q24 = d['Q24'] || '';
+      TRIP.Q26 = d['Q26'] || '';
+      paint();
+    })
+    .catch(function(){});
+}
+
+function showLocked(){
+  var st = document.getElementById('stage');
+  if (!st) { return; }
+  st.innerHTML = '<div class="rite"><div class="halo">✉️</div>'
+    + '<div class="q">이 여권은<br>편지가 없는 여행이에요.</div>'
+    + '<div class="hint">마음 여행편지가 포함된 여행에서 만나요.</div>'
+    + '<div class="door"><button onclick="location.href=\'/showcase.html\'">여행 고르러 가기</button></div>'
+    + '</div>';
+}
+
+/* ── 사운드 (v18·편지 C펜타 계승) ── */
+var AC=null, muted=false;
+function ac(){ if(!AC){AC=new (window.AudioContext||window.webkitAudioContext)();} return AC; }
+function tone(f,d,pk,ty,dl){ if(muted)return; var c=ac(),t=c.currentTime+(dl||0),o=c.createOscillator(),g=c.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(pk,t+0.03);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+0.05);}
+var PENTA=[130.81,146.83,164.81,196.00,220.00,261.63], lastF=-1;
+function dingWrite(){ var f=PENTA[Math.floor(Math.random()*PENTA.length)],gd=0; while(f===lastF&&gd++<4){f=PENTA[Math.floor(Math.random()*PENTA.length)];} lastF=f; tone(f,0.7,0.09,'triangle'); }
+function enterLetter(){ [130.81,164.81,196.00,261.63].forEach(function(f,k){ tone(f,0.9,0.08,'triangle',k*0.12); }); }
+function weaveSound(){ [261.63,293.66,329.63,392.00,440.00].forEach(function(f,k){ tone(f,0.9,0.07,'sine',k*0.18); }); }
+function breathe(){ if(muted)return; var c=ac(),t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=65.41;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.05,t+0.9);g.gain.exponentialRampToValueAtTime(0.0001,t+3.0);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+3.1); }
+function toggleSound(e){ e.stopPropagation(); muted=!muted; document.getElementById('sndbtn').textContent=muted?'🔇':'🔊'; }
+function toggleMenu(e){ e.stopPropagation(); document.getElementById('drawer').classList.toggle('open'); }
+document.addEventListener('click',function(){ document.getElementById('drawer').classList.remove('open'); });
+
+/* ── 편지 여정 스텝 ── */
+var steps=[
+ {t:"rite", to:true},
+ {t:"ask", angle:"표현",
+  guide:"기억에 말을 붙이는 여행, 그 첫 걸음이에요",
+  q:"그분을 떠올리면, 그때<br>가장 먼저 하고 싶었던 말은<br>무엇이었나요?",
+  hint:"짧아도 괜찮아요. 흘러오는 그대로 적어보세요.", ph:"예) 사실은, 고마웠어요…",
+  echo:"그 말이, 당신 안에 오래 머물러 있었네요.",
+  philo:"마음은, 말이 되기 전에도 이미 존재하니까요."},
+ {t:"ask", angle:"이유",
+  guide:"그 말의 뒷모습을 가만히 들여다볼게요",
+  q:"그 말을, 왜 그때는<br>끝내 하지 못했을까요?",
+  hint:"쑥스러워서, 때를 놓쳐서, 마음이 복잡해서… 무엇이든 괜찮아요.", ph:"예) 쑥스러워서, 늘 다음에 하자고…",
+  echo:"하지 못한 데에도, 저마다의 이유가 있으니까요.",
+  philo:"삼켜진 말에는, 그만한 마음의 무게가 담겨 있어요."},
+ {t:"ask", angle:"변화",
+  guide:"그때와 지금 사이를 걸어볼게요",
+  q:"그때와 지금,<br>그분을 향한 마음에<br>달라진 것이 있나요?",
+  hint:"더 깊어졌거나, 옅어졌거나, 그대로거나 — 다 괜찮아요.", ph:"예) 그때보다 더 애틋해졌어요…",
+  echo:"마음도 계절처럼, 조금씩 흐르고 있었네요.",
+  philo:"변하지 않는 마음도, 변해온 마음도 모두 진심이에요."},
+ {t:"ask", angle:"전달",
+  guide:"이제, 정말 전하고 싶은 것에 다가가요",
+  q:"이번에는, 어떤 마음만큼은<br>꼭 전하고 싶으신가요?",
+  hint:"고마움, 미안함, 사랑… 하나만 골라도 돼요.", ph:"예) 사랑한다는 말, 이번엔 꼭…",
+  echo:"그 마음 하나면, 편지는 이미 충분해요.",
+  philo:"모든 편지는, 단 하나의 진심에서 시작돼요."},
+ {t:"ask", angle:"미래",
+  guide:"편지가 닿는 그 순간을 그려볼게요",
+  q:"그분이 이 편지를 읽고,<br>어떤 표정을 지으면<br>좋겠어요?",
+  hint:"미소, 눈물, 놀람… 그 모습을 상상해 보세요.", ph:"예) 잔잔히 웃어주면 좋겠어요…",
+  echo:"그 표정을 그리는 지금, 당신은 이미 편지를 쓰고 있어요.",
+  philo:"마음은 보이지 않아도, 전해지는 순간이 있으니까요."},
+ {t:"weave"}
+];
+
+var i=0, sel={};
+
+function answered(){
+  var s=steps[i];
+  if(s.t==="rite"||s.t==="weave") return true;
+  if(s.t==="ask") return (sel[i]||"").trim().length>0;
+  return true;
+}
+function paint(){
+  var s=steps[i], h="", body=document.getElementById("stage");
+  var nav=document.querySelector(".nav");
+  if(s.t==="rite"){
+    var who = D.nick || D.target || "그분";
+    h+='<div class="rite"><div class="aura"></div>';
+    h+='<div class="spell">기억을 꺼내는 여행이 끝났어요.<br>이제, 그 기억에 말을 붙일 시간이에요.</div>';
+    h+='<div class="halo">✉️</div>';
+    h+='<div class="q">당신은 오늘의 작가예요.<br>저는, 당신의 마음을 아름다운<br>순서로 엮는 편집자가 될게요.</div>';
+    h+='<div class="to">이 편지는 <b>'+esc(who)+'</b>께 닿을 거예요.</div>';
+    h+='<div class="door"><button onclick="enterRite()">천천히, 첫 문장을 열게요</button></div></div>';
+    breathe();
+  } else if(s.t==="ask"){
+    h+='<div class="guide">'+s.guide+'</div>';
+    h+='<div class="q">'+s.q+'</div>';
+    h+='<div class="hint">'+s.hint+'</div>';
+    h+='<textarea placeholder="'+(s.ph||'')+'" oninput="sel[i]=this.value; onType();">'+esc(sel[i]||"")+'</textarea>';
+    h+='<div class="echo" id="echoLine">'+s.echo+'</div>';
+    if(s.philo){ h+='<div class="philo">'+s.philo+'</div>'; }
+  } else if(s.t==="weave"){
+    h+='<div class="waiting"><div class="halo">✍️</div><p>이제, 당신이 들려준 마음을<br>한 통의 편지로 엮어볼게요.<br>잠시만요…</p></div>';
+    weaveSound();
+    setTimeout(function(){ toApprove(); }, 2600);
+  }
+  body.innerHTML=h;
+  // 진행바 (맞이·대기 제외, 5각도만 카운트)
+  var total=5, cur=(s.t==="ask")?(i-0):0; // steps[1..5]=ask
+  if(s.t==="ask"){ document.getElementById("bar").style.width=(i/5*100)+"%"; document.getElementById("pcount").textContent=i+" / 5"; }
+  else if(s.t==="rite"){ document.getElementById("bar").style.width="0%"; document.getElementById("pcount").textContent=""; }
+  else { document.getElementById("bar").style.width="100%"; document.getElementById("pcount").textContent=""; }
+  // 내비
+  nav.classList.toggle("hide", s.t==="rite" || s.t==="weave");
+  document.getElementById("nextbtn").innerHTML = (i>=steps.length-2)?"편지 엮기 &#8250;":"다음 &#8250;";
+  refreshNext();
+}
+function refreshNext(){ document.getElementById("nextbtn").classList.toggle("off", !answered()); }
+function onType(){ refreshNext(); var e=document.getElementById("echoLine"); if(e && (sel[i]||"").trim().length>4){ e.classList.add("on"); } }
+function esc(v){ return (v||"").replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function enterRite(){ enterLetter(); go(1); }
+/* ── 편지 초안 생성: AI 자리(함수만) → 실패/미연결 시 템플릿 Fallback ── */
+function buildLetterAI(ans, who){ return null; /* L5+: 여기서 실제 AI 호출(Retry). 지금은 미연결→null→Fallback */ }
+function buildLetterTemplate(ans, who){
+  /* ═══════════════════════════════════════════════════════════════
+     [v2 · 260713] ★여행지도에서 남긴 말을 함께 엮습니다
+       편지 5각도 (오늘 쓴 것) — 표현·이유·변화·전달·미래
+       여행지도 (그때 남긴 것) — Q8 따뜻한 장면 · Q24 계절 · Q16 못 전한 말
+     기억에서 시작해 오늘의 마음으로 흐르게 배열합니다.
+     ═══════════════════════════════════════════════════════════════ */
+  var a  = function(k){ return (ans[k]  || '').trim(); };
+  var tp = function(k){ return (TRIP[k] || '').trim(); };
+
+  /* [v2] ★조사 붙이기 — "엄마을(를)" 같은 걸 손님에게 보이면 안 됩니다.
+     한글 받침이 있으면 을/이/은, 없으면 를/가/는. */
+  var josa = function(word, withBatchim, without){
+    var w = String(word || '');
+    if (!w) { return without; }
+    var last = w.charCodeAt(w.length - 1);
+    if (last < 0xAC00 || last > 0xD7A3) { return without; }   /* 한글이 아니면 */
+    return ((last - 0xAC00) % 28 > 0) ? withBatchim : without;
+  };
+  var eul = function(w){ return w + josa(w, '을', '를'); };
+  var ga  = function(w){ return w + josa(w, '이', '가'); };
+
+  /* [v2] 문장 끝 마무리 — 손님이 마침표를 안 찍었어도 자연스럽게 */
+  var end = function(s){
+    s = String(s || '').trim();
+    if (!s) { return ''; }
+    return /[.!?…"'”’)]$/.test(s) ? s : (s + '.');
+  };
+
+  var paras = [];
+
+  paras.push('사랑하는 ' + who + '께.');
+
+  /* ★여행지도에서 떠올린 그 장면부터 */
+  if (tp('Q8')) {
+    var scene = eul(who) + ' 떠올리면, 가장 먼저 이 장면이 와요. ' + end(tp('Q8'));
+    if (tp('Q24')) { scene += ' 그 시간은 저에게 ' + tp('Q24') + ' 같은 계절로 남아 있어요.'; }
+    paras.push(scene);
+  }
+
+  if (a('express')) {
+    paras.push('그때, ' + who + '에게 가장 먼저 건네고 싶었던 말이 있었어요. ' + a('express') + ' — 그 한마디였습니다.');
+  }
+
+  if (a('reason')) {
+    var why = '그런데 그 말을, 그때는 끝내 하지 못했어요. ' + end(a('reason'));
+    /* ★여행지도에서도 남겼던 못 전한 말 */
+    if (tp('Q16')) { why += ' 여행지도에서도 저는 그 마음을 이렇게 적었더라고요. ' + end(tp('Q16')); }
+    paras.push(why);
+  }
+
+  if (a('change')) {
+    paras.push('시간이 흐르며, ' + eul(who) + ' 향한 제 마음도 조금씩 달라졌어요. ' + end(a('change')));
+  }
+
+  if (a('deliver')) {
+    paras.push('그래서 이번에는, 이 마음만큼은 꼭 전하고 싶어요. ' + end(a('deliver')));
+  }
+
+  if (a('future')) {
+    paras.push('이 편지를 읽는 ' + ga(who) + ', ' + end(a('future')) + ' 그런 모습이면 좋겠습니다.');
+  }
+
+  paras.push('제 마음이, 오늘 이 편지를 통해 ' + who + '에게 가만히 닿기를 바라요.');
+  return paras;
+}
+var letterParas=[], editing=false;
+function toApprove(){
+  var who = D.nick || D.target || '그분';
+  var ans = { express:sel[1], reason:sel[2], change:sel[3], deliver:sel[4], future:sel[5] };
+  letterParas = buildLetterAI(ans, who) || buildLetterTemplate(ans, who);
+  var h='<div class="draft-wrap"><div class="draft-head"><div class="em">💌</div>';
+  h+='<h2>당신의 마음을,<br>이렇게 엮어 보았어요.</h2>';
+  h+='<p>이 문장들은, 당신이 꺼낸 마음 그대로예요.<br>마음에 안 드는 곳은 가볍게 고치셔도 돼요.</p></div>';
+  h+='<div class="letter-paper" id="letterView">';
+  for(var k=0;k<letterParas.length;k++){ h+='<div class="lp">'+esc(letterParas[k])+'</div>'; }
+  h+='<div class="frm">From. 당신의 마음을 담아</div></div>';
+  h+='<textarea class="draft-edit" id="letterEdit">'+letterParas.join('\n\n')+'</textarea>';
+  h+='<div class="draft-note">✍️ 이대로 마음을 전하시거나, 직접 손질하실 수 있어요.</div>';
+  h+='<div class="draft-btns"><button class="btn-edit" onclick="toggleEdit()">✏️ 손질하기</button>';
+  h+='<button class="btn-approve" onclick="approveLetter()">이 편지로 마음을 전할게요</button></div></div>';
+  var st=document.getElementById('stage'); st.innerHTML=h;
+  document.querySelector('.nav').classList.add('hide');
+  document.getElementById('bar').style.width='100%';
+  document.getElementById('pcount').textContent='';
+}
+function toggleEdit(){
+  editing=!editing;
+  document.getElementById('letterView').style.display=editing?'none':'block';
+  document.getElementById('letterEdit').style.display=editing?'block':'none';
+  var b=document.querySelector('.btn-edit');
+  if(editing){ b.textContent='✓ 손질 끝'; }
+  else { b.textContent='✏️ 손질하기'; var v=document.getElementById('letterEdit').value; letterParas=v.split(/\n\n+/); var lv=document.getElementById('letterView'); lv.innerHTML=''; for(var k=0;k<letterParas.length;k++){ var d=document.createElement('div'); d.className='lp'; d.textContent=letterParas[k]; lv.appendChild(d); } var f=document.createElement('div'); f.className='frm'; f.textContent='From. 당신의 마음을 담아'; lv.appendChild(f); }
+}
+var LINK={home:'/',certificate:'/certificate.html'};
+/* [v2] 편지 완성 — 저장하고 마무리 화면으로.
+   옛 코드는 "마음 증서"(certificate.html)로 보냈는데, 그 파일이 지금
+   ★여행지도 복사본이라 엉뚱한 화면이 뜹니다. 증서는 별건으로 미룹니다. */
+function approveLetter(){
+  enterLetter();
+  var box  = document.getElementById('letterEdit');
+  var body = box ? box.value.trim() : letterParas.join('\n\n');
+  var who  = D.nick || D.target || '그분';
+
+  document.getElementById('stage').innerHTML =
+    '<div class="waiting"><div class="halo">💌</div><p>당신의 마음을<br>편지로 엮고 있어요…</p></div>';
+
+  try{
+    fetch(LETTER_GAS, { method:'POST', mode:'no-cors', body: JSON.stringify({
+      action:'saveLetter', passport: myPassport(),
+      rel: D.target, relName: D.nick, letter: body
+    })});
+  }catch(e){}
+
+  setTimeout(function(){ showDone(body, who); }, 1400);
+}
+
+function showDone(body, who){
+  var h = '<div class="draft-wrap"><div class="draft-head"><div class="em">🌸</div>';
+  h += '<h2>편지가<br>완성되었어요.</h2>';
+  h += '<p>오늘 당신은, 오래 담아둔 마음을<br>한 통의 편지로 꺼내놓으셨어요.</p></div>';
+  h += '<div class="letter-paper">';
+  var ps = body.split('\n\n');
+  for (var k2 = 0; k2 < ps.length; k2++) {
+    if (ps[k2].trim()) { h += '<div class="lp">' + esc(ps[k2]) + '</div>'; }
+  }
+  h += '<div class="frm">From. 당신의 마음을 담아</div></div>';
+  h += '<div class="draft-note">✦ 이 편지를 손으로 옮겨 적어 전해보세요. 손의 온기가 마음을 움직입니다.</div>';
+  h += '<div class="draft-btns">'
+     + '<button class="btn-edit" onclick="saveLetterPDF()">💾 이 편지 저장하기</button>'
+     + '<button class="btn-ok" onclick="shareLetter()">🔗 링크 복사</button></div>';
+  h += '<div class="homeout"><a href="/">&lsaquo; 홈으로</a></div>';
+  document.getElementById('stage').innerHTML = h;
+}
+
+function saveLetterPDF(){
+  if (!confirm('이 편지를 저장할까요?\n\n인쇄 화면이 열립니다. 거기서 PDF로 저장하시면 됩니다.')) { return; }
+  window.print();
+}
+
+function shareLetter(){
+  var url = 'https://www.loveflow.ai.kr';
+  try{ navigator.clipboard.writeText(url); alert('사랑흐름 링크를 복사했어요.'); }
+  catch(e){ alert(url); }
+}
+function go(d){
+  if(d>0 && !answered()){ var b=document.getElementById("stage"); b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake"); return; }
+  var n=i+d; if(n<0)return; if(n>=steps.length){ return; } i=n; fade();
+}
+function fade(){ var b=document.getElementById("stage"), slow=(steps[i]&&steps[i].t==="rite"); b.classList.add("fade"); setTimeout(function(){ paint(); setTimeout(function(){ b.classList.remove("fade"); },30); }, slow?560:380); }
+paint();
+loadTrip();   /* [v2] 여행지도에서 남긴 말을 불러옵니다 */
+</script>
+</body>
+</html>
