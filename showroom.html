@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · showroom.html   v13-5 · 260714
+     사랑흐름 · showroom.html   v13-7 · 260714
+     [v13-7 · 260714 대표 지시] 하단 세 형제 — 버튼 사이즈 일치 · 사족 전면 삭제
+       대표: "다 같은 성격 아니야? 사이즈는 똑같이 해서 우대를 해주든지."
+             "번호를 잊으셨다면 · 담아둔 여행이 있어요 — 이런 사족이 필요 없다고."
+       → 폭 100% · 높이 44px · radius 22px 통일. 위계는 ★색으로만.
+         옛 vip-b 통버튼(높이 제각각)도 같은 규격으로 흡수.
+       ★「이어가기」는 둡니다 — 대표: "고객 입장에서는 이어가기가 있어야 돼요."
+       ★「둘러보기」는 안 답니다 — 쇼룸이 곧 둘러보기입니다.
+     [v13-6 · 260714 대표 지시] 쇼룸에서도 갈 곳을 알려줍니다
+       대표: "여기 들어왔으면 갈 곳을 방향을 알려줘야 되는 거 아닌가?"
+       → ★사랑흐름 여권 찾기 신설(골드 강조). 「둘러보기」는 안 답니다 — 쇼룸이 곧 둘러보기.
+       ※방향버튼(lfway)·상단 홈 로고는 이미 있습니다(실측 확인).
      [v13-5 · 260714 대표 지적] 지난 여행 이어가기 — 얇은 한 줄로 다시 붙임
        ★사고: v13-4에서 이어가기를 '통버튼 블록'으로 얹었다가
          하단 푸터가 화면 밖으로 밀려났습니다. v13-4는 폐기.
@@ -196,18 +207,29 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
 .vipbox{margin:22px 0 4px;padding:18px 16px;background:#FFFDF6;border:1.5px solid var(--gold);border-radius:16px;text-align:center}
 .vip-q{font-size:13px;color:#8A7B4E;margin-bottom:11px}
-.vip-b{width:100%;padding:14px;background:var(--navy);border:none;border-radius:24px;color:#fff;font-family:inherit;font-size:14.5px;font-weight:800;cursor:pointer}
+.vip-b{display:flex;align-items:center;justify-content:center;width:100%;height:44px;padding:0 14px;box-sizing:border-box;background:linear-gradient(135deg,#1E4A76,#14304F);border:1.5px solid var(--gold);border-radius:22px;color:#EFD98C;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer;line-height:1;white-space:nowrap}
 .vip-b:active{transform:scale(.99)}
 
-/* ── [v13-5] 지난 여행 이어가기 · 얇은 한 줄 (통버튼 아님) ── */
-.rsm{display:inline-flex;align-items:center;justify-content:center;gap:6px;
-     height:26px;padding:0 14px;margin-top:10px;border-radius:13px;
-     border:1px solid #DED8C6;background:transparent;
-     font-family:inherit;font-size:12px;font-weight:700;color:#9A9689;
+/* ── [v13-5] 나의 지난여행 이어가기 ── */
+.rsm{display:flex;align-items:center;justify-content:center;gap:8px;
+     width:100%;height:44px;padding:0 14px;border-radius:22px;box-sizing:border-box;
+     border:1.5px solid #E7E0D0;background:transparent;
+     font-family:inherit;font-size:12.5px;font-weight:700;color:#9A917E;
      cursor:pointer;line-height:1;white-space:nowrap}
 .rsm.on{border-color:var(--coral);color:var(--coral);background:#FFF4F0}
-.rsm-dot{width:5px;height:5px;border-radius:50%;background:var(--coral);display:none}
+.rsm-dot{width:6px;height:6px;border-radius:50%;background:var(--coral);display:none}
 .rsm.on .rsm-dot{display:block}
+
+/* [v13-7] 길 안내 · ★세 형제 같은 크기 (대표 지시: 버튼 사이즈 일치)
+   규격: 폭 100% · 높이 44px · radius 22px. 위계는 크기가 아니라 ★색으로만. 사족 없음. */
+.wayrow{display:flex;flex-direction:column;align-items:stretch;gap:8px;margin-top:11px}
+.wayrow a,.wayrow .rsm{display:flex;align-items:center;justify-content:center;gap:8px;
+        width:100%;height:44px;padding:0 14px;border-radius:22px;box-sizing:border-box;
+        font-family:inherit;font-size:12.5px;font-weight:700;text-decoration:none;
+        cursor:pointer;transition:.16s;line-height:1;white-space:nowrap;margin:0}
+.wayrow a.hi{color:#8A7B4E;background:#FFFDF6;border:1.5px solid var(--gold)}
+.wayrow a:active,.wayrow .rsm:active{transform:scale(.985)}
+.wayrow .ic{font-size:13px;opacity:.8}
 
 .rsheet{position:fixed;left:0;right:0;bottom:0;z-index:9000;
         background:#fff;border-radius:20px 20px 0 0;padding:22px 20px 26px;
@@ -367,15 +389,29 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <button onclick="location.href='/pay.html?item=set'" style="width:100%;background:var(--navy);color:#fff;border:none;border-radius:14px;padding:16px;font-size:16px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:22px">마음여행 예매하러 가기</button>
     <div class="vipbox">
       <div class="vip-q">이미 사랑흐름 여권을 가지고 계신가요?</div>
-      <button class="vip-b" onclick="lgo('reenter')">여권으로 입장 →</button>
-      <button class="rsm" id="rsmBtn" onclick="rsOpen()"><span class="rsm-dot"></span><span id="rsmTxt">지난 여행 이어가기</span></button>
+      <!-- [v13-7 · 260714 대표 지시] 하단 세 형제 — 같은 크기 · 사족 없음
+           대표: "다 같은 성격 아니야? 사이즈는 똑같이 해서 우대를 해주든지."
+                 "번호를 잊으셨다면 · 담아둔 여행이 있어요 — 이런 사족이 필요 없다고."
+           [규격] 폭 100% · 높이 44px · radius 22px. 위계는 ★색으로만.
+             ① 여권으로 입장       딥네이비 채움
+             ② 사랑흐름 여권 찾기   골드 테두리 (돈 냈는데 번호를 잊은 손님)
+             ③ 나의 지난여행 이어가기 회색 · 담아둔 게 있으면 코랄로 살아남
+           ★「둘러보기」는 안 답니다 — 쇼룸이 곧 둘러보기입니다.
+           ★「이어가기」는 둡니다 — 260714 대표 확정 "입구마다 주인 버튼. 광고 효과."
+             처음 온 사람이 "여행이란 게 이어지는 거구나" 하고 봅니다.
+           [흡수] 옛 vip-b 통버튼 → 이 묶음 안으로. 규격이 달라 형제가 아니었습니다. -->
+      <div class="wayrow">
+        <button class="vip-b" onclick="lgo('reenter')">사랑흐름 여권으로 입장</button>
+        <a class="hi" onclick="lgo('find')"><span class="ic">&#128269;</span>사랑흐름 여권 찾기</a>
+        <button class="rsm" id="rsmBtn" onclick="rsOpen()"><span class="rsm-dot"></span><span id="rsmTxt">나의 지난여행 이어가기</span></button>
+      </div>
     </div>
   </div>
 
   <!-- [v13-5] 이어가기 시트 — 그 자리에서 열립니다 (reenter로 안 보냄) -->
   <div class="rsheet-bg" id="rsBg" onclick="rsClose()"></div>
   <div class="rsheet" id="rsSheet">
-    <h4>지난 여행 이어가기</h4>
+    <h4>나의 지난여행 이어가기</h4>
     <p>담아둔 여행이 있으면 그 자리부터 이어집니다.</p>
     <input id="rsNo" placeholder="여권번호" maxlength="12" autocomplete="off">
     <div class="rs-msg" id="rsMsg"></div>
