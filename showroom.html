@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · showroom.html   v13-1 · 260713
+     사랑흐름 · showroom.html   v13-5 · 260714
+     [v13-5 · 260714 대표 지적] 지난 여행 이어가기 — 얇은 한 줄로 다시 붙임
+       ★사고: v13-4에서 이어가기를 '통버튼 블록'으로 얹었다가
+         하단 푸터가 화면 밖으로 밀려났습니다. v13-4는 폐기.
+         쇼룸 하단은 이미 '여권으로 입장'(vipbox)이 자리를 다 씁니다.
+       대표: "쇼룸은 레이아웃을 벗어났어. 하단부터 밖으로 나갔다고."
+       → 새 블록 안 만듭니다. vipbox 안, vip-b 버튼 바로 아래 한 줄(26px).
+         담아둔 게 있으면 살아나고(코랄), 없으면 조용한 회색.
+       ※ 상품 카드덱 · 여권 히어로 · 편지 봉투 · 예매 버튼 · 푸터 무손상
+       ※ /journey/result 에는 안 붙입니다 — 여행이 끝난 화면(v1-2 유지)
+
      [v13-1 · 260713 대표 지적] 옛 편지 주소 · 군더더기 문구 전수 정리
        ① ★옛 표(LINK)의 letter 가 아직 GAS 주소(script.google.com)를 가리켰습니다.
           누르면 주소창에 script.google.com 이 뜨고 ★빈 칸 하나짜리 옛 편지로 갔습니다.
@@ -188,6 +198,43 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .vip-q{font-size:13px;color:#8A7B4E;margin-bottom:11px}
 .vip-b{width:100%;padding:14px;background:var(--navy);border:none;border-radius:24px;color:#fff;font-family:inherit;font-size:14.5px;font-weight:800;cursor:pointer}
 .vip-b:active{transform:scale(.99)}
+
+/* ── [v13-5] 지난 여행 이어가기 · 얇은 한 줄 (통버튼 아님) ── */
+.rsm{display:inline-flex;align-items:center;justify-content:center;gap:6px;
+     height:26px;padding:0 14px;margin-top:10px;border-radius:13px;
+     border:1px solid #DED8C6;background:transparent;
+     font-family:inherit;font-size:12px;font-weight:700;color:#9A9689;
+     cursor:pointer;line-height:1;white-space:nowrap}
+.rsm.on{border-color:var(--coral);color:var(--coral);background:#FFF4F0}
+.rsm-dot{width:5px;height:5px;border-radius:50%;background:var(--coral);display:none}
+.rsm.on .rsm-dot{display:block}
+
+.rsheet{position:fixed;left:0;right:0;bottom:0;z-index:9000;
+        background:#fff;border-radius:20px 20px 0 0;padding:22px 20px 26px;
+        box-shadow:0 -8px 30px rgba(0,0,0,.16);
+        transform:translateY(110%);transition:transform .28s;max-width:520px;margin:0 auto}
+.rsheet.on{transform:translateY(0)}
+.rsheet-bg{position:fixed;inset:0;z-index:8999;background:rgba(20,24,32,.42);
+           opacity:0;pointer-events:none;transition:opacity .28s}
+.rsheet-bg.on{opacity:1;pointer-events:auto}
+.rsheet h4{margin:0 0 4px;font-size:16px;font-weight:800;color:var(--navy)}
+.rsheet p{margin:0 0 14px;font-size:12.5px;color:var(--sub);line-height:1.65}
+.rsheet input{width:100%;box-sizing:border-box;padding:13px 14px;border:1.5px solid var(--line);
+              border-radius:12px;font-family:inherit;font-size:15px;text-align:center;
+              letter-spacing:1px;text-transform:uppercase}
+.rsheet input:focus{outline:none;border-color:var(--navy)}
+.rs-go{width:100%;margin-top:10px;padding:14px;background:var(--navy);color:#fff;border:none;
+       border-radius:24px;font-family:inherit;font-size:14.5px;font-weight:800;cursor:pointer}
+.rs-x{display:block;width:100%;margin-top:8px;padding:8px;background:none;border:none;
+      font-family:inherit;font-size:12px;color:var(--sub);cursor:pointer}
+.rs-msg{margin-top:12px;padding:14px;border-radius:12px;background:#FFFBF5;
+        border:1px solid #EFE6D2;font-size:13px;color:#5A5348;line-height:1.7;display:none}
+.rs-msg.on{display:block}
+.rs-row{display:flex;gap:8px;margin-top:10px}
+.rs-row button{flex:1;padding:12px;border-radius:12px;font-family:inherit;
+               font-size:13px;font-weight:800;cursor:pointer;border:none}
+.rs-a{background:var(--coral);color:#fff}
+.rs-b{background:#F2EFE6;color:#6B6558}
 </style></head>
 <body>
 <div class="phone">
@@ -321,7 +368,23 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="vipbox">
       <div class="vip-q">이미 사랑흐름 여권을 가지고 계신가요?</div>
       <button class="vip-b" onclick="lgo('reenter')">여권으로 입장 →</button>
+      <button class="rsm" id="rsmBtn" onclick="rsOpen()"><span class="rsm-dot"></span><span id="rsmTxt">지난 여행 이어가기</span></button>
     </div>
+  </div>
+
+  <!-- [v13-5] 이어가기 시트 — 그 자리에서 열립니다 (reenter로 안 보냄) -->
+  <div class="rsheet-bg" id="rsBg" onclick="rsClose()"></div>
+  <div class="rsheet" id="rsSheet">
+    <h4>지난 여행 이어가기</h4>
+    <p>담아둔 여행이 있으면 그 자리부터 이어집니다.</p>
+    <input id="rsNo" placeholder="여권번호" maxlength="12" autocomplete="off">
+    <div class="rs-msg" id="rsMsg"></div>
+    <div class="rs-row" id="rsRow" style="display:none">
+      <button class="rs-a" id="rsA">이어서</button>
+      <button class="rs-b" id="rsB">처음부터</button>
+    </div>
+    <button class="rs-go" id="rsGo" onclick="rsFind()">찾아보기</button>
+    <button class="rs-x" onclick="rsClose()">닫기</button>
   </div>
 
   <!-- 법정 푸터 -->
@@ -413,6 +476,89 @@ setInterval(function(){
 var LINK={home:'/',hanmadi:'/',showroom:'/showroom.html',pay:'/pay.html',gate:'/gate.html',journey:'/journey/',letter:'/l/'   /* [v21] ★빈 값이라 죽어 있던 버튼 */,find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
 function goHome(){location.href=LINK.home;}
 function lgo(k){var u=LINK[k];if(u){location.href=u;}}
+
+/* ═══ [v13-5] 지난 여행 이어가기 · 게이트 공용 부품 ═══
+   ★함정: LINK.letter 는 '/l/' 인데 /l/ 은 꽃비 맞이 의식(1.1초 뒤 넘김)입니다.
+     여기로 ?resume=1 을 보내면 넘어가다 사라집니다. → 직행표를 따로 씁니다. */
+var LF_RESUME_LINK = { journey:'/journey/', letter:'/letter/' };
+
+function rsKeys(no){ return { journey:'lf_journey_'+no, letter:'lf_letter_'+no }; }
+
+function rsHasAny(){
+  try{
+    for(var i=0;i<localStorage.length;i++){
+      var k=localStorage.key(i);
+      if(k && (k.indexOf('lf_journey_')===0 || k.indexOf('lf_letter_')===0)) return true;
+    }
+  }catch(e){}
+  return false;
+}
+
+function rsInit(){
+  var b=document.getElementById('rsmBtn');
+  if(!b) return;
+  if(rsHasAny()){
+    b.classList.add('on');
+    document.getElementById('rsmTxt').textContent='담아둔 여행이 있어요';
+  }
+}
+
+function rsOpen(){
+  document.getElementById('rsBg').classList.add('on');
+  document.getElementById('rsSheet').classList.add('on');
+  setTimeout(function(){ var i=document.getElementById('rsNo'); if(i) i.focus(); },300);
+}
+function rsClose(){
+  document.getElementById('rsBg').classList.remove('on');
+  document.getElementById('rsSheet').classList.remove('on');
+  document.getElementById('rsMsg').classList.remove('on');
+  document.getElementById('rsRow').style.display='none';
+  document.getElementById('rsGo').style.display='block';
+}
+
+function rsFind(){
+  var no=(document.getElementById('rsNo').value||'').trim().toUpperCase();
+  var msg=document.getElementById('rsMsg');
+  var row=document.getElementById('rsRow');
+  if(!no){ msg.classList.add('on'); msg.innerHTML='여권번호를 넣어주세요.'; return; }
+
+  var K=rsKeys(no), found=null, raw=null;
+  try{
+    if(localStorage.getItem(K.journey)){ found='journey'; raw=localStorage.getItem(K.journey); }
+    else if(localStorage.getItem(K.letter)){ found='letter'; raw=localStorage.getItem(K.letter); }
+  }catch(e){}
+
+  if(!found){
+    /* ★"없다"로 끝내면 손님은 여행이 날아간 줄 압니다. "거기 가면 있다"고 알려줍니다. */
+    msg.classList.add('on');
+    msg.innerHTML='이 기기엔 담아둔 게 없어요.<br>'
+      + '폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.<br><br>'
+      + '<b>이 여권으로 여행지도를 새로 펼쳐볼까요?</b>';
+    row.style.display='flex';
+    document.getElementById('rsA').textContent='새로 펼치기';
+    document.getElementById('rsB').textContent='닫기';
+    document.getElementById('rsA').onclick=function(){ location.href='/journey/?fresh=1'; };
+    document.getElementById('rsB').onclick=rsClose;
+    document.getElementById('rsGo').style.display='none';
+    return;
+  }
+
+  var who='', at='';
+  try{ var d=JSON.parse(raw); who=d.nick||d.rel||''; at=d.step?(d.step+'번째 물음'):''; }catch(e){}
+  var what = (found==='journey') ? '여행지도' : '여행편지';
+  var line = (who?who+'님과의 ':'') + what + (at?'가 '+at+'에서 멈춰 있어요.':'를 담아뒀어요.');
+
+  msg.classList.add('on');
+  msg.innerHTML=line;
+  row.style.display='flex';
+  document.getElementById('rsA').textContent='이어서';
+  document.getElementById('rsB').textContent='처음부터';
+  document.getElementById('rsA').onclick=function(){ location.href=LF_RESUME_LINK[found]+'?resume=1'; };
+  document.getElementById('rsB').onclick=function(){ location.href=LF_RESUME_LINK[found]+'?fresh=1'; };
+  document.getElementById('rsGo').style.display='none';
+}
+
+if(document.readyState!=='loading'){ rsInit(); } else { document.addEventListener('DOMContentLoaded', rsInit); }
 function openMenu(){var d=document.getElementById('drawer');if(d)d.classList.add('on');}
 function closeMenu(){var d=document.getElementById('drawer');if(d)d.classList.remove('on');}
 </script>
