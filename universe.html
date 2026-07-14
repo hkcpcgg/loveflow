@@ -1,4 +1,37 @@
 <!-- 사랑흐름 관계 우주 화면 v17 · 260624 · [작업 v17] GA4 측정 삽입 / v16 · 260624 · [작업 v16] 통일 길잡이(좌 브랜드=홈 + 우 ☰) 상단 추가, 하단 탭바·새여행팝업·여행지도/여권 보기 전부 보존 / v15 · 260623 · [작업 v15] 팝업 문구 "들여다보고"→"새로운 여행을 떠나보고" 수정(용어 정제). v14 · 260623 · [작업 v14] "여행시작" 팝업 차단톤→놀이터톤(친구 논리): "여행지도 잘 간직됨+여권번호로 언제든 재열람+관계우주·여행지도·편지 둘러보세요+또다른 분 궁금?" → [내 여행지도 둘러보기]/[새로운 여행 떠나기](스토어). v13(여행지도보기 id넘김) 유지 · 260623 · [작업 v13] 하단 "＋여행시작" 탭 → 직접 /journey/ 이동 대신 부드러운 안내 모달(기존 고객 재구매 동선). "지금 여행지도는 간직돼요+새 관계는 새 여행지도 필요" 안내 후 본인 선택([새 여행지도 보러가기→스토어]/[다음에 할게요→닫기]). 강매 아닌 안내·빠져나갈 문 보장. 한·영 병기(글로벌 대비). v12(여행지도보기 id넘김) 유지 -->
+<!-- ═══════════════════════════════════════════════════════════════════
+     [v18 · 260714] ★메뉴를 260708 표준 6항목으로 통일. gate v10-2 라이브 실측본을 그대로 이식.
+        [실측] lf-menu 시스템·CSS·lfMenuOpen/Close 는 gate 와 이미 똑같았음.
+               "레거시 lf-menu vs 현행 gnav" 는 잘못된 구분이었습니다. ★항목만 옛것이었습니다.
+        [고침 1] 메뉴 항목 → 홈 · 마음 한마디 · 여행지도 보기 · 편지 · 사랑흐름 여권 찾기 · 다시 시작
+        [고침 2] 폐기 링크 셋을 걷어냄
+               · /compass.html ("무료 나침반") — compass 는 폐기 예정
+               · script.google.com/... ("마음편지") — 날 GAS 주소가 주소창에 노출됨. 편지 통로는 /l/
+               · 네이버 스마트스토어 직링크 — 파는 곳은 /showcase.html
+        [고침 3] ★"내 여행" 블록(lfMineGrp) 통째 삭제 — gate 는 v9-22 에서 이미 지웠음.
+               lfMineUniverse · lfMineCert · lfMineJourney 에 ?id= 를 꽂아주던 IIFE 5줄도 같이 제거.
+               ★핵심: lfMineCert 가 /certificate.html 로 보내고 있었는데,
+                 certificate.html 은 지금 여행지도(journey) 복사본이라 엉뚱한 화면이 뜹니다.
+                 이 세 페이지가 certificate 로 가는 유일한 문이었습니다. 문을 닫습니다.
+        [고침 4 · universe 전용] 화면 액션 버튼 4종 중 2개
+               · 「관계 여권 보기」 → certificate.html 로 보내고 있었음. 그 파일은 여행지도 복사본이라 엉뚱한 화면.
+                 ★버튼을 지우지 않고 「마음 여행여권 · 준비중」(disabled)로 둡니다.
+                 자서전이 이미 같은 방식으로 자리를 지키고 있어 ★4종 구조가 유지됩니다.
+                 certificate 를 제대로 만들면 href 만 되돌리면 됩니다.
+               · 편지 버튼 날 GAS 주소 → /l/
+               · btn-cert 에 ?id= 를 꽂아주던 JS 한 줄도 제거(요소가 없어졌으므로)
+        [고침 5 · universe 전용] 하단 바 · 본문 CTA
+               · 「💛 새로운 여행 떠나기」 → 네이버 스마트스토어 직링크였음. → /showcase.html (파는 곳)
+               · ★「👤 내정보」 버튼 삭제 (대표 260714).
+                 myinfo.html 은 history.html 과 ★md5 까지 똑같은 완전 동일 파일입니다.
+                 눌러도 "나의 여행기록"이 떴습니다. 글자가 거짓말을 하고 있었습니다.
+                 게다가 받지도 않는 "내 정보"를 내걸면 손님이 개인정보로 오해합니다.
+                 → 하단 바는 홈 · 여행기록 · 여행시작 · 편지 4개로 정리.
+        [절대보존] 본문·약관·개인정보·환불 텍스트 · 우주 렌더링(GAS atob) · 잠금 · 푸터 미변경.
+
+     [여권번호 · 260713 이사회 만장일치] 여권은 LF- 하나. 상품구분은 주문대장 J열.
+        발급은 LF- 만, 받아주는 건 옛 LFM-/LFL- 까지 전부. 260707 설계서의 LFM-/LFL- 는 폐기됨.
+     ═══════════════════════════════════════════════════════════════════ -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -142,16 +175,12 @@
   <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
   <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
     <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
-    <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
-    <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
-    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
-    <a href="/about.html"><span class="ic">📖</span>소개</a>
-    <div id="lfMineGrp" style="display:none">
-      <div class="lf-grp">내 여행</div>
-      <a id="lfMineUniverse" href="#"><span class="ic">🌌</span>내 관계우주</a>
-      <a id="lfMineCert" href="#"><span class="ic">📜</span>내 관계여권</a>
-      <a id="lfMineJourney" href="#"><span class="ic">🗺️</span>내 여행지도</a>
-    </div>
+    <a href="/"><span class="ic">🏠</span>홈</a>
+    <a href="/"><span class="ic">🎹</span>마음 한마디</a>
+    <a href="/journey/"><span class="ic">🗺️</span>여행지도 보기</a>
+    <a href="/l/"><span class="ic">💌</span>편지</a>
+    <a href="/find/"><span class="ic">🔎</span>사랑흐름 여권 찾기</a>
+    <a href="javascript:void(0)" onclick="location.reload()"><span class="ic">↻</span>다시 시작</a>
   </nav>
 <div class="wrap">
 
@@ -292,8 +321,8 @@
   <!-- 액션 버튼 4종 (v5) -->
   <div class="actions">
     <a href="/journey/" id="btn-journey" class="act-btn"><span class="ai">🗺</span>여행 지도 보기</a>
-    <a href="certificate.html" id="btn-cert" class="act-btn"><span class="ai">📘</span>관계 여권 보기</a>
-    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="act-btn" target="_blank" rel="noopener"><span class="ai">✍️</span>편지 쓰기</a>
+    <span class="act-btn disabled"><span class="ai">📘</span>마음 여행여권<small>준비중</small></span>
+    <a href="/l/"><span class="ai">✍️</span>편지 쓰기</a>
     <span class="act-btn disabled"><span class="ai">📖</span>자서전 기록<small>준비중</small></span>
   </div>
 
@@ -312,9 +341,8 @@
   <a href="/" class="tab active"><span class="ti">🏠</span>홈</a>
   <a href="/history.html" class="tab"><span class="ti">🧭</span>여행기록</a>
   <a href="javascript:void(0)" onclick="openNewJourney();return false;" class="tab tab-mid"><span class="ti">＋</span>여행시작</a>
-  <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" class="tab" target="_blank" rel="noopener"><span class="ti">✉️</span>편지</a>
-  <a href="/myinfo.html" class="tab"><span class="ti">👤</span>내정보</a>
-</nav>
+  <a href="/l/"><span class="ti">✉️</span>편지</a>
+  </nav>
 
   <!-- 재조회 JSONP (v7) — ?id=여권번호로 여행지도 GAS doGet 조회 -->
   <script>
@@ -323,8 +351,7 @@
     var id=new URLSearchParams(location.search).get('id');
     if(!id) return; /* id 없으면 데모 화면 유지 */
     id=id.trim().toUpperCase();
-    var bc=document.getElementById('btn-cert'); if(bc) bc.href='certificate.html?id='+encodeURIComponent(id);
-    var bj=document.getElementById('btn-journey'); if(bj && id) bj.href='/journey/?id='+encodeURIComponent(id);
+        var bj=document.getElementById('btn-journey'); if(bj && id) bj.href='/journey/?id='+encodeURIComponent(id);
     var cb='lfcb'+Date.now();
     window[cb]=function(d){
       if(!d||d.status!=='ok'){ alert('해당 여권번호의 결과를 찾을 수 없어요. 번호를 다시 확인해 주세요.'); return; }
@@ -353,7 +380,7 @@
     <div class="nj-en">Your map is safely kept</div>
     <div class="nj-desc">여권 번호로 언제든 지난 여행 기록을<br>다시 펼쳐볼 수 있어요.<br><span class="keep">관계 우주 · 여행지도 · 마음편지</span>까지<br>천천히 둘러보세요.<br><br>혹시 <b>또 다른 소중한 분</b>과<br>새로운 여행을 떠나보고 싶으신가요?</div>
     <button class="nj-look" onclick="closeNewJourney()">🧭 내 여행지도 둘러보기</button>
-    <a class="nj-go" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener">💛 새로운 여행 떠나기</a>
+    <a class="nj-go" href="/showcase.html">💛 새로운 여행 떠나기</a>
   </div>
 </div>
 <script>
@@ -364,11 +391,6 @@ function closeNewJourney(){var m=document.getElementById('njModal');if(m)m.class
 <script>
 function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
 function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
-(function(){var m=location.search.match(/[?&]id=(LF-[A-Za-z0-9]+)/i);if(m){var id=m[1].toUpperCase();
-document.getElementById("lfMineUniverse").href="/universe.html?id="+id;
-document.getElementById("lfMineCert").href="/certificate.html?id="+id;
-document.getElementById("lfMineJourney").href="/journey/?id="+id;
-document.getElementById("lfMineGrp").style.display="block";}})();
 </script>
 </body>
 </html>
