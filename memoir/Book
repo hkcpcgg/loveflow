@@ -1,0 +1,138 @@
+<!-- 사랑흐름 · 자서전 책 memoir/book.html ★v4 · 260714 · [작업 v4] 법정 저작권 삽입 (대표 승인 260714)
+     [출처] 원본 = 자서전책_원본출력물_260708.html (이삿짐 zip · 8,664B)
+     [고침] 표지 하단에 ★「무단복제·상업적이용 금지」 + 영문 경고 삽입. 실측 결과 ★0건이었습니다.
+            대표 원칙 = 모든 출력물에 법정 문구 필수. 본문을 밀지 않도록 표지 맨 아래에만 넣었습니다.
+     [★안 건드림] 이건 ★출력물입니다 — 웹 내비·드로어 없음(마음 증서와 동급. 260708 확정, 되돌리지 말 것).
+            단위는 전부 mm(A4 210mm · 본문 13.5pt≈4.8mm). px 로 바꾸지 마십시오.
+            폰트 축소 금지(여행가방 원칙) — 넘치면 2쪽으로 나눕니다.
+     ═══════════════════════════════════════════════════════════════════ -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 한 편의 기록 (맛보기)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- memoir_book_demo v2 | 260708 | ★대표: 본문 13.5pt로 확대(어르신) · 하단 격식(골드장식+제작문구+육성QR 또렷+사진 점선액자) · 표지 제목 아래로+하단 제작정보. | memoir_book_demo v1 | 260708 | 자서전 「한 편의 기록」 맛보기(표지+유년기+나를키운사람들). 증서 v7 조판 확장: 각 페이지=독립 .sheet(A4 고정)+grid 3층+::before 프레임. 답변→서술체(구술어투 살림)+장별 인용구. 박제=Playwright A4. -->
+<style>
+  :root{--paper:#FFFBF5;--navy:#1E4A76;--navy-deep:#173A5A;--ink:#2A3542;--gold:#D4AF37;--gold-deep:#B8923E;--petal-deep:#D98BA6;--muted:#8A8580;--line:#E7DCC9}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#EDE4D6;font-family:'Noto Serif KR','Noto Serif CJK KR',serif;display:flex;flex-direction:column;align-items:center;gap:8mm;padding:8mm 0}
+  .sheet{position:relative;width:210mm;height:297mm;background:var(--paper);overflow:hidden;display:grid;grid-template-rows:auto 1fr auto;padding:20mm 20mm 16mm}
+  .sheet::before{content:"";position:absolute;inset:9mm;border:0.4mm solid var(--navy);box-shadow:inset 0 0 0 1.2mm var(--paper),inset 0 0 0 1.6mm rgba(212,175,55,.5);pointer-events:none}
+  .z{position:relative;z-index:2}
+
+  /* 표지 */
+  .cover{display:grid;grid-template-rows:0.8fr auto 1.2fr;text-align:center}
+  .cover .brand{font-size:3.4mm;letter-spacing:1mm;color:var(--gold-deep);font-weight:700;align-self:end}
+  .cover .mid{align-self:start;margin-top:14mm}
+  .cover .title{font-size:14mm;color:var(--navy-deep);font-weight:700;letter-spacing:3mm}
+  .cover .rule{width:34mm;height:0.5mm;background:var(--gold);margin:8mm auto}
+  .cover .who{font-size:5mm;color:var(--navy);letter-spacing:.5mm}
+  .cover .ded{font-size:3.4mm;color:var(--gold-deep);font-style:italic;margin-top:10mm}
+  .cover .foot{align-self:end;color:var(--muted);line-height:1.8}
+  .cover .foot .deco2{width:30mm;height:0.4mm;background:var(--gold);margin:0 auto 6mm}
+  .cover .foot .made-title{font-size:3.4mm;color:var(--navy);font-weight:700;letter-spacing:.5mm;margin-bottom:2mm}
+  .cover .foot div{font-size:2.9mm}
+  .cover .foot .madeinfo{font-size:2.5mm;margin-top:5mm;color:var(--muted)}
+  /* [260714] 법정 저작권 — 대표 원칙: 모든 출력물에 필수. 본문을 밀지 않도록 표지 맨 아래에만. */
+  .cover .foot .copyr{font-size:2.1mm;margin-top:3mm;color:var(--muted);line-height:1.5;letter-spacing:0}
+
+  /* 장 헤더 */
+  .ch-hd{text-align:center;padding-bottom:7mm;border-bottom:0.3mm solid var(--line)}
+  .ch-no{font-size:3mm;letter-spacing:2mm;color:var(--gold-deep);font-weight:700}
+  .ch-title{font-size:8mm;color:var(--navy-deep);font-weight:700;margin-top:3mm;letter-spacing:1mm}
+
+  /* 장 본문 */
+  .ch-body{padding:9mm 3mm 4mm;overflow:hidden}
+  .ch-body p{font-size:4.8mm;line-height:1.95;color:var(--ink);margin-bottom:4mm;text-indent:3mm}
+  .ch-body p:first-child{text-indent:0}
+  .ch-body p:first-child::first-letter{font-size:9mm;color:var(--navy);font-weight:700;line-height:1}
+  .quote{margin:8mm 6mm 0;padding:6mm 7mm;background:rgba(217,139,166,.06);border-left:0.6mm solid var(--petal-deep);font-size:4.4mm;line-height:1.9;color:var(--navy-deep);font-style:italic;text-align:center}
+
+  /* 사진 자리 (점선 액자) */
+  .photo{margin:8mm auto 0;width:56mm;height:40mm;border:0.5mm dashed var(--gold-deep);border-radius:1.5mm;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold-deep);gap:2mm}
+  .photo .ico{font-size:8mm;opacity:.6}
+  .photo .cap{font-size:2.6mm;color:var(--muted)}
+  /* 장 푸터 */
+  .ch-ft{padding-top:5mm}
+  .ch-ft .deco{width:30mm;height:0.4mm;background:var(--gold);margin:0 auto 5mm}
+  .ch-ft .row{display:flex;justify-content:space-between;align-items:flex-end;font-size:2.6mm;color:var(--muted)}
+  .ch-ft .made{line-height:1.7}
+  .ch-ft .made b{color:var(--navy);font-weight:500;font-size:2.8mm}
+  .ch-ft .qrbox{text-align:center;color:var(--gold-deep)}
+  .ch-ft .qr{width:14mm;height:14mm;border:0.5mm solid var(--gold-deep);border-radius:2mm;display:flex;align-items:center;justify-content:center;font-size:6mm;margin:0 auto 1mm}
+  .ch-ft .qr-cap{font-size:2.3mm}
+  .ch-ft .pg{font-size:2.8mm;color:var(--muted)}
+
+  @media print{body{background:#fff;padding:0;gap:0}.sheet{box-shadow:none}@page{size:A4;margin:0}}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+  <div class="z cover" style="height:100%">
+    <div class="brand z">LOVE FLOW · 사랑흐름</div>
+    <div class="mid">
+      <div class="title">한 편의 기록</div>
+      <div class="rule"></div>
+      <div class="who">황○○ 선생님의 이야기</div>
+      <div class="ded">당신의 역사를 들어드립니다</div>
+    </div>
+    <div class="foot">
+      <div class="deco2"></div>
+      <div class="made-title">사랑흐름 · LFRI™</div>
+      <div>정성껏 듣고, 한 편의 기록으로 엮었습니다</div>
+      <div class="madeinfo">제작 · 발행 사랑흐름 &nbsp;|&nbsp; 문의 070-4158-7786 &nbsp;|&nbsp; 2026</div>
+      <div class="copyr">&copy; 2026 사랑흐름 &middot; LFRI&trade;. 무단복제 &middot; 상업적이용 금지.<br>Unauthorized use strictly prohibited. Violators subject to civil and criminal penalties.</div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet">
+  <div class="z ch-hd">
+    <div class="ch-no">제 1 장</div>
+    <div class="ch-title">유년기</div>
+  </div>
+  <div class="z ch-body">
+    <p>여름이면, 마당의 감나무 아래가 제일 시원했습니다. 아이들이 다 자라 떠난 뒤에도, 나는 종종 그 나무 아래 앉아 오래도록 그 시절을 떠올리곤 했지요. 그늘 밑으로 스미던 바람과, 매미 소리가 아직도 선합니다.</p>
+    <p>내가 나고 자란 곳은 산과 들이 넉넉한 시골이었습니다. 아침이면 집집마다 밥 짓는 냄새가 골목을 타고 번졌고, 해질녘이면 멀리서 어머니가 내 이름을 부르시던 그 목소리가 온 동네에 울렸습니다. 그 소리를 들으면, 아무리 신나게 놀다가도 발걸음이 저절로 집을 향했지요.</p>
+    <p>그 시절 내 곁엔 언제나 어머니가 계셨습니다. 손이 트도록 일하시면서도, 나를 바라보실 때만은 늘 웃고 계셨지요. 배가 고프다 하면 없는 살림에도 어떻게든 한 술 더 얹어 주시던 그 손이, 지금도 눈에 밟힙니다.</p>
+    <p>지금도 잊히지 않는 하루가 있습니다. 소나기가 쏟아지던 날, 학교 앞으로 우산을 들고 마중 나오신 어머니의 모습이요. 흠뻑 젖은 어깨로 나를 우산 안에 꼭 품어 주시던 그 온기를, 나는 평생 잊지 못합니다.</p>
+    <div class="quote">"어머니가 부르시던 그 목소리가,<br>지금도 나를 집으로 부릅니다."</div>
+    <div class="photo"><div class="ico">&#128247;</div><div class="cap">그 시절의 사진을 이곳에 담습니다</div></div>
+  </div>
+  <div class="z ch-ft">
+    <div class="deco"></div>
+    <div class="row">
+      <div class="made"><b>사랑흐름</b>이 정성껏<br>듣고 엮었습니다</div>
+      <div class="qrbox"><div class="qr">&#9636;</div><div class="qr-cap">그때, 선생님의 목소리</div></div>
+      <div class="pg">· 2 ·</div>
+    </div>
+  </div>
+</div>
+
+<div class="sheet">
+  <div class="z ch-hd">
+    <div class="ch-no">제 2 장</div>
+    <div class="ch-title">나를 키운 사람들</div>
+  </div>
+  <div class="z ch-body">
+    <p>나를 키운 것은 어머니의 손이었습니다. 말수는 적으셨지만, 그 손끝에는 늘 정성이 배어 있었지요. 새벽같이 일어나 아궁이에 불을 지피시고, 식구들 밥을 다 챙기신 뒤에야 당신 몫을 드시던 분이었습니다.</p>
+    <p>어머니는 자주 "사람은 정직해야 한다"고 하셨습니다. 크게 배우지 못한 것이 한이라 하시면서도, 그 말씀만은 평생 내 가슴에 새겨 주셨지요. 살면서 흔들릴 때마다, 나는 그 한마디를 떠올리며 마음을 다잡았습니다.</p>
+    <p>어머니가 계셨기에 나는 반듯하게 자랄 수 있었습니다. 가진 것은 없어도 부끄럽지 않게 살라던 그 가르침이, 오늘의 나를 만들었습니다.</p>
+    <div class="quote">"어머니, 그 말씀 잊지 않고<br>여기까지 잘 걸어왔습니다."</div>
+  </div>
+  <div class="z ch-ft">
+    <div class="deco"></div>
+    <div class="row">
+      <div class="made"><b>사랑흐름</b>이 정성껏<br>듣고 엮었습니다</div>
+      <div class="qrbox"><div class="qr">&#9636;</div><div class="qr-cap">그때, 선생님의 목소리</div></div>
+      <div class="pg">· 3 ·</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
