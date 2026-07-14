@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · apply.html   v14-4 · 260714
+     사랑흐름 · apply.html   v15 · 260714
+     [v15 · 260714 대표 확정] ★번호를 물고 gate 로 — "바로 자동으로 그 번호를 물고 들어와야 서비스가 되는 거지"
+        ①접수 버튼 글자 "마음 여행여권 발급받기" → "입금 정보 접수하기". 눌러도 여권이 안 나왔습니다. 글자가 거짓말을 하고 있었습니다.
+        ②접수증에 주력 버튼 [마음 여행여권 발급받기 →] 신설 → goGate() → /gate.html?ch=&no=&p4=
+           ★ch 는 보이는 글자가 아니라 저장값 "사랑흐름(직접결제)" — 주문대장 B열에 쌓인 기록과 어긋나면 안 됩니다.
+           ★발급까지 대신 눌러주진 않습니다. "구입하신 여행"은 손님이 골라야 합니다(잘못 고르면 틀린 여권이 나감).
+        ③접수증 문구 — "입금이 확인되면 보내드릴게요"(이제 손님이 바로 받으므로 사실과 다름)
+           → "지금 바로 받으실 수 있어요. 못 받으시면 문자로도 보내드릴게요."(문자·카톡 뒷길은 그대로 살림)
+        ④버튼 위계: 발급(딥네이비 채움) > 접수증 저장 · 홈으로(테두리)
+        [절대보존] RECEIPT_GAS·submitApply·SR- 번호 생성(makeOrderNo_)·접수증 저장(saveReceipt)·복사 버튼·수령방법 선택 미변경
      [v14-4 · 260714 대표 지적] ★"같은 기기에서만 이어진다"를 어디에도 안 썼음 → 두 곳에만 명시.
         ①저장하는 순간: "이 기기에서 LFM-XXXXX으로 다시 이어집니다"
         ②못 찾았을 때: "폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다"
@@ -230,7 +239,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 
     <div class="note">접수하시면 사랑흐름 여권번호가 발급됩니다.</div>
     <div class="msg" id="msg"></div>
-    <button class="sub" id="btnApply" onclick="submitApply()">마음 여행여권 발급받기 &rarr;</button>
+    <button class="sub" id="btnApply" onclick="submitApply()">입금 정보 접수하기 &rarr;</button>
   </div>
 
   <!-- 접수증 화면 (대화창 연출) -->
@@ -254,7 +263,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 
       <div class="cline b3">
         <div class="av"></div>
-        <div class="bub">입금이 확인되면 <b id="rcWay">선택하신 방법</b>으로<br>사랑흐름 여권번호를 보내드릴게요.</div>
+        <div class="bub">이 결제번호로 <b>지금 바로</b> 여권을 받으실 수 있어요.<br>못 받으시면 <b id="rcWay">문자</b>로도 보내드릴게요.</div>
       </div>
 
       <div class="cline b4">
@@ -263,7 +272,11 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
       </div>
     </div>
 
-    <button class="sub" onclick="saveReceipt()">접수증 저장하기</button>
+    <!-- [v15] ★번호를 물고 gate 로 — 손님이 번호를 외워 주소를 찾아갈 이유가 없습니다(대표 260714).
+         채널·결제번호·연락처 뒤 4자리 세 칸이 gate 에 자동으로 채워집니다.
+         ★발급 버튼까지 눌러주진 않습니다 — "구입하신 여행"은 손님이 골라야 합니다(잘못 고르면 틀린 여권이 나감). -->
+    <button class="sub" id="btnToGate" onclick="goGate()">마음 여행여권 발급받기 &rarr;</button>
+    <button class="sub2" onclick="saveReceipt()">접수증 저장하기</button>
     <button class="sub2" onclick="goHome()">홈으로 돌아가기</button>
     <div class="rlink"><a onclick="openKko()">입금 확인이 궁금하면 · 카카오 채널로 문의</a></div>
   </div>
@@ -308,6 +321,7 @@ var KAKAO_CH='https://pf.kakao.com/_ExndxfX';
 
 /* ===== 수령방법 선택 → 팝업 ===== */
 var selMethod='', selContact='';
+var lfPhone4='', lfReceiptNo='';   /* [v15] gate 로 물고 갈 값 */
 function pick(m){
   var modal=document.getElementById('modal');
   document.getElementById('mtitle').textContent=(m==='sms')?'문자로 받기':'카톡으로 받기';
@@ -343,6 +357,7 @@ function submitApply(){
   if(!selMethod){setMsg('여권 받으실 방법을 선택해 주세요.',true);return;}
   var phone4=(document.getElementById('phone4In').value||'').replace(/[^0-9]/g,'');
   if(phone4.length!==4){setMsg('연락처 뒤 4자리를 입력해 주세요.',true);return;}
+  lfPhone4 = phone4;   /* [v15] gate 로 물고 갈 값 */
   var btn=document.getElementById('btnApply');
   btn.disabled=true;setMsg('접수 중입니다…',false);
   var cb='lfApplyCb_'+Date.now();
@@ -395,7 +410,16 @@ function localReceipt(p4){
   var tail=(p4&&p4.length===4)?p4:('000'+Math.floor(Math.random()*10000)).slice(-4);
   return 'SR-'+mm+dd+'-'+tail;
 }
+function goGate(){
+  /* [v15] 채널 값은 주문대장 B열에 쌓인 기록과 같아야 합니다 — 보이는 글자가 아니라 ★저장값으로 넘깁니다. */
+  var u = '/gate.html?ch=' + encodeURIComponent('사랑흐름(직접결제)')
+        + '&no=' + encodeURIComponent(lfReceiptNo || document.getElementById('rcNo').textContent)
+        + '&p4=' + encodeURIComponent(lfPhone4);
+  location.href = u;
+}
+
 function showReceipt(no){
+  lfReceiptNo = no;
   document.getElementById('rcNo').textContent=no;
   document.getElementById('rcWay').textContent=(selMethod==='sms')?'문자':'카카오 채널';
   document.getElementById('applyView').classList.add('hide');
