@@ -1,4 +1,6 @@
-<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v10 · 260714 · [작업 v10] ★서버 저장선 신설 — 답변이 시트와 드라이브에 남습니다
+<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v10-1 · 260714 · [작업 v10-1] ★저장 방식 fetch POST → JSONP(GET) 교체 — 답변이 시트와 드라이브에 남습니다
+     [★v10-1 왜] fetch POST 는 GAS 응답을 못 읽습니다(리다이렉트+CORS) → 매번 catch 로 빠져 시트에 안 감. 주소창(GET)은 됐던 이유.
+            → JSONP(script 태그 GET) 로 교체. gate·편지와 같은 방식입니다. 이제 장이 끝나면 시트에 줄이 쌓입니다.
      [왜] 이사회 5인 만장일치 1순위: "임시저장만 하는 현 상태는 서비스가 아니다." 지금까지 답변은 브라우저에만 담겨, 폰을 바꾸면 사라졌습니다.
      [★화면 무손] 마크업·CSS·BOOK 배열(7장 24문항)·기존 함수 — ★한 글자도 안 건드렸습니다. 대표 지시 "이 페이지는 마음에 들어, 손대지 마요".
             nextQ 를 ★감싸기만 했습니다. 원래 nextQ 가 먼저 다 하고, 장이 끝났을 때만 서버로 보냅니다.
@@ -440,18 +442,40 @@ function queue_(job){
 }
 
 function send_(job, onOk){
-  /* text/plain 이라야 브라우저가 사전요청 없이 바로 보냅니다(GAS 는 그대로 읽습니다). */
-  fetch(MEMOIR_GAS, {
-    method:'POST',
-    headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body: JSON.stringify(job)
-  })
-  .then(function(r){ return r.json(); })
-  .then(function(d){
+  /* ★[v10-1] fetch POST 는 GAS 리다이렉트+CORS 로 응답을 못 읽습니다(catch 로 빠져 시트에 안 감).
+     GAS 는 script 태그 요청(JSONP)엔 CORS 가 없습니다. gate·편지와 같은 방식으로 통일합니다.
+     답이 길어 주소가 넘칠 수 있어, 답변만 압축해 실어 보냅니다. */
+  var cbName='mcb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+  var done=false;
+  var t=document.createElement('script');
+
+  window[cbName]=function(d){
+    done=true;
+    try{ delete window[cbName]; }catch(e){ window[cbName]=undefined; }
+    if(t.parentNode){ t.parentNode.removeChild(t); }
     if(d && d.status==='ok'){ if(onOk) onOk(d); }
     else { queue_(job); }
-  })
-  .catch(function(){ queue_(job); });   /* 못 보내도 버리지 않습니다 */
+  };
+
+  var q = MEMOIR_GAS
+    + '?action=saveChapter'
+    + '&callback=' + cbName
+    + '&passport='    + encodeURIComponent(job.passport)
+    + '&chapter='     + encodeURIComponent(job.chapter)
+    + '&name='        + encodeURIComponent(job.name || '')
+    + '&source='      + encodeURIComponent(job.source || '')
+    + '&inputUser='   + encodeURIComponent(job.inputUser || '')
+    + '&inputMethod=' + encodeURIComponent(job.inputMethod || '')
+    + '&answers='     + encodeURIComponent(JSON.stringify(job.answers || []));
+
+  t.src=q;
+  t.onerror=function(){ if(!done){ queue_(job); if(t.parentNode){t.parentNode.removeChild(t);} } };
+  document.body.appendChild(t);
+
+  /* 12초 안에 응답 없으면 큐로 — 버리지 않습니다 */
+  setTimeout(function(){
+    if(!done){ queue_(job); try{ delete window[cbName]; }catch(e){} if(t.parentNode){t.parentNode.removeChild(t);} }
+  }, 12000);
 }
 
 /* 못 보낸 게 쌓여 있으면 다음에 들어오실 때 조용히 다시 보냅니다. */
