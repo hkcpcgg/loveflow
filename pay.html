@@ -1,8 +1,20 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · pay.html   v14-4 · 260714
+     사랑흐름 · pay.html   v14-5 · 260714
+     [v14-5 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
+        [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
+               상품구분은 주문대장 J열(MAP / MAP+LETTER)이 원본. issuePassport v4가 이미 LF-만 발급 중.
+               GPT 이사: "식별자(PK)에 비즈니스 의미를 넣은 설계가 화근."
+        [사고 경위] 260710에 LFM-/LFL-로 바꿨다가 읽는 코드 8곳이 죽었음.
+               'LFL-GAKU5'.indexOf('LF-') → -1  (LF 다음이 L이라 "LF-"라는 글자가 자체가 없음)
+               → 진단완료·도장·이메일·관계·별명이 7/10~13 사흘간 하나도 안 찍힘. 여권 찾기도 죽었음.
+        [고침] 손님이 보는 입력칸 예시 "LFM-XXXXX" → "LF-XXXXX". 손님은 LF- 번호를 받는데 예시가 LFM-이었음.
+        ★★[절대 손대지 말 것] 잠금·형식확인 정규식 /LF[ML]?-/ 는 그대로 둡니다.
+               260710~13 사이 실제로 나간 LFL-/LFM- 여권 손님이 있습니다. 지우면 그 손님이 튕깁니다.
+               ★발급은 LF- 만, 받아주는 건 옛 LFM-/LFL- 까지 전부. 이 비대칭이 정답입니다.
+        ★[되살리지 말 것] 260707 설계서에 LFM-/LFL- 가 적혀 있습니다. 폐기된 문서입니다.
      [v14-4 · 260714 대표 지적] ★"같은 기기에서만 이어진다"를 어디에도 안 썼음 → 두 곳에만 명시.
-        ①저장하는 순간: "이 기기에서 LFM-XXXXX으로 다시 이어집니다"
+        ①저장하는 순간: "이 기기에서 LF-XXXXX으로 다시 이어집니다"
         ②못 찾았을 때: "폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다"
         ③시트 열자마자 상시 경고는 안 씀 — 아무 문제 없는 사람에게 먼저 들이밀면 못 미더운 서비스로 보임.
      [v14-3 · 260714 대표 확정] ★"지난 여행 이어가기" 주인 버튼 신설 — 전 화면 공용 부품
@@ -762,7 +774,7 @@ function lfPaintResume(){
     + '<div class="pan">'
     + '<div class="ttl">지난 여행 이어가기</div>'
     + '<div class="sub">여권번호를 넣어주세요</div>'
-    + '<input id="lfResIn" placeholder="LFM-XXXXX" autocomplete="off" oninput="lfResCheck()">'
+    + '<input id="lfResIn" placeholder="LF-XXXXX" autocomplete="off" oninput="lfResCheck()">'
     + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
     + '<p id="lfResMsg"></p>'
     + '<div class="fb"><button class="go" id="lfResGo">이어서 여행하기</button>'
