@@ -1,6 +1,40 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · apply.html   v15-1 · 260714
+     사랑흐름 · apply.html   v16 · 260714
+
+     ════════════════════════════════════════════════════════════════
+     [v16 · 260714] ★★입금 검문소와 한 몸 — 기다림 화면 (대표 승인 후 작업)
+
+        [무엇이 바뀌었나] issuePassport v5 에 ★검문소가 섰습니다.
+               계좌이체(사랑흐름(직접결제)) 손님은 이제 ★입금이 확인돼야 여권이 나갑니다.
+               apply 에서 받은 SR- 번호를 gate 에 넣어도 입금 전이면 거부됩니다.
+               → 그래서 손님이 갈 곳(기다림 화면)을 여기에 만듭니다. gate 로 안 보냅니다.
+
+        [고친 것 · 셋]
+         (1) 접수증 문구 — "지금 바로 여권을 받으실 수 있어요"는 ★거짓말이 됐습니다.
+             입금 확인 전엔 못 받습니다. 문구를 사실대로 바꿨습니다.
+         (2) [마음 여권 발급받기 →](goGate) → ★[여권 나왔는지 확인하기](checkPassport).
+             게시판 GAS 의 applyStatus 를 부릅니다(★이미 있는 액션. 본인 확인 포함).
+               waiting → 아직 입금 확인 전   issued → 여권번호 + 여행 시작 버튼
+             ※applyStatus 는 접수번호 + 연락처 뒤 4자리가 ★둘 다 맞아야 여권을 줍니다.
+               남의 SR- 번호를 넣어도 안 나갑니다.
+         (3) ★★유령 번호 제거 — localReceipt() 폐기.
+             v15 는 GAS 호출이 실패하면 ★브라우저가 혼자 SR- 번호를 지어내 보여줬습니다.
+             시트엔 그 줄이 없습니다. 손님은 접수됐다고 믿는데 관리 화면엔 안 뜹니다.
+             지금까지는 gate 가 아무거나 받아줘서 여권이 나갔지만,
+             ★검문소가 서면 이 손님은 영영 못 들어옵니다.
+             → 지어내지 않습니다. "접수가 안 됐어요. 다시 눌러 주세요."
+
+        [더한 것] ★재방문 경로 — 접수증 화면은 새로고침하면 사라집니다.
+               접수번호·뒤4를 브라우저에 저장해 두고(lfSaveApply), 다시 들어오면
+               「이미 접수하셨나요 · 여권 확인하기」로 바로 잇습니다.
+               번호를 잃어버린 손님은 접수번호 + 뒤4를 직접 넣어도 됩니다.
+
+        [절대보존] RECEIPT_GAS · submitApply 의 GAS 파라미터 · 접수증 저장(saveReceipt)
+               · 결제번호 복사 · 카카오 채널 문의 · lf-way(여행길) · 메뉴 · 푸터 — 무손
+        [★손대지 말 것] 채널 저장값 '사랑흐름(직접결제)' — 주문대장 B열 기록과 어긋납니다.
+     ════════════════════════════════════════════════════════════════
+
      [v15-1 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
                상품구분은 주문대장 J열(MAP / MAP+LETTER)이 원본. issuePassport v4가 이미 LF-만 발급 중.
@@ -103,7 +137,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#FFFBF5;--navy:#1E4A76;--gold:#D4AF37;--gold-soft:#E6CE86;--line:#EEE9DF;--sub:#8B8371;--kakao:#FEE500}
+:root{--bg:#FFFBF5;--navy:#1E4A76;--gold:#D4AF37;--gold-soft:#E6CE86;--line:#EEE9DF;--sub:#8B8371}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;color:#2E3A46;min-height:100vh;display:flex;justify-content:center;padding:20px 12px}
 .phone{position:relative;width:100%;max-width:412px;background:var(--bg);border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(46,58,70,.18);display:flex;flex-direction:column;min-height:86vh}
@@ -126,6 +160,8 @@ body{background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemF
 .aprog{display:flex;align-items:center;justify-content:center;gap:6px;padding:10px 0;font-size:10px;color:#C0B9A9;font-weight:600}
 .aprog .on{background:#EAF0F5;color:var(--navy);padding:3px 9px;border-radius:20px;font-weight:700}
 .wrap{padding:6px 22px 22px;flex:1}
+#applyView,#receiptView{padding-bottom:0}
+#receiptView{flex:none}   /* 접수증은 늘리지 않습니다 — 아래 버튼과 벌어집니다 */
 .atitle{text-align:center;font-size:20px;font-weight:800;color:var(--navy);margin:10px 0 3px}
 .aen{text-align:center;font-size:9px;letter-spacing:.22em;color:#C6A94A;font-weight:700;margin-bottom:18px}
 .acct{background:#FFFDF6;border:2px solid var(--gold);border-radius:14px;padding:17px 14px 15px;text-align:center;box-shadow:0 6px 18px rgba(212,175,55,.14)}
@@ -137,20 +173,20 @@ body{background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemF
 .inp:focus{border-color:var(--navy)}
 .inp::placeholder{color:#B9AE93;font-weight:500}
 select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23C6A94A' stroke-width='2.5'%3e%3cpath d='M6 9l6 6 6-6'/%3e%3c/svg%3e");background-repeat:no-repeat;background-position:right 14px center;background-size:16px;cursor:pointer}
-.orow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-.opt{display:flex;align-items:center;justify-content:center;gap:6px;padding:15px 10px;border-radius:12px;border:1.5px solid var(--gold-soft);font-size:13.5px;font-weight:700;color:var(--navy);background:#FFFDF8;cursor:pointer}
-.opt .ar{color:#C6A94A;font-size:14px}
-.opt.sel{border-color:var(--navy);background:#F3F7FB}
 .opt.sel .ar{color:var(--navy)}
-.picked{font-size:12px;color:var(--sub);text-align:center;margin-top:10px;min-height:16px}
 .note{font-size:12px;color:var(--sub);margin-top:16px;text-align:center;line-height:1.6}
 .sub{width:100%;margin-top:14px;padding:16px;background:var(--navy);color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer}
 .sub:disabled{background:#9AA8B5}
 .sub:active{transform:scale(.99)}
-.msg{font-size:12.5px;text-align:center;margin-top:10px;min-height:16px;color:var(--navy)}
+.msg{font-size:12.5px;text-align:center;margin-top:10px;color:var(--navy)}
+.msg:empty{margin:0}
 .msg.err{color:#C0392B}
 /* 접수증 */
 .hide{display:none}
+
+/* ===== [v16] 검문소 대응 — 버튼·입력칸은 이 화면의 확정 표준(.sub·.sub2·.inp·.lbl)을 그대로 씁니다.
+   새 버튼 스타일을 만들지 않습니다. 아래 둘은 '담는 상자'일 뿐입니다. ===== */
+.ppbox{background:#F4FBF7;border:1.5px solid #1D9E75;border-radius:14px;padding:18px 16px 20px;margin:14px 0;text-align:center}
 .rcard{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:28px 22px;text-align:center;box-shadow:0 8px 26px rgba(30,74,118,.07);margin-top:10px}
 .rc-l{font-size:10px;letter-spacing:.2em;color:#C6A94A;font-weight:800}
 .rc-t{font-size:20px;font-weight:900;color:var(--navy);margin:6px 0 16px}
@@ -159,16 +195,18 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 .rc-p{font-size:13px;color:#4A5766;line-height:1.7}
 .rc-p b{color:var(--navy)}
 .chat{background:#FFFBF5;border:1px solid var(--line);border-radius:18px;padding:18px 16px 20px}
-.cline{display:flex;gap:8px;align-items:flex-start;margin-top:12px;opacity:0;transform:translateY(8px);animation:cin .42s ease forwards}
-.cline.b1{animation-delay:.05s}.cline.b2{animation-delay:.45s}.cline.b3{animation-delay:.9s}.cline.b4{animation-delay:1.3s}
-@keyframes cin{to{opacity:1;transform:translateY(0)}}
-.av{width:30px;height:30px;border-radius:9px;flex-shrink:0;overflow:hidden;background:transparent}
-.av img{width:100%;height:100%;object-fit:contain}
-.bub{background:#fff;border:1px solid var(--line);border-radius:4px 14px 14px 14px;padding:12px 14px;font-size:13.5px;color:#4A5766;line-height:1.65;max-width:100%}
-.bub b{color:var(--navy)}
-.bub.card{border-color:var(--gold-soft);background:#FFFDF6;text-align:center;width:100%}
-.bub.soft{background:#F7F4EC;color:#6E6858;font-size:12.5px}
-.cpno{margin-top:10px;padding:9px 18px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:20px;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer}
+.rc-card{border:1.5px solid var(--gold);background:#FFFDF6;border-radius:16px;padding:20px 16px;text-align:center;margin-top:14px}
+.pmodal{position:fixed;inset:0;background:rgba(30,40,50,.45);display:none;align-items:center;justify-content:center;padding:22px;z-index:60}
+.pmodal.on{display:flex}
+.psheet{width:100%;max-width:340px;background:#fff;border-radius:20px;padding:26px 20px 18px;text-align:center}
+.psheet .pt{font-size:17px;font-weight:800;color:var(--navy);word-break:keep-all}
+.psheet .ps{font-size:12.5px;color:#8B8371;margin-top:8px;word-break:keep-all}
+.psheet .pl{font-size:10px;letter-spacing:.14em;color:#C6A94A;font-weight:800}
+.psheet .pno{font-size:26px;font-weight:900;color:var(--navy);font-family:'Courier New',monospace;letter-spacing:.04em;margin:6px 0 16px}
+.psheet .pask{font-size:11.5px;color:#A79E8C;margin-top:16px}
+.psheet .pask a{color:#8B8371;text-decoration:none}
+.pclose{margin-top:12px;background:none;border:none;font-family:inherit;font-size:12px;color:#A79E8C;cursor:pointer}
+.cpno{margin-top:14px;padding:12px 26px;border:none;background:var(--navy);color:#fff;border-radius:22px;font-family:'Noto Sans KR',sans-serif;font-size:13.5px;font-weight:800;cursor:pointer}
 .cpno:active{transform:scale(.98)}
 .sub2{width:100%;margin-top:10px;padding:15px;background:#fff;color:var(--navy);border:1.5px solid var(--navy);border-radius:13px;font-family:'Noto Sans KR',sans-serif;font-size:15px;font-weight:700;cursor:pointer}
 .sub2:active{transform:scale(.99)}
@@ -176,14 +214,6 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 .rlink a{font-size:12.5px;color:var(--sub);text-decoration:underline;cursor:pointer}
 .savebox{background:#FBF5EA;border:1px dashed #D9C58B;border-radius:12px;padding:14px 16px;margin-top:18px;font-size:12px;color:var(--sub);line-height:1.75;text-align:center}
 /* 팝업 */
-.modal{position:absolute;inset:0;background:rgba(30,48,80,.38);display:none;align-items:flex-end;z-index:90}
-.modal.on{display:flex}
-.msheet{width:100%;background:#fff;border-radius:20px 20px 0 0;padding:22px 22px 24px;box-shadow:0 -8px 30px rgba(0,0,0,.18)}
-.mtitle{font-size:15px;font-weight:800;color:var(--navy);margin-bottom:13px;text-align:center}
-.mbtn{width:100%;margin-top:14px;padding:15px;border:none;border-radius:12px;font-weight:800;font-size:14px;font-family:inherit;cursor:pointer}
-.m-ok{background:var(--navy);color:#fff}
-.m-kko{background:var(--kakao);color:#3B2B14}
-.mhint{font-size:12.5px;color:var(--sub);text-align:center;line-height:1.7}
 .legal{padding:16px 18px 18px;text-align:center;border-top:1px solid var(--line);background:var(--bg)}
 .flinks{font-size:11px;color:#9a927f}
 .flinks a{color:#9a927f;text-decoration:none;margin:0 4px;cursor:pointer}
@@ -242,16 +272,13 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
     <div class="lbl">연락처 뒤 4자리 · 확인용</div>
     <input class="inp" id="phone4In" placeholder="예: 3565" inputmode="numeric" maxlength="4" autocomplete="off" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
 
-    <div class="lbl">여권 받으실 방법</div>
-    <div class="orow">
-      <div class="opt" id="optSms" onclick="pick('sms')">문자로 받기 <span class="ar">&rarr;</span></div>
-      <div class="opt" id="optKko" onclick="pick('kko')">카톡으로 받기 <span class="ar">&rarr;</span></div>
-    </div>
-    <div class="picked" id="picked"></div>
 
-    <div class="note">접수하시면 사랑흐름 여권번호가 발급됩니다.</div>
     <div class="msg" id="msg"></div>
     <button class="sub" id="btnApply" onclick="submitApply()">입금 정보 접수하기 &rarr;</button>
+
+    <!-- [v16] ★표준 버튼 — '사랑흐름 여권 찾기'(/find/). find 가 이미 SR- 번호로 여권을 찾아줍니다.
+         ★제가 여기에 조회 입력폼을 다시 만들었던 것은 find 의 재발명이었습니다. 삭제했습니다. -->
+    <button class="sub2" onclick="lfGo('find')">사랑흐름 여권 찾기</button>
   </div>
 
   <!-- 접수증 화면 (대화창 연출) -->
@@ -259,38 +286,16 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
     <div class="chat" id="rcCap">
       <div class="rc-l">접수 완료 · RECEIVED</div>
 
-      <div class="cline b1">
-        <div class="av"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""></div>
-        <div class="bub">보내주신 마음이 안전하게 도착했어요.</div>
+      <div class="rc-card">
+        <div class="rc-nl">결제번호</div>
+        <div class="rc-no" id="rcNo">SR-0000-0000</div>
+        <button class="cpno" onclick="copyNo()">결제번호 복사</button>
       </div>
 
-      <div class="cline b2">
-        <div class="av"></div>
-        <div class="bub card">
-          <div class="rc-nl">결제번호</div>
-          <div class="rc-no" id="rcNo">SR-0000-0000</div>
-          <button class="cpno" onclick="copyNo()">결제번호 복사</button>
-        </div>
-      </div>
-
-      <div class="cline b3">
-        <div class="av"></div>
-        <div class="bub">이 결제번호로 <b>지금 바로</b> 여권을 받으실 수 있어요.<br>못 받으시면 <b id="rcWay">문자</b>로도 보내드릴게요.</div>
-      </div>
-
-      <div class="cline b4">
-        <div class="av"></div>
-        <div class="bub soft">이 결제번호로 접수를 확인해 드릴 수 있어요.<br>아래 버튼으로 저장해 두세요.</div>
-      </div>
     </div>
 
-    <!-- [v15] ★번호를 물고 gate 로 — 손님이 번호를 외워 주소를 찾아갈 이유가 없습니다(대표 260714).
-         채널·결제번호·연락처 뒤 4자리 세 칸이 gate 에 자동으로 채워집니다.
-         ★발급 버튼까지 눌러주진 않습니다 — "구입하신 여행"은 손님이 골라야 합니다(잘못 고르면 틀린 여권이 나감). -->
-    <button class="sub" id="btnToGate" onclick="goGate()">마음 여행여권 발급받기 &rarr;</button>
-    <button class="sub2" onclick="saveReceipt()">접수증 저장하기</button>
-    <button class="sub2" onclick="goHome()">홈으로 돌아가기</button>
-    <div class="rlink"><a onclick="openKko()">입금 확인이 궁금하면 · 카카오 채널로 문의</a></div>
+    <button class="sub" id="btnSave" onclick="saveReceipt()">접수증 저장하기</button>
+    <button class="sub2" id="btnCheck" onclick="checkPassport()">사랑흐름 여권 찾기</button>
   </div>
 
   <div class="legal">
@@ -298,19 +303,23 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
     <div class="warn">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지. Unauthorized use strictly prohibited. Violators subject to civil and criminal penalties.</div>
   </div>
 
-  <!-- 수령방법 팝업 -->
-  <div class="modal" id="modal">
-    <div class="msheet">
-      <div class="mtitle" id="mtitle">문자로 받기</div>
-      <div id="mSms">
-        <input class="inp" id="phoneIn" placeholder="숫자만 입력 (예: 01012345678)" inputmode="numeric" maxlength="11" oninput="this.value=this.value.replace(/[^0-9]/g,'')">
-        <div class="mhint" style="margin-top:8px">‘-’ 없이 숫자만 눌러주세요.</div>
-        <button class="mbtn m-ok" onclick="confirmSms()">이 번호로 받기</button>
+  <!-- 여권 팝업 — 「사랑흐름 여권 찾기」를 눌렀을 때만 뜹니다.
+       ★밖에는 아무 안내도 두지 않습니다. 돈 낸 손님이 '확인'이라는 말을 계속 볼 이유가 없습니다. -->
+  <div class="pmodal" id="pmodal" onclick="if(event.target===this)closePp()">
+    <div class="psheet">
+      <div id="ppWait">
+        <div class="pt">여권을 준비하고 있습니다</div>
+        <div class="ps">이 결제번호로 다시 오시면 됩니다.</div>
       </div>
-      <div id="mKko" style="display:none">
-        <div class="mhint">카카오 채널 '사랑흐름'을 추가하고<br>결제번호만 보내주시면 됩니다.</div>
-        <button class="mbtn m-kko" onclick="confirmKko()">카카오 채널 열기</button>
+
+      <div id="ppDone" class="hide">
+        <div class="pl">마음 여행여권</div>
+        <div class="pno" id="ppNoOut">LF-XXXXX</div>
+        <button class="sub" onclick="goJourneyWithPp()">여행 시작하기 &rarr;</button>
       </div>
+
+      <div class="pask" id="ppAsk">문의 <a href="tel:07041587786"><b>070-4158-7786</b></a></div>
+      <button class="pclose" onclick="closePp()">닫기</button>
     </div>
   </div>
 
@@ -329,36 +338,9 @@ function toast(t){var el=document.getElementById('toast');el.textContent=t;el.cl
 
 /* ===== 접수 GAS (기존 유지) ===== */
 var RECEIPT_GAS='https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec';
-var KAKAO_CH='https://pf.kakao.com/_ExndxfX';
 
 /* ===== 수령방법 선택 → 팝업 ===== */
-var selMethod='', selContact='';
-var lfPhone4='', lfReceiptNo='';   /* [v15] gate 로 물고 갈 값 */
-function pick(m){
-  var modal=document.getElementById('modal');
-  document.getElementById('mtitle').textContent=(m==='sms')?'문자로 받기':'카톡으로 받기';
-  document.getElementById('mSms').style.display=(m==='sms')?'block':'none';
-  document.getElementById('mKko').style.display=(m==='sms')?'none':'block';
-  modal.classList.add('on');
-}
-document.getElementById('modal').addEventListener('click',function(e){if(e.target===this)this.classList.remove('on');});
-function markOpt(m){
-  document.getElementById('optSms').classList.toggle('sel',m==='sms');
-  document.getElementById('optKko').classList.toggle('sel',m==='kko');
-}
-function confirmSms(){
-  var p=(document.getElementById('phoneIn').value||'').replace(/[^0-9]/g,'');
-  if(p.length<10){toast('전화번호를 정확히 입력해 주세요.');return;}
-  selMethod='sms';selContact=p;markOpt('sms');
-  document.getElementById('picked').textContent='문자로 받기 · '+p;
-  document.getElementById('modal').classList.remove('on');
-}
-function confirmKko(){
-  selMethod='kko';selContact='kakao';markOpt('kko');
-  document.getElementById('picked').textContent='카톡으로 받기 · 채널 문의';
-  document.getElementById('modal').classList.remove('on');
-  window.open(KAKAO_CH,'_blank');
-}
+var lfPhone4='', lfReceiptNo='', lfIssuedPp='';   /* [v16] 접수번호·뒤4·발급된 여권 */
 
 /* ===== 접수 제출 (RECEIPT_GAS 유지 · method/contact 추가) ===== */
 function submitApply(){
@@ -366,28 +348,44 @@ function submitApply(){
   var payer=(document.getElementById('payer').value||'').trim();
   if(!bank){setMsg('입금하신 은행을 선택해 주세요.',true);return;}
   if(!payer){setMsg('입금자명을 입력해 주세요.',true);return;}
-  if(!selMethod){setMsg('여권 받으실 방법을 선택해 주세요.',true);return;}
   var phone4=(document.getElementById('phone4In').value||'').replace(/[^0-9]/g,'');
   if(phone4.length!==4){setMsg('연락처 뒤 4자리를 입력해 주세요.',true);return;}
-  lfPhone4 = phone4;   /* [v15] gate 로 물고 갈 값 */
+  lfPhone4 = phone4;
   var btn=document.getElementById('btnApply');
   btn.disabled=true;setMsg('접수 중입니다…',false);
   var cb='lfApplyCb_'+Date.now();
-  window[cb]=function(res){
+
+  /* [v16] ★번호를 지어내지 않습니다.
+     시트에 안 들어간 접수는 ★접수가 아닙니다. 관리 화면에도 안 뜨고, 검문소도 못 알아봅니다.
+     "됐다"고 거짓말하는 것보다 "안 됐다"고 말하는 편이 손님에게 낫습니다. */
+  var done=false;
+  var fail=function(){
+    if(done){return;} done=true;
     try{delete window[cb];}catch(e){window[cb]=undefined;}
-    var no=(res&&res.receiptNo)?res.receiptNo:localReceipt(phone4);
-    showReceipt(no);
+    btn.disabled=false;
+    setMsg('접수가 되지 않았어요. 잠시 후 다시 눌러 주세요.',true);
   };
+
+  window[cb]=function(res){
+    if(done){return;} done=true;
+    try{delete window[cb];}catch(e){window[cb]=undefined;}
+    if(res && res.status==='ok' && res.receiptNo){
+      showReceipt(res.receiptNo);
+    }else{
+      btn.disabled=false;
+      setMsg((res&&res.msg)?res.msg:'접수가 되지 않았어요. 잠시 후 다시 눌러 주세요.',true);
+    }
+  };
+
   var url=RECEIPT_GAS+'?action=apply'
     +'&bank='+encodeURIComponent(bank)
     +'&payer='+encodeURIComponent(payer)
     +'&phone4='+encodeURIComponent(phone4)
-    +'&method='+encodeURIComponent(selMethod)
-    +'&contact='+encodeURIComponent(selContact)
     +'&callback='+cb;
   var s=document.createElement('script');
   s.src=url;
-  s.onerror=function(){try{delete window[cb];}catch(e){}showReceipt(localReceipt(phone4));};
+  s.onerror=fail;
+  setTimeout(fail,15000);   /* 응답이 영영 안 오면 실패로 봅니다 */
   document.head.appendChild(s);
 }
 function copyNo(){var t=document.getElementById('rcNo').textContent;
@@ -396,7 +394,6 @@ function copyNo(){var t=document.getElementById('rcNo').textContent;
 function fbCopy(t){var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();
   try{document.execCommand('copy');toast('결제번호를 복사했어요');}catch(e){toast('복사가 안 되면 길게 눌러 복사해 주세요');}
   document.body.removeChild(a);}
-function openKko(){window.open(KAKAO_CH,'_blank');}
 function saveReceipt(){
   var el=document.getElementById('rcCap');
   if(window.html2canvas){ doCap(el); return; }
@@ -417,23 +414,119 @@ function doCap(el){
     toast('접수증을 저장했어요');
   }).catch(function(){toast('저장이 어려우면 결제번호를 복사해 두세요');});
 }
-function localReceipt(p4){
-  var d=new Date();var mm=('0'+(d.getMonth()+1)).slice(-2);var dd=('0'+d.getDate()).slice(-2);
-  var tail=(p4&&p4.length===4)?p4:('000'+Math.floor(Math.random()*10000)).slice(-4);
-  return 'SR-'+mm+dd+'-'+tail;
+/* ═══════════════════════════════════════════════════════════════
+   [v16] ★여권 확인 — 게시판 GAS 의 applyStatus 를 부릅니다.
+     ★접수번호 + 연락처 뒤 4자리가 둘 다 맞아야 여권번호를 줍니다.
+      남의 SR- 번호를 넣어도 안 나갑니다(GAS 가 있는지 없는지도 안 알려줌).
+     ※localReceipt() 는 v16 에서 ★폐기했습니다 — 유령 번호를 만들던 함수입니다.
+   ═══════════════════════════════════════════════════════════════ */
+
+var LF_APPLY_KEY = 'lf_apply';   /* 브라우저에 남기는 접수 흔적 (접수번호 + 뒤4) */
+
+function lfSaveApply(no, p4){
+  try{ localStorage.setItem(LF_APPLY_KEY, JSON.stringify({ no:no, p4:p4 })); }catch(e){}
 }
-function goGate(){
-  /* [v15] 채널 값은 주문대장 B열에 쌓인 기록과 같아야 합니다 — 보이는 글자가 아니라 ★저장값으로 넘깁니다. */
-  var u = '/gate.html?ch=' + encodeURIComponent('사랑흐름(직접결제)')
-        + '&no=' + encodeURIComponent(lfReceiptNo || document.getElementById('rcNo').textContent)
-        + '&p4=' + encodeURIComponent(lfPhone4);
-  location.href = u;
+function lfLoadApply(){
+  try{ return JSON.parse(localStorage.getItem(LF_APPLY_KEY) || 'null'); }catch(e){ return null; }
+}
+
+/* 실제 조회 — 어디서 부르든 여기로 모입니다 */
+function askStatus(no, p4, onMsg, onIssued){
+  if(!no){ onMsg('결제번호를 넣어 주세요.', true); return; }
+  if(!/^[0-9]{4}$/.test(p4||'')){ onMsg('연락처 뒤 4자리를 넣어 주세요.', true); return; }
+
+  var cb='lfStCb_'+Date.now();
+  var done=false;
+  var fail=function(){
+    if(done){return;} done=true;
+    try{delete window[cb];}catch(e){window[cb]=undefined;}
+    onMsg('지금 확인이 어려워요. 잠시 후 다시 눌러 주세요.', true);
+  };
+
+  window[cb]=function(res){
+    if(done){return;} done=true;
+    try{delete window[cb];}catch(e){window[cb]=undefined;}
+
+    if(res && res.status==='issued' && res.passport){
+      onIssued(res.passport);
+      return;
+    }
+    if(res && res.status==='waiting'){
+      onMsg('아직 입금 확인 전이에요. 확인되면 여권이 발급됩니다.', false);
+      return;
+    }
+    /* notfound — 접수가 없거나 뒤 4자리가 다릅니다. 둘을 구분해 알려주지 않습니다. */
+    onMsg('접수 내역을 찾지 못했어요. 결제번호와 연락처 뒤 4자리를 확인해 주세요.', true);
+  };
+
+  var url=RECEIPT_GAS+'?action=applyStatus'
+    +'&orderNo='+encodeURIComponent(no)
+    +'&phone4='+encodeURIComponent(p4)
+    +'&callback='+cb;
+  var s=document.createElement('script');
+  s.src=url;
+  s.onerror=fail;
+  setTimeout(fail,15000);
+  document.head.appendChild(s);
+}
+
+/* 접수증 화면의 [여권 나왔는지 확인하기] */
+function checkPassport(){
+  var btn=document.getElementById('btnCheck');
+  btn.disabled=true; btn.textContent='찾는 중입니다…';
+
+  askStatus(lfReceiptNo, lfPhone4,
+    function(t, err){                      /* 아직 안 나왔음 */
+      btn.disabled=false; btn.textContent='사랑흐름 여권 찾기';
+      openPp(null, err ? t : '');
+    },
+    function(pp){                          /* 나왔음 */
+      btn.disabled=false; btn.textContent='사랑흐름 여권 찾기';
+      openPp(pp, '');
+    });
+}
+
+/* 팝업 — 여권이 있으면 여권을, 없으면 「준비하고 있습니다」.
+   ★'확인'이라는 말을 안 씁니다. 우리가 일하고 있다고 말합니다. */
+function openPp(pp, errMsg){
+  var wait=document.getElementById('ppWait');
+  var done=document.getElementById('ppDone');
+  var ask =document.getElementById('ppAsk');
+
+  if(pp){
+    lfIssuedPp = pp;
+    document.getElementById('ppNoOut').textContent = pp;
+    wait.classList.add('hide');
+    done.classList.remove('hide');
+    ask.classList.add('hide');            /* 여권이 나왔으면 문의할 일이 없습니다 */
+  }else{
+    done.classList.add('hide');
+    wait.classList.remove('hide');
+    ask.classList.remove('hide');
+    if(errMsg){
+      wait.querySelector('.pt').textContent = '여권을 찾지 못했어요';
+      wait.querySelector('.ps').textContent = '결제번호와 연락처 뒤 4자리를 다시 확인해 주세요.';
+    }else{
+      wait.querySelector('.pt').textContent = '여권을 준비하고 있습니다';
+      wait.querySelector('.ps').textContent = '이 결제번호로 다시 오시면 됩니다.';
+    }
+  }
+  document.getElementById('pmodal').classList.add('on');
+}
+
+function closePp(){
+  document.getElementById('pmodal').classList.remove('on');
+}
+
+function goJourneyWithPp(){
+  if(!lfIssuedPp){ return; }
+  location.href = '/journey/?id=' + encodeURIComponent(lfIssuedPp);
 }
 
 function showReceipt(no){
   lfReceiptNo = no;
+  lfSaveApply(no, lfPhone4);        /* [v16] 새로고침해도 다시 찾아올 수 있게 */
   document.getElementById('rcNo').textContent=no;
-  document.getElementById('rcWay').textContent=(selMethod==='sms')?'문자':'카카오 채널';
   document.getElementById('applyView').classList.add('hide');
   document.getElementById('receiptView').classList.remove('hide');
   window.scrollTo(0,0);
@@ -711,10 +804,10 @@ function lfPaintResume(){
 
   var css = document.createElement('style');
   css.textContent =
-    '.lfres{max-width:420px;margin:16px auto 0;padding:0 16px;box-sizing:border-box}'
-  + '.lfres .rb{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;'
-  + 'background:#fff;border:1px solid #D9CFC0;border-radius:12px;padding:11px 10px;'
-  + 'font-family:inherit;font-size:12px;font-weight:500;color:#1E4A76;cursor:pointer;transition:.15s}'
+    '.lfres{width:100%;max-width:420px;margin:10px auto 0;padding:0 22px;box-sizing:border-box}'
+  + '.lfres .rb{width:100%;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:7px;'
+  + 'background:#FFFDF7;border:1.5px solid #D4AF37;border-radius:13px;padding:15px 12px;'
+  + 'font-family:inherit;font-size:15px;font-weight:700;color:#1E4A76;cursor:pointer;transition:.15s}'
   + '.lfres .rb:active{transform:scale(.985)}'
   + '.lfres .rb.has{border-color:#F0DCE4;background:#FFF7FA}'
   + '.lfres .rb .tag{font-size:11px;color:#C98BA5;font-weight:700}'
@@ -853,7 +946,7 @@ function lfResGoNow(fresh){
 
 function lfPaintAll(){
   lfPaintWay();
-  lfPaintResume();   /* [260714] 방향버튼 위에 '지난 여행 이어가기' */
+  lfPaintResume();   /* [260714] 여권 있으면 "지난 여행 이어가기" */
 }
 
 if (document.readyState === 'loading') {
