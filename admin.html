@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · admin.html   v3 · 260714   ★신규 (라이브 404 확인)
+
+     [v3 · 260714] ★데스크톱 + 열쇠 안전
+       ① ★주소에서 열쇠를 뺐습니다. /admin.html?k=… 방식 폐기.
+          열쇠는 ★화면 칸에 직접 넣습니다. 한 번 넣으면 이 브라우저가 기억합니다.
+          → 주소창 · 방문기록 · 자동완성 · 화면공유에 열쇠가 안 남습니다.
+          ※열쇠를 바꾸시려면: 게시판 GAS 편집기 → var ADMIN_KEY 한 줄 →
+            저장 → 배포관리 → 연필 → 새 버전 → 배포. (열쇠는 거기 한 군데뿐입니다)
+          ※이 파일 안에는 열쇠가 없습니다. 손님이 소스를 열어도 안 나옵니다.
+       ② ★데스크톱 골격 — 대표 지적 "DB는 폰으로 못 다룬다."
+          좁은 화면(폰)  = 412px 카드. 아침에 엄지로 금액 한 번.
+          넓은 화면(≥900px) = 카드 껍데기를 벗고 ★표로 펼칩니다. 탭은 왼쪽 세로.
+          자바스크립트 · 데이터는 하나입니다. CSS 한 덩이로 갈립니다.
+       ③ [잊지 말 것] 「결과 보기」 탭(서술형 전문이 깔림)은 ★GAS 서빙으로 옮기기 전엔 안 켭니다.
+          지금 이 파일은 GitHub 에 공개된 정적 파일입니다.
+
+     [v2] 이사회 확정(260707~08 관리시스템 설계서 v1) 골격
+       ★3탭: ①결과 보기(잠금) ②입금·발급(켬) ③문의(잠금) — 자리를 지금 심습니다. 다시 안 짭니다.
+       ★3레벨: L1 대표 / L2 조직총무(자기 소속만) / L3 실무(본인 입력분만) → 변수 LEVEL 자리.
+               계정 테이블은 이사회가 「나중(B)」으로 확정.
+       ★동명이인(대표 지적): 금액은 매칭 키가 아닙니다. 줄은 접수번호로 찾고, 눈은 입금자명입니다.
+         같은 입금자명이 둘 이상이면 코랄 경고. 팝업에 은행·뒤4·접수시각까지 띄워 마지막 대조.
+       ★소속 자리(r.org): 주문대장에 소속 칸이 생기면 그대로 뜹니다. 화면 안 고칩니다.
+
+     [★폐기 · 되살리지 말 것] 여권 비표 LFM-/LFL- (260713 이사회 만장일치 폐기).
+       여권번호는 LF- 하나. 상품 구분은 주문대장 J열(MAP / MAP+LETTER).
+
+     [미결 · 다음 작업(issuePassport)에서 심을 칸 — ★소급이 안 되는 것은 이 셋뿐]
+       O 소속(Source) · P 입력자(InputUserID) · Q 입력방식(InputMethod)
+
+     [안 건드림] 네이버 발급 동선 · 주문대장 · 여권 판별(LF-) · journey 잠금 · apply · gate · find
+═══════════════════════════════════════════════════════════════════ -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>관리 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#1E4A76; --gold:#D4AF37; --cream:#FFFBF5; --coral:#FF7A59;
+  --line:#EEE9DF; --sub:#8B8371; --text:#2E2A24;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:#E7E1D6;
+  font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo',sans-serif;
+  color:var(--text); min-height:100vh; display:flex; justify-content:center; padding:20px 12px;
+}
+.phone{
+  position:relative; width:100%; max-width:412px; background:var(--cream);
+  border-radius:24px; overflow:hidden;
+  box-shadow:0 18px 50px rgba(46,58,70,.18);
+  display:flex; flex-direction:column; min-height:86vh;
+}
+
+.bar{display:flex; align-items:center; justify-content:space-between; padding:16px 18px 14px; background:#fff; border-bottom:1px solid var(--line)}
+.bar .ttl{font-size:15px; font-weight:900; color:var(--navy); letter-spacing:-.3px}
+.bar .refresh{
+  border:1.5px solid var(--line); background:#fff; color:var(--navy);
+  width:34px; height:34px; border-radius:10px; font-size:15px; cursor:pointer;
+  display:none; align-items:center; justify-content:center;
+}
+.bar .refresh:active{background:var(--cream)}
+
+.tabs{display:none; background:#fff; border-bottom:1px solid var(--line); padding:0 10px}
+.tabs.on{display:flex}
+.tab{
+  flex:1; background:none; border:0; border-bottom:2.5px solid transparent;
+  padding:12px 2px 10px; font-family:inherit; font-size:12.5px; font-weight:700;
+  color:var(--sub); cursor:pointer; line-height:1.3; text-align:center;
+}
+.tab.sel{color:var(--navy); border-bottom-color:var(--navy)}
+.tab.lock{color:#C6C0B4; cursor:default}
+.tab.lock small{display:block; font-size:9.5px; font-weight:400; margin-top:2px}
+
+.body{padding:18px 16px 24px; flex:1}
+
+.keybox{padding:40px 6px}
+.keybox .kt{font-size:14px; font-weight:700; color:var(--navy); margin-bottom:10px}
+.keybox input{width:100%; padding:13px 14px; border:1.5px solid var(--line); border-radius:12px; font-size:15px; font-family:inherit; background:#fff; outline:none}
+.keybox input:focus{border-color:var(--navy)}
+.keybox button{width:100%; height:44px; margin-top:10px; border:0; border-radius:22px; background:var(--navy); color:#fff; font-size:14.5px; font-weight:700; font-family:inherit; cursor:pointer}
+.keybox .kn{font-size:11.5px; color:var(--sub); margin-top:12px; line-height:1.7; text-align:center}
+
+.state{font-size:12.5px; color:var(--sub); text-align:center; padding:26px 0; line-height:1.7}
+.state b{color:var(--navy)}
+.sect{font-size:12px; font-weight:900; color:var(--sub); letter-spacing:.4px; margin:6px 2px 10px}
+
+.card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 14px 12px; margin-bottom:12px}
+.no{font-size:16px; font-weight:900; color:var(--navy); letter-spacing:-.2px}
+.meta{font-size:12.5px; color:var(--sub); margin-top:5px; line-height:1.6}
+.meta b{color:var(--text); font-weight:700}
+.warn{margin-top:9px; padding:8px 11px; border-radius:10px; border:1.5px solid var(--coral); background:#FFF4F0; font-size:11.5px; font-weight:700; color:#B84A2C; line-height:1.5}
+.amts{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px}
+.amt{
+  height:44px; border-radius:22px; border:1.5px solid var(--line); background:#fff; color:var(--navy);
+  font-family:inherit; font-size:13.5px; font-weight:700; cursor:pointer;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; line-height:1.15;
+}
+.amt span{font-size:10.5px; font-weight:400; color:var(--sub)}
+.amt:active{background:var(--cream)}
+.amt:hover{border-color:var(--navy)}
+
+.card.done{background:#F7F4EE; opacity:.92}
+.card.done .no{color:var(--sub); font-size:14px}
+.pp{display:inline-block; margin-top:8px; padding:6px 13px; border-radius:16px; background:var(--navy); color:var(--gold); font-size:14px; font-weight:900; letter-spacing:.6px}
+.st{font-size:12px; color:var(--sub); margin-top:7px}
+
+.locked{padding:34px 8px; text-align:center}
+.locked .lt{font-size:14px; font-weight:900; color:var(--navy); margin-bottom:8px}
+.locked .lm{font-size:12.5px; color:var(--sub); line-height:1.8}
+.locked .ll{display:inline-block; margin-top:14px; padding:8px 14px; border-radius:16px; background:#fff; border:1px solid var(--line); font-size:11.5px; color:var(--sub)}
+
+.dim{position:fixed; inset:0; background:rgba(30,42,58,.5); z-index:900; display:none; align-items:center; justify-content:center; padding:24px}
+.dim.on{display:flex}
+.modal{width:100%; max-width:322px; background:var(--cream); border-radius:18px; padding:22px 20px 18px}
+.modal .mt{font-size:15px; font-weight:900; color:var(--navy); margin-bottom:12px; text-align:center}
+.dl{background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:14px}
+.dl .r{display:flex; justify-content:space-between; gap:10px; font-size:12.5px; padding:4px 0; line-height:1.6}
+.dl .r .k{color:var(--sub); flex-shrink:0}
+.dl .r .v{color:var(--text); font-weight:700; text-align:right; word-break:break-all}
+.dl .r .v.big{color:var(--navy); font-size:14px; font-weight:900}
+.mm{font-size:12px; color:var(--sub); text-align:center; line-height:1.7; margin-bottom:14px}
+.mbtns{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.mbtn{height:44px; border-radius:22px; border:0; font-family:inherit; font-size:14px; font-weight:700; cursor:pointer}
+.m-no{background:#fff; color:var(--sub); border:1.5px solid var(--line)}
+.m-ok{background:var(--navy); color:#fff}
+.mbtn:disabled{opacity:.55; cursor:default}
+
+.foot{border-top:1px solid var(--line); padding:14px 16px 18px; font-size:10.5px; color:var(--sub); text-align:center; line-height:1.7}
+
+/* ══════════════════════════════════════════════════════════
+   ★데스크톱 (≥900px) — 카드 껍데기를 벗고 표로 펼칩니다.
+   DB 를 다루는 화면은 폰으로 못 봅니다(대표 지적 260714).
+   자바스크립트 · 데이터는 하나. 껍데기만 갈립니다.
+   ══════════════════════════════════════════════════════════ */
+@media (min-width: 900px){
+  body{padding:28px 24px; background:#EDE9E1}
+  .phone{
+    max-width:1180px; border-radius:16px; min-height:0;
+    display:grid; grid-template-columns:210px 1fr; grid-template-rows:auto 1fr auto;
+    box-shadow:0 10px 34px rgba(46,58,70,.12);
+  }
+  .bar{grid-column:1 / -1; padding:18px 24px}
+  .bar .ttl{font-size:17px}
+
+  /* 탭이 왼쪽 세로 메뉴로 */
+  .tabs{
+    grid-column:1; grid-row:2; flex-direction:column; align-items:stretch;
+    border-bottom:0; border-right:1px solid var(--line);
+    padding:14px 12px; gap:4px; background:#FCFAF6;
+  }
+  .tab{
+    flex:none; text-align:left; border-bottom:0; border-radius:10px;
+    padding:12px 14px; font-size:13.5px;
+  }
+  .tab.sel{background:var(--navy); color:#fff}
+  .tab.lock small{display:inline; margin:0 0 0 6px}
+
+  .body{grid-column:2; grid-row:2; padding:22px 24px 30px; overflow:auto}
+  .foot{grid-column:1 / -1; grid-row:3; text-align:left; padding:14px 24px}
+
+  /* 열쇠 화면은 가운데로 */
+  .keybox{max-width:340px; margin:0 auto}
+
+  /* ★대기 줄 = 표. 한 줄에 다 보이게 */
+  #waitWrap, #doneWrap{display:block}
+  .card{
+    display:grid; grid-template-columns:150px 1fr 420px; align-items:center;
+    gap:18px; padding:14px 18px; margin-bottom:8px; border-radius:10px;
+  }
+  .card .no{grid-column:1}
+  .card .meta{grid-column:2; margin-top:0}
+  .card .warn{grid-column:2; margin-top:6px}
+  .card .amts{grid-column:3; grid-row:1 / span 3; grid-template-columns:repeat(4, 1fr); margin-top:0}
+  .amt{height:46px; border-radius:10px; font-size:13px}
+
+  .card.done{grid-template-columns:150px 1fr 200px}
+  .card.done .pp{grid-column:3; margin-top:0; justify-self:end}
+  .card.done .st{grid-column:2; margin-top:0}
+
+  .state{padding:40px 0}
+  .modal{max-width:380px}
+}
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="bar">
+    <div class="ttl" id="barTtl">관리</div>
+    <button class="refresh" id="btnRefresh" onclick="load()" title="다시 불러오기">&#8635;</button>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab lock" onclick="lockMsg()">결과 보기<small>준비 중</small></button>
+    <button class="tab sel" id="tab2" onclick="go('pay')">입금 · 발급</button>
+    <button class="tab lock" onclick="lockMsg()">문의<small>준비 중</small></button>
+  </div>
+
+  <div class="body">
+
+    <!-- 열쇠 — ★주소에 안 남습니다 -->
+    <div class="keybox" id="keyView">
+      <div class="kt">열쇠를 넣어 주세요</div>
+      <input id="keyInput" type="password" autocomplete="off" placeholder="관리자 열쇠"
+             onkeydown="if(event.key==='Enter'){useKey()}">
+      <button onclick="useKey()">들어가기</button>
+      <div class="state" id="keyErr" style="display:none; color:#C0392B; padding:14px 0">열쇠가 맞지 않습니다.</div>
+      <div class="kn">한 번 넣으면 이 기기가 기억합니다.<br>주소창에는 아무것도 남지 않습니다.</div>
+    </div>
+
+    <!-- ② 입금 · 발급 -->
+    <div id="payView" style="display:none">
+      <div class="state" id="stateBox">불러오는 중입니다…</div>
+      <div id="waitWrap"></div>
+      <div id="doneWrap"></div>
+    </div>
+
+    <!-- 잠긴 탭 -->
+    <div id="lockView" style="display:none">
+      <div class="locked">
+        <div class="lt">아직 열지 않았습니다</div>
+        <div class="lm">
+          이사회 확정 관리자 화면은 <b>세 칸</b>입니다.<br>
+          결과 보기 · 입금 · 발급 · 문의.<br>
+          지금은 <b>입금 · 발급</b>만 켜 두었습니다.
+        </div>
+        <div class="ll">자리는 이미 잡혀 있습니다. 화면을 다시 짜지 않습니다.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="foot">
+    대표 황규찬 &middot; 사랑흐름 &nbsp;|&nbsp;
+    &copy; 2026 사랑흐름 &middot; LFRI&trade;. 무단복제 &middot; 상업적 이용 금지.
+  </div>
+
+</div>
+
+<div class="dim" id="dim" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mt" id="mTitle">입금을 확인하셨습니까?</div>
+    <div id="mBody"></div>
+    <div class="mbtns">
+      <button class="mbtn m-no" id="mNo" onclick="closeModal()">아니요</button>
+      <button class="mbtn m-ok" id="mOk" onclick="doPaid()">확인 &middot; 발급</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── 게시판 GAS (접수 · 관리자) ── ★열쇠는 이 파일에 없습니다. GAS 안에만 있습니다. */
+var GAS = 'https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec';
+
+var KEY = '';
+var LEVEL = 1;      /* ★이사회 3레벨 자리. 지금은 L1(대표) 하나. adminList 가 level 을 주면 받습니다. */
+var PENDING = null;
+var DUPES = {};
+var ROWS = {};
+
+/* ── JSONP ── */
+var seq = 0;
+function jsonp(params, done, fail){
+  seq++;
+  var name = 'lfcb' + Date.now() + '_' + seq;
+  var s = document.createElement('script');
+  var timer = setTimeout(function(){ cleanup(); if(fail) fail('시간이 지났습니다. 다시 불러와 주십시오.'); }, 20000);
+
+  function cleanup(){
+    clearTimeout(timer);
+    try{ delete window[name]; }catch(e){ window[name] = undefined; }
+    if(s.parentNode) s.parentNode.removeChild(s);
+  }
+  window[name] = function(res){ cleanup(); done(res); };
+
+  var q = [];
+  for(var k in params){
+    if(params.hasOwnProperty(k)) q.push(k + '=' + encodeURIComponent(params[k]));
+  }
+  q.push('callback=' + name);
+  s.src = GAS + '?' + q.join('&');
+  s.onerror = function(){ cleanup(); if(fail) fail('연결이 되지 않았습니다.'); };
+  document.body.appendChild(s);
+}
+
+/* ── 열쇠 — 이 기기에만 저장합니다. 주소엔 안 붙습니다. ── */
+function saveKey(k){ try{ localStorage.setItem('lf_admin_key', k); }catch(e){} }
+function readKey(){ try{ return localStorage.getItem('lf_admin_key') || ''; }catch(e){ return ''; } }
+function dropKey(){ try{ localStorage.removeItem('lf_admin_key'); }catch(e){} }
+
+function useKey(){
+  var v = document.getElementById('keyInput').value.trim();
+  if(!v) return;
+  KEY = v;
+  document.getElementById('keyErr').style.display = 'none';
+  enter();
+}
+
+function enter(){
+  document.getElementById('keyView').style.display = 'none';
+  document.getElementById('tabs').classList.add('on');
+  go('pay');
+}
+
+function backToKey(){
+  KEY = '';
+  dropKey();
+  document.getElementById('payView').style.display = 'none';
+  document.getElementById('lockView').style.display = 'none';
+  document.getElementById('tabs').classList.remove('on');
+  document.getElementById('btnRefresh').style.display = 'none';
+  document.getElementById('keyView').style.display = 'block';
+  document.getElementById('keyErr').style.display = 'block';
+  document.getElementById('keyInput').value = '';
+  document.getElementById('barTtl').textContent = '관리';
+}
+
+/* ── 탭 ── */
+function go(which){
+  document.getElementById('payView').style.display  = (which === 'pay')  ? 'block' : 'none';
+  document.getElementById('lockView').style.display = (which === 'lock') ? 'block' : 'none';
+  document.getElementById('barTtl').textContent = (which === 'pay') ? '입금 · 발급' : '관리';
+  document.getElementById('btnRefresh').style.display = (which === 'pay') ? 'flex' : 'none';
+  document.getElementById('tab2').classList.toggle('sel', which === 'pay');
+  if(which === 'pay') load();
+}
+function lockMsg(){ go('lock'); }
+
+/* ── 목록 ── */
+function load(){
+  setState('불러오는 중입니다…');
+  document.getElementById('waitWrap').innerHTML = '';
+  document.getElementById('doneWrap').innerHTML = '';
+
+  jsonp({ action:'adminList', key:KEY }, function(res){
+    if(!res || res.status !== 'ok'){
+      if(res && res.msg && res.msg.indexOf('권한') >= 0){ backToKey(); return; }
+      setState((res && res.msg) ? res.msg : '불러오지 못했습니다.');
+      return;
+    }
+    saveKey(KEY);                       /* 맞는 열쇠일 때만 기억합니다 */
+    if(res.level) LEVEL = Number(res.level);
+    paint(res.waiting || [], res.done || []);
+  }, function(msg){
+    setState(msg);
+  });
+}
+
+function setState(t){
+  var b = document.getElementById('stateBox');
+  b.style.display = 'block';
+  b.innerHTML = t;
+}
+
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ★금액 = 상품. 게시판 GAS PRICE_ITEM 과 같아야 합니다.
+   자서전(49,800)은 /memoir/ 미배포라 뺐습니다. */
+var PRICES = [
+  { amount:14900, name:'마음 여행지도' },
+  { amount:19900, name:'마음 여행편지' },
+  { amount:29800, name:'마음여행' },
+  { amount:59800, name:'인생여행' }
+];
+function won(n){ return Number(n).toLocaleString(); }
+function priceName(a){
+  for(var i=0;i<PRICES.length;i++){ if(PRICES[i].amount === a) return PRICES[i].name; }
+  return '';
+}
+
+function paint(waiting, done){
+  ROWS = {}; DUPES = {};
+
+  /* ★동명이인 세기 */
+  for(var d=0; d<waiting.length; d++){
+    var nm = String(waiting[d].payer || '').trim();
+    if(nm) DUPES[nm] = (DUPES[nm] || 0) + 1;
+  }
+
+  var h = '';
+  if(waiting.length === 0){
+    setState('기다리는 접수가 <b>없습니다</b>.');
+  }else{
+    document.getElementById('stateBox').style.display = 'none';
+    h += '<div class="sect">기다리는 접수 ' + waiting.length + '</div>';
+
+    for(var i=0;i<waiting.length;i++){
+      var r = waiting[i];
+      ROWS[r.no] = r;
+      var nm2 = String(r.payer || '').trim();
+      var dup = nm2 ? (DUPES[nm2] || 0) : 0;
+
+      h += '<div class="card">';
+      h +=   '<div class="no">' + esc(r.no) + '</div>';
+      h +=   '<div class="meta">'
+           +   '<b>' + esc(nm2 || '(입금자명 없음)') + '</b>'
+           +   ' &middot; ' + esc(r.bank || '-')
+           +   ' &middot; 뒤4 <b>' + esc(r.phone4 || '없음') + '</b>'
+           +   (r.org ? ' &middot; ' + esc(r.org) : '')
+           +   ' &middot; ' + esc(r.when)
+           + '</div>';
+
+      if(dup > 1){
+        h += '<div class="warn">같은 입금자명 ' + dup + '건이 기다립니다. 은행과 접수시각을 문자와 맞춰 보십시오.</div>';
+      }
+      if(!r.phone4){
+        h += '<div class="warn">연락처 뒤 4자리가 없는 접수입니다. 본인 확인이 안 되어 발급이 막힙니다.</div>';
+      }
+
+      h +=   '<div class="amts">';
+      for(var j=0;j<PRICES.length;j++){
+        h += '<button class="amt" onclick="askPaid(\'' + esc(r.no) + '\',' + PRICES[j].amount + ')">'
+           +   won(PRICES[j].amount) + '<span>' + PRICES[j].name + '</span>'
+           + '</button>';
+      }
+      h +=   '</div>';
+      h += '</div>';
+    }
+  }
+  document.getElementById('waitWrap').innerHTML = h;
+
+  var t = '';
+  if(done.length > 0){
+    t += '<div class="sect" style="margin-top:22px">최근 발급</div>';
+    for(var k=0;k<done.length;k++){
+      var q = done[k];
+      t += '<div class="card done">';
+      t +=   '<div class="no">' + esc(q.no) + '</div>';
+      t +=   '<div class="st">' + esc(q.state) + ' &middot; ' + esc(q.when) + '</div>';
+      t +=   '<div class="pp">' + esc(q.pp || '-') + '</div>';
+      t += '</div>';
+    }
+  }
+  document.getElementById('doneWrap').innerHTML = t;
+}
+
+/* ── 확인 팝업 — 마지막 대조 ── */
+function askPaid(no, amount){
+  var r = ROWS[no] || {};
+  var name = priceName(amount);
+  PENDING = { no:no, amount:amount, name:name };
+
+  var nm = String(r.payer || '').trim();
+  var dup = nm ? (DUPES[nm] || 0) : 0;
+
+  var b = '';
+  if(dup > 1){
+    b += '<div class="warn" style="margin-bottom:12px">같은 입금자명 ' + dup + '건이 기다립니다. '
+       + '<b>은행과 접수시각</b>을 은행 문자와 맞춰 보셨습니까?</div>';
+  }
+  b += '<div class="dl">';
+  b +=   '<div class="r"><span class="k">접수번호</span><span class="v big">' + esc(no) + '</span></div>';
+  b +=   '<div class="r"><span class="k">입금자명</span><span class="v">' + esc(nm || '없음') + '</span></div>';
+  b +=   '<div class="r"><span class="k">은행</span><span class="v">' + esc(r.bank || '-') + '</span></div>';
+  b +=   '<div class="r"><span class="k">연락처 뒤 4자리</span><span class="v">' + esc(r.phone4 || '없음') + '</span></div>';
+  b +=   '<div class="r"><span class="k">접수시각</span><span class="v">' + esc(r.when || '-') + '</span></div>';
+  b +=   '<div class="r"><span class="k">받은 금액</span><span class="v big">' + won(amount) + '원</span></div>';
+  b +=   '<div class="r"><span class="k">드릴 여행</span><span class="v">' + esc(name) + '</span></div>';
+  b += '</div>';
+  b += '<div class="mm">확인을 누르면 <b>마음 여행여권</b>이 발급됩니다.<br>문자는 보내지 않습니다. 손님이 접수번호로 찾아갑니다.</div>';
+
+  document.getElementById('mTitle').textContent = '입금을 확인하셨습니까?';
+  document.getElementById('mBody').innerHTML = b;
+
+  var ok = document.getElementById('mOk');
+  ok.disabled = false; ok.textContent = '확인 · 발급'; ok.onclick = doPaid;
+  document.getElementById('mNo').disabled = false;
+  document.getElementById('dim').classList.add('on');
+}
+
+function closeModal(){
+  document.getElementById('dim').classList.remove('on');
+  PENDING = null;
+}
+
+function endModal(ok, title, html){
+  document.getElementById('mTitle').textContent = title;
+  document.getElementById('mBody').innerHTML = html;
+  ok.textContent = '닫기';
+  ok.disabled = false;
+  ok.onclick = function(){ closeModal(); load(); };
+  document.getElementById('mNo').disabled = false;
+}
+
+function doPaid(){
+  if(!PENDING) return;
+  var ok = document.getElementById('mOk');
+  ok.disabled = true;
+  ok.textContent = '발급 중…';
+  document.getElementById('mNo').disabled = true;
+
+  jsonp({ action:'adminPaid', key:KEY, orderNo:PENDING.no, amount:PENDING.amount },
+    function(res){
+      if(res && res.status === 'ok'){
+        endModal(ok, '발급했습니다',
+            '<div class="dl" style="text-align:center">'
+          +   '<div style="font-size:22px;font-weight:900;color:#1E4A76;letter-spacing:1px;padding:8px 0">'
+          +     esc(res.passport) + '</div>'
+          +   '<div style="font-size:12px;color:#8B8371">' + esc(res.name || '') + '</div>'
+          + '</div>'
+          + '<div class="mm">손님이 접수번호로 들어오면 스스로 받아 갑니다.</div>');
+      }else{
+        endModal(ok, '발급하지 못했습니다',
+            '<div class="mm">' + esc((res && res.msg) ? res.msg : '알 수 없는 오류입니다.') + '</div>');
+      }
+    },
+    function(msg){
+      endModal(ok, '발급하지 못했습니다', '<div class="mm">' + esc(msg) + '</div>');
+    });
+}
+
+/* ── 진입 — ★주소에서 열쇠를 안 읽습니다. 이 기기에 저장된 것만 씁니다. ── */
+(function(){
+  var k = readKey();
+  if(k){ KEY = k; enter(); }
+})();
+</script>
+
+</body>
+</html>
