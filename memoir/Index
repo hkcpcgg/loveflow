@@ -1,0 +1,248 @@
+<!-- 사랑흐름 · 자서전 소개 memoir/index.html ★v8 · 260714 · [작업 v8] ★화면 재구성 — 대표 지적 "자서전 얘기하다 뜬금없이 상품을 늘어놨다"
+     [무엇이 문제였나] ①「하나의 여정」 섹션이 마음 한마디·여행지도·편지·자서전 4개를 카드로 나열 — 자서전 소개 한가운데서 ★다른 상품을 팔고 있었음.
+                       ②그 나열에 밀려 ★소명("한 분 한 분이…"·"진단하지 않습니다")이 세 번째로 묻힘. 이 화면의 심장인데.
+                       ③무엇을 어떻게 하는지가 ★아무 데도 없었음 — 어르신이 [시작하기]를 뭘 하는지 모르고 누르게 됨(대표 "준비가 안 된 데 같다").
+     [고침] ①소명을 히어로 바로 밑으로 올림  ②상품 4개 나열을 걷어내고 그 자리에 ★「이렇게 남습니다 · 네 걸음」(여는 의식→여쭙습니다→말을 옮깁니다→한 편의 기록).
+            상품이 아니라 자서전 안에서 실제로 일어나는 일이고, ritual→ask→book 과 그대로 맞습니다.  ③다른 상품은 맨 아래 작은 한 줄(다른 여행도 둘러보기 →)로만.
+     [안 건드림] 결과물 견본(「한 편의 기록」 A4)·CTA·소명 문구·내비·드로어·푸터·색값. steps CSS 그대로 재사용(2×3 그리드·높이 통일) — 글자만 갈아끼웠습니다.
+     ── 이하 v7 이력 ──  [작업 v7] 어르신 가독성 표준 적용 + 창틀 통일 (대표 승인 260714)
+     [출처] 원본 = 자서전소개_표준v6_260708.html (이삿짐 zip · 15,028B). 260708 이사회 확정 설계.
+     [고침] ①글자 크기 21종 → 11종. 하한 13px(7.5·8·9·9.5px 있었음 — 어르신이 보실 화면입니다). 법정 푸터만 11px 예외.
+            사다리 = 제목24 · 큰글20 · 본문17 · 보조15 · 하한13.  ②버튼 = 폭100% · 높이52px · radius22 · 글자17px 하나로
+            (라이브 44px보다 8px 큼 — 어르신 손가락). 주인=딥네이비 채움, 한 화면에 하나.
+            ③창틀 440px → ★412px (라이브 gate·apply·showcase·find 의 .phone 과 동일). 바탕 #EDE4D6 → #E7E1D6. 카드 radius24 + 그림자.
+            ④GLINK letter:'' (빈칸) → '/l/' — 라이브 표준. 옛 GAS 날주소는 폐기됐습니다.
+     [안 건드림] 소명 문구 · 세계관 4단(한마디→여행→편지→기록) · 「사랑흐름은 진단하지 않습니다」(일부러 부정하는 카피) · 내비 · 드로어 · 푸터 · 색값
+     ═══════════════════════════════════════════════════════════════════ -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 자서전 「한 편의 기록」</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- memoir_intro_v1 | 260708 | 자서전 소개 페이지(웹·세로스크롤). 소명 "당신의 역사를 들어드립니다" + 세계관(한마디→여행→편지→삶의 기록) + 「한 편의 기록」 견본 미리보기(증서 A4 톤) + 사전관심 CTA. 판매·발급·상담시트 없음(형태만). 톤=딥네이비#1E4A76·골드#D4AF37·크림#FFFBF5·명조. -->
+<style>
+  :root{--navy:#1E4A76;--navy-deep:#173A5A;--gold:#D4AF37;--gold-deep:#B8923E;--cream:#FFFBF5;--ink:#2A3542;--muted:#8A8580;--line:#E7DCC9;--petal:#FFE4EC}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;background:#EDE4D6;color:var(--ink);line-height:1.7;min-height:100vh;display:flex;flex-direction:column;align-items:center}
+  .serif{font-family:'Noto Serif KR',serif}
+
+  /* 상단 내비 */
+  .nav{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:10px;padding:14px 20px;background:rgba(255,251,245,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+  .nav .back{background:none;border:none;color:var(--navy);font-size:24px;cursor:pointer;line-height:1}
+  .nav .logo{font-family:'Noto Serif KR',serif;font-weight:700;color:var(--navy);font-size:20px;letter-spacing:.5px}
+  .nav .title{position:absolute;left:0;right:0;text-align:center;font-size:15px;color:var(--muted);pointer-events:none}
+  .nav .menu{margin-left:auto;background:none;border:none;font-size:24px;color:var(--navy);cursor:pointer}
+
+  .wrap{max-width:100%;margin:0 auto;padding:0 22px}
+
+  /* 히어로 */
+  .hero{text-align:center;padding:64px 22px 56px}
+  .hero .eyebrow{font-size:15px;letter-spacing:3px;color:var(--gold-deep);font-weight:700;margin-bottom:20px}
+  .hero h1{font-family:'Noto Serif KR',serif;font-size:38px;font-weight:700;color:var(--navy-deep);line-height:1.35;letter-spacing:-.5px}
+  .hero .sub{margin-top:22px;font-size:17px;color:var(--ink);max-width:100%;margin-left:auto;margin-right:auto}
+  .hero .quiet{margin-top:14px;font-size:17px;color:var(--muted)}
+
+  /* 세계관 흐름 */
+  .flow{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:52px 0}
+  .flow h2{font-family:'Noto Serif KR',serif;font-size:24px;color:var(--navy);text-align:center;font-weight:700;margin-bottom:8px}
+  .flow .lead{text-align:center;color:var(--muted);font-size:17px;margin-bottom:36px}
+  .steps{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch}
+  .steps .arrow{display:none}
+  .step{background:var(--cream);border:1px solid var(--line);border-radius:12px;padding:18px 12px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:6px}
+  .step.on{border-color:var(--gold);background:#fffdf6;box-shadow:0 4px 18px rgba(212,175,55,.14)}
+  .step .k{font-family:'Noto Serif KR',serif;font-size:20px;font-weight:700;color:var(--navy)}
+  .step .d{font-size:13px;color:var(--muted);margin-top:7px;line-height:1.5}
+  .step .stage{font-size:13px;letter-spacing:1px;color:var(--gold-deep);margin-top:10px;font-weight:700}
+  .arrow{align-self:center;color:var(--line);font-size:20px}
+
+  /* 소명 */
+  .calling{padding:56px 22px}
+  .calling .box{max-width:100%;margin:0 auto;text-align:center}
+  .calling .mark{font-family:'Noto Serif KR',serif;font-size:40px;color:var(--gold);line-height:1;margin-bottom:10px}
+  .calling p{font-size:17px;color:var(--ink);line-height:1.8;margin-bottom:16px}
+  .calling p.big{font-family:'Noto Serif KR',serif;font-size:24px;color:var(--navy-deep);font-weight:700;line-height:1.6;margin-bottom:18px}
+  .calling .fine{font-size:12px;color:var(--muted);line-height:1.7}
+
+  /* 견본 미리보기 */
+  .sample{background:#F4EEE4;padding:60px 22px;text-align:center}
+  .sample h2{font-family:'Noto Serif KR',serif;font-size:24px;color:var(--navy);font-weight:700;margin-bottom:10px}
+  .sample .lead{color:var(--muted);font-size:17px;margin-bottom:34px}
+  .sheet{width:300px;max-width:86vw;margin:0 auto;aspect-ratio:210/297;background:var(--cream);position:relative;box-shadow:0 14px 44px rgba(30,58,90,.2);padding:26px 22px;text-align:left;overflow:hidden}
+  .sheet::before{content:"";position:absolute;inset:11px;border:1px solid var(--navy);box-shadow:inset 0 0 0 3px var(--cream),inset 0 0 0 4px rgba(212,175,55,.5);pointer-events:none}
+  .sheet .sh-hd{position:relative;z-index:1;text-align:center;border-bottom:1px solid var(--line);padding-bottom:12px}
+  .sheet .sh-brand{font-size:13px;letter-spacing:1px;color:var(--gold-deep);font-weight:700}
+  .sheet .sh-title{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--navy-deep);font-weight:700;margin-top:5px;letter-spacing:2px}
+  .sheet .sh-name{font-size:13px;color:var(--navy);margin-top:8px}
+  .sheet .sh-ded{position:relative;z-index:1;font-family:'Noto Serif KR',serif;font-style:italic;text-align:center;color:var(--gold-deep);font-size:13px;margin:14px 0 12px}
+  .sheet .sh-body{position:relative;z-index:1;font-family:'Noto Serif KR',serif;font-size:13px;line-height:1.9;color:var(--ink)}
+  .sheet .sh-body p{margin-bottom:7px}
+  .sheet .sh-fade{position:absolute;left:0;right:0;bottom:34px;height:70px;background:linear-gradient(rgba(255,251,245,0),var(--cream));z-index:1}
+  .sheet .sh-ft{position:absolute;left:22px;right:22px;bottom:20px;z-index:1;text-align:center;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:8px}
+  .sample .cap{margin-top:22px;font-size:15px;color:var(--muted)}
+
+  /* CTA */
+  .cta{padding:64px 22px;text-align:center}
+  .cta h2{font-family:'Noto Serif KR',serif;font-size:26px;color:var(--navy-deep);font-weight:700;line-height:1.5}
+  .cta p{margin-top:16px;color:var(--ink);font-size:17px}
+  .cta .btn{display:inline-block;margin-top:28px;background:var(--navy);color:#fff;font-size:17px;font-weight:500;padding:15px 34px;border-radius:40px;border:none;cursor:pointer;text-decoration:none;letter-spacing:.5px}
+  .cta .btn:hover{background:var(--navy-deep)}
+  .cta .season{margin-top:22px;font-size:15px;color:var(--gold-deep);font-family:'Noto Serif KR',serif;font-style:italic}
+
+  /* 푸터 */
+  footer{border-top:1px solid var(--line);padding:30px 22px;text-align:center;background:#fff}
+  footer .links{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:15px;margin-bottom:14px}
+  footer .links a{color:var(--navy);text-decoration:none}
+  footer .copy{font-size:13px;color:var(--muted);line-height:1.7}
+
+  @media(max-width:520px){.hero h1{font-size:30px}.arrow{display:none}}
+
+.gnav{display:flex;align-items:center;gap:8px;padding:11px 12px;background:#fff;border-bottom:1px solid var(--line,#EEE9DF);position:relative}
+.gnav .home{cursor:pointer;flex-shrink:0}
+.gnav .home img{height:38px;width:38px;object-fit:contain;display:block}
+.gnav .bk{flex-shrink:0;border:1.5px solid var(--line,#EEE9DF);background:#fff;width:34px;height:34px;border-radius:10px;font-size:20px;color:var(--navy,#1E4A76);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gnav .lc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:17px;font-weight:900;color:var(--navy,#1E4A76);pointer-events:none}
+.gnav .hm{flex-shrink:0;border:1.5px solid var(--line,#EEE9DF);background:#fff;width:34px;height:34px;border-radius:10px;font-size:17px;color:var(--navy,#1E4A76);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gdrawer{position:fixed;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:200}
+.gdrawer.on{opacity:1;visibility:visible}
+.gdpanel{position:absolute;top:0;right:0;width:80%;max-width:300px;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.15);transform:translateX(100%);transition:.26s}
+.gdrawer.on .gdpanel{transform:none}
+.gdhead{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid var(--line,#EEE9DF)}
+.gdhead b{font-size:17px;font-weight:900;color:var(--navy,#1E4A76)}
+.gdhead .x{border:none;background:none;font-size:20px;color:var(--sub,#7C8794);cursor:pointer}
+.gdbody a{display:block;padding:14px 18px;font-size:17px;font-weight:700;color:var(--ink,#2E3A46);text-decoration:none;cursor:pointer;border-bottom:1px solid var(--line,#EEE9DF)}
+.glegal{text-align:center;padding:16px 18px 20px;border-top:1px solid var(--line,#EEE9DF)}
+.glegal .fl{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-bottom:10px}
+.glegal .fl a{font-size:12px;font-weight:700;color:var(--navy,#1E4A76);text-decoration:none;cursor:pointer}
+.glegal .wn{font-size:11px;color:var(--sub,#7C8794);line-height:1.7}
+.glegal .h2{font-size:12px;font-weight:800;color:var(--navy,#1E4A76);margin-top:12px;cursor:pointer;display:inline-block}
+
+.gnav{width:100%!important;flex:0 0 100%!important;box-sizing:border-box}
+.glegal{width:100%!important;flex:0 0 100%!important;box-sizing:border-box}
+.app{width:100%;max-width:440px;min-height:100vh;background:var(--cream);position:relative;display:flex;flex-direction:column}
+
+/* [260714] ★창틀 — 라이브(gate·apply·showcase·find)와 같은 골격. 혼자 다른 폭을 쓰지 않습니다. */
+body{background:#E7E1D6 !important}
+.app{max-width:412px !important;border-radius:24px;box-shadow:0 18px 50px rgba(46,58,70,.18)}
+
+/* [260714] ★자서전 버튼 표준 — 어르신 손가락 기준. 라이브(44px)보다 8px 큽니다.
+   주인=딥네이비 채움(한 화면에 하나) · 보조=흰 바탕 테두리 */
+.btn,.gbtn,button.btn{width:100%;min-height:52px;padding:14px 18px;border-radius:22px;
+  font-size:17px;font-weight:700;line-height:1.35;border:1.5px solid var(--navy,#1E4A76);
+  background:var(--navy,#1E4A76);color:#fff;cursor:pointer;box-sizing:border-box}
+.btn.prev,.btn.sub2,.btn.ghost{background:#fff;color:var(--navy,#1E4A76)}
+.btn.skip{background:#fff;color:#6B6357;border-color:#E6E2D7}
+.row2btn{display:flex;gap:10px}
+.row2btn .btn{flex:1}
+
+/* [v8·260714] 다른 상품으로 가는 작은 길 — 크지 않게. 팔지 않고 길만 냅니다. */
+.more{text-align:center;padding:0 22px 30px}
+.more a{font-size:15px;color:#6B6357;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="app">
+
+<div class="gnav">
+  <div class="home" onclick="ggoHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
+  <button class="bk" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
+  <div class="lc">자서전 · 한 편의 기록</div>
+  <button class="hm" onclick="gOpenMenu()" aria-label="메뉴">☰</button>
+</div>
+<div class="gdrawer" id="gdrawer" onclick="if(event.target===this)gCloseMenu()">
+  <div class="gdpanel">
+    <div class="gdhead"><b>사랑흐름</b><button class="x" onclick="gCloseMenu()">✕</button></div>
+    <div class="gdbody">
+      <a onclick="ggoHome()">홈</a>
+      <a onclick="glgo('hanmadi')">마음 한마디</a>
+      <a onclick="glgo('journey')">여행지도 보기</a>
+      <a onclick="glgo('letter')">편지</a>
+      <a onclick="glgo('memoir')">자서전</a>
+      <a onclick="glgo('find')">사랑흐름 여권 찾기</a>
+    </div>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="eyebrow">사랑흐름 자서전</div>
+  <h1 class="serif">당신의 역사를,<br>들어드립니다</h1>
+  <p class="sub">누구나 저마다의 시간을 살아왔습니다.<br>그 이야기를 들어줄 사람이 없을 때, 사랑흐름이 곁에서 듣고, 한 편의 기록으로 남깁니다.</p>
+  <p class="quiet">거창한 자서전이 아니어도 괜찮아요. 오늘 하루의 이야기부터 시작합니다.</p>
+</section>
+
+<section class="calling">
+  <div class="box">
+    <div class="mark serif">&ldquo;</div>
+    <p class="big serif">한 분 한 분이, 우리가 미처 몰랐던 지혜와 시간을 살아오셨습니다.</p>
+    <p>누군가는 그 역사를 들어줄 사람이 없어, 하고 싶은 이야기를 마음에만 담아둡니다. 상담해 줄 사람이 곁에 없다면 — 사랑흐름이 그 자리를 대신합니다. 조용히 여쭙고, 귀 기울여 듣고, 그 삶을 한 장의 기록으로 정성껏 엮습니다.</p>
+    <p class="fine">사랑흐름은 진단하지 않습니다. 다만, 당신의 이야기를 오래 기억되는 형태로 옮겨 드립니다.</p>
+  </div>
+</section>
+
+<section class="flow">
+  <div class="wrap">
+    <h2 class="serif">이렇게 남습니다</h2>
+    <p class="lead">묻고, 듣고, 옮깁니다. 네 걸음이면 됩니다.</p>
+    <div class="steps">
+      <div class="step"><div class="k">여는 의식</div><div class="d">마음을 여는 시간</div><div class="stage">하나</div></div>
+      <span class="arrow">&#8250;</span>
+      <div class="step"><div class="k">여쭙습니다</div><div class="d">일곱 장의 질문</div><div class="stage">둘</div></div>
+      <span class="arrow">&#8250;</span>
+      <div class="step"><div class="k">말을 옮깁니다</div><div class="d">들려주신 그대로</div><div class="stage">셋</div></div>
+      <span class="arrow">&#8250;</span>
+      <div class="step on"><div class="k">한 편의 기록</div><div class="d">오래 간직할 한 장</div><div class="stage">넷</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="sample">
+  <h2 class="serif">「한 편의 기록」</h2>
+  <p class="lead">당신의 삶에서 가장 따뜻했던 한 장면이, 이렇게 남습니다.</p>
+  <div class="sheet" aria-label="한 편의 기록 견본">
+    <div class="sh-hd">
+      <div class="sh-brand">LOVE FLOW · 사랑흐름</div>
+      <div class="sh-title">한 편의 기록</div>
+      <div class="sh-name">○○○ 선생님의 이야기</div>
+    </div>
+    <div class="sh-ded serif">당신의 역사를 들어드립니다</div>
+    <div class="sh-body serif">
+      <p>여름이면, 마당 감나무 아래가 제일 시원했지요.</p>
+      <p>아이들이 다 크고 떠난 뒤에도, 나는 그 나무 아래 앉아 오래 그 시절을 떠올리곤 했습니다.</p>
+      <p>고단한 날도 많았지만, 돌아보니 그 모든 시간이 나를 여기까지 데려왔더군요.</p>
+    </div>
+    <div class="sh-fade"></div>
+    <div class="sh-ft">사랑흐름이 정성껏 엮었습니다 · 기록일 2026</div>
+  </div>
+  <p class="cap">증서와 같은 격의 A4 소장 문서로, 오래 간직하실 수 있게 만듭니다.</p>
+</section>
+
+<section class="cta">
+  <h2 class="serif">당신의 이야기를,<br>들려주시겠어요?</h2>
+  <p>오늘 하루의 기억부터, 천천히 시작해요.</p>
+  <a class="btn" onclick="glgo('ritual')" style="display:inline-block">나의 이야기 시작하기 →</a>
+  <p class="season">여름이 가면 가을이 오듯 — 당신의 이야기를 기다립니다.</p>
+</section>
+
+<!-- [v8] 다른 상품은 여기 한 줄로만. 이 화면은 자서전을 이야기하는 곳이지, 파는 곳이 아닙니다. -->
+<div class="more"><a onclick="glgo('showcase')">다른 여행도 둘러보기 &rarr;</a></div>
+
+
+
+
+<div class="glegal">
+  <div class="fl"><a onclick="glgo('about')">소개</a><a onclick="glgo('trust')">이용약관</a><a onclick="glgo('trust')">개인정보</a><a onclick="glgo('trust')">환불정책</a></div>
+  <div class="wn">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지. Unauthorized use strictly prohibited.</div>
+  <span class="h2" onclick="ggoHome()">‹ 홈으로</span>
+</div>
+</div>
+<script>
+var GLINK={home:'/',hanmadi:'/',journey:'/journey/',letter:'/l/',memoir:'/memoir/',ritual:'/memoir/ritual.html',ask:'/memoir/ask.html',book:'/memoir/book.html',showcase:'/showcase.html',find:'/find/',about:'/about.html',trust:'/trust.html'};
+function ggoHome(){location.href=GLINK.home;}
+function glgo(k){var u=GLINK[k];if(u){location.href=u;}}
+function gOpenMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.add('on');}
+function gCloseMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.remove('on');}
+</script>
+</body>
+</html>
