@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · find/index.html   v7-1 · 260713
+     사랑흐름 · find/index.html   v7-4 · 260714
+     [v7-4 · 260714 대표 지적] ★"같은 기기에서만 이어진다"를 어디에도 안 썼음 → 두 곳에만 명시.
+        ①저장하는 순간: "이 기기에서 LFM-XXXXX으로 다시 이어집니다"
+        ②못 찾았을 때: "폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다"
+        ③시트 열자마자 상시 경고는 안 씀 — 아무 문제 없는 사람에게 먼저 들이밀면 못 미더운 서비스로 보임.
+     [v7-3 · 260714 대표 확정] ★"지난 여행 이어가기" 주인 버튼 신설 — 전 화면 공용 부품
+        대표: "입구마다 있어야 됩니다. 결제하는 데, 쇼룸, 여권 찾는 데 — 게이트마다 다 보여줘야 된다. 광고 효과도 있는 거예요."
+        · 버튼 → 그 자리에서 여권번호 입력 시트가 열림(reenter로 안 보냄 — pay에서 보내면 ★결제 이탈)
+        · 번호 넣으면 담아둔 여행(lf_journey_ / lf_letter_)을 찾아 "○○님과의 여행지도가 N번째 물음에서 멈춰 있어요"
+        · 담아둔 게 있으면 버튼이 살아남(분홍) / 없으면 조용한 회색 — 처음 온 사람에겐 이게 광고
+        · ★편지 이어가기는 /letter/ 직행 (/l/은 꽃비 맞이 의식이라 ?resume=이 넘어가다 사라짐)
+        · 안 까는 곳: 여행지도 질문 중 · 편지 쓰는 중 · reenter(그 화면이 이미 입력창)
+     [v7-2 · 260714 대표 지적] 방향버튼(lfway) 축소 — 세로 카드 3개(58px) → 한 줄 알약(26px)
+        "화살표 하나, 앞으로 하나, 홈 그림 하나. 한 줄로 얇게 조금마게."
+        · 부제(.sb) 삭제 · .fwd 딥네이비 채움 삭제(테두리만) · flex:1 삭제(글자만큼·가운데)
      [v7-1 · 260713 대표 지적] 옛 편지 주소 · 군더더기 문구 전수 정리
        ① ★옛 표(LINK)의 letter 가 아직 GAS 주소(script.google.com)를 가리켰습니다.
           누르면 주소창에 script.google.com 이 뜨고 ★빈 칸 하나짜리 옛 편지로 갔습니다.
@@ -442,30 +456,24 @@ function lfPaintWay(){
 
   var css = document.createElement('style');
   css.textContent =
-    '.lfway{display:flex;gap:8px;max-width:420px;margin:22px auto 8px;padding:0 16px;box-sizing:border-box}'
-  + '.lfway a{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;'
-  + 'padding:11px 6px;border:1px solid #E4DED2;border-radius:12px;background:#fff;'
+    '.lfway{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;'
+  + 'max-width:420px;margin:20px auto 10px;padding:0 16px;box-sizing:border-box}'
+  + '.lfway a{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;'
+  + 'border:1px solid #E6E1D8;border-radius:13px;background:#fff;'
   + 'text-decoration:none;cursor:pointer;transition:.15s}'
-  + '.lfway a:active{transform:scale(.97)}'
-  + '.lfway .ic{font-size:15px;color:#1E4A76;line-height:1}'
-  + '.lfway .tt{font-size:11.5px;font-weight:700;color:#1E4A76}'
-  + '.lfway .sb{font-size:10px;color:#9A9287}'
-  + '.lfway .fwd{background:#1E4A76;border-color:#1E4A76}'
-  + '.lfway .fwd .ic,.lfway .fwd .tt{color:#fff}'
-  + '.lfway .fwd .sb{color:#C9D6E4}'
+  + '.lfway a:active{opacity:.55}'
+  + '.lfway .ic{font-size:11px;color:#94A0AE;line-height:1}'
+  + '.lfway .tt{font-size:10.5px;font-weight:500;color:#7A8794;letter-spacing:-.2px}'
   + '@media print{.lfway{display:none}}';
   document.head.appendChild(css);
 
   var h = '<div class="lfway" id="lfway">';
   if (prev) {
-    var nm = lfPrevName();
-    h += '<a onclick="lfBack()"><span class="ic">←</span><span class="tt">돌아가기</span>'
-       + (nm ? '<span class="sb">' + nm + '</span>' : '') + '</a>';
+    h += '<a onclick="lfBack()"><span class="ic">←</span><span class="tt">뒤로</span></a>';
   }
-  h += '<a onclick="lfGo(\'home\')"><span class="ic">⌂</span><span class="tt">홈으로</span><span class="sb">처음부터</span></a>';
+  h += '<a onclick="lfGo(\'home\')"><span class="ic">⌂</span><span class="tt">홈</span></a>';
   if (next) {
-    h += '<a class="fwd" onclick="lfNext()"><span class="ic">→</span><span class="tt">앞으로</span>'
-       + '<span class="sb">' + next.t + '</span></a>';
+    h += '<a onclick="lfNext()"><span class="ic">→</span><span class="tt">앞으로</span></a>';
   }
   h += '</div>';
 
@@ -499,10 +507,214 @@ function lfPaintWay(){
   }
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', lfPaintWay);
-} else {
+
+/* ═══════════════════════════════════════════════════════════════════
+   [260714 대표 확정] 지난 여행 이어가기 — 전 화면 공용 부품
+   ───────────────────────────────────────────────────────────────────
+   대표: "입구마다 있어야 됩니다. 주인 버튼. '지난 여행 이어가기'를 누르면
+          여권번호 입력창이 뜨고, 넣으면 바로 그 여행으로 이어진다.
+          결제하는 데, 쇼룸, 여권 찾는 데 — 중간중간 게이트마다 다 보여줘야 된다.
+          ★광고 효과도 있는 거예요."
+
+   [왜 시트인가 · reenter로 안 보내는가]
+     pay(돈 내는 중)에서 다른 페이지로 보내면 ★결제를 이탈시킵니다. 매출 구멍입니다.
+     그 자리에서 열리는 시트는 닫으면 원래 화면 그대로 남습니다.
+
+   [★편지 목적지 함정] LF_LINK.letter = '/l/' 은 꽃비 맞이 의식입니다(1.1초 뒤 /letter/로 넘김).
+     이어가는 손님에게 의식을 다시 보여줄 순 없고, ?resume= 도 넘어가다 사라집니다.
+     → 이어가기는 LF_RESUME_LINK 로 ★/letter/ 에 직행합니다.
+
+   [한계 · 정직하게] 저장은 이 브라우저 안에만 있습니다(localStorage).
+     폰에서 쓰다 PC로 오면 번호를 넣어도 못 찾습니다.
+     어디서든 이어지려면 서버(시트)에 담아야 하고, 그건 GAS 위험구간이라 별건입니다.
+   ═══════════════════════════════════════════════════════════════════ */
+var LF_RESUME_LINK = { journey:'/journey/', letter:'/letter/' };
+
+function lfReadDraft(kind, pp){
+  try{
+    var raw = localStorage.getItem('lf_' + kind + '_' + pp);
+    if (!raw) { return null; }
+    var b = JSON.parse(raw);
+    if (!b || typeof b.i !== 'number' || b.i < 1) { return null; }
+    return b;
+  }catch(e){ return null; }
+}
+
+/* 이 브라우저에 담아둔 게 하나라도 있나 — 버튼을 살릴지 정합니다 */
+function lfHasAnyDraft(){
+  try{
+    for (var n = 0; n < localStorage.length; n++) {
+      var k = localStorage.key(n);
+      if (k && (k.indexOf('lf_journey_') === 0 || k.indexOf('lf_letter_') === 0)) { return true; }
+    }
+  }catch(e){}
+  return false;
+}
+
+function lfPaintResume(){
+  if (document.getElementById('lfres')) { return; }
+
+  /* ★안 까는 곳
+     · 여행지도 질문 중 · 편지 쓰는 중 — 지금 하는 여행이 날아갑니다
+     · reenter — 그 화면이 이미 여권번호 입력창입니다 */
+  var p = location.pathname;
+  if (p.indexOf('/journey/') === 0 && p.indexOf('result') < 0) { return; }
+  if (p.indexOf('/letter/') === 0) { return; }
+  if (p.indexOf('/reenter') === 0) { return; }
+
+  var has = lfHasAnyDraft();
+
+  var css = document.createElement('style');
+  css.textContent =
+    '.lfres{max-width:420px;margin:16px auto 0;padding:0 16px;box-sizing:border-box}'
+  + '.lfres .rb{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;'
+  + 'background:#fff;border:1px solid #D9CFC0;border-radius:12px;padding:11px 10px;'
+  + 'font-family:inherit;font-size:12px;font-weight:500;color:#1E4A76;cursor:pointer;transition:.15s}'
+  + '.lfres .rb:active{transform:scale(.985)}'
+  + '.lfres .rb.has{border-color:#F0DCE4;background:#FFF7FA}'
+  + '.lfres .rb .tag{font-size:11px;color:#C98BA5;font-weight:700}'
+  + '.lfsheet{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(30,40,50,.45);'
+  + 'display:none;align-items:flex-end;justify-content:center;z-index:9999}'
+  + '.lfsheet.on{display:flex}'
+  + '.lfsheet .pan{width:100%;max-width:412px;background:#FFFBF5;border-radius:20px 20px 0 0;padding:18px 16px 24px;box-sizing:border-box}'
+  + '.lfsheet .ttl{text-align:center;font-size:13.5px;font-weight:700;color:#1E4A76}'
+  + '.lfsheet .sub{text-align:center;font-size:11.5px;color:#9A9287;margin:5px 0 13px}'
+  + '.lfsheet input{width:100%;box-sizing:border-box;border:1.5px solid #D9CFC0;border-radius:12px;'
+  + 'padding:12px;text-align:center;font-family:inherit;font-size:15px;color:#1E4A76;'
+  + 'letter-spacing:1px;background:#fff;text-transform:uppercase}'
+  + '.lfsheet input:focus{outline:none;border-color:#1E4A76}'
+  + '.lfsheet .found{margin-top:12px;padding:13px;background:#FFF7FA;border:1px solid #F0DCE4;border-radius:14px;display:none}'
+  + '.lfsheet .found.on{display:block}'
+  + '.lfsheet .found .ft{font-size:11px;font-weight:800;color:#C98BA5;margin-bottom:6px}'
+  + '.lfsheet .found p{font-size:12.5px;color:#2E3A46;line-height:1.65;margin:0}'
+  + '.lfsheet .found p b{color:#1E4A76}'
+  + '.lfsheet .fb{display:flex;gap:7px;margin-top:10px}'
+  + '.lfsheet .fb button{flex:1;border-radius:10px;padding:10px;font-family:inherit;font-size:11.5px;'
+  + 'font-weight:700;cursor:pointer;border:1px solid #F0DCE4}'
+  + '.lfsheet .fb .go{background:#1E4A76;color:#fff;border-color:#1E4A76}'
+  + '.lfsheet .fb .fresh{background:#fff;color:#8C8880}'
+  + '.lfsheet .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px}'
+  + '.lfsheet .foot a{font-size:11.5px;color:#9A9287;text-decoration:none;cursor:pointer}'
+  + '@media print{.lfres,.lfsheet{display:none !important}}';
+  document.head.appendChild(css);
+
+  var btn = '<div class="lfres" id="lfres">'
+    + '<button class="rb' + (has ? ' has' : '') + '" onclick="lfResOpen()">'
+    + '<span>&#127915;</span><span>지난 여행 이어가기</span>'
+    + (has ? '<span class="tag">담아둔 여행이 있어요</span>' : '')
+    + '</button></div>';
+
+  var sheet = '<div class="lfsheet" id="lfsheet" onclick="if(event.target===this)lfResClose()">'
+    + '<div class="pan">'
+    + '<div class="ttl">지난 여행 이어가기</div>'
+    + '<div class="sub">여권번호를 넣어주세요</div>'
+    + '<input id="lfResIn" placeholder="LFM-XXXXX" autocomplete="off" oninput="lfResCheck()">'
+    + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
+    + '<p id="lfResMsg"></p>'
+    + '<div class="fb"><button class="go" id="lfResGo">이어서 여행하기</button>'
+    + '<button class="fresh" onclick="lfResGoNow(true)">처음부터 다시</button></div></div>'
+    + '<div class="foot"><a onclick="lfGo(\'find\')">번호를 잊으셨나요?</a>'
+    + '<a onclick="lfResClose()">닫기</a></div>'
+    + '</div></div>';
+
+  /* 방향버튼 바로 위에 답니다. 방향버튼이 없는 화면이면 푸터 앞에. */
+  var way = document.getElementById('lfway');
+  if (way) {
+    way.insertAdjacentHTML('beforebegin', btn);
+  } else {
+    var foot = document.querySelector('.foot') || document.querySelector('footer')
+            || document.querySelector('.glegal') || document.querySelector('.legal');
+    if (foot && foot.parentNode) { foot.insertAdjacentHTML('beforebegin', btn); }
+    else { document.body.insertAdjacentHTML('beforeend', btn); }
+  }
+  document.body.insertAdjacentHTML('beforeend', sheet);
+}
+
+var LF_RES = null;
+
+document.addEventListener('click', function(e){
+  if (e.target && e.target.id === 'lfResGo') { lfResGoNow(false); }
+});
+
+function lfResOpen(){
+  var s = document.getElementById('lfsheet');
+  if (!s) { return; }
+  s.classList.add('on');
+  var pp = lfPassport();
+  var inp = document.getElementById('lfResIn');
+  if (pp && inp && !inp.value) { inp.value = pp; }
+  lfResCheck();
+  if (inp) { inp.focus(); }
+}
+
+function lfResClose(){
+  var s = document.getElementById('lfsheet');
+  if (s) { s.classList.remove('on'); }
+}
+
+function lfResCheck(){
+  var f = document.getElementById('lfResFound');
+  var v = (document.getElementById('lfResIn').value || '').trim().toUpperCase();
+  LF_RES = null;
+  if (!/^LF[ML]?-[A-Z0-9]+$/.test(v)) { f.classList.remove('on'); return; }
+
+  var j = lfReadDraft('journey', v);
+  var l = lfReadDraft('letter',  v);
+  var kind = j ? 'journey' : (l ? 'letter' : '');
+
+  /* ★담아둔 게 없어도 빈손으로 안 돌려보냅니다 — 그 여권으로 여행지도를 펼쳐드립니다 */
+  if (!kind) {
+    LF_RES = { kind:'journey', pp:v, empty:1 };
+    document.getElementById('lfResTag').textContent = '담아둔 여행이 없어요';
+    /* ★[260714 대표 지적] "없다"로 끝내면 손님은 여행이 날아간 줄 압니다.
+       ★"거기 가면 있다"고 알려줘야 합니다. 담아둔 것은 그 기기 안에 있습니다. */
+    document.getElementById('lfResMsg').innerHTML =
+      '이 기기엔 담아둔 게 없어요.<br>'
+    + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
+    + '이 여권으로 여행지도를 새로 펼쳐볼까요?';
+    document.getElementById('lfResGo').textContent = '여행지도 펼치기';
+    f.classList.add('on');
+    return;
+  }
+
+  var b = j || l;
+  var who = '';
+  try{ who = (b.data && (b.data.nick || b.data.target)) || ''; }catch(e){}
+  var what = (kind === 'journey') ? '여행지도' : '편지';
+
+  LF_RES = { kind:kind, pp:v, empty:0 };
+  document.getElementById('lfResTag').textContent = '담아둔 여행이 있어요';
+  document.getElementById('lfResMsg').innerHTML =
+      (who ? '<b>' + lfEsc(who) + '</b>님과의 ' : '')
+    + what + '가 <b>' + b.i + '번째 물음</b>에서 멈춰 있어요.<br>거기서부터 이어갈까요?';
+  document.getElementById('lfResGo').textContent =
+      (kind === 'journey') ? '이어서 여행하기' : '이어서 쓰기';
+  f.classList.add('on');
+}
+
+function lfEsc(v){ return (v||'').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+function lfResGoNow(fresh){
+  if (!LF_RES) { return; }
+  if (fresh && !LF_RES.empty) {
+    try{ localStorage.removeItem('lf_' + LF_RES.kind + '_' + LF_RES.pp); }catch(e){}
+  }
+  var u = LF_RESUME_LINK[LF_RES.kind];
+  if (!u) { return; }
+  u += '?id=' + encodeURIComponent(LF_RES.pp);
+  if (!LF_RES.empty) { u += fresh ? '&fresh=1' : '&resume=1'; }
+  location.href = u;
+}
+
+function lfPaintAll(){
   lfPaintWay();
+  lfPaintResume();   /* [260714] 방향버튼 위에 '지난 여행 이어가기' */
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', lfPaintAll);
+} else {
+  lfPaintAll();
 }
 </script>
 
