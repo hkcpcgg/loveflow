@@ -1,4 +1,4 @@
-<!-- 사랑흐름 입국 게이트 gate.html v9-22 · 260712 · [작업 v9-22] ★"구입하신 여행" 선택칸 신설 — 발권 시 상품종류(item)를 손님이 직접 고르게 함. [배경] gate는 v9-21부터 이미 ?item=을 읽어 GAS(issuePassport)로 넘기고 있었고(348·354줄), issuePassport는 item으로 LFM-(지도만)/LFL-(편지포함) 채번 + 주문대장 J열에 MAP/MAP+LETTER를 기록하고 있었음(라이브 실측: 260710부터 LFL- 실제 발급 중). 그런데 ?item=은 pay를 거쳐 온 손님에게만 붙음. 네이버 스마트스토어에서 사고 gate로 바로 들어온 손님(주문대장 실물 기준 대다수)은 ?item=이 없어 기본값 'map'으로 떨어져 LFM- 발급 → 편지까지 산 손님이 편지 화면(letter.html doLoad v57)에서 "편지가 없는 여행 상품"으로 막히는 사고. [해결] ①"구입하신 곳" 아래에 "구입하신 여행" select(#item) 추가. 손님이 결제한 금액으로 고름 ②미선택이면 발급 차단(기본값을 두면 그냥 넘겨 틀린 여권이 나감 — 돈이 걸린 칸이라 반드시 고르게) ③?item=이 있으면(=pay를 거쳐 온 손님) 자동 선택해 두고 변경 가능 ④상품·금액은 ITEMS 한 곳에서 관리(추후 prices.js로 들어낼 블록). 금액=260712 확정대장 국내 런칭가(마음여행29,800·마음 여행지도14,900·마음 여행편지19,900·인생여행59,800). 정가는 안 씀(여긴 파는 곳이 아니라 낸 금액을 확인하는 곳). 자서전 단품은 미배포+현 GAS가 map 아니면 전부 편지포함으로 봐서 제외. [절대보존] issue()·GAS_B64·JSONP콜백·issuePassport 호출 URL 조립·regex 검증·lf_unlock·lf_passport·goJourney·발급완료 여권카드·드로어·?id=·GA4 미변경 · v9-21 · 260710 · [작업 v9-21] F안(주문번호 형식검증) client 추가: 발급 전 채널별 형식 검사→네이버=16자리숫자 확정(실샘플 2026070519922551), 나머지=6자 이상(abc·1111 등 쓰레기 차단). issuePassport GAS도 동일검증 병행(우회방지). 발급엔진 무변경. · [작업 v9-20] 발급완료 여권 제목 줄바꿈: "사랑흐름 마음 여행여권"이 좁은 화면에서 "사랑흐름 마음 여"/"행여권"으로 깨지던 것 → "사랑흐름"<br>"마음 여행여권" 두 줄 명시(cert-title). 텍스트/발급엔진 무변경. · 260706 · [작업 v9-19] ①띄어쓰기 표준(마음 뒤만 한 칸) 전면 통일 "마음 여행 여권"→"마음 여행여권"(상단바·제목·버튼·여권카드·alt). ②순서 교체: 설명(무엇인지·pp-explain)을 위로, 안내("구입하신 곳의 정보를 입력해 주세요")를 아래로. ③①스토어 박스에 오픈마켓·온라인 스토어 안내문 추가 + "네이버 스마트스토어" 네이버 그린(.nvr). ④발급 버튼 "마음 여행여권 발급받기 →". [절대보존] 발급엔진 스크립트·입력/결과 ID(channel·orderNo·phone4·ppNo·ppDate)·select·onclick·GAS 호출·regex·드로어·?id=·GA4 미변경. [v9-18]용어 마음여행여권·계좌이체 접수·언제든 삭제 [v9-17]이사회 [v9-16]pay색토큰 [v9-15]pay프레임 · 260625 · [작업 v9-14] 여권 이미지 저장 방식 전면 교체 — html2canvas(인앱 폰트 taint로 실패) 폐기. 같은출처 배경 /passport_bg.jpg에 발급번호(#ppNo)+발급일을 canvas로 얹어(좌표 번호 W/2·675, 발급일 W/2·840) 오버레이로 크게 띄우고 "꾹 눌러 저장" 안내. taint 없음→인앱(카톡·네이버) 저장 검증완료(pptest). 외부 라이브러리·CDN 제거. [절대보존] issue()·JSONP콜백·GAS_B64·lf_unlock·lf_passport·lfIssuedPassport·goJourney·잠금·복사함수 미변경(DOM 읽기전용) / v9-13 · 260625 · [작업 v9-13] 이미지 저장 실패 수정 — html2canvas onclone으로 캡처 복제본에서만 .cert 배경 단색(#163A5C)+::before/그림자 제거(그라데이션·inset 파싱오류 회피), backgroundColor 단색. 실패 시 원인 alert(진단). 실제 화면 디자인·발급/데이터 로직 무손상 / [작업 v9-12] 발급완료 화면(issuedView)에 '번호 복사'·'여권 이미지 저장' 버튼 2개 추가. 복사=clipboard+execCommand 폴백(인앱브라우저 대비), 저장=html2canvas(클릭 시 동적 로드, .cert 카드 PNG, 인앱 새탭 폴백). 버튼은 .cert 밖(이동버튼 앞)에 배치→캡처에 안 찍힘. 피드백은 버튼 글자로. [절대보존] issue()·JSONP콜백·GAS_B64·lf_unlock·lf_passport·lfIssuedPassport·goJourney·잠금 미변경(신규 함수는 DOM 읽기전용) / v9-11 · 260624 · [작업 v9-11] GA4 이벤트 issue_passport(발급 성공 콜백 1줄, 발급로직 무손상) / v9-10 · 260624 · [작업 v9-10] GA4 측정 삽입 / v9-9 · 260624 · [작업 v9-9] 상단 brandbar(← 홈으로+로고)를 통일 길잡이(좌 브랜드=홈 + 우 ☰)로 교체. issuePassport·lf_unlock·발급/입력·/journey/?id= 이동·여권카드 전부 보존 / v9-8 · 260623 · [작업 v9-8] 상단 brandbar에 "← 홈으로" 추가(홈 링크 0개→탈출구 신설, about·trust와 통일 스타일). 입력·발급완료 화면 공통 상단. [기능 전부 보존] [작업 v9-7] 사각직인 기울기 -7→-15도(왼쪽으로 더). [작업 v9-6] 사각직인 테두리 두껍게(2→3.5px)+선명도↑(opacity 0.78→0.85). 크기·위치 동일. [작업 v9-5] 발행청 직인 배치: 기관명 텍스트 3pt↑(15→18px), 사각직인 2pt↓(60→48px), 직인을 기관명 오른쪽("관리청")에 반쯤 겹쳐 반투명으로 찍음(실제 공문서 직인 느낌, 글씨 비침). [작업 v9-4] ①명칭"관계흐름 번호"→"사랑흐름 관계 여권"(LOVE FLOW·RELATIONSHIP PASSPORT) ②상단 원형✦도장 완전삭제(거슬림)→제목 30px로 키움 ③발행청 사랑흐름 마음관리청 가운데정렬+키움(15px) ④빨간 원형직인→CSS 사각 관공서 직인(認證, 빨강 사각틀) ⑤발행청 가운데+사각도장 공문서 느낌. 한영병기·기능 유지. [작업 v9-3] gate 정체성 정정: "증서/증명서"(여행끝 certificate 몫) 제거 → "관계흐름 번호 / RELATIONSHIP PASSPORT"(여권·입국비자 컨셉, 여행 시작). 글로벌 대비 한·영 병기 전면(번호·발급·기관·안내·저작권). 발행청(사랑흐름 마음관리청™·MINISTRY OF LOVE FLOW) 하단 이동+빨간 직인(OFFICIAL). 원형도장 안 삐딱텍스트 제거(✦만). 출발톤("이제 관계 여행을 떠날 수 있습니다"). [작업 v9-2] 발급완료 화면을 "관계흐름 증서" 권위 디자인으로 격상: 발급기관(사랑흐름 마음관리청™)·인장(사랑흐름마음관리청 각인)·증서제목·소지자 증명문·고유번호·발급일·모서리 장식·하단 저작권/민형사 경고(무단복제 금지). 한 화면 꽉채워 캡처 소장욕구↑. [작업 v9] 발급완료 화면만 수정: ①자동이동(1.6초 setTimeout) 삭제→"여행지도로 이동" 버튼(goJourney, 사용자가 번호 확인 후 직접 이동) ②소장가치 네이비 여권카드 디자인(골드 이중보더·도장·RELATIONSHIP PASSPORT 영문각인·번호 골드 크게·발급일자) ③한국어"여권"노출→"관계흐름 번호"(여권느낌은 영문각인·도장 디자인으로만). [절대보존] GAS_B64·issuePassport·lf_unlock·lf_passport·journey이동경로(/journey/?id=)·입력검증·JSONP콜백. 입력화면 단어는 미변경(다음 단계) / v8 · [작업 v8] ①상단 가로 재배치(도장 왼쪽+제목/영문 오른쪽, 세로스크롤↓) ②도장 ✦ 키우고 원 작게+반짝임 애니메이션 ③제목 '관계 여행 입장'→'관계 여행 떠나기' ④주문번호→상품주문번호(주민번호 오인방지) ⑤문의 '연락드리겠습니다' ⑥버튼 '사랑흐름 관계 여권 발급받기' ⑦관계 여권 설명 한 줄 추가 / v6·v7 유지 · [v7]도장✦·전화→카톡 · [v6]구매하러가기 · [v5]구입처10개+휴대폰뒷4 · [v3]GAS ...M1A · [v2]A방식 -->
+<!-- 사랑흐름 입국 게이트 gate.html v9-25 · 260714 · [작업 v9-25] 같은 기기 안내 — 못 찾았을 때 "폰에서 쓰신 여행은 폰에서" 한 줄. · [작업 v9-24] ★"지난 여행 이어가기" 공용 부품 부착(대표 확정 260714). 버튼→여권번호 시트→담아둔 여행 안내→이어가기/처음부터. 발급 엔진 무변경. · [작업 v9-23] ★방향버튼(lfway) 신규 부착 — 대표 지적 "여권 발급 화면에선 또 아무것도 없어. 안내바 버튼이." 라이브 실측 0건 확인. enter.html의 공용 부품(lfGo·LF_NEXT·lfPrev·lfBack·lfPaintWay)을 통째로 이식. gate의 다음길은 LF_NEXT 표에 이미 있음(/gate.html → journey "여행 시작하기"). 버튼 모양은 260714 축소본(한 줄 알약 26px·부제 없음·딥네이비 채움 없음). [충돌 없음 확인] gate의 lfBackdrop은 메뉴 배경막이며 함수 lfBack()과 무관. gate의 go()와 부품의 lfGo()는 별개 이름. [절대보존] issue()·GAS_B64·JSONP콜백·issuePassport·regex검증·lf_unlock·lf_passport·goJourney·발급완료 여권카드·lf-menu 드로어 미변경. · v9-22 · 260712 · [작업 v9-22] ★"구입하신 여행" 선택칸 신설 — 발권 시 상품종류(item)를 손님이 직접 고르게 함. [배경] gate는 v9-21부터 이미 ?item=을 읽어 GAS(issuePassport)로 넘기고 있었고(348·354줄), issuePassport는 item으로 LFM-(지도만)/LFL-(편지포함) 채번 + 주문대장 J열에 MAP/MAP+LETTER를 기록하고 있었음(라이브 실측: 260710부터 LFL- 실제 발급 중). 그런데 ?item=은 pay를 거쳐 온 손님에게만 붙음. 네이버 스마트스토어에서 사고 gate로 바로 들어온 손님(주문대장 실물 기준 대다수)은 ?item=이 없어 기본값 'map'으로 떨어져 LFM- 발급 → 편지까지 산 손님이 편지 화면(letter.html doLoad v57)에서 "편지가 없는 여행 상품"으로 막히는 사고. [해결] ①"구입하신 곳" 아래에 "구입하신 여행" select(#item) 추가. 손님이 결제한 금액으로 고름 ②미선택이면 발급 차단(기본값을 두면 그냥 넘겨 틀린 여권이 나감 — 돈이 걸린 칸이라 반드시 고르게) ③?item=이 있으면(=pay를 거쳐 온 손님) 자동 선택해 두고 변경 가능 ④상품·금액은 ITEMS 한 곳에서 관리(추후 prices.js로 들어낼 블록). 금액=260712 확정대장 국내 런칭가(마음여행29,800·마음 여행지도14,900·마음 여행편지19,900·인생여행59,800). 정가는 안 씀(여긴 파는 곳이 아니라 낸 금액을 확인하는 곳). 자서전 단품은 미배포+현 GAS가 map 아니면 전부 편지포함으로 봐서 제외. [절대보존] issue()·GAS_B64·JSONP콜백·issuePassport 호출 URL 조립·regex 검증·lf_unlock·lf_passport·goJourney·발급완료 여권카드·드로어·?id=·GA4 미변경 · v9-21 · 260710 · [작업 v9-21] F안(주문번호 형식검증) client 추가: 발급 전 채널별 형식 검사→네이버=16자리숫자 확정(실샘플 2026070519922551), 나머지=6자 이상(abc·1111 등 쓰레기 차단). issuePassport GAS도 동일검증 병행(우회방지). 발급엔진 무변경. · [작업 v9-20] 발급완료 여권 제목 줄바꿈: "사랑흐름 마음 여행여권"이 좁은 화면에서 "사랑흐름 마음 여"/"행여권"으로 깨지던 것 → "사랑흐름"<br>"마음 여행여권" 두 줄 명시(cert-title). 텍스트/발급엔진 무변경. · 260706 · [작업 v9-19] ①띄어쓰기 표준(마음 뒤만 한 칸) 전면 통일 "마음 여행 여권"→"마음 여행여권"(상단바·제목·버튼·여권카드·alt). ②순서 교체: 설명(무엇인지·pp-explain)을 위로, 안내("구입하신 곳의 정보를 입력해 주세요")를 아래로. ③①스토어 박스에 오픈마켓·온라인 스토어 안내문 추가 + "네이버 스마트스토어" 네이버 그린(.nvr). ④발급 버튼 "마음 여행여권 발급받기 →". [절대보존] 발급엔진 스크립트·입력/결과 ID(channel·orderNo·phone4·ppNo·ppDate)·select·onclick·GAS 호출·regex·드로어·?id=·GA4 미변경. [v9-18]용어 마음여행여권·계좌이체 접수·언제든 삭제 [v9-17]이사회 [v9-16]pay색토큰 [v9-15]pay프레임 · 260625 · [작업 v9-14] 여권 이미지 저장 방식 전면 교체 — html2canvas(인앱 폰트 taint로 실패) 폐기. 같은출처 배경 /passport_bg.jpg에 발급번호(#ppNo)+발급일을 canvas로 얹어(좌표 번호 W/2·675, 발급일 W/2·840) 오버레이로 크게 띄우고 "꾹 눌러 저장" 안내. taint 없음→인앱(카톡·네이버) 저장 검증완료(pptest). 외부 라이브러리·CDN 제거. [절대보존] issue()·JSONP콜백·GAS_B64·lf_unlock·lf_passport·lfIssuedPassport·goJourney·잠금·복사함수 미변경(DOM 읽기전용) / v9-13 · 260625 · [작업 v9-13] 이미지 저장 실패 수정 — html2canvas onclone으로 캡처 복제본에서만 .cert 배경 단색(#163A5C)+::before/그림자 제거(그라데이션·inset 파싱오류 회피), backgroundColor 단색. 실패 시 원인 alert(진단). 실제 화면 디자인·발급/데이터 로직 무손상 / [작업 v9-12] 발급완료 화면(issuedView)에 '번호 복사'·'여권 이미지 저장' 버튼 2개 추가. 복사=clipboard+execCommand 폴백(인앱브라우저 대비), 저장=html2canvas(클릭 시 동적 로드, .cert 카드 PNG, 인앱 새탭 폴백). 버튼은 .cert 밖(이동버튼 앞)에 배치→캡처에 안 찍힘. 피드백은 버튼 글자로. [절대보존] issue()·JSONP콜백·GAS_B64·lf_unlock·lf_passport·lfIssuedPassport·goJourney·잠금 미변경(신규 함수는 DOM 읽기전용) / v9-11 · 260624 · [작업 v9-11] GA4 이벤트 issue_passport(발급 성공 콜백 1줄, 발급로직 무손상) / v9-10 · 260624 · [작업 v9-10] GA4 측정 삽입 / v9-9 · 260624 · [작업 v9-9] 상단 brandbar(← 홈으로+로고)를 통일 길잡이(좌 브랜드=홈 + 우 ☰)로 교체. issuePassport·lf_unlock·발급/입력·/journey/?id= 이동·여권카드 전부 보존 / v9-8 · 260623 · [작업 v9-8] 상단 brandbar에 "← 홈으로" 추가(홈 링크 0개→탈출구 신설, about·trust와 통일 스타일). 입력·발급완료 화면 공통 상단. [기능 전부 보존] [작업 v9-7] 사각직인 기울기 -7→-15도(왼쪽으로 더). [작업 v9-6] 사각직인 테두리 두껍게(2→3.5px)+선명도↑(opacity 0.78→0.85). 크기·위치 동일. [작업 v9-5] 발행청 직인 배치: 기관명 텍스트 3pt↑(15→18px), 사각직인 2pt↓(60→48px), 직인을 기관명 오른쪽("관리청")에 반쯤 겹쳐 반투명으로 찍음(실제 공문서 직인 느낌, 글씨 비침). [작업 v9-4] ①명칭"관계흐름 번호"→"사랑흐름 관계 여권"(LOVE FLOW·RELATIONSHIP PASSPORT) ②상단 원형✦도장 완전삭제(거슬림)→제목 30px로 키움 ③발행청 사랑흐름 마음관리청 가운데정렬+키움(15px) ④빨간 원형직인→CSS 사각 관공서 직인(認證, 빨강 사각틀) ⑤발행청 가운데+사각도장 공문서 느낌. 한영병기·기능 유지. [작업 v9-3] gate 정체성 정정: "증서/증명서"(여행끝 certificate 몫) 제거 → "관계흐름 번호 / RELATIONSHIP PASSPORT"(여권·입국비자 컨셉, 여행 시작). 글로벌 대비 한·영 병기 전면(번호·발급·기관·안내·저작권). 발행청(사랑흐름 마음관리청™·MINISTRY OF LOVE FLOW) 하단 이동+빨간 직인(OFFICIAL). 원형도장 안 삐딱텍스트 제거(✦만). 출발톤("이제 관계 여행을 떠날 수 있습니다"). [작업 v9-2] 발급완료 화면을 "관계흐름 증서" 권위 디자인으로 격상: 발급기관(사랑흐름 마음관리청™)·인장(사랑흐름마음관리청 각인)·증서제목·소지자 증명문·고유번호·발급일·모서리 장식·하단 저작권/민형사 경고(무단복제 금지). 한 화면 꽉채워 캡처 소장욕구↑. [작업 v9] 발급완료 화면만 수정: ①자동이동(1.6초 setTimeout) 삭제→"여행지도로 이동" 버튼(goJourney, 사용자가 번호 확인 후 직접 이동) ②소장가치 네이비 여권카드 디자인(골드 이중보더·도장·RELATIONSHIP PASSPORT 영문각인·번호 골드 크게·발급일자) ③한국어"여권"노출→"관계흐름 번호"(여권느낌은 영문각인·도장 디자인으로만). [절대보존] GAS_B64·issuePassport·lf_unlock·lf_passport·journey이동경로(/journey/?id=)·입력검증·JSONP콜백. 입력화면 단어는 미변경(다음 단계) / v8 · [작업 v8] ①상단 가로 재배치(도장 왼쪽+제목/영문 오른쪽, 세로스크롤↓) ②도장 ✦ 키우고 원 작게+반짝임 애니메이션 ③제목 '관계 여행 입장'→'관계 여행 떠나기' ④주문번호→상품주문번호(주민번호 오인방지) ⑤문의 '연락드리겠습니다' ⑥버튼 '사랑흐름 관계 여권 발급받기' ⑦관계 여권 설명 한 줄 추가 / v6·v7 유지 · [v7]도장✦·전화→카톡 · [v6]구매하러가기 · [v5]구입처10개+휴대폰뒷4 · [v3]GAS ...M1A · [v2]A방식 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -508,6 +508,367 @@ function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open"
 /* [v9-22] 삭제: lfMineUniverse·lfMineCert·lfMineJourney 에 ?id= 를 꽂아주던 블록.
    메뉴에서 그 세 항목(href="#")을 뺐으므로 참조 대상이 없어짐 — 남겨두면 getElementById null 에러.
    (게다가 이 정규식은 LF- 만 잡아 LFM-/LFL- 은 못 잡던 옛 코드였음) */
+</script>
+
+<!-- [v9-23 · 260714] 앞뒤 방향 부품 — enter.html 공용 부품 그대로 이식 (이 화면엔 없었습니다) -->
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   [260713 대표 확정] 앞뒤 방향 — 전 화면 공용
+   ───────────────────────────────────────────────────────────────────
+   대표: "내가 머물러 있는 곳이 지금 내 자리가 아니라고 판단됐을 때
+          ★빨리 어디론가 갈 수 있게는 해줘야 된다.
+          그 자리에 ★그 값이 살아 있어야 된다.
+          앞에서 뭘 보고 왔는데, 그 앞자리로 돌아가고 싶다는 욕구가 있다.
+          그래서 앞으로 가기도 필요한 거예요."
+   [이사회] 새 창은 카톡 인앱에서 제멋대로 열립니다. 팝업은 결제를 못 담습니다.
+            → ★같은 창에서 '돌아가기'. 창을 이탈시키지 않습니다.
+
+   [뒤로] 방금 온 곳. ★이름까지 보여줍니다. 어디로 가는지 알고 누르게.
+   [앞으로] 화면마다 다릅니다. ★이게 매출 동선입니다.
+   ═══════════════════════════════════════════════════════════════════ */
+var LF_NAME = {
+  '/':'홈', '/index.html':'홈',
+  '/journey/':'여행지도', '/journey/index.html':'여행지도',
+  '/journey/result.html':'여행일지',
+  '/l/':'편지', '/letter/':'편지', '/letter/index.html':'편지',
+  '/gate.html':'여권 발급', '/enter.html':'여권 발급',
+  '/pay.html':'결제', '/apply.html':'계좌이체',
+  '/showcase.html':'여행 예매', '/showroom.html':'여행의 기록',
+  '/reenter.html':'여권으로 입장', '/find/':'여권 찾기', '/m/':'마음 한마디'
+};
+
+/* 화면마다 "앞으로 갈 곳" — 다음 상품으로 미는 문 */
+var LF_NEXT = {
+  '/':                    { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/index.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/showroom.html':       { k:'showcase', t:'마음 여행 예매하기' },
+  '/showcase.html':       { k:'pay',      t:'결제하기' },
+  '/enter.html':          { k:'journey',  t:'여행 시작하기' },
+  '/journey/result.html': { k:'letter',   t:'이 여행을 편지로 이어가기' },
+  /* 편지·여행지도는 길을 안 깝니다(위 lfPaintWay 참조).
+     편지 완성 화면의 "다른 분과 여행하기"는 그 화면 안에 이미 있습니다. */
+  '/reenter.html':        { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/find/':               { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
+  '/pay.html':            { k:'gate',     t:'여권 발급받기' },
+  '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
+  '/gate.html':           { k:'journey',  t:'여행 시작하기' }
+};
+
+/* 지금 화면에 온 것을 기록해 둡니다 (다음 화면의 "뒤로"가 여기로 옵니다) */
+(function(){
+  try{
+    var here = location.pathname;
+    var prev = sessionStorage.getItem('lf_here') || '';
+    if (prev && prev !== here) { sessionStorage.setItem('lf_prev', prev); }
+    sessionStorage.setItem('lf_here', here);
+  }catch(e){}
+})();
+
+function lfPrev(){
+  try{ return sessionStorage.getItem('lf_prev') || ''; }catch(e){ return ''; }
+}
+
+function lfPrevName(){
+  var p = lfPrev();
+  if (!p) { return ''; }
+  return LF_NAME[p] || '';
+}
+
+function lfBack(){
+  var p = lfPrev();
+  if (!p) { location.href = '/'; return; }
+  var pp = (typeof lfPassport === 'function') ? lfPassport() : '';
+  if (pp && (p.indexOf('/journey') === 0 || p.indexOf('/letter') === 0 || p.indexOf('/l/') === 0)) {
+    p += (p.indexOf('?') > -1 ? '&' : '?') + 'id=' + encodeURIComponent(pp);
+  }
+  location.href = p;
+}
+
+function lfNext(){
+  var n = LF_NEXT[location.pathname];
+  if (!n) { return; }
+  if (typeof lfGo === 'function') { lfGo(n.k); }
+}
+
+/* 화면 아래에 길을 깝니다 */
+function lfPaintWay(){
+  if (document.getElementById('lfway')) { return; }
+
+  /* ★질문을 쓰는 화면에는 길을 깔지 않습니다.
+     · 여행지도·편지는 화면 아래에 이미 [이전][다음] 버튼이 있습니다. 넷이 되면 헷갈립니다.
+     · 그리고 여행 중에 "앞으로"를 누르면 ★적던 답이 날아갑니다.
+     · 이 화면들은 다 끝난 뒤(결과지·편지 완성)에 길이 나옵니다. */
+  var p = location.pathname;
+  if (p.indexOf('/journey/') === 0 && p.indexOf('result') < 0) { return; }
+  if (p.indexOf('/letter/') === 0) { return; }
+
+  var prev = lfPrev();
+  var next = LF_NEXT[location.pathname];
+  if (!prev && !next) { return; }          /* 갈 곳이 없으면 안 깝니다 */
+
+  var css = document.createElement('style');
+  css.textContent =
+    '.lfway{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;'
+  + 'max-width:420px;margin:20px auto 10px;padding:0 16px;box-sizing:border-box}'
+  + '.lfway a{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;'
+  + 'border:1px solid #E6E1D8;border-radius:13px;background:#fff;'
+  + 'text-decoration:none;cursor:pointer;transition:.15s}'
+  + '.lfway a:active{opacity:.55}'
+  + '.lfway .ic{font-size:11px;color:#94A0AE;line-height:1}'
+  + '.lfway .tt{font-size:10.5px;font-weight:500;color:#7A8794;letter-spacing:-.2px}'
+  + '@media print{.lfway{display:none}}';
+  document.head.appendChild(css);
+
+  var h = '<div class="lfway" id="lfway">';
+  if (prev) {
+    h += '<a onclick="lfBack()"><span class="ic">←</span><span class="tt">뒤로</span></a>';
+  }
+  h += '<a onclick="lfGo(\'home\')"><span class="ic">⌂</span><span class="tt">홈</span></a>';
+  if (next) {
+    h += '<a onclick="lfNext()"><span class="ic">→</span><span class="tt">앞으로</span></a>';
+  }
+  h += '</div>';
+
+  /* 푸터 바로 앞에 답니다.
+     화면마다 푸터 클래스가 제각각이라(.foot / footer / .glegal / 클래스 없음),
+     ★저작권 문구(© 2026)를 품은 덩어리를 찾아 그 앞에 답니다. 그게 제일 확실합니다. */
+  var foot = document.querySelector('.foot') || document.querySelector('footer')
+          || document.querySelector('.glegal') || document.querySelector('.legal');
+
+  if (!foot) {
+    var all = document.body.querySelectorAll('div');
+    for (var i = all.length - 1; i >= 0; i--) {
+      if ((all[i].textContent || '').indexOf('© 2026') > -1) {
+        var node = all[i];
+        /* 저작권 문구를 품은 가장 바깥 덩어리까지 올라갑니다 */
+        while (node.parentNode && node.parentNode !== document.body
+               && (node.parentNode.textContent || '').indexOf('© 2026') > -1
+               && (node.parentNode.textContent || '').length < 400) {
+          node = node.parentNode;
+        }
+        foot = node;
+        break;
+      }
+    }
+  }
+
+  if (foot && foot.parentNode && foot.parentNode !== document.documentElement) {
+    foot.insertAdjacentHTML('beforebegin', h);
+  } else {
+    document.body.insertAdjacentHTML('beforeend', h);
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════════
+   [260714 대표 확정] 지난 여행 이어가기 — 전 화면 공용 부품
+   ───────────────────────────────────────────────────────────────────
+   대표: "입구마다 있어야 됩니다. 주인 버튼. '지난 여행 이어가기'를 누르면
+          여권번호 입력창이 뜨고, 넣으면 바로 그 여행으로 이어진다.
+          결제하는 데, 쇼룸, 여권 찾는 데 — 중간중간 게이트마다 다 보여줘야 된다.
+          ★광고 효과도 있는 거예요."
+
+   [왜 시트인가 · reenter로 안 보내는가]
+     pay(돈 내는 중)에서 다른 페이지로 보내면 ★결제를 이탈시킵니다. 매출 구멍입니다.
+     그 자리에서 열리는 시트는 닫으면 원래 화면 그대로 남습니다.
+
+   [★편지 목적지 함정] LF_LINK.letter = '/l/' 은 꽃비 맞이 의식입니다(1.1초 뒤 /letter/로 넘김).
+     이어가는 손님에게 의식을 다시 보여줄 순 없고, ?resume= 도 넘어가다 사라집니다.
+     → 이어가기는 LF_RESUME_LINK 로 ★/letter/ 에 직행합니다.
+
+   [한계 · 정직하게] 저장은 이 브라우저 안에만 있습니다(localStorage).
+     폰에서 쓰다 PC로 오면 번호를 넣어도 못 찾습니다.
+     어디서든 이어지려면 서버(시트)에 담아야 하고, 그건 GAS 위험구간이라 별건입니다.
+   ═══════════════════════════════════════════════════════════════════ */
+var LF_RESUME_LINK = { journey:'/journey/', letter:'/letter/' };
+
+function lfReadDraft(kind, pp){
+  try{
+    var raw = localStorage.getItem('lf_' + kind + '_' + pp);
+    if (!raw) { return null; }
+    var b = JSON.parse(raw);
+    if (!b || typeof b.i !== 'number' || b.i < 1) { return null; }
+    return b;
+  }catch(e){ return null; }
+}
+
+/* 이 브라우저에 담아둔 게 하나라도 있나 — 버튼을 살릴지 정합니다 */
+function lfHasAnyDraft(){
+  try{
+    for (var n = 0; n < localStorage.length; n++) {
+      var k = localStorage.key(n);
+      if (k && (k.indexOf('lf_journey_') === 0 || k.indexOf('lf_letter_') === 0)) { return true; }
+    }
+  }catch(e){}
+  return false;
+}
+
+function lfPaintResume(){
+  if (document.getElementById('lfres')) { return; }
+
+  /* ★안 까는 곳
+     · 여행지도 질문 중 · 편지 쓰는 중 — 지금 하는 여행이 날아갑니다
+     · reenter — 그 화면이 이미 여권번호 입력창입니다 */
+  var p = location.pathname;
+  if (p.indexOf('/journey/') === 0 && p.indexOf('result') < 0) { return; }
+  if (p.indexOf('/letter/') === 0) { return; }
+  if (p.indexOf('/reenter') === 0) { return; }
+
+  var has = lfHasAnyDraft();
+
+  var css = document.createElement('style');
+  css.textContent =
+    '.lfres{max-width:420px;margin:16px auto 0;padding:0 16px;box-sizing:border-box}'
+  + '.lfres .rb{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;'
+  + 'background:#fff;border:1px solid #D9CFC0;border-radius:12px;padding:11px 10px;'
+  + 'font-family:inherit;font-size:12px;font-weight:500;color:#1E4A76;cursor:pointer;transition:.15s}'
+  + '.lfres .rb:active{transform:scale(.985)}'
+  + '.lfres .rb.has{border-color:#F0DCE4;background:#FFF7FA}'
+  + '.lfres .rb .tag{font-size:11px;color:#C98BA5;font-weight:700}'
+  + '.lfsheet{position:fixed;left:0;right:0;top:0;bottom:0;background:rgba(30,40,50,.45);'
+  + 'display:none;align-items:flex-end;justify-content:center;z-index:9999}'
+  + '.lfsheet.on{display:flex}'
+  + '.lfsheet .pan{width:100%;max-width:412px;background:#FFFBF5;border-radius:20px 20px 0 0;padding:18px 16px 24px;box-sizing:border-box}'
+  + '.lfsheet .ttl{text-align:center;font-size:13.5px;font-weight:700;color:#1E4A76}'
+  + '.lfsheet .sub{text-align:center;font-size:11.5px;color:#9A9287;margin:5px 0 13px}'
+  + '.lfsheet input{width:100%;box-sizing:border-box;border:1.5px solid #D9CFC0;border-radius:12px;'
+  + 'padding:12px;text-align:center;font-family:inherit;font-size:15px;color:#1E4A76;'
+  + 'letter-spacing:1px;background:#fff;text-transform:uppercase}'
+  + '.lfsheet input:focus{outline:none;border-color:#1E4A76}'
+  + '.lfsheet .found{margin-top:12px;padding:13px;background:#FFF7FA;border:1px solid #F0DCE4;border-radius:14px;display:none}'
+  + '.lfsheet .found.on{display:block}'
+  + '.lfsheet .found .ft{font-size:11px;font-weight:800;color:#C98BA5;margin-bottom:6px}'
+  + '.lfsheet .found p{font-size:12.5px;color:#2E3A46;line-height:1.65;margin:0}'
+  + '.lfsheet .found p b{color:#1E4A76}'
+  + '.lfsheet .fb{display:flex;gap:7px;margin-top:10px}'
+  + '.lfsheet .fb button{flex:1;border-radius:10px;padding:10px;font-family:inherit;font-size:11.5px;'
+  + 'font-weight:700;cursor:pointer;border:1px solid #F0DCE4}'
+  + '.lfsheet .fb .go{background:#1E4A76;color:#fff;border-color:#1E4A76}'
+  + '.lfsheet .fb .fresh{background:#fff;color:#8C8880}'
+  + '.lfsheet .foot{display:flex;justify-content:space-between;align-items:center;margin-top:14px}'
+  + '.lfsheet .foot a{font-size:11.5px;color:#9A9287;text-decoration:none;cursor:pointer}'
+  + '@media print{.lfres,.lfsheet{display:none !important}}';
+  document.head.appendChild(css);
+
+  var btn = '<div class="lfres" id="lfres">'
+    + '<button class="rb' + (has ? ' has' : '') + '" onclick="lfResOpen()">'
+    + '<span>&#127915;</span><span>지난 여행 이어가기</span>'
+    + (has ? '<span class="tag">담아둔 여행이 있어요</span>' : '')
+    + '</button></div>';
+
+  var sheet = '<div class="lfsheet" id="lfsheet" onclick="if(event.target===this)lfResClose()">'
+    + '<div class="pan">'
+    + '<div class="ttl">지난 여행 이어가기</div>'
+    + '<div class="sub">여권번호를 넣어주세요</div>'
+    + '<input id="lfResIn" placeholder="LFM-XXXXX" autocomplete="off" oninput="lfResCheck()">'
+    + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
+    + '<p id="lfResMsg"></p>'
+    + '<div class="fb"><button class="go" id="lfResGo">이어서 여행하기</button>'
+    + '<button class="fresh" onclick="lfResGoNow(true)">처음부터 다시</button></div></div>'
+    + '<div class="foot"><a onclick="lfGo(\'find\')">번호를 잊으셨나요?</a>'
+    + '<a onclick="lfResClose()">닫기</a></div>'
+    + '</div></div>';
+
+  /* 방향버튼 바로 위에 답니다. 방향버튼이 없는 화면이면 푸터 앞에. */
+  var way = document.getElementById('lfway');
+  if (way) {
+    way.insertAdjacentHTML('beforebegin', btn);
+  } else {
+    var foot = document.querySelector('.foot') || document.querySelector('footer')
+            || document.querySelector('.glegal') || document.querySelector('.legal');
+    if (foot && foot.parentNode) { foot.insertAdjacentHTML('beforebegin', btn); }
+    else { document.body.insertAdjacentHTML('beforeend', btn); }
+  }
+  document.body.insertAdjacentHTML('beforeend', sheet);
+}
+
+var LF_RES = null;
+
+document.addEventListener('click', function(e){
+  if (e.target && e.target.id === 'lfResGo') { lfResGoNow(false); }
+});
+
+function lfResOpen(){
+  var s = document.getElementById('lfsheet');
+  if (!s) { return; }
+  s.classList.add('on');
+  var pp = lfPassport();
+  var inp = document.getElementById('lfResIn');
+  if (pp && inp && !inp.value) { inp.value = pp; }
+  lfResCheck();
+  if (inp) { inp.focus(); }
+}
+
+function lfResClose(){
+  var s = document.getElementById('lfsheet');
+  if (s) { s.classList.remove('on'); }
+}
+
+function lfResCheck(){
+  var f = document.getElementById('lfResFound');
+  var v = (document.getElementById('lfResIn').value || '').trim().toUpperCase();
+  LF_RES = null;
+  if (!/^LF[ML]?-[A-Z0-9]+$/.test(v)) { f.classList.remove('on'); return; }
+
+  var j = lfReadDraft('journey', v);
+  var l = lfReadDraft('letter',  v);
+  var kind = j ? 'journey' : (l ? 'letter' : '');
+
+  /* ★담아둔 게 없어도 빈손으로 안 돌려보냅니다 — 그 여권으로 여행지도를 펼쳐드립니다 */
+  if (!kind) {
+    LF_RES = { kind:'journey', pp:v, empty:1 };
+    document.getElementById('lfResTag').textContent = '담아둔 여행이 없어요';
+    /* ★[260714 대표 지적] "없다"로 끝내면 손님은 여행이 날아간 줄 압니다.
+       ★"거기 가면 있다"고 알려줘야 합니다. 담아둔 것은 그 기기 안에 있습니다. */
+    document.getElementById('lfResMsg').innerHTML =
+      '이 기기엔 담아둔 게 없어요.<br>'
+    + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
+    + '이 여권으로 여행지도를 새로 펼쳐볼까요?';
+    document.getElementById('lfResGo').textContent = '여행지도 펼치기';
+    f.classList.add('on');
+    return;
+  }
+
+  var b = j || l;
+  var who = '';
+  try{ who = (b.data && (b.data.nick || b.data.target)) || ''; }catch(e){}
+  var what = (kind === 'journey') ? '여행지도' : '편지';
+
+  LF_RES = { kind:kind, pp:v, empty:0 };
+  document.getElementById('lfResTag').textContent = '담아둔 여행이 있어요';
+  document.getElementById('lfResMsg').innerHTML =
+      (who ? '<b>' + lfEsc(who) + '</b>님과의 ' : '')
+    + what + '가 <b>' + b.i + '번째 물음</b>에서 멈춰 있어요.<br>거기서부터 이어갈까요?';
+  document.getElementById('lfResGo').textContent =
+      (kind === 'journey') ? '이어서 여행하기' : '이어서 쓰기';
+  f.classList.add('on');
+}
+
+function lfEsc(v){ return (v||'').replace(/</g,'&lt;').replace(/"/g,'&quot;'); }
+
+function lfResGoNow(fresh){
+  if (!LF_RES) { return; }
+  if (fresh && !LF_RES.empty) {
+    try{ localStorage.removeItem('lf_' + LF_RES.kind + '_' + LF_RES.pp); }catch(e){}
+  }
+  var u = LF_RESUME_LINK[LF_RES.kind];
+  if (!u) { return; }
+  u += '?id=' + encodeURIComponent(LF_RES.pp);
+  if (!LF_RES.empty) { u += fresh ? '&fresh=1' : '&resume=1'; }
+  location.href = u;
+}
+
+function lfPaintAll(){
+  lfPaintWay();
+  lfPaintResume();   /* [260714] 방향버튼 위에 '지난 여행 이어가기' */
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', lfPaintAll);
+} else {
+  lfPaintAll();
+}
 </script>
 </body>
 </html>
