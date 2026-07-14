@@ -1,35 +1,33 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v3 · 260714   ★신규 (라이브 404 확인)
+     사랑흐름 · admin.html   v4 · 260714
 
-     [v3 · 260714] ★데스크톱 + 열쇠 안전
-       ① ★주소에서 열쇠를 뺐습니다. /admin.html?k=… 방식 폐기.
-          열쇠는 ★화면 칸에 직접 넣습니다. 한 번 넣으면 이 브라우저가 기억합니다.
-          → 주소창 · 방문기록 · 자동완성 · 화면공유에 열쇠가 안 남습니다.
-          ※열쇠를 바꾸시려면: 게시판 GAS 편집기 → var ADMIN_KEY 한 줄 →
-            저장 → 배포관리 → 연필 → 새 버전 → 배포. (열쇠는 거기 한 군데뿐입니다)
-          ※이 파일 안에는 열쇠가 없습니다. 손님이 소스를 열어도 안 나옵니다.
-       ② ★데스크톱 골격 — 대표 지적 "DB는 폰으로 못 다룬다."
-          좁은 화면(폰)  = 412px 카드. 아침에 엄지로 금액 한 번.
-          넓은 화면(≥900px) = 카드 껍데기를 벗고 ★표로 펼칩니다. 탭은 왼쪽 세로.
-          자바스크립트 · 데이터는 하나입니다. CSS 한 덩이로 갈립니다.
-       ③ [잊지 말 것] 「결과 보기」 탭(서술형 전문이 깔림)은 ★GAS 서빙으로 옮기기 전엔 안 켭니다.
-          지금 이 파일은 GitHub 에 공개된 정적 파일입니다.
+     [v4 · 260714] ★관리자 표준 표로 재작성
+       대표 지적: "정신없다. 창이 얼마나 길어져. 날짜별로 쭉 보고 체크만 하면 되는 거 아니냐."
+       [원인] v3 는 한 줄마다 금액 버튼을 ★넷씩 박았습니다. 접수 열 건이면 버튼 마흔 개.
+              표가 아니라 버튼밭이었습니다.
+       [해결] ★한 줄 = 한 건. 사회 통념상 관리자 표 그대로.
+              접수일시 · 접수번호 · 입금자명 · 은행 · 뒤4 · 금액(드롭다운) · 처리(버튼 하나)
+              · 금액은 접혀 있습니다. 고른 줄에서만 [확인]이 딥네이비로 켜집니다.
+              · 날짜 내림차순. 위에서 아래로 훑습니다.
+              · 폰에서는 표가 안 들어가므로 카드로 접히되 ★한 줄 높이를 지킵니다.
+
+     [v3] 열쇠를 주소에서 뺐습니다(?k= 폐기). 화면 칸에 직접 · 이 기기가 기억.
+          ※열쇠 바꾸기: 게시판 GAS 편집기 → var ADMIN_KEY 한 줄 →
+            저장 → 배포관리 → 연필 → 새 버전 → 배포. (열쇠는 거기 한 군데뿐)
+          ※이 파일 안에 열쇠는 없습니다.
+          데스크톱(≥900px) = 표. 폰 = 카드. 데이터 · 자바스크립트는 하나.
 
      [v2] 이사회 확정(260707~08 관리시스템 설계서 v1) 골격
-       ★3탭: ①결과 보기(잠금) ②입금·발급(켬) ③문의(잠금) — 자리를 지금 심습니다. 다시 안 짭니다.
-       ★3레벨: L1 대표 / L2 조직총무(자기 소속만) / L3 실무(본인 입력분만) → 변수 LEVEL 자리.
-               계정 테이블은 이사회가 「나중(B)」으로 확정.
-       ★동명이인(대표 지적): 금액은 매칭 키가 아닙니다. 줄은 접수번호로 찾고, 눈은 입금자명입니다.
-         같은 입금자명이 둘 이상이면 코랄 경고. 팝업에 은행·뒤4·접수시각까지 띄워 마지막 대조.
-       ★소속 자리(r.org): 주문대장에 소속 칸이 생기면 그대로 뜹니다. 화면 안 고칩니다.
+       ★3탭: ①결과 보기(잠금) ②입금·발급(켬) ③문의(잠금) — 자리를 지금 심습니다.
+       ★3레벨: L1 대표 / L2 조직총무 / L3 실무 → 변수 LEVEL 자리. 계정 테이블은 「나중(B)」.
+       ★동명이인(대표 지적): 줄은 접수번호로 찾고 눈은 입금자명입니다.
+         같은 입금자명이 둘 이상이면 그 줄에 코랄 표시. 팝업에서 마지막 대조.
+       ★소속 자리(r.org): 주문대장에 소속 칸이 생기면 그대로 뜹니다.
 
-     [★폐기 · 되살리지 말 것] 여권 비표 LFM-/LFL- (260713 이사회 만장일치 폐기).
-       여권번호는 LF- 하나. 상품 구분은 주문대장 J열(MAP / MAP+LETTER).
-
-     [미결 · 다음 작업(issuePassport)에서 심을 칸 — ★소급이 안 되는 것은 이 셋뿐]
-       O 소속(Source) · P 입력자(InputUserID) · Q 입력방식(InputMethod)
-
+     [★폐기] 여권 비표 LFM-/LFL- (260713 이사회 만장일치). 여권은 LF- 하나. 상품은 주문대장 J열.
+     [미결] 주문대장 O소속 · P입력자 · Q입력방식 — 다음 작업(issuePassport)에서 심습니다.
+     [★안 켬] 「결과 보기」 탭은 GAS 서빙으로 옮기기 전엔 안 켭니다(서술형 전문이 깔리는 화면).
      [안 건드림] 네이버 발급 동선 · 주문대장 · 여권 판별(LF-) · journey 잠금 · apply · gate · find
 ═══════════════════════════════════════════════════════════════════ -->
 <html lang="ko">
@@ -77,7 +75,7 @@ body{
 .tab.lock{color:#C6C0B4; cursor:default}
 .tab.lock small{display:block; font-size:9.5px; font-weight:400; margin-top:2px}
 
-.body{padding:18px 16px 24px; flex:1}
+.body{padding:16px 14px 24px; flex:1}
 
 .keybox{padding:40px 6px}
 .keybox .kt{font-size:14px; font-weight:700; color:var(--navy); margin-bottom:10px}
@@ -88,27 +86,49 @@ body{
 
 .state{font-size:12.5px; color:var(--sub); text-align:center; padding:26px 0; line-height:1.7}
 .state b{color:var(--navy)}
-.sect{font-size:12px; font-weight:900; color:var(--sub); letter-spacing:.4px; margin:6px 2px 10px}
-
-.card{background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 14px 12px; margin-bottom:12px}
-.no{font-size:16px; font-weight:900; color:var(--navy); letter-spacing:-.2px}
-.meta{font-size:12.5px; color:var(--sub); margin-top:5px; line-height:1.6}
-.meta b{color:var(--text); font-weight:700}
-.warn{margin-top:9px; padding:8px 11px; border-radius:10px; border:1.5px solid var(--coral); background:#FFF4F0; font-size:11.5px; font-weight:700; color:#B84A2C; line-height:1.5}
-.amts{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:12px}
-.amt{
-  height:44px; border-radius:22px; border:1.5px solid var(--line); background:#fff; color:var(--navy);
-  font-family:inherit; font-size:13.5px; font-weight:700; cursor:pointer;
-  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; line-height:1.15;
+.sect{
+  display:flex; align-items:baseline; gap:8px;
+  font-size:12px; font-weight:900; color:var(--sub); letter-spacing:.3px; margin:4px 2px 8px;
 }
-.amt span{font-size:10.5px; font-weight:400; color:var(--sub)}
-.amt:active{background:var(--cream)}
-.amt:hover{border-color:var(--navy)}
+.sect .n{color:var(--navy)}
 
-.card.done{background:#F7F4EE; opacity:.92}
-.card.done .no{color:var(--sub); font-size:14px}
-.pp{display:inline-block; margin-top:8px; padding:6px 13px; border-radius:16px; background:var(--navy); color:var(--gold); font-size:14px; font-weight:900; letter-spacing:.6px}
-.st{font-size:12px; color:var(--sub); margin-top:7px}
+/* ── 표 머리 (데스크톱에서만) ── */
+.thead{display:none}
+
+/* ══ 한 줄 = 한 건 ══ */
+.row{
+  background:#fff; border:1px solid var(--line); border-radius:10px;
+  padding:11px 13px; margin-bottom:7px;
+}
+.r1{display:flex; align-items:baseline; gap:8px; flex-wrap:wrap}
+.when{font-size:12px; color:var(--sub); flex-shrink:0}
+.no{font-size:14px; font-weight:900; color:var(--navy); letter-spacing:-.2px}
+.who{font-size:13px; font-weight:700; color:var(--text)}
+.dim2{font-size:12px; color:var(--sub)}
+.flag{
+  font-size:10.5px; font-weight:700; color:#B84A2C;
+  background:#FFF4F0; border:1px solid var(--coral); border-radius:8px; padding:1px 7px;
+}
+.r2{display:flex; gap:7px; margin-top:9px}
+.sel{
+  flex:1; height:38px; padding:0 10px; border:1.5px solid var(--line); border-radius:9px;
+  background:#fff; color:var(--text); font-family:inherit; font-size:13px; font-weight:700;
+  outline:none; cursor:pointer;
+}
+.sel:focus{border-color:var(--navy)}
+.ok{
+  width:88px; height:38px; border:1.5px solid var(--line); border-radius:9px;
+  background:#fff; color:#C6C0B4; font-family:inherit; font-size:13px; font-weight:700;
+  cursor:default; flex-shrink:0;
+}
+.ok.on{background:var(--navy); border-color:var(--navy); color:#fff; cursor:pointer}
+
+.row.done{background:#F7F4EE; opacity:.9}
+.row.done .no{color:var(--sub); font-weight:700}
+.pp{
+  font-size:13px; font-weight:900; color:var(--navy); letter-spacing:.5px;
+  background:#fff; border:1px solid var(--line); border-radius:8px; padding:2px 9px;
+}
 
 .locked{padding:34px 8px; text-align:center}
 .locked .lt{font-size:14px; font-weight:900; color:var(--navy); margin-bottom:8px}
@@ -117,13 +137,14 @@ body{
 
 .dim{position:fixed; inset:0; background:rgba(30,42,58,.5); z-index:900; display:none; align-items:center; justify-content:center; padding:24px}
 .dim.on{display:flex}
-.modal{width:100%; max-width:322px; background:var(--cream); border-radius:18px; padding:22px 20px 18px}
+.modal{width:100%; max-width:340px; background:var(--cream); border-radius:18px; padding:22px 20px 18px}
 .modal .mt{font-size:15px; font-weight:900; color:var(--navy); margin-bottom:12px; text-align:center}
 .dl{background:#fff; border:1px solid var(--line); border-radius:12px; padding:12px 14px; margin-bottom:14px}
 .dl .r{display:flex; justify-content:space-between; gap:10px; font-size:12.5px; padding:4px 0; line-height:1.6}
 .dl .r .k{color:var(--sub); flex-shrink:0}
 .dl .r .v{color:var(--text); font-weight:700; text-align:right; word-break:break-all}
 .dl .r .v.big{color:var(--navy); font-size:14px; font-weight:900}
+.warn{margin-bottom:12px; padding:9px 12px; border-radius:10px; border:1.5px solid var(--coral); background:#FFF4F0; font-size:11.5px; font-weight:700; color:#B84A2C; line-height:1.6}
 .mm{font-size:12px; color:var(--sub); text-align:center; line-height:1.7; margin-bottom:14px}
 .mbtns{display:grid; grid-template-columns:1fr 1fr; gap:8px}
 .mbtn{height:44px; border-radius:22px; border:0; font-family:inherit; font-size:14px; font-weight:700; cursor:pointer}
@@ -134,56 +155,65 @@ body{
 .foot{border-top:1px solid var(--line); padding:14px 16px 18px; font-size:10.5px; color:var(--sub); text-align:center; line-height:1.7}
 
 /* ══════════════════════════════════════════════════════════
-   ★데스크톱 (≥900px) — 카드 껍데기를 벗고 표로 펼칩니다.
-   DB 를 다루는 화면은 폰으로 못 봅니다(대표 지적 260714).
-   자바스크립트 · 데이터는 하나. 껍데기만 갈립니다.
+   ★데스크톱 (≥900px) — 진짜 표. 한 줄이 한 행입니다.
    ══════════════════════════════════════════════════════════ */
 @media (min-width: 900px){
-  body{padding:28px 24px; background:#EDE9E1}
+  body{padding:26px 22px; background:#EDE9E1}
   .phone{
-    max-width:1180px; border-radius:16px; min-height:0;
-    display:grid; grid-template-columns:210px 1fr; grid-template-rows:auto 1fr auto;
+    max-width:1180px; border-radius:14px; min-height:0;
+    display:grid; grid-template-columns:200px 1fr; grid-template-rows:auto 1fr auto;
     box-shadow:0 10px 34px rgba(46,58,70,.12);
   }
-  .bar{grid-column:1 / -1; padding:18px 24px}
-  .bar .ttl{font-size:17px}
+  .bar{grid-column:1 / -1; padding:16px 22px}
+  .bar .ttl{font-size:16px}
 
-  /* 탭이 왼쪽 세로 메뉴로 */
   .tabs{
     grid-column:1; grid-row:2; flex-direction:column; align-items:stretch;
     border-bottom:0; border-right:1px solid var(--line);
-    padding:14px 12px; gap:4px; background:#FCFAF6;
+    padding:14px 10px; gap:3px; background:#FCFAF6;
   }
-  .tab{
-    flex:none; text-align:left; border-bottom:0; border-radius:10px;
-    padding:12px 14px; font-size:13.5px;
-  }
+  .tab{flex:none; text-align:left; border-bottom:0; border-radius:9px; padding:11px 13px; font-size:13px}
   .tab.sel{background:var(--navy); color:#fff}
   .tab.lock small{display:inline; margin:0 0 0 6px}
 
-  .body{grid-column:2; grid-row:2; padding:22px 24px 30px; overflow:auto}
-  .foot{grid-column:1 / -1; grid-row:3; text-align:left; padding:14px 24px}
+  .body{grid-column:2; grid-row:2; padding:18px 22px 26px; overflow:auto}
+  .foot{grid-column:1 / -1; grid-row:3; text-align:left; padding:12px 22px}
+  .keybox{max-width:330px; margin:0 auto}
 
-  /* 열쇠 화면은 가운데로 */
-  .keybox{max-width:340px; margin:0 auto}
-
-  /* ★대기 줄 = 표. 한 줄에 다 보이게 */
-  #waitWrap, #doneWrap{display:block}
-  .card{
-    display:grid; grid-template-columns:150px 1fr 420px; align-items:center;
-    gap:18px; padding:14px 18px; margin-bottom:8px; border-radius:10px;
+  /* 표 머리 */
+  .thead{
+    display:grid;
+    grid-template-columns:96px 152px 108px 116px 56px 1fr 92px;
+    gap:10px; align-items:center;
+    padding:0 13px 8px; margin-bottom:2px;
+    font-size:11.5px; font-weight:900; color:var(--sub); letter-spacing:.3px;
+    border-bottom:1.5px solid var(--line);
   }
-  .card .no{grid-column:1}
-  .card .meta{grid-column:2; margin-top:0}
-  .card .warn{grid-column:2; margin-top:6px}
-  .card .amts{grid-column:3; grid-row:1 / span 3; grid-template-columns:repeat(4, 1fr); margin-top:0}
-  .amt{height:46px; border-radius:10px; font-size:13px}
+  .thead.done-head{grid-template-columns:96px 152px 108px 1fr 130px}
 
-  .card.done{grid-template-columns:150px 1fr 200px}
-  .card.done .pp{grid-column:3; margin-top:0; justify-self:end}
-  .card.done .st{grid-column:2; margin-top:0}
+  /* 한 행 */
+  .row{
+    display:grid;
+    grid-template-columns:96px 152px 108px 116px 56px 1fr 92px;
+    gap:10px; align-items:center;
+    border:0; border-bottom:1px solid var(--line); border-radius:0;
+    padding:9px 13px; margin-bottom:0; background:transparent;
+  }
+  .row:hover{background:#fff}
+  .r1{display:contents}
+  .r2{display:contents}
+  .when{font-size:12.5px}
+  .no{font-size:13.5px}
+  .who{font-size:13.5px}
+  .flag{justify-self:start}
+  .sel{height:34px; font-size:12.5px}
+  .ok{width:100%; height:34px; font-size:12.5px}
 
-  .state{padding:40px 0}
+  .row.done{grid-template-columns:96px 152px 108px 1fr 130px; background:transparent}
+  .row.done:hover{background:#fff}
+  .pp{justify-self:end}
+
+  .state{padding:36px 0}
   .modal{max-width:380px}
 }
 </style>
@@ -205,7 +235,7 @@ body{
 
   <div class="body">
 
-    <!-- 열쇠 — ★주소에 안 남습니다 -->
+    <!-- 열쇠 -->
     <div class="keybox" id="keyView">
       <div class="kt">열쇠를 넣어 주세요</div>
       <input id="keyInput" type="password" autocomplete="off" placeholder="관리자 열쇠"
@@ -231,7 +261,7 @@ body{
           결과 보기 · 입금 · 발급 · 문의.<br>
           지금은 <b>입금 · 발급</b>만 켜 두었습니다.
         </div>
-        <div class="ll">자리는 이미 잡혀 있습니다. 화면을 다시 짜지 않습니다.</div>
+        <div class="ll">자리는 잡혀 있습니다. 화면을 다시 짜지 않습니다.</div>
       </div>
     </div>
 
@@ -260,7 +290,7 @@ body{
 var GAS = 'https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec';
 
 var KEY = '';
-var LEVEL = 1;      /* ★이사회 3레벨 자리. 지금은 L1(대표) 하나. adminList 가 level 을 주면 받습니다. */
+var LEVEL = 1;      /* ★이사회 3레벨 자리. 지금은 L1(대표) 하나. */
 var PENDING = null;
 var DUPES = {};
 var ROWS = {};
@@ -290,7 +320,7 @@ function jsonp(params, done, fail){
   document.body.appendChild(s);
 }
 
-/* ── 열쇠 — 이 기기에만 저장합니다. 주소엔 안 붙습니다. ── */
+/* ── 열쇠 — 이 기기에만. 주소엔 안 붙습니다. ── */
 function saveKey(k){ try{ localStorage.setItem('lf_admin_key', k); }catch(e){} }
 function readKey(){ try{ return localStorage.getItem('lf_admin_key') || ''; }catch(e){ return ''; } }
 function dropKey(){ try{ localStorage.removeItem('lf_admin_key'); }catch(e){} }
@@ -302,16 +332,13 @@ function useKey(){
   document.getElementById('keyErr').style.display = 'none';
   enter();
 }
-
 function enter(){
   document.getElementById('keyView').style.display = 'none';
   document.getElementById('tabs').classList.add('on');
   go('pay');
 }
-
 function backToKey(){
-  KEY = '';
-  dropKey();
+  KEY = ''; dropKey();
   document.getElementById('payView').style.display = 'none';
   document.getElementById('lockView').style.display = 'none';
   document.getElementById('tabs').classList.remove('on');
@@ -345,12 +372,10 @@ function load(){
       setState((res && res.msg) ? res.msg : '불러오지 못했습니다.');
       return;
     }
-    saveKey(KEY);                       /* 맞는 열쇠일 때만 기억합니다 */
+    saveKey(KEY);
     if(res.level) LEVEL = Number(res.level);
     paint(res.waiting || [], res.done || []);
-  }, function(msg){
-    setState(msg);
-  });
+  }, function(msg){ setState(msg); });
 }
 
 function setState(t){
@@ -358,7 +383,6 @@ function setState(t){
   b.style.display = 'block';
   b.innerHTML = t;
 }
-
 function esc(s){
   return String(s == null ? '' : s)
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -378,10 +402,18 @@ function priceName(a){
   return '';
 }
 
+/* 금액을 고르면 그 줄의 [확인]이 켜집니다 */
+function pick(no){
+  var s = document.getElementById('s_' + no);
+  var b = document.getElementById('b_' + no);
+  if(!s || !b) return;
+  if(s.value){ b.classList.add('on'); }
+  else       { b.classList.remove('on'); }
+}
+
 function paint(waiting, done){
   ROWS = {}; DUPES = {};
 
-  /* ★동명이인 세기 */
   for(var d=0; d<waiting.length; d++){
     var nm = String(waiting[d].payer || '').trim();
     if(nm) DUPES[nm] = (DUPES[nm] || 0) + 1;
@@ -392,37 +424,36 @@ function paint(waiting, done){
     setState('기다리는 접수가 <b>없습니다</b>.');
   }else{
     document.getElementById('stateBox').style.display = 'none';
-    h += '<div class="sect">기다리는 접수 ' + waiting.length + '</div>';
+    h += '<div class="sect">기다리는 접수 <span class="n">' + waiting.length + '</span></div>';
+    h += '<div class="thead">'
+       +   '<div>접수일시</div><div>접수번호</div><div>입금자명</div>'
+       +   '<div>은행</div><div>뒤4</div><div>받은 금액</div><div>처리</div>'
+       + '</div>';
 
     for(var i=0;i<waiting.length;i++){
       var r = waiting[i];
       ROWS[r.no] = r;
       var nm2 = String(r.payer || '').trim();
       var dup = nm2 ? (DUPES[nm2] || 0) : 0;
+      var id  = esc(r.no);
 
-      h += '<div class="card">';
-      h +=   '<div class="no">' + esc(r.no) + '</div>';
-      h +=   '<div class="meta">'
-           +   '<b>' + esc(nm2 || '(입금자명 없음)') + '</b>'
-           +   ' &middot; ' + esc(r.bank || '-')
-           +   ' &middot; 뒤4 <b>' + esc(r.phone4 || '없음') + '</b>'
-           +   (r.org ? ' &middot; ' + esc(r.org) : '')
-           +   ' &middot; ' + esc(r.when)
-           + '</div>';
-
-      if(dup > 1){
-        h += '<div class="warn">같은 입금자명 ' + dup + '건이 기다립니다. 은행과 접수시각을 문자와 맞춰 보십시오.</div>';
-      }
-      if(!r.phone4){
-        h += '<div class="warn">연락처 뒤 4자리가 없는 접수입니다. 본인 확인이 안 되어 발급이 막힙니다.</div>';
-      }
-
-      h +=   '<div class="amts">';
+      h += '<div class="row">';
+      h +=   '<div class="r1">';
+      h +=     '<span class="when">' + esc(r.when) + '</span>';
+      h +=     '<span class="no">' + id + '</span>';
+      h +=     '<span class="who">' + esc(nm2 || '(없음)') + (dup > 1 ? ' <span class="flag">동명 ' + dup + '</span>' : '') + '</span>';
+      h +=     '<span class="dim2">' + esc(r.bank || '-') + '</span>';
+      h +=     '<span class="dim2">' + (r.phone4 ? esc(r.phone4) : '<span class="flag">없음</span>') + '</span>';
+      h +=   '</div>';
+      h +=   '<div class="r2">';
+      h +=     '<select class="sel" id="s_' + id + '" onchange="pick(\'' + id + '\')">';
+      h +=       '<option value="">받은 금액</option>';
       for(var j=0;j<PRICES.length;j++){
-        h += '<button class="amt" onclick="askPaid(\'' + esc(r.no) + '\',' + PRICES[j].amount + ')">'
-           +   won(PRICES[j].amount) + '<span>' + PRICES[j].name + '</span>'
-           + '</button>';
+        h +=     '<option value="' + PRICES[j].amount + '">'
+           +        won(PRICES[j].amount) + ' · ' + PRICES[j].name + '</option>';
       }
+      h +=     '</select>';
+      h +=     '<button class="ok" id="b_' + id + '" onclick="askPaid(\'' + id + '\')">확인</button>';
       h +=   '</div>';
       h += '</div>';
     }
@@ -431,13 +462,18 @@ function paint(waiting, done){
 
   var t = '';
   if(done.length > 0){
-    t += '<div class="sect" style="margin-top:22px">최근 발급</div>';
+    t += '<div class="sect" style="margin-top:24px">최근 발급 <span class="n">' + done.length + '</span></div>';
+    t += '<div class="thead done-head">'
+       +   '<div>발급일시</div><div>접수번호</div><div>입금자명</div><div>확인한 금액</div><div style="text-align:right">여권</div>'
+       + '</div>';
     for(var k=0;k<done.length;k++){
       var q = done[k];
-      t += '<div class="card done">';
-      t +=   '<div class="no">' + esc(q.no) + '</div>';
-      t +=   '<div class="st">' + esc(q.state) + ' &middot; ' + esc(q.when) + '</div>';
-      t +=   '<div class="pp">' + esc(q.pp || '-') + '</div>';
+      t += '<div class="row done">';
+      t +=   '<span class="when">' + esc(q.when) + '</span>';
+      t +=   '<span class="no">' + esc(q.no) + '</span>';
+      t +=   '<span class="who">' + esc(q.payer || '-') + '</span>';
+      t +=   '<span class="dim2">' + esc(q.state) + '</span>';
+      t +=   '<span class="pp">' + esc(q.pp || '-') + '</span>';
       t += '</div>';
     }
   }
@@ -445,7 +481,10 @@ function paint(waiting, done){
 }
 
 /* ── 확인 팝업 — 마지막 대조 ── */
-function askPaid(no, amount){
+function askPaid(no){
+  var s = document.getElementById('s_' + no);
+  if(!s || !s.value) return;                /* 금액을 안 골랐으면 안 열립니다 */
+  var amount = Number(s.value);
   var r = ROWS[no] || {};
   var name = priceName(amount);
   PENDING = { no:no, amount:amount, name:name };
@@ -455,7 +494,7 @@ function askPaid(no, amount){
 
   var b = '';
   if(dup > 1){
-    b += '<div class="warn" style="margin-bottom:12px">같은 입금자명 ' + dup + '건이 기다립니다. '
+    b += '<div class="warn">같은 입금자명 ' + dup + '건이 기다립니다. '
        + '<b>은행과 접수시각</b>을 은행 문자와 맞춰 보셨습니까?</div>';
   }
   b += '<div class="dl">';
@@ -482,12 +521,10 @@ function closeModal(){
   document.getElementById('dim').classList.remove('on');
   PENDING = null;
 }
-
 function endModal(ok, title, html){
   document.getElementById('mTitle').textContent = title;
   document.getElementById('mBody').innerHTML = html;
-  ok.textContent = '닫기';
-  ok.disabled = false;
+  ok.textContent = '닫기'; ok.disabled = false;
   ok.onclick = function(){ closeModal(); load(); };
   document.getElementById('mNo').disabled = false;
 }
@@ -495,8 +532,7 @@ function endModal(ok, title, html){
 function doPaid(){
   if(!PENDING) return;
   var ok = document.getElementById('mOk');
-  ok.disabled = true;
-  ok.textContent = '발급 중…';
+  ok.disabled = true; ok.textContent = '발급 중…';
   document.getElementById('mNo').disabled = true;
 
   jsonp({ action:'adminPaid', key:KEY, orderNo:PENDING.no, amount:PENDING.amount },
@@ -511,7 +547,7 @@ function doPaid(){
           + '<div class="mm">손님이 접수번호로 들어오면 스스로 받아 갑니다.</div>');
       }else{
         endModal(ok, '발급하지 못했습니다',
-            '<div class="mm">' + esc((res && res.msg) ? res.msg : '알 수 없는 오류입니다.') + '</div>');
+          '<div class="mm">' + esc((res && res.msg) ? res.msg : '알 수 없는 오류입니다.') + '</div>');
       }
     },
     function(msg){
@@ -519,7 +555,7 @@ function doPaid(){
     });
 }
 
-/* ── 진입 — ★주소에서 열쇠를 안 읽습니다. 이 기기에 저장된 것만 씁니다. ── */
+/* ── 진입 — ★주소에서 열쇠를 안 읽습니다. 이 기기에 저장된 것만. ── */
 (function(){
   var k = readKey();
   if(k){ KEY = k; enter(); }
