@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · showroom.html   v13-7 · 260714
+     사랑흐름 · showroom.html   v13-10 · 260715
+     [v13-10 · 260715 대표 지시] 세 상품명 더 눈에 띄게 — 18px → 22px.
+     [v13-9 · 260715 대표 지적] 세 상품 명칭을 각 섹션에 크게·분명히
+       대표: "명칭을 제대로 써주라고. 각각의 상품을 표현을 해줘야지. 뭔질 알아야지."
+       → 각 섹션 헤더 = 시적 소제목(작게) + ★상품명(서체 18px, 굵게) 2줄.
+         ② 마음 여행지도  ③ 마음 여행편지  자서전 = 자서전 · 한 편의 기록
+       → 버튼 "속을 펼쳐보기"(뭘 펼치는지 모호) → "자서전 펼쳐보기 →".
+       ※ 판매 유도 아님(쇼룸=구경). 명칭 명확화만. 구조·finale·푸터 무손.
+     [v13-8 · 260715 대표 확정] 자서전 「한 편의 기록」 견본 게시
+       편지 봉투(③)와 예매(④) 사이에 자서전 견본 섹션 신설.
+       표지(cover.png) + 제1·2·3장 썸네일 + 「속을 펼쳐보기 →」(sample.pdf).
+       ★쇼룸=구경하는 곳 → 예매 버튼 없음(속 펼쳐보기만). 견본·SAMPLE 표시 재확인.
+       파일 = memoir/samples/{cover,ch1,ch2,ch3}.png · sample.pdf (대표 업로드 완료·실측 200).
+       ※ 여권 히어로·지도 카드덱·편지 봉투·finale 3형제·푸터 전부 무손.
      [v13-7 · 260714 대표 지시] 하단 세 형제 — 버튼 사이즈 일치 · 사족 전면 삭제
        대표: "다 같은 성격 아니야? 사이즈는 똑같이 해서 우대를 해주든지."
              "번호를 잊으셨다면 · 담아둔 여행이 있어요 — 이런 사족이 필요 없다고."
@@ -313,7 +326,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   <!-- ② 스와이프 카드덱 -->
   <div class="deck-h">
-    <div class="t">여행의 발견 · 마음 여행지도</div>
+    <div class="t">여행의 발견</div>
+    <div style="font-family:var(--serif);font-size:22px;font-weight:800;color:var(--navy);margin-top:2px">마음 여행지도</div>
     <div class="s">← 넘겨보세요 · 실제 결과물 견본이에요 →</div>
   </div>
   <div class="deckwrap">
@@ -361,7 +375,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   <!-- ③ 편지 봉투 -->
   <div class="letterZone" id="lz">
-    <div style="font-size:11px;font-weight:800;letter-spacing:.12em;color:#D9B43A;margin-bottom:10px">여행의 마지막 · 마음 여행편지</div>
+    <div style="font-size:11px;font-weight:800;letter-spacing:.12em;color:#D9B43A;margin-bottom:4px">여행의 마지막</div>
+    <div style="font-family:var(--serif);font-size:22px;font-weight:800;color:#F0E6D2;margin-bottom:12px">마음 여행편지</div>
     <div class="lz1">여행은 끝났습니다.<br>하지만 아직, 하지 못한 말이 남았습니다.</div>
     <div class="envelope" id="env" onclick="openEnv()">
       <div class="body">
@@ -377,6 +392,28 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="more">
       <p>이 편지의 나머지는, 당신의 여행이 끝나면<br>당신의 이야기로 완성됩니다.</p>
     </div>
+  </div>
+
+  <!-- 한 편의 기록 · 자서전 견본 (260715 신규) · 구경용 · 예매 버튼 없음 -->
+  <div class="memoirZone" style="margin:14px 20px;background:linear-gradient(160deg,#FFFDF8,#F5EEDE);border:1px solid #E7DCC4;border-radius:20px;padding:28px 22px 26px;text-align:center">
+    <div style="font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--gold);margin-bottom:4px">여행 너머</div>
+    <div style="font-family:var(--serif);font-size:22px;font-weight:800;color:var(--navy);margin-bottom:8px">자서전 · 한 편의 기록</div>
+    <div style="font-family:var(--serif);font-size:16px;color:#4A3E2C;line-height:1.8">여행이 다 끝난 자리에서,<br>당신의 이야기는 한 권의 책이 됩니다.</div>
+    <div style="font-size:13px;color:var(--sub);margin:6px 0 20px">실제 결과물 견본이에요</div>
+
+    <a href="/memoir/samples/sample.pdf" target="_blank" rel="noopener" style="display:inline-block;text-decoration:none">
+      <img src="/memoir/samples/cover.png" alt="한 편의 기록 표지 견본" loading="lazy" style="width:66%;max-width:230px;border-radius:6px;box-shadow:0 8px 26px rgba(60,45,20,.22);border:1px solid #E7DCC4;vertical-align:top">
+    </a>
+
+    <div style="display:flex;gap:8px;justify-content:center;margin-top:16px">
+      <img src="/memoir/samples/ch1.png" alt="제1장 견본" loading="lazy" style="width:30%;max-width:96px;border-radius:4px;box-shadow:0 3px 10px rgba(60,45,20,.15);border:1px solid #E7DCC4">
+      <img src="/memoir/samples/ch2.png" alt="제2장 견본" loading="lazy" style="width:30%;max-width:96px;border-radius:4px;box-shadow:0 3px 10px rgba(60,45,20,.15);border:1px solid #E7DCC4">
+      <img src="/memoir/samples/ch3.png" alt="제3장 견본" loading="lazy" style="width:30%;max-width:96px;border-radius:4px;box-shadow:0 3px 10px rgba(60,45,20,.15);border:1px solid #E7DCC4">
+    </div>
+
+    <a href="/memoir/samples/sample.pdf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:20px;padding:13px 24px;background:var(--navy);color:#fff;border-radius:22px;font-size:14px;font-weight:800;text-decoration:none">자서전 펼쳐보기 →</a>
+
+    <div style="font-size:11.5px;color:var(--sub);margin-top:14px;line-height:1.7">지면마다 「견본 · SAMPLE」 표시가 있어요.<br>실제 책은 당신의 이야기로 채워집니다.</div>
   </div>
 
   <!-- ④ 마지막 -->
