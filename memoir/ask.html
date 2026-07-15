@@ -1,4 +1,4 @@
-<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v12 · 260716 · [작업 v12] ★서술 부담 개편 (대표 승인 260716). 24문항 전부 서술 → 16문항(보기 9 + 장당 서술 1, 총 7 사수). 배경·대상·사실은 보기(탭 선택·다중가능·'그 밖에' 직접입력), 감정 코어 하나만 서술. ★문항 문구는 v11 원문 그대로 살림 — 새로 만든 건 보기 선택지뿐. ★[저장엔진 무손] packChapter_·send_·verify_·queue_·GAS URL·여권 읽기(passport_)·nextQ 래핑·#done 약속화면 = 한 글자도 안 건드림. 보기 답은 문자열(', ' 연결)로 answers 에 담겨 기존 저장선 그대로 탐. 덤: 답이 짧아져 GET 길이 부담↓. · v11 · 260715 · [작업 v11] ★질문 끝 완료화면(#done)을 「약속 체결 화면」으로 교체 (이사회 만장일치). 지금까지 질문 끝나면 바로 book(⑦·가짜 예시)로 튀던 것을 멈추고, 그 자리에서 ①접수완료 인사 ②엮는 중 한 줄 ③표지 미리보기(본문 없음) ④납기 날짜 약속(접수일+10일 자동, "○월 ○일까지") ⑤완성본 받을 이메일 수집 ⑥버튼 "확인했습니다" 하나 로 재구성. [이메일] confirmPromise() 가 이메일 유효성 확인 → localStorage 저장 → 여권 있으면 마지막 장에 email 실어 send_ 로 저장 → 홈으로. send_ URL 에 &email= 한 칸 추가(짝꿍: 자서전 GAS v2 가 이 칸을 받음). [금지 지킴] 가짜 본문 미노출 · "평생"·기간 암시 없음 · "며칠" 숫자 대신 날짜만. [절대보존] BOOK 질문배열 · nextQ 래핑 · packChapter_ · send_/verify_/queue_ 이미지신호 저장엔진 · GAS URL · 여권 읽기(passport_) · goBook(죽은 링크로 남김) 미변경. · v10-2 · 260714 · [작업 v10-2] ★저장 방식 JSONP → 이미지 신호 교체 (브라우저 확장프로그램이 JSONP 를 막음) — 답변이 시트와 드라이브에 남습니다
+<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v14 · 260716 · [작업 v14] ★입구·출구 선명화 — 지도·편지 표준 네비 이식 (대표 승인 260716). ①☰ 드로어 6항목 → 지도·편지·게이트 표준 9항목 통일: 홈·마음 한마디·여행지도 보기·편지·여권으로 입장·사랑흐름 여권 찾기·여행의 기록·마음 여행 예매하기·다시 시작. 링크는 지도 LF_LINK 실값 그대로(showroom=/showroom.html·showcase=/showcase.html·reenter=/reenter.html 추가). '자서전' 항목은 '다시 시작'(/memoir/)으로 대체. ②glgo: 여행지도·편지는 여권번호(?id=) 있으면 붙여 '내 여행'으로 이어줌(지도 LF_NEEDS_ID 규칙 계승). ③#done 완료화면 막다른 끝 → 잔잔한 여운 한 줄 + 여행 이어가기: 주버튼(먼저 다녀간 분들의 여행 보기=showroom·홈으로) + 얇은 링크(여권 찾기·여권으로 입장·마음 여행 예매). 버튼 형태 = 기존 .btn.prev(흰 배경·navy 테두리) 계승. [무손] 저장엔진·v13 안전판·confirmPromise = 미변경. · v13 · 260716 · [작업 v13] ★임시 안전판 — 저장 확실히 보내기 버튼 (대표 승인 260716). #done 완료화면에 [내 이야기 확실히 보내기] 버튼 1개 순수 추가. ①전 장(章) send_ 재전송(확장 없는 브라우저는 전량 저장) ②마지막 장+이메일을 확실히 되는 주소창 GET(새 탭 window.open)으로 한 번 더 — 대표 브라우저 확장(이미지/fetch 차단)이 top-level 이동은 못 막음. [저장엔진 무손] send_·verify_·queue_·packChapter_·flushQueue_·GAS URL·passport_·nextQ 래핑·confirmPromise·기존 #done 약속화면 = 한 글자도 안 건드림(순수 추가만, md5 대조 증명). [남은 것·A-2] 확장 차단 기기에서 7장 전부 한 방 보장 = GAS saveAll 신설 필요(GAS 배포·위험구간, GAS 소스 확보 후 별건). · v12 · 260716 · [작업 v12] ★서술 부담 개편 (대표 승인 260716). 24문항 전부 서술 → 16문항(보기 9 + 장당 서술 1, 총 7 사수). 배경·대상·사실은 보기(탭 선택·다중가능·'그 밖에' 직접입력), 감정 코어 하나만 서술. ★문항 문구는 v11 원문 그대로 살림 — 새로 만든 건 보기 선택지뿐. ★[저장엔진 무손] packChapter_·send_·verify_·queue_·GAS URL·여권 읽기(passport_)·nextQ 래핑·#done 약속화면 = 한 글자도 안 건드림. 보기 답은 문자열(', ' 연결)로 answers 에 담겨 기존 저장선 그대로 탐. 덤: 답이 짧아져 GET 길이 부담↓. · v11 · 260715 · [작업 v11] ★질문 끝 완료화면(#done)을 「약속 체결 화면」으로 교체 (이사회 만장일치). 지금까지 질문 끝나면 바로 book(⑦·가짜 예시)로 튀던 것을 멈추고, 그 자리에서 ①접수완료 인사 ②엮는 중 한 줄 ③표지 미리보기(본문 없음) ④납기 날짜 약속(접수일+10일 자동, "○월 ○일까지") ⑤완성본 받을 이메일 수집 ⑥버튼 "확인했습니다" 하나 로 재구성. [이메일] confirmPromise() 가 이메일 유효성 확인 → localStorage 저장 → 여권 있으면 마지막 장에 email 실어 send_ 로 저장 → 홈으로. send_ URL 에 &email= 한 칸 추가(짝꿍: 자서전 GAS v2 가 이 칸을 받음). [금지 지킴] 가짜 본문 미노출 · "평생"·기간 암시 없음 · "며칠" 숫자 대신 날짜만. [절대보존] BOOK 질문배열 · nextQ 래핑 · packChapter_ · send_/verify_/queue_ 이미지신호 저장엔진 · GAS URL · 여권 읽기(passport_) · goBook(죽은 링크로 남김) 미변경. · v10-2 · 260714 · [작업 v10-2] ★저장 방식 JSONP → 이미지 신호 교체 (브라우저 확장프로그램이 JSONP 를 막음) — 답변이 시트와 드라이브에 남습니다
      [★v10-1 왜] fetch POST 는 GAS 응답을 못 읽습니다(리다이렉트+CORS) → 매번 catch 로 빠져 시트에 안 감. 주소창(GET)은 됐던 이유.
             → JSONP(script 태그 GET) 로 교체. gate·편지와 같은 방식입니다. 이제 장이 끝나면 시트에 줄이 쌓입니다.
      [왜] 이사회 5인 만장일치 1순위: "임시저장만 하는 현 상태는 서비스가 아니다." 지금까지 답변은 브라우저에만 담겨, 폰을 바꾸면 사라졌습니다.
@@ -94,6 +94,11 @@
   .btns{display:flex;gap:10px}
   .btn{border-radius:26px;padding:13px;font-size:17px;cursor:pointer;font-weight:500}
   .btn.prev{flex:1;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.aglow{margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.aglow .agl{font-size:15px;color:var(--sub,#7C8794);line-height:1.6;margin-bottom:18px}
+.aglow .agb{display:block;width:100%;border-radius:26px;padding:13px;font-size:16px;font-weight:500;cursor:pointer;background:#fff;color:var(--navy,#1E4A76);border:1.5px solid var(--navy,#1E4A76);margin-top:10px}
+.aglow .agln{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:18px}
+.aglow .agln a{font-size:14px;font-weight:700;color:var(--navy,#1E4A76);text-decoration:none;cursor:pointer}
   .btn.next{flex:2;background:var(--navy);border:none;color:#fff}
   .btn.next:disabled{background:#C7C0B4;cursor:default}
   .skip{display:block;width:100%;text-align:center;background:none;border:none;color:var(--muted);font-size:13px;margin-top:12px;cursor:pointer;text-decoration:underline}
@@ -180,8 +185,11 @@ body{background:#E7E1D6 !important}
       <a onclick="glgo('hanmadi')">마음 한마디</a>
       <a onclick="glgo('journey')">여행지도 보기</a>
       <a onclick="glgo('letter')">편지</a>
-      <a onclick="glgo('memoir')">자서전</a>
+      <a onclick="glgo('reenter')">여권으로 입장</a>
       <a onclick="glgo('find')">사랑흐름 여권 찾기</a>
+      <a onclick="glgo('showroom')">여행의 기록</a>
+      <a onclick="glgo('showcase')">마음 여행 예매하기</a>
+      <a onclick="glgo('memoir')">다시 시작</a>
     </div>
   </div>
 </div>
@@ -243,7 +251,19 @@ body{background:#E7E1D6 !important}
       <div class="mailhint" id="mailMsg">이 주소로 완성된 기록을 보내드립니다.</div>
     </div>
 
-    <button class="btn" style="margin-top:22px" onclick="confirmPromise()">확인했습니다</button>
+    <button class="btn" style="margin-top:22px" onclick="sendMyStory_()">내 이야기 확실히 보내기</button>
+    <button class="btn" style="margin-top:12px" onclick="confirmPromise()">확인했습니다</button>
+
+    <div class="aglow">
+      <div class="agl">여행은 여기서 끝나지 않아요.</div>
+      <button class="agb" onclick="glgo('showroom')">먼저 다녀간 분들의 여행 보기</button>
+      <button class="agb" onclick="ggoHome()">홈으로</button>
+      <div class="agln">
+        <a onclick="glgo('find')">사랑흐름 여권 찾기</a>
+        <a onclick="glgo('reenter')">여권으로 입장</a>
+        <a onclick="glgo('showcase')">마음 여행 예매하기</a>
+      </div>
+    </div>
   </div>
 
   
@@ -612,11 +632,46 @@ nextQ = function(skip){
   }
 };
 
+/* ★[v13] 임시 안전판 — #done 의 [내 이야기 확실히 보내기] 버튼이 부릅니다.
+   위 저장엔진(send_/verify_/queue_/packChapter_/GAS URL)은 한 글자도 안 건드립니다 — 순수 추가입니다.
+   ①전 장을 send_ 로 다시 보냅니다(확장 없는 브라우저는 전량 저장).
+   ②마지막 장+이메일을, 확장이 못 막는 ★주소창 GET(새 탭)으로 한 번 더 확실히 보냅니다. */
+function sendMyStory_(){
+  var em=(document.getElementById("doneEmail").value||"").trim();
+  var msg=document.getElementById("mailMsg");
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){
+    msg.textContent="이메일 주소를 다시 확인해 주세요."; msg.className="mailhint err"; return;
+  }
+  try{ localStorage.setItem("lf_memoir_email", em); }catch(e){}
+  var p=passport_();
+  if(!p){ msg.textContent="여권번호가 없어 보낼 수 없어요. 받으신 여권으로 다시 들어와 주세요."; msg.className="mailhint err"; return; }
+  var last=BOOK.length-1;
+  for(var c=0;c<=last;c++){
+    var job=packChapter_(c);
+    if(c===last){ job.email=em; }
+    send_(job);
+  }
+  var jf=packChapter_(last); jf.email=em;
+  var url=MEMOIR_GAS
+    +'?action=saveChapter'
+    +'&passport='   +encodeURIComponent(jf.passport)
+    +'&chapter='    +encodeURIComponent(jf.chapter)
+    +'&name='       +encodeURIComponent(jf.name||'')
+    +'&source='     +encodeURIComponent(jf.source||'')
+    +'&inputUser='  +encodeURIComponent(jf.inputUser||'')
+    +'&inputMethod='+encodeURIComponent(jf.inputMethod||'')
+    +'&answers='    +encodeURIComponent(JSON.stringify(jf.answers||[]))
+    +'&email='      +encodeURIComponent(jf.email||'')
+    +'&t='+Date.now();
+  window.open(url,'_blank');
+  msg.textContent="보내드렸습니다. 열린 새 창은 잠시 뒤 닫으셔도 됩니다."; msg.className="mailhint";
+}
+
 try{ flushQueue_(); }catch(e){}
 
-var GLINK={home:'/',hanmadi:'/',journey:'/journey/',letter:'/l/',memoir:'/memoir/',ritual:'/memoir/ritual.html',ask:'/memoir/ask.html',book:'/memoir/book.html',find:'/find/',about:'/about.html',trust:'/trust.html'};
+var GLINK={home:'/',hanmadi:'/',journey:'/journey/',letter:'/l/',reenter:'/reenter.html',find:'/find/',showroom:'/showroom.html',showcase:'/showcase.html',memoir:'/memoir/',ritual:'/memoir/ritual.html',ask:'/memoir/ask.html',book:'/memoir/book.html',about:'/about.html',trust:'/trust.html'};
 function ggoHome(){location.href=GLINK.home;}
-function glgo(k){var u=GLINK[k];if(u){location.href=u;}}
+function glgo(k){var u=GLINK[k];if(!u){return;}if(k==='journey'||k==='letter'){var pp=passport_();if(pp){u+=(u.indexOf('?')>-1?'&':'?')+'id='+encodeURIComponent(pp);}}location.href=u;}
 function gOpenMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.add('on');}
 function gCloseMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.remove('on');}
 </script>
