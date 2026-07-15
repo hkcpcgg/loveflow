@@ -1,4 +1,4 @@
-<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v11 · 260715 · [작업 v11] ★질문 끝 완료화면(#done)을 「약속 체결 화면」으로 교체 (이사회 만장일치). 지금까지 질문 끝나면 바로 book(⑦·가짜 예시)로 튀던 것을 멈추고, 그 자리에서 ①접수완료 인사 ②엮는 중 한 줄 ③표지 미리보기(본문 없음) ④납기 날짜 약속(접수일+10일 자동, "○월 ○일까지") ⑤완성본 받을 이메일 수집 ⑥버튼 "확인했습니다" 하나 로 재구성. [이메일] confirmPromise() 가 이메일 유효성 확인 → localStorage 저장 → 여권 있으면 마지막 장에 email 실어 send_ 로 저장 → 홈으로. send_ URL 에 &email= 한 칸 추가(짝꿍: 자서전 GAS v2 가 이 칸을 받음). [금지 지킴] 가짜 본문 미노출 · "평생"·기간 암시 없음 · "며칠" 숫자 대신 날짜만. [절대보존] BOOK 질문배열 · nextQ 래핑 · packChapter_ · send_/verify_/queue_ 이미지신호 저장엔진 · GAS URL · 여권 읽기(passport_) · goBook(죽은 링크로 남김) 미변경. · v10-2 · 260714 · [작업 v10-2] ★저장 방식 JSONP → 이미지 신호 교체 (브라우저 확장프로그램이 JSONP 를 막음) — 답변이 시트와 드라이브에 남습니다
+<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v12 · 260716 · [작업 v12] ★서술 부담 개편 (대표 승인 260716). 24문항 전부 서술 → 16문항(보기 9 + 장당 서술 1, 총 7 사수). 배경·대상·사실은 보기(탭 선택·다중가능·'그 밖에' 직접입력), 감정 코어 하나만 서술. ★문항 문구는 v11 원문 그대로 살림 — 새로 만든 건 보기 선택지뿐. ★[저장엔진 무손] packChapter_·send_·verify_·queue_·GAS URL·여권 읽기(passport_)·nextQ 래핑·#done 약속화면 = 한 글자도 안 건드림. 보기 답은 문자열(', ' 연결)로 answers 에 담겨 기존 저장선 그대로 탐. 덤: 답이 짧아져 GET 길이 부담↓. · v11 · 260715 · [작업 v11] ★질문 끝 완료화면(#done)을 「약속 체결 화면」으로 교체 (이사회 만장일치). 지금까지 질문 끝나면 바로 book(⑦·가짜 예시)로 튀던 것을 멈추고, 그 자리에서 ①접수완료 인사 ②엮는 중 한 줄 ③표지 미리보기(본문 없음) ④납기 날짜 약속(접수일+10일 자동, "○월 ○일까지") ⑤완성본 받을 이메일 수집 ⑥버튼 "확인했습니다" 하나 로 재구성. [이메일] confirmPromise() 가 이메일 유효성 확인 → localStorage 저장 → 여권 있으면 마지막 장에 email 실어 send_ 로 저장 → 홈으로. send_ URL 에 &email= 한 칸 추가(짝꿍: 자서전 GAS v2 가 이 칸을 받음). [금지 지킴] 가짜 본문 미노출 · "평생"·기간 암시 없음 · "며칠" 숫자 대신 날짜만. [절대보존] BOOK 질문배열 · nextQ 래핑 · packChapter_ · send_/verify_/queue_ 이미지신호 저장엔진 · GAS URL · 여권 읽기(passport_) · goBook(죽은 링크로 남김) 미변경. · v10-2 · 260714 · [작업 v10-2] ★저장 방식 JSONP → 이미지 신호 교체 (브라우저 확장프로그램이 JSONP 를 막음) — 답변이 시트와 드라이브에 남습니다
      [★v10-1 왜] fetch POST 는 GAS 응답을 못 읽습니다(리다이렉트+CORS) → 매번 catch 로 빠져 시트에 안 감. 주소창(GET)은 됐던 이유.
             → JSONP(script 태그 GET) 로 교체. gate·편지와 같은 방식입니다. 이제 장이 끝나면 시트에 줄이 쌓입니다.
      [왜] 이사회 5인 만장일치 1순위: "임시저장만 하는 현 상태는 서비스가 아니다." 지금까지 답변은 브라우저에만 담겨, 폰을 바꾸면 사라졌습니다.
@@ -76,6 +76,18 @@
   .aid .ic{font-size:17px}
   .saved{text-align:center;font-size:13px;color:var(--gold-deep);margin-top:16px;opacity:0;transition:opacity .3s}
   .saved.on{opacity:1}
+
+  /* [v12] 보기 — 탭해서 고르기. 어르신 손가락 기준(52px·18px) */
+  .picks{margin-bottom:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:16px;padding:14px 18px;font-size:18px;font-weight:500;cursor:pointer;min-height:52px;display:flex;align-items:center;font-family:inherit}
+  .chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .chip.other{border-style:dashed;color:var(--muted)}
+  .chip.other.on{background:var(--gold-deep);border-color:var(--gold-deep);color:#fff;border-style:solid}
+  .otherwrap{margin-top:12px}
+  .otherin{width:100%;box-sizing:border-box;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;font-size:18px;color:var(--ink);font-family:inherit;background:#fff}
+  .otherin:focus{outline:none;border-color:var(--gold)}
+  .pickhint{text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
 
   /* 하단 네비게이션 */
   .foot{padding:14px 20px 18px;border-top:1px solid var(--line)}
@@ -187,6 +199,13 @@ body{background:#E7E1D6 !important}
       <button class="tool listen" id="listen" onclick="speak()" aria-label="질문 들려드리기"><span class="ic">&#128266;</span> 들려드릴게요</button>
       <button class="tool save" id="savebtn" onclick="manualSave()" aria-label="임시 저장"><span class="ic">&#128190;</span> 임시 저장</button>
     </div>
+    <div class="picks" id="picks" style="display:none">
+      <div class="chips" id="chips"></div>
+      <div class="otherwrap" id="otherwrap" style="display:none">
+        <input class="otherin" id="otherin" placeholder="직접 말씀해 주세요" oninput="onOther(this.value)">
+      </div>
+      <p class="pickhint" id="pickhint">해당하는 것을 눌러 주세요</p>
+    </div>
     <textarea id="ans" placeholder="말씀하신 내용이 여기 담깁니다…" oninput="onType()"></textarea>
     <div class="aids">
       <button class="aid voice"><span class="ic">&#127908;</span> 음성으로 말하기</button>
@@ -234,96 +253,72 @@ body{background:#E7E1D6 !important}
 <script>
 var BOOK=[
  {title:"제1장 · 유년기", qs:[
-  {open:"눈을 감으면, 어린 시절 어느 장면이 먼저 떠오르시나요.",
+  {type:"pick", open:"그 시절, 선생님이 살던 곳으로 가 볼게요.",
+   recall:"<span class='lead'>서두르지 않으셔도 됩니다.</span>산과 들이 있던 시골이었는지, 사람 북적이던 동네였는지 — 편하게 골라 주세요.",
+   q:"어린 시절 자라신 곳은 어떤 곳이었나요?", opts:["산과 들 시골","바닷가·강가 마을","북적이던 동네","도시 한복판"], multi:false, other:true, skip:false},
+  {type:"pick", open:"그 시절, 선생님 곁에는 누가 있었을까요.",
+   recall:"<span class='lead'>여러 분이어도 괜찮아요.</span>부모님, 형제, 동무 — 그 시절 <b>곁에 있던 사람</b>을요.",
+   q:"그 시절, 곁에는 누가 있었나요?", opts:["어머니","아버지","할머니·할아버지","형제·자매","동무"], multi:true, other:true, skip:false},
+  {type:"write", open:"눈을 감으면, 어린 시절 어느 장면이 먼저 떠오르시나요.",
    recall:"<span class='lead'>천천히 떠올려 보세요.</span>이를테면 — 뛰놀던 골목, 마당의 나무, <b>밥 짓는 냄새</b>, 어머니가 부르시던 목소리처럼요.",
-   q:"선생님의 어린 시절에서, 가장 먼저 떠오르는 장면은 무엇인가요?", skip:false},
-  {open:"그 시절, 선생님이 살던 곳으로 가 볼게요.",
-   recall:"<span class='lead'>서두르지 않으셔도 됩니다.</span>산과 들이 있던 시골이었는지, 사람 북적이던 동네였는지 — 그곳의 <b>풍경이나 소리</b>도 좋아요.",
-   q:"어린 시절 자라신 곳은 어떤 곳이었나요?", skip:false},
-  {open:"그 시절, 선생님 곁에는 누가 있었을까요.",
-   recall:"<span class='lead'>한 분을 떠올려 보세요.</span>부모님, 형제, 동무 — 그중 유난히 <b>오래 마음에 남은 한 사람</b>이 있으실 거예요.",
-   q:"어린 시절, 가장 마음에 남는 한 사람은 누구였나요?", skip:false},
-  {open:"마지막으로, 그 시절의 하루 중 유난히 또렷한 날이 있다면요.",
-   recall:"<span class='lead'>편하게 말씀해 주세요.</span>기뻤던 날도, 서러웠던 날도 괜찮아요. <b>오래 남은 하루</b>면 됩니다.",
-   q:"어린 시절, 지금도 잊히지 않는 하루가 있나요?", skip:true}
+   q:"가장 먼저 떠오르는 어린 시절 한 장면은 무엇인가요?", skip:true}
  ]},
  {title:"제2장 · 나를 키운 사람들", qs:[
-  {open:"이제, 선생님을 키워주신 분들을 떠올려 볼까요.",
+  {type:"pick", open:"이제, 선생님을 키워주신 분들을 떠올려 볼까요.",
    recall:"<span class='lead'>가장 따뜻했던 한 분을요.</span>부모님, 조부모님, 은사님 — <b>손 잡아주시던 그 온기</b>가 떠오르실 거예요.",
-   q:"선생님을 가장 따뜻하게 품어주셨던 분은 누구인가요?", skip:false},
-  {open:"그분이 자주 하시던 말씀이 있으셨을 텐데요.",
-   recall:"<span class='lead'>귓가에 남은 말을 떠올려 보세요.</span>야단이든 격려든 — <b>지금도 마음에 남은 한마디</b>가 있으실 거예요.",
-   q:"그분이 선생님께 자주 하시던 말씀은 무엇이었나요?", skip:false},
-  {open:"그분과 함께한 잊지 못할 순간도 있으시겠지요.",
-   recall:"<span class='lead'>한 장면이면 됩니다.</span>함께 먹은 밥, 잡아준 손, 배웅하던 뒷모습 같은 <b>작지만 선명한 순간</b>이요.",
-   q:"그분과 함께한 순간 중, 가장 마음에 남는 장면은 무엇인가요?", skip:false},
-  {open:"이제 그분께, 마음을 전해 보실까요.",
+   q:"선생님을 가장 따뜻하게 품어주신 분은 누구인가요?", opts:["어머니","아버지","할머니·할아버지","스승·은사","거둬준 어른"], multi:false, other:true, skip:false},
+  {type:"pick", open:"그분은 어떤 분이셨는지도 떠올려 볼까요.",
+   recall:"<span class='lead'>가장 가까운 모습을요.</span>야단이든 격려든, 말없는 든든함이든 — <b>그분의 성품</b>이요.",
+   q:"그분은 어떤 분이셨나요?", opts:["늘 다정히 격려","엄하게 바로잡음","말없이 든든히","몸소 본을 보임"], multi:false, other:true, skip:false},
+  {type:"write", open:"이제 그분께, 마음을 전해 보실까요.",
    recall:"<span class='lead'>못다 한 말을 편하게요.</span>고마움이든 그리움이든 — <b>그분께 전하고 싶은 인사</b>를요.",
    q:"그분께 지금 한마디 전한다면, 어떤 말을 건네고 싶으신가요?", skip:true}
  ]},
  {title:"제3장 · 내가 걸어온 길", qs:[
-  {open:"선생님이 평생 걸어오신 길로 가 볼게요.",
-   recall:"<span class='lead'>어떻게 시작하셨는지도요.</span>농사, 장사, 직장, 살림 — <b>선생님의 손으로 해오신 그 일</b>이요.",
-   q:"선생님께서 평생 하신 일은 무엇이었고, 어떻게 시작하게 되셨나요?", skip:false},
-  {open:"그 일을 하시면서 보람도 크셨을 거예요.",
-   recall:"<span class='lead'>가슴 뿌듯했던 때를요.</span>누군가 고마워하던 순간, 결실을 본 날 — <b>스스로 대견했던 순간</b>이요.",
-   q:"그 일을 하면서 가장 보람찼던 순간은 언제였나요?", skip:false},
-  {open:"쉽지만은 않은 길이었을 텐데요.",
-   recall:"<span class='lead'>버티며 지켜온 것을요.</span>힘들어도 놓지 않은 원칙, 책임 — <b>끝까지 지켜온 무언가</b>가 있으실 거예요.",
-   q:"그 길을 걸으며, 선생님이 끝까지 지켜온 것은 무엇이었나요?", skip:false},
-  {open:"돌아보시면, 그 일이 선생님께 남긴 것이 있으시겠지요.",
+  {type:"pick", open:"선생님이 평생 걸어오신 길로 가 볼게요.",
+   recall:"<span class='lead'>두루 하셨으면 여러 개 골라도 됩니다.</span>농사, 장사, 직장, 살림 — <b>선생님의 손으로 해오신 그 일</b>이요.",
+   q:"선생님께서 평생 하신 일은 무엇이었나요?", opts:["농사","장사·자영업","직장 생활","집안 살림","여러 일 두루"], multi:true, other:true, skip:false},
+  {type:"write", open:"돌아보시면, 그 일이 선생님께 남긴 것이 있으시겠지요.",
    recall:"<span class='lead'>한 문장으로 담아 보세요.</span>선생님의 삶에서 <b>'일'이란 어떤 의미</b>였을까요.",
    q:"선생님의 인생에서 그 일은 어떤 의미였나요?", skip:true}
  ]},
  {title:"제4장 · 버티고 일어선 순간", qs:[
-  {open:"이제, 가장 힘들었던 시간으로 가 볼게요.",
-   recall:"<span class='lead'>천천히, 무리하지 마시고요.</span>말씀하기 어려우시면 건너뛰셔도 됩니다. <b>버텨낸 그 시간</b>을요.",
-   q:"살면서 가장 힘들었던 순간은 언제였고, 어떻게 견디셨나요?", skip:false},
-  {open:"그 시간, 곁에서 힘이 되어준 것도 있었을 거예요.",
+  {type:"pick", open:"그 시간, 곁에서 힘이 되어준 것도 있었을 거예요.",
    recall:"<span class='lead'>작은 것이라도요.</span>누군가의 말 한마디, 손길, 혹은 스스로의 다짐 — <b>그때 붙잡은 무언가</b>요.",
-   q:"그 힘든 시간에, 선생님께 힘이 되어준 것은 무엇이었나요?", skip:false},
-  {open:"지금 돌아보면, 그 시간이 남긴 것이 있으시겠지요.",
-   recall:"<span class='lead'>견뎌낸 자신에게요.</span>그 시절을 지나온 <b>지금의 선생님</b>이 그때의 자신에게요.",
-   q:"그 시절을 견뎌낸 자신에게, 한마디 하신다면요?", skip:true}
+   q:"그 힘든 시간에, 선생님께 힘이 되어준 것은 무엇이었나요?", opts:["가족의 힘","누군가의 말 한마디","믿음·신앙","스스로의 다짐"], multi:true, other:true, skip:false},
+  {type:"write", open:"이제, 가장 힘들었던 시간으로 가 볼게요.",
+   recall:"<span class='lead'>천천히, 무리하지 마시고요.</span>말씀하기 어려우시면 건너뛰셔도 됩니다. <b>버텨낸 그 시간</b>을요.",
+   q:"살면서 가장 힘들었던 순간은 언제였고, 어떻게 견디셨나요?", skip:true}
  ]},
  {title:"제5장 · 가장 자랑스러운 날", qs:[
-  {open:"이번엔 환하게 웃으셨던 날로 가 볼까요.",
-   recall:"<span class='lead'>가장 빛났던 순간을요.</span>큰일이 아니어도 좋아요. <b>스스로 대견했던 그날</b>이요.",
-   q:"선생님께서 가장 자랑스럽게 여기시는 일은 무엇인가요?", skip:false},
-  {open:"그때, 함께 기뻐해 준 사람도 있었겠지요.",
+  {type:"pick", open:"그때, 함께 기뻐해 준 사람도 있었겠지요.",
    recall:"<span class='lead'>그 얼굴을 떠올려 보세요.</span>가족, 동료, 벗 — <b>선생님만큼 기뻐하던 누군가</b>요.",
-   q:"그 일을 이뤘을 때, 누가 가장 기뻐해 주었나요?", skip:false},
-  {open:"그날의 선생님을 지금 만나신다면요.",
-   recall:"<span class='lead'>따뜻한 한마디를요.</span>그 빛나던 날의 <b>젊은 자신에게</b> 건네고 싶은 말이요.",
-   q:"그날의 자신에게, 지금 무슨 말을 해주고 싶으신가요?", skip:true}
+   q:"그 일을 이뤘을 때, 누가 가장 기뻐해 주었나요?", opts:["배우자","자녀","부모님","동료·벗"], multi:true, other:true, skip:false},
+  {type:"write", open:"이번엔 환하게 웃으셨던 날로 가 볼까요.",
+   recall:"<span class='lead'>가장 빛났던 순간을요.</span>큰일이 아니어도 좋아요. <b>스스로 대견했던 그날</b>이요.",
+   q:"선생님께서 가장 자랑스럽게 여기시는 일은 무엇인가요?", skip:true}
  ]},
  {title:"제6장 · 남기고 싶은 말", qs:[
-  {open:"이제, 뒤에 올 사람들에게 마음을 남겨 보실까요.",
+  {type:"pick", open:"선생님이 평생 소중히 여기신 것도 있으실 거예요.",
+   recall:"<span class='lead'>여러 개여도 괜찮아요.</span>정직, 성실, 사랑 — <b>삶에서 가장 붙들고 사신 가치</b>요.",
+   q:"살아오시면서 가장 중요하게 여기신 것은 무엇이었나요?", opts:["정직","성실·근면","사랑·정","책임","배움"], multi:true, other:true, skip:false},
+  {type:"write", open:"이제, 뒤에 올 사람들에게 마음을 남겨 보실까요.",
    recall:"<span class='lead'>천천히, 진심을요.</span>자녀, 손주, 혹은 아직 만나지 못한 <b>후손에게 전하고 싶은 말</b>이요.",
-   q:"후손들에게 꼭 전하고 싶은 말씀이 있으신가요?", skip:false},
-  {open:"선생님이 평생 소중히 여기신 것도 있으실 거예요.",
-   recall:"<span class='lead'>한 가지면 됩니다.</span>정직, 성실, 사랑 — <b>삶에서 가장 붙들고 사신 가치</b>요.",
-   q:"살아오시면서 가장 중요하게 여기신 것은 무엇이었나요?", skip:false},
-  {open:"마지막으로, 이 기록을 읽을 누군가에게요.",
-   recall:"<span class='lead'>인사를 건네듯이요.</span>먼 훗날 이 이야기를 펼쳐볼 <b>누군가에게 남기는 인사</b>요.",
-   q:"이 기록을 읽을 누군가에게, 마지막 인사를 남겨주세요.", skip:false}
+   q:"후손들에게 꼭 전하고 싶은 말씀이 있으신가요?", skip:true}
  ]},
  {title:"제7장 · 지금의 마음", qs:[
-  {open:"긴 여정, 여기까지 오셨어요. 지금 이 순간의 마음을요.",
-   recall:"<span class='lead'>지금 느끼시는 그대로요.</span>이야기를 마치며 드는 <b>후련함, 그리움, 어떤 감정이든</b> 괜찮아요.",
-   q:"이렇게 삶을 돌아보신 지금, 마음이 어떠신가요?", skip:false},
-  {open:"긴 세월을 지나오신 선생님께 여쭙고 싶어요.",
+  {type:"pick", open:"긴 여정, 여기까지 오셨어요. 지금 이 순간의 마음을요.",
+   recall:"<span class='lead'>여러 감정이 겹쳐도 괜찮아요.</span>이야기를 마치며 드는 <b>후련함, 그리움, 어떤 감정이든</b> 괜찮아요.",
+   q:"이렇게 삶을 돌아보신 지금, 마음이 어떠신가요?", opts:["후련하다","그립다","감사하다","뭉클하다","담담하다"], multi:true, other:true, skip:false},
+  {type:"write", open:"긴 세월을 지나오신 선생님께 여쭙고 싶어요.",
    recall:"<span class='lead'>한 문장으로 담으셔도 좋아요.</span>돌아보니 <b>삶이란 어떤 것</b>이었을까요.",
-   q:"돌아보시면, 선생님께 삶이란 어떤 것이었나요?", skip:false},
-  {open:"이제 정말 마지막이에요. 자신에게 건네 보세요.",
-   recall:"<span class='lead'>가장 다정하게요.</span>여기까지 걸어온 <b>지금의 자신에게</b> 한마디요.",
-   q:"긴 삶을 걸어온 자신에게, 한마디 건네신다면요?", skip:true}
+   q:"돌아보시면, 선생님께 삶이란 어떤 것이었나요?", skip:true}
  ]}
 ];
 
-var ci=0, qi=0, answers={};
+var ci=0, qi=0, answers={}, picks={};
 var KEY="lf_memoir_book";
-try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");answers=s.answers||{};ci=s.ci||0;qi=s.qi||0;}catch(e){}
+try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");answers=s.answers||{};picks=s.picks||{};ci=s.ci||0;qi=s.qi||0;}catch(e){}
 
 function cur(){return BOOK[ci].qs[qi];}
 function total(){var t=0;for(var c=0;c<BOOK.length;c++)t+=BOOK[c].qs.length;return t;}
@@ -344,11 +339,59 @@ function paint(){
   document.getElementById("fill").style.width=((doneIdx()+1)/total()*100)+"%";
   document.getElementById("skip").style.display=Q.skip?"block":"none";
   document.getElementById("nextb").textContent=isLast()?"이야기 마치기":(isChapEnd()?"다음 장으로":"다음 이야기로");
+  var isPick=(Q.type==="pick");
+  document.getElementById("picks").style.display=isPick?"block":"none";
+  document.getElementById("ans").style.display=isPick?"none":"block";
+  var aids=document.querySelector(".aids"); if(aids) aids.style.display=isPick?"none":"flex";
+  if(isPick){ renderPicks(); }
   refresh();
 }
 function refresh(){
-  var has=(document.getElementById("ans").value||"").trim().length>0;
-  document.getElementById("nextb").disabled=(!has && !cur().skip);
+  var Q=cur(), has;
+  if(Q.type==="pick"){ var st=pickState(); has=(st.sel.length>0)||((st.other||"").trim().length>0); }
+  else { has=(document.getElementById("ans").value||"").trim().length>0; }
+  document.getElementById("nextb").disabled=(!has && !Q.skip);
+}
+/* [v12] 보기 — 탭 선택. 답은 문자열(', ' 연결)로 answers 에 담겨 기존 저장선 그대로 탐. */
+function pickState(){ var k=ci+"_"+qi; if(!picks[k]) picks[k]={sel:[],other:""}; return picks[k]; }
+function commitPick(){
+  var st=pickState(), parts=st.sel.slice();
+  if((st.other||"").trim()) parts.push(st.other.trim());
+  answers[ci+"_"+qi]=parts.join(", ");
+  save(); refresh();
+}
+function togglePick(op){
+  var Q=cur(), st=pickState(), i=st.sel.indexOf(op);
+  if(Q.multi){ if(i>=0) st.sel.splice(i,1); else st.sel.push(op); }
+  else { st.sel=(i>=0?[]:[op]); }
+  commitPick(); renderPicks();
+}
+function onOther(v){ pickState().other=v; commitPick(); }
+function toggleOther(){
+  var ow=document.getElementById("otherwrap");
+  if(ow.style.display==="none"||!ow.style.display){ ow.style.display="block"; var i=document.getElementById("otherin"); if(i) i.focus(); }
+  else { ow.style.display="none"; }
+}
+function renderPicks(){
+  var Q=cur(), st=pickState(), box=document.getElementById("chips"); box.innerHTML="";
+  var hint=document.getElementById("pickhint");
+  if(hint) hint.textContent = Q.multi ? "해당하는 것을 눌러 주세요 · 여러 개 골라도 됩니다" : "해당하는 것을 눌러 주세요";
+  (Q.opts||[]).forEach(function(op){
+    var b=document.createElement("button");
+    b.type="button"; b.className="chip"+(st.sel.indexOf(op)>=0?" on":"");
+    b.textContent=op; b.onclick=function(){ togglePick(op); };
+    box.appendChild(b);
+  });
+  var ow=document.getElementById("otherwrap");
+  if(Q.other){
+    var otherOn=(st.other||"").length>0;
+    var ob=document.createElement("button");
+    ob.type="button"; ob.className="chip other"+(otherOn?" on":"");
+    ob.textContent="그 밖에"; ob.onclick=function(){ toggleOther(); };
+    box.appendChild(ob);
+    ow.style.display=otherOn?"block":"none";
+    document.getElementById("otherin").value=st.other||"";
+  } else { ow.style.display="none"; }
 }
 function onType(){
   answers[ci+"_"+qi]=document.getElementById("ans").value;
@@ -356,9 +399,9 @@ function onType(){
   var el=document.getElementById("saved"); el.classList.add("on");
   clearTimeout(window._st); window._st=setTimeout(function(){el.classList.remove("on");},1400);
 }
-function save(){ try{localStorage.setItem(KEY,JSON.stringify({answers:answers,ci:ci,qi:qi}));}catch(e){} }
+function save(){ try{localStorage.setItem(KEY,JSON.stringify({answers:answers,picks:picks,ci:ci,qi:qi}));}catch(e){} }
 function nextQ(skip){
-  if(!skip){answers[ci+"_"+qi]=document.getElementById("ans").value;}
+  if(!skip && cur().type!=="pick"){answers[ci+"_"+qi]=document.getElementById("ans").value;}
   if(isLast()){ save(); finish(); return; }
   if(isChapEnd()){ ci++; qi=0; } else { qi++; }
   save(); paint(); window.scrollTo(0,0);
@@ -402,7 +445,7 @@ function confirmPromise(){
 }
 function goBook(){ location.href = GLINK.book || "/memoir/book.html"; }
 function manualSave(){
-  answers[ci+"_"+qi]=document.getElementById("ans").value;
+  if(cur().type!=="pick"){ answers[ci+"_"+qi]=document.getElementById("ans").value; }
   save();
   var sb=document.getElementById("savebtn");
   sb.classList.add("done");
