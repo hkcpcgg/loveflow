@@ -1,4 +1,4 @@
-<!-- 사랑흐름 · 자서전 의식 memoir/ritual.html ★v9 · 260714 · [작업 v9] 가독성 표준 + ★끊긴 길 고침 (대표 승인 260714)
+<!-- 사랑흐름 · 자서전 의식 memoir/ritual.html ★v11 · 260716 · [작업 v11] ★뒤로 버튼 신설 (대표 go 260716) — prev() 함수는 있는데 부르는 버튼이 없어 단계(하나→둘→시기선택)에서 뒤로 못 가던 것 해소. s1·s2에 '‹ 이전으로'(onclick=prev()) 추가. prev()는 기존 그대로(i>0이면 이전 단계, 첫 단계면 홈). 앞으로 버튼(천천히 시작하기·마음이 준비되었어요)은 원래대로. [★안 건드림] show()·next()·prev()·begin()·문구·시기·색값 = 미변경, 순수 버튼·CSS 추가. · v10 · 260716 · [작업 v10] ★드로어 표준 10항목 통일 (대표 go 260716) — 여는 의식 드로어가 6항목이라 '여행의 기록(쇼룸)'·'예매'로 못 나가던 갇힘 해소. 표준 10항목(홈·마음 한마디·여행지도 보기·편지·자서전·여권으로 입장·사랑흐름 여권 찾기·여행의 기록·마음 여행 예매하기·다시 시작)으로 맞춤. GLINK 에 reenter·showroom·showcase 추가. [★안 건드림] 시기선택·의식 문구·버튼·색값·푸터 = 미변경. · v9 · 260714 · [작업 v9] 가독성 표준 + ★끊긴 길 고침 (대표 승인 260714)
      [출처] 원본 = 자서전의식_표준v8_260708.html (이삿짐 zip · 13,495B)
      [★고침 · 이게 제일 급했습니다] 151줄이 location.href='memoir_ask_v5.html' 였습니다 — ★시안 파일명 그대로.
             그대로 올렸으면 손님이 의식을 마치고 ★404 를 봤습니다. → '/memoir/ask.html' 로 바로잡음.
@@ -90,6 +90,7 @@ body{background:#E7E1D6 !important}
 .btn.skip{background:#fff;color:#6B6357;border-color:#E6E2D7}
 .row2btn{display:flex;gap:10px}
 .row2btn .btn{flex:1}
+.backstep{display:block;margin:20px auto 0;background:none;border:none;color:var(--sub,#7C8794);font-size:15px;font-weight:600;cursor:pointer;padding:8px}
 </style>
 </head>
 <body>
@@ -109,7 +110,11 @@ body{background:#E7E1D6 !important}
       <a onclick="glgo('journey')">여행지도 보기</a>
       <a onclick="glgo('letter')">편지</a>
       <a onclick="glgo('memoir')">자서전</a>
+      <a onclick="glgo('reenter')">여권으로 입장</a>
       <a onclick="glgo('find')">사랑흐름 여권 찾기</a>
+      <a onclick="glgo('showroom')">여행의 기록</a>
+      <a onclick="glgo('showcase')">마음 여행 예매하기</a>
+      <a onclick="location.reload()">다시 시작</a>
     </div>
   </div>
 </div>
@@ -132,6 +137,7 @@ body{background:#E7E1D6 !important}
     <button class="listen" id="l1" onclick="speak('b1','l1')"><span class="ic">&#128266;</span> 들려드릴게요</button>
     <div class="rule"></div>
     <button class="go" onclick="next()">마음이 준비되었어요</button>
+    <button class="backstep" onclick="prev()">‹ 이전으로</button>
   </div>
 
   <div class="stage" id="s2">
@@ -148,6 +154,7 @@ body{background:#E7E1D6 !important}
       <button class="season" onclick="begin('장년')">장년기<span class="em">깊어지고 무르익은 시절</span></button>
       <button class="season" onclick="begin('노년')">지금, 이 시절<span class="em">돌아보며 걷는 시절</span></button>
     </div>
+    <button class="backstep" onclick="prev()">‹ 이전으로</button>
   </div>
 
   <div class="dots" id="dots">
@@ -203,7 +210,7 @@ show();
   <span class="h2" onclick="ggoHome()">‹ 홈으로</span>
 </div>
 <script>
-var GLINK={home:'/',hanmadi:'/',journey:'/journey/',letter:'/l/',memoir:'/memoir/',ritual:'/memoir/ritual.html',ask:'/memoir/ask.html',book:'/memoir/book.html',find:'/find/',about:'/about.html',trust:'/trust.html'};
+var GLINK={home:'/',hanmadi:'/',journey:'/journey/',letter:'/l/',memoir:'/memoir/',ritual:'/memoir/ritual.html',ask:'/memoir/ask.html',book:'/memoir/book.html',find:'/find/',reenter:'/reenter.html',showroom:'/showroom.html',showcase:'/showcase.html',about:'/about.html',trust:'/trust.html'};
 function ggoHome(){location.href=GLINK.home;}
 function glgo(k){var u=GLINK[k];if(u){location.href=u;}}
 function gOpenMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.add('on');}
