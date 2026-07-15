@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · journey/index.html   v8-7 · 260714
+     사랑흐름 · journey/index.html   v8-8 · 260716 · [작업 v8-8] ★햄버거 복구+자서전 신설 — (1)드로어가 미정의 함수 lfGoGuard() 호출이라 8항목 전부 죽어있던 것을 lfGo()로 교체해 살림 (2)'편지' 다음 '자서전'(→/memoir/) 추가. · v8-7 · 260714
      [v8-7 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
                상품구분은 주문대장 J열(MAP / MAP+LETTER)이 원본. issuePassport v4가 이미 LF-만 발급 중.
@@ -270,7 +270,7 @@
     <!-- [v20] 표준 6항목 (gate v9-22 · enter 라이브 기준)
          · "마음 여행지도" → "여행지도 보기" (표준 명칭)
          · "마음 여행편지 → /pay.html" → "편지 → /l/" (편지 통로. pay는 결제화면이라 목적지가 아님) -->
-    <a onclick="lfGoGuard('home')">홈</a><a onclick="lfGoGuard('hanmadi')">마음 한마디</a><a onclick="lfGoGuard('journey')">여행지도 보기</a><a onclick="lfGoGuard('letter')">편지</a><a onclick="lfGoGuard('reenter')">여권으로 입장</a><a onclick="lfGoGuard('find')">사랑흐름 여권 찾기</a><a onclick="lfGoGuard('showroom')">여행의 기록</a><a onclick="lfGoGuard('showcase')">마음 여행 예매하기</a><a onclick="restartJourney()">다시 시작</a>
+    <a onclick="lfGo('home')">홈</a><a onclick="lfGo('hanmadi')">마음 한마디</a><a onclick="lfGo('journey')">여행지도 보기</a><a onclick="lfGo('letter')">편지</a><a onclick="lfGo('memoir')">자서전</a><a onclick="lfGo('reenter')">여권으로 입장</a><a onclick="lfGo('find')">사랑흐름 여권 찾기</a><a onclick="lfGo('showroom')">여행의 기록</a><a onclick="lfGo('showcase')">마음 여행 예매하기</a><a onclick="restartJourney()">다시 시작</a>
   </div>
   <div class="prog"><i id="bar"></i></div>
   <div class="pcount" id="pcount">1 / 29</div>
@@ -825,6 +825,7 @@ var LF_LINK = {
   hanmadi:  '/',
   journey:  '/journey/',
   letter:   '/l/',
+  memoir:   '/memoir/',
   reenter:  '/reenter.html',
   find:     '/find/',
   showroom: '/showroom.html',
