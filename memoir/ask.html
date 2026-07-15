@@ -1,4 +1,4 @@
-<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v10-1 · 260714 · [작업 v10-1] ★저장 방식 fetch POST → JSONP(GET) 교체 — 답변이 시트와 드라이브에 남습니다
+<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v10-2 · 260714 · [작업 v10-2] ★저장 방식 JSONP → 이미지 신호 교체 (브라우저 확장프로그램이 JSONP 를 막음) — 답변이 시트와 드라이브에 남습니다
      [★v10-1 왜] fetch POST 는 GAS 응답을 못 읽습니다(리다이렉트+CORS) → 매번 catch 로 빠져 시트에 안 감. 주소창(GET)은 됐던 이유.
             → JSONP(script 태그 GET) 로 교체. gate·편지와 같은 방식입니다. 이제 장이 끝나면 시트에 줄이 쌓입니다.
      [왜] 이사회 5인 만장일치 1순위: "임시저장만 하는 현 상태는 서비스가 아니다." 지금까지 답변은 브라우저에만 담겨, 폰을 바꾸면 사라졌습니다.
@@ -442,40 +442,46 @@ function queue_(job){
 }
 
 function send_(job, onOk){
-  /* ★[v10-1] fetch POST 는 GAS 리다이렉트+CORS 로 응답을 못 읽습니다(catch 로 빠져 시트에 안 감).
-     GAS 는 script 태그 요청(JSONP)엔 CORS 가 없습니다. gate·편지와 같은 방식으로 통일합니다.
-     답이 길어 주소가 넘칠 수 있어, 답변만 압축해 실어 보냅니다. */
-  var cbName='mcb_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
-  var done=false;
-  var t=document.createElement('script');
-
-  window[cbName]=function(d){
-    done=true;
-    try{ delete window[cbName]; }catch(e){ window[cbName]=undefined; }
-    if(t.parentNode){ t.parentNode.removeChild(t); }
-    if(d && d.status==='ok'){ if(onOk) onOk(d); }
-    else { queue_(job); }
-  };
-
+  /* ★[v10-2] JSONP(script 태그)가 일부 브라우저 확장프로그램(Grabbit 등)에 막혔습니다.
+     콘솔의 "message port closed" 가 그 흔적입니다. → 확장프로그램이 못 막는 ★이미지 신호로 바꿉니다.
+     GAS doGet 은 요청만 받으면 그대로 저장합니다(응답을 안 읽어도 저장은 됩니다).
+     보낸 뒤 getMemoir 로 "정말 담겼는지" 되물어 확인합니다 — 이게 진짜 확인입니다. */
   var q = MEMOIR_GAS
     + '?action=saveChapter'
-    + '&callback=' + cbName
     + '&passport='    + encodeURIComponent(job.passport)
     + '&chapter='     + encodeURIComponent(job.chapter)
     + '&name='        + encodeURIComponent(job.name || '')
     + '&source='      + encodeURIComponent(job.source || '')
     + '&inputUser='   + encodeURIComponent(job.inputUser || '')
     + '&inputMethod=' + encodeURIComponent(job.inputMethod || '')
-    + '&answers='     + encodeURIComponent(JSON.stringify(job.answers || []));
+    + '&answers='     + encodeURIComponent(JSON.stringify(job.answers || []))
+    + '&t=' + Date.now();
 
-  t.src=q;
-  t.onerror=function(){ if(!done){ queue_(job); if(t.parentNode){t.parentNode.removeChild(t);} } };
+  var img = new Image();
+  img.onload  = function(){ verify_(job, onOk); };
+  img.onerror = function(){ verify_(job, onOk); };  /* GAS 는 이미지가 아니라 onerror 로 옵니다 — 정상입니다 */
+  img.src = q;
+
+  /* 혹시 이미지도 막히면 fetch no-cors 로 한 번 더 (응답은 못 읽어도 저장은 됨) */
+  try{ fetch(q, { mode:'no-cors' }); }catch(e){}
+}
+
+/* ★보낸 뒤 정말 담겼는지 되묻습니다. 담겼으면 화면에 "담았습니다", 아니면 큐로. */
+function verify_(job, onOk){
+  var cbName='mvf_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+  var t=document.createElement('script');
+  var done=false;
+  window[cbName]=function(d){
+    done=true;
+    try{ delete window[cbName]; }catch(e){}
+    if(t.parentNode){ t.parentNode.removeChild(t); }
+    if(d && d.found){ if(onOk) onOk(d); }     /* 시트에 있음 = 진짜 저장됨 */
+    else { queue_(job); }
+  };
+  t.src = MEMOIR_GAS + '?action=getMemoir&passport=' + encodeURIComponent(job.passport) + '&callback=' + cbName + '&t=' + Date.now();
+  t.onerror=function(){ if(!done){ queue_(job); if(t.parentNode)t.parentNode.removeChild(t); } };
   document.body.appendChild(t);
-
-  /* 12초 안에 응답 없으면 큐로 — 버리지 않습니다 */
-  setTimeout(function(){
-    if(!done){ queue_(job); try{ delete window[cbName]; }catch(e){} if(t.parentNode){t.parentNode.removeChild(t);} }
-  }, 12000);
+  setTimeout(function(){ if(!done){ try{ delete window[cbName]; }catch(e){} if(t.parentNode)t.parentNode.removeChild(t); } }, 8000);
 }
 
 /* 못 보낸 게 쌓여 있으면 다음에 들어오실 때 조용히 다시 보냅니다. */
