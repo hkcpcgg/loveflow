@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · find/index.html   v7-7 · 260716 · [작업 v7-7] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v7-6 · 260714
+     사랑흐름 · find/index.html   v7-8 · 260716 · [작업 v7-8] ★상단바를 표준(showcase) 얼굴로 통일 — find만 ‹·☰가 맨몸이라 '햄버거 벌어짐·템플릿 다름' 지적. showcase와 동일하게 ‹·☰를 34px 둥근 테두리 박스로, 로고 40px, .loc 중앙 절대배치, .gnav position:relative + back 뒤 flex:1 스페이서. + 결제번호 placeholder에서 '네이버는 숫자 16자리 · 계좌이체는 SR- 번호' → '결제번호'(대표 지시 삭제). [보존] search()·검증(aux>=2)·id·GAS 호출·결과 rcard·드로어 10항목·lfGo 미변경. · v7-7 · 260716 · [작업 v7-7] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v7-6 · 260714
      [v7-6 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
                상품구분은 주문대장 J열(MAP / MAP+LETTER)이 원본. issuePassport v4가 이미 LF-만 발급 중.
@@ -147,11 +147,13 @@
   .gp-journey{background:var(--navyd);color:#fff}
   .gp-home{background:#fff;color:var(--navyd);border:1px solid var(--line)}
   .gp-copy{background:#FBEFD5;color:var(--goldd);border:1px solid #EBD9A8}
-  .gnav{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff}
-  .gnav .home img{height:26px;cursor:pointer;display:block}
-  .gnav .back{background:none;border:none;font-size:24px;color:var(--navy);cursor:pointer;line-height:1}
-  .gnav .loc{font-size:13px;font-weight:800;color:var(--navy);margin-left:4px}
-  .gnav .ham{background:none;border:none;font-size:20px;color:var(--navy);cursor:pointer;margin-left:auto}
+  .gnav{display:flex;align-items:center;gap:8px;padding:11px 12px;background:#fff;border-bottom:1px solid var(--line);position:relative}
+  .gnav .home{cursor:pointer;flex-shrink:0}
+  .gnav .home img{height:40px;width:40px;object-fit:contain;display:block}
+  .gnav .back{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:17px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .gnav .loc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:15px;font-weight:900;color:var(--navy);pointer-events:none}
+  .gnav .ham{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .gnav .back:active,.gnav .ham:active{transform:scale(.94)}
   .drawer{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;z-index:50}
   .drawer.on{display:block}
   .dpanel{position:absolute;top:0;right:0;width:75%;max-width:300px;height:100%;background:#fff;padding:18px}
@@ -163,8 +165,8 @@
 </head>
 <body>
 <div class="gnav">
-  <div class="home"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="goHome()"></div>
-  <button class="back" onclick="history.back()" aria-label="뒤로">‹</button>
+  <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
+  <button class="back" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
   <div class="loc">사랑흐름 여권 찾기</div>
   <button class="ham" onclick="openMenu()" aria-label="메뉴">☰</button>
 </div>
@@ -219,7 +221,7 @@
     <!-- [v7-5] 결제번호 — 한 줄 온전히. 네이버 16자리가 반 칸에 안 들어가던 것 -->
     <div class="field">
       <div class="flabel">🧾 결제번호 <span class="opt">(아시면)</span></div>
-      <input class="inp" id="orderNo" placeholder="네이버는 숫자 16자리 · 계좌이체는 SR- 번호">
+      <input class="inp" id="orderNo" placeholder="결제번호">
     </div>
 
     <!-- 날짜 + 구입처 -->
