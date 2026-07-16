@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>게이트 진단</title>
+<style>
+  body{font:17px/1.6 -apple-system,'Noto Sans KR',sans-serif;padding:22px;color:#1E4A76;max-width:560px;margin:0 auto}
+  h2{font-size:20px;margin:0 0 14px}
+  #log div{padding:10px 12px;margin:6px 0;border-radius:8px;background:#f0f0f0;word-break:break-all}
+  .ok{background:#d7f5d7!important}
+  .err{background:#f9d9d9!important}
+</style>
+</head><body>
+<h2>자서전 게이트 진단 · LF-TEST9</h2>
+<div id="log"></div>
+<script>
+  var GAS='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+  function L(m,c){ var d=document.createElement('div'); d.textContent=m; if(c) d.className=c; document.getElementById('log').appendChild(d); }
+
+  L('① 조회 시작 — getMemoir(LF-TEST9)');
+
+  var cb='gc_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+  var t=document.createElement('script');
+  var done=false;
+
+  window[cb]=function(d){
+    done=true;
+    L('② 응답 받음: '+JSON.stringify(d), 'ok');
+    if(d && d.status==='locked'){ L('③ 게이트 정상 — 잠금이 걸려야 맞습니다', 'ok'); }
+    else { L('③ status 가 locked 가 아님 → 통과됨: '+(d&&d.status), 'err'); }
+  };
+
+  t.onerror=function(){ if(!done){ done=true; L('② ❌ onerror — script 로드 자체가 실패했습니다', 'err'); } };
+  t.src=GAS+'?action=getMemoir&passport=LF-TEST9&callback='+cb+'&t='+Date.now();
+  document.head.appendChild(t);
+
+  setTimeout(function(){ if(!done){ done=true; L('② ⏱ 6초 지나도 응답이 안 왔습니다 (타임아웃)', 'err'); } }, 6000);
+</script>
+</body></html>
