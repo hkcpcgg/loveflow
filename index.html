@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · index.html (마음 한마디)   v21-11 · 260716 · [작업 v21-11] ★햄버거 표준 메뉴에 자서전 진입로 신설 — '편지' 다음에 '자서전'(lfGo('memoir') → /memoir/) 추가. 표준 메뉴에 자서전이 빠져 홈 등 어느 페이지 햄버거에서도 자서전을 못 가던 구멍을 메움. LF_LINK 에 memoir:'/memoir/' 추가. [무손] 그 외 메뉴·본문·스크립트 미변경. · v21-10 · 260714
+     사랑흐름 · index.html (마음 한마디)   v21-12 · 260716 · [작업 v21-12] ★공용 부품(티커·공유) 인라인 삽입 (대표 확정 260716) — '함께 여행한 분들' 티커(마스킹 여권번호 24개×2벌 마퀴, 골드) + 공유 버튼(↱, navigator.share→클립보드, 공유 URL은 항상 홈만)을 표준 푸터(.legal) 바로 앞에 직접 박음. ★JS 주입/외부 lf.js 방식 폐기 → HTML에 직접 넣어 파일만 열어도 보이게(대표 지적: 반영했으면 보여야). 공유 버튼은 골드 채움+딥네이비 글자(흰 배경은 크림 화면에서 안 보여 폐기). 클래스 lff- 프리픽스(index 기존 .lfshare 충돌 방지). 티커는 하단 유지(대표 지시). [무손] 헤더·본문·기존 스크립트·메뉴·색값 미변경, 순수 부품 추가. · v21-11 · 260716 · [작업 v21-11] ★햄버거 표준 메뉴에 자서전 진입로 신설 — '편지' 다음에 '자서전'(lfGo('memoir') → /memoir/) 추가. 표준 메뉴에 자서전이 빠져 홈 등 어느 페이지 햄버거에서도 자서전을 못 가던 구멍을 메움. LF_LINK 에 memoir:'/memoir/' 추가. [무손] 그 외 메뉴·본문·스크립트 미변경. · v21-10 · 260714
      [v21-10 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
                상품구분은 주문대장 J열(MAP / MAP+LETTER)이 원본. issuePassport v4가 이미 LF-만 발급 중.
@@ -641,6 +641,30 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   </div>
 
+  <!-- ═ 공용 부품(인라인): 함께 여행한 분들 티커 + 공유 · 260716 ═ -->
+  <style>
+  .lff-tick{max-width:300px;margin:22px auto 6px;overflow:hidden;white-space:nowrap;border-top:1px solid #E7DFD2;border-bottom:1px solid #E7DFD2;padding:9px 0}
+  .lff-tick .lff-cap{display:block;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:10.5px;letter-spacing:.5px;color:#B0A794;margin-bottom:5px;font-weight:700}
+  .lff-tick .lff-win{overflow:hidden;white-space:nowrap}
+  .lff-tick .lff-track{display:inline-block;animation:lff-marq 46s linear infinite}
+  .lff-tick .lff-track span{font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:700;color:#D4AF37;padding:0 15px;letter-spacing:.5px}
+  @keyframes lff-marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .lff-share{max-width:420px;margin:8px auto 0;padding:0 16px;box-sizing:border-box;text-align:center}
+  .lff-share .lff-sb{display:inline-flex;align-items:center;gap:7px;background:#D4AF37;border:none;border-radius:999px;padding:11px 22px;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;color:#1E4A76;cursor:pointer;transition:.15s;box-shadow:0 3px 10px rgba(212,175,55,.35)}
+  .lff-share .lff-sb:active{transform:scale(.97)}
+  .lff-share .lff-sb .lff-ar{font-size:14px;line-height:1;transform:translateY(-1px)}
+  .lff-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(12px);background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:10000}
+  .lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media print{.lff-tick,.lff-share,.lff-toast{display:none !important}}
+  </style>
+  <div class="lff-tick" aria-hidden="true"><span class="lff-cap">함께 여행한 분들</span><div class="lff-win"><div class="lff-track"><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span></div></div></div>
+  <div class="lff-share"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="사랑흐름 알리기"><span class="lff-ar" aria-hidden="true">&#8629;</span><span>사랑흐름 알리기</span></button></div>
+  <script>
+  function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
+  function lffShare(){var H='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',text:'많은 관계는 사랑이 부족해서가 아니라, 서로의 언어를 몰라서 멀어집니다.',url:H}).catch(function(){});return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(H).then(function(){lffToast('링크를 복사했어요');}).catch(function(){lffCopy(H);});return;}lffCopy(H);}
+  function lffCopy(H){try{var a=document.createElement('textarea');a.value=H;a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);lffToast('링크를 복사했어요');}catch(e){lffToast(H);}}
+  </script>
+  <!-- ═ 공용 부품 끝 ═ -->
   <!-- 공용 표준 푸터 -->
   <div class="legal">
     <div class="flinks"><a onclick="lgo('about')">소개</a><a onclick="lgo('trust')">이용약관</a><a onclick="lgo('trust')">개인정보</a><a onclick="lgo('trust')">환불정책</a></div>
