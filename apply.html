@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · apply.html   v16 · 260714
+     사랑흐름 · apply.html   v17 · 260716 · [작업 v17] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유(lffPlaceShare 폴링) + '함께 여행한 분들' 티커. ★삽입 지점=정적 <div class="legal"> 앞(이 페이지엔 정적 .foot 없음, .foot은 lfPaintWay JS문자열 안이라 건드리면 깨짐). 방향버튼 26px 표준 무손. [무손] 방향버튼·본문·라우팅·색값. · v16 · 260714
 
      ════════════════════════════════════════════════════════════════
      [v16 · 260714] ★★입금 검문소와 한 몸 — 기다림 화면 (대표 승인 후 작업)
@@ -299,6 +299,59 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
     <button class="sub2" id="btnCheck" onclick="checkPassport()">사랑흐름 여권 찾기</button>
   </div>
 
+  <!-- ═ 공용 부품(인라인): 함께 여행한 분들 티커 + 공유 · 260716 ═ -->
+  <style>
+  .lff-tick{max-width:300px;margin:22px auto 6px;overflow:hidden;white-space:nowrap;border-top:1px solid #E7DFD2;border-bottom:1px solid #E7DFD2;padding:9px 0}
+  .lff-tick .lff-cap{display:block;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:10.5px;letter-spacing:.5px;color:#B0A794;margin-bottom:5px;font-weight:700}
+  .lff-tick .lff-win{overflow:hidden;white-space:nowrap}
+  .lff-tick .lff-track{display:inline-block;animation:lff-marq 46s linear infinite}
+  .lff-tick .lff-track span{font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:700;color:#D4AF37;padding:0 15px;letter-spacing:.5px}
+  @keyframes lff-marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .lff-wayrow{display:flex;align-items:center;align-self:stretch;position:relative;width:100%;max-width:420px;margin:0 auto;padding:0 16px;box-sizing:border-box}
+  .lff-wayrow .lfway{margin:0 auto}
+  #lffShareBtnWrap{position:absolute;right:14px;top:50%;transform:translateY(-50%);line-height:0}
+  .lff-sb{width:32px;height:32px;padding:0;background:#fff;border:1px solid #E4E0D6;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+  .lff-sb:active{transform:scale(.92)}
+  .lff-sb svg{display:block}
+  .lff-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(12px);background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:10000}
+  .lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media print{.lff-tick,.lff-share,.lff-toast{display:none !important}}
+  </style>
+  <div class="lff-tick" aria-hidden="true"><span class="lff-cap">함께 여행한 분들</span><div class="lff-win"><div class="lff-track"><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span></div></div></div>
+  <div class="lff-share"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기" style="display:none"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button></div>
+  <script>
+  function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
+  function lffShare(){var H='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',text:'많은 관계는 사랑이 부족해서가 아니라, 서로의 언어를 몰라서 멀어집니다.',url:H}).catch(function(){});return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(H).then(function(){lffToast('링크를 복사했어요');}).catch(function(){lffCopy(H);});return;}lffCopy(H);}
+  function lffCopy(H){try{var a=document.createElement('textarea');a.value=H;a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);lffToast('링크를 복사했어요');}catch(e){lffToast(H);}}
+  /* 공유 아이콘을 방향버튼(뒤로·홈·앞으로) 줄 오른쪽 끝에 살짝 배치. 방향버튼 자체는 무손(부모만 감쌈). */
+  function lffPlaceShare(){
+    var way=document.querySelector('.lfway');
+    if(!way || way.parentNode.classList.contains('lff-wayrow')) return !!way;
+    var btnHost=document.querySelector('.lff-share');
+    var btn=btnHost?btnHost.querySelector('.lff-sb'):null;
+    if(!btn) return false;
+    var row=document.createElement('div'); row.className='lff-wayrow';
+    way.parentNode.insertBefore(row,way);
+    row.appendChild(way);
+    var wrap=document.createElement('div'); wrap.id='lffShareBtnWrap';
+    btn.style.display=''; wrap.appendChild(btn);
+    row.appendChild(wrap);
+    if(btnHost && btnHost.parentNode) btnHost.parentNode.removeChild(btnHost);
+    return true;
+  }
+  var lffTries=0;
+  var lffTimer=setInterval(function(){ lffTries++; if(lffPlaceShare()){clearInterval(lffTimer);} else if(lffTries>25){clearInterval(lffTimer);lffShareFallback();} },100);
+  if(document.readyState!=='loading') lffPlaceShare();
+  else document.addEventListener('DOMContentLoaded', lffPlaceShare);
+  /* 방향버튼 줄이 없는 페이지(또는 file:// 미리보기)에선 하단 우측에 살짝 */
+  function lffShareFallback(){
+    var host=document.querySelector('.lff-share');
+    if(!host || document.querySelector('.lff-wayrow')) return;
+    host.style.cssText='width:100%;max-width:420px;margin:2px auto 0;padding:0 18px;box-sizing:border-box;text-align:right';
+    var btn=host.querySelector('.lff-sb'); if(btn) btn.style.display='';
+  }
+  </script>
+  <!-- ═ 공용 부품 끝 ═ -->
   <div class="legal">
     <div class="flinks"><a onclick="lgo('about')">소개</a>·<a onclick="lgo('trust')">이용약관</a>·<a onclick="lgo('trust')">개인정보</a>·<a onclick="lgo('trust')">환불정책</a></div>
     <div class="warn">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지. Unauthorized use strictly prohibited. Violators subject to civil and criminal penalties.</div>
