@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ═══════════════════════════════════════════════════════════════════
+<!--
+     ★[260716 티커 격상] 함께 여행한 분들 → 사랑흐름 여행자들의 발자취(여권 카드). showroom v13-15와 동일 부품 — 딥네이비 카드+골드 LOVEFLOW PASSPORT+분홍 하트·도장, 여권=실발급 마스킹, 관계·계절=랜덤 셔플, 80s. 티커 블록만 교체·공유/방향버튼/라우팅 전부 무손. ═══════════════════════════════════════════════════════════════════
      사랑흐름 · showcase.html   v5-7 · 260716 · [작업 v5-7] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유(lffPlaceShare 폴링) + '함께 여행한 분들' 티커. ★삽입 지점=정적 <div class="legal"> 앞(이 페이지엔 정적 .foot 없음, .foot은 lfPaintWay JS문자열 안이라 건드리면 깨짐). 방향버튼 26px 표준 무손. [무손] 방향버튼·본문·라우팅·색값. · v5-6 · 260716 · [작업 v5-6] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v5-5 · 260714
      [v5-5 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
@@ -381,13 +382,19 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   <!-- ===== 하단 푸터 (프레임 · 통일형) =====
      화면엔 © 한 줄 + 링크만. 사업자정보·개인정보 담당자 등은 [소개]/[약관] 페이지 안으로. -->
-  <!-- ═ 공용 부품(인라인): 함께 여행한 분들 티커 + 공유 · 260716 ═ -->
+  <!-- ═ 공용 부품(인라인): 사랑흐름 여행자들의 발자취(여권 카드) 티커 + 공유 · 260716 ═ -->
   <style>
-  .lff-tick{max-width:300px;margin:22px auto 6px;overflow:hidden;white-space:nowrap;border-top:1px solid #E7DFD2;border-bottom:1px solid #E7DFD2;padding:9px 0}
-  .lff-tick .lff-cap{display:block;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:10.5px;letter-spacing:.5px;color:#B0A794;margin-bottom:5px;font-weight:700}
+  .lff-tick{max-width:344px;margin:20px auto 6px;overflow:hidden}
+  .lff-tick .lff-cap{display:block;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:11px;letter-spacing:.5px;color:#1E4A76;margin-bottom:10px;font-weight:700}
   .lff-tick .lff-win{overflow:hidden;white-space:nowrap}
-  .lff-tick .lff-track{display:inline-block;animation:lff-marq 46s linear infinite}
-  .lff-tick .lff-track span{font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:700;color:#D4AF37;padding:0 15px;letter-spacing:.5px}
+  .lff-tick .lff-cardtrack{display:inline-flex;gap:11px;animation:lff-marq 80s linear infinite}
+  .lff-tick:hover .lff-cardtrack{animation-play-state:paused}
+  .lff-card{position:relative;overflow:hidden;flex-shrink:0;background:#2F5B8A;border-radius:12px;padding:11px 15px 12px;min-width:168px;text-align:center;white-space:normal}
+  .lff-card .lff-lbl{font-size:9px;color:#D4AF37;letter-spacing:2px;margin-bottom:3px;font-weight:700}
+  .lff-card .lff-num{font-family:'Noto Sans KR',sans-serif;font-weight:700;color:#fff;font-size:16px;letter-spacing:.5px;margin-bottom:6px}
+  .lff-card .lff-rel{font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#CBDBEC}
+  .lff-card .lff-hrt{color:#FF9DB0;margin-right:3px}
+  .lff-card .lff-stamp{position:absolute;bottom:-6px;right:-5px;width:28px;height:28px;border-radius:50%;border:1px solid #FF9DB0;color:#FF9DB0;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;letter-spacing:.5px;transform:rotate(-12deg);opacity:.85}
   @keyframes lff-marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
   .lff-wayrow{display:flex;align-items:center;align-self:stretch;position:relative;width:100%;max-width:420px;margin:0 auto;padding:0 16px;box-sizing:border-box}
   .lff-wayrow .lfway{margin:0 auto}
@@ -399,7 +406,19 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
   .lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
   @media print{.lff-tick,.lff-share,.lff-toast{display:none !important}}
   </style>
-  <div class="lff-tick" aria-hidden="true"><span class="lff-cap">함께 여행한 분들</span><div class="lff-win"><div class="lff-track"><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span></div></div></div>
+  <div class="lff-tick" aria-hidden="true"><span class="lff-cap">사랑흐름 여행자들의 발자취</span><div class="lff-win"><div class="lff-cardtrack" id="lffCardTrack"></div></div></div>
+  <script>
+  (function(){
+    var N=['LF-SB**J','LF-V7**2','LF-UA**J','LF-C9**3','LF-PG**F','LF-P8**H','LF-EF**9','LF-NS**A','LF-XT**H','LF-GJ**C','LF-74**8','LF-QM**R','LF-CS**X','LF-N8**U','LF-NX**T','LF-UC**2','LF-W8**Q','LF-8Z**M','LF-5B**T','LFL-46**S','LFL-QM**P','LFL-GQ**Q','LFL-GA**5','LFL-3A**P'];
+    var R=['\uc5b4\uba38\ub2c8\uc5d0\uac8c','\uc544\ubc84\uc9c0\uc5d0\uac8c','\ubc30\uc6b0\uc790\uc5d0\uac8c','\uc790\ub140\uc5d0\uac8c','\ud615\uc81c\uc5d0\uac8c','\uc624\ub798\ub41c \uce5c\uad6c\uc5d0\uac8c','\ub098\uc5d0\uac8c','\uc2a4\uc2b9\uc5d0\uac8c','\uadf8\ub9ac\uc6b4 \ub204\uad6c\uc5d0\uac8c'];
+    var S=['\uc774\ub978 \ubd04','\ubd04\ub0a0','\ud55c\uc5ec\ub984','\ub2a6\uc5ec\ub984','\ub2a6\uac00\uc744','\uccab\ub208','\ucd08\uaca8\uc6b8','\ud55c\uaca8\uc6b8'];
+    function sh(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+    function pk(a){return a[Math.floor(Math.random()*a.length)];}
+    function card(o,h){return '<div class="lff-card"'+(h?' aria-hidden="true"':'')+'><div class="lff-lbl">LOVEFLOW PASSPORT</div><div class="lff-num">'+o.n+'</div><div class="lff-rel"><span class="lff-hrt">\u2665</span>'+o.r+' \u00b7 '+o.s+'</div><span class="lff-stamp">LF</span></div>';}
+    function build(){var t=document.getElementById('lffCardTrack');if(!t)return;var arr=sh(N.slice()).map(function(n){return {n:n,r:pk(R),s:pk(S)};});var html='';arr.forEach(function(o){html+=card(o,false);});arr.forEach(function(o){html+=card(o,true);});t.innerHTML=html;}
+    if(document.readyState!=='loading')build();else document.addEventListener('DOMContentLoaded',build);
+  })();
+  </script>
   <div class="lff-share"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기" style="display:none"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button></div>
   <script>
   function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
