@@ -1,4 +1,4 @@
-<!-- 사랑흐름 · 자서전 의식 memoir/ritual.html ★v11 · 260716 · [작업 v11] ★뒤로 버튼 신설 (대표 go 260716) — prev() 함수는 있는데 부르는 버튼이 없어 단계(하나→둘→시기선택)에서 뒤로 못 가던 것 해소. s1·s2에 '‹ 이전으로'(onclick=prev()) 추가. prev()는 기존 그대로(i>0이면 이전 단계, 첫 단계면 홈). 앞으로 버튼(천천히 시작하기·마음이 준비되었어요)은 원래대로. [★안 건드림] show()·next()·prev()·begin()·문구·시기·색값 = 미변경, 순수 버튼·CSS 추가. · v10 · 260716 · [작업 v10] ★드로어 표준 10항목 통일 (대표 go 260716) — 여는 의식 드로어가 6항목이라 '여행의 기록(쇼룸)'·'예매'로 못 나가던 갇힘 해소. 표준 10항목(홈·마음 한마디·여행지도 보기·편지·자서전·여권으로 입장·사랑흐름 여권 찾기·여행의 기록·마음 여행 예매하기·다시 시작)으로 맞춤. GLINK 에 reenter·showroom·showcase 추가. [★안 건드림] 시기선택·의식 문구·버튼·색값·푸터 = 미변경. · v9 · 260714 · [작업 v9] 가독성 표준 + ★끊긴 길 고침 (대표 승인 260714)
+<!-- 사랑흐름 · 자서전 의식 memoir/ritual.html ★v12 · 260716 · [작업 v12] ★대표 지시 3건 (대표 확정 260716) — ①꽃비: 우리가 만든 꽃비를 되살림 — SVG 꽃잎(크기/속도/좌우흔들림/회전 제각각). 꽃비 = 화사한 5장 벚꽃 송이(journey .petal-bg 모양 재사용)로 확정 — 크기/속도/좌우흔들림/회전 제각각, 5색. ※빼죽한 4갈래 꽃잎은 대표가 싫어해 폐기(그래서 원래 /l/이 원형으로 바꿨던 것). 원형보다 벚꽃이 더 꽃처럼·화사. .app 안 z-index:1 배경 레이어(텍스트 z2·상단바 z3 뒤), pointer-events:none. ②s0 히어로 '황○○ 선생님의 이야기'(.sub 자리표시자·견본 인물 잔재) 제거 — 누구에게나 뜨는 입장 페이지라 특정 이름 부적절. ③s1 버튼 '마음이 준비되었어요' → '이제 함께 여행하실까요?' (가이드 톤). [★안 건드림] 헤드라인·의식 문구·시기 선택·nav 표준(로고·뒤로·이름·☰)·푸터·색값·show()/next()/prev()/begin()·음성 = 전부 미변경. · v11 · 260716 · [작업 v11] ★뒤로 버튼 신설 (대표 go 260716) — prev() 함수는 있는데 부르는 버튼이 없어 단계(하나→둘→시기선택)에서 뒤로 못 가던 것 해소. s1·s2에 '‹ 이전으로'(onclick=prev()) 추가. prev()는 기존 그대로(i>0이면 이전 단계, 첫 단계면 홈). 앞으로 버튼(천천히 시작하기·마음이 준비되었어요)은 원래대로. [★안 건드림] show()·next()·prev()·begin()·문구·시기·색값 = 미변경, 순수 버튼·CSS 추가. · v10 · 260716 · [작업 v10] ★드로어 표준 10항목 통일 (대표 go 260716) — 여는 의식 드로어가 6항목이라 '여행의 기록(쇼룸)'·'예매'로 못 나가던 갇힘 해소. 표준 10항목(홈·마음 한마디·여행지도 보기·편지·자서전·여권으로 입장·사랑흐름 여권 찾기·여행의 기록·마음 여행 예매하기·다시 시작)으로 맞춤. GLINK 에 reenter·showroom·showcase 추가. [★안 건드림] 시기선택·의식 문구·버튼·색값·푸터 = 미변경. · v9 · 260714 · [작업 v9] 가독성 표준 + ★끊긴 길 고침 (대표 승인 260714)
      [출처] 원본 = 자서전의식_표준v8_260708.html (이삿짐 zip · 13,495B)
      [★고침 · 이게 제일 급했습니다] 151줄이 location.href='memoir_ask_v5.html' 였습니다 — ★시안 파일명 그대로.
             그대로 올렸으면 손님이 의식을 마치고 ★404 를 봤습니다. → '/memoir/ask.html' 로 바로잡음.
@@ -91,10 +91,15 @@ body{background:#E7E1D6 !important}
 .row2btn{display:flex;gap:10px}
 .row2btn .btn{flex:1}
 .backstep{display:block;margin:20px auto 0;background:none;border:none;color:var(--sub,#7C8794);font-size:15px;font-weight:600;cursor:pointer;padding:8px}
+  .petals{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
+  .petal{position:absolute;top:-8%;will-change:transform,opacity;opacity:0}
+  .petal svg{display:block;width:100%;height:100%}
+  @keyframes fall{0%{opacity:0;transform:translateY(-40px) translateX(0) rotate(0)}10%{opacity:var(--peak)}100%{opacity:calc(var(--peak) * .85);transform:translateY(112vh) translateX(var(--drift)) rotate(var(--spin))}}
 </style>
 </head>
 <body>
 <div class="app">
+  <div class="petals" id="petals"></div>
   <div class="gnav">
   <div class="home" onclick="ggoHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
   <button class="bk" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
@@ -124,7 +129,6 @@ body{background:#E7E1D6 !important}
     <div class="eyebrow">사랑흐름 · 한 편의 기록</div>
     <div class="big serif">이제,<br>당신의 역사를<br>시작합니다</div>
     <div class="rule"></div>
-    <div class="sub">황○○ 선생님의 이야기</div>
     <div class="body serif" style="margin-top:30px">당신의 역사를 들어드립니다</div>
     <button class="go" onclick="next()" style="margin-top:36px">천천히 시작하기</button>
   </div>
@@ -136,7 +140,7 @@ body{background:#E7E1D6 !important}
     <div class="body serif" id="b1">그대의 삶은 하나의 별빛과 같습니다. 때로는 환하게, 때로는 조용히 빛나던 그 순간들로, 우리 함께 걸어가 보겠습니다.</div>
     <button class="listen" id="l1" onclick="speak('b1','l1')"><span class="ic">&#128266;</span> 들려드릴게요</button>
     <div class="rule"></div>
-    <button class="go" onclick="next()">마음이 준비되었어요</button>
+    <button class="go" onclick="next()">이제 함께 여행하실까요?</button>
     <button class="backstep" onclick="prev()">‹ 이전으로</button>
   </div>
 
@@ -202,6 +206,25 @@ function speak(bid,lid){
   lb.classList.add('playing'); speechSynthesis.speak(u);
 }
 show();
+
+/* 꽃비 — 우리가 만든 '결혼식 입장 꽃잎'(SVG 꽃잎·회전) 그대로. 원형(circle) 아님 */
+var PETAL_COLORS=['#FFD6E3','#F7BDD0','#FFE4EC','#F3B8CC','#FBC9D8'];
+function petalSVG(c){ return '<svg width="18" height="18" viewBox="0 0 100 100"><path d="M50 12 C58 30 78 34 88 30 C74 42 74 62 82 74 C64 66 50 78 50 88 C50 78 36 66 18 74 C26 62 26 42 12 30 C22 34 42 30 50 12Z" fill="'+c+'"/></svg>'; }
+function spawnPetal(){
+  var box=document.getElementById('petals'); if(!box) return;
+  var p=document.createElement('div'); p.className='petal';
+  var size=10+Math.random()*16, left=Math.random()*100, dur=6.5+Math.random()*5.5;
+  var drift=(Math.random()*160-80)+'px', spin=(Math.random()*720-360)+'deg', peak=(0.55+Math.random()*0.20).toFixed(2);
+  var c=PETAL_COLORS[(Math.random()*PETAL_COLORS.length)|0];
+  p.style.left=left+'%'; p.style.width=size+'px'; p.style.height=size+'px';
+  p.style.setProperty('--drift',drift); p.style.setProperty('--spin',spin); p.style.setProperty('--peak',peak);
+  p.style.animation='fall '+dur+'s linear forwards';
+  p.innerHTML=petalSVG(c);
+  box.appendChild(p);
+  setTimeout(function(){ if(p&&p.parentNode) p.parentNode.removeChild(p); }, dur*1000+400);
+}
+for(var _pi=0;_pi<7;_pi++){ setTimeout(spawnPetal, _pi*260); }
+setInterval(spawnPetal, 900);
 </script>
 
 <div class="glegal">
