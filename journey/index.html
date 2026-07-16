@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · journey/index.html   v8-9 · 260716 · [작업 v8-9] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v8-8 · 260716 · [작업 v8-8] ★햄버거 복구+자서전 신설 — (1)드로어가 미정의 함수 lfGoGuard() 호출이라 8항목 전부 죽어있던 것을 lfGo()로 교체해 살림 (2)'편지' 다음 '자서전'(→/memoir/) 추가. · v8-7 · 260714
+     사랑흐름 · journey/index.html   v8-10 · 260716 · [작업 v8-10] ★몰입 서비스 구간(질문 진행) — 발자취 티커 미탑재 확정. v8-9에서 넣었던 티커(CSS·HTML·렌더JS) 전부 제거, 공유·방향버튼·라우팅·결과 로직은 유지. 대표 확정: 질문 푸는 화면에 광고(티커) 금지. · v8-9 · 260716 · [작업 v8-9] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v8-8 · 260716 · [작업 v8-8] ★햄버거 복구+자서전 신설 — (1)드로어가 미정의 함수 lfGoGuard() 호출이라 8항목 전부 죽어있던 것을 lfGo()로 교체해 살림 (2)'편지' 다음 '자서전'(→/memoir/) 추가. · v8-7 · 260714
      [v8-7 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
                상품구분은 주문대장 J열(MAP / MAP+LETTER)이 원본. issuePassport v4가 이미 LF-만 발급 중.
@@ -284,14 +284,9 @@
 
   <div class="body" id="stage"></div>
   <div class="nav"><button class="prev" onclick="go(-1)">이전</button><button class="next" id="nextbtn" onclick="go(1)">다음 &#8250;</button></div>
-  <!-- ═ 공용 부품(인라인): 함께 여행한 분들 티커 + 공유 · 260716 ═ -->
+  <!-- ═ 공용 부품(인라인): 공유 + 방향버튼 · 260716 (★몰입 구간이라 발자취 티커는 넣지 않음) ═ -->
   <style>
-  .lff-tick{max-width:300px;margin:22px auto 6px;overflow:hidden;white-space:nowrap;border-top:1px solid #E7DFD2;border-bottom:1px solid #E7DFD2;padding:9px 0}
-  .lff-tick .lff-cap{display:block;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:10.5px;letter-spacing:.5px;color:#B0A794;margin-bottom:5px;font-weight:700}
-  .lff-tick .lff-win{overflow:hidden;white-space:nowrap}
-  .lff-tick .lff-track{display:inline-block;animation:lff-marq 46s linear infinite}
-  .lff-tick .lff-track span{font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:700;color:#D4AF37;padding:0 15px;letter-spacing:.5px}
-  @keyframes lff-marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
   .lff-wayrow{display:flex;align-items:center;align-self:stretch;position:relative;width:100%;max-width:420px;margin:0 auto;padding:0 16px;box-sizing:border-box}
   .lff-wayrow .lfway{margin:0 auto}
   #lffShareBtnWrap{position:absolute;right:14px;top:50%;transform:translateY(-50%);line-height:0}
@@ -302,7 +297,7 @@
   .lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
   @media print{.lff-tick,.lff-share,.lff-toast{display:none !important}}
   </style>
-  <div class="lff-tick" aria-hidden="true"><span class="lff-cap">함께 여행한 분들</span><div class="lff-win"><div class="lff-track"><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span></div></div></div>
+  
   <div class="lff-share"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기" style="display:none"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button></div>
   <script>
   function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
