@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · journey/result.html   v1-3 · 260716 · [작업 v1-3] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v1-2 · 260713
+     사랑흐름 · journey/result.html   v1-4 · 260716 · [작업 v1-4] ★몰입 구간(여행 결과 감상) — 발자취 티커 미탑재 확정. v1-3에서 넣었던 티커 전부 제거, 공유·방향버튼·결과 로직은 유지. 대표 확정: 결과 감상 화면에 광고(티커) 금지. · v1-3 · 260716 · [작업 v1-3] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v1-2 · 260713
      ───────────────────────────────────────────────────────────────────
      [버전] 라이브 v1-1 → ★v1-2 (이 파일)
 
@@ -244,14 +244,9 @@
     <a onclick="lfGo('home')">홈</a><a onclick="lfGo('hanmadi')">마음 한마디</a><a onclick="lfGo('journey')">여행지도 보기</a><a onclick="lfGo('letter')">편지</a><a onclick="lfGo('reenter')">여권으로 입장</a><a onclick="lfGo('find')">사랑흐름 여권 찾기</a><a onclick="lfGo('showroom')">여행의 기록</a><a onclick="lfGo('showcase')">마음 여행 예매하기</a><a onclick="location.reload()">다시 시작</a>
   </div>
   <div class="body" id="stage"></div>
-  <!-- ═ 공용 부품(인라인): 함께 여행한 분들 티커 + 공유 · 260716 ═ -->
+  <!-- ═ 공용 부품(인라인): 공유 + 방향버튼 · 260716 (★몰입 구간이라 발자취 티커는 넣지 않음) ═ -->
   <style>
-  .lff-tick{max-width:300px;margin:22px auto 6px;overflow:hidden;white-space:nowrap;border-top:1px solid #E7DFD2;border-bottom:1px solid #E7DFD2;padding:9px 0}
-  .lff-tick .lff-cap{display:block;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:10.5px;letter-spacing:.5px;color:#B0A794;margin-bottom:5px;font-weight:700}
-  .lff-tick .lff-win{overflow:hidden;white-space:nowrap}
-  .lff-tick .lff-track{display:inline-block;animation:lff-marq 46s linear infinite}
-  .lff-tick .lff-track span{font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:700;color:#D4AF37;padding:0 15px;letter-spacing:.5px}
-  @keyframes lff-marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
   .lff-wayrow{display:flex;align-items:center;align-self:stretch;position:relative;width:100%;max-width:420px;margin:0 auto;padding:0 16px;box-sizing:border-box}
   .lff-wayrow .lfway{margin:0 auto}
   #lffShareBtnWrap{position:absolute;right:14px;top:50%;transform:translateY(-50%);line-height:0}
@@ -262,7 +257,7 @@
   .lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
   @media print{.lff-tick,.lff-share,.lff-toast{display:none !important}}
   </style>
-  <div class="lff-tick" aria-hidden="true"><span class="lff-cap">함께 여행한 분들</span><div class="lff-win"><div class="lff-track"><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span><span>LF-SB**J</span><span>LF-V7**2</span><span>LF-UA**J</span><span>LF-C9**3</span><span>LF-PG**F</span><span>LF-P8**H</span><span>LF-EF**9</span><span>LF-NS**A</span><span>LF-XT**H</span><span>LF-GJ**C</span><span>LF-74**8</span><span>LF-QM**R</span><span>LF-CS**X</span><span>LF-N8**U</span><span>LF-NX**T</span><span>LF-UC**2</span><span>LF-W8**Q</span><span>LF-8Z**M</span><span>LF-5B**T</span><span>LFL-46**S</span><span>LFL-QM**P</span><span>LFL-GQ**Q</span><span>LFL-GA**5</span><span>LFL-3A**P</span></div></div></div>
+  
   <div class="lff-share"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기" style="display:none"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button></div>
   <script>
   function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
