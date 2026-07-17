@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · journey/index.html   v8-12 · 260717 · [작업 v8-12] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 중앙·☰ 흰색(소리 버튼 유지).
      사랑흐름 · journey/index.html   v8-11 · 260717 · [작업 v8-11] ★카카오톡 문의를 푸터(.foot .links) 오른쪽 끝에 링크로 추가. [무손] 결과·본문·GAS·라우팅·색값. · v8-10 · 260716 · [작업 v8-10] ★몰입 서비스 구간(질문 진행) — 발자취 티커 미탑재 확정. v8-9에서 넣었던 티커(CSS·HTML·렌더JS) 전부 제거, 공유·방향버튼·라우팅·결과 로직은 유지. 대표 확정: 질문 푸는 화면에 광고(티커) 금지. · v8-9 · 260716 · [작업 v8-9] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v8-8 · 260716 · [작업 v8-8] ★햄버거 복구+자서전 신설 — (1)드로어가 미정의 함수 lfGoGuard() 호출이라 8항목 전부 죽어있던 것을 lfGo()로 교체해 살림 (2)'편지' 다음 '자서전'(→/memoir/) 추가. · v8-7 · 260714
      [v8-7 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
@@ -141,12 +142,13 @@
   body{font-family:'Noto Sans KR',sans-serif;background:#F7EFE6;color:var(--ink);min-height:100vh;display:flex;justify-content:center}
   .wrap{width:100%;max-width:500px;min-height:100vh;background:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden}
   .petal-bg{position:absolute;top:-20px;right:-16px;width:120px;height:120px;opacity:.13;pointer-events:none}
-  .top{display:flex;align-items:center;gap:8px;padding:13px 18px;position:relative;z-index:3;min-height:52px}
-  .top .logo{height:26px;width:auto;cursor:pointer;display:block}
-  .top .back{background:none;border:none;color:var(--navy);font-size:22px;cursor:pointer;line-height:1;padding:0 2px}
-  .top .title{position:absolute;left:0;right:0;text-align:center;font-size:13px;font-weight:500;color:var(--navy);letter-spacing:.02em;pointer-events:none}
+  .top{display:flex;align-items:center;gap:8px;padding:13px 18px;position:sticky;top:0;z-index:1000;min-height:52px;background:#1E4A76;border-bottom:1px solid #163A5C}
+  .top .logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;cursor:pointer;display:block}
+  .top .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+  .top .back{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;padding:0 2px}
+  .top .title{position:absolute;left:0;right:0;text-align:center;font-size:13px;font-weight:800;color:#fff;pointer-events:none}
   .top .snd{background:none;border:none;font-size:17px;cursor:pointer;line-height:1;padding:0 2px;margin-left:auto;opacity:.85}
-  .top .menu{background:none;border:none;color:var(--navy);font-size:19px;cursor:pointer;line-height:1;padding:0 2px}
+  .top .menu{background:none;border:none;color:#fff;font-size:19px;cursor:pointer;line-height:1;padding:0 2px}
   .drawer{position:absolute;top:52px;right:14px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(30,74,118,.14);padding:6px;z-index:9;display:none;min-width:168px}
   .drawer.open{display:block}
   .drawer a{display:block;padding:11px 14px;font-size:13.5px;color:var(--ink);text-decoration:none;border-radius:10px}
@@ -260,7 +262,7 @@
 <div class="wrap" id="wrap">
   <svg class="petal-bg" viewBox="0 0 100 100"><path d="M50 12 C58 30 78 34 88 30 C74 42 74 62 82 74 C64 66 50 78 50 88 C50 78 36 66 18 74 C26 62 26 42 12 30 C22 34 42 30 50 12Z" fill="#F3B8CC"/></svg>
   <div class="top">
-    <img class="logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="goHomeGuard()">
+    <img class="logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="goHomeGuard()"><span class="brand">사랑흐름</span>
     <button class="back" onclick="go(-1)" title="뒤로">&#8249;</button>
     <div class="title">마음 여행지도</div>
     <button class="snd" id="sndbtn" onclick="toggleSound(event)" title="소리 켜기/끄기">🔊</button>
