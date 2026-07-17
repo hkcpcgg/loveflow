@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · showroom.html   v13-18 · 260717 · [작업 v13-18] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 정중앙·☰ 흰색·드로어 아이콘 제거.
      사랑흐름 · showroom.html   v13-17 · 260717 · [작업 v13-17] 여행의 발견 덱 다음에 ★증표·관계흐름증명서(큰 카드·5축 레이더 그래프) 삽입. 정적 견본, JS·티커·잠금 무손. · [작업 v13-16] ★카카오톡 문의를 푸터 링크줄 오른쪽 끝에 추가(같은 인라인 스타일). [무손] 후기·티커·본문·색값. · v13-15 · 260716 · [작업 v13-15] ★'함께 여행한 분들' 티커 → '사랑흐름 여행자들의 발자취' 여권 카드로 격상(대표 확정 260716). 딥네이비 카드 + 골드 LOVEFLOW PASSPORT 라벨 + 분홍 하트·도장(LF). 여권번호=실발급 마스킹(진짜·소스엔 마스킹본만), 관계·계절=랜덤 배정(임시분·본격 노출 전 정리 예정, 대표 판단), 로드할 때마다 순서·관계·계절 전부 랜덤 셔플. [무손] 공유(lffShare/lffPlaceShare/토스트)·방향버튼(lfPaintWay)·자서전 회전 슬라이드·라우팅·색값·카피. · v13-14 · 260716 · [작업 v13-14] ★대표 지적 — 자서전 견본 섹션을 memoir처럼 "돌게"(회전 슬라이드). 큰 견본(표지·1·2·3장)이 하나씩 자동 4.2초 회전(좌우 화살표·닷·무한루프). 작은 3장 나열이 아니라 큰 견본이 도는 것. base64(경로 무관 100% 뜸). 상단 카드 슬라이드와 충돌 없게 mz 접두어 전용 함수/변수. 폐기 lf.js 제거하고 그 자리에 회전 JS. · v13-13 · 260716 · [작업 v13-13] ★대표 지적 정확 반영 260716 — 자서전 견본 섹션(showroom 안 "자서전·한 편의 기록") 수술. ①작은 견본 3장(제1·2·3장 ch1/ch2/ch3) 제거 → 큰 견본(표지) 하나만("큰 거 하나만 보여주면 되지"). ②큰 견본 이미지 png 경로(/memoir/samples/cover.png, 라이브에서 안 뜨던 원인) → base64로 직접 박음(memoir 방식과 통일, 경로·서버 무관하게 100% 뜸). [안 건드림] 상단 카드 슬라이드·방향버튼·티커·공유·펼쳐보기 버튼·카피. · v13-12 · 260716 · [작업 v13-12] ★방향버튼 축소 통일 + 공용 부품(티커·공유) (대표 확정 260716) — ①방향버튼(lfPaintWay) 큰 카드(세로 3줄·부제·딥네이비 채움, 260714 축소 때 누락됨) → index와 동일한 작은 알약(26px·부제 삭제·한 줄·회색 은은)으로 교체. 로직(prev/next·라우팅·푸터 삽입) 무손, CSS/HTML만 통일. ②'함께 여행한 분들' 티커(마스킹 여권 24개×2 마퀴) + 원형 공유 아이콘(휘어진 화살표, 방향버튼 줄 오른쪽 끝, 회색 은은) 인라인 삽입. 공유는 클릭 시 홈 URL 복사(실동작 검증). [무손] 회전 슬라이드·카피·색값·드로어·라우팅. · v13-11 · 260716 · [작업 v13-11] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v13-10 · 260715
      [v13-10 · 260715 대표 지시] 세 상품명 더 눈에 띄게 — 18px → 22px.
      [v13-9 · 260715 대표 지적] 세 상품 명칭을 각 섹션에 크게·분명히
@@ -102,14 +103,15 @@
 body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100vh;display:flex;justify-content:center;padding:16px 8px}
 .phone{width:100%;max-width:412px;background:var(--bg);border-radius:26px;overflow:hidden;box-shadow:0 16px 46px rgba(46,58,70,.18);position:relative;padding-bottom:74px}
 
-.gnav{display:flex;align-items:center;gap:8px;padding:11px 14px;background:#fff;border-bottom:1px solid var(--line);position:relative}
-.gnav .home{display:flex;align-items:center;gap:8px}
-.gnav .home img{height:32px;width:32px;object-fit:contain}
+.gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid #163A5C;background:#1E4A76}
+.gnav .home{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
 .gnav .home b{font-size:14px;font-weight:900;color:var(--navy)}
 .gnav .ic{border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:15px;display:flex;align-items:center;justify-content:center;color:var(--navy)}
-.gnav .back{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:17px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:15px;font-weight:900;color:var(--navy);pointer-events:none}
-.gnav .ham{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gnav .back{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1}
+.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.gnav .ham{background:none;border:none;font-size:20px;color:#fff;cursor:pointer;margin-left:auto}
 .gnav .home{cursor:pointer}
 .drawer{position:absolute;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:50}
 .drawer.on{opacity:1;visibility:visible}
@@ -286,7 +288,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 <div class="phone">
 
   <div class="gnav">
-    <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
+    <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"><span class="brand">사랑흐름</span></div>
     <button class="back" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
     <div class="loc">여행의 기록</div>
     <button class="ham" onclick="openMenu()" aria-label="메뉴">☰</button>
