@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--
      ★[260716 티커 격상] 함께 여행한 분들 → 사랑흐름 여행자들의 발자취(여권 카드). showroom v13-15와 동일 부품 — 딥네이비 카드+골드 LOVEFLOW PASSPORT+분홍 하트·도장, 여권=실발급 마스킹, 관계·계절=랜덤 셔플, 80s. 티커 블록만 교체·공유/방향버튼/라우팅 전부 무손. ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · apply.html   v19 · 260717 · [작업 v19] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 정중앙·☰ 흰색·드로어 아이콘 제거.
      사랑흐름 · apply.html   v18 · 260717 · [작업 v18] ★카카오톡 문의를 푸터(.flinks) 오른쪽 끝에 링크로 추가. [무손] SR-·계좌이체·발급(issuePassport)·GAS·라우팅·색값. · v17 · 260716 · [작업 v17] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유(lffPlaceShare 폴링) + '함께 여행한 분들' 티커. ★삽입 지점=정적 <div class="legal"> 앞(이 페이지엔 정적 .foot 없음, .foot은 lfPaintWay JS문자열 안이라 건드리면 깨짐). 방향버튼 26px 표준 무손. [무손] 방향버튼·본문·라우팅·색값. · v16 · 260714
 
      ════════════════════════════════════════════════════════════════
@@ -142,12 +143,13 @@
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 body{background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkMacSystemFont,sans-serif;color:#2E3A46;min-height:100vh;display:flex;justify-content:center;padding:20px 12px}
 .phone{position:relative;width:100%;max-width:412px;background:var(--bg);border-radius:24px;overflow:hidden;box-shadow:0 18px 50px rgba(46,58,70,.18);display:flex;flex-direction:column;min-height:86vh}
-.gnav{display:flex;align-items:center;gap:8px;padding:11px 12px;background:#fff;border-bottom:1px solid var(--line);position:relative}
-.gnav .home{cursor:pointer;flex-shrink:0}
-.gnav .home img{height:38px;width:38px;object-fit:contain;display:block}
-.gnav .back{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:17px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);font-size:15px;font-weight:900;color:var(--navy);pointer-events:none}
-.gnav .ham{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid #163A5C;background:#1E4A76}
+.gnav .home{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+.gnav .back{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1}
+.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.gnav .ham{background:none;border:none;font-size:20px;color:#fff;cursor:pointer;margin-left:auto}
 .gnav .back:active,.gnav .ham:active{transform:scale(.94)}
 .drawer{position:absolute;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:80}
 .drawer.on{opacity:1;visibility:visible}
@@ -226,7 +228,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 <body>
 <div class="phone">
   <div class="gnav">
-    <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
+    <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"><span class="brand">사랑흐름</span></div>
     <button class="back" onclick="onBack()" aria-label="뒤로">&#8249;</button><div style="flex:1"></div>
     <div class="loc">마음 여행여권</div>
     <button class="ham" onclick="openMenu()" aria-label="메뉴">&#9776;</button>
