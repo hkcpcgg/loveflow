@@ -1,3 +1,4 @@
+<!-- [260717 · 상단바 gnav 표준 통일] 딥네이비 바 · 흰 뱃지 로고+상호 · <뒤로 · 화면이름 강제 정중앙 · 햄버거 흰색. reenter v2-10 정본 동일. 링크/드로어/기능 무손. -->
 <!DOCTYPE html>
 <!--
      ★[260716 티커 격상] 함께 여행한 분들 → 사랑흐름 여행자들의 발자취(여권 카드). showroom v13-15와 동일 부품 — 딥네이비 카드+골드 LOVEFLOW PASSPORT+분홍 하트·도장, 여권=실발급 마스킹, 관계·계절=랜덤 셔플, 80s. 티커 블록만 교체·공유/방향버튼/라우팅 전부 무손. ═══════════════════════════════════════════════════════════════════
@@ -242,12 +243,13 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .phone{width:100%;max-width:412px;background:var(--bg);border-radius:28px;overflow:hidden;box-shadow:0 18px 50px rgba(46,58,70,.18);position:relative;display:flex;flex-direction:column;min-height:88vh}
 
 /* ===== 공용 표준 내비 (pay 얼굴) ===== */
-.gnav{display:flex;align-items:center;gap:8px;padding:11px 12px;background:#fff;border-bottom:1px solid var(--line);position:relative}
-.gnav .home{cursor:pointer;flex-shrink:0}
-.gnav .home img{height:40px;width:40px;object-fit:contain;display:block}
-.gnav .back{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:17px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
-.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:15px;font-weight:900;color:var(--navy);pointer-events:none}
-.gnav .ham{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:16px;color:var(--navy);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid #163A5C;background:#1E4A76}
+.gnav .home{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+.gnav .back{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1}
+.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.gnav .ham{background:none;border:none;font-size:20px;color:#fff;cursor:pointer;margin-left:auto}
 .gnav .snd{flex-shrink:0;border:1.5px solid var(--line);background:#fff;width:34px;height:34px;border-radius:10px;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--navy)}
 .gnav .snd.on{background:var(--gold);border-color:var(--gold);color:#fff}
 .gnav .back:active,.gnav .ham:active,.gnav .snd:active{transform:scale(.94)}
@@ -434,7 +436,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   <!-- 공용 표준 내비 -->
   <div class="gnav">
-    <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
+    <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"><span class="brand">사랑흐름</span></div>
     <button class="back" onclick="onBack()" aria-label="뒤로">‹</button><div style="flex:1"></div>
     <div class="loc">마음 한마디</div>
     <button class="snd on" id="soundBtn" onclick="toggleSound()" aria-label="소리">🔊</button>
