@@ -1,4 +1,4 @@
-<!-- universe.html  v20  260717 -->
+<!-- universe.html  v21  260717 · 드로어/상단바 표준 통일(about 형): 딥네이비 바/로고 흰색/뒤로/페이지이름 관계우주 강제 정중앙/햄버거. 드로어 아이콘 10개만 제거(본문 계절 보존)/헤더 #163A5C. 항목/링크/본문 무손. -->
 <!-- 사랑흐름 관계 우주 화면 v17 · 260624 · [작업 v17] GA4 측정 삽입 / v16 · 260624 · [작업 v16] 통일 길잡이(좌 브랜드=홈 + 우 ☰) 상단 추가, 하단 탭바·새여행팝업·여행지도/여권 보기 전부 보존 / v15 · 260623 · [작업 v15] 팝업 문구 "들여다보고"→"새로운 여행을 떠나보고" 수정(용어 정제). v14 · 260623 · [작업 v14] "여행시작" 팝업 차단톤→놀이터톤(친구 논리): "여행지도 잘 간직됨+여권번호로 언제든 재열람+관계우주·여행지도·편지 둘러보세요+또다른 분 궁금?" → [내 여행지도 둘러보기]/[새로운 여행 떠나기](스토어). v13(여행지도보기 id넘김) 유지 · 260623 · [작업 v13] 하단 "＋여행시작" 탭 → 직접 /journey/ 이동 대신 부드러운 안내 모달(기존 고객 재구매 동선). "지금 여행지도는 간직돼요+새 관계는 새 여행지도 필요" 안내 후 본인 선택([새 여행지도 보러가기→스토어]/[다음에 할게요→닫기]). 강매 아닌 안내·빠져나갈 문 보장. 한·영 병기(글로벌 대비). v12(여행지도보기 id넘김) 유지 -->
 <!-- ═══════════════════════════════════════════════════════════════════
      [v20-2 · 260717] 하단 탭바 정리(대표 확정): 편지 탭 삭제(중복·미스타일 링크), 여행시작을 가운데(tab-mid 중앙 원형버튼), 여행기록 → 여행의 기록(/history.html 미사용 → /showroom.html live, 아이콘 🖼️). 3칸=홈·여행시작·여행의 기록. 액션버튼·본문·openNewJourney·CSS 무손.
@@ -151,15 +151,17 @@
   .nj-later{display:block;width:100%;background:none;border:none;color:var(--sub);font-size:13px;padding:9px;cursor:pointer;font-family:inherit}
   .nj-later:hover{color:var(--text)}
   /* ── 통일 길잡이 (lf-nav) — 전 페이지 공통 ── */
-  .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,227,0.95);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid #E2E8F0;padding:10px 14px}
-  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}
-  .lf-nav-burger{background:none;border:none;cursor:pointer;color:#1E4A76;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px}
-  .lf-nav-burger:hover{background:rgba(30,74,118,0.08)}
+  .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;background:#1E4A76;border-bottom:1px solid #163A5C;padding:10px 14px}
+  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}
+  .lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px}
+  .lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+  .lf-nav-burger{background:none;border:none;cursor:pointer;color:#fff;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px;margin-left:auto}
+  .lf-nav-burger:hover{background:rgba(255,255,255,0.14)}
   .lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,0.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
   .lf-menu.open{transform:translateX(0)}
-  .lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:4px 18px 14px;border-bottom:1px solid #E2E8F0;margin-bottom:6px}
-  .lf-menu-head .t{font-family:'Noto Serif KR',serif;color:#1E4A76;font-weight:800;font-size:15px}
-  .lf-menu-close{background:none;border:none;font-size:24px;color:#4B5563;cursor:pointer;line-height:1}
+  .lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#163A5C;margin-bottom:6px}
+  .lf-menu-head .t{font-family:'Noto Serif KR',serif;color:#fff;font-weight:800;font-size:15px}
+  .lf-menu-close{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1}
   .lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
   .lf-menu a:hover{background:#FAF7EE}
   .lf-menu a .ic{width:22px;text-align:center;font-size:16px}
@@ -173,21 +175,23 @@
   <!-- 통일 길잡이 -->
   <div class="lf-nav">
     <a class="lf-nav-home" href="/">사랑흐름</a>
+    <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
+    <span class="lf-nav-loc">관계 우주</span>
     <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
   </div>
   <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
   <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
     <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
-    <a href="/"><span class="ic">🏠</span>홈</a>
-    <a href="/"><span class="ic">🎹</span>마음 한마디</a>
-    <a href="/journey/"><span class="ic">🗺️</span>여행지도 보기</a>
-    <a href="/l/"><span class="ic">💌</span>편지</a>
-    <a href="/memoir/"><span class="ic">📖</span>자서전</a>
-    <a href="/reenter.html"><span class="ic">🛂</span>여권으로 입장</a>
-    <a href="/find/"><span class="ic">🔎</span>사랑흐름 여권 찾기</a>
-    <a href="/showroom.html"><span class="ic">🖼️</span>여행의 기록</a>
-    <a href="/showcase.html" class="lf-buy"><span class="ic">🎫</span>마음 여행 예매하기</a>
-    <a href="javascript:void(0)" onclick="location.reload()"><span class="ic">↻</span>다시 시작</a>
+    <a href="/">홈</a>
+    <a href="/">마음 한마디</a>
+    <a href="/journey/">여행지도 보기</a>
+    <a href="/l/">편지</a>
+    <a href="/memoir/">자서전</a>
+    <a href="/reenter.html">여권으로 입장</a>
+    <a href="/find/">사랑흐름 여권 찾기</a>
+    <a href="/showroom.html">여행의 기록</a>
+    <a href="/showcase.html" class="lf-buy">마음 여행 예매하기</a>
+    <a href="javascript:void(0)" onclick="location.reload()">다시 시작</a>
   </nav>
 <div class="wrap">
 
