@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · reenter.html   v2-10 · 260717 · [작업 v2-10] ★상단바 gnav 표준 통일(about-B 형) — 딥네이비 바·흰 뱃지 로고+상호·‹뒤로·화면이름 강제 정중앙·☰ 전부 흰색. 링크·드로어·기능 무손.
      사랑흐름 · reenter.html   v2-9 · 260716 · [작업 v2-9] ★티커를 '사랑흐름 여행자들의 발자취' 여권 카드로 격상(showroom v13-15 동일 부품 — 딥네이비 카드+골드 LOVEFLOW PASSPORT+분홍 하트·도장, 여권=실발급 마스킹, 관계·계절 랜덤 셔플, 80s). 티커 블록만 교체. [무손] 공유·방향버튼·라우팅·색값. · v2-8 · 260716 · [작업 v2-8] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유(lffPlaceShare 폴링) + '함께 여행한 분들' 티커. ★삽입 지점=정적 <div class="legal"> 앞(이 페이지엔 정적 .foot 없음, .foot은 lfPaintWay JS문자열 안이라 건드리면 깨짐). 방향버튼 26px 표준 무손. [무손] 방향버튼·본문·라우팅·색값. · v2-7 · 260716 · [작업 v2-7] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v2-6 · 260714
      [v2-6 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
@@ -92,11 +93,13 @@
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans KR',sans-serif;background:#eef1f4;display:flex;justify-content:center;min-height:100vh}
 .phone{width:100%;max-width:412px;background:var(--bg);min-height:100vh;display:flex;flex-direction:column;position:relative}
-.gnav{display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff}
-.gnav .home img{height:26px;cursor:pointer;display:block}
-.gnav .back{background:none;border:none;font-size:24px;color:var(--navy);cursor:pointer;line-height:1}
-.gnav .loc{font-size:13px;font-weight:800;color:var(--navy);margin-left:4px}
-.gnav .ham{background:none;border:none;font-size:20px;color:var(--navy);cursor:pointer;margin-left:auto}
+.gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid #163A5C;background:#1E4A76}
+.gnav .home{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+.gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+.gnav .back{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1}
+.gnav .loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.gnav .ham{background:none;border:none;font-size:20px;color:#fff;cursor:pointer;margin-left:auto}
 .drawer{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;z-index:50}
 .drawer.on{display:block}
 .dpanel{position:absolute;top:0;right:0;width:75%;max-width:300px;height:100%;background:#fff;padding:18px}
@@ -185,7 +188,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#eef1f4;display:flex;justi
 
   <!-- 내비 3종 -->
   <div class="gnav">
-    <div class="home"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="goHome()"></div>
+    <div class="home"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="goHome()"><span class="brand">사랑흐름</span></div>
     <button class="back" onclick="history.back()" aria-label="뒤로">‹</button>
     <div class="loc">여권으로 입장</div>
     <button class="ham" onclick="openMenu()" aria-label="메뉴">☰</button>
