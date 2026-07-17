@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · pay.html   v14-8 · 260717 · [작업 v14-8] ★자서전·인생여행 오픈 준비 중 안내 — item=memoir/life면 결제 선택(#choice) 숨기고 "정성껏 준비 중" 패널(#paySoon) 표시. 가격·결제 로직·다른 상품 전부 무손. 오픈 시 이 분기만 제거하면 결제 복구.
      사랑흐름 · pay.html   v14-7 · 260717 · [작업 v14-7] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 정중앙·☰ 흰색. 결제 로직 무손.
      사랑흐름 · pay.html   v14-6 · 260716 · [작업 v14-6] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v14-5 · 260714
      [v14-5 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
@@ -274,6 +275,14 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     </div>
   </div>
 
+  <!-- 자서전·인생여행 오픈 준비 중 안내 (item=memoir/life일 때만 표시) -->
+  <div class="paid hidden" id="paySoon">
+    <div class="sec-t">한 편의 기록, 정성껏 준비 중이에요</div>
+    <p class="g">한 분 한 분의 이야기를 가장 아름답게 담아드리려고<br>마지막까지 다듬고 있어요. 조금만 기다려 주시면, 곧 만나요.</p>
+    <p class="g">오픈 소식은 카카오톡·문자로 살짝 알려드릴게요.</p>
+    <button class="btn btn-navy" onclick="location.href='/showcase.html'">여행 둘러보기</button>
+  </div>
+
   <!-- 바로 결제 경로 (토스페이먼츠 · 자리 확보, 연동 대기) -->
   <div class="paid hidden" id="pathToss">
     <span class="pathback" onclick="resetPath()">‹ 다시 고르기</span>
@@ -404,6 +413,13 @@ document.getElementById('pName').textContent = P.name;
 document.getElementById('pSub').innerHTML = P.sub || '';
 document.getElementById('pList').textContent = P.list ? P.list.toLocaleString() + '원' : '';
 document.getElementById('pNow').textContent  = P.now ? P.now.toLocaleString() + '원' : '가격 준비 중';
+
+/* 자서전·인생여행 = 오픈 준비 중: 결제 선택 숨기고 안내 표시 (가격은 그대로 노출) */
+if (ITEM === 'memoir' || ITEM === 'life') {
+  document.getElementById('choice').classList.add('hidden');
+  var _soon = document.getElementById('paySoon');
+  if (_soon) _soon.classList.remove('hidden');
+}
 
 /* ===== 링크 (실제 URL은 다음 단계에서 연결) ===== */
 var LINK = {
