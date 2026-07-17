@@ -1,4 +1,5 @@
 <!-- ═══════════════════════════════════════════════════════════════════
+     [v7-7 · 260717] ★로고 부활(B안·1단) — 딥네이비 상단바에 흰 뱃지 로고 이미지 + 상호 텍스트. 로고 raw URL(배포 시 /logo.png 권장). 2단 안(A)은 유지관리 부담(세로공간·페이지마다 2배·반응형)으로 보류.
      [v7-6 · 260717] ★페이지 이름 강제 정중앙(position:absolute·left50%·translateX-50%) — 로고 길이·뒤로버튼과 무관하게 항상 센터. 로고는 딥네이비 위 안 보여 흰색 텍스트 상호 유지(로고 이미지는 밝은 배경 전용).
      [v7-5 · 260717] ★상단바 표준 4요소화 — 로고·‹뒤로(history.back)·화면이름(소개)·☰. 표준(reenter·find)과 통일. 딥네이비 바 위 전부 흰색.
      [v7-4 · 260717] ★드로어·상단바 색 통일 — 상단바 딥네이비(#1E4A76·글자 흰색)·드로어 헤더 #163A5C·닫기 흰색. 드로어 아이콘(🎹🗺️…) 전부 제거(무아이콘 표준·대표 확정 260717). 항목·순서·링크 무손. ·      [v7-3 · 260717] 사업자정보 2줄로(사업자등록번호 1줄로 올림·전화/이메일 제외·박스폭 정렬). · [v7-2 · 260717] 사업자정보 8줄 색라벨 → 회색 3줄 압축(universe 방식·풀 용어). · [v7-1 · 260717] 함께 걷는 길에 '한 편의 기록'(자서전) 추가 · CTA 아이콘 제거→'여행 고르러 가기'·'마음 한마디 (무료)'. (증명서 카드는 showroom으로 이관) · [v6 · 260717] 카카오톡 문의 푸터(.top) 링크 추가 · [v5 · 260717] 메뉴 6→10항목 표준 통일(trust 블록 이식). 본문 '함께 걷는 길' 상품명 통일: 무료 나침반→마음 한마디 · 여행지도→마음 여행지도 · 마음편지→마음 여행편지 · (여행지도 설명)관계 여권→마음 여행여권. 첫 항목 아이콘 🧭→🎹(메뉴 마음 한마디와 통일), 설명서 나침반 표현 제거(→'마음을 한마디로 건네보는 첫걸음').
@@ -126,6 +127,7 @@
   /* ── 통일 길잡이 (lf-nav) — 전 페이지 공통 ── */
   .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;background:#1E4A76;border-bottom:1px solid #163A5C;padding:10px 14px}
   .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}
+  .lf-nav-logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block;flex-shrink:0}
   .lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px}
   .lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
   .lf-nav-burger{background:none;border:none;cursor:pointer;color:#fff;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px;margin-left:auto}
@@ -147,7 +149,7 @@
 <body>
   <!-- 통일 길잡이 -->
   <div class="lf-nav">
-    <a class="lf-nav-home" href="/">사랑흐름</a>
+    <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
     <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
     <span class="lf-nav-loc">소개</span>
     <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
