@@ -1,4 +1,5 @@
 <!-- ═══════════════════════════════════════════════════════════════════
+     [v7-8 · 260717] ★본문 버그 2건 — ①5축(관계를 비추는 다섯 갈래) '회복'이 박스 밖으로 밀리던 오버플로우 수정(.axis min-width:0). ②푸터 '이용약관·개인정보·환불정책'이 한 링크(→trust)로 뭉쳐있던 것 → 각 앵커(#terms/#privacy/#refund) 3개 링크로 분리.
      [v7-7 · 260717] ★로고 부활(B안·1단) — 딥네이비 상단바에 흰 뱃지 로고 이미지 + 상호 텍스트. 로고 raw URL(배포 시 /logo.png 권장). 2단 안(A)은 유지관리 부담(세로공간·페이지마다 2배·반응형)으로 보류.
      [v7-6 · 260717] ★페이지 이름 강제 정중앙(position:absolute·left50%·translateX-50%) — 로고 길이·뒤로버튼과 무관하게 항상 센터. 로고는 딥네이비 위 안 보여 흰색 텍스트 상호 유지(로고 이미지는 밝은 배경 전용).
      [v7-5 · 260717] ★상단바 표준 4요소화 — 로고·‹뒤로(history.back)·화면이름(소개)·☰. 표준(reenter·find)과 통일. 딥네이비 바 위 전부 흰색.
@@ -82,10 +83,10 @@
 
   /* LFRI 5축 카드 */
   .axis-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:6px 0 14px}
-  .axis{border-radius:14px;padding:14px 5px;text-align:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
+  .axis{min-width:0;border-radius:14px;padding:14px 5px;text-align:center;color:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.12)}
   .axis .ico{font-size:20px;display:block;margin-bottom:5px}
   .axis .nm{font-size:12px;font-weight:800;letter-spacing:0.02em}
-  .axis .en{font-size:8px;opacity:0.75;font-weight:600;margin-top:2px}
+  .axis .en{font-size:8px;opacity:0.75;font-weight:600;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .ax-a{background:linear-gradient(145deg,#B8860B,#D4AF37)}
   .ax-c{background:linear-gradient(145deg,#1E4A76,#2A5F8F)}
   .ax-w{background:linear-gradient(145deg,#C05621,#E07840)}
@@ -246,7 +247,7 @@
     </div>
   </section>
 
-  <div class="top"><a href="/">↑ 홈으로</a> · <a href="/trust.html">이용약관 · 개인정보 · 환불정책</a> · <a href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 문의</a></div>
+  <div class="top"><a href="/">↑ 홈으로</a> · <a href="/trust.html#terms">이용약관</a> · <a href="/trust.html#privacy">개인정보</a> · <a href="/trust.html#refund">환불정책</a> · <a href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 문의</a></div>
 
   <div class="foot">
     © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.<br>
