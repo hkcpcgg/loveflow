@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · letter/index.html   v1-10 · 260717 · [작업 v1-10] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 중앙·☰ 흰색(소리 버튼 유지).
      사랑흐름 · letter/index.html   v1-8 · 260717 · [작업 v1-9] 완성화면(showDone) MBTI 다음에 ★관계흐름증명서(증표) 삽입 — 실데이터(TRIP2.passport·유형·who·4축 레이더) 동적. 5축 중 관심(A)은 편지데이터에 없어 4축(연결·온기·표현·회복). · [작업 v1-8] ★카카오톡 문의를 푸터(.foot .links) 오른쪽 끝에 링크로 추가. [무손] 완성화면·GAS·라우팅·색값. · v1-7 · 260714
      [v1-7 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
@@ -139,12 +140,13 @@
   body{font-family:'Noto Sans KR',sans-serif;background:#F7EFE6;color:var(--ink);min-height:100vh;display:flex;justify-content:center}
   .wrap{width:100%;max-width:500px;min-height:100vh;background:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden}
   .petal-bg{position:absolute;top:-20px;right:-16px;width:120px;height:120px;opacity:.12;pointer-events:none}
-  .top{display:flex;align-items:center;gap:8px;padding:13px 18px;position:relative;z-index:3;min-height:52px}
-  .top .logo{height:26px;width:auto;cursor:pointer;display:block}
-  .top .back{background:none;border:none;color:var(--navy);font-size:22px;cursor:pointer;line-height:1;padding:0 2px}
-  .top .title{position:absolute;left:0;right:0;text-align:center;font-size:13px;font-weight:500;color:var(--navy);letter-spacing:.02em;pointer-events:none}
+  .top{display:flex;align-items:center;gap:8px;padding:13px 18px;position:sticky;top:0;z-index:1000;min-height:52px;background:#1E4A76;border-bottom:1px solid #163A5C}
+  .top .logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;cursor:pointer;display:block}
+  .top .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+  .top .back{background:none;border:none;color:#fff;font-size:22px;cursor:pointer;line-height:1;padding:0 2px}
+  .top .title{position:absolute;left:0;right:0;text-align:center;font-size:13px;font-weight:800;color:#fff;pointer-events:none}
   .top .snd{background:none;border:none;font-size:17px;cursor:pointer;line-height:1;padding:0 2px;margin-left:auto;opacity:.85}
-  .top .menu{background:none;border:none;color:var(--navy);font-size:19px;cursor:pointer;line-height:1;padding:0 2px}
+  .top .menu{background:none;border:none;color:#fff;font-size:19px;cursor:pointer;line-height:1;padding:0 2px}
   .drawer{position:absolute;top:52px;right:14px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(30,74,118,.14);padding:6px;z-index:9;display:none;min-width:168px}
   .drawer.open{display:block}
   .drawer a{display:block;padding:11px 14px;font-size:13.5px;color:var(--ink);text-decoration:none;border-radius:10px}
@@ -324,7 +326,7 @@ textarea{width:100%;min-height:150px;max-height:34vh;border:1.5px solid var(--li
 <div class="wrap" id="wrap">
   <svg class="petal-bg" viewBox="0 0 100 100"><path d="M50 12 C58 30 78 34 88 30 C74 42 74 62 82 74 C64 66 50 78 50 88 C50 78 36 66 18 74 C26 62 26 42 12 30 C22 34 42 30 50 12Z" fill="#F3B8CC"/></svg>
   <div class="top">
-    <img class="logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="location.href='/'">
+    <img class="logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="location.href='/'"><span class="brand">사랑흐름</span>
     <button class="back" onclick="go(-1)" title="뒤로">&#8249;</button>
     <div class="title">마음 여행편지</div>
     <button class="snd" id="sndbtn" onclick="toggleSound(event)" title="소리">🔊</button>
