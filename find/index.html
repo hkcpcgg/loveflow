@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--
      ★[260716 티커 격상] 함께 여행한 분들 → 사랑흐름 여행자들의 발자취(여권 카드). showroom v13-15와 동일 부품 — 딥네이비 카드+골드 LOVEFLOW PASSPORT+분홍 하트·도장, 여권=실발급 마스킹, 관계·계절=랜덤 셔플, 80s. 티커 블록만 교체·공유/방향버튼/라우팅 전부 무손. ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · find/index.html   v7-12 · 260718 · [작업 v7-12] ★드로어에 「삐뚤빼뚤 마음 도화지」(/draw/) 한 줄 신설 — '마음 한마디' 바로 아래(무료 입구끼리 묶음). LF_LINK 에 draw 추가. 메뉴 11항목. [무손] 그 외 항목·본문·스크립트·색값 미변경.
      사랑흐름 · find/index.html   v7-11 · 260717 · [작업 v7-11] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 정중앙·☰ 흰색·드로어 아이콘 제거.
      사랑흐름 · find/index.html   v7-10 · 260717 · [작업 v7-10] ★카카오톡 문의를 푸터 링크로 — 소개·이용약관·개인정보·환불정책 줄 오른쪽 끝에 '카카오톡 문의' 링크 추가(같은 .foot .flinks a 스타일, 12px 네이비). 노랑 알약·중앙 삽입은 시선 뺏김·이어가기 가림으로 폐기. [무손] search()·검증(aux>=2)·GAS·라우팅·정규식·상단바·티커·색값. · v7-9 · 260716 · [작업 v7-9] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v7-8 · 260716 · [작업 v7-8] ★상단바를 표준(showcase) 얼굴로 통일 — find만 ‹·☰가 맨몸이라 '햄버거 벌어짐·템플릿 다름' 지적. showcase와 동일하게 ‹·☰를 34px 둥근 테두리 박스로, 로고 40px, .loc 중앙 절대배치, .gnav position:relative + back 뒤 flex:1 스페이서. + 결제번호 placeholder에서 '네이버는 숫자 16자리 · 계좌이체는 SR- 번호' → '결제번호'(대표 지시 삭제). [보존] search()·검증(aux>=2)·id·GAS 호출·결과 rcard·드로어 10항목·lfGo 미변경. · v7-7 · 260716 · [작업 v7-7] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v7-6 · 260714
      [v7-6 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
@@ -179,7 +180,7 @@
     <div class="dbody">
         <a onclick="lfGo('home')">홈</a>
         <a onclick="lfGo('hanmadi')">마음 한마디</a>
-        <a onclick="lfGo('journey')">여행지도 보기</a>
+        <a onclick="lfGo('draw')">삐뚤빼뚤 마음 도화지</a>        <a onclick="lfGo('journey')">여행지도 보기</a>
         <a onclick="lfGo('letter')">편지</a>
         <a onclick="lfGo('memoir')">자서전</a>
         <a onclick="lfGo('reenter')">여권으로 입장</a>
@@ -417,6 +418,7 @@ function copyOne(pp){try{navigator.clipboard.writeText(pp);toast('📋 '+pp+' �
 var LF_LINK = {
   home:     '/',
   hanmadi:  '/',
+  draw:     '/draw/',
   journey:  '/journey/',
   letter:   '/l/',
   memoir:   '/memoir/',
