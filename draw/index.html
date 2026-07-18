@@ -8,7 +8,22 @@
 ═══════════════════════════════════════════════════════════════
   사랑흐름 · 삐뚤빼뚤 마음 도화지   draw/index.html   v9 · 260718
   ───────────────────────────────────────────────────────────────
-  [v13 · 260718] ★명제표 재배치 + 바로 보내기.
+  [v15 · 260718] ★나가는 문 정리 — 대표 지적 "빠져나가면 돌아올 길이 없다 / 고르러 가기가 파는 곳으로 내리꽂는다".
+      ①[여행 고르러 가기 → showcase(진열장)] 폐기. 구경은 showroom, 파는 곳은 맨 아래로.
+      ②문 4개로 나눔: 새 도화지(/draw/) · 여행의 기록(/showroom.html) · 사랑흐름 이야기(/about.html) · 마음 여행 둘러보기(/showcase.html, 골드 맨 아래).
+      ③★문마다 '누가·왜 누르는지' 한 줄 안내를 버튼 위에 붙임(이름만 있어 어디로 가는지 모른 채 눌리던 문제).
+      ④제목 '조금 더 둘러보시겠어요?' + 점선으로 본문과 분리.
+      ※showroom 유도문구는 이사회 확정본("먼저 다녀간 분들의 여행에서 만나보세요") 그대로 사용.
+      [미결] 드로어 10항목에 '삐뚤빼뚤 마음 도화지' 추가 = 다른 페이지 전부를 건드리는 일이라 대표 승인 대기.
+      [v14 · 260718] 링크가 따라가게 — 대표 실사용 지적 반영.
+      ①액자 명제표 확대: QR 96→180px, 주소 24→bold 34px, 가운데에 'ㄴ나도 마음 전하기' 한 줄 신설(QR이 뭔지 설명). plateH 132→212.
+        카톡에서 축소돼 보여 QR 인식·주소 판독이 안 되던 문제.
+      ②[바로 보내기] 버튼 폭 145px→100%(button 기본 폭이 fit-content라 왼쪽에 붙어 보였음). 가운데 정렬.
+      ③보낼 때 그림과 함께 주소 문구(text)도 실어 보냄.
+      ④누르는 즉시 주소를 자동 복사 + '붙여넣기 하시면 링크도 같이 갑니다' 안내(카톡이 text를 버려도 이 길로 링크가 감).
+      ⑤PC 등 그림 보내기가 안 되는 기기: [링크 복사] 버튼 노출 + 저장·복사 안내(전엔 아무 안내가 없어 막혔음).
+      ★그리기·사진·액자합성·QR목적지(/draw/)·이어쓰기 무손.
+      [v13 · 260718] 명제표 재배치 + 바로 보내기.
       ①명제표 — QR을 오른쪽 끝으로 옮겨 낙관·직인처럼 앉힘. 가운데는 한 줄로 길게('○○에게 · 삐뚤빼뚤 마음 도화지' / 'loveflow.ai.kr/draw').
         '나도 그때처럼' 삭제(세 줄이면 도장 옆이 복잡해짐).
       ②완성 화면에 [바로 보내기] 신설 — 홈·showroom·자서전이 쓰는 공용 휘어진 화살표 아이콘 그대로(딥네이비 버튼 위라 선 색만 흰색).
@@ -165,7 +180,9 @@
   .lf-backdrop.open{opacity:1;visibility:visible}
 
   /* ── 하단 방향버튼 (확정 문법: 폭100%·44px·radius22·위계는 색으로만) ── */
-  .lfway{margin-top:26px;display:flex;flex-direction:column;gap:9px}
+  .lfway{margin-top:30px;display:flex;flex-direction:column;gap:0;padding-top:22px;border-top:1px dashed var(--line)}
+  .lfway .wtit{font-size:17px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:16px}
+  .lfway .wnote{font-size:13px;color:var(--muted);text-align:center;margin:14px 0 7px}
   .lfway a{display:flex;align-items:center;justify-content:center;width:100%;height:44px;border-radius:22px;
            text-decoration:none;font-size:14.5px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--navy)}
   .lfway a.buy{background:#fff;border-color:#D4AF37;color:#B8923E}
@@ -308,8 +325,10 @@
 
   <div class="out" id="out">
     <img id="outimg" alt="완성된 편지 의식 이미지">
-    <button class="btn main" id="send" style="display:none;align-items:center;justify-content:center;gap:8px">
+    <button class="btn main" id="send" style="display:none;width:100%;align-items:center;justify-content:center;gap:8px">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg>바로 보내기</button>
+    <button class="btn sub" id="copylink" style="display:none;width:100%;margin-top:9px;align-items:center;justify-content:center;gap:8px">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#1E4A76" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg>링크 복사</button>
     <div class="cap" id="cap"><b style="color:#1E4A76">그림을 꾹 눌러 저장하세요.</b><br>저장한 뒤 카톡으로 보내셔도 돼요.</div>
     <div class="bridge">
       <p>이 그림에 담긴 마음을<br>편지로 이어드릴까요?</p>
@@ -318,8 +337,19 @@
   </div>
 
   <div class="lfway">
-    <a href="/">홈으로</a>
-    <a class="buy" href="/showcase.html">여행 고르러 가기</a>
+    <div class="wtit">조금 더 둘러보시겠어요?</div>
+
+    <div class="wnote">방금 그린 그림이 아쉬우면</div>
+    <a href="/draw/">새 도화지에 다시 그리기</a>
+
+    <div class="wnote">먼저 다녀간 분들의 여행에서 만나보세요</div>
+    <a href="/showroom.html">여행의 기록 구경하기</a>
+
+    <div class="wnote">사랑흐름이 어떤 곳인지 궁금하시면</div>
+    <a href="/about.html">사랑흐름 이야기</a>
+
+    <div class="wnote">마음을 편지로 이어 보고 싶으시면</div>
+    <a class="buy" href="/showcase.html">마음 여행 둘러보기</a>
   </div>
 
 
@@ -456,7 +486,7 @@ function compose(cb){
   var textH = lines.length ? (lines.length*40 + 26) : 0;
   var padH  = Math.round(pad1.height() * innerW / pad1.width());
   var sigH  = Math.round(pad2.height() * innerW / pad2.width());
-  var plateH = 132;
+  var plateH = 212;
   var phH=0, phW=0, phHt=0;
   if(PHOTO && PHOTO.width){
     var rr = Math.min(innerW/PHOTO.width, 480/PHOTO.height);
@@ -497,13 +527,16 @@ function compose(cb){
 
   /* 명제표 */
   var py = H - plateH + 10;
-  var qs = 96, qx = W - M - 12 - qs;
-  if(QR.complete){ x.drawImage(QR, qx, py+16, qs, qs); }
+  var qs = 180, qx = W - M - 10 - qs;
+  if(QR.complete){ x.drawImage(QR, qx, py+8, qs, qs); }
+  var cx = (M + qx) / 2;
   x.textAlign='center';
   x.fillStyle='#8a7f70'; x.font='25px sans-serif';
-  x.fillText(WHO + '에게 · 삐뚤빼뚤 마음 도화지', W/2, py+52);
-  x.fillStyle='#1E4A76'; x.font='24px sans-serif';
-  x.fillText('loveflow.ai.kr/draw', W/2, py+92);
+  x.fillText(WHO + '에게 · 삐뚤빼뚤 마음 도화지', cx, py+62);
+  x.fillStyle='#3a3226'; x.font='bold 30px sans-serif';
+  x.fillText('나도 마음 전하기', cx, py+112);
+  x.fillStyle='#1E4A76'; x.font='bold 34px sans-serif';
+  x.fillText('loveflow.ai.kr/draw', cx, py+162);
   x.textAlign='left';
 
   cb(c);
@@ -568,10 +601,22 @@ var PHOTO=null;
   };
 })();
 
-/* ═══ 바로 보내기 — 완성된 그림 파일을 폰 공유창으로 (서버 안 거침) ═══ */
+/* ═══ 보내기 · 링크 (v14) — 그림 + 주소를 함께 · 우리 서버 안 거침 ═══ */
 (function(){
-  var btn=document.getElementById('send'), cap=document.getElementById('cap');
+  var URL='https://www.loveflow.ai.kr/draw/';
+  var TXT='삐뚤빼뚤 마음 도화지 · 나도 마음 전하기\n' + URL;
+  var btn=document.getElementById('send'), cp=document.getElementById('copylink'), cap=document.getElementById('cap');
   if(!btn) return;
+
+  function copyLink(){
+    try{
+      if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(TXT); return true; }
+      var t=document.createElement('textarea'); t.value=TXT;
+      t.style.position='fixed'; t.style.left='-9999px';
+      document.body.appendChild(t); t.select();
+      document.execCommand('copy'); document.body.removeChild(t); return true;
+    }catch(e){ return false; }
+  }
   function canSendImage(){
     try{
       if(!navigator.share || !navigator.canShare || typeof File==='undefined') return false;
@@ -579,20 +624,33 @@ var PHOTO=null;
       return navigator.canShare({files:[t]});
     }catch(e){ return false; }
   }
-  if(!canSendImage()) return;               /* 못 보내는 기기면 버튼 자체를 안 보여줌 */
-  btn.style.display='flex';
-  cap.innerHTML='보내기가 어려우면, 그림을 <b style="color:#1E4A76">꾹 눌러 저장</b>하셔도 돼요.';
-  btn.onclick=function(){
-    compose(function(c){
-      if(!c.toBlob){ return; }
-      c.toBlob(function(b){
-        if(!b) return;
-        try{
-          var f=new File([b],'마음도화지.png',{type:'image/png'});
-          navigator.share({files:[f], title:'삐뚤빼뚤 마음 도화지'}).catch(function(){});
-        }catch(e){}
-      },'image/png');
-    });
+
+  if(canSendImage()){
+    btn.style.display='flex';
+    cap.innerHTML='보내기가 어려우면, 그림을 <b style="color:#1E4A76">꾹 눌러 저장</b>하셔도 돼요.';
+    btn.onclick=function(){
+      copyLink();
+      compose(function(c){
+        if(!c.toBlob) return;
+        c.toBlob(function(b){
+          if(!b) return;
+          try{
+            var f=new File([b],'마음도화지.png',{type:'image/png'});
+            navigator.share({files:[f], title:'삐뚤빼뚤 마음 도화지', text:TXT}).catch(function(){});
+            cap.innerHTML='주소도 복사해 뒀어요.<br>대화창을 <b style="color:#1E4A76">길게 눌러 붙여넣기</b> 하시면 링크도 같이 갑니다.';
+          }catch(e){}
+        },'image/png');
+      });
+    };
+  } else {
+    cp.style.display='flex';
+    cap.innerHTML='그림을 <b style="color:#1E4A76">저장</b>하고, <b style="color:#1E4A76">링크 복사</b>해서 함께 보내세요.';
+  }
+
+  cp.onclick=function(){
+    var ok=copyLink();
+    cap.innerHTML = ok ? '주소를 복사했어요.<br>카톡에 <b style="color:#1E4A76">붙여넣기</b> 하시면 됩니다.'
+                       : '주소: <b style="color:#1E4A76">loveflow.ai.kr/draw</b>';
   };
 })();
 </script>
