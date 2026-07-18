@@ -8,7 +8,23 @@
 ═══════════════════════════════════════════════════════════════
   사랑흐름 · 삐뚤빼뚤 마음 도화지   draw/index.html   v9 · 260718
   ───────────────────────────────────────────────────────────────
-  [v10 · 260718] ★랜딩 확정판 — ①표지를 대표 손글씨 실물(고맙습니다~ 포함)로 교체, 액자테두리·'편지 의식'·'사랑흐름·마음 여행' 라벨 잘라내고 그림만 남김.
+  [v13 · 260718] ★명제표 재배치 + 바로 보내기.
+      ①명제표 — QR을 오른쪽 끝으로 옮겨 낙관·직인처럼 앉힘. 가운데는 한 줄로 길게('○○에게 · 삐뚤빼뚤 마음 도화지' / 'loveflow.ai.kr/draw').
+        '나도 그때처럼' 삭제(세 줄이면 도장 옆이 복잡해짐).
+      ②완성 화면에 [바로 보내기] 신설 — 홈·showroom·자서전이 쓰는 공용 휘어진 화살표 아이콘 그대로(딥네이비 버튼 위라 선 색만 흰색).
+        ★단 동작이 다름: 공용 부품은 '주소'를 보내지만 여기선 '완성된 그림 파일'을 보냄.
+        우리가 그림을 저장하지 않으니 그림의 주소가 세상에 없음 → 주소를 보내면 받는 사람은 빈 도화지를 봄. 보내야 하는 건 그림 자체.
+        폰 공유창으로 직접 전달, 우리 서버 안 거침.
+      ③안내문을 '꾹 눌러 저장' 강조로 교체. ④못 보내는 기기면 버튼 자체를 안 보여주고 저장 안내만 남김.
+      [v12 · 260718] 추억의 사진 한 장 — [이 마음 담기] 위에 '그분과 함께한 추억의 사진'(선택) 칸 신설.
+      한 건에 한 장(이유: 액자의 주인공은 손글씨 / 한 장이라 앨범을 뒤지는 시간이 생김 / 다음 사람에겐 다시 들어옴).
+      액자 맨 위에 폴라로이드처럼 흰 여백+그림자로 얹고 그 아래 손글씨. 사진 없으면 지금과 똑같이 완성됨.
+      ★아이폰 사진이 옆으로 눕는 문제 처리(createImageBitmap imageOrientation:'from-image', 구형 기기는 FileReader 폴백).
+      ★사진은 손님 기기 안에서만 처리 — 우리 서버로 한 바이트도 안 보냄(휘발 유지).
+      [v11 · 260718] 액자 QR·주소를 도화지로 조준 — 액자에 구워지는 QR이 홈을 가리키던 것을
+      https://www.loveflow.ai.kr/draw/ 로 교체(오류정정 레벨 H, 딥네이비). 명제표 주소 글자도 'loveflow.ai.kr' → 'loveflow.ai.kr/draw'.
+      그림을 본 사람이 QR을 찍으면 홈이 아니라 도화지가 바로 열립니다. ★그리기·저장·이어쓰기 로직 무손.
+      [v10 · 260718] 랜딩 확정판 — ①표지를 대표 손글씨 실물(고맙습니다~ 포함)로 교체, 액자테두리·'편지 의식'·'사랑흐름·마음 여행' 라벨 잘라내고 그림만 남김.
       ②그 위에 하트 2개 추가(초록 #5DBB63 우상 · 파랑 #4A9DE8 좌중) — 기존 빨강 3개는 대표 원본 그대로.
       ③화면 푸터에서 사업자정보 텍스트 삭제(소개·신뢰 페이지 안에 있음 · 확정 원칙).
       ④링크 줄을 [여행 고르러 가기] 바로 밑으로 올리고 ★'소개'(/about.html) 추가 — 홈으로·소개·이용약관·개인정보·환불정책·카카오톡 문의.
@@ -275,6 +291,16 @@
     </div>
   </div>
 
+  <div class="sheet" id="photobox" style="margin-top:14px">
+    <div class="lbl">그분과 함께한 추억의 사진 <span style="color:#c9bfae">· 없으면 넘어가셔도 돼요</span></div>
+    <input type="file" id="pfile" accept="image/*" style="display:none">
+    <button class="tbtn" id="ppick" style="width:100%;padding:12px;font-size:14.5px">사진 고르기</button>
+    <div id="pwrap" style="display:none;margin-top:11px;text-align:center">
+      <img id="pimg" alt="고른 사진" style="max-width:100%;max-height:230px;border-radius:10px;border:1px solid var(--line);display:inline-block">
+      <div style="margin-top:9px"><button class="tbtn" id="pdel">사진 빼기</button></div>
+    </div>
+  </div>
+
   <div class="actions">
     <button class="btn main" id="seal">이 마음 담기</button>
     <button class="btn sub" id="save">이미지 저장</button>
@@ -282,7 +308,9 @@
 
   <div class="out" id="out">
     <img id="outimg" alt="완성된 편지 의식 이미지">
-    <div class="cap">길게 눌러 저장하거나, 그대로 공유하셔도 돼요.</div>
+    <button class="btn main" id="send" style="display:none;align-items:center;justify-content:center;gap:8px">
+      <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg>바로 보내기</button>
+    <div class="cap" id="cap"><b style="color:#1E4A76">그림을 꾹 눌러 저장하세요.</b><br>저장한 뒤 카톡으로 보내셔도 돼요.</div>
     <div class="bridge">
       <p>이 그림에 담긴 마음을<br>편지로 이어드릴까요?</p>
       <button class="btn main" id="go">이어쓰기</button>
@@ -429,7 +457,13 @@ function compose(cb){
   var padH  = Math.round(pad1.height() * innerW / pad1.width());
   var sigH  = Math.round(pad2.height() * innerW / pad2.width());
   var plateH = 132;
-  var H = M + 70 + textH + padH + 34 + sigH + 40 + plateH + M;
+  var phH=0, phW=0, phHt=0;
+  if(PHOTO && PHOTO.width){
+    var rr = Math.min(innerW/PHOTO.width, 480/PHOTO.height);
+    phW = Math.round(PHOTO.width*rr); phHt = Math.round(PHOTO.height*rr);
+    phH = phHt + 44 + 34;
+  }
+  var H = M + 70 + phH + textH + padH + 34 + sigH + 40 + plateH + M;
 
   var c=document.createElement('canvas'); c.width=W; c.height=H;
   var x=c.getContext('2d');
@@ -442,6 +476,15 @@ function compose(cb){
   x.strokeRect(M-8, M-8, W-(M-8)*2, H-plateH-(M-8)-M+14);
 
   var y=M+58;
+  if(phH){
+    var px = M+20 + Math.round((innerW - phW)/2) - 22;
+    x.save();
+    x.shadowColor='rgba(0,0,0,0.14)'; x.shadowBlur=14; x.shadowOffsetY=4;
+    x.fillStyle='#ffffff'; x.fillRect(px, y-34, phW+44, phHt+44);
+    x.restore();
+    x.drawImage(PHOTO, px+22, y-34+22, phW, phHt);
+    y += phH;
+  }
   if(lines.length){
     x.fillStyle='#3a3226'; x.font='30px sans-serif'; x.textAlign='left';
     lines.forEach(function(l){ x.fillText(l, M+20, y); y+=40; });
@@ -454,18 +497,19 @@ function compose(cb){
 
   /* 명제표 */
   var py = H - plateH + 10;
-  x.fillStyle='#8a7f70'; x.font='22px sans-serif'; x.textAlign='left';
-  x.fillText(WHO + '에게 · 마음 도화지', M+126, py+34);
+  var qs = 96, qx = W - M - 12 - qs;
+  if(QR.complete){ x.drawImage(QR, qx, py+16, qs, qs); }
+  x.textAlign='center';
+  x.fillStyle='#8a7f70'; x.font='25px sans-serif';
+  x.fillText(WHO + '에게 · 삐뚤빼뚤 마음 도화지', W/2, py+52);
   x.fillStyle='#1E4A76'; x.font='24px sans-serif';
-  x.fillText('loveflow.ai.kr', M+126, py+70);
-  x.fillStyle='#b3a894'; x.font='19px sans-serif';
-  x.fillText('나도 그때처럼', M+126, py+102);
-  if(QR.complete){ x.drawImage(QR, M+16, py+18, 96, 96); }
+  x.fillText('loveflow.ai.kr/draw', W/2, py+92);
+  x.textAlign='left';
 
   cb(c);
 }
 var QR=new Image();
-QR.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAK4AAACuCAIAAAAgbqG5AAAC6UlEQVR42u3d3VEDMQxF4YShDwqiIGqgIAqiklAALxqNfrzJd57DJmvOKLqxvb4/Ho8bcLu9GQJQAVQAFUAFUAFUABVABVABVEAl75EXfXx+LX7E35/vsff6f6eRd4/81fljqCqACqACqAAqoCpBTHb1fZ125Mq5zj83GqeNoaoAKoAKoAKogL4EUdW15rrovq4+d53czMXuGKoKoAKoACqACthNEKdRtR5psodXFUAFUAFUABUgQczQ18NPzkGoCqACqAAqgAp4nQSx2zP37WWe3AG9O4aqAqgAKoAKoAL6EsTuk4UivXcuU1S95opjqCqACqACqAAqoCpBPMc6/+fY76wqgAqgAqgAKmCVe+RM6t3zDp7jaUi746MqgAqgAqgAKqCIxp3UVWcrVK0R2l3FlLty1Z2qCqACqAAqgAooIjkHEemQc9fJXbmqr676hJMzDlX/HVUBVAAVQAVQAQHK9kFU/RI+uZd58t375iCqRkNVABVABVABVECA0BxEhNOeejqZKSbvtG8eR1UAFUAFUAFUQIDQHETVOpnIlSM9c+7X+75uvG8Oouo1qgKoACqACqACJhNEX16YTCs5qmYcqu69KpepCqACqAAqgAqYTBBV3W/VeqS+3QpV9973eeyDgC8IUAFUABVwxQTRlwX6MkVVFuhLWLn7sooJviBABVABVEAbZTupJznt/IXJlNG3gktVABVABVABVECAsp3UfUR+Y5/svXPvftrub1UBVAAVQAVQAX0Joq8bz6WVyRVKfac25EbDHAR8QYAKoAKogCsmiFx/3pdEJlcoTT5VqS/RqAqgAqgAKoAK2E0Qp7F7RkMu40ROvqi6U1UBVAAVQAVQAa+cICazQO46fbsePM0VviBABVABVMAVE8TkKW+Te5lz3XjV+RST46wqgAqgAqgAKqAvQew+nakqC5x2/vXuyKsKoAKoACqACghwyfMgoCqACqACqAAqgAqgAqgAKoAKoAKO5w+EP4ohLaF7hAAAAABJRU5ErkJggg==';
+QR.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyAQMAAADS6sNKAAAABlBMVEUeSnb////AEkOeAAACCUlEQVR42u1bS66EMAyLhgP0SFydI3GASn2QbztvNrN6z8hdIARZYTmxkyDjq3MI4xnP+P8Uf4qf/b7bR7+fbUMfXQF+d53tin/Jd4fxfxtvWOpRfA1uRVqaPrvw3fX9SXxR8VVyOn8L5JvJx/SC+ILjewFqXD2m1Ex8n4TvBW73F0fzrEx8n1N/TUblUTqz/mLjW/p5Gx8v1M/I+NaJXKxJWoH3JF1+it8TEd93GVX52U7zEOILXH9VMPulqTUSu5RTIr6I/O2WhkNadXm7OH8b8zNufs4ye1PXCduiU7mbZyJ/Yfk7orXhSjrblZ6pNWeTv7D194iGhqfhFNb6LGcOxBfVH0UTK0xS9jzWdhbxRdVXXSZDtBe0xulsTPN74uXn2QRHQh6rU9rY38D3v9apbEXnmA9KY/8ZXF81d0Ax/13GhSOH/MQXEt9pNJgLG1Z1s0RzPoisn4+a79foqExwxfF7IuqrX1OFkNPWfzb9TP5i9zcWOywi06T/pP99QP1NLyS1juWNafIXG1/TUjFQiHWdLXd2yF9sfTX735okjehUnsL5L7S+0pNdK8vPsuzHkr/I+qpmCVPXOdc5Sm4RX9D6WzQ1Jrvcmusv8YXHd8shQ+5PrhaZ+ILzd1pyL/7Wkjvxha6/tUQpUptYnP8+RT/3/P93Wb3KFUviC+1/+f874xkPFf8DSMWfZpl2OLgAAAAASUVORK5CYII=';
 document.getElementById('seal').onclick=function(){
   if(pad.isEmpty() && sig.isEmpty()){ alert('한마디나 이름을 적어보세요.'); return; }
   chime();
@@ -488,6 +532,69 @@ document.getElementById('save').onclick=function(){
 <script>
 function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
 function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
+
+/* ═══ 추억의 사진 한 장 (기기 안에서만 · 우리 서버로 안 보냄) ═══ */
+var PHOTO=null;
+(function(){
+  var f=document.getElementById('pfile'), img=document.getElementById('pimg'), wrap=document.getElementById('pwrap');
+  if(!f) return;
+  function show(src){ img.src=src; wrap.style.display='block'; }
+  function legacy(file){
+    var fr=new FileReader();
+    fr.onload=function(e){
+      var im=new Image();
+      im.onload=function(){ PHOTO=im; show(e.target.result); };
+      im.src=e.target.result;
+    };
+    fr.readAsDataURL(file);
+  }
+  document.getElementById('ppick').onclick=function(){ f.click(); };
+  document.getElementById('pdel').onclick=function(){
+    PHOTO=null; f.value=''; wrap.style.display='none';
+  };
+  f.onchange=function(){
+    var file=f.files && f.files[0];
+    if(!file) return;
+    if(window.createImageBitmap){
+      createImageBitmap(file,{imageOrientation:'from-image'}).then(function(bm){
+        PHOTO=bm;
+        var r=Math.min(700/bm.width, 700/bm.height, 1);
+        var c=document.createElement('canvas');
+        c.width=Math.round(bm.width*r); c.height=Math.round(bm.height*r);
+        c.getContext('2d').drawImage(bm,0,0,c.width,c.height);
+        show(c.toDataURL('image/jpeg',0.85));
+      }).catch(function(){ legacy(file); });
+    } else { legacy(file); }
+  };
+})();
+
+/* ═══ 바로 보내기 — 완성된 그림 파일을 폰 공유창으로 (서버 안 거침) ═══ */
+(function(){
+  var btn=document.getElementById('send'), cap=document.getElementById('cap');
+  if(!btn) return;
+  function canSendImage(){
+    try{
+      if(!navigator.share || !navigator.canShare || typeof File==='undefined') return false;
+      var t=new File([new Blob(['x'],{type:'image/png'})],'t.png',{type:'image/png'});
+      return navigator.canShare({files:[t]});
+    }catch(e){ return false; }
+  }
+  if(!canSendImage()) return;               /* 못 보내는 기기면 버튼 자체를 안 보여줌 */
+  btn.style.display='flex';
+  cap.innerHTML='보내기가 어려우면, 그림을 <b style="color:#1E4A76">꾹 눌러 저장</b>하셔도 돼요.';
+  btn.onclick=function(){
+    compose(function(c){
+      if(!c.toBlob){ return; }
+      c.toBlob(function(b){
+        if(!b) return;
+        try{
+          var f=new File([b],'마음도화지.png',{type:'image/png'});
+          navigator.share({files:[f], title:'삐뚤빼뚤 마음 도화지'}).catch(function(){});
+        }catch(e){}
+      },'image/png');
+    });
+  };
+})();
 </script>
 </body>
 </html>
