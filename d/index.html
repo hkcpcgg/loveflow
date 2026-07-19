@@ -1,0 +1,93 @@
+<!-- ★ d/index.html | v1 | 2026-07-19 | R260719-16 | 받은 그림이 열리는 도착 화면 · 카드 링크의 목적지 · ★l⁄는 편지가 쓰는 중이라 d⁄로 잡음 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>삐뚤빼뚤 마음 도화지 · 사랑흐름</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="손으로 쓴 마음이 도착했습니다 · 사랑흐름">
+<meta property="og:description" content="가장 소중한 사람을 더 알아가는 시간, 사랑흐름 — LFRI™">
+<meta property="og:url" content="https://www.loveflow.ai.kr/d/">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+  :root{--navy:#1E4A76;--cream:#FFFBF5;--line:#EADFCE;--muted:#8a7f70;--gold:#D4AF37}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--cream);font-family:'Noto Sans KR',-apple-system,sans-serif;color:#2F2A24;
+       min-height:100vh;display:flex;flex-direction:column}
+  .top{background:var(--navy);color:#fff;padding:11px 14px;display:flex;align-items:center;gap:9px}
+  .top img{height:30px;width:30px;object-fit:contain;background:#fff;border-radius:7px;padding:2px}
+  .top b{font-size:15px;font-weight:500;letter-spacing:-.3px}
+  .wrap{flex:1;width:100%;max-width:560px;margin:0 auto;padding:22px 16px 34px;text-align:center}
+  .hi{font-family:'Nanum Pen Script',cursive;font-size:27px;color:var(--navy);margin-bottom:4px}
+  .sub{font-size:13.5px;color:var(--muted);margin-bottom:18px}
+  .frame{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;
+         box-shadow:0 3px 14px rgba(30,74,118,.07)}
+  .frame img{width:100%;display:block;border-radius:8px}
+  .gone{padding:44px 18px;color:var(--muted);font-size:14.5px;line-height:1.8}
+  .gone b{display:block;color:var(--navy);font-size:16px;margin-bottom:8px}
+  .btn{display:block;width:100%;margin-top:16px;padding:16px;border:none;border-radius:14px;
+       background:var(--navy);color:#fff;font-size:17px;font-weight:700;font-family:inherit;
+       cursor:pointer;box-shadow:0 4px 0 #143658;text-decoration:none}
+  .btn:active{transform:translateY(2px);box-shadow:0 2px 0 #143658}
+  .btn.sub2{background:#fff;color:var(--navy);border:1px solid var(--line);box-shadow:none;
+            font-size:15px;font-weight:500;padding:13px}
+  .note{font-size:12.5px;color:var(--muted);margin-top:16px;line-height:1.7}
+  .foot{border-top:1px solid var(--line);padding:16px 14px 24px;text-align:center;font-size:11.5px;
+        color:#a99f92;line-height:1.9}
+  .foot a{color:var(--muted);text-decoration:none;margin:0 5px}
+</style>
+</head>
+<body>
+  <div class="top">
+    <a href="/"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""></a>
+    <b>삐뚤빼뚤 마음 도화지</b>
+  </div>
+
+  <div class="wrap">
+    <div class="hi">손으로 쓴 마음이 도착했습니다</div>
+    <div class="sub">천천히 보셔도 괜찮아요</div>
+
+    <div class="frame" id="frame">
+      <div class="gone" id="gone"><b>그림을 불러오는 중이에요</b>잠시만 기다려 주세요</div>
+    </div>
+
+    <a class="btn" href="/draw/">나도 마음 전하기</a>
+    <a class="btn sub2" href="/">사랑흐름 둘러보기</a>
+
+    <div class="note">그림을 오래 간직하시려면 꾹 눌러 저장해 두세요.<br>보내주신 분의 마음이 담긴 한 장입니다.</div>
+  </div>
+
+  <div class="foot">
+    <div><a href="/about.html">소개</a>·<a href="/trust.html">이용약관</a>·<a href="/trust.html">개인정보</a>·<a href="/trust.html">환불정책</a></div>
+    <div>© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지.</div>
+    <div>Unauthorized use strictly prohibited.</div>
+    <div><a href="/">‹ 홈으로</a></div>
+  </div>
+
+<script>
+(function(){
+  var frame=document.getElementById('frame');
+  function gone(t,s){
+    frame.innerHTML='<div class="gone"><b>'+t+'</b>'+s+'</div>';
+  }
+  var q=location.search||'';
+  var m=q.match(/[?&]i=([^&]+)/);
+  var src='';
+  try{ if(m) src=decodeURIComponent(m[1]); }catch(e){ src=''; }
+
+  /* 남의 주소를 함부로 띄우지 않는다. 카카오가 준 그림만 받는다. */
+  if(!src || !/^https:\/\/[a-z0-9.-]*kakaocdn\.net\//i.test(src)){
+    gone('그림을 찾지 못했어요','주소가 온전하지 않은 것 같아요.<br>보내주신 분께 다시 한 번 부탁드려 보세요.');
+    return;
+  }
+  var im=new Image();
+  im.onload=function(){ frame.innerHTML=''; im.alt='도착한 마음 도화지'; frame.appendChild(im); };
+  im.onerror=function(){
+    gone('그림이 사라졌어요','오래 지난 그림은 볼 수 없게 됩니다.<br>보내주신 분께 다시 한 번 부탁드려 보세요.');
+  };
+  im.src=src;
+})();
+</script>
+</body>
+</html>
