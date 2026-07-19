@@ -1,3 +1,4 @@
+<!-- ★ index.html | v21-17 | 2026-07-19 | R260719-7 | 마음 한마디 카톡 복구 : 한마디 저장 주소를 메뉴표에서 떼어내 편지 GAS 로 되돌림 -->
 <!DOCTYPE html>
 <!--
 [v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 간판「가장 소중한 사람을 더 알아가는 시간, 사랑흐름」/ 철학「우리의 관계는 이미 시작되었습니다」/ 제품「서로의 언어를 읽어갑니다」. 손댄 곳 = 공유문(lffShare)·메뉴라벨 2·히어로 보조문(585)·마음 한마디 해설 2건·og 4줄 신설. 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·발급·디자인·색값.
@@ -910,6 +911,9 @@ function buildFinal(){
   if(sg){ if(fn){ sg.textContent='— '+fn+' 드림'; sg.style.display='block'; }
           else { sg.textContent=''; sg.style.display='none'; } }
 }
+/* ★한마디 저장 전용 주소 · 260719 · 메뉴표(LINK)와 절대 섞지 말 것.
+   260713에 메뉴 링크를 /l/ 로 바꾸면서 이 저장 주소까지 같이 덮여 카톡이 죽었음. */
+var LF_SAVE_HANMADI='https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec';
 function shareKakao(){
   var msg=(document.getElementById('fcBody')||{}).textContent||'';
   var nk=nameOf();
@@ -920,7 +924,7 @@ function shareKakao(){
   if(!msg){ toast('전할 한마디를 먼저 담아주세요'); return; }
   if(!window.Kakao||!Kakao.Share){ toast('카카오톡 준비 중이에요. 잠시 후 다시 시도해 주세요'); return; }
   toast('마음을 담는 중이에요...');
-  fetch(LINK.letter,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'save',to:nk+j,msg:msg,from:from})})
+  fetch(LF_SAVE_HANMADI,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'save',to:nk+j,msg:msg,from:from})})
     .then(function(r){return r.json();})
     .then(function(d){
       if(d&&d.ok&&d.id){
