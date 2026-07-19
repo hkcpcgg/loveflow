@@ -1,4 +1,4 @@
-<!-- ★ d/index.html | v1 | 2026-07-19 | R260719-16 | 받은 그림이 열리는 도착 화면 · 카드 링크의 목적지 · ★l⁄는 편지가 쓰는 중이라 d⁄로 잡음 -->
+<!-- ★ d/index.html | v2 | 2026-07-19 | R260719-16 | 그림 주소 http→https 승격(카카오가 http로 줌·브라우저가 막던 것) · ★l⁄는 편지가 쓰는 중이라 d⁄로 잡음 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -76,7 +76,10 @@
   var src='';
   try{ if(m) src=decodeURIComponent(m[1]); }catch(e){ src=''; }
 
-  /* 남의 주소를 함부로 띄우지 않는다. 카카오가 준 그림만 받는다. */
+  /* [v2] 카카오가 주는 그림 주소는 http 로 오는 경우가 있다.
+     우리 페이지는 https 라 브라우저가 http 그림을 막는다 → https 로 바꿔 부른다.
+     남의 주소는 띄우지 않는다. 카카오가 준 그림만 받는다. */
+  src = src.replace(/^http:\/\//i,'https://');
   if(!src || !/^https:\/\/[a-z0-9.-]*kakaocdn\.net\//i.test(src)){
     gone('그림을 찾지 못했어요','주소가 온전하지 않은 것 같아요.<br>보내주신 분께 다시 한 번 부탁드려 보세요.');
     return;
