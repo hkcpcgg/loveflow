@@ -1,4 +1,4 @@
-<!-- ★ draw/index.html | v25 | 2026-07-19 | R260719-15 | 카톡 원터치 : 그림이 실린 카드+링크가 한 번에 · 복사·저장·붙여넣기 없음 · 막힐 때만 공유창→저장 -->
+<!-- ★ draw/index.html | v26 | 2026-07-19 | R260719-16 | 카드 누르면 받은 그림이 열림(/d/) · 빈 그림판으로 가던 것 수정 · ★l⁄는 편지가 쓰는 중이라 건드리지 말 것 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -764,15 +764,18 @@ var PHOTO=null;
         var img='';
         try{ img = res.infos.original.url; }catch(e){}
         if(!img){ plan_b('그림을 올리지 못했어요.'); return; }
+        /* [v26] 카드를 누르면 빈 그림판이 아니라 '받은 그림'이 열려야 한다(대표 실사용 260719).
+           카카오가 돌려준 그림 주소를 링크에도 실어 /l/ 도착 화면으로 보낸다. */
+        var open='https://www.loveflow.ai.kr/d/?i='+encodeURIComponent(img);
         Kakao.Share.sendDefault({
           objectType:'feed',
           content:{
             title:'손으로 쓴 마음이 도착했습니다',
             description:'삐뚤빼뚤 마음 도화지 · 사랑흐름',
             imageUrl:img,
-            link:{ mobileWebUrl:URL, webUrl:URL }
+            link:{ mobileWebUrl:open, webUrl:open }
           },
-          buttons:[{ title:'나도 마음 전하기', link:{ mobileWebUrl:URL, webUrl:URL } }]
+          buttons:[{ title:'마음 열어보기', link:{ mobileWebUrl:open, webUrl:open } }]
         });
         cp.style.display='none';
         cap.innerHTML='카톡 창에서 대화방을 골라 보내주세요.<br><span id="cplink" style="color:#8a7f70;text-decoration:underline;cursor:pointer;font-size:12.5px">주소만 따로 복사하기</span>';
