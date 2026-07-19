@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+[v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 간판「가장 소중한 사람을 더 알아가는 시간, 사랑흐름」/ 철학「우리의 관계는 이미 시작되었습니다」/ 제품「서로의 언어를 읽어갑니다」. 손댄 곳 = 공유문·결과 공유카드 desc(576). 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·발급·디자인·색값.
      사랑흐름 · journey/result.html   v1-4 · 260716 · [작업 v1-4] ★몰입 구간(여행 결과 감상) — 발자취 티커 미탑재 확정. v1-3에서 넣었던 티커 전부 제거, 공유·방향버튼·결과 로직은 유지. 대표 확정: 결과 감상 화면에 광고(티커) 금지. · v1-3 · 260716 · [작업 v1-3] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v1-2 · 260713
      ───────────────────────────────────────────────────────────────────
      [버전] 라이브 v1-1 → ★v1-2 (이 파일)
@@ -261,7 +262,7 @@
   <div class="lff-share"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기" style="display:none"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button></div>
   <script>
   function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
-  function lffShare(){var H='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',text:'많은 관계는 사랑이 부족해서가 아니라, 서로의 언어를 몰라서 멀어집니다.',url:H}).catch(function(){});return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(H).then(function(){lffToast('링크를 복사했어요');}).catch(function(){lffCopy(H);});return;}lffCopy(H);}
+  function lffShare(){var H='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',text:'가장 소중한 사람을 더 알아가는 시간, 사랑흐름',url:H}).catch(function(){});return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(H).then(function(){lffToast('링크를 복사했어요');}).catch(function(){lffCopy(H);});return;}lffCopy(H);}
   function lffCopy(H){try{var a=document.createElement('textarea');a.value=H;a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);lffToast('링크를 복사했어요');}catch(e){lffToast(H);}}
   /* 공유 아이콘을 방향버튼(뒤로·홈·앞으로) 줄 오른쪽 끝에 살짝 배치. 방향버튼 자체는 무손(부모만 감쌈). */
   function lffPlaceShare(){
@@ -573,7 +574,7 @@ function shareKakao(){
   var typeName = (D && D.typeName) ? D.typeName : '사랑흐름 여행자';
   var icon     = (D && D.icon) ? D.icon : '🌊';
   var title    = icon + ' 나는 ' + typeName + '였어요';
-  var desc     = '많은 관계는 사랑이 부족해서가 아니라,\n서로의 언어를 몰라서 멀어집니다.';
+  var desc     = '가장 소중한 사람을 더 알아가는 시간,\n사랑흐름';
   var link     = 'https://www.loveflow.ai.kr';
 
   try{
@@ -817,7 +818,7 @@ var LF_NEXT = {
   '/index.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
   '/showroom.html':       { k:'showcase', t:'마음 여행 예매하기' },
   '/showcase.html':       { k:'pay',      t:'결제하기' },
-  '/enter.html':          { k:'journey',  t:'여행 시작하기' },
+  '/enter.html':          { k:'journey',  t:'함께 떠나기' },
   '/journey/result.html': { k:'letter',   t:'이 여행을 편지로 이어가기' },
   /* 편지·여행지도는 길을 안 깝니다(위 lfPaintWay 참조).
      편지 완성 화면의 "다른 분과 여행하기"는 그 화면 안에 이미 있습니다. */
@@ -826,7 +827,7 @@ var LF_NEXT = {
   '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
   '/pay.html':            { k:'gate',     t:'여권 발급받기' },
   '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
-  '/gate.html':           { k:'journey',  t:'여행 시작하기' }
+  '/gate.html':           { k:'journey',  t:'함께 떠나기' }
 };
 
 /* 지금 화면에 온 것을 기록해 둡니다 (다음 화면의 "뒤로"가 여기로 옵니다) */
