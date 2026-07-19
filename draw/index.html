@@ -1,4 +1,4 @@
-<!-- ★ draw/index.html | v24 | 2026-07-19 | R260719-14 | PC는 클립보드에 그림 직접 넣음 · 「보냈어요」 삭제 · 그림 넣은 뒤 링크복사 감춤 · v21~v23 포함 -->
+<!-- ★ draw/index.html | v25 | 2026-07-19 | R260719-15 | 카톡 원터치 : 그림이 실린 카드+링크가 한 번에 · 복사·저장·붙여넣기 없음 · 막힐 때만 공유창→저장 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -177,6 +177,9 @@
   .btn.main{background:var(--navy);color:#fff;box-shadow:0 4px 0 #143658}
   .btn.main:active{transform:translateY(2px);box-shadow:0 2px 0 #143658}
   .btn.sub{background:#fff;color:var(--navy);border:1px solid var(--line)}
+  /* [v25] 카톡 원터치 보내기 — 손이 한 번만 가는 길 */
+  .btn.kko{background:#FEE500;color:#191600;box-shadow:0 4px 0 #D9C400}
+  .btn.kko:active{transform:translateY(2px);box-shadow:0 2px 0 #D9C400}
 
   .out{margin-top:20px;display:none}
   .out img{width:100%;border:1px solid var(--line);border-radius:14px}
@@ -219,6 +222,7 @@
   .top a{font-size:12.5px;color:var(--navy);text-decoration:none;font-weight:600}
   .foot{text-align:center;font-size:11px;color:#8a7f70;margin-top:22px;line-height:1.9;padding-top:18px;border-top:1px solid var(--line)}
 </style>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"></script>
 </head>
 <body>
   <!-- 통일 길잡이 -->
@@ -356,6 +360,7 @@
 
   <div class="out" id="out">
     <img id="outimg" alt="완성된 편지 의식 이미지">
+    <button class="btn kko" id="kko" style="display:none;width:100%;align-items:center;justify-content:center;gap:8px"><span style="font-size:18px">💬</span><span>카톡으로 보내기</span></button>
     <button class="btn main" id="savebig" style="display:none;width:100%;align-items:center;justify-content:center;gap:8px">
       <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><path d="M12 4v11"/><path d="M7.5 10.5 12 15l4.5-4.5"/><path d="M5 19h14"/></svg>그림 저장하기</button>
     <button class="btn main" id="send" style="display:none;width:100%;align-items:center;justify-content:center;gap:8px">
@@ -682,26 +687,24 @@ var PHOTO=null;
   };
 })();
 
-/* ═══ 보내기 · 저장 · 링크 (v24) ═══
-   [v24 · 260719] ★이사회 자문(4자문) 반영.
-   ① 「보냈어요」를 쓰지 않는다. 우리는 갔는지 모른다. 브라우저가 클립보드를 읽지 못하게 막는다.
-      → 성공을 단정하지 않고 '다음에 할 일'을 안내한다.
-   ② PC는 공유창(navigator.share)을 부르지 않는다.
-      윈도우 카톡은 공유창을 받아도 클립보드로만 넘기고, 우리는 그 결과를 못 받는다.
-      → 우리가 직접 클립보드에 그림을 넣는다(ClipboardItem). 성공·실패가 답으로 돌아온다.
-   ③ 그림을 넣은 직후에는 [링크 복사]를 감춘다.
-      클립보드는 한 칸이라, 주소를 복사하면 방금 담은 그림이 밀려난다(대표 실사용 사고 260719).
-      필요하면 안내문의 작은 글자로 다시 불러낸다.
-   ④ 어느 길이 막히든 마지막은 [그림 저장하기]로 떨어진다. 막다른 길을 두지 않는다. */
+/* ═══ 보내기 (v25) — 카카오 원터치 ═══
+   [v25 · 260719] ★이사회 2차 자문(4자문 전원 「된다」) 반영. 대표 전제 = 손이 두 번 가면 전달은 실패다.
+   흐름 : 담기 → [카톡으로 보내기] → 카카오가 그림을 받아 주소를 줌 → 그 그림이 실린 카드 + 우리 링크
+          → 손님은 대화방만 고른다. 복사 없음 · 저장 없음 · 붙여넣기 없음.
+   ★마음 한마디(index.html shareKakao)가 이미 같은 구조로 돈다. 거기서 가져왔다.
+   막히면 : 폰 공유창 → 그림 저장 순으로 떨어진다. 막다른 길을 두지 않는다.
+   ★「보냈어요」라고 쓰지 않는다. 우리는 갔는지 모른다(1차 자문 만장일치). */
 (function(){
   var URL='https://www.loveflow.ai.kr/draw/';
   var TXT='삐뚤빼뚤 마음 도화지 · 나도 마음 전하기\n' + URL;
+  var KKOKEY='0c7493c2a8668712a43ccb9cf17387c8';
   var btn=document.getElementById('send'), cp=document.getElementById('copylink'),
       sv=document.getElementById('savebig'), cap=document.getElementById('cap'),
-      lbl=document.getElementById('sendlbl');
+      kko=document.getElementById('kko'), lbl=document.getElementById('sendlbl');
   if(!btn) return;
 
-  var isMobile = /Android|iPhone|iPad|iPod|Mobile|Silk|Kindle/i.test(navigator.userAgent||'');
+  try{ if(window.Kakao && !Kakao.isInitialized()){ Kakao.init(KKOKEY); } }catch(e){}
+  function kkoReady(){ try{ return !!(window.Kakao && Kakao.Share && Kakao.isInitialized()); }catch(e){ return false; } }
 
   function copyLink(done){
     done = done || function(){};
@@ -729,10 +732,6 @@ var PHOTO=null;
       return navigator.canShare({files:[t]});
     }catch(e){ return false; }
   }
-  function canCopyImage(){
-    try{ return !!(navigator.clipboard && navigator.clipboard.write && typeof ClipboardItem!=='undefined'); }
-    catch(e){ return false; }
-  }
   function saveImage(){
     compose(function(c){
       var a=document.createElement('a');
@@ -743,56 +742,62 @@ var PHOTO=null;
   }
   if(sv) sv.onclick=saveImage;
 
-  var LINKNOTE='<br><span id="cplink" style="color:#8a7f70;text-decoration:underline;cursor:pointer;font-size:12.5px">주소만 따로 복사하기</span>';
-  function bindLinkNote(){
-    var el=document.getElementById('cplink');
-    if(el) el.onclick=function(){ cp.style.display='flex'; };
-  }
-  function fail(){
-    sv.style.display='flex';
+  function plan_b(msg){
+    /* 카카오가 막혔을 때 — 폰 공유창이 되면 그걸, 아니면 저장 */
+    cap.innerHTML = msg || '카톡으로 바로 보내기가 막혔어요.';
+    if(canSendImage()){ btn.style.display='flex'; cap.innerHTML += '<br>아래 [바로 보내기]로 보내보세요.'; }
+    else { sv.style.display='flex'; cap.innerHTML += '<br>[그림 저장하기]로 저장한 뒤 카톡에 사진으로 보내주세요.'; }
     cp.style.display='flex';
-    cap.innerHTML='<b style="color:#1E4A76">그림 보내기가 막혔어요.</b><br>[그림 저장하기]로 저장한 뒤, 카톡에 사진으로 보내주세요.';
   }
 
-  if(!isMobile && canCopyImage()){
-    /* PC — 우리가 직접 클립보드에 넣는다 */
-    btn.style.display='flex';
-    if(lbl) lbl.textContent='그림 복사하기';
-    cp.style.display='flex';
-    cap.innerHTML='복사한 뒤 카톡 대화창에서 <b style="color:#1E4A76">Ctrl+V</b> 하시면 그림이 붙습니다.';
-    btn.onclick=function(){
-      var b=window.LFBLOB;
-      if(!b){ cap.innerHTML='그림을 준비하고 있어요. 잠시 뒤에 한 번 더 눌러주세요.'; return; }
-      try{
-        navigator.clipboard.write([new ClipboardItem({'image/png':b})]).then(function(){
-          cp.style.display='none';
-          cap.innerHTML='그림이 복사됐어요.<br>카톡 대화창을 열고 <b style="color:#1E4A76">Ctrl+V</b> 하시면 붙습니다.' + LINKNOTE;
-          bindLinkNote();
-        }, fail);
-      }catch(e){ fail(); }
-    };
-  } else if(canSendImage()){
-    /* 폰 — 공유창을 부른다 */
-    btn.style.display='flex';
-    cp.style.display='flex';
-    cap.innerHTML='보내기가 안 되면, 그림을 <b style="color:#1E4A76">저장</b>해서 카톡에 사진으로 보내주세요.';
-    btn.onclick=function(){
-      var f=window.LFSHARE;
-      if(!f){ cap.innerHTML='그림을 준비하고 있어요. 잠시 뒤에 한 번 더 눌러주세요.'; return; }
-      try{
-        navigator.share({files:[f], title:'삐뚤빼뚤 마음 도화지', text:TXT}).then(function(){
-          cp.style.display='none';
-          cap.innerHTML='카톡에서 그림이 들어왔는지 <b style="color:#1E4A76">한 번 확인</b>해 주세요.<br>안 보이면 대화창을 길게 눌러 붙여넣기 하시면 됩니다.' + LINKNOTE;
-          bindLinkNote();
-        }, fail);
-      }catch(e){ fail(); }
-    };
-  } else {
-    /* 둘 다 막힌 기기 — 저장이 주, 링크는 보조 */
-    sv.style.display='flex';
-    cp.style.display='flex';
-    cap.innerHTML='① <b style="color:#1E4A76">그림 저장하기</b>를 누르세요.<br>② 카톡을 열어 저장한 그림을 사진으로 보내면 됩니다.';
-  }
+  /* ── 주경로 : 카톡으로 보내기 ── */
+  kko.style.display='flex';
+  cp.style.display='flex';
+  cap.innerHTML='카톡을 누르면 대화방만 고르시면 됩니다.<br>그림이 그대로 실려 갑니다.';
+  kko.onclick=function(){
+    var f=window.LFSHARE;
+    if(!f){ cap.innerHTML='그림을 준비하고 있어요. 잠시 뒤에 한 번 더 눌러주세요.'; return; }
+    if(!kkoReady()){ plan_b('카카오톡 연결이 아직이에요.'); return; }
+    cap.innerHTML='그림을 보내는 중이에요…';
+    try{
+      Kakao.Share.uploadImage({ file:[f] }).then(function(res){
+        var img='';
+        try{ img = res.infos.original.url; }catch(e){}
+        if(!img){ plan_b('그림을 올리지 못했어요.'); return; }
+        Kakao.Share.sendDefault({
+          objectType:'feed',
+          content:{
+            title:'손으로 쓴 마음이 도착했습니다',
+            description:'삐뚤빼뚤 마음 도화지 · 사랑흐름',
+            imageUrl:img,
+            link:{ mobileWebUrl:URL, webUrl:URL }
+          },
+          buttons:[{ title:'나도 마음 전하기', link:{ mobileWebUrl:URL, webUrl:URL } }]
+        });
+        cp.style.display='none';
+        cap.innerHTML='카톡 창에서 대화방을 골라 보내주세요.<br><span id="cplink" style="color:#8a7f70;text-decoration:underline;cursor:pointer;font-size:12.5px">주소만 따로 복사하기</span>';
+        var el=document.getElementById('cplink');
+        if(el) el.onclick=function(){ cp.style.display='flex'; };
+      }, function(){ plan_b('그림을 올리지 못했어요.'); });
+    }catch(e){ plan_b('카카오톡 연결에 문제가 있어요.'); }
+  };
+
+  /* ── 예비 : 폰 공유창 (카카오가 막힐 때만 나타남) ── */
+  btn.onclick=function(){
+    var f=window.LFSHARE;
+    if(!f){ cap.innerHTML='그림을 준비하고 있어요. 잠시 뒤에 한 번 더 눌러주세요.'; return; }
+    try{
+      navigator.share({files:[f], title:'삐뚤빼뚤 마음 도화지', text:TXT}).then(function(){
+        cap.innerHTML='카톡에서 그림이 들어왔는지 <b style="color:#1E4A76">한 번 확인</b>해 주세요.';
+      }, function(){
+        sv.style.display='flex';
+        cap.innerHTML='<b style="color:#1E4A76">보내기가 막혔어요.</b><br>[그림 저장하기]로 저장한 뒤 카톡에 사진으로 보내주세요.';
+      });
+    }catch(e){
+      sv.style.display='flex';
+      cap.innerHTML='<b style="color:#1E4A76">보내기가 막혔어요.</b><br>[그림 저장하기]로 저장한 뒤 카톡에 사진으로 보내주세요.';
+    }
+  };
 
   cp.onclick=function(){
     copyLink(function(ok){
