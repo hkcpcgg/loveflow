@@ -1,4 +1,4 @@
-<!-- ★ draw/index.html | v22 | 2026-07-19 | R260719-12 | 사진 올리기 살림 : 「함께했던 소중한 사진 공유」·큰 버튼 · v21 버튼순서·보내기 수정 포함 -->
+<!-- ★ draw/index.html | v23 | 2026-07-19 | R260719-13 | 모두 지우기 되살림 : 바로 뒤 되돌리기면 복구 · 버튼 무게·이름 정리 · v21·v22 포함 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -142,6 +142,9 @@
   .tbtn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 13px;
         font-size:13px;color:var(--muted);cursor:pointer;font-family:inherit}
   .tbtn:active{background:#f5efe5}
+  /* [v23] 자주 쓰는 되돌리기는 또렷하게, 위험한 모두 지우기는 물러나게 */
+  .tbtn.undo{color:var(--navy);font-weight:700;border-color:#C8D6E5}
+  .tbtn.wipe{color:#b9b0a3;border-color:#EDE6DA}
 
   /* [v22] 사진 올리기 — 글씨와 사진이 만나야 마음이 깊어진다. 작아서 죽어 있던 버튼을 살림 */
   .pbtn{width:100%;border:2px dashed var(--navy);background:#FFFBF5;border-radius:14px;
@@ -308,8 +311,8 @@
           <span data-c="#FF6B6B" style="background:#FF6B6B"></span>
         </div>
         <div class="sp"></div>
-        <button class="tbtn" id="undo">되돌리기</button>
-        <button class="tbtn" id="clr">지우기</button>
+        <button class="tbtn undo" id="undo">되돌리기</button>
+        <button class="tbtn wipe" id="clr">모두 지우기</button>
       </div>
     </div>
 
@@ -326,8 +329,8 @@
       </div>
       <div class="tools">
         <div class="sp"></div>
-        <button class="tbtn" id="undo2">되돌리기</button>
-        <button class="tbtn" id="clr2">지우기</button>
+        <button class="tbtn undo" id="undo2">되돌리기</button>
+        <button class="tbtn wipe" id="clr2">모두 지우기</button>
       </div>
     </div>
   </div>
@@ -393,7 +396,7 @@
 /* ═══ LFHW · 손글씨 부품 (이식할 때 이 블록만 가져가면 됩니다) ═══ */
 var LFHW = (function(){
   function make(canvas, phEl, h){
-    var ctx=canvas.getContext('2d'), strokes=[], cur=null, drawing=false, color='#2F2A24';
+    var ctx=canvas.getContext('2d'), strokes=[], cur=null, drawing=false, color='#2F2A24', bin=null;
     var W=0, H=h, dpr=window.devicePixelRatio||1;
     /* 손글씨 다듬기 260719 · 이 숫자만 바꾸면 세기가 바뀝니다 */
     var SM_MOUSE=0.30, SM_TOUCH=0.15, MIND=2, sm=SM_TOUCH;
@@ -449,6 +452,7 @@ var LFHW = (function(){
     }
     function down(e){ if(lock) return; e.preventDefault(); drawing=true;
       sm=(e.pointerType==='mouse')?SM_MOUSE:SM_TOUCH;
+      bin=null;
       cur={c:color,w:(h>150?7:5),p:[pos(e)]}; strokes.push(cur); redraw(); }
     function move(e){ if(lock||!drawing)return; e.preventDefault();
       var q=pos(e), a=cur.p[cur.p.length-1], dx=q.x-a.x, dy=q.y-a.y;
@@ -467,8 +471,13 @@ var LFHW = (function(){
 
     return {
       setColor:function(c){ color=c; },
-      undo:function(){ strokes.pop(); redraw(); },
-      clear:function(){ strokes=[]; redraw(); },
+      /* [v23] 되돌리기 = 한 획씩. 단 방금 [모두 지우기]를 눌렀다면 그걸 통째로 되살린다.
+         잘못 눌러 한참 쓴 글씨가 날아가면 손님은 그대로 나간다. 겁이 안 나야 쓴다. */
+      undo:function(){
+        if(strokes.length===0 && bin && bin.length){ strokes=bin; bin=null; redraw(); return; }
+        strokes.pop(); redraw();
+      },
+      clear:function(){ if(strokes.length){ bin=strokes; } strokes=[]; redraw(); },
       isEmpty:function(){ return strokes.length===0; },
       canvas:canvas, height:function(){ return H; }, width:function(){ return W; },
       lock:function(msg){ if(!lock) makeLock(msg); },
