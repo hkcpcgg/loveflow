@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+[v260720-1 · 260720] ★GA4(G-DWCSSE71NS) 설치 · 사건 1종(showroom_go, 메뉴·문에서 어디로 나가는지) · 본문·티커·잠금·색값 무손.
 [v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 간판「가장 소중한 사람을 더 알아가는 시간, 사랑흐름」/ 철학「우리의 관계는 이미 시작되었습니다」/ 제품「서로의 언어를 읽어갑니다」. 손댄 곳 = 공유문·메뉴라벨 2·기록 헤드(336)·상품 설명(490)·og 4줄 신설. 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·발급·디자인·색값.
      사랑흐름 · showroom.html   v13-19 · 260718 · [작업 v13-19] ★드로어에 「삐뚤빼뚤 마음 도화지」(/draw/) 한 줄 신설 — '마음 한마디' 바로 아래(무료 입구끼리 묶음). LF_LINK 에 draw 추가. 메뉴 11항목. [무손] 그 외 항목·본문·스크립트·색값 미변경.
      사랑흐름 · showroom.html   v13-18 · 260717 · [작업 v13-18] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 정중앙·☰ 흰색·드로어 아이콘 제거.
@@ -94,7 +95,16 @@
   · "쇼룸"(판매자 언어) 폐기 → "여행의 기록"(고객 언어)
   · 70% 공개 30% 절제 · TOP3(여권·편지·유형) · 하단 예매 고정
 ============================================================ -->
-<html lang="ko"><head><meta charset="UTF-8">
+<html lang="ko"><head>
+  <!-- Google tag (gtag.js) - GA4 G-DWCSSE71NS -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DWCSSE71NS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DWCSSE71NS');
+  </script>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>사랑흐름 · 여행의 기록</title>
 <meta property="og:type" content="website">
@@ -829,6 +839,7 @@ function lfPassport(){
 function lfGo(k){
   var u = LF_LINK[k];
   if (!u) { return; }
+  try{ gtag('event','showroom_go',{dest:k}); }catch(e){}
   if (LF_NEEDS_ID[k]) {
     var pp = lfPassport();
     if (pp) { u += (u.indexOf('?') > -1 ? '&' : '?') + 'id=' + encodeURIComponent(pp); }
