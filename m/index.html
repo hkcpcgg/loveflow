@@ -1,3 +1,4 @@
+<!-- ★ m/index.html | v9 | 2026-07-20 | R260720-03 | 상단바 도화지 표준(lf-nav) 신설 · 공용 공유부품(휘어진 화살표 lff-sb) 이식 · 편지 불러오는 GAS 코드 무손 -->
 <!DOCTYPE html>
 <!-- ===================================================================
  사랑흐름 · 마음 한마디 편지 페이지  /m/?id=xxxx
@@ -13,14 +14,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>마음 한마디</title>
+<title>마음 한마디가 도착했습니다 · 사랑흐름</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px 18px}
+body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-height:100vh;display:flex;flex-direction:column;align-items:stretch;padding:0}
+.mstage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;padding:24px 18px}
 .wrap{width:100%;max-width:400px}
+
+/* ── 통일 길잡이 (lf-nav) · draw/index.html v28 실측본 ── */
+.lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;background:#1E4A76;border-bottom:1px solid #163A5C;padding:10px 14px}
+.lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:15px;text-decoration:none}
+.lf-nav-logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block;flex-shrink:0}
+.lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px;font-family:inherit}
+.lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.lf-nav-burger{background:none;border:none;cursor:pointer;color:#fff;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px;margin-left:auto;font-family:inherit}
+.lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,0.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
+.lf-menu.open{transform:translateX(0)}
+.lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#163A5C;margin-bottom:6px}
+.lf-menu-head .t{color:#fff;font-weight:800;font-size:15px}
+.lf-menu-close{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1;font-family:inherit}
+.lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
+.lf-menu a:hover{background:#FAF7EE}
+.lf-menu a.lf-buy{color:#B8923E}
+.lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+.lf-backdrop.open{opacity:1;visibility:visible}
 
 /* 로딩 */
 .load{text-align:center;padding:60px 0;color:#B9AE98;font-size:14px}
@@ -52,9 +72,40 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
 .err a{color:#1E4A76;font-weight:700;text-decoration:none}
 
 .copyr{font-size:9px;color:#D8CBB4;text-align:center;margin-top:16px;line-height:1.5;max-width:400px}
+  /* ── 공용 부품 : 공유(휘어진 화살표) · index.html v21-17 표준 그대로 ── */
+  .lff-wayrow{display:flex;align-items:center;align-self:stretch;position:relative;width:100%;max-width:420px;margin:0 auto;padding:0 16px;box-sizing:border-box}
+  .lff-wayrow .lfway{margin:0 auto}
+  .lff-sb{width:32px;height:32px;padding:0;background:#fff;border:1px solid #E4E0D6;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+  .lff-sb:active{transform:scale(.92)}
+  .lff-sb svg{display:block}
+  .lff-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(12px);background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:10000}
+  .lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
+
 </style>
 </head>
 <body>
+<div class="lf-nav">
+  <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
+  <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
+  <span class="lf-nav-loc">도착한 한마디</span>
+  <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+</div>
+<div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+<nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+  <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+  <a href="/">홈</a>
+  <a href="/">마음 한마디</a>
+  <a href="/draw/">쁩뚜쁩뚜 마음 도화지</a>
+  <a href="/journey/">여행지도 보기</a>
+  <a href="/l/">편지</a>
+  <a href="/memoir/">자서전</a>
+  <a href="/reenter.html">여권으로 입장</a>
+  <a href="/find/">사랑흐름 여권 찾기</a>
+  <a href="/showroom.html">여행의 기록</a>
+  <a href="/showcase.html" class="lf-buy">마음 여행 예매하기</a>
+  <a href="javascript:void(0)" onclick="location.reload()">다시 시작</a>
+</nav>
+<div class="mstage">
 <div class="wrap">
 
   <div id="load" class="load">편지를 여는 중<span class="dot">.</span></div>
@@ -77,6 +128,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
     </div>
   </div>
 
+    <div class="lff-share"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기" style="display:none"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button></div>
   <div id="err" class="err" style="display:none">
     <div class="big">편지를 찾지 못했어요</div>
     <div style="font-size:13px;line-height:1.7">링크가 만료되었거나 주소가 정확하지 않아요.<br><a href="/">사랑흐름에서 마음 전하기 ›</a></div>
@@ -85,7 +137,20 @@ body{font-family:'Noto Sans KR',sans-serif;background:#FFFBF5;color:#3A3228;min-
 </div>
 
 <div class="copyr">© 2026 사랑흐름 · LFRI™. 무단복제·상업적이용 금지.<br>Unauthorized use strictly prohibited.</div>
+</div>
 
+<script>
+/* ── 공용 부품 : 공유(휘어진 화살표) · index.html v21-17 표준 그대로 · 공유 주소는 항상 메인 홈 ── */
+function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
+function lffShare(){var H='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',text:'가장 소중한 사람을 더 알아가는 시간, 사랑흐름',url:H}).catch(function(){});return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(H).then(function(){lffToast('링크를 복사했어요');}).catch(function(){lffCopy(H);});return;}lffCopy(H);}
+function lffCopy(H){try{var a=document.createElement('textarea');a.value=H;a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);lffToast('링크를 복사했어요');}catch(e){lffToast(H);}}
+function lffPlaceShare(){var way=document.querySelector('.lfway');if(!way||way.parentNode.classList.contains('lff-wayrow'))return !!way;var btnHost=document.querySelector('.lff-share');var btn=btnHost?btnHost.querySelector('.lff-sb'):null;if(!btn)return false;var row=document.createElement('div');row.className='lff-wayrow';way.parentNode.insertBefore(row,way);row.appendChild(way);var wrap=document.createElement('div');wrap.id='lffShareBtnWrap';btn.style.display='';wrap.appendChild(btn);row.appendChild(wrap);if(btnHost&&btnHost.parentNode)btnHost.parentNode.removeChild(btnHost);return true;}
+function lffShareFallback(){var host=document.querySelector('.lff-share');if(!host||document.querySelector('.lff-wayrow'))return;host.style.cssText='width:100%;max-width:420px;margin:2px auto 0;padding:0 18px;box-sizing:border-box;text-align:right';var btn=host.querySelector('.lff-sb');if(btn)btn.style.display='';}
+var lffTries=0;var lffTimer=setInterval(function(){lffTries++;if(lffPlaceShare()){clearInterval(lffTimer);}else if(lffTries>25){clearInterval(lffTimer);lffShareFallback();}},100);
+
+function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
+function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
+</script>
 <script>
 /* ── 편지 조회·저장 GAS (편지 GAS · DTLjdA) ──
    조회/저장 모두 doPost(action)로 처리 → 기존 doGet(유료 편지)은 안 건드림.
