@@ -1,4 +1,4 @@
-<!-- ★ draw/index.html | v32 | 2026-07-20 | R260720-07 | GA4(G-DWCSSE71NS) 설치 · 사건 4종(draw_done·draw_save·draw_send·draw_send_kko, 클릭 청취만) · [v31] 「이 마음, 어디서 태어났나요」 칸(예시 3개 한 줄·비우면 안 찍힘) + 액자 안 서명 아래 한 줄 「○○를 생각하며, ○○에서」 · 펼침블록: 제목줄=펴기 / 본문 아무데나=접기 · 하단 문 2개(여행의 기록·사랑흐름 이야기) 한 줄 반반(158/158·gap 9px) + lff-wayrow 이중여백 제거로 좌우정렬을 위 [이 마음 담기]/[이미지 저장]과 일치 · v30 꼬리표 유지 · 사진·카톡전송·QR·그리기엔진·사운드 무손 -->
+<!-- ★ draw/index.html | v34 | 2026-07-20 | R260720-09 | ★「기억 한 조각」 형식 통일 — 아래 「다른 분들은 이렇게 적으셨어요」와 같은 부품(.peek) 재사용, 제목줄=펴기 / 본문 아무데나=접기. 문안 10개 목록 통째(공용 틀 {N}·조사 자동) + 「나 자신」 전용 4개, 대상 바꾸면 이름 따라감, 액자에는 안 찍힘 · 문안 「하면 떠오르는 냄새는?」→「하면 떠오르는 향기나 냄새는?」 · [v33] 캔버스 안내문 「여기에 손가락으로 적어보세요」→「손으로 적어보세요」 · [v32] GA4(G-DWCSSE71NS)·사건 4종 무손 · 사진·카톡전송·QR·그리기엔진(LFHW)·사운드·태어난 곳·꼬리표 무손 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -294,6 +294,12 @@
 
   <div class="sheet">
     <div>
+      <div class="peek" id="mem">
+        <div class="ptop" id="mtop"><em>기억 한 조각</em><i>▾</i></div>
+        <div class="pbody" id="mbody">
+          <div class="pg" id="mpg"></div>
+        </div>
+      </div>
       <div class="lbl" id="hwlbl">손으로 적는 한마디</div>
       <div class="peek" id="peek">
         <div class="ptop" id="ptop"><em>다른 분들은 이렇게 적으셨어요</em><i id="pi">▾</i></div>
@@ -326,7 +332,7 @@
       </div>
       <div class="padwrap">
         <canvas id="pad"></canvas>
-        <div class="ph" id="ph">여기에 손가락으로 적어보세요</div>
+        <div class="ph" id="ph">손으로 적어보세요</div>
       </div>
       <div class="tools">
         <div class="colors" id="cols">
@@ -553,11 +559,63 @@ function bornLine(){
   return WHO + josa + ' 생각하며, ' + v;
 }
 var WHO='엄마';
+
+/* ═══ 기억 한 조각 · v34 ═══
+   아래 「다른 분들은 이렇게 적으셨어요」와 같은 부품(.peek)을 그대로 씁니다.
+   제목줄을 누르면 펴지고, 본문 아무 데나 누르면 접힙니다.
+   액자에는 안 찍힘. 손글씨 내용을 떠올리게만 함.
+   {N}=대상 이름 · {가}·{와}=받침 보고 붙는 조사. 「나 자신」은 틀이 안 맞아 따로 씀. */
+var MEMQ = [
+  '{N}{가} 환하게 웃던 순간은?',
+  '{N}{와} 손잡고 걷던 길은?',
+  '{N}{가} 늘 챙겨주던 건?',
+  '{N} 하면 떠오르는 향기나 냄새는?',
+  '{N} 목소리가 들리는 순간은?',
+  '{N} 하면 떠오르는 그 자리는?',
+  '{N}한테 물려받은 버릇이 있나요?',
+  '아직 간직하고 있는 {N}의 물건은?',
+  '{N}{와} 제일 크게 웃었던 날은?',
+  '다음에 만나면 뭘 하고 싶나요?'
+];
+var MEMSELF = [
+  '요즘 나 잘했다 싶었던 순간은?',
+  '나 혼자 있기 좋은 곳은?',
+  '오래 쓰면서 정든 물건은?',
+  '올해 안에 나한테 해주고 싶은 건?'
+];
+function memJosa(name, a, b){
+  var last = name.charCodeAt(name.length-1);
+  var hasJong = (last>=44032 && last<=55203 && (last-44032)%28!==0);
+  return hasJong ? b : a;
+}
+function memDraw(){
+  var pg=document.getElementById('mpg'); if(!pg) return;
+  var list=(WHO==='나 자신') ? MEMSELF : MEMQ;
+  var out='';
+  for(var i=0;i<list.length;i++){
+    var s=list[i].replace(/\{가\}/g, memJosa(WHO,'가','이'))
+                 .replace(/\{와\}/g, memJosa(WHO,'와','과'))
+                 .replace(/\{N\}/g, WHO);
+    out += '<p>' + s + '</p>';
+  }
+  pg.innerHTML=out;
+}
+
 document.getElementById('who').addEventListener('click',function(e){
   var t=e.target.closest('span'); if(!t)return;
   [].forEach.call(this.children,function(s){ s.className=''; });
   t.className='on'; WHO=t.textContent;
+  memDraw();
 });
+document.getElementById('mtop').onclick=function(){
+  var mk=document.getElementById('mem');
+  if(mk.className.indexOf('open')>-1){ mk.className='peek'; }
+  else { mk.className='peek open'; }
+};
+document.getElementById('mbody').onclick=function(){
+  document.getElementById('mem').className='peek';
+};
+memDraw();
 document.getElementById('go').onclick=function(){
   location.href='https://www.loveflow.ai.kr';
 };
