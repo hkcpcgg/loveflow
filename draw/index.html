@@ -1,4 +1,4 @@
-<!-- ★ draw/index.html | v29 | 2026-07-20 | R260720-04 | 하단 세 버튼 색 구분 · 공용 공유부품(휘어진 화살표 lff-sb) 이식 · 그리기엔진·카카오전송·QR·액자 무손 -->
+<!-- ★ draw/index.html | v31-5 | 2026-07-20 | R260720-06 | 「이 마음, 어디서 태어났나요」 칸 신설(예시 3개 한 줄·비우면 안 찍힘) + 액자 안 서명 아래 한 줄 「○○를 생각하며, ○○에서」 · 펼침블록: 제목줄=펴기 / 본문 아무데나=접기 · 하단 문 2개(여행의 기록·사랑흐름 이야기) 한 줄 반반(158/158·gap 9px) + lff-wayrow 이중여백 제거로 좌우정렬을 위 [이 마음 담기]/[이미지 저장]과 일치 · v30 꼬리표 유지 · 사진·카톡전송·QR·그리기엔진·사운드 무손 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -214,12 +214,15 @@
   .lfway .wnote{font-size:13px;color:var(--muted);text-align:center;margin:14px 0 7px}
   .lfway a{display:flex;align-items:center;justify-content:center;width:100%;height:44px;border-radius:22px;
            text-decoration:none;font-size:14.5px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--navy)}
+  .lfway .wpair{display:flex;gap:9px;width:100%}
+  .lfway .wpair a{flex:1 1 0;min-width:0;white-space:nowrap;letter-spacing:-.3px}
+  .lff-wayrow>.lfway{flex:1 1 auto;min-width:0}
   .lfway a.buy{background:#fff;border-color:#D4AF37;color:#B8923E}
   .lfway a.again{background:#E7EEF5;border-color:#C3D5E6;color:var(--navy)}
   .lfway a.show{background:var(--navy);border-color:var(--navy);color:#fff}
   .lfway a.story{background:#FFF7E3;border-color:#D4AF37;color:#8A6D12}
   /* ── 공용 부품 : 공유(휘어진 화살표) · index.html v21-17 표준 그대로 ── */
-  .lff-wayrow{display:flex;align-items:center;align-self:stretch;position:relative;width:100%;max-width:420px;margin:0 auto;padding:0 16px;box-sizing:border-box}
+  .lff-wayrow{display:flex;align-items:center;align-self:stretch;position:relative;width:100%;max-width:520px;margin:0 auto;padding:0;box-sizing:border-box}
   .lff-wayrow .lfway{margin:0 auto}
   .lff-sb{width:32px;height:32px;padding:0;background:#fff;border:1px solid #E4E0D6;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
   .lff-sb:active{transform:scale(.92)}
@@ -365,6 +368,16 @@
     </div>
   </div>
 
+  <div class="sheet" id="bornbox" style="margin-top:14px">
+    <div class="lbl" style="font-size:15px;color:#1E4A76;font-weight:700;margin-bottom:9px">이 마음, 어디서 태어났나요 <span style="font-weight:400;font-size:13px;color:#c9bfae">· 안 쓰시면 안 찍혀요</span></div>
+    <input type="text" id="born" maxlength="24" placeholder="여기에 적어보세요" style="width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:11px 12px;font-size:16px;font-family:inherit;color:#3a3226;background:#fff;outline:none">
+    <div id="bornex" style="display:flex;gap:6px;margin-top:9px">
+      <button class="tbtn" type="button" style="flex:1;padding:7px 4px;font-size:13px;white-space:nowrap">강릉 앞바다에서</button>
+      <button class="tbtn" type="button" style="flex:1;padding:7px 4px;font-size:13px;white-space:nowrap">벚꽃 지던 길에서</button>
+      <button class="tbtn" type="button" style="flex:1;padding:7px 4px;font-size:13px;white-space:nowrap">우리 동네 ○○카페</button>
+    </div>
+  </div>
+
   <div class="actions">
     <button class="btn main" id="seal">이 마음 담기</button>
     <button class="btn sub" id="save">이미지 저장</button>
@@ -393,10 +406,10 @@
     <a href="/draw/" class="again">새 도화지에 다시 그리기</a>
 
     <div class="wnote">먼저 다녀간 분들의 여행에서 만나보세요</div>
-    <a href="/showroom.html" class="show">여행의 기록 구경하기</a>
-
-    <div class="wnote">사랑흐름이 어떤 곳인지 궁금하시면</div>
-    <a href="/about.html" class="story">사랑흐름 이야기</a>
+    <div class="wpair">
+      <a href="/showroom.html" class="show">여행의 기록 구경하기</a>
+      <a href="/about.html" class="story">사랑흐름 이야기</a>
+    </div>
 
   </div>
 
@@ -520,6 +533,17 @@ document.getElementById('cols').addEventListener('click',function(e){
   [].forEach.call(this.children,function(s){ s.className=''; });
   t.className='on'; pad.setColor(t.getAttribute('data-c')); sig.setColor(t.getAttribute('data-c'));
 });
+document.getElementById('bornex').addEventListener('click',function(e){
+  var t=e.target.closest('button'); if(!t)return;
+  document.getElementById('born').value=t.textContent;
+});
+function bornLine(){
+  var v=document.getElementById('born').value.replace(/\s+/g,' ').trim();
+  if(!v) return '';
+  var last=WHO.charCodeAt(WHO.length-1);
+  var josa=(last>=44032 && last<=55203 && (last-44032)%28!==0) ? '을' : '를';
+  return WHO + josa + ' 생각하며, ' + v;
+}
 var WHO='엄마';
 document.getElementById('who').addEventListener('click',function(e){
   var t=e.target.closest('span'); if(!t)return;
@@ -533,6 +557,9 @@ document.getElementById('ptop').onclick=function(){
   var pk=document.getElementById('peek');
   if(pk.className.indexOf('open')>-1){ pk.className='peek'; }
   else { pk.className='peek open'; }
+};
+document.getElementById('pbody').onclick=function(){
+  document.getElementById('peek').className='peek';
 };
 document.getElementById('undo').onclick=function(){ pad.undo(); };
 document.getElementById('clr').onclick=function(){ pad.clear(); };
@@ -584,7 +611,9 @@ function compose(cb){
     phW = Math.round(PHOTO.width*rr); phHt = Math.round(PHOTO.height*rr);
     phH = phHt + 44 + 34;
   }
-  var H = M + 70 + phH + textH + padH + 34 + sigH + 40 + plateH + M;
+  var BORN = bornLine();
+  var bornH = BORN ? 48 : 0;
+  var H = M + 70 + phH + textH + padH + 34 + sigH + 40 + bornH + plateH + M;
 
   var c=document.createElement('canvas'); c.width=W; c.height=H;
   var x=c.getContext('2d');
@@ -615,6 +644,11 @@ function compose(cb){
   x.strokeStyle='#EADFCE'; x.lineWidth=1;
   x.beginPath(); x.moveTo(M+20,y-14); x.lineTo(W-M-20,y-14); x.stroke();
   x.drawImage(pad2.canvas, M+20, y, innerW, sigH); y+=sigH+40;
+  if(BORN){
+    x.fillStyle='#8a7f70'; x.font='26px sans-serif'; x.textAlign='right';
+    x.fillText(BORN, W-M-20, y+10);
+    x.textAlign='left'; y+=bornH;
+  }
 
   /* 명제표 */
   var py = H - plateH + 10;
@@ -623,7 +657,7 @@ function compose(cb){
   var cx = (M + qx) / 2;
   x.textAlign='center';
   x.fillStyle='#8a7f70'; x.font='25px sans-serif';
-  x.fillText(WHO + '에게 · 삐뚤빼뚤 마음 도화지', cx, py+62);
+  x.fillText('사랑흐름 · 삐뚤빼뚤 마음 도화지', cx, py+62);
   x.fillStyle='#3a3226'; x.font='bold 30px sans-serif';
   x.fillText('나도 마음 전하기', cx, py+112);
   x.fillStyle='#1E4A76'; x.font='bold 34px sans-serif';
