@@ -1,7 +1,15 @@
-<!-- ★ draw/index.html | v31-5 | 2026-07-20 | R260720-06 | 「이 마음, 어디서 태어났나요」 칸 신설(예시 3개 한 줄·비우면 안 찍힘) + 액자 안 서명 아래 한 줄 「○○를 생각하며, ○○에서」 · 펼침블록: 제목줄=펴기 / 본문 아무데나=접기 · 하단 문 2개(여행의 기록·사랑흐름 이야기) 한 줄 반반(158/158·gap 9px) + lff-wayrow 이중여백 제거로 좌우정렬을 위 [이 마음 담기]/[이미지 저장]과 일치 · v30 꼬리표 유지 · 사진·카톡전송·QR·그리기엔진·사운드 무손 -->
+<!-- ★ draw/index.html | v32 | 2026-07-20 | R260720-07 | GA4(G-DWCSSE71NS) 설치 · 사건 4종(draw_done·draw_save·draw_send·draw_send_kko, 클릭 청취만) · [v31] 「이 마음, 어디서 태어났나요」 칸(예시 3개 한 줄·비우면 안 찍힘) + 액자 안 서명 아래 한 줄 「○○를 생각하며, ○○에서」 · 펼침블록: 제목줄=펴기 / 본문 아무데나=접기 · 하단 문 2개(여행의 기록·사랑흐름 이야기) 한 줄 반반(158/158·gap 9px) + lff-wayrow 이중여백 제거로 좌우정렬을 위 [이 마음 담기]/[이미지 저장]과 일치 · v30 꼬리표 유지 · 사진·카톡전송·QR·그리기엔진·사운드 무손 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+  <!-- Google tag (gtag.js) - GA4 G-DWCSSE71NS -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DWCSSE71NS"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DWCSSE71NS');
+  </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <title>삐뚤빼뚤 마음 도화지 · 사랑흐름</title>
@@ -671,6 +679,7 @@ QR.src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyAQMAAADS6sNKAAAABl
 document.getElementById('seal').onclick=function(){
   if(pad.isEmpty() && sig.isEmpty()){ alert('한마디나 이름을 적어보세요.'); return; }
   chime();
+  try{ gtag('event','draw_done',{who:WHO, photo:(PHOTO&&PHOTO.width)?1:0, born:bornLine()?1:0}); }catch(e){}
   compose(function(c){
     document.getElementById('outimg').src=c.toDataURL('image/png');
     document.getElementById('out').style.display='block';
@@ -688,6 +697,16 @@ document.getElementById('seal').onclick=function(){
   });
 };
 
+/* ═══ [v32] 발자취 기록 (GA4) — 기존 동작에 손대지 않고 클릭만 엿듣는다 ═══ */
+(function(){
+  function tap(id,name){
+    var e=document.getElementById(id); if(!e) return;
+    e.addEventListener('click',function(){ try{ gtag('event',name,{who:WHO}); }catch(x){} });
+  }
+  tap('save','draw_save');
+  tap('send','draw_send');
+  tap('kko','draw_send_kko');
+})();
 document.getElementById('save').onclick=function(){
   compose(function(c){
     var a=document.createElement('a');
