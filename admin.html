@@ -1,5 +1,18 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · admin.html   v7 · 260721
+
+     [v7 · 260721] ★네 번째 탭 「대량 발급」 — 조직에 여권을 뭉치로 넘깁니다.
+       [왜] 3탭은 260707~08 이사회 확정입니다. 그때는 ★조직 판매라는 일이 없었습니다.
+            없던 업무가 생겨 자리를 하나 더 놓는 것입니다. 기존 세 탭은 이름·순서 무손.
+       · 짝꿍 = 게시판 GAS v5-3 의 adminBulk. 여권은 여전히 issuePassport 만 만듭니다.
+       · ★자서전·인생여행은 잠가 둡니다(260717 대표 결정). GAS 가 보내주는 open 값으로
+         화면이 잠급니다 — 화면에 목록을 박아두지 않습니다. GAS 한 줄 고치면 여기도 열립니다.
+       · ★jsonp 에 기다리는 시간(waitMs)을 선택 인자로 더했습니다. 기본 20초 그대로,
+         대량 발급만 8분. 서른 장이 3분쯤 걸려 20초에 끊기던 것을 막습니다.
+       · 배포처 번호는 ★1001 부터 쓰십시오. 0001 은 시트가 숫자로 읽어 앞의 0을 떨굽니다.
+       [무손] 열쇠 · adminList · adminPaid · 표 도구 · 정렬 · 동명이인 · 푸터
+
      사랑흐름 · admin.html   v6 · 260714
 
      ★이 화면이 무엇인가 (대표 확정 260714) — 착각하지 말 것
@@ -184,6 +197,30 @@ body{
 }
 
 /* ── 잠긴 탭 ── */
+/* ★v7 대량 발급 */
+.bk{padding:4px 2px}
+.bk .row{margin-bottom:13px}
+.bk label{display:block; font-size:12px; font-weight:700; color:var(--navy); margin-bottom:5px}
+.bk input,.bk select{width:100%; padding:12px 13px; border:1.5px solid var(--line); border-radius:11px;
+  font-size:15px; font-family:inherit; background:#fff; outline:none; color:#2E2A24}
+.bk input:focus,.bk select:focus{border-color:var(--navy)}
+.bk .hint{font-size:11px; color:var(--sub); margin-top:5px; line-height:1.6}
+.bk .run{width:100%; height:46px; margin-top:6px; border:0; border-radius:23px; background:var(--navy);
+  color:#fff; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer}
+.bk .run:disabled{background:#B9B3A6; cursor:default}
+.bk .warn{background:#FDF6E3; border-left:4px solid #D4AF37; padding:11px 13px; border-radius:0 8px 8px 0;
+  font-size:11.5px; color:#6B5A2E; line-height:1.7; margin-bottom:14px}
+.bk .out{margin-top:16px}
+.bk .oh{font-size:12.5px; font-weight:700; color:var(--navy); margin-bottom:8px}
+.bk .list{border:1px solid var(--line); border-radius:11px; background:#fff; overflow:hidden}
+.bk .li{display:flex; justify-content:space-between; align-items:center; padding:9px 12px;
+  border-bottom:1px solid #F2EFE8; font-size:13px}
+.bk .li:last-child{border-bottom:0}
+.bk .li .n{color:var(--sub); font-size:11.5px}
+.bk .li .p{font-weight:700; color:var(--navy); letter-spacing:.3px}
+.bk .copy{width:100%; height:42px; margin-top:9px; border:1.5px solid var(--navy); border-radius:21px;
+  background:#fff; color:var(--navy); font-size:13.5px; font-weight:700; font-family:inherit; cursor:pointer}
+.bk .bad{color:#C0392B; font-size:12px; line-height:1.7; margin-top:10px}
 .locked{padding:34px 8px; text-align:center}
 .locked .lt{font-size:14px; font-weight:900; color:var(--navy); margin-bottom:8px}
 .locked .lm{font-size:12.5px; color:var(--sub); line-height:1.8}
@@ -288,6 +325,7 @@ body{
   <div class="tabs" id="tabs">
     <button class="tab lock" onclick="lockMsg()">결과 보기<small>준비 중</small></button>
     <button class="tab sel" id="tab2" onclick="go('pay')">입금 · 발급</button>
+    <button class="tab" id="tab3" onclick="go('bulk')">대량 발급</button>
     <button class="tab lock" onclick="lockMsg()">문의<small>준비 중</small></button>
   </div>
 
@@ -340,6 +378,44 @@ body{
       <div id="rows"></div>
     </div>
 
+    <!-- ③ 대량 발급 (v7) -->
+    <div id="bulkView" style="display:none">
+      <div class="bk">
+
+        <div class="warn">
+          여기서 뽑은 여권은 <b>돈을 받지 않고 나갑니다.</b><br>
+          조직에 넘길 것만 뽑으십시오. 뽑기 전에 장수를 다시 보십시오.
+        </div>
+
+        <div class="row">
+          <label>받는 곳</label>
+          <input id="bOrg" type="text" autocomplete="off" placeholder="예) 다복복집" maxlength="40">
+          <div class="hint">주문대장 소속 칸에 이 이름이 그대로 적힙니다.</div>
+        </div>
+
+        <div class="row">
+          <label>배포처 번호</label>
+          <input id="bNo" type="text" inputmode="numeric" autocomplete="off" placeholder="예) 1001" maxlength="4">
+          <div class="hint">숫자 넉 자입니다. <b>1001부터</b> 쓰십시오 — 0으로 시작하면 시트가 앞자리를 떨굽니다.</div>
+        </div>
+
+        <div class="row">
+          <label>상품</label>
+          <select id="bItem"><option value="">불러오는 중…</option></select>
+        </div>
+
+        <div class="row">
+          <label>장수</label>
+          <input id="bQty" type="number" inputmode="numeric" value="1" min="1" step="1">
+          <div class="hint" id="bQtyHint">한 장에 5초쯤 걸립니다. 뽑는 동안 이 창을 닫지 마십시오.</div>
+        </div>
+
+        <button class="run" id="bRun" onclick="doBulk()">여권 뽑기</button>
+
+        <div class="out" id="bOut"></div>
+      </div>
+    </div>
+
     <!-- 잠긴 탭 -->
     <div id="lockView" style="display:none">
       <div class="locked">
@@ -388,11 +464,14 @@ var T = { q:'', st:'all', pd:'all', mon:'', sort:'when', dir:-1, lim:20 };
 
 /* ── JSONP ── */
 var seq = 0;
-function jsonp(params, done, fail){
+/* ★v7: waitMs 는 선택 인자입니다. 안 주면 지금까지대로 20초입니다.
+   대량 발급만 길게 줍니다 — 서른 장이 3분쯤 걸려 20초에 끊기던 것을 막습니다. */
+function jsonp(params, done, fail, waitMs){
   seq++;
   var name = 'lfcb' + Date.now() + '_' + seq;
   var s = document.createElement('script');
-  var timer = setTimeout(function(){ cleanup(); if(fail) fail('시간이 지났습니다. 다시 불러와 주십시오.'); }, 20000);
+  var wait = waitMs ? waitMs : 20000;
+  var timer = setTimeout(function(){ cleanup(); if(fail) fail('시간이 지났습니다. 다시 불러와 주십시오.'); }, wait);
   function cleanup(){
     clearTimeout(timer);
     try{ delete window[name]; }catch(e){ window[name] = undefined; }
@@ -440,13 +519,171 @@ function backToKey(){
 /* ── 탭 ── */
 function go(which){
   document.getElementById('payView').style.display  = (which === 'pay')  ? 'block' : 'none';
+  document.getElementById('bulkView').style.display = (which === 'bulk') ? 'block' : 'none';   /* ★v7 */
   document.getElementById('lockView').style.display = (which === 'lock') ? 'block' : 'none';
-  document.getElementById('barTtl').textContent = (which === 'pay') ? '입금 · 발급' : '관리';
+  document.getElementById('barTtl').textContent =
+      (which === 'pay') ? '입금 · 발급' : (which === 'bulk') ? '대량 발급' : '관리';
   document.getElementById('btnRefresh').style.display = (which === 'pay') ? 'flex' : 'none';
   document.getElementById('tab2').classList.toggle('sel', which === 'pay');
-  if(which === 'pay'){ load(); } else { document.getElementById('cnt').textContent = ''; }
+  document.getElementById('tab3').classList.toggle('sel', which === 'bulk');                   /* ★v7 */
+  if(which === 'pay'){ load(); }
+  else {
+    document.getElementById('cnt').textContent = '';
+    if(which === 'bulk' && !BULK_ITEMS.length){ loadBulkItems(); }   /* ★v7 상품 목록 */
+  }
 }
 function lockMsg(){ go('lock'); }
+
+
+/* ══════════════════════════════════════════════════════════════════
+   ★v7 대량 발급 — 조직에 넘길 여권을 뭉치로 뽑습니다
+   ※짝꿍 = 게시판 GAS v5-3 의 adminBulk
+   ※여권은 여전히 issuePassport 만 만듭니다. 이 화면은 부탁만 합니다.
+   ══════════════════════════════════════════════════════════════════ */
+
+var BULK_ITEMS = [];      /* GAS 가 보내주는 목록. ★화면에 박아두지 않습니다 */
+var BULK_MAX   = 30;
+var BULK_WAIT  = 8 * 60 * 1000;   /* 8분 — 서른 장이 3분쯤 걸립니다 */
+var BULK_LAST  = null;    /* 마지막으로 뽑은 결과 (복사용) */
+
+/* 상품 목록 — adminList 가 함께 실어 보냅니다(bulkItems). */
+function loadBulkItems(){
+  jsonp({ action:'adminList', key:KEY }, function(res){
+    if(!res || res.status !== 'ok'){
+      if(res && res.msg && res.msg.indexOf('권한') >= 0){ backToKey(); return; }
+      return;
+    }
+    BULK_ITEMS = res.bulkItems || [];
+    if(res.bulkMax) BULK_MAX = Number(res.bulkMax);
+    paintBulkItems();
+  });
+}
+
+function paintBulkItems(){
+  var sel = document.getElementById('bItem');
+  var h = '';
+  var openCnt = 0;
+
+  for(var i=0;i<BULK_ITEMS.length;i++){
+    var it = BULK_ITEMS[i];
+    if(it.open){
+      openCnt++;
+      h += '<option value="' + esc(it.item) + '">' + esc(it.name) + '</option>';
+    }else{
+      /* ★아직 못 파는 상품 — 고를 수는 있게 두되 눌러도 안 나갑니다(GAS 가 막습니다).
+         숨기지 않는 이유: 있는데 잠긴 것과 아예 없는 것은 다릅니다. */
+      h += '<option value="' + esc(it.item) + '" disabled>'
+         + esc(it.name) + ' — 오픈 예정</option>';
+    }
+  }
+  if(!openCnt){ h = '<option value="">뽑을 수 있는 상품이 없습니다</option>'; }
+  sel.innerHTML = h;
+
+  document.getElementById('bQtyHint').innerHTML =
+      '한 번에 <b>' + BULK_MAX + '장</b>까지입니다. 한 장에 5초쯤 걸립니다. '
+    + '뽑는 동안 이 창을 닫지 마십시오.';
+}
+
+function doBulk(){
+  var org   = (document.getElementById('bOrg').value  || '').trim();
+  var orgNo = (document.getElementById('bNo').value   || '').trim();
+  var item  = (document.getElementById('bItem').value || '').trim();
+  var qty   = Number(document.getElementById('bQty').value) || 0;
+  var out   = document.getElementById('bOut');
+  var btn   = document.getElementById('bRun');
+
+  if(!org){       out.innerHTML = '<div class="bad">받는 곳 이름을 넣어 주십시오.</div>'; return; }
+  if(!/^[0-9]{4}$/.test(orgNo)){
+                  out.innerHTML = '<div class="bad">배포처 번호는 숫자 넉 자입니다. (예: 1001)</div>'; return; }
+  if(!item){      out.innerHTML = '<div class="bad">상품을 골라 주십시오.</div>'; return; }
+  if(qty < 1){    out.innerHTML = '<div class="bad">장수를 넣어 주십시오.</div>'; return; }
+  if(qty > BULK_MAX){
+                  out.innerHTML = '<div class="bad">한 번에 ' + BULK_MAX + '장까지입니다.</div>'; return; }
+
+  /* ★한 번 더 묻습니다 — 여기서 나가는 여권은 돈을 안 받은 것입니다 */
+  var nm = document.getElementById('bItem');
+  nm = nm.options[nm.selectedIndex] ? nm.options[nm.selectedIndex].text : item;
+  if(!confirm(org + ' 앞으로\n' + nm + ' ' + qty + '장을 뽑습니다.\n\n돈을 받지 않고 나갑니다. 진행할까요?')){
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = '뽑는 중입니다…';
+  out.innerHTML = '<div class="oh">기다려 주십시오. 한 장에 5초쯤 걸립니다.</div>';
+
+  jsonp({ action:'adminBulk', key:KEY, org:org, orgNo:orgNo, item:item, qty:qty },
+    function(res){
+      btn.disabled = false;
+      btn.textContent = '여권 뽑기';
+
+      if(!res || res.status !== 'ok'){
+        if(res && res.msg && res.msg.indexOf('권한') >= 0){ backToKey(); return; }
+        out.innerHTML = '<div class="bad">' + esc((res && res.msg) ? res.msg : '뽑지 못했습니다.') + '</div>';
+        return;
+      }
+      BULK_LAST = res;
+      paintBulkOut(res);
+    },
+    function(msg){
+      btn.disabled = false;
+      btn.textContent = '여권 뽑기';
+      out.innerHTML = '<div class="bad">' + esc(msg)
+        + '<br>★주문대장을 열어 실제로 나갔는지 확인해 주십시오. '
+        + '나갔는데 화면만 못 받았을 수 있습니다.</div>';
+    },
+    BULK_WAIT);
+}
+
+function paintBulkOut(res){
+  var made = res.made || [];
+  var bad  = res.failed || [];
+  var h = '';
+
+  h += '<div class="oh">' + esc(res.org) + ' &middot; ' + esc(res.name)
+     + ' &middot; ' + made.length + '장 나왔습니다</div>';
+
+  if(made.length){
+    h += '<div class="list">';
+    for(var i=0;i<made.length;i++){
+      h += '<div class="li"><span class="n">' + esc(made[i].no) + '</span>'
+         + '<span class="p">' + esc(made[i].passport) + '</span></div>';
+    }
+    h += '</div>';
+    h += '<button class="copy" onclick="copyBulk()">번호 모두 복사</button>';
+  }
+
+  if(res.stopped){
+    h += '<div class="bad">' + esc(res.msg) + '</div>';
+  }
+  if(bad.length){
+    h += '<div class="bad">못 나온 것 ' + bad.length + '장<br>';
+    for(var j=0;j<bad.length;j++){
+      h += esc(bad[j].no) + ' — ' + esc(bad[j].msg) + '<br>';
+    }
+    h += '</div>';
+  }
+
+  document.getElementById('bOut').innerHTML = h;
+}
+
+/* 번호 모두 복사 — 카톡·메일로 그대로 붙여 보내시면 됩니다 */
+function copyBulk(){
+  if(!BULK_LAST) return;
+  var made = BULK_LAST.made || [];
+  var t = BULK_LAST.org + ' · ' + BULK_LAST.name + ' · ' + made.length + '장\n'
+        + '배치 ' + BULK_LAST.batch + '\n\n';
+  for(var i=0;i<made.length;i++){ t += made[i].passport + '\n'; }
+
+  var ta = document.createElement('textarea');
+  ta.value = t;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try{ document.execCommand('copy'); alert('번호를 복사했습니다.'); }
+  catch(e){ alert('복사가 되지 않았습니다. 화면의 번호를 직접 옮겨 적어 주십시오.'); }
+  document.body.removeChild(ta);
+}
 
 function esc(s){
   return String(s == null ? '' : s)
