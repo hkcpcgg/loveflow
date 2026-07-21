@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<!-- ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · 페이지 관리표   hq-3756.html   v3 · 260721
+     주소  www.loveflow.ai.kr/hq-3756.html
+
+     [v3 · 260721] ⑥ 관리 도구 칸 신설 (관리자 · 이 관리표)
+                   admin.html 예비역 → 현행 (260721 v7 대량 발급 탭 추가)
+                   자서전 소개에 「판매는 오픈 예정」 표시
+                   ★버전·날짜를 화면 맨 위로 올림
+     [v2 · 260718] 삐뚤빼뚤 마음 도화지 /draw/ 추가
+     [v1 · 260718] 최초 · 260718 라이브 실측 기준
+     ═══════════════════════════════════════════════════════════════════ -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 페이지 관리표</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#1E4A76; --navy-d:#163A5C; --cream:#FFFBF5;
+    --gold:#D4AF37; --ink:#243040; --mut:#8a94a0;
+    --line:#e7e2d8; --card:#ffffff; --reserve:#9a9184; --reserve-bg:#f3efe7;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',system-ui,sans-serif;background:var(--cream);color:var(--ink);
+    line-height:1.5;-webkit-text-size-adjust:100%;padding-bottom:60px}
+
+  .top{background:var(--navy);color:#fff;padding:16px 20px;position:sticky;top:0;z-index:10;
+    box-shadow:0 2px 10px rgba(30,74,118,.18)}
+  .top h1{font-size:18px;font-weight:900;letter-spacing:-.3px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .top .ver{font-size:12.5px;font-weight:900;color:#4a3a00;background:var(--gold);
+    border-radius:20px;padding:2px 11px;letter-spacing:.3px}
+  .top .day{font-size:12.5px;color:#fff;font-weight:700;margin-top:5px}
+  .top .sub{font-size:11.5px;color:#a9c5de;margin-top:2px;font-weight:400}
+
+  .bar{padding:12px 16px 6px;position:sticky;top:56px;z-index:9;background:var(--cream);
+    display:flex;gap:8px;align-items:center}
+  .search{flex:1;padding:11px 14px;border:1.5px solid var(--line);border-radius:12px;
+    font-size:15px;font-family:inherit;background:#fff;color:var(--ink);outline:none}
+  .search:focus{border-color:var(--navy)}
+  .allbtn{flex:none;padding:11px 12px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);
+    border-radius:12px;font-size:12.5px;font-weight:700;font-family:inherit;cursor:pointer;white-space:nowrap}
+  .allbtn:active{transform:scale(.95)}
+
+  .wrap{max-width:760px;margin:0 auto;padding:6px 16px}
+
+  /* 아코디언 */
+  .acc{margin-bottom:9px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+  .acc.reserve{background:var(--reserve-bg)}
+  .acc-h{width:100%;display:flex;align-items:center;gap:9px;padding:15px 15px;background:transparent;
+    border:none;font-family:inherit;font-size:15.5px;font-weight:700;color:var(--navy);cursor:pointer;text-align:left}
+  .acc.reserve .acc-h{color:var(--reserve)}
+  .acc-h .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex:none}
+  .acc.reserve .acc-h .dot{background:var(--reserve)}
+  .acc-h .cnt{font-size:12.5px;color:var(--mut);font-weight:400}
+  .acc-h .chev{margin-left:auto;flex:none;color:var(--mut);font-size:13px;transition:transform .2s}
+  .acc.open .acc-h .chev{transform:rotate(180deg)}
+  .acc-body{display:none;padding:2px 11px 12px}
+  .acc.open .acc-body{display:block}
+
+  .row{display:flex;align-items:center;gap:10px;padding:11px 4px;border-bottom:1px solid #f2eee6}
+  .acc-body .row:last-child{border-bottom:none}
+  .info{flex:1;min-width:0}
+  .name{font-size:14.5px;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .acc.reserve .name{color:#6b6459}
+  .lock{font-size:10.5px;font-weight:700;color:#a05a00;background:#fff2d6;
+    border:1px solid #f0dca6;border-radius:20px;padding:1px 7px}
+  .note{font-size:10.5px;font-weight:700;color:#7a5c00;background:#fdf3d6;border:1px solid #f0dca6;border-radius:20px;padding:1px 7px}
+  .path{font-size:11.5px;color:var(--mut);margin-top:2px;word-break:break-all;font-weight:400}
+  .btns{display:flex;gap:6px;flex:none}
+  .b{border:none;border-radius:9px;padding:9px 12px;font-size:13px;font-weight:700;font-family:inherit;
+    cursor:pointer;white-space:nowrap;transition:transform .05s}
+  .b:active{transform:scale(.94)}
+  .b-open{background:var(--navy);color:#fff;text-decoration:none;display:inline-block}
+  .b-copy{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+  .acc.reserve .b-open{background:var(--reserve)}
+  .acc.reserve .b-copy{color:var(--reserve);border-color:var(--reserve)}
+  .b.copied{background:var(--gold)!important;color:#4a3a00!important;border-color:var(--gold)!important}
+
+  /* 테스트 계정 */
+  .tdesc{font-size:12px;color:var(--mut);margin:4px 4px 10px;line-height:1.6}
+  .tdesc b{color:var(--navy)}
+  .tcard{background:#fff;border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden}
+  .tcard-top{background:var(--navy);color:#fff;font-size:11.5px;font-weight:700;padding:6px 12px;letter-spacing:.3px}
+  .trow{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid #f2eee6}
+  .tcard .trow:last-child{border-bottom:none}
+  .tlabel{font-size:11.5px;font-weight:700;color:var(--navy);flex:none;width:66px}
+  .tval{flex:1;min-width:0;font-size:14px;color:var(--ink);word-break:break-all;
+    font-family:'SFMono-Regular',Consolas,monospace}
+  .tval.none{color:#c3bdb0;font-family:'Noto Sans KR',sans-serif;font-style:italic}
+  .tcopy{flex:none;border:1.5px solid var(--navy);background:#fff;color:var(--navy);
+    border-radius:8px;padding:7px 12px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:transform .05s}
+  .tcopy:active{transform:scale(.93)}
+  .tcopy.copied{background:var(--gold)!important;color:#4a3a00!important;border-color:var(--gold)!important}
+
+  .empty{text-align:center;color:var(--mut);padding:30px;font-size:14px;display:none}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);
+    background:var(--navy-d);color:#fff;padding:11px 20px;border-radius:24px;font-size:13.5px;
+    font-weight:500;opacity:0;pointer-events:none;transition:.25s;z-index:50;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .foot{text-align:center;font-size:11px;color:var(--mut);margin-top:22px;line-height:1.7}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <h1>사랑흐름 · 페이지 관리표 <span class="ver">v3</span></h1>
+  <div class="day">2026. 7. 21. 갱신 &middot; 관리 도구 신설 &middot; admin 현행 복귀</div>
+  <div class="sub">제목을 누르면 펴집니다 &middot; 링크 복사</div>
+</div>
+
+<div class="bar">
+  <input class="search" id="q" type="search" placeholder="🔍 이름·주소로 찾기" autocomplete="off">
+  <button class="allbtn" id="allbtn">모두 펼치기</button>
+</div>
+
+<div class="wrap" id="list"></div>
+<div class="empty" id="empty">찾는 페이지가 없어요.</div>
+<div class="toast" id="toast">링크가 복사됐어요</div>
+
+<script>
+var BASE = "https://www.loveflow.ai.kr";
+
+var DATA = [
+  { title:"① 홈 · 진입", reserve:false, items:[
+    {name:"홈 (마음 한마디)", path:"/"},
+    {name:"삐뚤빼뚤 마음 도화지", path:"/draw/", note:"신규 · 랜딩"},
+    {name:"마음 한마디 카드", path:"/m/"},
+    {name:"표지", path:"/cover.html"},
+    {name:"입장", path:"/enter.html"},
+    {name:"여권으로 입장", path:"/reenter.html"},
+  ]},
+  { title:"② 여행지도 (유료 · 발급)", reserve:false, items:[
+    {name:"여행 고르기 (상품 진열)", path:"/showcase.html"},
+    {name:"결제 (기본=마음여행)", path:"/pay.html"},
+    {name:"결제 · 마음 여행지도", path:"/pay.html?item=map"},
+    {name:"결제 · 마음 여행편지", path:"/pay.html?item=letter"},
+    {name:"결제 · 마음여행(지도+편지)", path:"/pay.html?item=set"},
+    {name:"결제 · 자서전", path:"/pay.html?item=memoir", note:"준비중"},
+    {name:"결제 · 인생여행", path:"/pay.html?item=life", note:"준비중"},
+    {name:"입국 게이트 (여권 발급)", path:"/gate.html"},
+    {name:"신청", path:"/apply.html"},
+    {name:"여행지도", path:"/journey/", lock:true},
+    {name:"여행일지 (결과)", path:"/journey/result.html", lock:true},
+    {name:"사랑흐름 여권 찾기", path:"/find/"},
+    {name:"관계 우주", path:"/universe.html"},
+  ]},
+  { title:"③ 편지", reserve:false, items:[
+    {name:"편지 진입", path:"/l/", lock:true},
+    {name:"마음 여행편지", path:"/letter/", lock:true},
+  ]},
+  { title:"④ 자서전", reserve:false, items:[
+    {name:"자서전 소개", path:"/memoir/", note:"판매는 오픈 예정"},
+    {name:"여는 의식", path:"/memoir/ritual.html"},
+    {name:"작성", path:"/memoir/ask.html", lock:true},
+    {name:"견본 (PDF)", path:"/memoir/book.html"},
+  ]},
+  { title:"⑤ 기록 · 정보", reserve:false, items:[
+    {name:"여행의 기록", path:"/showroom.html"},
+    {name:"소개", path:"/about.html"},
+    {name:"이용약관 · 개인정보 · 환불", path:"/trust.html"},
+  ]},
+  { title:"⑥ 관리 도구 (대표 전용)", reserve:false, items:[
+    {name:"관리자 (입금 · 발급 · 대량 발급)", path:"/admin.html", note:"열쇠 필요"},
+    {name:"페이지 관리표 (이 화면)", path:"/hq-3756.html"},
+  ]},
+  { title:"예비역 (대기 자산)", reserve:true, items:[
+    {name:"옛 무료 나침반", path:"/compass.html"},
+    {name:"옛 관계여권 · 증명서", path:"/certificate.html", note:"증명서 디자인 자산"},
+    {name:"옛 홈", path:"/index_old.html"},
+    {name:"옛 무료 안내", path:"/free.html"},
+    {name:"옛 무료 결과", path:"/free-result.html"},
+    {name:"옛 여행권 확인", path:"/start.html"},
+    {name:"영문판", path:"/en/"},
+    {name:"공유카드 시안", path:"/share.html"},
+    {name:"여권 저장 테스트", path:"/pptest.html"},
+    {name:"옛 내정보", path:"/myinfo.html"},
+    {name:"옛 여행기록", path:"/history.html"},
+    {name:"이메일 수집 안내", path:"/email-notice.html"},
+    {name:"게이트 진단 (테스트)", path:"/memoir/gatecheck.html"},
+  ]},
+];
+
+var TEST = [
+  { order:"2026070519922551", pass:"LFL-GAKU5", phone:"3565", email:"" },
+  { order:"2026070357817001", pass:"LFL-3AA5P", phone:"3565", email:"" },
+  { order:"2026070519912551", pass:"LF-8ZFCM",  phone:"",     email:"" },
+  { order:"SR-0714-3565",     pass:"LF-5BSF",   phone:"",     email:"hkcpc@naver.com" },
+];
+
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+
+function rowHtml(it){
+  var url = BASE + it.path;
+  var badges = "";
+  if(it.lock) badges += '<span class="lock">여권 필요</span>';
+  if(it.note) badges += '<span class="note">'+esc(it.note)+'</span>';
+  return '<div class="row">'
+    + '<div class="info"><div class="name">'+esc(it.name)+badges+'</div>'
+    + '<div class="path">'+esc(url)+'</div></div>'
+    + '<div class="btns">'
+    + '<a class="b b-open" href="'+esc(url)+'" target="_blank" rel="noopener">열기</a>'
+    + '<button class="b b-copy" data-copy="'+esc(url)+'">복사</button>'
+    + '</div></div>';
+}
+
+function testCell(label, val){
+  if(val){
+    return '<div class="trow"><span class="tlabel">'+label+'</span>'
+      + '<span class="tval">'+esc(val)+'</span>'
+      + '<button class="b-copy tcopy" data-copy="'+esc(val)+'">복사</button></div>';
+  }
+  return '<div class="trow"><span class="tlabel">'+label+'</span><span class="tval none">없음</span></div>';
+}
+function testBodyHtml(){
+  var h = '<div class="tdesc">잠금 페이지 점검용. 여권번호를 복사해 주소 뒤 <b>?id=</b>에 붙이거나, '
+    + '여권 찾기(find) 점검에 주문번호·이메일을 넣어 쓰세요. 각 칸은 [복사]로 따로 복사됩니다.</div>';
+  TEST.forEach(function(t,i){
+    h += '<div class="tcard"><div class="tcard-top">테스트 '+(i+1)+' · '+esc(t.pass)+'</div>';
+    h += testCell("주문번호", t.order);
+    h += testCell("여권번호", t.pass);
+    h += testCell("전화뒤4", t.phone);
+    h += testCell("이메일", t.email);
+    h += '</div>';
+  });
+  return h;
+}
+function testMatch(t, f){
+  return (t.order+" "+t.pass+" "+t.phone+" "+t.email).toLowerCase().indexOf(f) > -1;
+}
+
+function render(filter){
+  filter = (filter||"").trim().toLowerCase();
+  var listEl = document.getElementById("list");
+  var html = "";
+  var shown = 0;
+
+  DATA.forEach(function(sec){
+    var rows = sec.items.filter(function(it){
+      if(!filter) return true;
+      return (it.name+" "+it.path).toLowerCase().indexOf(filter) > -1;
+    });
+    if(rows.length === 0) return;
+    shown += rows.length;
+    var open = filter ? " open" : "";
+    html += '<div class="acc'+(sec.reserve?' reserve':'')+open+'">';
+    html += '<button class="acc-h"><span class="dot"></span>'+esc(sec.title)
+          + '<span class="cnt">('+rows.length+')</span><span class="chev">▼</span></button>';
+    html += '<div class="acc-body">';
+    rows.forEach(function(it){ html += rowHtml(it); });
+    html += '</div></div>';
+  });
+
+  // 테스트 계정 아코디언
+  var tRows = TEST.filter(function(t){ return !filter || testMatch(t, filter); });
+  if(tRows.length > 0){
+    shown += tRows.length;
+    var topen = filter ? " open" : "";
+    html += '<div class="acc'+topen+'">';
+    html += '<button class="acc-h"><span class="dot" style="background:var(--navy)"></span>테스트 여권 · 계정'
+          + '<span class="cnt">('+TEST.length+')</span><span class="chev">▼</span></button>';
+    html += '<div class="acc-body">'+testBodyHtml()+'</div></div>';
+  }
+
+  html += '<div class="foot">사랑흐름 페이지 관리표 <b>v3</b> · 260721 갱신<br>'
+        + 'v1 260718 최초 · v2 마음 도화지 /draw/ 추가 · v3 관리 도구 신설 · admin 예비역→현행<br>'
+        + '주소 <b>www.loveflow.ai.kr/hq-3756.html</b><br>© 2026 사랑흐름 · 내부 관리용</div>';
+
+  listEl.innerHTML = html;
+  document.getElementById("empty").style.display = shown===0 ? "block" : "none";
+}
+
+function copy(val, btn){
+  function done(){
+    var isT = btn.classList.contains("tcopy");
+    btn.classList.add("copied");
+    var old = btn.textContent; btn.textContent = "복사됨";
+    var t = document.getElementById("toast"); t.classList.add("show");
+    setTimeout(function(){ t.classList.remove("show"); }, 1300);
+    setTimeout(function(){ btn.classList.remove("copied"); btn.textContent = old; }, 1100);
+  }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(val).then(done).catch(function(){ fb(val); done(); });
+  } else { fb(val); done(); }
+}
+function fb(val){
+  var ta=document.createElement("textarea"); ta.value=val;
+  ta.style.position="fixed"; ta.style.left="-9999px";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); }catch(e){}
+  document.body.removeChild(ta);
+}
+
+var listEl = document.getElementById("list");
+listEl.addEventListener("click", function(e){
+  var cp = e.target.closest(".b-copy");
+  if(cp){ copy(cp.getAttribute("data-copy"), cp); return; }
+  var h = e.target.closest(".acc-h");
+  if(h){ h.parentNode.classList.toggle("open"); updateAllBtn(); }
+});
+
+document.getElementById("q").addEventListener("input", function(e){
+  render(e.target.value); updateAllBtn();
+});
+
+var allBtn = document.getElementById("allbtn");
+allBtn.addEventListener("click", function(){
+  var accs = document.querySelectorAll(".acc");
+  var anyClosed = false;
+  accs.forEach(function(a){ if(!a.classList.contains("open")) anyClosed = true; });
+  accs.forEach(function(a){ a.classList.toggle("open", anyClosed); });
+  updateAllBtn();
+});
+function updateAllBtn(){
+  var accs = document.querySelectorAll(".acc");
+  var allOpen = accs.length>0 && Array.prototype.every.call(accs, function(a){ return a.classList.contains("open"); });
+  allBtn.textContent = allOpen ? "모두 접기" : "모두 펼치기";
+}
+
+render("");
+updateAllBtn();
+</script>
+</body>
+</html>
