@@ -2,6 +2,7 @@
 <!-- ═══════════════════════════════════════════════════════════════════
 [v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 메뉴라벨(여행 시작하기→함께 떠나기). 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·디자인.
      사랑흐름 · pay.html   v14-9 · 260718 · [작업 v14-9] ★드로어에 「삐뚤빼뚤 마음 도화지」(/draw/) 한 줄 신설 — '마음 한마디' 바로 아래(무료 입구끼리 묶음). LF_LINK 에 draw 추가. 메뉴 11항목. [무손] 그 외 항목·본문·스크립트·색값 미변경.
+     사랑흐름 · pay.html   v14-9 · 260722 · [작업 v14-9] ★토스페이먼츠 결제창 연동 — ①head에 v2 SDK 1줄 ②pathToss "준비중" 문구 → 실제 [카드로 결제하기] 버튼 ③payWithToss() 신설(결제창 호출·orderId 자동생성·금액은 PRODUCTS.now 그대로) ④?paid=1/0 복귀 안내. ★TOSS_CLIENT_KEY는 공개 테스트키 — 대표 실키 받으면 그 한 줄만 교체. ★오늘 범위=결제창 뜨는 것까지(카드사 심사용). 결제승인 API·여권 자동발급은 다음 별건. [무손] 계좌이체·네이버·choosePath·resetPath·gate ?item= 전달·FAQ·자서전 준비중 패널·가격·디자인 전부. ★가격박스에 제공기간 1줄 추가(토스 필수요건: 1년 이내 명시).
      사랑흐름 · pay.html   v14-8 · 260717 · [작업 v14-8] ★자서전·인생여행 오픈 준비 중 안내 — item=memoir/life면 결제 선택(#choice) 숨기고 "정성껏 준비 중" 패널(#paySoon) 표시. 가격·결제 로직·다른 상품 전부 무손. 오픈 시 이 분기만 제거하면 결제 복구.
      사랑흐름 · pay.html   v14-7 · 260717 · [작업 v14-7] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 정중앙·☰ 흰색. 결제 로직 무손.
      사랑흐름 · pay.html   v14-6 · 260716 · [작업 v14-6] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v14-5 · 260714
@@ -103,6 +104,7 @@
 <title>사랑흐름 · 편지 여행 · 결제</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="https://js.tosspayments.com/v2/standard"></script>
 <style>
 :root{--bg:#FFFBF5;--card:#FFFFFF;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;
 --navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59;--coral-d:#F0644A;
@@ -267,6 +269,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="psub" id="pSub">마음 여행지도로 나를 먼저 돌아보고,<br>그 마음을 토대로 편지를 완성하는 여정이에요.</div>
     <div class="prow"><span class="plabel">정가</span><span class="pl" id="pList">48,900원</span></div>
     <div class="prow"><span class="nlabel">국내 런칭가</span><span class="pw" id="pNow">29,800원</span></div>
+    <div class="pinc">발급일로부터 1년 이내 이용 · 디지털 콘텐츠</div>
   </div>
 
   <div class="choice" id="choice">
@@ -285,13 +288,18 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <button class="btn btn-navy" onclick="location.href='/showcase.html'">여행 둘러보기</button>
   </div>
 
-  <!-- 바로 결제 경로 (토스페이먼츠 · 자리 확보, 연동 대기) -->
+  <!-- 바로 결제 경로 (토스페이먼츠 결제창 연동) -->
   <div class="paid hidden" id="pathToss">
     <span class="pathback" onclick="resetPath()">‹ 다시 고르기</span>
     <div class="sec-t">바로 결제하기</div>
-    <p class="g">카드·간편결제로 사이트에서 바로 결제하는 기능을 준비하고 있어요.<br>잠깐이면 돼요. 지금은 아래 방법으로 결제하실 수 있어요.</p>
-    <button class="btn btn-naver" onclick="choosePath('online')"><span class="n">N</span> 오픈마켓(네이버)으로 결제하기</button>
-    <button class="btn btn-navy-o" onclick="choosePath('acct')">계좌이체로 결제하기</button>
+    <p class="g">카드·간편결제로 지금 바로 결제하실 수 있어요.</p>
+    <button class="btn btn-navy" id="tossPayBtn" onclick="payWithToss()">카드로 결제하기</button>
+    <p class="g" style="margin-top:10px">결제해 주시면 확인 후 카카오톡·문자로 여권번호를 보내드려요.</p>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
+      <p class="g">다른 방법으로 결제하시려면</p>
+      <button class="btn btn-naver" onclick="choosePath('online')"><span class="n">N</span> 오픈마켓(네이버)으로 결제하기</button>
+      <button class="btn btn-navy-o" onclick="choosePath('acct')">계좌이체로 결제하기</button>
+    </div>
   </div>
 
   <!-- 계좌이체 경로 -->
@@ -446,6 +454,64 @@ function go(k){
   }
   else { showToast('연결 예정입니다'); }
 }
+
+/* ===== 토스페이먼츠 결제창 (v14-9 신설) =====
+   ★ TOSS_CLIENT_KEY = 지금은 공개 테스트키.
+     대표님이 토스 상점관리자(MID gsiteshcz6)에서 받은 실제 키를 받으면
+     아래 한 줄만 바꾸면 실결제로 전환됩니다.
+   ★ 오늘 범위 = 결제창이 뜨는 것까지(카드사 심사용).
+     결제 승인 API·여권 자동발급은 다음 별건(GAS·gate 무손). */
+var TOSS_CLIENT_KEY = 'test_ck_DpexMgkW36Pa1O5AneNb3GbR5ozO';
+
+function makeOrderId(){
+  var s = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  var r = '';
+  for (var i = 0; i < 12; i++) { r += s.charAt(Math.floor(Math.random() * s.length)); }
+  return 'LF-' + ITEM.toUpperCase() + '-' + r;
+}
+
+function payWithToss(){
+  if (!P.now) { showToast('가격 준비 중입니다'); return; }
+  if (typeof TossPayments !== 'function') { showToast('결제 모듈을 불러오지 못했어요'); return; }
+  var btn = document.getElementById('tossPayBtn');
+  if (btn) { btn.disabled = true; btn.textContent = '결제창을 여는 중…'; }
+  try {
+    var tp = TossPayments(TOSS_CLIENT_KEY);
+    var pmt = tp.payment({ customerKey: 'LFC-' + makeOrderId().slice(3) });
+    pmt.requestPayment({
+      method: 'CARD',
+      amount: { currency: 'KRW', value: P.now },
+      orderId: makeOrderId(),
+      orderName: P.name,
+      successUrl: location.origin + '/pay.html?item=' + encodeURIComponent(ITEM) + '&paid=1',
+      failUrl:    location.origin + '/pay.html?item=' + encodeURIComponent(ITEM) + '&paid=0',
+      card: { useEscrow: false, flowMode: 'DEFAULT' }
+    })['catch'](function(){
+      if (btn) { btn.disabled = false; btn.textContent = '카드로 결제하기'; }
+    });
+  } catch(e) {
+    if (btn) { btn.disabled = false; btn.textContent = '카드로 결제하기'; }
+    showToast('결제창을 열지 못했어요');
+  }
+}
+
+/* 결제창에서 돌아왔을 때 안내 */
+(function(){
+  var paid = _q.get('paid');
+  if (paid === '1') {
+    setTimeout(function(){
+      choosePath('toss');
+      var box = document.getElementById('pathToss');
+      if (box) {
+        box.innerHTML = '<div class="sec-t">결제해 주셔서 고맙습니다</div>'
+          + '<p class="g">확인 후 카카오톡·문자로 여권번호를 보내드려요.<br>여권번호를 받으시면 여행을 시작하실 수 있어요.</p>'
+          + '<a class="kakao-mini" href="' + LINK.kakao + '" target="_blank" rel="noopener">카카오톡으로 문의하기</a>';
+      }
+    }, 60);
+  } else if (paid === '0') {
+    setTimeout(function(){ choosePath('toss'); showToast('결제가 완료되지 않았어요'); }, 60);
+  }
+})();
 
 /* ===== 결제 갈림길 토글 ===== */
 function choosePath(k){
