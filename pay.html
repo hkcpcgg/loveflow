@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
 [v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 메뉴라벨(여행 시작하기→함께 떠나기). 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·디자인.
-     사랑흐름 · pay.html   v14-9 · 260718 · [작업 v14-9] ★드로어에 「삐뚤빼뚤 마음 도화지」(/draw/) 한 줄 신설 — '마음 한마디' 바로 아래(무료 입구끼리 묶음). LF_LINK 에 draw 추가. 메뉴 11항목. [무손] 그 외 항목·본문·스크립트·색값 미변경.
+     사랑흐름 · pay.html   v14-24 · 260723 · [작업 v14-24] ★카루셀 풍성하게 — 각 카드 아이콘(SVG·상품별 색)+설명(PRODUCTS.sub 확정본)+구분선+가격, 상품별 색 복구(마음여행 딥네이비·한 편의 기록 골드·인생여행 로즈·지도 틸·편지 코랄), 회전 복구(5초·촐싹 안 하게·손대면 멈춤). [작업 v14-23] ★★버그수정 — goItem 미정의(카루셀·단품 카드 5곳 호출인데 함수 없어 클릭 시 ReferenceError). 정의 추가: goItem(k)=pay.html?item=k로 상품 전환. v14-16부터 있던 버그(클릭 검증 누락). [작업 v14-22] ★상품 진열 정리 — 카루셀 자동 회전 제거(촐싹거림 해소·스와이프만) + 카드 담백(padding 22→15·상품명 28→26·여백 14→6) + 원색 제거(딥네이비 한 톤, 색 규칙 삭제·클래스는 무해히 잔존). 밑 영역 무손. [작업 v14-21] ★색 차별화·강조·FAQ 2줄 — 카루셀/단품 상품별 색(마음여행 딥네이비·한 편의 기록 골드 #C0872E·인생여행 코랄 #D06A3E·지도 틸 #1D9E75·편지 로즈 #C25B7C 테두리+이름+금액). 하단 강조를 "지난여행 이어가기"(VIP·골드 크게)로 이동, 여권찾기·둘러보기 반반. FAQ .faq 2열 그리드(헤딩 전체폭)로 4줄→2줄. [작업 v14-20] ★목업 마무리 — ①하단 폭 366→306(여백 42, 안 꽉 참) ③카루셀 상품명 28px/600 크게·금액 19px/500 작게(상품명이 주인공, 금액 조연) ②FAQ "궁금한 점" 헤딩+질문 축약+"바로 예매"→"카드 결제" ④"여권번호로 여행 시작하기" 버튼 신설(딥네이비, 하단 nav 위, go reenter). [작업 v14-19] ★하단 목업대로 — 사랑흐름 여권 찾기(골드·크게 full) + [둘러보기 | 지난여행 이어가기] 반반 + 원형 공유(lffShare). 공유하기 nav 버튼→원형. 중복 자동주입 .rb(.lfres) display:none로 숨김(이어가기는 .ways로 통일). [작업 v14-18] ★상품 구조를 showcase처럼 둘로 — 한 번에 여행하기(카루셀 3개) + 나누어 여행하기(단품 마음 여행지도 14,900·마음 여행편지 19,900 반반). 밑의 단일 상품 카드(.price) 숨김(display:none·JS 무손). 카드 탭=goItem 선택. [작업 v14-17] ★카루셀 결제창용 정리 — 카드 폭 240→100%(옆 카드 안 보이게, 가운데 한 상품만) + 예매 버튼 3개 제거(여기는 결제 창이라 예매 불필요, 카드 자체 탭으로 상품 선택). [작업 v14-16] ★pay 3상품 센터 카루셀 추가 — 상품 표시부(.price) 위에 showcase와 동일한 좌우 스와이프+자동순환 카루셀(마음여행 set·한 편의 기록 memoir·인생여행 life, 240px 정중앙, 예매버튼→goItem). pay 전용 클래스(pcaro/pcard2)·CSS는 진짜 style·JS는 진짜 script(문자열 밖). choosePath·결제·사전동의·.ways·.rb 무손. [작업 v14-15] ★하단 중복·크기 정리(현상 실측 후) — .ways에서 "나의 지난여행 이어가기" 제거(공용 부품 .rb와 중복이었음). 공유하기는 유지(pay엔 공용 원형 공유 없어 유일한 공유). .rb(공용 이어가기) 크기를 진짜 스타일로 폭100%·44px·radius22 통일(.ways와 같게). ※카루셀은 다음. [작업 v14-14] ★"바로 예매"→"카드 결제"(토스 카드결제) + 하단 표준 형제 버튼 신설(.ways: 사랑흐름 여권 찾기 골드·나의 지난여행 이어가기·사랑흐름 여행 둘러보기·공유하기, 폭100%·44px·radius22·색 위계) — 임시 나가기 두 버튼(choiceExit) 제거. 공유 부품 lffShare 이식(홈 URL만·카카오 없음). choosePath·결제·PRODUCTS·사전동의·통일 무손. ※카루셀은 다음 단계. [작업 v14-13] ★나가기 경로 + 푸터 정리 — #choice 바깥에 나가기 버튼 신설(지난 여행 이어가기 go reenter / 다른 여행 둘러보기 go showcase, 잠금 영향 없음, life에선 숨김) + 카카오톡 문의를 별도 ask-c에서 떼어 푸터 flinks 환불정책 옆으로 이동. choosePath·결제·PRODUCTS·사전동의 무손. [작업 v14-12] ★상품표 통일 — 자서전 name '자서전 · 한 편의 기록'→'한 편의 기록'(showcase 일치), 상단 타이틀 loc 5종 전부 '사랑흐름 여행 · 결제'로 통일(상단바=브랜드·본문=상품/금액). PRODUCTS 가격·choosePath·결제 무손. [작업 v14-11] ★자서전 1차 개통 — 차단 분기에서 memoir 빼서 #choice로 흐르게(life는 준비중 유지) + 결제 앞 사전동의 게이트 신설(#memoirAgree: 알아두실 사항 재사용 + 체크 → 체크 전 #choice .locked 잠금, onAgree). choosePath·계좌·토스·네이버·payWithToss·PRODUCTS·가격 전부 무손. [작업 v14-9] ★드로어에 「삐뚤빼뚤 마음 도화지」(/draw/) 한 줄 신설 — '마음 한마디' 바로 아래(무료 입구끼리 묶음). LF_LINK 에 draw 추가. 메뉴 11항목. [무손] 그 외 항목·본문·스크립트·색값 미변경.
      사랑흐름 · pay.html   v14-10 · 260722 · [작업 v14-10] ★토스 클라이언트 키 교체 — v14-9는 결제위젯용 키를 결제창(payment)에 넣어 401 Unauthorized. 토스 문서: 결제위젯 SDK=결제위젯 연동 키(중간 gck) / 결제창·브랜드페이 SDK=API 개별 연동 키(중간 ck). 사랑흐름 상점 테스트 클라이언트 키로 교체. ★시크릿 키는 이 파일에 넣지 않음. 이 한 줄 외 전부 무손.
      사랑흐름 · pay.html   v14-9 · 260722 · [작업 v14-9] ★토스페이먼츠 결제창 연동 — ①head에 v2 SDK 1줄 ②pathToss "준비중" 문구 → 실제 [카드로 결제하기] 버튼 ③payWithToss() 신설(결제창 호출·orderId 자동생성·금액은 PRODUCTS.now 그대로) ④?paid=1/0 복귀 안내. ★TOSS_CLIENT_KEY는 공개 테스트키 — 대표 실키 받으면 그 한 줄만 교체. ★오늘 범위=결제창 뜨는 것까지(카드사 심사용). 결제승인 API·여권 자동발급은 다음 별건. [무손] 계좌이체·네이버·choosePath·resetPath·gate ?item= 전달·FAQ·자서전 준비중 패널·가격·디자인 전부. ★가격박스에 제공기간 1줄 추가(토스 필수요건: 1년 이내 명시).
      사랑흐름 · pay.html   v14-8 · 260717 · [작업 v14-8] ★자서전·인생여행 오픈 준비 중 안내 — item=memoir/life면 결제 선택(#choice) 숨기고 "정성껏 준비 중" 패널(#paySoon) 표시. 가격·결제 로직·다른 상품 전부 무손. 오픈 시 이 분기만 제거하면 결제 복구.
@@ -146,8 +146,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .price .pn{font-size:25px;font-weight:900;color:var(--navy);margin-bottom:5px;letter-spacing:-.01em}
 .price .psub{font-size:12.5px;color:var(--sub);line-height:1.7;margin:0 0 11px;font-weight:500}
 .price .pinc{margin-top:9px;padding:8px 10px;background:#F2F6FA;border-radius:9px;font-size:11px;font-weight:700;color:var(--navy);text-align:center;line-height:1.55}
-.faq{margin-top:18px;padding:0 18px}
-.faq-t{font-size:14px;font-weight:800;color:var(--navy);text-align:center;margin-bottom:10px}
+.faq{margin-top:18px;padding:0 18px;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.faq-t{font-size:14px;font-weight:800;color:var(--navy);text-align:center;margin-bottom:10px;grid-column:1/-1}
 .faq-item{background:#F7FAFC;border:1px solid #E3EBF2;border-radius:10px;margin-bottom:7px;padding:11px 13px;cursor:pointer}
 .faq-q{font-size:12.5px;font-weight:700;color:var(--navy);display:flex;justify-content:space-between;align-items:center;gap:8px}
 .faq-ar{transition:transform .2s;color:#9aabb8;font-size:11px;flex-shrink:0}
@@ -224,6 +224,50 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .pass-need{text-align:center;font-size:13px;font-weight:700;color:var(--navy);line-height:1.6;margin:6px 0 12px}
 .choice-row2{display:flex;gap:12px}
 .choice-row2 .choice-btn{flex:1;margin-bottom:0;padding:16px 8px}
+.magree{background:#F4F7FB;border:1px solid #C7D6E6;border-radius:12px;padding:14px 15px;margin-bottom:14px;text-align:left}
+.magree-t{font-size:14px;font-weight:600;color:#1E4A76;margin-bottom:8px}
+.magree-list{margin:0 0 10px;padding-left:18px}
+.magree-list li{font-size:13px;line-height:1.7;color:#4A4A4A}
+.magree-chk{display:flex;align-items:flex-start;gap:8px;font-size:13.5px;color:#1E4A76;font-weight:500;padding-top:10px;border-top:1px solid #DCE6F0;cursor:pointer}
+.magree-chk input{margin-top:2px;flex-shrink:0}
+.choice.locked{opacity:.45;pointer-events:none}
+.choice-exit{display:flex;gap:12px;margin-top:4px}
+.choice-exit button{flex:1;padding:12px 8px;border-radius:12px;border:1px solid #C7D6E6;background:#fff;color:#5A6B7E;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;word-break:keep-all;line-height:1.35}
+.ways{display:flex;flex-direction:column;gap:8px;margin:18px 30px 6px}
+.ways .way{width:100%;height:44px;border-radius:22px;border:1px solid #C7D6E6;background:#fff;color:#5A6B7E;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer}
+.ways .way-gold{border-color:#D4AF37;color:#8a6510;background:#FBF7EC}
+.way-row{display:flex;gap:10px}
+.way-row .way{flex:1;width:auto}
+.way-share{display:flex;align-items:center;justify-content:center;margin:6px auto 0;width:42px;height:42px;border-radius:50%;border:1px solid #C7D6E6;background:#fff;cursor:pointer;padding:0}
+.lfres{display:none !important}
+.startbox{margin:20px 30px 8px;padding:18px 16px;background:#EEF4FA;border:1px solid #D6E4F0;border-radius:16px;text-align:center}
+.startbox-t{font-size:13px;color:#5A6B7E;margin-bottom:12px}
+.startbtn{width:100%;height:50px;border:none;border-radius:25px;background:#1E4A76;color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer}
+.lfres{max-width:none !important;margin:14px 0 0 !important;padding:0 !important}
+.lfres .rb{width:100% !important;height:44px !important;padding:0 14px !important;border-radius:22px !important;font-size:14px !important;box-sizing:border-box !important}
+.pcaro-hint{text-align:center;font-size:12px;color:#8A857C;margin:6px 0 8px}
+.pcaro{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 14px 8px;scroll-padding:0 14px;-webkit-overflow-scrolling:touch}
+.pcaro::-webkit-scrollbar{display:none}
+.pcard2{scroll-snap-align:center;flex:0 0 100%;background:#fff;border:1.5px solid #1E4A76;border-radius:16px;padding:20px 16px;text-align:center;cursor:pointer;box-sizing:border-box}
+.pcard2-ic{width:54px;height:54px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:#1E4A76;background:#EAF0F6}
+.pcard2-ic svg{width:26px;height:26px}
+.pcard2-d{font-size:12.5px;color:#8A857C;line-height:1.6;margin:6px 0 12px}
+.pcard2-line{height:1px;background:#EFE6D3;margin:0 24px 12px}
+.pcard2.c-memoir{border-color:#C0872E}.pcard2.c-memoir .pcard2-t,.pcard2.c-memoir .pn2{color:#C0872E}.pcard2.c-memoir .pcard2-ic{color:#C0872E;background:#FBF2E1}
+.pcard2.c-life{border-color:#C25B7C}.pcard2.c-life .pcard2-t,.pcard2.c-life .pn2{color:#C25B7C}.pcard2.c-life .pcard2-ic{color:#C25B7C;background:#F7E9EF}
+.pcard3.c-map{border-color:#1D9E75}.pcard3.c-map .pcard3-t,.pcard3.c-map .pcard3-n{color:#1D9E75}
+.pcard3.c-letter{border-color:#D06A3E}.pcard3.c-letter .pcard3-t,.pcard3.c-letter .pcard3-n{color:#D06A3E}
+.pcard2-t{font-family:'Noto Serif KR',serif;font-size:26px;font-weight:600;color:#1E4A76;margin-bottom:6px}
+.pcard2-p{display:flex;flex-direction:column;align-items:center}
+.pl2{font-size:13px;color:#B0AAA0}.pn2{font-size:19px;font-weight:500;color:#1E4A76;margin-top:2px}.plb2{font-size:11px;color:#8A857C;margin-top:2px}
+.pbuy2{width:100%;margin-top:16px;padding:12px;border:1.5px solid #1E4A76;background:#fff;border-radius:22px;color:#1E4A76;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer}
+.pcaro-dots{display:flex;gap:7px;justify-content:center;margin-top:4px}
+.pcaro-dots span{width:8px;height:8px;border-radius:50%;background:#D3CFC6;transition:background .3s}.pcaro-dots span.on{background:#1E4A76}
+.pzone-t{text-align:center;font-family:'Noto Serif KR',serif;font-size:17px;font-weight:500;color:#1E4A76;margin:16px 0 6px}
+.punb{display:flex;gap:10px;padding:0 14px}
+.pcard3{flex:1;background:#fff;border:1.5px solid #1E4A76;border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;box-sizing:border-box}
+.pcard3-t{font-family:'Noto Serif KR',serif;font-size:15px;color:#1E4A76;margin-bottom:8px}
+.pcard3-l{font-size:11px;color:#B0AAA0}.pcard3-n{font-size:18px;font-weight:700;color:#1E4A76;margin-top:2px}
 </style></head>
 <body>
 <div class="phone">
@@ -265,7 +309,22 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
   <!-- ===== 본문 (가변) ===== -->
   <div class="hero"><h1 id="heroTitle">여행을 시작해요</h1></div>
 
-  <div class="price">
+  <div class="pzone-t">한 번에 여행하기</div>
+  <div class="pcaro-hint" aria-hidden="true">← 밀어서 상품을 둘러보세요 →</div>
+  <div class="pcaro" id="caroMain">
+    <div class="pcard2 c-set" onclick="goItem('set')"><div class="pcard2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="15.5 8.5 11 11 8.5 15.5 13 13 15.5 8.5"/></svg></div><div class="pcard2-t">마음여행</div><div class="pcard2-d">지도로 나를 돌아보고,<br>그 마음으로 편지를 완성하는 여정</div><div class="pcard2-line"></div><div class="pcard2-p"><span class="pl2">정가 48,900원</span><span class="pn2">29,800원</span><span class="plb2">국내 런칭가</span></div></div>
+    <div class="pcard2 c-memoir" onclick="goItem('memoir')"><div class="pcard2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div><div class="pcard2-t">한 편의 기록</div><div class="pcard2-d">지나온 시간을 한 편의 기록으로<br>남기는 여정</div><div class="pcard2-line"></div><div class="pcard2-p"><span class="pl2">정가 65,000원</span><span class="pn2">49,800원</span><span class="plb2">국내 런칭가</span></div></div>
+    <div class="pcard2 c-life" onclick="goItem('life')"><div class="pcard2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 7 3-4 6 14H3z"/></svg></div><div class="pcard2-t">인생여행</div><div class="pcard2-d">삶을 기록하는 자서전까지<br>더한 가장 깊은 여정</div><div class="pcard2-line"></div><div class="pcard2-p"><span class="pl2">정가 90,000원</span><span class="pn2">59,800원</span><span class="plb2">국내 런칭가</span></div></div>
+  </div>
+  <div class="pcaro-dots" id="caroDots"></div>
+
+  <div class="pzone-t">나누어 여행하기</div>
+  <div class="punb">
+    <div class="pcard3 c-map" onclick="goItem('map')"><div class="pcard3-t">마음 여행지도</div><div class="pcard3-l">정가 19,900원</div><div class="pcard3-n">14,900원</div></div>
+    <div class="pcard3 c-letter" onclick="goItem('letter')"><div class="pcard3-t">마음 여행편지</div><div class="pcard3-l">정가 29,000원</div><div class="pcard3-n">19,900원</div></div>
+  </div>
+
+  <div class="price" style="display:none">
     <div class="pn" id="pName">마음 여행편지</div>
     <div class="psub" id="pSub">마음 여행지도로 나를 먼저 돌아보고,<br>그 마음을 토대로 편지를 완성하는 여정이에요.</div>
     <div class="prow"><span class="plabel">정가</span><span class="pl" id="pList">48,900원</span></div>
@@ -273,10 +332,22 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="pinc">발급일로부터 1년 이내 이용 · 디지털 콘텐츠</div>
   </div>
 
+  <div class="magree hidden" id="memoirAgree">
+    <div class="magree-t">시작 전 알아두실 사항</div>
+    <ul class="magree-list">
+      <li>인생 전체가 아니라, 일곱 테마로 나눠 한 챕터씩 담습니다.</li>
+      <li>원고는 읽지 않고, 맞춤법·띄어쓰기만 다듬어요.</li>
+      <li>접수하신 사진 원본은 14일 안에 지웁니다.</li>
+      <li>완성까지 통상 2주 정도 걸려요.</li>
+      <li>완성 기록은 90일 동안 다시 보실 수 있어요.</li>
+      <li>보내드린 뒤에는 고칠 수 없어요.</li>
+    </ul>
+    <label class="magree-chk"><input type="checkbox" id="agreeChk" onchange="onAgree()"> 위 안내를 확인했고, 이에 동의합니다.</label>
+  </div>
   <div class="choice" id="choice">
     <button class="choice-btn main" onclick="choosePath('acct')">계좌이체<span class="cd">가장 쉬워요 · 입금 후 카톡 발권</span></button>
     <div class="choice-row2">
-      <button class="choice-btn" onclick="choosePath('toss')">바로 예매 <span class="soon">곧</span></button>
+      <button class="choice-btn" onclick="choosePath('toss')">카드 결제 <span class="soon">곧</span></button>
       <button class="choice-btn" onclick="choosePath('online')">오픈마켓</button>
     </div>
   </div>
@@ -327,34 +398,48 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   <div class="faq">
 <!-- [v21·260713] 삭제: "궁금한 점이 있으신가요?" — 바로 아래 카카오톡 문의 버튼이 이미 말하는 소리. gate v9-22 에서도 같은 이유로 뺐습니다. -->
-    <div class="faq-t"></div>
+    <div class="faq-t">궁금한 점</div>
     <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span>계좌이체로도 되나요?</span><span class="faq-ar">▾</span></div>
+      <div class="faq-q"><span>계좌이체도 되나요?</span><span class="faq-ar">▾</span></div>
       <div class="faq-a">네. 입금이 확인되면 카톡으로 사랑흐름 여권번호를 보내드려요.</div>
     </div>
     <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span>바로 예매하면 어떻게 되나요?</span><span class="faq-ar">▾</span></div>
+      <div class="faq-q"><span>카드 결제는 어떻게 되나요?</span><span class="faq-ar">▾</span></div>
       <div class="faq-a">여기서 결제하시면 사랑흐름 여권번호가 바로 나와요. (지금 준비 중이에요)</div>
     </div>
     <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span>오픈마켓(네이버)은 뭐가 다른가요?</span><span class="faq-ar">▾</span></div>
+      <div class="faq-q"><span>오픈마켓은 뭐가 다른가요?</span><span class="faq-ar">▾</span></div>
       <div class="faq-a">평소 쓰시던 익숙한 곳에서 구매하는 길이에요. 결제번호로 발권받으실 수 있어요.</div>
     </div>
     <div class="faq-item" onclick="toggleFaq(this)">
-      <div class="faq-q"><span>결제하면 바로 시작되나요?</span><span class="faq-ar">▾</span></div>
+      <div class="faq-q"><span>결제 후 바로 시작되나요?</span><span class="faq-ar">▾</span></div>
       <div class="faq-a">여권번호를 받으시면 발권 → 입장 → 여행으로 이어져요.</div>
     </div>
-    <div class="ask-c"><a class="kakao-mini" onclick="go('kakao')">카카오톡 문의</a></div>
   </div>
 
   <!-- ===== 하단 푸터 (프레임 · 통일형) =====
      화면엔 © 한 줄 + 링크만. 사업자정보·개인정보 담당자 등은 [소개]/[약관] 페이지 안으로. -->
+  <div class="startbox">
+    <div class="startbox-t">결제하고 여권번호를 받으셨나요?</div>
+    <button class="startbtn" onclick="go('reenter')">여권번호로 여행 시작하기 →</button>
+  </div>
+
+  <div class="ways" id="payWays">
+    <button class="way way-gold" onclick="go('reenter')">지난여행 이어가기</button>
+    <div class="way-row">
+      <button class="way" onclick="go('find')">사랑흐름 여권 찾기</button>
+      <button class="way" onclick="go('showroom')">둘러보기</button>
+    </div>
+    <button class="way-share" onclick="lffShare()" aria-label="공유하기"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6B7E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/><line x1="15.4" y1="6.5" x2="8.6" y2="10.5"/></svg></button>
+  </div>
+
   <div class="legal">
     <div class="flinks">
       <a onclick="go('about')">소개</a>
       <a onclick="go('trust')">이용약관</a>
       <a onclick="go('trust')">개인정보</a>
       <a onclick="go('trust')">환불정책</a>
+      <a onclick="go('kakao')">카카오톡 문의</a>
     </div>
     <div class="warn">© 2026 사랑흐름 · LFRI™. 무단복제·상업적 이용 금지.</div>
     <span class="home2" onclick="goHome()">‹ 홈으로</span>
@@ -370,7 +455,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 var PRODUCTS = {
   map: {                                   /* 마음 여행지도 (단품) */
     name: '마음 여행지도',
-    loc:  '마음 여행지도 · 결제',
+    loc:  '사랑흐름 여행 · 결제',
     hero: '마음 여행지도를 시작해요',
     sub:  '내 마음을 발견하는 여행 지도예요.',
     inc:  '마음 여행지도 한 편이 담겨 있어요',
@@ -379,7 +464,7 @@ var PRODUCTS = {
   },
   letter: {                                /* 마음 여행편지 (편지 단독) */
     name: '마음 여행편지',
-    loc:  '마음 여행편지 · 결제',
+    loc:  '사랑흐름 여행 · 결제',
     hero: '마음 여행편지를 시작해요',
     sub:  '마음을 담아 편지를 완성하는 여정이에요.',
     inc:  '완성된 편지 한 통이 담겨 있어요',
@@ -388,7 +473,7 @@ var PRODUCTS = {
   },
   set: {                                   /* 마음여행 (지도 + 편지) */
     name: '마음여행',
-    loc:  '마음여행 · 결제',
+    loc:  '사랑흐름 여행 · 결제',
     hero: '여행을 시작해요',
     sub:  '마음 여행지도로 나를 돌아보고,<br>그 마음으로 편지를 완성하는 여정이에요.',
     inc:  '마음 여행지도와 완성된 편지, 두 여정이 함께 담겨 있어요',
@@ -397,7 +482,7 @@ var PRODUCTS = {
   },
   life: {                                  /* 인생여행 (지도+편지+자서전) */
     name: '인생여행',
-    loc:  '인생여행 · 결제',
+    loc:  '사랑흐름 여행 · 결제',
     hero: '인생을 여행해요',
     sub:  '마음 여행에, 삶을 기록하는 자서전까지<br>더한 가장 깊은 여정이에요.',
     inc:  '지도·편지에 자서전까지, 세 여정이 함께 담겨 있어요',
@@ -405,8 +490,8 @@ var PRODUCTS = {
     store: ''
   },
   memoir: {                                /* 자서전 (프리미엄) */
-    name: '자서전 · 한 편의 기록',
-    loc:  '자서전 · 결제',
+    name: '한 편의 기록',
+    loc:  '사랑흐름 여행 · 결제',
     hero: '나의 기록을 시작해요',
     sub:  '지나온 시간을 한 편의 기록으로<br>남기는 여정이에요.',
     inc:  '당신의 이야기를 담는 한 편의 기록이에요',
@@ -426,10 +511,16 @@ document.getElementById('pList').textContent = P.list ? P.list.toLocaleString() 
 document.getElementById('pNow').textContent  = P.now ? P.now.toLocaleString() + '원' : '가격 준비 중';
 
 /* 자서전·인생여행 = 오픈 준비 중: 결제 선택 숨기고 안내 표시 (가격은 그대로 노출) */
-if (ITEM === 'memoir' || ITEM === 'life') {
+if (ITEM === 'life') {
   document.getElementById('choice').classList.add('hidden');
   var _soon = document.getElementById('paySoon');
   if (_soon) _soon.classList.remove('hidden');
+}
+else if (ITEM === 'memoir') {
+  var _ag = document.getElementById('memoirAgree');
+  if (_ag) _ag.classList.remove('hidden');
+  var _ch = document.getElementById('choice');
+  if (_ch) _ch.classList.add('locked');
 }
 
 /* ===== 링크 (실제 URL은 다음 단계에서 연결) ===== */
@@ -516,7 +607,8 @@ function payWithToss(){
 })();
 
 /* ===== 결제 갈림길 토글 ===== */
-function choosePath(k){
+function goItem(k){ location.href = '/pay.html?item=' + encodeURIComponent(k); }
+  function choosePath(k){
   document.getElementById('choice').classList.add('hidden');
   document.getElementById('pathToss').classList.toggle('hidden', k !== 'toss');
   document.getElementById('pathAcct').classList.toggle('hidden', k !== 'acct');
@@ -973,6 +1065,9 @@ if (document.readyState === 'loading') {
 } else {
   lfPaintAll();
 }
+function onAgree(){ var ok=document.getElementById('agreeChk'); var ch=document.getElementById('choice'); if(ch) ch.classList.toggle('locked', !(ok && ok.checked)); }
+function lffShare(){var u='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',url:u}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(function(){alert('링크를 복사했어요');},function(){});}else{var t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');alert('링크를 복사했어요');}catch(e){}document.body.removeChild(t);}}
+(function(){var c=document.getElementById('caroMain'),d=document.getElementById('caroDots');if(!c||!d)return;var cards=[].slice.call(c.querySelectorAll('.pcard2')),n=cards.length;for(var i=0;i<n;i++){var e=document.createElement('span');if(i===0)e.className='on';d.appendChild(e);}function center(i){var card=cards[i];if(card)c.scrollTo({left:card.offsetLeft-(c.clientWidth-card.clientWidth)/2,behavior:'smooth'});}function near(){var best=0,bd=1e9,mid=c.scrollLeft+c.clientWidth/2;for(var i=0;i<n;i++){var cc=Math.abs(cards[i].offsetLeft+cards[i].clientWidth/2-mid);if(cc<bd){bd=cc;best=i;}}return best;}function dot(x){[].forEach.call(d.children,function(el,i){el.className=(i===x)?'on':'';});}c.addEventListener('scroll',function(){dot(near());});setTimeout(function(){center(0);},60);var timer=setInterval(function(){center((near()+1)%n);},5000);['touchstart','pointerdown'].forEach(function(ev){c.addEventListener(ev,function(){clearInterval(timer);},{passive:true});});})();
 </script>
 
 </body></html>
