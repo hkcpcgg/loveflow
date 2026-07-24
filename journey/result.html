@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-현재 버전 ▶ journey/result.html · v1-5 · 260724 — ★편지 단품 지도 잠금: lookupPassport 응답의 productType(주문대장 J열)에 MAP 이 없으면(LETTER=편지 단품 · MEMOIR=자서전) 여행지도 대신 「편지 보러 가기」로 안내. 손댄 곳 = loadResult() ok 분기 한 곳 + showLocked() 함수 하나. [무손] render·도장(N열)·재조회·JSONP·사운드·공유. [fail-open] J열 빈칸이면 지도 그대로(테스트 여권 보호). [짝꿍] issuePassport v5-4(letter→LETTER) · Code.gs v13-1(productType 실어보냄).
+현재 버전 ▶ journey/result.html · v1-6 · 260724 — ★카톡 인앱 저장 가드: 여행일지 저장(saveResult)이 카톡 인앱 브라우저면 인쇄 대신 「우측 위 ⋯ → 다른 브라우저로 열기」 안내로 유도(인쇄가 밖으로 튕겨 복귀 불가하던 것 차단). 상단 카톡 감지 배너(lfKakaoBar) + lfIsKakao/lfOpenExternal 헬퍼 추가. [무손] 지도 잠금(v1-5)·render·도장·재조회·JSONP·사운드.
+[v1-5 · 260724] ★편지 단품 지도 잠금: lookupPassport 응답의 productType(주문대장 J열)에 MAP 이 없으면(LETTER=편지 단품 · MEMOIR=자서전) 여행지도 대신 「편지 보러 가기」로 안내. 손댄 곳 = loadResult() ok 분기 한 곳 + showLocked() 함수 하나. [무손] render·도장(N열)·재조회·JSONP·사운드·공유. [fail-open] J열 빈칸이면 지도 그대로(테스트 여권 보호). [짝꿍] issuePassport v5-4(letter→LETTER) · Code.gs v13-1(productType 실어보냄).
 [v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 간판「가장 소중한 사람을 더 알아가는 시간, 사랑흐름」/ 철학「우리의 관계는 이미 시작되었습니다」/ 제품「서로의 언어를 읽어갑니다」. 손댄 곳 = 공유문·결과 공유카드 desc(576). 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·발급·디자인·색값.
      사랑흐름 · journey/result.html   v1-4 · 260716 · [작업 v1-4] ★몰입 구간(여행 결과 감상) — 발자취 티커 미탑재 확정. v1-3에서 넣었던 티커 전부 제거, 공유·방향버튼·결과 로직은 유지. 대표 확정: 결과 감상 화면에 광고(티커) 금지. · v1-3 · 260716 · [작업 v1-3] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v1-2 · 260713
      ───────────────────────────────────────────────────────────────────
@@ -233,6 +234,7 @@
 <script>try{ if(window.Kakao && !Kakao.isInitialized()){ Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); } }catch(e){}</script>
 </head>
 <body>
+<div id="lfKakaoBar" style="display:none;background:#FEE500;color:#3A2E00;padding:11px 14px;font-size:13px;line-height:1.55;text-align:center"><b>카카오톡 안에서는 저장·인쇄가 제한돼요.</b><br><span style="font-size:12.5px">우측 위 <b>⋯</b> 를 눌러 <b>다른 브라우저로 열기</b> 하시면 편하게 저장돼요.</span><button id="lfKkBtn" style="display:none;margin:8px auto 0;padding:8px 18px;border:none;border-radius:18px;background:#1E4A76;color:#fff;font-size:12.5px;font-weight:700;cursor:pointer">다른 브라우저로 열기</button></div>
 <div class="wrap" id="wrap">
   <svg class="petal-bg" viewBox="0 0 100 100"><path d="M50 12 C58 30 78 34 88 30 C74 42 74 62 82 74 C64 66 50 78 50 88 C50 78 36 66 18 74 C26 62 26 42 12 30 C22 34 42 30 50 12Z" fill="#F3B8CC"/></svg>
   <div class="top">
@@ -563,6 +565,7 @@ var LINK={home:'/',letter:''};
    버튼·도장 같은 조작거리는 인쇄에서 빠집니다(@media print). */
 function saveResult(){
   tone(196.00, 0.5, 0.08, 'triangle');
+  if (window.lfIsKakao && window.lfIsKakao()) { var _b=document.getElementById('lfKakaoBar'); if(_b){ _b.style.display='block'; try{_b.scrollIntoView({behavior:'smooth'});}catch(e){} } alert('카카오톡 안에서는 저장이 제한돼요.\n\n우측 위 ⋯ → 다른 브라우저로 열기 후 저장해 주세요.'); return; }
   var ok = confirm('이 여행일지를 저장할까요?\n\n인쇄 화면이 열립니다. 거기서 PDF로 저장하시면 됩니다.');
   if (!ok) { return; }
   window.print();
@@ -970,6 +973,17 @@ if (document.readyState === 'loading') {
 } else {
   lfPaintWay();
 }
+</script>
+<script>
+(function(){
+  var ua=navigator.userAgent||'';
+  window.lfIsKakao=function(){ return /KAKAOTALK/i.test(ua); };
+  window.lfOpenExternal=function(){ try{ location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(location.href); }catch(e){} };
+  if(window.lfIsKakao()){
+    var bar=document.getElementById('lfKakaoBar'); if(bar){ bar.style.display='block'; }
+    if(/android/i.test(ua)){ var btn=document.getElementById('lfKkBtn'); if(btn){ btn.style.display='inline-block'; btn.onclick=window.lfOpenExternal; } }
+  }
+})();
 </script>
 
 </body>
