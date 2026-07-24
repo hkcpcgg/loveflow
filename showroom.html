@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+현재 버전 ▶ showroom.html · v13-20 · 260724 — ★카톡 인앱 이탈 차단: 「자서전 펼쳐보기」가 sample.pdf 를 새 탭(target=_blank)으로 열어 카톡 인앱 브라우저에서 밖으로 튕겨 복귀 불가하던 것을, 이미 페이지에 base64로 있는 견본 이미지를 사이트 안 뷰어(openMzViewer 오버레이)로 크게 보여주게 교체. PDF·target=_blank 완전 제거 → 손님이 쇼룸을 안 떠남. [무손] mz carousel·본문·티커·GA4·GAS·잠금·색값·드로어.
 [v260720-1 · 260720] ★GA4(G-DWCSSE71NS) 설치 · 사건 1종(showroom_go, 메뉴·문에서 어디로 나가는지) · 본문·티커·잠금·색값 무손.
 [v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 간판「가장 소중한 사람을 더 알아가는 시간, 사랑흐름」/ 철학「우리의 관계는 이미 시작되었습니다」/ 제품「서로의 언어를 읽어갑니다」. 손댄 곳 = 공유문·메뉴라벨 2·기록 헤드(336)·상품 설명(490)·og 4줄 신설. 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·발급·디자인·색값.
      사랑흐름 · showroom.html   v13-19 · 260718 · [작업 v13-19] ★드로어에 「삐뚤빼뚤 마음 도화지」(/draw/) 한 줄 신설 — '마음 한마디' 바로 아래(무료 입구끼리 묶음). LF_LINK 에 draw 추가. 메뉴 11항목. [무손] 그 외 항목·본문·스크립트·색값 미변경.
@@ -492,7 +493,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="mz-dots" id="mzDots"></div>
 
 
-    <a href="/memoir/samples/sample.pdf" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:6px;margin-top:20px;padding:13px 24px;background:var(--navy);color:#fff;border-radius:22px;font-size:14px;font-weight:800;text-decoration:none">자서전 펼쳐보기 →</a>
+    <button type="button" onclick="openMzViewer()" style="display:inline-flex;align-items:center;gap:6px;margin-top:20px;padding:13px 24px;background:var(--navy);color:#fff;border:none;border-radius:22px;font-size:14px;font-weight:800;cursor:pointer">자서전 펼쳐보기 →</button>
 
     <div style="font-size:11.5px;color:var(--sub);margin-top:14px;line-height:1.7">지면마다 「견본 · SAMPLE」 표시가 있어요.<br>실제 책은 당신의 이야기로 채워집니다.</div>
   </div>
@@ -1013,5 +1014,27 @@ function mzSlide(d){if(mzBusy)return;mzBusy=true;mzIdx+=d;mzT(true);mzD();}
 function mzJump(i){mzDeck.classList.remove("anim");mzIdx=i;mzDeck.style.transform="translateX("+(-mzIdx*100)+"%)";mzDeck.offsetHeight;}
 function mzStart(){clearInterval(mzAuto);mzAuto=setInterval(function(){mzSlide(1);},4200);}
 (function(){var dz=document.getElementById("mzDots");if(dz&&mzDeck){for(var i=0;i<mzReal;i++){dz.appendChild(document.createElement("i"));}mzT(false);mzD();mzStart();mzDeck.addEventListener("transitionend",function(){mzBusy=false;if(mzIdx===0){mzJump(mzReal);}else if(mzIdx===mzReal+1){mzJump(1);}});mzDeck.addEventListener("pointerdown",function(){clearInterval(mzAuto);setTimeout(mzStart,6000);});}})();
+</script>
+<script>
+function openMzViewer(){
+  if(document.getElementById('mzViewer')) return;
+  var imgs=document.querySelectorAll('#mzDeck .mz-slide img, .mz-slide img');
+  var seen={}, inner='';
+  imgs.forEach(function(im){
+    var src=im.currentSrc||im.src;
+    if(src && !seen[src]){ seen[src]=1; inner+='<img src="'+src+'" alt="자서전 견본" style="width:100%;border-radius:8px;box-shadow:0 2px 16px rgba(0,0,0,.4)">'; }
+  });
+  if(!inner){ inner='<div style="color:#cdd3db;text-align:center;padding:40px 0">견본을 불러오는 중이에요. 잠시 뒤 다시 눌러 주세요.</div>'; }
+  var ov=document.createElement('div');
+  ov.id='mzViewer';
+  ov.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(20,26,36,.94);overflow-y:auto;-webkit-overflow-scrolling:touch;padding:54px 16px 40px';
+  ov.innerHTML='<button id="mzClose" aria-label="닫기" style="position:fixed;top:12px;right:14px;width:40px;height:40px;border:none;border-radius:50%;background:#fff;color:#1E4A76;font-size:22px;font-weight:800;cursor:pointer;z-index:2;line-height:1">&times;</button>'
+    +'<div style="max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px">'
+    +inner
+    +'<div style="text-align:center;color:#cdd3db;font-size:12.5px;padding:6px 0 24px;line-height:1.8">지면마다 &#12300;견본 &middot; SAMPLE&#12301; 표시가 있어요.<br>실제 책은 당신의 이야기로 채워집니다.</div></div>';
+  document.body.appendChild(ov);
+  document.getElementById('mzClose').onclick=function(){ ov.remove(); };
+  ov.addEventListener('click',function(e){ if(e.target===ov) ov.remove(); });
+}
 </script>
 </body></html>
