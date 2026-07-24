@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
+현재 버전 ▶ journey/result.html · v1-5 · 260724 — ★편지 단품 지도 잠금: lookupPassport 응답의 productType(주문대장 J열)에 MAP 이 없으면(LETTER=편지 단품 · MEMOIR=자서전) 여행지도 대신 「편지 보러 가기」로 안내. 손댄 곳 = loadResult() ok 분기 한 곳 + showLocked() 함수 하나. [무손] render·도장(N열)·재조회·JSONP·사운드·공유. [fail-open] J열 빈칸이면 지도 그대로(테스트 여권 보호). [짝꿍] issuePassport v5-4(letter→LETTER) · Code.gs v13-1(productType 실어보냄).
 [v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 간판「가장 소중한 사람을 더 알아가는 시간, 사랑흐름」/ 철학「우리의 관계는 이미 시작되었습니다」/ 제품「서로의 언어를 읽어갑니다」. 손댄 곳 = 공유문·결과 공유카드 desc(576). 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·발급·디자인·색값.
      사랑흐름 · journey/result.html   v1-4 · 260716 · [작업 v1-4] ★몰입 구간(여행 결과 감상) — 발자취 티커 미탑재 확정. v1-3에서 넣었던 티커 전부 제거, 공유·방향버튼·결과 로직은 유지. 대표 확정: 결과 감상 화면에 광고(티커) 금지. · v1-3 · 260716 · [작업 v1-3] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v1-2 · 260713
      ───────────────────────────────────────────────────────────────────
@@ -700,6 +701,8 @@ function loadResult(){
   window[cb] = function(res){
     try{ delete window[cb]; }catch(e){}
     if (res && res.status === 'ok') {
+      var pt = String(res.productType || '');   /* [v1-5] 상품구분(주문대장 J열) */
+      if (pt && pt.indexOf('MAP') < 0) { showLocked(pt); return; }   /* MAP 없음(편지 단품·자서전) = 지도 잠금 */
       render(toD(res));
       return;
     }
@@ -716,6 +719,27 @@ function loadResult(){
     showNotFound();
   };
   document.body.appendChild(s);
+}
+
+function showLocked(pt){
+  /* [v1-5] 편지 단품·자서전 등 J열에 MAP 없는 여권 — 여행지도 대신 알맞은 곳으로 안내. */
+  var pp = myPassport();
+  var isLetter = String(pt || '').indexOf('LETTER') > -1;
+  var navy = 'display:block;margin-top:18px;text-align:center;padding:15px;border-radius:24px;background:#1E4A76;color:#fff;font-weight:700;text-decoration:none';
+  var href, body, btn;
+  if (isLetter) {
+    href = '/l/' + (pp ? ('?id=' + encodeURIComponent(pp)) : '');
+    body = '이 여권은 <b>마음 여행편지</b>를 위한 여행이에요.<br>여행지도 결과물 대신, 마음을 담은 <b>편지</b>로 안내해 드릴게요.';
+    btn  = '<a href="' + href + '" style="' + navy + '">편지 보러 가기</a>';
+  } else {
+    body = '이 여권은 여행지도가 포함된 상품이 아니에요.<br>구입하신 여행으로 안내해 드릴게요.';
+    btn  = '<a href="/" style="' + navy + '">홈으로</a>';
+  }
+  var st = document.getElementById('stage');
+  if (!st) { return; }
+  st.innerHTML = '<div class="opening"><div class="pin">🌸</div><h1>진단, 잘 마치셨어요.</h1></div>'
+    + '<div style="margin:6px 20px 0;padding:20px;background:#FFFBF5;border:1px solid #EFE6D6;border-radius:16px;font-size:14.5px;line-height:1.9;color:#2A3542">'
+    + body + btn + '</div>';
 }
 
 function showNotFound(){
