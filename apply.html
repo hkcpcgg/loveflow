@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!--
 ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶  apply.html · v21 · 260724
+   현재 버전 ▶  apply.html · v22 · 260726
    [작업 v21] ★사전동의 접수 전달 — pay 가 URL 로 보낸 item·agree 를
               submitApply 가 게시판 GAS 로 함께 전송(계좌이체 사전동의 DB 기록).
               짝꿍 = 게시판 GAS v5-4 · pay v14-26.
@@ -477,6 +477,7 @@ function submitApply(){
     +'&phone4='+encodeURIComponent(phone4)
     +(itemQS?('&item='+encodeURIComponent(itemQS)):'')
     +(agreeQS?('&agree=1'):'')
+    +((typeof lfOrg==='function' && lfOrg())?('&org='+encodeURIComponent(lfOrg())):'')
     +'&callback='+cb;
   var s=document.createElement('script');
   s.src=url;
@@ -693,6 +694,36 @@ function lfGo(k){
   }
   location.href = u;
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   [260726] 안내자 꼬리표 — 전 화면 공용
+   ───────────────────────────────────────────────────────────────────
+   주소 끝에 ?lf=ORG-007 이 붙어 들어오면 그 번호를 주워 보관합니다.
+   여권번호를 나르는 lfPassport 와 똑같은 방식입니다.
+
+   ★기간 판정은 넣지 않았습니다.
+     실적 귀속 규칙(며칠까지 인정할지·중복이면 누구 몫인지)이
+     아직 이사회 미결입니다. 주운 시각만 함께 남겨 두었으니,
+     규칙이 서면 판정 한 줄만 얹으면 됩니다.
+   ═══════════════════════════════════════════════════════════════════ */
+function lfOrg(){
+  var v = '';
+  try{
+    var m = location.search.match(/[?&]lf=(ORG-[A-Za-z0-9]+)/i);
+    if (m) {
+      v = m[1].toUpperCase();
+      try{ localStorage.setItem('lf_org', v + '|' + (new Date()).getTime()); }catch(e){}
+    }
+  }catch(e){}
+  if (!v) {
+    try{
+      var raw = localStorage.getItem('lf_org') || '';
+      if (raw) { v = raw.split('|')[0] || ''; }
+    }catch(e){}
+  }
+  return v.trim().toUpperCase();
+}
+try{ lfOrg(); }catch(e){}
 </script>
 <script>
 /* ═══════════════════════════════════════════════════════════════════
