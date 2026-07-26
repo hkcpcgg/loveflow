@@ -1,4 +1,4 @@
-<!-- ★ partner-apply.html | v5 | 2026-07-26 | 하단 고정 띠(홈·여행의 기록·공유) 추가 · 연락처 앞자리 선택 · 이메일 도메인 선택 · 직업/닿은 곳 드롭다운+직접입력 · 활동 방식(대면/온라인) 추가 · [v3] 선택지 문구에서 부정 표현 제거(직접 기재) · [v4] 버튼 줄을 푸터 위로(고정 해제) · 공유는 홈 표준 lffShare + 홈 표준 .lff-sb 버튼 그대로 · [v5] 딥네이비 하단 띠 삭제→카카오 버튼 아래 카드 안으로 · 「어떻게 해보고 싶으십니까」 항목 삭제 · 제출 버튼 아래 설명 삭제 · 상단바/드로어/푸터 = proposal.html v14 표준 -->
+<!-- ★ partner-apply.html | v7 | 2026-07-26 | 하단 고정 띠(홈·여행의 기록·공유) 추가 · 연락처 앞자리 선택 · 이메일 도메인 선택 · 직업/닿은 곳 드롭다운+직접입력 · 활동 방식(대면/온라인) 추가 · [v3] 선택지 문구에서 부정 표현 제거(직접 기재) · [v4] 버튼 줄을 푸터 위로(고정 해제) · 공유는 홈 표준 lffShare + 홈 표준 .lff-sb 버튼 그대로 · [v5] 딥네이비 하단 띠 삭제→카카오 버튼 아래 카드 안으로 · 「어떻게 해보고 싶으십니까」 항목 삭제 · 제출 버튼 아래 설명 삭제 · [v6] PARTNER_GAS = 게시판 GAS 주소 채움 · [v7] 대표 지시 문구 정리(제목 한 줄 · 성명 · 관심 분야 · 관심 업종 · 문의사항 · 안내문 전부 삭제) · 상단바/드로어/푸터 = proposal.html v14 표준 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -243,9 +243,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 <div class="pfwrap">
 
   <div class="pfhead">
-    <div class="k">LOVEFLOW PARTNER</div>
-    <h1>사랑흐름 파트너<br>상담을 신청합니다</h1>
-    <p>이미 기관을 알고 계신 분, 사람을 연결하는 일을 해오신 분,<br>제2의 일을 찾고 계신 분, 지역에서 신뢰를 쌓아오신 분.<br>어느 쪽이든 좋습니다. 먼저 이야기부터 나눕니다.</p>
+    <h1>사랑흐름 파트너 상담 신청</h1>
   </div>
 
   <form class="pfcard" id="pfForm" onsubmit="return false;">
@@ -253,13 +251,12 @@ footer .cr{color:#C8D6E5;margin-top:8px}
     <div class="pferr" id="pfErr"></div>
 
     <div class="pfrow">
-      <label class="pflab" for="pfName">성함<span class="req">필수</span></label>
+      <label class="pflab" for="pfName">성명<span class="req">필수</span></label>
       <input class="pfin" type="text" id="pfName" maxlength="20" placeholder="홍길동" autocomplete="name">
     </div>
 
     <div class="pfrow">
       <label class="pflab" for="pfTel2">연락처<span class="req">필수</span></label>
-      <p class="pfhint">이 번호로 연락드립니다.</p>
       <div class="pfsplit">
         <select class="pfsel" id="pfTel1">
           <option value="010">010</option>
@@ -293,7 +290,6 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 
     <div class="pfrow">
       <label class="pflab" for="pfMailId">이메일</label>
-      <p class="pfhint">자료 세트를 메일로 받으시려면 적어 주십시오.</p>
       <div class="pfsplit pfmail">
         <input class="pfin" type="text" id="pfMailId" maxlength="40" placeholder="아이디" autocomplete="username">
         <span class="pfat">@</span>
@@ -338,10 +334,10 @@ footer .cr{color:#C8D6E5;margin-top:8px}
     </div>
 
     <div class="pfrow">
-      <label class="pflab" for="pfJob">하고 계신 일 · 해오신 일<span class="req">필수</span></label>
+      <label class="pflab" for="pfJob">관심 분야<span class="req">필수</span></label>
       <select class="pfsel" id="pfJob" onchange="pfEtc('pfJobEtc', this.value==='__etc')">
         <option value="">선택해 주십시오</option>
-        <optgroup label="이미 기관을 알고 계신 분">
+        <optgroup label="기관 출입">
           <option value="복지관 · 문화센터 출강 강사">복지관 · 문화센터 출강 강사</option>
           <option value="평생교육 강사">평생교육 강사</option>
           <option value="사회복지사">사회복지사</option>
@@ -349,21 +345,21 @@ footer .cr{color:#C8D6E5;margin-top:8px}
           <option value="평생교육사">평생교육사</option>
           <option value="요양 · 재가복지 종사자">요양 · 재가복지 종사자</option>
           </optgroup>
-          <optgroup label="사람을 연결하는 일을 해오신 분">
+          <optgroup label="영업 · 연결">
           <option value="상조 · 보험 설계사">상조 · 보험 설계사</option>
           <option value="장례지도사">장례지도사</option>
           <option value="행사 · 문화기획 대행">행사 · 문화기획 대행</option>
           <option value="인쇄 · 광고 대행">인쇄 · 광고 대행</option>
           <option value="기업교육 · HR 컨설턴트">기업교육 · HR 컨설턴트</option>
           </optgroup>
-          <optgroup label="제2의 일을 찾고 계신 분">
+          <optgroup label="퇴직 · 경력">
           <option value="공직 퇴직">공직 퇴직</option>
           <option value="조합 퇴직">조합 퇴직</option>
           <option value="복지관 퇴직">복지관 퇴직</option>
           <option value="교직 퇴직">교직 퇴직</option>
           <option value="경력을 가진 주부">경력을 가진 주부</option>
           </optgroup>
-          <optgroup label="지역에서 신뢰를 쌓아오신 분">
+          <optgroup label="지역 활동">
           <option value="협회 · 단체 임원">협회 · 단체 임원</option>
           <option value="주민자치 · 이장 · 부녀회">주민자치 · 이장 · 부녀회</option>
           <option value="종교 · 동문 · 문화 모임">종교 · 동문 · 문화 모임</option>
@@ -376,12 +372,11 @@ footer .cr{color:#C8D6E5;margin-top:8px}
           </optgroup>
         <option value="__etc">직접 기재</option>
       </select>
-      <input class="pfin pfetc" id="pfJobEtc" type="text" maxlength="60" placeholder="하고 계신 일">
+      <input class="pfin pfetc" id="pfJobEtc" type="text" maxlength="60" placeholder="직접 기재">
     </div>
 
     <div class="pfrow">
-      <label class="pflab" for="pfReach">지금 닿아 있는 곳</label>
-      <p class="pfhint">이미 드나드시거나 아는 분이 계신 곳이 있으면 골라 주십시오.</p>
+      <label class="pflab" for="pfReach">관심 업종</label>
       <select class="pfsel" id="pfReach" onchange="pfEtc('pfReachEtc', this.value==='__etc')">
         <option value="">선택해 주십시오</option>
         <option value="복지관 · 노인복지관">복지관 · 노인복지관</option>
@@ -394,28 +389,27 @@ footer .cr{color:#C8D6E5;margin-top:8px}
           <option value="이제 열어보려 합니다">이제 열어보려 합니다</option>
         <option value="__etc">직접 기재</option>
       </select>
-      <input class="pfin pfetc" id="pfReachEtc" type="text" maxlength="60" placeholder="닿아 계신 곳">
+      <input class="pfin pfetc" id="pfReachEtc" type="text" maxlength="60" placeholder="직접 기재">
     </div>
 
     <div class="pfrow">
-      <label class="pflab" for="pfMemo">하고 싶은 말씀</label>
-      <textarea class="pfta" id="pfMemo" maxlength="500" placeholder="어떤 자리를 가지고 계신지, 무엇이 궁금하신지 편하게 적어 주십시오."></textarea>
+      <label class="pflab" for="pfMemo">문의사항</label>
+      <textarea class="pfta" id="pfMemo" maxlength="500"></textarea>
     </div>
 
     <div class="pfagree">
       <h4>개인정보 수집 · 이용 안내</h4>
       <ul>
-        <li>수집 항목 — 성함 · 연락처 · 이메일 · 활동 지역 · 하시는 일 · 남기신 말씀</li>
-        <li>이용 목적 — 파트너 상담 연락과 자료 전달</li>
-        <li>보유 기간 — 상담이 끝난 뒤 6개월. 파트너로 함께하시게 되면 계약 기간 동안</li>
-        <li>연락드릴 수 있도록 동의를 받고 있습니다</li>
+        <li>수집 항목 — 성명 · 연락처 · 이메일 · 활동 지역 · 관심 분야 · 관심 업종 · 문의사항</li>
+        <li>이용 목적 — 상담 연락과 자료 전달</li>
+        <li>보유 기간 — 상담 뒤 6개월. 함께하시게 되면 계약 기간 동안</li>
       </ul>
       <label class="pfck"><input type="checkbox" id="pfAgree" onchange="pfGate()"> 위 내용에 동의합니다</label>
     </div>
 
     <button class="pfsub" id="pfSub" type="button" onclick="pfSend()" disabled>상담 신청하기</button>
 
-    <a class="pfkakao" href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡으로 먼저 물어보기</a>
+    <a class="pfkakao" href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 문의</a>
 
     <div class="pfgo">
       <a href="/">홈</a>
@@ -430,7 +424,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
     <h2>신청이 접수되었습니다</h2>
     <p>남겨 주신 연락처로 연락드리겠습니다.</p>
     <div class="code" id="pfCode">PT-000000</div>
-    <p>이 번호를 적어 두십시오.<br>카카오톡 채널로 문의하실 때 쓰십니다.</p>
+    <p>카카오톡 문의 시 이 번호를 알려 주십시오.</p>
     <a class="pfback" href="/">&lsaquo; 홈으로</a>
   </div>
 
@@ -449,8 +443,8 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 
 <script>
 /* ── 파트너 신청 v2 ── */
-/* ★ 접수용 GAS 배포 URL을 아래 한 줄에 넣어 주십시오. 비어 있으면 접수번호만 보여 주고 기록은 남지 않습니다. */
-var PARTNER_GAS = "";
+/* 접수 = 게시판 GAS(apply.html 라이브에서 실측한 주소). partnerApply 분기가 배포되어야 시트에 쌓입니다. */
+var PARTNER_GAS = "https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec";
 
 function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
 function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
@@ -487,10 +481,10 @@ function pfSend(){
   var reach=pfVal("pfReach","pfReachEtc");
   var memo=document.getElementById("pfMemo").value.trim();
 
-  if(!name){ pfShowErr("성함을 적어 주십시오."); return; }
+  if(!name){ pfShowErr("성명을 적어 주십시오."); return; }
   if(document.getElementById("pfTel2").value.replace(/[^0-9]/g,"").length < 7){ pfShowErr("연락처를 다시 확인해 주십시오."); return; }
   if(!area){ pfShowErr("활동 지역을 골라 주십시오."); return; }
-  if(!job){ pfShowErr("하고 계신 일을 골라 주십시오. 직접 기재하셔도 됩니다."); return; }
+  if(!job){ pfShowErr("관심 분야를 골라 주십시오."); return; }
 
   var btn=document.getElementById("pfSub");
   btn.disabled=true; btn.textContent="보내는 중입니다";
