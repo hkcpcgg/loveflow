@@ -1,4 +1,4 @@
-<!-- ★ partner-apply.html | v7 | 2026-07-26 | 하단 고정 띠(홈·여행의 기록·공유) 추가 · 연락처 앞자리 선택 · 이메일 도메인 선택 · 직업/닿은 곳 드롭다운+직접입력 · 활동 방식(대면/온라인) 추가 · [v3] 선택지 문구에서 부정 표현 제거(직접 기재) · [v4] 버튼 줄을 푸터 위로(고정 해제) · 공유는 홈 표준 lffShare + 홈 표준 .lff-sb 버튼 그대로 · [v5] 딥네이비 하단 띠 삭제→카카오 버튼 아래 카드 안으로 · 「어떻게 해보고 싶으십니까」 항목 삭제 · 제출 버튼 아래 설명 삭제 · [v6] PARTNER_GAS = 게시판 GAS 주소 채움 · [v7] 대표 지시 문구 정리(제목 한 줄 · 성명 · 관심 분야 · 관심 업종 · 문의사항 · 안내문 전부 삭제) · 상단바/드로어/푸터 = proposal.html v14 표준 -->
+<!-- ★ partner-apply.html | v8 | 2026-07-26 | ★「함께하시는 방식」 칸 추가(찾아가는 방식 / 온라인으로 잇는 방식 / 둘 다) · 온라인 고르면 채널 주소 칸이 열림 · 방식·채널을 문의사항 앞머리에 붙여 전송(게시판 GAS 무수정) · way·ch 필드도 함께 전송(시트 칸 생기면 바로 들어감) · [v7] 하단 고정 띠(홈·여행의 기록·공유) 추가 · 연락처 앞자리 선택 · 이메일 도메인 선택 · 직업/닿은 곳 드롭다운+직접입력 · 활동 방식(대면/온라인) 추가 · [v3] 선택지 문구에서 부정 표현 제거(직접 기재) · [v4] 버튼 줄을 푸터 위로(고정 해제) · 공유는 홈 표준 lffShare + 홈 표준 .lff-sb 버튼 그대로 · [v5] 딥네이비 하단 띠 삭제→카카오 버튼 아래 카드 안으로 · 「어떻게 해보고 싶으십니까」 항목 삭제 · 제출 버튼 아래 설명 삭제 · [v6] PARTNER_GAS = 게시판 GAS 주소 채움 · [v7] 대표 지시 문구 정리(제목 한 줄 · 성명 · 관심 분야 · 관심 업종 · 문의사항 · 안내문 전부 삭제) · 상단바/드로어/푸터 = proposal.html v14 표준 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -309,6 +309,18 @@ footer .cr{color:#C8D6E5;margin-top:8px}
     </div>
 
     <div class="pfrow">
+      <label class="pflab" for="pfWay">함께하시는 방식<span class="req">필수</span></label>
+      <select class="pfsel" id="pfWay">
+        <option value="">선택해 주십시오</option>
+        <option value="기관을 찾아가는 방식">기관을 찾아가는 방식</option>
+        <option value="온라인 채널로 잇는 방식">온라인 채널로 잇는 방식</option>
+        <option value="두 가지 모두">두 가지 모두</option>
+      </select>
+      <input class="pfin" id="pfCh" type="text" maxlength="80" style="display:none;margin-top:8px"
+             placeholder="채널 주소 (예: youtube.com/@이름)">
+    </div>
+
+    <div class="pfrow">
       <label class="pflab" for="pfArea">활동 지역<span class="req">필수</span></label>
       <select class="pfsel" id="pfArea">
         <option value="">선택해 주십시오</option>
@@ -480,16 +492,26 @@ function pfSend(){
   var job =pfVal("pfJob","pfJobEtc");
   var reach=pfVal("pfReach","pfReachEtc");
   var memo=document.getElementById("pfMemo").value.trim();
+  var way =document.getElementById("pfWay").value;
+  var chan=document.getElementById("pfCh").value.trim();
 
   if(!name){ pfShowErr("성명을 적어 주십시오."); return; }
   if(document.getElementById("pfTel2").value.replace(/[^0-9]/g,"").length < 7){ pfShowErr("연락처를 다시 확인해 주십시오."); return; }
+  if(!way){ pfShowErr("함께하시는 방식을 골라 주십시오."); return; }
   if(!area){ pfShowErr("활동 지역을 골라 주십시오."); return; }
   if(!job){ pfShowErr("관심 분야를 골라 주십시오."); return; }
 
   var btn=document.getElementById("pfSub");
   btn.disabled=true; btn.textContent="보내는 중입니다";
 
-  var data={ action:"partnerApply", name:name, tel:tel, mail:mail, area:area, job:job, reach:reach, memo:memo };
+  /* 방식·채널은 따로도 보내고(다음 단계에서 시트 칸이 생기면 그대로 들어갑니다),
+     지금은 문의사항 앞머리에도 붙여 둡니다. 게시판 GAS를 안 고치고도 남습니다. */
+  var memoAll = "[방식] " + (way || "-")
+              + (chan ? (" · [채널] " + chan) : "")
+              + (memo ? ("\n" + memo) : "");
+
+  var data={ action:"partnerApply", name:name, tel:tel, mail:mail, area:area,
+             job:job, reach:reach, memo:memoAll, way:way, ch:chan };
 
   if(!PARTNER_GAS){ pfDone("PT-" + pfStamp()); return; }
 
@@ -503,6 +525,13 @@ function pfSend(){
       pfShowErr("카카오톡 채널로 남겨 주시면 바로 확인하겠습니다.");
     });
 }
+document.getElementById("pfWay").addEventListener("change", function(){
+  var v = this.value;
+  var e = document.getElementById("pfCh");
+  e.style.display = (v.indexOf("온라인") > -1 || v.indexOf("모두") > -1) ? "block" : "none";
+  if (e.style.display === "none") { e.value = ""; }
+});
+
 function pfStamp(){
   var d=new Date(), p=function(n){return (n<10?"0":"")+n;};
   return String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+p(d.getHours())+p(d.getMinutes());
