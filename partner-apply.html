@@ -1,0 +1,526 @@
+<!-- ★ partner-apply.html | v5 | 2026-07-26 | 하단 고정 띠(홈·여행의 기록·공유) 추가 · 연락처 앞자리 선택 · 이메일 도메인 선택 · 직업/닿은 곳 드롭다운+직접입력 · 활동 방식(대면/온라인) 추가 · [v3] 선택지 문구에서 부정 표현 제거(직접 기재) · [v4] 버튼 줄을 푸터 위로(고정 해제) · 공유는 홈 표준 lffShare + 홈 표준 .lff-sb 버튼 그대로 · [v5] 딥네이비 하단 띠 삭제→카카오 버튼 아래 카드 안으로 · 「어떻게 해보고 싶으십니까」 항목 삭제 · 제출 버튼 아래 설명 삭제 · 상단바/드로어/푸터 = proposal.html v14 표준 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>사랑흐름 파트너 상담 신청 | 사랑흐름</title>
+<meta name="description" content="기관에 마음을 전하는 길을 여는 일. 사랑흐름 파트너 상담을 신청하십시오.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--deep:#12335B;--gold:#D4AF37;--gold-d:#B08D2E;
+      --light:#EEF3F8;--cream:#FDF6E8;--ink:#2C2C2A;--gray:#5F5E5A;--line:#DCE6F0}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;color:var(--ink);background:#fff;line-height:1.7;padding-bottom:74px;-webkit-text-size-adjust:100%}
+img{max-width:100%}
+.wrap{max-width:1080px;margin:0 auto;padding:0 22px}
+
+/* 통일 길잡이 */
+.lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;background:#1E4A76;border-bottom:1px solid #163A5C;padding:10px 14px}
+.lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:15px;text-decoration:none}
+.lf-nav-logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block;flex-shrink:0}
+.lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px;font-family:inherit}
+.lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.lf-nav-burger{background:none;border:none;cursor:pointer;color:#fff;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px;margin-left:auto;font-family:inherit}
+.lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
+.lf-menu.open{transform:translateX(0)}
+.lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#163A5C;margin-bottom:6px}
+.lf-menu-head .t{color:#fff;font-weight:800;font-size:15px}
+.lf-menu-close{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1;font-family:inherit}
+.lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
+.lf-menu a:hover{background:#FAF7EE}
+.lf-menu a.lf-buy{color:#B8923E}
+.lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+.lf-backdrop.open{opacity:1;visibility:visible}
+
+/* 표지 */
+.hero{background:var(--deep);color:#fff;padding:58px 0 62px;text-align:center}
+.hero .brand{color:var(--gold);font-size:13px;font-weight:700;letter-spacing:.2em;margin-bottom:20px}
+.hero h1{font-size:38px;line-height:1.3;font-weight:700;letter-spacing:-.02em;margin-bottom:14px}
+.hero .sub{font-size:17px;color:#C8D6E5}
+.hero .lines{font-size:20px;line-height:2;margin:32px 0}
+.hero .lines b{color:var(--gold)}
+.pass{background:var(--navy);border-radius:16px;padding:26px;max-width:360px;margin:0 auto;text-align:left;box-shadow:0 14px 38px rgba(0,0,0,.34);position:relative;overflow:hidden}
+.pass::after{content:"";position:absolute;right:-38px;bottom:-38px;width:130px;height:130px;border-radius:50%;background:rgba(212,175,55,.14)}
+.pass .k{color:var(--gold);font-size:11.5px;letter-spacing:.2em;font-weight:700}
+.pass .n{font-size:23px;font-weight:700;margin:8px 0 12px}
+.pass .no{font-size:25px;font-weight:700;color:var(--gold);letter-spacing:.15em}
+.pass .cap{font-size:12.5px;color:#C8D6E5;margin-top:14px;position:relative;z-index:1}
+.origin{margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.18)}
+.origin .kind{color:var(--gold);font-size:14px;font-weight:700;margin-bottom:5px}
+.origin .who{color:#8FA6BC;font-size:12.5px}
+
+/* 섹션 */
+section{padding:56px 0}
+section.alt{background:var(--light)}
+section.dark{background:var(--deep);color:#fff;text-align:center}
+.tag{font-size:12.5px;font-weight:700;color:var(--gold-d);letter-spacing:.08em;margin-bottom:6px;text-align:center}
+h2{font-size:28px;font-weight:700;color:var(--navy);letter-spacing:-.02em;margin-bottom:8px;text-align:center}
+section.dark h2{color:#fff}
+.lead{font-size:15px;color:var(--gray);margin-bottom:30px;text-align:center}
+section.dark .lead{color:#C8D6E5}
+h3{font-size:17px;font-weight:700;color:var(--navy);margin-bottom:5px}
+
+/* 카드 그리드 — 가로로 채운다 */
+.g{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g5{grid-template-columns:repeat(5,1fr)}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.c{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px}
+.c.free{background:var(--cream);border-color:#EBDCB8}
+.c.dark{background:var(--navy);border-color:var(--navy);color:#fff}
+.c.dark h3{color:#fff}
+.c.dark p,.c.dark li{color:#C8D6E5}
+.c.mark{border:2px solid var(--gold);background:var(--cream)}
+.c p{font-size:13px;color:var(--gray);line-height:1.6}
+.c .t{font-size:11.5px;font-weight:700;color:var(--gold-d);letter-spacing:.06em;margin-bottom:6px}
+.c.dark .t{color:var(--gold)}
+.c ul{list-style:none;margin-top:4px}
+.c li{font-size:12.5px;color:var(--ink);padding:3px 0 3px 12px;position:relative}
+.c li::before{content:"";position:absolute;left:0;top:12px;width:4px;height:4px;border-radius:50%;background:var(--gold)}
+.num{width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center;margin-bottom:9px}
+.c.mark .num{background:var(--gold)}
+
+/* 다섯 축 */
+.axis{display:grid;gap:9px;margin-bottom:14px}
+.axis .r{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:11px 16px}
+.axis .n{flex:0 0 24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:700;display:grid;place-items:center}
+.axis .nm{flex:0 0 52px;font-weight:700;color:var(--navy);font-size:15px}
+.axis .ds{font-size:13.5px;color:var(--gray)}
+
+.quote{background:var(--cream);border-radius:12px;padding:26px;text-align:center}
+.quote p{font-family:'Nanum Pen Script',cursive;font-size:26px;line-height:1.55;color:var(--ink)}
+.quote .fine{font-size:13px;color:var(--gray);margin-top:12px}
+
+/* 표 */
+.tbl{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border-radius:12px;overflow:hidden}
+.tbl th{background:var(--navy);color:#fff;text-align:left;padding:12px 15px;font-size:13px;font-weight:700}
+.tbl td{padding:13px 15px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border-bottom:0}
+.tbl tr.hi td{background:var(--cream)}
+.tbl td.nm{font-weight:700;color:var(--navy);white-space:nowrap}
+.tbl td.rt{color:var(--gray);font-size:12.5px;white-space:nowrap}
+.tbl tr.hi td.rt{color:var(--navy);font-weight:700}
+
+/* 절차 */
+.steps{list-style:none}
+.steps li{display:flex;gap:14px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:10px;padding:13px 18px;margin-bottom:9px}
+.steps li.mark{background:var(--cream);border-color:var(--gold)}
+.steps .n{flex:0 0 26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:grid;place-items:center}
+.steps li.mark .n{background:var(--gold)}
+.steps .t{font-weight:700;color:var(--navy);font-size:15px;flex:0 0 200px}
+.steps .d{font-size:13px;color:var(--gray)}
+
+.note{background:var(--navy);color:#fff;border-radius:12px;padding:22px 24px;margin-top:22px;text-align:center}
+.note strong{display:block;font-size:18px;margin-bottom:7px}
+.note span{font-size:14px;color:#C8D6E5}
+.fin{font-size:13.5px;color:var(--gray);margin-top:14px;text-align:center}
+.big{font-size:17px;font-weight:700;color:var(--navy);margin-top:18px;text-align:center}
+
+/* 마지막 */
+.fin2{display:flex;align-items:center;gap:22px;justify-content:center;flex-wrap:wrap;background:rgba(255,255,255,.07);border-radius:12px;padding:20px 24px;margin-top:22px}
+.fin2 img{background:#fff;border-radius:8px;padding:5px;flex-shrink:0}
+.fin2t{text-align:left}
+.fin2t b{display:block;color:var(--gold);font-size:17px;margin-bottom:4px}
+.fin2t>span{display:block;color:#C8D6E5;font-size:13px}
+.fin2b{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fin2b a{display:inline-flex;align-items:center;padding:8px 15px;border-radius:999px;border:1.5px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;font-size:13px;font-weight:700}
+.fin2b a:hover{background:#fff;color:var(--navy);border-color:#fff}
+
+/* 하단 고정 띠 */
+.dock{position:fixed;left:0;right:0;bottom:0;z-index:900;background:rgba(18,51,91,.97);padding:11px 0;box-shadow:0 -2px 14px rgba(0,0,0,.18)}
+.dock .wrap{display:flex;gap:10px;justify-content:center}
+.dock a,.dock button{flex:1 1 0;max-width:280px;display:inline-flex;align-items:center;justify-content:center;height:46px;border-radius:10px;text-decoration:none;font-size:15px;font-weight:700;border:0;cursor:pointer;font-family:inherit}
+.dock .d1{background:#fff;color:var(--navy)}
+.dock .d2{background:var(--gold);color:var(--deep)}
+.dock .d3{flex:0 0 48px;max-width:48px;background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff;font-size:13px}
+.toast{position:fixed;left:50%;bottom:86px;transform:translateX(-50%) translateY(8px);background:var(--navy);color:#fff;padding:11px 20px;border-radius:999px;font-size:14px;font-weight:700;opacity:0;pointer-events:none;transition:.25s;z-index:950}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer{background:#0E2A4A;color:#8FA6BC;padding:28px 0;font-size:12.5px;text-align:center;line-height:1.9}
+footer a{color:#B9C9D8;text-decoration:none;margin:0 6px}
+footer .cr{color:#C8D6E5;margin-top:8px}
+
+@media (max-width:960px){
+  .g4,.g5{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(2,1fr)}
+  .fin2{flex-direction:column;text-align:center}
+  .fin2t{text-align:center}
+  .fin2b{justify-content:center}
+  .hero h1{font-size:29px}
+  h2{font-size:23px}
+  section{padding:42px 0}
+  .steps li{flex-wrap:wrap}
+  .steps .t{flex:1 1 100%}
+  .tbl td.rt{white-space:normal}
+  .dock a,.dock button{font-size:13.5px;height:44px}
+}
+@media (max-width:560px){
+  .g4,.g5,.g3,.g2{grid-template-columns:1fr}
+  .hero h1{font-size:26px}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+</style>
+
+<style>
+/* ── 파트너 신청 폼 v2 ── */
+.pfgo{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:16px;padding-top:15px;border-top:1px solid #EDF1F5}
+.pfgo a{color:#1E4A76;font-size:14.5px;font-weight:600;text-decoration:none}
+.pfgo .bar{width:1px;height:12px;background:#D8E0E9}
+.lff-sb{width:32px;height:32px;padding:0;background:#fff;border:1px solid #E4E0D6;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s;margin-left:4px}
+.lff-sb:active{transform:scale(.92)}
+.lff-sb svg{display:block}
+.lff-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(12px);background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:10000}
+.lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
+.pfwrap{max-width:680px;margin:0 auto;padding:24px 18px 30px}
+.pfhead{text-align:center;padding:32px 0 6px}
+.pfhead .k{font-size:13px;letter-spacing:.14em;color:#9aa5b1}
+.pfhead h1{font-size:26px;line-height:1.45;color:#1E4A76;margin:12px 0 10px;font-weight:800}
+.pfhead p{font-size:15px;color:#5b6b7c;line-height:1.8;margin:0}
+.pfcard{background:#fff;border:1px solid #E2E8F0;border-radius:16px;padding:22px 18px;margin:18px 0;box-shadow:0 2px 10px rgba(30,74,118,.05)}
+.pfrow{margin-bottom:20px}
+.pflab{display:block;font-size:15px;font-weight:700;color:#1E4A76;margin-bottom:9px}
+.pflab .req{color:#FF7A59;font-size:13px;margin-left:4px}
+.pfhint{font-size:13px;color:#8a97a5;margin:-4px 0 9px;line-height:1.6}
+.pfin,.pfsel,.pfta{width:100%;box-sizing:border-box;border:1px solid #D8E0E9;border-radius:11px;padding:13px 14px;font-size:16px;font-family:inherit;color:#22303d;background:#fff}
+.pfsel{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%231E4A76' stroke-width='2' fill='none' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
+.pfin:focus,.pfsel:focus,.pfta:focus{outline:none;border-color:#1E4A76;box-shadow:0 0 0 3px rgba(30,74,118,.10)}
+.pfta{min-height:104px;resize:vertical;line-height:1.7}
+.pfsplit{display:flex;gap:8px;align-items:center}
+.pfsplit .pfsel{flex:0 0 104px}
+.pfsplit .pfin{flex:1 1 auto}
+.pfat{flex:0 0 auto;color:#8a97a5;font-size:16px}
+.pfmail .pfin{flex:1 1 40%}
+.pfmail .pfsel{flex:1 1 46%;min-width:0}
+.pfetc{margin-top:9px;display:none}
+.pfetc.on{display:block}
+.pfagree{background:#FFFBF5;border:1px solid #EADFC9;border-radius:13px;padding:16px 16px 14px;margin:6px 0 18px}
+.pfagree h4{margin:0 0 8px;font-size:14px;color:#1E4A76;font-weight:800}
+.pfagree ul{margin:0 0 12px;padding-left:17px;color:#6b7887;font-size:13px;line-height:1.85}
+.pfck{display:flex;align-items:center;gap:9px;font-size:15px;color:#22303d;font-weight:600;cursor:pointer}
+.pfck input{width:19px;height:19px;accent-color:#1E4A76}
+.pfsub{width:100%;border:0;border-radius:13px;padding:17px;font-size:17px;font-weight:800;font-family:inherit;color:#fff;background:#1E4A76;cursor:pointer}
+.pfsub:disabled{background:#C6CFD8;cursor:not-allowed}
+.pfnote{text-align:center;font-size:13px;color:#8a97a5;margin-top:12px;line-height:1.7}
+.pfkakao{display:block;text-align:center;background:#FEE500;color:#3b1e1e;border-radius:13px;padding:15px;font-weight:800;font-size:16px;text-decoration:none;margin-top:10px}
+.pfdone{display:none;text-align:center;padding:38px 14px}
+.pfdone .ic{font-size:42px;margin-bottom:12px}
+.pfdone h2{font-size:23px;color:#1E4A76;margin:0 0 12px;font-weight:800}
+.pfdone p{font-size:15px;color:#5b6b7c;line-height:1.85;margin:0 0 8px}
+.pfdone .code{display:inline-block;background:#FFFBF5;border:1px solid #EADFC9;border-radius:11px;padding:11px 18px;font-size:17px;font-weight:800;color:#1E4A76;margin:12px 0}
+.pfback{display:inline-block;margin-top:18px;color:#1E4A76;font-size:15px;text-decoration:none;border-bottom:1px solid #C6CFD8;padding-bottom:2px}
+.pferr{display:none;background:#FFF3F0;border:1px solid #FFD3C7;color:#C4472A;border-radius:11px;padding:13px 14px;font-size:14px;line-height:1.7;margin-bottom:14px}
+@media(max-width:480px){.pfhead h1{font-size:23px}.pfwrap{padding:20px 14px 24px}.pfsplit .pfsel{flex:0 0 92px}}
+</style>
+</head>
+<body>
+<div class="lf-nav">
+  <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
+  <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
+  <span class="lf-nav-loc">파트너 신청</span>
+  <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+</div>
+<div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+<nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+  <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+  <a href="/">홈</a>
+  <a href="/">마음 한마디</a>
+  <a href="/draw/">삐뚤빼뚤 마음 도화지</a>
+  <a href="/journey/">여행지도 보기</a>
+  <a href="/l/">편지</a>
+  <a href="/memoir/">자서전</a>
+  <a href="/reenter.html">여권으로 입장</a>
+  <a href="/find/">사랑흐름 여권 찾기</a>
+  <a href="/showroom.html">여행의 기록</a>
+  <a href="/showcase.html" class="lf-buy">마음 여행 예매하기</a>
+  <a href="javascript:void(0)" onclick="location.reload()">다시 시작</a>
+</nav>
+
+<div class="pfwrap">
+
+  <div class="pfhead">
+    <div class="k">LOVEFLOW PARTNER</div>
+    <h1>사랑흐름 파트너<br>상담을 신청합니다</h1>
+    <p>이미 기관을 알고 계신 분, 사람을 연결하는 일을 해오신 분,<br>제2의 일을 찾고 계신 분, 지역에서 신뢰를 쌓아오신 분.<br>어느 쪽이든 좋습니다. 먼저 이야기부터 나눕니다.</p>
+  </div>
+
+  <form class="pfcard" id="pfForm" onsubmit="return false;">
+
+    <div class="pferr" id="pfErr"></div>
+
+    <div class="pfrow">
+      <label class="pflab" for="pfName">성함<span class="req">필수</span></label>
+      <input class="pfin" type="text" id="pfName" maxlength="20" placeholder="홍길동" autocomplete="name">
+    </div>
+
+    <div class="pfrow">
+      <label class="pflab" for="pfTel2">연락처<span class="req">필수</span></label>
+      <p class="pfhint">이 번호로 연락드립니다.</p>
+      <div class="pfsplit">
+        <select class="pfsel" id="pfTel1">
+          <option value="010">010</option>
+          <option value="011">011</option>
+          <option value="016">016</option>
+          <option value="017">017</option>
+          <option value="018">018</option>
+          <option value="019">019</option>
+          <option value="070">070</option>
+          <option value="02">02</option>
+          <option value="031">031</option>
+          <option value="032">032</option>
+          <option value="033">033</option>
+          <option value="041">041</option>
+          <option value="042">042</option>
+          <option value="043">043</option>
+          <option value="051">051</option>
+          <option value="052">052</option>
+          <option value="053">053</option>
+          <option value="054">054</option>
+          <option value="055">055</option>
+          <option value="061">061</option>
+          <option value="062">062</option>
+          <option value="063">063</option>
+          <option value="064">064</option>
+        </select>
+        <span class="pfat">-</span>
+        <input class="pfin" type="tel" id="pfTel2" maxlength="9" inputmode="numeric" placeholder="12345678">
+      </div>
+    </div>
+
+    <div class="pfrow">
+      <label class="pflab" for="pfMailId">이메일</label>
+      <p class="pfhint">자료 세트를 메일로 받으시려면 적어 주십시오.</p>
+      <div class="pfsplit pfmail">
+        <input class="pfin" type="text" id="pfMailId" maxlength="40" placeholder="아이디" autocomplete="username">
+        <span class="pfat">@</span>
+        <select class="pfsel" id="pfMailDom" onchange="pfEtc('pfMailEtc', this.value==='__etc')">
+          <option value="naver.com">naver.com</option>
+          <option value="gmail.com">gmail.com</option>
+          <option value="daum.net">daum.net</option>
+          <option value="hanmail.net">hanmail.net</option>
+          <option value="kakao.com">kakao.com</option>
+          <option value="nate.com">nate.com</option>
+          <option value="hotmail.com">hotmail.com</option>
+          <option value="outlook.com">outlook.com</option>
+          <option value="__etc">직접 기재</option>
+        </select>
+      </div>
+      <input class="pfin pfetc" id="pfMailEtc" type="text" maxlength="40" placeholder="메일 주소 (예: mycompany.co.kr)">
+    </div>
+
+    <div class="pfrow">
+      <label class="pflab" for="pfArea">활동 지역<span class="req">필수</span></label>
+      <select class="pfsel" id="pfArea">
+        <option value="">선택해 주십시오</option>
+        <option value="서울">서울</option>
+          <option value="부산">부산</option>
+          <option value="대구">대구</option>
+          <option value="인천">인천</option>
+          <option value="광주">광주</option>
+          <option value="대전">대전</option>
+          <option value="울산">울산</option>
+          <option value="세종">세종</option>
+          <option value="경기">경기</option>
+          <option value="강원">강원</option>
+          <option value="충북">충북</option>
+          <option value="충남">충남</option>
+          <option value="전북">전북</option>
+          <option value="전남">전남</option>
+          <option value="경북">경북</option>
+          <option value="경남">경남</option>
+          <option value="제주">제주</option>
+          <option value="전국">전국</option>
+      </select>
+    </div>
+
+    <div class="pfrow">
+      <label class="pflab" for="pfJob">하고 계신 일 · 해오신 일<span class="req">필수</span></label>
+      <select class="pfsel" id="pfJob" onchange="pfEtc('pfJobEtc', this.value==='__etc')">
+        <option value="">선택해 주십시오</option>
+        <optgroup label="이미 기관을 알고 계신 분">
+          <option value="복지관 · 문화센터 출강 강사">복지관 · 문화센터 출강 강사</option>
+          <option value="평생교육 강사">평생교육 강사</option>
+          <option value="사회복지사">사회복지사</option>
+          <option value="프로그램 기획자">프로그램 기획자</option>
+          <option value="평생교육사">평생교육사</option>
+          <option value="요양 · 재가복지 종사자">요양 · 재가복지 종사자</option>
+          </optgroup>
+          <optgroup label="사람을 연결하는 일을 해오신 분">
+          <option value="상조 · 보험 설계사">상조 · 보험 설계사</option>
+          <option value="장례지도사">장례지도사</option>
+          <option value="행사 · 문화기획 대행">행사 · 문화기획 대행</option>
+          <option value="인쇄 · 광고 대행">인쇄 · 광고 대행</option>
+          <option value="기업교육 · HR 컨설턴트">기업교육 · HR 컨설턴트</option>
+          </optgroup>
+          <optgroup label="제2의 일을 찾고 계신 분">
+          <option value="공직 퇴직">공직 퇴직</option>
+          <option value="조합 퇴직">조합 퇴직</option>
+          <option value="복지관 퇴직">복지관 퇴직</option>
+          <option value="교직 퇴직">교직 퇴직</option>
+          <option value="경력을 가진 주부">경력을 가진 주부</option>
+          </optgroup>
+          <optgroup label="지역에서 신뢰를 쌓아오신 분">
+          <option value="협회 · 단체 임원">협회 · 단체 임원</option>
+          <option value="주민자치 · 이장 · 부녀회">주민자치 · 이장 · 부녀회</option>
+          <option value="종교 · 동문 · 문화 모임">종교 · 동문 · 문화 모임</option>
+          <option value="지역 커뮤니티 운영">지역 커뮤니티 운영</option>
+          <option value="콘텐츠 크리에이터">콘텐츠 크리에이터</option>
+          </optgroup>
+          <optgroup label="그 밖에">
+          <option value="소상공인 · 자영업">소상공인 · 자영업</option>
+          <option value="중소기업 대표 · 총무">중소기업 대표 · 총무</option>
+          </optgroup>
+        <option value="__etc">직접 기재</option>
+      </select>
+      <input class="pfin pfetc" id="pfJobEtc" type="text" maxlength="60" placeholder="하고 계신 일">
+    </div>
+
+    <div class="pfrow">
+      <label class="pflab" for="pfReach">지금 닿아 있는 곳</label>
+      <p class="pfhint">이미 드나드시거나 아는 분이 계신 곳이 있으면 골라 주십시오.</p>
+      <select class="pfsel" id="pfReach" onchange="pfEtc('pfReachEtc', this.value==='__etc')">
+        <option value="">선택해 주십시오</option>
+        <option value="복지관 · 노인복지관">복지관 · 노인복지관</option>
+          <option value="농협 · 축협 · 산림조합 · 새마을금고">농협 · 축협 · 산림조합 · 새마을금고</option>
+          <option value="지자체 · 문화재단">지자체 · 문화재단</option>
+          <option value="기업 · 협회">기업 · 협회</option>
+          <option value="요양원 · 재가복지센터">요양원 · 재가복지센터</option>
+          <option value="노인대학 · 주부대학">노인대학 · 주부대학</option>
+          <option value="종교 · 동문 · 지역 모임">종교 · 동문 · 지역 모임</option>
+          <option value="이제 열어보려 합니다">이제 열어보려 합니다</option>
+        <option value="__etc">직접 기재</option>
+      </select>
+      <input class="pfin pfetc" id="pfReachEtc" type="text" maxlength="60" placeholder="닿아 계신 곳">
+    </div>
+
+    <div class="pfrow">
+      <label class="pflab" for="pfMemo">하고 싶은 말씀</label>
+      <textarea class="pfta" id="pfMemo" maxlength="500" placeholder="어떤 자리를 가지고 계신지, 무엇이 궁금하신지 편하게 적어 주십시오."></textarea>
+    </div>
+
+    <div class="pfagree">
+      <h4>개인정보 수집 · 이용 안내</h4>
+      <ul>
+        <li>수집 항목 — 성함 · 연락처 · 이메일 · 활동 지역 · 하시는 일 · 남기신 말씀</li>
+        <li>이용 목적 — 파트너 상담 연락과 자료 전달</li>
+        <li>보유 기간 — 상담이 끝난 뒤 6개월. 파트너로 함께하시게 되면 계약 기간 동안</li>
+        <li>연락드릴 수 있도록 동의를 받고 있습니다</li>
+      </ul>
+      <label class="pfck"><input type="checkbox" id="pfAgree" onchange="pfGate()"> 위 내용에 동의합니다</label>
+    </div>
+
+    <button class="pfsub" id="pfSub" type="button" onclick="pfSend()" disabled>상담 신청하기</button>
+
+    <a class="pfkakao" href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡으로 먼저 물어보기</a>
+
+    <div class="pfgo">
+      <a href="/">홈</a>
+      <span class="bar"></span>
+      <a href="/showroom.html">사랑흐름 여행의 기록</a>
+      <button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button>
+    </div>
+  </form>
+
+  <div class="pfdone" id="pfDone">
+    <div class="ic">&#128236;</div>
+    <h2>신청이 접수되었습니다</h2>
+    <p>남겨 주신 연락처로 연락드리겠습니다.</p>
+    <div class="code" id="pfCode">PT-000000</div>
+    <p>이 번호를 적어 두십시오.<br>카카오톡 채널로 문의하실 때 쓰십니다.</p>
+    <a class="pfback" href="/">&lsaquo; 홈으로</a>
+  </div>
+
+</div>
+
+
+<footer>
+  <div class="wrap">
+    <div><a href="/about.html">소개</a>&middot;<a href="/trust.html#terms">이용약관</a>&middot;<a href="/trust.html#privacy">개인정보</a>&middot;<a href="/trust.html#refund">환불정책</a>&middot;<a href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 문의</a></div>
+    <div class="cr">&copy; 2026 사랑흐름 &middot; LFRI&trade;. 무단복제 &middot; 상업적 이용 금지.</div>
+    <div>Unauthorized use strictly prohibited. Violators subject to civil and criminal penalties.</div>
+    <div style="margin-top:10px"><a href="/">&lsaquo; 홈으로</a></div>
+  </div>
+</footer>
+
+
+<script>
+/* ── 파트너 신청 v2 ── */
+/* ★ 접수용 GAS 배포 URL을 아래 한 줄에 넣어 주십시오. 비어 있으면 접수번호만 보여 주고 기록은 남지 않습니다. */
+var PARTNER_GAS = "";
+
+function lfMenuOpen(){document.getElementById("lfMenu").classList.add("open");document.getElementById("lfBackdrop").classList.add("open");}
+function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open");document.getElementById("lfBackdrop").classList.remove("open");}
+function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
+function lffShare(){var H='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',text:'가장 소중한 사람을 더 알아가는 시간, 사랑흐름',url:H}).catch(function(){});return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(H).then(function(){lffToast('링크를 복사했어요');}).catch(function(){lffCopy(H);});return;}lffCopy(H);}
+function lffCopy(H){try{var a=document.createElement('textarea');a.value=H;a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);lffToast('링크를 복사했어요');}catch(e){lffToast(H);}}
+
+function pfEtc(id, on){
+  var el=document.getElementById(id);
+  if(on){ el.classList.add("on"); el.focus(); } else { el.classList.remove("on"); el.value=""; }
+}
+function pfGate(){
+  document.getElementById("pfSub").disabled = !document.getElementById("pfAgree").checked;
+}
+function pfVal(selId, etcId){
+  var v=document.getElementById(selId).value;
+  if(v==="__etc"){ return document.getElementById(etcId).value.trim(); }
+  return v;
+}
+function pfShowErr(m){
+  var e=document.getElementById("pfErr");
+  e.textContent=m; e.style.display="block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+function pfSend(){
+  var name=document.getElementById("pfName").value.trim();
+  var tel =document.getElementById("pfTel1").value + "-" + document.getElementById("pfTel2").value.replace(/[^0-9]/g,"");
+  var mid =document.getElementById("pfMailId").value.trim();
+  var mdom=document.getElementById("pfMailDom").value;
+  if(mdom==="__etc"){ mdom=document.getElementById("pfMailEtc").value.trim(); }
+  var mail= mid ? (mid + "@" + mdom) : "";
+  var area=document.getElementById("pfArea").value;
+  var job =pfVal("pfJob","pfJobEtc");
+  var reach=pfVal("pfReach","pfReachEtc");
+  var memo=document.getElementById("pfMemo").value.trim();
+
+  if(!name){ pfShowErr("성함을 적어 주십시오."); return; }
+  if(document.getElementById("pfTel2").value.replace(/[^0-9]/g,"").length < 7){ pfShowErr("연락처를 다시 확인해 주십시오."); return; }
+  if(!area){ pfShowErr("활동 지역을 골라 주십시오."); return; }
+  if(!job){ pfShowErr("하고 계신 일을 골라 주십시오. 직접 기재하셔도 됩니다."); return; }
+
+  var btn=document.getElementById("pfSub");
+  btn.disabled=true; btn.textContent="보내는 중입니다";
+
+  var data={ action:"partnerApply", name:name, tel:tel, mail:mail, area:area, job:job, reach:reach, memo:memo };
+
+  if(!PARTNER_GAS){ pfDone("PT-" + pfStamp()); return; }
+
+  fetch(PARTNER_GAS, { method:"POST", body:JSON.stringify(data) })
+    .then(function(r){ return r.json(); })
+    .then(function(j){
+      if(j && j.ok){ pfDone(j.no || ("PT-" + pfStamp())); } else { throw new Error("fail"); }
+    })
+    .catch(function(){
+      btn.disabled=false; btn.textContent="상담 신청하기";
+      pfShowErr("카카오톡 채널로 남겨 주시면 바로 확인하겠습니다.");
+    });
+}
+function pfStamp(){
+  var d=new Date(), p=function(n){return (n<10?"0":"")+n;};
+  return String(d.getFullYear()).slice(2)+p(d.getMonth()+1)+p(d.getDate())+p(d.getHours())+p(d.getMinutes());
+}
+function pfDone(no){
+  document.getElementById("pfForm").style.display="none";
+  document.querySelector(".pfhead").style.display="none";
+  document.getElementById("pfCode").textContent=no;
+  document.getElementById("pfDone").style.display="block";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+</script>
+
+</body>
+</html>
