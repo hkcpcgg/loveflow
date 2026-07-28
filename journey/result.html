@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<!-- ═══════════════════════════════════════════════════════════════════
+<!-- ★ 현재 버전 ▶ journey/result.html · v1-7 · 260727 · ★하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌이 됩니다. 「홈으로」는 상단바 로고와 중복이라 뺐습니다(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀝니다. [무손] 상단바·드로어·본문·스크립트·GAS·결제·발권·색값 전부.
+     ─── 지난 이력 ───
+ ═══════════════════════════════════════════════════════════════════
 현재 버전 ▶ journey/result.html · v1-6 · 260724 — ★카톡 인앱 저장 가드: 여행일지 저장(saveResult)이 카톡 인앱 브라우저면 인쇄 대신 「우측 위 ⋯ → 다른 브라우저로 열기」 안내로 유도(인쇄가 밖으로 튕겨 복귀 불가하던 것 차단). 상단 카톡 감지 배너(lfKakaoBar) + lfIsKakao/lfOpenExternal 헬퍼 추가. [무손] 지도 잠금(v1-5)·render·도장·재조회·JSONP·사운드.
 [v1-5 · 260724] ★편지 단품 지도 잠금: lookupPassport 응답의 productType(주문대장 J열)에 MAP 이 없으면(LETTER=편지 단품 · MEMOIR=자서전) 여행지도 대신 「편지 보러 가기」로 안내. 손댄 곳 = loadResult() ok 분기 한 곳 + showLocked() 함수 하나. [무손] render·도장(N열)·재조회·JSONP·사운드·공유. [fail-open] J열 빈칸이면 지도 그대로(테스트 여권 보호). [짝꿍] issuePassport v5-4(letter→LETTER) · Code.gs v13-1(productType 실어보냄).
 [v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 간판「가장 소중한 사람을 더 알아가는 시간, 사랑흐름」/ 철학「우리의 관계는 이미 시작되었습니다」/ 제품「서로의 언어를 읽어갑니다」. 손댄 곳 = 공유문·결과 공유카드 desc(576). 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·발급·디자인·색값.
@@ -297,8 +299,8 @@
   </script>
   <!-- ═ 공용 부품 끝 ═ -->
   <div class="foot">
-    <div class="links"><a href="/about.html">소개</a>&middot;<a href="/trust.html">이용약관</a>&middot;<a href="/trust.html">개인정보</a>&middot;<a href="/trust.html">환불정책</a></div>
-    <div class="cr">&copy; 2026 사랑흐름 &middot; LFRI&trade;</div>
+    <div id="lfFoot"></div>
+<script src="/lf-foot.js" defer></script>
   </div>
 </div>
 <script>
