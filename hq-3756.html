@@ -1,15 +1,8 @@
+<!-- ★ 현재 버전 ▶ hq-3756.html · v4 · 260728 · ①안내자·기관 영업 묶음 신설(제안서·안내자 제안·선언·상담신청·안내자 링크·자료실) ②자서전·인생여행 「준비중」 뗌 — 260723~24 개통 ③「도착한 마음」(/d/) 넣음 — 있는데 표에 없었음 ④자서전 서명(/memoir/sign.html) 넣음 ⑤공용 부품 묶음 신설(lf-foot.js·lf/brand.js) ⑥버전 헤더를 현행 표준(첫 줄)으로.
+[무손] 검색·펼치기·복사 기능, 시험용 번호(TEST), CSS 전부.
+─── 지난 이력 ▾ ───
+v3 · 260721 · 관리 도구 신설 · admin 현행 복귀 -->
 <!DOCTYPE html>
-<!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · 페이지 관리표   hq-3756.html   v3 · 260721
-     주소  www.loveflow.ai.kr/hq-3756.html
-
-     [v3 · 260721] ⑥ 관리 도구 칸 신설 (관리자 · 이 관리표)
-                   admin.html 예비역 → 현행 (260721 v7 대량 발급 탭 추가)
-                   자서전 소개에 「판매는 오픈 예정」 표시
-                   ★버전·날짜를 화면 맨 위로 올림
-     [v2 · 260718] 삐뚤빼뚤 마음 도화지 /draw/ 추가
-     [v1 · 260718] 최초 · 260718 라이브 실측 기준
-     ═══════════════════════════════════════════════════════════════════ -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -107,8 +100,8 @@
 <body>
 
 <div class="top">
-  <h1>사랑흐름 · 페이지 관리표 <span class="ver">v3</span></h1>
-  <div class="day">2026. 7. 21. 갱신 &middot; 관리 도구 신설 &middot; admin 현행 복귀</div>
+  <h1>사랑흐름 · 페이지 관리표 <span class="ver">v4</span></h1>
+  <div class="day">2026. 7. 28. 갱신 &middot; 안내자 &middot; 기관 영업 묶음 신설 &middot; 자서전 &middot; 인생여행 개통</div>
   <div class="sub">제목을 누르면 펴집니다 &middot; 링크 복사</div>
 </div>
 
@@ -127,7 +120,8 @@ var BASE = "https://www.loveflow.ai.kr";
 var DATA = [
   { title:"① 홈 · 진입", reserve:false, items:[
     {name:"홈 (마음 한마디)", path:"/"},
-    {name:"삐뚤빼뚤 마음 도화지", path:"/draw/", note:"신규 · 랜딩"},
+    {name:"삐뚤빼뚤 마음 도화지", path:"/draw/"},
+    {name:"도착한 마음 (받는 사람 화면)", path:"/d/", note:"도화지로 보낸 손글씨"},
     {name:"마음 한마디 카드", path:"/m/"},
     {name:"표지", path:"/cover.html"},
     {name:"입장", path:"/enter.html"},
@@ -136,11 +130,11 @@ var DATA = [
   { title:"② 여행지도 (유료 · 발급)", reserve:false, items:[
     {name:"여행 고르기 (상품 진열)", path:"/showcase.html"},
     {name:"결제 (기본=마음여행)", path:"/pay.html"},
-    {name:"결제 · 마음 여행지도", path:"/pay.html?item=map"},
-    {name:"결제 · 마음 여행편지", path:"/pay.html?item=letter"},
-    {name:"결제 · 마음여행(지도+편지)", path:"/pay.html?item=set"},
-    {name:"결제 · 자서전", path:"/pay.html?item=memoir", note:"준비중"},
-    {name:"결제 · 인생여행", path:"/pay.html?item=life", note:"준비중"},
+    {name:"결제 · 마음 여행지도", path:"/pay.html?item=map", note:"14,900"},
+    {name:"결제 · 마음 여행편지", path:"/pay.html?item=letter", note:"19,900"},
+    {name:"결제 · 마음여행(지도+편지)", path:"/pay.html?item=set", note:"29,800"},
+    {name:"결제 · 자서전", path:"/pay.html?item=memoir", note:"49,800"},
+    {name:"결제 · 인생여행", path:"/pay.html?item=life", note:"59,800"},
     {name:"입국 게이트 (여권 발급)", path:"/gate.html"},
     {name:"신청", path:"/apply.html"},
     {name:"여행지도", path:"/journey/", lock:true},
@@ -153,9 +147,10 @@ var DATA = [
     {name:"마음 여행편지", path:"/letter/", lock:true},
   ]},
   { title:"④ 자서전", reserve:false, items:[
-    {name:"자서전 소개", path:"/memoir/", note:"판매는 오픈 예정"},
+    {name:"자서전 소개", path:"/memoir/"},
     {name:"여는 의식", path:"/memoir/ritual.html"},
     {name:"작성", path:"/memoir/ask.html", lock:true},
+    {name:"맺음 서명", path:"/memoir/sign.html"},
     {name:"견본 (PDF)", path:"/memoir/book.html"},
   ]},
   { title:"⑤ 기록 · 정보", reserve:false, items:[
@@ -163,9 +158,21 @@ var DATA = [
     {name:"소개", path:"/about.html"},
     {name:"이용약관 · 개인정보 · 환불", path:"/trust.html"},
   ]},
-  { title:"⑥ 관리 도구 (대표 전용)", reserve:false, items:[
+  { title:"⑥ 안내자 · 기관 영업", reserve:false, items:[
+    {name:"기관 제안서", path:"/proposal.html", note:"조합 · 복지관 · 지자체"},
+    {name:"여행 안내자 제안", path:"/partner.html"},
+    {name:"여행 안내자 선언", path:"/partner-creed.html"},
+    {name:"여행 안내자 상담 신청", path:"/partner-apply.html"},
+    {name:"안내자 링크 안내", path:"/partner-link.html"},
+    {name:"안내자 자료실", path:"/kit/", note:"문안 아홉 · 복사"},
+  ]},
+  { title:"⑦ 관리 도구 (대표 전용)", reserve:false, items:[
     {name:"관리자 (입금 · 발급 · 대량 발급)", path:"/admin.html", note:"열쇠 필요"},
     {name:"페이지 관리표 (이 화면)", path:"/hq-3756.html"},
+  ]},
+  { title:"⑧ 공용 부품 (화면 아님)", reserve:false, items:[
+    {name:"하단 줄 부품", path:"/lf-foot.js", note:"이 한 파일이 화면 스물여섯 곳의 하단"},
+    {name:"브랜드 부품", path:"/lf/brand.js", note:"소개 화면에서 씀"},
   ]},
   { title:"예비역 (대기 자산)", reserve:true, items:[
     {name:"옛 무료 나침반", path:"/compass.html"},
