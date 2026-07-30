@@ -1,4 +1,4 @@
-<!-- ★ 현재 버전 ▶ gate.html · v17 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜. ②드로어에 「사랑흐름 여행 안내자」 한 줄 신설 — 「마음 여행 예매하기」 다음·「다시 시작」 앞. 홈 index v25 와 같은 자리·같은 글자. 메뉴 12항목. 새 CSS 0줄·새 색 0개.
+<!-- ★ 현재 버전 ▶ gate.html · v18 · 260730 · ①★발권 목록(ITEMS)의 금액을 원장(lf/prices.js)에 물림 — 상품코드만 들고 금액은 원장에서 받습니다. 원장을 못 불러오면 금액을 붙이지 않고 상품 이름만 보여줍니다(틀린 금액을 보여주지 않기). ②★편지 단품 항목 삭제(대표 확정) — 목록이 넷이 됩니다. 마음 여행지도 · 마음여행 · 한 편의 기록 · 인생여행. ③자서전 79,000 · 인생여행 110,000 반영(옛 49,800 · 59,800 제거). [무손] 여권 발급 로직·GAS 주소·잠금·?item= 미리고르기·상단바·드로어·푸터·CSS. ★짝꿍 — 게시판 GAS 의 금액→상품 판별(lfItemFromState_)도 같은 값으로 고쳐야 합니다. 한쪽만 고치면 그 사이 결제 건이 엉뚱한 상품으로 발권됩니다. / [v17 · 260728] · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜. ②드로어에 「사랑흐름 여행 안내자」 한 줄 신설 — 「마음 여행 예매하기」 다음·「다시 시작」 앞. 홈 index v25 와 같은 자리·같은 글자. 메뉴 12항목. 새 CSS 0줄·새 색 0개.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v16 이전) ───────────────────────────── -->
 <!-- 사랑흐름 입국 게이트 gate.html v16 · 260726 · [v16] ★안내자 꼬리표 — lfOrg() 추가 + issuePassport 호출에 &source= 조건부 한 줄(번호 없으면 미부착). 주문대장 O열 기록. GAS·시트 무손, 배포 불필요. 발급 로직·GAS_B64·JSONP·regex·lf_unlock·goJourney·#item 일절 무손 · [v15] ★드로어에 「삐뚤빼뚤 마음 도화지」(/draw/) 한 줄 신설 — '마음 한마디' 바로 아래. 메뉴 11항목. ★★발급·GAS·lf_unlock·goJourney·regex 일절 무손(메뉴 한 줄만). -->
@@ -408,7 +408,8 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
 
   </div><!-- /.phone -->
 
-  <script>
+  <script src="/lf/prices.js"></script>
+<script>
   // 유료 GAS URL (base64) · ...M1A 배포
   var GAS_B64 = 'aHR0cHM6Ly9zY3JpcHQuZ29vZ2xlLmNvbS9tYWNyb3Mvcy9BS2Z5Y2J4TElHX0xSQVpEM0FNSkgyNmdQaGVmZGt3TGJYbUE1aXBfVXVyQmZRLTUzYnhncTJUNjNkU3JlNllPOWo0aHhCWk0xQS9leGVj';
 
@@ -485,13 +486,20 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
      ※ GAS(v5-2)는 map→MAP · memoir→MEMOIR · 그 외(letter·set·life)→MAP+LETTER 로 J열에 찍습니다.
         자서전(memoir)은 편지 없는 상품이라 MEMOIR 로 따로 갈라냅니다. /memoir/ 배포 완료로 이번에 목록에 넣습니다.
      ══════════════════════════════════════════════════════════ */
+  /* 금액은 두지 않습니다. 원장(lf/prices.js)에서 받습니다.
+     고칠 곳은 lf/prices.js 한 곳입니다. */
   var ITEMS = [
-    { v:'set',    name:'마음여행 · 지도와 편지',        price:29800 },
-    { v:'map',    name:'마음 여행지도',                 price:14900 },
-    { v:'letter', name:'마음 여행편지',                 price:19900 },
-    { v:'memoir', name:'자서전 · 한 편의 기록',         price:49800 },
-    { v:'life',   name:'인생여행 · 자서전까지',          price:59800 }
+    { v:'map',    name:'마음 여행지도',                 code:'LF-M001' },
+    { v:'set',    name:'마음여행 · 지도와 편지',        code:'LF-S001' },
+    { v:'memoir', name:'자서전 · 한 편의 기록',         code:'LF-R001' },
+    { v:'life',   name:'인생여행 · 자서전까지',          code:'LF-A001' }
   ];
+
+  function lfItemPrice(code){
+    var B = window.LF_PRICE || null;
+    var it = B ? B.get(code) : null;
+    return it ? it.total : 0;
+  }
 
   (function initItems(){
     var sel = document.getElementById('item');
@@ -501,7 +509,8 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
       var it = ITEMS[i];
       var op = document.createElement('option');
       op.value = it.v;
-      op.textContent = it.name + ' · ' + it.price.toLocaleString() + '원';   /* 금액은 여기 한 곳에만 */
+      var amt = lfItemPrice(it.code);
+      op.textContent = amt ? (it.name + ' · ' + amt.toLocaleString() + '원') : it.name;   /* 금액은 원장에서 */
       sel.appendChild(op);
     }
 
