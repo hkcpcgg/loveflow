@@ -1,4 +1,4 @@
-<!-- 사랑흐름 입국 게이트 v5 · 260624 · [작업 v5] GA4 측정 삽입 / v4 · 260624 · [작업 v4] 통일 길잡이 적용 / v3 · 260620 · 상품 브랜드/카피 노출('내가 산 것' 인지) + 구매처 버튼 가로 2칸 + 세로 압축 -->
+<!-- 사랑흐름 입국 게이트 v7 · 260730 · [작업] 표준 상단바(로고·뒤로·화면이름) 적용 · 하단 줄을 공용 부품(/lf-foot.js)으로 교체 · 확정 표준어 교체(무료 나침반→마음 한마디 · 마음편지→마음 여행편지 · 주문번호→결제번호) · 옛 무료 전환가 ₩9,900 제거 — 금액을 원장 이름표(data-lf-price="LF-M001")로 교체하고 /lf/prices.js 연결. 버튼·링크(/journey/)·GA4·공유·이메일수집 일절 미변경. 금액은 원장 한 곳(lf/prices.js)에서만 관리. / 사랑흐름 입국 게이트 v5 · 260624 · [작업 v5] GA4 측정 삽입 / v4 · 260624 · [작업 v4] 통일 길잡이 적용 / v3 · 260620 · 상품 브랜드/카피 노출('내가 산 것' 인지) + 구매처 버튼 가로 2칸 + 세로 압축 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -65,7 +65,7 @@
   .foot{text-align:center;font-size:9.5px;color:var(--sub);line-height:1.6;margin-top:18px;padding:0 4px}
   /* ── 통일 길잡이 (lf-nav) — 전 페이지 공통 ── */
   .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,227,0.95);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid #E2E8F0;padding:10px 14px}
-  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}
+  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}.lf-nav-logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block;flex-shrink:0}.lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px}.lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
   .lf-nav-burger{background:none;border:none;cursor:pointer;color:#1E4A76;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px}
   .lf-nav-burger:hover{background:rgba(30,74,118,0.08)}
   .lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,0.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
@@ -85,15 +85,17 @@
 <body>
   <!-- 통일 길잡이 -->
   <div class="lf-nav">
-    <a class="lf-nav-home" href="/">사랑흐름</a>
+    <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
+    <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
+    <span class="lf-nav-loc">여행 시작</span>
     <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
   </div>
   <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
   <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
     <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
-    <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
+    <a href="/compass.html"><span class="ic">🧭</span>마음 한마디</a>
     <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
-    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
+    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음 여행편지</a>
     <a href="/about.html"><span class="ic">📖</span>소개</a>
     <div id="lfMineGrp" style="display:none">
       <div class="lf-grp">내 여행</div>
@@ -123,14 +125,14 @@
       <div class="name">관계 여행지도</div>
       <div class="copy">관계를 분석하지 않습니다, 번역합니다</div>
     </div>
-    <div class="price">₩9,900</div>
+    <div class="price"><span data-lf-price="LF-M001"></span></div>
   </div>
 
   <!-- 주문번호 입력 (한 줄) -->
   <div class="gate">
-    <div class="q">구매 시 받으신 <b>주문번호</b>를 넣어주세요</div>
+    <div class="q">구매 시 받으신 <b>결제번호</b>를 넣어주세요</div>
     <div class="input-row">
-      <input id="orderNo" type="text" placeholder="주문번호" autocomplete="off">
+      <input id="orderNo" type="text" placeholder="결제번호" autocomplete="off">
       <button onclick="startJourney()">여행 시작</button>
     </div>
     <div id="msg"></div>
@@ -154,17 +156,15 @@
     <div class="tip">💡 링크가 안 되면 <b>loveflow.ai.kr/start</b> 직접 입력</div>
   </div>
 
-  <div class="foot">
-    사랑흐름 · 대표 황규찬 · 파주시 매봉길 17-13 · 사업자등록 285-17-02228 · 통신판매 제2025-경기파주-1747호 · 개인정보보호책임자 유상열 · hkcpcgg@gmail.com<br>
-    © 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.
-  </div>
+  <div id="lfFoot"></div>
+<script src="/lf-foot.js" defer></script>
 
 </div>
 <script>
 function startJourney(){
   var num=document.getElementById('orderNo').value.trim();
   var msg=document.getElementById('msg');
-  if(!num){ msg.className='warn'; msg.textContent='주문번호를 넣어주세요.'; return; }
+  if(!num){ msg.className='warn'; msg.textContent='결제번호를 넣어주세요.'; return; }
   msg.className='load'; msg.textContent='여행권을 확인하고 있어요...';
   // ★ GAS: google.script.run.withSuccessHandler(ok).validateOrder(num); → location.href='/journey/?id='+여권번호;
   setTimeout(function(){ msg.className='info'; msg.textContent='※ 실제 확인은 GAS 연동 후 작동합니다'; },1300);
@@ -180,5 +180,6 @@ document.getElementById("lfMineCert").href="/certificate.html?id="+id;
 document.getElementById("lfMineJourney").href="/journey/?id="+id;
 document.getElementById("lfMineGrp").style.display="block";}})();
 </script>
+  <script src="/lf/prices.js" defer></script>
 </body>
 </html>
