@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- 사랑흐름 무료 재조회 free-result.html v4 · 260730 · [작업] 옛 무료 전환가 ₩9,900 제거 — 금액을 원장 이름표(data-lf-price="LF-M001")로 교체하고 /lf/prices.js 연결. 버튼·링크(/journey/)·GA4·공유·이메일수집 일절 미변경. 금액은 원장 한 곳(lf/prices.js)에서만 관리. / 사랑흐름 무료 재조회 free-result.html v3 · 260624 · [작업 v3] GA4 측정 삽입 / v2 · 260624 · [작업 v2] 통일 길잡이 적용 / v1 · 260620 · [작업] ?id=LC- → 무료 GAS 조회(JSONP) → 관계·유형·MBTI·4축 표시 + 유료 유도(/journey/) -->
+<!-- 사랑흐름 무료 재조회 free-result.html v5 · 260730 · [작업] 표준 상단바(로고·뒤로·화면이름) 적용 · 하단 줄을 공용 부품(/lf-foot.js)으로 교체 · 확정 표준어 교체(무료 나침반→마음 한마디 · 마음편지→마음 여행편지 · 주문번호→결제번호) · 옛 무료 전환가 ₩9,900 제거 — 금액을 원장 이름표(data-lf-price="LF-M001")로 교체하고 /lf/prices.js 연결. 버튼·링크(/journey/)·GA4·공유·이메일수집 일절 미변경. 금액은 원장 한 곳(lf/prices.js)에서만 관리. / 사랑흐름 무료 재조회 free-result.html v3 · 260624 · [작업 v3] GA4 측정 삽입 / v2 · 260624 · [작업 v2] 통일 길잡이 적용 / v1 · 260620 · [작업] ?id=LC- → 무료 GAS 조회(JSONP) → 관계·유형·MBTI·4축 표시 + 유료 유도(/journey/) -->
 <html lang="ko">
 <head>
   <!-- Google tag (gtag.js) - GA4 G-DWCSSE71NS -->
@@ -55,7 +55,7 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
 .foot{text-align:center;font-size:10px;color:#A8A095;padding:24px 16px 6px;line-height:1.7}
   /* ── 통일 길잡이 (lf-nav) — 전 페이지 공통 ── */
   .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;background:rgba(253,246,227,0.95);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border-bottom:1.5px solid #E2E8F0;padding:10px 14px}
-  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}
+  .lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#1E4A76;font-weight:800;font-size:15px;letter-spacing:0.01em;text-decoration:none;font-family:'Noto Serif KR',serif}.lf-nav-logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block;flex-shrink:0}.lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px}.lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
   .lf-nav-burger{background:none;border:none;cursor:pointer;color:#1E4A76;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px}
   .lf-nav-burger:hover{background:rgba(30,74,118,0.08)}
   .lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,0.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;padding:16px 0;overflow-y:auto}
@@ -75,15 +75,17 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
 <body>
   <!-- 통일 길잡이 -->
   <div class="lf-nav">
-    <a class="lf-nav-home" href="/">사랑흐름</a>
+    <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
+    <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
+    <span class="lf-nav-loc">다시 보기</span>
     <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
   </div>
   <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
   <nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
     <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
-    <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
+    <a href="/compass.html"><span class="ic">🧭</span>마음 한마디</a>
     <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
-    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
+    <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음 여행편지</a>
     <a href="/about.html"><span class="ic">📖</span>소개</a>
     <div id="lfMineGrp" style="display:none">
       <div class="lf-grp">내 여행</div>
@@ -94,7 +96,8 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
   </nav>
   <div class="brandbar"><span class="bb-logo">사랑흐름<span class="en">LOVE FLOW</span></span></div>
   <div class="wrap" id="body"><div class="loading">결과를 불러오는 중…</div></div>
-  <div class="foot">사랑흐름 · 대표 황규찬 · 경기도 파주시 매봉길 17-13 · 사업자등록 285-17-02228<br>© 2026 사랑흐름·LFRI™. 무단복제·상업적 이용 금지.</div>
+  <div id="lfFoot"></div>
+<script src="/lf-foot.js" defer></script>
 
   <script>
   (function(){
@@ -136,9 +139,9 @@ body{margin:0;background:linear-gradient(180deg,#FAFAF8 0%,#F5F3ED 100%);font-fa
       h+='<div><div class="k">표현</div><div class="v">'+exp+'</div><div class="bar"><i style="width:'+exp+'%"></i></div></div>';
       h+='<div><div class="k">회복</div><div class="v">'+rec+'</div><div class="bar"><i style="width:'+rec+'%"></i></div></div>';
       h+='</div>';
-      h+='<div class="note">관심 축과 더 깊은 진단은 유료 여행지도에서 확인됩니다.</div></div>';
+      h+='<div class="note">관심 축과 더 깊은 이야기는 유료 여행지도에서 확인됩니다.</div></div>';
 
-      h+='<div class="cta-box"><div class="cta-lead">더 깊은 진단으로<br>관계의 진짜 열쇠를 찾아보세요</div>';
+      h+='<div class="cta-box"><div class="cta-lead">더 깊은 이야기로<br>관계의 진짜 열쇠를 찾아보세요</div>';
       h+='<a class="cta-btn" href="/journey/"><div><div class="t1">🧭 사랑흐름 여행지도</div><div class="t2">우리 관계의 여행지도 보기</div><div class="t3">(<span data-lf-price="LF-M001"></span> · 전체 공개)</div></div><div class="arr">›</div></a></div>';
 
       body.innerHTML=h;
