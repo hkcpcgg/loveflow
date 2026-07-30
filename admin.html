@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v7 · 260721
+     사랑흐름 · admin.html   v8 · 260730
+
+     [v8 · 260730] ★입금액으로 상품을 가리는 표(PRICES)를 원장(lf/prices.js)에 물렸습니다.
+       [왜] 이 표에 14,900 · 19,900(편지) · 29,800 · 59,800 이 박혀 있었습니다.
+            전부 260730 에 폐기된 값입니다. 새 정가(19,900 · 48,900 · 79,000 · 110,000)로
+            들어온 입금은 상품 이름이 빈칸으로 나왔습니다.
+       [무엇] 이제 원장의 스물넷을 전부 후보로 씁니다. 개인 넷뿐 아니라
+            단체(10 · 20 · 30 · 50 · 100인) 입금액도 그 자리에서 가려집니다.
+            이름은 「마음여행 20인」 처럼 인원까지 붙습니다.
+       [편지] 편지 단품은 260730 대표 확정으로 없어졌습니다. 이 표에서도 빠졌습니다.
+       [못 불러오면] 상품 이름 자리가 빈칸이 됩니다. 틀린 이름을 붙이지 않습니다.
+            금액 자체는 GAS 가 준 값을 그대로 보여줍니다.
+       [고칠 곳] 금액을 바꿀 곳은 lf/prices.js 한 곳입니다. 이 파일에 숫자를 두지 않습니다.
+       [무손] 네 탭·열쇠·잠금·jsonp·waitMs·대량 발급·표 도구(LFTable)·CSS.
 
      [v7 · 260721] ★네 번째 탭 「대량 발급」 — 조직에 여권을 뭉치로 넘깁니다.
        [왜] 3탭은 260707~08 이사회 확정입니다. 그때는 ★조직 판매라는 일이 없었습니다.
@@ -449,6 +462,7 @@ body{
   </div>
 </div>
 
+<script src="/lf/prices.js"></script>
 <script>
 /* ── 게시판 GAS (접수 · 관리자) ── ★열쇠는 이 파일에 없습니다. GAS 안에만 있습니다. */
 var GAS = 'https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec';
@@ -696,12 +710,20 @@ function setState(t){
 }
 
 /* ★금액 = 상품. 게시판 GAS PRICE_ITEM 과 같아야 합니다. */
-var PRICES = [
-  { amount:14900, name:'마음 여행지도' },
-  { amount:19900, name:'마음 여행편지' },
-  { amount:29800, name:'마음여행' },
-  { amount:59800, name:'인생여행' }
-];
+/* 입금액 → 상품 이름. 숫자는 원장(lf/prices.js)에서 받습니다.
+   원장 스물넷(개인 넷 + 단체 스물)을 전부 후보로 씁니다. */
+var PRICES = (function(){
+  var out = [];
+  var B = window.LF_PRICE || null;
+  if (!B) return out;
+  var A = B.all();
+  for (var c in A) {
+    if (!A.hasOwnProperty(c)) continue;
+    out.push({ amount: A[c].total, name: B.label(A[c]), code: A[c].code });
+  }
+  out.sort(function(x, y){ return x.amount - y.amount; });
+  return out;
+})();
 function won(n){ return Number(n).toLocaleString(); }
 function priceName(a){
   for(var i=0;i<PRICES.length;i++){ if(PRICES[i].amount === a) return PRICES[i].name; }
