@@ -1,6 +1,27 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v8 · 260730
+     사랑흐름 · admin.html   v9 · 260730
+
+     [v9 · 260730 대표 확정] ★「받은 금액」 선택지를 개인 넷으로 좁혔습니다.
+       [무엇이 문제였나] v8 에서 원장 스물넷을 전부 후보로 쓰면서, 「받은 금액」
+            고르는 자리에도 스물넷이 다 떴습니다. 그중 스물(단체 10·20·30·50·100인)은
+            ★누르면 막힙니다 — 게시판 GAS 의 금액 판정(itemOfAmount_)은 개인 넷만
+            보므로 「금액을 확인해 주세요」가 돌아옵니다.
+       [왜 GAS 가 옳은가] 계좌이체 동선(pay → apply)은 개인 넷만 흐릅니다.
+            단체는 네이버 스토어에서 팔고, 조직 발급은 ★대량 발급 탭이 따로 맡습니다.
+            그래서 APPLY 탭에 단체 금액이 쌓일 구조가 없습니다. GAS 가 단체를 막는 것은
+            버그가 아니라 맞는 동작입니다. 고칠 곳은 ★고를 수 없는 선택지를 스물 개
+            보여주던 이 화면이었습니다.
+       [무엇을 고쳤나 — 배열을 둘로 갈랐습니다]
+            ★PICKS  = 1인 넷 (19,900 · 48,900 · 79,000 · 110,000) → 고르는 자리에만 씁니다.
+            ★PRICES = 스물넷 전량 → 이미 발급된 줄의 상품 이름 조회에 그대로 씁니다.
+            갈라야 하는 까닭 — 단체나 지난 금액으로 발급된 줄도 이름이 떠야 합니다.
+            선택지만 좁히고 이름 조회는 넓게 둡니다.
+       [단체가 들어오면] 대량 발급 탭에서 장수만큼 뽑으십시오. 이 탭은 여권 한 장을
+            내주는 자리라, 스무 사람 값을 받고 한 장을 내주는 일이 생기지 않게 합니다.
+       [금액이 박힌 자리] 이 파일엔 숫자가 없습니다. lf/prices.js 한 곳입니다.
+       [무손] 네 탭·열쇠·잠금·jsonp·waitMs·대량 발급·adminPaid 호출·표 도구(LFTable)
+            ·정렬·동명이인·푸터·CSS — 한 글자도 안 건드림.
 
      [v8 · 260730] ★입금액으로 상품을 가리는 표(PRICES)를 원장(lf/prices.js)에 물렸습니다.
        [왜] 이 표에 14,900 · 19,900(편지) · 29,800 · 59,800 이 박혀 있었습니다.
@@ -710,8 +731,14 @@ function setState(t){
 }
 
 /* ★금액 = 상품. 게시판 GAS PRICE_ITEM 과 같아야 합니다. */
-/* 입금액 → 상품 이름. 숫자는 원장(lf/prices.js)에서 받습니다.
-   원장 스물넷(개인 넷 + 단체 스물)을 전부 후보로 씁니다. */
+/* ★[v9] 배열이 둘입니다 — 쓰는 자리가 다릅니다. 섞으면 안 됩니다.
+     PRICES = 원장 스물넷 전량. ★이미 발급된 줄의 상품 이름을 찾는 데만 씁니다.
+              단체로 발급된 줄도 이름이 떠야 하므로 넓게 둡니다.
+     PICKS  = 1인 넷. ★대표님이 「받은 금액」을 고르는 자리에만 씁니다.
+              계좌이체 동선(pay → apply)은 개인 넷만 흐르고, 게시판 GAS 의 금액 판정도
+              개인 넷만 봅니다. 단체를 여기 두면 눌러도 「금액을 확인해 주세요」로 막힙니다.
+              단체·조직은 ★대량 발급 탭이 맡습니다.
+   숫자는 원장(lf/prices.js)에서 받습니다. 이 파일엔 숫자를 두지 않습니다. */
 var PRICES = (function(){
   var out = [];
   var B = window.LF_PRICE || null;
@@ -719,9 +746,18 @@ var PRICES = (function(){
   var A = B.all();
   for (var c in A) {
     if (!A.hasOwnProperty(c)) continue;
-    out.push({ amount: A[c].total, name: B.label(A[c]), code: A[c].code });
+    out.push({ amount: A[c].total, name: B.label(A[c]), code: A[c].code, qty: A[c].qty });
   }
   out.sort(function(x, y){ return x.amount - y.amount; });
+  return out;
+})();
+
+/* ★[v9] 고르는 자리 — 1인 넷만. PRICES 에서 걸러 씁니다(숫자를 두 번 적지 않기). */
+var PICKS = (function(){
+  var out = [];
+  for (var i = 0; i < PRICES.length; i++) {
+    if (PRICES[i].qty === 1) { out.push(PRICES[i]); }
+  }
   return out;
 })();
 function won(n){ return Number(n).toLocaleString(); }
@@ -930,9 +966,9 @@ function render(){
       h += '<div class="r2">';
       h +=   '<select class="sel" id="s_' + id + '" onchange="pick(\'' + id + '\')">';
       h +=     '<option value="">받은 금액</option>';
-      for(var p=0;p<PRICES.length;p++){
-        h +=   '<option value="' + PRICES[p].amount + '">'
-           +      won(PRICES[p].amount) + ' · ' + PRICES[p].name + '</option>';
+      for(var p=0;p<PICKS.length;p++){        /* ★v9 — 1인 넷만. 단체는 대량 발급 탭 */
+        h +=   '<option value="' + PICKS[p].amount + '">'
+           +      won(PICKS[p].amount) + ' · ' + PICKS[p].name + '</option>';
       }
       h +=   '</select>';
       h +=   '<button class="ok" id="b_' + id + '" onclick="askPaid(\'' + id + '\')">확인</button>';
