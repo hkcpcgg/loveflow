@@ -1,4 +1,4 @@
-<!-- ★ 현재 버전 ▶ showcase.html · v5-18 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜. ②드로어에 「사랑흐름 여행 안내자」 한 줄 신설 — 「마음 여행 예매하기」 다음·「다시 시작」 앞. 홈 index v25 와 같은 자리·같은 글자. 메뉴 12항목. 새 CSS 0줄·새 색 0개. LF_LINK 에 partner 키 추가.
+<!-- ★ 현재 버전 ▶ showcase.html · v5-19 · 260730 · ①★금액을 원장(lf/prices.js) 이름표로 교체 — 진열창에 손으로 적은 숫자가 없습니다. ②★편지 단품 카드 삭제(대표 확정) — 「나누어 여행하기」의 편지 칸을 지웠습니다. .pcard-row 는 flex, .pcard.half 는 flex:1 이라 남은 마음 여행지도 카드가 그 폭을 그대로 채웁니다. CSS·구조는 손대지 않았습니다. ③국내 런칭 할인가 종료 — 정가 회색 줄(p-list)과 「국내 런칭가」 라벨(p-lbl)만 걷고 배치는 그대로. 금액 줄 하나만 남습니다. ④자서전 79,000 · 인생여행 110,000 반영. ⑤인생여행 버튼 「오픈 예정」 → 「예매」(260724 개통 이후 남아 있던 옛 표기 정정, opacity 해제). [검증] 412px 렌더 — .phone 388px · .pcard-row 352px · 문서폭 412(넘침 없음) · 이름표 넷 다 채워짐 · JS 오류 0. [무손] 카루셀 동작·여권 입장·푸터·공유·드로어·CSS. / [v5-18 · 260728] · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜. ②드로어에 「사랑흐름 여행 안내자」 한 줄 신설 — 「마음 여행 예매하기」 다음·「다시 시작」 앞. 홈 index v25 와 같은 자리·같은 글자. 메뉴 12항목. 새 CSS 0줄·새 색 0개. LF_LINK 에 partner 키 추가.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v5-17 이전) ───────────────────────────── -->
 <!DOCTYPE html>
@@ -332,9 +332,9 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="zone-t">한 번에 여행하기</div>
     <div class="caro-hint" aria-hidden="true">← 밀어서 둘러보세요 →</div>
     <div class="caro" id="caroMain">
-      <div class="ccard" onclick="goItem('set')"><div class="pcard-t">마음여행</div><div class="cc-price"><span class="p-list">정가 48,900원</span><span class="p-now">29,800원</span><span class="p-lbl">국내 런칭가</span></div><button class="b-buy" style="margin-top:16px" onclick="event.stopPropagation();goItem('set')">예매</button></div>
-      <div class="ccard" onclick="goItem('memoir')"><div class="pcard-t">한 편의 기록</div><div class="cc-price"><span class="p-list">정가 65,000원</span><span class="p-now">49,800원</span><span class="p-lbl">국내 런칭가</span></div><button class="b-buy" style="margin-top:16px" onclick="event.stopPropagation();goItem('memoir')">예매</button></div>
-      <div class="ccard" onclick="goItem('life')"><div class="pcard-t">인생여행</div><div class="cc-price"><span class="p-list">정가 90,000원</span><span class="p-now">59,800원</span><span class="p-lbl">국내 런칭가</span></div><button class="b-buy" style="margin-top:16px;opacity:.75" onclick="event.stopPropagation();goItem('life')">오픈 예정</button></div>
+      <div class="ccard" onclick="goItem('set')"><div class="pcard-t">마음여행</div><div class="cc-price"><span class="p-now" data-lf-price="LF-S001"></span></div><button class="b-buy" style="margin-top:16px" onclick="event.stopPropagation();goItem('set')">예매</button></div>
+      <div class="ccard" onclick="goItem('memoir')"><div class="pcard-t">한 편의 기록</div><div class="cc-price"><span class="p-now" data-lf-price="LF-R001"></span></div><button class="b-buy" style="margin-top:16px" onclick="event.stopPropagation();goItem('memoir')">예매</button></div>
+      <div class="ccard" onclick="goItem('life')"><div class="pcard-t">인생여행</div><div class="cc-price"><span class="p-now" data-lf-price="LF-A001"></span></div><button class="b-buy" style="margin-top:16px" onclick="event.stopPropagation();goItem('life')">예매</button></div>
     </div>
     <div class="caro-dots" id="caroDots"></div>
   </div>
@@ -345,17 +345,9 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
       <div class="pcard half accent-map" onclick="goItem('map')">
         <div class="pcard-t">마음 여행지도</div>
         <div class="pcard-c">서로의 언어를 읽어가는 여행</div>
-        <div class="price2 col"><span class="p-list">정가 19,900원</span><span class="p-now">14,900원</span><span class="p-term">발급일로부터 1년 이내 이용 · 디지털 콘텐츠</span></div>
+        <div class="price2 col"><span class="p-now" data-lf-price="LF-M001"></span><span class="p-term">발급일로부터 1년 이내 이용 · 디지털 콘텐츠</span></div>
         <div class="btnrow">
           <button class="b-buy" onclick="event.stopPropagation();goItem('map')">예매</button>
-        </div>
-      </div>
-      <div class="pcard half accent-letter" onclick="goItem('letter')">
-        <div class="pcard-t">마음 여행편지</div>
-        <div class="pcard-c">마음을 전하는 편지</div>
-        <div class="price2 col"><span class="p-list">정가 29,000원</span><span class="p-now">19,900원</span><span class="p-term">발급일로부터 1년 이내 이용 · 디지털 콘텐츠</span></div>
-        <div class="btnrow">
-          <button class="b-buy" onclick="event.stopPropagation();goItem('letter')">예매</button>
         </div>
       </div>
     </div>
@@ -461,7 +453,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   <div class="legal">
     <div id="lfFoot"></div>
-<script src="/lf-foot.js" defer></script>
+<script src="/lf/prices.js" defer></script>
+  <script src="/lf-foot.js" defer></script>
   </div>
 
   <div class="toast" id="toast">복사되었어요</div>
