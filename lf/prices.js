@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/prices.js · v7 · 260730
+   현재 버전 ▶ lf/prices.js · v8 · 260730
    사랑흐름 가격 원장 — 전 화면이 이 한 파일을 씁니다.
 
    ★★ 못 박는 원칙 넷
@@ -17,6 +17,8 @@
    [쓰는 법] 금액을 보일 자리에 이름표만 둡니다.
      <span data-lf-price="LF-M001"></span>                     → 19,900원
      <span data-lf-price="LF-M001" data-lf-fmt="plain"></span> → 19,900
+     <span data-lf-supply="LF-R100"></span>                    → 7,181,818원
+     <span data-lf-vat="LF-R100"></span>                       → 718,182원
      <span data-lf-name="LF-S020"></span>                      → 마음여행 20인
      <a data-lf-link="LF-S020" href="#">예매</a>  링크 있으면 그 주소로,
                                                   없으면 요소를 숨깁니다.
@@ -58,6 +60,17 @@
          편지 단품 29,000 은 이 흐름에 없던 값이고, 260711 주력 「관계여권 마음편지」
          29,800 은 지도를 품은 편지의 국내 런칭 할인가였다(정가 48,900).
      · 260730 — 개인 4개 주소 등록. 원장 스물넷 전량 채움
+     · 260730 (같은 날 뒤) — ★가격 배관 완결. 숫자를 쥐고 있던 화면·도구 여섯을
+         원장 하나로 모았습니다. pay · showcase · gate · kit/price · admin · hq-3756.
+         이제 금액을 바꿀 곳은 아래 UNIT 네 줄뿐입니다.
+     · 260730 — ★편지 단품 자리를 화면에서 걷어냄(대표 확정 이행).
+         pay PRODUCTS · pay 단품 카드 · showcase 단품 카드 · gate ITEMS ·
+         kit/price 단가표 · hq-3756 관리표에서 편지 단독 항목을 지웠습니다.
+         옛 주소 /pay.html?item=letter 로 들어오면 마음여행(세트)으로 흐릅니다.
+     · 260730 — ★입금액으로 상품을 가리는 자리를 원장에 물림.
+         admin 은 원장 스물넷 전량을 후보로 씁니다(단체 입금도 가림).
+     · 260730 — 공급가·부가세 이름표 신설(data-lf-supply · data-lf-vat).
+         기관 단가표가 표 숫자를 손으로 안 적고 원장에서 받습니다.
 
    © 2026 사랑흐름·LFRI™. 무단복제·상업적이용 금지.
    Unauthorized use strictly prohibited.
@@ -137,6 +150,22 @@
       if (!it) continue;
       var fmt = els[i].getAttribute('data-lf-fmt');
       els[i].textContent = comma(it.total) + (fmt === 'plain' ? '' : '원');
+    }
+
+    var sp = document.querySelectorAll('[data-lf-supply]');
+    for (var s = 0; s < sp.length; s++) {
+      var si = BOOK[sp[s].getAttribute('data-lf-supply')];
+      if (!si) continue;
+      var sf = sp[s].getAttribute('data-lf-fmt');
+      sp[s].textContent = comma(si.supply) + (sf === 'plain' ? '' : '원');
+    }
+
+    var vt = document.querySelectorAll('[data-lf-vat]');
+    for (var v2 = 0; v2 < vt.length; v2++) {
+      var vi = BOOK[vt[v2].getAttribute('data-lf-vat')];
+      if (!vi) continue;
+      var vf = vt[v2].getAttribute('data-lf-fmt');
+      vt[v2].textContent = comma(vi.vat) + (vf === 'plain' ? '' : '원');
     }
 
     var ns = document.querySelectorAll('[data-lf-name]');
