@@ -1,6 +1,28 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v9 · 260730
+     사랑흐름 · admin.html   v10 · 260730
+
+     [v10 · 260730 대표 확정] ★대량 발급 자리에 ★채널·계약번호 칸 둘을 더했습니다.
+       [왜 채널인가] 카드결제·현금·세금계산서·시스템 밖 입금은 성격이 하나입니다 —
+            ★돈은 들어왔고 접수(SR-)는 없습니다. 그래서 「입금 확인」 탭으로는 길이 없고,
+            그 손님에게 여권을 줄 정식 창구가 없었습니다. 대량 발급이 이미 그 일을 하는데
+            채널이 「조직판매」로 못 박혀 있어 카드 손님도 조직으로 찍혔습니다.
+            이제 채널을 골라 뽑으면 주문대장 채널 칸에 그대로 적혀 나중에 갈립니다.
+            ★목록은 GAS 가 보내줍니다. 화면에 값을 박아두지 않습니다.
+            ★계좌이체 값은 목록에 없습니다 — 그 값은 발권 검문소가 접수표를 찾게 만들어
+              반드시 거부됩니다. GAS 쪽에서도 목록 밖 값을 막습니다(두 겹).
+       [왜 계약번호인가] 배치번호가 뽑을 때마다 무작위로 새로 생겨, 오백 장을 서른씩
+            열일곱 번 뽑으면 ★배치가 열일곱 개로 흩어져 한 계약 것을 골라낼 수 없었습니다.
+            계약번호를 넣으면 그것으로 묶이고 ★순번이 스스로 이어집니다(GAS 가 주문대장에서
+            마지막 번호를 찾습니다). 비우시면 지금까지대로 자동입니다.
+       [결과 줄] 계약번호로 뽑으시면 「031번부터 060번까지 · 누적 60장」처럼 보여 드립니다.
+            서른씩 나눠 뽑으실 때 어디까지 왔는지 이 줄로 확인하십시오.
+       [문구 정정] 안내문의 「돈을 받지 않고 나갑니다」를 고쳤습니다. 카드·현금으로 받은 건도
+            이 자리에서 뽑게 되었으므로 사실이 아닙니다.
+            → 「시스템이 입금을 확인하지 않고 나갑니다」.
+       [짝꿍] 게시판 GAS v5-7 (채널 화이트리스트 · bulkNextSeq_ · 계약번호 처리)
+       [무손] 네 탭·열쇠·잠금·jsonp·waitMs·입금 확인 탭·표 도구(LFTable)·정렬
+            ·PRICES·PICKS·priceName·복사·CSS — 한 글자도 안 건드림.
 
      [v9 · 260730 대표 확정] ★「받은 금액」 선택지를 개인 넷으로 좁혔습니다.
        [무엇이 문제였나] v8 에서 원장 스물넷을 전부 후보로 쓰면서, 「받은 금액」
@@ -417,8 +439,14 @@ body{
       <div class="bk">
 
         <div class="warn">
-          여기서 뽑은 여권은 <b>돈을 받지 않고 나갑니다.</b><br>
-          조직에 넘길 것만 뽑으십시오. 뽑기 전에 장수를 다시 보십시오.
+          여기서 뽑은 여권은 <b>시스템이 입금을 확인하지 않고 나갑니다.</b><br>
+          돈이 들어왔는지 눈으로 확인하신 뒤 뽑으십시오. 뽑기 전에 장수를 다시 보십시오.
+        </div>
+
+        <div class="row">
+          <label>채널</label>
+          <select id="bCh"><option value="">불러오는 중…</option></select>
+          <div class="hint">주문대장 채널 칸에 적힙니다. 카드·현금·계산서로 받은 건도 이 자리에서 발급하십시오.</div>
         </div>
 
         <div class="row">
@@ -436,6 +464,12 @@ body{
         <div class="row">
           <label>상품</label>
           <select id="bItem"><option value="">불러오는 중…</option></select>
+        </div>
+
+        <div class="row">
+          <label>계약번호</label>
+          <input id="bBatch" type="text" autocomplete="off" placeholder="비우면 자동" maxlength="20">
+          <div class="hint">여러 번 나눠 뽑을 때 <b>같은 번호</b>를 넣으십시오. 순번이 스스로 이어집니다. 비우시면 이번 뽑기만의 번호가 생깁니다.</div>
         </div>
 
         <div class="row">
@@ -577,6 +611,7 @@ function lockMsg(){ go('lock'); }
    ══════════════════════════════════════════════════════════════════ */
 
 var BULK_ITEMS = [];      /* GAS 가 보내주는 목록. ★화면에 박아두지 않습니다 */
+var BULK_CH    = [];      /* ★v10 채널 목록도 GAS 가 보내줍니다. 화면에 박아두지 않습니다 */
 var BULK_MAX   = 30;
 var BULK_WAIT  = 8 * 60 * 1000;   /* 8분 — 서른 장이 3분쯤 걸립니다 */
 var BULK_LAST  = null;    /* 마지막으로 뽑은 결과 (복사용) */
@@ -589,6 +624,7 @@ function loadBulkItems(){
       return;
     }
     BULK_ITEMS = res.bulkItems || [];
+    BULK_CH    = res.channels  || [];      /* ★v10 */
     if(res.bulkMax) BULK_MAX = Number(res.bulkMax);
     paintBulkItems();
   });
@@ -617,6 +653,17 @@ function paintBulkItems(){
   document.getElementById('bQtyHint').innerHTML =
       '한 번에 <b>' + BULK_MAX + '장</b>까지입니다. 한 장에 5초쯤 걸립니다. '
     + '뽑는 동안 이 창을 닫지 마십시오.';
+
+  /* ★v10 채널 — GAS 가 보내준 목록으로 그립니다. 화면에 값을 박아두지 않습니다.
+     ※계좌이체 값은 GAS 목록에 없습니다(검문소에 걸리는 값이라 일부러 뺐습니다). */
+  var cs = document.getElementById('bCh');
+  if(cs){
+    var ch = '';
+    for(var c=0;c<BULK_CH.length;c++){
+      ch += '<option value="' + esc(BULK_CH[c].v) + '">' + esc(BULK_CH[c].name) + '</option>';
+    }
+    cs.innerHTML = ch || '<option value="">채널을 불러오지 못했습니다</option>';
+  }
 }
 
 function doBulk(){
@@ -627,6 +674,15 @@ function doBulk(){
   var out   = document.getElementById('bOut');
   var btn   = document.getElementById('bRun');
 
+  /* ★v10 채널·계약번호 — 채널은 GAS 목록에서 고른 값, 계약번호는 비워도 됩니다. */
+  var chEl  = document.getElementById('bCh');
+  var ch    = chEl ? (chEl.value || '').trim() : '';
+  var chNm  = (chEl && chEl.options[chEl.selectedIndex]) ? chEl.options[chEl.selectedIndex].text : ch;
+  var batch = (document.getElementById('bBatch').value || '').trim().toUpperCase();
+
+  if(!ch){        out.innerHTML = '<div class="bad">채널을 골라 주십시오.</div>'; return; }
+  if(batch && !/^[A-Z0-9\-]{4,20}$/.test(batch)){
+                  out.innerHTML = '<div class="bad">계약번호는 영문·숫자·붙임표 4~20자입니다. (예: ORG-0730-DABOK)</div>'; return; }
   if(!org){       out.innerHTML = '<div class="bad">받는 곳 이름을 넣어 주십시오.</div>'; return; }
   if(!/^[0-9]{4}$/.test(orgNo)){
                   out.innerHTML = '<div class="bad">배포처 번호는 숫자 넉 자입니다. (예: 1001)</div>'; return; }
@@ -638,7 +694,10 @@ function doBulk(){
   /* ★한 번 더 묻습니다 — 여기서 나가는 여권은 돈을 안 받은 것입니다 */
   var nm = document.getElementById('bItem');
   nm = nm.options[nm.selectedIndex] ? nm.options[nm.selectedIndex].text : item;
-  if(!confirm(org + ' 앞으로\n' + nm + ' ' + qty + '장을 뽑습니다.\n\n돈을 받지 않고 나갑니다. 진행할까요?')){
+  if(!confirm(org + ' 앞으로\n' + nm + ' ' + qty + '장을 뽑습니다.\n'
+            + '채널 ' + chNm + '\n'
+            + (batch ? ('계약번호 ' + batch + ' (순번은 이어집니다)\n') : '계약번호 자동\n')
+            + '\n시스템이 입금을 확인하지 않습니다. 진행할까요?')){
     return;
   }
 
@@ -646,7 +705,8 @@ function doBulk(){
   btn.textContent = '뽑는 중입니다…';
   out.innerHTML = '<div class="oh">기다려 주십시오. 한 장에 5초쯤 걸립니다.</div>';
 
-  jsonp({ action:'adminBulk', key:KEY, org:org, orgNo:orgNo, item:item, qty:qty },
+  jsonp({ action:'adminBulk', key:KEY, org:org, orgNo:orgNo, item:item, qty:qty,
+          channel:ch, batch:batch },                      /* ★v10 */
     function(res){
       btn.disabled = false;
       btn.textContent = '여권 뽑기';
@@ -676,6 +736,17 @@ function paintBulkOut(res){
 
   h += '<div class="oh">' + esc(res.org) + ' &middot; ' + esc(res.name)
      + ' &middot; ' + made.length + '장 나왔습니다</div>';
+
+  /* ★v10 계약번호로 뽑으신 경우 — 몇 번부터 몇 번까지인지, 지금까지 몇 장인지 보여 줍니다.
+     오백 장을 서른씩 나눠 뽑으실 때 어디까지 왔는지 이 줄로 확인하십시오. */
+  if(res.contract && made.length){
+    var f = made[0].seq, l = made[made.length-1].seq;
+    h += '<div class="oh">계약번호 ' + esc(res.batch) + ' &middot; '
+       + esc(f) + '번부터 ' + esc(l) + '번까지 &middot; 이 계약 누적 '
+       + (Number(l)) + '장</div>';
+  }else if(made.length){
+    h += '<div class="oh">배치 ' + esc(res.batch) + ' (이번 뽑기만의 번호)</div>';
+  }
 
   if(made.length){
     h += '<div class="list">';
