@@ -1,4 +1,4 @@
-<!-- ★ 현재 버전 ▶ reenter.html · v2-12 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
+<!-- ★ 현재 버전 ▶ reenter.html · v2-13 · 260802 · ★편지 문을 GAS 편지 화면(letter v65)으로 돌림 — 260802 이사회 14차 결론(회신 5건 중 3건 v64 지지·1건은 이식 전제가 실측과 달라 성립 안 함). 260702 만장일치로 정한 결과물 구조(첫 장은 오직 편지 · 편지만/전체 저장 팝업 · A4 246mm 물리 컷 · 폰트 축소 금지)가 GAS 쪽에만 있고 /letter/ 에는 인쇄 설계가 0건이라 결과물이 깨지던 것. 꽃비 맞이 의식(/l/)은 그대로 둡니다. 붙는 모양은 그대로 목적지+'?id='+여권번호 이고, GAS 주소가 /exec 로 끝나 /exec?id=LF-XXXXX 가 됩니다. [무손] 그 밖 링크·발권·ITEMS·원장·GAS 호출·결제·디자인·색값 전부.   ─── 지난 이력 ─── v2-12 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v2-11 이전) ───────────────────────────── -->
 <!DOCTYPE html>
@@ -446,7 +446,7 @@ function resumeGoNow(fresh){
   }
   /* ★LINK.letter 는 '/l/'(꽃비 맞이 의식)입니다. 이어가는 손님에게 의식을 다시 보여줄 수 없고
      ?resume= 도 그 화면을 넘어가며 사라집니다. → 이어가기는 편지 본 화면(/letter/)으로 직행합니다. */
-  var RESUME_LINK = { journey:'/journey/', letter:'/letter/' };
+  var RESUME_LINK = { journey:'/journey/', letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec' };
   var u = RESUME_LINK[RES.kind];
   if(!u){ showToast('연결 예정입니다'); return; }
   u += '?id=' + encodeURIComponent(RES.pp) + (fresh ? '&fresh=1' : '&resume=1');
@@ -729,7 +729,7 @@ function lfPaintWay(){
      폰에서 쓰다 PC로 오면 번호를 넣어도 못 찾습니다.
      어디서든 이어지려면 서버(시트)에 담아야 하고, 그건 GAS 위험구간이라 별건입니다.
    ═══════════════════════════════════════════════════════════════════ */
-var LF_RESUME_LINK = { journey:'/journey/', letter:'/letter/' };
+var LF_RESUME_LINK = { journey:'/journey/', letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec' };
 
 function lfReadDraft(kind, pp){
   try{
