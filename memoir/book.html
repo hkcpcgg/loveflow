@@ -1,4 +1,4 @@
-<!-- ★ 현재 버전 ▶ memoir/book.html · v20 · 260803 · [작업 v20] ★책에서 나가는 문 — 원고를 펼친 뒤 되돌아갈 자리가 없었습니다. 책 아래에 ★「인쇄·PDF 로 저장」 「쓰던 이야기 이어 쓰기」 「다른 이야기 남기러 가기」와 얇은 링크(소개·여권으로 입장·홈)를 답니다. 여권번호를 그대로 실어 보냅니다. ★인쇄할 때는 이 줄이 안 찍힙니다(@media print 에서 감춤). [v19 이어받음] ?id= 로 손님 원고를 받아 표지·차례·꼭지·맺음을 찍음. ?id= 없으면 견본 그대로. [절대보존] CSS·mm 치수 154군데·@page·장 틀(sheet/ch-hd/ch-body/ch-ft)·표지·맺음 마크업·견본 base64 이미지·하단 줄 = 한 글자도 안 건드렸습니다. 순수 추가(스크립트 한 덩이 + 감싸는 div 둘)만 했습니다.  ①하단 줄 신설 — 공용 부품(/lf-foot.js). 이 화면엔 하단 줄이 아예 없었음. 링크 여섯 + 저작권 한글 1줄 + 영문 2줄.
+<!-- ★ 현재 버전 ▶ memoir/book.html · v23 · 260803 · [작업 v23] ★사진 쪽에 제목과 설명 — 사진만 크게 앉히니 그 아래가 텅 비고, 그 사진이 무엇인지 아무 말도 없었습니다. 사진 아래에 ★제목(6mm 굵게)·금색 짧은 선·★설명(4.2mm 여러 줄) 순으로 앉힙니다. 제목이 있는데 꼭지 이름을 또 붙이면 군더더기라 뺐습니다. 제목을 안 적으셨으면 꼭지 이름이 들어가고, 설명이 비면 그 줄이 아예 안 나옵니다(빈 줄 안 남김). [짝꿍] 자서전 GAS v8 (photoTitles·photoDescs) · ask.html v36. [v22 이어받음] 손님 책에서 견본 무늬 제거 · 사진 한 쪽 전면. [v21 이어받음] 맺음 장 가운데 정렬. [v19 이어받음] ?id= 로 손님 원고를 받아 표지·차례·꼭지·맺음을 찍음. ?id= 없으면 견본 그대로. [절대보존] CSS·mm 치수 154군데·@page·장 틀(sheet/ch-hd/ch-body/ch-ft)·표지·맺음 마크업·견본 base64 이미지·하단 줄 = 한 글자도 안 건드렸습니다. 순수 추가(스크립트 한 덩이 + 감싸는 div 둘)만 했습니다.  ①하단 줄 신설 — 공용 부품(/lf-foot.js). 이 화면엔 하단 줄이 아예 없었음. 링크 여섯 + 저작권 한글 1줄 + 영문 2줄.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v17 이전) ───────────────────────────── -->
 <!-- 사랑흐름 · 자서전 책 memoir/book.html ★v17 · 260723 · [작업 v17] 맺음 장에 대표 실제 손글씨 서명(2번·투명 PNG base64 임베드) 골드 밑줄 위에 얹음 — sign.html PNG 얹기 배관을 견본으로 실증(실제 제품=window.__lfSignature 동일 자리). 안내 문구 제거. · [작업 v16] 맺음 서명 레이아웃(대표 지시) — 날짜 우측→가운데, 서명 옆→위아래(활자 이름 위·골드 밑줄 아래·전부 가운데), 날짜↕서명↕견본 두 줄씩 띄워 아래 여백까지 여유. 밑줄 위 = 대표 서명 이미지 얹을 자리. · [작업 v15] 맺음 서명 격식화(대표 지시) — 맺음 문장 + 날짜 2026-07-23(활자) + 활자 이름「황인용」 + 골드 밑줄 서명란(빈 줄). 점선 상자(.ph) 폐기→밑줄 격식. 견본은 대표가 직접 손글씨, 실제 제품은 sign.html PNG가 밑줄 위에 얹힘. · [작업 v14] 8-C 맺음 서명 장 추가 (6쪽·강조 다음·마지막). 활자 타이틀 「삶의 여정」(표지와 동일·바인더 대칭) + 손글씨 서명 자리(.ph 자리표시 재활용, 견본 원칙 「예시 금지」·손글씨는 손님 것이라 안 지어냄). 실제 제품=sign.html window.__lfSignature(toDataURL PNG)가 이 .ph 자리에 얹힘. 카피는 sign.html 확정본 재사용. · [작업 v13] ①표지·마지막장 타이틀 「○○ 선생님 이야기」→「○○ 선생님의 삶의 여정」(260723 확정, '이야기' 가벼움 반영). ②강조 페이지 본문을 앞 챕터(제1장 그 한마디·제3장 연필/없던 길)와 잇게 재조판 — 아무데나 통하는 일반 문장 폐기. · [작업 v12] 강조 페이지 「내 삶을 가장 바꾼 사람」 추가 — ④ 이사회 확정(260723)·새 질문 아닌 기존 답 재배치. 제3장 뒤 5쪽, ch-hd/ch-body(.emph)/ch-ft 동일 조판 재사용, 견본 워터마크·푸터 유지. 사진 없음(강조는 글 재배치). · [작업 v11] 대표 지시 — 페이지마다 "샘플·견본" 표시. 각 sheet 중앙에 은은한 대각선 워터마크(.sheet::after "견본 · SAMPLE", 연한 네이비 opacity 0.06, 본문 .z 아래 z-index라 가독 방해 없음). 표지 포함 전 페이지 적용. 기존 하단 "— 견본입니다 —" 문구는 유지(이중 안전). · [작업 v10] 대표 피드백(하단 텅 빔·글씨 작음) — ①본문 4.8mm→5.4mm 확대(어르신 가독) + 드롭캡·인용 확대 ②각 장 글 3문단으로(한 문단 추가) ③ch-body를 flex column space-between으로 펴 글·사진·인용·견본표시를 상·중·하 분배 → 하단까지 채움. 사진은 65mm 유지. · [작업 v9] 성별 정합 — 남성(황인용 선생님) 자서전인데 유년기 사진이 여자아이라 어긋남 → ①제1장 유년기 장 통째 제거 ②장 재정렬(키워주신 분들·가정·일터=제1·2·3장, pg 2·3·4) ③일터에 남성 도면 사진 추가(사진 2장=결혼식·일터, 둘 다 남성) ④이름 황별용→황인용. · [작업 v8] 대표 피드백 — ①사진은 향수 강한 2장(제1장 유년기·제3장 가정)만, 나머지 장(제2·4)은 글·인용 중심(사진첩 아닌 "책"으로, 취향 섞기) ②사진 액자 130mm→65mm 축소(조판·여백이 주인공, 사진은 향수 요소) ③표지 이름 견본 "황○○ 선생님의 이야기"→"황별용 선생님 이야기". · [작업 v7] 인생 여정 확장 — 제3장 "가정을 이루다"(결혼식) · 제4장 "일터에서"(도면) 추가(대표 제공 사진, 동일 웜톤·골드 액자·견본 표시). 장이 적어 부실해 보이던 문제 해소, 유년기→키워주신 분들→가정→일 흐름. 각 장 pg 4·5. · [작업 v6] 대표 피드백 반영 — ①표지 위계 뒤집기(주인공 "○○ 선생님의 이야기" 크게 / "한 편의 기록"은 작은 시리즈명) ②표지 제작·법정문구 맨 하단 2줄 최소글씨 압축 ③제1·2장 실제 글+사진+인용(실물 완성도) + 페이지 하단 "견본" 표시로 완성본 오인 방지(이사회 취지 유지) ④제2장 제목 "나를 키운 사람들"→"나를 키워주신 분들" ⑤하단 QR 그리드 중앙 강제 정렬. 사진=대표 제공(어머니·아이 마당 / 한옥 어머니), 은은한 웜톤 보정 후 골드 액자, base64 임베드(자기완결·배포 시 HTML 하나로 사진까지). · [작업 v5] ★견본판 — 지어낸 본문 제거 (이사회 「예시 본문 금지」 · 대표 승인 260715)
@@ -106,6 +106,19 @@
   .emph .sign-cap{font-size:2.6mm;color:var(--muted);text-align:center;margin-top:2mm;letter-spacing:.5mm}
   .close .sample-mark{margin-top:22mm}
 
+  /* ★[v22] 손님 원고(#bookWrap)에서만 — 견본 무늬를 걷고 사진을 크게 */
+  #bookWrap .sheet::after{content:none !important;display:none !important}
+  #bookWrap .sample-mark{display:none !important}
+  /* 사진 한 장이 한 쪽을 차지합니다. 잘리지 않게 원본 비율 그대로. */
+  #bookWrap .photo-page{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6mm}
+  #bookWrap .photo-page .photoimg{width:auto;height:auto;max-width:150mm;max-height:185mm;
+    background:var(--paper);padding:3mm;border:0.4mm solid var(--gold-deep);
+    box-shadow:0 0 0 0.3mm rgba(212,175,55,.4)}
+  #bookWrap .photo-page .photoimg img{width:auto;height:auto;max-width:144mm;max-height:179mm;object-fit:contain;display:block}
+  #bookWrap .photo-page .ph-ttl{font-size:6mm;color:var(--navy-deep);font-weight:700;letter-spacing:.6mm;text-align:center}
+  #bookWrap .photo-page .ph-desc{max-width:130mm;font-size:4.2mm;line-height:1.95;color:var(--ink);text-align:center}
+  #bookWrap .photo-page .ph-cap{font-size:3.2mm;color:var(--gold-deep);letter-spacing:1.2mm;text-align:center}
+  #bookWrap .photo-page .ph-rule{width:34mm;height:0.3mm;background:var(--gold-deep);opacity:.6}
   #bkBar{max-width:210mm;margin:14px auto 40px;padding:0 8mm}
   #bkBar .bk-in{background:#FFFBF5;border:1px solid rgba(30,74,118,.22);border-radius:14px;padding:16px 16px 14px}
   #bkBar .bk-b{display:block;width:100%;margin-bottom:9px;padding:14px 12px;border-radius:24px;
@@ -365,22 +378,48 @@ function bkRender(d){
   H.push(toc);
 
   /* ── 꼭지 ── */
+  /* ★[v22] 사진은 ★한 장이 한 쪽입니다. 본문 아래 작게 붙이던 것을 걷었습니다.
+     책이 얇은데 사진까지 작으면 무게가 안 실립니다. 잘리지 않게 원본 비율 그대로 크게 앉힙니다. */
   var photos = (d.photos || []).filter(function(x){ return x; });
+  var pCap = ['그 시절', '그때 곁에 있던 사람', '오래 지니고 있는 것'];
   var pAt = [0, Math.floor(live.length/2), live.length-1];
-  var used = 0;
+  var used = 0, pageNo = 2;
+
   for(var k=0;k<live.length;k++){
     var body = '<div class="text">';
     for(var j=0;j<live[k].paras.length;j++){ body += '<p>' + bkEsc(live[k].paras[j]) + '</p>'; }
     body += '</div>';
-    if(photos[used] && pAt.indexOf(k)>=0){
-      body += '<div class="photoimg"><img src="' + photos[used] + '" alt="올리신 사진"></div>';
-      used++;
-    }
     H.push('<div class="sheet">'
       + '<div class="z ch-hd"><div class="ch-no">제 ' + (k+1) + ' 장</div>'
       +   '<div class="ch-title">' + bkEsc(live[k].title) + '</div></div>'
       + '<div class="z ch-body">' + body + '</div>'
-      + bkFoot(k+2) + '</div>');
+      + bkFoot(pageNo) + '</div>');
+    pageNo++;
+
+    if(photos[used] && pAt.indexOf(k) >= 0){
+      /* ★[v23] 사진 아래에 제목과 설명. 안 적으셨으면 꼭지 이름이 들어가고, 설명은 아예 안 나옵니다. */
+      var pt = (d.photoTitles && d.photoTitles[used]) ? String(d.photoTitles[used]).replace(/^\s+|\s+$/g,'') : '';
+      var pd = (d.photoDescs  && d.photoDescs[used])  ? String(d.photoDescs[used]).replace(/^\s+|\s+$/g,'')  : '';
+      if(!pt){ pt = live[k].title; }
+      var pdHtml = '';
+      if(pd){
+        var lines = pd.split(/\r?\n/), ps = '';
+        for(var q2=0;q2<lines.length;q2++){
+          var ln = lines[q2].replace(/^\s+|\s+$/g,'');
+          if(ln){ ps += '<p style="margin:0 0 2mm">' + bkEsc(ln) + '</p>'; }
+        }
+        pdHtml = '<div class="ph-desc">' + ps + '</div>';
+      }
+      H.push('<div class="sheet">'
+        + '<div class="z ch-body photo-page">'
+        +   '<div class="photoimg"><img src="' + photos[used] + '" alt="올리신 사진"></div>'
+        +   '<div class="ph-ttl">' + bkEsc(pt) + '</div>'
+        +   '<div class="ph-rule"></div>'
+        +   pdHtml
+        + '</div>'
+        + bkFoot(pageNo) + '</div>');
+      pageNo++; used++;
+    }
   }
 
   /* ── 맺음 ── */
@@ -388,7 +427,7 @@ function bkRender(d){
   try{ sig = window.__lfSignature || ''; }catch(e){ sig=''; }
   H.push('<div class="sheet">'
     + '<div class="z ch-hd"><div class="ch-no">맺 음</div><div class="ch-title">긴 여정의 끝에서</div></div>'
-    + '<div class="z ch-body"><div class="emph">'
+    + '<div class="z ch-body emph close">'
     +   '<div class="who2">' + who + '</div>'
     +   '<div class="big-quote">이 한 권이 나의 삶이었음을,<br>여기 내 손으로 남깁니다</div>'
     +   '<div class="sign-block">'
@@ -397,8 +436,8 @@ function bkRender(d){
     +     (sig ? '<img class="sign-img" src="' + sig + '" alt="서명">' : '<div class="sign-blank"></div>')
     +     '<div class="sign-cap">' + (sig ? '' : '서명을 남기실 자리입니다') + '</div>'
     +   '</div>'
-    + '</div></div>'
-    + bkFoot(live.length+2) + '</div>');
+    + '</div>'
+    + bkFoot(pageNo) + '</div>');
 
   document.getElementById('bookWrap').innerHTML = H.join('\n');
   document.getElementById('sampleWrap').style.display = 'none';
