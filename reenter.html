@@ -1,4 +1,4 @@
-<!-- ★ 현재 버전 ▶ reenter.html · v2-13 · 260802 · ★편지 문을 GAS 편지 화면(letter v65)으로 돌림 — 260802 이사회 14차 결론(회신 5건 중 3건 v64 지지·1건은 이식 전제가 실측과 달라 성립 안 함). 260702 만장일치로 정한 결과물 구조(첫 장은 오직 편지 · 편지만/전체 저장 팝업 · A4 246mm 물리 컷 · 폰트 축소 금지)가 GAS 쪽에만 있고 /letter/ 에는 인쇄 설계가 0건이라 결과물이 깨지던 것. 꽃비 맞이 의식(/l/)은 그대로 둡니다. 붙는 모양은 그대로 목적지+'?id='+여권번호 이고, GAS 주소가 /exec 로 끝나 /exec?id=LF-XXXXX 가 됩니다. [무손] 그 밖 링크·발권·ITEMS·원장·GAS 호출·결제·디자인·색값 전부.   ─── 지난 이력 ─── v2-12 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
+<!-- ★ 현재 버전 ▶ reenter.html · v2-14 · 260803 · [작업 v2-14] ★입장 경로 보완 — ①「한 편의 기록 이어 쓰기」 칸 신설(LINK.memoir=/memoir/ask.html · goWith 로 여권번호 실어 보냄). 자서전만 들어갈 문이 이 화면에 없었습니다. ②버튼 위에 안내 한 줄 신설 — 번호를 넣고 누르면 그대로 입장한다는 것을 말로 적음(입장 버튼이 없다는 대표 지적). [무손] goWith·checkResume·지난 여행 안내·여권 찾기·드로어·푸터·티커·공유 부품 = 미변경.  ★편지 문을 GAS 편지 화면(letter v65)으로 돌림 — 260802 이사회 14차 결론(회신 5건 중 3건 v64 지지·1건은 이식 전제가 실측과 달라 성립 안 함). 260702 만장일치로 정한 결과물 구조(첫 장은 오직 편지 · 편지만/전체 저장 팝업 · A4 246mm 물리 컷 · 폰트 축소 금지)가 GAS 쪽에만 있고 /letter/ 에는 인쇄 설계가 0건이라 결과물이 깨지던 것. 꽃비 맞이 의식(/l/)은 그대로 둡니다. 붙는 모양은 그대로 목적지+'?id='+여권번호 이고, GAS 주소가 /exec 로 끝나 /exec?id=LF-XXXXX 가 됩니다. [무손] 그 밖 링크·발권·ITEMS·원장·GAS 호출·결제·디자인·색값 전부.   ─── 지난 이력 ─── v2-12 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v2-11 이전) ───────────────────────────── -->
 <!DOCTYPE html>
@@ -261,8 +261,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:#eef1f4;display:flex;justi
     </div>
 
     <!-- 여권번호 입력 후 원하는 곳으로 (버튼이 번호 확인+이동) -->
-    <button class="f-go primary" style="margin-top:20px" onclick="goWith('journey')">🗺️ 여행지도 보기 →</button>
+    <p class="entry-hint">위에 여권번호를 넣으시고, <b>보실 곳을 눌러 주세요.</b><br>누르시면 그대로 입장하십니다.</p>
+    <button class="f-go primary" onclick="goWith('journey')">🗺️ 여행지도 보기 →</button>
     <button class="f-go" onclick="goWith('letter')">✉️ 편지 보기 →</button>
+    <button class="f-go" onclick="goWith('memoir')">📖 한 편의 기록 이어 쓰기 →</button>
 
     <!-- 번호 잊음 → 여권 찾기 -->
     <div class="lk-wrap"><a class="lk-toggle" onclick="go('find')">여권번호를 잊으셨나요? · 여권 찾기 →</a></div>
@@ -364,7 +366,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#eef1f4;display:flex;justi
 
 <script>
 /* ===== 여권 찾기 v2 (A안) — 링크만 관리, GAS 미호출 ===== */
-var LINK={home:'/',compass:'/',journey:'/journey/',letter:'/l/'   /* [v21·260713] ★옛 GAS 주소(script.google.com) → /l/. 눌러도 옛 빈칸 편지로 가던 것 */,find:'/find/',about:'/about.html',trust:'/trust.html',kakao:'https://pf.kakao.com/_ExndxfX'};
+var LINK={home:'/',compass:'/',journey:'/journey/',letter:'/l/'   /* [v21·260713] ★옛 GAS 주소(script.google.com) → /l/. 눌러도 옛 빈칸 편지로 가던 것 */,memoir:'/memoir/ask.html',find:'/find/',about:'/about.html',trust:'/trust.html',kakao:'https://pf.kakao.com/_ExndxfX'};
 var FOUND='';
 function goHome(){location.href=LINK.home;}
 function go(k){var u=LINK[k];if(u){location.href=u;}else{showToast('연결 예정입니다');}}
