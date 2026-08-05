@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/enter.js · v2 · 260804 — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
+   현재 버전 ▶ lf/enter.js · v3 · 260804 — ★자리표에 확실히 붙게 + 표제 중복 제거(대표 지적). ①화면이 <div id="lfEnterSlot"> 를 두면 반드시 그 안에 들어가고, 그때는 부품의 표제 두 줄과 찾기 링크를 감춥니다 — 그 화면이 이미 「여기서 여권을 넣으세요」라고 말한 자리이므로 한 화면에 표제가 둘이 되지 않게. ②자리표도 길 셋도 아직 없으면 0.25초 뒤 한 번 더 붙여 봅니다(화면이 늦게 그리는 경우). ③★화면에서 부를 때 /lf/enter.js?v=3 처럼 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡혀 엉뚱한 자리에 붙습니다. — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
    사랑흐름 공용 입구 부품 — 전 화면이 이 한 파일을 씁니다.
 
    [쓰는 법] 화면 하단에 아래 한 줄만 둡니다.
@@ -102,6 +102,8 @@
       + '.lfent .lfe-find{display:block;text-align:center;margin-top:10px;font-size:12px;color:#8A6D28;'
       + 'text-decoration:underline;cursor:pointer}'
       + '.lfent .lfe-box{display:none}'
+      + '.lfent.inslot{margin-top:2px}'
+      + '.lfent.inslot .lfe-h,.lfent.inslot .lfe-s,.lfent.inslot .lfe-find{display:none}'
       + '@media print{.lfent{display:none !important}}';
     document.head.appendChild(s);
   }
@@ -229,11 +231,13 @@
     host.id = 'lfEnter';
     host.innerHTML = html();
 
-    /* 화면이 자리표를 두었으면 그 자리에, 없으면 길 셋 위 → 푸터 위 */
+    /* 화면이 자리표를 두었으면 반드시 그 자리에. 자리표가 있는 화면은
+       그 화면이 이미 「여기서 여권을 넣으세요」라고 말한 자리이므로
+       부품의 표제 두 줄과 찾기 링크를 감춥니다(한 화면에 표제가 둘이 되지 않게). */
     var slot = document.getElementById('lfEnterSlot');
     var way = document.getElementById('lfway');
     var foot = document.getElementById('lfFoot');
-    if (slot) { slot.appendChild(host); }
+    if (slot) { host.className = 'lfent inslot'; slot.appendChild(host); }
     else if (way && way.parentNode) { way.parentNode.insertBefore(host, way); }
     else if (foot && foot.parentNode) { foot.parentNode.insertBefore(host, foot); }
     else { document.body.appendChild(host); }
@@ -280,6 +284,14 @@
     watch();
   }
 
-  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', boot); }
-  else { boot(); }
+  function start() {
+    /* 자리표가 아직 안 그려졌을 수 있습니다. 있으면 그때 붙입니다. */
+    if (!document.getElementById('lfEnterSlot') && !document.getElementById('lfway')) {
+      setTimeout(function () { boot(); }, 250);
+      return;
+    }
+    boot();
+  }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', start); }
+  else { start(); }
 })();
