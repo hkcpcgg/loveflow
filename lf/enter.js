@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/enter.js · v5 · 260804 — ★사이트 밖(편지 GAS 웹앱)에서도 쓰도록. GAS 는 script.google.com 에서 iframe 안으로 돌기 때문에 상대주소가 안 통하고 부모 창을 움직여야 합니다. 주소 판별(inGas)로 그때만 절대주소(www.loveflow.ai.kr)를 붙이고 window.top 을 움직입니다. 사이트 안에서는 지금까지와 똑같이 동작합니다. 쇼룸·여권 찾기도 같은 길을 씁니다. ★화면에서 부를 때 꼬리표를 v5 로 올리십시오. — ★비켜 가는 곳을 reenter 하나로 줄입니다(대표 지적). v3 까지는 홈·입장·지도 답하는 중·편지 쓰는 중·자서전 쓰는 중 다섯을 비켜 갔는데, 오늘 목적이 「어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있게」였습니다. 전부 엽니다. 쓰던 중인 화면에서도 답이 날아가지 않도록 부품은 언제나 길 셋 위(화면 맨 아래)에 놓입니다. 자리표(lfEnterSlot)를 둔 화면에서는 그 자리에 들어가고 표제·찾기 링크를 감춥니다. ★화면에서 부를 때 /lf/enter.js?v=4 로 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡힙니다. — ★자리표에 확실히 붙게 + 표제 중복 제거(대표 지적). ①화면이 <div id="lfEnterSlot"> 를 두면 반드시 그 안에 들어가고, 그때는 부품의 표제 두 줄과 찾기 링크를 감춥니다 — 그 화면이 이미 「여기서 여권을 넣으세요」라고 말한 자리이므로 한 화면에 표제가 둘이 되지 않게. ②자리표도 길 셋도 아직 없으면 0.25초 뒤 한 번 더 붙여 봅니다(화면이 늦게 그리는 경우). ③★화면에서 부를 때 /lf/enter.js?v=3 처럼 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡혀 엉뚱한 자리에 붙습니다. — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
+   현재 버전 ▶ lf/enter.js · v6 · 260804 — ★고르는 자리인지 알 수 없던 것 해소(대표 지적). ①위에 안내 한 줄 「어느 여행을 이어가시겠어요?」를 세웁니다 — 아래 상자가 고르는 자리라는 것을 먼저 말합니다. ②고르는 자리는 ★흰 바탕 + 테두리 + 또렷한 화살표(▾)로, 누르는 버튼은 채워진 색으로 갈랐습니다. 지금까지 셋 다 연한 파랑이라 버튼 셋으로 보였습니다. 글자도 16px 로 키웠습니다. ③「LF-XXXXX 여권으로 보고 계십니다」가 안내문보다 크고 진해 제목처럼 보이던 것 — 작고 옅게 낮춰 뒤로 물렸습니다. ④버튼에 옅은 그림자를 넣어 눌리는 것임을 보탰습니다. ★한 파일만 고치면 열세 화면이 함께 바뀝니다. 화면에서 부를 때 꼬리표를 v6 으로 올리십시오. — ★사이트 밖(편지 GAS 웹앱)에서도 쓰도록. GAS 는 script.google.com 에서 iframe 안으로 돌기 때문에 상대주소가 안 통하고 부모 창을 움직여야 합니다. 주소 판별(inGas)로 그때만 절대주소(www.loveflow.ai.kr)를 붙이고 window.top 을 움직입니다. 사이트 안에서는 지금까지와 똑같이 동작합니다. 쇼룸·여권 찾기도 같은 길을 씁니다. ★화면에서 부를 때 꼬리표를 v5 로 올리십시오. — ★비켜 가는 곳을 reenter 하나로 줄입니다(대표 지적). v3 까지는 홈·입장·지도 답하는 중·편지 쓰는 중·자서전 쓰는 중 다섯을 비켜 갔는데, 오늘 목적이 「어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있게」였습니다. 전부 엽니다. 쓰던 중인 화면에서도 답이 날아가지 않도록 부품은 언제나 길 셋 위(화면 맨 아래)에 놓입니다. 자리표(lfEnterSlot)를 둔 화면에서는 그 자리에 들어가고 표제·찾기 링크를 감춥니다. ★화면에서 부를 때 /lf/enter.js?v=4 로 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡힙니다. — ★자리표에 확실히 붙게 + 표제 중복 제거(대표 지적). ①화면이 <div id="lfEnterSlot"> 를 두면 반드시 그 안에 들어가고, 그때는 부품의 표제 두 줄과 찾기 링크를 감춥니다 — 그 화면이 이미 「여기서 여권을 넣으세요」라고 말한 자리이므로 한 화면에 표제가 둘이 되지 않게. ②자리표도 길 셋도 아직 없으면 0.25초 뒤 한 번 더 붙여 봅니다(화면이 늦게 그리는 경우). ③★화면에서 부를 때 /lf/enter.js?v=3 처럼 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡혀 엉뚱한 자리에 붙습니다. — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
    사랑흐름 공용 입구 부품 — 전 화면이 이 한 파일을 씁니다.
 
    [쓰는 법] 화면 하단에 아래 한 줄만 둡니다.
@@ -85,16 +85,21 @@
       + 'text-transform:uppercase;font-family:inherit;outline:none;box-sizing:border-box}'
       + '.lfent .lfe-in:focus{border-color:#1E4A76}'
       + '.lfent .lfe-in::placeholder{color:#C9CFD6;letter-spacing:1px;font-size:16px}'
-      + '.lfent .lfe-sel{width:100%;height:50px;margin-top:10px;border:1.5px solid #D8E2EC;border-radius:14px;'
-      + 'background:#F7FAFD;color:#1E4A76;font-size:15px;font-weight:700;font-family:inherit;padding:0 14px;'
-      + 'outline:none;-webkit-appearance:none;appearance:none;box-sizing:border-box}'
+      + '.lfent .lfe-lead{margin-top:14px;font-size:12.5px;font-weight:700;color:#7A8794;letter-spacing:-.2px}'
+      /* 고르는 자리 = 흰 바탕에 테두리 + 화살표. 누르는 자리(버튼)와 눈으로 갈립니다. */
+      + '.lfent .lfe-sel{width:100%;height:52px;margin-top:6px;border:1.5px solid #C7D5E2;border-radius:14px;'
+      + 'background-color:#fff;color:#1E4A76;font-size:16px;font-weight:800;font-family:inherit;'
+      + 'padding:0 42px 0 16px;outline:none;-webkit-appearance:none;appearance:none;box-sizing:border-box;'
+      + 'background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'14\' height=\'9\'%3E%3Cpath d=\'M1 1.5l6 6 6-6\' fill=\'none\' stroke=\'%231E4A76\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E");'
+      + 'background-repeat:no-repeat;background-position:right 16px center}'
+      + '.lfent .lfe-sel:focus{border-color:#1E4A76}'
       + '.lfent .lfe-btns{display:flex;flex-direction:column;gap:9px;margin-top:10px}'
       + '.lfent .lfe-b{width:100%;min-height:50px;padding:12px 14px;border-radius:14px;border:none;cursor:pointer;'
       + 'font-family:inherit;font-size:15px;font-weight:800;letter-spacing:-.3px;line-height:1.4;background:#1E4A76;color:#fff}'
       + '.lfent .lfe-b.sub{background:#F7FAFD;color:#1E4A76;border:1.5px solid #D8E2EC}'
       + '.lfent .lfe-b.look{background:#FBEFD5;color:#8A6D28;border:1.5px solid #E6C97A}'
       + '.lfent .lfe-b:active{opacity:.6}'
-      + '.lfent .lfe-pp{text-align:center;font-size:12px;font-weight:700;color:#8A6D28;margin-top:12px;letter-spacing:.5px}'
+      + '.lfent .lfe-pp{text-align:center;font-size:11.5px;font-weight:500;color:#9AA5B1;margin-top:10px;letter-spacing:.3px}'
       + '.lfent .lfe-n{margin-top:9px;font-size:12.5px;line-height:1.65;color:#7A8794;text-align:center}'
       + '.lfent .lfe-n b{color:#1E4A76}'
       + '.lfent .lfe-find{display:block;text-align:center;margin-top:10px;font-size:12px;color:#8A6D28;'
@@ -102,6 +107,7 @@
       + '.lfent .lfe-box{display:none}'
       + '.lfent.inslot{margin-top:2px}'
       + '.lfent.inslot .lfe-h,.lfent.inslot .lfe-s,.lfent.inslot .lfe-find{display:none}'
+      + '.lfent .lfe-btns .lfe-b{box-shadow:0 2px 8px rgba(30,74,118,.14)}'
       + '@media print{.lfent{display:none !important}}';
     document.head.appendChild(s);
   }
@@ -113,6 +119,7 @@
       + '<a class="lfe-find" id="lfeFind">번호가 기억나지 않으시면 · 사랑흐름 여권 찾기 &rarr;</a>'
       + '<div class="lfe-box" id="lfeBox">'
       +   '<div class="lfe-pp" id="lfePp"></div>'
+      +   '<div class="lfe-lead">어느 여행을 이어가시겠어요?</div>'
       +   '<select class="lfe-sel" id="lfeSel">'
       +     '<option value="map">마음 여행지도</option>'
       +     '<option value="letter">마음 여행편지</option>'
