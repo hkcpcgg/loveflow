@@ -1,4 +1,4 @@
-<!-- ★ 현재 버전 ▶ journey/result.html · v1-7 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
+<!-- ★ 현재 버전 ▶ journey/result.html · v1-8 · 260804 · [작업 v1-8] 돌아오는 문 신설 — 결과물 문 표준(LF-P45) 4층. 밖으로 보내는 것(저장·보내기) 바로 아래에 「내가 남긴 것 보기」를 둡니다. 누르면 여권번호를 실어 reenter 로 갑니다 — 나갔다 오셔도 번호를 다시 묻지 않습니다. 인쇄할 때는 감춥니다. 「고치기」는 기능이 아직 없어 붙이지 않았습니다(빈 버튼 금지). [근거] 260804 외부 이사 만장일치 — 밖이 먼저, 돌아오는 문은 바로 곁에. [무손] 게이지·사운드·도장·관계우주·편지 다리·저장·카톡·lfway·색값 전부 미변경. · v1-7 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v1-6 이전) ───────────────────────────── -->
 <!DOCTYPE html>
@@ -503,6 +503,10 @@ function render(D){
      · 간직하기 → 이 여행일지 저장하기 (이 화면 전체가 종이로)
      · 관계우주 보기 → 삭제 (아래 "다른 분과 여행하기"와 뜻이 겹침) */
   h+='<div class="subbtns"><button onclick="saveResult()">💾 이 여행일지 저장하기</button><button onclick="shareKakao()">💬 내 여행자 유형 보내기</button></div></div>';
+  /* [v1-8 · 260804] ★돌아오는 문 — 결과물 문 표준 LF-P45 4층.
+     밖으로 보내는 것(저장·보내기) 바로 아래에 안으로 들이는 문을 둡니다.
+     260804 외부 이사 만장일치: 나가는 성취감이 다시 들어오게 만듭니다. */
+  h+='<div class="backin"><button class="bi-b" onclick="goMine()">📂 내가 남긴 것 보기<span class="bi-s">이 여권으로 남긴 지도 · 편지 · 기록</span></button></div>';
   /* [v3-1] 여행 도장 — 결과를 받아본 시각을 남깁니다 */
   h+='<div class="stampbox" id="stampBox">'
     +'<div class="sb-t">오늘의 여행 기록을 잘 받으셨나요?</div>'
@@ -547,6 +551,22 @@ document.addEventListener('click',function(){ document.getElementById('drawer').
    base 가 빈 값이 되어 ★버튼을 눌러도 아무 일이 없었습니다(죽은 버튼).
    목적지를 /l/ (편지 통로 · gate·enter 라이브 표준)로 못 박습니다.
    여권번호는 주소에 없으면 보관해둔 것을 씁니다. */
+/* [v1-8] ★돌아오는 문이 여는 곳 — 이 여권으로 남긴 것들. 여권을 실어 보냅니다. */
+function goMine(){
+  var id = '';
+  try { id = myPassport(); } catch(e) { id = ''; }
+  location.href = '/reenter.html' + (id ? '?id=' + encodeURIComponent(id) : '');
+}
+(function(){
+  var s = document.createElement('style');
+  s.textContent = '.backin{max-width:420px;margin:10px auto 0;padding:0 16px;box-sizing:border-box}'
+    + '.backin .bi-b{width:100%;display:block;padding:13px 14px;border:1px solid #D8E2EC;border-radius:14px;'
+    + 'background:#F7FAFD;color:#1E4A76;font-size:14.5px;font-weight:700;letter-spacing:-.3px;cursor:pointer;line-height:1.45}'
+    + '.backin .bi-b:active{opacity:.6}'
+    + '.backin .bi-s{display:block;margin-top:3px;font-size:11.5px;font-weight:500;color:#7A8794;letter-spacing:-.2px}'
+    + '@media print{.backin{display:none !important}}';
+  document.head.appendChild(s);
+})();
 function toLetter(){
   departSound();
   var id = myPassport();
