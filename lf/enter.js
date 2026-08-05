@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/enter.js · v1 · 260804
+   현재 버전 ▶ lf/enter.js · v2 · 260804 — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
    사랑흐름 공용 입구 부품 — 전 화면이 이 한 파일을 씁니다.
 
    [쓰는 법] 화면 하단에 아래 한 줄만 둡니다.
@@ -46,10 +46,12 @@
   /* ── 안 까는 곳 ── */
   function skip() {
     var p = location.pathname;
-    if (p.indexOf('/reenter') === 0) { return true; }
-    if (p.indexOf('/journey/') === 0 && p.indexOf('result') < 0) { return true; }
-    if (p.indexOf('/letter/') === 0) { return true; }
-    if (p.indexOf('/memoir/ask') === 0) { return true; }
+    if (p === '/' || p === '/index.html') { return true; }   /* 홈 — 처음 오신 분이 대부분 */
+    if (p.indexOf('/enter') === 0) { return true; }          /* 발권 직후 들어가는 자리 — 이미 손에 여권이 있습니다 */
+    if (p.indexOf('/reenter') === 0) { return true; }        /* 그 화면이 이미 입구 */
+    if (p.indexOf('/journey/') === 0 && p.indexOf('result') < 0) { return true; }  /* 지도 질문 중 */
+    if (p.indexOf('/letter/') === 0) { return true; }        /* 편지 쓰는 중 */
+    if (p.indexOf('/memoir/ask') === 0) { return true; }     /* 자서전 질문 중 */
     return false;
   }
 
@@ -94,6 +96,7 @@
       + '.lfent .lfe-b.sub{background:#F7FAFD;color:#1E4A76;border:1.5px solid #D8E2EC}'
       + '.lfent .lfe-b.look{background:#FBEFD5;color:#8A6D28;border:1.5px solid #E6C97A}'
       + '.lfent .lfe-b:active{opacity:.6}'
+      + '.lfent .lfe-pp{text-align:center;font-size:12px;font-weight:700;color:#8A6D28;margin-top:12px;letter-spacing:.5px}'
       + '.lfent .lfe-n{margin-top:9px;font-size:12.5px;line-height:1.65;color:#7A8794;text-align:center}'
       + '.lfent .lfe-n b{color:#1E4A76}'
       + '.lfent .lfe-find{display:block;text-align:center;margin-top:10px;font-size:12px;color:#8A6D28;'
@@ -109,6 +112,7 @@
       + '<input class="lfe-in" id="lfeIn" placeholder="LF-XXXXX" inputmode="text" autocomplete="off">'
       + '<a class="lfe-find" id="lfeFind">번호가 기억나지 않으시면 · 사랑흐름 여권 찾기 &rarr;</a>'
       + '<div class="lfe-box" id="lfeBox">'
+      +   '<div class="lfe-pp" id="lfePp"></div>'
       +   '<select class="lfe-sel" id="lfeSel">'
       +     '<option value="map">마음 여행지도</option>'
       +     '<option value="letter">마음 여행편지</option>'
@@ -139,6 +143,8 @@
 
     if (!DATA) { box.style.display = 'none'; btns.innerHTML = ''; note.innerHTML = ''; return; }
     box.style.display = 'block';
+    var pel = document.getElementById('lfePp');
+    if (pel) { pel.textContent = PP ? (PP + ' 여권으로 보고 계십니다') : ''; }
 
     var k = sel.value, s = DATA[k] || {}, nm = NAME[k], d = DEST[k], v = VERB[k];
     var h = '', n = '';
@@ -223,9 +229,12 @@
     host.id = 'lfEnter';
     host.innerHTML = html();
 
+    /* 화면이 자리표를 두었으면 그 자리에, 없으면 길 셋 위 → 푸터 위 */
+    var slot = document.getElementById('lfEnterSlot');
     var way = document.getElementById('lfway');
     var foot = document.getElementById('lfFoot');
-    if (way && way.parentNode) { way.parentNode.insertBefore(host, way); }
+    if (slot) { slot.appendChild(host); }
+    else if (way && way.parentNode) { way.parentNode.insertBefore(host, way); }
     else if (foot && foot.parentNode) { foot.parentNode.insertBefore(host, foot); }
     else { document.body.appendChild(host); }
 
@@ -238,13 +247,34 @@
       if (k) { input.value = k; }
     }
     var find = document.getElementById('lfeFind');
-    if (find) { find.onclick = function () { location.href = '/find/'; }; }
+    if (find) {
+      /* 화면에 이미 「사랑흐름 여권 찾기」가 있으면 두 번 보이지 않게 감춥니다 */
+      var dup = document.querySelector('a[href="/find/"], a[href="/find"]');
+      if (dup && dup !== find) { find.style.display = 'none'; }
+      else { find.onclick = function () { location.href = '/find/'; }; }
+    }
     var sel = document.getElementById('lfeSel');
     if (sel) { sel.onchange = paint; }
 
     sweep();
     setTimeout(sweep, 400);
     setTimeout(sweep, 1200);
+
+    /* ★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 그대로 이어 갑니다.
+       issue() 는 절대보존 대상이라 한 글자도 건드리지 않고, 여기서 지켜보기만 합니다. */
+    var tries = 0;
+    var eye = setInterval(function () {
+      tries += 1;
+      if (tries > 30) { clearInterval(eye); return; }
+      var got = '';
+      try { got = window.lfIssuedPassport || sessionStorage.getItem('lf_passport') || ''; } catch (e) {}
+      got = String(got).trim().toUpperCase();
+      if (!got || got === PP) { return; }
+      var box2 = document.getElementById('lfeIn');
+      if (box2 && !(box2.value || '').trim()) { box2.value = got; }
+      clearInterval(eye);
+      lookup(got);
+    }, 2000);
 
     paint();
     watch();
