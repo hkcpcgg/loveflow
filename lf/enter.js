@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/enter.js · v3 · 260804 — ★자리표에 확실히 붙게 + 표제 중복 제거(대표 지적). ①화면이 <div id="lfEnterSlot"> 를 두면 반드시 그 안에 들어가고, 그때는 부품의 표제 두 줄과 찾기 링크를 감춥니다 — 그 화면이 이미 「여기서 여권을 넣으세요」라고 말한 자리이므로 한 화면에 표제가 둘이 되지 않게. ②자리표도 길 셋도 아직 없으면 0.25초 뒤 한 번 더 붙여 봅니다(화면이 늦게 그리는 경우). ③★화면에서 부를 때 /lf/enter.js?v=3 처럼 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡혀 엉뚱한 자리에 붙습니다. — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
+   현재 버전 ▶ lf/enter.js · v5 · 260804 — ★사이트 밖(편지 GAS 웹앱)에서도 쓰도록. GAS 는 script.google.com 에서 iframe 안으로 돌기 때문에 상대주소가 안 통하고 부모 창을 움직여야 합니다. 주소 판별(inGas)로 그때만 절대주소(www.loveflow.ai.kr)를 붙이고 window.top 을 움직입니다. 사이트 안에서는 지금까지와 똑같이 동작합니다. 쇼룸·여권 찾기도 같은 길을 씁니다. ★화면에서 부를 때 꼬리표를 v5 로 올리십시오. — ★비켜 가는 곳을 reenter 하나로 줄입니다(대표 지적). v3 까지는 홈·입장·지도 답하는 중·편지 쓰는 중·자서전 쓰는 중 다섯을 비켜 갔는데, 오늘 목적이 「어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있게」였습니다. 전부 엽니다. 쓰던 중인 화면에서도 답이 날아가지 않도록 부품은 언제나 길 셋 위(화면 맨 아래)에 놓입니다. 자리표(lfEnterSlot)를 둔 화면에서는 그 자리에 들어가고 표제·찾기 링크를 감춥니다. ★화면에서 부를 때 /lf/enter.js?v=4 로 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡힙니다. — ★자리표에 확실히 붙게 + 표제 중복 제거(대표 지적). ①화면이 <div id="lfEnterSlot"> 를 두면 반드시 그 안에 들어가고, 그때는 부품의 표제 두 줄과 찾기 링크를 감춥니다 — 그 화면이 이미 「여기서 여권을 넣으세요」라고 말한 자리이므로 한 화면에 표제가 둘이 되지 않게. ②자리표도 길 셋도 아직 없으면 0.25초 뒤 한 번 더 붙여 봅니다(화면이 늦게 그리는 경우). ③★화면에서 부를 때 /lf/enter.js?v=3 처럼 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡혀 엉뚱한 자리에 붙습니다. — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
    사랑흐름 공용 입구 부품 — 전 화면이 이 한 파일을 씁니다.
 
    [쓰는 법] 화면 하단에 아래 한 줄만 둡니다.
@@ -46,12 +46,10 @@
   /* ── 안 까는 곳 ── */
   function skip() {
     var p = location.pathname;
-    if (p === '/' || p === '/index.html') { return true; }   /* 홈 — 처음 오신 분이 대부분 */
-    if (p.indexOf('/enter') === 0) { return true; }          /* 발권 직후 들어가는 자리 — 이미 손에 여권이 있습니다 */
-    if (p.indexOf('/reenter') === 0) { return true; }        /* 그 화면이 이미 입구 */
-    if (p.indexOf('/journey/') === 0 && p.indexOf('result') < 0) { return true; }  /* 지도 질문 중 */
-    if (p.indexOf('/letter/') === 0) { return true; }        /* 편지 쓰는 중 */
-    if (p.indexOf('/memoir/ask') === 0) { return true; }     /* 자서전 질문 중 */
+    /* ★260804 대표 확정 — 어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있어야 합니다.
+       비켜 가는 곳은 reenter 하나뿐입니다(그 화면이 이미 통째로 입구라 두 벌이 됩니다).
+       쓰던 중인 화면에서도 답이 날아가지 않도록, 부품은 언제나 길 셋 위(화면 맨 아래)에 놓입니다. */
+    if (p.indexOf('/reenter') === 0) { return true; }
     return false;
   }
 
@@ -125,13 +123,30 @@
       + '</div>';
   }
 
+  /* 사이트 밖(GAS 웹앱)에서 불릴 때는 상대주소가 안 통하고, iframe 안이라 부모 창을 움직여야 합니다. */
+  var HOME = 'https://www.loveflow.ai.kr';
+  function abs(u) { return (u.charAt(0) === '/') ? (HOME + u) : u; }
+  function inGas() { return location.hostname.indexOf('script.google') >= 0; }
   function go(url) {
     if (PP) { url += (url.indexOf('?') > -1 ? '&' : '?') + 'id=' + encodeURIComponent(PP); }
+    if (inGas()) { url = abs(url); }
+    try {
+      if (window.top && window.top !== window) { window.top.location.href = url; return; }
+    } catch (e) {}
     location.href = url;
   }
   window.lfeGo = go;
-  window.lfeShowroom = function () { location.href = SHOWROOM; };
+  window.lfeShowroom = function () {
+    var u = inGas() ? abs(SHOWROOM) : SHOWROOM;
+    try { if (window.top && window.top !== window) { window.top.location.href = u; return; } } catch (e) {}
+    location.href = u;
+  };
 
+  function go2(url) {
+    var u = inGas() ? abs(url) : url;
+    try { if (window.top && window.top !== window) { window.top.location.href = u; return; } } catch (e) {}
+    location.href = u;
+  }
   function btn(cls, label, onclick) {
     return '<button type="button" class="lfe-b ' + cls + '" onclick="' + onclick + '">' + label + '</button>';
   }
@@ -255,7 +270,7 @@
       /* 화면에 이미 「사랑흐름 여권 찾기」가 있으면 두 번 보이지 않게 감춥니다 */
       var dup = document.querySelector('a[href="/find/"], a[href="/find"]');
       if (dup && dup !== find) { find.style.display = 'none'; }
-      else { find.onclick = function () { location.href = '/find/'; }; }
+      else { find.onclick = function () { go2('/find/'); }; }
     }
     var sel = document.getElementById('lfeSel');
     if (sel) { sel.onchange = paint; }
