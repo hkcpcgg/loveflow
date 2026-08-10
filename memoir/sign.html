@@ -1,9 +1,37 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ memoir/sign.html · v1 · 260810 · [작업 v1] ★버전 헤더 신설 + ☰ 메뉴 + 문지기 + 상단바 정리 + 아래 길 셋 + 화면 이름 교체. [상단바] 이 화면만 「← 뒤로」가 글자로 크게 붙어 로고를 밀어내고 화면 이름을 오른쪽으로 밀었습니다(대표 지적). 형제 화면처럼 작은 ‹ 하나로 줄이고, 제목을 화면 정중앙에 고정했습니다. [아래 길] 책·질문 화면에는 있는 길 셋(←뒤로 · ⌂홈 · →내 책 보기)이 이 화면에만 없었습니다. [이름] 「맺음 의식」 → ★「이름 남기기」 — 맺음은 인생을 맺는다는 뜻으로 읽혀 어감이 무겁습니다(대표 지적). 첫 줄 「긴 여정의 끝에서」도 「이제, 책에 이름을 남길 차례입니다」로 바꿉니다. ★서명 배관(책 마지막 장으로 보내기)은 오늘 안 합니다 — 주석 메모로만 남깁니다(대표 지시). 이 파일은 버전 헤더가 아예 없어 언제 무엇을 고쳐는지 알 길이 없었습니다. 상단바는 있었으나 ☰ 자리가 비어 있어 들어오신 손님이 다른 데로 못 가고 갇혔습니다. 형제 화면(memoir/ask.html)의 드로어 마크업·CSS·함수를 그대로 옷기고, 빈 자리에 ☰ 한 개를 넣었습니다. 문지기(/lf/pass.js)도 붙입니다 — 대표 확정 260810 「어느 창에서든 일곱」. [무손] 서명 배관·캔버스·저장·본문·색값 전부. — © 2026 사랑흐름·LFRI™ 
+
+╔══════════════════════════════════════════════════════════════
+║ ★★ 남은 일 · 서명 배관 (260810 대표 지시로 메모만 남김)
+╟─────────────────────────────────────────────────────────────
+║ [사실] 책(memoir/book.html) 마지막 장에 서명 자리가 ★이미 완성돼 있습니다.
+║   날짜 → 활자 이름 → 골드 밑줄(.sign-blank 82mm) → 그 위에 서명 그림(.sign-img 66×19mm).
+║   지금은 대표님 손글씨 견본 PNG 가 그 자리에 얹혀 있습니다(book v17 기록).
+║
+║ [빠진 것] 서명 화면에서 만든 그림이 그 자리까지 건너가지 않습니다.
+║   318행 toDataURL → window.__lfSignature 에만 담기고 끝. 창을 닫으면 사라집니다.
+║   → 자서전 GAS 로 보내 남기고, book 이 여권번호로 받아 .sign-blank 안에 앚히면 됩니다.
+║   ★조판 공사가 아니라 「배관 한 줄」입니다 — 자리는 이미 있습니다.
+║
+║ [또 하나] 「○○○ 선생님의 삶의 여정」의 이름은 주소 뒤 ?name= 으로만 채워집니다(209행).
+║   그런데 사이트 어느 화면도 그 주소를 붙여 보내지 않아, 손님은 늘 ○○○ 를 봅니다.
+║   → 여권번호로 이름을 불러오거나, 앞 화면이 ?name= 을 실어 보내면 해결됩니다.
+║
+║ [화면 이름] 「맺음 의식」 은 인생을 맺는다는 뜻으로 읽혀 어감이 무겁습니다(대표 지적 260810).
+║   이 화면이 실제로 하는 일은 「책에 이름을 남기는 것」입니다. 끝이 아닙니다.
+║   → 이름과 첫 줄(「긴 여정의 끝에서」)을 함께 고쳐야 합니다. 대표 결정 대기.
+╚═══════════════════════════════════════════════════════════════
+-->
+
 <html lang="ko">
 <head>
+<!-- ★[260810] 문지기 + ☰ 메뉴 — 어느 화면에서든 같은 일곱이 있어야 합니다(대표 확정 260810).
+     형제 화면(입구·의식·질문)은 상단바와 ☰ 메뉴가 있는데 이 화면만 없어
+     들어오신 손님이 다른 데로 못 가고 갇혀 있었습니다. 형제 화면 것을 그대로 옷깁니다. -->
+<script src="/lf/pass.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>사랑흐름 · 맺음 의식</title>
+<title>사랑흐름 · 이름 남기기</title>
 <!--
      사랑흐름 · 자서전 맺음 의식 memoir/sign.html
      ★v260723sign1 · 260723 · [작업] 8-C 맺음 의식 본인 손글씨 서명 신규 제작.
@@ -47,6 +75,15 @@
     color:#fff; text-decoration:none; font-size:15px; opacity:.92;
     border:1px solid rgba(255,255,255,.35); border-radius:8px; padding:4px 10px;
   }
+  /* [260810] ★형제 화면과 같은 작은 뒤로 단추 */
+  .topbar .bk{background:none;border:0;color:#fff;font-size:20px;line-height:1;
+              cursor:pointer;padding:0 6px;opacity:.9}
+  .topbar .bk:active{opacity:.55}
+  /* [260810] ★제목을 화면 가운데에 고정합니다.
+     양쪽 단추 폭이 달라 가운데를 못 잡던 것 — 위치로 박습니다. */
+  .topbar{position:relative}
+  .topbar .ttl{position:absolute;left:50%;transform:translateX(-50%);
+               white-space:nowrap;pointer-events:none;flex:0 0 auto}
   .topbar .ttl{flex:1; text-align:center; font-size:16px; font-weight:500; letter-spacing:.5px}
   .topbar .spacer{width:64px}
 
@@ -126,21 +163,60 @@
   footer .flinks a{color:var(--navy); text-decoration:none}
   footer .cp{line-height:1.7}
   footer .home{display:inline-block; margin-top:10px; color:var(--navy); text-decoration:none; font-size:13px}
+
+/* [260810] ★드로어 — 형제 화면 규칙 그대로 */
+.gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;padding:11px 12px;background:#1E4A76;border-bottom:1px solid #163A5C}
+.gnav .home{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0}
+.gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+.gnav .bk{flex-shrink:0;background:none;border:none;color:#fff;font-size:24px;line-height:1;cursor:pointer;padding:2px 8px}
+.gnav .lc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.gnav .hm{flex-shrink:0;background:none;border:none;color:#fff;font-size:20px;line-height:1;cursor:pointer;margin-left:auto}
+.gdrawer{position:fixed;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:200}
+.gdrawer.on{opacity:1;visibility:visible}
+.gdpanel{position:absolute;top:0;right:0;width:80%;max-width:300px;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.15);transform:translateX(100%);transition:.26s}
+.gdrawer.on .gdpanel{transform:none}
+.gdhead{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid var(--line,#EEE9DF)}
+.gdhead b{font-size:17px;font-weight:900;color:var(--navy,#1E4A76)}
+.gdhead .x{border:none;background:none;font-size:20px;color:var(--sub,#7C8794);cursor:pointer}
+.gnav{width:100%!important;flex:0 0 100%!important;box-sizing:border-box}
 </style>
 </head>
 <body>
 
 <div class="topbar">
   <a class="logo" href="/memoir/"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름"><span>사랑흐름</span></a>
-  <a class="back" href="#" onclick="history.back();return false;">← 뒤로</a>
-  <div class="ttl">맺음 의식</div>
-  <div class="spacer"></div>
+  <!-- [260810] ★형제 화면(입구·의식·질문)과 같은 모양으로 맞춥니다.
+       이 화면만 「← 뒤로」가 글자로 크게 붙어 로고를 밀어내고,
+       그 탓에 화면 이름이 가운데를 못 잡고 오른쪽으로 밀렸습니다. -->
+  <button class="bk" onclick="history.back()" aria-label="뒤로">‹</button>
+  <div style="flex:1"></div>
+  <div class="ttl">이름 남기기</div>
+  <div style="flex:1"></div>
+  <button class="hm" onclick="gOpenMenu()" aria-label="메뉴" style="background:none;border:0;color:#fff;font-size:19px;cursor:pointer;padding:0 2px">☰</button>
+</div>
+<div class="gdrawer" id="gdrawer" onclick="if(event.target===this)gCloseMenu()">
+  <div class="gdpanel">
+    <div class="gdhead"><b>사랑흐름</b><button class="x" onclick="gCloseMenu()">✕</button></div>
+    <div class="gdbody">
+      <a onclick="ggoHome()">홈</a>
+      <a onclick="glgo('hanmadi')">마음 한마디</a>
+      <a onclick="glgo('journey')">여행지도 보기</a>
+      <a onclick="glgo('letter')">편지</a>
+      <a onclick="glgo('memoir')">자서전</a>
+      <a onclick="glgo('reenter')">여권으로 입장</a>
+      <a onclick="glgo('find')">사랑흐름 여권 찾기</a>
+      <a onclick="glgo('showroom')">여행의 기록</a>
+      <a onclick="glgo('showcase')">마음 여행 예매하기</a>
+      <a onclick="location.reload()">다시 시작</a>
+    </div>
+  </div>
 </div>
 
 <div class="petals" id="petals" aria-hidden="true"></div>
 
 <main>
-  <div class="lead">긴 여정의 끝에서</div>
+  <div class="lead">이제, 책에 이름을 남길 차례입니다</div>
   <div class="close-line" id="closeLine">이 책이 당신의 것임을,<br>당신의 손으로 남겨 주세요.</div>
 
   <div class="card" id="signCard">
@@ -332,5 +408,20 @@ document.getElementById('btnAgain').addEventListener('click', function(){
   g.style.color='';
 });
 </script>
+<script>
+/* [260810] ★메뉴 움직임 — 형제 화면과 같은 함수 */
+var GLINK={home:'/',hanmadi:'/',journey:'/journey/',letter:'/l/',reenter:'/reenter.html',find:'/find/',showroom:'/showroom.html',showcase:'/showcase.html',memoir:'/memoir/',ritual:'/memoir/ritual.html',ask:'/memoir/ask.html',book:'/memoir/book.html',about:'/about.html',trust:'/trust.html'};
+function ggoHome(){location.href=GLINK.home;}
+function glgo(k){var u=GLINK[k];if(!u){return;}if(k==='journey'||k==='letter'){var pp=passport_();if(pp){u+=(u.indexOf('?')>-1?'&':'?')+'id='+encodeURIComponent(pp);}}location.href=u;}
+function gOpenMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.add('on');}
+function gCloseMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.remove('on');}
+</script>
+
+<!-- ★[260810] 아래 길 셋 — 책·질문 화면과 같은 표준. 이 화면에만 없었습니다. -->
+<div id="lfway" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:18px auto 26px">
+  <a onclick="history.back()" style="display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #DDD3C4;border-radius:13px;background:#fff;cursor:pointer;text-decoration:none"><span style="font-size:11px;color:#94A0AE">←</span><span style="font-size:10.5px;font-weight:500;color:#7A8794">뒤로</span></a>
+  <a href="/" style="display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #DDD3C4;border-radius:13px;background:#fff;cursor:pointer;text-decoration:none"><span style="font-size:11px;color:#94A0AE">⌂</span><span style="font-size:10.5px;font-weight:500;color:#7A8794">홈</span></a>
+  <a href="/memoir/book.html" style="display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #DDD3C4;border-radius:13px;background:#fff;cursor:pointer;text-decoration:none"><span style="font-size:11px;color:#94A0AE">→</span><span style="font-size:10.5px;font-weight:500;color:#7A8794">내 책 보기</span></a>
+</div>
 </body>
 </html>
