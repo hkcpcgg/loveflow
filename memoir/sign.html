@@ -1,8 +1,25 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/sign.html · v1 · 260810 · [작업 v1] ★버전 헤더 신설 + ☰ 메뉴 + 문지기 + 상단바 정리 + 아래 길 셋 + 화면 이름 교체. [상단바] 이 화면만 「← 뒤로」가 글자로 크게 붙어 로고를 밀어내고 화면 이름을 오른쪽으로 밀었습니다(대표 지적). 형제 화면처럼 작은 ‹ 하나로 줄이고, 제목을 화면 정중앙에 고정했습니다. [아래 길] 책·질문 화면에는 있는 길 셋(←뒤로 · ⌂홈 · →내 책 보기)이 이 화면에만 없었습니다. [이름] 「맺음 의식」 → ★「이름 남기기」 — 맺음은 인생을 맺는다는 뜻으로 읽혀 어감이 무겁습니다(대표 지적). 첫 줄 「긴 여정의 끝에서」도 「이제, 책에 이름을 남길 차례입니다」로 바꿉니다. ★서명 배관(책 마지막 장으로 보내기)은 오늘 안 합니다 — 주석 메모로만 남깁니다(대표 지시). 이 파일은 버전 헤더가 아예 없어 언제 무엇을 고쳐는지 알 길이 없었습니다. 상단바는 있었으나 ☰ 자리가 비어 있어 들어오신 손님이 다른 데로 못 가고 갇혔습니다. 형제 화면(memoir/ask.html)의 드로어 마크업·CSS·함수를 그대로 옷기고, 빈 자리에 ☰ 한 개를 넣었습니다. 문지기(/lf/pass.js)도 붙입니다 — 대표 확정 260810 「어느 창에서든 일곱」. [무손] 서명 배관·캔버스·저장·본문·색값 전부. — © 2026 사랑흐름·LFRI™ 
+<!-- ★ 현재 버전 ▶ memoir/sign.html · v2 · 260810 · [작업 v2] ★이름 칸 신설 · ○○○ 없앰 · 남기는 배관 개통 · 끊긴 함수 채움.
+     [○○○] 이름 자리가 늘 비어 있었습니다. 주소 뒤 ?name= 으로만 채워지는데 그 주소를 붙여 보내는 화면이 하나도 없었습니다.
+       손님은 언제나 ○○○ 를 보셨습니다. 손글씨를 글자로 읽어 채우는 길은 쓰지 않습니다 — 한글·영문·한자를 가리지 않고,
+       흘려 쓰시면 기계가 못 읽어 엉뚱한 이름이 남습니다. ★이름은 글자판으로 따로 받고, 서명은 그림으로 따로 받습니다.
+     [이름 칸] 찍는 즉시 제목과 칸 안 흐린 글씨가 함께 바뀝니다. 비어 있으면 확정 단추가 열리지 않습니다.
+       이름을 못 받았을 때도 ○○○ 는 띄우지 않습니다 — 「선생님의 삶의 여정」으로 둡니다.
+     [남기는 배관] 지금까지 서명이 그 창의 기억에만 담겨 창을 닫으면 사라졌습니다.
+       ★자서전 GAS v9 의 saveSign 으로 이름·서명·서명한 때 셋을 함께 보냅니다.
+       보내는 방식은 ask.html v43 이 쓰는 것 그대로 — POST(no-cors) 로 보내고 되물어 확인합니다. 새로 지은 것 없습니다.
+       보내기 전에 그림을 견본 크기(392×121)로 줄입니다. 시트 한 칸이 5만 자까지라 큰 화면에서 그대로 보내면 넘칩니다.
+     [끊긴 함수] ☰ 메뉴가 passport_() 를 부르는데 이 파일 어디에도 없었습니다. 여행지도·편지를 누르면 그 자리에서 멈췄습니다.
+       ask.html v43 과 같은 순서(주소 → 창의 기억 → 기기의 기억)로 채웠습니다.
+     [끝낸 뒤] 서명 그림만 덩그러니 띄우던 자리에 ★삶의 여정에 어떻게 실리는지를 그대로 줄여 보여 드립니다.
+     [무손] 손글씨 부품(LFHW)·보정 세기·꽃잎·상단바·☰ 메뉴·아래 길 셋·푸터·색값 전부.
+     · v1 · 260810 · [작업 v1] ★버전 헤더 신설 + ☰ 메뉴 + 문지기 + 상단바 정리 + 아래 길 셋 + 화면 이름 교체. [상단바] 이 화면만 「← 뒤로」가 글자로 크게 붙어 로고를 밀어내고 화면 이름을 오른쪽으로 밀었습니다(대표 지적). 형제 화면처럼 작은 ‹ 하나로 줄이고, 제목을 화면 정중앙에 고정했습니다. [아래 길] 책·질문 화면에는 있는 길 셋(←뒤로 · ⌂홈 · →내 책 보기)이 이 화면에만 없었습니다. [이름] 「맺음 의식」 → ★「이름 남기기」 — 맺음은 인생을 맺는다는 뜻으로 읽혀 어감이 무겁습니다(대표 지적). 첫 줄 「긴 여정의 끝에서」도 「이제, 책에 이름을 남길 차례입니다」로 바꿉니다. ★서명 배관(책 마지막 장으로 보내기)은 오늘 안 합니다 — 주석 메모로만 남깁니다(대표 지시). 이 파일은 버전 헤더가 아예 없어 언제 무엇을 고쳐는지 알 길이 없었습니다. 상단바는 있었으나 ☰ 자리가 비어 있어 들어오신 손님이 다른 데로 못 가고 갇혔습니다. 형제 화면(memoir/ask.html)의 드로어 마크업·CSS·함수를 그대로 옷기고, 빈 자리에 ☰ 한 개를 넣었습니다. 문지기(/lf/pass.js)도 붙입니다 — 대표 확정 260810 「어느 창에서든 일곱」. [무손] 서명 배관·캔버스·저장·본문·색값 전부. — © 2026 사랑흐름·LFRI™ 
 
 ╔══════════════════════════════════════════════════════════════
-║ ★★ 남은 일 · 서명 배관 (260810 대표 지시로 메모만 남김)
+║ ★★ v2 에서 이어졌습니다 — 아래는 v1 시점의 기록입니다(남겨 둡니다)
+║   지금 남은 것 : ①삶의 여정(book.html)이 d.sign 을 골드 밑줄 ★안에 얹기
+║                  ②날짜를 최근저장이 아니라 ★서명한 때(d.signAt)로 바꾸기
+║                  ③서명이 무엇을 향한 승인인지 · 이용약관 문안 — 별건(대표 지시로 뒤로)
 ╟─────────────────────────────────────────────────────────────
 ║ [사실] 책(memoir/book.html) 마지막 장에 서명 자리가 ★이미 완성돼 있습니다.
 ║   날짜 → 활자 이름 → 골드 밑줄(.sign-blank 82mm) → 그 위에 서명 그림(.sign-img 66×19mm).
@@ -122,11 +139,43 @@
   .who b{color:var(--navy-deep); font-weight:700}
   .who-sub{text-align:center; color:var(--muted); font-size:14px; margin-bottom:20px}
 
+/* ★[v2] 이름 칸 — 손글씨를 읽는 것이 아니라 글자판으로 따로 받습니다 */
+.name-row{margin:0 0 20px}
+.name-lb{display:block; text-align:center; color:var(--navy); font-size:15px; margin-bottom:9px}
+.name-in{width:100%; box-sizing:border-box; padding:14px 14px; text-align:center;
+  font-family:inherit; font-size:19px; color:var(--navy-deep); letter-spacing:1px;
+  background:#fff; border:1.5px solid var(--line); border-radius:12px}
+.name-in:focus{outline:none; border-color:var(--navy)}
+.name-in::placeholder{color:#CFC5B4; font-size:16px; letter-spacing:0}
+.name-note{text-align:center; color:var(--muted); font-size:13px; margin-top:8px; min-height:18px}
+.name-note.warn{color:#C0392B}
+
+.btn-done:disabled{background:#C9CDD3; border-color:#C9CDD3; color:#F4F4F4; cursor:default}
+.btn-done:disabled:active{background:#C9CDD3}
+
+/* ★[v2] 남기지 못했을 때 — 손님을 세우지 않고 다시 눌러 보실 수 있게 */
+.send-note{text-align:center; font-size:14px; line-height:1.6; margin-top:12px; min-height:20px; color:var(--muted)}
+.send-note.warn{color:#C0392B}
+.send-note a{color:var(--navy); font-weight:500}
+
+/* ★[v2] 삶의 여정에 실리는 모습 — 견본 조판을 그대로 줄였습니다 */
+.pv{border:1px solid var(--line); border-radius:14px; background:var(--paper);
+  padding:22px 16px 18px; margin:4px 0 18px}
+.pv-who{text-align:center; font-size:15px; color:var(--navy-deep); line-height:1.55; margin-bottom:14px}
+.pv-vow{text-align:center; font-size:12.5px; color:var(--navy); font-style:italic; line-height:1.7; margin-bottom:16px}
+.pv-date{text-align:center; font-size:12px; color:var(--gold-deep); letter-spacing:3px; font-weight:700; margin-bottom:14px}
+.pv-name{text-align:center; font-size:17px; color:var(--navy-deep); font-weight:700; letter-spacing:6px; margin-bottom:8px}
+.pv-blank{width:74%; max-width:230px; height:52px; margin:0 auto; border-bottom:1.2px solid var(--gold-deep);
+  display:flex; align-items:flex-end; justify-content:center}
+.pv-blank img{max-width:100%; max-height:48px; display:block; margin-bottom:2px}
+.pv-cap{text-align:center; font-size:11.5px; color:var(--muted); margin-top:9px; letter-spacing:.5px}
+
   .sig-guide{text-align:center; color:var(--navy); font-size:15px; margin-bottom:10px}
   .padwrap{position:relative}
   canvas{width:100%; background:#fff; border:1px solid var(--line); border-radius:12px;
     touch-action:none; display:block; cursor:crosshair}
-  .ph{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  .padwrap:has(.lfhw-lock) .ph{display:none}
+.ph{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     color:#d8cdbc; font-family:'Nanum Pen Script',cursive; font-size:26px;
     pointer-events:none; text-align:center; line-height:1.4}
   .lfhw-lock{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
@@ -216,13 +265,20 @@
 <div class="petals" id="petals" aria-hidden="true"></div>
 
 <main>
-  <div class="lead">이제, 책에 이름을 남길 차례입니다</div>
-  <div class="close-line" id="closeLine">이 책이 당신의 것임을,<br>당신의 손으로 남겨 주세요.</div>
+  <div class="lead">이제, 삶의 여정에 이름을 남길 차례입니다</div>
+  <div class="close-line" id="closeLine">이 한 권이 당신의 것임을,<br>당신의 손으로 남겨 주세요.</div>
 
   <div class="card" id="signCard">
     <div class="rule"></div>
-    <div class="who" id="whoTitle"><b>○○○</b> 선생님의 삶의 여정</div>
+    <div class="who" id="whoTitle">선생님의 삶의 여정</div>
     <div class="who-sub">활자로 새겨진 이름 아래, 당신의 손글씨를 더합니다</div>
+
+    <div class="name-row">
+      <label class="name-lb" for="nameIn">삶의 여정에 새길 이름</label>
+      <input class="name-in" id="nameIn" type="text" maxlength="20" autocomplete="name"
+             placeholder="이름을 적어 주세요" aria-describedby="nameNote">
+      <div class="name-note" id="nameNote">글자판으로 적어 주세요. 아래 손글씨와 함께 남습니다</div>
+    </div>
 
     <div class="sig-guide">아래에 이름을 손글씨로 적어 주세요</div>
     <div class="padwrap">
@@ -232,16 +288,26 @@
 
     <div class="tools">
       <button class="btn btn-redo" id="btnRedo">다시 쓰기</button>
-      <button class="btn btn-done" id="btnDone">이 서명으로</button>
+      <button class="btn btn-done" id="btnDone" disabled>이 서명으로</button>
     </div>
+    <div class="send-note" id="sendNote"></div>
     <div class="hint">떨림만 부드럽게 다듬고, 당신의 글씨체는 그대로 둡니다</div>
   </div>
 
   <div class="card done-panel" id="donePanel">
     <div class="done-mark">✓</div>
     <div class="done-title">서명이 새겨졌습니다</div>
-    <div class="done-body" id="doneBody">이 서명은 「삶의 여정」의 마지막 장에 그대로 담깁니다.</div>
-    <div class="done-sign"><img id="doneImg" alt="새겨진 서명"></div>
+    <div class="done-body" id="doneBody">「삶의 여정」의 맨 끝에 이렇게 실립니다.</div>
+
+    <div class="pv" id="pvBox">
+      <div class="pv-who" id="pvWho">선생님의 삶의 여정</div>
+      <div class="pv-vow">이 한 권이 나의 삶이었음을,<br>여기 내 손으로 남깁니다</div>
+      <div class="pv-date" id="pvDate"></div>
+      <div class="pv-name" id="pvName"></div>
+      <div class="pv-blank"><img id="doneImg" alt="남기신 서명"></div>
+      <div class="pv-cap">실제 크기와 여백은 인쇄본에서 조금 다를 수 있습니다</div>
+    </div>
+
     <button class="done-again" id="btnAgain">다시 서명하기</button>
   </div>
 </main>
@@ -276,16 +342,110 @@
   }
 })();
 
-/* 이름 채우기 (?name=) */
+/* ★[v2] 자서전 GAS — ask.html v43 과 같은 주소입니다 */
+var MEMOIR_GAS='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+
+/* ★[v2] 여권번호 — ask.html v43 과 같은 순서(주소 → 창의 기억 → 기기의 기억).
+   v1 에서는 ☰ 메뉴가 이 함수를 부르는데 정의가 없어 그 자리에서 멈췄습니다. */
+function passport_(){
+  try{
+    if(window.LFPass && LFPass.no){ var v=LFPass.no(); if(v){ return v; } }
+  }catch(e){}
+  try{
+    var m=location.search.match(/[?&]id=(LF[ML]?-[A-Za-z0-9]+)/i);
+    if(m){ return String(m[1]).toUpperCase(); }
+  }catch(e2){}
+  try{ var s=sessionStorage.getItem('lf_passport'); if(s){ return String(s).toUpperCase(); } }catch(e3){}
+  try{ var d=localStorage.getItem('lf_passport');  if(d){ return String(d).toUpperCase(); } }catch(e4){}
+  return '';
+}
+
+/* ★[v2] 여행번호 — ask.html v43 의 TRIPNO 를 그대로 씁니다 */
+var TRIPNO=(function(){
+  try{
+    var t=parseInt(new URLSearchParams(location.search).get('trip'),10);
+    if(!isNaN(t)&&t>0){ return t; }
+    var s=parseInt(localStorage.getItem('lf_memoir_trip'),10);
+    if(!isNaN(s)&&s>0){ return s; }
+  }catch(e){}
+  return 1;
+})();
+
+/* ★[v2] 이름 칸 — 글자판으로 받습니다. 손글씨를 글자로 읽지 않습니다. */
+var nameIn   = document.getElementById('nameIn');
+var nameNote = document.getElementById('nameNote');
+var whoTitle = document.getElementById('whoTitle');
+var sigPh    = document.getElementById('sigph');
+var sendNote = document.getElementById('sendNote');
+var nameTouched = false;
+var NAME_HINT = '글자판으로 적어 주세요. 아래 손글씨와 함께 남습니다';
+
+function safe_(s){ return String(s==null?'':s).replace(/[<>&]/g,'').trim(); }
+
+function paintName_(){
+  var nm=safe_(nameIn.value);
+  if(nm){
+    whoTitle.innerHTML='<b>'+nm+'</b> 선생님의 삶의 여정';
+    sigPh.textContent=nm;
+  }else{
+    whoTitle.textContent='선생님의 삶의 여정';
+    sigPh.textContent='이름';
+  }
+}
+
+/* 이름과 손글씨가 둘 다 있어야 확정 단추가 열립니다 */
+function gate_(){
+  var btn=document.getElementById('btnDone');
+  var okName=!!safe_(nameIn.value);
+  var okSign=false;
+  try{ okSign=(typeof sig!=='undefined') && !sig.isEmpty(); }catch(e){ okSign=false; }
+  btn.disabled=!(okName && okSign);
+  if(nameTouched && !okName){
+    nameNote.textContent='이름을 적어 주셔야 남길 수 있습니다';
+    nameNote.className='name-note warn';
+  }else{
+    nameNote.textContent=NAME_HINT;
+    nameNote.className='name-note';
+  }
+}
+
+nameIn.addEventListener('input', function(){ nameTouched=true; paintName_(); gate_(); });
+nameIn.addEventListener('blur',  function(){ nameTouched=true; gate_(); });
+
+/* 첫 값 — 주소에 실려 오면 그것, 아니면 대장에 남아 있는 이름 */
 (function(){
   try{
     var q=new URLSearchParams(location.search);
-    var nm=(q.get('name')||'').trim();
-    if(nm){
-      document.getElementById('whoTitle').innerHTML='<b>'+nm.replace(/[<>&]/g,'')+'</b> 선생님의 삶의 여정';
-      document.getElementById('sigph').textContent = nm.replace(/[<>&]/g,'');
-    }
+    var nm=safe_(q.get('name'));
+    if(nm){ nameIn.value=nm; paintName_(); gate_(); return; }
   }catch(e){}
+
+  var pp=passport_();
+  if(!pp){ return; }
+
+  var cb='lfsn_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+  var s=document.createElement('script');
+  var done=false;
+  window[cb]=function(d){
+    done=true;
+    try{ delete window[cb]; }catch(e){}
+    if(s.parentNode){ s.parentNode.removeChild(s); }
+    if(d && d.status==='ok' && d.found && d.name && !safe_(nameIn.value)){
+      nameIn.value=safe_(d.name);
+      paintName_();
+      gate_();
+    }
+  };
+  s.src=MEMOIR_GAS+'?action=getBook&passport='+encodeURIComponent(pp)
+      +'&trip='+encodeURIComponent(TRIPNO)+'&callback='+cb+'&t='+Date.now();
+  s.onerror=function(){ if(s.parentNode){ s.parentNode.removeChild(s); } };
+  document.body.appendChild(s);
+  setTimeout(function(){
+    if(!done){
+      try{ delete window[cb]; }catch(e){}
+      if(s.parentNode){ s.parentNode.removeChild(s); }
+    }
+  }, 8000);
 })();
 
 /* ═══ LFHW · 손글씨 부품 (draw/index.html 에서 이식 · 보정 세기 무변경) ═══ */
@@ -382,21 +542,135 @@ sig.lock('여기를 눌러 이름을 적어 주세요');
 var signCard=document.getElementById('signCard');
 var donePanel=document.getElementById('donePanel');
 
-document.getElementById('btnRedo').addEventListener('click', function(){ sig.clear(); });
+document.getElementById('btnRedo').addEventListener('click', function(){ sig.clear(); gate_(); });
+
+/* 손글씨를 그리거나 지우실 때마다 확정 단추 상태를 다시 봅니다(부품은 안 건드립니다) */
+(function(){
+  var cv=sig.canvas;
+  var evs=['pointerup','pointercancel','mouseup','touchend','touchcancel'];
+  for(var i=0;i<evs.length;i++){
+    cv.addEventListener(evs[i], function(){ setTimeout(gate_,0); });
+  }
+})();
+
+/* ★[v2] 시트 한 칸이 5만 자까지라 큰 화면에서 그대로 보내면 넘칩니다.
+   견본과 같은 크기(392×121)로 줄여 보냅니다. 획은 그대로 남습니다. */
+function shrink_(cv){
+  try{
+    var MAXW=392, MAXH=121;
+    var w=cv.width, h=cv.height;
+    if(!w || !h){ return cv.toDataURL('image/png'); }
+    var r=Math.min(MAXW/w, MAXH/h, 1);
+    var out=document.createElement('canvas');
+    out.width  = Math.max(1, Math.round(w*r));
+    out.height = Math.max(1, Math.round(h*r));
+    var g=out.getContext('2d');
+    g.drawImage(cv, 0, 0, out.width, out.height);
+    return out.toDataURL('image/png');
+  }catch(e){
+    return cv.toDataURL('image/png');
+  }
+}
+
+function todayKo_(){
+  var d=new Date();
+  return d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일';
+}
+
+/* ★[v2] 보내고 되물어 확인 — ask.html v43 의 send_/verify_ 와 같은 방식입니다.
+   응답을 못 읽으므로(no-cors) 대장에 정말 담겼는지 다시 물어봅니다. */
+function sendSign_(pp, nm, url, ok, ng){
+  var job={ action:'saveSign', passport:pp, trip:TRIPNO, name:nm, sign:url };
+  try{
+    fetch(MEMOIR_GAS, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+      body: JSON.stringify(job)
+    }).then(function(){ verifySign_(pp, ok, ng); })
+      .catch(function(){ verifySign_(pp, ok, ng); });
+  }catch(e){
+    verifySign_(pp, ok, ng);
+  }
+}
+
+function verifySign_(pp, ok, ng){
+  var cb='lfsv_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+  var s=document.createElement('script');
+  var done=false;
+  window[cb]=function(d){
+    done=true;
+    try{ delete window[cb]; }catch(e){}
+    if(s.parentNode){ s.parentNode.removeChild(s); }
+    if(d && d.status==='ok' && d.found && String(d.sign||'')){ ok(d); } else { ng(); }
+  };
+  s.src=MEMOIR_GAS+'?action=getBook&passport='+encodeURIComponent(pp)
+      +'&trip='+encodeURIComponent(TRIPNO)+'&callback='+cb+'&t='+Date.now();
+  s.onerror=function(){ if(!done){ done=true; if(s.parentNode){ s.parentNode.removeChild(s); } ng(); } };
+  document.body.appendChild(s);
+  setTimeout(function(){
+    if(!done){
+      done=true;
+      try{ delete window[cb]; }catch(e){}
+      if(s.parentNode){ s.parentNode.removeChild(s); }
+      ng();
+    }
+  }, 12000);
+}
 
 document.getElementById('btnDone').addEventListener('click', function(){
+  var btn=this;
+  var nm=safe_(nameIn.value);
+
+  if(!nm){
+    nameTouched=true;
+    gate_();
+    nameIn.focus();
+    return;
+  }
   if(sig.isEmpty()){
     var g=document.querySelector('.sig-guide');
     g.textContent='먼저 이름을 손글씨로 적어 주세요';
     g.style.color='#C0392B';
     return;
   }
-  var url = sig.canvas.toDataURL('image/png');
-  window.__lfSignature = url;   /* 다음 단계: book 마지막 장 조판 · GAS 저장에서 사용 */
-  document.getElementById('doneImg').src = url;
-  signCard.style.display='none';
-  donePanel.classList.add('on');
-  window.scrollTo({top:0, behavior:'smooth'});
+
+  var pp=passport_();
+  if(!pp){
+    sendNote.className='send-note warn';
+    sendNote.innerHTML='사랑흐름 여권번호가 있어야 남길 수 있습니다. '
+      + '<a href="/find/">사랑흐름 여권 찾기 ›</a>';
+    return;
+  }
+
+  var url=shrink_(sig.canvas);
+  window.__lfSignature=url;   /* 같은 창 안에서 쓰는 임시 자리 */
+
+  btn.disabled=true;
+  btn.textContent='남기는 중…';
+  sendNote.className='send-note';
+  sendNote.textContent='이름과 서명을 남기고 있습니다';
+
+  sendSign_(pp, nm, url,
+    function(){
+      sendNote.textContent='';
+      document.getElementById('doneImg').src=url;
+      document.getElementById('pvName').textContent=nm;
+      document.getElementById('pvDate').textContent=todayKo_();
+      document.getElementById('pvWho').innerHTML='<b>'+nm+'</b> 선생님의 삶의 여정';
+      signCard.style.display='none';
+      donePanel.classList.add('on');
+      window.scrollTo({top:0, behavior:'smooth'});
+      btn.disabled=false;
+      btn.textContent='이 서명으로';
+    },
+    function(){
+      btn.disabled=false;
+      btn.textContent='이 서명으로';
+      sendNote.className='send-note warn';
+      sendNote.textContent='지금은 남기지 못했습니다. 잠시 뒤 한 번만 다시 눌러 주세요';
+    }
+  );
 });
 
 document.getElementById('btnAgain').addEventListener('click', function(){
@@ -406,7 +680,13 @@ document.getElementById('btnAgain').addEventListener('click', function(){
   var g=document.querySelector('.sig-guide');
   g.textContent='아래에 이름을 손글씨로 적어 주세요';
   g.style.color='';
+  sendNote.className='send-note';
+  sendNote.textContent='';
+  gate_();
 });
+
+/* 첫 상태 — 이름이 미리 채워져 있어도 손글씨가 없으면 잠긴 채로 시작합니다 */
+gate_();
 </script>
 <script>
 /* [260810] ★메뉴 움직임 — 형제 화면과 같은 함수 */
