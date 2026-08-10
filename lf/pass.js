@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/pass.js · v1-1 · 260810 (PART_V 7→8 — 부품 v8) — ★사랑흐름 문지기(신설).
+   현재 버전 ▶ lf/pass.js · v2 · 260810 — ★길 셋 깔기 + 로고 대체글자 통일 추가. 대표 확정 260810 「어느 창에서 시작해도 홈으로 가고 바로 앞으로 갈 수 있어야 한다」. 아홉 화면에 길이 없어 손님이 갇힐 수 있었습니다. (PART_V 8) — ★사랑흐름 문지기(신설).
 
    [왜 만들었나]
    여권번호를 찾고·심고·문을 열지 말지 판정하는 코드가 화면마다 따로
@@ -126,14 +126,120 @@
     } catch (e) {}
   }
 
+
+  /* ══════════════════════════════════════════════════════════════
+     ⑥ 길 셋 깔기 — ← 뒤로 · ⌂ 홈 · → 앞으로   [260810 대표 확정]
+     ──────────────────────────────────────────────────────────────
+     「어느 창에서 시작해도 홈으로 가고 바로 앞으로 갈 수 있어야 한다」.
+     재보니 아홉 화면에 이 길이 아예 없었습니다(소개·신뢰·우주·제안서·
+     안내자 넷·키트). 들어오신 손님이 갇힙니다.
+
+     규칙 셋
+       ① 이미 길이 있으면 손대지 않습니다 — 두 벌이 되면 더 나쁩니다
+       ② 답을 적는 화면(여행지도·편지)은 비켜 갑니다
+          — 「앞으로」를 누르면 쓰시던 답이 날아갑니다(확정 설계)
+       ③ 「앞으로」 갈 곳을 모르면 두 개만 깝니다(뒤로·홈)
+          — 억지로 만들어 엉뚱한 데로 보내지 않습니다
+
+     모양은 열아홉 화면이 쓰는 표준 그대로입니다(새로 지은 것 없음).
+     ══════════════════════════════════════════════════════════════ */
+
+  /* 앞으로 갈 곳 — 화면별. 없는 화면은 뒤로·홈 둘만 깝니다. */
+  var NEXT = {
+    '/about.html':         { u:'/showroom.html', t:'여행의 기록 보러 가기' },
+    '/trust.html':         { u:'/showroom.html', t:'여행의 기록 보러 가기' },
+    '/universe.html':      { u:'/showroom.html', t:'여행의 기록 보러 가기' },
+    '/proposal.html':      { u:'/partner.html',  t:'사랑흐름 여행 안내자' },
+    '/partner.html':       { u:'/partner-apply.html', t:'안내자 신청하기' },
+    '/partner-creed.html': { u:'/partner-apply.html', t:'안내자 신청하기' },
+    '/partner-link.html':  { u:'/partner.html',  t:'사랑흐름 여행 안내자' },
+    '/kit/index.html':     { u:'/showcase.html', t:'마음 여행 예매하기' },
+    '/kit/':               { u:'/showcase.html', t:'마음 여행 예매하기' }
+  };
+
+  /* 길을 깔지 않는 화면 — 답을 적는 자리 */
+  function skipWay() {
+    var p = location.pathname;
+    if (p.indexOf('/journey/') === 0 && p.indexOf('result') < 0) { return true; }
+    if (p.indexOf('/letter/') === 0) { return true; }
+    return false;
+  }
+
+  function wayCss() {
+    if (document.getElementById('lfwayCss')) { return; }
+    var s = document.createElement('style');
+    s.id = 'lfwayCss';
+    s.textContent =
+      '.lfway{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;'
+    + 'max-width:420px;margin:20px auto 10px;padding:0 16px;box-sizing:border-box}'
+    + '.lfway a{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;'
+    + 'border:1px solid #E6E1D8;border-radius:13px;background:#fff;'
+    + 'text-decoration:none;cursor:pointer;transition:.15s}'
+    + '.lfway a:active{opacity:.55}'
+    + '.lfway .ic{font-size:11px;color:#94A0AE;line-height:1}'
+    + '.lfway .tt{font-size:10.5px;font-weight:500;color:#7A8794;letter-spacing:-.2px}'
+    + '@media print{.lfway{display:none}}';
+    document.head.appendChild(s);
+  }
+
+  function way() {
+    try {
+      if (document.getElementById('lfway')) { return; }        /* 이미 있음 */
+      if (document.querySelector('.lfway, .ways, .wayrow')) { return; }
+      if (skipWay()) { return; }
+
+      var p = location.pathname;
+      var n = NEXT[p] || NEXT[p.replace(/index\.html$/, '')];
+
+      var h = '<div class="lfway" id="lfway">';
+      h += '<a onclick="history.back()"><span class="ic">←</span><span class="tt">뒤로</span></a>';
+      h += '<a href="/"><span class="ic">⌂</span><span class="tt">홈</span></a>';
+      if (n) {
+        h += '<a href="' + n.u + '"><span class="ic">→</span><span class="tt">' + n.t + '</span></a>';
+      }
+      h += '</div>';
+
+      /* 저작권 문구를 품은 덩어리 앞에 답니다 — 푸터 클래스가 화면마다 제각각입니다 */
+      var foot = document.querySelector('.lf-foot') || document.querySelector('#lfFoot')
+              || document.querySelector('.foot') || document.querySelector('footer')
+              || document.querySelector('.glegal') || document.querySelector('.legal');
+      if (!foot) {
+        var all = document.body.querySelectorAll('div');
+        for (var i = all.length - 1; i >= 0; i--) {
+          var x = all[i].textContent || '';
+          if (x.indexOf('\u00a9 2026') > -1 && x.length < 400) { foot = all[i]; break; }
+        }
+      }
+      wayCss();
+      if (foot && foot.parentNode && foot.parentNode !== document.documentElement) {
+        foot.insertAdjacentHTML('beforebegin', h);
+      } else {
+        document.body.insertAdjacentHTML('beforeend', h);
+      }
+    } catch (e) {}
+  }
+
+  /* ⑦ 로고 옆 대체글자를 「사랑흐름 홈」으로 통일합니다.
+     화면마다 달라(사랑흐름 / 사랑흐름 마음 여행여권 / 아예 없음),
+     그림이 안 뜨면 옆 글자와 겹쳐 두 번 나온 것처럼 보였습니다. */
+  function logoAlt() {
+    try {
+      var im = document.querySelectorAll('img[src*="logo.png"]');
+      for (var i = 0; i < im.length; i++) { im[i].setAttribute('alt', '\uc0ac\ub791\ud750\ub984 \ud648'); }
+    } catch (e) {}
+  }
+
   window.LFPass = {
-    no: no, seal: seal, guard: guard, link: link,
+    no: no, seal: seal, guard: guard, link: link, way: way,
     fromDevice: fromDevice, RE: RE, PART_V: PART_V
   };
 
   function start() {
     link();
+    logoAlt();
     part();
+    way();
+    setTimeout(way, 600);   /* 늦게 그리는 화면 대비 — 이미 있으면 비켜 갑니다 */
     /* 화면이 늦게 그리는 경우 한 번 더 */
     setTimeout(link, 400);
   }
