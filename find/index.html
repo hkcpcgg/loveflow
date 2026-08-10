@@ -1,10 +1,14 @@
-<!-- ★ 현재 버전 ▶ l/index.html · v8-16 · 260810 · [작업 v8-16] ★문지기(/lf/pass.js) 한 줄로 통일 — 부품을 직접 부르던 꼬리표(?v=4)를 걷습니다. 260804에 부품을 v5·v6으로 두 번 올리면서 화면 열두 곳의 꼬리표를 빠뜨려, 헤더에는 「v6으로 올렸다」고 적혀 있는데 실제로는 옛 부품이 계속 돌았습니다. 이제 부품 판 번호는 pass.js 의 PART_V 한 글자이고, ★화면 파일은 다시 안 건드립니다. [무손] 화면 본문·기존 로직·색값 전부. 손대는 곳 = 헤더와 부품 호출 두 줄. ★더불어 견본 번호(LF-K7M3P)를 걷습니다 — 번호 없이 오셔도 「여권 LF-K7M3P · 확인됐어요」가 떴습니다. 이제 번호가 있을 때만 보입니다. · v8-15 · [부품 꼬리표 v6 · 260804] 공용 입구 부품을 v6 으로 올립니다 — 고르는 자리(드롭다운)가 버튼처럼 보여 무엇을 하는 칸인지 알 수 없던 것 해소. 위에 「어느 여행을 이어가시겠어요?」 한 줄, 흰 바탕+테두리+화살표로 갈랐습니다. 화면 파일은 꼬리표 한 글자만 바뀝니다. · [부품 꼬리표 v5] · 260804 · [작업 v8-13] ★공용 입구 부품(/lf/enter.js?v=6) — 대표 확정 260804 「어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있어야 한다」. 여권 한 칸에 드롭다운 하나와 문 둘(이어 하기·보기). 조회 GAS(읽기 전용)로 가진 것만 엽니다. 아직 없는 상품은 결제로 밀지 않고 「여행의 기록」으로 안내합니다. 부품은 언제나 길 셋 위(화면 맨 아래)라 쓰시던 답이 날아가지 않습니다. [무손] 화면 본문·기존 로직 한 글자도 안 건드렸습니다. 손댄 곳 = 부품 호출 한 줄 + 이 헤더. · v8-12 · 260804 · [작업 v8-12] ★공용 입구 부품 호출에 꼬리표(?v=3) — 안 붙이면 옛 판이 캐시로 잡혀 자리표를 모르고 엉뚱한 자리(길 셋 뒤)에 붙습니다. 게이트에서 실제로 그 일이 났고 브라우저로 재서 확인했습니다. 부품 v3 은 자리표 안에서는 표제 두 줄과 찾기 링크를 스스로 감춥니다. [무손] 화면 본문·기존 로직 한 글자도 안 건드렸습니다. 손댄 곳 = 부품 호출 한 줄 + 이 헤더. · v8-11 · 260804 · [작업 v8-11] ★옛 「지난 여행 이어가기」(lfres) 호출 끔 — 공용 입구 부품과 두 벌이었습니다. 옛 알약이 잠깐 그려졌다 사라지는 깜빡임을 없앱니다. 부품 코드는 남기고 호출만 끕니다. [무손] 편지 입구 본문·꽃비·길 셋·푸터·색값 전부 미변경. · v8-10 · 260804  · [260804] ★공용 입구 부품(/lf/enter.js) 한 줄 추가 — 여권 한 칸에 드롭다운 하나와 문 둘. 번호를 넣으면 조회 GAS(읽기 전용)로 무엇을 가졌는지 확인하고 가진 것만 엽니다. 아직 없는 상품은 결제로 밀지 않고 「여행의 기록」으로 안내합니다(260804 대표 확정). 옛 이어가기 칸(lfres)은 부품이 걷어냅니다 — 같은 일을 두 벌 보이지 않게. [무손] 화면 본문·기존 로직 한 글자도 안 건드렸습니다. 손댄 곳 = </body> 앞 한 줄 + 이 헤더.· ★편지 문을 GAS 편지 화면(letter v65)으로 돌림 — 260802 이사회 14차 결론(회신 5건 중 3건 v64 지지·1건은 이식 전제가 실측과 달라 성립 안 함). 260702 만장일치로 정한 결과물 구조(첫 장은 오직 편지 · 편지만/전체 저장 팝업 · A4 246mm 물리 컷 · 폰트 축소 금지)가 GAS 쪽에만 있고 /letter/ 에는 인쇄 설계가 0건이라 결과물이 깨지던 것. 꽃비 맞이 의식(/l/)은 그대로 둡니다. 붙는 모양은 그대로 목적지+'?id='+여권번호 이고, GAS 주소가 /exec 로 끝나 /exec?id=LF-XXXXX 가 됩니다. [무손] 그 밖 링크·발권·ITEMS·원장·GAS 호출·결제·디자인·색값 전부.   ─── 지난 이력 ─── v8-8 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
+<!-- ★ 현재 버전 ▶ find/index.html · v7-19 · 260810 · [작업 v7-19] ★문지기(/lf/pass.js) 한 줄로 통일 — 부품을 직접 부르던 꼬리표(?v=4)를 걷습니다. 260804에 부품을 v5·v6으로 두 번 올리면서 화면 열두 곳의 꼬리표를 빠뜨려, 헤더에는 「v6으로 올렸다」고 적혀 있는데 실제로는 옛 부품이 계속 돌았습니다. 이제 부품 판 번호는 pass.js 의 PART_V 한 글자이고, ★화면 파일은 다시 안 건드립니다. [무손] 화면 본문·기존 로직·색값 전부. 손대는 곳 = 헤더와 부품 호출 두 줄. · v7-18 · [부품 꼬리표 v6 · 260804] 공용 입구 부품을 v6 으로 올립니다 — 고르는 자리(드롭다운)가 버튼처럼 보여 무엇을 하는 칸인지 알 수 없던 것 해소. 위에 「어느 여행을 이어가시겠어요?」 한 줄, 흰 바탕+테두리+화살표로 갈랐습니다. 화면 파일은 꼬리표 한 글자만 바뀝니다. · [부품 꼬리표 v5] · 260804 · [작업 v7-16] ★공용 입구 부품(/lf/enter.js?v=6) — 대표 확정 260804 「어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있어야 한다」. 여권 한 칸에 드롭다운 하나와 문 둘(이어 하기·보기). 조회 GAS(읽기 전용)로 가진 것만 엽니다. 아직 없는 상품은 결제로 밀지 않고 「여행의 기록」으로 안내합니다. 부품은 언제나 길 셋 위(화면 맨 아래)라 쓰시던 답이 날아가지 않습니다. [무손] 화면 본문·기존 로직 한 글자도 안 건드렸습니다. 손댄 곳 = 부품 호출 한 줄 + 이 헤더. · v7-15 · 260804 · [작업 v7-15] ★공용 입구 부품 호출에 꼬리표(?v=3) — 안 붙이면 옛 판이 캐시로 잡혀 자리표를 모르고 엉뚱한 자리(길 셋 뒤)에 붙습니다. 게이트에서 실제로 그 일이 났고 브라우저로 재서 확인했습니다. 부품 v3 은 자리표 안에서는 표제 두 줄과 찾기 링크를 스스로 감춥니다. [무손] 화면 본문·기존 로직 한 글자도 안 건드렸습니다. 손댄 곳 = 부품 호출 한 줄 + 이 헤더. · v7-14 · 260804 · [작업 v7-14] ★공용 입구 부품(/lf/enter.js) 한 줄 + 옛 「지난 여행 이어가기」(lfres) 호출 끔. 여권을 찾으신 분이 그 자리에서 바로 지도·편지·기록 어디로든 가십니다. 옛 알약과 두 벌이던 것을 하나로 합칩니다. 부품 코드는 남기고 호출만 끕니다. [무손] 여권 찾기 폼·GAS 조회·길 셋·푸터·색값 전부 미변경. · v7-13 · 260728  · [260804] ★공용 입구 부품(/lf/enter.js) 한 줄 추가 — 여권 한 칸에 드롭다운 하나와 문 둘. 번호를 넣으면 조회 GAS(읽기 전용)로 무엇을 가졌는지 확인하고 가진 것만 엽니다. 아직 없는 상품은 결제로 밀지 않고 「여행의 기록」으로 안내합니다(260804 대표 확정). 옛 이어가기 칸(lfres)은 부품이 걷어냅니다 — 같은 일을 두 벌 보이지 않게. [무손] 화면 본문·기존 로직 한 글자도 안 건드렸습니다. 손댄 곳 = </body> 앞 한 줄 + 이 헤더.· ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
-     ─── 지난 이력(v8-7 이전) ───────────────────────────── -->
+     ─── 지난 이력(v7-12 이전) ───────────────────────────── -->
 <!DOCTYPE html>
-<!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · l/index.html   v8-7 · 260716 · [작업 v8-7] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v8-6 · 260714
-     [v8-6 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
+<!--
+[v260719-1 · 260719] ★브랜드 슬로건 3층 교체 — 간판「가장 소중한 사람을 더 알아가는 시간, 사랑흐름」/ 철학「우리의 관계는 이미 시작되었습니다」/ 제품「서로의 언어를 읽어갑니다」. 손댄 곳 = 공유문. 근거=슬로건_3층_배치표_260719.md. [무손] 기능·GAS·결제·잠금·발급·디자인·색값.
+     ★[260716 티커 격상] 함께 여행한 분들 → 사랑흐름 여행자들의 발자취(여권 카드). showroom v13-15와 동일 부품 — 딥네이비 카드+골드 LOVEFLOW PASSPORT+분홍 하트·도장, 여권=실발급 마스킹, 관계·계절=랜덤 셔플, 80s. 티커 블록만 교체·공유/방향버튼/라우팅 전부 무손. ═══════════════════════════════════════════════════════════════════
+     사랑흐름 · find/index.html   v7-12 · 260718 · [작업 v7-12] ★드로어에 「삐뚤빼뚤 마음 도화지」(/draw/) 한 줄 신설 — '마음 한마디' 바로 아래(무료 입구끼리 묶음). LF_LINK 에 draw 추가. 메뉴 11항목. [무손] 그 외 항목·본문·스크립트·색값 미변경.
+     사랑흐름 · find/index.html   v7-11 · 260717 · [작업 v7-11] 상단바 딥네이비 표준 통일 — 뱃지 로고+상호·‹뒤로·화면이름 정중앙·☰ 흰색·드로어 아이콘 제거.
+     사랑흐름 · find/index.html   v7-10 · 260717 · [작업 v7-10] ★카카오톡 문의를 푸터 링크로 — 소개·이용약관·개인정보·환불정책 줄 오른쪽 끝에 '카카오톡 문의' 링크 추가(같은 .foot .flinks a 스타일, 12px 네이비). 노랑 알약·중앙 삽입은 시선 뺏김·이어가기 가림으로 폐기. [무손] search()·검증(aux>=2)·GAS·라우팅·정규식·상단바·티커·색값. · v7-9 · 260716 · [작업 v7-9] ★공용 부품(티커+공유) showroom 표준 삽입 — 방향버튼(.lfway) 줄 오른쪽 끝에 작은 원형 공유 아이콘 배치(lffPlaceShare 폴링). '함께 여행한 분들' 티커 추가. 방향버튼 사이즈 이미 26px 표준이라 무손. [무손] 방향버튼·본문·GAS·라우팅·색값. · v7-8 · 260716 · [작업 v7-8] ★상단바를 표준(showcase) 얼굴로 통일 — find만 ‹·☰가 맨몸이라 '햄버거 벌어짐·템플릿 다름' 지적. showcase와 동일하게 ‹·☰를 34px 둥근 테두리 박스로, 로고 40px, .loc 중앙 절대배치, .gnav position:relative + back 뒤 flex:1 스페이서. + 결제번호 placeholder에서 '네이버는 숫자 16자리 · 계좌이체는 SR- 번호' → '결제번호'(대표 지시 삭제). [보존] search()·검증(aux>=2)·id·GAS 호출·결과 rcard·드로어 10항목·lfGo 미변경. · v7-7 · 260716 · [작업 v7-7] ★햄버거에 자서전 진입로 신설 — '편지' 다음 '자서전'(lfGo('memoir')→/memoir/). 표준 메뉴에 자서전 없던 구멍 메움. · v7-6 · 260714
+     [v7-6 · 260714] ★여권 비표 LFM-/LFL- 잔재 청소 — 화면 글자만.
         [근거·260713 이사회 만장일치] 여권번호는 LF- 하나. 번호에 상품 의미를 넣지 않는다.
                상품구분은 주문대장 J열(MAP / MAP+LETTER)이 원본. issuePassport v4가 이미 LF-만 발급 중.
                GPT 이사: "식별자(PK)에 비즈니스 의미를 넣은 설계가 화근."
@@ -16,24 +20,42 @@
                260710~13 사이 실제로 나간 LFL-/LFM- 여권 손님이 있습니다. 지우면 그 손님이 튕깁니다.
                ★발급은 LF- 만, 받아주는 건 옛 LFM-/LFL- 까지 전부. 이 비대칭이 정답입니다.
         ★[되살리지 말 것] 260707 설계서에 LFM-/LFL- 가 적혀 있습니다. 폐기된 문서입니다.
-     [v8-5 · 260714 대표 지적] ★"같은 기기에서만 이어진다"를 어디에도 안 썼음 → 두 곳에만 명시.
+     [v7-5 · 260714] ★결제번호를 한 줄 온전히 — 연락처 뒤 4자리와 반반(.row2)으로 나눠 쓰고 있었음.
+        네이버 결제번호는 숫자 16자리라 반 칸에 들어가지 않았습니다.
+        · 연락처 뒤 4자리 = 한 줄(.field) / 결제번호 = 한 줄(.field)로 분리. 아래 날짜+구입처 .row2는 그대로.
+        · placeholder "주문 확인 번호" → "네이버는 숫자 16자리 · 계좌이체는 SR- 번호" (gate v9-26과 같은 말)
+        [절대보존] search() 검증(aux>=2)·id(phone4·orderNo·channel·date·email)·GAS 호출·결과 rcard 미변경
+     [v7-4 · 260714 대표 지적] ★"같은 기기에서만 이어진다"를 어디에도 안 썼음 → 두 곳에만 명시.
         ①저장하는 순간: "이 기기에서 LF-XXXXX으로 다시 이어집니다"
         ②못 찾았을 때: "폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다"
         ③시트 열자마자 상시 경고는 안 씀 — 아무 문제 없는 사람에게 먼저 들이밀면 못 미더운 서비스로 보임.
-     [v8-4 · 260714 대표 확정] ★"지난 여행 이어가기" 주인 버튼 신설 — 전 화면 공용 부품
+     [v7-3 · 260714 대표 확정] ★"지난 여행 이어가기" 주인 버튼 신설 — 전 화면 공용 부품
         대표: "입구마다 있어야 됩니다. 결제하는 데, 쇼룸, 여권 찾는 데 — 게이트마다 다 보여줘야 된다. 광고 효과도 있는 거예요."
         · 버튼 → 그 자리에서 여권번호 입력 시트가 열림(reenter로 안 보냄 — pay에서 보내면 ★결제 이탈)
         · 번호 넣으면 담아둔 여행(lf_journey_ / lf_letter_)을 찾아 "○○님과의 여행지도가 N번째 물음에서 멈춰 있어요"
         · 담아둔 게 있으면 버튼이 살아남(분홍) / 없으면 조용한 회색 — 처음 온 사람에겐 이게 광고
         · ★편지 이어가기는 /letter/ 직행 (/l/은 꽃비 맞이 의식이라 ?resume=이 넘어가다 사라짐)
         · 안 까는 곳: 여행지도 질문 중 · 편지 쓰는 중 · reenter(그 화면이 이미 입력창)
-     [v8-3 · 260714 대표 지적] 방향버튼(lfway) 축소 — 세로 카드 3개(58px) → 한 줄 알약(26px)
+     [v7-2 · 260714 대표 지적] 방향버튼(lfway) 축소 — 세로 카드 3개(58px) → 한 줄 알약(26px)
         "화살표 하나, 앞으로 하나, 홈 그림 하나. 한 줄로 얇게 조금마게."
         · 부제(.sb) 삭제 · .fwd 딥네이비 채움 삭제(테두리만) · flex:1 삭제(글자만큼·가운데)
-     ───────────────────────────────────────────────────────────────────
-     [버전] 라이브 v8 → ★v8-2 (이 파일)
+     [v7-1 · 260713 대표 지적] 옛 편지 주소 · 군더더기 문구 전수 정리
+       ① ★옛 표(LINK)의 letter 가 아직 GAS 주소(script.google.com)를 가리켰습니다.
+          누르면 주소창에 script.google.com 이 뜨고 ★빈 칸 하나짜리 옛 편지로 갔습니다.
+          (pay·showroom 은 빈 값이라 아예 안 눌렸습니다)
+          → 전부 /l/ 로. 8개 화면 동시.
+       ② ★"이미 사랑흐름 여권이 있으신가요? · 여권으로 입장 →"
+          대표: "이 질문이 필요 없다고. 그냥 사랑흐름 여권으로 입장, 이 버튼이면 되는데.
+                 앞에 요 텍스트가 너무 쓸데없는 텍스트가 너덜너덜해."
+          → "사랑흐름 여권으로 입장 →" 하나로.
+       ③ pay 의 "궁금한 점이 있으신가요?" 삭제 — 카카오톡 문의 버튼이 이미 말합니다.
+          (gate v9-22 에서 같은 이유로 뺐던 문구)
 
-     [v8-2 · 260713 대표 확정] ☰ 표준 메뉴 9항목 + 앞뒤 방향 — 전 12화면 동시 적용
+     [이전] v7
+     ───────────────────────────────────────────────────────────────────
+     [버전] 라이브 v6 → ★v7 (이 파일)
+
+     [v7 · 260713 대표 확정] ☰ 표준 메뉴 9항목 + 앞뒤 방향 — 전 12화면 동시 적용
        대표: "어디 들어갈 곳이 없어. 입구가 안 보여. 매우 답답해요."
              "내가 머물러 있는 곳이 내 자리가 아니라고 판단됐을 때
               빨리 어디론가 갈 수 있게는 해줘야 된다."
@@ -62,167 +84,324 @@
 <head>
 <!-- ★[260810] 문지기 — 번호 찾기·심기·링크에 번호 붙이기·부품 불러오기. -->
 <script src="/lf/pass.js"></script>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>사랑흐름 마음 여행편지</title>
-<!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · 편지 진입 통로   l/index.html   v8-1 · 260713
-     [v8-1] ☰ 표준 9항목 통일 (여권으로 입장 · 여행의 기록 · 마음 여행 예매하기 신설)
-     ───────────────────────────────────────────────────────────────────
-     [버전] 라이브 v7 (260712) → ★v8 (이 파일)
-
-     [v8 · 260713] ★목적지 변경 — 편지 GAS → /letter/
-       옛날: /l/ → 편지 GAS(DTLjdA)가 편지 화면을 서빙
-             → 손님 주소창에 script.google.com 이 떴습니다.
-             → 그 편지 화면은 ★빈 칸 하나뿐이었습니다(질문 없음).
-       지금: /l/ → ★/letter/ (새 편지 화면 · 질문 5개 · 초안 · 승인)
-             → 주소가 loveflow.ai.kr 로 남습니다.
-             → 편지 GAS 는 이제 데이터만 줍니다(getLetter · saveLetter).
-
-     [무변경] 꽃비 연출 · 입장음 · 여권 확인 문구 · 드로어 — 전부 v7 그대로.
-
-     [이전] v7 · 260712 | ?id=LF- 받음 → 꽃비+입장음 → 편지 GAS로 이동
-            v6 의 /journey/ 목적지를 GAS로 교체했던 버전
-     ═══════════════════════════════════════════════════════════════════ -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>사랑흐름 여권 찾기</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap" rel="stylesheet">
+<!-- 사랑흐름 여권 찾기 find.html · v6 · 260710
+  [v4 실제배포본] 라이브 v3 기준. ①결과 카드(rcard)를 gate 발급여권 톤(딥네이비·골드 이중테두리·골드 번호)으로 통일. ②푸터 진한네이비 제거→gate톤(링크줄+© 한 줄, 사업자상세는 about/trust로). ③날짜칸 전체클릭 시 달력(showPicker+calendar-picker-indicator 전체영역). ④"부품 시안·실제 파일 아님" 안내박스·title·주석 제거. 조회 실동작(M1A findPassport)·doFind·render 구조 무변경. -->
+  <!-- (구) 260702-v3: 조회폼(관계·연락처4·날짜·구입처·이메일·결제번호)+결과 rcard. -->
 <style>
-  :root{--navy:#1E4A76;--navy-deep:#173A5A;--ink:#2A3542;--muted:#8A8580;--cream:#FFFBF5;--petal:#FFE4EC;--petal-line:#F3B8CC;--petal-deep:#D98BA6;--gold:#D4AF37;--line:#EFE6DA}
+  :root{--cream:#FAFAF8;--cream2:#F5F3ED;--card:#fff;--line:#E6E2D7;--navy:#1E4A76;--navyd:#102543;--gold:#C9A96E;--goldd:#B8923E;--ink:#2A2A28;--sub:#7A7368;--serif:'Nanum Myeongjo',serif}
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Noto Sans KR',sans-serif;background:#F7EFE6;color:var(--ink);min-height:100vh;display:flex;justify-content:center}
-  .serif{font-family:'Noto Serif KR',serif}
-  .wrap{width:100%;max-width:500px;min-height:100vh;background:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden}
-  .aura{position:absolute;top:34%;left:50%;transform:translate(-50%,-50%);width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(217,139,166,.16) 0%,rgba(255,228,236,.12) 42%,rgba(255,228,236,0) 68%);pointer-events:none;opacity:0;animation:auraIn 2.8s ease forwards .3s}
-  @keyframes auraIn{to{opacity:1}}
-  .petals{position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:1}
-  .petal{position:absolute;top:-8%;border-radius:50%;will-change:transform,opacity;opacity:0}
-  @keyframes fall{
-    0%{opacity:0;transform:translateY(-40px) translateX(0)}
-    10%{opacity:var(--peak)}
-    100%{opacity:calc(var(--peak) * .85);transform:translateY(112vh) translateX(var(--drift))}
-  }
-  .top{display:flex;align-items:center;gap:8px;padding:13px 18px;position:relative;z-index:5;min-height:52px}
-  .top .logo{height:26px;width:auto;cursor:pointer;display:block}
-  .top .back{background:none;border:none;color:var(--navy);font-size:22px;cursor:pointer;line-height:1;padding:0 2px}
-  .top .title{position:absolute;left:0;right:0;text-align:center;font-size:12.5px;font-weight:700;color:var(--navy);letter-spacing:.01em;pointer-events:none}
-  .top .snd{background:none;border:none;font-size:17px;cursor:pointer;line-height:1;padding:0 2px;margin-left:auto;opacity:.85}
-  .top .menu{background:none;border:none;color:var(--navy);font-size:19px;cursor:pointer;line-height:1;padding:0 2px}
-  .drawer{position:absolute;top:52px;right:14px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 10px 30px rgba(30,74,118,.14);padding:6px;z-index:20;display:none;min-width:200px}
-  .drawer.open{display:block}
-  .drawer a{display:flex;align-items:center;gap:9px;padding:11px 14px;font-size:13.5px;color:var(--ink);text-decoration:none;border-radius:10px;cursor:pointer}
-  .drawer a:hover{background:var(--petal);color:var(--navy-deep)}
-  .drawer a .ic{width:18px;text-align:center;opacity:.8}
-  .drawer a .chk{margin-left:auto;font-size:11px}
-  .drawer a .chk.ok{color:#1D9E75}
-  .body{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px 30px 30px;position:relative;z-index:3}
-  .eyebrow{font-size:12px;letter-spacing:.2em;color:var(--petal-deep);font-weight:700;opacity:0;animation:rise .9s ease forwards .5s}
-  .halo{width:96px;height:96px;border-radius:50%;margin:20px auto 10px;display:flex;align-items:center;justify-content:center;font-size:40px;background:radial-gradient(circle at 50% 45%,var(--petal) 0%,rgba(255,228,236,.45) 46%,rgba(255,228,236,0) 74%);opacity:0;animation:rise 1s ease forwards 1.0s, breathe 4.5s ease-in-out infinite 2s}
-  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
-  h1{font-family:'Noto Serif KR',serif;font-size:29px;font-weight:700;color:var(--navy-deep);line-height:1.5;margin-top:8px;opacity:0;animation:rise 1s ease forwards 1.5s}
-  .sub{font-family:'Noto Serif KR',serif;font-size:16.5px;color:var(--ink);line-height:2;margin-top:22px;max-width:340px;opacity:0;animation:rise 1s ease forwards 2.1s}
-  .sub .em{color:var(--petal-deep)}
-  .pass{font-size:12px;color:var(--muted);margin-top:20px;letter-spacing:.04em;opacity:0;animation:rise 1s ease forwards 2.6s}
-  .pass b{color:var(--navy);font-weight:500}
-  .door{margin-top:40px;opacity:0;animation:rise 1s ease forwards 3.2s}
-  .door button{border:none;background:var(--navy);color:#fff;border-radius:30px;padding:16px 40px;font-family:'Noto Serif KR',serif;font-size:16px;font-weight:500;cursor:pointer;letter-spacing:.04em;box-shadow:0 8px 22px rgba(30,74,118,.22);transition:.18s}
-  .door button:hover{background:var(--navy-deep)}
-  .door .quiet{display:block;font-size:11.5px;color:var(--muted);margin-top:14px;font-family:'Noto Sans KR',sans-serif}
-  @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-  .foot{text-align:center;padding:18px 20px 16px;position:relative;z-index:3}
-  .foot .links{font-size:11.5px;color:var(--navy);opacity:.75}
-  .foot .links a{color:inherit;text-decoration:none;margin:0 5px;cursor:pointer}
-  .foot .cr{font-size:10.5px;color:#C4BAAC;margin-top:6px}
-  .demo{background:#173A5A;color:#fff;font-size:11.5px;text-align:center;padding:7px 10px;line-height:1.5;position:relative;z-index:5}
-  .demo b{color:#FFE4EC}
+  body{font-family:-apple-system,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:linear-gradient(180deg,var(--cream),var(--cream2));color:var(--ink);padding:0 0 40px;line-height:1.7}
+  .wrap{max-width:480px;margin:0 auto;padding:16px 14px}
+  .note{background:#FFF7E8;border:1px solid #EAD9A8;border-radius:10px;padding:9px 12px;font-size:12px;color:#8A6A1E;margin-bottom:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 18px;margin-bottom:14px;box-shadow:0 4px 18px rgba(180,140,90,.06)}
+  .head{text-align:center;margin-bottom:18px}
+  .head .ttl{font-family:var(--serif);font-size:21px;font-weight:800;color:var(--navyd)}
+  .head .sub{font-size:13px;color:var(--sub);margin-top:5px}
+
+  .field{margin-bottom:15px}
+  .flabel{font-size:13px;font-weight:800;color:var(--navyd);margin-bottom:7px;display:flex;align-items:center;gap:5px}
+  .flabel .req{color:#C0392B;font-size:11px}
+  .flabel .opt{color:var(--sub);font-size:11px;font-weight:600}
+  .inp,.sel{width:100%;height:50px;border:2px solid var(--line);border-radius:12px;padding:0 14px;font-size:15px;font-family:inherit;color:var(--navyd);background:#FFFCFA;outline:none}
+  .inp:focus,.sel:focus{border-color:var(--gold)}
+  .inp::placeholder{color:#C7BCAD}
+
+  /* 관계 선택 = 전면 강조 (다중관계 암시) */
+  .rel-field{background:linear-gradient(135deg,#FFF6E9,#FBEFD5);border:1px solid #EBD9A8;border-radius:14px;padding:16px;margin-bottom:16px}
+  .rel-field .flabel{color:var(--goldd)}
+  .rel-hint{font-size:12px;color:#8A6A1E;margin-top:8px;line-height:1.6}
+
+  .row2{display:flex;gap:10px}
+  .row2 .field{flex:1}
+
+  .btn{width:100%;height:52px;background:linear-gradient(135deg,var(--navy),#3A6499);color:#fff;border:none;border-radius:14px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;margin-top:4px}
+
+  /* 결과 */
+  .result{margin-top:16px}
+  .modal-bg{position:fixed;inset:0;background:rgba(16,37,69,.62);display:none;align-items:center;justify-content:center;z-index:200;padding:22px}
+  .modal-bg.on{display:flex}
+  .modal-inner{position:relative;width:100%;max-width:350px;max-height:86vh;overflow-y:auto}
+  .modal-x{position:absolute;top:-10px;right:-10px;width:34px;height:34px;border-radius:50%;background:#fff;border:none;font-size:15px;font-weight:800;color:var(--navyd);cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.25);z-index:3}
+  .rcard{position:relative;border:1.5px solid var(--gold);background:linear-gradient(150deg,#1E4A76,#102543);border-radius:14px;padding:18px 18px 16px;margin-bottom:12px;overflow:hidden;text-align:center;box-shadow:0 10px 26px rgba(19,40,69,.28)}
+  .rcard::before{content:'';position:absolute;inset:5px;border:1px solid rgba(212,175,55,.32);border-radius:10px;pointer-events:none}
+  .rcard .rc-rel{position:relative;font-size:12px;color:rgba(212,175,55,.9);font-weight:700;margin-bottom:7px;letter-spacing:.03em}
+  .rcard .rc-pp{position:relative;font-family:var(--serif);font-size:34px;font-weight:800;color:var(--gold);letter-spacing:.1em;margin-bottom:2px}
+  .rcard .rc-go{background:var(--navyd);color:#fff;border:none;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer}
+  .rcard .rc-copy{position:relative;background:var(--gold);color:#102543;border:none;border-radius:10px;padding:11px 14px;font-size:13px;font-weight:800;font-family:inherit;cursor:pointer}
+  .rmore{font-size:12px;color:var(--sub);text-align:center;margin-top:6px}
+
+  .topbar{position:sticky;top:0;background:rgba(255,249,244,.95);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:20}
+  .tb-in{max-width:480px;margin:0 auto;padding:10px 16px;display:flex;justify-content:space-between;align-items:center}
+  .tb-in a,.tb-in button{background:none;border:none;font-family:inherit;cursor:pointer}
+  .tb-back{font-size:14px;font-weight:700;color:var(--navy)}
+  .tb-title{font-size:13px;font-weight:800;color:var(--goldd)}
+  .tb-r{display:flex;gap:13px;align-items:center}.tb-home{font-size:16px}.tb-menu{font-size:20px;color:var(--navyd)}
+  .foot{padding:18px 16px 6px;margin-top:16px;text-align:center;border-top:1px solid var(--line)}
+  .foot .flinks{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-bottom:11px}
+  .foot .flinks a{font-size:12px;font-weight:700;color:var(--navy);text-decoration:none;cursor:pointer}
+  .foot .warn{font-size:10px;color:#A8A095;font-weight:500;line-height:1.7}
+  #date{position:relative}
+  #date::-webkit-calendar-picker-indicator{position:absolute;top:0;left:0;right:0;bottom:0;width:100%;height:100%;margin:0;padding:0;opacity:0;cursor:pointer}
+  .bottom-link{text-align:center;padding:16px 0 4px}.bottom-link a{font-size:13px;color:var(--goldd);font-weight:700;text-decoration:none}
+  /* 찾은 뒤 경로 버튼들 */
+  .go-paths{margin-top:12px}
+  .gp-lbl{font-size:12px;color:var(--sub);text-align:center;margin-bottom:8px}
+  .gp-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+  .gp-btn{padding:13px;border-radius:12px;font-weight:800;font-size:13.5px;border:none;cursor:pointer;font-family:inherit;text-decoration:none;text-align:center;display:flex;align-items:center;justify-content:center;gap:5px}
+  .gp-letter{background:linear-gradient(135deg,#F2916B,#E0A93E);color:#fff}
+  .gp-journey{background:var(--navyd);color:#fff}
+  .gp-home{background:#fff;color:var(--navyd);border:1px solid var(--line)}
+  .gp-copy{background:#FBEFD5;color:var(--goldd);border:1px solid #EBD9A8}
+  .gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:6px;padding:12px 14px;border-bottom:1px solid #163A5C;background:#1E4A76}
+  .gnav .home{display:inline-flex;align-items:center;gap:6px;cursor:pointer}
+  .gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+  .gnav .back{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1}
+  .gnav .loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+  .gnav .ham{background:none;border:none;font-size:20px;color:#fff;cursor:pointer;margin-left:auto}
+  .gnav .back:active,.gnav .ham:active{transform:scale(.94)}
+  .drawer{position:fixed;inset:0;background:rgba(0,0,0,.35);display:none;z-index:50}
+  .drawer.on{display:block}
+  .dpanel{position:absolute;top:0;right:0;width:75%;max-width:300px;height:100%;background:#fff;padding:18px}
+  .dhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .dhead b{color:var(--navy);font-size:16px}
+  .dhead .x{background:none;border:none;font-size:20px;cursor:pointer;color:var(--sub)}
+  .dbody a{display:block;padding:12px 6px;color:var(--navy);font-weight:700;font-size:14px;border-bottom:1px solid #f0f3f6;cursor:pointer;text-decoration:none}
 </style>
 </head>
 <body>
-<div class="wrap" id="wrap">
-
-  <div class="petals" id="petals"></div>
-  <div class="aura"></div>
-
-  <div class="top">
-    <img class="logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈" onclick="go('/')">
-    <button class="back" onclick="history.back()" title="뒤로">&#8249;</button>
-    <div class="title">사랑흐름 마음 여행편지</div>
-    <button class="snd" id="sndbtn" onclick="toggleSound(event)" title="소리">🔊</button>
-    <button class="menu" onclick="toggleMenu(event)" title="메뉴">&#9776;</button>
+<div class="gnav">
+  <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"><span class="brand">사랑흐름</span></div>
+  <button class="back" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
+  <div class="loc">사랑흐름 여권 찾기</div>
+  <button class="ham" onclick="openMenu()" aria-label="메뉴">☰</button>
+</div>
+<div class="drawer" id="drawer" onclick="if(event.target===this)closeMenu()">
+  <div class="dpanel">
+    <div class="dhead"><b>사랑흐름</b><button class="x" onclick="closeMenu()">✕</button></div>
+    <div class="dbody">
+        <a onclick="lfGo('home')">홈</a>
+        <a onclick="lfGo('hanmadi')">마음 한마디</a>
+        <a onclick="lfGo('draw')">삐뚤빼뚤 마음 도화지</a>        <a onclick="lfGo('journey')">여행지도 보기</a>
+        <a onclick="lfGo('letter')">편지</a>
+        <a onclick="lfGo('memoir')">자서전</a>
+        <a onclick="lfGo('reenter')">여권으로 입장</a>
+        <a onclick="lfGo('find')">사랑흐름 여권 찾기</a>
+        <a onclick="lfGo('showroom')">여행의 기록</a>
+        <a onclick="lfGo('showcase')">마음 여행 예매하기</a>
+        <a onclick="location.reload()">다시 시작</a>
+      </div>
   </div>
-  <div class="drawer" id="drawer">
-    <!-- [v8-1 · 260713] ☰ 표준 9항목 — 전 화면 통일.
-         옛 메뉴엔 "● 있음" 같은 개발 흔적이 손님에게 그대로 보였습니다. -->
-    <a onclick="lfGo('home')">홈</a>
-    <a onclick="lfGo('hanmadi')">마음 한마디</a>
-    <a onclick="lfGo('journey')">여행지도 보기</a>
-    <a onclick="lfGo('letter')">편지</a>
-    <a onclick="lfGo('memoir')">자서전</a>
-    <a onclick="lfGo('reenter')">여권으로 입장</a>
-    <a onclick="lfGo('find')">사랑흐름 여권 찾기</a>
-    <a onclick="lfGo('showroom')">여행의 기록</a>
-    <a onclick="lfGo('showcase')">마음 여행 예매하기</a>
-    <a onclick="location.reload()">다시 시작</a>
-  </div>
+</div>
+<div class="wrap">
+  <div class="note" style="display:none"></div>
 
-  <div class="body">
-    <div class="eyebrow">사랑흐름 · 마음 여행편지</div>
-    <div class="halo">🌸</div>
-    <h1 class="serif">이제,<br>꽃비를 맞으며<br>편지를 시작합니다.</h1>
-    <div class="sub serif">커피 한 잔 하시면서,<br><span class="em">그분에게</span> 전하지 못했던 마음을<br>천천히 적어볼게요.</div>
-    <div class="pass" id="passLine" style="display:none"></div>
-    <div class="door">
-      <button onclick="enter()">그분에게로 · 들어갈게요</button>
-      <span class="quiet">천천히 오셔도 괜찮아요.</span>
+  <div class="card">
+    <div class="head">
+      <div class="ttl">🗝️ 사랑흐름 여권 찾기</div>
+      <div class="sub">지난 여행의 사랑흐름 여권번호를 잊으셨나요?<br>몇 가지만 알려주시면 다시 찾아드릴게요</div>
     </div>
-  </div>
 
+    <!-- ★ 관계 선택 = 전면 강조 (한 명과 여행했어도 여러 관계 보여줌 → 다중관계 암시) -->
+    <div class="rel-field">
+      <div class="flabel">💛 누구와의 여행을 찾으시나요? <span class="req">*</span></div>
+      <select class="sel" id="rel">
+        <option value="">— 관계를 선택하세요 —</option>
+        <option>🌷 어머니</option>
+        <option>🌰 아버지</option>
+        <option>💛 배우자·연인</option>
+        <option>🌿 친구</option>
+        <option>🐣 자녀</option>
+        <option>🤝 형제·자매</option>
+        <option>🌈 기타</option>
+        <option>💗 나 자신</option>
+      </select>
+    </div>
+
+    <!-- [v7-5] 연락처 뒤 4자리 (한 줄 · 결제번호와 반반 쓰던 것을 분리) -->
+    <div class="field">
+      <div class="flabel">📱 연락처 뒤 4자리 <span class="req">*</span></div>
+      <input class="inp" id="phone4" maxlength="4" inputmode="numeric" placeholder="0000">
+    </div>
+
+    <!-- [v7-5] 결제번호 — 한 줄 온전히. 네이버 16자리가 반 칸에 안 들어가던 것 -->
+    <div class="field">
+      <div class="flabel">🧾 결제번호 <span class="opt">(아시면)</span></div>
+      <input class="inp" id="orderNo" placeholder="결제번호">
+    </div>
+
+    <!-- 날짜 + 구입처 -->
+    <div class="row2">
+      <div class="field">
+        <div class="flabel">📅 여행하신 날짜</div>
+        <input class="inp" id="date" type="date" onclick="try{this.showPicker&&this.showPicker()}catch(e){}" style="cursor:pointer">
+      </div>
+      <div class="field">
+        <div class="flabel">🏪 구입하신 곳</div>
+        <select class="sel" id="channel" style="height:50px">
+          <option value="">선택</option>
+          <option>스마트스토어</option>
+          <option>계좌이체</option>
+          <option>카카오</option>
+          <option>기타</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 이메일 (아이디 + @ + 도메인 선택) -->
+    <div class="field">
+      <div class="flabel">📧 이메일 <span class="opt">(가입/구매 때 쓰신 이메일)</span></div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <input class="inp" id="emailId" style="flex:1" placeholder="아이디">
+        <span style="color:var(--sub);font-weight:700">@</span>
+        <select class="sel" id="emailDom" style="flex:1" onchange="onDom()">
+          <option value="">직접입력</option>
+          <option>naver.com</option><option>gmail.com</option><option>daum.net</option>
+          <option>hanmail.net</option><option>nate.com</option><option>kakao.com</option>
+          <option>icloud.com</option><option>outlook.com</option>
+        </select>
+      </div>
+      <input class="inp" id="emailDomCustom" style="margin-top:6px;display:none" placeholder="도메인 직접입력 (예: company.com)">
+    </div>
+
+    <button class="btn" id="findBtn" onclick="doFind()">🌊 내 사랑흐름 여권 찾기</button>
+
+
+  <!-- ═ 공용 부품(인라인): 사랑흐름 여행자들의 발자취(여권 카드) 티커 + 공유 · 260716 ═ -->
+  <style>
+  .lff-tick{max-width:344px;margin:20px auto 6px;overflow:hidden}
+  .lff-tick .lff-cap{display:block;text-align:center;font-family:'Noto Sans KR',sans-serif;font-size:11px;letter-spacing:.5px;color:#1E4A76;margin-bottom:10px;font-weight:700}
+  .lff-tick .lff-win{overflow:hidden;white-space:nowrap}
+  .lff-tick .lff-cardtrack{display:inline-flex;gap:11px;animation:lff-marq 80s linear infinite}
+  .lff-tick:hover .lff-cardtrack{animation-play-state:paused}
+  .lff-card{position:relative;overflow:hidden;flex-shrink:0;background:#2F5B8A;border-radius:12px;padding:11px 15px 12px;min-width:168px;text-align:center;white-space:normal}
+  .lff-card .lff-lbl{font-size:9px;color:#D4AF37;letter-spacing:2px;margin-bottom:3px;font-weight:700}
+  .lff-card .lff-num{font-family:'Noto Sans KR',sans-serif;font-weight:700;color:#fff;font-size:16px;letter-spacing:.5px;margin-bottom:6px}
+  .lff-card .lff-rel{font-family:'Noto Sans KR',sans-serif;font-size:11px;color:#CBDBEC}
+  .lff-card .lff-hrt{color:#FF9DB0;margin-right:3px}
+  .lff-card .lff-stamp{position:absolute;bottom:-6px;right:-5px;width:28px;height:28px;border-radius:50%;border:1px solid #FF9DB0;color:#FF9DB0;font-size:8px;font-weight:700;display:flex;align-items:center;justify-content:center;letter-spacing:.5px;transform:rotate(-12deg);opacity:.85}
+  @keyframes lff-marq{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+  .lff-wayrow{display:flex;align-items:center;align-self:stretch;position:relative;width:100%;max-width:420px;margin:0 auto;padding:0 16px;box-sizing:border-box}
+  .lff-wayrow .lfway{margin:0 auto}
+  #lffShareBtnWrap{position:absolute;right:14px;top:50%;transform:translateY(-50%);line-height:0}
+  .lff-sb{width:32px;height:32px;padding:0;background:#fff;border:1px solid #E4E0D6;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+  .lff-sb:active{transform:scale(.92)}
+  .lff-sb svg{display:block}
+  .lff-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(12px);background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:10000}
+  .lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
+  @media print{.lff-tick,.lff-share,.lff-toast{display:none !important}}
+  </style>
+  <div class="lff-tick" aria-hidden="true"><span class="lff-cap">사랑흐름 여행자들의 발자취</span><div class="lff-win"><div class="lff-cardtrack" id="lffCardTrack"></div></div></div>
+  <script>
+  (function(){
+    var N=['LF-SB**J','LF-V7**2','LF-UA**J','LF-C9**3','LF-PG**F','LF-P8**H','LF-EF**9','LF-NS**A','LF-XT**H','LF-GJ**C','LF-74**8','LF-QM**R','LF-CS**X','LF-N8**U','LF-NX**T','LF-UC**2','LF-W8**Q','LF-8Z**M','LF-5B**T','LFL-46**S','LFL-QM**P','LFL-GQ**Q','LFL-GA**5','LFL-3A**P'];
+    var R=['\uc5b4\uba38\ub2c8\uc5d0\uac8c','\uc544\ubc84\uc9c0\uc5d0\uac8c','\ubc30\uc6b0\uc790\uc5d0\uac8c','\uc790\ub140\uc5d0\uac8c','\ud615\uc81c\uc5d0\uac8c','\uc624\ub798\ub41c \uce5c\uad6c\uc5d0\uac8c','\ub098\uc5d0\uac8c','\uc2a4\uc2b9\uc5d0\uac8c','\uadf8\ub9ac\uc6b4 \ub204\uad6c\uc5d0\uac8c'];
+    var S=['\uc774\ub978 \ubd04','\ubd04\ub0a0','\ud55c\uc5ec\ub984','\ub2a6\uc5ec\ub984','\ub2a6\uac00\uc744','\uccab\ub208','\ucd08\uaca8\uc6b8','\ud55c\uaca8\uc6b8'];
+    function sh(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}
+    function pk(a){return a[Math.floor(Math.random()*a.length)];}
+    function card(o,h){return '<div class="lff-card"'+(h?' aria-hidden="true"':'')+'><div class="lff-lbl">LOVEFLOW PASSPORT</div><div class="lff-num">'+o.n+'</div><div class="lff-rel"><span class="lff-hrt">\u2665</span>'+o.r+' \u00b7 '+o.s+'</div><span class="lff-stamp">LF</span></div>';}
+    function build(){var t=document.getElementById('lffCardTrack');if(!t)return;var arr=sh(N.slice()).map(function(n){return {n:n,r:pk(R),s:pk(S)};});var html='';arr.forEach(function(o){html+=card(o,false);});arr.forEach(function(o){html+=card(o,true);});t.innerHTML=html;}
+    if(document.readyState!=='loading')build();else document.addEventListener('DOMContentLoaded',build);
+  })();
+  </script>
+  <div class="lff-share"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기" style="display:none"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button></div>
+  <script>
+  function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
+  function lffShare(){var H='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',text:'가장 소중한 사람을 더 알아가는 시간, 사랑흐름',url:H}).catch(function(){});return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(H).then(function(){lffToast('링크를 복사했어요');}).catch(function(){lffCopy(H);});return;}lffCopy(H);}
+  function lffCopy(H){try{var a=document.createElement('textarea');a.value=H;a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);lffToast('링크를 복사했어요');}catch(e){lffToast(H);}}
+  /* 공유 아이콘을 방향버튼(뒤로·홈·앞으로) 줄 오른쪽 끝에 살짝 배치. 방향버튼 자체는 무손(부모만 감쌈). */
+  function lffPlaceShare(){
+    var way=document.querySelector('.lfway');
+    if(!way || way.parentNode.classList.contains('lff-wayrow')) return !!way;
+    var btnHost=document.querySelector('.lff-share');
+    var btn=btnHost?btnHost.querySelector('.lff-sb'):null;
+    if(!btn) return false;
+    var row=document.createElement('div'); row.className='lff-wayrow';
+    way.parentNode.insertBefore(row,way);
+    row.appendChild(way);
+    var wrap=document.createElement('div'); wrap.id='lffShareBtnWrap';
+    btn.style.display=''; wrap.appendChild(btn);
+    row.appendChild(wrap);
+    if(btnHost && btnHost.parentNode) btnHost.parentNode.removeChild(btnHost);
+    return true;
+  }
+  var lffTries=0;
+  var lffTimer=setInterval(function(){ lffTries++; if(lffPlaceShare()){clearInterval(lffTimer);} else if(lffTries>25){clearInterval(lffTimer);lffShareFallback();} },100);
+  if(document.readyState!=='loading') lffPlaceShare();
+  else document.addEventListener('DOMContentLoaded', lffPlaceShare);
+  /* 방향버튼 줄이 없는 페이지(또는 file:// 미리보기)에선 하단 우측에 살짝 */
+  function lffShareFallback(){
+    var host=document.querySelector('.lff-share');
+    if(!host || document.querySelector('.lff-wayrow')) return;
+    host.style.cssText='width:100%;max-width:420px;margin:2px auto 0;padding:0 18px;box-sizing:border-box;text-align:right';
+    var btn=host.querySelector('.lff-sb'); if(btn) btn.style.display='';
+  }
+  </script>
+  <!-- ═ 공용 부품 끝 ═ -->
   <div class="foot">
     <div id="lfFoot"></div>
 <script src="/lf-foot.js" defer></script>
+
+
+</div>
+<!-- 결과 팝업(모달) -->
+<div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+  <div class="modal-inner">
+    <button class="modal-x" onclick="closeModal()">✕</button>
+    <div id="modalBody"></div>
   </div>
 </div>
-</div>
-
+<div class="toast" id="toast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:11px 22px;border-radius:22px;font-size:13.5px;opacity:0;transition:.3s;pointer-events:none;z-index:99;white-space:nowrap"></div>
 <script>
-/* [v8] 편지 화면이 GitHub 으로 나왔습니다. GAS 는 이제 데이터만 줍니다. */
-var LETTER_TARGET = 'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec';
-var PETAL_COLORS=['#F7B9CD','#F3A9C2','#FBC7D6','#EFA7BE','#F6BBCB'];
-function spawnPetal(){
-  var box=document.getElementById('petals'); if(!box) return;
-  var p=document.createElement('div');
-  var size=9+Math.random()*13, left=Math.random()*100, dur=7+Math.random()*6;
-  var drift=(Math.random()*140-70)+'px', peak=(0.55+Math.random()*0.20).toFixed(2);
-  var c=PETAL_COLORS[(Math.random()*PETAL_COLORS.length)|0];
-  p.style.cssText='position:absolute;top:-8%;border-radius:50%;left:'+left+'%;width:'+size+'px;height:'+size+'px;background:'+c+';';
-  p.style.setProperty('--drift',drift); p.style.setProperty('--peak',peak);
-  p.style.animation='fall '+dur+'s linear forwards';
-  box.appendChild(p);
-  setTimeout(function(){ if(p&&p.parentNode) p.parentNode.removeChild(p); }, dur*1000+400);
+var GAS='https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A/exec';
+var LINK={home:'/',journey:'/journey/',letter:'/l/'   /* [v21·260713] ★옛 GAS 주소(script.google.com) → /l/. 눌러도 옛 빈칸 편지로 가던 것 */,find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
+function goHome(){location.href=LINK.home;}
+function go(k){var u=LINK[k];if(u){location.href=u;}else{toast('연결 예정입니다');}}
+function openMenu(){document.getElementById('drawer').classList.add('on');}
+function closeMenu(){document.getElementById('drawer').classList.remove('on');}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';setTimeout(function(){t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)';},2500);}
+function onDom(){var d=document.getElementById('emailDom').value;document.getElementById('emailDomCustom').style.display=d?'none':'block';}
+function getEmail(){var id=(document.getElementById('emailId').value||'').trim();if(!id)return '';var dom=document.getElementById('emailDom').value||(document.getElementById('emailDomCustom').value||'').trim();if(!dom)return '';return id+'@'+dom;}
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function doFind(){
+  var phone4=(document.getElementById('phone4').value||'').replace(/\D/g,'');
+  if(phone4.length!==4){toast('연락처 뒤 4자리를 넣어주세요');return;}
+  var email=getEmail(),date=(document.getElementById('date').value||''),channel=(document.getElementById('channel').value||''),rel=(document.getElementById('rel').value||'');
+  var orderNo=(document.getElementById('orderNo').value||'').trim();
+  var aux=(email?1:0)+(date?1:0)+(channel?1:0)+(orderNo?1:0);
+  if(aux<2){toast('날짜·구입처·이메일·결제번호 중 2가지 이상 입력해주세요');return;}
+  var btn=document.getElementById('findBtn');btn.disabled=true;btn.textContent='🌊 찾는 중...';
+  var cbName='fp_cb_'+Date.now();
+  window[cbName]=function(res){btn.disabled=false;btn.textContent='🌊 내 사랑흐름 여권 찾기';if(res&&res.status==='need_more'){toast('2가지 이상 입력해주세요');try{delete window[cbName];}catch(e){}return;}render(res&&res.candidates?res.candidates:[]);try{delete window[cbName];}catch(e){}};
+  var url=GAS+'?action=findPassport&phone4='+encodeURIComponent(phone4)+'&email='+encodeURIComponent(email)+'&date='+encodeURIComponent(date)+'&channel='+encodeURIComponent(channel)+'&orderNo='+encodeURIComponent(orderNo)+'&rel='+encodeURIComponent(rel)+'&callback='+cbName;
+  var sc=document.createElement('script');sc.src=url;sc.onerror=function(){btn.disabled=false;btn.textContent='🌊 내 사랑흐름 여권 찾기';toast('잠시 후 다시 시도해주세요');};document.body.appendChild(sc);
 }
-for(var i=0;i<6;i++){ setTimeout(spawnPetal, i*300); }
-setInterval(spawnPetal, 950);
-
-function getId(){ return (new URLSearchParams(location.search)).get('id') || ''; }
-/* [260810] ★번호가 있을 때만 보입니다 — 전엔 번호 없이 오셔도 견본 번호가 「확인됐어요」라고 떴습니다. */
-(function(){ var id=getId(); if(!id){ try{ id=(window.LFPass?LFPass.no():'')||''; }catch(e){} }
-  var el=document.getElementById('passLine');
-  if(id && el){ el.innerHTML='여권 <b>'+String(id).replace(/[<>&]/g,'')+'</b> · 확인됐어요'; el.style.display=''; } })();
-function go(u){ location.href=u; }
-
-var AC=null, muted=false;
-function ac(){ if(!AC){ AC=new (window.AudioContext||window.webkitAudioContext)(); } return AC; }
-function tone(f,d,pk,ty,dl){ if(muted) return; var c=ac(),t=c.currentTime+(dl||0),o=c.createOscillator(),g=c.createGain();o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(pk,t+0.03);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+d+0.05); }
-function welcomeChord(){ [130.81,164.81,196.00,261.63].forEach(function(f,k){ tone(f,1.1,0.07,'triangle',k*0.13); }); }
-function breathe(){ if(muted) return; var c=ac(),t=c.currentTime,o=c.createOscillator(),g=c.createGain();o.type='sine';o.frequency.value=65.41;g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.05,t+0.9);g.gain.exponentialRampToValueAtTime(0.0001,t+3.0);o.connect(g);g.connect(c.destination);o.start(t);o.stop(t+3.1); }
-function departSound(){ [196.00,261.63,329.63,392.00].forEach(function(f,k){ tone(f,0.7,0.08,'triangle',k*0.12); }); }
-var greeted=false;
-function greet(){ if(greeted||muted) return; greeted=true; try{ welcomeChord(); breathe(); }catch(e){} }
-document.addEventListener('pointerdown', function(){ greet(); });
-function toggleSound(e){ e.stopPropagation(); muted=!muted; document.getElementById('sndbtn').textContent=muted?'🔇':'🔊'; if(!muted){ greeted=false; greet(); } }
-function toggleMenu(e){ e.stopPropagation(); document.getElementById('drawer').classList.toggle('open'); }
-document.addEventListener('click', function(){ document.getElementById('drawer').classList.remove('open'); });
-function enter(){ try{ departSound(); }catch(e){} var id=getId(); var u=LETTER_TARGET; if(id){ u += '?id=' + encodeURIComponent(id); } setTimeout(function(){ location.href=u; }, 1100); }
+function render(list){
+  var body=document.getElementById('modalBody');
+  if(!list.length){body.innerHTML='<div style="background:#fff;border-radius:16px;padding:28px 22px;text-align:center;color:var(--sub);font-size:14px;line-height:1.8">일치하는 여행 기록을 찾지 못했어요 🔒<br>입력 정보를 다시 확인해보세요.<br><br>도움이 필요하시면<br>070-4158-7786 으로 문의해주세요.</div>';openModal();return;}
+  var h='<div class="rmore" style="margin-bottom:14px;color:#fff;font-weight:800;text-align:center;font-size:17px">✦ 찾았어요!</div>';
+  list.forEach(function(c){
+    var rel=(c.relType||'')+(c.relNick?' · '+c.relNick:'');
+    if(!rel.trim())rel='사랑흐름 여행 '+(c.nth||'')+'회차';
+    var pp=esc(c.passport);
+    h+='<div class="rcard">'
+      +'<div class="rc-rel">'+esc(rel)+'</div>'
+      +'<div class="rc-pp">'+pp+'</div>'
+      +'<button class="rc-cbtn rc-copy" style="width:100%;margin-top:10px" onclick="copyOne(\''+pp+'\')">📋 이 여권번호 복사하기</button>'
+      +'</div>';
+  });
+  body.innerHTML=h;
+  openModal();
+}
+function openModal(){document.getElementById('modalBg').classList.add('on');}
+function closeModal(){document.getElementById('modalBg').classList.remove('on');}
+function copyOne(pp){try{navigator.clipboard.writeText(pp);toast('📋 '+pp+' 복사됐어요! 편지 입력칸에 붙여넣으세요');}catch(e){var ta=document.createElement('textarea');ta.value=pp;document.body.appendChild(ta);ta.select();document.execCommand('copy');document.body.removeChild(ta);toast('📋 복사됐어요! 편지에 붙여넣으세요');}}
 </script>
+
 <script>
 /* ═══════════════════════════════════════════════════════════════════
    [260713 대표 확정] ☰ 표준 메뉴 9항목 — 전 화면 공용
@@ -243,6 +422,7 @@ function enter(){ try{ departSound(); }catch(e){} var id=getId(); var u=LETTER_T
 var LF_LINK = {
   home:     '/',
   hanmadi:  '/',
+  draw:     '/draw/',
   journey:  '/journey/',
   letter:   '/l/',
   memoir:   '/memoir/',
@@ -311,7 +491,7 @@ var LF_NEXT = {
   '/index.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
   '/showroom.html':       { k:'showcase', t:'마음 여행 예매하기' },
   '/showcase.html':       { k:'pay',      t:'결제하기' },
-  '/enter.html':          { k:'journey',  t:'여행 시작하기' },
+  '/enter.html':          { k:'journey',  t:'함께 떠나기' },
   '/journey/result.html': { k:'letter',   t:'이 여행을 편지로 이어가기' },
   /* 편지·여행지도는 길을 안 깝니다(위 lfPaintWay 참조).
      편지 완성 화면의 "다른 분과 여행하기"는 그 화면 안에 이미 있습니다. */
@@ -320,7 +500,7 @@ var LF_NEXT = {
   '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
   '/pay.html':            { k:'gate',     t:'여권 발급받기' },
   '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
-  '/gate.html':           { k:'journey',  t:'여행 시작하기' }
+  '/gate.html':           { k:'journey',  t:'함께 떠나기' }
 };
 
 /* 지금 화면에 온 것을 기록해 둡니다 (다음 화면의 "뒤로"가 여기로 옵니다) */
@@ -449,7 +629,7 @@ function lfPaintWay(){
      폰에서 쓰다 PC로 오면 번호를 넣어도 못 찾습니다.
      어디서든 이어지려면 서버(시트)에 담아야 하고, 그건 GAS 위험구간이라 별건입니다.
    ═══════════════════════════════════════════════════════════════════ */
-var LF_RESUME_LINK = { journey:'/journey/', letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec' };
+var LF_RESUME_LINK = { journey:'/journey/', letter:'/letter/' };
 
 function lfReadDraft(kind, pp){
   try{
