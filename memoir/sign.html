@@ -1,5 +1,19 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/sign.html · v3 · 260810 · [작업 v3] ★아래 길 셋의 「앞으로」 라벨 「내 책 보기」 → 「내 기록 보기」.
+<!-- ★ 현재 버전 ▶ memoir/sign.html · v6 · 260810 · [작업 v6] ★단추 아래 「떨림만 부드럽게 다듬고…」 한 줄 뺌(대표 지시).
+     [무손] 단추·이름 칸·고지·손글씨 부품·보정 세기·보내는 배관 전부. 부품은 그대로 돌아갑니다.
+     · v5 · 260810 · [작업 v5] ★단추 이름을 알아들을 수 있게 · 고지를 아래로 내림.
+     [단추] 「이 서명으로」는 말이 끊겨 무슨 뜻인지 알 수 없었습니다(대표 지적). 누르면 무슨 일이 생기는지
+       그 자리에서 읽히게 고칩니다 — 「이 서명으로 남기기」 · 「지우고 다시 쓰기」 · 「지우고 다시 남기기」.
+     [고지] v4 에서 색 상자에 담아 손글씨 칸 위에 두었더니 주인공 자리를 차지했습니다.
+       색과 테두리를 걷고, 두 단추 아래에 작은 글 두 줄로만 붙입니다. 굵게 하지 않습니다.
+       약관으로 가는 길은 글 안의 조용한 밑줄 하나로 둡니다(따로 단추를 두지 않습니다).
+     [무손] 이름 칸·손글씨 부품·보내는 배관·그 밖 전부.
+     · v4 · 260810 · [작업 v4] ★서명의 뜻을 화면에 밝힙니다 — 약관 제6조와 같은 말.
+     서명은 두 가지 뜻을 함께 가집니다 : 쓰신 글을 확인하고 그대로 펴내는 데 동의하신다는 것,
+     그리고 그 서명이 완성된 결과물에 그대로 실린다는 것. 말없이 받은 서명은 뒤에 다투면 약합니다.
+     손글씨 칸 바로 위에 두고 약관 조항으로 가는 길을 함께 답니다(trust.html v5 제6조).
+     끝낸 화면에도 날짜와 함께 기록되었음을 한 줄 밝힙니다. [무손] 이름 칸·손글씨 부품·보내는 배관·그 밖 전부.
+     · v3 · 260810 · [작업 v3] ★아래 길 셋의 「앞으로」 라벨 「내 책 보기」 → 「내 기록 보기」.
      화면에 「책」을 쓰지 않기로 했습니다(대표 지시 260810). v2 에서 본문 셋만 고치고 길 셋을 놓쳤습니다.
      ask.html 마침 화면이 쓰는 말과 같게 맞춥니다. [무손] 그 밖 전부.
      · v2 · 260810 · [작업 v2] ★이름 칸 신설 · ○○○ 없앰 · 남기는 배관 개통 · 끊긴 함수 채움.
@@ -151,6 +165,11 @@
 .name-in:focus{outline:none; border-color:var(--navy)}
 .name-in::placeholder{color:#CFC5B4; font-size:16px; letter-spacing:0}
 .name-note{text-align:center; color:var(--muted); font-size:13px; margin-top:8px; min-height:18px}
+/* ★[v5] 서명의 뜻 — 약관 제6조와 같은 말. 이것이 주인공이 아니므로 색 상자를 걷고
+   두 단추 아래에 작은 글로만 붙입니다(대표 지시 260810). 굵게 하지 않습니다. */
+.vow{margin:10px 2px 0; color:var(--muted); font-size:12.5px; font-weight:400;
+  line-height:1.7; text-align:center}
+.vow a{color:var(--muted); text-decoration:underline}
 .name-note.warn{color:#C0392B}
 
 .btn-done:disabled{background:#C9CDD3; border-color:#C9CDD3; color:#F4F4F4; cursor:default}
@@ -177,7 +196,9 @@
   .padwrap{position:relative}
   canvas{width:100%; background:#fff; border:1px solid var(--line); border-radius:12px;
     touch-action:none; display:block; cursor:crosshair}
-  .padwrap:has(.lfhw-lock) .ph{display:none}
+  /* ★[v4] 손글씨 부품이 흐린 글씨에 인라인으로 값을 넣어, v2 의 규칙이 밀려 있었습니다.
+   잠금 안내 뒤로 이름이 비쳐 보였습니다. 부품은 안 건드리고 규칙 쪽에서 눌러 잡습니다. */
+.padwrap:has(.lfhw-lock) .ph{display:none !important}
 .ph{position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
     color:#d8cdbc; font-family:'Nanum Pen Script',cursive; font-size:26px;
     pointer-events:none; text-align:center; line-height:1.4}
@@ -187,7 +208,10 @@
     cursor:pointer; touch-action:auto; z-index:2}
   canvas.lfhw-on{border-color:var(--navy)}
 
-  .tools{display:flex; gap:12px; margin-top:18px}
+  /* ★[v5] 단추를 위아래로 놓습니다. 이름을 알아들을 수 있게 늘리니(「이 서명으로 남기기」)
+   가로로는 안쪽 폭이 131px 인데 글자가 138px 이라 마지막 한 글자가 떨어졌습니다(260810 실측).
+   폰트를 줄이지 않습니다 — 어르신 화면입니다. 넓은 단추가 누르기도 쉽습니다. */
+.tools{display:flex; flex-direction:column; gap:10px; margin-top:18px}
   .btn{flex:1; border:none; border-radius:12px; padding:15px 12px;
     font-family:inherit; font-size:16.5px; font-weight:500; cursor:pointer}
   .btn-redo{background:#fff; color:var(--navy); border:1.5px solid var(--navy)}
@@ -290,17 +314,17 @@
     </div>
 
     <div class="tools">
-      <button class="btn btn-redo" id="btnRedo">다시 쓰기</button>
-      <button class="btn btn-done" id="btnDone" disabled>이 서명으로</button>
+      <button class="btn btn-redo" id="btnRedo">지우고 다시 쓰기</button>
+      <button class="btn btn-done" id="btnDone" disabled>이 서명으로 남기기</button>
     </div>
     <div class="send-note" id="sendNote"></div>
-    <div class="hint">떨림만 부드럽게 다듬고, 당신의 글씨체는 그대로 둡니다</div>
+    <div class="vow">남기신 서명은 지금까지 쓰신 글을 확인하고 그대로 펴내는 데 동의하신다는 뜻이며, 완성된 「삶의 여정」에 그대로 실립니다. 자세한 것은 <a href="/trust.html">이용약관 제6조</a>에 있습니다.</div>
   </div>
 
   <div class="card done-panel" id="donePanel">
     <div class="done-mark">✓</div>
     <div class="done-title">서명이 새겨졌습니다</div>
-    <div class="done-body" id="doneBody">「삶의 여정」의 맨 끝에 이렇게 실립니다.</div>
+    <div class="done-body" id="doneBody">「삶의 여정」의 맨 끝에 이렇게 실립니다.<br><span style="font-size:13.5px;color:#8A8580">남기신 날짜와 함께 기록되었습니다</span></div>
 
     <div class="pv" id="pvBox">
       <div class="pv-who" id="pvWho">선생님의 삶의 여정</div>
@@ -311,7 +335,7 @@
       <div class="pv-cap">실제 크기와 여백은 인쇄본에서 조금 다를 수 있습니다</div>
     </div>
 
-    <button class="done-again" id="btnAgain">다시 서명하기</button>
+    <button class="done-again" id="btnAgain">지우고 다시 남기기</button>
   </div>
 </main>
 
@@ -665,11 +689,11 @@ document.getElementById('btnDone').addEventListener('click', function(){
       donePanel.classList.add('on');
       window.scrollTo({top:0, behavior:'smooth'});
       btn.disabled=false;
-      btn.textContent='이 서명으로';
+      btn.textContent='이 서명으로 남기기';
     },
     function(){
       btn.disabled=false;
-      btn.textContent='이 서명으로';
+      btn.textContent='이 서명으로 남기기';
       sendNote.className='send-note warn';
       sendNote.textContent='지금은 남기지 못했습니다. 잠시 뒤 한 번만 다시 눌러 주세요';
     }
