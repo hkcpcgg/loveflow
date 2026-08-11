@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/pass.js · v3 · 260811 — ★화면 안에 이미 확정돼 있던 「앞으로」가 안 보이던 것 해소(대표 지적 260811). 열두 화면이 각자 열두 줄짜리 목적지표(LF_NEXT)를 갖고 있는데 문지기는 자기 짧은 표만 보고 길을 깔아, 파는 곳·기관 신청·입장·다시 입장·여권 찾기·여행지도 결과·편지 입구 일곱 곳이 뒤로·홈 둘로 줄어 있었습니다. [고침] ①문지기 표에 없으면 ★화면 표를 빌려 씁니다 — 모양은 표준 알약 26px 그대로입니다(화면 손에 통째로 맡기면 여행지도 결과에서 옛 세로 카드 88px 판이 되살아납니다). ②자기 표가 없는 두 곳(꾸러미 한 장·삐뚤빼뚤 마음 도화지)에 앞으로 갈 곳을 실었습니다 — 문구는 이미 쓰던 것 그대로입니다. [무손] 여권 찾기·잠금·링크에 번호 싣기·부품 판번호(PART_V)·로고 대체글자·알약 생김새 전부 미변경. — v2 · 260810 — ★길 셋 깔기 + 로고 대체글자 통일 추가. 대표 확정 260810 「어느 창에서 시작해도 홈으로 가고 바로 앞으로 갈 수 있어야 한다」. 아홉 화면에 길이 없어 손님이 갇힐 수 있었습니다. (PART_V 8) — ★사랑흐름 문지기(신설).
+   현재 버전 ▶ lf/pass.js · v4 · 260811 — ★상단·하단 겉모습 한 벌 정리 — 화면 스물여섯 곳을 각각 고치지 않고 여기 한 곳에서 처리합니다(대표 지시 260811). 지금까지 같은 마크업을 화면마다 복사해 두고 한 곳씩 고쳐 와서, 새 화면을 만들면 같은 것이 또 딸려왔습니다. [① 로고 옆 상호 글자] 로고가 곧 사랑흐름인데 옆에 상호를 또 적어, 그림이 안 뜨는 순간 두 번 보였습니다 — 스물셋 화면에서 걷습니다(260711·260725 확정 원칙). [② 로고 그림] 깃허브 원본에서 1MB 를 끌어오던 것을 우리 집 안(/logo.png)에서 가져옵니다. [③ 푸터 밑 「홈으로」] 상단 로고와 겹치는 문(260706 확정). 자기 푸터를 가진 화면에만 남아 있던 것을 덮습니다 — ★단 아래 길 셋이 깔린 화면에서만입니다. 길이 없는 편지 화면에서는 이것이 하나뿐인 나갈 문이라 그대로 둡니다(대표 지시 260811). [④ 상단 ‹ 화살표] 카톡·검색으로 곧장 들어오시면 다녀온 자취가 없어 눌러도 꿈쩍 안 하던 것 — 스물한 화면. 갈 데가 없으면 홈으로 보냅니다. 「앞 물음으로」 가는 화면(여행지도·편지)과 자기 방식이 있는 화면(마음 한마디·기관 신청·책)은 손대지 않습니다. [무손] 여권 찾기·잠금·링크에 번호 싣기·부품 판번호·길 셋 목적지표·알약 생김새 전부 미변경. 화면 파일은 한 개도 안 고쳤습니다. — v3 · 260811 — ★화면 안에 이미 확정돼 있던 「앞으로」가 안 보이던 것 해소(대표 지적 260811). 열두 화면이 각자 열두 줄짜리 목적지표(LF_NEXT)를 갖고 있는데 문지기는 자기 짧은 표만 보고 길을 깔아, 파는 곳·기관 신청·입장·다시 입장·여권 찾기·여행지도 결과·편지 입구 일곱 곳이 뒤로·홈 둘로 줄어 있었습니다. [고침] ①문지기 표에 없으면 ★화면 표를 빌려 씁니다 — 모양은 표준 알약 26px 그대로입니다(화면 손에 통째로 맡기면 여행지도 결과에서 옛 세로 카드 88px 판이 되살아납니다). ②자기 표가 없는 두 곳(꾸러미 한 장·삐뚤빼뚤 마음 도화지)에 앞으로 갈 곳을 실었습니다 — 문구는 이미 쓰던 것 그대로입니다. [무손] 여권 찾기·잠금·링크에 번호 싣기·부품 판번호(PART_V)·로고 대체글자·알약 생김새 전부 미변경. — v2 · 260810 — ★길 셋 깔기 + 로고 대체글자 통일 추가. 대표 확정 260810 「어느 창에서 시작해도 홈으로 가고 바로 앞으로 갈 수 있어야 한다」. 아홉 화면에 길이 없어 손님이 갇힐 수 있었습니다. (PART_V 8) — ★사랑흐름 문지기(신설).
 
    [왜 만들었나]
    여권번호를 찾고·심고·문을 열지 말지 판정하는 코드가 화면마다 따로
@@ -249,12 +249,58 @@
   function logoAlt() {
     try {
       var im = document.querySelectorAll('img[src*="logo.png"]');
-      for (var i = 0; i < im.length; i++) { im[i].setAttribute('alt', '\uc0ac\ub791\ud750\ub984 \ud648'); }
+      for (var i = 0; i < im.length; i++) {
+        var g = im[i];
+        g.setAttribute('alt', '\uc0ac\ub791\ud750\ub984 \ud648');
+
+        /* [v4] 로고 그림을 우리 집 안에서 가져옵니다 — 깃허브 원본 1MB 는 자주 안 떴습니다. */
+        var src = String(g.getAttribute('src') || '');
+        if (src.indexOf('raw.githubusercontent.com') > -1) { g.setAttribute('src', '/logo.png'); }
+
+        /* [v4] 로고 바로 옆 「사랑흐름」 글자를 걷습니다 — 로고가 곧 사랑흐름입니다. */
+        var s = g.nextElementSibling;
+        if (s && s.tagName === 'SPAN'
+            && String(s.textContent || '').replace(/\s/g, '') === '\uc0ac\ub791\ud750\ub984') {
+          s.parentNode.removeChild(s);
+        }
+      }
+    } catch (e) {}
+  }
+
+  /* [v4] 푸터 밑 「홈으로」 — 상단 로고와 겹치는 문(260706 확정).
+     ★단, 아래 길 셋이 깔린 화면에서만 걷습니다. 길이 없는 화면에서는 이것이
+     하나뿐인 나갈 문입니다 — 편지는 다 쓰고 앞에 쓴 걸 다시 보러 가시는 곳이라
+     그대로 둡니다(대표 지시 260811).
+     결과 화면은 다 쓴 뒤 글자로 만들어져 문지기가 지나간 뒤에 생깁니다. 그래서 덮습니다. */
+  function tidy() {
+    if (document.getElementById('lfTidyCss')) { return; }
+    if (!document.getElementById('lfway')) { return; }   /* 길 셋이 없으면 안 걷습니다 */
+    var s = document.createElement('style');
+    s.id = 'lfTidyCss';
+    s.textContent = '.homeout{display:none !important}'
+                  + 'footer a.home{display:none !important}';
+    (document.head || document.documentElement).appendChild(s);
+  }
+
+  /* [v4] 상단 ‹ 화살표 — 다녀온 데가 없으면 꿈쩍 안 하던 것. 없으면 홈으로 보냅니다. */
+  function back() {
+    if (history.length > 1) { history.back(); }
+    else { location.href = '/'; }
+  }
+
+  function backDoor() {
+    try {
+      var el = document.querySelectorAll('[onclick]');
+      for (var i = 0; i < el.length; i++) {
+        var oc = String(el[i].getAttribute('onclick') || '').replace(/\s/g, '');
+        if (oc !== 'history.back()') { continue; }
+        el[i].setAttribute('onclick', 'LFPass.back()');
+      }
     } catch (e) {}
   }
 
   window.LFPass = {
-    no: no, seal: seal, guard: guard, link: link, way: way,
+    no: no, seal: seal, guard: guard, link: link, way: way, back: back,
     fromDevice: fromDevice, RE: RE, PART_V: PART_V
   };
 
@@ -263,9 +309,14 @@
     logoAlt();
     part();
     way();
+    tidy();          /* 길 셋을 깐 뒤에 — 겹칠 때만 걷습니다 */
+    backDoor();
     setTimeout(way, 600);   /* 늦게 그리는 화면 대비 — 이미 있으면 비켜 갑니다 */
     /* 화면이 늦게 그리는 경우 한 번 더 */
     setTimeout(link, 400);
+    setTimeout(logoAlt, 600);
+    setTimeout(tidy, 650);
+    setTimeout(backDoor, 700);   /* 길 셋·늦게 그리는 화면의 ‹ 까지 */
   }
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);
