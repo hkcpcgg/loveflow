@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/pass.js · v2 · 260810 — ★길 셋 깔기 + 로고 대체글자 통일 추가. 대표 확정 260810 「어느 창에서 시작해도 홈으로 가고 바로 앞으로 갈 수 있어야 한다」. 아홉 화면에 길이 없어 손님이 갇힐 수 있었습니다. (PART_V 8) — ★사랑흐름 문지기(신설).
+   현재 버전 ▶ lf/pass.js · v3 · 260811 — ★화면 안에 이미 확정돼 있던 「앞으로」가 안 보이던 것 해소(대표 지적 260811). 열두 화면이 각자 열두 줄짜리 목적지표(LF_NEXT)를 갖고 있는데 문지기는 자기 짧은 표만 보고 길을 깔아, 파는 곳·기관 신청·입장·다시 입장·여권 찾기·여행지도 결과·편지 입구 일곱 곳이 뒤로·홈 둘로 줄어 있었습니다. [고침] ①문지기 표에 없으면 ★화면 표를 빌려 씁니다 — 모양은 표준 알약 26px 그대로입니다(화면 손에 통째로 맡기면 여행지도 결과에서 옛 세로 카드 88px 판이 되살아납니다). ②자기 표가 없는 두 곳(꾸러미 한 장·삐뚤빼뚤 마음 도화지)에 앞으로 갈 곳을 실었습니다 — 문구는 이미 쓰던 것 그대로입니다. [무손] 여권 찾기·잠금·링크에 번호 싣기·부품 판번호(PART_V)·로고 대체글자·알약 생김새 전부 미변경. — v2 · 260810 — ★길 셋 깔기 + 로고 대체글자 통일 추가. 대표 확정 260810 「어느 창에서 시작해도 홈으로 가고 바로 앞으로 갈 수 있어야 한다」. 아홉 화면에 길이 없어 손님이 갇힐 수 있었습니다. (PART_V 8) — ★사랑흐름 문지기(신설).
 
    [왜 만들었나]
    여권번호를 찾고·심고·문을 열지 말지 판정하는 코드가 화면마다 따로
@@ -154,7 +154,10 @@
     '/partner-creed.html': { u:'/partner-apply.html', t:'안내자 신청하기' },
     '/partner-link.html':  { u:'/partner.html',  t:'사랑흐름 여행 안내자' },
     '/kit/index.html':     { u:'/showcase.html', t:'마음 여행 예매하기' },
-    '/kit/':               { u:'/showcase.html', t:'마음 여행 예매하기' }
+    '/kit/':               { u:'/showcase.html', t:'마음 여행 예매하기' },
+    '/kit/onepager.html':  { u:'/showcase.html', t:'마음 여행 예매하기' },
+    '/draw/':              { u:'/showroom.html', t:'앞으로' },
+    '/draw/index.html':    { u:'/showroom.html', t:'앞으로' }
   };
 
   /* 길을 깔지 않는 화면 — 답을 적는 자리 */
@@ -186,16 +189,37 @@
     try {
       if (document.getElementById('lfway')) { return; }        /* 이미 있음 */
       if (document.querySelector('.lfway, .ways, .wayrow')) { return; }
+
       if (skipWay()) { return; }
 
       var p = location.pathname;
       var n = NEXT[p] || NEXT[p.replace(/index\.html$/, '')];
 
+      /* ★[v3 · 260811] 문지기 표에 없으면 ★화면이 가진 목적지표(LF_NEXT)를 빌려 씁니다.
+         모양은 문지기의 표준 알약(26px) 그대로입니다 — 화면 손에 통째로 맡기면
+         여행지도 결과에서 옛 세로 카드(88px) 판이 되살아납니다. 목적지만 빌립니다. */
+      if (!n) {
+        try {
+          var mine = window.LF_NEXT
+                   ? (window.LF_NEXT[p] || window.LF_NEXT[p.replace(/index\.html$/, '')])
+                   : null;
+          if (mine && mine.t && mine.k && typeof window.lfGo === 'function') {
+            /* ★문구는 그 화면이 원래 쓰던 「앞으로」 그대로 둡니다.
+               목적지 이름으로 바꾸는 것은 대표 확정 사항이라 손대지 않습니다. */
+            n = { k: mine.k, t: '앞으로' };
+          }
+        } catch (e) {}
+      }
+
       var h = '<div class="lfway" id="lfway">';
       h += '<a onclick="history.back()"><span class="ic">←</span><span class="tt">뒤로</span></a>';
       h += '<a href="/"><span class="ic">⌂</span><span class="tt">홈</span></a>';
       if (n) {
-        h += '<a href="' + n.u + '"><span class="ic">→</span><span class="tt">' + n.t + '</span></a>';
+        if (n.u) {
+          h += '<a href="' + n.u + '"><span class="ic">→</span><span class="tt">' + n.t + '</span></a>';
+        } else {
+          h += '<a onclick="lfGo(\'' + n.k + '\')"><span class="ic">→</span><span class="tt">' + n.t + '</span></a>';
+        }
       }
       h += '</div>';
 
