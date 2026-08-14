@@ -1,7 +1,7 @@
 <!-- ★ 현재 버전 ▶ partner-apply.html · v10 · 260810 · [작업 v10] ★문지기(/lf/pass.js) 한 줄 부착 — 대표 확정 260810 「어느 창에서 시작해도 일곱이 있어야 한다」. 홈 · 바로 앞 · 여권으로 문 열기 · 여권 찾기 · 하던 것 이어가기 · 받은 것 다시 보기 · 드나드는 길. 이 화면은 여권칸과 이어가기가 없어 일곱 중 셈이 비어 있었습니다. 문지기가 여권칸을 세우고 ☰ 메뉴 링크에 번호를 붙입니다(마크업 미변경). [무손] 화면 본문·기존 로직·색값 전부. 손대는 곳 = 헤더와 head 한 줄. · v9 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜. ②드로어에 「사랑흐름 여행 안내자」 한 줄 신설 — 「마음 여행 예매하기」 다음·「다시 시작」 앞. 홈 index v25 와 같은 자리·같은 글자. 메뉴 12항목. 새 CSS 0줄·새 색 0개. ③신청 칸 정리 — 제목 아래 머리말 한 줄 / 「함께하시는 방식」 선택지 다섯으로 교체 + 「직접 기재」 빈칸 / 「상호 · 기관명」 칸 신설(선택 입력) / 채널 주소 칸 여는 조건을 「채널」 글자로 / 직접 기재·상호는 기존 pfVal·memoAll 에 실어 보냄 — 게시판 GAS·시트 손대지 않음.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v8 이전) ───────────────────────────── -->
-<!-- ★ partner-apply.html | v8 | 2026-07-26 | ★「함께하시는 방식」 칸 추가(찾아가는 방식 / 온라인으로 잇는 방식 / 둘 다) · 온라인 고르면 채널 주소 칸이 열림 · 방식·채널을 문의사항 앞머리에 붙여 전송(게시판 GAS 무수정) · way·ch 필드도 함께 전송(시트 칸 생기면 바로 들어감) · [v7] 하단 고정 띠(홈·여행의 기록·공유) 추가 · 연락처 앞자리 선택 · 이메일 도메인 선택 · 직업/닿은 곳 드롭다운+직접입력 · 활동 방식(대면/온라인) 추가 · [v3] 선택지 문구에서 부정 표현 제거(직접 기재) · [v4] 버튼 줄을 푸터 위로(고정 해제) · 공유는 홈 표준 lffShare + 홈 표준 .lff-sb 버튼 그대로 · [v5] 딥네이비 하단 띠 삭제→카카오 버튼 아래 카드 안으로 · 「어떻게 해보고 싶으십니까」 항목 삭제 · 제출 버튼 아래 설명 삭제 · [v6] PARTNER_GAS = 게시판 GAS 주소 채움 · [v7] 대표 지시 문구 정리(제목 한 줄 · 성명 · 관심 분야 · 관심 업종 · 문의사항 · 안내문 전부 삭제) · 상단바/드로어/푸터 = proposal.html v14 표준 -->
+<!-- ★ partner-apply.html | v11 | 2026-08-14 | ★대표 확정(260814) — 「파트너 상담」에서 「마음 여행여권 신청」으로 전환. 삭제: 함께하시는 방식 · 활동 지역 · 관심 분야 · 관심 업종 · 채널 주소 · 상호 칸. 신설: 어디에서 오셨습니까(기관·단체/개인 라디오, 기관 고르면 기관명·직위 열림) · 어떤 것을 보시겠습니까(체크 다섯) · 서류 첨부(마음 여행편지·한 편의 기록 체크 시에만 열림, base64 전송, 8MB 제한). 동의문·머리말·완료화면 문구 교체. 여권 문지기 pass.js · 상단바 · lf-foot.js · GAS 주소 무손. 게시판 GAS에 파일 저장 함수 추가 필요(별도 제공) · [v11-2] 동의문을 한 줄로 접고 details 자세히 보기로 펼침(펼침 강제 없음) · 머리말 문단의 class="pfsub" 제거 — 제출 단추와 이름이 겹쳐 딥네이비 단추로 렌더되던 것(v10부터 있던 결함) · 제출 단추 class 이름을 pfsub→pfgo2로 교체 — 공용 부품의 .pfsub{color:var(--sub,#6b6b6b)}에 지션 딥네이비 바탕에 회색 글자로 렌더되던 것(v10부터 있던 결함) · 상단바 라벨 「파트너 신청」→「여권 신청」 -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -205,13 +205,31 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 .pfmail .pfsel{flex:1 1 46%;min-width:0}
 .pfetc{margin-top:9px;display:none}
 .pfetc.on{display:block}
+.pfpick{display:flex;gap:9px}
+.pfpick .pfopt{flex:1}
+.pfchk{display:flex;flex-direction:column;gap:8px}
+.pfopt{display:flex;align-items:center;gap:9px;border:1px solid #DDE4EC;border-radius:11px;padding:13px 14px;font-size:15px;color:#22303d;font-weight:600;cursor:pointer;background:#fff;transition:border-color .15s,background .15s}
+.pfopt input{width:18px;height:18px;accent-color:#1E4A76;flex:none}
+.pfopt.on{border-color:#1E4A76;background:#F4F8FC}
+.pfsub2{display:none;margin-top:9px}
+.pfsub2.on{display:block}
+.pffile{padding:12px;font-size:14px;background:#fff}
 .pfagree{background:#FFFBF5;border:1px solid #EADFC9;border-radius:13px;padding:16px 16px 14px;margin:6px 0 18px}
 .pfagree h4{margin:0 0 8px;font-size:14px;color:#1E4A76;font-weight:800}
-.pfagree ul{margin:0 0 12px;padding-left:17px;color:#6b7887;font-size:13px;line-height:1.85}
+.pfagree ul{margin:10px 0 2px;padding-left:17px;color:#6b7887;font-size:13px;line-height:1.85}
+.pfagree .pfck span{line-height:1.5}
+.pfagree .req{font-size:12px;color:#FF7A59;font-weight:800;margin-left:3px}
+.pfdmsg{margin:16px 0 6px;font-size:15px;color:#5b6b7c;line-height:1.85}
+.pfckn{margin:8px 0 0 28px;font-size:13px;color:#8a97a5;line-height:1.7}
+.pfmore{margin:8px 0 0 28px}
+.pfmore summary{font-size:13px;color:#1E4A76;font-weight:700;cursor:pointer;list-style:none;display:inline-flex;align-items:center;gap:4px;padding:2px 0}
+.pfmore summary::-webkit-details-marker{display:none}
+.pfmore summary::after{content:"\2304";font-size:15px;line-height:1;transform:translateY(-2px)}
+.pfmore[open] summary::after{content:"\2303";transform:translateY(2px)}
 .pfck{display:flex;align-items:center;gap:9px;font-size:15px;color:#22303d;font-weight:600;cursor:pointer}
 .pfck input{width:19px;height:19px;accent-color:#1E4A76}
-.pfsub{width:100%;border:0;border-radius:13px;padding:17px;font-size:17px;font-weight:800;font-family:inherit;color:#fff;background:#1E4A76;cursor:pointer}
-.pfsub:disabled{background:#C6CFD8;cursor:not-allowed}
+.pfgo2{width:100%;border:0;border-radius:13px;padding:17px;font-size:17px;font-weight:800;font-family:inherit;color:#fff!important;background:#1E4A76;cursor:pointer}
+.pfgo2:disabled{background:#C6CFD8;cursor:not-allowed}
 .pfnote{text-align:center;font-size:13px;color:#8a97a5;margin-top:12px;line-height:1.7}
 .pfkakao{display:block;text-align:center;background:#FEE500;color:#3b1e1e;border-radius:13px;padding:15px;font-weight:800;font-size:16px;text-decoration:none;margin-top:10px}
 .pfdone{display:none;text-align:center;padding:38px 14px}
@@ -230,7 +248,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 <div class="lf-nav">
   <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
   <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
-  <span class="lf-nav-loc">파트너 신청</span>
+  <span class="lf-nav-loc">여권 신청</span>
   <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
 </div>
 <div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
@@ -253,8 +271,8 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 <div class="pfwrap">
 
   <div class="pfhead">
-    <h1>사랑흐름 파트너 상담 신청</h1>
-    <p class="pfsub">사회복지 관련 업무 수행자 또는 기관·단체 경력자 등과 함께하고자 합니다.</p>
+    <h1>사전 여행 신청</h1>
+    <p>사전 여행해 보실 사랑흐름 마음 여행여권을 보내 드립니다.</p>
   </div>
 
   <form class="pfcard" id="pfForm" onsubmit="return false;">
@@ -267,41 +285,13 @@ footer .cr{color:#C8D6E5;margin-top:8px}
     </div>
 
     <div class="pfrow">
-      <label class="pflab" for="pfOrg">상호 · 기관명</label>
-      <input class="pfin" type="text" id="pfOrg" maxlength="40" placeholder="개인이시면 비워 두셔도 됩니다">
-    </div>
-
-    <div class="pfrow">
       <label class="pflab" for="pfTel2">연락처<span class="req">필수</span></label>
       <div class="pfsplit">
-        <select class="pfsel" id="pfTel1">
-          <option value="010">010</option>
-          <option value="011">011</option>
-          <option value="016">016</option>
-          <option value="017">017</option>
-          <option value="018">018</option>
-          <option value="019">019</option>
-          <option value="070">070</option>
-          <option value="02">02</option>
-          <option value="031">031</option>
-          <option value="032">032</option>
-          <option value="033">033</option>
-          <option value="041">041</option>
-          <option value="042">042</option>
-          <option value="043">043</option>
-          <option value="051">051</option>
-          <option value="052">052</option>
-          <option value="053">053</option>
-          <option value="054">054</option>
-          <option value="055">055</option>
-          <option value="061">061</option>
-          <option value="062">062</option>
-          <option value="063">063</option>
-          <option value="064">064</option>
-        </select>
+        <select class="pfsel" id="pfTel1"><option value="010">010</option><option value="011">011</option><option value="016">016</option><option value="017">017</option><option value="018">018</option><option value="019">019</option><option value="070">070</option><option value="02">02</option><option value="031">031</option><option value="032">032</option><option value="033">033</option><option value="041">041</option><option value="042">042</option><option value="043">043</option><option value="051">051</option><option value="052">052</option><option value="053">053</option><option value="054">054</option><option value="055">055</option><option value="061">061</option><option value="062">062</option><option value="063">063</option><option value="064">064</option></select>
         <span class="pfat">-</span>
         <input class="pfin" type="tel" id="pfTel2" maxlength="9" inputmode="numeric" placeholder="12345678">
       </div>
+      <p class="pfhint">마지막 네 자리가 사랑흐름 입장 비밀번호로 쓰입니다.</p>
     </div>
 
     <div class="pfrow">
@@ -309,154 +299,71 @@ footer .cr{color:#C8D6E5;margin-top:8px}
       <div class="pfsplit pfmail">
         <input class="pfin" type="text" id="pfMailId" maxlength="40" placeholder="아이디" autocomplete="username">
         <span class="pfat">@</span>
-        <select class="pfsel" id="pfMailDom" onchange="pfEtc('pfMailEtc', this.value==='__etc')">
-          <option value="naver.com">naver.com</option>
-          <option value="gmail.com">gmail.com</option>
-          <option value="daum.net">daum.net</option>
-          <option value="hanmail.net">hanmail.net</option>
-          <option value="kakao.com">kakao.com</option>
-          <option value="nate.com">nate.com</option>
-          <option value="hotmail.com">hotmail.com</option>
-          <option value="outlook.com">outlook.com</option>
-          <option value="__etc">직접 기재</option>
+        <select class="pfsel" id="pfMailDom" onchange="pfEtc('pfMailEtc', this.value==='__etc')"><option value="naver.com">naver.com</option><option value="gmail.com">gmail.com</option><option value="daum.net">daum.net</option><option value="hanmail.net">hanmail.net</option><option value="kakao.com">kakao.com</option><option value="nate.com">nate.com</option><option value="hotmail.com">hotmail.com</option><option value="outlook.com">outlook.com</option><option value="__etc">직접 기재</option>
         </select>
       </div>
       <input class="pfin pfetc" id="pfMailEtc" type="text" maxlength="40" placeholder="메일 주소 (예: mycompany.co.kr)">
     </div>
 
     <div class="pfrow">
-      <label class="pflab" for="pfWay">함께하시는 방식<span class="req">필수</span></label>
-      <select class="pfsel" id="pfWay">
-        <option value="">선택해 주십시오</option>
-        <option value="기관·단체에 제안서를 전하고 도입 계약을 성사시킵니다">기관·단체에 제안서를 전하고 도입 계약을 성사시킵니다</option>
-        <option value="유튜브·인스타·블로그·밴드 등 운영 채널에 본인 전용 링크를 걸고, 그 링크로 성사된 만큼 부가 수익을 얻습니다">유튜브·인스타·블로그·밴드 등 운영 채널에 본인 전용 링크를 걸고, 그 링크로 성사된 만큼 부가 수익을 얻습니다</option>
-        <option value="소속 기관·단체의 복지사업이나 연간 프로그램으로 도입을 검토합니다">소속 기관·단체의 복지사업이나 연간 프로그램으로 도입을 검토합니다</option>
-        <option value="조합원·회원·임직원 사은품이나 기념품으로 대량 구입을 검토합니다">조합원·회원·임직원 사은품이나 기념품으로 대량 구입을 검토합니다</option>
-        <option value="지자체·학교·공공기관의 정책사업으로 연계할 방법을 논의하고 싶습니다">지자체·학교·공공기관의 정책사업으로 연계할 방법을 논의하고 싶습니다</option>
-        <option value="__etc">직접 기재</option>
-      </select>
-      <input class="pfin pfetc" id="pfWayEtc" type="text" maxlength="80" placeholder="직접 기재">
-      <input class="pfin" id="pfCh" type="text" maxlength="80" style="display:none;margin-top:8px"
-             placeholder="채널 주소 (예: youtube.com/@이름)">
+      <label class="pflab">어디에서 오셨습니까<span class="req">필수</span></label>
+      <div class="pfpick">
+        <label class="pfopt"><input type="radio" name="pfFrom" value="기관·단체" onchange="pfFromChange()"><span>기관 · 단체</span></label>
+        <label class="pfopt"><input type="radio" name="pfFrom" value="개인" onchange="pfFromChange()"><span>개인</span></label>
+      </div>
+      <div class="pfsub2" id="pfOrgBox">
+        <input class="pfin" type="text" id="pfOrg" maxlength="40" placeholder="기관 · 단체명">
+        <input class="pfin" type="text" id="pfTitle" maxlength="30" placeholder="담당자 직위 (예: 사회복지사 · 팀장)" style="margin-top:8px">
+      </div>
     </div>
 
     <div class="pfrow">
-      <label class="pflab" for="pfArea">활동 지역<span class="req">필수</span></label>
-      <select class="pfsel" id="pfArea">
-        <option value="">선택해 주십시오</option>
-        <option value="서울">서울</option>
-          <option value="부산">부산</option>
-          <option value="대구">대구</option>
-          <option value="인천">인천</option>
-          <option value="광주">광주</option>
-          <option value="대전">대전</option>
-          <option value="울산">울산</option>
-          <option value="세종">세종</option>
-          <option value="경기">경기</option>
-          <option value="강원">강원</option>
-          <option value="충북">충북</option>
-          <option value="충남">충남</option>
-          <option value="전북">전북</option>
-          <option value="전남">전남</option>
-          <option value="경북">경북</option>
-          <option value="경남">경남</option>
-          <option value="제주">제주</option>
-          <option value="전국">전국</option>
-      </select>
+      <label class="pflab">어떤 것을 보시겠습니까<span class="req">필수</span></label>
+      <div class="pfchk">
+        <label class="pfopt"><input type="checkbox" class="pfItem" value="마음 한마디" onchange="pfItemChange()"><span>마음 한마디</span></label>
+        <label class="pfopt"><input type="checkbox" class="pfItem" value="삐뚤빼뚤 마음 도화지" onchange="pfItemChange()"><span>삐뚤빼뚤 마음 도화지</span></label>
+        <label class="pfopt"><input type="checkbox" class="pfItem" value="마음 여행지도" onchange="pfItemChange()"><span>마음 여행지도</span></label>
+        <label class="pfopt pfdoc"><input type="checkbox" class="pfItem" value="마음 여행편지" data-doc="1" onchange="pfItemChange()"><span>마음 여행편지</span></label>
+        <label class="pfopt pfdoc"><input type="checkbox" class="pfItem" value="한 편의 기록" data-doc="1" onchange="pfItemChange()"><span>한 편의 기록</span></label>
+      </div>
     </div>
 
-    <div class="pfrow">
-      <label class="pflab" for="pfJob">관심 분야<span class="req">필수</span></label>
-      <select class="pfsel" id="pfJob" onchange="pfEtc('pfJobEtc', this.value==='__etc')">
-        <option value="">선택해 주십시오</option>
-        <optgroup label="기관 출입">
-          <option value="복지관 · 문화센터 출강 강사">복지관 · 문화센터 출강 강사</option>
-          <option value="평생교육 강사">평생교육 강사</option>
-          <option value="사회복지사">사회복지사</option>
-          <option value="프로그램 기획자">프로그램 기획자</option>
-          <option value="평생교육사">평생교육사</option>
-          <option value="요양 · 재가복지 종사자">요양 · 재가복지 종사자</option>
-          </optgroup>
-          <optgroup label="영업 · 연결">
-          <option value="상조 · 보험 설계사">상조 · 보험 설계사</option>
-          <option value="장례지도사">장례지도사</option>
-          <option value="행사 · 문화기획 대행">행사 · 문화기획 대행</option>
-          <option value="인쇄 · 광고 대행">인쇄 · 광고 대행</option>
-          <option value="기업교육 · HR 컨설턴트">기업교육 · HR 컨설턴트</option>
-          </optgroup>
-          <optgroup label="퇴직 · 경력">
-          <option value="공직 퇴직">공직 퇴직</option>
-          <option value="조합 퇴직">조합 퇴직</option>
-          <option value="복지관 퇴직">복지관 퇴직</option>
-          <option value="교직 퇴직">교직 퇴직</option>
-          <option value="경력을 가진 주부">경력을 가진 주부</option>
-          </optgroup>
-          <optgroup label="지역 활동">
-          <option value="협회 · 단체 임원">협회 · 단체 임원</option>
-          <option value="주민자치 · 이장 · 부녀회">주민자치 · 이장 · 부녀회</option>
-          <option value="종교 · 동문 · 문화 모임">종교 · 동문 · 문화 모임</option>
-          <option value="지역 커뮤니티 운영">지역 커뮤니티 운영</option>
-          <option value="콘텐츠 크리에이터">콘텐츠 크리에이터</option>
-          </optgroup>
-          <optgroup label="그 밖에">
-          <option value="소상공인 · 자영업">소상공인 · 자영업</option>
-          <option value="중소기업 대표 · 총무">중소기업 대표 · 총무</option>
-          </optgroup>
-        <option value="__etc">직접 기재</option>
-      </select>
-      <input class="pfin pfetc" id="pfJobEtc" type="text" maxlength="60" placeholder="직접 기재">
-    </div>
-
-    <div class="pfrow">
-      <label class="pflab" for="pfReach">관심 업종</label>
-      <select class="pfsel" id="pfReach" onchange="pfEtc('pfReachEtc', this.value==='__etc')">
-        <option value="">선택해 주십시오</option>
-        <option value="복지관 · 노인복지관">복지관 · 노인복지관</option>
-          <option value="농협 · 축협 · 산림조합 · 새마을금고">농협 · 축협 · 산림조합 · 새마을금고</option>
-          <option value="지자체 · 문화재단">지자체 · 문화재단</option>
-          <option value="기업 · 협회">기업 · 협회</option>
-          <option value="요양원 · 재가복지센터">요양원 · 재가복지센터</option>
-          <option value="노인대학 · 주부대학">노인대학 · 주부대학</option>
-          <option value="종교 · 동문 · 지역 모임">종교 · 동문 · 지역 모임</option>
-          <option value="이제 열어보려 합니다">이제 열어보려 합니다</option>
-        <option value="__etc">직접 기재</option>
-      </select>
-      <input class="pfin pfetc" id="pfReachEtc" type="text" maxlength="60" placeholder="직접 기재">
+    <div class="pfrow pfsub2" id="pfFileBox">
+      <label class="pflab" for="pfFile">사업자등록증 · 고유번호증<span class="req">필수</span></label>
+      <p class="pfhint">마음 여행편지와 한 편의 기록은 서류를 확인한 분께만 보내 드립니다.</p>
+      <input class="pfin pffile" type="file" id="pfFile" accept="image/*,application/pdf" onchange="pfFilePick()">
+      <p class="pfhint" id="pfFileName"></p>
     </div>
 
     <div class="pfrow">
       <label class="pflab" for="pfMemo">문의사항</label>
-      <textarea class="pfta" id="pfMemo" maxlength="500"></textarea>
+      <textarea class="pfta" id="pfMemo" maxlength="500" placeholder="궁금하신 점을 적어 주십시오"></textarea>
     </div>
 
     <div class="pfagree">
-      <h4>개인정보 수집 · 이용 안내</h4>
-      <ul>
-        <li>수집 항목 — 성명 · 연락처 · 이메일 · 활동 지역 · 관심 분야 · 관심 업종 · 문의사항</li>
-        <li>이용 목적 — 상담 연락과 자료 전달</li>
-        <li>보유 기간 — 상담 뒤 6개월. 함께하시게 되면 계약 기간 동안</li>
-      </ul>
-      <label class="pfck"><input type="checkbox" id="pfAgree" onchange="pfGate()"> 위 내용에 동의합니다</label>
+      <label class="pfck"><input type="checkbox" id="pfAgree" onchange="pfGate()">
+        <span>개인정보 수집 · 이용에 동의합니다 <b class="req">필수</b></span></label>
+      <p class="pfckn">신청 확인과 마음 여행여권 발급, 안내 연락을 위해 수집합니다.</p>
+      <details class="pfmore">
+        <summary>자세히 보기</summary>
+        <ul>
+          <li>수집 항목 — 성명 · 연락처 · 이메일 · 소속 · 기관 · 단체명 · 담당자 직위 · 제출 서류 · 문의 내용</li>
+          <li>이용 목적 — 마음 여행여권 발급 · 이용 안내와 문의 응대 · 이용 후 의견 확인 · 프로그램 안내</li>
+          <li>보유 기간 — 목적 달성 후 파기</li>
+        </ul>
+      </details>
     </div>
 
-    <button class="pfsub" id="pfSub" type="button" onclick="pfSend()" disabled>상담 신청하기</button>
+    <button class="pfgo2" id="pfSub" type="button" onclick="pfSend()" disabled>신청하기</button>
 
-    <a class="pfkakao" href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 문의</a>
-
-    <div class="pfgo">
-      <a href="/">홈</a>
-      <span class="bar"></span>
-      <a href="/showroom.html">사랑흐름 여행의 기록</a>
-      <button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button>
-    </div>
+    <a class="pfkakao" href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">카카오톡 상담 신청</a>
   </form>
 
   <div class="pfdone" id="pfDone">
     <div class="ic">&#128236;</div>
-    <h2>신청이 접수되었습니다</h2>
-    <p>남겨 주신 연락처로 연락드리겠습니다.</p>
-    <div class="code" id="pfCode">PT-000000</div>
-    <p>카카오톡 문의 시 이 번호를 알려 주십시오.</p>
+    <div class="code" id="pfCode">PT-000000-00</div>
+    <p class="pfdmsg">서류를 확인한 뒤 접수하신 연락처로<br>사랑흐름 마음 여행여권을 보내 드립니다.</p>
+    <p>문의하실 때 이 번호를 알려 주십시오.</p>
     <a class="pfback" href="/">&lsaquo; 홈으로</a>
   </div>
 
@@ -499,38 +406,114 @@ function pfShowErr(m){
   e.textContent=m; e.style.display="block";
   window.scrollTo({top:0,behavior:"smooth"});
 }
+var PF_FILE = null;
+
+function pfFilePick(){
+  var el = document.getElementById("pfFile");
+  var f  = el.files && el.files[0];
+  var tag = document.getElementById("pfFileName");
+  PF_FILE = null;
+  if(!f){ tag.textContent = ""; return; }
+  if(f.size > 8 * 1024 * 1024){
+    tag.textContent = "파일이 8MB를 넘습니다. 다시 골라 주십시오.";
+    el.value = ""; return;
+  }
+  var r = new FileReader();
+  r.onload = function(){
+    PF_FILE = { name: f.name, type: f.type || "application/octet-stream",
+                data: String(r.result).split(",")[1] };
+    tag.textContent = f.name + " 를 첨부했습니다.";
+  };
+  r.onerror = function(){ tag.textContent = "파일을 읽지 못했습니다. 다시 골라 주십시오."; };
+  r.readAsDataURL(f);
+}
+
+function pfFromChange(){
+  var v = pfFrom();
+  var box = document.getElementById("pfOrgBox");
+  box.className = "pfsub2" + (v === "기관·단체" ? " on" : "");
+  if(v !== "기관·단체"){
+    document.getElementById("pfOrg").value = "";
+    document.getElementById("pfTitle").value = "";
+  }
+  pfMark();
+}
+
+function pfFrom(){
+  var a = document.querySelectorAll('input[name="pfFrom"]');
+  for(var i=0;i<a.length;i++){ if(a[i].checked){ return a[i].value; } }
+  return "";
+}
+
+function pfItems(){
+  var a = document.querySelectorAll(".pfItem"), out = [];
+  for(var i=0;i<a.length;i++){ if(a[i].checked){ out.push(a[i].value); } }
+  return out;
+}
+
+function pfNeedDoc(){
+  var a = document.querySelectorAll(".pfItem");
+  for(var i=0;i<a.length;i++){
+    if(a[i].checked && a[i].getAttribute("data-doc") === "1"){ return true; }
+  }
+  return false;
+}
+
+function pfItemChange(){
+  var need = pfNeedDoc();
+  document.getElementById("pfFileBox").className = "pfrow pfsub2" + (need ? " on" : "");
+  if(!need){
+    document.getElementById("pfFile").value = "";
+    document.getElementById("pfFileName").textContent = "";
+    PF_FILE = null;
+  }
+  pfMark();
+}
+
+function pfMark(){
+  var a = document.querySelectorAll(".pfopt");
+  for(var i=0;i<a.length;i++){
+    var b = a[i].querySelector("input");
+    a[i].className = "pfopt" + (a[i].classList.contains("pfdoc") ? " pfdoc" : "") + (b && b.checked ? " on" : "");
+  }
+}
+
 function pfSend(){
-  var name=document.getElementById("pfName").value.trim();
-  var tel =document.getElementById("pfTel1").value + "-" + document.getElementById("pfTel2").value.replace(/[^0-9]/g,"");
-  var mid =document.getElementById("pfMailId").value.trim();
-  var mdom=document.getElementById("pfMailDom").value;
-  if(mdom==="__etc"){ mdom=document.getElementById("pfMailEtc").value.trim(); }
-  var mail= mid ? (mid + "@" + mdom) : "";
-  var area=document.getElementById("pfArea").value;
-  var job =pfVal("pfJob","pfJobEtc");
-  var reach=pfVal("pfReach","pfReachEtc");
-  var memo=document.getElementById("pfMemo").value.trim();
-  var way =pfVal("pfWay","pfWayEtc");
-  var chan=document.getElementById("pfCh").value.trim();
+  var name = document.getElementById("pfName").value.trim();
+  var tel  = document.getElementById("pfTel1").value + "-" + document.getElementById("pfTel2").value.replace(/[^0-9]/g,"");
+  var mid  = document.getElementById("pfMailId").value.trim();
+  var mdom = document.getElementById("pfMailDom").value;
+  if(mdom === "__etc"){ mdom = document.getElementById("pfMailEtc").value.trim(); }
+  var mail  = mid ? (mid + "@" + mdom) : "";
+  var from  = pfFrom();
+  var org   = document.getElementById("pfOrg").value.trim();
+  var title = document.getElementById("pfTitle").value.trim();
+  var items = pfItems();
+  var memo  = document.getElementById("pfMemo").value.trim();
 
   if(!name){ pfShowErr("성명을 적어 주십시오."); return; }
-  if(document.getElementById("pfTel2").value.replace(/[^0-9]/g,"").length < 7){ pfShowErr("연락처를 다시 확인해 주십시오."); return; }
-  if(!way){ pfShowErr("함께하시는 방식을 골라 주십시오."); return; }
-  if(!area){ pfShowErr("활동 지역을 골라 주십시오."); return; }
-  if(!job){ pfShowErr("관심 분야를 골라 주십시오."); return; }
+  if(document.getElementById("pfTel2").value.replace(/[^0-9]/g,"").length < 7){
+    pfShowErr("연락처를 다시 확인해 주십시오."); return; }
+  if(!from){ pfShowErr("어디에서 오셨는지 골라 주십시오."); return; }
+  if(from === "기관·단체" && !org){ pfShowErr("기관 · 단체명을 적어 주십시오."); return; }
+  if(!items.length){ pfShowErr("보고 싶으신 것을 하나 이상 골라 주십시오."); return; }
+  if(pfNeedDoc() && !PF_FILE){
+    pfShowErr("사업자등록증 또는 고유번호증을 첨부해 주십시오."); return; }
 
-  var btn=document.getElementById("pfSub");
-  btn.disabled=true; btn.textContent="보내는 중입니다";
+  var btn = document.getElementById("pfSub");
+  btn.disabled = true; btn.textContent = "보내는 중입니다";
 
-  /* 방식·채널은 따로도 보내고(다음 단계에서 시트 칸이 생기면 그대로 들어갑니다),
-     지금은 문의사항 앞머리에도 붙여 둡니다. 게시판 GAS를 안 고치고도 남습니다. */
-  var org  =document.getElementById("pfOrg").value.trim();
-  var memoAll = (org ? ("[상호] " + org + "\n") : "") + "[방식] " + (way || "-")
-              + (chan ? (" · [채널] " + chan) : "")
-              + (memo ? ("\n" + memo) : "");
+  var memoAll = memo;
 
-  var data={ action:"partnerApply", name:name, tel:tel, mail:mail, area:area,
-             job:job, reach:reach, memo:memoAll, way:way, ch:chan };
+  var data = { action:"partnerApply", name:name, tel:tel, mail:mail,
+               from:from, org:org, title:title,
+               items:items.join(" · "), memo:memoAll };
+
+  if(PF_FILE){
+    data.fileName = PF_FILE.name;
+    data.fileType = PF_FILE.type;
+    data.fileData = PF_FILE.data;
+  }
 
   if(!PARTNER_GAS){ pfDone("PT-" + pfStamp()); return; }
 
@@ -540,17 +523,10 @@ function pfSend(){
       if(j && j.ok){ pfDone(j.no || ("PT-" + pfStamp())); } else { throw new Error("fail"); }
     })
     .catch(function(){
-      btn.disabled=false; btn.textContent="상담 신청하기";
+      btn.disabled = false; btn.textContent = "신청하기";
       pfShowErr("카카오톡 채널로 남겨 주시면 바로 확인하겠습니다.");
     });
 }
-document.getElementById("pfWay").addEventListener("change", function(){
-  var v = this.value;
-  var e = document.getElementById("pfCh");
-  e.style.display = (v.indexOf("채널") > -1) ? "block" : "none";
-  pfEtc("pfWayEtc", v === "__etc");
-  if (e.style.display === "none") { e.value = ""; }
-});
 
 function pfStamp(){
   var d=new Date(), p=function(n){return (n<10?"0":"")+n;};
