@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ pay.html · v14-39 · 260817 · [작업 v14-39] ★금액 시작점을 네 줄 모두 한 줄로 세우습니다 — 상품명 길이가 제각각이라 금액이 들쌂날쌂 했습니다(260817 대표 지적). 이름 칸을 min-width:104px 로 고정 — 기준은 가장 긴 「마음 여행지도」(412px 실측 93.8px)이며, 글꼴이 달라져도 줄이 안 깨지게 여유를 둔 값입니다. ★실측 결과 네 금액이 전부 x=196 — 화면 가운데(206) 바로 앞입니다. [무손] 그 밖 전부 미변경. / [v14-38 · 260817] [작업 v14-38] ★상품별 확정 색을 새 목록에 태웁니다 — v14-24에서 정해 둔 네 색(마음여행 딥네이비 #1E4A76 · 한 편의 기록 골드 #C0872E · 두 분의 여정 로즈 #C25B7C · 마음 여행지도 틈 #1D9E75)을 그대로 썼습니다. 색을 새로 짓지 않았습니다. ★이름과 금액을 붙였습니다 — 좌우 끝으로 밀어놓아 가운데가 휴융던 것을 한 줄로 모으고, 오른쪽 끝은 눌리는 표시(›)로 두었습니다(260817 대표 지적). ★줄마다 아이콘 원 — 나침반·책은 캐러셀에 있던 그림 그대로, 지도는 새로. ★「두 분의 여정」은 산(삼각형)을 내리고 ★두 사람 그림으로 바꿉니다 — 작게 줄이면 공사판 경고 표지판처럼 보였고, 이름과도 안 맞았습니다(260817 대표 확정). 네 줄이 지도·나침반·책·사람으로 갈립니다. ★확정 카드도 고른 상품 색을 입습니다(테두리·이름·금액·제공기간 상자·아이콘). 아이콘은 목록 줄에서 복사해 씨서 그림을 두 번 적지 않습니다. ★쪼그라든 줄 셋은 색을 빼고 작은 색점만 남깁니다 — 셋 다 원색이면 고른 것이 안 도드러집니다. [무손] v14-37 의 배치·순서·배관과 결제·토스·원장·발권·사전동의·pass.js·푸터·lfway 전부 미변경. / [v14-37 · 260817] [작업 v14-37] ★상품 진열을 하나로 합칩니다 — 「한 번에 여행하기」카루셀(5초 자동회전)·「나누어 여행하기」두 구역을 걷고, 네 상품을 값 높은 순(110,000→7 9,000→48,900→19,900)으로 세로 한 번에 보입니다. ★거꾸로 세운 이유 — 높은 값을 먼저 보면 뒤의 값이 작게 느껴집니다(260817 대표 확정). ★꺼져 있던 확정 카드(.price, v14-18부터 display:none)를 되살려 「고르신 여행」자리로 씁니다 — 그동안 결제 화면에 「무엇을 얼마에」가 적힌 자리가 한 곳도 없었고, 토스 필수 문구「발급일로부터 1년 이내 이용 · 디지털 콘텐츠」도 그 안에 같이 숨어 있었습니다. ★고르면 그 자리에서 접힙니다 — 페이지를 새로 띄우던 goItem 대신 pickItem 신설(깜빡임·맨위 튀김 없음). 주소는 history.replaceState 로 같이 갈아 끼워 ★주소와 화면이 항상 일치합니다(예전 캐러셀은 ?item= 을 무시하고 항상 첫 카드를 보여 토스 캐처에서 item=map인데 다른 상품이 뜨던 근원). ★고르기 전엔 동의·결제 자리를 닫아 둡니다. ★「궁금한 점」네 줄은 접어 둡니다(토글). ★중복 문 하나 제거 — 「여권번호로 여행 시작하기 →」(startbox)는 「지난여행 이어가기」와 목적지가 글자 그대로 같았습니다(둘 다 go('reenter')). ★「지난여행 이어가기」·「사랑흐름 여권 찾기」는 그대로 둡니다 — 하단 알약(pass.js→enter.js)은 스무 화면이 같이 쓰는 공용 부품이라 오늘 손대지 않았고, 그걸 위로 올리기 전까지는 이어가기를 깎지 않습니다(다음 창 별건). ★목록 설명은 PRODUCTS.sub 그대로 씨서 뿏습니다 — 새로 짓지 않음. ★원장이 안 뜼면 목록 줄의 기본 글자를 가져다 쓰는 안전망 추가(확정 카드가 이제 유일한 값 표기라). [무손] 결제 배관·토스 payWithToss·계좌이체·네이버·가격 원장(lf/prices.js)·발권·사전동의 문구와 onAgree·pass.js·푸터·lfway·상단바·드로어·색값 전부 미변경. goItem 함수는 부르는 곳이 없어도 무해히 남겨 둡니다. -->
 <!-- ★ 현재 버전 ▶ pay.html · v14-36 · 260811 · [작업 v14-36] ★화면에 「여권」이 앞말 없이 덩그러니 놓여 나라 여권으로 오해될 수 있던 자리를 고칩니다(대표 지시 260811). ☰ 메뉴 항목을 ★「마음 여행여권으로 입장」으로 맞춥니다. 확정 규칙 — 손님에게 보이는 물건 이름은 「마음 여행여권」, 실제로 번호를 넣는 자리는 「사랑흐름 여권번호」. 문맥에서 이미 무슨 여권인지 아는 자리(「이 여권은」·「받으신 여권」 등)는 오해가 없어 그대로 둡니다. 시트 열 이름 d['여권번호']·변수·저장 키는 손대지 않았습니다. [무손] 본문·구조·색값·링크·배관 전부 미변경. · v14-35 · 260810 · [작업 v14-35] ★문지기(/lf/pass.js) 부착 — 이 화면은 260804 공용 입구 부품 때 빠졌습니다. 그래서 여권을 이미 가진 분이 오셔도 옛 알약만 돌고 있었고, ☰ 메뉴의 「여행지도 보기·편지·마음 여행여권으로 입장」이 번호 없이 빈손으로 보내고 있었습니다. 이제 다른 스물 화면과 똑같이 돕니다. ★옛 알약(lfPaintResume) 호출은 끕니다 — 부품과 같은 일입니다(함수·CSS 는 남김). [무손] 화면 본문·기존 로직·색값 전부. 결제 배관·가격원장·토스·ITEMS 미변경. · v14-34 · 260806 · [작업 v14-34] 「인생여행」→「두 분의 여정」 이름 교체(260806 대표 확정). 코드키 life·상품코드 LF-A·스토어 링크·발권·주문대장 J열 전부 무손 — 이름만 바꿉니다. 옛 이름은 이력 주석에 그대로 둡니다. / [v14-33 · 260804] [작업 v14-33] ★「시작 전 알아두실 사항」 한 줄 교체 — 「일곱 테마로 나눠 한 챕터씩」 → 「여덟 구간으로 나눠 한 편씩」(260803 확정: 「장」·「챕터」 금지, 「한 편」 통일 · 여덟 자리). [무손] 결제 배관·토스·계좌·사전동의·issuePassport 호출·가격·lfway·푸터 전부 미변경. · v14-32 · 260802 · ★편지 문을 GAS 편지 화면(letter v65)으로 돌림 — 260802 이사회 14차 결론(회신 5건 중 3건 v64 지지·1건은 이식 전제가 실측과 달라 성립 안 함). 260702 만장일치로 정한 결과물 구조(첫 장은 오직 편지 · 편지만/전체 저장 팝업 · A4 246mm 물리 컷 · 폰트 축소 금지)가 GAS 쪽에만 있고 /letter/ 에는 인쇄 설계가 0건이라 결과물이 깨지던 것. 꽃비 맞이 의식(/l/)은 그대로 둡니다. 붙는 모양은 그대로 목적지+'?id='+여권번호 이고, GAS 주소가 /exec 로 끝나 /exec?id=LF-XXXXX 가 됩니다. [무손] 그 밖 링크·발권·ITEMS·원장·GAS 호출·결제·디자인·색값 전부.   ─── 지난 이력 ─── v14-31 · 260731 · ★죽은 버튼 둘 살림 — LINK 에 reenter·showroom 이 없어 「여권번호로 여행 시작하기 →」와 「둘러보기」가 눌러도 「연결 예정입니다」 토스트만 떴습니다. 결제를 마치고 여권을 받은 손님이 첫 걸음에서 막히던 자리입니다. 주소는 다른 화면 원장에 이미 있던 값 그대로. [무손] 그 외 전부. / [v14-30 · 260730] · ★이름표 기본값 — 가격 이름표 넷 안에 정가를 글자로 넣었습니다. [왜] 원장(lf/prices.js)을 못 불러오면 금액 자리가 ★빈칸으로 남았습니다. 손님이 금액 없는 결제 화면을 봅니다. 이제 원장이 안 떠도 금액이 보이고, 대표님이 파일을 열어 눈으로도 확인하실 수 있습니다. [관리는 그대로 원장 한 곳] 원장이 뜨면 그 값이 이름표를 ★덮어씁니다. 기본값은 원장이 실패한 순간에만 보입니다. 가격을 바꾸실 때는 원장을 고치시고, 이 기본값 넷도 같이 고쳐 두시면 안전망이 유지됩니다. ★[토스 결제 금액은 기본값을 넣지 않았습니다] 결제 금액(amount.value)은 PRODUCTS.now 에서 오고, 원장을 못 불러오면 0 이 되어 payWithToss 가 스스로 막습니다. 틀린 금액으로 카드를 긋지 않는 지금 방식을 그대로 둡니다. [무손] PRODUCTS·choosePath·계좌이체·네이버·잠금·사전동의·onAgree·카루셀·공유·하단·GA4·CSS. / [v14-29 · 260730] ①★가격을 원장(lf/prices.js)에 물림 — 화면·결제금액이 모두 원장 한 곳에서 나옵니다. PRODUCTS 는 이제 상품코드(LF-M001·LF-S001·LF-R001·LF-A001)만 들고, 금액·오픈마켓 주소를 원장에서 받습니다. 토스 결제 금액(amount.value)도 원장값입니다. 원장을 못 불러오면 금액을 0으로 두고 카드결제를 막습니다(틀린 금액으로 긋지 않기). ②★편지 단품 자리 제거(대표 확정) — PRODUCTS.letter 삭제 · 단품 카드 「마음 여행편지」 삭제. .punb 는 flex 라 남은 마음 여행지도 카드가 그 폭을 그대로 채웁니다(레이아웃 손대지 않음). 옛 주소 ?item=letter 는 마음여행(세트)으로 흐릅니다. ③국내 런칭 할인가 종료 — 두 줄(정가 회색 / 런칭가) 중 위 회색 줄과 「국내 런칭가」 라벨만 걷고 배치는 그대로 뒀습니다. 금액 줄 하나만 남습니다. ④자서전 79,000 · 인생여행 110,000 반영(옛 49,800 · 59,800 제거). [무손] choosePath·계좌이체·네이버·잠금·사전동의 문구·onAgree·카루셀 동작·공유·하단·GA4·CSS. / [v14-28 · 260728] · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v14-27 이전) ───────────────────────────── -->
@@ -281,6 +282,36 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .pcard3{flex:1;background:#fff;border:1.5px solid #1E4A76;border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;box-sizing:border-box}
 .pcard3-t{font-family:'Noto Serif KR',serif;font-size:15px;color:#1E4A76;margin-bottom:8px}
 .pcard3-l{font-size:11px;color:#B0AAA0}.pcard3-n{font-size:18px;font-weight:700;color:#1E4A76;margin-top:2px}
+.plist{padding:0 14px;display:flex;flex-direction:column;gap:8px}
+.prow2{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #1E4A76;border-radius:12px;padding:11px 10px;cursor:pointer;box-sizing:border-box}
+.prow2-ic{width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#1E4A76;background:#EAF0F6}
+.prow2-ic svg{width:20px;height:20px}
+.prow2-b{flex:1;min-width:0}
+.prow2-h{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}
+.prow2-t{font-family:'Noto Serif KR',serif;font-size:15px;color:#1E4A76;display:inline-block;min-width:104px}
+.prow2-p{font-size:15px;font-weight:700;color:#1E4A76;white-space:nowrap}
+.prow2-d{font-size:11px;color:#8A857C;line-height:1.45;margin-top:3px}
+.prow2-go{font-size:18px;color:#1E4A76;flex-shrink:0;line-height:1}
+.prow2.k-memoir{border-color:#C0872E}.prow2.k-memoir .prow2-t,.prow2.k-memoir .prow2-p,.prow2.k-memoir .prow2-go{color:#C0872E}.prow2.k-memoir .prow2-ic{color:#C0872E;background:#FBF2E1}
+.prow2.k-life{border-color:#C25B7C}.prow2.k-life .prow2-t,.prow2.k-life .prow2-p,.prow2.k-life .prow2-go{color:#C25B7C}.prow2.k-life .prow2-ic{color:#C25B7C;background:#F7E9EF}
+.prow2.k-map{border-color:#1D9E75}.prow2.k-map .prow2-t,.prow2.k-map .prow2-p,.prow2.k-map .prow2-go{color:#1D9E75}.prow2.k-map .prow2-ic{color:#1D9E75;background:#E4F4EE}
+.plist.mini{gap:5px}
+.plist.mini .prow2{padding:7px 10px;border-color:#E7E0D4!important;border-width:.5px;gap:8px}
+.plist.mini .prow2-d,.plist.mini .prow2-go{display:none}
+.plist.mini .prow2-ic{width:8px;height:8px;background:currentColor!important}
+.plist.mini .prow2-ic svg{display:none}
+.plist.mini .prow2-t,.plist.mini .prow2-p{font-size:12px;font-weight:500;color:#8A857C!important;font-family:inherit}
+.plist.mini .prow2-b{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.plist.mini .prow2-h{flex:1}
+.prow2.on{display:none}
+.faq-t{cursor:pointer}
+#faqBody{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#faqBody.hidden{display:none}
+.price .pick-ic{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;color:#1E4A76;background:#EAF0F6}
+.price .pick-ic svg{width:24px;height:24px}
+.price.k-memoir{border-color:#C0872E}.price.k-memoir .pn,.price.k-memoir .pw{color:#C0872E}.price.k-memoir .pick-ic{color:#C0872E;background:#FBF2E1}.price.k-memoir .pinc{color:#C0872E;background:#FBF7EE}
+.price.k-life{border-color:#C25B7C}.price.k-life .pn,.price.k-life .pw{color:#C25B7C}.price.k-life .pick-ic{color:#C25B7C;background:#F7E9EF}.price.k-life .pinc{color:#C25B7C;background:#FBF6F8}
+.price.k-map{border-color:#1D9E75}.price.k-map .pn,.price.k-map .pw{color:#1D9E75}.price.k-map .pick-ic{color:#1D9E75;background:#E4F4EE}.price.k-map .pinc{color:#1D9E75;background:#F1F9F6}
 </style></head>
 <body>
 <div class="phone">
@@ -322,25 +353,20 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
   <!-- ===== 본문 (가변) ===== -->
   <div class="hero"><h1 id="heroTitle">여행을 시작해요</h1></div>
 
-  <div class="pzone-t">한 번에 여행하기</div>
-  <div class="pcaro-hint" aria-hidden="true">← 밀어서 상품을 둘러보세요 →</div>
-  <div class="pcaro" id="caroMain">
-    <div class="pcard2 c-set" onclick="goItem('set')"><div class="pcard2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="15.5 8.5 11 11 8.5 15.5 13 13 15.5 8.5"/></svg></div><div class="pcard2-t">마음여행</div><div class="pcard2-d">지도로 나를 돌아보고,<br>그 마음으로 편지를 완성하는 여정</div><div class="pcard2-line"></div><div class="pcard2-p"><span class="pn2" data-lf-price="LF-S001">48,900원</span></div></div>
-    <div class="pcard2 c-memoir" onclick="goItem('memoir')"><div class="pcard2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div><div class="pcard2-t">한 편의 기록</div><div class="pcard2-d">지나온 시간을 한 편의 기록으로<br>남기는 여정</div><div class="pcard2-line"></div><div class="pcard2-p"><span class="pn2" data-lf-price="LF-R001">79,000원</span></div></div>
-    <div class="pcard2 c-life" onclick="goItem('life')"><div class="pcard2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 7 3-4 6 14H3z"/></svg></div><div class="pcard2-t">두 분의 여정</div><div class="pcard2-d">두 사람의 이야기가<br>기록으로</div><div class="pcard2-line"></div><div class="pcard2-p"><span class="pn2" data-lf-price="LF-A001">110,000원</span></div></div>
-  </div>
-  <div class="pcaro-dots" id="caroDots"></div>
-
-  <div class="pzone-t">나누어 여행하기</div>
-  <div class="punb">
-    <div class="pcard3 c-map" onclick="goItem('map')"><div class="pcard3-t">마음 여행지도</div><div class="pcard3-n" data-lf-price="LF-M001">19,900원</div></div>
-  </div>
-
-  <div class="price" style="display:none">
+  <div class="price hidden" id="pickBox">
+    <div class="pick-ic" id="pickIc"></div>
     <div class="pn" id="pName">마음 여행편지</div>
     <div class="psub" id="pSub">마음 여행지도로 나를 먼저 돌아보고,<br>그 마음을 토대로 편지를 완성하는 여정이에요.</div>
     <div class="prow"><span class="nlabel">가격</span><span class="pw" id="pNow"></span></div>
     <div class="pinc">발급일로부터 1년 이내 이용 · 디지털 콘텐츠</div>
+  </div>
+
+  <div class="pzone-t" id="plistT">어떤 여행을 떠나시겠어요</div>
+  <div class="plist" id="plist">
+    <div class="prow2 k-life" data-k="life" onclick="pickItem('life')"><div class="prow2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8.5" cy="8" r="2.6"/><circle cx="16" cy="8" r="2.6"/><path d="M3.5 19c0-2.5 2.2-4.2 5-4.2s5 1.7 5 4.2"/><path d="M14.6 15.1c2.4.2 4.4 1.8 4.4 3.9"/></svg></div><div class="prow2-b"><div class="prow2-h"><span class="prow2-t">두 분의 여정</span><span class="prow2-p" data-lf-price="LF-A001">110,000원</span></div><div class="prow2-d"></div></div><span class="prow2-go">›</span></div>
+    <div class="prow2 k-memoir" data-k="memoir" onclick="pickItem('memoir')"><div class="prow2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div><div class="prow2-b"><div class="prow2-h"><span class="prow2-t">한 편의 기록</span><span class="prow2-p" data-lf-price="LF-R001">79,000원</span></div><div class="prow2-d"></div></div><span class="prow2-go">›</span></div>
+    <div class="prow2 k-set" data-k="set" onclick="pickItem('set')"><div class="prow2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="15.5 8.5 11 11 8.5 15.5 13 13 15.5 8.5"/></svg></div><div class="prow2-b"><div class="prow2-h"><span class="prow2-t">마음여행</span><span class="prow2-p" data-lf-price="LF-S001">48,900원</span></div><div class="prow2-d"></div></div><span class="prow2-go">›</span></div>
+    <div class="prow2 k-map" data-k="map" onclick="pickItem('map')"><div class="prow2-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4z"/><path d="M9 4v13"/><path d="M15 6.5v13"/></svg></div><div class="prow2-b"><div class="prow2-h"><span class="prow2-t">마음 여행지도</span><span class="prow2-p" data-lf-price="LF-M001">19,900원</span></div><div class="prow2-d"></div></div><span class="prow2-go">›</span></div>
   </div>
 
   <div class="magree hidden" id="memoirAgree">
@@ -409,7 +435,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   <div class="faq">
 <!-- [v21·260713] 삭제: "궁금한 점이 있으신가요?" — 바로 아래 카카오톡 문의 버튼이 이미 말하는 소리. gate v9-22 에서도 같은 이유로 뺐습니다. -->
-    <div class="faq-t">궁금한 점</div>
+    <div class="faq-t" onclick="toggleFaqBox()">궁금한 점 <span id="faqAr">▾</span></div>
+    <div id="faqBody" class="hidden">
     <div class="faq-item" onclick="toggleFaq(this)">
       <div class="faq-q"><span>계좌이체도 되나요?</span><span class="faq-ar">▾</span></div>
       <div class="faq-a">네. 입금이 확인되면 카톡으로 사랑흐름 여권번호를 보내드려요.</div>
@@ -426,15 +453,11 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
       <div class="faq-q"><span>결제 후 바로 시작되나요?</span><span class="faq-ar">▾</span></div>
       <div class="faq-a">여권번호를 받으시면 발권 → 입장 → 여행으로 이어져요.</div>
     </div>
+    </div>
   </div>
 
   <!-- ===== 하단 푸터 (프레임 · 통일형) =====
      화면엔 © 한 줄 + 링크만. 사업자정보·개인정보 담당자 등은 [소개]/[약관] 페이지 안으로. -->
-  <div class="startbox">
-    <div class="startbox-t">결제하고 여권번호를 받으셨나요?</div>
-    <button class="startbtn" onclick="go('reenter')">여권번호로 여행 시작하기 →</button>
-  </div>
-
   <div class="ways" id="payWays">
     <button class="way way-gold" onclick="go('reenter')">지난여행 이어가기</button>
     <div class="way-row">
@@ -509,20 +532,66 @@ var PRODUCTS = {
 var _q = new URLSearchParams(location.search);
 var ITEM = PRODUCTS[_q.get('item')] ? _q.get('item') : 'set';
 var P = PRODUCTS[ITEM];
-document.getElementById('loc').textContent = P.loc;
-document.getElementById('heroTitle').textContent = P.hero;
-document.getElementById('pName').textContent = P.name;
-document.getElementById('pSub').innerHTML = P.sub || '';
-document.getElementById('pNow').textContent  = P.now ? P.now.toLocaleString() + '원' : '가격 준비 중';
 
-/* ★[v14-25] 인생여행 개통 — life 를 memoir 와 동일 처리(자서전 포함이라 같은 사전동의 필요).
-   이전엔 life 만 준비중 패널(paySoon)로 막았음. 이제 자서전·인생여행 둘 다 사전동의 게이트로 흐름.
-   ※paySoon 패널은 이제 아무도 안 부르지만 HTML 에 무해히 잔존(다음 상품 준비중 때 재사용 가능). */
-if (ITEM === 'memoir' || ITEM === 'life') {
-  var _ag = document.getElementById('memoirAgree');
-  if (_ag) _ag.classList.remove('hidden');
-  var _ch = document.getElementById('choice');
-  if (_ch) _ch.classList.add('locked');
+/* 목록 설명은 원장 문구(PRODUCTS.sub) 그대로 씁니다. 여기서 새로 짓지 않습니다. */
+(function lfFillList(){
+  var rows = document.querySelectorAll('#plist .prow2');
+  for (var i=0;i<rows.length;i++){
+    var k = rows[i].getAttribute('data-k');
+    var d = rows[i].querySelector('.prow2-d');
+    if (k && PRODUCTS[k] && d) d.textContent = (PRODUCTS[k].sub||'').replace(/<br\s*\/?>/gi,' ');
+  }
+})();
+
+/* 고르면 그 자리에서 접힙니다. 화면을 새로 띄우지 않고 주소만 조용히 갈아 끼웁니다. */
+function pickItem(k){
+  if (!PRODUCTS[k]) return;
+  ITEM = k; P = PRODUCTS[k];
+  document.getElementById('loc').textContent = P.loc;
+  document.getElementById('heroTitle').textContent = P.hero;
+  document.getElementById('pName').textContent = P.name;
+  document.getElementById('pSub').innerHTML = P.sub || '';
+  var _row = document.querySelector('#plist .prow2[data-k="' + k + '"] .prow2-p');
+  var _fb = _row ? _row.textContent : '';
+  document.getElementById('pNow').textContent = P.now ? P.now.toLocaleString() + '원' : (_fb || '가격 준비 중');
+  var _pb = document.getElementById('pickBox');
+  _pb.className = 'price' + (k === 'set' ? '' : ' k-' + k);
+  var _src = document.querySelector('#plist .prow2[data-k="' + k + '"] .prow2-ic svg');
+  var _ic = document.getElementById('pickIc');
+  if (_src && _ic) _ic.innerHTML = _src.outerHTML;
+  var L = document.getElementById('plist');
+  L.classList.add('mini');
+  var rows = L.querySelectorAll('.prow2');
+  for (var i=0;i<rows.length;i++){
+    rows[i].classList.toggle('on', rows[i].getAttribute('data-k') === k);
+  }
+  document.getElementById('plistT').textContent = '다른 여행으로 바꾸기';
+  resetPath();
+  var need = (k === 'memoir' || k === 'life');
+  var ag = document.getElementById('memoirAgree');
+  var chk = document.getElementById('agreeChk');
+  if (chk) chk.checked = false;
+  if (ag) ag.classList.toggle('hidden', !need);
+  var ch = document.getElementById('choice');
+  if (ch) ch.classList.toggle('locked', need);
+  try { history.replaceState(null, '', '/pay.html?item=' + encodeURIComponent(k)); } catch(e){}
+}
+
+/* 아직 안 고르신 분에게는 목록만 보입니다. 결제 자리는 고른 뒤에 열립니다. */
+(function lfBootPick(){
+  var picked = PRODUCTS[_q.get('item')] ? _q.get('item') : '';
+  if (picked) { pickItem(picked); return; }
+  var ch = document.getElementById('choice');
+  if (ch) ch.classList.add('hidden');
+  var ag = document.getElementById('memoirAgree');
+  if (ag) ag.classList.add('hidden');
+})();
+
+function toggleFaqBox(){
+  var b = document.getElementById('faqBody'), a = document.getElementById('faqAr');
+  if (!b) return;
+  var open = b.classList.toggle('hidden') === false;
+  if (a) a.textContent = open ? '▴' : '▾';
 }
 
 /* ===== 링크 (실제 URL은 다음 단계에서 연결) ===== */
@@ -1111,7 +1180,7 @@ if (document.readyState === 'loading') {
 }
 function onAgree(){ var ok=document.getElementById('agreeChk'); var ch=document.getElementById('choice'); if(ch) ch.classList.toggle('locked', !(ok && ok.checked)); }
 function lffShare(){var u='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',url:u}).catch(function(){});}else if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(function(){alert('링크를 복사했어요');},function(){});}else{var t=document.createElement('textarea');t.value=u;document.body.appendChild(t);t.select();try{document.execCommand('copy');alert('링크를 복사했어요');}catch(e){}document.body.removeChild(t);}}
-(function(){var c=document.getElementById('caroMain'),d=document.getElementById('caroDots');if(!c||!d)return;var cards=[].slice.call(c.querySelectorAll('.pcard2')),n=cards.length;for(var i=0;i<n;i++){var e=document.createElement('span');if(i===0)e.className='on';d.appendChild(e);}function center(i){var card=cards[i];if(card)c.scrollTo({left:card.offsetLeft-(c.clientWidth-card.clientWidth)/2,behavior:'smooth'});}function near(){var best=0,bd=1e9,mid=c.scrollLeft+c.clientWidth/2;for(var i=0;i<n;i++){var cc=Math.abs(cards[i].offsetLeft+cards[i].clientWidth/2-mid);if(cc<bd){bd=cc;best=i;}}return best;}function dot(x){[].forEach.call(d.children,function(el,i){el.className=(i===x)?'on':'';});}c.addEventListener('scroll',function(){dot(near());});setTimeout(function(){center(0);},60);var timer=setInterval(function(){center((near()+1)%n);},5000);['touchstart','pointerdown'].forEach(function(ev){c.addEventListener(ev,function(){clearInterval(timer);},{passive:true});});})();
+
 </script>
 
 </body></html>
