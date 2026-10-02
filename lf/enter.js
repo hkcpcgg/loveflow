@@ -1,5 +1,15 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/enter.js · v10 · 261001 — ★[자서전 공사 칸 11 · 261002 「LF-… 여권으로 보고 계십니다」 → 「LF-… 사랑흐름 여권번호로 보고 계십니다」 · 제목 「여권으로 문을 엽니다」 → 「사랑흐름 여권번호로 문을 엽니다」(대표 확정 261002)] 동의 기록이 없는 여권은 문을 열기 전에 동의 화면으로(개2). 여권조회(v2~) 답에 needConsent 가 true 면, 문(이어 하기·보기)을 누를 때 /consent.html?id=번호&next=갈 곳 으로 먼저 보냅니다. 동의를 마치면 consent 가 원래 가려던 곳으로 보내 드립니다. false · null(조회 실패) · 답이 아직 안 왔을 때는 지금처럼 바로 엽니다 — 지도·편지는 번호가 있으면 연다는 원칙을 막지 않습니다. [무손] 조회 GAS 주소·DEST·VERB·NAME·자리표·CSS·문구 전부. — v9 · 260811 — ★부품이 길 셋 알약 줄 안으로 들어가 앉던 것 해소(대표 지적 260811). 공유 원을 알약 줄 오른쪽 끝에 붙이려고 길 셋을 「가로 한 줄(.lff-wayrow)」로 감싸는데, 그 감싼 줄이 먼저 만들어지면 부품이 그 줄 ★안에 끼어들었습니다. 셋이 폭을 나눠 가져 여권칸이 186~234px 로 눌리고, 길 셋은 오른쪽에서 두 줄로 접히고, 공유 원은 세로로 길어진 줄 한가운데에 떴습니다. 화면마다 알약 글자 수가 달라 남는 폭도 달라져 본문이 좌우로 흔들렸습니다. 여덟 화면에서 실측(index 는 붙는 차례가 매번 달라 깨졌다 말았다 하는 경합이었습니다). [고침] ①감싼 줄이 있으면 그 줄 ★위에 놓습니다. ②길 셋도 자리표도 없는 화면(편지)에서 body 끝에 떨어져 오른쪽에 낑기던 것 — 저작권 덩어리 앞에 놓습니다. [무손] 조회 GAS 주소·DEST·VERB·NAME·발권 지켜보기·CSS·자리표 규칙·문구 전부 한 글자도 안 건드렸습니다. — v8 · 260810 — ★「사랑흐름 여권 찾기」가 화면에서 아예 안 보이던 것 해소 — 원인이 둘이었습니다. [원인①] ☰ 드로어 메뉴에도 같은 글자가 있는데 부품이 그걸 중복으로 보고 자기 줄을 감춰습니다. 드로어는 항상 숨어 있는 메뉴라 화면에 보이는 것과 다릅니다. 이제 ★눈에 보이고 ☰ 메뉴·드로어 밖에 있는 링크만 중복으로 칩니다 (드로어는 화면 밖으로 밀려만 있어 숨음 판정에 안 잡힙니다). [원인②] 더 큰 것은 CSS 였습니다 — 부품이 자리표(inslot) 안에 들어가면 표제 두 줄과 찾기 줄을 한 묶음으로 display:none 했습니다. 표제가 두 번 보이던 것을 막으려다 찾기 줄까지 만 사람을 잔은 것입니다. 이제 표제 두 줄만 감추고 찾기 줄은 번호칸 밑에 작게 남깁니다. — v7 · 260810 — ★번호를 넣었는데 아무 것도 안 나오던 것 해소(대표 지적). [원인] 번호를 넣으면 0.45초 기다렸다 바깥 조회를 다녀오고, 그 답이 와야만 문이 섬습니다. 답이 안 오면 문도 안내도 오류도 없이 조용히 끝났습니다. [고침] ①번호 모양만 맞으면 ★그 자리에 바로 문을 세웁니다(basic). 조회는 뒤에서 돌고, 답이 오면 그때 정확한 문으로 바꿉니다. ②조회가 막혀도 문은 열려 있습니다 — 지도·편지는 「번호가 있으면 역다」가 확정 원칙입니다. ③번호를 ★기기의 기억에서도 찾습니다(지금까지 주소와 그 창의 기억만 봤습니다). ④화면에 들어오자마자 아는 번호가 있으면 첫 문을 먼저 세웁니다. ★화면은 이제 꿀리표를 모릅니다 — /lf/pass.js 가 이 부품을 불러오고, 판 번호는 pass.js 의 PART_V 한 글자입니다. [무손] 조회 GAS 주소·DEST·VERB·NAME·발권 지켜보기·CSS·자리표 규칙 전부. — ★고르는 자리인지 알 수 없던 것 해소(대표 지적). ①위에 안내 한 줄 「어느 여행을 이어가시겠어요?」를 세웁니다 — 아래 상자가 고르는 자리라는 것을 먼저 말합니다. ②고르는 자리는 ★흰 바탕 + 테두리 + 또렷한 화살표(▾)로, 누르는 버튼은 채워진 색으로 갈랐습니다. 지금까지 셋 다 연한 파랑이라 버튼 셋으로 보였습니다. 글자도 16px 로 키웠습니다. ③「LF-XXXXX 여권으로 보고 계십니다」가 안내문보다 크고 진해 제목처럼 보이던 것 — 작고 옅게 낮춰 뒤로 물렸습니다. ④버튼에 옅은 그림자를 넣어 눌리는 것임을 보탰습니다. ★한 파일만 고치면 열세 화면이 함께 바뀝니다. 화면에서 부를 때 꼬리표를 v6 으로 올리십시오. — ★사이트 밖(편지 GAS 웹앱)에서도 쓰도록. GAS 는 script.google.com 에서 iframe 안으로 돌기 때문에 상대주소가 안 통하고 부모 창을 움직여야 합니다. 주소 판별(inGas)로 그때만 절대주소(www.loveflow.ai.kr)를 붙이고 window.top 을 움직입니다. 사이트 안에서는 지금까지와 똑같이 동작합니다. 쇼룸·여권 찾기도 같은 길을 씁니다. ★화면에서 부를 때 꼬리표를 v5 로 올리십시오. — ★비켜 가는 곳을 reenter 하나로 줄입니다(대표 지적). v3 까지는 홈·입장·지도 답하는 중·편지 쓰는 중·자서전 쓰는 중 다섯을 비켜 갔는데, 오늘 목적이 「어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있게」였습니다. 전부 엽니다. 쓰던 중인 화면에서도 답이 날아가지 않도록 부품은 언제나 길 셋 위(화면 맨 아래)에 놓입니다. 자리표(lfEnterSlot)를 둔 화면에서는 그 자리에 들어가고 표제·찾기 링크를 감춥니다. ★화면에서 부를 때 /lf/enter.js?v=4 로 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡힙니다. — ★자리표에 확실히 붙게 + 표제 중복 제거(대표 지적). ①화면이 <div id="lfEnterSlot"> 를 두면 반드시 그 안에 들어가고, 그때는 부품의 표제 두 줄과 찾기 링크를 감춥니다 — 그 화면이 이미 「여기서 여권을 넣으세요」라고 말한 자리이므로 한 화면에 표제가 둘이 되지 않게. ②자리표도 길 셋도 아직 없으면 0.25초 뒤 한 번 더 붙여 봅니다(화면이 늦게 그리는 경우). ③★화면에서 부를 때 /lf/enter.js?v=3 처럼 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡혀 엉뚱한 자리에 붙습니다. — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
+   현재 버전 ▶ lf/enter.js · v11 · 261002 — ★[자서전 공사 14-6 시험 중 발견 · 이슈 27] 새 번호를 넣어도 기기가 기억한 옛 번호로 되돌아가던 것을 고칩니다.
+     [무엇이 문제였나] ① 「발권 지켜보기」가 2초마다 창의 기억(옛 번호)을 다시 불러 손님이 넣은 새 번호를 덮었습니다.
+       ② 늦게 돌아온 옛 번호의 조회 답이 새 번호 화면을 덮었습니다.
+       ③ 기억된 번호가 서버에 없는 번호(정리된 번호 등)여도 그대로 붙들고 있어 「아직 없어요」만 뜨고 갈 길이 없었습니다.
+       ④ 「마음 여행지도이(가)」 같은 어색한 조사.
+     [고침] ① 손님이 번호를 넣기 시작하면 지켜보기를 멈춥니다. ② 지금 번호의 답만 받습니다.
+       ③ 아무것도 가지지 않은 번호는 「찾을 수 없는 번호」로 봅니다 — 기억에서 온 번호면 기억을 지우고 칸을 비웁니다.
+          손님이 넣은 번호가 확인되면 그 번호를 기기에 기억시킵니다(다음 화면이 다시 묻지 않게).
+       ④ 칸 옆에 「확인」 단추를 둡니다. 엔터도 같은 일을 합니다. ⑤ 조사를 이름에 맞춰 씁니다(지도가 · 편지가 · 기록이).
+     [무손] 문 그리는 모양 · 상품별 문 · 동의 화면 거치기(v10) · 찾기 링크 · 자리 찾기.
+   ── 이전 ── lf/enter.js · v10 · 261001 — ★[자서전 공사 칸 11 · 261002 「LF-… 여권으로 보고 계십니다」 → 「LF-… 사랑흐름 여권번호로 보고 계십니다」 · 제목 「여권으로 문을 엽니다」 → 「사랑흐름 여권번호로 문을 엽니다」(대표 확정 261002)] 동의 기록이 없는 여권은 문을 열기 전에 동의 화면으로(개2). 여권조회(v2~) 답에 needConsent 가 true 면, 문(이어 하기·보기)을 누를 때 /consent.html?id=번호&next=갈 곳 으로 먼저 보냅니다. 동의를 마치면 consent 가 원래 가려던 곳으로 보내 드립니다. false · null(조회 실패) · 답이 아직 안 왔을 때는 지금처럼 바로 엽니다 — 지도·편지는 번호가 있으면 연다는 원칙을 막지 않습니다. [무손] 조회 GAS 주소·DEST·VERB·NAME·자리표·CSS·문구 전부. — v9 · 260811 — ★부품이 길 셋 알약 줄 안으로 들어가 앉던 것 해소(대표 지적 260811). 공유 원을 알약 줄 오른쪽 끝에 붙이려고 길 셋을 「가로 한 줄(.lff-wayrow)」로 감싸는데, 그 감싼 줄이 먼저 만들어지면 부품이 그 줄 ★안에 끼어들었습니다. 셋이 폭을 나눠 가져 여권칸이 186~234px 로 눌리고, 길 셋은 오른쪽에서 두 줄로 접히고, 공유 원은 세로로 길어진 줄 한가운데에 떴습니다. 화면마다 알약 글자 수가 달라 남는 폭도 달라져 본문이 좌우로 흔들렸습니다. 여덟 화면에서 실측(index 는 붙는 차례가 매번 달라 깨졌다 말았다 하는 경합이었습니다). [고침] ①감싼 줄이 있으면 그 줄 ★위에 놓습니다. ②길 셋도 자리표도 없는 화면(편지)에서 body 끝에 떨어져 오른쪽에 낑기던 것 — 저작권 덩어리 앞에 놓습니다. [무손] 조회 GAS 주소·DEST·VERB·NAME·발권 지켜보기·CSS·자리표 규칙·문구 전부 한 글자도 안 건드렸습니다. — v8 · 260810 — ★「사랑흐름 여권 찾기」가 화면에서 아예 안 보이던 것 해소 — 원인이 둘이었습니다. [원인①] ☰ 드로어 메뉴에도 같은 글자가 있는데 부품이 그걸 중복으로 보고 자기 줄을 감춰습니다. 드로어는 항상 숨어 있는 메뉴라 화면에 보이는 것과 다릅니다. 이제 ★눈에 보이고 ☰ 메뉴·드로어 밖에 있는 링크만 중복으로 칩니다 (드로어는 화면 밖으로 밀려만 있어 숨음 판정에 안 잡힙니다). [원인②] 더 큰 것은 CSS 였습니다 — 부품이 자리표(inslot) 안에 들어가면 표제 두 줄과 찾기 줄을 한 묶음으로 display:none 했습니다. 표제가 두 번 보이던 것을 막으려다 찾기 줄까지 만 사람을 잔은 것입니다. 이제 표제 두 줄만 감추고 찾기 줄은 번호칸 밑에 작게 남깁니다. — v7 · 260810 — ★번호를 넣었는데 아무 것도 안 나오던 것 해소(대표 지적). [원인] 번호를 넣으면 0.45초 기다렸다 바깥 조회를 다녀오고, 그 답이 와야만 문이 섬습니다. 답이 안 오면 문도 안내도 오류도 없이 조용히 끝났습니다. [고침] ①번호 모양만 맞으면 ★그 자리에 바로 문을 세웁니다(basic). 조회는 뒤에서 돌고, 답이 오면 그때 정확한 문으로 바꿉니다. ②조회가 막혀도 문은 열려 있습니다 — 지도·편지는 「번호가 있으면 역다」가 확정 원칙입니다. ③번호를 ★기기의 기억에서도 찾습니다(지금까지 주소와 그 창의 기억만 봤습니다). ④화면에 들어오자마자 아는 번호가 있으면 첫 문을 먼저 세웁니다. ★화면은 이제 꿀리표를 모릅니다 — /lf/pass.js 가 이 부품을 불러오고, 판 번호는 pass.js 의 PART_V 한 글자입니다. [무손] 조회 GAS 주소·DEST·VERB·NAME·발권 지켜보기·CSS·자리표 규칙 전부. — ★고르는 자리인지 알 수 없던 것 해소(대표 지적). ①위에 안내 한 줄 「어느 여행을 이어가시겠어요?」를 세웁니다 — 아래 상자가 고르는 자리라는 것을 먼저 말합니다. ②고르는 자리는 ★흰 바탕 + 테두리 + 또렷한 화살표(▾)로, 누르는 버튼은 채워진 색으로 갈랐습니다. 지금까지 셋 다 연한 파랑이라 버튼 셋으로 보였습니다. 글자도 16px 로 키웠습니다. ③「LF-XXXXX 여권으로 보고 계십니다」가 안내문보다 크고 진해 제목처럼 보이던 것 — 작고 옅게 낮춰 뒤로 물렸습니다. ④버튼에 옅은 그림자를 넣어 눌리는 것임을 보탰습니다. ★한 파일만 고치면 열세 화면이 함께 바뀝니다. 화면에서 부를 때 꼬리표를 v6 으로 올리십시오. — ★사이트 밖(편지 GAS 웹앱)에서도 쓰도록. GAS 는 script.google.com 에서 iframe 안으로 돌기 때문에 상대주소가 안 통하고 부모 창을 움직여야 합니다. 주소 판별(inGas)로 그때만 절대주소(www.loveflow.ai.kr)를 붙이고 window.top 을 움직입니다. 사이트 안에서는 지금까지와 똑같이 동작합니다. 쇼룸·여권 찾기도 같은 길을 씁니다. ★화면에서 부를 때 꼬리표를 v5 로 올리십시오. — ★비켜 가는 곳을 reenter 하나로 줄입니다(대표 지적). v3 까지는 홈·입장·지도 답하는 중·편지 쓰는 중·자서전 쓰는 중 다섯을 비켜 갔는데, 오늘 목적이 「어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있게」였습니다. 전부 엽니다. 쓰던 중인 화면에서도 답이 날아가지 않도록 부품은 언제나 길 셋 위(화면 맨 아래)에 놓입니다. 자리표(lfEnterSlot)를 둔 화면에서는 그 자리에 들어가고 표제·찾기 링크를 감춥니다. ★화면에서 부를 때 /lf/enter.js?v=4 로 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡힙니다. — ★자리표에 확실히 붙게 + 표제 중복 제거(대표 지적). ①화면이 <div id="lfEnterSlot"> 를 두면 반드시 그 안에 들어가고, 그때는 부품의 표제 두 줄과 찾기 링크를 감춥니다 — 그 화면이 이미 「여기서 여권을 넣으세요」라고 말한 자리이므로 한 화면에 표제가 둘이 되지 않게. ②자리표도 길 셋도 아직 없으면 0.25초 뒤 한 번 더 붙여 봅니다(화면이 늦게 그리는 경우). ③★화면에서 부를 때 /lf/enter.js?v=3 처럼 꼬리표를 붙이십시오 — 안 붙이면 옛 판이 캐시로 잡혀 엉뚱한 자리에 붙습니다. — ①안 까는 곳에 홈(/)과 입장(/enter) 추가. 홈은 처음 오신 분이 대부분이고, 입장은 발권 직후라 이미 손에 여권이 있습니다. ②조회가 돌면 「LF-XXXXX 여권으로 보고 계십니다」를 띄웁니다 — 어느 여권인지 안 보이던 것. ③화면이 <div id="lfEnterSlot"></div> 를 두면 그 자리에 들어갑니다(gate 처럼 자리가 정해진 화면용). ④화면에 이미 「사랑흐름 여권 찾기」가 있으면 부품 것은 감춥니다 — 두 번 보이던 것. ⑤★발권 지켜보기 — gate 에서 여권이 나오면 그 번호를 받아 곧바로 이어 갑니다. issue() 는 절대보존이라 한 글자도 건드리지 않고 부품이 지켜보기만 합니다(2초 간격·최대 1분).
    사랑흐름 공용 입구 부품 — 전 화면이 이 한 파일을 씁니다.
 
    [쓰는 법] 화면 하단에 아래 한 줄만 둡니다.
@@ -42,6 +52,18 @@
   };
 
   var DATA = null, PP = '', TIMER = null;
+  var TYPED = false;      /* ★[v11] 손님이 칸에 직접 넣었는가 */
+  var FROMMEM = false;    /* ★[v11] 지금 번호가 기기의 기억에서 왔는가 */
+  function ig(nm) {       /* ★[v11] 이/가 */
+    var c = nm.charCodeAt(nm.length - 1) - 44032;
+    return nm + ((c >= 0 && c <= 11171 && c % 28 !== 0) ? '이' : '가');
+  }
+  function remember(pp) { try { sessionStorage.setItem('lf_passport', pp); } catch (e) {} try { localStorage.setItem('lf_passport', pp); } catch (e) {} }
+  function forget(pp) {
+    try { if ((sessionStorage.getItem('lf_passport') || '').toUpperCase() === pp) { sessionStorage.removeItem('lf_passport'); } } catch (e) {}
+    try { if ((localStorage.getItem('lf_passport') || '').toUpperCase() === pp) { localStorage.removeItem('lf_passport'); } } catch (e) {}
+  }
+  function ownsAny(d) { return !!(d && ((d.map && d.map.owned) || (d.letter && d.letter.owned) || (d.memoir && d.memoir.owned))); }
 
   /* ── 안 까는 곳 ── */
   function skip() {
@@ -85,6 +107,11 @@
       + 'font-size:19px;font-weight:800;letter-spacing:2px;text-align:center;color:#1E4A76;'
       + 'text-transform:uppercase;font-family:inherit;outline:none;box-sizing:border-box}'
       + '.lfent .lfe-in:focus{border-color:#1E4A76}'
+      + '.lfent .lfe-row{display:flex;gap:8px;align-items:stretch}'
+      + '.lfent .lfe-row .lfe-in{flex:1;min-width:0}'
+      + '.lfent .lfe-ok{flex:none;width:76px;height:50px;border:0;border-radius:14px;background:#1E4A76;color:#fff;'
+      +   'font-size:16px;font-weight:700;cursor:pointer;font-family:inherit}'
+      + '.lfent .lfe-ok:active{opacity:.7}'
       + '.lfent .lfe-in::placeholder{color:#C9CFD6;letter-spacing:1px;font-size:16px}'
       + '.lfent .lfe-lead{margin-top:14px;font-size:12.5px;font-weight:700;color:#7A8794;letter-spacing:-.2px}'
       /* 고르는 자리 = 흰 바탕에 테두리 + 화살표. 누르는 자리(버튼)와 눈으로 갈립니다. */
@@ -121,7 +148,8 @@
   function html() {
     return '<div class="lfe-h">사랑흐름 여권번호로 문을 엽니다</div>'
       + '<div class="lfe-s">받으신 <b>사랑흐름 여권번호</b>를 넣어 주세요.<br>지난 여행이 그대로 이어집니다.</div>'
-      + '<input class="lfe-in" id="lfeIn" placeholder="LF-XXXXX" inputmode="text" autocomplete="off">'
+      + '<div class="lfe-row"><input class="lfe-in" id="lfeIn" placeholder="LF-XXXXX" inputmode="text" autocomplete="off" enterkeyhint="go">'
+      +   '<button type="button" class="lfe-ok" id="lfeOk" onclick="lfeCheck()">확인</button></div>'   /* ★[v11] 눈에 보이는 확인 단추 */
       + '<a class="lfe-find" id="lfeFind">번호가 기억나지 않으시면 · 사랑흐름 여권 찾기 &rarr;</a>'
       + '<div class="lfe-box" id="lfeBox">'
       +   '<div class="lfe-pp" id="lfePp"></div>'
@@ -207,7 +235,7 @@
 
     if (!s.owned) {
       btns.innerHTML = btn('look', '어떤 것인지 보러 가기', 'lfeShowroom()');
-      note.innerHTML = '이 여권에는 아직 <b>' + nm + '</b>이(가) 없어요.<br>어떤 것인지 먼저 보고 오세요.';
+      note.innerHTML = '이 여권에는 아직 <b>' + nm + '</b>' + ig(nm).slice(nm.length) + ' 없어요.<br>어떤 것인지 먼저 보고 오세요.';
       return;
     }
 
@@ -224,7 +252,7 @@
     } else if (s.done) {
       h = btn('', v.read, "lfeGo('" + d.read + "')");
       if (k === 'letter') { h += btn('sub', v.cont, "lfeGo('" + d.cont + "')"); }
-      n = '마치신 ' + nm + '이(가) 있어요.';
+      n = '마치신 ' + ig(nm) + ' 있어요.';
     } else {
       h = btn('', v.start, "lfeGo('" + d.cont + "')");
       n = '아직 떠나지 않으셨어요. 지금 시작하실 수 있어요.';
@@ -250,6 +278,11 @@
     window[cb] = function (res) {
       try { delete window[cb]; } catch (e) { window[cb] = undefined; }
       if (!res || !res.ok) { return; }
+      if (pp !== PP) { return; }                     /* ★[v11] 늦게 온 옛 번호의 답은 버립니다 */
+      if (!ownsAny(res)) {                           /* ★[v11] 찾을 수 없는 번호 */
+        unknown(pp); return;
+      }
+      if (TYPED) { remember(pp); }                   /* ★[v11] 손님이 넣은 번호를 기억 */
       DATA = res;
       var sel = document.getElementById('lfeSel');
       if (sel) { sel.value = pick(); }
@@ -260,6 +293,44 @@
     sc.onerror = function () { try { delete window[cb]; } catch (e) {} basic(); };   /* [260810] ★문은 그대로 */
     document.body.appendChild(sc);
   }
+
+  /* ★[v11] 찾을 수 없는 번호 — 기억에서 온 것이면 지우고 칸을 비웁니다 */
+  function unknown(pp) {
+    var box = document.getElementById('lfeBox');
+    var btns = document.getElementById('lfeBtns');
+    var note = document.getElementById('lfeNote');
+    var pel = document.getElementById('lfePp');
+    DATA = null;
+    if (!TYPED) {
+      forget(pp); PP = '';
+      var el = document.getElementById('lfeIn'); if (el) { el.value = ''; }
+      if (box) { box.style.display = 'block'; }
+      if (pel) { pel.textContent = ''; }
+      if (btns) { btns.innerHTML = ''; }
+      if (note) { note.innerHTML = '받으신 사랑흐름 여권번호를 넣어 주세요.'; }
+      return;
+    }
+    if (box) { box.style.display = 'block'; }
+    if (pel) { pel.textContent = ''; }
+    if (btns) { btns.innerHTML = ''; }
+    if (note) { note.innerHTML = '<b>' + pp + '</b> 번호를 찾지 못했어요. 번호를 다시 확인해 주세요.'; }
+  }
+
+  /* ★[v11] 확인 단추 · 엔터 — 넣은 번호로 바로 묻습니다 */
+  window.lfeCheck = function () {
+    var el = document.getElementById('lfeIn'); if (!el) { return; }
+    TYPED = true;
+    var v = (el.value || '').trim().toUpperCase();
+    var note = document.getElementById('lfeNote'), box = document.getElementById('lfeBox');
+    if (!/^LF[ML]?-[A-Z0-9]{4,}$/.test(v)) {
+      if (box) { box.style.display = 'block'; }
+      if (note) { note.innerHTML = '사랑흐름 여권번호를 다시 확인해 주세요. (예: LF-AB12C)'; }
+      return;
+    }
+    el.value = v;
+    if (TIMER) { clearTimeout(TIMER); }
+    PP = v; DATA = null; basic(); lookup(v);
+  };
 
   function watch() {
     var el = document.getElementById('lfeIn'); if (!el) { return; }
@@ -322,9 +393,12 @@
 
     var input = document.getElementById('lfeIn');
     if (input) {
-      input.addEventListener('input', watch);
+      input.addEventListener('input', function () { TYPED = true; FROMMEM = false; watch(); });   /* ★[v11] */
+      input.addEventListener('keydown', function (e) {                                              /* ★[v11] 엔터 = 확인 단추 */
+        if (e.key === 'Enter' || e.keyCode === 13) { e.preventDefault(); window.lfeCheck(); }
+      });
       var k = known();
-      if (k) { input.value = k; PP = k; setTimeout(function(){ basic(); lookup(k); }, 0); }   /* [260810] ★첫 문 */
+      if (k) { input.value = k; PP = k; FROMMEM = true; setTimeout(function(){ basic(); lookup(k); }, 0); }   /* [260810] ★첫 문 */
     }
     var find = document.getElementById('lfeFind');
     if (find) {
@@ -360,13 +434,13 @@
     var tries = 0;
     var eye = setInterval(function () {
       tries += 1;
-      if (tries > 30) { clearInterval(eye); return; }
+      if (tries > 30 || TYPED) { clearInterval(eye); return; }   /* ★[v11] 손님이 넣기 시작하면 멈춤 */
       var got = '';
       try { got = window.lfIssuedPassport || sessionStorage.getItem('lf_passport') || ''; } catch (e) {}
       got = String(got).trim().toUpperCase();
       if (!got || got === PP) { return; }
       var box2 = document.getElementById('lfeIn');
-      if (box2 && !(box2.value || '').trim()) { box2.value = got; }
+      if (box2) { box2.value = got; }                              /* ★[v11] 칸과 화면이 같은 번호를 보이게 */
       clearInterval(eye);
       lookup(got);
     }, 2000);
