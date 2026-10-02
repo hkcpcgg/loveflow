@@ -1,0 +1,108 @@
+<!-- ★ 현재 버전 ▶ consent.html · v1 · 261002 · [261002 문구 다듬음 — 성명 · 사랑흐름 여권번호 말로(대표 지적)] · [작업 v1 · 자서전 공사 칸 11 · 신설] ★동의 기록이 없는 사랑흐름 여권(기관에서 받으신 분 · 옛 여권)이 처음 한 번 성함 · 연락처 · [필수] 개인정보 동의를 남기는 화면(개2 · 이슈 13). 입구 부품(lf/enter.js v10)·다시 입장(reenter v2-20)이 여권조회 답 needConsent=true 일 때 ?id=번호&next=갈 곳 으로 보냅니다. 게시판 서버(v5-13~) action=consent 로 개인정보 파일에 기록하고, 끝나면 next 로 돌려보냅니다(next 는 우리 집 주소 · 사랑흐름 GAS 주소만 받음 — 다른 곳이면 다시 입장 화면으로). 성함·연락처·동의 칸은 /lf/ident.js(gate·apply 와 같은 한 벌). ★동의 문구는 초안 — 확정은 칸 13. [원칙] 백틱 금지 · 문자열 연결(+)만 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>동의 한 번 · 사랑흐름</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script src="/lf/ident.js?v=2"></script>
+<style>
+:root{--bg:#FFFBF5;--card:#FFFFFF;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;--navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Noto Sans KR',-apple-system,sans-serif;-webkit-font-smoothing:antialiased}
+.top{height:56px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--line);background:#fff}
+.top img{height:30px}
+.wrap{max-width:440px;margin:0 auto;padding:22px 16px 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 18px 20px;box-shadow:0 6px 24px rgba(30,74,118,.06)}
+h1{font-size:20px;font-weight:900;color:var(--navy);margin:0 0 6px;letter-spacing:-.01em}
+.lead{font-size:14px;line-height:1.65;color:#4A5563;margin:0 0 14px}
+.pp{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#F4F7FB;border:1px solid #DCE6F0;border-radius:12px;padding:10px 12px;font-size:13px;color:var(--navy)}
+.pp b{font-size:16px;letter-spacing:.06em}
+.go{display:block;width:100%;height:50px;margin-top:18px;border:0;border-radius:25px;background:var(--navy);color:#fff;font-size:16px;font-weight:700;font-family:inherit;cursor:pointer}
+.go:disabled{opacity:.5;cursor:default}
+.msg{min-height:20px;margin-top:10px;font-size:13.5px;text-align:center;color:#1E7A4A}
+.msg.err{color:#C0392B}
+.sub{display:block;text-align:center;margin-top:14px;font-size:13px;color:var(--sub)}
+.sub a{color:var(--navy)}
+</style>
+</head>
+<body>
+<div class="top"><a href="/" aria-label="사랑흐름 홈"><img src="/logo.png" alt="사랑흐름"></a></div>
+<div class="wrap">
+  <div class="card">
+    <h1>처음 한 번만 여쭤볼게요</h1>
+    <p class="lead">사랑흐름 여권번호를 잊으셨을 때 찾아 드리려고 성명과 연락처를 받아요. 한 번만 적으시면 됩니다.</p>
+    <div class="pp" id="ppBox"><span>사랑흐름 여권번호</span><b id="ppNo">—</b></div>
+    <div id="lfIdent"></div>
+    <button class="go" id="btnGo" type="button">동의하고 이어 가기</button>
+    <div class="msg" id="msg"></div>
+  </div>
+  <span class="sub">사랑흐름 여권번호가 다르다면 <a href="/reenter.html">다시 넣기</a> · 번호를 잊으셨으면 <a href="/find/">사랑흐름 여권 찾기</a></span>
+</div>
+<script>
+var CONSENT_GAS = 'https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec';
+var HOME = 'https://www.loveflow.ai.kr';
+var q = new URLSearchParams(location.search);
+var PP = String(q.get('id') || '').trim().toUpperCase();
+var NEXT = String(q.get('next') || '');
+
+/* 돌아갈 곳 — 우리 집 주소와 사랑흐름 GAS 주소만 받습니다 */
+function safeNext(u){
+  if (!u) { return ''; }
+  if (u.charAt(0) === '/' && u.charAt(1) !== '/') { return u; }
+  if (u.indexOf(HOME + '/') === 0) { return u; }
+  if (u.indexOf('https://script.google.com/macros/s/') === 0) { return u; }
+  return '';
+}
+function back(){
+  var u = safeNext(NEXT) || ('/reenter.html' + (PP ? ('?id=' + encodeURIComponent(PP)) : ''));
+  try { if (window.top && window.top !== window) { window.top.location.href = (u.charAt(0) === '/' ? HOME + u : u); return; } } catch (e) {}
+  location.href = u;
+}
+function setMsg(t, err){ var m = document.getElementById('msg'); m.textContent = t || ''; m.className = 'msg' + (err ? ' err' : ''); }
+
+var okPp = /^LF[ML]?-[A-Z0-9]{4,8}$/.test(PP);
+document.getElementById('ppNo').textContent = okPp ? PP : '번호 없음';
+LFIdent.mount('lfIdent', { consent:true, checked:false, onEnter:send });
+if (!okPp) { setMsg('사랑흐름 여권번호가 없어요. 다시 넣기를 눌러 주세요.', true); document.getElementById('btnGo').disabled = true; }
+document.getElementById('btnGo').onclick = send;
+
+function send(){
+  if (!okPp) { return; }
+  var who = LFIdent.read();
+  if (!who.ok) { setMsg(who.msg, true); LFIdent.focus(who.field); return; }
+  var btn = document.getElementById('btnGo');
+  btn.disabled = true; setMsg('기록하고 있어요…', false);
+  var cb = 'lfcons_' + Date.now(), done = false;
+  function fail(t){ if (done) { return; } done = true; try { delete window[cb]; } catch (e) {} btn.disabled = false; setMsg(t || '연결이 안 됐어요. 잠시 후 다시 눌러 주세요.', true); }
+  window[cb] = function(res){
+    if (done) { return; } done = true;
+    try { delete window[cb]; } catch (e) {}
+    if (res && res.status === 'ok') {
+      try { sessionStorage.setItem('lf_consent_' + PP, '1'); } catch (e) {}
+      setMsg('고맙습니다. 이어 가실 곳으로 모실게요.', false);
+      setTimeout(back, 700);
+    } else {
+      btn.disabled = false;
+      setMsg((res && res.msg) ? res.msg : '기록이 안 됐어요. 잠시 후 다시 눌러 주세요.', true);
+    }
+  };
+  var url = CONSENT_GAS + '?action=consent'
+    + '&passport=' + encodeURIComponent(PP)
+    + '&name=' + encodeURIComponent(who.name)
+    + '&contact=' + encodeURIComponent(who.contact)
+    + '&agree=' + who.agree
+    + '&termsVer=' + encodeURIComponent(who.termsVer)
+    + '&callback=' + cb;
+  var s = document.createElement('script');
+  s.src = url;
+  s.onerror = function(){ fail(); };
+  setTimeout(function(){ fail('잠시 후 다시 눌러 주세요. (네트워크 지연)'); }, 15000);
+  document.body.appendChild(s);
+}
+</script>
+<script src="/lf-foot.js" defer></script>
+</body>
+</html>
