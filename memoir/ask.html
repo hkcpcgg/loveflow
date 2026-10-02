@@ -1,4 +1,4 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v47 · 260811 · [작업 v47] ★잠금 화면 제목을 ★「사랑흐름 여권번호를 넣어 주세요」로 바꿉니다(대표 지시 260811). 자서전을 시작하시는 분이 처음 만나는 화면인데 무엇을 넣으라는지 안 밝히고 있었습니다. ☰ 메뉴 항목도 ★「마음 여행여권으로 입장」으로 맞춥니다. [무손] 물음·저장 배관·해당 없음·넘김 규칙 전부 미변경. · v46 · 260811 · [작업 v46] ★답이 빈 자리를 아예 만들지 않습니다(대표 결단 260811). 지금까지 물음 이백쉰일곱 중 백아흔셋에 「이 질문은 잠시 건너뛸게요」가 붙어 있어, 답을 안 쓰고 넘어갈 수 있었습니다. 그러다 맨 끝에서 「비어 있는 첫 자리로 모셔다 드리겠습니다」로 몰아서 돌려보냈습니다 — 어느 자리가 비었는지 가시는 동안 손님은 모르셨고, 다 쓰신 줄 알고 계시다가 끝에서 되돌아가야 했습니다. [고침] ①「잠시 건너뛸게요」를 걷습니다. ②입력이 없으면 「다음 이야기로」가 안 눌립니다 — 예외 없음. ③대신 「저에게는 해당하지 않아요」를 ★모든 물음에 둡니다(전에는 예순네 곳에만 있었습니다). 없으신 일은 그렇게 밝히시면 그 꼭지를 통째로 지나가고, 빈칸이 아니라 밝힌 답이라 완주 검사도 통과합니다. ④지난번 저장분에 남아 있는 빈 자리는 ★이어서 쓰기로 들어오시는 그 순간에 첫 빈 자리로 모셔다 드리고 「지난번 비워 두신 ○○ 자리로 모셨습니다」 한 줄을 띄웁니다 — 맨 끝에서 알려 드리면 다 쓰신 줄 알고 계시다가 되돌아가셔야 합니다. 맨 끝 검사는 옛 저장분·다른 기기에서 들어오시는 경우를 위해 그대로 두되, 입구에서 이미 걸러져 평소에는 걸리지 않습니다. [무손] 여덟 자리·물음 문구·소재·사진 배관·저장(localStorage·save·send_)·GAS·잠금 화면·색값 전부 미변경 — 물음 데이터의 skip 값도 한 글자도 안 건드렸습니다. · v45 · 260811 · [작업 v45] ★결과물을 「책」이라 부르던 자리를 걷습니다(대표 지시 260811). 「책으로 엮을 수 없어요」 → ★「한 편으로 엮을 수 없어요」, 「책에 그 목소리가 그대로 남습니다」 → ★「기록에 그 목소리가…」. 물음 속 「교실과 책상」과 코드 안 BOOK 은 다른 말이라 안 건드렸습니다. [무손] 여덟 자리·물음·건너뛰기·사진 배관·저장(localStorage·save)·GAS·잠금 화면·색값 전부 미변경. · v44 · 260810 · [작업 v44] ★이름 남기기로 가는 문 신설.
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v49 · 261002 · [작업 v49 · 자서전 공사 칸 13] ★문구 대조표 v2 — 다 쓰신 뒤 「저희가 한 편의 기록으로 정성껏 엮습니다」 → 「남기신 이야기가 한 편의 기록으로 완성됩니다」(사랑흐름은 글을 고치지 않음 · 「엮다」 쓰지 않음) · 빈 곳 알림 「엮을 수 없어요」 → 「완성할 수 없어요」 · 답 칸 아래 「휴대전화 자판의 맞춤법 검사도 그대로 쓰셔도 됩니다」 한 줄(29차 ★4) · 다 쓰신 뒤 이메일 안내의 「한 권으로 묶어」 둘 → 「완성된 기록을 받으실 이메일」 · 「모아서 보내 드립니다」(책을 떠올리는 말 걷음). [무손] 물음 · 저장 배관 · 사진 · 음성 · 서버 주소 · 색값. · v48 · 261002 · [작업 v48 · 자서전 공사 칸 12] ①★이야기 번호(trip)를 서버에서 받습니다 — 지금까지 주소에 번호가 없으면 늘 첫째 번호로 저장해, 같은 사랑흐름 여권번호로 둘째 이야기를 쓰면 첫째에 섞여 들어갔습니다. 들어오실 때 검문(getMemoir)을 지나면 서버 openPlace 로 그 이야기의 번호를 받아 그 번호로 저장·사진·이름 남기기·결과물까지 잇습니다. 주소에 번호가 있으면(이미 있는 이야기) 그 번호 그대로. 편 이력이 없는 옛 사랑흐름 여권번호는 대장(trips)에서 그 이야기의 번호를 찾고, 없으면 마지막 번호 다음. 기기 저장 키도 그 번호로 다시 잡습니다. ②「몸이 아프던 때」를 여실 때 따로 여쭙니다(개3) — 동의하시면 서버 recordHealth 로 시각을 남기고 물음으로, 건너뛰시면 그 꼭지를 「해당 없음」으로 지나갑니다. ③사진 — 「사진에 함께 나온 분께 실어도 된다고 여쭈었어요」에 체크하셔야 사진을 고르실 수 있고, 사진과 함께 photoOk=1 · photoOkAt 을 보냅니다(서버 기록은 칸 14 · 대표 결정 261002 (다) 2안). ④동의 기록이 없는 사랑흐름 여권번호면 동의 화면을 먼저(/memoir/kit.js · 개2). ⑤말 규칙 — 이야기 제목 「여섯째 자리 · …」를 화면에는 「여섯째 이야기 · …」로(대표 결정 261002 (가) 1안), 앞말 없는 「여권」을 「사랑흐름 여권번호」로. [무손] BOOK 257물음 · 저장 배관(send_·queue_) · 「해당하지 않아요」 · 완주 검사 · 완료 화면 · 사진 압축 · GAS 주소 · 길 셋 · 상단바 · 드로어 · 푸터 · 색값. · v47 · 260811 · [작업 v47] ★잠금 화면 제목을 ★「사랑흐름 여권번호를 넣어 주세요」로 바꿉니다(대표 지시 260811). 자서전을 시작하시는 분이 처음 만나는 화면인데 무엇을 넣으라는지 안 밝히고 있었습니다. ☰ 메뉴 항목도 ★「마음 여행여권으로 입장」으로 맞춥니다. [무손] 물음·저장 배관·해당 없음·넘김 규칙 전부 미변경. · v46 · 260811 · [작업 v46] ★답이 빈 자리를 아예 만들지 않습니다(대표 결단 260811). 지금까지 물음 이백쉰일곱 중 백아흔셋에 「이 질문은 잠시 건너뛸게요」가 붙어 있어, 답을 안 쓰고 넘어갈 수 있었습니다. 그러다 맨 끝에서 「비어 있는 첫 자리로 모셔다 드리겠습니다」로 몰아서 돌려보냈습니다 — 어느 자리가 비었는지 가시는 동안 손님은 모르셨고, 다 쓰신 줄 알고 계시다가 끝에서 되돌아가야 했습니다. [고침] ①「잠시 건너뛸게요」를 걷습니다. ②입력이 없으면 「다음 이야기로」가 안 눌립니다 — 예외 없음. ③대신 「저에게는 해당하지 않아요」를 ★모든 물음에 둡니다(전에는 예순네 곳에만 있었습니다). 없으신 일은 그렇게 밝히시면 그 꼭지를 통째로 지나가고, 빈칸이 아니라 밝힌 답이라 완주 검사도 통과합니다. ④지난번 저장분에 남아 있는 빈 자리는 ★이어서 쓰기로 들어오시는 그 순간에 첫 빈 자리로 모셔다 드리고 「지난번 비워 두신 ○○ 자리로 모셨습니다」 한 줄을 띄웁니다 — 맨 끝에서 알려 드리면 다 쓰신 줄 알고 계시다가 되돌아가셔야 합니다. 맨 끝 검사는 옛 저장분·다른 기기에서 들어오시는 경우를 위해 그대로 두되, 입구에서 이미 걸러져 평소에는 걸리지 않습니다. [무손] 여덟 자리·물음 문구·소재·사진 배관·저장(localStorage·save·send_)·GAS·잠금 화면·색값 전부 미변경 — 물음 데이터의 skip 값도 한 글자도 안 건드렸습니다. · v45 · 260811 · [작업 v45] ★결과물을 「책」이라 부르던 자리를 걷습니다(대표 지시 260811). 「책으로 엮을 수 없어요」 → ★「한 편으로 엮을 수 없어요」, 「책에 그 목소리가 그대로 남습니다」 → ★「기록에 그 목소리가…」. 물음 속 「교실과 책상」과 코드 안 BOOK 은 다른 말이라 안 건드렸습니다. [무손] 여덟 자리·물음·건너뛰기·사진 배관·저장(localStorage·save)·GAS·잠금 화면·색값 전부 미변경. · v44 · 260810 · [작업 v44] ★이름 남기기로 가는 문 신설.
      여덟 소재를 다 마치신 자리에 문이 없어, 손님이 이름 남기기 화면에 닿을 길이 사이트 어디에도 없었습니다(260810 실측).
      글을 다 쓰신 직후가 확인하고 이름을 남기실 때이므로 ★「내 기록 보기」보다 앞에 두었습니다.
      여권번호와 여행번호를 함께 실어 보냅니다(goSign_).
@@ -56,6 +56,7 @@
 <head>
 <!-- ★[260810] 문지기 — 번호 찾기·심기·링크에 번호 붙이기·부품 불러오기. -->
 <script src="/lf/pass.js"></script>
+<script src="/memoir/kit.js?v=1"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>사랑흐름 · 자서전 「한 편의 기록」</title>
@@ -228,6 +229,8 @@ body{background:#E7E1D6 !important}
 .lff-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(12px);background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:10000}
 .lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
 #mlock .btn.prev{background:#F4F7FB;border:1px solid #C7D6E6;color:#1E4A76}
+.pok{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:#1E4A76;line-height:1.5;margin:0 0 8px;text-align:left;cursor:pointer}
+.pok input{width:18px;height:18px;margin:2px 0 0;flex:0 0 auto;accent-color:#1E4A76}
 </style>
 </head>
 <body>
@@ -270,17 +273,27 @@ body{background:#E7E1D6 !important}
 <div class="rsmask" id="mlock">
   <div class="rspanel">
       <div class="rstitle serif">사랑흐름 여권번호를 넣어 주세요</div>
-      <div class="rssub">자서전은 사랑흐름 여권으로 열립니다.<br>받으신 여권이 있으면 아래로 들어오세요.</div>
+      <div class="rssub">자서전은 사랑흐름 여권번호로 열립니다.<br>받으신 사랑흐름 여권번호가 있으면 아래로 들어오세요.</div>
       <button class="btn next" onclick="location.href='/gate.html'">마음 여행여권으로 입장</button>
-      <div class="rsguide">아직 여권이 없으신가요?</div>
+      <div class="rsguide">아직 사랑흐름 여권번호가 없으신가요?</div>
       <button class="btn prev" onclick="location.href='/showroom.html'" style="margin-top:8px">먼저 다녀간 분들의 이야기 구경하기</button>
-      <button class="btn prev" onclick="location.href='/showcase.html'" style="margin-top:8px">자서전 시작하기 · 여권 받기</button>
+      <button class="btn prev" onclick="location.href='/showcase.html'" style="margin-top:8px">자서전 시작하기 · 마음 여행여권 받기</button>
       <button class="btn ghost" onclick="location.href='/'" style="margin-top:8px">홈으로</button>
     </div>
 </div>
 
+<!-- ★[v48] 「몸이 아프던 때」 따로 여쭙기 -->
+<div class="rsmask" id="hcmask">
+  <div class="rspanel">
+      <div class="rstitle serif">이 이야기는 따로 여쭙니다</div>
+      <div class="rssub">「몸이 아프던 때」는 건강에 관한 이야기라<br>들려주셔도 될지 먼저 여쭙습니다.<br>들려주신 이야기는 이 기록을 만드는 데만 씁니다.</div>
+      <button class="btn next" onclick="healthYes_()">괜찮습니다, 이야기하겠습니다</button>
+      <button class="btn prev" onclick="healthNo_()" style="margin-top:8px">이 이야기는 건너뛰겠습니다</button>
+    </div>
+</div>
+
 <div class="prog" id="prog">
-    <div class="row"><span class="chap serif" id="chap">첫째 자리</span><span class="cnt" id="cnt">1 / 4</span></div>
+    <div class="row"><span class="chap serif" id="chap">첫째 이야기</span><span class="cnt" id="cnt">1 / 4</span></div>
     <div class="bar"><div class="fill" id="fill" style="width:25%"></div></div>
   </div>
 
@@ -305,8 +318,10 @@ body{background:#E7E1D6 !important}
       <button type="button" class="aid family" onclick="familyTip()"><span class="ic">&#128106;</span> 가족이 대신 적기</button>
     </div>
     <div class="aidnote" id="aidnote" style="display:none"></div>
+    <p class="kbnote" style="margin:8px 2px 0;font-size:12.5px;color:#7A7F88;line-height:1.5">휴대전화 자판의 맞춤법 검사도 그대로 쓰셔도 됩니다.</p>
     <div class="photobox" id="photobox">
-      <button type="button" class="aid photo" id="pbtn" onclick="document.getElementById('pfile').click()"><span class="ic">&#128247;</span> 이 이야기에 사진 더하기 (0/3)</button>
+      <label class="pok" id="pokWrap"><input type="checkbox" id="pokChk" onchange="photoOkTip_()"> <span>사진에 함께 나온 분께 실어도 된다고 여쭈었어요</span></label>
+      <button type="button" class="aid photo" id="pbtn" onclick="photoPick_()"><span class="ic">&#128247;</span> 이 이야기에 사진 더하기 (0/3)</button>
       <input type="file" id="pfile" accept="image/*" style="display:none" onchange="onPhotoFile(this)">
       <p class="phint" id="phint">이 여행에 사진은 <b>세 장까지</b> 올리실 수 있어요. 없으셔도 괜찮습니다.</p>
       <div class="pprev" id="pprev" style="display:none"></div>
@@ -327,7 +342,7 @@ body{background:#E7E1D6 !important}
   <div class="done" id="done">
     <div class="halo">&#10047;</div>
     <h2 class="serif"><span id="donePlace">이야기</span>,<br>고맙습니다 선생님.</h2>
-    <p>들려주신 이야기를, 저희가<br>한 편의 기록으로 정성껏 엮습니다.</p>
+    <p>남기신 이야기가<br>한 편의 기록으로 완성됩니다.</p>
 
     <div class="pcover">
       <div class="pc-line">사랑흐름 · 한 편의 기록</div>
@@ -337,7 +352,7 @@ body{background:#E7E1D6 !important}
 
     <div class="promise">
       <div class="pr-when serif" id="dueDate">&nbsp;</div>
-      <div class="pr-how">기록은 여권번호로 언제든 다시 보실 수 있습니다.<br>여러 편을 한 권으로 묶으실 때 아래 주소를 씁니다.</div>
+      <div class="pr-how">기록은 사랑흐름 여권번호로 언제든 다시 보실 수 있습니다.<br>완성된 기록을 받으실 이메일이 있으면 아래에 남겨 주세요.</div>
     </div>
 
     <div class="mailbox">
@@ -352,7 +367,7 @@ body{background:#E7E1D6 !important}
         </select>
       </div>
       <input class="mailin" id="doneEmailDomCustom" style="margin-top:6px;display:none" placeholder="도메인 직접입력 (예: company.com)">
-      <div class="mailhint" id="mailMsg">여러 편을 쓰시면 이 주소로 <b>한 권으로 묶어</b> 드립니다.</div>
+      <div class="mailhint" id="mailMsg">여러 편을 쓰시면 이 주소로 <b>모아서</b> 보내 드립니다.</div>
     </div>
 
     <button class="btn" style="margin-top:22px" onclick="goSign_()">&#9998; 이름 남기기 &rarr;</button>
@@ -700,7 +715,7 @@ function paint(){
   if(window.speechSynthesis) speechSynthesis.cancel();
   var lb=document.getElementById("listen"); if(lb) lb.classList.remove("playing");
   var Q=cur();
-  document.getElementById("chap").textContent=BOOK[ci].title;
+  document.getElementById("chap").textContent=lfStory_(BOOK[ci].title);   /* ★[v48] 화면에는 「…째 이야기」 */
   document.getElementById("open").textContent=Q.open;
   document.getElementById("recall").innerHTML=Q.recall;
   document.getElementById("q").textContent=Q.q;
@@ -724,6 +739,7 @@ function paint(){
   renderPhoto();
   if(isPick){ renderPicks(); }
   refresh();
+  healthAsk_();   /* ★[v48] 「몸이 아프던 때」 따로 여쭙기 */
 }
 function refresh(){
   var Q=cur(), has;
@@ -790,6 +806,7 @@ function savePhotos(){ try{ localStorage.setItem(PKEY,JSON.stringify(photos)); }
 function photoKeys_(){ return [ci+"_0", ci+"_1", ci+"_2"]; }
 function photoCount_(){ var n=0, k=photoKeys_(); for(var i=0;i<k.length;i++){ if(photos[k[i]]) n++; } return n; }
 function renderPhoto(){
+  try{ var _pc=document.getElementById("pokChk"); if(_pc && photoOkAt_()){ _pc.checked=true; } }catch(e){}
   var wrap=document.getElementById("pprev");
   if(!wrap) return;
   var k=photoKeys_(), html="";
@@ -914,7 +931,8 @@ function sendPhoto_(idx, dataUrl, slot){
     fetch(MEMOIR_GAS, { method:"POST", mode:"no-cors",
       headers:{"Content-Type":"text/plain;charset=utf-8"},
       body: JSON.stringify({ action:'savePhoto', passport:pp, trip:TRIPNO, place:(PLACE_BASE+idx), slot:(['시작','관계','상징'][slot||0]), slotNo:(slot||0), photo:dataUrl,
-      photoTitle:((pmeta[ci+'_'+(slot||0)]||{}).t||''), photoDesc:((pmeta[ci+'_'+(slot||0)]||{}).d||'') }) });
+      photoTitle:((pmeta[ci+'_'+(slot||0)]||{}).t||''), photoDesc:((pmeta[ci+'_'+(slot||0)]||{}).d||''),
+      photoOk:'1', photoOkAt:(photoOkAt_()||'') }) });   /* ★[v48] 함께 나온 분 확인 — 서버 기록은 칸 14 */
   }catch(e){}
 }
 function nextQ(skip){
@@ -1029,7 +1047,7 @@ function speak(){
   speechSynthesis.speak(u);
 }
 function _rsSaved(){try{var raw=localStorage.getItem(KEY);if(!raw)return null;var o=JSON.parse(raw);if(o&&((o.ci||0)>0||(o.qi||0)>0||(o.answers&&Object.keys(o.answers).length)))return o;}catch(e){}return null;}
-function boot(){var o=_rsSaved();if(o){try{var t=(BOOK[o.ci||0]&&BOOK[o.ci||0].title)||"";document.getElementById("rssub").innerHTML=t?("지난번 <b>"+t+"</b>까지 쓰시던 곳이 남아 있어요."):"지난번 쓰시던 곳이 남아 있어요.";}catch(e){}document.getElementById("rsmask").style.display="flex";}else{paint();}}
+function boot(){var o=_rsSaved();if(o){try{var t=lfStory_((BOOK[o.ci||0]&&BOOK[o.ci||0].title)||"");document.getElementById("rssub").innerHTML=t?("지난번 <b>"+t+"</b>까지 쓰시던 곳이 남아 있어요."):"지난번 쓰시던 곳이 남아 있어요.";}catch(e){}document.getElementById("rsmask").style.display="flex";}else{paint();}}
 function resumeYes(){
   var m=document.getElementById("rsmask"); if(m)m.style.display="none";
   /* ★[v46 · 260811 대표 결단] 빈 자리는 ★들어오실 때 바로 모십니다.
@@ -1041,7 +1059,7 @@ function resumeYes(){
     if(miss.length && !(ci===miss[0].c && cur().sec===miss[0].s)){
       gotoSec_(miss[0].c, miss[0].s);
       var tip=document.getElementById("resumeTip");
-      if(tip){ tip.textContent="지난번 비워 두신 「"+miss[0].name+"」 자리로 모셨습니다."; tip.style.display="block"; }
+      if(tip){ tip.textContent="지난번 비워 두신 「"+miss[0].name+"」부터 이어서 쓰시면 됩니다."; tip.style.display="block"; }
       window.scrollTo(0,0); return;
     }
   }catch(e){}
@@ -1051,6 +1069,9 @@ function resumeNo(){ci=0;qi=0;answers={};picks={};try{localStorage.removeItem(KE
 function gateThenBoot_(){
   var pp = passport_();
   if(!pp){ var m0=document.getElementById('mlock'); if(m0) m0.style.display='flex'; return; }  /* ★여권 필수 — 여권 없으면 잠금(무임승차 진입 차단) */
+  LFM.consent(pp, function(){ gateCheck_(pp); });   /* ★[v48] 동의 기록 확인 먼저 */
+}
+function gateCheck_(pp){
   var cb='mgate_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
   var t=document.createElement('script');
   var done=false;
@@ -1060,7 +1081,7 @@ function gateThenBoot_(){
     if(d && d.status==='locked'){
       var m=document.getElementById('mlock'); if(m) m.style.display='flex';   /* 자서전 상품(MEMOIR) 아님 → 잠금 안내 */
     } else {
-      boot();                                /* 통과 → 기존 진입(재진입 모달 또는 시작) */
+      tripThenBoot_(pp, d);                  /* ★[v48] 이야기 번호를 정한 뒤 진입 */
     }
   };
   t.onerror=function(){ if(!done){ done=true; boot(); } };                    /* 조회 실패 → 막지 않음 */
@@ -1068,6 +1089,100 @@ function gateThenBoot_(){
   document.head.appendChild(t);
   setTimeout(function(){ if(!done){ done=true; boot(); } }, 6000);            /* 타임아웃 → 막지 않음(서버 게이트가 최종 방어) */
 }
+
+/* ══ ★[v48] 이야기 번호(trip) 정하기 ══
+   ① 주소에 trip 이 있으면 — 이미 있는 이야기. 그 번호 그대로.
+   ② 편 이력이 있는 사랑흐름 여권번호 — 서버 openPlace 가 번호를 줍니다(같은 이야기를 쓰는 중이면 그 번호).
+      남은 여행이 없으면 잠금 안내.
+   ③ 편 이력이 없는 옛 번호 — 대장(trips)에서 이 이야기의 번호를 찾고, 없으면 마지막 번호 다음. */
+var TRIP_FROM_URL = (function(){ try{ var t=parseInt(new URLSearchParams(location.search).get('trip'),10); return (!isNaN(t)&&t>0)?t:0; }catch(e){ return 0; } })();
+function retrip_(n){
+  n = parseInt(n,10); if(isNaN(n) || n<1){ return; }
+  TRIPNO = n;
+  KEY="lf_memoir_book_t"+TRIPNO; PKEY="lf_memoir_photos_t"+TRIPNO; PMKEY="lf_memoir_pmeta_t"+TRIPNO;
+  answers={}; picks={}; ci=0; qi=0; photos={}; pmeta={};
+  try{var s0=JSON.parse(localStorage.getItem(KEY)||"{}");answers=s0.answers||{};picks=s0.picks||{};ci=s0.ci||0;qi=s0.qi||0;}catch(e){}
+  try{ photos=JSON.parse(localStorage.getItem(PKEY)||"{}")||{}; }catch(e){ photos={}; }
+  try{ pmeta=JSON.parse(localStorage.getItem(PMKEY)||"{}")||{}; }catch(e){ pmeta={}; }
+  try{ localStorage.setItem('lf_memoir_trip', String(TRIPNO)); }catch(e){}
+  try{
+    var u=new URL(location.href); u.searchParams.set('trip', String(TRIPNO)); u.searchParams.set('place', String(PLACE_BASE));
+    history.replaceState(null,'',u.pathname+u.search);
+  }catch(e){}
+}
+function legacyTrip_(d){
+  var here = (d && d.places) ? d.places[PLACE_BASE] : '', tr = (d && d.trips) || [], mx = 0, mine = 0;
+  for(var i=0;i<tr.length;i++){ if(tr[i].trip>mx){ mx=tr[i].trip; } if(here && tr[i].place===here){ mine=tr[i].trip; } }
+  return mine || (mx+1);
+}
+function tripThenBoot_(pp, d){
+  if(TRIP_FROM_URL){ retrip_(TRIP_FROM_URL); boot(); return; }
+  /* 이 이야기를 전에 쓰신 적이 있으면(쓰는 중이든 마치셨든) 그 번호 — 같은 이야기에 남은 여행을 또 쓰지 않습니다 */
+  var _here = (d && d.places) ? d.places[PLACE_BASE] : '', _tr = (d && d.trips) || [], _mine = 0;
+  for(var _i=0;_i<_tr.length;_i++){ if(_here && _tr[_i].place===_here){ _mine=_tr[_i].trip; } }
+  if(_mine){ retrip_(_mine); boot(); return; }
+  if(!(d && d.hist && d.hist.has)){ retrip_(legacyTrip_(d)); boot(); return; }
+  var cb='mopen_'+Date.now()+'_'+Math.floor(Math.random()*1e6), done=false;
+  var t=document.createElement('script');
+  window[cb]=function(r){
+    if(done){ return; } done=true;
+    try{ if(t.parentNode) t.parentNode.removeChild(t); }catch(e){}
+    if(r && r.status==='ok' && r.trip){ retrip_(r.trip); boot(); return; }
+    if(r && r.status==='ok' && r.legacy){ retrip_(legacyTrip_(d)); boot(); return; }
+    if(r && r.status==='locked'){ noLeft_(); return; }
+    boot();                                   /* 그 밖의 대답 — 막지 않음 */
+  };
+  t.onerror=function(){ if(!done){ done=true; boot(); } };
+  t.src=MEMOIR_GAS+'?action=openPlace&passport='+encodeURIComponent(pp)+'&place='+PLACE_BASE
+       +'&inputMethod='+encodeURIComponent('본인입력')+'&callback='+cb+'&t='+Date.now();
+  document.head.appendChild(t);
+  setTimeout(function(){ if(!done){ done=true; boot(); } }, 8000);
+}
+function noLeft_(){
+  var m=document.getElementById('mlock'); if(!m){ return; }
+  var tt=m.querySelector('.rstitle'), sb=m.querySelector('.rssub');
+  if(tt){ tt.textContent='남은 여행이 없습니다'; }
+  if(sb){ sb.innerHTML='이야기를 더 남기시려면 예매해 주십시오.'; }
+  m.style.display='flex';
+}
+
+/* ══ ★[v48] 「몸이 아프던 때」 — 여실 때 따로 여쭙니다(개3) ══ */
+function healthAsk_(){
+  var Q = cur(); if(!Q || Q.open !== "몸이 아프던 때"){ return; }
+  try{ if(localStorage.getItem('lf_memoir_health_t'+TRIPNO)==='1'){ return; } }catch(e){}
+  var m=document.getElementById('hcmask'); if(m){ m.style.display='flex'; }
+}
+function healthYes_(){
+  try{ localStorage.setItem('lf_memoir_health_t'+TRIPNO,'1'); }catch(e){}
+  var m=document.getElementById('hcmask'); if(m){ m.style.display='none'; }
+  var pp=passport_(); if(!pp){ return; }
+  try{
+    fetch(MEMOIR_GAS, { method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({ action:'recordHealth', passport:pp, trip:TRIPNO }) });
+  }catch(e){}
+}
+function healthNo_(){
+  var m=document.getElementById('hcmask'); if(m){ m.style.display='none'; }
+  markNA();
+}
+
+/* ══ ★[v48] 사진 — 함께 나온 분 확인 ══ */
+function photoOkAt_(){ try{ return localStorage.getItem('lf_memoir_pok_t'+TRIPNO)||''; }catch(e){ return ''; } }
+function photoOkTip_(){
+  var c=document.getElementById('pokChk');
+  try{ if(c && c.checked){ localStorage.setItem('lf_memoir_pok_t'+TRIPNO, new Date().toISOString()); } }catch(e){}
+  var h=document.getElementById('phint'); if(h && c && c.checked && h.getAttribute('data-warn')==='1'){ h.removeAttribute('data-warn'); renderPhoto(); }
+}
+function photoPick_(){
+  var c=document.getElementById('pokChk');
+  if(!(c && c.checked)){
+    var h=document.getElementById('phint');
+    if(h){ h.innerHTML='<b style="color:#B0412E">위 칸에 먼저 체크해 주세요.</b> 사진에 함께 나온 분이 계시면 실어도 된다고 여쭈어 주세요.'; h.setAttribute('data-warn','1'); }
+    return;
+  }
+  document.getElementById('pfile').click();
+}
+function lfStory_(s){ try{ return LFM.story(s); }catch(e){ return String(s||''); } }
 gateThenBoot_();
 </script>
 
@@ -1271,7 +1386,7 @@ finish = function(){
     var names="";
     for(var i=0;i<miss.length && i<8;i++){ names += "\n  · " + miss[i].name; }
     alert("아직 채우지 않으신 이야기가 " + miss.length + "곳 있습니다." + names +
-          "\n\n한 곳이라도 비면 한 편으로 엮을 수 없어요.\n비어 있는 첫 자리로 모셔다 드리겠습니다.");
+          "\n\n한 곳이라도 비어 있으면 한 편을 완성할 수 없어요.\n비어 있는 첫 물음으로 모셔다 드리겠습니다.");
     gotoSec_(miss[0].c, miss[0].s);
     return;
   }
@@ -1307,7 +1422,7 @@ function sendMyStory_(){
     try{ localStorage.setItem("lf_memoir_email", em); }catch(e){}
   }
   var p=passport_();
-  if(!p){ msg.textContent="여권번호가 없어 담을 수 없어요. 받으신 여권으로 다시 들어와 주세요."; msg.className="mailhint err"; return; }
+  if(!p){ msg.textContent="사랑흐름 여권번호가 없어 담을 수 없어요. 받으신 사랑흐름 여권번호로 다시 들어와 주세요."; msg.className="mailhint err"; return; }
   var last=BOOK.length-1;
       for(var c=0;c<=last;c++){
         var secs=BOOK[c].secs||[];
@@ -1319,7 +1434,7 @@ function sendMyStory_(){
   var np = resendPhotos_();
   msg.textContent = "다시 담았습니다"
     + (np ? (" · 사진 " + np + "장도 함께 보냈습니다") : "")
-    + ". 기록은 여권번호로 언제든 보실 수 있습니다.";
+    + ". 기록은 사랑흐름 여권번호로 언제든 보실 수 있습니다.";
   msg.className="mailhint";
 }
 
@@ -1429,7 +1544,7 @@ function familyTip(){
 function askGoBook(){
   var pp = '';
   try { pp = passport_(); } catch(e) { pp = ''; }
-  location.href = '/memoir/book.html' + (pp ? '?id=' + encodeURIComponent(pp) : '');
+  location.href = '/memoir/book.html' + (pp ? '?id=' + encodeURIComponent(pp) + '&trip=' + TRIPNO : '');   /* ★[v48] 그 이야기 번호 */
 }
 
 </script>
