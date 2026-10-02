@@ -1,5 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/enter.js · v13 · 261002 — ★[대표 지시] 번호 칸은 입구 화면(홈 · 자서전 소개 · 편지 입구 · 발권)에만 둡니다. 들어온 뒤의 화면에는 따라다니지 않습니다(아래 ⑥).
+   현재 버전 ▶ lf/enter.js · v14 · 261002 — ★[14-6 시험 중 발견] ① 자서전을 처음 시작하는 분(쓰는 중 0 · 마친 것 0)의 「첫 이야기 쓰러 가기」가
+     자리 고르기(여는 의식)를 건너뛰고 질문 화면으로 바로 가던 것 → 여는 의식으로 보냅니다(자리 고르기 · 남은 편 · 환불 안내를 거치게).
+     ② 조회 답이 오기 전에 단추를 누르면 동의 확인 없이 넘어가던 것 → 답을 받은 뒤에 보냅니다(15초까지 기다림).
+   ── 이전 ── v13 · 261002 — ★[대표 지시] 번호 칸은 입구 화면(홈 · 자서전 소개 · 편지 입구 · 발권)에만 둡니다. 들어온 뒤의 화면에는 따라다니지 않습니다(아래 ⑥).
    ── 이전 ── v12 · 261002 — ★번호 칸 옆에 눈에 보이는 「확인」 단추(아래 ④). 넣고 나서 누를 것이 없었습니다(대표 지적).
    ── 이전 ── v11 · 261002 — ★[자서전 공사 14-6 시험 중 발견 · 이슈 27] 새 번호를 넣어도 기기가 기억한 옛 번호로 되돌아가던 것을 고칩니다.
      [무엇이 문제였나] ① 「발권 지켜보기」가 2초마다 창의 기억(옛 번호)을 다시 불러 손님이 넣은 새 번호를 덮었습니다.
@@ -177,7 +180,25 @@
   var HOME = 'https://www.loveflow.ai.kr';
   function abs(u) { return (u.charAt(0) === '/') ? (HOME + u) : u; }
   function inGas() { return location.hostname.indexOf('script.google') >= 0; }
+  var WAITGO = null;
   function go(url) {
+    /* ★v14 조회 답이 아직 없으면 — 답을 받은 뒤에 보냅니다(동의 확인을 건너뛰지 않게). 15초가 넘으면 그냥 보냅니다. */
+    if (PP && !DATA) {
+      if (WAITGO) { return; }
+      var pp0 = PP, t0 = Date.now();
+      WAITGO = setInterval(function () {
+        if (PP !== pp0) { clearInterval(WAITGO); WAITGO = null; return; }
+        if (DATA) {                                   /* 답이 왔으면 — 그 답으로 맞는 문을 다시 그리고 첫 문으로 */
+          clearInterval(WAITGO); WAITGO = null;
+          var bb = document.querySelector('#lfeBtns button');
+          if (bb && bb.className.indexOf('look') < 0) { bb.click(); }
+          return;
+        }
+        if (Date.now() - t0 > 15000) { clearInterval(WAITGO); WAITGO = null; DATA = {}; go(url); }
+      }, 200);
+      var nb = document.getElementById('lfeNote'); if (nb) { nb.innerHTML = '사랑흐름 여권번호를 확인하고 있어요…'; }
+      return;
+    }
     if (PP) { url += (url.indexOf('?') > -1 ? '&' : '?') + 'id=' + encodeURIComponent(PP); }
     /* ★[v10] 동의 기록이 없는 여권 — 동의 화면을 먼저 거칩니다 */
     if (PP && DATA && DATA.needConsent === true) {
@@ -217,7 +238,8 @@
     box.style.display = 'block';
     var pel = document.getElementById('lfePp');
     if (pel) { pel.textContent = PP + ' 사랑흐름 여권번호로 보고 계십니다'; }
-    var k = sel.value || here() || 'map';
+    var k = here() || sel.value || 'map';   /* ★v14 답이 오기 전에는 이 화면의 상품을 먼저 */
+    if (here()) { sel.value = here(); }
     var d = DEST[k], v = VERB[k];
     if (!d || !v) { return; }
     btns.innerHTML = btn('', v.cont, "lfeGo('" + d.cont + "')");
@@ -251,8 +273,8 @@
     if (k === 'memoir') {
       if (s.writing > 0) { h += btn('', v.cont, "lfeGo('" + d.cont + "')"); }
       if (s.done > 0)    { h += btn(s.writing > 0 ? 'sub' : '', v.read, "lfeGo('" + d.read + "')"); }
-      if (s.writing === 0 && s.done === 0) { h += btn('', v.start, "lfeGo('" + d.cont + "')"); }
-      else if (s.left > 0 && s.writing === 0) { h += btn('sub', '다음 이야기 쓰러 가기', "lfeGo('" + d.cont + "')"); }
+      if (s.writing === 0 && s.done === 0) { h += btn('', v.start, "lfeGo('/memoir/ritual.html')"); }   /* ★v14 처음이면 여는 의식부터 */
+      else if (s.left > 0 && s.writing === 0) { h += btn('sub', '다음 이야기 쓰러 가기', "lfeGo('/memoir/ritual.html')"); }   /* ★v14 새 이야기도 여는 의식부터 */
 
       if (s.done > 0 && s.left > 0) { n = '<b>' + s.done + '편</b>을 마치셨어요. <b>' + s.left + '편</b> 더 쓰실 수 있어요.'; }
       else if (s.done > 0)          { n = '<b>' + s.done + '편</b>을 마치셨어요.'; }
