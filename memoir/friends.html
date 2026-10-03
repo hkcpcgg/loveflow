@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ memoir/friends.html · v1 · 261003 · [새 화면 · 자서전 공사 칸 20 · 이사회 31차 3-2~3-4 · 4장 · 5장 · 6장 · 대표 지시 261003] 작성자 화면 — 열째 「나를 기억하는 사람들」. ① 추억록: 초대장 만들기(받는 분 호칭 · 초대장에 보일 내 이름) → 링크 + 카카오톡 글 본보기 둘(높임말 · 친구 사이 · 「제가 직접 보내는 링크」) 복사 · 공유 / 보낸 초대장 목록(새로 온 글 · 받음 · 기다리는 중 · 거두심) · 받은 글 읽기 · 싣기(열까지) · 마감 30일 늘리기 · 싣는 방식(질문별 · 사람별). ② 내가 기억하는 한 분(소재 넷) ③ 받은 기억에 답하며(받은 글이 있을 때 · 소재 넷 · 끝에 「이분들께 꼭 남기고 싶은 말」 자유 칸). ①·②·③ 가운데 하나만 있어도 「이 이야기 마치기」 → 이름 남기기. 질문 화면(ask)에서 열째를 열면 이 화면으로 옴. 서버 = 자서전 서버 v21(memMake · memList · memPick · memExtend · memLayout · memFinish · getQuestions · getBook · openPlace · saveSection). -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 나를 기억하는 사람들</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="/memoir/kit.js?v=6"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#FDFBF5;color:#2b2b2b;font-family:'Noto Sans KR',system-ui,sans-serif;font-size:16px;line-height:1.65}
+.app{max-width:560px;margin:0 auto;min-height:100vh}
+.gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;padding:11px 12px;background:#1E4A76;border-bottom:1px solid #163A5C}
+.gnav .home{display:inline-flex;cursor:pointer}.gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .bk{background:none;border:none;color:#fff;font-size:24px;line-height:1;cursor:pointer;padding:2px 8px}
+.gnav .lc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.gnav .hm{background:none;border:none;color:#fff;font-size:20px;cursor:pointer;margin-left:auto}
+.gdrawer{position:fixed;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:2000}
+.gdrawer.on{opacity:1;visibility:visible}
+.gdpanel{position:absolute;top:0;right:0;width:80%;max-width:300px;height:100%;background:#fff;transform:translateX(100%);transition:.26s}
+.gdrawer.on .gdpanel{transform:none}
+.gdhead{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid #EEE9DF}
+.gdhead b{font-size:17px;color:#1E4A76}.gdhead .x{border:none;background:none;font-size:20px;color:#7C8794;cursor:pointer}
+.gdbody a{display:block;padding:14px 18px;font-size:17px;font-weight:700;color:#2E3A46;text-decoration:none;cursor:pointer;border-bottom:1px solid #EEE9DF}
+.wrap{padding:20px 16px 30px}
+.hd{text-align:center;margin-bottom:14px}
+.hd .k{font-size:13px;color:#B8913A;letter-spacing:.1em}
+.hd h1{font-family:'Noto Serif KR',serif;font-size:23px;color:#163a5e;line-height:1.4}
+.hd p{font-size:14.5px;color:#7d7465;margin-top:4px;word-break:keep-all}
+.parts{display:flex;gap:6px;margin:12px 0 4px}
+.parts span{flex:1;text-align:center;font-size:12.5px;padding:6px 4px;border-radius:10px;background:#F4EEE4;color:#7d7465;word-break:keep-all}
+.parts span.on{background:#E7F5EC;color:#2f8a4c;font-weight:700}
+.card{background:#fff;border:1px solid #e8e0cc;border-radius:16px;padding:18px 16px;margin-bottom:14px}
+.card h2{font-family:'Noto Serif KR',serif;font-size:19px;color:#163a5e;margin-bottom:4px}
+.card .lead{font-size:14px;color:#7d7465;margin-bottom:12px;word-break:keep-all}
+label.f{display:block;font-weight:700;color:#163a5e;margin:10px 0 4px;font-size:15px}
+input.t,textarea{width:100%;font-family:inherit;font-size:16px;padding:10px 12px;border:1.5px solid #d9cfb4;border-radius:11px;background:#fff;color:#2b2b2b}
+textarea{min-height:96px;line-height:1.65;resize:vertical}
+input.t:focus,textarea:focus{outline:none;border-color:#1E4A76}
+.btn{display:block;width:100%;padding:13px;border-radius:12px;border:1px solid #1E4A76;background:#1E4A76;color:#fff;font-size:16px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:10px}
+.btn.line{background:#fff;color:#1E4A76}.btn.gold{background:#B8913A;border-color:#B8913A}
+.btn:disabled{opacity:.42;cursor:default}
+.sbtn{padding:7px 11px;border-radius:9px;border:1px solid #1E4A76;background:#fff;color:#1E4A76;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.made{margin-top:12px;border:1.5px dashed #d9c38f;border-radius:14px;padding:14px;background:#FFFDF7}
+.tabs{display:flex;gap:6px;margin:8px 0}
+.tabs button{flex:1;padding:8px;border-radius:10px;border:1.5px solid #d9cfb4;background:#fff;font-size:14.5px;cursor:pointer;font-family:inherit;color:#4a4335}
+.tabs button.on{border-color:#1E4A76;background:#1E4A76;color:#fff;font-weight:700}
+.msgbox{width:100%;min-height:150px;font-family:inherit;line-height:1.6;resize:vertical;white-space:pre-wrap;font-size:15px;background:#fff;border:1px solid #e8e0cc;border-radius:11px;padding:12px;word-break:break-all}
+.note{font-size:13.5px;color:#7d7465;margin-top:6px;word-break:keep-all}
+.stat{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:14px;color:#5b5446;background:#F7F3EA;border-radius:12px;padding:10px 12px;margin:12px 0 8px;align-items:center}
+.stat b{color:#163a5e}.stat a{color:#1E4A76;text-decoration:underline;cursor:pointer;margin-left:auto}
+.inv{border:1px solid #e8e0cc;border-radius:13px;margin-bottom:8px;overflow:hidden}
+.inv .r{display:flex;gap:8px;align-items:center;padding:10px 12px}
+.inv .r .nm{flex:1;min-width:0;font-weight:700;color:#163a5e;word-break:keep-all}
+.tag{font-size:12px;border-radius:8px;padding:1px 7px;font-weight:700;white-space:nowrap}
+.t-new{background:#E6F0FC;color:#1f6fd1}.t-got{background:#E7F5EC;color:#2f8a4c}.t-wait{background:#FDF0E1;color:#c46a12}.t-drop{background:#EEE;color:#888}
+.inv .rd{display:none;padding:0 12px 12px;border-top:1px dashed #e8e0cc}
+.inv.open .rd{display:block}
+.rd .qa{margin-top:10px}.rd .qa b{display:block;font-size:13.5px;color:#8a6d2e}.rd .qa p{white-space:pre-wrap;font-size:15px}
+.pick{display:flex;gap:8px;align-items:center;margin-top:12px;font-weight:700;color:#163a5e;cursor:pointer}
+.pick input{width:21px;height:21px;accent-color:#2f8a4c}
+.lay{display:flex;gap:6px;align-items:center;font-size:14px;color:#5b5446;margin-top:10px;flex-wrap:wrap}
+.lay button{padding:6px 12px;border-radius:16px;border:1.5px solid #d9cfb4;background:#fff;font-size:13.5px;cursor:pointer;font-family:inherit}
+.lay button.on{border-color:#1E4A76;background:#1E4A76;color:#fff;font-weight:700}
+.sec{border:1px solid #e8e0cc;border-radius:13px;margin-bottom:8px;overflow:hidden}
+.sec .h{display:flex;gap:10px;align-items:center;padding:12px;cursor:pointer}
+.sec .h .n{flex:none;width:28px;height:28px;border-radius:50%;background:#f4eee4;color:#7d7465;display:grid;place-items:center;font-weight:700;font-size:14px}
+.sec.done .h .n{background:#2f8a4c;color:#fff}
+.sec .h .tt{flex:1;font-weight:700;color:#163a5e}
+.sec .b{display:none;padding:0 12px 12px}
+.sec.open .b{display:block}
+.sec .qq{font-size:15px;color:#3a3226;margin:10px 0 4px;word-break:keep-all}
+.sec .qq.free{color:#8a5a00;font-weight:700}
+.lockd{font-size:14.5px;color:#7d7465;background:#F7F3EA;border-radius:12px;padding:12px;text-align:center;word-break:keep-all}
+.err{color:#b5372a;font-weight:700;font-size:14px;margin-top:8px;text-align:center;min-height:1em}
+.okm{color:#2f8a4c;font-size:13.5px;text-align:center;margin-top:6px;min-height:1em}
+.msg{text-align:center;color:#7d7465;margin:30px 0}
+.lfway{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:420px;margin:20px auto 10px;padding:0 16px}
+.lfway a{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #E6E1D8;border-radius:13px;background:#fff;text-decoration:none;cursor:pointer}
+.lfway .ic{font-size:11px;color:#94A0AE}.lfway .tt{font-size:10.5px;color:#7A8794}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #6aa8f0;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="gnav">
+  <div class="home" onclick="location.href='/'"><img src="/logo.png" alt="사랑흐름 홈"></div>
+  <button class="bk" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
+  <div class="lc">자서전 · 열째 이야기</div>
+  <button class="hm" onclick="gOpenMenu()" aria-label="메뉴">☰</button>
+</div>
+<div class="gdrawer" id="gdrawer" onclick="if(event.target===this)gCloseMenu()">
+  <div class="gdpanel">
+    <div class="gdhead"><b>사랑흐름</b><button class="x" onclick="gCloseMenu()">✕</button></div>
+    <div class="gdbody">
+      <a onclick="location.href='/'">홈</a>
+      <a onclick="location.href='/memoir/'">자서전 소개</a>
+      <a onclick="location.href='/memoir/home.html'">내 이야기 목록</a>
+      <a onclick="location.href='/journey/'">여행지도 보기</a>
+      <a onclick="location.href='/l/'">편지</a>
+      <a onclick="location.href='/find/'">사랑흐름 여권 찾기</a>
+    </div>
+  </div>
+</div>
+<div class="wrap" id="main"><div class="msg">불러오고 있어요…</div></div>
+<div class="lfway">
+  <a onclick="history.back()"><span class="ic">&#8592;</span><span class="tt">뒤로</span></a>
+  <a onclick="location.href='/'"><span class="ic">&#8962;</span><span class="tt">홈</span></a>
+  <a onclick="location.href='/memoir/home.html'"><span class="ic">&#8594;</span><span class="tt">내 이야기 목록</span></a>
+</div>
+</div>
+<script>
+var MG='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+var SITE='https://www.loveflow.ai.kr';
+var PLACE10=9;
+var PP='', TRIP=0, L=null, Q10=null, BK=null, ANS={}, OPEN={ sec:-1, inv:'' }, MADE=null, TONE='높임', SEEN=false;
+function gOpenMenu(){ document.getElementById('gdrawer').classList.add('on'); }
+function gCloseMenu(){ document.getElementById('gdrawer').classList.remove('on'); }
+function $(i){ return document.getElementById(i); }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function W(k,a){ try{ if(window.LFM && LFM.wait && LFM.wait[k]){ LFM.wait[k](a); } }catch(e){} }
+function pass(){
+  var p=''; try{ var m=location.search.match(/[?&]id=(LF[ML]?-[A-Za-z0-9]+)/i); if(m){ p=m[1]; } }catch(e){}
+  if(!p){ try{ p=sessionStorage.getItem('lf_passport')||''; }catch(e){} }
+  if(!p){ try{ p=localStorage.getItem('lf_passport')||''; }catch(e){} }
+  return String(p).trim().toUpperCase();
+}
+function jsonp(params, cb, wait){
+  var name='frcb_'+Date.now()+'_'+Math.floor(Math.random()*1e6), done=false, sc=document.createElement('script');
+  function fin(d){ if(done){return;} done=true; try{ delete window[name]; }catch(e){} try{ sc.parentNode.removeChild(sc); }catch(e){} cb(d); }
+  window[name]=fin; sc.onerror=function(){ fin(null); };
+  var q=[]; for(var k in params){ q.push(k+'='+encodeURIComponent(params[k])); }
+  sc.src=MG+'?'+q.join('&')+'&callback='+name+'&t='+Date.now(); document.body.appendChild(sc);
+  setTimeout(function(){ fin(null); }, wait||25000);
+}
+function hasJong(s){ var c=String(s||'').trim(); if(!c){ return false; } var ch=c.charCodeAt(c.length-1); if(ch<0xAC00||ch>0xD7A3){ return false; } return ((ch-0xAC00)%28)!==0; }
+function fmtDay(s){ var m=String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? (parseInt(m[2],10)+'월 '+parseInt(m[3],10)+'일') : ''; }
+function DK(){ return 'lf_ten_'+PP+'_t'+TRIP; }
+function keep(){ try{ localStorage.setItem(DK(), JSON.stringify(ANS)); }catch(e){} }
+function fail(msg){ W('done'); $('main').innerHTML='<div class="msg">'+msg+'<br><br><button class="btn line" style="max-width:260px;margin:0 auto" onclick="location.href=\'/memoir/home.html\'">내 이야기 목록으로</button></div>'; }
+
+/* ── 들어오기 ── */
+function boot(){
+  PP=pass();
+  if(!PP){ location.href='/memoir/home.html'; return; }
+  try{ sessionStorage.setItem('lf_passport',PP); localStorage.setItem('lf_passport',PP); }catch(e){}
+  try{ TRIP=parseInt(new URLSearchParams(location.search).get('trip'),10)||0; }catch(e){ TRIP=0; }
+  W('show',{ title:'열째 이야기를 펼치고 있어요', sub:'나를 기억하는 사람들', steps:['사랑흐름 여권번호 확인','열째 이야기 자리 마련','초대장과 받은 글 불러오기'] });
+  var go=function(){
+    W('step',1);
+    if(TRIP>0){ W('step',2); load(); return; }
+    jsonp({ action:'openPlace', passport:PP, place:PLACE10 }, function(d){
+      if(d && d.status==='ok' && d.trip){ TRIP=d.trip; try{ var u=new URL(location.href); u.searchParams.set('id',PP); u.searchParams.set('trip',TRIP); history.replaceState(null,'',u.pathname+u.search); localStorage.setItem('lf_memoir_trip',String(TRIP)); }catch(e){} W('step',2); load(); return; }
+      if(d && d.status==='locked' && d.reason==='NO_LEFT'){ fail('남은 이야기가 없어요.<br>이야기를 더 남기시려면 한 편을 더 예매해 주세요.'); return; }
+      if(d && d.status==='locked'){ fail('이 번호에는 한 편의 기록이 없어요.'); return; }
+      fail('지금은 열째 이야기를 열 수 없어요. 잠시 뒤 다시 열어 주세요.');
+    });
+  };
+  try{ LFM.consent(PP, go); }catch(e){ go(); }
+}
+function load(){
+  var n=0, bad=false;
+  function one(){ n++; if(n<3){ return; } W('step',3); W('done'); if(bad){ fail('지금은 불러올 수 없어요. 잠시 뒤 다시 열어 주세요.'); return; } restore(); draw(); }
+  jsonp({ action:'memList', passport:PP, trip:TRIP }, function(d){ if(d && d.status==='ok'){ L=d; } else { bad=true; if(d && d.msg){ setTimeout(function(){ fail(esc(d.msg)); },0); } } one(); });
+  jsonp({ action:'getQuestions', passport:PP, place:PLACE10, trip:TRIP }, function(d){ if(d && d.status==='ok'){ Q10=d.story; } else { bad=true; } one(); });
+  jsonp({ action:'getBook', passport:PP, trip:TRIP }, function(d){ BK=(d && d.status==='ok' && d.found && parseInt(d.trip,10)===TRIP) ? d : null; one(); });
+}
+function secs(){ var s=(Q10 && Q10.secs)||[]; s=s.slice().sort(function(a,b){return a.no-b.no;}); for(var i=0;i<s.length;i++){ s[i].qs=(s[i].qs||[]).slice().sort(function(a,b){return a.no-b.no;}); } return s; }
+/* 서버 본문(Q▸ / A▸)에서 되살리기 — 이 기기 것이 먼저 */
+function restore(){
+  try{ ANS=JSON.parse(localStorage.getItem(DK())||'{}')||{}; }catch(e){ ANS={}; }
+  if(!BK || !BK.bodies){ return; }
+  var S=secs();
+  for(var s=0;s<S.length;s++){
+    var raw=String(BK.bodies[s]||''), lines=raw.split('\n'), cur=null, map={};
+    for(var i=0;i<lines.length;i++){ var ln=lines[i]; if(ln.indexOf('Q▸')===0){ cur=ln.slice(2).trim(); map[cur]=''; } else if(cur!==null){ if(ln.indexOf('A▸')===0){ ln=ln.slice(2); } map[cur]=(map[cur]?map[cur]+'\n':'')+ln; } }
+    for(var q=0;q<S[s].qs.length;q++){ var k=s+'_'+q; if(ANS[k]==null && map[S[s].qs[q].q]!=null){ ANS[k]=map[S[s].qs[q].q]; } }
+  }
+}
+function signed(){ return !!(BK && BK.sign); }
+function gotCount(){ var n=0, it=(L&&L.items)||[]; for(var i=0;i<it.length;i++){ if(it[i].state==='받음'){ n++; } } return n; }
+function partFill(a,b){ for(var s=a;s<=b;s++){ var S=secs()[s]; if(!S){ continue; } for(var q=0;q<S.qs.length;q++){ if(String(ANS[s+'_'+q]||'').trim()){ return true; } } } return false; }
+
+/* ── 그리기 ── */
+function draw(){
+  var p1=(L && L.picked>0), p2=partFill(0,3), p3=partFill(4,7);
+  var h='<div class="hd"><div class="k">열째 이야기</div><h1>나를 기억하는 사람들</h1>'
+   +'<p>내 사람들이 기억하는 나, 내가 기억하는 한 분, 그 기억을 받은 내 마음을 함께 남겨요. 셋 가운데 하나만 있어도 마칠 수 있어요.</p>'
+   +'<div class="parts"><span class="'+(p1?'on':'')+'">① 사람들이 기억하는 나</span><span class="'+(p2?'on':'')+'">② 내가 기억하는 한 분</span><span class="'+(p3?'on':'')+'">③ 받은 기억에 답하며</span></div></div>';
+  if(signed()){
+    h+='<div class="card" style="text-align:center"><h2>이름을 남기신 이야기예요 🌼</h2><p class="lead">수정하시려면 기록 보기에서 「서명 풀고 수정하기」를 눌러 주세요. 받은 글은 계속 아래에서 읽으실 수 있어요.</p>'
+     +'<button class="btn" onclick="location.href=\'/memoir/book.html?id='+encodeURIComponent(PP)+'&trip='+TRIP+'\'">기록 보기</button></div>';
+  }
+  h+=part1()+part2()+part3()+finishCard();
+  $('main').innerHTML=h;
+}
+/* ① 추억록 */
+function part1(){
+  var it=(L&&L.items)||[], from='';
+  try{ from=localStorage.getItem('lf_mem_from_'+PP)||''; }catch(e){}
+  if(!from){ from=(L&&L.writer)||(BK&&BK.name)||''; }
+  var h='<div class="card"><h2>① 사람들이 기억하는 나</h2><p class="lead">미리 전화로 말씀하신 뒤, 한 분께 한 링크씩 보내 드리세요. 받으신 분이 그 링크로 들어와 기억을 들려주십니다.</p>';
+  if(!signed() && !(L&&L.closed)){
+    h+='<label class="f" for="toIn">받는 분 호칭</label><input class="t" id="toIn" maxlength="30" placeholder="예: 고향 친구 철수 · 큰딸 · 김 선생님">'
+     +'<label class="f" for="frIn">초대장에 보일 내 이름</label><input class="t" id="frIn" maxlength="20" value="'+esc(from)+'" placeholder="예: 황규찬">'
+     +'<div class="err" id="er1"></div><button class="btn" id="mkBtn" onclick="make()">✉️ 초대장 만들기</button>';
+  }
+  if(MADE){ h+=madeBox(MADE); }
+  h+='<div class="stat">보낸 초대장 <b>'+it.length+'</b>/'+((L&&L.inviteMax)||20)+' · 받은 글 <b>'+gotCount()+'</b>'+((L&&L.fresh)?' · <span class="tag t-new">새로 온 글 '+L.fresh+'</span>':'')
+   +(L&&L.deadline?' · '+(L.closed?'받기 마감됨':'마감 '+fmtDay(L.deadline)):'')
+   +(it.length && !signed()?'<a onclick="extend()">30일 늘리기</a>':'')+'</div>';
+  for(var i=0;i<it.length;i++){ h+=invRow(it[i]); }
+  if(it.length){
+    var lay=(L&&L.layout)||'질문별';
+    h+='<div class="lay">결과물에 싣는 방식 <button class="'+(lay==='질문별'?'on':'')+'" onclick="layout(\'질문별\')">물음마다 모아서</button><button class="'+(lay==='사람별'?'on':'')+'" onclick="layout(\'사람별\')">사람마다 모아서</button></div>'
+     +'<div class="note">실을 글은 「싣기」로 고르세요 · '+((L&&L.picked)||0)+'/'+((L&&L.pickMax)||10)+' · 싣지 않은 글도 지워지지 않아요</div>';
+  }
+  return h+'</div>';
+}
+function tagOf(x){
+  if(x.state==='받음'){ return x.isNew ? '<span class="tag t-new">새로 온 글</span>' : '<span class="tag t-got">받음</span>'; }
+  if(x.state==='거둠'){ return '<span class="tag t-drop">거두심</span>'; }
+  return '<span class="tag t-wait">기다리는 중</span>';
+}
+function invRow(x){
+  var open=(OPEN.inv===x.key);
+  var h='<div class="inv'+(open?' open':'')+'"><div class="r"><span class="nm">'+esc(x.to)+(x.show && x.show!==x.to && x.state==='받음'?' <small style="font-weight:400;color:#7d7465">· '+esc(x.show)+'</small>':'')+'</span>'+tagOf(x)
+   +(x.state==='받음'?'<button class="sbtn" onclick="readInv(\''+x.key+'\')">'+(open?'접기':'읽기')+'</button>':'')
+   +'<button class="sbtn" onclick="copyAgain(\''+x.key+'\')">링크</button></div><div class="rd">';
+  if(open && x.state==='받음'){
+    var qs=(L&&L.qs)||[];
+    h+='<div class="note">'+esc(x.name)+' · '+esc(x.rel)+(x.sent?' · '+fmtDay(x.sent):'')+'</div>';
+    for(var a=0;a<7;a++){ var t=String((x.ans||[])[a]||'').trim(); if(!t){ continue; } var q=qs[a]||{}; h+='<div class="qa"><b>'+esc(a===0?'우리 인연':(q.name||q.q||''))+'</b><p>'+esc(t)+'</p></div>'; }
+    if(!signed()){ h+='<label class="pick"><input type="checkbox" '+(x.pick?'checked':'')+' onchange="pick(\''+x.key+'\',this.checked,this)"><span>이 글을 결과물에 싣기</span></label>'; }
+  }
+  if(x.state==='거둠'){ h+='<div class="note">쓰신 분이 글을 거두셨어요'+(x.dropped?' · '+fmtDay(x.dropped):'')+'</div>'; }
+  return h+'</div></div>';
+}
+function inviteUrl(k){ return SITE+'/memoir/invite.html?k='+k; }
+function kakaoText(to, from, url, tone){
+  if(tone==='친구'){
+    return to+(hasJong(to)?'아':'야')+', 나 '+from+(hasJong(from)?'이야':'야')+'.\n요즘 내 삶의 여정을 자서전으로 남기고 있어.\n너랑 함께한 기억도 곁에 남겨 두고 싶어서 내가 직접 링크 보낸다.\n편할 때 들러 줘. 고마워.\n'+url;
+  }
+  return to+' 님, 잘 지내시죠? '+from+'입니다.\n요즘 제 삶의 여정을 자서전으로 남기고 있어요.\n그 길에서 함께한 분들의 기억도 곁에 남겨 두고 싶어, 제가 직접 링크를 보내 드립니다.\n편하실 때 들러 주세요. 고맙습니다.\n'+url;
+}
+function madeBox(m){
+  var txt=kakaoText(m.to, m.from, inviteUrl(m.key), TONE);
+  return '<div class="made"><b style="color:#163a5e">'+esc(m.to)+' 님께 보낼 초대장'+(m.again?' (전에 만든 링크 그대로)':'')+'</b>'
+   +'<div class="tabs"><button class="'+(TONE==='높임'?'on':'')+'" onclick="tone(\'높임\')">높임말</button><button class="'+(TONE==='친구'?'on':'')+'" onclick="tone(\'친구\')">친구 사이</button></div>'
+   +'<textarea class="msgbox" id="kt">'+esc(txt)+'</textarea><div class="note" style="margin-top:2px">글은 고쳐서 보내셔도 됩니다. 링크 줄만 그대로 두세요.</div>'
+   +'<button class="btn gold" onclick="copyMsg()">글과 링크 함께 복사</button>'
+   +(navigator.share?'<button class="btn line" onclick="shareMsg()">카카오톡 · 문자로 보내기</button>':'')
+   +'<div class="okm" id="cpOk"></div>'
+   +'<div class="note">카카오톡에 붙이면 사랑흐름 「초대장」 그림이 함께 보입니다. 받는 분 전화번호는 사랑흐름에 남지 않아요.</div></div>';
+}
+function tone(t){ TONE=t; draw(); }
+function make(){
+  var to=($('toIn').value||'').trim(), from=($('frIn').value||'').trim();
+  if(!to){ $('er1').textContent='받는 분 호칭을 적어 주세요.'; return; }
+  if(!from){ $('er1').textContent='초대장에 보일 내 이름을 적어 주세요.'; return; }
+  try{ localStorage.setItem('lf_mem_from_'+PP, from); }catch(e){}
+  var b=$('mkBtn'); b.disabled=true; b.textContent='만들고 있어요…';
+  jsonp({ action:'memMake', passport:PP, trip:TRIP, to:to, from:from }, function(d){
+    if(d && d.status==='ok'){ MADE={ key:d.key, to:to, from:from, again:!!d.again }; refresh(); return; }
+    b.disabled=false; b.textContent='✉️ 초대장 만들기'; $('er1').textContent=(d&&d.msg)||'지금은 만들 수 없어요. 잠시 뒤 다시 눌러 주세요.';
+  });
+}
+function refresh(cb){ jsonp({ action:'memList', passport:PP, trip:TRIP, seen:(SEEN?'1':'0') }, function(d){ if(d && d.status==='ok'){ L=d; } draw(); if(cb){ cb(); } }); }
+function copyText(t){
+  try{ if(navigator.clipboard && window.isSecureContext){ return navigator.clipboard.writeText(t); } }catch(e){}
+  return new Promise(function(res){ var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta); res(); });
+}
+function copyMsg(){ if(!MADE){ return; } copyText(($('kt')&&$('kt').value)||kakaoText(MADE.to, MADE.from, inviteUrl(MADE.key), TONE)).then(function(){ var o=$('cpOk'); if(o){ o.textContent='복사했어요 · 카카오톡 대화창에 붙여 넣어 보내 주세요'; } }); }
+function shareMsg(){ if(!MADE){ return; } var t=(($('kt')&&$('kt').value)||'').split(inviteUrl(MADE.key)).join('').trim(); try{ navigator.share({ title:'사랑흐름 · 초대장', text:t, url:inviteUrl(MADE.key) }); }catch(e){} }
+function copyAgain(k){
+  var it=(L&&L.items)||[]; for(var i=0;i<it.length;i++){ if(it[i].key===k){ MADE={ key:k, to:it[i].to, from:it[i].from||'', again:true }; } }
+  draw(); try{ document.querySelector('.made').scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){}
+}
+function readInv(k){
+  OPEN.inv=(OPEN.inv===k)?'':k;
+  if(!SEEN && OPEN.inv){ SEEN=true; jsonp({ action:'memList', passport:PP, trip:TRIP, seen:'1' }, function(d){ if(d && d.status==='ok'){ L=d; } draw(); }); return; }
+  draw();
+}
+function pick(k,on,el){
+  el.disabled=true;
+  jsonp({ action:'memPick', passport:PP, trip:TRIP, key:k, on:(on?'1':'0') }, function(d){
+    if(d && d.status==='ok'){ refresh(); return; }
+    el.checked=!on; el.disabled=false; alert((d&&d.msg)||'지금은 바꿀 수 없어요. 잠시 뒤 다시 해 주세요.');
+  });
+}
+function extend(){ jsonp({ action:'memExtend', passport:PP, trip:TRIP }, function(d){ if(d && d.status==='ok'){ refresh(); } else { alert('지금은 늘릴 수 없어요.'); } }); }
+function layout(m){ jsonp({ action:'memLayout', passport:PP, trip:TRIP, mode:m }, function(d){ if(d && d.status==='ok'){ L.layout=d.layout; draw(); } }); }
+
+/* ②·③ 쓰기 — 소재마다 「이 칸 담기」로 서버에 */
+function secCard(s, S){
+  var filled=false; for(var q=0;q<S.qs.length;q++){ if(String(ANS[s+'_'+q]||'').trim()){ filled=true; } }
+  var open=(OPEN.sec===s);
+  var h='<div class="sec'+(filled?' done':'')+(open?' open':'')+'"><div class="h" onclick="togSec('+s+')"><span class="n">'+(filled?'✓':(s%4+1))+'</span><span class="tt">'+esc(S.name)+'</span><span>'+(open?'▲':'▼')+'</span></div><div class="b">';
+  for(var q2=0;q2<S.qs.length;q2++){
+    var Q=S.qs[q2], fr=(Q.type==='자유칸');
+    h+='<div class="qq'+(fr?' free':'')+'">'+(fr?'💌 ':'')+esc(Q.q)+'</div><textarea '+(signed()?'disabled ':'')+'oninput="ANS[\''+s+'_'+q2+'\']=this.value;keep()" placeholder="'+esc(Q.ex||'')+'">'+esc(ANS[s+'_'+q2]||'')+'</textarea>';
+  }
+  if(!signed()){ h+='<button class="btn" onclick="saveSec('+s+',this)">이 칸 담기</button><div class="okm" id="ok'+s+'"></div>'; }
+  return h+'</div></div>';
+}
+function togSec(s){ OPEN.sec=(OPEN.sec===s)?-1:s; var y=window.scrollY; draw(); window.scrollTo(0,y); }
+function part2(){
+  var S=secs(), h='<div class="card"><h2>② 내가 기억하는 한 분</h2><p class="lead">내 삶에 오래 남은 한 분을 떠올리며 들려주세요. 쓰고 싶은 칸만 쓰셔도 됩니다.</p>';
+  if(!S.length){ return h+'<div class="lockd">물음을 불러오지 못했어요.</div></div>'; }
+  for(var s=0;s<4 && s<S.length;s++){ h+=secCard(s,S[s]); }
+  return h+'</div>';
+}
+function part3(){
+  var S=secs(), h='<div class="card"><h2>③ 받은 기억에 답하며</h2>';
+  if(!gotCount() && !partFill(4,7)){ return h+'<div class="lockd">받은 글이 오면 열려요.<br>모인 기억을 읽고 내 마음을 남기는 자리예요.</div></div>'; }
+  h+='<p class="lead">받은 글을 먼저 위에서 읽어 보신 뒤, 떠오르는 마음을 들려주세요. 맨 끝에는 이분들께 마음대로 남기는 칸이 있어요.</p>';
+  for(var s=4;s<8 && s<S.length;s++){ h+=secCard(s,S[s]); }
+  return h+'</div>';
+}
+function saveSec(s, b){
+  var S=secs()[s], qa=[], any=false;
+  for(var q=0;q<S.qs.length;q++){ var a=String(ANS[s+'_'+q]||''); if(a.trim()){ any=true; } qa.push({ q:S.qs[q].q, a:a }); }
+  if(!any){ $('ok'+s).textContent='한 물음 이상 들려주시면 담을 수 있어요.'; return; }
+  b.disabled=true;
+  var body={ action:'saveSection', passport:PP, trip:TRIP, place:PLACE10, section:s, answers:qa, inputMethod:'본인입력', name:((L&&L.writer)||(BK&&BK.name)||'') };
+  function done(){ b.disabled=false; $('ok'+s).textContent='담았어요 ✓'; chime(); setTimeout(function(){ OPEN.sec=-1; draw(); }, 700); }
+  try{
+    fetch(MG,{ method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(body) }).then(done).catch(function(){ b.disabled=false; $('ok'+s).textContent='지금은 담을 수 없어요. 쓰신 글은 이 기기에 남아 있어요.'; });
+  }catch(e){ b.disabled=false; }
+}
+function chime(){ try{ var A=window.AudioContext||window.webkitAudioContext; if(!A){return;} var ac=new A(), t=ac.currentTime; [[784,0],[1047,.16]].forEach(function(n){ var o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=n[0]; g.gain.setValueAtTime(.0001,t+n[1]); g.gain.exponentialRampToValueAtTime(.15,t+n[1]+.02); g.gain.exponentialRampToValueAtTime(.0001,t+n[1]+.9); o.connect(g); g.connect(ac.destination); o.start(t+n[1]); o.stop(t+n[1]+1); }); }catch(e){} }
+
+/* 마치기 */
+function finishCard(){
+  if(signed()){ return ''; }
+  var can=(L&&L.picked>0) || partFill(0,7);
+  return '<div class="card"><h2>이 이야기 마치기</h2><p class="lead">'+(can?'실을 글과 쓰신 칸을 확인하셨으면 마치고 이름을 남겨 주세요. 마친 뒤에도 글이 더 오면 다시 열어 실을 수 있어요.':'실을 글을 고르시거나, ②·③ 가운데 한 칸을 쓰시면 마칠 수 있어요.')+'</p>'
+   +'<div class="err" id="erF"></div><button class="btn" id="fnBtn" '+(can?'':'disabled ')+'onclick="finish()">이 이야기 마치기 · 이름 남기기</button></div>';
+}
+function finish(){
+  var b=$('fnBtn'); b.disabled=true; b.textContent='마치고 있어요…';
+  setTimeout(function(){
+    jsonp({ action:'memFinish', passport:PP, trip:TRIP, name:((L&&L.writer)||(BK&&BK.name)||'') }, function(d){
+      if(d && d.status==='ok'){ try{ localStorage.setItem('lf_memoir_trip', String(TRIP)); }catch(e){} location.href='/memoir/sign.html?id='+encodeURIComponent(PP)+'&trip='+TRIP; return; }
+      b.disabled=false; b.textContent='이 이야기 마치기 · 이름 남기기'; $('erF').textContent=(d&&d.msg)||'지금은 마칠 수 없어요. 잠시 뒤 다시 눌러 주세요.';
+    });
+  }, 1200);   /* 방금 담은 칸이 서버에 닿을 틈 */
+}
+boot();
+</script>
+<script src="/lf-foot.js" defer></script>
+</body>
+</html>

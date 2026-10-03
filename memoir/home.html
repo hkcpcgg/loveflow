@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/home.html · v1 · 261003 · [새 화면 · 이슈 47 대표 지적 261003] 「내 이야기」 — 사랑흐름 여권번호 하나로 내 자서전 이야기를 한 화면에. 이야기마다 상태(완성 · 쓰는 중 · 다 씀 · 아직 안 엶)와 단추(기록 보기 · 수정 · 이어 쓰기 · 이름 남기기 · 열기) · 포도송이 · 남은 편 · 완성된 기록 모두 보기. 번호가 없으면 이 화면에서 번호를 넣음. 자서전 소개의 「확인」 · 질문 · 기록 · 이름 남기기 화면의 「내 이야기 목록」이 여기로 옴. 서버는 자서전 서버 getMemoir(읽기만). -->
+<!-- ★ 현재 버전 ▶ memoir/home.html · v2 · 261003 · [작업 v2 · 칸 20 열째] ★열째 「나를 기억하는 사람들」은 이어 쓰기 · 수정 · 이름 남기기가 모두 작성자 화면(friends.html)으로. 새로 온 글이 있으면 그 줄에 표시는 하지 않음(서버를 한 번 더 부르지 않음 · friends 화면에서 보임). [무손] 그 밖 전부. — 이전 ▶ v1 · 261003 · [새 화면 · 이슈 47 대표 지적 261003] 「내 이야기」 — 사랑흐름 여권번호 하나로 내 자서전 이야기를 한 화면에. 이야기마다 상태(완성 · 쓰는 중 · 다 씀 · 아직 안 엶)와 단추(기록 보기 · 수정 · 이어 쓰기 · 이름 남기기 · 열기) · 포도송이 · 남은 편 · 완성된 기록 모두 보기. 번호가 없으면 이 화면에서 번호를 넣음. 자서전 소개의 「확인」 · 질문 · 기록 · 이름 남기기 화면의 「내 이야기 목록」이 여기로 옴. 서버는 자서전 서버 getMemoir(읽기만). -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -157,7 +157,13 @@ function hmDraw(d){
   for(var j=0;j<pl.length;j++){
     var t=null; for(var k=0;k<tr.length;k++){ if(hmSame(tr[k].place, pl[j]) && (!t || tr[k].trip>t.trip)){ t=tr[k]; } }
     var cls, sub, acts;
-    if(t && t.signed){
+    if(j===9){   /* ★v2 열째 — 작성자 화면 */
+      var fu='/memoir/friends.html?id='+enc+(t?'&trip='+t.trip:'');
+      if(t && t.signed){ cls='ok'; sub='완성 ✓'; done.push(j); nOk++; acts='<button class="go" onclick="location.href=\'/memoir/book.html?id='+enc+'&trip='+t.trip+'\'">기록 보기</button><button class="sub" onclick="location.href=\''+fu+'\'">받은 글 · 수정</button>'; }
+      else if(t && t.state==='마침'){ cls='wait'; sub='다 쓰셨어요 · 이름을 남겨 주세요'; acts='<button class="go" onclick="location.href=\''+fu+'\'">이름 남기기</button>'; }
+      else if(t){ cls='ing'; sub='초대장 보내고 쓰는 중'; acts='<button class="go" onclick="location.href=\''+fu+'\'">이어 쓰기</button>'; }
+      else { cls='new'; sub='아직 열지 않은 이야기'; if(next<0){ next=j; } acts= left>0 ? '<button onclick="location.href=\'/memoir/ritual.html?id='+enc+'&open='+j+'\'">열기</button>' : '<span class="none">남은 편이 없어요</span>'; }
+    } else if(t && t.signed){
       cls='ok'; sub='완성 ✓'; done.push(j); nOk++;
       acts='<button class="go" onclick="location.href=\'/memoir/book.html?id='+enc+'&trip='+t.trip+'\'">기록 보기</button>'
           +'<button class="sub" onclick="location.href=\'/memoir/ask.html?id='+enc+'&place='+j+'&trip='+t.trip+'&review=1\'">수정</button>';

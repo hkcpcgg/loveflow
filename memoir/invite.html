@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ memoir/invite.html · v1 · 261003 · [새 화면 · 자서전 공사 칸 20 · 이사회 31차 4장 · 5장 · 6장 · 대표 지시 261003] 초대받은 분 화면 — 열째 「나를 기억하는 사람들」 추억록. 링크 안 열쇠(k) 하나로 ★자기 글만 읽고 고침. 다섯 화면: ① 초대장(로고 · 보내신 분 · 첫 문장 · 초대 문장 · 안내 셋 · 「누가 읽고 고칠 수 있나요」 · 만 14세 확인) ② 나눌 이야기 일곱 미리 보기 ③ 들려주기(성명 · 관계 단추 · 결과물에 보일 이름 · 마음 가는 물음부터 · 실마리 · 7번 「꼭 남기고 싶은 말」 자유 칸) ④ 보내기 전에(다른 분 배려 안내 · 싣는 데 동의 하나) ⑤ 고맙습니다(같은 링크로 다시 와서 더하고 고침 · 거두기 · 기본 링크 다섯 · 사랑흐름 소개). 카톡 미리보기 그림 = /memoir/invite-card.png. 서버 = 자서전 서버 v21 memGet(JSONP) · memSave(POST) · memDrop. 쓰는 중 글은 이 기기에 먼저 담아 둠. -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 초대장</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="사랑흐름 · 초대장이 도착했습니다">
+<meta property="og:description" content="함께한 기억을 들려주세요. 보내신 분의 이야기 속에 오래도록 함께 남습니다.">
+<meta property="og:image" content="https://www.loveflow.ai.kr/memoir/invite-card.png">
+<meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta property="og:url" content="https://www.loveflow.ai.kr/memoir/invite.html">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#FDFBF5;color:#2b2b2b;font-family:'Noto Sans KR',system-ui,sans-serif;font-size:16.5px;line-height:1.7}
+.app{max-width:560px;margin:0 auto;min-height:100vh}
+.top{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#1E4A76}
+.top img{height:36px;width:36px;border-radius:8px;background:#fff;padding:2px}
+.top b{color:#fff;font-family:'Noto Serif KR',serif;font-size:15.5px}
+.top a{margin-left:auto;color:#dfe8f2;font-size:13px;text-decoration:none}
+.wrap{padding:22px 16px 28px}
+.card{background:#fff;border:1px solid #e8e0cc;border-radius:16px;padding:20px 18px;margin-bottom:14px}
+.inv{border:2px solid #d9c38f;background:#FFFDF7;text-align:center;position:relative}
+.inv .logo{width:64px;height:64px;border-radius:12px;display:block;margin:0 auto 8px}
+.inv h1{font-family:'Noto Serif KR',serif;font-size:24px;color:#1E4A76;line-height:1.45}
+.inv .to{color:#8a6d2e;font-size:15px;margin-top:4px}
+.inv .rule{width:90px;height:2px;background:#B8913A;margin:14px auto}
+.inv p{font-family:'Noto Serif KR',serif;font-size:17px;color:#3a3226;margin:8px 0;word-break:keep-all}
+.hint{list-style:none;text-align:left;margin:14px 0 0;padding:12px 14px;background:#F7F3EA;border-radius:12px;font-size:15px;color:#5b5446}
+.hint li{margin:3px 0;word-break:keep-all}
+.who{font-size:14.5px;color:#4a5563;background:#EEF3F8;border:1px solid #d3deea;border-radius:12px;padding:12px 14px;text-align:left;word-break:keep-all}
+.who b{display:block;color:#1E4A76;margin-bottom:4px;font-size:15px}
+.who div{margin:2px 0}
+.age{display:flex;gap:10px;align-items:flex-start;text-align:left;margin:14px 0 6px;font-size:15.5px;cursor:pointer}
+.age input{width:22px;height:22px;margin-top:3px;flex:none;accent-color:#1E4A76}
+.small{font-size:13.5px;color:#7d7465;word-break:keep-all}
+.btn{display:block;width:100%;padding:15px;border-radius:13px;border:1px solid #1E4A76;background:#1E4A76;color:#fff;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:12px}
+.btn.line{background:#fff;color:#1E4A76}
+.btn:disabled{opacity:.42;cursor:default}
+.lk{display:block;text-align:center;margin-top:12px;color:#7d7465;font-size:14px;text-decoration:underline;cursor:pointer;background:none;border:0;width:100%;font-family:inherit}
+h2{font-family:'Noto Serif KR',serif;font-size:20px;color:#163a5e;margin-bottom:10px}
+.ql{list-style:none}
+.ql li{display:flex;gap:10px;padding:10px 0;border-bottom:1px dashed #e8e0cc;word-break:keep-all}
+.ql li:last-child{border:0}
+.ql .n{flex:none;width:28px;height:28px;border-radius:50%;background:#f4eee4;color:#7d7465;display:grid;place-items:center;font-weight:700;font-size:14px}
+.ql li.free .n{background:#FCE9C8;color:#8a5a00}
+.ql .fr{display:inline-block;font-size:12px;color:#8a5a00;background:#FFF3DC;border-radius:8px;padding:0 7px;margin-left:4px}
+label.f{display:block;font-weight:700;color:#163a5e;margin:12px 0 4px;font-size:15.5px}
+input.t,textarea{width:100%;font-family:inherit;font-size:16.5px;padding:11px 12px;border:1.5px solid #d9cfb4;border-radius:11px;background:#fff;color:#2b2b2b}
+textarea{min-height:120px;line-height:1.7;resize:vertical}
+input.t:focus,textarea:focus{outline:none;border-color:#1E4A76}
+.chips{display:flex;flex-wrap:wrap;gap:7px}
+.chips button{padding:8px 14px;border-radius:20px;border:1.5px solid #d9cfb4;background:#fff;color:#4a4335;font-size:15px;cursor:pointer;font-family:inherit}
+.chips button.on{border-color:#1E4A76;background:#1E4A76;color:#fff;font-weight:700}
+.q{border:1px solid #e8e0cc;border-radius:14px;margin-bottom:10px;background:#fff;overflow:hidden}
+.q .h{display:flex;gap:10px;align-items:center;padding:13px 14px;cursor:pointer;word-break:keep-all}
+.q .h .n{flex:none;width:28px;height:28px;border-radius:50%;background:#f4eee4;color:#7d7465;display:grid;place-items:center;font-weight:700;font-size:14px}
+.q.done .h .n{background:#2f8a4c;color:#fff}
+.q .h .tt{flex:1;font-weight:700;color:#163a5e;font-size:16px}
+.q .h .ar{color:#9a8f7c}
+.q .b{display:none;padding:0 14px 14px}
+.q.open .b{display:block}
+.q.free{border-color:#F1D9A6;background:#FFFCF4}
+.help{font-size:14px;color:#6b6458;background:#F7F3EA;border-radius:10px;padding:9px 12px;margin-bottom:8px;word-break:keep-all}
+.help b{color:#8a6d2e;font-weight:700}
+.ex{font-size:13.5px;color:#9a8f7c;margin:6px 2px 0}
+.cnt{font-size:13px;color:#9a8f7c;text-align:right;margin-top:3px}
+.sum{font-size:15px;color:#5b5446;background:#F7F3EA;border-radius:12px;padding:12px 14px;margin:6px 0 10px}
+.ok{display:flex;gap:10px;align-items:flex-start;font-size:15.5px;margin:12px 0;cursor:pointer;word-break:keep-all}
+.ok input{width:22px;height:22px;margin-top:3px;flex:none;accent-color:#1E4A76}
+.err{color:#b5372a;font-weight:700;font-size:14.5px;margin-top:8px;min-height:1em;text-align:center}
+.thanks{text-align:center}
+.thanks .big{font-size:46px;line-height:1.2}
+.links{list-style:none;margin-top:6px}
+.links a{display:block;padding:12px 14px;border:1px solid #e8e0cc;border-radius:12px;margin-bottom:8px;color:#1E4A76;text-decoration:none;background:#fff;font-size:15.5px}
+.links a small{display:block;color:#7d7465;font-size:13px}
+.brand{text-align:center;padding:18px 16px 26px;color:#7d7465;font-size:13.5px}
+.brand img{width:44px;height:44px;border-radius:10px;display:block;margin:0 auto 6px}
+.brand a{color:#1E4A76}
+.msg{text-align:center;color:#7d7465;margin:40px 0}
+.stepbar{display:flex;gap:6px;justify-content:center;margin:0 0 14px}
+.stepbar i{width:26px;height:5px;border-radius:3px;background:#e8e0cc}
+.stepbar i.on{background:#B8913A}
+.saved{font-size:13px;color:#2f8a4c;text-align:center;margin-top:6px;min-height:1em}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #6aa8f0;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="top"><img src="/logo.png" alt=""><b>사랑흐름 · 초대장</b><a href="/" target="_blank" rel="noopener">사랑흐름 둘러보기</a></div>
+<div class="wrap" id="main"><div class="msg">초대장을 펼치고 있어요…</div></div>
+<div class="brand"><img src="/logo.png" alt="사랑흐름">가장 소중한 사람을 더 알아가는 시간, <a href="/" target="_blank" rel="noopener">사랑흐름</a><br>www.loveflow.ai.kr · LFRI™</div>
+</div>
+<script>
+var MG='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+var KEY=(function(){ try{ return (new URLSearchParams(location.search).get('k')||'').trim().toLowerCase(); }catch(e){ return ''; } })();
+var D=null, ST={ step:1, name:'', rel:'', relFree:'', show:'', ans:['','','','','','',''], age:false, open:-1 };
+var DK='lf_mem_draft_'+KEY;
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function nm(s){ return String(s||'').split('○○○').join(D && D.from ? D.from : '보내신 분'); }
+function $(id){ return document.getElementById(id); }
+function draw(h){ $('main').innerHTML=h; window.scrollTo(0,0); }
+function jsonp(params, cb){
+  var name='mgcb_'+Date.now()+'_'+Math.floor(Math.random()*1e6), done=false, sc=document.createElement('script');
+  function fin(d){ if(done){return;} done=true; try{ delete window[name]; }catch(e){} try{ sc.parentNode.removeChild(sc); }catch(e){} cb(d); }
+  window[name]=fin; sc.onerror=function(){ fin(null); };
+  var q=[]; for(var k in params){ q.push(k+'='+encodeURIComponent(params[k])); }
+  sc.src=MG+'?'+q.join('&')+'&callback='+name+'&t='+Date.now(); document.body.appendChild(sc);
+  setTimeout(function(){ fin(null); }, 25000);
+}
+function keepDraft(){ try{ localStorage.setItem(DK, JSON.stringify({ name:ST.name, rel:ST.rel, relFree:ST.relFree, show:ST.show, ans:ST.ans })); }catch(e){} }
+function loadDraft(){ try{ var o=JSON.parse(localStorage.getItem(DK)||'null'); if(o){ ST.name=o.name||''; ST.rel=o.rel||''; ST.relFree=o.relFree||''; ST.show=o.show||''; if(Array.isArray(o.ans)){ for(var i=0;i<7;i++){ ST.ans[i]=o.ans[i]||''; } } return true; } }catch(e){} return false; }
+function chime(){ try{ var A=window.AudioContext||window.webkitAudioContext; if(!A){return;} var ac=new A(), t=ac.currentTime; [[784,0],[1047,.16]].forEach(function(n){ var o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=n[0]; g.gain.setValueAtTime(.0001,t+n[1]); g.gain.exponentialRampToValueAtTime(.16,t+n[1]+.02); g.gain.exponentialRampToValueAtTime(.0001,t+n[1]+.9); o.connect(g); g.connect(ac.destination); o.start(t+n[1]); o.stop(t+n[1]+1); }); }catch(e){} }
+function QS(){ return (D && D.qs) || []; }
+function relVal(){ return ST.rel==='직접 적기' ? ST.relFree.trim() : ST.rel; }
+function bar(n){ var h='<div class="stepbar">'; for(var i=1;i<=5;i++){ h+='<i class="'+(i<=n?'on':'')+'"></i>'; } return h+'</div>'; }
+function whoBox(){
+  var f=esc(D.from||'보내신 분');
+  return '<div class="who"><b>🔒 누가 읽고 고칠 수 있나요</b>'
+   +'<div>· 들려주신 글은 <b style="display:inline;margin:0">'+f+' 님만</b> 읽고, 싣거나 싣지 않을 글을 고를 수 있습니다.</div>'
+   +'<div>· 고치거나 지우는 것은 쓰신 분만, 이 링크로 할 수 있습니다.</div>'
+   +'<div>· 실린 글은 '+f+' 님의 자서전에 들어가, '+f+' 님이 보여 주는 분들이 읽게 됩니다.</div>'
+   +'<div>· 사랑흐름은 글을 고치지 않습니다. 전화번호 같은 연락처는 받지 않습니다.</div></div>';
+}
+function boot(){
+  if(!/^[a-f0-9]{32}$/.test(KEY)){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p></div>'+linksHtml()); return; }
+  jsonp({ action:'memGet', key:KEY }, function(d){
+    if(!d){ draw('<div class="msg">지금은 초대장을 펼칠 수 없어요. 잠시 뒤 다시 열어 주세요.<br><br><button class="btn line" style="max-width:240px;margin:0 auto" onclick="location.reload()">다시 열기</button></div>'); return; }
+    if(d.status!=='ok'){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p></div>'+linksHtml()); return; }
+    D=d;
+    if(!loadDraft() && d.state==='받음'){
+      ST.name=d.name||''; ST.show=d.show||''; ST.ans=(d.ans||[]).slice(0,7); while(ST.ans.length<7){ ST.ans.push(''); }
+      var opts=((QS()[0]||{}).opts)||[]; if(opts.indexOf(d.rel)>=0){ ST.rel=d.rel; } else if(d.rel){ ST.rel='직접 적기'; ST.relFree=d.rel; }
+    }
+    if(d.state==='받음'){ ST.age=true; }
+    first();
+  });
+}
+/* ① 초대장 */
+function first(){
+  ST.step=1; var f=esc(D.from||'보내신 분');
+  var h=bar(1)+'<div class="card inv"><img class="logo" src="/logo.png" alt="사랑흐름">'
+   +'<h1>'+f+' 님이 보내신 초대장</h1>'+(D.to?'<div class="to">'+esc(D.to)+' 님께</div>':'')
+   +'<div class="rule"></div>'
+   +'<p>'+f+' 님이 삶의 여정을 글로 남기고 있습니다. 그 길에서 함께한 분들의 기억도 곁에 남겨 두고 싶어 합니다.</p>'
+   +'<p>함께 나눈 웃음과 고마운 순간들을 들려주세요. 들려주신 기억은 '+f+' 님의 이야기 속에서 오래도록 함께 빛납니다.</p>'
+   +'<ul class="hint"><li>✏️ 물음 일곱 가운데 마음 가는 것부터 들려주시면 됩니다</li><li>🔁 이 링크로 다시 와서 더하거나 고칠 수 있어요</li><li>📅 '+(D.closed?'이 초대장은 새 글을 받지 않습니다':(esc(fmtDay(D.deadline))+'까지 받습니다'))+'</li></ul></div>';
+  if(D.closed){
+    h+='<div class="card" style="text-align:center"><h2>이 초대장은 새 글을 받지 않습니다</h2><p class="small">'+(D.state==='받음'?'들려주신 기억은 '+f+' 님께 잘 닿아 있어요. 고맙습니다.':'초대해 주신 분께 말씀하시면 받는 날을 늘릴 수 있어요.')+'</p></div>'+linksHtml();
+    draw(h); return;
+  }
+  h+='<div class="card">'+whoBox();
+  if(D.state==='받음'){
+    h+='<p style="margin-top:14px;text-align:center;font-weight:700;color:#2f8a4c">🌼 들려주신 기억이 '+f+' 님께 닿아 있어요'+(D.edited?' · '+esc(fmtDay(D.edited)):'')+'</p>'
+     +'<button class="btn" onclick="toWrite()">더하거나 고치기</button>'
+     +'<button class="lk" onclick="dropAsk()">쓴 글 거두기</button>';
+  } else {
+    h+='<label class="age"><input type="checkbox" id="ag" '+(ST.age?'checked':'')+' onchange="ST.age=this.checked;$(\'go1\').disabled=!this.checked"><span>만 14세 이상입니다</span></label>'
+     +'<div class="small">만 14세가 되지 않으셨다면, 보호자와 함께 종이 물음지로 들려주실 수 있어요. '+f+' 님께 말씀해 주세요.</div>'
+     +'<button class="btn" id="go1" '+(ST.age?'':'disabled')+' onclick="toList()">어떤 이야기를 나누는지 보기</button>';
+  }
+  h+='</div>'; draw(h);
+}
+function fmtDay(s){ var m=String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? (parseInt(m[2],10)+'월 '+parseInt(m[3],10)+'일') : String(s||''); }
+/* ② 물음 보기 */
+function toList(){
+  ST.step=2; var qs=QS(), h=bar(2)+'<div class="card"><h2>나눌 이야기 일곱</h2><p class="small" style="margin-bottom:8px">모두 답하지 않으셔도 됩니다. 하나만 들려주셔도 보낼 수 있어요.</p><ul class="ql">';
+  for(var i=0;i<qs.length;i++){ var fr=(qs[i].type==='자유칸'); h+='<li class="'+(fr?'free':'')+'"><span class="n">'+(i+1)+'</span><span>'+esc(nm(qs[i].q))+(fr?'<span class="fr">마음대로 쓰는 칸</span>':'')+'</span></li>'; }
+  h+='</ul><button class="btn" onclick="toWrite()">들려주기</button><button class="lk" onclick="first()">초대장으로</button></div>';
+  draw(h);
+}
+/* ③ 들려주기 */
+function toWrite(){
+  ST.step=3; var qs=QS(), q0=qs[0]||{opts:[]};
+  var h=bar(3)+'<div class="card"><h2>들려주기</h2>'
+   +'<label class="f" for="nmIn">성명</label><input class="t" id="nmIn" maxlength="20" value="'+esc(ST.name)+'" oninput="ST.name=this.value;keepDraft();chk()" placeholder="예: 김철수">'
+   +'<label class="f">'+esc(nm(q0.q||'어떤 사이인가요?'))+'</label><div class="chips" id="relChips">';
+  for(var i=0;i<q0.opts.length;i++){ h+='<button type="button" class="'+(ST.rel===q0.opts[i]?'on':'')+'" onclick="pickRel(\''+esc(q0.opts[i])+'\')">'+esc(q0.opts[i])+'</button>'; }
+  h+='</div><input class="t" id="relFree" maxlength="20" style="margin-top:8px;display:'+(ST.rel==='직접 적기'?'block':'none')+'" value="'+esc(ST.relFree)+'" oninput="ST.relFree=this.value;keepDraft();chk()" placeholder="예: 군대 동기">'
+   +'<label class="f" for="shIn">결과물에 보일 이름</label><input class="t" id="shIn" maxlength="30" value="'+esc(ST.show)+'" oninput="ST.show=this.value;keepDraft();chk()" placeholder="예: 고향 친구 철수">'
+   +'<div class="small" style="margin-top:4px">자서전에는 이 이름으로 실립니다.</div></div>'
+   +'<div class="small" style="margin:4px 4px 10px">✏️ 마음 가는 물음을 눌러 들려주세요. 쓰시는 대로 이 기기에 먼저 담아 둡니다.</div>';
+  for(var k=0;k<qs.length;k++){
+    var q=qs[k], fr=(q.type==='자유칸'), idx=k;
+    var hint='';
+    if(q.help && q.help.length){ hint+='<div class="help"><b>이런 것을 떠올려 보셔도 좋아요</b><br>'+q.help.map(function(x){return '· '+esc(nm(x));}).join('<br>')+'</div>'; }
+    if(q.note && relVal()){ var rv=relHint(q.note); if(rv){ hint+='<div class="help"><b>'+esc(relVal())+' 사이라면</b> — '+esc(rv)+'</div>'; } }
+    h+='<div class="q'+(fr?' free':'')+(String(ST.ans[idx]||'').trim()?' done':'')+(ST.open===idx?' open':'')+'" id="q'+idx+'">'
+      +'<div class="h" onclick="tog('+idx+')"><span class="n">'+(String(ST.ans[idx]||'').trim()?'✓':(idx+1))+'</span><span class="tt">'+esc(idx===0?'우리 인연을 한 줄로 (적지 않으셔도 됩니다)':nm(q.q))+(fr?' 💌':'')+'</span><span class="ar">'+(ST.open===idx?'▲':'▼')+'</span></div>'
+      +'<div class="b">'+hint
+      +'<textarea id="ta'+idx+'" oninput="ST.ans['+idx+']=this.value;keepDraft();cnt('+idx+');chk()" placeholder="'+esc(idx===0?'인연을 한두 문장으로 적어 주셔도 좋아요 (적지 않으셔도 됩니다)':nm(q.ex||''))+'">'+esc(ST.ans[idx])+'</textarea>'
+      +'<div class="cnt" id="cn'+idx+'">'+String(ST.ans[idx]||'').length+'자</div>'
+      +(q.ex && idx!==0?'<div class="ex">'+esc(nm(q.ex))+'</div>':'')+'</div></div>';
+  }
+  h+='<div class="err" id="er3"></div><button class="btn" id="go3" onclick="toCheck()">다 썼어요 · 보내기 전에 확인</button><button class="lk" onclick="toList()">물음 다시 보기</button>';
+  draw(h); chk();
+}
+function relHint(note){ var parts=String(note).split(' / '), r=relVal(); for(var i=0;i<parts.length;i++){ var p=parts[i].split(':'); if(p.length>1 && p[0].trim()===r){ return p.slice(1).join(':').trim(); } } return ''; }
+function pickRel(v){ ST.rel=v; keepDraft(); var y=window.scrollY; toWrite(); window.scrollTo(0,y); if(v==='직접 적기'){ try{ $('relFree').focus(); }catch(e){} } }
+function tog(i){ ST.open=(ST.open===i)?-1:i; var y=window.scrollY; toWrite(); window.scrollTo(0,y); if(ST.open===i){ try{ $('ta'+i).focus(); }catch(e){} } }
+function cnt(i){ var e=$('cn'+i); if(e){ e.textContent=String(ST.ans[i]||'').length+'자'; } var q=$('q'+i); if(q){ var has=!!String(ST.ans[i]||'').trim(); q.classList.toggle('done',has); q.querySelector('.n').textContent=has?'✓':(i+1); } }
+function anyAns(){ for(var i=1;i<7;i++){ if(String(ST.ans[i]||'').trim()){ return true; } } return false; }
+function missing(){
+  if(!ST.name.trim()){ return '성명을 적어 주세요.'; }
+  if(!relVal()){ return '어떤 사이인지 골라 주세요.'; }
+  if(!ST.show.trim()){ return '결과물에 보일 이름을 적어 주세요.'; }
+  if(!anyAns()){ return '2번부터 7번 가운데 하나 이상 들려주세요.'; }
+  return '';
+}
+function chk(){ var b=$('go3'); if(b){ b.disabled=!!missing(); } var e=$('er3'); if(e){ e.textContent=''; } }
+/* ④ 보내기 전에 */
+function toCheck(){
+  var m=missing(); if(m){ var e=$('er3'); if(e){ e.textContent=m; } return; }
+  ST.step=4; var n=0; for(var i=1;i<7;i++){ if(String(ST.ans[i]||'').trim()){ n++; } }
+  var h=bar(4)+'<div class="card"><h2>보내기 전에</h2>'
+   +'<div class="sum">'+esc(ST.show)+' ('+esc(relVal())+') · 들려주신 물음 <b>'+n+'</b>개</div>'
+   +whoBox()
+   +'<p class="small" style="margin-top:12px">다른 분의 이름이나 사적인 이야기가 나온다면 그분을 배려해 적어 주세요.</p>'
+   +'<label class="ok"><input type="checkbox" id="agr" onchange="$(\'go4\').disabled=!this.checked"><span>쓴 글을 '+esc(D.from||'보내신 분')+' 님의 사랑흐름 기록에 싣는 데 동의합니다</span></label>'
+   +'<div class="err" id="er4"></div>'
+   +'<button class="btn" id="go4" disabled onclick="send()">보내기</button><button class="lk" onclick="toWrite()">다시 고치기</button></div>';
+  draw(h);
+}
+function send(){
+  var b=$('go4'); b.disabled=true; b.textContent='보내고 있어요…';
+  var body={ action:'memSave', key:KEY, name:ST.name.trim(), rel:relVal(), show:ST.show.trim(), ans:ST.ans.slice(0,7), age14:'1', agree:'1' };
+  var before=D.stamp||'';
+  function ok(){ try{ localStorage.removeItem(DK); }catch(e){} D.state='받음'; chime(); thanks(); }
+  function bad(msg){ b.disabled=false; b.textContent='보내기'; $('er4').textContent=msg||'지금은 보낼 수 없어요. 잠시 뒤 다시 눌러 주세요. 쓰신 글은 이 기기에 남아 있어요.'; }
+  function verify(tries){
+    jsonp({ action:'memGet', key:KEY }, function(d){
+      if(d && d.status==='ok' && d.state==='받음' && d.stamp && d.stamp!==before){ D=d; ok(); return; }
+      if(tries>0){ setTimeout(function(){ verify(tries-1); }, 2500); } else { bad(); }
+    });
+  }
+  try{
+    fetch(MG, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(body) })
+      .then(function(r){ return r.json(); })
+      .then(function(d){ if(d && d.status==='ok'){ ok(); } else if(d && d.msg){ bad(d.msg); } else { verify(3); } })
+      .catch(function(){ verify(4); });
+  }catch(e){ bad(); }
+}
+/* ⑤ 고맙습니다 */
+function thanks(){
+  ST.step=5; var f=esc(D.from||'보내신 분');
+  draw(bar(5)+'<div class="card thanks"><div class="big">🌼</div><h2>고맙습니다</h2>'
+   +'<p>들려주신 기억이 '+f+' 님께 닿았습니다.</p>'
+   +'<p class="small" style="margin-top:8px">같은 링크로 다시 오시면 더하거나 고칠 수 있어요.'+(D.deadline?' ('+esc(fmtDay(D.deadline))+'까지)':'')+'</p>'
+   +'<button class="btn line" onclick="toWrite()">더하거나 고치기</button></div>'+linksHtml());
+}
+function dropAsk(){
+  draw('<div class="card"><h2>쓴 글을 거둘까요?</h2><p>거두시면 들려주신 글이 지워지고, '+esc(D.from||'보내신 분')+' 님의 기록에서도 빠집니다. 이미 종이로 나간 기록은 거둘 수 없어요.</p>'
+   +'<button class="btn" onclick="dropGo()">거두기</button><button class="lk" onclick="first()">그대로 두기</button></div>');
+}
+function dropGo(){
+  jsonp({ action:'memDrop', key:KEY }, function(d){
+    if(d && d.status==='ok'){ D.state='거둠'; ST.ans=['','','','','','','']; try{ localStorage.removeItem(DK); }catch(e){} draw('<div class="card" style="text-align:center"><h2>글을 거두었어요</h2><p class="small">마음이 바뀌시면 같은 링크로 다시 들려주실 수 있어요.</p><button class="btn line" onclick="first()">초대장으로</button></div>'+linksHtml()); }
+    else { alert('지금은 거둘 수 없어요. 잠시 뒤 다시 해 주세요.'); first(); }
+  });
+}
+function linksHtml(){
+  return '<div class="card"><h2 style="font-size:17px">사랑흐름 둘러보기</h2><ul class="links">'
+   +'<li><a href="/" target="_blank" rel="noopener">💬 마음 한마디<small>그 사람과 나 사이는 지금 어떤 계절일까요? · 무료</small></a></li>'
+   +'<li><a href="/draw/" target="_blank" rel="noopener">🖍️ 삐뚤빼뚤 마음 도화지<small>손으로 그린 마음 보내기 · 무료</small></a></li>'
+   +'<li><a href="/memoir/" target="_blank" rel="noopener">📖 추억록 알아보기<small>나도 내 사람들의 기억을 모아 보기</small></a></li>'
+   +'<li><a href="/showroom.html" target="_blank" rel="noopener">🗺️ 여행의 기록 구경하기</a></li>'
+   +'<li><a href="/about.html" target="_blank" rel="noopener">🌿 사랑흐름 이야기</a></li></ul></div>';
+}
+boot();
+</script>
+</body>
+</html>
