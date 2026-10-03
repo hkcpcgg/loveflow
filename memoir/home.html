@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ memoir/home.html · v1 · 261003 · [새 화면 · 이슈 47 대표 지적 261003] 「내 이야기」 — 사랑흐름 여권번호 하나로 내 자서전 이야기를 한 화면에. 이야기마다 상태(완성 · 쓰는 중 · 다 씀 · 아직 안 엶)와 단추(기록 보기 · 수정 · 이어 쓰기 · 이름 남기기 · 열기) · 포도송이 · 남은 편 · 완성된 기록 모두 보기. 번호가 없으면 이 화면에서 번호를 넣음. 자서전 소개의 「확인」 · 질문 · 기록 · 이름 남기기 화면의 「내 이야기 목록」이 여기로 옴. 서버는 자서전 서버 getMemoir(읽기만). -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 내 이야기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="/memoir/kit.js?v=6"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#FDFBF5;color:#2b2b2b;font-family:'Noto Sans KR',system-ui,sans-serif;font-size:16px;line-height:1.6}
+.app{max-width:560px;margin:0 auto;min-height:100vh}
+/* [260810] ★상단바·드로어 — 형제 화면(memoir/ask.html) 규칙 그대로 */
+.gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;padding:11px 12px;background:#1E4A76;border-bottom:1px solid #163A5C}
+.gnav .home{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0}
+.gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+.gnav .bk{flex-shrink:0;background:none;border:none;color:#fff;font-size:24px;line-height:1;cursor:pointer;padding:2px 8px}
+.gnav .lc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.gnav .hm{flex-shrink:0;background:none;border:none;color:#fff;font-size:20px;line-height:1;cursor:pointer;margin-left:auto}
+.gdrawer{position:fixed;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:200}
+.gdrawer.on{opacity:1;visibility:visible}
+.gdpanel{position:absolute;top:0;right:0;width:80%;max-width:300px;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.15);transform:translateX(100%);transition:.26s}
+.gdrawer.on .gdpanel{transform:none}
+.gdhead{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid var(--line,#EEE9DF)}
+.gdhead b{font-size:17px;font-weight:900;color:var(--navy,#1E4A76)}
+.gdhead .x{border:none;background:none;font-size:20px;color:var(--sub,#7C8794);cursor:pointer}
+.gnav{width:100%!important;flex:0 0 100%!important;box-sizing:border-box}
+.gdbody a{display:block;padding:14px 18px;font-size:17px;font-weight:700;color:#2E3A46;text-decoration:none;cursor:pointer;border-bottom:1px solid #EEE9DF}
+.wrap{padding:22px 16px 30px}
+.hd{text-align:center}
+.hd h1{font-family:'Noto Serif KR',serif;font-size:23px;color:#163a5e;line-height:1.45}
+.hd .pp{margin-top:4px;font-size:14px;color:#7d7465}
+.hd .pp a{color:#1E4A76;text-decoration:underline;cursor:pointer;margin-left:6px}
+.grape{margin:14px auto 4px;max-width:300px}
+.sum{text-align:center;font-size:14.5px;color:#7d7465;margin:4px 0 16px}
+.sum b{color:#163a5e}
+.st{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid #e8e0cc;border-radius:14px;padding:12px;margin-bottom:9px}
+.st.ok{background:#faf6ff;border-color:#cdb8e6}.st.ing{border-color:#a9d39a}.st.wait{background:#FFF8EC;border-color:#F1D9A6}.st.new{border-style:dashed}
+.no{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-family:'Noto Serif KR',serif;font-weight:700;color:#7d7465;background:#f4eee4}
+.st.ok .no{background:#7A45B5;color:#fff}.st.ing .no{background:#e9f6e4;color:#3f7a2e}.st.wait .no{background:#fbe7c0;color:#8a5a00}
+.mid{flex:1;min-width:0}.mid b{display:block;font-size:15.5px;color:#163a5e;line-height:1.45}.mid small{display:block;font-size:13.5px;color:#7d7465}
+.acts{display:grid;gap:5px;flex:none}
+.acts button{padding:8px 12px;border:1px solid #1E4A76;border-radius:10px;background:#fff;color:#1E4A76;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit}
+.acts button.go{background:#1E4A76;color:#fff}.acts button.sub{border-color:#d9cfb4;color:#7d7465;font-weight:500;font-size:13px}
+.acts .none{font-size:12.5px;color:#9a8f7c;text-align:right;max-width:92px}
+.foot{margin-top:16px;display:grid;gap:8px}
+.big{display:block;width:100%;padding:14px;border-radius:12px;border:1px solid #1E4A76;background:#1E4A76;color:#fff;font-size:16.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.big.line{background:#fff;color:#1E4A76}
+.door{max-width:360px;margin:24px auto 0;padding:16px;border:1.5px solid rgba(30,74,118,.28);border-radius:16px;background:#FFFBF5;text-align:center}
+.door .t{font-family:'Noto Serif KR',serif;font-size:17px;color:#1E4A76;font-weight:700;margin-bottom:10px}
+.door .row{display:flex;gap:8px}
+.door input{flex:1;min-width:0;font-size:18px;letter-spacing:1px;padding:12px;border:1.5px solid #c9a24a;border-radius:12px;background:#fff;color:#1E4A76;text-transform:uppercase;font-family:inherit}
+.door button{flex:none;padding:0 22px;border:0;border-radius:12px;background:#1E4A76;color:#fff;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit}
+.door .n{font-size:13.5px;color:#7d7465;margin-top:9px}.door .n.bad{color:#b5372a;font-weight:700}
+.links{margin-top:14px;text-align:center;font-size:14px}.links a{color:#1E4A76;text-decoration:underline;cursor:pointer;margin:0 6px}
+.msg{text-align:center;color:#7d7465;margin:30px 0}
+.lfway{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:420px;margin:20px auto 10px;padding:0 16px}
+.lfway a{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #E6E1D8;border-radius:13px;background:#fff;text-decoration:none;cursor:pointer}
+.lfway .ic{font-size:11px;color:#94A0AE}.lfway .tt{font-size:10.5px;font-weight:500;color:#7A8794}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #6aa8f0;outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="gnav">
+  <div class="home" onclick="location.href='/'"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"></div>
+  <button class="bk" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
+  <div class="lc">자서전 · 내 이야기</div>
+  <button class="hm" onclick="gOpenMenu()" aria-label="메뉴">☰</button>
+</div>
+<div class="gdrawer" id="gdrawer" onclick="if(event.target===this)gCloseMenu()">
+  <div class="gdpanel">
+    <div class="gdhead"><b>사랑흐름</b><button class="x" onclick="gCloseMenu()">✕</button></div>
+    <div class="gdbody">
+      <a onclick="location.href='/'">홈</a>
+      <a onclick="location.href='/memoir/'">자서전 소개</a>
+      <a onclick="location.href='/memoir/home.html'">내 이야기 목록</a>
+      <a onclick="location.href='/journey/'">여행지도 보기</a>
+      <a onclick="location.href='/l/'">편지</a>
+      <a onclick="location.href='/find/'">사랑흐름 여권 찾기</a>
+      <a onclick="location.href='/showcase.html'">마음 여행 예매하기</a>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="main"><div class="msg">불러오고 있어요…</div></div>
+
+<div class="lfway">
+  <a onclick="history.back()"><span class="ic">&#8592;</span><span class="tt">뒤로</span></a>
+  <a onclick="location.href='/'"><span class="ic">&#8962;</span><span class="tt">홈</span></a>
+  <a onclick="location.href='/memoir/ritual.html'"><span class="ic">&#8594;</span><span class="tt">앞으로</span></a>
+</div>
+</div>
+<script>
+var HM_GAS='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+function gOpenMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.add('on');}
+function gCloseMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.remove('on');}
+function hmEsc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function hmPass(){
+  var p='';
+  try{ var m=location.search.match(/[?&]id=(LF[ML]?-[A-Za-z0-9]+)/i); if(m){ p=m[1]; } }catch(e){}
+  if(!p){ try{ p=sessionStorage.getItem('lf_passport')||''; }catch(e){} }
+  if(!p){ try{ p=localStorage.getItem('lf_passport')||''; }catch(e){} }
+  return String(p).trim().toUpperCase();
+}
+function hmKeep(v){ try{ sessionStorage.setItem('lf_passport', v); localStorage.setItem('lf_passport', v); }catch(e){} }
+function hmSame(a,b){ a=String(a||'').trim().split(' ')[0]; b=String(b||'').trim().split(' ')[0]; return !!a && a===b; }
+function hmName(pl){ return String(pl||'').replace(/^\S+째 (자리|이야기) · /,''); }
+function hmW(k,a){ try{ if(window.LFM && LFM.wait && LFM.wait[k]){ LFM.wait[k](a); } }catch(e){} }
+var HM_PP='';
+function hmDoor(note, bad){
+  var h='<div class="hd"><h1>내 이야기</h1></div>'
+   +'<div class="door"><div class="t">사랑흐름 여권번호를 넣어 주세요</div>'
+   +'<div class="row"><input id="hmIn" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" enterkeyhint="go" onkeydown="if(event.key===\'Enter\'){hmGo();}"><button type="button" onclick="hmGo()">확인</button></div>'
+   +'<div class="n'+(bad?' bad':'')+'" id="hmNote">'+hmEsc(note||'확인을 누르시면 내 이야기 목록이 열립니다')+'</div></div>'
+   +'<div class="links"><a onclick="location.href=\'/showcase.html\'">한 편의 기록 예매하기</a><a onclick="location.href=\'/find/\'">사랑흐름 여권 찾기</a></div>';
+  document.getElementById('main').innerHTML=h;
+}
+function hmGo(){
+  var inp=document.getElementById('hmIn'); var v=String(inp&&inp.value||'').trim().toUpperCase().replace(/\s+/g,'');
+  if(/^[A-Z0-9]{5}$/.test(v)){ v='LF-'+v; }
+  if(!/^LF[ML]?-[A-Z0-9]{4,8}$/.test(v)){ hmDoor('번호를 다시 확인해 주세요 · 예: LF-AB12C', true); return; }
+  hmKeep(v);
+  try{ var u=new URL(location.href); u.searchParams.set('id', v); history.replaceState(null,'',u.pathname+u.search); }catch(e){}
+  hmLoad(v);
+}
+function hmOther(){
+  try{ sessionStorage.removeItem('lf_passport'); localStorage.removeItem('lf_passport'); }catch(e){}
+  try{ var u=new URL(location.href); u.searchParams.delete('id'); history.replaceState(null,'',u.pathname+u.search); }catch(e){}
+  hmDoor();
+}
+function hmLoad(pp){
+  HM_PP=pp;
+  hmW('show',{ title:'내 이야기를 펼치고 있어요', sub:'사랑흐름 여권번호로 쓰신 이야기를 찾고 있어요', steps:['사랑흐름 여권번호 확인','이야기 찾기'] });
+  var go=function(){
+    var cb='hmcb_'+Date.now()+'_'+Math.floor(Math.random()*1e6), done=false, sc=document.createElement('script');
+    function fin(d){
+      if(done){ return; } done=true; try{ delete window[cb]; }catch(e){} try{ if(sc.parentNode){ sc.parentNode.removeChild(sc); } }catch(e){}
+      hmW('done');
+      if(d && d.status==='locked'){ hmDoor('이 번호에는 한 편의 기록이 없어요. 번호를 확인하시거나 예매해 주세요.', true); return; }
+      if(!d || d.status!=='ok'){ document.getElementById('main').innerHTML='<div class="msg">지금은 불러올 수 없어요. 잠시 뒤 다시 열어 주세요.<br><br><button class="big line" style="max-width:240px;margin:0 auto" onclick="location.reload()">다시 열기</button></div>'; return; }
+      hmDraw(d);
+    }
+    window[cb]=fin; sc.onerror=function(){ fin(null); };
+    sc.src=HM_GAS+'?action=getMemoir&passport='+encodeURIComponent(pp)+'&callback='+cb+'&t='+Date.now();
+    document.body.appendChild(sc);
+    setTimeout(function(){ fin(null); }, 20000);
+  };
+  try{ hmW('step',1); LFM.consent(pp, go); }catch(e){ go(); }
+}
+function hmDraw(d){
+  var pp=HM_PP, pl=d.places||[], tr=d.trips||[], left=(typeof d.left==='number')?d.left:0, rows='', done=[], nOk=0, next=-1;
+  var enc=encodeURIComponent(pp);
+  for(var j=0;j<pl.length;j++){
+    var t=null; for(var k=0;k<tr.length;k++){ if(hmSame(tr[k].place, pl[j]) && (!t || tr[k].trip>t.trip)){ t=tr[k]; } }
+    var cls, sub, acts;
+    if(t && t.signed){
+      cls='ok'; sub='완성 ✓'; done.push(j); nOk++;
+      acts='<button class="go" onclick="location.href=\'/memoir/book.html?id='+enc+'&trip='+t.trip+'\'">기록 보기</button>'
+          +'<button class="sub" onclick="location.href=\'/memoir/ask.html?id='+enc+'&place='+j+'&trip='+t.trip+'&review=1\'">수정</button>';
+    } else if(t && t.state==='마침'){
+      cls='wait'; sub='다 쓰셨어요 · 이름을 남겨 주세요';
+      acts='<button class="go" onclick="location.href=\'/memoir/ask.html?id='+enc+'&place='+j+'&trip='+t.trip+'&review=1\'">이름 남기기</button>';
+    } else if(t){
+      cls='ing'; sub='쓰는 중';
+      acts='<button class="go" onclick="location.href=\'/memoir/ask.html?id='+enc+'&place='+j+'&trip='+t.trip+'\'">이어 쓰기</button>';
+    } else {
+      cls='new'; sub='아직 열지 않은 이야기';
+      if(next<0){ next=j; }
+      acts= left>0 ? '<button onclick="location.href=\'/memoir/ritual.html?id='+enc+'&open='+j+'\'">열기</button>' : '<span class="none">남은 편이 없어요</span>';
+    }
+    rows+='<div class="st '+cls+'"><div class="no">'+(j+1)+'</div><div class="mid"><b>'+hmEsc(hmName(pl[j]))+'</b><small>'+sub+'</small></div><div class="acts">'+acts+'</div></div>';
+  }
+  var nm=d.name ? hmEsc(d.name)+' 선생님의 이야기' : '내 이야기';
+  var h='<div class="hd"><h1>'+nm+'</h1><div class="pp">'+hmEsc(pp)+'<a onclick="hmOther()">다른 번호로</a></div></div>'
+   +'<div class="grape" id="hmGrape"></div>'
+   +'<div class="sum">'+pl.length+' 이야기 가운데 <b>'+nOk+'편 완성</b> · 남은 편 <b>'+left+'편</b></div>'
+   + rows
+   +'<div class="foot">'+(nOk?'<button class="big" onclick="location.href=\'/memoir/book.html?id='+enc+'\'">완성된 기록 모두 보기</button>':'')
+   +'<button class="big line" onclick="location.href=\'/showcase.html\'">한 편 더 예매하기</button></div>';
+  document.getElementById('main').innerHTML=h;
+  try{ LFM.grapes(document.getElementById('hmGrape'), { names:pl, done:done, next:next }); }catch(e){}
+}
+(function(){ var pp=hmPass(); if(pp){ hmKeep(pp); hmLoad(pp); } else { hmDoor(); } })();
+</script>
+<script src="/lf-foot.js" defer></script>
+</body>
+</html>
