@@ -8,7 +8,1523 @@
      ─── 지난 이력(v27 이전) ───────────────────────────── -->
 <!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v27 · 260723 · [작업 v27] 잠금화면(#mlock) 밋밋한 두 버튼(먼저 다녀간 분들·자서전 시작하기)에 은은한 네이비 틴트만 입힘 — #mlock 안으로만 좁힌 스코프 규칙 1줄 추가, 전역 .prev(작성 흐름 이전/다음)·.next·마크업·라우팅 무손. [작업 v26] ★공유 버튼 이식 — 정본(index) 화살표 공유부품(lffShare) 자립형(.lffsw)으로 푸터 위에 추가. 카카오 안 씀·navigator.share→클립보드→textarea 폴백·메인홈 https://www.loveflow.ai.kr 만 내보냄. 정본의 display:none 가드는 방향줄 전용이라 제외. [무손] 게이트 gateThenBoot_·MEMOIR_GAS·저장(save/packChapter_/send_)·사진 배관(savePhoto)·상단바·드로어·푸터. · ★v25 · 260723 · [작업 v25] ★부팅 멈춤 실버그 수정 — MEMOIR_GAS 를 블록1 맨 위로 올림. 게이트 gateThenBoot_(641행 호출)가 637행에서 MEMOIR_GAS 를 쓰는데 정의는 블록2(665행)라, 여권으로 진입하면 "MEMOIR_GAS is not defined"가 던져져 boot·paint 가 아예 안 돌고 화면이 통째로 빈칸으로 멈추던 것(v22부터 있던 것·실측 확인). passport_ 를 예전에 블록1로 올린 것과 같은 방식 — 위치만 이동, 값 동일, 블록2 정의는 중복 방지 위해 주석으로 대체. [무손] 게이트 로직·저장엔진·BOOK·사진배관 값 무변경. · [작업 v24] ★사진 서버 전송(짝꿍) — 업로드 시 자서전 GAS savePhoto(POST·격리)로 이미지만 보냄. sendPhoto_/storePhoto_ 신설, onPhotoFile 두 경로가 storePhoto_ 경유. ★[절대보존] save()·packChapter_·send_·verify_·queue_·GAS URL·passport_·nextQ·BOOK·#done 무손 — 사진 전송은 별도 fetch(no-cors POST). 짝꿍: 자서전 GAS v5 savePhoto_. · [작업 v23] ★사진 한 장(선택) — 각 챕터 작성 화면에 「이 이야기에 사진 더하기」 신설(확정본 손님동선 ④ '그 자리에서 사진 올린다'). draw/index.html pfile 부품 이식: createImageBitmap 회전보정(아이폰 눕는 사진)+1000px 리사이즈+JPEG 0.85 압축. ★[절대보존 지킴] answers·save()·packChapter_·send_·verify_·queue_·GAS URL·passport_·nextQ·#done·BOOK 33문항 = 한 글자도 안 건드림. 사진은 별도 키(lf_memoir_photos)에 격리 저장 → 사진 실패해도 답변 저장 무손. ★[다음·②단계] 서버 전송은 아직 안 함(기기 안 보관만) — 자서전 GAS saveChapter_에 base64 받는 부(POST) 추가는 위험구간·백업 후 별건. · [작업 v22] ★질문지 대개편(이사회 16차+대표 확정): 7테마 골격·순서 그대로(GAS CHAPTERS와 짝맞음, 한 글자도 안 건드림). 각 장 안에서만 손봄 — ①선택형 보기를 문장으로(고른 게 본문) ②「지금의 나」 잇는 질문 1·3·4·5장(+2장 원래) ③각 장 끝 「더 남기고 싶은 말」 자유발언 7개(말문 터진 어르신용) ④향기(냄새) 표기(냄새는 나쁜뜻도) ⑤큰 장면 녹이기: 그리운 맛(1장)·떠난 이(2장)·첫사랑·배우자·자녀(3장)·노래(7장). 16문항→33문항(대부분 건너뛰기 가능). [무손] 렌더·저장·게이트·GAS·상단바·드로어·푸터. 새 테마 안 만듦(8번째는 향후 구조조정). ★버그수정: passport_ is not defined 에러 잡음 — mq_·passport_ 두 함수가 두번째 script 블록에 정의돼 첫 블록의 gateThenBoot_ 호출보다 늦게 만들어지던 것을, 두 함수를 첫 script 맨 위로 이동(내용 무변경·위치만). v21 원래 있던 버그. ★잠금화면(mlock) 개선(대표 260723): 「자서전은 여권으로 열려요/자서전·한 편의 기록을 마련하신 여권으로」(어색·모호) → 「여권을 넣어 주세요/자서전은 사랑흐름 여권으로 열립니다·받으신 여권이 있으면」. 여권없는 사람 경로 안내 추가 — 구경(showroom)→여권받기(showcase) 두 버튼 신설(기존 showcase 단일→구경 먼저). 버튼 기존 .btn next/prev 계승. ★헤더 텍스트 누출 버그도 수정 — v22 이력복구 때 첫 주석을 6171에서 조기 닫아 v10 이력이 주석 밖 화면에 노출되던 것, 조기 닫음표시 지워 이력 전체를 주석 안으로. ── 이전 이력 ── [작업 v21] 상단바 딥네이비 표준 통일(뱃지 로고+상호·뒤로·이름 중앙·☰ 흰색). [이전] ★카카오톡 문의를 푸터(.glegal .fl) 오른쪽 끝에 링크로 추가. [무손] 게이트·gateThenBoot·GAS·라우팅. · ★v19 · 260716 · [작업 v19] ★여권 필수 확정 (대표 확정 260716) — 진입 시 여권(?id=) 없으면 통과시키던 것을 잠금(mlock)으로 변경. 자서전은 여권으로만 진입(사랑흐름 전체 여권 필수 원칙). mlock 문구를 여권없음·MEMOIR아님 공통으로 바꾸고 '마음 여행여권으로 입장'(gate) 버튼 추가. [순수 수정·무손] gateThenBoot_ if(!pp) 분기 1줄 + mlock 문구·버튼만. 저장엔진·boot·조회로직 미변경. · v18 · 260716 · [작업 v18] ★진입 게이트 (편지 letter 와 동일 방식 · 대표 확정 260716) — 진입 시 getMemoir 를 조회해 자서전 상품(MEMOIR)이 아니면 잠금 안내 오버레이(mlock)를 띄움. 저장·재진입 GAS 게이트(자서전 GAS v3 hasMemoirProduct_)와 짝. [순수 추가·무손] boot()·저장엔진(send_·verify_·queue_·packChapter_·GAS URL)·완료화면·드로어·passport_ = 한 글자도 미변경. gateThenBoot_ 함수 + mlock 오버레이(rsmask 스타일 재활용 → CSS 무증) + boot() 호출 한 줄 교체만. 여권 없음·조회 실패·타임아웃은 막지 않음(서버 게이트가 최종 방어). · v17 · 260716 · [작업 v17] ★완료화면 이메일 통째 패턴 (대표 go 260716·4순위F) — 수기 단일칸을 find·무료·편지 확정 패턴 [아이디]@[도메인 선택▼]으로 교체. onDoneDom·getDoneEmail·setDoneEmail 추가, 저장·전송의 이메일 읽기(confirmPromise·sendMyStory_ 2곳)를 getDoneEmail()로, 복원세팅을 setDoneEmail()로. 검증 regex·send_·packChapter_·GAS·저장엔진 = 무손. · v16 · 260716 · [작업 v16] ★이어가기/처음부터 선택 창 (대표 go 260716·2순위) — 지금까진 저장분(localStorage)을 아무것도 안 묻고 침묵 복원해 7장에서 열리고·거꾸로 가고·예전 입력 코드가 되살아나던 문제. 부팅을 paint()→boot()로 감쌈: 저장 진행분이 있으면 모달로 "이어서 쓰기 / 처음부터 새로 쓰기"를 물음. 이어서=복원 그대로 paint / 처음부터=ci·qi·answers·picks 초기화 + KEY 삭제 후 paint. [★저장엔진 무손] KEY·L342 복원선·save()·send_·verify_·queue_·packChapter_·GAS URL·passport_·nextQ·confirmPromise·#done = 미변경. 순수 추가(모달 CSS·HTML·boot/resumeYes/resumeNo) + 부팅 한 줄 교체. · v15 · 260716 · [작업 v15] ★드로어 표준 복구 (대표 go 260716) — v14가 '자서전' 항목을 '다시 시작'으로 바꿔 빼놓은 것을 표준 10항목으로 되돌림. '편지' 다음 '자서전'(glgo('memoir')→/memoir/) 제자리 복원 + 끝에 진짜 '다시 시작'(location.reload) 추가. index/journey/showcase 라이브 표준과 일치. [★안 건드림·저장엔진 무손] send_·verify_·queue_·packChapter_·GAS URL·passport_·nextQ·confirmPromise·#done 약속화면·BOOK 배열·이전/다음·안전판 버튼 = 한 글자도 미변경. GLINK 도 미변경(memoir 이미 있음). · v14 · 260716 · [작업 v14] ★입구·출구 선명화 — 지도·편지 표준 네비 이식 (대표 승인 260716). ①☰ 드로어 6항목 → 지도·편지·게이트 표준 9항목 통일: 홈·마음 한마디·여행지도 보기·편지·마음 여행여권으로 입장·사랑흐름 여권 찾기·여행의 기록·마음 여행 예매하기·다시 시작. 링크는 지도 LF_LINK 실값 그대로(showroom=/showroom.html·showcase=/showcase.html·reenter=/reenter.html 추가). '자서전' 항목은 '다시 시작'(/memoir/)으로 대체. ②glgo: 여행지도·편지는 여권번호(?id=) 있으면 붙여 '내 여행'으로 이어줌(지도 LF_NEEDS_ID 규칙 계승). ③#done 완료화면 막다른 끝 → 잔잔한 여운 한 줄 + 여행 이어가기: 주버튼(먼저 다녀간 분들의 여행 보기=showroom·홈으로) + 얇은 링크(여권 찾기·마음 여행여권으로 입장·마음 여행 예매). 버튼 형태 = 기존 .btn.prev(흰 배경·navy 테두리) 계승. [무손] 저장엔진·v13 안전판·confirmPromise = 미변경. · v13 · 260716 · [작업 v13] ★임시 안전판 — 저장 확실히 보내기 버튼 (대표 승인 260716). #done 완료화면에 [내 이야기 확실히 보내기] 버튼 1개 순수 추가. ①전 장(章) send_ 재전송(확장 없는 브라우저는 전량 저장) ②마지막 장+이메일을 확실히 되는 주소창 GET(새 탭 window.open)으로 한 번 더 — 대표 브라우저 확장(이미지/fetch 차단)이 top-level 이동은 못 막음. [저장엔진 무손] send_·verify_·queue_·packChapter_·flushQueue_·GAS URL·passport_·nextQ 래핑·confirmPromise·기존 #done 약속화면 = 한 글자도 안 건드림(순수 추가만, md5 대조 증명). [남은 것·A-2] 확장 차단 기기에서 7장 전부 한 방 보장 = GAS saveAll 신설 필요(GAS 배포·위험구간, GAS 소스 확보 후 별건). · v12 · 260716 · [작업 v12] ★서술 부담 개편 (대표 승인 260716). 24문항 전부 서술 → 16문항(보기 9 + 장당 서술 1, 총 7 사수). 배경·대상·사실은 보기(탭 선택·다중가능·'그 밖에' 직접입력), 감정 코어 하나만 서술. ★문항 문구는 v11 원문 그대로 살림 — 새로 만든 건 보기 선택지뿐. ★[저장엔진 무손] packChapter_·send_·verify_·queue_·GAS URL·여권 읽기(passport_)·nextQ 래핑·#done 약속화면 = 한 글자도 안 건드림. 보기 답은 문자열(', ' 연결)로 answers 에 담겨 기존 저장선 그대로 탐. 덤: 답이 짧아져 GET 길이 부담↓. · v11 · 260715 · [작업 v11] ★질문 끝 완료화면(#done)을 「약속 체결 화면」으로 교체 (이사회 만장일치). 지금까지 질문 끝나면 바로 book(⑦·가짜 예시)로 튀던 것을 멈추고, 그 자리에서 ①접수완료 인사 ②엮는 중 한 줄 ③표지 미리보기(본문 없음) ④납기 날짜 약속(접수일+10일 자동, "○월 ○일까지") ⑤완성본 받을 이메일 수집 ⑥버튼 "확인했습니다" 하나 로 재구성. [이메일] confirmPromise() 가 이메일 유효성 확인 → localStorage 저장 → 여권 있으면 마지막 장에 email 실어 send_ 로 저장 → 홈으로. send_ URL 에 &email= 한 칸 추가(짝꿍: 자서전 GAS v2 가 이 칸을 받음). [금지 지킴] 가짜 본문 미노출 · "평생"·기간 암시 없음 · "며칠" 숫자 대신 날짜만. [절대보존] BOOK 질문배열 · nextQ 래핑 · packChapter_ · send_/verify_/queue_ 이미지신호 저장엔진 · GAS URL · 여권 읽기(passport_) · goBook(죽은 링크로 남김) 미변경. · v10-2 · 260714 · [작업 v10-2] ★저장 방식 JSONP → 이미지 신호 교체 (브라우저 확장프로그램이 JSONP 를 막음) — 답변이 시트와 드라이브에 남습니다
      [★v10-1 왜] fetch POST 는 GAS 응답을 못 읽습니다(리다이렉트+CORS) → 매번 catch 로 빠져 시트에 안 감. 주소창(GET)은 됐던 이유.
+            → JSONP(script 태그 GET) 로 교체. gate·편지와 같은 방식입니다. 이제 장이 끝나면 시트에 줄이 쌓입니다.<!-- ★ 현재 버전 ▶ memoir/ask.html · v61 · 261003 · [작업 v61 · 25-3 대표 시험 지적] ①「내가 쓴 글 한눈에 보기」를 물음 위(가장 먼저 눈에 띔)에서 ★아래 「저에게는 해당하지 않아요」 밑 글자 단추로 옮김 — 보조 · 부가 자리. ②「고치기」로 들어온 물음은 아래 단추가 「다음 이야기로」가 아니라 ★「완료」 — 누르면 고친 글을 남기고 쓴 글 목록으로 돌아감(계속 다 써야 할 것 같은 느낌을 없앰). 그때 「이전」은 감춤. 「쓰러 가기」 · 「안 쓴 곳부터 이어서 쓰기」 · 「닫기」는 평소대로. [무손] 그 밖 전부. — 이전 ▶ v60 · 261003 · [작업 v60 · 자서전 공사 칸 25-3 · 이슈 34 · 38] ★다시 읽고 고치기 — 「내가 쓴 글 한눈에 보기」 판(소재별 물음 · 답 차례로, 안 쓴 곳은 붉은 「아직 안 쓰셨어요」, 해당 없음은 「저에게는 해당하지 않아요」). 「고치기」를 누르면 그 물음으로 바로 · 「안 쓴 곳부터 이어서 쓰기」 · 닫기. 들어오는 길 셋: 물음 화면 위 단추 · 다 쓴 뒤 화면 「쓴 글 다시 읽고 고치기」 · 기록 보기에서 ?review=1. 다 쓴 뒤에도 서명 전까지 고침(다 쓴 화면에서 물음으로 돌아감). ★이름을 남기신 편은 읽기만(검문 답 trips.signed). [무손] 저장 · 사진 · 건강 · 기다림 화면 · 그 밖 전부. — 이전 ▶ v59 · 261003 · [작업 v59 · 자서전 공사 칸 25-2 시험 중 발견] ★이어서 쓰기로 들어올 때 「지난번 비워 두신 「골목과 길」부터 이어서 쓰시면 됩니다」가 잘못 뜨던 것 — 아직 닿지 않은 뒤 소재까지 「비워 둔 것」으로 셌습니다(LF-ZUT34 · 살던 집 셋째 물음에서 실측). 이제 ★지금 자리보다 앞의 빈 소재만 봅니다(v46 이전 저장분의 건너뛴 자리용). 맨 끝 완주 검사는 그대로. [무손] 그 밖 전부. — 이전 ▶ v58 · 261003 · [작업 v58 · 자서전 공사 칸 25-1 · 서버 v17 짝] ★이 이야기의 편 번호를 찾을 때 이야기 이름 글자가 아니라 ★차례(첫째 · 둘째 …)로 맞춥니다(samePlace_) — ritual v40 과 같은 규칙. [무손] 그 밖 전부. — 이전 ▶ v57 · 261003 · [작업 v57 · 24-6 초등 질문지 시험 · 대표 결정 261003] ★「고르기+한마디」 물음은 보기를 고른 뒤 ★한마디까지 써야 「다음」이 눌립니다 — 지금까지는 보기만 눌러도 넘어갔습니다(LF-J5JDR 실측). 보기 아래 안내 줄이 단계마다 바뀝니다: 「해당하는 것을 누르고, 아래에 한마디 들려주세요」 → (고르고 안 썼으면 붉은 글씨) 「고르셨어요. 아래 칸에 한마디를 쓰시면 다음으로 넘어갑니다」 → 「고맙습니다. 다음으로 넘어가셔도 됩니다」. 「저에게는 해당하지 않아요」는 그대로. [무손] 그 밖 전부. — 이전 ▶ v56 · 261003 · [작업 v56 · 대표 결정 261003 · 기다리는 화면] ★물음을 받아 오는 동안 빈 화면 대신 공용 기다림 화면(kit.js v3 LFM.wait — 금빛 하트 + 물결 위 「사랑흐름 · LOVE FLOW」)을 띄우고, 「사랑흐름 여권번호 확인 → ○째 이야기 자리 마련 → 선생님을 위한 물음 준비」를 실제로 끝난 순서대로 ✓. 잠금 · 남은 편 없음 · 불러오기 실패 때는 걷고 안내를 띄움. kit.js 꼬리표 ?v=1 → ?v=3. [무손] 그 밖 전부. — 이전 ▶ v55 · 261003 · [작업 v55 · 24-6 시험 중 대표 지적] ①★물음이 늦게 뜸 — 한 번 받은 이야기는 이 기기에 6시간 담아 두고(그분이 연 한 이야기 몫만) 다음부터 바로 펼칩니다. 이어 쓰기(주소에 trip)면 검문과 동시에 물음을 미리 받습니다. ②★소재 점이 커다란 동그라미로 보임(LF-ZUT34 「그 시절의 맛」 4/8 실측) — 지나온 소재 점의 이름 done 이 완료 화면 .done(큰 여백) 규칙과 겹쳤습니다. 이름을 sdpast 로 바꿈. [무손] 그 밖 전부. — 이전 ▶ v54 · 261003 · [작업 v54 · 자서전 공사 칸 24-4] ★질문을 코드에서 뺍니다 — 질문 257문(BOOK)이 이 파일 안에 있어 누구나 Ctrl+U로 통째로 볼 수 있었습니다(대표 지적 261003). 이제 이야기를 열면 자서전 서버(v16) getQuestions 에서 ★그 이야기 몫만 받아 옵니다(질문 원본 = 「사랑흐름 질문지」 시트 · 33차 확정 A-01-ko). ★물음 위 꼬리표 「먼저 떠올려 보기」(꼭 답함) / 「조금 더 들려주기」. ★진행 표시 「1 / 33」 → 「살던 집 · 소재 1 / 8」 + 소재 점. ★여는 말 칸은 비어 있으면 감춤(소재 첫 물음에만). ★답 방식 「고르기+한마디」(보기 고른 뒤 한마디 칸) · 「자유」(제목 + 글) 그림 — 어른 질문지는 서술만. ★건강 별도 동의는 소재 이름이 아니라 질문지의 「건강」 표시로 엶. ★새로 쓴 화면 문구는 T 묶음 한곳에(언어 준비). [그대로 · 대표 결단 260811] 모든 물음은 답하시거나 「저에게는 해당하지 않아요」 — 건너뛰기 단추 없음. [무손] 저장 · 대기열 · 사진 · 서명 길 · 음성 · 가족이 대신 적기 · 건강 팝업 · 상단바 · 드로어 · 길 셋 · 푸터 · 색값. — 이전 ▶ v53 · 261002 · [작업 v53 · 자서전 공사 14-6 시험 중 발견 · 누수] ★편 이력 줄이 없는 번호(대량 발급 기관 번호 등)는 화면이 스스로 「옛 방식」으로 정하고 서버에 자리 열기(openPlace)를 아예 묻지 않아, 자서전 서버 v13 의 「편 이력 줄 만들기」가 불리지 않았습니다(LF-WAU6D · 261002 실측). 이제 편 이력이 없으면 ★늘 서버에 묻고 서버의 답(새 편 번호 · 옛 방식)을 따릅니다. 「전에 쓰던 이야기면 그 번호로」 지름길은 편 이력이 있는 번호에만 씁니다. ★남은 편 없음 안내 말을 여는 의식과 맞춤 — 「남은 이야기가 없어요 · 이야기를 더 남기시려면 한 편을 더 예매해 주세요.」 [무손] 그 밖 전부. — 이전 ▶ v52 · 261002 · [작업 v52 · 자서전 공사 14-6 시험 중 발견] ★「몸이 아프던 때」 따로 여쭙기 · 「사진에 함께 나온 분 동의」 기억을 ★여권번호별로 나눕니다 — 지금까지 여행 번호(첫째·둘째…)만으로 기억해, 같은 기기에서 다른 번호(가족 · 시험 번호)가 같은 차례의 이야기를 열면 이미 답한 것으로 보고 묻지 않았습니다(LF-WAU6D 여섯째에서 팝업이 안 뜸 · 261002 실측). ★이미 「이야기하겠습니다」를 고른 편이면 들어올 때마다 서버에 그 시각을 다시 보냅니다(서버는 처음 시각을 지킴) — 서버 기록이 빠졌을 때 메워짐. [무손] 그 밖 전부. — 이전 ▶ v51 · 261002 · [작업 v51 · 자서전 공사 14-6 시험 중 대표 지적] ★「자동 저장됨」 줄을 늘 보이게 하고 말을 풀어 씀 — 「쓰시는 대로 저장돼요. 다음 이야기로 넘어가거나 창을 닫으셔도 이어서 쓰실 수 있어요.」 [무손] 저장 배관 · 그 밖 전부. — 이전 ▶ v50 · 261002 · [작업 v50 · 자서전 공사 14-6 시험 중 대표 지적] ★답 칸 아래 「휴대전화 자판의 맞춤법 검사도 그대로 쓰셔도 됩니다」 한 줄을 걷습니다(필요 없는 설명 · 지저분함). ★사진 확인 문구를 짧게 — 「사진에 함께 나온 분께 실어도 된다고 여쭈었어요」 → 「사진에 함께 나온 분의 동의를 받았습니다」 · 체크 안 했을 때 알림도 같은 말로. [무손] 저장 배관 · 사진 올리기 · 서버 기록(photoOk). — 이전 ▶ v49 · 261002 · [작업 v49 · 자서전 공사 칸 13] ★문구 대조표 v2 — 다 쓰신 뒤 「저희가 한 편의 기록으로 정성껏 엮습니다」 → 「남기신 이야기가 한 편의 기록으로 완성됩니다」(사랑흐름은 글을 고치지 않음 · 「엮다」 쓰지 않음) · 빈 곳 알림 「엮을 수 없어요」 → 「완성할 수 없어요」 · 답 칸 아래 「휴대전화 자판의 맞춤법 검사도 그대로 쓰셔도 됩니다」 한 줄(29차 ★4) · 다 쓰신 뒤 이메일 안내의 「한 권으로 묶어」 둘 → 「완성된 기록을 받으실 이메일」 · 「모아서 보내 드립니다」(책을 떠올리는 말 걷음). [무손] 물음 · 저장 배관 · 사진 · 음성 · 서버 주소 · 색값. · v48 · 261002 · [작업 v48 · 자서전 공사 칸 12] ①★이야기 번호(trip)를 서버에서 받습니다 — 지금까지 주소에 번호가 없으면 늘 첫째 번호로 저장해, 같은 사랑흐름 여권번호로 둘째 이야기를 쓰면 첫째에 섞여 들어갔습니다. 들어오실 때 검문(getMemoir)을 지나면 서버 openPlace 로 그 이야기의 번호를 받아 그 번호로 저장·사진·이름 남기기·결과물까지 잇습니다. 주소에 번호가 있으면(이미 있는 이야기) 그 번호 그대로. 편 이력이 없는 옛 사랑흐름 여권번호는 대장(trips)에서 그 이야기의 번호를 찾고, 없으면 마지막 번호 다음. 기기 저장 키도 그 번호로 다시 잡습니다. ②「몸이 아프던 때」를 여실 때 따로 여쭙니다(개3) — 동의하시면 서버 recordHealth 로 시각을 남기고 물음으로, 건너뛰시면 그 꼭지를 「해당 없음」으로 지나갑니다. ③사진 — 「사진에 함께 나온 분께 실어도 된다고 여쭈었어요」에 체크하셔야 사진을 고르실 수 있고, 사진과 함께 photoOk=1 · photoOkAt 을 보냅니다(서버 기록은 칸 14 · 대표 결정 261002 (다) 2안). ④동의 기록이 없는 사랑흐름 여권번호면 동의 화면을 먼저(/memoir/kit.js · 개2). ⑤말 규칙 — 이야기 제목 「여섯째 자리 · …」를 화면에는 「여섯째 이야기 · …」로(대표 결정 261002 (가) 1안), 앞말 없는 「여권」을 「사랑흐름 여권번호」로. [무손] BOOK 257물음 · 저장 배관(send_·queue_) · 「해당하지 않아요」 · 완주 검사 · 완료 화면 · 사진 압축 · GAS 주소 · 길 셋 · 상단바 · 드로어 · 푸터 · 색값. · v47 · 260811 · [작업 v47] ★잠금 화면 제목을 ★「사랑흐름 여권번호를 넣어 주세요」로 바꿉니다(대표 지시 260811). 자서전을 시작하시는 분이 처음 만나는 화면인데 무엇을 넣으라는지 안 밝히고 있었습니다. ☰ 메뉴 항목도 ★「마음 여행여권으로 입장」으로 맞춥니다. [무손] 물음·저장 배관·해당 없음·넘김 규칙 전부 미변경. · v46 · 260811 · [작업 v46] ★답이 빈 자리를 아예 만들지 않습니다(대표 결단 260811). 지금까지 물음 이백쉰일곱 중 백아흔셋에 「이 질문은 잠시 건너뛸게요」가 붙어 있어, 답을 안 쓰고 넘어갈 수 있었습니다. 그러다 맨 끝에서 「비어 있는 첫 자리로 모셔다 드리겠습니다」로 몰아서 돌려보냈습니다 — 어느 자리가 비었는지 가시는 동안 손님은 모르셨고, 다 쓰신 줄 알고 계시다가 끝에서 되돌아가야 했습니다. [고침] ①「잠시 건너뛸게요」를 걷습니다. ②입력이 없으면 「다음 이야기로」가 안 눌립니다 — 예외 없음. ③대신 「저에게는 해당하지 않아요」를 ★모든 물음에 둡니다(전에는 예순네 곳에만 있었습니다). 없으신 일은 그렇게 밝히시면 그 꼭지를 통째로 지나가고, 빈칸이 아니라 밝힌 답이라 완주 검사도 통과합니다. ④지난번 저장분에 남아 있는 빈 자리는 ★이어서 쓰기로 들어오시는 그 순간에 첫 빈 자리로 모셔다 드리고 「지난번 비워 두신 ○○ 자리로 모셨습니다」 한 줄을 띄웁니다 — 맨 끝에서 알려 드리면 다 쓰신 줄 알고 계시다가 되돌아가셔야 합니다. 맨 끝 검사는 옛 저장분·다른 기기에서 들어오시는 경우를 위해 그대로 두되, 입구에서 이미 걸러져 평소에는 걸리지 않습니다. [무손] 여덟 자리·물음 문구·소재·사진 배관·저장(localStorage·save·send_)·GAS·잠금 화면·색값 전부 미변경 — 물음 데이터의 skip 값도 한 글자도 안 건드렸습니다. · v45 · 260811 · [작업 v45] ★결과물을 「책」이라 부르던 자리를 걷습니다(대표 지시 260811). 「책으로 엮을 수 없어요」 → ★「한 편으로 엮을 수 없어요」, 「책에 그 목소리가 그대로 남습니다」 → ★「기록에 그 목소리가…」. 물음 속 「교실과 책상」과 코드 안 BOOK 은 다른 말이라 안 건드렸습니다. [무손] 여덟 자리·물음·건너뛰기·사진 배관·저장(localStorage·save)·GAS·잠금 화면·색값 전부 미변경. · v44 · 260810 · [작업 v44] ★이름 남기기로 가는 문 신설.
+     여덟 소재를 다 마치신 자리에 문이 없어, 손님이 이름 남기기 화면에 닿을 길이 사이트 어디에도 없었습니다(260810 실측).
+     글을 다 쓰신 직후가 확인하고 이름을 남기실 때이므로 ★「내 기록 보기」보다 앞에 두었습니다.
+     여권번호와 여행번호를 함께 실어 보냅니다(goSign_).
+     [무손] 물음·저장·사진·음성·검문·상단바·색값 전부.
+     · v43 · 260810 · [작업 v43] ★번호 찾는 순서를 다른 화면과 맞춥니다 — passport_() 가 ★주소만 보고 있었습니다. 자서전은 일 년을 쓰시는 상품인데 창을 닫았다 다시 오시면 주소에 번호가 없어 무조건 잠금 안내가 떴습니다. 의식(ritual)·입구(index) 는 진작 세 곳(주소·창·기기)을 다 보고 있었습니다 — 이 화면만 반쪽이었습니다. ★검문 자체(gateThenBoot_ · MEMOIR 게이트 · mlock · 조회 실패시 통과 규칙)는 한 글자도 안 건드렸습니다. [무손] BOOK 257문·저장·GAS·재진입 모달·색값 전부. · v42 · 260810 · [작업 v42] ★문지기(/lf/pass.js) 한 줄로 통일 — 부품을 직접 부르던 꼬리표(?v=4)를 걷습니다. 260804에 부품을 v5·v6으로 두 번 올리면서 화면 열두 곳의 꼬리표를 빠뜨려, 헤더에는 「v6으로 올렸다」고 적혀 있는데 실제로는 옛 부품이 계속 돌았습니다. 이제 부품 판 번호는 pass.js 의 PART_V 한 글자이고, ★화면 파일은 다시 안 건드립니다. [무손] 화면 본문·기존 로직·색값 전부. 손대는 곳 = 헤더와 부품 호출 두 줄. · v41 · [부품 꼬리표 v6 · 260804] 공용 입구 부품을 v6 으로 올립니다 — 고르는 자리(드롭다운)가 버튼처럼 보여 무엇을 하는 칸인지 알 수 없던 것 해소. 위에 「어느 여행을 이어가시겠어요?」 한 줄, 흰 바탕+테두리+화살표로 갈랐습니다. 화면 파일은 꼬리표 한 글자만 바뀝니다. · [부품 꼬리표 v5] · 260804 · [작업 v39] ★공용 입구 부품(/lf/enter.js?v=6) — 대표 확정 260804 「어느 화면에서든 지난 작업을 이어가고 결과를 볼 수 있어야 한다」. 여권 한 칸에 드롭다운 하나와 문 둘(이어 하기·보기). 조회 GAS(읽기 전용)로 가진 것만 엽니다. 아직 없는 상품은 결제로 밀지 않고 「여행의 기록」으로 안내합니다. 부품은 언제나 길 셋 위(화면 맨 아래)라 쓰시던 답이 날아가지 않습니다. [무손] 화면 본문·기존 로직 한 글자도 안 건드렸습니다. 손댄 곳 = 부품 호출 한 줄 + 이 헤더. · v38 · 260804 · [작업 v38] ★빈 버튼 둘을 채우고 길 셋을 깝니다 — ①「음성으로 말하기」에 onclick 이 없어 눌러도 아무 일이 없었습니다. 받아쓰기를 붙입니다. 되는 기기는 말씀하시면 답 칸에 글이 쌓이고(SpeechRecognition·ko-KR·연속), 안 되는 기기·마이크 권한이 막힌 기기(카톡 안 등)에서는 ★자판의 마이크를 쓰시는 길을 안내합니다. 어느 기기에서도 말로 답하실 수 있습니다. ②「가족이 대신 적기」도 껍데기였습니다. 누르면 안내가 뜹니다 — 고쳐 쓰지 말고 말씀하신 그대로 적어 주십사. ③★lfway 길 셋(← 뒤로 · ⌂ 홈 · → 앞으로) 신설. 자서전 안으로 들어오면 길이 사라지던 것을 잇습니다. 부품·CSS 는 memoir/index.html 확정본을 그대로 가져왔습니다. 앞으로 = 지금까지 쓴 기록 보기(book.html, 여권 실어 보냄). [근거] 결과물 문 표준 LF-P45 · 260713 대표 확정 「화면 아래 길 셋」. [무손] BOOK 배열 257물음 · 게이트 · 저장 배관 · 사진 · GAS · 완료 화면 · 색값 전부 한 글자도 안 건드렸습니다. · v37 · 260803 · [작업 v36] ★사진 제목·설명 — 사진을 책에서 한 쪽 전면으로 크게 앉히는데 그 아래가 텅 비고, 그 사진이 무엇인지 아무 말도 없었습니다. 올리신 사진마다 두 가지를 여쭙습니다 — ★「이 사진에 이름을 붙인다면 어떻게 부르시겠어요」(제목) · 「이 사진, 어떤 날이었는지 들려주시겠어요」(설명). 캐묻는 투가 아니라 이야기를 청하는 결로 적었습니다. 적으시는 대로 기기에 담기고(lf_memoir_pmeta_t*) 1.2초 뒤 서버로 갑니다(savePhotoText). 사진을 처음 올릴 때도 함께 실어 보냅니다. 사진을 빼면 그 글도 함께 지웁니다. 안 적으셔도 됩니다 — 제목이 비면 책에서는 그 꼭지 이름이 들어가고, 설명이 비면 그 줄이 아예 안 나옵니다. [짝꿍] 자서전 GAS v8 · book.html v23. [v35 이어받음] 완료 화면 버튼 하나로 · 이메일을 묶는 열쇠로 · 사진 재전송 자동. [v34 이어받음] 기기에만 남은 사진 재전송(resendPhotos_). [v33 이어받음] 버튼 이름·문구를 하는 일에 맞춤 · 이메일 선택. [v32 이어받음] 한 자리만 열기 · 「이 여행 마치기」 · 「내 기록 보기」 · 이메일 약속 정정. [v31 이어받음] 겹친 물음 11건 · 「해당하지 않아요」 · 소재마다 첫 물음 필수 · 빈 채로 못 마침 · 사진 세 장. [v30 이어받음] 소재마다 첫 물음 필수 · 빈 채로 마칠 수 없음 · 사진 세 장. [v29 이어받음] 여덟 자리·소재 64·물음 257 · 소재 단위 저장 · POST 전송 · 여행 번호 · ?place= 로 한 자리만 열기. [짝꿍] 자서전 GAS v6. [무손] 게이트 gateThenBoot_·MEMOIR_GAS·verify_·queue_·상단바·드로어·푸터·완료화면·사진 압축 부품·공유 부품. [다음] 사진 세 장(slot)·제목 짓기·목차 고치기·재입장 네 갈래는 별건. · v28 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜.
+     [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
+     ─── 지난 이력(v27 이전) ───────────────────────────── -->
+<!-- 사랑흐름 · 자서전 질문 memoir/ask.html ★v27 · 260723 · [작업 v27] 잠금화면(#mlock) 밋밋한 두 버튼(먼저 다녀간 분들·자서전 시작하기)에 은은한 네이비 틴트만 입힘 — #mlock 안으로만 좁힌 스코프 규칙 1줄 추가, 전역 .prev(작성 흐름 이전/다음)·.next·마크업·라우팅 무손. [작업 v26] ★공유 버튼 이식 — 정본(index) 화살표 공유부품(lffShare) 자립형(.lffsw)으로 푸터 위에 추가. 카카오 안 씀·navigator.share→클립보드→textarea 폴백·메인홈 https://www.loveflow.ai.kr 만 내보냄. 정본의 display:none 가드는 방향줄 전용이라 제외. [무손] 게이트 gateThenBoot_·MEMOIR_GAS·저장(save/packChapter_/send_)·사진 배관(savePhoto)·상단바·드로어·푸터. · ★v25 · 260723 · [작업 v25] ★부팅 멈춤 실버그 수정 — MEMOIR_GAS 를 블록1 맨 위로 올림. 게이트 gateThenBoot_(641행 호출)가 637행에서 MEMOIR_GAS 를 쓰는데 정의는 블록2(665행)라, 여권으로 진입하면 "MEMOIR_GAS is not defined"가 던져져 boot·paint 가 아예 안 돌고 화면이 통째로 빈칸으로 멈추던 것(v22부터 있던 것·실측 확인). passport_ 를 예전에 블록1로 올린 것과 같은 방식 — 위치만 이동, 값 동일, 블록2 정의는 중복 방지 위해 주석으로 대체. [무손] 게이트 로직·저장엔진·BOOK·사진배관 값 무변경. · [작업 v24] ★사진 서버 전송(짝꿍) — 업로드 시 자서전 GAS savePhoto(POST·격리)로 이미지만 보냄. sendPhoto_/storePhoto_ 신설, onPhotoFile 두 경로가 storePhoto_ 경유. ★[절대보존] save()·packChapter_·send_·verify_·queue_·GAS URL·passport_·nextQ·BOOK·#done 무손 — 사진 전송은 별도 fetch(no-cors POST). 짝꿍: 자서전 GAS v5 savePhoto_. · [작업 v23] ★사진 한 장(선택) — 각 챕터 작성 화면에 「이 이야기에 사진 더하기」 신설(확정본 손님동선 ④ '그 자리에서 사진 올린다'). draw/index.html pfile 부품 이식: createImageBitmap 회전보정(아이폰 눕는 사진)+1000px 리사이즈+JPEG 0.85 압축. ★[절대보존 지킴] answers·save()·packChapter_·send_·verify_·queue_·GAS URL·passport_·nextQ·#done·BOOK 33문항 = 한 글자도 안 건드림. 사진은 별도 키(lf_memoir_photos)에 격리 저장 → 사진 실패해도 답변 저장 무손. ★[다음·②단계] 서버 전송은 아직 안 함(기기 안 보관만) — 자서전 GAS saveChapter_에 base64 받는 부(POST) 추가는 위험구간·백업 후 별건. · [작업 v22] ★질문지 대개편(이사회 16차+대표 확정): 7테마 골격·순서 그대로(GAS CHAPTERS와 짝맞음, 한 글자도 안 건드림). 각 장 안에서만 손봄 — ①선택형 보기를 문장으로(고른 게 본문) ②「지금의 나」 잇는 질문 1·3·4·5장(+2장 원래) ③각 장 끝 「더 남기고 싶은 말」 자유발언 7개(말문 터진 어르신용) ④향기(냄새) 표기(냄새는 나쁜뜻도) ⑤큰 장면 녹이기: 그리운 맛(1장)·떠난 이(2장)·첫사랑·배우자·자녀(3장)·노래(7장). 16문항→33문항(대부분 건너뛰기 가능). [무손] 렌더·저장·게이트·GAS·상단바·드로어·푸터. 새 테마 안 만듦(8번째는 향후 구조조정). ★버그수정: passport_ is not defined 에러 잡음 — mq_·passport_ 두 함수가 두번째 script 블록에 정의돼 첫 블록의 gateThenBoot_ 호출보다 늦게 만들어지던 것을, 두 함수를 첫 script 맨 위로 이동(내용 무변경·위치만). v21 원래 있던 버그. ★잠금화면(mlock) 개선(대표 260723): 「자서전은 여권으로 열려요/자서전·한 편의 기록을 마련하신 여권으로」(어색·모호) → 「여권을 넣어 주세요/자서전은 사랑흐름 여권으로 열립니다·받으신 여권이 있으면」. 여권없는 사람 경로 안내 추가 — 구경(showroom)→여권받기(showcase) 두 버튼 신설(기존 showcase 단일→구경 먼저). 버튼 기존 .btn next/prev 계승. ★헤더 텍스트 누출 버그도 수정 — v22 이력복구 때 첫 주석을 6171에서 조기 닫아 v10 이력이 주석 밖 화면에 노출되던 것, 조기 닫음표시 지워 이력 전체를 주석 안으로. ── 이전 이력 ── [작업 v21] 상단바 딥네이비 표준 통일(뱃지 로고+상호·뒤로·이름 중앙·☰ 흰색). [이전] ★카카오톡 문의를 푸터(.glegal .fl) 오른쪽 끝에 링크로 추가. [무손] 게이트·gateThenBoot·GAS·라우팅. · ★v19 · 260716 · [작업 v19] ★여권 필수 확정 (대표 확정 260716) — 진입 시 여권(?id=) 없으면 통과시키던 것을 잠금(mlock)으로 변경. 자서전은 여권으로만 진입(사랑흐름 전체 여권 필수 원칙). mlock 문구를 여권없음·MEMOIR아님 공통으로 바꾸고 '마음 여행여권으로 입장'(gate) 버튼 추가. [순수 수정·무손] gateThenBoot_ if(!pp) 분기 1줄 + mlock 문구·버튼만. 저장엔진·boot·조회로직 미변경. · v18 · 260716 · [작업 v18] ★진입 게이트 (편지 letter 와 동일 방식 · 대표 확정 260716) — 진입 시 getMemoir 를 조회해 자서전 상품(MEMOIR)이 아니면 잠금 안내 오버레이(mlock)를 띄움. 저장·재진입 GAS 게이트(자서전 GAS v3 hasMemoirProduct_)와 짝. [순수 추가·무손] boot()·저장엔진(send_·verify_·queue_·packChapter_·GAS URL)·완료화면·드로어·passport_ = 한 글자도 미변경. gateThenBoot_ 함수 + mlock 오버레이(rsmask 스타일 재활용 → CSS 무증) + boot() 호출 한 줄 교체만. 여권 없음·조회 실패·타임아웃은 막지 않음(서버 게이트가 최종 방어). · v17 · 260716 · [작업 v17] ★완료화면 이메일 통째 패턴 (대표 go 260716·4순위F) — 수기 단일칸을 find·무료·편지 확정 패턴 [아이디]@[도메인 선택▼]으로 교체. onDoneDom·getDoneEmail·setDoneEmail 추가, 저장·전송의 이메일 읽기(confirmPromise·sendMyStory_ 2곳)를 getDoneEmail()로, 복원세팅을 setDoneEmail()로. 검증 regex·send_·packChapter_·GAS·저장엔진 = 무손. · v16 · 260716 · [작업 v16] ★이어가기/처음부터 선택 창 (대표 go 260716·2순위) — 지금까진 저장분(localStorage)을 아무것도 안 묻고 침묵 복원해 7장에서 열리고·거꾸로 가고·예전 입력 코드가 되살아나던 문제. 부팅을 paint()→boot()로 감쌈: 저장 진행분이 있으면 모달로 "이어서 쓰기 / 처음부터 새로 쓰기"를 물음. 이어서=복원 그대로 paint / 처음부터=ci·qi·answers·picks 초기화 + KEY 삭제 후 paint. [★저장엔진 무손] KEY·L342 복원선·save()·send_·verify_·queue_·packChapter_·GAS URL·passport_·nextQ·confirmPromise·#done = 미변경. 순수 추가(모달 CSS·HTML·boot/resumeYes/resumeNo) + 부팅 한 줄 교체. · v15 · 260716 · [작업 v15] ★드로어 표준 복구 (대표 go 260716) — v14가 '자서전' 항목을 '다시 시작'으로 바꿔 빼놓은 것을 표준 10항목으로 되돌림. '편지' 다음 '자서전'(glgo('memoir')→/memoir/) 제자리 복원 + 끝에 진짜 '다시 시작'(location.reload) 추가. index/journey/showcase 라이브 표준과 일치. [★안 건드림·저장엔진 무손] send_·verify_·queue_·packChapter_·GAS URL·passport_·nextQ·confirmPromise·#done 약속화면·BOOK 배열·이전/다음·안전판 버튼 = 한 글자도 미변경. GLINK 도 미변경(memoir 이미 있음). · v14 · 260716 · [작업 v14] ★입구·출구 선명화 — 지도·편지 표준 네비 이식 (대표 승인 260716). ①☰ 드로어 6항목 → 지도·편지·게이트 표준 9항목 통일: 홈·마음 한마디·여행지도 보기·편지·마음 여행여권으로 입장·사랑흐름 여권 찾기·여행의 기록·마음 여행 예매하기·다시 시작. 링크는 지도 LF_LINK 실값 그대로(showroom=/showroom.html·showcase=/showcase.html·reenter=/reenter.html 추가). '자서전' 항목은 '다시 시작'(/memoir/)으로 대체. ②glgo: 여행지도·편지는 여권번호(?id=) 있으면 붙여 '내 여행'으로 이어줌(지도 LF_NEEDS_ID 규칙 계승). ③#done 완료화면 막다른 끝 → 잔잔한 여운 한 줄 + 여행 이어가기: 주버튼(먼저 다녀간 분들의 여행 보기=showroom·홈으로) + 얇은 링크(여권 찾기·마음 여행여권으로 입장·마음 여행 예매). 버튼 형태 = 기존 .btn.prev(흰 배경·navy 테두리) 계승. [무손] 저장엔진·v13 안전판·confirmPromise = 미변경. · v13 · 260716 · [작업 v13] ★임시 안전판 — 저장 확실히 보내기 버튼 (대표 승인 260716). #done 완료화면에 [내 이야기 확실히 보내기] 버튼 1개 순수 추가. ①전 장(章) send_ 재전송(확장 없는 브라우저는 전량 저장) ②마지막 장+이메일을 확실히 되는 주소창 GET(새 탭 window.open)으로 한 번 더 — 대표 브라우저 확장(이미지/fetch 차단)이 top-level 이동은 못 막음. [저장엔진 무손] send_·verify_·queue_·packChapter_·flushQueue_·GAS URL·passport_·nextQ 래핑·confirmPromise·기존 #done 약속화면 = 한 글자도 안 건드림(순수 추가만, md5 대조 증명). [남은 것·A-2] 확장 차단 기기에서 7장 전부 한 방 보장 = GAS saveAll 신설 필요(GAS 배포·위험구간, GAS 소스 확보 후 별건). · v12 · 260716 · [작업 v12] ★서술 부담 개편 (대표 승인 260716). 24문항 전부 서술 → 16문항(보기 9 + 장당 서술 1, 총 7 사수). 배경·대상·사실은 보기(탭 선택·다중가능·'그 밖에' 직접입력), 감정 코어 하나만 서술. ★문항 문구는 v11 원문 그대로 살림 — 새로 만든 건 보기 선택지뿐. ★[저장엔진 무손] packChapter_·send_·verify_·queue_·GAS URL·여권 읽기(passport_)·nextQ 래핑·#done 약속화면 = 한 글자도 안 건드림. 보기 답은 문자열(', ' 연결)로 answers 에 담겨 기존 저장선 그대로 탐. 덤: 답이 짧아져 GET 길이 부담↓. · v11 · 260715 · [작업 v11] ★질문 끝 완료화면(#done)을 「약속 체결 화면」으로 교체 (이사회 만장일치). 지금까지 질문 끝나면 바로 book(⑦·가짜 예시)로 튀던 것을 멈추고, 그 자리에서 ①접수완료 인사 ②엮는 중 한 줄 ③표지 미리보기(본문 없음) ④납기 날짜 약속(접수일+10일 자동, "○월 ○일까지") ⑤완성본 받을 이메일 수집 ⑥버튼 "확인했습니다" 하나 로 재구성. [이메일] confirmPromise() 가 이메일 유효성 확인 → localStorage 저장 → 여권 있으면 마지막 장에 email 실어 send_ 로 저장 → 홈으로. send_ URL 에 &email= 한 칸 추가(짝꿍: 자서전 GAS v2 가 이 칸을 받음). [금지 지킴] 가짜 본문 미노출 · "평생"·기간 암시 없음 · "며칠" 숫자 대신 날짜만. [절대보존] BOOK 질문배열 · nextQ 래핑 · packChapter_ · send_/verify_/queue_ 이미지신호 저장엔진 · GAS URL · 여권 읽기(passport_) · goBook(죽은 링크로 남김) 미변경. · v10-2 · 260714 · [작업 v10-2] ★저장 방식 JSONP → 이미지 신호 교체 (브라우저 확장프로그램이 JSONP 를 막음) — 답변이 시트와 드라이브에 남습니다
+     [★v10-1 왜] fetch POST 는 GAS 응답을 못 읽습니다(리다이렉트+CORS) → 매번 catch 로 빠져 시트에 안 감. 주소창(GET)은 됐던 이유.
             → JSONP(script 태그 GET) 로 교체. gate·편지와 같은 방식입니다. 이제 장이 끝나면 시트에 줄이 쌓입니다.
+     [왜] 이사회 5인 만장일치 1순위: "임시저장만 하는 현 상태는 서비스가 아니다." 지금까지 답변은 브라우저에만 담겨, 폰을 바꾸면 사라졌습니다.
+     [★화면 무손] 마크업·CSS·BOOK 배열(7장 24문항)·기존 함수 — ★한 글자도 안 건드렸습니다. 대표 지시 "이 페이지는 마음에 들어, 손대지 마요".
+            nextQ 를 ★감싸기만 했습니다. 원래 nextQ 가 먼저 다 하고, 장이 끝났을 때만 서버로 보냅니다.
+            서버가 죽어도 원래 동작(브라우저 저장·이전/다음·완료화면)은 그대로 굴러갑니다.
+     [담기는 곳] 자서전 GAS → 시트 '자서전대장' 한 줄(색인) + 드라이브 문서 1개(어르신 1명, 구술 원본 append)
+     [열쇠] 주소의 ?id=LF-XXXXX. ★여권이 없으면 서버로 안 보냅니다(맛보기 손님이 막히지 않게).
+            대리입력 → ?id=LF-XXXXX&src=파주복지관&by=유상열&how=대리입력  (소속·입력자·입력방식 = 이사회 만장일치 '대리입력이 본선')
+     [못 보냈을 때] ★버리지 않습니다. lf_memoir_queue 에 쌓아두고 다음 방문 때 조용히 다시 보냅니다.
+     [표시] 새 요소를 안 만듭니다 — 있던 [임시 저장] 버튼을 잠깐 빌려 '담았습니다'로 깜빡입니다.
+     ── 이하 v9 이력 ──  [작업 v9] 가독성 표준 + ★책으로 가는 문 신설 (대표 승인 260714)
+     [출처] 원본 = 자서전질문_표준v8_260708.html (이삿짐 zip · 25,232B). 7장 24문항.
+     [★신설] 완료 화면(#done)에 [한 편의 기록 보기 →] 버튼 추가 → /memoir/book.html.
+            지금까지는 24문항을 다 답해도 ★갈 곳이 없었습니다(막다른 길).
+     [고침] 글자 크기 18종 → 9종. 하한 13px. 질문 글씨는 20px 이상으로 올라갑니다(어르신).
+            버튼 52px/17px · 이전/다음 같은 규격 · 창틀 412px · 바탕 #E7E1D6 · letter:'/l/'
+            localStorage 키 lfb_memoir_book → lf_memoir_book (LFB- 는 260713 이사회 만장일치로 폐기된 명칭)
+     [★안 건드림] BOOK 배열 = 7장 24문항 원문 · 들려드리기 버튼 자리(입력창 바로 위 — 260708 대표 지시) · 임시저장 · 이전/다음 로직
+     ★★[아직 없는 것] 답변은 브라우저 임시저장(localStorage)에만 담깁니다. 시트에 안 남습니다.
+            폰을 바꾸거나 지우면 사라집니다. ★자서전 GAS 전환이 진짜 몸통이고, 아직 안 됐습니다.
+     ═══════════════════════════════════════════════════════════════════ 
+     [★v10-1 왜] fetch POST 는 GAS 응답을 못 읽습니다(리다이렉트+CORS) → 매번 catch 로 빠져 시트에 안 감. 주소창(GET)은 됐던 이유.
+            → JSONP(script 태그 GET) 로 교체. gate·편지와 같은 방식입니다. 이제 장이 끝나면 시트에 줄이 쌓입니다.
+     [왜] 이사회 5인 만장일치 1순위: "임시저장만 하는 현 상태는 서비스가 아니다." 지금까지 답변은 브라우저에만 담겨, 폰을 바꾸면 사라졌습니다.
+     [★화면 무손] 마크업·CSS·BOOK 배열(7장 24문항)·기존 함수 — ★한 글자도 안 건드렸습니다. 대표 지시 "이 페이지는 마음에 들어, 손대지 마요".
+            nextQ 를 ★감싸기만 했습니다. 원래 nextQ 가 먼저 다 하고, 장이 끝났을 때만 서버로 보냅니다.
+            서버가 죽어도 원래 동작(브라우저 저장·이전/다음·완료화면)은 그대로 굴러갑니다.
+     [담기는 곳] 자서전 GAS → 시트 '자서전대장' 한 줄(색인) + 드라이브 문서 1개(어르신 1명, 구술 원본 append)
+     [열쇠] 주소의 ?id=LF-XXXXX. ★여권이 없으면 서버로 안 보냅니다(맛보기 손님이 막히지 않게).
+            대리입력 → ?id=LF-XXXXX&src=파주복지관&by=유상열&how=대리입력  (소속·입력자·입력방식 = 이사회 만장일치 '대리입력이 본선')
+     [못 보냈을 때] ★버리지 않습니다. lf_memoir_queue 에 쌓아두고 다음 방문 때 조용히 다시 보냅니다.
+     [표시] 새 요소를 안 만듭니다 — 있던 [임시 저장] 버튼을 잠깐 빌려 '담았습니다'로 깜빡입니다.
+     ── 이하 v9 이력 ──  [작업 v9] 가독성 표준 + ★책으로 가는 문 신설 (대표 승인 260714)
+     [출처] 원본 = 자서전질문_표준v8_260708.html (이삿짐 zip · 25,232B). 7장 24문항.
+     [★신설] 완료 화면(#done)에 [한 편의 기록 보기 →] 버튼 추가 → /memoir/book.html.
+            지금까지는 24문항을 다 답해도 ★갈 곳이 없었습니다(막다른 길).
+     [고침] 글자 크기 18종 → 9종. 하한 13px. 질문 글씨는 20px 이상으로 올라갑니다(어르신).
+            버튼 52px/17px · 이전/다음 같은 규격 · 창틀 412px · 바탕 #E7E1D6 · letter:'/l/'
+            localStorage 키 lfb_memoir_book → lf_memoir_book (LFB- 는 260713 이사회 만장일치로 폐기된 명칭)
+     [★안 건드림] BOOK 배열 = 7장 24문항 원문 · 들려드리기 버튼 자리(입력창 바로 위 — 260708 대표 지시) · 임시저장 · 이전/다음 로직
+     ★★[아직 없는 것] 답변은 브라우저 임시저장(localStorage)에만 담깁니다. 시트에 안 남습니다.
+            폰을 바꾸거나 지우면 사라집니다. ★자서전 GAS 전환이 진짜 몸통이고, 아직 안 됐습니다.
+     ═══════════════════════════════════════════════════════════════════ -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- ★[260810] 문지기 — 번호 찾기·심기·링크에 번호 붙이기·부품 불러오기. -->
+<script src="/lf/pass.js"></script>
+<script src="/memoir/kit.js?v=3"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 자서전 「한 편의 기록」</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- memoir_ask_v5 | 260708 | ★대표: 들려드리기 버튼을 질문 옆(상단)→입력창 바로 위로 내림(질문은 크게 단독) · 입력창 위에 [🔊들려드릴게요][💾임시저장] 나란히 · 눈에 보이는 임시저장 버튼 추가(누르면 "저장됐어요" 확인, 자동저장과 별도로 안심용). 마음여행지도·편지도 같은 원칙 적용 예정. | memoir_ask_v4 | 260708 | ★음성 솔톤(pitch 1.12→1.05 라톤→솔톤 차분한 낭랑, rate .9) + 7장 전체 질문(유년→가족→일→고비→자부심→후손→지금의마음) 채움. | memoir_ask_v3 | 260708 | ★음성=한국어 여성 우선 자동선택(Yuna/Google 한국의/SunHi 등 기기별 여성 보이스 탐지) + 낭랑·젊은 톤(rate .88 pitch 1.12). 실기기(폰·PC)의 여성 음성으로 재생. 진짜 성우 녹음은 2단계. | memoir_ask_v2 | 260708 | ★대표 지시: 텍스트 전체 확대(어르신 가독성) · 답 입력창 1.5배(120→180px) · 🔊 질문 읽어주는 음성안내(Web Speech, 2단계서 성우로 교체) · 회상 앞 부드러운 지시어 · 음성버튼 딥네이비 통일. v1 대비 크기·음성·회상 강화. -->
+<style>
+  :root{--navy:#1E4A76;--navy-deep:#173A5A;--gold:#D4AF37;--gold-deep:#B8923E;--cream:#FFFBF5;--ink:#2A3542;--muted:#8A8580;--line:#E7DCC9;--petal:#FFE4EC;--petal-deep:#D4537E;--soft:#F7F0E4}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Noto Sans KR',sans-serif;background:#EDE4D6;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+  .serif{font-family:'Noto Serif KR',serif}
+  .app{width:100%;max-width:440px;min-height:100vh;background:var(--cream);display:flex;flex-direction:column;position:relative}
+
+  /* 상단 내비 (표준 3종) */
+  .nav{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);position:relative}
+  .nav .logo{font-family:'Noto Serif KR',serif;font-weight:700;color:var(--navy);font-size:20px;cursor:pointer}
+  .nav .back{background:none;border:none;color:var(--navy);font-size:24px;line-height:1;cursor:pointer;padding:0 2px}
+  .nav .scr{position:absolute;left:0;right:0;text-align:center;font-size:15px;color:var(--muted);pointer-events:none}
+  .nav .menu{margin-left:auto;background:none;border:none;font-size:24px;color:var(--navy);cursor:pointer}
+
+  /* 진행 */
+  .prog{padding:14px 18px 0}
+  .prog .row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+  .prog .chap{font-family:'Noto Serif KR',serif;color:var(--navy);font-weight:700;font-size:17px}
+  .prog .cnt{font-size:13px;color:var(--gold-deep);letter-spacing:1px}
+  .prog .bar{height:4px;background:#EFE6DA;border-radius:4px;overflow:hidden}
+  .prog .fill{height:100%;background:var(--gold);border-radius:4px;transition:width .4s}
+
+  /* 본문 카드 */
+  .card{flex:1;padding:26px 20px 10px}
+  .open{font-family:'Noto Serif KR',serif;font-style:italic;color:var(--gold-deep);font-size:20px;line-height:1.75;margin-bottom:14px}
+  .qtag{display:inline-block;font-size:13px;font-weight:700;padding:3px 11px;border-radius:999px;margin:0 0 8px;background:var(--soft);color:var(--muted)}
+  .qtag.must{background:var(--navy,#1E4A76);color:#fff}
+  .rvlink{display:block;margin:10px auto 0;background:none;border:0;color:#1E4A76;font-size:15px;text-decoration:underline;cursor:pointer;padding:6px}
+  .pickhint.need{color:#b5372a;font-weight:700}
+  .secdots{display:flex;gap:5px;margin:8px 0 2px}
+  .secdots i{width:9px;height:9px;border-radius:50%;background:#e8e0cc;display:inline-block}
+  .secdots i.on{background:#b8913a} .secdots i.sdpast{background:#d8c9a0}
+  .freetitle{width:100%;box-sizing:border-box;border:1px solid #e3dccb;border-radius:10px;padding:10px 12px;font-size:17px;margin-bottom:8px}
+  .recall{background:var(--soft);border-radius:12px;padding:14px 16px;font-size:17px;color:var(--muted);line-height:1.7;margin-bottom:22px}
+  .recall .lead{display:block;color:var(--navy);font-weight:500;margin-bottom:5px;font-size:17px}
+  .recall b{color:var(--navy);font-weight:500;font-style:normal}
+  .q{font-family:'Noto Serif KR',serif;color:var(--navy-deep);font-size:25px;font-weight:700;line-height:1.55;margin-bottom:16px}
+  .tools{display:flex;gap:10px;margin-bottom:10px}
+  .tool{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:11px;padding:13px;font-size:15px;font-weight:500;cursor:pointer}
+  .tool .ic{font-size:17px}
+  .tool.listen{background:var(--navy);color:#fff;border:none}
+  .tool.listen.playing{background:var(--gold-deep)}
+  .tool.save{background:#fff;color:var(--navy);border:1px solid var(--navy)}
+  .tool.save.done{background:var(--navy);color:#fff;border-color:var(--navy)}
+  textarea{width:100%;min-height:180px;border:1px solid var(--line);border-radius:12px;padding:16px;font-family:'Noto Sans KR',sans-serif;font-size:20px;color:var(--ink);line-height:1.75;resize:none;background:#fff}
+  textarea:focus{outline:none;border-color:var(--gold)}
+  textarea::placeholder{color:#C9C3B6}
+  .aids{display:flex;gap:10px;margin-top:11px}
+  .aid{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;border-radius:11px;padding:13px;font-size:15px;font-weight:500;cursor:pointer;border:none}
+  .aid.voice{background:var(--petal);color:var(--petal-deep)}
+  .aid.family{background:#fff;border:1px solid var(--line);color:var(--navy)}
+  .aid .ic{font-size:17px}
+  .photobox{margin-top:11px}
+  .phint{margin:6px 2px 0;font-size:13px;color:#8A8577;line-height:1.5}
+  .pmeta{margin-top:10px}
+  .pmrow{margin-bottom:12px;padding:11px 12px;border:1px solid #E4DED0;border-radius:10px;background:#fff}
+  .pmno{font-size:12px;color:#B8860B;letter-spacing:.4px;margin-bottom:7px}
+  .pmq{font-size:13px;color:#4A4438;margin:0 0 5px}
+  .pmi{width:100%;box-sizing:border-box;padding:9px 10px;border:1px solid #DCD6C8;border-radius:8px;
+    font-family:inherit;font-size:15px;color:#2B2620;background:#FFFDF9;margin-bottom:8px}
+  .pmt{width:100%;box-sizing:border-box;padding:9px 10px;border:1px solid #DCD6C8;border-radius:8px;
+    font-family:inherit;font-size:15px;line-height:1.6;color:#2B2620;background:#FFFDF9;min-height:56px;resize:vertical}
+  .pcell{display:inline-block;position:relative;margin:6px 6px 0 0}
+  .pcell img{width:92px;height:92px;object-fit:cover;border-radius:10px;display:block;border:1px solid #E4DED0}
+  .pcell button{position:absolute;top:-7px;right:-7px;width:24px;height:24px;border-radius:50%;border:1px solid #D8D2C4;background:#fff;color:#7A7466;font-size:14px;line-height:1;cursor:pointer;padding:0}
+  .aid.photo{width:100%;background:var(--soft);color:var(--gold-deep);border:1px dashed var(--gold)}
+  .pprev{margin-top:11px}
+  .pprev img{max-width:100%;border-radius:12px;border:1px solid var(--line);display:block}
+  .premove{margin-top:8px;background:#fff;border:1px solid var(--line);color:var(--muted);border-radius:11px;padding:9px 16px;font-size:14px;cursor:pointer}
+  .saved{text-align:center;font-size:13px;color:var(--gold-deep);margin-top:16px;opacity:.7;transition:opacity .3s}
+  .saved.on{opacity:1;font-weight:700}
+
+  /* [v12] 보기 — 탭해서 고르기. 어르신 손가락 기준(52px·18px) */
+  .picks{margin-bottom:8px}
+  .chips{display:flex;flex-wrap:wrap;gap:10px}
+  .chip{border:1.5px solid var(--line);background:#fff;color:var(--ink);border-radius:16px;padding:14px 18px;font-size:18px;font-weight:500;cursor:pointer;min-height:52px;display:flex;align-items:center;font-family:inherit}
+  .chip.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .chip.other{border-style:dashed;color:var(--muted)}
+  .chip.other.on{background:var(--gold-deep);border-color:var(--gold-deep);color:#fff;border-style:solid}
+  .otherwrap{margin-top:12px}
+  .otherin{width:100%;box-sizing:border-box;padding:14px 16px;border:1.5px solid var(--line);border-radius:12px;font-size:18px;color:var(--ink);font-family:inherit;background:#fff}
+  .otherin:focus{outline:none;border-color:var(--gold)}
+  .pickhint{text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
+
+  /* 하단 네비게이션 */
+  .foot{padding:14px 20px 18px;border-top:1px solid var(--line)}
+  .btns{display:flex;gap:10px}
+  .btn{border-radius:26px;padding:13px;font-size:17px;cursor:pointer;font-weight:500}
+  .btn.prev{flex:1;background:#fff;border:1px solid var(--line);color:var(--muted)}
+.aglow{margin-top:28px;padding-top:24px;border-top:1px solid var(--line)}
+.aglow .agl{font-size:15px;color:var(--sub,#7C8794);line-height:1.6;margin-bottom:18px}
+.aglow .agb{display:block;width:100%;border-radius:26px;padding:13px;font-size:16px;font-weight:500;cursor:pointer;background:#fff;color:var(--navy,#1E4A76);border:1.5px solid var(--navy,#1E4A76);margin-top:10px}
+.aglow .agln{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin-top:18px}
+.aglow .agln a{font-size:14px;font-weight:700;color:var(--navy,#1E4A76);text-decoration:none;cursor:pointer}
+  .btn.next{flex:2;background:var(--navy);border:none;color:#fff}
+  .btn.next:disabled{background:#C7C0B4;cursor:default}
+  .skip{display:block;width:100%;text-align:center;background:none;border:none;color:var(--muted);font-size:13px;margin-top:12px;cursor:pointer;text-decoration:underline}
+
+  /* 완주 화면 */
+  .done{padding:50px 24px;text-align:center;display:none;flex:1;flex-direction:column;justify-content:center}
+  .done.on{display:flex}
+  .done .halo{font-size:44px;color:var(--gold);margin-bottom:16px}
+  .done h2{font-family:'Noto Serif KR',serif;color:var(--navy-deep);font-size:24px;line-height:1.5;margin-bottom:14px}
+  .done p{color:var(--ink);font-size:17px;line-height:1.7;margin-bottom:8px}
+  .done .season{color:var(--gold-deep);font-family:'Noto Serif KR',serif;font-style:italic;font-size:15px;margin-top:18px}
+  .pcover{width:150px;margin:24px auto 4px;padding:26px 16px 20px;border-radius:6px;background:var(--navy-deep);box-shadow:0 10px 26px rgba(20,40,70,.28);border:1px solid rgba(212,175,55,.35);position:relative}
+  .pcover::before{content:"";position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:var(--gold);opacity:.55;border-radius:2px}
+  .pc-line{color:rgba(255,255,255,.62);font-size:10px;letter-spacing:.06em;margin-bottom:14px}
+  .pc-title{color:#fff;font-size:26px;letter-spacing:.14em;line-height:1.3}
+  .pc-by{color:var(--gold);font-size:11px;margin-top:14px;letter-spacing:.04em}
+  .promise{margin:22px auto 0;max-width:320px}
+  .pr-when{color:var(--navy-deep);font-size:22px;font-weight:600}
+  .pr-how{color:var(--ink);font-size:14px;margin-top:4px}
+  .mailbox{margin:20px auto 0;max-width:320px;text-align:left}
+  .mailin{width:100%;box-sizing:border-box;padding:14px 16px;border:1.5px solid var(--line);border-radius:14px;font-size:16px;color:var(--navy-deep);background:#fff;font-family:inherit}
+  .mailin:focus{outline:none;border-color:var(--navy)}
+  .mailhint{font-size:12.5px;color:var(--muted);margin-top:7px;text-align:center}
+  .mailhint.err{color:#C0392B}
+
+  /* 법정 푸터 */
+  footer{padding:20px;text-align:center;border-top:1px solid var(--line);background:#fff}
+  footer .lk{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;font-size:13px;margin-bottom:10px}
+  footer .lk a{color:var(--navy);text-decoration:none}
+  footer .cp{font-size:13px;color:var(--muted);line-height:1.7}
+
+.gnav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;padding:11px 12px;background:#1E4A76;border-bottom:1px solid #163A5C}
+.gnav .home{display:inline-flex;align-items:center;gap:6px;cursor:pointer;flex-shrink:0}
+.gnav .home img{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block}
+.gnav .brand{color:#fff;font-weight:800;font-size:15px;font-family:'Noto Serif KR',serif}
+.gnav .bk{flex-shrink:0;background:none;border:none;color:#fff;font-size:24px;line-height:1;cursor:pointer;padding:2px 8px}
+.gnav .lc{position:absolute;left:50%;transform:translateX(-50%);text-align:center;font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.gnav .hm{flex-shrink:0;background:none;border:none;color:#fff;font-size:20px;line-height:1;cursor:pointer;margin-left:auto}
+.gdrawer{position:fixed;inset:0;background:rgba(30,48,80,.4);opacity:0;visibility:hidden;transition:.22s;z-index:200}
+.gdrawer.on{opacity:1;visibility:visible}
+.gdpanel{position:absolute;top:0;right:0;width:80%;max-width:300px;height:100%;background:#fff;box-shadow:-8px 0 30px rgba(0,0,0,.15);transform:translateX(100%);transition:.26s}
+.gdrawer.on .gdpanel{transform:none}
+.gdhead{display:flex;justify-content:space-between;align-items:center;padding:18px;border-bottom:1px solid var(--line,#EEE9DF)}
+.gdhead b{font-size:17px;font-weight:900;color:var(--navy,#1E4A76)}
+.gdhead .x{border:none;background:none;font-size:20px;color:var(--sub,#7C8794);cursor:pointer}
+.gdbody a{display:block;padding:14px 18px;font-size:17px;font-weight:700;color:var(--ink,#2E3A46);text-decoration:none;cursor:pointer;border-bottom:1px solid var(--line,#EEE9DF)}
+.glegal{text-align:center;padding:16px 18px 20px;border-top:1px solid var(--line,#EEE9DF)}
+.glegal .fl{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 14px;margin-bottom:10px}
+.glegal .fl a{font-size:12px;font-weight:700;color:var(--navy,#1E4A76);text-decoration:none;cursor:pointer}
+.glegal .wn{font-size:11px;color:var(--sub,#7C8794);line-height:1.7}
+.glegal .h2{font-size:12px;font-weight:800;color:var(--navy,#1E4A76);margin-top:12px;cursor:pointer;display:inline-block}
+
+.gnav{width:100%!important;flex:0 0 100%!important;box-sizing:border-box}
+.glegal{width:100%!important;flex:0 0 100%!important;box-sizing:border-box}
+
+/* [260714] ★창틀 — 라이브(gate·apply·showcase·find)와 같은 골격. 혼자 다른 폭을 쓰지 않습니다. */
+body{background:#E7E1D6 !important}
+.app{max-width:412px !important;border-radius:24px;box-shadow:0 18px 50px rgba(46,58,70,.18)}
+
+/* [260714] ★자서전 버튼 표준 — 어르신 손가락 기준. 라이브(44px)보다 8px 큽니다.
+   주인=딥네이비 채움(한 화면에 하나) · 보조=흰 바탕 테두리 */
+.btn,.gbtn,button.btn{width:100%;min-height:52px;padding:14px 18px;border-radius:22px;
+  font-size:17px;font-weight:700;line-height:1.35;border:1.5px solid var(--navy,#1E4A76);
+  background:var(--navy,#1E4A76);color:#fff;cursor:pointer;box-sizing:border-box}
+.btn.prev,.btn.sub2,.btn.ghost{background:#fff;color:var(--navy,#1E4A76)}
+.btn.skip{background:#fff;color:#6B6357;border-color:#E6E2D7}
+.row2btn{display:flex;gap:10px}
+.row2btn .btn{flex:1}
+.rsmask{display:none;position:fixed;inset:0;background:rgba(30,48,80,.45);z-index:300;align-items:center;justify-content:center;padding:24px}
+.rspanel{background:#fff;border-radius:20px;max-width:360px;width:100%;padding:28px 22px;text-align:center;box-shadow:0 18px 50px rgba(30,58,90,.28)}
+.rstitle{font-size:22px;font-weight:700;color:var(--navy,#1E4A76);margin-bottom:10px}
+.rssub{font-size:16px;color:var(--muted,#8A8580);line-height:1.6;margin-bottom:22px}.rsguide{font-size:13px;color:#7C8794;margin-top:16px;margin-bottom:2px}.btn.ghost{background:transparent;border:none;color:#7C8794;font-size:13px}
+.rspanel .btn{width:100%;margin-top:10px}
+.lffsw{width:100%;max-width:420px;margin:0 auto 2px;padding:0 18px;box-sizing:border-box;text-align:center}
+.lff-sb{width:32px;height:32px;padding:0;background:#fff;border:1px solid #E4E0D6;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:.15s}
+.lff-sb:active{transform:scale(.92)}
+.lff-sb svg{display:block}
+.lff-toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(12px);background:#1E4A76;color:#fff;font-family:'Noto Sans KR',sans-serif;font-size:12.5px;font-weight:600;padding:10px 18px;border-radius:12px;opacity:0;pointer-events:none;transition:.25s;z-index:10000}
+.lff-toast.lff-on{opacity:1;transform:translateX(-50%) translateY(0)}
+#mlock .btn.prev{background:#F4F7FB;border:1px solid #C7D6E6;color:#1E4A76}
+.pok{display:flex;gap:8px;align-items:flex-start;font-size:13.5px;color:#1E4A76;line-height:1.5;margin:0 0 8px;text-align:left;cursor:pointer}
+.pok input{width:18px;height:18px;margin:2px 0 0;flex:0 0 auto;accent-color:#1E4A76}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="gnav">
+  <div class="home" onclick="ggoHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"><span class="brand">사랑흐름</span></div>
+  <button class="bk" onclick="history.back()" aria-label="뒤로">‹</button><div style="flex:1"></div>
+  <div class="lc">한 편의 기록</div>
+  <button class="hm" onclick="gOpenMenu()" aria-label="메뉴">☰</button>
+</div>
+<div class="gdrawer" id="gdrawer" onclick="if(event.target===this)gCloseMenu()">
+  <div class="gdpanel">
+    <div class="gdhead"><b>사랑흐름</b><button class="x" onclick="gCloseMenu()">✕</button></div>
+    <div class="gdbody">
+      <a onclick="ggoHome()">홈</a>
+      <a onclick="glgo('hanmadi')">마음 한마디</a>
+      <a onclick="glgo('journey')">여행지도 보기</a>
+      <a onclick="glgo('letter')">편지</a>
+      <a onclick="glgo('memoir')">자서전</a>
+      <a onclick="glgo('reenter')">마음 여행여권으로 입장</a>
+      <a onclick="glgo('find')">사랑흐름 여권 찾기</a>
+      <a onclick="glgo('showroom')">여행의 기록</a>
+      <a onclick="glgo('showcase')">마음 여행 예매하기</a>
+      <a onclick="location.reload()">다시 시작</a>
+    </div>
+  </div>
+</div>
+
+  <div class="lfTip" id="resumeTip" style="display:none;max-width:420px;margin:10px auto 0;padding:9px 12px;border:1px solid #E6E1D8;border-radius:10px;background:#FFFBF5;color:#1E4A76;font-size:12.5px;text-align:center"></div>
+<div class="rsmask" id="rsmask">
+  <div class="rspanel">
+    <div class="rstitle serif">이어서 하시겠어요?</div>
+    <div class="rssub" id="rssub">지난번 쓰시던 곳이 남아 있어요.</div>
+    <button class="btn next" onclick="resumeYes()">이어서 쓰기</button>
+    <button class="btn prev" onclick="resumeNo()">처음부터 새로 쓰기</button>
+  </div>
+</div>
+
+<div class="rsmask" id="mlock">
+  <div class="rspanel">
+      <div class="rstitle serif">사랑흐름 여권번호를 넣어 주세요</div>
+      <div class="rssub">자서전은 사랑흐름 여권번호로 열립니다.<br>받으신 사랑흐름 여권번호가 있으면 아래로 들어오세요.</div>
+      <button class="btn next" onclick="location.href='/gate.html'">마음 여행여권으로 입장</button>
+      <div class="rsguide">아직 사랑흐름 여권번호가 없으신가요?</div>
+      <button class="btn prev" onclick="location.href='/showroom.html'" style="margin-top:8px">먼저 다녀간 분들의 이야기 구경하기</button>
+      <button class="btn prev" onclick="location.href='/showcase.html'" style="margin-top:8px">자서전 시작하기 · 마음 여행여권 받기</button>
+      <button class="btn ghost" onclick="location.href='/'" style="margin-top:8px">홈으로</button>
+    </div>
+</div>
+
+<!-- ★[v48] 「몸이 아프던 때」 따로 여쭙기 -->
+<div class="rsmask" id="hcmask">
+  <div class="rspanel">
+      <div class="rstitle serif">이 이야기는 따로 여쭙니다</div>
+      <div class="rssub">「<span id="hcname">몸이 아프던 때</span>」는 건강에 관한 이야기라<br>들려주셔도 될지 먼저 여쭙습니다.<br>들려주신 이야기는 이 기록을 만드는 데만 씁니다.</div>
+      <button class="btn next" onclick="healthYes_()">괜찮습니다, 이야기하겠습니다</button>
+      <button class="btn prev" onclick="healthNo_()" style="margin-top:8px">이 이야기는 건너뛰겠습니다</button>
+    </div>
+</div>
+
+<div class="prog" id="prog">
+    <div class="row"><span class="chap serif" id="chap">첫째 이야기</span><span class="cnt" id="cnt">1 / 4</span></div>
+    <div class="bar"><div class="fill" id="fill" style="width:25%"></div></div>
+  </div>
+
+  <div class="card" id="card">
+    <p class="open serif" id="open"></p>
+    <div class="recall" id="recall"></div>
+    <p class="q serif" id="q"></p>
+    <div class="tools">
+      <button class="tool listen" id="listen" onclick="speak()" aria-label="질문 들려드리기"><span class="ic">&#128266;</span> 들려드릴게요</button>
+      <button class="tool save" id="savebtn" onclick="manualSave()" aria-label="임시 저장"><span class="ic">&#128190;</span> 임시 저장</button>
+    </div>
+    <div class="picks" id="picks" style="display:none">
+      <div class="chips" id="chips"></div>
+      <div class="otherwrap" id="otherwrap" style="display:none">
+        <input class="otherin" id="otherin" placeholder="직접 말씀해 주세요" oninput="onOther(this.value)">
+      </div>
+      <p class="pickhint" id="pickhint">해당하는 것을 눌러 주세요</p>
+    </div>
+    <textarea id="ans" placeholder="말씀하신 내용이 여기 담깁니다…" oninput="onType()"></textarea>
+    <div class="aids">
+      <button type="button" class="aid voice" id="voiceBtn" onclick="voiceToggle()"><span class="ic">&#127908;</span> <span id="voiceTxt">음성으로 말하기</span></button>
+      <button type="button" class="aid family" onclick="familyTip()"><span class="ic">&#128106;</span> 가족이 대신 적기</button>
+    </div>
+    <div class="aidnote" id="aidnote" style="display:none"></div>
+    <div class="photobox" id="photobox">
+      <label class="pok" id="pokWrap"><input type="checkbox" id="pokChk" onchange="photoOkTip_()"> <span>사진에 함께 나온 분의 동의를 받았습니다</span></label>
+      <button type="button" class="aid photo" id="pbtn" onclick="photoPick_()"><span class="ic">&#128247;</span> 이 이야기에 사진 더하기 (0/3)</button>
+      <input type="file" id="pfile" accept="image/*" style="display:none" onchange="onPhotoFile(this)">
+      <p class="phint" id="phint">이 여행에 사진은 <b>세 장까지</b> 올리실 수 있어요. 없으셔도 괜찮습니다.</p>
+      <div class="pprev" id="pprev" style="display:none"></div>
+      <div class="pmeta" id="pmeta" style="display:none"></div>
+    </div>
+    <p class="saved" id="saved">&#10003; 쓰시는 대로 저장돼요. 다음 이야기로 넘어가거나 창을 닫으셔도 이어서 쓰실 수 있어요.</p>
+  </div>
+
+  <div class="foot" id="foot">
+    <div class="btns">
+      <button class="btn prev" onclick="prevQ()">이전</button>
+      <button class="btn next" id="nextb" onclick="nextQ()">다음 이야기로</button>
+    </div>
+    <button class="skip" id="skip" onclick="nextQ(true)" style="display:none" aria-hidden="true"></button>
+      <button class="skip" id="na" onclick="markNA()">저에게는 해당하지 않아요</button>
+      <button type="button" class="rvlink" id="rvBtn" onclick="openReview_()">내가 쓴 글 한눈에 보기</button>   <!-- ★v61 위 → 아래(부가) -->
+  </div>
+
+  <div class="done" id="done">
+    <div class="halo">&#10047;</div>
+    <h2 class="serif"><span id="donePlace">이야기</span>,<br>고맙습니다 선생님.</h2>
+    <p>남기신 이야기가<br>한 편의 기록으로 완성됩니다.</p>
+
+    <div class="pcover">
+      <div class="pc-line">사랑흐름 · 한 편의 기록</div>
+      <div class="pc-title serif" id="coverTitle">한 편</div>
+      <div class="pc-by">선생님의 이야기</div>
+    </div>
+
+    <div class="promise">
+      <div class="pr-when serif" id="dueDate">&nbsp;</div>
+      <div class="pr-how">기록은 사랑흐름 여권번호로 언제든 다시 보실 수 있습니다.<br>완성된 기록을 받으실 이메일이 있으면 아래에 남겨 주세요.</div>
+    </div>
+
+    <div class="mailbox">
+      <div style="display:flex;gap:6px;align-items:center">
+        <input class="mailin" id="doneEmailId" style="flex:1" inputmode="email" autocomplete="off" placeholder="아이디">
+        <span style="color:var(--muted);font-weight:700">@</span>
+        <select class="mailin" id="doneEmailDom" style="flex:1;padding:14px 10px" onchange="onDoneDom()">
+          <option value="">직접입력</option>
+          <option>naver.com</option><option>gmail.com</option><option>daum.net</option>
+          <option>hanmail.net</option><option>nate.com</option><option>kakao.com</option>
+          <option>icloud.com</option><option>outlook.com</option>
+        </select>
+      </div>
+      <input class="mailin" id="doneEmailDomCustom" style="margin-top:6px;display:none" placeholder="도메인 직접입력 (예: company.com)">
+      <div class="mailhint" id="mailMsg">여러 편을 쓰시면 이 주소로 <b>모아서</b> 보내 드립니다.</div>
+    </div>
+
+    <button class="btn prev" style="margin-top:22px" onclick="openReview_()">&#128221; 쓴 글 다시 읽고 고치기</button>
+    <button class="btn" style="margin-top:12px" onclick="goSign_()">&#9998; 이름 남기기 &rarr;</button>
+      <button class="btn" style="margin-top:12px" onclick="goMyBook_()">&#128214; 내 기록 보기 &rarr;</button>
+    <button class="btn" style="margin-top:12px" onclick="confirmPromise()">이 화면 닫기</button>
+
+    <div class="aglow">
+      <div class="agl">여행은 여기서 끝나지 않아요.</div>
+      <button class="agb" onclick="goSign_()">&#9998; 이름 남기기 &rarr;</button>
+        <button class="agb" onclick="goMyBook_()">&#128214; 내 기록 보기 &rarr;</button>
+      <button class="agb" onclick="glgo('showroom')">먼저 다녀간 분들의 여행 보기</button>
+      <button class="agb" onclick="ggoHome()">홈으로</button>
+      <div class="agln">
+        <a onclick="glgo('find')">사랑흐름 여권 찾기</a>
+        <a onclick="glgo('reenter')">마음 여행여권으로 입장</a>
+        <a onclick="glgo('showcase')">마음 여행 예매하기</a>
+      </div>
+    </div>
+  </div>
+
+  
+
+</div>
+
+<script>
+function mq_(k){ try{ return new URLSearchParams(location.search).get(k)||''; }catch(e){ return ''; } }
+/* [260810] ★번호를 주소만 보고 있었습니다.
+   자서전은 일 년을 쓰시는 상품인데, 창을 닫았다 다시 오시면 주소에 번호가 없어
+   무조건 잠금 안내가 떴습니다. 의식·입구 화면은 진작 세 곳을 다 보고 있었습니다.
+   ★검문 자체는 그대로입니다 — 번호를 찾는 순서만 다른 화면과 맞춥니다. */
+function passport_(){
+  var p = (mq_('id')||'').trim().toUpperCase();
+  if(!p){ try{ p=(window.LFPass ? LFPass.no() : '')||''; }catch(e){} }
+  if(!p){ try{ p=(sessionStorage.getItem('lf_passport')||''); }catch(e){} }
+  if(!p){ try{ p=(localStorage.getItem('lf_passport')||''); }catch(e){} }
+  return String(p).trim().toUpperCase();
+}
+/* ★[v25] 게이트(gateThenBoot_)가 이 URL 을 641행에서 먼저 쓰므로 블록1 맨 위에 둡니다. 값은 기존과 동일. */
+var MEMOIR_GAS='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+
+/* ★[v54] 질문은 이 파일에 두지 않습니다. 이야기를 열면 자서전 서버 getQuestions 에서 그 이야기 몫만 받아 BOOK 에 채웁니다. */
+var BOOK=[{title:"", secs:[], qs:[{sec:0, open:"", recall:"", q:"", skip:false}]}];
+var QREADY=false;
+/* ★[v54] 새로 쓴 화면 문구 — 한곳에(나중에 다른 언어를 붙일 자리) */
+var T={
+  loading:"물음을 가져오고 있어요…",
+  loadFail:"물음을 불러오지 못했어요. 잠시 뒤 다시 열어 주세요.",
+  notOpen:"이 이야기를 먼저 열어 주세요. 이야기 고르는 화면으로 모실게요.",
+  tagMust:"먼저 떠올려 보기",
+  tagMore:"조금 더 들려주기",
+  secOf:function(name,n,m){ return name+" · 소재 "+n+" / "+m; },
+  follow:"어떤 일이었나요? 한마디 더 들려주세요",
+  followPick:"해당하는 것을 누르고, 아래에 한마디 들려주세요",
+  followNeed:"고르셨어요. 아래 칸에 한마디를 쓰시면 다음으로 넘어갑니다",
+  followOk:"고맙습니다. 다음으로 넘어가셔도 됩니다",
+  freeTitle:"이 이야기의 제목 (원하시면)",
+  next:"다음 이야기로",
+  last:"이 여행 마치기"
+};
+/* ★[v29] 한 번의 여행 = 한 자리. 주소의 ?place=0~7 로 그 자리만 엽니다.
+   place 가 없으면 지금까지대로 여덟 자리가 다 열립니다(옛 동선 보호). */
+var BOOK_ALL = BOOK;
+var PLACE_SEL = (function(){
+  try{
+    var p = parseInt(new URLSearchParams(location.search).get('place'), 10);
+    if(!isNaN(p) && p >= 0 && p < 8){ return p; }   /* ★v54 여덟 이야기 0~7 */
+  }catch(e){}
+  return -1;
+})();
+/* ★[v32] 한 번의 여행 = 한 자리입니다. place 를 안 붙이고 오셔도 ★한 자리만 엽니다.
+   여덟 자리를 다 열어 주면 한 번 값에 여덟 편을 쓰시게 되고,
+   마지막 물음에서도 「다음 자리로」가 떠서 끝이 안 보입니다. */
+var PLACE_BASE = (PLACE_SEL >= 0) ? PLACE_SEL : 0;
+
+
+var ci=0, qi=0, answers={}, picks={};
+var TRIPNO=(function(){try{var t=parseInt(new URLSearchParams(location.search).get('trip'),10);if(!isNaN(t)&&t>0)return t;var s=parseInt(localStorage.getItem('lf_memoir_trip'),10);if(!isNaN(s)&&s>0)return s;}catch(e){}return 1;})();
+var KEY="lf_memoir_book_t"+TRIPNO;
+try{var s=JSON.parse(localStorage.getItem(KEY)||"{}");answers=s.answers||{};picks=s.picks||{};ci=s.ci||0;qi=s.qi||0;}catch(e){}
+
+function cur(){return BOOK[ci].qs[qi];}
+function total(){var t=0;for(var c=0;c<BOOK.length;c++)t+=BOOK[c].qs.length;return t;}
+function doneIdx(){var n=0;for(var c=0;c<ci;c++)n+=BOOK[c].qs.length;return n+qi;}
+function isLast(){return ci===BOOK.length-1 && qi===BOOK[ci].qs.length-1;}
+function isChapEnd(){return qi===BOOK[ci].qs.length-1;}
+
+function paint(){
+  if(window.speechSynthesis) speechSynthesis.cancel();
+  var lb=document.getElementById("listen"); if(lb) lb.classList.remove("playing");
+  var Q=cur();
+  document.getElementById("chap").textContent=lfStory_(BOOK[ci].title);   /* ★[v48] 화면에는 「…째 이야기」 */
+  document.getElementById("open").textContent=Q.open;
+  var rc=document.getElementById("recall"); rc.textContent=Q.recall||""; rc.style.display=Q.recall?"block":"none";   /* ★v54 비면 감춤 */
+  qTag_(Q);
+  document.getElementById("q").textContent=Q.q;
+  var _ak=ci+"_"+qi, _av=answers[_ak]||"";
+  if(Q.type==="pick" && Q.follow){ _av=(picks[_ak] && picks[_ak].note) || ""; }
+  document.getElementById("ans").value=_av;
+  var _ns=Q.nsec||((BOOK[ci].secs||[]).length)||1;
+  document.getElementById("cnt").textContent=T.secOf(Q.open, Q.sec+1, _ns);   /* ★v54 소재 단위 */
+  secDots_(Q.sec, _ns);
+  document.getElementById("fill").style.width=((doneIdx()+1)/total()*100)+"%";
+  /* ★[v46 · 260811 대표 결단] 답이 빈 자리를 아예 만들지 않습니다.
+     「잠시 건너뛸게요」를 걷습니다 — 건너뛴 자리는 맨 끝에서 몰아서 돌려보내야 했고,
+     그 사이 어느 자리가 비었는지 손님은 모르셨습니다.
+     대신 「저에게는 해당하지 않아요」를 ★모든 물음에 둡니다. 없으신 일은 그렇게 밝히시면
+     그 꼭지를 통째로 지나가고, 빈칸이 아니라 밝힌 답이라 완주 검사도 통과합니다. */
+  document.getElementById("skip").style.display="none";
+  var naB=document.getElementById("na");
+  if(naB){ naB.style.display = "block"; }
+  document.getElementById("nextb").textContent=isLast()?T.last:T.next;
+  if(RV_EDIT){ document.getElementById("nextb").textContent="완료"; }   /* ★v61 고치러 들어온 물음은 「완료」 → 쓴 글 목록으로 */
+  try{ var pv=document.querySelector('#foot .btn.prev'); if(pv){ pv.style.display = RV_EDIT ? 'none' : ''; } }catch(e){}
+  var isPick=(Q.type==="pick");
+  document.getElementById("picks").style.display=isPick?"block":"none";
+  var _ans=document.getElementById("ans");
+  _ans.style.display=(isPick && !Q.follow)?"none":"block";                 /* ★v54 고르기+한마디는 한마디 칸도 */
+  _ans.placeholder=(isPick && Q.follow) ? T.follow : "말씀하신 내용이 여기 담깁니다…";
+  freeTitle_(Q);
+  var aids=document.querySelector(".aids"); if(aids) aids.style.display=isPick?"none":"flex";
+  var pb=document.getElementById("photobox"); if(pb) pb.style.display=isPick?"none":"block";
+  renderPhoto();
+  if(isPick){ renderPicks(); }
+  refresh();
+  healthAsk_();   /* ★[v48] 「몸이 아프던 때」 따로 여쭙기 */
+}
+function refresh(){
+  var Q=cur(), has;
+  if(Q.type==="pick" && Q.follow){   /* ★v57 고르기+한마디 — 고르고, 한마디까지 써야 넘어갑니다(대표 결정 261003) */
+    var sf=pickState(), picked=(sf.sel.length>0)||((sf.other||"").trim().length>0), noted=((sf.note||"").trim().length>0);
+    has=picked && noted;
+    var hf=document.getElementById("pickhint");
+    if(hf){ hf.textContent = !picked ? T.followPick : (noted ? T.followOk : T.followNeed); hf.className = "pickhint" + ((picked && !noted) ? " need" : ""); }
+  }
+  else if(Q.type==="pick"){ var st=pickState(); has=(st.sel.length>0)||((st.other||"").trim().length>0)||((st.note||"").trim().length>0); }
+  else { has=(document.getElementById("ans").value||"").trim().length>0; }
+  /* ★[v46] 입력이 없으면 넘어가지 않습니다. 예외를 두지 않습니다(대표 결단 260811).
+     없으신 일은 아래 「저에게는 해당하지 않아요」로 밝히시면 됩니다. */
+  document.getElementById("nextb").disabled=(!has);
+}
+/* ★[v54] 물음 꼬리표 · 소재 점 · 자유 쓰기 제목 칸 */
+function qTag_(Q){
+  var el=document.getElementById("qtag");
+  if(!el){ el=document.createElement("span"); el.id="qtag"; el.className="qtag"; var q=document.getElementById("q"); if(q&&q.parentNode){ q.parentNode.insertBefore(el,q); } }
+  el.textContent = Q.must ? T.tagMust : T.tagMore;
+  el.className = "qtag" + (Q.must ? " must" : "");
+}
+function secDots_(cur, n){
+  var el=document.getElementById("secdots");
+  if(!el){ el=document.createElement("div"); el.id="secdots"; el.className="secdots"; var bar=document.querySelector(".bar"); if(bar&&bar.parentNode){ bar.parentNode.insertBefore(el, bar.nextSibling); } }
+  var h=""; for(var i=0;i<n;i++){ h+='<i class="'+(i<cur?"sdpast":(i===cur?"on":""))+'"></i>'; }
+  el.innerHTML=h;
+}
+function freeTitle_(Q){
+  var el=document.getElementById("freeTitle");
+  if(Q.type!=="free"){ if(el){ el.style.display="none"; } return; }
+  if(!el){ el=document.createElement("input"); el.id="freeTitle"; el.type="text"; el.className="freetitle"; el.placeholder=T.freeTitle; el.oninput=onType; var a=document.getElementById("ans"); if(a&&a.parentNode){ a.parentNode.insertBefore(el,a); } }
+  el.style.display="block";
+}
+/* [v12] 보기 — 탭 선택. 답은 문자열(', ' 연결)로 answers 에 담겨 기존 저장선 그대로 탐. */
+function pickState(){ var k=ci+"_"+qi; if(!picks[k]) picks[k]={sel:[],other:""}; return picks[k]; }
+function commitPick(){
+  var st=pickState(), parts=st.sel.slice();
+  if((st.other||"").trim()) parts.push(st.other.trim());
+  var _a=parts.join(", ");
+  if((st.note||"").trim()){ _a = _a ? (_a+" — "+st.note.trim()) : st.note.trim(); }   /* ★v54 보기 — 한마디 */
+  answers[ci+"_"+qi]=_a;
+  save(); refresh();
+}
+function togglePick(op){
+  var Q=cur(), st=pickState(), i=st.sel.indexOf(op);
+  if(Q.multi){ if(i>=0) st.sel.splice(i,1); else st.sel.push(op); }
+  else { st.sel=(i>=0?[]:[op]); }
+  commitPick(); renderPicks();
+}
+function onOther(v){ pickState().other=v; commitPick(); }
+function toggleOther(){
+  var ow=document.getElementById("otherwrap");
+  if(ow.style.display==="none"||!ow.style.display){ ow.style.display="block"; var i=document.getElementById("otherin"); if(i) i.focus(); }
+  else { ow.style.display="none"; }
+}
+function renderPicks(){
+  var Q=cur(), st=pickState(), box=document.getElementById("chips"); box.innerHTML="";
+  var hint=document.getElementById("pickhint");
+  if(hint && !Q.follow) hint.textContent = Q.multi ? "해당하는 것을 눌러 주세요 · 여러 개 골라도 됩니다" : "해당하는 것을 눌러 주세요";   /* ★v57 고르기+한마디는 refresh 가 안내 */
+  (Q.opts||[]).forEach(function(op){
+    var b=document.createElement("button");
+    b.type="button"; b.className="chip"+(st.sel.indexOf(op)>=0?" on":"");
+    b.textContent=op; b.onclick=function(){ togglePick(op); };
+    box.appendChild(b);
+  });
+  var ow=document.getElementById("otherwrap");
+  if(Q.other){
+    var otherOn=(st.other||"").length>0;
+    var ob=document.createElement("button");
+    ob.type="button"; ob.className="chip other"+(otherOn?" on":"");
+    ob.textContent="그 밖에"; ob.onclick=function(){ toggleOther(); };
+    box.appendChild(ob);
+    ow.style.display=otherOn?"block":"none";
+    document.getElementById("otherin").value=st.other||"";
+  } else { ow.style.display="none"; }
+}
+function onType(){
+  var _Q=cur();
+  if(_Q && _Q.type==="pick" && _Q.follow){ pickState().note=document.getElementById("ans").value; commitPick(); return; }   /* ★v54 */
+  if(_Q && _Q.type==="free"){ var _ti=document.getElementById("freeTitle"); var _tv=_ti?(_ti.value||"").trim():""; answers[ci+"_"+qi]=(_tv?("「"+_tv+"」\n"):"")+document.getElementById("ans").value; save(); refresh(); return; }
+  answers[ci+"_"+qi]=document.getElementById("ans").value;
+  save(); refresh();
+  var el=document.getElementById("saved"); el.classList.add("on");
+  clearTimeout(window._st); window._st=setTimeout(function(){el.classList.remove("on");},1400);
+}
+function save(){ try{localStorage.setItem(KEY,JSON.stringify({answers:answers,picks:picks,ci:ci,qi:qi}));}catch(e){} }
+/* ═══ [v23] 이 이야기에 사진 한 장 (선택) — draw/index.html pfile 부품 이식 ═══
+   ★기기 안에서만 보관(별도 키 lf_memoir_photos·챕터 ci별 1장). 서버 전송은 ②단계.
+   ★[절대보존] 위 save()·answers 미변경 — 사진 저장이 실패해도 답변 저장은 무손. */
+var PKEY="lf_memoir_photos_t"+TRIPNO, photos={};
+try{ photos=JSON.parse(localStorage.getItem(PKEY)||"{}")||{}; }catch(e){ photos={}; }
+function savePhotos(){ try{ localStorage.setItem(PKEY,JSON.stringify(photos)); }catch(e){} }
+function photoKeys_(){ return [ci+"_0", ci+"_1", ci+"_2"]; }
+function photoCount_(){ var n=0, k=photoKeys_(); for(var i=0;i<k.length;i++){ if(photos[k[i]]) n++; } return n; }
+function renderPhoto(){
+  try{ var _pc=document.getElementById("pokChk"); if(_pc && photoOkAt_()){ _pc.checked=true; } }catch(e){}
+  var wrap=document.getElementById("pprev");
+  if(!wrap) return;
+  var k=photoKeys_(), html="";
+  for(var i=0;i<k.length;i++){
+    if(!photos[k[i]]) continue;
+    html += '<span class="pcell"><img src="'+photos[k[i]]+'" alt="올리신 사진"><button type="button" onclick="removePhoto('+i+')" aria-label="사진 빼기">&#10005;</button></span>';
+  }
+  wrap.innerHTML=html;
+  wrap.style.display = html ? "block" : "none";
+  var n=photoCount_(), b=document.getElementById("pbtn"), h=document.getElementById("phint");
+  if(b){
+    b.disabled=(n>=3);
+    b.innerHTML = (n>=3)
+      ? '<span class="ic">&#128247;</span> 사진 세 장을 다 올리셨어요'
+      : '<span class="ic">&#128247;</span> 이 이야기에 사진 더하기 ('+n+'/3)';
+  }
+  renderPmeta();
+  if(h){ h.innerHTML = (n>=3)
+    ? '더 올리시려면 위 사진 하나를 빼 주세요.'
+    : '이 여행에 사진은 <b>세 장까지</b> 올리실 수 있어요. 없으셔도 괜찮습니다.'; }
+}
+/* ★[v36] 사진마다 제목과 설명을 여쭙니다.
+   사진을 한 쪽 전면으로 크게 앉히는데 그 아래가 텅 비고, 그 사진이 무엇인지 아무 말도 없었습니다. */
+var PMKEY = "lf_memoir_pmeta_t" + TRIPNO, pmeta = {};
+try{ pmeta = JSON.parse(localStorage.getItem(PMKEY) || "{}"); }catch(e){ pmeta = {}; }
+function savePmeta(){ try{ localStorage.setItem(PMKEY, JSON.stringify(pmeta)); }catch(e){} }
+
+function renderPmeta(){
+  var box = document.getElementById("pmeta");
+  if(!box) return;
+  var k = photoKeys_(), nm = ["첫 번째 사진","두 번째 사진","세 번째 사진"], html = "";
+  for(var i=0;i<k.length;i++){
+    if(!photos[k[i]]) continue;
+    var m = pmeta[k[i]] || {t:"", d:""};
+    html += '<div class="pmrow">'
+      + '<div class="pmno">' + nm[i] + '</div>'
+      + '<p class="pmq">이 사진에 이름을 붙인다면 어떻게 부르시겠어요</p>'
+      + '<input class="pmi" id="pmt_' + i + '" value="' + String(m.t||"").replace(/"/g,"&quot;")
+      + '" placeholder="우리 집 마당 · 첫 월급 타던 날 · 어머니와 나" oninput="onPmeta(' + i + ')">'
+      + '<p class="pmq">이 사진, 어떤 날이었는지 들려주시겠어요</p>'
+      + '<textarea class="pmt" id="pmd_' + i + '" placeholder="언제 어디서 누구와 찍으셨는지, 편하게 두어 줄이면 됩니다" oninput="onPmeta(' + i + ')">'
+      + String(m.d||"").replace(/</g,"&lt;") + '</textarea>'
+      + '</div>';
+  }
+  box.innerHTML = html;
+  box.style.display = html ? "block" : "none";
+}
+function onPmeta(i){
+  var k = photoKeys_()[i];
+  var ti = document.getElementById("pmt_" + i), di = document.getElementById("pmd_" + i);
+  pmeta[k] = { t: ti ? ti.value : "", d: di ? di.value : "" };
+  savePmeta();
+  clearTimeout(window.__pmTimer);
+  window.__pmTimer = setTimeout(function(){ sendPmeta_(i); }, 1200);
+}
+function sendPmeta_(i){
+  var pp = (typeof passport_==="function") ? passport_() : "";
+  if(!pp) return;
+  var k = photoKeys_()[i], m = pmeta[k] || {t:"",d:""};
+  try{
+    fetch(MEMOIR_GAS, { method:"POST", mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({ action:'savePhotoText', passport:pp, trip:TRIPNO,
+        slotNo:i, photoTitle:m.t, photoDesc:m.d }) });
+  }catch(e){}
+}
+function removePhoto(slot){
+  var k=photoKeys_();
+  if(typeof slot!=="number"){ slot=0; }
+  delete photos[k[slot]]; savePhotos();
+  delete pmeta[k[slot]]; savePmeta();
+  var f=document.getElementById("pfile"); if(f) f.value="";
+  renderPhoto();
+}
+function freeSlot_(){
+  var k=photoKeys_();
+  for(var i=0;i<k.length;i++){ if(!photos[k[i]]) return i; }
+  return -1;
+}
+function onPhotoFile(inp){
+  var file=inp.files && inp.files[0];
+  if(!file) return;
+  function legacy(){
+    var fr=new FileReader();
+    fr.onload=function(e){ storePhoto_(ci, e.target.result); };
+    fr.readAsDataURL(file);
+  }
+  if(window.createImageBitmap){
+    createImageBitmap(file,{imageOrientation:"from-image"}).then(function(bm){
+      var r=Math.min(1000/bm.width, 1000/bm.height, 1);
+      var c=document.createElement("canvas");
+      c.width=Math.round(bm.width*r); c.height=Math.round(bm.height*r);
+      c.getContext("2d").drawImage(bm,0,0,c.width,c.height);
+      storePhoto_(ci, c.toDataURL("image/jpeg",0.85));
+    }).catch(function(){ legacy(); });
+  } else { legacy(); }
+}
+/* ★[v24] 담고 → 저장 → 표시 → 서버로 보냄 (한 데로 모음) */
+function storePhoto_(idx, dataUrl){
+  var s=freeSlot_();
+  if(s<0){ alert("사진은 세 장까지 올리실 수 있어요."); return; }
+  photos[ci+"_"+s]=dataUrl; savePhotos(); renderPhoto(); sendPhoto_(ci, dataUrl, s);
+}
+/* ★[v24] 사진 전송 — 저장엔진(비콘) 안 건드리는 격리 POST. 자서전 GAS savePhoto 로 이미지만 보냄. */
+/* ★[v34] 기기에 담긴 사진을 서버로 다시 보냅니다. 보낸 장수를 돌려줍니다. */
+function resendPhotos_(){
+  var n = 0;
+  try{
+    for(var c=0;c<BOOK.length;c++){
+      for(var s=0;s<3;s++){
+        var d = photos[c + "_" + s];
+        if(d){ sendPhoto_(c, d, s); n++; }
+      }
+    }
+  }catch(e){}
+  return n;
+}
+function sendPhoto_(idx, dataUrl, slot){
+  var pp = (typeof passport_==="function") ? passport_() : "";
+  if(!pp || !dataUrl) return;
+  try{
+    fetch(MEMOIR_GAS, { method:"POST", mode:"no-cors",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({ action:'savePhoto', passport:pp, trip:TRIPNO, place:(PLACE_BASE+idx), slot:(['시작','관계','상징'][slot||0]), slotNo:(slot||0), photo:dataUrl,
+      photoTitle:((pmeta[ci+'_'+(slot||0)]||{}).t||''), photoDesc:((pmeta[ci+'_'+(slot||0)]||{}).d||''),
+      photoOk:'1', photoOkAt:(photoOkAt_()||'') }) });   /* ★[v48] 함께 나온 분 확인 — 서버 기록은 칸 14 */
+  }catch(e){}
+}
+function nextQ(skip){
+  if(RV_EDIT){ if(cur().type!=="pick"){ answers[ci+"_"+qi]=document.getElementById("ans").value; } save(); openReview_(); return; }   /* ★v61 */
+  try{ var _tp=document.getElementById("resumeTip"); if(_tp){ _tp.style.display="none"; } }catch(e){}
+
+  if(!skip && cur().type!=="pick"){answers[ci+"_"+qi]=document.getElementById("ans").value;}
+  if(isLast()){ save(); finish(); return; }
+  if(isChapEnd()){ ci++; qi=0; } else { qi++; }
+  save(); paint(); window.scrollTo(0,0);
+}
+function prevQ(){
+  if(qi>0){ qi--; }
+  else if(ci>0){ ci--; qi=BOOK[ci].qs.length-1; }
+  else { return; }
+  save(); paint(); window.scrollTo(0,0);
+}
+function finish(){
+  document.getElementById("card").style.display="none";
+  document.getElementById("foot").style.display="none";
+  document.getElementById("prog").style.display="none";
+  paintDue_();
+  var em=""; try{ em=localStorage.getItem("lf_memoir_email")||""; }catch(e){}
+  if(em){ setDoneEmail(em); }
+  document.getElementById("done").classList.add("on");
+  window.scrollTo(0,0);
+}
+/* ★납기 = 접수일 + 10일, 넉넉히 잡고 그 안에 도착. 날짜로 고지합니다("○월 ○일까지"). */
+function paintDue_(){
+  var d=new Date(); d.setDate(d.getDate()+10);
+  var el=document.getElementById("dueDate");
+  if(el){ el.textContent = (d.getMonth()+1) + "월 " + d.getDate() + "일까지"; }
+}
+/* ★약속 체결 — 이메일을 받아 두고(완성본은 이 주소로), 마지막 장에 실어 저장합니다. */
+function onDoneDom(){var d=document.getElementById("doneEmailDom").value;document.getElementById("doneEmailDomCustom").style.display=d?"none":"block";}
+function getDoneEmail(){var id=(document.getElementById("doneEmailId").value||"").trim();if(!id)return "";var dom=document.getElementById("doneEmailDom").value||(document.getElementById("doneEmailDomCustom").value||"").trim();if(!dom)return "";return id+"@"+dom;}
+function setDoneEmail(em){em=(em||"").trim();var at=em.indexOf("@");if(at<1)return;var id=em.slice(0,at),dom=em.slice(at+1);var idEl=document.getElementById("doneEmailId");if(idEl)idEl.value=id;var sel=document.getElementById("doneEmailDom");if(!sel)return;var opts=sel.options,hit=false;for(var k=0;k<opts.length;k++){var ov=opts[k].value||opts[k].text;if(ov===dom){sel.value=ov;hit=true;break;}}if(!hit){sel.value="";var c=document.getElementById("doneEmailDomCustom");if(c){c.value=dom;c.style.display="block";}}}
+function confirmPromise(){
+  var em=getDoneEmail();
+  var msg=document.getElementById("mailMsg");
+  if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){
+    msg.textContent="이메일 주소를 다시 확인해 주세요."; msg.className="mailhint err"; return;
+  }
+  try{ localStorage.setItem("lf_memoir_email", em); }catch(e){}
+  if(passport_()){
+    var job=packChapter_(BOOK.length-1);
+    job.email=em;
+    send_(job);
+  }
+  location.href = GLINK.home || "/";
+}
+/* ★[v32] 다 쓰신 뒤 갈 곳 — 손님 원고로 찍은 책 화면 */
+/* ★[v35] 완료 화면이 열리면 기기에만 남은 사진을 조용히 서버로 올립니다.
+   손님이 버튼을 눌러야 저장되는 것처럼 보이던 자리를 없앴습니다. */
+function autoSync_(){
+  try{
+    if(!passport_()){ return; }
+    var last=BOOK.length-1;
+    for(var c=0;c<=last;c++){
+      var secs=BOOK[c].secs||[];
+      for(var s=0;s<secs.length;s++){ send_(packSection_(c,s)); }
+    }
+    resendPhotos_();
+  }catch(e){}
+}
+function goMyBook_(){
+  var pp = passport_();
+  location.href = pp ? ("/memoir/book.html?id=" + encodeURIComponent(pp) + "&trip=" + TRIPNO) : "/reenter.html";
+}
+/* ★[v44] 이름 남기기로 보냅니다 — 여권번호와 여행번호를 함께 실어 보냅니다.
+   그 화면이 대장에서 이름을 불러오고, 남긴 것을 그 여행 줄에 담습니다.
+   지금까지 사이트 어느 화면에도 이 문이 없어 손님이 닿을 수 없었습니다(260810 실측). */
+function goSign_(){
+  var pp = passport_();
+  location.href = pp ? ("/memoir/sign.html?id=" + encodeURIComponent(pp) + "&trip=" + TRIPNO) : "/reenter.html";
+}
+function goBook(){ location.href = GLINK.book || "/memoir/book.html"; }
+function manualSave(){
+  if(cur().type!=="pick"){ answers[ci+"_"+qi]=document.getElementById("ans").value; }
+  save();
+  var sb=document.getElementById("savebtn");
+  sb.classList.add("done");
+  sb.innerHTML='<span class="ic">&#10003;</span> 저장됐어요';
+  clearTimeout(window._sb);
+  window._sb=setTimeout(function(){
+    sb.classList.remove("done");
+    sb.innerHTML='<span class="ic">&#128190;</span> 임시 저장';
+  },1600);
+}
+var _voice=null;
+function pickVoice(){
+  if(!window.speechSynthesis) return;
+  var vs=speechSynthesis.getVoices();
+  var ko=vs.filter(function(v){return /ko/i.test(v.lang);});
+  if(!ko.length){ _voice=null; return; }
+  var pref=["Yuna","Google 한국의","Google Korean","Microsoft SunHi","SunHi","Heami","Microsoft Heami","나라","여성"];
+  for(var p=0;p<pref.length;p++){ for(var k=0;k<ko.length;k++){ if(ko[k].name.indexOf(pref[p])>=0){ _voice=ko[k]; return; } } }
+  _voice=ko[0];
+}
+if(window.speechSynthesis){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
+function speak(){
+  if(!window.speechSynthesis){ return; }
+  var lb=document.getElementById("listen");
+  if(speechSynthesis.speaking){ speechSynthesis.cancel(); lb.classList.remove("playing"); return; }
+  if(!_voice) pickVoice();
+  var Q=cur();
+  var text=Q.open+" "+document.getElementById("recall").textContent+" "+Q.q;
+  var u=new SpeechSynthesisUtterance(text);
+  u.lang="ko-KR"; u.rate=0.9; u.pitch=1.05;
+  if(_voice) u.voice=_voice;
+  u.onend=function(){ lb.classList.remove("playing"); };
+  lb.classList.add("playing");
+  speechSynthesis.speak(u);
+}
+function _rsSaved(){try{var raw=localStorage.getItem(KEY);if(!raw)return null;var o=JSON.parse(raw);if(o&&((o.ci||0)>0||(o.qi||0)>0||(o.answers&&Object.keys(o.answers).length)))return o;}catch(e){}return null;}
+function boot(){var o=_rsSaved();if(o){try{var t=lfStory_((BOOK[o.ci||0]&&BOOK[o.ci||0].title)||"");document.getElementById("rssub").innerHTML=t?("지난번 <b>"+t+"</b>까지 쓰시던 곳이 남아 있어요."):"지난번 쓰시던 곳이 남아 있어요.";}catch(e){}document.getElementById("rsmask").style.display="flex";}else{paint();}}
+function resumeYes(){
+  var m=document.getElementById("rsmask"); if(m)m.style.display="none";
+  /* ★[v46 · 260811 대표 결단] 빈 자리는 ★들어오실 때 바로 모십니다.
+     지난번 저장분에는 옛 방식으로 건너뛴 빈 자리가 남아 있을 수 있습니다.
+     그걸 맨 끝에서 알려 드리면, 다 쓰신 줄 알고 계시다가 되돌아가셔야 합니다.
+     이어서 쓰기로 들어오시는 그 순간에 첫 빈 자리로 모셔다 드립니다. */
+  try{
+    var miss = missingSecs_(), cs = cur().sec;
+    /* ★v59 「비워 두신」 자리는 ★지금 자리보다 앞의 빈 소재만 — 아직 닿지 않은 뒤 소재는 비운 게 아니라 안 쓴 것.
+       뒤 소재까지 세어 「골목과 길부터 이어서」라고 띄우던 것(LF-ZUT34 · 261003 실측) */
+    var back = [];
+    for(var mi=0; mi<miss.length; mi++){ if(miss[mi].c < ci || (miss[mi].c===ci && miss[mi].s < cs)){ back.push(miss[mi]); } }
+    miss = back;
+    if(miss.length && !(ci===miss[0].c && cs===miss[0].s)){
+      gotoSec_(miss[0].c, miss[0].s);
+      var tip=document.getElementById("resumeTip");
+      if(tip){ tip.textContent="지난번 비워 두신 「"+miss[0].name+"」부터 이어서 쓰시면 됩니다."; tip.style.display="block"; }
+      window.scrollTo(0,0); return;
+    }
+  }catch(e){}
+  paint(); window.scrollTo(0,0);
+}
+function resumeNo(){ci=0;qi=0;answers={};picks={};try{localStorage.removeItem(KEY);}catch(e){}var m=document.getElementById("rsmask");if(m)m.style.display="none";paint();window.scrollTo(0,0);}
+function gateThenBoot_(){
+  var pp = passport_();
+  if(!pp){ var m0=document.getElementById('mlock'); if(m0) m0.style.display='flex'; return; }  /* ★여권 필수 — 여권 없으면 잠금(무임승차 진입 차단) */
+  lfw_('show', { title: (LFM.HONOR||'선생님')+'의 이야기를 펼치고 있어요', sub: (LFM.HONOR||'선생님')+' 몫의 물음을 골라 오고 있어요',
+                 steps: ['사랑흐름 여권번호 확인', (['첫째','둘째','셋째','넷째','다섯째','여섯째','일곱째','여덟째'][PLACE_BASE]||'첫째')+' 이야기 자리 마련', (LFM.HONOR||'선생님')+'을 위한 물음 준비'] });   /* ★v56 기다리는 화면 */
+  qPrefetch_(pp);   /* ★v55 이어 쓰기면 물음을 미리 받아 둠 */
+  LFM.consent(pp, function(){ gateCheck_(pp); });   /* ★[v48] 동의 기록 확인 먼저 */
+}
+function gateCheck_(pp){
+  var cb='mgate_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+  var t=document.createElement('script');
+  var done=false;
+  window[cb]=function(d){
+    done=true;
+    try{ if(t.parentNode) t.parentNode.removeChild(t); }catch(e){}
+    if(d && d.status==='locked'){
+      lfw_('done');
+      var m=document.getElementById('mlock'); if(m) m.style.display='flex';   /* 자서전 상품(MEMOIR) 아님 → 잠금 안내 */
+    } else {
+      lfw_('step',1); tripThenBoot_(pp, d);                  /* ★[v48] 이야기 번호를 정한 뒤 진입 */
+    }
+  };
+  t.onerror=function(){ if(!done){ done=true; lfw_('step',1); tripThenBoot_(pp, null); } };   /* 조회 실패 → 막지 않음(★v54 물음은 서버에서) */
+  t.src=MEMOIR_GAS+'?action=getMemoir&passport='+encodeURIComponent(pp)+'&callback='+cb+'&t='+Date.now();
+  document.head.appendChild(t);
+  setTimeout(function(){ if(!done){ done=true; lfw_('step',1); tripThenBoot_(pp, null); } }, 6000);            /* 타임아웃 → 막지 않음(서버 게이트가 최종 방어) */
+}
+
+/* ══ ★[v48] 이야기 번호(trip) 정하기 ══
+   ① 주소에 trip 이 있으면 — 이미 있는 이야기. 그 번호 그대로.
+   ② 편 이력이 있는 사랑흐름 여권번호 — 서버 openPlace 가 번호를 줍니다(같은 이야기를 쓰는 중이면 그 번호).
+      남은 여행이 없으면 잠금 안내.
+   ③ 편 이력이 없는 옛 번호 — 대장(trips)에서 이 이야기의 번호를 찾고, 없으면 마지막 번호 다음. */
+var TRIP_FROM_URL = (function(){ try{ var t=parseInt(new URLSearchParams(location.search).get('trip'),10); return (!isNaN(t)&&t>0)?t:0; }catch(e){ return 0; } })();
+function retrip_(n){
+  n = parseInt(n,10); if(isNaN(n) || n<1){ return; }
+  TRIPNO = n;
+  KEY="lf_memoir_book_t"+TRIPNO; PKEY="lf_memoir_photos_t"+TRIPNO; PMKEY="lf_memoir_pmeta_t"+TRIPNO;
+  answers={}; picks={}; ci=0; qi=0; photos={}; pmeta={};
+  try{var s0=JSON.parse(localStorage.getItem(KEY)||"{}");answers=s0.answers||{};picks=s0.picks||{};ci=s0.ci||0;qi=s0.qi||0;}catch(e){}
+  try{ photos=JSON.parse(localStorage.getItem(PKEY)||"{}")||{}; }catch(e){ photos={}; }
+  try{ pmeta=JSON.parse(localStorage.getItem(PMKEY)||"{}")||{}; }catch(e){ pmeta={}; }
+  try{ localStorage.setItem('lf_memoir_trip', String(TRIPNO)); }catch(e){}
+  try{
+    var u=new URL(location.href); u.searchParams.set('trip', String(TRIPNO)); u.searchParams.set('place', String(PLACE_BASE));
+    history.replaceState(null,'',u.pathname+u.search);
+  }catch(e){}
+}
+/* ★v58 같은 이야기인지 — 이름 글자가 아니라 차례(첫째 · 둘째 …)로 맞춥니다. 질문지가 바뀌어도 끊기지 않게 */
+function samePlace_(a,b){ a=String(a||"").trim().split(" ")[0]; b=String(b||"").trim().split(" ")[0]; return !!a && a===b; }
+function legacyTrip_(d){
+  var here = (d && d.places) ? d.places[PLACE_BASE] : '', tr = (d && d.trips) || [], mx = 0, mine = 0;
+  for(var i=0;i<tr.length;i++){ if(tr[i].trip>mx){ mx=tr[i].trip; } if(here && samePlace_(tr[i].place, here)){ mine=tr[i].trip; } }
+  return mine || (mx+1);
+}
+/* ★[v54] 서버의 이야기 한 벌 → 이 화면이 쓰는 BOOK 모양 */
+function storyToBook_(r){
+  var st=r.story||{}, secs=[], qs=[];
+  var list=(st.secs||[]).slice().sort(function(a,b){return a.no-b.no;});
+  for(var s=0;s<list.length;s++){
+    var sc=list[s]; secs.push(sc.name);
+    var qq=(sc.qs||[]).slice().sort(function(a,b){return a.no-b.no;});
+    for(var k=0;k<qq.length;k++){
+      var x=qq[k], opts=(x.opts||[]).slice(), other=false;
+      var di=opts.indexOf("직접 쓰기"); if(di>=0){ opts.splice(di,1); other=true; }
+      var pick=(x.type==="고르기+한마디"||x.type==="고르기") && opts.length>0;
+      qs.push({ sec:s, open:sc.name, recall:(k===0 ? (sc.open||"") : ""), q:x.q, skip:!x.must, must:!!x.must,
+                type: pick ? "pick" : (x.type==="자유" ? "free" : "text"), opts:opts, multi:false, other:other,
+                follow:(x.type==="고르기+한마디"), health:(sc.health && k===0), nsec:list.length });
+    }
+  }
+  return { title:(r.place||""), secs:secs, open:(st.open||""), qs:qs };
+}
+/* ★v55 빠르게 — ①한 번 받은 이야기는 이 기기에 6시간 담아 두고 바로 펼침(그분 몫 한 이야기만)
+   ②주소에 trip 이 있으면(이어 쓰기) 검문과 동시에 물음을 미리 받아 둠 */
+var Q_TTL=6*3600*1000, QPRE=null;
+/* ★v56 기다리는 화면 — 공용 부품(kit.js v3 LFM.wait). 옛 부품이 남아 있어도 멈추지 않게 */
+function lfw_(k,a){ try{ if(window.LFM && LFM.wait && LFM.wait[k]){ LFM.wait[k](a); } }catch(e){} }
+function qKey_(pp,tr){ return 'lf_q55_'+pp+'_p'+PLACE_BASE+'_t'+tr; }
+function qCacheGet_(pp,tr){ try{ var o=JSON.parse(localStorage.getItem(qKey_(pp,tr))||'null'); if(o && o.r && (Date.now()-o.at)<Q_TTL){ return o.r; } }catch(e){} return null; }
+function qCachePut_(pp,tr,r){ try{ localStorage.setItem(qKey_(pp,tr), JSON.stringify({at:Date.now(), r:r})); }catch(e){} }
+function qFetch_(pp,tr,fn){
+  var cb='mq_'+Date.now()+'_'+Math.floor(Math.random()*1e6), done=false;
+  var t=document.createElement('script');
+  function end(r){ if(done){ return; } done=true; try{ if(t.parentNode) t.parentNode.removeChild(t); }catch(e){} try{ delete window[cb]; }catch(e){} fn(r); }
+  window[cb]=function(r){ end(r||null); };
+  t.onerror=function(){ end(null); };
+  t.src=MEMOIR_GAS+'?action=getQuestions&passport='+encodeURIComponent(pp)+'&place='+PLACE_BASE+'&trip='+tr+'&callback='+cb+'&t='+Date.now();
+  document.head.appendChild(t);
+  setTimeout(function(){ end(null); }, 15000);
+}
+function qPrefetch_(pp){
+  if(!TRIP_FROM_URL || qCacheGet_(pp,TRIP_FROM_URL)){ return; }
+  QPRE={tr:TRIP_FROM_URL, r:undefined, wait:[]};
+  qFetch_(pp, TRIP_FROM_URL, function(r){ QPRE.r=r; var w=QPRE.wait; QPRE.wait=[]; for(var i=0;i<w.length;i++){ w[i](r); } });
+}
+function qThenBoot_(){
+  var pp=passport_();
+  var q=document.getElementById("q"); if(q){ q.textContent=T.loading; }
+  lfw_('step',2);   /* ★v56 */
+  function fail(msg){ lfw_('done'); var q2=document.getElementById("q"); if(q2){ q2.textContent=msg; } var nb=document.getElementById("nextb"); if(nb){ nb.disabled=true; } }
+  function take(r, fresh){
+    if(r && r.status==='ok' && r.story){
+      if(fresh){ qCachePut_(pp,TRIPNO,r); }
+      BOOK=[storyToBook_(r)]; QREADY=true; if(ci>=BOOK.length){ci=0;} if(qi>=BOOK[0].qs.length){qi=0;} lfw_('step',3); lfw_('done'); boot(); if(REVIEW_ON){ openReview_(); } return;
+    }
+    if(r && r.status==='locked' && r.reason==='NOT_OPEN'){ fail(T.notOpen); setTimeout(function(){ location.href='/memoir/ritual.html?id='+encodeURIComponent(pp); }, 2500); return; }
+    if(r && r.status==='locked'){ noLeft_(); return; }
+    fail(T.loadFail);
+  }
+  var c=qCacheGet_(pp,TRIPNO); if(c){ take(c,false); return; }
+  if(QPRE && QPRE.tr===TRIPNO){
+    if(QPRE.r!==undefined){ take(QPRE.r,true); } else { QPRE.wait.push(function(r){ take(r,true); }); }
+    return;
+  }
+  qFetch_(pp, TRIPNO, function(r){ take(r,true); });
+}
+
+/* ══ ★v60 다시 읽고 고치기 (이슈 34 · 38) ══
+   이 이야기의 소재 · 물음 · 답을 한 화면에 차례로. 「고치기」를 누르면 그 물음으로 바로.
+   이름을 남기신(서명) 편은 읽기만. 들어오는 길: 물음 화면 위 「내가 쓴 글 한눈에 보기」 · 다 쓴 뒤 화면 · 기록 보기(?review=1). */
+var RV_EDIT = false;   /* ★v61 고치기로 들어온 물음 하나 — 「완료」를 누르면 목록으로 */
+var REVIEW_ON = (function(){ try{ return new URLSearchParams(location.search).get('review')==='1'; }catch(e){ return false; } })();
+function rvEsc_(x){ return String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>'); }
+function rvSigned_(){
+  try{ var tr=(MEMO_D && MEMO_D.trips) || []; for(var i=0;i<tr.length;i++){ if(tr[i].trip===TRIPNO && tr[i].signed){ return true; } } }catch(e){}
+  return false;
+}
+function rvCss_(){
+  if(document.getElementById('rvCss')){ return; }
+  var c=document.createElement('style'); c.id='rvCss';
+  c.textContent='#rvmask{position:fixed;inset:0;z-index:400;background:#FDFBF5;overflow-y:auto;-webkit-overflow-scrolling:touch}'
+   +'#rvmask .rv-in{max-width:560px;margin:0 auto;padding:84px 18px 40px}'
+   +'#rvmask .rv-h{font-family:"Noto Serif KR",serif;font-size:21px;color:#163a5e;text-align:center;line-height:1.45;margin:6px 0 4px}'
+   +'#rvmask .rv-s{font-size:14.5px;color:#7d7465;text-align:center;margin-bottom:18px;line-height:1.6}'
+   +'#rvmask .rv-sec{font-size:15px;color:#b8913a;font-weight:700;margin:20px 0 8px;font-family:"Noto Serif KR",serif}'
+   +'#rvmask .rv-qa{background:#fff;border:1px solid #e8e0cc;border-radius:12px;padding:12px 14px;margin-bottom:9px}'
+   +'#rvmask .rv-q{font-size:14px;color:#7d7465;line-height:1.55;margin-bottom:6px}'
+   +'#rvmask .rv-a{font-size:16.5px;color:#2b2b2b;line-height:1.7;word-break:keep-all}'
+   +'#rvmask .rv-a.none{color:#b5372a;font-weight:700;font-size:15px}'
+   +'#rvmask .rv-a.na{color:#7d7465;font-size:15px}'
+   +'#rvmask .rv-e{display:block;margin:8px 0 0 auto;padding:8px 16px;border:1px solid #1E4A76;border-radius:10px;background:#fff;color:#1E4A76;font-size:15px;font-weight:700;cursor:pointer}'
+   +'#rvmask .rv-lock{background:#F4EEE4;border-radius:12px;padding:12px 14px;font-size:14.5px;color:#163a5e;text-align:center;margin-bottom:6px}'
+   +'#rvmask .rv-foot{position:sticky;bottom:0;background:linear-gradient(rgba(253,251,245,0),#FDFBF5 30%);padding:18px 0 6px;display:grid;gap:9px}'
+   +'';
+  (document.head||document.body).appendChild(c);
+}
+function rvTopBtn_(){
+  if(document.getElementById('rvBtn')){ return; }
+  rvCss_();
+  var b=document.createElement('button'); b.type='button'; b.id='rvBtn'; b.className='rvbtn'; b.innerHTML='&#128221; 내가 쓴 글 한눈에 보기';
+  b.onclick=openReview_;
+  var sd=document.getElementById('secdots'), pg=document.getElementById('prog');
+  var at = sd || (pg ? pg.lastChild : null);
+  if(at && at.parentNode){ at.parentNode.insertBefore(b, at.nextSibling); }
+}
+function openReview_(){
+  if(!QREADY || !BOOK[0]){ return; }
+  rvCss_();
+  try{ if(cur().type!=="pick"){ answers[ci+"_"+qi]=document.getElementById("ans").value; save(); } }catch(e){}
+  var lock=rvSigned_(), bk=BOOK[0], qs=bk.qs, secs=bk.secs||[], h='', firstEmpty=-1;
+  h+='<div class="rv-in"><div class="rv-h">'+rvEsc_(lfStory_(bk.title||''))+'</div>';
+  h+= lock ? '<div class="rv-lock">이름을 남기신 이야기라 읽기만 하실 수 있어요.</div>'
+           : '<div class="rv-s">쓰신 글을 차례대로 보여 드려요.<br>고치실 곳의 「고치기」를 누르시면 그 물음으로 바로 갑니다.<br>이름을 남기시기 전까지 언제든 고치실 수 있어요.</div>';
+  var lastSec=-1;
+  for(var i=0;i<qs.length;i++){
+    var Q=qs[i];
+    if(Q.sec!==lastSec){ lastSec=Q.sec; h+='<div class="rv-sec">'+rvEsc_(secs[Q.sec]||'')+'</div>'; }
+    var a=answers["0_"+i], txt=(a==null?'':String(a)).trim(), cls='rv-a', show;
+    if(!txt){ cls+=' none'; show='아직 안 쓰셨어요'; if(firstEmpty<0){ firstEmpty=i; } }
+    else if(txt===NA_MARK){ cls+=' na'; show='저에게는 해당하지 않아요'; }
+    else { show=rvEsc_(txt); }
+    h+='<div class="rv-qa"><div class="rv-q">'+rvEsc_(Q.q)+'</div><div class="'+cls+'">'+show+'</div>'
+     + (lock ? '' : '<button type="button" class="rv-e" onclick="rvGo_('+i+','+(txt?'true':'false')+')">'+(txt?'고치기':'쓰러 가기')+'</button>') + '</div>';
+  }
+  h+='<div class="rv-foot">';
+  if(!lock && firstEmpty>=0){ h+='<button type="button" class="btn next" onclick="rvGo_('+firstEmpty+',false)">안 쓴 곳부터 이어서 쓰기</button>'; }
+  h+='<button type="button" class="btn prev" onclick="rvClose_()">닫기</button></div></div>';
+  var m=document.getElementById('rvmask');
+  if(!m){ m=document.createElement('div'); m.id='rvmask'; document.body.appendChild(m); }
+  m.innerHTML=h; m.style.display='block'; m.scrollTop=0;
+}
+function rvClose_(){
+  RV_EDIT = false;
+  var m=document.getElementById('rvmask'); if(m){ m.style.display='none'; }
+  var rs=document.getElementById('rsmask'); if(rs && rs.style.display==='flex'){ return; }
+  if(!document.getElementById('done').classList.contains('on')){ paint(); }
+}
+function rvGo_(i, edit){
+  RV_EDIT = !!edit;
+  var m=document.getElementById('rvmask'); if(m){ m.style.display='none'; }
+  var rs=document.getElementById('rsmask'); if(rs){ rs.style.display='none'; }
+  document.getElementById('done').classList.remove('on');
+  document.getElementById('card').style.display='';
+  document.getElementById('foot').style.display='';
+  document.getElementById('prog').style.display='';
+  ci=0; qi=i; save(); paint(); window.scrollTo(0,0);
+}
+
+var MEMO_D = null;   /* ★v60 검문 답(getMemoir) — 이름을 남긴 편인지 보려고 */
+function tripThenBoot_(pp, d){
+  MEMO_D = d || null;
+  if(TRIP_FROM_URL){ retrip_(TRIP_FROM_URL); qThenBoot_(); return; }
+  /* 이 이야기를 전에 쓰신 적이 있으면(쓰는 중이든 마치셨든) 그 번호 — 같은 이야기에 남은 여행을 또 쓰지 않습니다 */
+  var _here = (d && d.places) ? d.places[PLACE_BASE] : '', _tr = (d && d.trips) || [], _mine = 0;
+  for(var _i=0;_i<_tr.length;_i++){ if(_here && samePlace_(_tr[_i].place, _here)){ _mine=_tr[_i].trip; } }
+  var _hasHist = !!(d && d.hist && d.hist.has);
+  if(_mine && _hasHist){ retrip_(_mine); qThenBoot_(); return; }   /* ★v53 지름길은 편 이력이 있는 번호만 — 없으면 서버에 물어 줄을 만들게 */
+  var cb='mopen_'+Date.now()+'_'+Math.floor(Math.random()*1e6), done=false;
+  var t=document.createElement('script');
+  window[cb]=function(r){
+    if(done){ return; } done=true;
+    try{ if(t.parentNode) t.parentNode.removeChild(t); }catch(e){}
+    if(r && r.status==='ok' && r.trip){ retrip_(r.trip); qThenBoot_(); return; }
+    if(r && r.status==='ok' && r.legacy){ retrip_(legacyTrip_(d)); qThenBoot_(); return; }
+    if(r && r.status==='locked'){ noLeft_(); return; }
+    qThenBoot_();                                   /* 그 밖의 대답 — 막지 않음 */
+  };
+  t.onerror=function(){ if(!done){ done=true; qThenBoot_(); } };
+  t.src=MEMOIR_GAS+'?action=openPlace&passport='+encodeURIComponent(pp)+'&place='+PLACE_BASE
+       +'&inputMethod='+encodeURIComponent('본인입력')+'&callback='+cb+'&t='+Date.now();
+  document.head.appendChild(t);
+  setTimeout(function(){ if(!done){ done=true; qThenBoot_(); } }, 8000);
+}
+function noLeft_(){
+  lfw_('done');
+  var m=document.getElementById('mlock'); if(!m){ return; }
+  var tt=m.querySelector('.rstitle'), sb=m.querySelector('.rssub');
+  if(tt){ tt.textContent='남은 이야기가 없어요'; }
+  if(sb){ sb.innerHTML='이야기를 더 남기시려면 한 편을 더 예매해 주세요.'; }
+  m.style.display='flex';
+}
+
+/* ══ ★[v48] 「몸이 아프던 때」 — 여실 때 따로 여쭙니다(개3) ══ */
+function healthAsk_(){
+  var Q = cur(); if(!Q || !(Q.health || (qi===0 && Q.open === "몸이 아프던 때") || (Q.health===undefined && Q.open === "몸이 아프던 때"))){ return; }   /* ★v54 질문지 「건강」 표시 */
+  try{ if(localStorage.getItem(hcKey_())==='1'){ healthSend_(); return; } }catch(e){}   /* ★v52 여권번호별 · 이미 답했으면 서버에 다시 알림 */
+  try{ var hn=document.getElementById('hcname'); if(hn && Q.open){ hn.textContent=Q.open; } }catch(e){}   /* ★v54 소재 이름은 질문지에서 */
+  var m=document.getElementById('hcmask'); if(m){ m.style.display='flex'; }
+}
+/* ★v52 기억 열쇠 — 여권번호 + 여행 번호 */
+function hcKey_(){ return 'lf_memoir_health_' + (passport_()||'') + '_t' + TRIPNO; }
+function healthSend_(){
+  var pp=passport_(); if(!pp){ return; }
+  try{
+    fetch(MEMOIR_GAS, { method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({ action:'recordHealth', passport:pp, trip:TRIPNO }) });
+  }catch(e){}
+}
+function healthYes_(){
+  try{ localStorage.setItem(hcKey_(),'1'); }catch(e){}
+  var m=document.getElementById('hcmask'); if(m){ m.style.display='none'; }
+  var pp=passport_(); if(!pp){ return; }
+  try{
+    fetch(MEMOIR_GAS, { method:"POST", mode:"no-cors", headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body: JSON.stringify({ action:'recordHealth', passport:pp, trip:TRIPNO }) });
+  }catch(e){}
+}
+function healthNo_(){
+  var m=document.getElementById('hcmask'); if(m){ m.style.display='none'; }
+  markNA();
+}
+
+/* ══ ★[v48] 사진 — 함께 나온 분 확인 ══ */
+function pokKey_(){ return 'lf_memoir_pok_' + (passport_()||'') + '_t' + TRIPNO; }   /* ★v52 여권번호별 */
+function photoOkAt_(){ try{ return localStorage.getItem(pokKey_())||''; }catch(e){ return ''; } }
+function photoOkTip_(){
+  var c=document.getElementById('pokChk');
+  try{ if(c && c.checked){ localStorage.setItem(pokKey_(), new Date().toISOString()); } }catch(e){}
+  var h=document.getElementById('phint'); if(h && c && c.checked && h.getAttribute('data-warn')==='1'){ h.removeAttribute('data-warn'); renderPhoto(); }
+}
+function photoPick_(){
+  var c=document.getElementById('pokChk');
+  if(!(c && c.checked)){
+    var h=document.getElementById('phint');
+    if(h){ h.innerHTML='<b style="color:#B0412E">위 칸에 먼저 체크해 주세요.</b> 사진에 함께 나온 분이 계시면 동의를 받아 주세요.'; h.setAttribute('data-warn','1'); }
+    return;
+  }
+  document.getElementById('pfile').click();
+}
+function lfStory_(s){ try{ return LFM.story(s); }catch(e){ return String(s||''); } }
+gateThenBoot_();
+</script>
+
+<div class="lffsw"><button class="lff-sb" type="button" onclick="lffShare()" aria-label="공유하기"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="#8A93A0" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19c0-7 5-10 11-10"/><path d="M11 4.5 15.5 9 11 13.5"/></svg></button></div>
+<!-- ★[v38] 길 셋 — memoir/index.html 확정 부품 그대로 -->
+<style>
+.lfway{display:flex;gap:6px;justify-content:center;flex-wrap:wrap;max-width:420px;margin:20px auto 10px;padding:0 16px;box-sizing:border-box}
+.lfway a{display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #E6E1D8;border-radius:13px;background:#fff;text-decoration:none;cursor:pointer;transition:.15s}
+.lfway a:active{opacity:.55}
+.lfway .ic{font-size:11px;color:#94A0AE;line-height:1}
+.lfway .tt{font-size:10.5px;font-weight:500;color:#7A8794;letter-spacing:-.2px}
+.aidnote{max-width:420px;margin:8px auto 0;padding:12px 14px;border:1px solid #EADFCE;border-radius:12px;background:#FFFBF5;font-size:13.5px;line-height:1.7;color:#5a6b7c}
+.aid.on{border-color:#FF7A59;color:#FF7A59}
+@media print{.lfway,.aidnote,.aids{display:none !important}}
+</style>
+<div class="lfway" id="lfway">
+  <a onclick="history.back()"><span class="ic">&#8592;</span><span class="tt">뒤로</span></a>
+  <a onclick="ggoHome()"><span class="ic">&#8962;</span><span class="tt">홈</span></a>
+  <a onclick="askGoBook()"><span class="ic">&#8594;</span><span class="tt">앞으로</span></a>
+</div>
+
+<div class="glegal">
+  <div id="lfFoot"></div>
+<script src="/lf-foot.js" defer></script>
+</div>
+<script>
+/* ══════════════════════════════════════════════════════════════════
+   [v10 · 260714] ★서버 저장선 — 이사회 5인 만장일치 1순위
+   "임시저장만 하는 현 상태는 서비스가 아니다."
+
+   ★화면은 한 픽셀도 안 건드렸습니다. 마크업·CSS·BOOK 배열·기존 함수 전부 그대로입니다.
+     nextQ 를 ★감싸기만 합니다 — 원래 nextQ 가 먼저 다 하고, 그 뒤에 서버로 보냅니다.
+     서버가 죽어도 원래 동작(브라우저 저장·화면 이동)은 그대로 굴러갑니다.
+
+   [결의대로] ①장(章) 끝날 때마다 보냄 (문항마다 아님)  ②열쇠는 LF- 여권 하나
+             ③구술 원본은 문서에 append 만  ④대리입력 정보(소속·입력자·입력방식) 함께
+   [여권] 주소에서 받습니다 → /memoir/ask.html?id=LF-XXXXX
+          대리입력이면 → ?id=LF-XXXXX&src=파주복지관&by=유상열&how=대리입력
+          ★여권이 없으면 서버로 안 보냅니다 (지금까지대로 브라우저에만). 맛보기 손님이 막히지 않게.
+   [못 보냈을 때] 버리지 않습니다. 브라우저에 쌓아두고 다음에 다시 보냅니다(lf_memoir_queue).
+   ══════════════════════════════════════════════════════════════════ */
+/* ★[v25] MEMOIR_GAS 는 블록1 맨 위로 옮겼습니다 (게이트가 641행에서 먼저 씀). 값 동일·중복 방지. */
+var QKEY='lf_memoir_queue';
+
+
+
+
+/* 한 장(章)을 통째로 꾸립니다. 건너뛰신 문항은 빈칸으로 둡니다 — 지어내지 않습니다. */
+function packSection_(pi, si){
+  var qs=BOOK[pi].qs, qa=[];
+  for(var i=0;i<qs.length;i++){
+    if(qs[i].sec!==si){ continue; }
+    var a=answers[pi+'_'+i];
+    qa.push({ q: qs[i].q, a: (a==null?'':String(a)) });
+  }
+  return {
+    action:'saveSection',
+    passport: passport_(),
+    trip: TRIPNO,
+    place: PLACE_BASE + pi,
+    section: si,
+    answers: qa,
+    name: mq_('name'),
+    source: mq_('src'),
+    inputUser: mq_('by'),
+    inputMethod: mq_('how') || '본인입력'
+  };
+}
+function packChapter_(c){
+  var qs=BOOK[c].qs, qa=[];
+  for(var i=0;i<qs.length;i++){
+    var a=answers[c+'_'+i];
+    qa.push({ q: qs[i].q, a: (a==null?'':String(a)) });
+  }
+  return {
+    action:'saveSection',
+    passport: passport_(),
+    trip: TRIPNO,
+    place: PLACE_BASE + c,
+    answers: qa,
+    name: mq_('name'),
+    source: mq_('src'),
+    inputUser: mq_('by'),
+    inputMethod: mq_('how') || '본인입력'
+  };
+}
+
+
+function queue_(job){
+  try{
+    var q=JSON.parse(localStorage.getItem(QKEY)||'[]');
+    q.push(job);
+    localStorage.setItem(QKEY, JSON.stringify(q));
+  }catch(e){}
+}
+
+function send_(job, onOk){
+  /* ★[v29] 주소줄(GET)에서 ★POST 로 옮겼습니다.
+     물음이 서른으로 늘어 답이 길어지면 주소줄이 넘칩니다. 사진이 이미 이 길로 다닙니다.
+     응답은 못 읽으므로(no-cors) 보낸 뒤 verify_ 로 되물어 확인합니다. */
+  try{
+    fetch(MEMOIR_GAS, {
+      method:'POST',
+      mode:'no-cors',
+      headers:{ 'Content-Type':'text/plain;charset=utf-8' },
+      body: JSON.stringify(job)
+    }).then(function(){ verify_(job, onOk); })
+      .catch(function(){ verify_(job, onOk); });
+  }catch(e){
+    verify_(job, onOk);
+  }
+}
+
+
+/* ★보낸 뒤 정말 담겼는지 되묻습니다. 담겼으면 화면에 "담았습니다", 아니면 큐로. */
+function verify_(job, onOk){
+  var cbName='mvf_'+Date.now()+'_'+Math.floor(Math.random()*1e6);
+  var t=document.createElement('script');
+  var done=false;
+  window[cbName]=function(d){
+    done=true;
+    try{ delete window[cbName]; }catch(e){}
+    if(t.parentNode){ t.parentNode.removeChild(t); }
+    if(d && d.found){ if(onOk) onOk(d); }     /* 시트에 있음 = 진짜 저장됨 */
+    else { queue_(job); }
+  };
+  t.src = MEMOIR_GAS + '?action=getMemoir&passport=' + encodeURIComponent(job.passport) + '&callback=' + cbName + '&t=' + Date.now();
+  t.onerror=function(){ if(!done){ queue_(job); if(t.parentNode)t.parentNode.removeChild(t); } };
+  document.body.appendChild(t);
+  setTimeout(function(){ if(!done){ try{ delete window[cbName]; }catch(e){} if(t.parentNode)t.parentNode.removeChild(t); } }, 8000);
+}
+
+/* 못 보낸 게 쌓여 있으면 다음에 들어오실 때 조용히 다시 보냅니다. */
+function flushQueue_(){
+  var q=[];
+  try{ q=JSON.parse(localStorage.getItem(QKEY)||'[]'); }catch(e){ q=[]; }
+  if(!q.length) return;
+  try{ localStorage.removeItem(QKEY); }catch(e){}
+  for(var i=0;i<q.length;i++){ send_(q[i]); }
+}
+
+/* 담았다는 표시 — ★새 요소를 만들지 않습니다. 있던 저장 버튼을 잠깐 빌려 씁니다. */
+function flashSaved_(){
+  var sb=document.getElementById('savebtn'); if(!sb) return;
+  var had=sb.innerHTML;
+  sb.classList.add('done');
+  sb.innerHTML='<span class="ic">&#10003;</span> 담았습니다';
+  clearTimeout(window._srv);
+  window._srv=setTimeout(function(){ sb.classList.remove('done'); sb.innerHTML=had; }, 2200);
+}
+
+/* ★여기가 선입니다 — 원래 nextQ 를 먼저 돌리고, 장이 끝났으면 서버로 보냅니다. */
+/* ★[v30] 빈 채로 마치지 못하게 막습니다.
+   소재(꼭지) 여덟 가운데 한 곳이라도 비어 있으면 마침 화면으로 넘기지 않습니다.
+   빈 채로 넘어가면 책이 안 나오고, 그 책임이 우리에게 옵니다. */
+/* ★[v31] 해당 없는 분이 막히지 않게 — 군 복무·손주·아이처럼 없으실 수 있는 자리에서
+   「저에게는 해당하지 않아요」를 누르면 그 꼭지를 통째로 지나갑니다.
+   빈칸이 아니라 ★밝힌 답이므로 완주 검사도 통과하고, 책에서는 그 꼭지를 빼고 엮습니다. */
+var NA_MARK = "(해당 없음)";
+function markNA(){
+  var s = cur().sec, qs = BOOK[ci].qs, first = -1, last = -1;
+  for(var i=0;i<qs.length;i++){
+    if(qs[i].sec!==s){ continue; }
+    if(first<0){ first=i; }
+    last=i;
+    answers[ci+"_"+i] = (i===first) ? NA_MARK : "";
+  }
+  save();
+  if(passport_()){ send_(packSection_(ci, s), flashSaved_); }
+  if(last >= qs.length-1){
+    if(ci < BOOK.length-1){ ci++; qi=0; } else { finish(); return; }
+  } else { qi = last+1; }
+  save(); paint(); window.scrollTo(0,0);
+}
+function missingSecs_(){
+  var miss=[];
+  for(var c=0;c<BOOK.length;c++){
+    var qs=BOOK[c].qs, names=BOOK[c].secs||[], has={};
+    for(var i=0;i<qs.length;i++){
+      var a=answers[c+"_"+i];
+      if(a!=null && String(a).trim()){ has[qs[i].sec]=1; }   /* (해당 없음)도 밝힌 답이므로 통과 */
+    }
+    for(var s=0;s<names.length;s++){
+      if(!has[s]){ miss.push({c:c, s:s, name:names[s]}); }
+    }
+  }
+  return miss;
+}
+function gotoSec_(c, s){
+  /* [v46] 다른 자리로 옮기면 안내 한 줄은 지웁니다 */
+
+  var qs=BOOK[c].qs;
+  for(var i=0;i<qs.length;i++){
+    if(qs[i].sec===s){ ci=c; qi=i; save(); paint(); window.scrollTo(0,0); return; }
+  }
+}
+var _finish_orig = finish;
+finish = function(){
+  var miss = missingSecs_();
+  if(miss.length){
+    var names="";
+    for(var i=0;i<miss.length && i<8;i++){ names += "\n  · " + miss[i].name; }
+    alert("아직 채우지 않으신 이야기가 " + miss.length + "곳 있습니다." + names +
+          "\n\n한 곳이라도 비어 있으면 한 편을 완성할 수 없어요.\n비어 있는 첫 물음으로 모셔다 드리겠습니다.");
+    gotoSec_(miss[0].c, miss[0].s);
+    return;
+  }
+  try{ autoSync_(); }catch(e){}
+  var nm=(BOOK[0].title||"").split("·");
+  var pn=(nm.length>1?nm[nm.length-1].trim():BOOK[0].title);
+  var dp=document.getElementById("donePlace"); if(dp){ dp.textContent=pn+" 이야기"; }
+  var ct=document.getElementById("coverTitle"); if(ct){ ct.textContent=pn; }
+  _finish_orig();
+};
+var _nextQ_orig = nextQ;
+nextQ = function(skip){
+  /* ★[v29] 저장 단위가 「자리 하나」에서 ★「소재 하나」로 내려왔습니다.
+     소재를 마칠 때마다 담으므로 중간에 끊겨도 잃는 것이 적습니다. */
+  var pi = ci, si = (cur() ? cur().sec : 0), wasLast = isLast();
+  _nextQ_orig(skip);
+  var changed = wasLast || (ci !== pi) || (!cur()) || (cur().sec !== si);
+  if(changed && passport_()){ send_(packSection_(pi, si), flashSaved_); }
+};
+
+/* ★[v13] 임시 안전판 — #done 의 [내 이야기 확실히 보내기] 버튼이 부릅니다.
+   위 저장엔진(send_/verify_/queue_/packChapter_/GAS URL)은 한 글자도 안 건드립니다 — 순수 추가입니다.
+   ①전 장을 send_ 로 다시 보냅니다(확장 없는 브라우저는 전량 저장).
+   ②마지막 장+이메일을, 확장이 못 막는 ★주소창 GET(새 탭)으로 한 번 더 확실히 보냅니다. */
+/* ★[v33] 이 버튼은 ★이메일을 보내지 않습니다. 담긴 답을 서버로 한 번 더 밀어 넣는 안전판입니다.
+   지금까지 이름이 「내 이야기 확실히 보내기」이고 「보내드렸습니다」라고 떠서
+   손님이 이메일이 간 줄 아셨습니다. 하는 일 그대로 말하게 고쳤습니다.
+   이메일은 알림용(선택)이므로 안 적으셔도 막지 않습니다. */
+function sendMyStory_(){
+  var em=getDoneEmail();
+  var msg=document.getElementById("mailMsg");
+  if(em && /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){
+    try{ localStorage.setItem("lf_memoir_email", em); }catch(e){}
+  }
+  var p=passport_();
+  if(!p){ msg.textContent="사랑흐름 여권번호가 없어 담을 수 없어요. 받으신 사랑흐름 여권번호로 다시 들어와 주세요."; msg.className="mailhint err"; return; }
+  var last=BOOK.length-1;
+      for(var c=0;c<=last;c++){
+        var secs=BOOK[c].secs||[];
+        for(var s=0;s<secs.length;s++){ send_(packSection_(c,s)); }
+      }
+      var jf=packChapter_(last); if(em){ jf.email=em; } send_(jf);
+  /* ★[v34] 사진도 함께 다시 보냅니다.
+     기기 안에는 있는데 서버에 없는 사진(자서전 GAS v7 이전에 올리신 것)이 이 버튼으로 올라갑니다. */
+  var np = resendPhotos_();
+  msg.textContent = "다시 담았습니다"
+    + (np ? (" · 사진 " + np + "장도 함께 보냈습니다") : "")
+    + ". 기록은 사랑흐름 여권번호로 언제든 보실 수 있습니다.";
+  msg.className="mailhint";
+}
+
+try{ flushQueue_(); }catch(e){}
+
+var GLINK={home:'/',hanmadi:'/',journey:'/journey/',letter:'/l/',reenter:'/reenter.html',find:'/find/',showroom:'/showroom.html',showcase:'/showcase.html',memoir:'/memoir/',ritual:'/memoir/ritual.html',ask:'/memoir/ask.html',book:'/memoir/book.html',about:'/about.html',trust:'/trust.html'};
+function ggoHome(){location.href=GLINK.home;}
+function glgo(k){var u=GLINK[k];if(!u){return;}if(k==='journey'||k==='letter'){var pp=passport_();if(pp){u+=(u.indexOf('?')>-1?'&':'?')+'id='+encodeURIComponent(pp);}}location.href=u;}
+function gOpenMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.add('on');}
+function gCloseMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.remove('on');}
+function lffShare(){var H='https://www.loveflow.ai.kr';if(navigator.share){navigator.share({title:'사랑흐름',text:'가장 소중한 사람을 더 알아가는 시간, 사랑흐름',url:H}).catch(function(){});return;}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(H).then(function(){lffToast('링크를 복사했어요');}).catch(function(){lffCopy(H);});return;}lffCopy(H);}
+function lffCopy(H){try{var a=document.createElement('textarea');a.value=H;a.style.position='fixed';a.style.left='-9999px';document.body.appendChild(a);a.select();document.execCommand('copy');document.body.removeChild(a);lffToast('링크를 복사했어요');}catch(e){lffToast(H);}}
+function lffToast(m){var t=document.getElementById('lffToastEl');if(!t){t=document.createElement('div');t.id='lffToastEl';t.className='lff-toast';document.body.appendChild(t);}t.textContent=m;t.classList.add('lff-on');clearTimeout(t.__h);t.__h=setTimeout(function(){t.classList.remove('lff-on');},2200);}
+
+/* ═══════════════════════════════════════════════════════════════
+   ★[v38 · 260804] 받아쓰기 · 가족이 대신 적기 · 앞으로 가는 길
+   대표 확인 260803: 「음성으로 말하기」를 눌렀는데 마이크도 안 뜨고
+   파일도 안 생기고 글자로도 안 바뀌었다 — 버튼에 onclick 이 없었습니다.
+   되는 기기는 바로 받아쓰고, 안 되는 기기는 자판 마이크를 안내합니다.
+   ═══════════════════════════════════════════════════════════════ */
+var LFSR = null, LFSRon = false;
+
+function lfSRsupported(){ return !!(window.SpeechRecognition || window.webkitSpeechRecognition); }
+
+function aidNote(h){
+  var el = document.getElementById('aidnote');
+  if (!el) { return; }
+  el.innerHTML = h || '';
+  el.style.display = h ? 'block' : 'none';
+}
+
+function voiceTxt(s){ var el = document.getElementById('voiceTxt'); if (el) { el.textContent = s; } }
+
+function voiceOff_(){
+  LFSRon = false;
+  voiceTxt('음성으로 말하기');
+  var b = document.getElementById('voiceBtn');
+  if (b) { b.classList.remove('on'); }
+}
+
+/* 안 되는 기기·마이크가 막힌 기기 — 자판의 마이크로 안내합니다. 어느 폰에나 있습니다. */
+function keyboardMicTip(){
+  aidNote('<b>이 기기에서는 자판의 마이크로 말씀하실 수 있어요.</b><br>'
+    + '&#9312; 아래 답 칸을 한 번 눌러 주세요.<br>'
+    + '&#9313; 자판이 올라오면 자판에 있는 <b>&#127908;</b> 를 눌러 주세요.<br>'
+    + '&#9314; 그대로 말씀하시면 글자로 적힙니다.');
+}
+
+function voiceToggle(){
+  if (!lfSRsupported()) { keyboardMicTip(); return; }
+  if (LFSRon) { try { LFSR.stop(); } catch(e){} return; }
+  try {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    LFSR = new SR();
+    LFSR.lang = 'ko-KR';
+    LFSR.continuous = true;
+    LFSR.interimResults = false;
+
+    LFSR.onstart = function(){
+      LFSRon = true;
+      voiceTxt('듣고 있어요 · 누르면 멈춤');
+      var b = document.getElementById('voiceBtn');
+      if (b) { b.classList.add('on'); }
+      aidNote('편하게 말씀하세요. 말씀하신 대로 아래 칸에 담깁니다.');
+    };
+
+    LFSR.onresult = function(ev){
+      var add = '';
+      for (var i = ev.resultIndex; i < ev.results.length; i++) {
+        if (ev.results[i].isFinal) { add += ev.results[i][0].transcript; }
+      }
+      if (!add) { return; }
+      var ta = document.getElementById('ans');
+      if (!ta) { return; }
+      var cur = ta.value || '';
+      var sep = (cur && cur.charAt(cur.length - 1) !== ' ') ? ' ' : '';
+      ta.value = cur + sep + add.replace(/^\s+|\s+$/g, '');
+      if (typeof onType === 'function') { onType(); }
+    };
+
+    LFSR.onerror = function(ev){
+      voiceOff_();
+      var e = (ev && ev.error) || '';
+      if (e === 'not-allowed' || e === 'service-not-allowed' || e === 'audio-capture') {
+        keyboardMicTip();
+      } else if (e === 'no-speech') {
+        aidNote('소리가 잘 안 들렸어요. 다시 눌러 주세요.');
+      } else {
+        keyboardMicTip();
+      }
+    };
+
+    LFSR.onend = function(){ voiceOff_(); };
+
+    LFSR.start();
+  } catch(e) { keyboardMicTip(); }
+}
+
+/* 가족이 대신 적어 주실 때 — 고쳐 쓰지 말고 말씀하신 그대로 */
+function familyTip(){
+  aidNote('<b>가족이 대신 적어 주셔도 됩니다.</b><br>'
+    + '어르신께서 말씀하시는 대로 아래 칸에 적어 주세요.<br>'
+    + '다듬지 마시고 <b>말씀하신 그대로</b> 적어 주시면, 기록에 그 목소리가 그대로 남습니다.');
+}
+
+/* 길 셋의 「앞으로」 — 지금까지 쓴 기록 보기. 여권을 실어 보냅니다. */
+function askGoBook(){
+  var pp = '';
+  try { pp = passport_(); } catch(e) { pp = ''; }
+  location.href = '/memoir/book.html' + (pp ? '?id=' + encodeURIComponent(pp) + '&trip=' + TRIPNO : '');   /* ★[v48] 그 이야기 번호 */
+}
+
+</script>
+
+<!-- ★[260810] 문 그리는 부품은 문지기(/lf/pass.js)가 불러옵니다.
+     이 화면에는 꼬리표가 없습니다 — 부품을 고쳐도 이 파일은 다시 안 건드립니다. -->
+</body>
+</html>
      [왜] 이사회 5인 만장일치 1순위: "임시저장만 하는 현 상태는 서비스가 아니다." 지금까지 답변은 브라우저에만 담겨, 폰을 바꾸면 사라졌습니다.
      [★화면 무손] 마크업·CSS·BOOK 배열(7장 24문항)·기존 함수 — ★한 글자도 안 건드렸습니다. 대표 지시 "이 페이지는 마음에 들어, 손대지 마요".
             nextQ 를 ★감싸기만 했습니다. 원래 nextQ 가 먼저 다 하고, 장이 끝났을 때만 서버로 보냅니다.
