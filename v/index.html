@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ v/index.html · v1 · 261003 · [새 화면 · 자서전 공사 칸 23 목소리 남기기] 기록의 QR이 여는 듣는 화면. 주소 = /v/?k=열쇠(10자) — 여권번호도 드라이브 주소도 싣지 않음. 「○○○ 선생님의 목소리 · ○째 이야기 · …」 · 따뜻한 둥근 재생 단추 · 남긴 날. 지운 목소리면 「이 목소리는 내려졌어요」. 서버 = 자서전 서버 v22 getVoice(JSONP). -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 그때의 목소리</title>
+<meta property="og:title" content="사랑흐름 · 그때의 목소리">
+<meta property="og:description" content="기록에 남긴 목소리를 들려드립니다.">
+<meta property="og:image" content="https://www.loveflow.ai.kr/memoir/invite-card.png">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#FDF8F1;color:#4a3b2e;font-family:'Noto Sans KR',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:10px;padding:12px 16px}
+.top img{width:40px;height:40px;border-radius:10px}
+.top b{font-family:'Noto Serif KR',serif;color:#9a5b3c;font-size:15px}
+main{flex:1;display:flex;align-items:center;justify-content:center;padding:16px}
+.card{width:100%;max-width:420px;background:#fff;border:1px solid #F0E2D2;border-radius:26px;padding:30px 20px 26px;text-align:center;box-shadow:0 6px 24px rgba(184,146,62,.10)}
+.k{font-size:12.5px;letter-spacing:.14em;color:#B98A6C}
+h1{font-family:'Noto Serif KR',serif;font-size:24px;color:#5a3e2b;margin:8px 0 4px;line-height:1.45;word-break:keep-all}
+.pl{font-size:15px;color:#8a7a68;word-break:keep-all}
+.btn{width:120px;height:120px;border-radius:50%;border:0;margin:26px auto 10px;display:grid;place-items:center;cursor:pointer;position:relative;background:radial-gradient(circle at 35% 30%,#F8C9A9,#E59273);box-shadow:0 8px 22px rgba(229,146,115,.35),inset 0 2px 0 rgba(255,255,255,.35)}
+.btn .ring{position:absolute;inset:-14px;border-radius:50%;border:8px solid #FCEBDD;animation:br 2.4s ease-in-out infinite;display:none}
+.btn.on .ring{display:block}
+@keyframes br{0%,100%{transform:scale(.94);opacity:.9}50%{transform:scale(1.07);opacity:.35}}
+.bar{height:8px;border-radius:4px;background:#FCEBDD;margin:6px 10px 0;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#F2B591,#E59273);border-radius:4px}
+.tm{font-weight:700;color:#9a5b3c;margin-top:8px}
+.at{font-size:13.5px;color:#9a8a78;margin-top:14px}
+.msg{color:#8a7a68;margin:20px 0;word-break:keep-all}
+.foot{text-align:center;font-size:13px;color:#9a8a78;padding:16px}
+.foot a{color:#9a5b3c}
+button:focus-visible{outline:3px solid #6aa8f0;outline-offset:3px}
+</style>
+</head>
+<body>
+<div class="top"><img src="/logo.png" alt=""><b>사랑흐름</b></div>
+<main><div class="card" id="card"><div class="msg">목소리를 불러오고 있어요…</div></div></main>
+<div class="foot">가장 소중한 사람을 더 알아가는 시간, <a href="/">사랑흐름</a> · www.loveflow.ai.kr</div>
+<script>
+var MG='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+var PLAY='<svg width="46" height="46" viewBox="0 0 38 38"><path d="M13 11.5c0-1.6 1.7-2.6 3.1-1.8l12 7.6c1.3.8 1.3 2.7 0 3.5l-12 7.6c-1.4.9-3.1-.1-3.1-1.8z" fill="#fff"/></svg>';
+var PAUSE='<svg width="40" height="40" viewBox="0 0 34 34"><rect x="9" y="8" width="6" height="18" rx="3" fill="#fff"/><rect x="19" y="8" width="6" height="18" rx="3" fill="#fff"/></svg>';
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function t(s){ s=Math.max(0,Math.round(s||0)); return Math.floor(s/60)+':'+String(s%60).padStart(2,'0'); }
+var K=(function(){ try{ return (new URLSearchParams(location.search).get('k')||'').trim().toLowerCase(); }catch(e){ return ''; } })();
+var card=document.getElementById('card');
+function show(h){ card.innerHTML=h; }
+if(!/^[a-z0-9]{10}$/.test(K)){ show('<div class="k">그때의 목소리</div><div class="msg">목소리를 찾지 못했어요.<br>기록의 QR을 다시 비춰 주세요.</div>'); }
+else {
+  var n='vgcb_'+Date.now(), done=false, sc=document.createElement('script');
+  window[n]=function(d){
+    done=true;
+    if(d && d.status==='gone'){ show('<div class="k">그때의 목소리</div><h1>이 목소리는 내려졌어요</h1><div class="pl">남기신 분이 목소리를 지우셨어요.</div>'); return; }
+    if(!d || d.status!=='ok' || !d.data){ show('<div class="k">그때의 목소리</div><div class="msg">목소리를 찾지 못했어요.<br>기록의 QR을 다시 비춰 주세요.</div>'); return; }
+    var who=d.name ? esc(d.name)+' 선생님의 목소리' : '그때의 목소리';
+    show('<div class="k">그때의 목소리</div><h1>'+who+'</h1><div class="pl">'+esc(d.place||'')+'</div>'
+      +'<button class="btn" id="pb" aria-label="듣기"><span class="ring"></span><span id="pi">'+PLAY+'</span></button>'
+      +'<div class="bar"><i id="pg"></i></div><div class="tm" id="tm">0:00 / '+t(d.secs)+'</div>'
+      +(d.at?'<div class="at">'+esc(d.at)+'에 남기셨어요</div>':'')
+      +'<audio id="au" preload="auto" src="data:'+esc(d.mime)+';base64,'+d.data+'"></audio>');
+    var a=document.getElementById('au'), b=document.getElementById('pb'), pi=document.getElementById('pi');
+    b.onclick=function(){ if(a.paused){ a.play(); } else { a.pause(); } };
+    a.onplay=function(){ b.classList.add('on'); pi.innerHTML=PAUSE; };
+    a.onpause=a.onended=function(){ b.classList.remove('on'); pi.innerHTML=PLAY; };
+    a.ontimeupdate=function(){ var du=(isFinite(a.duration)&&a.duration)||d.secs||1; document.getElementById('pg').style.width=Math.min(100,a.currentTime/du*100)+'%'; document.getElementById('tm').textContent=t(a.currentTime)+' / '+t(isFinite(a.duration)?a.duration:d.secs); };
+  };
+  sc.onerror=function(){ if(!done){ show('<div class="msg">지금은 목소리를 불러올 수 없어요. 잠시 뒤 다시 열어 주세요.</div>'); } };
+  sc.src=MG+'?action=getVoice&k='+encodeURIComponent(K)+'&callback='+n+'&t='+Date.now();
+  document.body.appendChild(sc);
+  setTimeout(function(){ if(!done){ show('<div class="msg">지금은 목소리를 불러올 수 없어요. 잠시 뒤 다시 열어 주세요.</div>'); } }, 40000);
+}
+</script>
+</body>
+</html>
