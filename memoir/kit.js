@@ -1,5 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v5 · 261003 — ★[자서전 공사 25-4 · 대표 결정 261003] ⑥ LFM.grapes(el, o) — 열 알 포도송이.
+   현재 버전 ▶ memoir/kit.js · v6 · 261003 — ★[자서전 공사 칸 19 · 이사회 31차] 아홉째를 엽니다.
+     ① LFM.story — 「아홉째 · 열째 자리」도 「…째 이야기」로 ② LFM.nth — 열 번째까지 ③ LFM.grapes — 아홉째 알은 이제 다른 알과 같이
+     마치면 보랏빛 · 다음이면 연두 테 · 아직이면 점선(열째는 칸 20까지 금빛 반짝임 그대로). names 아홉 번째 이름이 오면 그 이름을 씀.
+     [무손] 제목 두 갈래 · 동의 · 기다림 화면 · 그 밖 전부.
+   ── 이전 ── v5 · 261003 — ★[자서전 공사 25-4 · 대표 결정 261003] ⑥ LFM.grapes(el, o) — 열 알 포도송이.
      굵은 넝쿨에 매달린 4 · 3 · 2 · 1. 마친 이야기는 보랏빛 알(「완성」 옅은 물자국) · 방금 마친 알은 톡 차오름 · 다음 알은 연두빛 테 · 안 쓴 알은 연보라 점선 ·
      아홉째 「내가 더 하고 싶은 이야기」 · 열째 「나를 기억하는 사람들」(31차 확정 이름)은 아직 열리지 않아 하얗게 맺힌 알 + 금빛 반짝임.
      o = { names:[여덟 이름], done:[차례 0~7], fresh:차례, next:차례 }. 반환 { count }.
@@ -30,16 +34,16 @@
    ═══════════════════════════════════════════════════════════════ */
 (function(){
   var HAVE_GAS = 'https://script.google.com/macros/s/AKfycbyTroJxyBICtL516b6l9KQ45eQRSaKspj35IXOKET2sHvbS_pAlH2gxM9mvBsVsZJ9X/exec';
-  var NTH = ['첫', '두', '세', '네', '다섯', '여섯', '일곱', '여덟'];
+  var NTH = ['첫', '두', '세', '네', '다섯', '여섯', '일곱', '여덟', '아홉', '열'];   /* ★v6 열 번째까지 */
   var HONOR = '선생님';
 
   function story(s){
-    return String(s == null ? '' : s).replace(/(첫|둘|셋|넷|다섯|여섯|일곱|여덟)째 자리/g, '$1째 이야기');
+    return String(s == null ? '' : s).replace(/(첫|둘|셋|넷|다섯|여섯|일곱|여덟|아홉|열)째 자리/g, '$1째 이야기');
   }
   function nth(n){
     n = parseInt(n, 10);
     if (isNaN(n) || n < 1) { n = 1; }
-    if (n > 8) { n = 8; }
+    if (n > 10) { n = 10; }
     return NTH[n - 1] + ' 번째';
   }
   /* name · 마친 이야기 수 · 여덟 이야기를 다 마쳤나 → { who, whoHtml, sub, journey } */
@@ -232,7 +236,7 @@
   function grapes(el, o){
     o = o || {}; if (!el) { return { count: 0 }; }
     gCss();
-    var names = (o.names || []).slice(0, 8), done = o.done || [], fresh = (o.fresh == null ? -1 : o.fresh), next = (o.next == null ? -1 : o.next);
+    var names = (o.names || []).slice(0, 10), done = o.done || [], fresh = (o.fresh == null ? -1 : o.fresh), next = (o.next == null ? -1 : o.next);
     var rows = [4, 3, 2, 1], r = 29, dx = 60, dy = 52, top = 96, cx = 150, pos = [];
     for (var ri = 0; ri < rows.length; ri++) { var n = rows[ri], x0 = cx - (n - 1) * dx / 2; for (var q = 0; q < n; q++) { pos.push([x0 + q * dx, top + ri * dy]); } }
     var h = '<svg class="lfg" viewBox="0 0 300 300" role="img" aria-label="열 이야기 가운데 ' + done.length + '편을 마치셨어요">'
@@ -244,8 +248,8 @@
       + '<path d="M96 20 C 84 0, 58 2, 50 14 C 62 22, 82 24, 96 20 Z" fill="#79B04F"/><path d="M200 20 C 212 0, 240 2, 248 16 C 234 24, 214 24, 200 20 Z" fill="#6aa043"/>'
       + '<path d="M232 22 C 246 30, 250 44, 240 52" fill="none" stroke="#79B04F" stroke-width="2" stroke-linecap="round"/>';
     for (var i = 0; i < 10; i++) {
-      var x = pos[i][0], y = pos[i][1], lab = (i < 8) ? gSplit(names[i]) : G_EXTRA[i - 8];
-      var cls = (i >= 8) ? 'gv' : (done.indexOf(i) >= 0 ? 'gd' : (i === next ? 'gn' : 'gt'));
+      var x = pos[i][0], y = pos[i][1], lab = (i < 8 || names[i]) ? gSplit(names[i]) : G_EXTRA[i - 8];
+      var cls = done.indexOf(i) >= 0 ? 'gd' : ((i >= 9) ? 'gv' : (i === next ? 'gn' : 'gt'));   /* ★v6 아홉째는 열림 · 열째는 칸 20까지 반짝임 */
       var inner = '<circle class="b" cx="' + x + '" cy="' + y + '" r="' + r + '"/>';
       if (cls === 'gd') { inner += '<circle class="sh" cx="' + (x - 10) + '" cy="' + (y - 11) + '" r="5"/><text class="wm" x="' + x + '" y="' + y + '">완성</text>'; }
       if (lab[1]) { inner += '<text class="l" x="' + x + '" y="' + (y - 6) + '">' + wEsc(lab[0]) + '</text><text class="l" x="' + x + '" y="' + (y + 6) + '">' + wEsc(lab[1]) + '</text>'; }
