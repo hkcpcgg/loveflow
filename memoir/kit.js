@@ -1,5 +1,8 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v3 · 261003 — ★[자서전 공사 24-6 · 대표 결정 261003] ⑤ LFM.wait — 기다리는 화면.
+   현재 버전 ▶ memoir/kit.js · v4 · 261003 — ★[대표 시험 261003] ①금빛 줄기가 너무 빠름 — 한 바퀴 3.2초 → 4.8초(속도 3분의 1 줄임) · 속 채움도 같은 박자.
+     ②「사랑흐름 · LOVE FLOW」 글자가 흐르지 않음 — SVG 자체 움직임(animate)을 화면에 붙인 뒤 값을 바꾸면 크롬에서 안 도는 일이 있었습니다.
+     화면이 직접 한 칸씩 밀어 주는 방식으로 바꿈(초당 23 · 오른쪽). [무손] 모양 · 문구 · 단계 표시 · 쓰는 법.
+   ── 이전 ── v3 · 261003 — ★[자서전 공사 24-6 · 대표 결정 261003] ⑤ LFM.wait — 기다리는 화면.
      서버를 기다리는 동안 빈 화면 대신 금빛 줄기가 흘러와 하트를 돌고 속이 금빛으로 차오르며(C-1),
      그 아래 물결 위로 「사랑흐름 · LOVE FLOW」가 같은 방향(오른쪽)으로 흐릅니다(②). 아래에 단계 표시 —
      실제로 끝난 순서대로 ✓. 15초가 넘으면 「연결이 느려요」 한 줄. 0.3초 안에 끝나면 아예 안 뜹니다(깜빡임 없음).
@@ -92,8 +95,8 @@
     + '#lfw svg.lfw-h{width:200px;height:170px;overflow:visible}'
     + '#lfw svg.lfw-w{width:100%;height:60px;-webkit-mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent);mask-image:linear-gradient(90deg,transparent,#000 18%,#000 82%,transparent)}'
     + '#lfw .lfw-ghost{fill:none;stroke:#e2cf9a;stroke-width:1.5;stroke-linecap:round}'
-    + '#lfw .lfw-flow{fill:none;stroke:#a9832e;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:60 520;animation:lfwRun 3.2s linear infinite}'
-    + '#lfw .lfw-fill{opacity:0;transform-box:fill-box;transform-origin:center;animation:lfwFill 3.2s ease-in-out infinite}'
+    + '#lfw .lfw-flow{fill:none;stroke:#a9832e;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:60 520;animation:lfwRun 4.8s linear infinite}'
+    + '#lfw .lfw-fill{opacity:0;transform-box:fill-box;transform-origin:center;animation:lfwFill 4.8s ease-in-out infinite}'
     + '#lfw .lfw-wt{font-family:"Noto Serif KR",serif;font-size:15px;letter-spacing:.14em;fill:#a9832e}'
     + '#lfw .lfw-msg{font-family:"Noto Serif KR",serif;font-size:18px;color:#163a5e;margin:10px 0 4px;line-height:1.5;word-break:keep-all}'
     + '#lfw .lfw-sub{font-size:14px;color:#8a8070;line-height:1.55;margin-bottom:18px;word-break:keep-all}'
@@ -130,7 +133,7 @@
     + '<path class="lfw-fill" fill="url(#lfwG)" d="' + HEART + '"/><path class="lfw-ghost" d="' + FLOW + '"/><path class="lfw-flow" d="' + FLOW + '"/></svg>'
     + '<svg class="lfw-w" viewBox="0 0 300 50" aria-hidden="true"><path id="lfwP" d="' + WAVE + '" fill="none" stroke="#e2cf9a" stroke-width="1"/>'
     + '<text class="lfw-wt"><textPath href="#lfwP" startOffset="0">' + WORD + WORD + WORD + WORD + WORD + WORD
-    + '<animate id="lfwA" attributeName="startOffset" from="0" to="0" dur="9s" repeatCount="indefinite"/></textPath></text></svg>'
+    + '</textPath></text></svg>'
     + '<div class="lfw-msg">' + wEsc(o.title || '잠시만 기다려 주세요') + '</div>'
     + '<div class="lfw-sub">' + wEsc(o.sub || '') + '</div>'
     + '<ol></ol>'
@@ -139,12 +142,25 @@
     document.body.appendChild(d);
     W.el = d;
     wPaintSteps();
-    try {   /* 글자 한 묶음 길이만큼 오른쪽으로 — 위 금빛 줄기와 같은 방향 */
-      var t = d.querySelector('.lfw-wt'), a = d.querySelector('#lfwA');
-      var unit = t.getComputedTextLength() / 6;
-      if (unit > 0) { a.setAttribute('from', String(-2 * unit)); a.setAttribute('to', String(-unit)); a.setAttribute('dur', (unit / 34).toFixed(1) + 's'); }
-    } catch (e) {}
+    wRun(d);
     requestAnimationFrame(function(){ if (W.el) { W.el.className = 'on'; } });
+  }
+  /* ★v4 글자 흐름 — 브라우저마다 SVG 자체 움직임이 안 도는 일이 있어 화면이 직접 한 칸씩 밀어 줍니다.
+     위 금빛 줄기와 같은 방향(오른쪽) · 초당 23 단위 · 한 묶음 길이마다 처음으로 이어 붙음 */
+  function wRun(d){
+    var tp = d.querySelector('textPath'), t = d.querySelector('.lfw-wt'), unit = 0, x = 0, last = 0;
+    if (!tp || !t || !window.requestAnimationFrame) { return; }
+    function tick(now){
+      if (W.el !== d) { return; }
+      if (!unit) { try { unit = t.getComputedTextLength() / 6; } catch (e) { unit = 0; } x = 0; }
+      if (unit > 0) {
+        var dt = last ? Math.min((now - last) / 1000, 0.1) : 0; last = now;
+        x = (x + 23 * dt) % unit;
+        tp.setAttribute('startOffset', String(-2 * unit + x));
+      }
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
   }
   var wait = {
     show: function(o){
