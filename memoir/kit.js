@@ -1,5 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v4 · 261003 — ★[대표 시험 261003] ①금빛 줄기가 너무 빠름 — 한 바퀴 3.2초 → 4.8초(속도 3분의 1 줄임) · 속 채움도 같은 박자.
+   현재 버전 ▶ memoir/kit.js · v5 · 261003 — ★[자서전 공사 25-4 · 대표 결정 261003] ⑥ LFM.grapes(el, o) — 열 알 포도송이.
+     굵은 넝쿨에 매달린 4 · 3 · 2 · 1. 마친 이야기는 보랏빛 알(「완성」 옅은 물자국) · 방금 마친 알은 톡 차오름 · 다음 알은 연두빛 테 · 안 쓴 알은 연보라 점선 ·
+     아홉째 「내가 더 하고 싶은 이야기」 · 열째 「나를 기억하는 사람들」(31차 확정 이름)은 아직 열리지 않아 하얗게 맺힌 알 + 금빛 반짝임.
+     o = { names:[여덟 이름], done:[차례 0~7], fresh:차례, next:차례 }. 반환 { count }.
+   ── 이전 ── v4 · 261003 — ★[대표 시험 261003] ①금빛 줄기가 너무 빠름 — 한 바퀴 3.2초 → 4.8초(속도 3분의 1 줄임) · 속 채움도 같은 박자.
      ②「사랑흐름 · LOVE FLOW」 글자가 흐르지 않음 — SVG 자체 움직임(animate)을 화면에 붙인 뒤 값을 바꾸면 크롬에서 안 도는 일이 있었습니다.
      화면이 직접 한 칸씩 밀어 주는 방식으로 바꿈(초당 23 · 오른쪽). [무손] 모양 · 문구 · 단계 표시 · 쓰는 법.
    ── 이전 ── v3 · 261003 — ★[자서전 공사 24-6 · 대표 결정 261003] ⑤ LFM.wait — 기다리는 화면.
@@ -193,5 +197,67 @@
     }
   };
 
-  window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, HONOR:HONOR };
+
+  /* ═══ ⑥ LFM.grapes — 열 알 포도송이 (v5) ═══ */
+  var G_EXTRA = [['내가 더 하고', '싶은 이야기'], ['나를 기억하는', '사람들']];
+  function gSplit(nm){   /* 두 줄로 고르게 나눔(가장 긴 줄이 가장 짧게) · 「그리고」는 뺌 */
+    nm = String(nm || '').replace(/^\S+째 (자리|이야기) · /, '').replace(/ 그리고 /, ' ').trim();
+    var sp = nm.split(' ');
+    if (sp.length < 2 || nm.length <= 5) { return [nm, '']; }
+    var best = null;
+    for (var i = 1; i < sp.length; i++) {
+      var a = sp.slice(0, i).join(' '), b = sp.slice(i).join(' '), m = Math.max(a.length, b.length);
+      if (!best || m < best[2]) { best = [a, b, m]; }
+    }
+    return [best[0], best[1]];
+  }
+  function gCss(){
+    if (document.getElementById('lfgCss')) { return; }
+    var c = document.createElement('style'); c.id = 'lfgCss';
+    c.textContent = '.lfg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;overflow:visible}'
+      + '.lfg .l{font-size:8.6px;text-anchor:middle;dominant-baseline:central;font-family:"Noto Sans KR",sans-serif}'
+      + '.lfg .gd .l{fill:#fff}.lfg .gd .wm{fill:#fff;opacity:.09;font-size:24px;font-weight:700;text-anchor:middle;dominant-baseline:central;font-family:"Noto Serif KR",serif}'
+      + '.lfg .gd circle.b{fill:url(#lfgP)}.lfg .sh{fill:#fff;opacity:.35}'
+      + '.lfg .gn circle.b{fill:#F2FBEF;stroke:#6FB35A;stroke-width:2.4}.lfg .gn .l{fill:#3f7a2e;font-weight:700}'
+      + '.lfg .gt circle.b{fill:#F6F1FB;stroke:#CDBBE3;stroke-width:1.5;stroke-dasharray:3 4}.lfg .gt .l{fill:#8b7fa0}'
+      + '.lfg .gv circle.b{fill:url(#lfgW);stroke:#E6D7F5;stroke-width:1.2}.lfg .gv .l{fill:#9a7cc0}'
+      + '.lfg .spk{fill:#c9a24a;font-size:10px;text-anchor:middle;dominant-baseline:central;animation:lfgTw 2.2s ease-in-out infinite}'
+      + '.lfg .pop{transform-box:fill-box;transform-origin:center;animation:lfgPop 1.6s ease-out 1}'
+      + '.lfg .glow{fill:none;stroke:#B48BE0;stroke-width:3;opacity:0;animation:lfgGlow 2.4s ease-out 2}'
+      + '@keyframes lfgTw{50%{opacity:.25}}@keyframes lfgPop{0%{transform:scale(.6);opacity:.2}55%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}'
+      + '@keyframes lfgGlow{30%{opacity:.9}100%{opacity:0;transform:scale(1.4)}}'
+      + '@media (prefers-reduced-motion: reduce){.lfg .pop,.lfg .glow,.lfg .spk{animation:none}}';
+    (document.head || document.body).appendChild(c);
+  }
+  function grapes(el, o){
+    o = o || {}; if (!el) { return { count: 0 }; }
+    gCss();
+    var names = (o.names || []).slice(0, 8), done = o.done || [], fresh = (o.fresh == null ? -1 : o.fresh), next = (o.next == null ? -1 : o.next);
+    var rows = [4, 3, 2, 1], r = 29, dx = 60, dy = 52, top = 96, cx = 150, pos = [];
+    for (var ri = 0; ri < rows.length; ri++) { var n = rows[ri], x0 = cx - (n - 1) * dx / 2; for (var q = 0; q < n; q++) { pos.push([x0 + q * dx, top + ri * dy]); } }
+    var h = '<svg class="lfg" viewBox="0 0 300 300" role="img" aria-label="열 이야기 가운데 ' + done.length + '편을 마치셨어요">'
+      + '<defs><radialGradient id="lfgP" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#A979DB"/><stop offset=".55" stop-color="#7A45B5"/><stop offset="1" stop-color="#4E2585"/></radialGradient>'
+      + '<radialGradient id="lfgW" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#F1E8FB"/></radialGradient></defs>'
+      + '<path d="M18 22 C 70 10, 110 30, 150 24 S 240 12, 284 26" fill="none" stroke="#6b4a26" stroke-width="7" stroke-linecap="round"/>'
+      + '<path d="M150 24 C 148 40, 152 52, 150 66" fill="none" stroke="#6b4a26" stroke-width="6" stroke-linecap="round"/>'
+      + '<path d="M150 62 C 120 64, 90 66, 62 72 M150 62 C 180 64, 210 66, 238 72" fill="none" stroke="#7a5a32" stroke-width="2.5" stroke-linecap="round"/>'
+      + '<path d="M96 20 C 84 0, 58 2, 50 14 C 62 22, 82 24, 96 20 Z" fill="#79B04F"/><path d="M200 20 C 212 0, 240 2, 248 16 C 234 24, 214 24, 200 20 Z" fill="#6aa043"/>'
+      + '<path d="M232 22 C 246 30, 250 44, 240 52" fill="none" stroke="#79B04F" stroke-width="2" stroke-linecap="round"/>';
+    for (var i = 0; i < 10; i++) {
+      var x = pos[i][0], y = pos[i][1], lab = (i < 8) ? gSplit(names[i]) : G_EXTRA[i - 8];
+      var cls = (i >= 8) ? 'gv' : (done.indexOf(i) >= 0 ? 'gd' : (i === next ? 'gn' : 'gt'));
+      var inner = '<circle class="b" cx="' + x + '" cy="' + y + '" r="' + r + '"/>';
+      if (cls === 'gd') { inner += '<circle class="sh" cx="' + (x - 10) + '" cy="' + (y - 11) + '" r="5"/><text class="wm" x="' + x + '" y="' + y + '">완성</text>'; }
+      if (lab[1]) { inner += '<text class="l" x="' + x + '" y="' + (y - 6) + '">' + wEsc(lab[0]) + '</text><text class="l" x="' + x + '" y="' + (y + 6) + '">' + wEsc(lab[1]) + '</text>'; }
+      else { inner += '<text class="l" x="' + x + '" y="' + y + '">' + wEsc(lab[0]) + '</text>'; }
+      if (cls === 'gv') { inner += '<text class="spk" x="' + (x + 17) + '" y="' + (y - 17) + '">✦</text>'; }
+      if (i === fresh && cls === 'gd') { h += '<g class="gd"><circle class="glow" cx="' + x + '" cy="' + y + '" r="' + r + '" style="transform-box:fill-box;transform-origin:center"/><g class="pop">' + inner + '</g></g>'; }
+      else { h += '<g class="' + cls + '">' + inner + '</g>'; }
+    }
+    h += '</svg>';
+    el.innerHTML = h;
+    return { count: done.length };
+  }
+
+  window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, grapes:grapes, HONOR:HONOR };
 })();
