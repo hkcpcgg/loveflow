@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/friends.html · v1 · 261003 · [새 화면 · 자서전 공사 칸 20 · 이사회 31차 3-2~3-4 · 4장 · 5장 · 6장 · 대표 지시 261003] 작성자 화면 — 열째 「나를 기억하는 사람들」. ① 추억록: 초대장 만들기(받는 분 호칭 · 초대장에 보일 내 이름) → 링크 + 카카오톡 글 본보기 둘(높임말 · 친구 사이 · 「제가 직접 보내는 링크」) 복사 · 공유 / 보낸 초대장 목록(새로 온 글 · 받음 · 기다리는 중 · 거두심) · 받은 글 읽기 · 싣기(열까지) · 마감 30일 늘리기 · 싣는 방식(질문별 · 사람별). ② 내가 기억하는 한 분(소재 넷) ③ 받은 기억에 답하며(받은 글이 있을 때 · 소재 넷 · 끝에 「이분들께 꼭 남기고 싶은 말」 자유 칸). ①·②·③ 가운데 하나만 있어도 「이 이야기 마치기」 → 이름 남기기. 질문 화면(ask)에서 열째를 열면 이 화면으로 옴. 서버 = 자서전 서버 v21(memMake · memList · memPick · memExtend · memLayout · memFinish · getQuestions · getBook · openPlace · saveSection). -->
+<!-- ★ 현재 버전 ▶ memoir/friends.html · v2 · 261003 · [작업 v2 · 칸 21 종이 · 사진에서 불러오기 · 31차 9] ★② · ③ 물음마다 작은 「📷」 — kit.js v7 LFM.scan 으로 불러온 글을 그 칸 끝에 더함(저장할 때 들어온 방식 · 확인 시각 함께). ★① 아래 「🖨 종이 물음지 인쇄」(물음 일곱 · 성명 · 관계 · 보일 이름 · 만 14세 미만 보호자 성명 · 서명 칸) · 「📝 종이로 받은 글 올리기」(성명 · 관계 · 보일 이름 · 만 14세 이상/미만(보호자 성명 · 서명 받음) · 물음마다 📷 · 원본을 보며 확인 → 서버 v24 memPaper · 받은 글 목록에 「종이」). [무손] 그 밖 전부. — 이전 ▶ v1 · 261003 · [새 화면 · 자서전 공사 칸 20 · 이사회 31차 3-2~3-4 · 4장 · 5장 · 6장 · 대표 지시 261003] 작성자 화면 — 열째 「나를 기억하는 사람들」. ① 추억록: 초대장 만들기(받는 분 호칭 · 초대장에 보일 내 이름) → 링크 + 카카오톡 글 본보기 둘(높임말 · 친구 사이 · 「제가 직접 보내는 링크」) 복사 · 공유 / 보낸 초대장 목록(새로 온 글 · 받음 · 기다리는 중 · 거두심) · 받은 글 읽기 · 싣기(열까지) · 마감 30일 늘리기 · 싣는 방식(질문별 · 사람별). ② 내가 기억하는 한 분(소재 넷) ③ 받은 기억에 답하며(받은 글이 있을 때 · 소재 넷 · 끝에 「이분들께 꼭 남기고 싶은 말」 자유 칸). ①·②·③ 가운데 하나만 있어도 「이 이야기 마치기」 → 이름 남기기. 질문 화면(ask)에서 열째를 열면 이 화면으로 옴. 서버 = 자서전 서버 v21(memMake · memList · memPick · memExtend · memLayout · memFinish · getQuestions · getBook · openPlace · saveSection). -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -7,7 +7,7 @@
 <title>사랑흐름 · 나를 기억하는 사람들</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="/memoir/kit.js?v=6"></script>
+<script src="/memoir/kit.js?v=7"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#FDFBF5;color:#2b2b2b;font-family:'Noto Sans KR',system-ui,sans-serif;font-size:16px;line-height:1.65}
@@ -73,6 +73,10 @@ input.t:focus,textarea:focus{outline:none;border-color:#1E4A76}
 .sec.open .b{display:block}
 .sec .qq{font-size:15px;color:#3a3226;margin:10px 0 4px;word-break:keep-all}
 .sec .qq.free{color:#8a5a00;font-weight:700}
+.scb{display:inline-block;margin:4px 0 2px;padding:5px 11px;border-radius:14px;border:1.5px solid #F0D9C4;background:#FFFAF4;color:#9a5b3c;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit}
+.paper{margin-top:12px;border:1.5px dashed #E8CDB5;border-radius:14px;padding:14px;background:#FFFAF4}
+.paper .rad{display:flex;gap:8px;align-items:flex-start;margin:6px 0;font-size:14.5px;cursor:pointer;word-break:keep-all}
+.paper .rad input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:#E59273}
 .lockd{font-size:14.5px;color:#7d7465;background:#F7F3EA;border-radius:12px;padding:12px;text-align:center;word-break:keep-all}
 .err{color:#b5372a;font-weight:700;font-size:14px;margin-top:8px;text-align:center;min-height:1em}
 .okm{color:#2f8a4c;font-size:13.5px;text-align:center;margin-top:6px;min-height:1em}
@@ -208,6 +212,7 @@ function part1(){
      +'<div class="err" id="er1"></div><button class="btn" id="mkBtn" onclick="make()">✉️ 초대장 만들기</button>';
   }
   if(MADE){ h+=madeBox(MADE); }
+  if(!signed() && !(L&&L.closed)){ h+='<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button type="button" class="scb" onclick="printPaper()">🖨 종이 물음지 인쇄</button><button type="button" class="scb" onclick="PAPER.open=!PAPER.open;draw()">📝 종이로 받은 글 올리기</button></div><div class="note">휴대전화가 낯선 분 · 만 14세가 되지 않은 분께는 종이 물음지를 드리고, 받은 종이를 사진으로 올리실 수 있어요.</div>'; if(PAPER.open){ h+=paperBox(); } }
   h+='<div class="stat">보낸 초대장 <b>'+it.length+'</b>/'+((L&&L.inviteMax)||20)+' · 받은 글 <b>'+gotCount()+'</b>'+((L&&L.fresh)?' · <span class="tag t-new">새로 온 글 '+L.fresh+'</span>':'')
    +(L&&L.deadline?' · '+(L.closed?'받기 마감됨':'마감 '+fmtDay(L.deadline)):'')
    +(it.length && !signed()?'<a onclick="extend()">30일 늘리기</a>':'')+'</div>';
@@ -228,7 +233,7 @@ function invRow(x){
   var open=(OPEN.inv===x.key);
   var h='<div class="inv'+(open?' open':'')+'"><div class="r"><span class="nm">'+esc(x.to)+(x.show && x.show!==x.to && x.state==='받음'?' <small style="font-weight:400;color:#7d7465">· '+esc(x.show)+'</small>':'')+'</span>'+tagOf(x)
    +(x.state==='받음'?'<button class="sbtn" onclick="readInv(\''+x.key+'\')">'+(open?'접기':'읽기')+'</button>':'')
-   +'<button class="sbtn" onclick="copyAgain(\''+x.key+'\')">링크</button></div><div class="rd">';
+   +(x.paper?'<span class="tag t-got">종이</span>':'<button class="sbtn" onclick="copyAgain(\''+x.key+'\')">링크</button>')+'</div><div class="rd">';
   if(open && x.state==='받음'){
     var qs=(L&&L.qs)||[];
     h+='<div class="note">'+esc(x.name)+' · '+esc(x.rel)+(x.sent?' · '+fmtDay(x.sent):'')+'</div>';
@@ -300,7 +305,8 @@ function secCard(s, S){
   var h='<div class="sec'+(filled?' done':'')+(open?' open':'')+'"><div class="h" onclick="togSec('+s+')"><span class="n">'+(filled?'✓':(s%4+1))+'</span><span class="tt">'+esc(S.name)+'</span><span>'+(open?'▲':'▼')+'</span></div><div class="b">';
   for(var q2=0;q2<S.qs.length;q2++){
     var Q=S.qs[q2], fr=(Q.type==='자유칸');
-    h+='<div class="qq'+(fr?' free':'')+'">'+(fr?'💌 ':'')+esc(Q.q)+'</div><textarea '+(signed()?'disabled ':'')+'oninput="ANS[\''+s+'_'+q2+'\']=this.value;keep()" placeholder="'+esc(Q.ex||'')+'">'+esc(ANS[s+'_'+q2]||'')+'</textarea>';
+    h+='<div class="qq'+(fr?' free':'')+'">'+(fr?'💌 ':'')+esc(Q.q)+'</div><textarea id="ta'+s+'_'+q2+'" '+(signed()?'disabled ':'')+'oninput="ANS[\''+s+'_'+q2+'\']=this.value;keep()" placeholder="'+esc(Q.ex||'')+'">'+esc(ANS[s+'_'+q2]||'')+'</textarea>'
+      +(signed()?'':'<button type="button" class="scb" onclick="scanInto(\''+s+'_'+q2+'\')">📷 종이 · 사진에서 불러오기</button>');   /* ★v2 */
   }
   if(!signed()){ h+='<button class="btn" onclick="saveSec('+s+',this)">이 칸 담기</button><div class="okm" id="ok'+s+'"></div>'; }
   return h+'</div></div>';
@@ -325,12 +331,79 @@ function saveSec(s, b){
   if(!any){ $('ok'+s).textContent='한 물음 이상 들려주시면 담을 수 있어요.'; return; }
   b.disabled=true;
   var body={ action:'saveSection', passport:PP, trip:TRIP, place:PLACE10, section:s, answers:qa, inputMethod:'본인입력', name:((L&&L.writer)||(BK&&BK.name)||'') };
+  if(SCANMETA[s]){ body.entry=SCANMETA[s].entry; body.confirmedAt=SCANMETA[s].confirmedAt; delete SCANMETA[s]; }   /* ★v2 */
   function done(){ b.disabled=false; $('ok'+s).textContent='담았어요 ✓'; chime(); setTimeout(function(){ OPEN.sec=-1; draw(); }, 700); }
   try{
     fetch(MG,{ method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(body) }).then(done).catch(function(){ b.disabled=false; $('ok'+s).textContent='지금은 담을 수 없어요. 쓰신 글은 이 기기에 남아 있어요.'; });
   }catch(e){ b.disabled=false; }
 }
 function chime(){ try{ var A=window.AudioContext||window.webkitAudioContext; if(!A){return;} var ac=new A(), t=ac.currentTime; [[784,0],[1047,.16]].forEach(function(n){ var o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=n[0]; g.gain.setValueAtTime(.0001,t+n[1]); g.gain.exponentialRampToValueAtTime(.15,t+n[1]+.02); g.gain.exponentialRampToValueAtTime(.0001,t+n[1]+.9); o.connect(g); g.connect(ac.destination); o.start(t+n[1]); o.stop(t+n[1]+1); }); }catch(e){} }
+
+
+/* ══ ★v2 칸 21 — 종이 · 사진에서 불러오기 · 종이 추억록 ══ */
+var SCANMETA={}, PAPER={ open:false, rel:'', relFree:'', age:'', ans:['','','','','','',''], name:'', show:'' };
+function scanInto(k){
+  if(!(window.LFM && LFM.scan)){ return; }
+  LFM.scan.open({ pp:PP, name:((L&&L.writer)||(BK&&BK.name)||''), onDone:function(t, meta){
+    var v=String(ANS[k]||'').replace(/\s+$/,''); ANS[k]=v?(v+'\n'+t):t; keep();
+    SCANMETA[parseInt(k,10)]=meta; var el=$('ta'+k); if(el){ el.value=ANS[k]; }
+  } });
+}
+function memQs(){ return (L&&L.qs)||[]; }
+function fromName(){ var f=''; try{ f=($('frIn')&&$('frIn').value)||localStorage.getItem('lf_mem_from_'+PP)||''; }catch(e){} return f||(L&&L.writer)||(BK&&BK.name)||'작성자'; }
+function printPaper(){
+  var f=fromName(), qs=memQs(), w=window.open('','_blank'); if(!w){ alert('팝업이 막혀 있어요. 팝업을 허용해 주세요.'); return; }
+  var h='<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>추억록 물음지</title><style>@page{size:A4;margin:14mm}body{font-family:"Noto Sans KR",sans-serif;color:#3f3328;font-size:12pt;line-height:1.6}h1{font-family:"Noto Serif KR",serif;font-size:19pt;text-align:center;margin:4mm 0 1mm;color:#5a3e2b}.s{text-align:center;color:#8a7a68;font-size:10.5pt}.top{text-align:center}.top img{width:18mm;height:18mm}.f{display:flex;gap:6mm;margin:5mm 0 2mm}.f div{flex:1;border-bottom:.3mm solid #9a8a78;padding-bottom:1mm;font-size:10.5pt;color:#8a7a68}.q{margin-top:5mm;font-weight:700;color:#5a3e2b}.ln{border-bottom:.25mm dotted #bba;height:8.5mm}.g{margin-top:7mm;border:.4mm solid #E8CDB5;border-radius:3mm;padding:3mm 4mm;font-size:10.5pt}.ft{margin-top:6mm;text-align:center;color:#9a8a78;font-size:9pt}.pb{page-break-before:always}</style></head><body>'
+   +'<div class="top"><img src="'+location.origin+'/logo.png"></div><h1>'+esc(f)+' 님을 기억하는 추억록</h1>'
+   +'<div class="s">'+esc(f)+' 님이 삶의 여정을 글로 남기고 있습니다. 함께 나눈 웃음과 고마운 순간들을 들려주세요.<br>모두 쓰지 않으셔도 됩니다. 마음 가는 물음 하나만 쓰셔도 됩니다.</div>'
+   +'<div class="f"><div>성명</div><div>'+esc(f)+' 님과의 관계</div><div>결과물에 보일 이름</div></div>';
+  for(var i=0;i<qs.length;i++){
+    var n=(i===qs.length-1)?6:(i===0?2:4);
+    h+='<div class="q">'+(i+1)+'. '+esc(String(qs[i].q||'').split('○○○').join(f))+(i===0?' (가족 · 친구 · 동료 · 제자 · 이웃 · 그 밖)':'')+'</div>';
+    for(var k=0;k<n;k++){ h+='<div class="ln"></div>'; }
+  }
+  h+='<div class="g"><b>만 14세가 되지 않은 분은 보호자께서 적어 주세요</b><br>위 글을 '+esc(f)+' 님의 사랑흐름 기록에 싣는 데 동의합니다.<div class="f"><div>보호자 성명</div><div>관계</div><div>서명</div></div></div>'
+   +'<div class="ft">쓰신 글은 '+esc(f)+' 님만 읽고 고르며, 실린 글은 '+esc(f)+' 님의 자서전에 들어갑니다 · 사랑흐름 www.loveflow.ai.kr</div>'
+   +'<script>window.onload=function(){setTimeout(function(){window.print();},400);};<\/script></body></html>';
+  w.document.open(); w.document.write(h); w.document.close();
+}
+function paperBox(){
+  var qs=memQs(), q0=qs[0]||{opts:[]}, f=fromName();
+  var h='<div class="paper"><b style="color:#5a3e2b">📝 종이로 받은 글 올리기</b><div class="note">받으신 물음지를 보며 옮겨 적거나, 물음마다 📷로 사진에서 불러오세요.</div>'
+   +'<label class="f">쓰신 분 성명</label><input class="t" maxlength="20" value="'+esc(PAPER.name)+'" oninput="PAPER.name=this.value">'
+   +'<label class="f">'+esc(f)+' 님과의 관계</label><div class="lay" style="margin-top:0">';
+  for(var i=0;i<(q0.opts||[]).length;i++){ h+='<button type="button" class="'+(PAPER.rel===q0.opts[i]?'on':'')+'" onclick="PAPER.rel=\''+esc(q0.opts[i])+'\';draw()">'+esc(q0.opts[i])+'</button>'; }
+  h+='</div>'+(PAPER.rel==='직접 적기'?'<input class="t" style="margin-top:6px" maxlength="20" value="'+esc(PAPER.relFree)+'" oninput="PAPER.relFree=this.value" placeholder="예: 군대 동기">':'')
+   +'<label class="f">결과물에 보일 이름</label><input class="t" maxlength="30" value="'+esc(PAPER.show)+'" oninput="PAPER.show=this.value" placeholder="예: 큰손녀 지우">'
+   +'<label class="rad"><input type="radio" name="pAge" '+(PAPER.age==='o'?'checked':'')+' onchange="PAPER.age=\'o\'"><span>만 14세 이상인 분이 쓰셨습니다</span></label>'
+   +'<label class="rad"><input type="radio" name="pAge" '+(PAPER.age==='y'?'checked':'')+' onchange="PAPER.age=\'y\'"><span>만 14세가 되지 않은 분이 쓰셨고, 물음지에 보호자 성명과 서명을 받았습니다</span></label>';
+  for(var k=0;k<qs.length;k++){
+    h+='<div class="qq'+(qs[k].type==='자유칸'?' free':'')+'" style="margin-top:10px;font-size:14.5px">'+(k+1)+'. '+esc(k===0?'우리 인연 (적지 않으셔도 됩니다)':String(qs[k].q||'').split('○○○').join(f))+'</div>'
+      +'<textarea id="pa'+k+'" style="min-height:70px" oninput="PAPER.ans['+k+']=this.value">'+esc(PAPER.ans[k])+'</textarea>'
+      +'<button type="button" class="scb" onclick="scanPaper('+k+')">📷 종이 · 사진에서 불러오기</button>';
+  }
+  h+='<label class="pick"><input type="checkbox" id="pOk"><span>받은 물음지(원본)를 보며 확인했습니다</span></label><div class="err" id="erP"></div>'
+   +'<button class="btn" id="pBtn" onclick="paperSend()">받은 글 목록에 올리기</button></div>';
+  return h;
+}
+function scanPaper(k){
+  if(!(window.LFM && LFM.scan)){ return; }
+  LFM.scan.open({ pp:PP, name:fromName(), onDone:function(t, meta){ var v=String(PAPER.ans[k]||'').replace(/\s+$/,''); PAPER.ans[k]=v?(v+'\n'+t):t; PAPER.meta=meta; var el=$('pa'+k); if(el){ el.value=PAPER.ans[k]; } } });
+}
+function paperSend(){
+  var rel=PAPER.rel==='직접 적기'?PAPER.relFree.trim():PAPER.rel, e=$('erP'), any=false;
+  for(var i=1;i<7;i++){ if(String(PAPER.ans[i]||'').trim()){ any=true; } }
+  if(!PAPER.name.trim()||!rel||!PAPER.show.trim()){ e.textContent='성명 · 관계 · 결과물에 보일 이름을 적어 주세요.'; return; }
+  if(!PAPER.age){ e.textContent='쓰신 분의 나이를 골라 주세요.'; return; }
+  if(!any){ e.textContent='2번부터 7번 가운데 하나 이상 올려 주세요.'; return; }
+  if(!$('pOk').checked){ e.textContent='받은 물음지를 보며 확인해 주세요.'; return; }
+  var b=$('pBtn'); b.disabled=true; b.textContent='올리고 있어요…';
+  var body={ action:'memPaper', passport:PP, trip:TRIP, name:PAPER.name.trim(), rel:rel, show:PAPER.show.trim(), ans:PAPER.ans.slice(0,7), guardian:(PAPER.age==='y'?'1':'0'), confirm:'1', from:fromName(),
+             entry:(PAPER.meta?PAPER.meta.entry:'직접 입력'), confirmedAt:(PAPER.meta?PAPER.meta.confirmedAt:'') };
+  fetch(MG,{ method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(body) }).then(function(r){ return r.json(); })
+    .then(function(d){ if(d && d.status==='ok'){ PAPER={ open:false, rel:'', relFree:'', age:'', ans:['','','','','','',''], name:'', show:'' }; chime(); refresh(); return; } b.disabled=false; b.textContent='받은 글 목록에 올리기'; e.textContent=(d&&d.msg)||'지금은 올릴 수 없어요.'; })
+    .catch(function(){ b.disabled=false; b.textContent='받은 글 목록에 올리기'; e.textContent='연결이 잠시 끊겼어요. 잠시 뒤 다시 눌러 주세요.'; });
+}
 
 /* 마치기 */
 function finishCard(){

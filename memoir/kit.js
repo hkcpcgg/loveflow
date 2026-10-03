@@ -1,5 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v6 · 261003 — ★[자서전 공사 칸 19 · 이사회 31차] 아홉째를 엽니다.
+   현재 버전 ▶ memoir/kit.js · v7 · 261003 — ★[자서전 공사 칸 21 · 이사회 27~29차 · 대표 시험 261002] ⑦ LFM.scan — 종이 · 사진에서 글 불러오기.
+     동의(「옮긴 글을 원본과 비교해 확인하고, 고칠 곳은 고친 뒤 올리겠습니다」) → 사진이면 돌리기 · 자르기(네 모서리 끌기 — 옆 쪽 글씨가 끼어드는 일 막음) / PDF는 그대로
+     → 자서전 서버 v24 scanImage(구글 글자 인식 · 사진 문서 바로 지움) → 원본과 나란히 · 숫자 · 날짜 · 「안」「못」 노랗게 → 「원본을 보며 확인했습니다」 → 올리기.
+     알리는 두 줄 LFM.scan.TWO. [무손] 그 밖 전부.
+   ── 이전 ── v6 · 261003 — ★[자서전 공사 칸 19 · 이사회 31차] 아홉째를 엽니다.
      ① LFM.story — 「아홉째 · 열째 자리」도 「…째 이야기」로 ② LFM.nth — 열 번째까지 ③ LFM.grapes — 아홉째 알은 이제 다른 알과 같이
      마치면 보랏빛 · 다음이면 연두 테 · 아직이면 점선(열째는 칸 20까지 금빛 반짝임 그대로). names 아홉 번째 이름이 오면 그 이름을 씀.
      [무손] 제목 두 갈래 · 동의 · 기다림 화면 · 그 밖 전부.
@@ -263,5 +267,206 @@
     return { count: done.length };
   }
 
-  window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, grapes:grapes, HONOR:HONOR };
+
+  /* ═══ ⑦ LFM.scan — 종이 · 사진에서 글 불러오기 (v7 · 칸 21 · 이사회 27~29차 ★5 · ★6 · ★7 · ★11 · ★13 · 대표 시험 261002) ═══
+     쓰는 법: LFM.scan.open({ pp:'LF-…', name:'성명', onDone:function(text, meta){ … } })
+       meta = { entry:'사진'|'PDF', confirmedAt:'yyyy-MM-dd HH:mm' }
+     걸음: 동의 → 사진(돌리기 · 자르기) 또는 PDF → 구글 글자 인식(자서전 서버 scanImage) → 원본과 나란히 확인 → 올리기.
+     사랑흐름은 AI를 쓰지 않음 · 사진 · 문서는 글자를 옮긴 뒤 서버에서 바로 지움. */
+  var SCAN_GAS = 'https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+  var SC = null;
+  function scEsc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function scCss(){
+    if (document.getElementById('lfScanCss')) { return; }
+    var c = document.createElement('style'); c.id = 'lfScanCss';
+    c.textContent = '#lfScan{position:fixed;inset:0;z-index:2500;background:rgba(74,59,46,.45);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:14px 10px 30px;font-family:"Noto Sans KR",system-ui,sans-serif}'
+      + '#lfScan .sc{width:100%;max-width:560px;background:#FFFAF4;border-radius:22px;padding:20px 16px 18px;color:#4a3b2e;box-shadow:0 10px 40px rgba(0,0,0,.18)}'
+      + '#lfScan h3{font-family:"Noto Serif KR",serif;font-size:19px;color:#5a3e2b;margin:0 0 6px;text-align:center}'
+      + '#lfScan .s{font-size:14px;color:#8a7a68;text-align:center;word-break:keep-all;margin:2px 0}'
+      + '#lfScan .who{background:#FBF1E6;border-radius:12px;padding:9px 12px;margin:12px 0 4px;font-size:14px;text-align:center}'
+      + '#lfScan label.ck{display:flex;gap:9px;align-items:flex-start;margin:10px 2px;font-size:15px;font-weight:700;color:#5a3e2b;cursor:pointer;word-break:keep-all}'
+      + '#lfScan label.ck input{width:22px;height:22px;margin-top:2px;flex:none;accent-color:#E59273}'
+      + '#lfScan .b{display:block;width:100%;padding:13px;border-radius:16px;border:0;background:#E59273;color:#fff;font-size:16px;font-weight:700;cursor:pointer;margin-top:9px;font-family:inherit}'
+      + '#lfScan .b.l{background:#fff;color:#7a4a2e;border:1.5px solid #E8CDB5}'
+      + '#lfScan .b:disabled{opacity:.45;cursor:default}'
+      + '#lfScan .x{display:block;margin:12px auto 0;background:none;border:0;color:#9a8a78;text-decoration:underline;font-size:14px;cursor:pointer;font-family:inherit}'
+      + '#lfScan .two{font-size:13px;color:#8a7a68;text-align:center;margin-top:12px;line-height:1.6;word-break:keep-all}'
+      + '#lfScan canvas{display:block;margin:10px auto;touch-action:none;border-radius:10px;max-width:100%}'
+      + '#lfScan .rot{display:flex;gap:8px;justify-content:center}'
+      + '#lfScan .rot button{padding:8px 14px;border-radius:18px;border:1.5px solid #E8CDB5;background:#fff;color:#7a4a2e;font-size:14.5px;font-weight:700;cursor:pointer;font-family:inherit}'
+      + '#lfScan .orig{max-height:38vh;overflow:auto;border-radius:10px;border:1px solid #F0E2D2;background:#fff;text-align:center}'
+      + '#lfScan .orig img{max-width:100%;display:block;margin:0 auto}'
+      + '#lfScan textarea{width:100%;min-height:170px;font-family:inherit;font-size:16px;line-height:1.7;padding:10px 12px;border:1.5px solid #E8CDB5;border-radius:12px;background:#fff;color:#2b2b2b;margin-top:10px;box-sizing:border-box}'
+      + '#lfScan .mk{font-size:14px;line-height:1.7;background:#fff;border:1px dashed #E8CDB5;border-radius:10px;padding:8px 10px;margin-top:6px;white-space:pre-wrap;max-height:22vh;overflow:auto}'
+      + '#lfScan mark{background:#FFE7A8;color:#6b4b00;border-radius:3px;padding:0 1px}'
+      + '#lfScan .er{color:#b5372a;font-weight:700;font-size:14px;text-align:center;min-height:1em;margin-top:8px}'
+      + '#lfScan .leaf{font-size:40px;text-align:center;margin:18px 0 6px;animation:lfscb 1.6s ease-in-out infinite}'
+      + '@keyframes lfscb{0%,100%{transform:scale(.92)}50%{transform:scale(1.08)}}';
+    document.head.appendChild(c);
+  }
+  function scBox(h){
+    var o = document.getElementById('lfScan');
+    if (!o) { o = document.createElement('div'); o.id = 'lfScan'; document.body.appendChild(o); }
+    o.innerHTML = '<div class="sc">' + h + '</div>';
+    o.scrollTop = 0;
+    return o;
+  }
+  function scClose(){ var o = document.getElementById('lfScan'); if (o && o.parentNode) { o.parentNode.removeChild(o); } try { if (SC && SC.url) { URL.revokeObjectURL(SC.url); } } catch (e) {} SC = null; }
+  function scNow(){ var d = new Date(), p = function(n){ return (n < 10 ? '0' : '') + n; }; return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()); }
+  var SC_TWO = '종이에 손으로 쓰신 글도, 만들어 두신 문서도 사진 한 장으로 글자를 불러올 수 있습니다.<br>인쇄된 글은 그대로 불러오고, 손글씨는 초안으로 불러와 고쳐 쓰실 수 있습니다.';
+
+  function scOpen(o){
+    scCss(); SC = { o: o || {}, rot: 0, crop: [0.04, 0.04, 0.92, 0.92] };
+    var who = (SC.o.name ? scEsc(SC.o.name) + ' · ' : '') + scEsc(SC.o.pp || '');
+    scBox('<h3>📷 종이 · 사진에서 불러오기</h3><div class="s">종이에 쓰신 글, 책 · 수첩 · 문서를 사진으로 찍어 글자로 옮겨요</div>'
+      + (who ? '<div class="who">' + who + '</div>' : '')
+      + '<label class="ck"><input type="checkbox" id="scAg" onchange="LFM.scan._ag(this.checked)"><span>옮긴 글을 원본과 비교해 확인하고, 고칠 곳은 고친 뒤 올리겠습니다.</span></label>'
+      + '<div class="s" style="text-align:left;padding:0 4px">올린 글은 직접 쓰신 글과 같게 담깁니다. 사진과 문서는 글자를 옮긴 뒤 바로 지웁니다.</div>'
+      + '<button class="b" id="scImgB" disabled onclick="document.getElementById(\'scImg\').click()">📷 사진 찍기 · 고르기</button>'
+      + '<button class="b l" id="scPdfB" disabled onclick="document.getElementById(\'scPdf\').click()">📄 문서(PDF) 고르기</button>'
+      + '<input type="file" id="scImg" accept="image/*" style="display:none" onchange="LFM.scan._img(this)">'
+      + '<input type="file" id="scPdf" accept="application/pdf" style="display:none" onchange="LFM.scan._pdf(this)">'
+      + '<div class="er" id="scEr"></div>'
+      + '<div class="two">' + SC_TWO + '</div>'
+      + '<button class="x" onclick="LFM.scan.close()">닫기</button>');
+  }
+  function scAg(on){ var a = document.getElementById('scImgB'), b = document.getElementById('scPdfB'); if (a) { a.disabled = !on; } if (b) { b.disabled = !on; } }
+
+  /* ── 사진: 돌리기 · 자르기 ── */
+  function scImg(inp){
+    var f = inp.files && inp.files[0]; if (!f) { return; }
+    if (!/^image\//.test(f.type || 'image/')) { document.getElementById('scEr').textContent = '사진 파일을 골라 주세요.'; return; }
+    var url = URL.createObjectURL(f), im = new Image();
+    im.onload = function(){ SC.img = im; SC.url = url; SC.rot = 0; SC.crop = [0.04, 0.04, 0.92, 0.92]; scCropUI(); };
+    im.onerror = function(){ document.getElementById('scEr').textContent = '이 사진은 열 수 없어요. 다른 사진을 골라 주세요.'; };
+    im.src = url;
+  }
+  function scSrc(){   /* 돌린 원본 캔버스 */
+    var im = SC.img, r = SC.rot, w = im.naturalWidth, h = im.naturalHeight, side = (r === 90 || r === 270);
+    var c = document.createElement('canvas'); c.width = side ? h : w; c.height = side ? w : h;
+    var x = c.getContext('2d'); x.translate(c.width / 2, c.height / 2); x.rotate(r * Math.PI / 180); x.drawImage(im, -w / 2, -h / 2);
+    return c;
+  }
+  function scCropUI(){
+    scBox('<h3>글씨 있는 곳만 남기기</h3><div class="s">모서리의 동그라미를 끌어 옮길 부분만 남겨 주세요. 옆 쪽 글씨 · 그림은 빼면 더 잘 읽혀요.</div>'
+      + '<canvas id="scCv"></canvas>'
+      + '<div class="rot"><button onclick="LFM.scan._rot(-90)">↺ 왼쪽으로</button><button onclick="LFM.scan._rot(90)">↻ 오른쪽으로</button></div>'
+      + '<button class="b" onclick="LFM.scan._go()">글자 옮기기</button>'
+      + '<button class="x" onclick="LFM.scan._back()">다른 사진 고르기</button>');
+    SC.src = scSrc(); scFit(); scDraw(); scBind();
+  }
+  function scFit(){
+    var cv = document.getElementById('scCv'), s = SC.src;
+    var maxW = Math.min(520, (document.getElementById('lfScan').clientWidth || 360) - 52), maxH = Math.max(260, Math.round(window.innerHeight * 0.55));
+    var k = Math.min(maxW / s.width, maxH / s.height, 1);
+    SC.k = k; cv.width = Math.round(s.width * k); cv.height = Math.round(s.height * k);
+  }
+  function scDraw(){
+    var cv = document.getElementById('scCv'); if (!cv) { return; }
+    var x = cv.getContext('2d'), W = cv.width, H = cv.height, c = SC.crop;
+    x.clearRect(0, 0, W, H); x.drawImage(SC.src, 0, 0, W, H);
+    var rx = c[0] * W, ry = c[1] * H, rw = c[2] * W, rh = c[3] * H;
+    x.fillStyle = 'rgba(74,59,46,.45)';
+    x.fillRect(0, 0, W, ry); x.fillRect(0, ry + rh, W, H - ry - rh); x.fillRect(0, ry, rx, rh); x.fillRect(rx + rw, ry, W - rx - rw, rh);
+    x.strokeStyle = '#FCEBDD'; x.lineWidth = 3; x.strokeRect(rx, ry, rw, rh);
+    [[rx, ry], [rx + rw, ry], [rx, ry + rh], [rx + rw, ry + rh]].forEach(function(p){
+      x.beginPath(); x.arc(p[0], p[1], 11, 0, Math.PI * 2); x.fillStyle = '#E59273'; x.fill(); x.lineWidth = 3; x.strokeStyle = '#fff'; x.stroke();
+    });
+  }
+  function scBind(){
+    var cv = document.getElementById('scCv'), drag = null;
+    function pt(e){ var r = cv.getBoundingClientRect(); return [(e.clientX - r.left) / r.width, (e.clientY - r.top) / r.height]; }
+    cv.onpointerdown = function(e){
+      var p = pt(e), c = SC.crop, W = cv.getBoundingClientRect().width, H = cv.getBoundingClientRect().height, best = -1, bd = 1e9;
+      var cs = [[c[0], c[1]], [c[0] + c[2], c[1]], [c[0], c[1] + c[3]], [c[0] + c[2], c[1] + c[3]]];
+      for (var i = 0; i < 4; i++) { var dx = (cs[i][0] - p[0]) * W, dy = (cs[i][1] - p[1]) * H, d = Math.sqrt(dx * dx + dy * dy); if (d < bd) { bd = d; best = i; } }
+      if (bd < 34) { drag = { k: best }; }
+      else if (p[0] > c[0] && p[0] < c[0] + c[2] && p[1] > c[1] && p[1] < c[1] + c[3]) { drag = { k: 'm', p: p, c: c.slice() }; }
+      else { return; }
+      try { cv.setPointerCapture(e.pointerId); } catch (e2) {}
+      e.preventDefault();
+    };
+    cv.onpointermove = function(e){
+      if (!drag) { return; }
+      var p = pt(e), c = SC.crop, m = 0.06;
+      p[0] = Math.max(0, Math.min(1, p[0])); p[1] = Math.max(0, Math.min(1, p[1]));
+      var x1 = c[0], y1 = c[1], x2 = c[0] + c[2], y2 = c[1] + c[3];
+      if (drag.k === 'm') {
+        var dx = p[0] - drag.p[0], dy = p[1] - drag.p[1];
+        x1 = Math.max(0, Math.min(1 - drag.c[2], drag.c[0] + dx)); y1 = Math.max(0, Math.min(1 - drag.c[3], drag.c[1] + dy));
+        SC.crop = [x1, y1, drag.c[2], drag.c[3]];
+      } else {
+        if (drag.k === 0 || drag.k === 2) { x1 = Math.min(p[0], x2 - m); } else { x2 = Math.max(p[0], x1 + m); }
+        if (drag.k === 0 || drag.k === 1) { y1 = Math.min(p[1], y2 - m); } else { y2 = Math.max(p[1], y1 + m); }
+        SC.crop = [x1, y1, x2 - x1, y2 - y1];
+      }
+      scDraw(); e.preventDefault();
+    };
+    cv.onpointerup = cv.onpointercancel = function(){ drag = null; };
+  }
+  function scRot(d){ SC.rot = (SC.rot + d + 360) % 360; SC.crop = [0.04, 0.04, 0.92, 0.92]; SC.src = scSrc(); scFit(); scDraw(); }
+  function scCut(){
+    var s = SC.src, c = SC.crop, sx = Math.round(c[0] * s.width), sy = Math.round(c[1] * s.height), sw = Math.round(c[2] * s.width), sh = Math.round(c[3] * s.height);
+    var k = Math.min(1, 2200 / Math.max(sw, sh)), o = document.createElement('canvas');
+    o.width = Math.max(1, Math.round(sw * k)); o.height = Math.max(1, Math.round(sh * k));
+    var x = o.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, o.width, o.height); x.drawImage(s, sx, sy, sw, sh, 0, 0, o.width, o.height);
+    return o.toDataURL('image/jpeg', 0.9);
+  }
+  function scGo(){ var d = scCut(); SC.view = d; SC.entry = '사진'; scSend(d, 'image/jpeg'); }
+  function scBack(){ scOpen(SC.o); var a = document.getElementById('scAg'); if (a) { a.checked = true; scAg(true); } }
+
+  /* ── PDF ── */
+  function scPdf(inp){
+    var f = inp.files && inp.files[0]; if (!f) { return; }
+    if (f.size > 9 * 1024 * 1024) { document.getElementById('scEr').textContent = 'PDF가 너무 커요. 몇 쪽만 따로 저장하시거나 사진으로 찍어 올려 주세요.'; return; }
+    var fr = new FileReader();
+    fr.onload = function(){ SC.url = URL.createObjectURL(f); SC.view = ''; SC.entry = 'PDF'; scSend(String(fr.result), 'application/pdf'); };
+    fr.readAsDataURL(f);
+  }
+
+  /* ── 서버로: 구글 글자 인식 ── */
+  function scSend(dataUrl, mime){
+    scBox('<div class="leaf">🌿</div><h3>글자를 옮기고 있어요</h3><div class="s">손글씨는 다르게 읽힐 수 있어요.<br>원본을 보시고 다른 곳이 있으면 고쳐 주세요.</div>');
+    var body = { action: 'scanImage', passport: SC.o.pp || '', mime: mime, data: String(dataUrl).replace(/^data:[^,]*,/, ''), agree: '1' };
+    var fail = function(msg){
+      scBox('<h3>글자를 옮기지 못했어요</h3><div class="s">' + scEsc(msg || '잠시 뒤 다시 해 주세요.') + '</div><button class="b" onclick="LFM.scan._back()">다시 고르기</button><button class="x" onclick="LFM.scan.close()">닫기</button>');
+    };
+    try {
+      fetch(SCAN_GAS, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+        .then(function(r){ return r.json(); })
+        .then(function(d){ if (d && d.status === 'ok') { scCompare(String(d.text || '')); } else { fail(d && d.msg); } })
+        .catch(function(){ fail('연결이 잠시 끊겼어요. 잠시 뒤 다시 해 주세요.'); });
+    } catch (e) { fail(); }
+  }
+  function scMark(t){
+    var s = scEsc(t);
+    s = s.replace(/(\d[\d.,:\/~\-년월일시분]*)/g, '<mark>$1</mark>');
+    s = s.replace(/(^|[\s"'「(])(안|못)(?=[\s,.!?」)]|$)/g, '$1<mark>$2</mark>');
+    s = s.replace(/(않|없)/g, '<mark>$1</mark>');
+    return s;
+  }
+  function scCompare(text){
+    var orig = SC.view ? '<div class="orig"><img src="' + SC.view + '" alt="원본"></div>'
+      : '<div class="orig" style="padding:14px"><div class="s">원본 PDF를 함께 열어 두고 비교해 주세요</div><button class="b l" onclick="window.open(\'' + SC.url + '\',\'_blank\')">📄 원본 PDF 열기</button></div>';
+    scBox('<h3>원본과 비교해 주세요</h3><div class="s">손글씨는 다르게 읽힐 수 있어요. 원본을 보시고 다른 곳이 있으면 고쳐 주세요.</div>'
+      + orig
+      + '<textarea id="scTx" oninput="LFM.scan._mk()">' + scEsc(text) + '</textarea>'
+      + '<div class="s" style="text-align:left;margin-top:6px">숫자 · 날짜 · 「안」 「못」처럼 뜻이 바뀌기 쉬운 곳을 노랗게 표시했어요</div>'
+      + '<div class="mk" id="scMk">' + scMark(text) + '</div>'
+      + (text.replace(/\s/g, '') ? '' : '<div class="er">글자를 찾지 못했어요. 글씨 있는 곳만 남겨 다시 해 보시거나, 직접 써 주세요.</div>')
+      + '<label class="ck"><input type="checkbox" id="scOk" onchange="document.getElementById(\'scUp\').disabled=!this.checked"><span>원본을 보며 확인했습니다</span></label>'
+      + '<button class="b" id="scUp" disabled onclick="LFM.scan._up()">올리기</button>'
+      + '<button class="x" onclick="LFM.scan._back()">다시 고르기</button>');
+  }
+  function scMk(){ var t = document.getElementById('scTx'), m = document.getElementById('scMk'); if (t && m) { m.innerHTML = scMark(t.value); } }
+  function scUp(){
+    var t = document.getElementById('scTx'), v = t ? String(t.value || '').replace(/\s+$/, '') : '';
+    if (!v.replace(/\s/g, '')) { return; }
+    var cb = SC.o.onDone, meta = { entry: SC.entry || '사진', confirmedAt: scNow() };
+    scClose();
+    try { if (cb) { cb(v, meta); } } catch (e) {}
+  }
+  var scan = { open: scOpen, close: scClose, _ag: scAg, _img: scImg, _pdf: scPdf, _rot: scRot, _go: scGo, _back: scBack, _mk: scMk, _up: scUp, TWO: SC_TWO };
+
+  window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, grapes:grapes, scan:scan, HONOR:HONOR };
 })();
