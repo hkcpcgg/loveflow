@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v9 · 261004 — ★[자서전 마무리 묶음 B · 이사회 29차 ★2 · ★8 · ★9 · ★11 · ★13 · ★20 · 대표 지시 261004 「풍성하게」] ⑧ LFM.aifix — 내 AI로 맞춤법 살펴보기.
+   현재 버전 ▶ memoir/kit.js · v10 · 261004 — ★[묶음 B 고침 · 대표 지시 261004 「지시형 · 큰 글씨 · 로그인 안내 · 따라 하기 영상」] ⑧ aifix 네 걸음 문구를 지시형으로 · ② 번호 걸음 넷(AI 단추 · 로그인 · 붙여넣기 · 복사해 돌아오기) · ⚠ 두 줄 · 「로그인이 어려우면 안내자에게 말씀하세요」 · 「안내자와 함께라면」 줄 걷음 · ▶ 따라 하기 영상 자리(LF_VID — 주소 넣은 자리만 보임 · 사진 불러오기 두 화면에도). [무손] 그 밖 전부.
+   ── 이전 ── v9 · 261004 — ★[자서전 마무리 묶음 B · 이사회 29차 ★2 · ★8 · ★9 · ★11 · ★13 · ★20 · 대표 지시 261004 「풍성하게」] ⑧ LFM.aifix — 내 AI로 맞춤법 살펴보기.
      네 걸음 카드(① 부탁 글 복사 — 맞춤법 · 띄어쓰기만, 물음 안 넣음 ② AI 열기 — 단추 여섯 · 섞어 보임 · 「예시이며 권하는 것이 아닙니다」 · 첫 화면만 엶 · 청소년은 이름 없이 + 이용 나이 안내 · 넣지 말 것 안내
      ③ 고친 글 붙여 넣기 — AI 인사말 · 꾸밈 기호 걸러 냄 ④ 바뀐 곳 보기 — 낱말 단위 색 · 숫자 · 날짜 · 「안」「못」 노랑 · 누르면 그곳만 처음 글로) · 걸음마다 「안내자와 함께라면」 한 줄.
      [무손] 그 밖 전부.
@@ -306,6 +307,7 @@
       + '#lfScan mark{background:#FFE7A8;color:#6b4b00;border-radius:3px;padding:0 1px}'
       + '#lfScan .er{color:#b5372a;font-weight:700;font-size:14px;text-align:center;min-height:1em;margin-top:8px}'
       + '#lfScan .leaf{font-size:40px;text-align:center;margin:18px 0 6px;animation:lfscb 1.6s ease-in-out infinite}'
+      + '#lfScan a.vid{display:block;text-align:center;margin:10px auto 2px;padding:10px;border-radius:14px;background:#EEF3F8;color:#1E4A76;font-weight:700;font-size:15.5px;text-decoration:none;border:1.5px solid #C9D8E8}'
       + '@keyframes lfscb{0%,100%{transform:scale(.92)}50%{transform:scale(1.08)}}';
     document.head.appendChild(c);
   }
@@ -318,6 +320,14 @@
   }
   function scClose(){ var o = document.getElementById('lfScan'); if (o && o.parentNode) { o.parentNode.removeChild(o); } try { if (SC && SC.url) { URL.revokeObjectURL(SC.url); } } catch (e) {} SC = null; }
   function scNow(){ var d = new Date(), p = function(n){ return (n < 10 ? '0' : '') + n; }; return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate()) + ' ' + p(d.getHours()) + ':' + p(d.getMinutes()); }
+  /* ▶ 따라 하기 영상 자리(v10 · 대표 지시 261004) — 주소를 넣은 자리만 단추가 보임. 비어 있으면 아무것도 안 보임.
+     넣는 곳: 아래 LF_VID 의 '' 안에 영상 주소(유튜브 등). 페이지에서 window.LF_VID 로 덮어쓸 수도 있음. */
+  var LF_VID = { scan: '', scanCrop: '', af1: '', af2: '', af3: '', af4: '' };
+  function vidBtn(k){
+    var u = (window.LF_VID && window.LF_VID[k]) || LF_VID[k] || '';
+    if (!/^https:\/\//.test(u)) { return ''; }
+    return '<a class="vid" href="' + scEsc(u) + '" target="_blank" rel="noopener">▶ 따라 하기 영상</a>';
+  }
   var SC_TWO = '종이에 손으로 쓰신 글도, 만들어 두신 문서도 사진 한 장으로 글자를 불러올 수 있습니다.<br>인쇄된 글은 그대로 불러오고, 손글씨는 초안으로 불러와 고쳐 쓰실 수 있습니다.';
 
   function scOpen(o){
@@ -332,6 +342,7 @@
       + '<input type="file" id="scImg" accept="image/*" style="display:none" onchange="LFM.scan._img(this)">'
       + '<input type="file" id="scPdf" accept="application/pdf" style="display:none" onchange="LFM.scan._pdf(this)">'
       + '<div class="er" id="scEr"></div>'
+      + vidBtn('scan')
       + '<div class="two">' + SC_TWO + '</div>'
       + '<button class="x" onclick="LFM.scan.close()">닫기</button>');
   }
@@ -356,7 +367,7 @@
     scBox('<h3>글씨 있는 곳만 남기기</h3><div class="s">모서리의 동그라미를 끌어 옮길 부분만 남겨 주세요. 옆 쪽 글씨 · 그림은 빼면 더 잘 읽혀요.</div>'
       + '<canvas id="scCv"></canvas>'
       + '<div class="rot"><button onclick="LFM.scan._rot(-90)">↺ 왼쪽으로</button><button onclick="LFM.scan._rot(90)">↻ 오른쪽으로</button></div>'
-      + '<button class="b" onclick="LFM.scan._go()">글자 옮기기</button>'
+      + '<button class="b" onclick="LFM.scan._go()">글자 옮기기</button>' + vidBtn('scanCrop')
       + '<button class="x" onclick="LFM.scan._back()">다른 사진 고르기</button>');
     SC.src = scSrc(); scFit(); scDraw(); scBind();
   }
@@ -491,10 +502,16 @@
     var c = document.createElement('style'); c.id = 'lfAfCss';
     c.textContent = '#lfScan .dots{display:flex;gap:6px;justify-content:center;margin:0 0 10px}#lfScan .dots i{width:26px;height:5px;border-radius:3px;background:#F0E2D2}#lfScan .dots i.on{background:#E59273}'
       + '#lfScan .big{font-size:44px;text-align:center;margin:4px 0}'
-      + '#lfScan .coach{font-size:13px;color:#5b6676;background:#EEF3F8;border-radius:10px;padding:7px 10px;margin-top:10px;word-break:keep-all}'
+      + '#lfScan ol.st{list-style:none;padding:0;margin:10px 0 4px;counter-reset:st}'
+      + '#lfScan ol.st li{counter-increment:st;position:relative;padding:8px 4px 8px 40px;font-size:17px;font-weight:700;color:#4a3b2e;line-height:1.5;word-break:keep-all;border-bottom:1px dashed #F0E2D2}'
+      + '#lfScan ol.st li:last-child{border-bottom:0}'
+      + '#lfScan ol.st li:before{content:counter(st);position:absolute;left:2px;top:8px;width:28px;height:28px;border-radius:50%;background:#E59273;color:#fff;font-size:16px;text-align:center;line-height:28px}'
+      + '#lfScan ol.st li small{display:block;font-size:14.5px;font-weight:400;color:#7a6a58;margin-top:2px}'
+      + '#lfScan .big1{font-size:18px;font-weight:700;color:#4a3b2e;text-align:center;word-break:keep-all;margin:4px 0 2px}'
+      + '#lfScan .help{font-size:15px;font-weight:700;color:#1E4A76;text-align:center;margin-top:10px}'
       + '#lfScan .ais{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}'
       + '#lfScan .ais a{display:block;text-align:center;padding:12px 6px;border-radius:14px;border:1.5px solid #E8CDB5;background:#fff;color:#5a3e2b;font-weight:700;text-decoration:none;font-size:15px}'
-      + '#lfScan .warn{font-size:13px;color:#7a5a3a;background:#FFF6E5;border-radius:10px;padding:8px 10px;margin-top:10px;word-break:keep-all;line-height:1.6}'
+      + '#lfScan .warn{font-size:15px;font-weight:700;color:#7a5a3a;background:#FFF6E5;border-radius:10px;padding:8px 10px;margin-top:10px;word-break:keep-all;line-height:1.6}'
       + '#lfScan .df{font-size:15.5px;line-height:1.9;background:#fff;border:1px solid #F0E2D2;border-radius:12px;padding:10px 12px;white-space:pre-wrap;max-height:42vh;overflow:auto}'
       + '#lfScan .df .ch{background:#E7F5EC;border-bottom:2px solid #8DB48A;border-radius:3px;cursor:pointer;padding:0 1px}'
       + '#lfScan .df .ch.hot{background:#FFE7A8;border-bottom-color:#E0A100;font-weight:700}'
@@ -520,45 +537,49 @@
   }
   function afStep1(){
     scBox(afDots(1) + '<div class="big">📋</div><h3>① 부탁 글 복사하기</h3>'
-      + '<div class="s">쓰신 글에 「맞춤법과 띄어쓰기만 바로잡아 주세요」 부탁을 붙여 복사해 드려요.</div>'
+      + '<div class="big1">복사 단추를 누르세요</div>'
+      + '<div class="s">쓰신 글에 맞춤법 부탁이 붙어 복사됩니다</div>'
       + '<div class="mk" style="max-height:18vh">' + scEsc(AF_ASK) + '\n\n' + scEsc(AF.orig) + '</div>'
-      + '<button class="b" onclick="LFM.aifix._copy()">📋 부탁 글 복사하기</button><div class="s" id="afOk" style="color:#2f8a4c;min-height:1em"></div>'
-      + '<div class="coach">🧭 안내자와 함께라면 — 「복사」는 글을 잠시 손에 쥐는 것이에요. 다음 화면에서 AI 창에 「붙여 넣기」 하시면 됩니다.</div>'
+      + '<button class="b" onclick="LFM.aifix._copy()">📋 복사하기</button><div class="s" id="afOk" style="color:#2f8a4c;min-height:1em"></div>'
+      + vidBtn('af1')
       + '<button class="x" onclick="LFM.aifix.close()">닫기</button>');
   }
   function afCopyAsk(){ afCopy(AF_ASK + '\n\n' + AF.orig, function(){ var e = document.getElementById('afOk'); if (e) { e.textContent = '복사했어요 ✓'; } setTimeout(afStep2, 500); }); }
   function afStep2(){
-    var h = afDots(2) + '<div class="big">🤖</div><h3>② 쓰시는 AI 열기</h3>';
+    var h = afDots(2) + '<div class="big">🤖</div><h3>② 쓰시는 AI에 붙여 넣기</h3><ol class="st">';
     if (AF.o.youth) {
-      h += '<div class="s">휴대폰이나 컴퓨터에서 쓰시는 AI를 여시고, 대화 칸을 길게 눌러 「붙여넣기」 하세요.</div>'
-        + '<div class="warn">쓰려는 AI 서비스의 이용 나이와 보호자 동의를 먼저 확인하세요.</div>';
+      h += '<li>쓰는 AI를 여세요<small>휴대폰 앱이나 인터넷 창</small></li>';
     } else {
-      h += '<div class="s">쓰시는 AI를 여시고, 대화 칸을 길게 눌러 「붙여넣기」 → 보내기를 누르세요.</div>'
-        + '<div class="s" style="font-size:12.5px;margin-top:6px">예시이며 권하는 것이 아닙니다</div><div class="ais">';
+      h += '<li>아래 AI 단추 하나를 누르세요<small>예시 · 권하는 것이 아닙니다</small><div class="ais">';
       var list = afShuffle(AF_AI);
       for (var i = 0; i < list.length; i++) { h += '<a href="' + list[i][1] + '" target="_blank" rel="noopener">' + scEsc(list[i][0]) + '</a>'; }
-      h += '</div>';
+      h += '</div></li>';
     }
-    h += '<div class="warn">쓰시는 AI 서비스의 약관에 따라 넣으신 글이 저장되거나 학습에 쓰일 수 있어요. 가족 이름 · 연락처 · 건강 이야기는 빼고 넣으셔도 됩니다. 사랑흐름은 특정 AI 서비스를 권하거나 보증하지 않습니다.</div>'
-      + '<button class="b" onclick="LFM.aifix._s3()">AI가 고친 글을 복사했어요 →</button>'
-      + '<div class="coach">🧭 안내자와 함께라면 — AI가 답을 보여 주면, 고친 글 부분만 길게 눌러 「복사」 한 뒤 사랑흐름 창으로 돌아오시면 됩니다.</div>'
-      + '<button class="x" onclick="LFM.aifix._s1()">← 부탁 글 다시 복사</button>';
+    h += '<li>로그인하세요<small>처음이면 「가입」을 누르세요. 쓰시는 구글 · 네이버 · 카카오 계정 단추가 보이면 그것을 누르세요. 휴대폰에 그 AI 앱이 있으면 앱이 열립니다.</small></li>'
+      + '<li>대화 칸을 길게 눌러 「붙여넣기」 → 보내기를 누르세요</li>'
+      + '<li>고친 글을 길게 눌러 「복사」 → 이 창으로 돌아오세요</li></ol>'
+      + vidBtn('af2')
+      + (AF.o.youth ? '<div class="warn">⚠ 그 AI의 이용 나이와 보호자 동의를 먼저 확인하세요</div>' : '')
+      + '<div class="warn">⚠ 가족 이름 · 연락처 · 건강 이야기는 빼고 넣으세요<br>⚠ AI 회사 약관에 따라 넣은 글이 저장될 수 있습니다</div>'
+      + '<div class="help">로그인이 어려우면 안내자에게 말씀하세요</div>'
+      + '<button class="b" onclick="LFM.aifix._s3()">고친 글을 복사했어요 →</button>'
+      + '<button class="x" onclick="LFM.aifix._s1()">← 다시 복사하기</button>';
     scBox(h);
   }
   function afStep3(){
     scBox(afDots(3) + '<div class="big">📥</div><h3>③ 고친 글 가져오기</h3>'
-      + '<div class="s">AI가 고친 글을 아래 칸에 붙여 넣어 주세요.</div>'
+      + '<div class="big1">AI가 고친 글을 여기에 붙여 넣으세요</div>'
       + '<textarea id="afIn" placeholder="여기를 길게 눌러 「붙여넣기」"></textarea>'
-      + '<button class="b l" onclick="LFM.aifix._paste()">📥 복사한 글 바로 붙여 넣기</button>'
+      + '<button class="b l" onclick="LFM.aifix._paste()">📥 바로 붙여 넣기</button>'
       + '<div class="er" id="afEr"></div><button class="b" onclick="LFM.aifix._s4()">바뀐 곳 보기 →</button>'
-      + '<div class="coach">🧭 안내자와 함께라면 — AI가 앞뒤에 붙인 인사말(「물론입니다!」 같은 것)은 사랑흐름이 알아서 걸러 냅니다.</div>'
+      + vidBtn('af3')
       + '<button class="x" onclick="LFM.aifix._s2()">← AI 열기로</button>');
   }
   function afPaste(){
     try { if (navigator.clipboard && navigator.clipboard.readText) { navigator.clipboard.readText().then(function(t){ var e = document.getElementById('afIn'); if (e) { e.value = t; } }, function(){ afPasteTip(); }); return; } } catch (e) {}
     afPasteTip();
   }
-  function afPasteTip(){ var e = document.getElementById('afEr'); if (e) { e.textContent = '칸을 길게 눌러 「붙여넣기」를 골라 주세요.'; } }
+  function afPasteTip(){ var e = document.getElementById('afEr'); if (e) { e.textContent = '칸을 길게 눌러 「붙여넣기」를 누르세요'; } }
   /* AI가 덧붙인 말 걸러 내기(29차 ★11) */
   function afClean(t){
     var s = String(t || '').replace(/\r/g, '').replace(/\x60\x60\x60[a-z]*\n?/gi, '').replace(/\*\*/g, '');
@@ -606,15 +627,16 @@
   function afStep4(){
     var raw = (document.getElementById('afIn') || {}).value || '';
     var got = afClean(raw);
-    if (!got.replace(/\s/g, '')) { var e = document.getElementById('afEr'); if (e) { e.textContent = 'AI가 고친 글을 붙여 넣어 주세요.'; } return; }
+    if (!got.replace(/\s/g, '')) { var e = document.getElementById('afEr'); if (e) { e.textContent = 'AI가 고친 글을 붙여 넣으세요'; } return; }
     AF.got = got; AF.ops = afDiff(AF.orig, got);
     scBox(afDots(4) + '<div class="big">🔍</div><h3>④ 바뀐 곳 보기</h3>'
+      + '<div class="big1">노란 곳을 꼭 읽으세요 · 다르면 눌러서 되돌리세요</div>'
       + '<div class="s" id="afSum"></div>'
       + '<div class="df" id="afDf"></div>'
-      + '<div class="leg"><span style="background:#E7F5EC">초록</span>바뀐 곳 · <span style="background:#FFE7A8">노랑</span>숫자 · 날짜 · 「안」「못」처럼 뜻이 바뀔 수 있는 곳 · <del>빨간 줄</del> 처음 글<br>바뀐 곳을 누르면 그곳만 처음 글로 되돌려요. 한 번 더 누르면 다시 고친 글로.</div>'
+      + '<div class="leg"><span style="background:#E7F5EC">초록</span>바뀐 곳 · <span style="background:#FFE7A8">노랑</span>숫자 · 날짜 · 「안」「못」 · <del>빨간 줄</del> 처음 글<br>바뀐 곳을 누르면 처음 글로 돌아갑니다. 한 번 더 누르면 고친 글로.</div>'
       + '<button class="b" onclick="LFM.aifix._use()">이대로 바꾸기</button>'
       + '<button class="b l" onclick="LFM.aifix.close()">처음 글 그대로 두기</button>'
-      + '<div class="coach">🧭 안내자와 함께라면 — 노란 곳은 뜻이 달라졌는지 꼭 함께 읽어 보세요. 이름 · 날짜 · 「안 · 못」 하나로 이야기가 바뀔 수 있어요.</div>'
+      + vidBtn('af4')
       + '<button class="x" onclick="LFM.aifix._s3()">← 다시 붙여 넣기</button>');
     afRender();
   }
@@ -624,7 +646,7 @@
     scClose(); AF = null;
     try { if (cb) { cb(t, meta); } } catch (e) {}
   }
-  var aifix = { open: afOpen, close: function(){ scClose(); AF = null; }, _copy: afCopyAsk, _s1: afStep1, _s2: afStep2, _s3: afStep3, _s4: afStep4, _paste: afPaste, _tog: afTog, _use: afUse, _clean: afClean, _diff: afDiff };
+  var aifix = { open: afOpen, close: function(){ scClose(); AF = null; }, _copy: afCopyAsk, _s1: afStep1, _s2: afStep2, _s3: afStep3, _s4: afStep4, _paste: afPaste, _tog: afTog, _use: afUse, _clean: afClean, _diff: afDiff, VID: LF_VID };
 
   window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, grapes:grapes, scan:scan, aifix:aifix, HONOR:HONOR };
 })();
