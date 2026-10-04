@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v3 · 261004 · [칸 27-3] 알맹이 부품 lf/look.css 를 함께 붙임(화면에 따로 안 적어도 됨).
+   현재 버전 ▶ lf/frame.js · v4 · 261004 · [칸 27-4 · 나머지 화면에 틀 붙이기] 옛 상단바 한 종류 더 감춤(.lf-nav · #lfBackdrop — 발권 · 입금 정보 등 21곳이 쓰던 것) · 화면 이름을 .lf-nav .loc 에서도 읽음 · ★위 띠 오른쪽 자리(data-lfx-top) — 화면이 꼭 위에 두어야 하는 단추(마음 한마디 소리 켜고 끄기 등)를 ☰ 왼쪽으로 옮겨 붙임(제목 가운데는 그대로).
+   (이전) v3 · 261004 · [칸 27-3] 알맹이 부품 lf/look.css 를 함께 붙임(화면에 따로 안 적어도 됨).
    (이전) v2 · 261004 · [칸 27-2 · 대표 실폰 확인 지적] ★떠 있는 「안내 받아보기」 단추(#lfgBub) · 옛 공유 동그라미(↗)를 붙인 화면에서 감춤 — 안내 받기는 아래 띠 「둘러보기」에, 공유는 ☰ 메뉴 「공유하기」로.
    (이전) v1 · 261004 · [자서전 공사 칸 27-2 · 화면 틀 공용 부품]
    사랑흐름 화면 틀 — 위 띠 · ☰ 메뉴 · 아래 길목 띠(다섯 묶음) · 올라오는 판.
@@ -93,7 +94,7 @@
   var CSS = ''
     + ':root{--lf-navy:' + C.navy + ';--lf-gold:' + C.gold + ';--lf-peach:' + C.peach + ';--lf-cream:' + C.cream + ';--lf-sand:' + C.sand + '}'
     /* 옛 틀 감춤 (붙인 화면만) */
-    + 'html.lfx .gnav,html.lfx .topbar,html.lfx .gdrawer,html.lfx .drawer,html.lfx #lfMenu,html.lfx .lf-backdrop,html.lfx .lfway,html.lfx #lfway{display:none!important}'
+    + 'html.lfx .gnav,html.lfx .topbar,html.lfx .gdrawer,html.lfx .drawer,html.lfx #lfMenu,html.lfx .lf-backdrop,html.lfx .lfway,html.lfx #lfway,html.lfx .lf-nav,html.lfx #lfBackdrop{display:none!important}'
     + 'html.lfx body{padding-top:52px!important;padding-bottom:calc(72px + env(safe-area-inset-bottom))!important}'
     /* 위 띠 */
     + '.lfx-top{position:fixed;top:0;left:0;right:0;z-index:1500;height:52px;display:flex;align-items:center;justify-content:space-between;gap:8px;'
@@ -101,6 +102,9 @@
     + '.lfx-logo{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;border:0;padding:0;cursor:pointer;flex:0 0 36px;overflow:hidden}'
     + '.lfx-logo img{width:28px;height:28px;object-fit:contain;display:block}'
     + '.lfx-title{flex:1;text-align:center;font-size:15.5px;font-weight:800;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
+    + '.lfx-slot{position:absolute;right:54px;top:50%;transform:translateY(-50%);display:flex;gap:6px}'
+    + '.lfx-slot>*{width:32px!important;height:32px!important;border-radius:50%!important;border:0!important;background:rgba(255,255,255,.12)!important;color:#fff!important;display:grid!important;place-items:center;padding:0!important;cursor:pointer;font-size:14px}'
+    + '.lfx-top.has-slot .lfx-title{padding:0 38px}'
     + '.lfx-burger{width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;display:grid;place-items:center;cursor:pointer;flex:0 0 36px}'
     /* 아래 길목 띠 */
     + '.lfx-tab{position:fixed;left:0;right:0;bottom:0;z-index:1500;background:var(--lf-navy);display:flex;justify-content:space-around;align-items:center;'
@@ -151,7 +155,7 @@
   function titleOf() {
     var b = document.body && document.body.getAttribute('data-lf-title');
     if (b) { return b; }
-    var el = document.querySelector('.gnav .lc, .gnav .loc, #loc, .topbar .ttl, .topbar .title');
+    var el = document.querySelector('.gnav .lc, .gnav .loc, .lf-nav .loc, #loc, .topbar .ttl, .topbar .title');
     var t = el ? (el.textContent || '').trim() : '';
     if (t) { return t; }
     t = (document.title || '').replace(/^사랑흐름\s*[·|]\s*/, '').replace(/\s*[·|]\s*사랑흐름.*$/, '');
@@ -278,6 +282,13 @@
     document.body.insertBefore(top, document.body.firstChild);
     top.querySelector('.lfx-logo').onclick = function () { location.href = '/'; };
     top.querySelector('.lfx-burger').onclick = openMenu;
+    /* ★v4 위 띠 오른쪽 자리 — <button data-lfx-top> 를 ☰ 왼쪽으로 옮김 */
+    var slots = document.querySelectorAll('[data-lfx-top]');
+    if (slots.length) {
+      var sl = document.createElement('div'); sl.className = 'lfx-slot';
+      for (var q = 0; q < slots.length; q++) { sl.appendChild(slots[q]); }
+      top.appendChild(sl); top.className += ' has-slot';
+    }
 
     var dim = document.createElement('div'); dim.className = 'lfx-dim'; dim.id = 'lfxDim'; dim.onclick = closeAll;
     var sh = document.createElement('div'); sh.className = 'lfx-sheet'; sh.id = 'lfxSheet'; sh.setAttribute('role', 'dialog');
