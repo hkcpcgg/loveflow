@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v11 · 261004 — ★[묶음 C 청소년 · 이사회 32차 · 35차 결의 2 · 대표 지시 261004] ⑨ LFM.youth(pp, flag) — 청소년 질문지(Y-)면 부르는 말 「○○ 님」(HONOR 「님」) · 이 기기에 번호별로 기억(lf_y_번호) · html 에 lf-youth — class="ny" 숨김 · class="oy" 청소년만 보임 · LFM.title 청소년 갈래(여덟을 마치면 작은 줄 「미리 써 보는」 + 「○○의 자서전」 · pre). ⑩ LFM.REL 관계 떠올리기 판(어른 아홉 갈래 · 청소년 여섯 갈래 · 갈래마다 단추 · 묻는 한 줄 높임 · 친구 사이) · LFM.relGroup(이름) · LFM.relHintKey(갈래). [무손] 그 밖 전부.
+   현재 버전 ▶ memoir/kit.js · v12 · 261004 — ★[자서전 공사 칸 27-3 화면 알맹이] 종이 불러오기 · 내 AI로 맞춤법 창 — 이모지(📷📄📋🤖📥🔍🌿✨⚠) → 선 아이콘 동그라미(kIc) · 단추 색 살구 → 네이비(살구는 단추 바탕에 안 씀) · 무게 순서(PDF 고르기 위 테두리 · 사진 찍기 아래 네이비 / 처음 글 그대로 두기 위 · 이대로 바꾸기 아래) · 단추 안 화살표 걷음(되돌아가기 줄은 「‹」) · 「부탁 글」→「살펴볼 글」(금지어). [무손] 글자 인식 · 서버 · 맞춤법 비교 · 관계 판(이모지 갈래는 대표 결정 대기).
+   ── 이전 ── v11 · 261004 — ★[묶음 C 청소년 · 이사회 32차 · 35차 결의 2 · 대표 지시 261004] ⑨ LFM.youth(pp, flag) — 청소년 질문지(Y-)면 부르는 말 「○○ 님」(HONOR 「님」) · 이 기기에 번호별로 기억(lf_y_번호) · html 에 lf-youth — class="ny" 숨김 · class="oy" 청소년만 보임 · LFM.title 청소년 갈래(여덟을 마치면 작은 줄 「미리 써 보는」 + 「○○의 자서전」 · pre). ⑩ LFM.REL 관계 떠올리기 판(어른 아홉 갈래 · 청소년 여섯 갈래 · 갈래마다 단추 · 묻는 한 줄 높임 · 친구 사이) · LFM.relGroup(이름) · LFM.relHintKey(갈래). [무손] 그 밖 전부.
    ── 이전 ── v10 · 261004 — ★[묶음 B 고침 · 대표 지시 261004 「지시형 · 큰 글씨 · 로그인 안내 · 따라 하기 영상」] ⑧ aifix 네 걸음 문구를 지시형으로 · ② 번호 걸음 넷(AI 단추 · 로그인 · 붙여넣기 · 복사해 돌아오기) · ⚠ 두 줄 · 「로그인이 어려우면 안내자에게 말씀하세요」 · 「안내자와 함께라면」 줄 걷음 · ▶ 따라 하기 영상 자리(LF_VID — 주소 넣은 자리만 보임 · 사진 불러오기 두 화면에도). [무손] 그 밖 전부.
    ── 이전 ── v9 · 261004 — ★[자서전 마무리 묶음 B · 이사회 29차 ★2 · ★8 · ★9 · ★11 · ★13 · ★20 · 대표 지시 261004 「풍성하게」] ⑧ LFM.aifix — 내 AI로 맞춤법 살펴보기.
      네 걸음 카드(① 부탁 글 복사 — 맞춤법 · 띄어쓰기만, 물음 안 넣음 ② AI 열기 — 단추 여섯 · 섞어 보임 · 「예시이며 권하는 것이 아닙니다」 · 첫 화면만 엶 · 청소년은 이름 없이 + 이용 나이 안내 · 넣지 말 것 안내
@@ -364,9 +365,16 @@
       + '#lfScan .s{font-size:14px;color:#8a7a68;text-align:center;word-break:keep-all;margin:2px 0}'
       + '#lfScan .who{background:#FBF1E6;border-radius:12px;padding:9px 12px;margin:12px 0 4px;font-size:14px;text-align:center}'
       + '#lfScan label.ck{display:flex;gap:9px;align-items:flex-start;margin:10px 2px;font-size:15px;font-weight:700;color:#5a3e2b;cursor:pointer;word-break:keep-all}'
-      + '#lfScan label.ck input{width:22px;height:22px;margin-top:2px;flex:none;accent-color:#E59273}'
-      + '#lfScan .b{display:block;width:100%;padding:13px;border-radius:16px;border:0;background:#E59273;color:#fff;font-size:16px;font-weight:700;cursor:pointer;margin-top:9px;font-family:inherit}'
-      + '#lfScan .b.l{background:#fff;color:#7a4a2e;border:1.5px solid #E8CDB5}'
+      + '#lfScan label.ck input{width:22px;height:22px;margin-top:2px;flex:none;accent-color:#1E4A76}'
+      + '#lfScan .b{display:flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;width:100%;box-sizing:border-box;padding:13px;border-radius:16px;border:0;background:#1E4A76;color:#fff;font-size:16px;font-weight:700;cursor:pointer;margin-top:9px;font-family:inherit}'
+      + '#lfScan .b.l{background:#fff;color:#1E4A76;border:1.5px solid #1E4A76}'
+      + '#lfScan .ki{display:inline-grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#FBF1E6;color:#C0872E}'
+      + '#lfScan .ki svg{width:26px;height:26px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}'
+      + '#lfScan .ki.s{width:24px;height:24px;background:rgba(255,255,255,.18);color:inherit;vertical-align:-6px;margin-right:4px}'
+      + '#lfScan .ki.s svg{width:15px;height:15px}'
+      + '#lfScan .b.l .ki.s{background:#EAF1F8}'
+      + '#lfScan .warn .ki.s{background:none;width:18px;height:18px;margin-right:2px;vertical-align:-3px}'
+      + '#lfScan .big .ki,#lfScan .leaf .ki{display:grid;margin:0 auto}'
       + '#lfScan .b:disabled{opacity:.45;cursor:default}'
       + '#lfScan .x{display:block;margin:12px auto 0;background:none;border:0;color:#9a8a78;text-decoration:underline;font-size:14px;cursor:pointer;font-family:inherit}'
       + '#lfScan .two{font-size:13px;color:#8a7a68;text-align:center;margin-top:12px;line-height:1.6;word-break:keep-all}'
@@ -379,7 +387,7 @@
       + '#lfScan .mk{font-size:14px;line-height:1.7;background:#fff;border:1px dashed #E8CDB5;border-radius:10px;padding:8px 10px;margin-top:6px;white-space:pre-wrap;max-height:22vh;overflow:auto}'
       + '#lfScan mark{background:#FFE7A8;color:#6b4b00;border-radius:3px;padding:0 1px}'
       + '#lfScan .er{color:#b5372a;font-weight:700;font-size:14px;text-align:center;min-height:1em;margin-top:8px}'
-      + '#lfScan .leaf{font-size:40px;text-align:center;margin:18px 0 6px;animation:lfscb 1.6s ease-in-out infinite}'
+      + '#lfScan .leaf{font-size:0;text-align:center;margin:18px 0 6px;animation:lfscb 1.6s ease-in-out infinite}'
       + '#lfScan a.vid{display:block;text-align:center;margin:10px auto 2px;padding:10px;border-radius:14px;background:#EEF3F8;color:#1E4A76;font-weight:700;font-size:15.5px;text-decoration:none;border:1.5px solid #C9D8E8}'
       + '@keyframes lfscb{0%,100%{transform:scale(.92)}50%{transform:scale(1.08)}}';
     document.head.appendChild(c);
@@ -396,6 +404,18 @@
   /* ▶ 따라 하기 영상 자리(v10 · 대표 지시 261004) — 주소를 넣은 자리만 단추가 보임. 비어 있으면 아무것도 안 보임.
      넣는 곳: 아래 LF_VID 의 '' 안에 영상 주소(유튜브 등). 페이지에서 window.LF_VID 로 덮어쓸 수도 있음. */
   var LF_VID = { scan: '', scanCrop: '', af1: '', af2: '', af3: '', af4: '' };
+  /* ★[v12 · 칸 27-3] 선 아이콘 동그라미 */
+  var KIC = {
+    cam: '<rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l2-3h4l2 3"/>',
+    doc: '<path d="M6 3h8.5L19 7.5V21H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/>',
+    copy: '<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 00-1-1H5a1 1 0 00-1 1v10a1 1 0 001 1h3"/>',
+    ai: '<path d="M12 3.5l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>',
+    paste: '<path d="M12 4v10M7.5 9.5L12 14l4.5-4.5M5 19h14"/>',
+    look: '<circle cx="11" cy="11" r="6"/><path d="M16 16l4 4"/>',
+    leaf: '<path d="M5 19c0-8 6-14 14-14 0 8-6 14-14 14z"/><path d="M5 19l8-8"/>',
+    warn: '<path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17h.01"/>'
+  };
+  function kIc(k, cls){ return '<span class="ki' + (cls ? ' ' + cls : '') + '"><svg viewBox="0 0 24 24">' + (KIC[k] || '') + '</svg></span>'; }
   function vidBtn(k){
     var u = (window.LF_VID && window.LF_VID[k]) || LF_VID[k] || '';
     if (!/^https:\/\//.test(u)) { return ''; }
@@ -406,12 +426,12 @@
   function scOpen(o){
     scCss(); SC = { o: o || {}, rot: 0, crop: [0.04, 0.04, 0.92, 0.92] };
     var who = (SC.o.name ? scEsc(SC.o.name) + ' · ' : '') + scEsc(SC.o.pp || '');
-    scBox('<h3>📷 종이 · 사진에서 불러오기</h3><div class="s">종이에 쓰신 글, 책 · 수첩 · 문서를 사진으로 찍어 글자로 옮겨요</div>'
+    scBox('<div class="big">' + kIc('cam') + '</div><h3>종이 불러오기</h3><div class="s">종이에 쓰신 글, 책 · 수첩 · 문서를 사진으로 찍어 글자로 옮겨요</div>'
       + (who ? '<div class="who">' + who + '</div>' : '')
       + '<label class="ck"><input type="checkbox" id="scAg" onchange="LFM.scan._ag(this.checked)"><span>옮긴 글을 원본과 비교해 확인하고, 고칠 곳은 고친 뒤 올리겠습니다.</span></label>'
       + '<div class="s" style="text-align:left;padding:0 4px">올린 글은 직접 쓰신 글과 같게 담깁니다. 사진과 문서는 글자를 옮긴 뒤 바로 지웁니다.</div>'
-      + '<button class="b" id="scImgB" disabled onclick="document.getElementById(\'scImg\').click()">📷 사진 찍기 · 고르기</button>'
-      + '<button class="b l" id="scPdfB" disabled onclick="document.getElementById(\'scPdf\').click()">📄 문서(PDF) 고르기</button>'
+      + '<button class="b l" id="scPdfB" disabled onclick="document.getElementById(\'scPdf\').click()">' + kIc('doc', 's') + '문서(PDF) 고르기</button>'
+      + '<button class="b" id="scImgB" disabled onclick="document.getElementById(\'scImg\').click()">' + kIc('cam', 's') + '사진 찍기 · 고르기</button>'
       + '<input type="file" id="scImg" accept="image/*" style="display:none" onchange="LFM.scan._img(this)">'
       + '<input type="file" id="scPdf" accept="application/pdf" style="display:none" onchange="LFM.scan._pdf(this)">'
       + '<div class="er" id="scEr"></div>'
@@ -515,7 +535,7 @@
 
   /* ── 서버로: 구글 글자 인식 ── */
   function scSend(dataUrl, mime){
-    scBox('<div class="leaf">🌿</div><h3>글자를 옮기고 있어요</h3><div class="s">손글씨는 다르게 읽힐 수 있어요.<br>원본을 보시고 다른 곳이 있으면 고쳐 주세요.</div>');
+    scBox('<div class="leaf">' + kIc('leaf') + '</div><h3>글자를 옮기고 있어요</h3><div class="s">손글씨는 다르게 읽힐 수 있어요.<br>원본을 보시고 다른 곳이 있으면 고쳐 주세요.</div>');
     var body = { action: 'scanImage', passport: SC.o.pp || '', mime: mime, data: String(dataUrl).replace(/^data:[^,]*,/, ''), agree: '1' };
     var fail = function(msg){
       scBox('<h3>글자를 옮기지 못했어요</h3><div class="s">' + scEsc(msg || '잠시 뒤 다시 해 주세요.') + '</div><button class="b" onclick="LFM.scan._back()">다시 고르기</button><button class="x" onclick="LFM.scan.close()">닫기</button>');
@@ -574,7 +594,7 @@
     scCss();
     var c = document.createElement('style'); c.id = 'lfAfCss';
     c.textContent = '#lfScan .dots{display:flex;gap:6px;justify-content:center;margin:0 0 10px}#lfScan .dots i{width:26px;height:5px;border-radius:3px;background:#F0E2D2}#lfScan .dots i.on{background:#E59273}'
-      + '#lfScan .big{font-size:44px;text-align:center;margin:4px 0}'
+      + '#lfScan .big{font-size:0;text-align:center;margin:4px 0 8px}'
       + '#lfScan ol.st{list-style:none;padding:0;margin:10px 0 4px;counter-reset:st}'
       + '#lfScan ol.st li{counter-increment:st;position:relative;padding:8px 4px 8px 40px;font-size:17px;font-weight:700;color:#4a3b2e;line-height:1.5;word-break:keep-all;border-bottom:1px dashed #F0E2D2}'
       + '#lfScan ol.st li:last-child{border-bottom:0}'
@@ -605,21 +625,21 @@
 
   function afOpen(o){
     afCss(); AF = { o: o || {}, orig: String((o && o.text) || ''), got: '', ops: null };
-    if (!AF.orig.replace(/\s/g, '')) { scBox('<h3>✨ 내 AI로 맞춤법 살펴보기</h3><div class="s">먼저 답 칸에 글을 써 주세요. 쓰신 글의 맞춤법과 띄어쓰기를 살펴볼 수 있어요.</div><button class="x" onclick="LFM.aifix.close()">닫기</button>'); return; }
+    if (!AF.orig.replace(/\s/g, '')) { scBox('<div class="big">' + kIc('ai') + '</div><h3>내 AI로 맞춤법 살펴보기</h3><div class="s">먼저 답 칸에 글을 써 주세요. 쓰신 글의 맞춤법과 띄어쓰기를 살펴볼 수 있어요.</div><button class="x" onclick="LFM.aifix.close()">닫기</button>'); return; }
     afStep1();
   }
   function afStep1(){
-    scBox(afDots(1) + '<div class="big">📋</div><h3>① 부탁 글 복사하기</h3>'
+    scBox(afDots(1) + '<div class="big">' + kIc('copy') + '</div><h3>① 살펴볼 글 복사하기</h3>'
       + '<div class="big1">복사 단추를 누르세요</div>'
-      + '<div class="s">쓰신 글에 맞춤법 부탁이 붙어 복사됩니다</div>'
+      + '<div class="s">쓰신 글 위에 「맞춤법만 바로잡아 주세요」 한 줄이 붙어 복사됩니다</div>'
       + '<div class="mk" style="max-height:18vh">' + scEsc(AF_ASK) + '\n\n' + scEsc(AF.orig) + '</div>'
-      + '<button class="b" onclick="LFM.aifix._copy()">📋 복사하기</button><div class="s" id="afOk" style="color:#2f8a4c;min-height:1em"></div>'
+      + '<button class="b" onclick="LFM.aifix._copy()">' + kIc('copy', 's') + '복사하기</button><div class="s" id="afOk" style="color:#2f8a4c;min-height:1em"></div>'
       + vidBtn('af1')
       + '<button class="x" onclick="LFM.aifix.close()">닫기</button>');
   }
   function afCopyAsk(){ afCopy(AF_ASK + '\n\n' + AF.orig, function(){ var e = document.getElementById('afOk'); if (e) { e.textContent = '복사했어요 ✓'; } setTimeout(afStep2, 500); }); }
   function afStep2(){
-    var h = afDots(2) + '<div class="big">🤖</div><h3>② 쓰시는 AI에 붙여 넣기</h3><ol class="st">';
+    var h = afDots(2) + '<div class="big">' + kIc('ai') + '</div><h3>② 쓰시는 AI에 붙여 넣기</h3><ol class="st">';
     if (AF.o.youth) {
       h += '<li>쓰는 AI를 여세요<small>휴대폰 앱이나 인터넷 창</small></li>';
     } else {
@@ -632,21 +652,21 @@
       + '<li>대화 칸을 길게 눌러 「붙여넣기」 → 보내기를 누르세요</li>'
       + '<li>고친 글을 길게 눌러 「복사」 → 이 창으로 돌아오세요</li></ol>'
       + vidBtn('af2')
-      + (AF.o.youth ? '<div class="warn">⚠ 그 AI의 이용 나이와 보호자 동의를 먼저 확인하세요</div>' : '')
-      + '<div class="warn">⚠ 가족 이름 · 연락처 · 건강 이야기는 빼고 넣으세요<br>⚠ AI 회사 약관에 따라 넣은 글이 저장될 수 있습니다</div>'
+      + (AF.o.youth ? '<div class="warn">' + kIc('warn', 's') + '그 AI의 이용 나이와 보호자 동의를 먼저 확인하세요</div>' : '')
+      + '<div class="warn">' + kIc('warn', 's') + '가족 이름 · 연락처 · 건강 이야기는 빼고 넣으세요<br>' + kIc('warn', 's') + 'AI 회사 약관에 따라 넣은 글이 저장될 수 있습니다</div>'
       + '<div class="help">로그인이 어려우면 안내자에게 말씀하세요</div>'
-      + '<button class="b" onclick="LFM.aifix._s3()">고친 글을 복사했어요 →</button>'
-      + '<button class="x" onclick="LFM.aifix._s1()">← 다시 복사하기</button>';
+      + '<button class="b" onclick="LFM.aifix._s3()">고친 글을 복사했어요</button>'
+      + '<button class="x" onclick="LFM.aifix._s1()">‹ 다시 복사하기</button>';
     scBox(h);
   }
   function afStep3(){
-    scBox(afDots(3) + '<div class="big">📥</div><h3>③ 고친 글 가져오기</h3>'
+    scBox(afDots(3) + '<div class="big">' + kIc('paste') + '</div><h3>③ 고친 글 가져오기</h3>'
       + '<div class="big1">AI가 고친 글을 여기에 붙여 넣으세요</div>'
       + '<textarea id="afIn" placeholder="여기를 길게 눌러 「붙여넣기」"></textarea>'
-      + '<button class="b l" onclick="LFM.aifix._paste()">📥 바로 붙여 넣기</button>'
-      + '<div class="er" id="afEr"></div><button class="b" onclick="LFM.aifix._s4()">바뀐 곳 보기 →</button>'
+      + '<button class="b l" onclick="LFM.aifix._paste()">' + kIc('paste', 's') + '바로 붙여 넣기</button>'
+      + '<div class="er" id="afEr"></div><button class="b" onclick="LFM.aifix._s4()">바뀐 곳 보기</button>'
       + vidBtn('af3')
-      + '<button class="x" onclick="LFM.aifix._s2()">← AI 열기로</button>');
+      + '<button class="x" onclick="LFM.aifix._s2()">‹ AI 열기로</button>');
   }
   function afPaste(){
     try { if (navigator.clipboard && navigator.clipboard.readText) { navigator.clipboard.readText().then(function(t){ var e = document.getElementById('afIn'); if (e) { e.value = t; } }, function(){ afPasteTip(); }); return; } } catch (e) {}
@@ -702,15 +722,15 @@
     var got = afClean(raw);
     if (!got.replace(/\s/g, '')) { var e = document.getElementById('afEr'); if (e) { e.textContent = 'AI가 고친 글을 붙여 넣으세요'; } return; }
     AF.got = got; AF.ops = afDiff(AF.orig, got);
-    scBox(afDots(4) + '<div class="big">🔍</div><h3>④ 바뀐 곳 보기</h3>'
+    scBox(afDots(4) + '<div class="big">' + kIc('look') + '</div><h3>④ 바뀐 곳 보기</h3>'
       + '<div class="big1">노란 곳을 꼭 읽으세요 · 다르면 눌러서 되돌리세요</div>'
       + '<div class="s" id="afSum"></div>'
       + '<div class="df" id="afDf"></div>'
       + '<div class="leg"><span style="background:#E7F5EC">초록</span>바뀐 곳 · <span style="background:#FFE7A8">노랑</span>숫자 · 날짜 · 「안」「못」 · <del>빨간 줄</del> 처음 글<br>바뀐 곳을 누르면 처음 글로 돌아갑니다. 한 번 더 누르면 고친 글로.</div>'
-      + '<button class="b" onclick="LFM.aifix._use()">이대로 바꾸기</button>'
       + '<button class="b l" onclick="LFM.aifix.close()">처음 글 그대로 두기</button>'
+      + '<button class="b" onclick="LFM.aifix._use()">이대로 바꾸기</button>'
       + vidBtn('af4')
-      + '<button class="x" onclick="LFM.aifix._s3()">← 다시 붙여 넣기</button>');
+      + '<button class="x" onclick="LFM.aifix._s3()">‹ 다시 붙여 넣기</button>');
     afRender();
   }
   function afTog(i){ var o = AF.ops[i]; if (!o || o.t !== 'chg') { return; } o.back = !o.back; afRender(); }
