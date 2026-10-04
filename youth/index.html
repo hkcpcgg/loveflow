@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ youth/index.html · v1 · 261004 · [새 화면 · 묶음 C 청소년 · 이사회 32차 (마) · 안건 2 · 26차 「기관 계약으로만」] 「미리 써 보는 나의 자서전」 입구.
+     학교(기관)에서 받은 사랑흐름 여권번호 → 자서전 서버 getMemoir(읽기만) →
+       청소년 질문지(서버 v28 youth) → 이 기기에 청소년으로 기억(kit.js v11 LFM.youth) → 내 이야기 목록(/memoir/home.html — 같은 엔진)
+       어른 번호 → 「이 번호는 어른 자서전 번호예요 · 어른 자서전으로 가기」
+       기록이 없는 번호 → 「학교(기관) 선생님께 확인해 주세요」
+     값 · 예매 · 결제 말 없음(32차 안건 2). 보호자 · 선생님께 드리는 안내는 접어 둠. -->
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>미리 써 보는 나의 자서전 · 사랑흐름</title>
+<meta name="description" content="지나온 나, 지금의 나, 앞으로의 나를 여덟 이야기로 써 보는 청소년 자서전 · 사랑흐름">
+<link rel="icon" href="/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="/memoir/kit.js?v=11"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#FDFBF5;color:#2b2b2b;font-family:'Noto Sans KR',system-ui,sans-serif;font-size:16px;line-height:1.65;word-break:keep-all}
+.wrap{max-width:520px;margin:0 auto;padding:22px 16px 40px}
+.top{display:flex;align-items:center;gap:8px;font-family:'Noto Serif KR',serif;font-weight:700;color:#1E4A76;font-size:15px}
+.top img{width:26px;height:26px;border-radius:50%}
+.hero{text-align:center;margin:26px 0 18px}
+.sprout{width:96px;height:96px;margin:0 auto 8px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#FFF4D6,#FBE3C8);display:grid;place-items:center;font-size:50px;box-shadow:0 6px 18px rgba(229,146,115,.18)}
+.hero h1{font-family:'Noto Serif KR',serif;font-size:26px;color:#5a3e2b;line-height:1.35}
+.hero p{color:#7a6a58;margin-top:8px;font-size:15.5px}
+.three{display:flex;gap:8px;justify-content:center;margin:14px 0 4px;flex-wrap:wrap}
+.three span{background:#fff;border:1.5px solid #F0E2D2;border-radius:16px;padding:6px 12px;font-size:14px;color:#7a4a2e}
+.card{background:#fff;border:1px solid #F0E2D2;border-radius:22px;padding:18px 16px;margin-top:16px;box-shadow:0 4px 14px rgba(90,62,43,.05)}
+.card .t{font-weight:700;color:#5a3e2b;text-align:center;font-size:16px}
+.row{display:flex;gap:8px;margin-top:12px}
+.row input{flex:1;min-width:0;font-size:18px;letter-spacing:1px;text-transform:uppercase;padding:12px 14px;border:1.5px solid #E8CDB5;border-radius:14px;font-family:inherit;color:#2b2b2b;background:#FFFCF7}
+.btn{display:block;width:100%;padding:14px;border-radius:16px;border:0;background:#E59273;color:#fff;font-size:17px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:12px}
+.btn.line{background:#fff;color:#1E4A76;border:1.5px solid #1E4A76}
+.note{min-height:1.4em;margin-top:10px;text-align:center;font-size:14.5px;color:#7a6a58}
+.note.bad{color:#B0412E;font-weight:700}
+details{margin-top:16px;background:#FBF1E6;border-radius:18px;padding:12px 14px}
+summary{cursor:pointer;font-weight:700;color:#7a4a2e;list-style:none}
+summary::-webkit-details-marker{display:none}
+details ul{margin:10px 0 2px 18px;color:#5b4a3a;font-size:14.5px}
+details li{margin:4px 0}
+.foot{margin-top:22px;text-align:center;font-size:12.5px;color:#9a8a78}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><img src="/logo.png" alt="">사랑흐름</div>
+  <div class="hero">
+    <div class="sprout">🌱</div>
+    <h1>미리 써 보는<br>나의 자서전</h1>
+    <p>지나온 나 · 지금의 나 · 앞으로의 나를<br>여덟 이야기로 써 봐요</p>
+    <div class="three"><span>🎒 지나온 나</span><span>🙂 지금의 나</span><span>🚀 앞으로의 나</span></div>
+  </div>
+
+  <div class="card">
+    <div class="t">학교(기관)에서 받은 사랑흐름 여권번호를 넣어 주세요</div>
+    <div class="row"><input id="yIn" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" enterkeyhint="go" onkeydown="if(event.key==='Enter'){yGo();}"></div>
+    <button class="btn" id="yBtn" onclick="yGo()">시작하기</button>
+    <div class="note" id="yNote"></div>
+    <div id="yMore"></div>
+  </div>
+
+  <details>
+    <summary>👪 보호자 · 선생님께 — 어떤 프로그램인가요 ▾</summary>
+    <ul>
+      <li>학교 · 기관과 맺은 계약으로 쓰는 프로그램입니다.</li>
+      <li>쓴 글은 아이와 보호자의 것입니다. 기관에는 원문이 보이지 않습니다.</li>
+      <li>사진은 사람이 나오지 않는 것만 올립니다(그림 · 물건 · 장소 · 풍경 · 작품).</li>
+      <li>목소리 남기기는 보호자 동의가 있을 때만 합니다.</li>
+      <li>열째 이야기 「나를 응원하는 사람들」에는 가족 · 선생님 같은 어른만 글을 남깁니다.</li>
+      <li>사랑흐름은 글을 고치지 않습니다. 쓴 그대로 담습니다.</li>
+    </ul>
+  </details>
+
+  <div class="foot">© 2026 사랑흐름 · LFRI™ · 무단복제 및 상업적 이용 금지</div>
+</div>
+<script>
+var Y_GAS='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+function $(i){ return document.getElementById(i); }
+function yNote(t, bad){ var n=$('yNote'); n.textContent=t||''; n.className='note'+(bad?' bad':''); }
+function yBusy(on){ var b=$('yBtn'); b.disabled=on; b.textContent=on?'확인하고 있어요…':'시작하기'; }
+function yKeep(v){ try{ sessionStorage.setItem('lf_passport', v); localStorage.setItem('lf_passport', v); }catch(e){} }
+function yGo(){
+  $('yMore').innerHTML='';
+  var v=String($('yIn').value||'').trim().toUpperCase().replace(/\s+/g,'');
+  if(/^[A-Z0-9]{5}$/.test(v)){ v='LF-'+v; }
+  if(!/^LF[ML]?-[A-Z0-9]{4,8}$/.test(v)){ yNote('번호를 다시 확인해 주세요 · 예: LF-AB12C', true); return; }
+  yBusy(true); yNote('');
+  var cb='ycb_'+Date.now()+'_'+Math.floor(Math.random()*1e6), done=false, sc=document.createElement('script');
+  function fin(d){
+    if(done){ return; } done=true; try{ delete window[cb]; }catch(e){} try{ if(sc.parentNode){ sc.parentNode.removeChild(sc); } }catch(e){}
+    yBusy(false);
+    if(d && d.status==='locked'){ yNote('이 번호로 열 수 있는 이야기가 없어요. 학교(기관) 선생님께 확인해 주세요.', true); return; }
+    if(!d || d.status!=='ok'){ yNote('지금은 확인할 수 없어요. 잠시 뒤 다시 눌러 주세요.', true); return; }
+    if(!d.youth){
+      yNote('이 번호는 어른 자서전 번호예요.', true);
+      $('yMore').innerHTML='<button class="btn line" onclick="location.href=\'/memoir/?id='+encodeURIComponent(v)+'\'">어른 자서전으로 가기</button>';
+      return;
+    }
+    try{ LFM.youth(v, true); }catch(e){}
+    yKeep(v);
+    location.href='/memoir/home.html?id='+encodeURIComponent(v);
+  }
+  window[cb]=fin; sc.onerror=function(){ fin(null); };
+  sc.src=Y_GAS+'?action=getMemoir&passport='+encodeURIComponent(v)+'&callback='+cb+'&t='+Date.now();
+  document.body.appendChild(sc);
+  setTimeout(function(){ fin(null); }, 20000);
+}
+(function(){ try{ var q=new URLSearchParams(location.search).get('id'); if(q){ $('yIn').value=q; } }catch(e){} })();
+</script>
+</body>
+</html>

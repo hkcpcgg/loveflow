@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v10 · 261004 — ★[묶음 B 고침 · 대표 지시 261004 「지시형 · 큰 글씨 · 로그인 안내 · 따라 하기 영상」] ⑧ aifix 네 걸음 문구를 지시형으로 · ② 번호 걸음 넷(AI 단추 · 로그인 · 붙여넣기 · 복사해 돌아오기) · ⚠ 두 줄 · 「로그인이 어려우면 안내자에게 말씀하세요」 · 「안내자와 함께라면」 줄 걷음 · ▶ 따라 하기 영상 자리(LF_VID — 주소 넣은 자리만 보임 · 사진 불러오기 두 화면에도). [무손] 그 밖 전부.
+   현재 버전 ▶ memoir/kit.js · v11 · 261004 — ★[묶음 C 청소년 · 이사회 32차 · 35차 결의 2 · 대표 지시 261004] ⑨ LFM.youth(pp, flag) — 청소년 질문지(Y-)면 부르는 말 「○○ 님」(HONOR 「님」) · 이 기기에 번호별로 기억(lf_y_번호) · html 에 lf-youth — class="ny" 숨김 · class="oy" 청소년만 보임 · LFM.title 청소년 갈래(여덟을 마치면 작은 줄 「미리 써 보는」 + 「○○의 자서전」 · pre). ⑩ LFM.REL 관계 떠올리기 판(어른 아홉 갈래 · 청소년 여섯 갈래 · 갈래마다 단추 · 묻는 한 줄 높임 · 친구 사이) · LFM.relGroup(이름) · LFM.relHintKey(갈래). [무손] 그 밖 전부.
+   ── 이전 ── v10 · 261004 — ★[묶음 B 고침 · 대표 지시 261004 「지시형 · 큰 글씨 · 로그인 안내 · 따라 하기 영상」] ⑧ aifix 네 걸음 문구를 지시형으로 · ② 번호 걸음 넷(AI 단추 · 로그인 · 붙여넣기 · 복사해 돌아오기) · ⚠ 두 줄 · 「로그인이 어려우면 안내자에게 말씀하세요」 · 「안내자와 함께라면」 줄 걷음 · ▶ 따라 하기 영상 자리(LF_VID — 주소 넣은 자리만 보임 · 사진 불러오기 두 화면에도). [무손] 그 밖 전부.
    ── 이전 ── v9 · 261004 — ★[자서전 마무리 묶음 B · 이사회 29차 ★2 · ★8 · ★9 · ★11 · ★13 · ★20 · 대표 지시 261004 「풍성하게」] ⑧ LFM.aifix — 내 AI로 맞춤법 살펴보기.
      네 걸음 카드(① 부탁 글 복사 — 맞춤법 · 띄어쓰기만, 물음 안 넣음 ② AI 열기 — 단추 여섯 · 섞어 보임 · 「예시이며 권하는 것이 아닙니다」 · 첫 화면만 엶 · 청소년은 이름 없이 + 이용 나이 안내 · 넣지 말 것 안내
      ③ 고친 글 붙여 넣기 — AI 인사말 · 꾸밈 기호 걸러 냄 ④ 바뀐 곳 보기 — 낱말 단위 색 · 숫자 · 날짜 · 「안」「못」 노랑 · 누르면 그곳만 처음 글로) · 걸음마다 「안내자와 함께라면」 한 줄.
@@ -46,6 +47,69 @@
   var HAVE_GAS = 'https://script.google.com/macros/s/AKfycbyTroJxyBICtL516b6l9KQ45eQRSaKspj35IXOKET2sHvbS_pAlH2gxM9mvBsVsZJ9X/exec';
   var NTH = ['첫', '두', '세', '네', '다섯', '여섯', '일곱', '여덟', '아홉', '열'];   /* ★v6 열 번째까지 */
   var HONOR = '선생님';
+  var YOUTH = false;   /* ★v11 */
+  /* ★v11 ⑨ 청소년 — 서버가 ver(Y-…) · youth 를 주면 flag 로, 주지 않으면 이 기기에 기억한 값으로 */
+  function youth(pp, flag){
+    var k = 'lf_y_' + String(pp || '').trim().toUpperCase();
+    if (flag === undefined || flag === null) {
+      try { flag = (localStorage.getItem(k) === '1'); } catch (e) { flag = false; }
+    } else {
+      flag = !!flag;
+      try { if (flag) { localStorage.setItem(k, '1'); } else { localStorage.removeItem(k); } } catch (e) {}
+    }
+    YOUTH = !!flag; HONOR = YOUTH ? '님' : '선생님';
+    try { window.LFM.HONOR = HONOR; window.LFM.YOUTH = YOUTH; } catch (e) {}
+    /* 어른 화면에만 있는 것(값 · 예매 · 남은 편)은 class="ny" — 청소년이면 숨김(32차 안건 2) */
+    yCss();
+    try { document.documentElement.classList.toggle('lf-youth', YOUTH); } catch (e) {}
+    return YOUTH;
+  }
+  function yCss(){
+    try {
+      if (document.getElementById('lfYouthCss')) { return; }
+      var c = document.createElement('style'); c.id = 'lfYouthCss';
+      c.textContent = 'html.lf-youth .ny{display:none!important}html:not(.lf-youth) .oy{display:none!important}';
+      (document.head || document.documentElement).appendChild(c);
+    } catch (e) {}
+  }
+  yCss();   /* 부를 때부터 어른 화면이 기본 — 청소년만 보이는 것(oy)은 숨김 */
+  /* ★v11 ⑩ 관계 떠올리기 판 — 35차 결의 2 · 대표 지시 261004 · hint = 추억록 물음의 관계별 실마리 열쇠 */
+  var REL_ADULT = [
+    { g: '가족 · 친척', i: '👪', hint: '가족', b: ['배우자', '자녀', '손주', '형제자매', '부모님', '사촌', '친척 어른', '사돈'],
+      ask: '우리 가족이 가장 크게 웃었던 날, 기억나세요?', askF: '우리 가족이 제일 크게 웃었던 날, 기억나?' },
+    { g: '학교', i: '🏫', hint: '친구', b: ['초등 동창', '중학 동창', '고교 동창', '대학 동기', '선후배', '은사님', '제자'],
+      ask: '그때 우리 교실, 기억나세요?', askF: '그때 우리 교실, 기억나?' },
+    { g: '고향 · 이웃', i: '🏡', hint: '이웃', b: ['고향 친구', '동네 이웃', '옛 이웃'],
+      ask: '우리 동네 그 골목, 기억나세요?', askF: '우리 동네 그 골목, 기억나?' },
+    { g: '일터', i: '💼', hint: '동료', b: ['직장 동료', '윗분', '아랫사람', '첫 직장 사람', '거래처', '동업자'],
+      ask: '같이 일하던 그 시절, 어떻게 기억하세요?', askF: '같이 일하던 그 시절, 어떻게 기억해?' },
+    { g: '군대', i: '🎖', hint: '친구', b: ['군 동기', '선임', '후임'],
+      ask: '함께 군 생활하던 그때, 기억나세요?', askF: '같이 군 생활하던 그때, 기억나?' },
+    { g: '모임', i: '🎵', hint: '친구', b: ['동호회', '산악회', '운동 모임', '계모임', '동창회', '향우회', '종친회'],
+      ask: '우리 모임에서 함께한 날 가운데 떠오르는 날이 있으세요?', askF: '우리 모임에서 같이한 날 가운데 떠오르는 날 있어?' },
+    { g: '종교 · 봉사', i: '🙏', hint: '이웃', b: ['교회', '성당', '절', '봉사 모임'],
+      ask: '함께 모이던 그때, 기억나세요?', askF: '같이 모이던 그때, 기억나?' },
+    { g: '배움', i: '📚', hint: '친구', b: ['문화센터', '평생학습', '같이 공부한 사람'],
+      ask: '같이 배우던 그때, 기억나세요?', askF: '같이 배우던 그때, 기억나?' },
+    { g: '마음의 사람', i: '💛', hint: '친구', b: ['오랜 친구', '은인', '이웃사촌'],
+      ask: '우리가 처음 만났던 날, 기억나세요?', askF: '우리 처음 만났던 날, 기억나?' }
+  ];
+  var REL_YOUTH = [
+    { g: '가족 · 친척', i: '👪', hint: '가족', b: ['엄마', '아빠', '할머니', '할아버지', '이모', '삼촌', '고모', '친척 어른'] },
+    { g: '학교 선생님', i: '🏫', hint: '제자', b: ['담임 선생님', '교과 선생님', '예전 담임 선생님'] },
+    { g: '학원 · 방과후 선생님', i: '📚', hint: '제자', b: ['학원 선생님', '방과후 선생님'] },
+    { g: '운동 · 예체능 코치', i: '⚽', hint: '제자', b: ['운동 코치', '음악 선생님', '미술 선생님'] },
+    { g: '종교 모임 어른', i: '🙏', hint: '이웃', b: ['교회 어른', '성당 어른', '절 어른'] },
+    { g: '이웃 어른', i: '🏡', hint: '이웃', b: ['이웃 어른'] }
+  ];
+  var REL_FREE = { g: '직접 적기', i: '✏️', hint: '', b: [], ask: '우리가 처음 만났던 날, 기억나세요?', askF: '우리 처음 만났던 날, 기억나?' };
+  function relBoard(){ return (YOUTH ? REL_YOUTH : REL_ADULT).concat([REL_FREE]); }
+  function relGroup(name){
+    var all = REL_ADULT.concat(REL_YOUTH).concat([REL_FREE]);
+    for (var i = 0; i < all.length; i++) { if (all[i].g === name) { return all[i]; } }
+    for (var j = 0; j < all.length; j++) { if (all[j].b.indexOf(name) >= 0) { return all[j]; } }
+    return null;
+  }
 
   function story(s){
     return String(s == null ? '' : s).replace(/(첫|둘|셋|넷|다섯|여섯|일곱|여덟|아홉|열)째 자리/g, '$1째 이야기');
@@ -61,10 +125,19 @@
     var n = parseInt(doneCount, 10);
     if (isNaN(n) || n < 1) { n = 1; }
     var journey = !!isJourney || n >= 8;
+    if (YOUTH) {   /* ★v11 청소년 — 32차 (나) */
+      if (journey) {
+        var yh = (name ? name + '의' : '나의');
+        return { journey: true, pre: '미리 써 보는', who: yh + ' 자서전', whoHtml: yh + '<br>자서전', sub: '' };
+      }
+      var yh2 = (name ? name + ' 님의' : '나의');
+      return { journey: false, pre: '', who: yh2 + ' 기록', whoHtml: yh2 + '<br>기록', sub: '여덟 이야기 가운데 ' + nth(n) + ' 이야기까지' };
+    }
     var head = (name ? name + ' ' : '') + HONOR + '의';
     var tail = journey ? '삶의 여정' : '기록';
     return {
       journey: journey,
+      pre: '',
       who: head + ' ' + tail,
       whoHtml: head + '<br>' + tail,
       sub: journey ? '' : ('여덟 이야기 가운데 ' + nth(n) + ' 이야기까지')
@@ -648,5 +721,6 @@
   }
   var aifix = { open: afOpen, close: function(){ scClose(); AF = null; }, _copy: afCopyAsk, _s1: afStep1, _s2: afStep2, _s3: afStep3, _s4: afStep4, _paste: afPaste, _tog: afTog, _use: afUse, _clean: afClean, _diff: afDiff, VID: LF_VID };
 
-  window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, grapes:grapes, scan:scan, aifix:aifix, HONOR:HONOR };
+  window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, grapes:grapes, scan:scan, aifix:aifix, HONOR:HONOR, YOUTH:YOUTH,
+    youth:youth, REL:relBoard, relGroup:relGroup };   /* ★v11 */
 })();

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/invite.html · v2 · 261004 · [작업 v2 · 칸 22 추억록 2단계 · 31차 7 · 5장] ★단톡방 초대장 — ?g= 로 오면 같은 초대장 + 「이 링크를 누르신 분마다 자기 칸이 따로」 · 만 14세 확인 · 성함 → 「내 칸 열기」(서버 v25 memJoin) → 그분만의 링크(?k=)로 바뀜 · 이 기기에 기억(다시 누르면 그분 칸으로). ★그분만의 링크 상자 「내 링크 복사」(처음 들어왔을 때 · 보낸 뒤). [무손] 1단계 다섯 화면 전부. — 이전 ▶ v1 · 261003 · [새 화면 · 자서전 공사 칸 20 · 이사회 31차 4장 · 5장 · 6장 · 대표 지시 261003] 초대받은 분 화면 — 열째 「나를 기억하는 사람들」 추억록. 링크 안 열쇠(k) 하나로 ★자기 글만 읽고 고침. 다섯 화면: ① 초대장(로고 · 보내신 분 · 첫 문장 · 초대 문장 · 안내 셋 · 「누가 읽고 고칠 수 있나요」 · 만 14세 확인) ② 나눌 이야기 일곱 미리 보기 ③ 들려주기(성명 · 관계 단추 · 결과물에 보일 이름 · 마음 가는 물음부터 · 실마리 · 7번 「꼭 남기고 싶은 말」 자유 칸) ④ 보내기 전에(다른 분 배려 안내 · 싣는 데 동의 하나) ⑤ 고맙습니다(같은 링크로 다시 와서 더하고 고침 · 거두기 · 기본 링크 다섯 · 사랑흐름 소개). 카톡 미리보기 그림 = /memoir/invite-card.png. 서버 = 자서전 서버 v21 memGet(JSONP) · memSave(POST) · memDrop. 쓰는 중 글은 이 기기에 먼저 담아 둠. -->
+<!-- ★ 현재 버전 ▶ memoir/invite.html · v3 · 261004 · [작업 v3 · 묶음 C · 35차 결의 2 · 이사회 32차 (라) · 대표 지시 261004] ★첫 물음 「어떤 사이인가요?」를 작성자 화면과 같은 관계 떠올리기 판(kit.js v11 LFM.REL)으로 — 갈래 → 단추 · 직접 적기 · 작성자가 고른 관계(서버 v28 relG · relB)가 미리 골라짐 · 바꿀 수 있음. 관계별 실마리는 고른 단추 → 갈래의 열쇠(가족 · 친구 · 동료 · 제자 · 이웃) 순으로 찾음. ★청소년 초대장(서버 youth) — 「○○ 님이 미리 써 보는 나의 자서전을 쓰고 있어요」 · 응원 말 · 어른만 고르는 판 · 만 14세가 안 되면 글을 남길 수 없다는 안내(종이 길 없음). 물음 수를 「일곱」으로 박지 않고 받은 물음 수로. [무손] 그 밖 전부. — 이전 ▶ v2 · 261004 · [작업 v2 · 칸 22 추억록 2단계 · 31차 7 · 5장] ★단톡방 초대장 — ?g= 로 오면 같은 초대장 + 「이 링크를 누르신 분마다 자기 칸이 따로」 · 만 14세 확인 · 성함 → 「내 칸 열기」(서버 v25 memJoin) → 그분만의 링크(?k=)로 바뀜 · 이 기기에 기억(다시 누르면 그분 칸으로). ★그분만의 링크 상자 「내 링크 복사」(처음 들어왔을 때 · 보낸 뒤). [무손] 1단계 다섯 화면 전부. — 이전 ▶ v1 · 261003 · [새 화면 · 자서전 공사 칸 20 · 이사회 31차 4장 · 5장 · 6장 · 대표 지시 261003] 초대받은 분 화면 — 열째 「나를 기억하는 사람들」 추억록. 링크 안 열쇠(k) 하나로 ★자기 글만 읽고 고침. 다섯 화면: ① 초대장(로고 · 보내신 분 · 첫 문장 · 초대 문장 · 안내 셋 · 「누가 읽고 고칠 수 있나요」 · 만 14세 확인) ② 나눌 이야기 일곱 미리 보기 ③ 들려주기(성명 · 관계 단추 · 결과물에 보일 이름 · 마음 가는 물음부터 · 실마리 · 7번 「꼭 남기고 싶은 말」 자유 칸) ④ 보내기 전에(다른 분 배려 안내 · 싣는 데 동의 하나) ⑤ 고맙습니다(같은 링크로 다시 와서 더하고 고침 · 거두기 · 기본 링크 다섯 · 사랑흐름 소개). 카톡 미리보기 그림 = /memoir/invite-card.png. 서버 = 자서전 서버 v21 memGet(JSONP) · memSave(POST) · memDrop. 쓰는 중 글은 이 기기에 먼저 담아 둠. -->
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -95,13 +95,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 <div class="wrap" id="main"><div class="msg">초대장을 펼치고 있어요…</div></div>
 <div class="brand"><img src="/logo.png" alt="사랑흐름">가장 소중한 사람을 더 알아가는 시간, <a href="/" target="_blank" rel="noopener">사랑흐름</a><br>www.loveflow.ai.kr · LFRI™</div>
 </div>
+<script src="/memoir/kit.js?v=11"></script>
 <script>
 var MG='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
 var KEY=(function(){ try{ return (new URLSearchParams(location.search).get('k')||'').trim().toLowerCase(); }catch(e){ return ''; } })();
 var GKEY=(function(){ try{ return (new URLSearchParams(location.search).get('g')||'').trim().toLowerCase(); }catch(e){ return ''; } })();   /* ★v2 단톡방 */
 var JOINED=(function(){ try{ return new URLSearchParams(location.search).get('j')==='1'; }catch(e){ return false; } })();
 var GD=null;
-var D=null, ST={ step:1, name:'', rel:'', relFree:'', show:'', ans:['','','','','','',''], age:false, open:-1 };
+var NUMK=['','하나','둘','셋','넷','다섯','여섯','일곱','여덟','아홉','열'];
+function YT(){ return !!(D && D.youth); }
+var D=null, ST={ step:1, name:'', relG:'', rel:'', relFree:'', show:'', ans:['','','','','','',''], age:false, open:-1 };
 var DK='lf_mem_draft_'+KEY;
 function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 function nm(s){ return String(s||'').split('○○○').join(D && D.from ? D.from : '보내신 분'); }
@@ -115,11 +118,11 @@ function jsonp(params, cb){
   sc.src=MG+'?'+q.join('&')+'&callback='+name+'&t='+Date.now(); document.body.appendChild(sc);
   setTimeout(function(){ fin(null); }, 25000);
 }
-function keepDraft(){ try{ localStorage.setItem(DK, JSON.stringify({ name:ST.name, rel:ST.rel, relFree:ST.relFree, show:ST.show, ans:ST.ans })); }catch(e){} }
-function loadDraft(){ try{ var o=JSON.parse(localStorage.getItem(DK)||'null'); if(o){ ST.name=o.name||''; ST.rel=o.rel||''; ST.relFree=o.relFree||''; ST.show=o.show||''; if(Array.isArray(o.ans)){ for(var i=0;i<7;i++){ ST.ans[i]=o.ans[i]||''; } } return true; } }catch(e){} return false; }
+function keepDraft(){ try{ localStorage.setItem(DK, JSON.stringify({ name:ST.name, relG:ST.relG, rel:ST.rel, relFree:ST.relFree, show:ST.show, ans:ST.ans })); }catch(e){} }
+function loadDraft(){ try{ var o=JSON.parse(localStorage.getItem(DK)||'null'); if(o){ ST.name=o.name||''; ST.relG=o.relG||''; ST.rel=o.rel||''; ST.relFree=o.relFree||''; ST.show=o.show||''; if(Array.isArray(o.ans)){ for(var i=0;i<7;i++){ ST.ans[i]=o.ans[i]||''; } } return true; } }catch(e){} return false; }
 function chime(){ try{ var A=window.AudioContext||window.webkitAudioContext; if(!A){return;} var ac=new A(), t=ac.currentTime; [[784,0],[1047,.16]].forEach(function(n){ var o=ac.createOscillator(), g=ac.createGain(); o.type='sine'; o.frequency.value=n[0]; g.gain.setValueAtTime(.0001,t+n[1]); g.gain.exponentialRampToValueAtTime(.16,t+n[1]+.02); g.gain.exponentialRampToValueAtTime(.0001,t+n[1]+.9); o.connect(g); g.connect(ac.destination); o.start(t+n[1]); o.stop(t+n[1]+1); }); }catch(e){} }
 function QS(){ return (D && D.qs) || []; }
-function relVal(){ return ST.rel==='직접 적기' ? ST.relFree.trim() : ST.rel; }
+function relVal(){ if(ST.relG==='직접 적기'||ST.rel==='직접 적기'){ return ST.relFree.trim(); } return ST.rel || ST.relG; }   /* ★v3 단추가 없으면 갈래 이름 */
 function bar(n){ var h='<div class="stepbar">'; for(var i=1;i<=5;i++){ h+='<i class="'+(i<=n?'on':'')+'"></i>'; } return h+'</div>'; }
 function whoBox(){
   var f=esc(D.from||'보내신 분');
@@ -135,26 +138,38 @@ function boot(){
   jsonp({ action:'memGet', key:KEY }, function(d){
     if(!d){ draw('<div class="msg">지금은 초대장을 펼칠 수 없어요. 잠시 뒤 다시 열어 주세요.<br><br><button class="btn line" style="max-width:240px;margin:0 auto" onclick="location.reload()">다시 열기</button></div>'); return; }
     if(d.status!=='ok'){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p></div>'+linksHtml()); return; }
-    D=d;
-    if(!loadDraft() && d.state==='받음'){
+    D=d; try{ LFM.youth('', !!d.youth); }catch(e){}   /* ★v3 청소년이면 어른만 고르는 판 */
+    var had=loadDraft();
+    if(!had && d.state==='받음'){
       ST.name=d.name||''; ST.show=d.show||''; ST.ans=(d.ans||[]).slice(0,7); while(ST.ans.length<7){ ST.ans.push(''); }
-      var opts=((QS()[0]||{}).opts)||[]; if(opts.indexOf(d.rel)>=0){ ST.rel=d.rel; } else if(d.rel){ ST.rel='직접 적기'; ST.relFree=d.rel; }
-    }
+      setRel(d.rel);
+    } else if(!had && (d.relB || d.relG)){ setRel(d.relB || d.relG, d.relG); }   /* ★v3 작성자가 고른 관계 */
     if(d.state==='받음'){ ST.age=true; }
     if(!ST.name && d.name){ ST.name=d.name; }   /* ★v2 단톡방으로 오신 분 성함 */
     if(JOINED){ ST.age=true; }
     first();
   });
 }
+/* ★v3 관계 값 → 판 위치 */
+function setRel(v, g){
+  v=String(v||'').trim(); if(!v){ return; }
+  var G=(window.LFM && LFM.relGroup) ? LFM.relGroup(v) : null;
+  if(G && G.g!=='직접 적기'){ ST.relG=G.g; ST.rel=(G.g===v)?'':v; return; }
+  if(g && window.LFM && LFM.relGroup(g) && g!=='직접 적기'){ ST.relG=g; ST.rel=''; return; }
+  ST.relG='직접 적기'; ST.rel='직접 적기'; ST.relFree=v;
+}
 /* ① 초대장 */
 function first(){
   ST.step=1; var f=esc(D.from||'보내신 분');
   var h=bar(1)+'<div class="card inv"><img class="logo" src="/logo.png" alt="사랑흐름">'
-   +'<h1>'+f+' 님이 보내신 초대장</h1>'+(D.to?'<div class="to">'+esc(D.to)+' 님께</div>':'')
+   +'<h1>'+f+' 님이 보내신 초대장</h1>'+(D.to?'<div class="to">'+esc(D.to)+(/님$/.test(D.to)?'께':' 님께')+'</div>':'')
    +'<div class="rule"></div>'
-   +'<p>'+f+' 님이 삶의 여정을 글로 남기고 있습니다. 그 길에서 함께한 분들의 기억도 곁에 남겨 두고 싶어 합니다.</p>'
-   +'<p>함께 나눈 웃음과 고마운 순간들을 들려주세요. 들려주신 기억은 '+f+' 님의 이야기 속에서 오래도록 함께 빛납니다.</p>'
-   +'<ul class="hint"><li>✏️ 물음 일곱 가운데 마음 가는 것부터 들려주시면 됩니다</li><li>🔁 이 링크로 다시 와서 더하거나 고칠 수 있어요</li><li>📅 '+(D.closed?'이 초대장은 새 글을 받지 않습니다':(esc(fmtDay(D.deadline))+'까지 받습니다'))+'</li></ul></div>';
+   +(YT()
+     ? '<p>'+f+' 님이 「미리 써 보는 나의 자서전」을 쓰고 있어요. 곁에서 지켜봐 주신 분의 응원을 함께 남기고 싶어 합니다.</p>'
+       +'<p>'+f+' 님의 좋은 점, 함께한 장면, 해 주고 싶은 말을 들려주세요. 남겨 주신 응원은 '+f+' 님의 자서전에 함께 실립니다.</p>'
+     : '<p>'+f+' 님이 삶의 여정을 글로 남기고 있습니다. 그 길에서 함께한 분들의 기억도 곁에 남겨 두고 싶어 합니다.</p>'
+       +'<p>함께 나눈 웃음과 고마운 순간들을 들려주세요. 들려주신 기억은 '+f+' 님의 이야기 속에서 오래도록 함께 빛납니다.</p>')
+   +'<ul class="hint"><li>✏️ 물음 '+(NUMK[QS().length]||QS().length)+' 가운데 마음 가는 것부터 들려주시면 됩니다</li><li>🔁 이 링크로 다시 와서 더하거나 고칠 수 있어요</li><li>📅 '+(D.closed?'이 초대장은 새 글을 받지 않습니다':(esc(fmtDay(D.deadline))+'까지 받습니다'))+'</li></ul></div>';
   if(D.closed){
     h+='<div class="card" style="text-align:center"><h2>이 초대장은 새 글을 받지 않습니다</h2><p class="small">'+(D.state==='받음'?'들려주신 기억은 '+f+' 님께 잘 닿아 있어요. 고맙습니다.':'초대해 주신 분께 말씀하시면 받는 날을 늘릴 수 있어요.')+'</p></div>'+linksHtml();
     draw(h); return;
@@ -167,7 +182,7 @@ function first(){
      +'<button class="lk" onclick="dropAsk()">쓴 글 거두기</button>';
   } else {
     h+='<label class="age"><input type="checkbox" id="ag" '+(ST.age?'checked':'')+' onchange="ST.age=this.checked;$(\'go1\').disabled=!this.checked"><span>만 14세 이상입니다</span></label>'
-     +'<div class="small">만 14세가 되지 않으셨다면, 보호자와 함께 종이 물음지로 들려주실 수 있어요. '+f+' 님께 말씀해 주세요.</div>'
+     +'<div class="small">'+(YT()?'만 14세가 되지 않으셨다면 이 초대장에는 글을 남기실 수 없어요.':'만 14세가 되지 않으셨다면, 보호자와 함께 종이 물음지로 들려주실 수 있어요. '+f+' 님께 말씀해 주세요.')+'</div>'
      +'<button class="btn" id="go1" '+(ST.age?'':'disabled')+' onclick="toList()">어떤 이야기를 나누는지 보기</button>';
   }
   h+='</div>'; draw(h);
@@ -175,7 +190,7 @@ function first(){
 function fmtDay(s){ var m=String(s||'').match(/^(\d{4})-(\d{2})-(\d{2})/); return m ? (parseInt(m[2],10)+'월 '+parseInt(m[3],10)+'일') : String(s||''); }
 /* ② 물음 보기 */
 function toList(){
-  ST.step=2; var qs=QS(), h=bar(2)+'<div class="card"><h2>나눌 이야기 일곱</h2><p class="small" style="margin-bottom:8px">모두 답하지 않으셔도 됩니다. 하나만 들려주셔도 보낼 수 있어요.</p><ul class="ql">';
+  ST.step=2; var qs=QS(), h=bar(2)+'<div class="card"><h2>나눌 이야기 '+(NUMK[qs.length]||qs.length)+'</h2><p class="small" style="margin-bottom:8px">모두 답하지 않으셔도 됩니다. 하나만 들려주셔도 보낼 수 있어요.</p><ul class="ql">';
   for(var i=0;i<qs.length;i++){ var fr=(qs[i].type==='자유칸'); h+='<li class="'+(fr?'free':'')+'"><span class="n">'+(i+1)+'</span><span>'+esc(nm(qs[i].q))+(fr?'<span class="fr">마음대로 쓰는 칸</span>':'')+'</span></li>'; }
   h+='</ul><button class="btn" onclick="toWrite()">들려주기</button><button class="lk" onclick="first()">초대장으로</button></div>';
   draw(h);
@@ -185,10 +200,8 @@ function toWrite(){
   ST.step=3; var qs=QS(), q0=qs[0]||{opts:[]};
   var h=bar(3)+'<div class="card"><h2>들려주기</h2>'
    +'<label class="f" for="nmIn">성명</label><input class="t" id="nmIn" maxlength="20" value="'+esc(ST.name)+'" oninput="ST.name=this.value;keepDraft();chk()" placeholder="예: 김철수">'
-   +'<label class="f">'+esc(nm(q0.q||'어떤 사이인가요?'))+'</label><div class="chips" id="relChips">';
-  for(var i=0;i<q0.opts.length;i++){ h+='<button type="button" class="'+(ST.rel===q0.opts[i]?'on':'')+'" onclick="pickRel(\''+esc(q0.opts[i])+'\')">'+esc(q0.opts[i])+'</button>'; }
-  h+='</div><input class="t" id="relFree" maxlength="20" style="margin-top:8px;display:'+(ST.rel==='직접 적기'?'block':'none')+'" value="'+esc(ST.relFree)+'" oninput="ST.relFree=this.value;keepDraft();chk()" placeholder="예: 군대 동기">'
-   +'<label class="f" for="shIn">결과물에 보일 이름</label><input class="t" id="shIn" maxlength="30" value="'+esc(ST.show)+'" oninput="ST.show=this.value;keepDraft();chk()" placeholder="예: 고향 친구 철수">'
+   +'<label class="f">'+esc(nm(q0.q||'어떤 사이인가요?'))+'</label>'+relBoardHtml()
+   +'<label class="f" for="shIn">결과물에 보일 이름</label><input class="t" id="shIn" maxlength="30" value="'+esc(ST.show)+'" oninput="ST.show=this.value;keepDraft();chk()" placeholder="'+(YT()?'예: 담임 선생님 · 이모':'예: 고향 친구 철수')+'">'
    +'<div class="small" style="margin-top:4px">자서전에는 이 이름으로 실립니다.</div></div>'
    +'<div class="small" style="margin:4px 4px 10px">✏️ 마음 가는 물음을 눌러 들려주세요. 쓰시는 대로 이 기기에 먼저 담아 둡니다.</div>';
   for(var k=0;k<qs.length;k++){
@@ -206,7 +219,20 @@ function toWrite(){
   h+='<div class="err" id="er3"></div><button class="btn" id="go3" onclick="toCheck()">다 썼어요 · 보내기 전에 확인</button><button class="lk" onclick="toList()">물음 다시 보기</button>';
   draw(h); chk();
 }
-function relHint(note){ var parts=String(note).split(' / '), r=relVal(); for(var i=0;i<parts.length;i++){ var p=parts[i].split(':'); if(p.length>1 && p[0].trim()===r){ return p.slice(1).join(':').trim(); } } return ''; }
+/* ★v3 관계 떠올리기 판 — 작성자 화면과 같은 판 */
+function relBoardHtml(){
+  var B=LFM.REL(), h='<div class="chips" id="relChips">';
+  for(var i=0;i<B.length;i++){ h+='<button type="button" class="'+(ST.relG===B[i].g?'on':'')+'" onclick="pickG('+i+')">'+B[i].i+' '+esc(B[i].g)+'</button>'; }
+  h+='</div>';
+  var G=LFM.relGroup(ST.relG);
+  if(G && G.b.length){ h+='<div class="chips" style="margin-top:8px;padding:10px;border-radius:14px;background:#FBF6EC">'; for(var j=0;j<G.b.length;j++){ h+='<button type="button" class="'+(ST.rel===G.b[j]?'on':'')+'" onclick="pickB('+j+')">'+esc(G.b[j])+'</button>'; } h+='</div>'; }
+  h+='<input class="t" id="relFree" maxlength="20" style="margin-top:8px;display:'+(ST.relG==='직접 적기'?'block':'none')+'" value="'+esc(ST.relFree)+'" oninput="ST.relFree=this.value;keepDraft();chk()" placeholder="예: 군대 전우회 총무님">';
+  return h;
+}
+function pickG(i){ var G=LFM.REL()[i]; if(!G){ return; } if(ST.relG!==G.g){ ST.rel=(G.g==='직접 적기')?'직접 적기':''; } ST.relG=G.g; keepDraft(); var y=window.scrollY; toWrite(); window.scrollTo(0,y); if(G.g==='직접 적기'){ try{ $('relFree').focus(); }catch(e){} } }
+function pickB(j){ var G=LFM.relGroup(ST.relG); if(!G){ return; } ST.rel=(ST.rel===G.b[j])?'':G.b[j]; keepDraft(); var y=window.scrollY; toWrite(); window.scrollTo(0,y); }
+function relHint(note){ var h1=relHint1(note, relVal()); if(h1){ return h1; } var G=LFM.relGroup(ST.relG); return (G && G.hint) ? relHint1(note, G.hint) : ''; }
+function relHint1(note, r){ var parts=String(note).split(' / '); for(var i=0;i<parts.length;i++){ var p=parts[i].split(':'); if(p.length>1 && p[0].trim()===r){ return p.slice(1).join(':').trim(); } } return ''; }
 function pickRel(v){ ST.rel=v; keepDraft(); var y=window.scrollY; toWrite(); window.scrollTo(0,y); if(v==='직접 적기'){ try{ $('relFree').focus(); }catch(e){} } }
 function tog(i){ ST.open=(ST.open===i)?-1:i; var y=window.scrollY; toWrite(); window.scrollTo(0,y); if(ST.open===i){ try{ $('ta'+i).focus(); }catch(e){} } }
 function cnt(i){ var e=$('cn'+i); if(e){ e.textContent=String(ST.ans[i]||'').length+'자'; } var q=$('q'+i); if(q){ var has=!!String(ST.ans[i]||'').trim(); q.classList.toggle('done',has); q.querySelector('.n').textContent=has?'✓':(i+1); } }
@@ -215,7 +241,7 @@ function missing(){
   if(!ST.name.trim()){ return '성명을 적어 주세요.'; }
   if(!relVal()){ return '어떤 사이인지 골라 주세요.'; }
   if(!ST.show.trim()){ return '결과물에 보일 이름을 적어 주세요.'; }
-  if(!anyAns()){ return '2번부터 7번 가운데 하나 이상 들려주세요.'; }
+  if(!anyAns()){ return '2번부터 '+QS().length+'번 가운데 하나 이상 들려주세요.'; }
   return '';
 }
 function chk(){ var b=$('go3'); if(b){ b.disabled=!!missing(); } var e=$('er3'); if(e){ e.textContent=''; } }
@@ -255,7 +281,7 @@ function send(){
 function thanks(){
   ST.step=5; var f=esc(D.from||'보내신 분');
   draw(bar(5)+'<div class="card thanks"><div class="big">🌼</div><h2>고맙습니다</h2>'
-   +'<p>들려주신 기억이 '+f+' 님께 닿았습니다.</p>'
+   +'<p>들려주신 '+(YT()?'응원이':'기억이')+' '+f+' 님께 닿았습니다.</p>'
    +'<p class="small" style="margin-top:8px">같은 링크로 다시 오시면 더하거나 고칠 수 있어요.'+(D.deadline?' ('+esc(fmtDay(D.deadline))+'까지)':'')+'</p>'
    +'<button class="btn line" onclick="toWrite()">더하거나 고치기</button></div>'+myLinkBox()+linksHtml());
 }
