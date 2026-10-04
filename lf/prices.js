@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/prices.js · v9 · 260806
+   현재 버전 ▶ lf/prices.js · v10 · 261004 · [자서전 공사 칸 18] ★「안내자 동행 기록」 코드 자리(LF-G)만 둡니다 — 값 없음 · 판매 안 함 · 화면에 안 보임(41차 안 · 상품 코드표를 새로 짓지 않고 여기에 덧붙임). ★한 편의 기록 「편 수」(1~10)는 결제 화면이 값 × 편 수로 셈합니다 — 이 원장의 인원(QTY)과는 다른 축입니다. 금액 · 주소는 한 글자도 안 바뀜.
+   (이전) lf/prices.js · v9 · 260806
    사랑흐름 가격 원장 — 전 화면이 이 한 파일을 씁니다.
 
    ★★ 못 박는 원칙 넷
@@ -105,6 +106,12 @@
     'LF-A001': 'https://smartstore.naver.com/wellnongbunet/products/13688061257', 'LF-A010': 'https://smartstore.naver.com/wellnongbunet/products/13687948970', 'LF-A020': 'https://smartstore.naver.com/wellnongbunet/products/13687946310', 'LF-A030': 'https://smartstore.naver.com/wellnongbunet/products/13687942888', 'LF-A050': 'https://smartstore.naver.com/wellnongbunet/products/13687940964', 'LF-A100': 'https://smartstore.naver.com/wellnongbunet/products/13687934359'
   };
 
+  /* ★[v10] 자리만 — 값이 정해지기 전까지 판매하지 않습니다(BOOK 에 안 들어감 · 화면에 안 보임).
+     값은 원가표(이슈 69) · 안내자 보상(이슈 65)이 정해진 뒤 대표 결정. */
+  var RESERVED = {
+    G: { name: '안내자 동행 기록', price: null, sell: false }
+  };
+
   /* 단체 구매 상담 주소 — 링크가 빈 상품은 여기로 보냅니다. */
   var CONSULT = '/apply.html';
 
@@ -198,7 +205,8 @@
     get: function (code) { return BOOK[code] || null; },
     all: function () { return BOOK; },
     comma: comma,
-    label: label
+    label: label,
+    reserved: function () { return RESERVED; }   /* ★v10 */
   };
 
   if (document.readyState === 'loading') {

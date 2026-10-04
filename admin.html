@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v10 · 260730
+     사랑흐름 · admin.html   v11 · 261004 · [자서전 공사 칸 18 결제]
+
+     [v11 · 261004 대표 결정] ★네이버 · 오픈마켓 「발권 신청」이 계좌이체 줄과 한 목록에 섭니다.
+       · 줄마다 구입처 꼬리표 · 고른 여행과 편 수 · 맞는 금액(결과 숫자만).
+       · 네이버 · 오픈마켓 줄 — 금액을 고르지 않고 「주문 확인 · 발급」 한 번.
+         누르기 전에 그 구입처(스마트스토어 판매자 화면)에서 결제번호 · 상품 · 수량을 보십시오.
+       · 계좌이체 줄이 여러 편이면 금액 고르기 맨 위에 「값 × 편 수」 결과가 섭니다(다른 금액이면 서버가 멈춤).
+       · 발급하면 「보낼 글 복사」 — 카카오톡 · 문자에 붙여 보내시면 됩니다.
+       짝꿍 — 게시판 Code.gs v5-15 · 발권 issuePassport.gs v5-11.
+       [무손] 열쇠 · 잠금 · 대량 발급 · 계약 · 표 도구 · 정렬 · 동명이인
 
      [v10 · 260730 대표 확정] ★대량 발급 자리에 ★채널·계약번호 칸 둘을 더했습니다.
        [왜 채널인가] 카드결제·현금·세금계산서·시스템 밖 입금은 성격이 하나입니다 —
@@ -244,6 +253,11 @@ body{
   cursor:default; flex-shrink:0;
 }
 .ok.on{background:var(--navy); border-color:var(--navy); color:#fff; cursor:pointer}
+/* ★[v11] 구입처 꼬리표 · 신청 내용 */
+.chtag{display:inline-block; font-size:11px; font-weight:800; border-radius:6px; padding:1px 6px; margin-right:4px; background:#E9F7EF; color:#1E7A4A}
+.chtag.bank{background:#EEF3F9; color:var(--navy)}
+.want{font-size:12.5px; color:var(--navy); font-weight:700; margin:4px 0 2px}
+.copybtn{display:block; width:100%; margin-top:10px; height:40px; border-radius:10px; border:1.5px solid var(--navy); background:#fff; color:var(--navy); font-weight:800; font-family:inherit; cursor:pointer}
 
 .row.done{background:#F7F4EE}
 .row.done .no{color:var(--sub); font-weight:700}
@@ -1016,8 +1030,8 @@ function render(){
   for(var j=0;j<list.length;j++){
     var r = list[j];
     var id = esc(r.no);
-    var nm = String(r.payer || '').trim();
-    var dup = (!r.paid && nm) ? (DUPES[nm] || 0) : 0;
+    var nm = String(r.payer || (isMarket(r) ? r.name : '') || '').trim();   /* ★[v11] 오픈마켓 줄은 성명 */
+    var dup = (!r.paid && nm && !isMarket(r)) ? (DUPES[nm] || 0) : 0;
 
     h += '<div class="row' + (r.paid ? ' done' : '') + '">';
     h +=   '<div class="r1">';
@@ -1029,14 +1043,31 @@ function render(){
     h +=     '<span class="dim2">'
        +        (r.phone4 ? esc(r.phone4) : '<span class="flag">없음</span>') + '</span>';
     h +=   '</div>';
+    /* ★[v11] 구입처 · 고른 여행 · 맞는 금액 */
+    var mk = isMarket(r);
+    if(mk || r.label){
+      h += '<div class="want"><span class="chtag' + (mk ? '' : ' bank') + '">' + esc(mk ? chName(r.channel) : '계좌이체') + '</span>'
+         + esc(r.label || '') + (r.expect ? ' · ' + won(r.expect) + '원' : '')
+         + (mk && r.name ? ' · ' + esc(r.name) : '') + '</div>';
+    }
 
     if(r.paid){
       h += '<span class="dim2">' + esc(r.state || '') + '</span>';
       h += '<span class="pp">' + esc(r.pp || '-') + '</span>';
     }else{
+      if(mk){
+        h += '<div class="r2">';
+        h +=   '<button class="ok on" id="b_' + id + '" onclick="askPaid(\'' + id + '\')">주문 확인 · 발급</button>';
+        h += '</div>';
+        h += '</div>';
+        continue;
+      }
       h += '<div class="r2">';
       h +=   '<select class="sel" id="s_' + id + '" onchange="pick(\'' + id + '\')">';
       h +=     '<option value="">받은 금액</option>';
+      if(r.pieces > 1 && r.expect){     /* ★[v11] 여러 편 — 값 × 편 수 결과 */
+        h +=   '<option value="' + r.expect + '">' + won(r.expect) + ' · ' + esc(r.label) + '</option>';
+      }
       for(var p=0;p<PICKS.length;p++){        /* ★v9 — 1인 넷만. 단체는 대량 발급 탭 */
         h +=   '<option value="' + PICKS[p].amount + '">'
            +      won(PICKS[p].amount) + ' · ' + PICKS[p].name + '</option>';
@@ -1068,12 +1099,17 @@ function rowOf(no){
   return {};
 }
 
+/* ★[v11] 네이버 · 오픈마켓 줄인가 */
+function isMarket(r){ return !!(r && r.channel && r.channel !== '사랑흐름(직접결제)'); }
+function chName(c){ return (c === '네이버 스마트스토어') ? '네이버' : c; }
+
 function askPaid(no){
+  var r = rowOf(no);
+  if(isMarket(r)){ askMarket(no, r); return; }   /* ★[v11] */
   var s = document.getElementById('s_' + no);
   if(!s || !s.value) return;                 /* 금액을 안 골랐으면 안 열립니다 */
   var amount = Number(s.value);
-  var r = rowOf(no);
-  var name = priceName(amount);
+  var name = (r.pieces > 1 && amount === r.expect) ? r.label : priceName(amount);   /* ★[v11] */
   PENDING = { no:no, amount:amount, name:name };
 
   var nm = String(r.payer || '').trim();
@@ -1104,6 +1140,46 @@ function askPaid(no){
   document.getElementById('dim').classList.add('on');
 }
 
+/* ★[v11] 네이버 · 오픈마켓 — 주문 확인 팝업 */
+function askMarket(no, r){
+  PENDING = { no:no, amount:r.expect || 0, name:r.label || '' };
+  var b = '';
+  b += '<div class="warn">' + esc(chName(r.channel)) + ' 판매자 화면에서 <b>결제번호 · 상품 · 수량 · 결제 완료</b>를 보셨습니까?</div>';
+  b += '<div class="dl">';
+  b +=   '<div class="r"><span class="k">구입처</span><span class="v">' + esc(r.channel) + '</span></div>';
+  b +=   '<div class="r"><span class="k">결제번호</span><span class="v big">' + esc(no) + '</span></div>';
+  b +=   '<div class="r"><span class="k">신청한 여행</span><span class="v">' + esc(r.label || '-') + '</span></div>';
+  b +=   '<div class="r"><span class="k">금액</span><span class="v big">' + (r.expect ? won(r.expect) + '원' : '-') + '</span></div>';
+  b +=   '<div class="r"><span class="k">성명</span><span class="v">' + esc(r.name || '-') + '</span></div>';
+  b +=   '<div class="r"><span class="k">연락처 뒤 4자리</span><span class="v">' + esc(r.phone4 || '-') + '</span></div>';
+  b +=   '<div class="r"><span class="k">신청시각</span><span class="v">' + esc(r.when || '-') + '</span></div>';
+  b += '</div>';
+  b += '<div class="mm">확인을 누르면 <b>마음 여행여권</b>이 발급됩니다.<br>보낼 글을 복사해 카카오톡 · 문자로 보내 주세요.</div>';
+  document.getElementById('mTitle').textContent = '주문을 확인하셨습니까?';
+  document.getElementById('mBody').innerHTML = b;
+  var ok = document.getElementById('mOk');
+  ok.disabled = false; ok.textContent = '주문 확인 · 발급'; ok.onclick = doPaid;
+  document.getElementById('mNo').disabled = false;
+  document.getElementById('dim').classList.add('on');
+}
+
+/* ★[v11] 보낼 글 */
+var SEND_TEXT = '';
+function sendText(res){
+  var who = res.who ? (res.who + ' 님, ') : '';
+  return '[사랑흐름] ' + who + '신청하신 「' + (res.name || '') + '」의 사랑흐름 여권번호는 ' + res.passport + ' 입니다.\n'
+       + '아래 주소를 누르시면 이 번호로 바로 들어가실 수 있어요.\n'
+       + 'https://www.loveflow.ai.kr/enter.html?id=' + encodeURIComponent(res.passport);
+}
+function copySend(btn){
+  var t = SEND_TEXT;
+  function done(){ if(btn){ btn.textContent = '복사했습니다 ✓'; } }
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(t).then(done, function(){ fb(); });
+  } else { fb(); }
+  function fb(){ var a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); try{ document.execCommand('copy'); done(); }catch(e){} document.body.removeChild(a); }
+}
+
 function closeModal(){
   document.getElementById('dim').classList.remove('on');
   PENDING = null;
@@ -1131,7 +1207,9 @@ function doPaid(){
           +     esc(res.passport) + '</div>'
           +   '<div style="font-size:12px;color:#8B8371">' + esc(res.name || '') + '</div>'
           + '</div>'
-          + '<div class="mm">손님이 접수번호로 들어오면 스스로 받아 갑니다.</div>');
+          + '<div class="mm">손님이 접수번호로 들어오면 스스로 받아 갑니다.</div>'
+          + (function(){ SEND_TEXT = sendText(res);
+              return '<button class="copybtn" onclick="copySend(this)">보낼 글 복사</button>'; })());
       }else{
         endModal(ok, '발급하지 못했습니다',
           '<div class="mm">' + esc((res && res.msg) ? res.msg : '알 수 없는 오류입니다.') + '</div>');
