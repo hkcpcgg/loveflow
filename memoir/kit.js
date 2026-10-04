@@ -1,5 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v8 · 261004 — ★[칸 20 빠진 곳 · 대표 지적 261004] LFM.grapes — 열째 알도 다른 알과 같이(마치면 보랏빛 · 다음이면 연두 테 · 아직이면 점선). 「아직 안 열림」 반짝임 걷음. [무손] 그 밖 전부.
+   현재 버전 ▶ memoir/kit.js · v9 · 261004 — ★[자서전 마무리 묶음 B · 이사회 29차 ★2 · ★8 · ★9 · ★11 · ★13 · ★20 · 대표 지시 261004 「풍성하게」] ⑧ LFM.aifix — 내 AI로 맞춤법 살펴보기.
+     네 걸음 카드(① 부탁 글 복사 — 맞춤법 · 띄어쓰기만, 물음 안 넣음 ② AI 열기 — 단추 여섯 · 섞어 보임 · 「예시이며 권하는 것이 아닙니다」 · 첫 화면만 엶 · 청소년은 이름 없이 + 이용 나이 안내 · 넣지 말 것 안내
+     ③ 고친 글 붙여 넣기 — AI 인사말 · 꾸밈 기호 걸러 냄 ④ 바뀐 곳 보기 — 낱말 단위 색 · 숫자 · 날짜 · 「안」「못」 노랑 · 누르면 그곳만 처음 글로) · 걸음마다 「안내자와 함께라면」 한 줄.
+     [무손] 그 밖 전부.
+   ── 이전 ── v8 · 261004 — ★[칸 20 빠진 곳 · 대표 지적 261004] LFM.grapes — 열째 알도 다른 알과 같이(마치면 보랏빛 · 다음이면 연두 테 · 아직이면 점선). 「아직 안 열림」 반짝임 걷음. [무손] 그 밖 전부.
    ── 이전 ── v7 · 261003 — ★[자서전 공사 칸 21 · 이사회 27~29차 · 대표 시험 261002] ⑦ LFM.scan — 종이 · 사진에서 글 불러오기.
      동의(「옮긴 글을 원본과 비교해 확인하고, 고칠 곳은 고친 뒤 올리겠습니다」) → 사진이면 돌리기 · 자르기(네 모서리 끌기 — 옆 쪽 글씨가 끼어드는 일 막음) / PDF는 그대로
      → 자서전 서버 v24 scanImage(구글 글자 인식 · 사진 문서 바로 지움) → 원본과 나란히 · 숫자 · 날짜 · 「안」「못」 노랗게 → 「원본을 보며 확인했습니다」 → 올리기.
@@ -469,5 +473,158 @@
   }
   var scan = { open: scOpen, close: scClose, _ag: scAg, _img: scImg, _pdf: scPdf, _rot: scRot, _go: scGo, _back: scBack, _mk: scMk, _up: scUp, TWO: SC_TWO };
 
-  window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, grapes:grapes, scan:scan, HONOR:HONOR };
+
+  /* ═══ ⑧ LFM.aifix — 내 AI로 맞춤법 살펴보기 (v9 · 이사회 29차 ★2 · ★8 · ★9 · ★11 · ★13 · ★20 · 대표 지시 261004 「풍성하게 · 안내자가 코칭」) ═══
+     쓰는 법: LFM.aifix.open({ text:'처음 글', youth:false, onDone:function(newText, meta){ … } })
+       meta = { entry:'AI맞춤법', confirmedAt:'…', original:'처음 글' }
+     사랑흐름은 AI를 돌리지 않음 — 손님이 쓰는 AI에 손님이 직접 붙여 넣고, 고친 글을 가져오는 다리만.
+     부탁 글은 맞춤법 · 띄어쓰기만(물음은 넣지 않음) · AI 단추는 그 AI 첫 화면만 엶(미리 채우기 없음). */
+  var AF = null;
+  var AF_AI = [   /* ★해마다 주소 점검(29차 ★9) */
+    ['챗GPT', 'https://chatgpt.com/'], ['제미나이', 'https://gemini.google.com/'], ['클로드', 'https://claude.ai/'],
+    ['네이버 클로바X', 'https://clova-x.naver.com/'], ['뤼튼', 'https://wrtn.ai/'], ['코파일럿', 'https://copilot.microsoft.com/']
+  ];
+  var AF_ASK = '아래 글의 맞춤법과 띄어쓰기만 바로잡아 주세요. 내용 · 말투 · 문장은 바꾸지 말고, 고친 글만 보여 주세요.';
+  function afCss(){
+    if (document.getElementById('lfAfCss')) { return; }
+    scCss();
+    var c = document.createElement('style'); c.id = 'lfAfCss';
+    c.textContent = '#lfScan .dots{display:flex;gap:6px;justify-content:center;margin:0 0 10px}#lfScan .dots i{width:26px;height:5px;border-radius:3px;background:#F0E2D2}#lfScan .dots i.on{background:#E59273}'
+      + '#lfScan .big{font-size:44px;text-align:center;margin:4px 0}'
+      + '#lfScan .coach{font-size:13px;color:#5b6676;background:#EEF3F8;border-radius:10px;padding:7px 10px;margin-top:10px;word-break:keep-all}'
+      + '#lfScan .ais{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}'
+      + '#lfScan .ais a{display:block;text-align:center;padding:12px 6px;border-radius:14px;border:1.5px solid #E8CDB5;background:#fff;color:#5a3e2b;font-weight:700;text-decoration:none;font-size:15px}'
+      + '#lfScan .warn{font-size:13px;color:#7a5a3a;background:#FFF6E5;border-radius:10px;padding:8px 10px;margin-top:10px;word-break:keep-all;line-height:1.6}'
+      + '#lfScan .df{font-size:15.5px;line-height:1.9;background:#fff;border:1px solid #F0E2D2;border-radius:12px;padding:10px 12px;white-space:pre-wrap;max-height:42vh;overflow:auto}'
+      + '#lfScan .df .ch{background:#E7F5EC;border-bottom:2px solid #8DB48A;border-radius:3px;cursor:pointer;padding:0 1px}'
+      + '#lfScan .df .ch.hot{background:#FFE7A8;border-bottom-color:#E0A100;font-weight:700}'
+      + '#lfScan .df .ch.back{background:#F1F1F1;border-bottom:2px dashed #aaa;color:#666}'
+      + '#lfScan .df del{color:#b5372a;text-decoration:line-through;font-size:.9em;margin-right:2px}'
+      + '#lfScan .leg{font-size:12.5px;color:#8a7a68;margin:6px 2px 0;line-height:1.7}'
+      + '#lfScan .leg span{display:inline-block;padding:0 5px;border-radius:3px;margin-right:4px}';
+    document.head.appendChild(c);
+  }
+  function afDots(n){ var h = '<div class="dots">'; for (var i = 1; i <= 4; i++) { h += '<i class="' + (i <= n ? 'on' : '') + '"></i>'; } return h + '</div>'; }
+  function afCopy(t, ok){
+    var done = false, fin = function(fb){ if (done) { return; } done = true; if (fb) { afCopy2(t); } ok(); };
+    try { if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(t).then(function(){ fin(false); }, function(){ fin(true); }); setTimeout(function(){ fin(true); }, 900); return; } } catch (e) {}
+    fin(true);
+  }
+  function afCopy2(t){ var ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); try { document.execCommand('copy'); } catch (e) {} document.body.removeChild(ta); }
+  function afShuffle(a){ a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), x = a[i]; a[i] = a[j]; a[j] = x; } return a; }
+
+  function afOpen(o){
+    afCss(); AF = { o: o || {}, orig: String((o && o.text) || ''), got: '', ops: null };
+    if (!AF.orig.replace(/\s/g, '')) { scBox('<h3>✨ 내 AI로 맞춤법 살펴보기</h3><div class="s">먼저 답 칸에 글을 써 주세요. 쓰신 글의 맞춤법과 띄어쓰기를 살펴볼 수 있어요.</div><button class="x" onclick="LFM.aifix.close()">닫기</button>'); return; }
+    afStep1();
+  }
+  function afStep1(){
+    scBox(afDots(1) + '<div class="big">📋</div><h3>① 부탁 글 복사하기</h3>'
+      + '<div class="s">쓰신 글에 「맞춤법과 띄어쓰기만 바로잡아 주세요」 부탁을 붙여 복사해 드려요.</div>'
+      + '<div class="mk" style="max-height:18vh">' + scEsc(AF_ASK) + '\n\n' + scEsc(AF.orig) + '</div>'
+      + '<button class="b" onclick="LFM.aifix._copy()">📋 부탁 글 복사하기</button><div class="s" id="afOk" style="color:#2f8a4c;min-height:1em"></div>'
+      + '<div class="coach">🧭 안내자와 함께라면 — 「복사」는 글을 잠시 손에 쥐는 것이에요. 다음 화면에서 AI 창에 「붙여 넣기」 하시면 됩니다.</div>'
+      + '<button class="x" onclick="LFM.aifix.close()">닫기</button>');
+  }
+  function afCopyAsk(){ afCopy(AF_ASK + '\n\n' + AF.orig, function(){ var e = document.getElementById('afOk'); if (e) { e.textContent = '복사했어요 ✓'; } setTimeout(afStep2, 500); }); }
+  function afStep2(){
+    var h = afDots(2) + '<div class="big">🤖</div><h3>② 쓰시는 AI 열기</h3>';
+    if (AF.o.youth) {
+      h += '<div class="s">휴대폰이나 컴퓨터에서 쓰시는 AI를 여시고, 대화 칸을 길게 눌러 「붙여넣기」 하세요.</div>'
+        + '<div class="warn">쓰려는 AI 서비스의 이용 나이와 보호자 동의를 먼저 확인하세요.</div>';
+    } else {
+      h += '<div class="s">쓰시는 AI를 여시고, 대화 칸을 길게 눌러 「붙여넣기」 → 보내기를 누르세요.</div>'
+        + '<div class="s" style="font-size:12.5px;margin-top:6px">예시이며 권하는 것이 아닙니다</div><div class="ais">';
+      var list = afShuffle(AF_AI);
+      for (var i = 0; i < list.length; i++) { h += '<a href="' + list[i][1] + '" target="_blank" rel="noopener">' + scEsc(list[i][0]) + '</a>'; }
+      h += '</div>';
+    }
+    h += '<div class="warn">쓰시는 AI 서비스의 약관에 따라 넣으신 글이 저장되거나 학습에 쓰일 수 있어요. 가족 이름 · 연락처 · 건강 이야기는 빼고 넣으셔도 됩니다. 사랑흐름은 특정 AI 서비스를 권하거나 보증하지 않습니다.</div>'
+      + '<button class="b" onclick="LFM.aifix._s3()">AI가 고친 글을 복사했어요 →</button>'
+      + '<div class="coach">🧭 안내자와 함께라면 — AI가 답을 보여 주면, 고친 글 부분만 길게 눌러 「복사」 한 뒤 사랑흐름 창으로 돌아오시면 됩니다.</div>'
+      + '<button class="x" onclick="LFM.aifix._s1()">← 부탁 글 다시 복사</button>';
+    scBox(h);
+  }
+  function afStep3(){
+    scBox(afDots(3) + '<div class="big">📥</div><h3>③ 고친 글 가져오기</h3>'
+      + '<div class="s">AI가 고친 글을 아래 칸에 붙여 넣어 주세요.</div>'
+      + '<textarea id="afIn" placeholder="여기를 길게 눌러 「붙여넣기」"></textarea>'
+      + '<button class="b l" onclick="LFM.aifix._paste()">📥 복사한 글 바로 붙여 넣기</button>'
+      + '<div class="er" id="afEr"></div><button class="b" onclick="LFM.aifix._s4()">바뀐 곳 보기 →</button>'
+      + '<div class="coach">🧭 안내자와 함께라면 — AI가 앞뒤에 붙인 인사말(「물론입니다!」 같은 것)은 사랑흐름이 알아서 걸러 냅니다.</div>'
+      + '<button class="x" onclick="LFM.aifix._s2()">← AI 열기로</button>');
+  }
+  function afPaste(){
+    try { if (navigator.clipboard && navigator.clipboard.readText) { navigator.clipboard.readText().then(function(t){ var e = document.getElementById('afIn'); if (e) { e.value = t; } }, function(){ afPasteTip(); }); return; } } catch (e) {}
+    afPasteTip();
+  }
+  function afPasteTip(){ var e = document.getElementById('afEr'); if (e) { e.textContent = '칸을 길게 눌러 「붙여넣기」를 골라 주세요.'; } }
+  /* AI가 덧붙인 말 걸러 내기(29차 ★11) */
+  function afClean(t){
+    var s = String(t || '').replace(/\r/g, '').replace(/\x60\x60\x60[a-z]*\n?/gi, '').replace(/\*\*/g, '');
+    var L = s.split('\n');
+    var head = /^(물론|네[,!. ]|넵|좋습니다|알겠|다음은|아래는|아래와|수정(한|된|본)|고친|교정(한|된|본)?|맞춤법(과|을|만)|Sure|Here|Certainly|Of course)/i;
+    var tail = /(도움이 (되|필요)|더 (필요|궁금)|추가로|원하시면|말씀해 ?주세요|수정 사항|바뀐 부분|변경 사항|고친 부분)/;
+    while (L.length && (!L[0].trim() || (head.test(L[0].trim()) && /[:：]\s*$|다음과 같|같습니다|드릴게요|드리겠습니다/.test(L[0])))) { L.shift(); }
+    while (L.length && (!L[L.length - 1].trim() || tail.test(L[L.length - 1]))) { L.pop(); }
+    s = L.join('\n').replace(/^\s*["“「『]/, '').replace(/["”」』]\s*$/, '');
+    if (s.indexOf(AF_ASK) === 0) { s = s.slice(AF_ASK.length); }
+    return s.replace(/^\s+|\s+$/g, '');
+  }
+  /* 낱말 단위 비교 */
+  function afTok(s){ return String(s).split(/(\s+)/).filter(function(x){ return x !== ''; }); }
+  function afDiff(a, b){
+    var A = afTok(a), B = afTok(b), n = A.length, m = B.length;
+    if (n * m > 2500000) { return [{ t: 'chg', a: A, b: B }]; }
+    var D = []; for (var i = 0; i <= n; i++) { D.push(new Int32Array(m + 1)); }
+    for (var i2 = n - 1; i2 >= 0; i2--) { for (var j = m - 1; j >= 0; j--) { D[i2][j] = (A[i2] === B[j]) ? D[i2 + 1][j + 1] + 1 : Math.max(D[i2 + 1][j], D[i2][j + 1]); } }
+    var ops = [], x = 0, y = 0, ca = [], cb = [];
+    function flush(){ if (ca.length || cb.length) { ops.push({ t: 'chg', a: ca, b: cb }); ca = []; cb = []; } }
+    while (x < n && y < m) {
+      if (A[x] === B[y]) { flush(); var last = ops[ops.length - 1]; if (last && last.t === 'eq') { last.a.push(A[x]); } else { ops.push({ t: 'eq', a: [A[x]] }); } x++; y++; }
+      else if (D[x + 1][y] >= D[x][y + 1]) { ca.push(A[x]); x++; } else { cb.push(B[y]); y++; }
+    }
+    while (x < n) { ca.push(A[x++]); } while (y < m) { cb.push(B[y++]); } flush();
+    return ops;
+  }
+  function afHot(s){ return /\d|년|월|일|(^|\s)(안|못)(\s|$)|않|없|아니/.test(s); }
+  function afText(){ var s = ''; for (var i = 0; i < AF.ops.length; i++) { var o = AF.ops[i]; s += (o.t === 'eq' || o.back) ? o.a.join('') : o.b.join(''); } return s; }
+  function afRender(){
+    var h = '', nChg = 0, nHot = 0;
+    for (var i = 0; i < AF.ops.length; i++) {
+      var o = AF.ops[i];
+      if (o.t === 'eq') { h += scEsc(o.a.join('')); continue; }
+      var a = o.a.join(''), b = o.b.join('');
+      if (a.replace(/\s/g, '') === b.replace(/\s/g, '') && !a.trim() === !b.trim() && a.trim() === '' ) { h += scEsc(b); continue; }
+      nChg++; var hot = afHot(a) || afHot(b); if (hot) { nHot++; }
+      if (o.back) { h += '<span class="ch back" onclick="LFM.aifix._tog(' + i + ')" title="누르면 고친 글로">' + scEsc(a || '·') + '</span>'; }
+      else { h += (a.trim() ? '<del>' + scEsc(a) + '</del>' : '') + '<span class="ch' + (hot ? ' hot' : '') + '" onclick="LFM.aifix._tog(' + i + ')" title="누르면 처음 글로">' + scEsc(b || '(지움)') + '</span>'; }
+    }
+    var df = document.getElementById('afDf'); if (df) { df.innerHTML = h; }
+    var sm = document.getElementById('afSum'); if (sm) { sm.innerHTML = '바뀐 곳 <b>' + nChg + '</b>군데' + (nHot ? ' · <b style="color:#b07a00">꼭 살펴볼 곳 ' + nHot + '</b>' : ''); }
+  }
+  function afStep4(){
+    var raw = (document.getElementById('afIn') || {}).value || '';
+    var got = afClean(raw);
+    if (!got.replace(/\s/g, '')) { var e = document.getElementById('afEr'); if (e) { e.textContent = 'AI가 고친 글을 붙여 넣어 주세요.'; } return; }
+    AF.got = got; AF.ops = afDiff(AF.orig, got);
+    scBox(afDots(4) + '<div class="big">🔍</div><h3>④ 바뀐 곳 보기</h3>'
+      + '<div class="s" id="afSum"></div>'
+      + '<div class="df" id="afDf"></div>'
+      + '<div class="leg"><span style="background:#E7F5EC">초록</span>바뀐 곳 · <span style="background:#FFE7A8">노랑</span>숫자 · 날짜 · 「안」「못」처럼 뜻이 바뀔 수 있는 곳 · <del>빨간 줄</del> 처음 글<br>바뀐 곳을 누르면 그곳만 처음 글로 되돌려요. 한 번 더 누르면 다시 고친 글로.</div>'
+      + '<button class="b" onclick="LFM.aifix._use()">이대로 바꾸기</button>'
+      + '<button class="b l" onclick="LFM.aifix.close()">처음 글 그대로 두기</button>'
+      + '<div class="coach">🧭 안내자와 함께라면 — 노란 곳은 뜻이 달라졌는지 꼭 함께 읽어 보세요. 이름 · 날짜 · 「안 · 못」 하나로 이야기가 바뀔 수 있어요.</div>'
+      + '<button class="x" onclick="LFM.aifix._s3()">← 다시 붙여 넣기</button>');
+    afRender();
+  }
+  function afTog(i){ var o = AF.ops[i]; if (!o || o.t !== 'chg') { return; } o.back = !o.back; afRender(); }
+  function afUse(){
+    var t = afText(), cb = AF.o.onDone, meta = { entry: 'AI맞춤법', confirmedAt: scNow(), original: AF.orig };
+    scClose(); AF = null;
+    try { if (cb) { cb(t, meta); } } catch (e) {}
+  }
+  var aifix = { open: afOpen, close: function(){ scClose(); AF = null; }, _copy: afCopyAsk, _s1: afStep1, _s2: afStep2, _s3: afStep3, _s4: afStep4, _paste: afPaste, _tog: afTog, _use: afUse, _clean: afClean, _diff: afDiff };
+
+  window.LFM = { story:story, nth:nth, title:title, consent:consent, wait:wait, grapes:grapes, scan:scan, aifix:aifix, HONOR:HONOR };
 })();
