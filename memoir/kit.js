@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v7 · 261003 — ★[자서전 공사 칸 21 · 이사회 27~29차 · 대표 시험 261002] ⑦ LFM.scan — 종이 · 사진에서 글 불러오기.
+   현재 버전 ▶ memoir/kit.js · v8 · 261004 — ★[칸 20 빠진 곳 · 대표 지적 261004] LFM.grapes — 열째 알도 다른 알과 같이(마치면 보랏빛 · 다음이면 연두 테 · 아직이면 점선). 「아직 안 열림」 반짝임 걷음. [무손] 그 밖 전부.
+   ── 이전 ── v7 · 261003 — ★[자서전 공사 칸 21 · 이사회 27~29차 · 대표 시험 261002] ⑦ LFM.scan — 종이 · 사진에서 글 불러오기.
      동의(「옮긴 글을 원본과 비교해 확인하고, 고칠 곳은 고친 뒤 올리겠습니다」) → 사진이면 돌리기 · 자르기(네 모서리 끌기 — 옆 쪽 글씨가 끼어드는 일 막음) / PDF는 그대로
      → 자서전 서버 v24 scanImage(구글 글자 인식 · 사진 문서 바로 지움) → 원본과 나란히 · 숫자 · 날짜 · 「안」「못」 노랗게 → 「원본을 보며 확인했습니다」 → 올리기.
      알리는 두 줄 LFM.scan.TWO. [무손] 그 밖 전부.
@@ -253,7 +254,7 @@
       + '<path d="M232 22 C 246 30, 250 44, 240 52" fill="none" stroke="#79B04F" stroke-width="2" stroke-linecap="round"/>';
     for (var i = 0; i < 10; i++) {
       var x = pos[i][0], y = pos[i][1], lab = (i < 8 || names[i]) ? gSplit(names[i]) : G_EXTRA[i - 8];
-      var cls = done.indexOf(i) >= 0 ? 'gd' : ((i >= 9) ? 'gv' : (i === next ? 'gn' : 'gt'));   /* ★v6 아홉째는 열림 · 열째는 칸 20까지 반짝임 */
+      var cls = done.indexOf(i) >= 0 ? 'gd' : ((i >= 10) ? 'gv' : (i === next ? 'gn' : 'gt'));   /* ★v8 열째도 열림(칸 20) — 열 알 모두 같은 규칙 */
       var inner = '<circle class="b" cx="' + x + '" cy="' + y + '" r="' + r + '"/>';
       if (cls === 'gd') { inner += '<circle class="sh" cx="' + (x - 10) + '" cy="' + (y - 11) + '" r="5"/><text class="wm" x="' + x + '" y="' + y + '">완성</text>'; }
       if (lab[1]) { inner += '<text class="l" x="' + x + '" y="' + (y - 6) + '">' + wEsc(lab[0]) + '</text><text class="l" x="' + x + '" y="' + (y + 6) + '">' + wEsc(lab[1]) + '</text>'; }
