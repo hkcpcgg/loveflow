@@ -1,34 +1,25 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v1 · 260728
-   사랑흐름 공용 하단 줄 부품 — 전 화면이 이 한 파일을 씁니다.
-
-   [쓰는 법] 화면 하단에 아래 두 줄만 둡니다.
-     <div id="lfFoot"></div>
-     <script src="/lf-foot.js" defer></script>
-
-   [담긴 것] 네 층
-     1) 링크 여섯 — 소개 · 이용약관 · 개인정보 · 환불정책 · 카카오톡 문의 · 안내자·제휴
-     2) 저작권 한글 한 줄
-     3) 저작권 영문 두 줄
-     ※ 「홈으로」는 두지 않습니다. 모든 화면 상단바 로고가 홈입니다(260706 확정).
-
-   [고칠 때] 이 파일 하나만 고치면 전 화면이 함께 바뀝니다.
-   [클래스] 전부 lfft- 로 시작합니다. 기존 화면 CSS와 겹치지 않습니다.
-
-   © 2026 사랑흐름·LFRI™. 무단복제·상업적이용 금지.
-   Unauthorized use strictly prohibited. Violators subject to civil and criminal penalties.
+   현재 버전 ▶ lf-foot.js · v2 · 261004 · [자서전 공사 칸 27-2 · 대표 결정]
+   ★네 줄 → 두 줄(점 없이 · 한 색 · 가운데 · 글자 한 단계 작게).
+     첫 줄 링크 다섯: 소개 · 이용약관 · 개인정보 · 환불정책 · 문의(카카오톡으로 열림)
+     둘째 줄: © 2026 LoveFlow 사랑흐름 · LFRI™ All rights reserved.
+   ★「안내자 · 제휴」는 ☰ 메뉴 · 아래 띠 「제휴」로 옮김.
+   ★「무단복제 · 상업적 이용 금지」 · 영문 경고 두 줄은 이용약관 제5조(지식재산권) 안으로 옮김(trust v9) — 지우지 않음.
+   (이전) v1 · 260728 — 링크 여섯 + 저작권 한글 한 줄 + 영문 두 줄
+   [쓰는 법] 화면 하단에 <div id="lfFoot"></div> + <script src="/lf-foot.js" defer></script>
+   [고칠 때] 이 파일 하나만 고치면 전 화면이 함께 바뀝니다. [클래스] 전부 lfft- 로 시작.
+   © 2026 LoveFlow 사랑흐름 · LFRI™ All rights reserved.
    ═══════════════════════════════════════════════════════════════ */
 (function () {
 
   var KAKAO = "http://pf.kakao.com/_ExndxfX/chat";
 
   var CSS = ""
-    + ".lfft{text-align:center;padding:14px 8px 16px;margin:18px 0 0;font-family:inherit}"
-    + ".lfft-links{display:flex;flex-wrap:wrap;justify-content:center;gap:5px 5px}"
-    + ".lfft-links a{font-size:10.5px;font-weight:700;color:#1E4A76;text-decoration:none;cursor:pointer;white-space:nowrap;margin:0;padding:0;display:inline;border:0;background:none}"
+    + ".lfft{text-align:center;padding:12px 8px 14px;margin:18px 0 0;border-top:1px solid #EFE7DA;font-family:inherit;color:#9d8f80}"
+    + ".lfft-links{font-size:10.5px;line-height:1.8}"
+    + ".lfft-links a{color:#9d8f80;text-decoration:none;cursor:pointer;margin:0 5px;white-space:nowrap}"
     + ".lfft-links a:hover{text-decoration:underline}"
-    + ".lfft-kr{font-size:9.5px;color:#7d7a70;line-height:1.6;margin-top:10px}"
-    + ".lfft-en{font-size:8px;color:#a5a096;line-height:1.55;margin-top:2px}";
+    + ".lfft-c{font-size:10px;line-height:1.7;letter-spacing:.01em}";
 
   var HTML = ""
     + '<div class="lfft">'
@@ -37,11 +28,9 @@
     +     '<a href="/trust.html#terms">이용약관</a>'
     +     '<a href="/trust.html#privacy">개인정보</a>'
     +     '<a href="/trust.html#refund">환불정책</a>'
-    +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">카카오톡 문의</a>'
-    +     '<a href="/partner.html">안내자·제휴</a>'
+    +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">문의</a>'
     +   '</div>'
-    +   '<div class="lfft-kr">&copy; 2026 사랑흐름 &middot; LFRI&trade;. 무단복제 &middot; 상업적 이용 금지.</div>'
-    +   '<div class="lfft-en">Unauthorized use strictly prohibited.<br>Violators subject to civil and criminal penalties.</div>'
+    +   '<div class="lfft-c">&copy; 2026 LoveFlow 사랑흐름 &middot; LFRI&trade; All rights reserved.</div>'
     + '</div>';
 
   function css() {
