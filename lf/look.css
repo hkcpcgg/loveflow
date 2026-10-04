@@ -1,0 +1,61 @@
+/* ═══════════════════════════════════════════════════════════════════
+   현재 버전 ▶ lf/look.css · v1 · 261004 · [자서전 공사 칸 27-3 · 화면 알맹이 부품]
+   사랑흐름 색 · 글 · 단추 · 접기 · 아이콘 목록 — 한 파일. 기준서 「칸27_화면틀_기준서_261004」.
+   ★무게 순서: 위는 가볍게, 아래는 무겁게 — 묶음 안에서 딥네이비는 맨 아래.
+   ★단추 글은 한 줄 · 단추 안에 화살표 없음 · 기울인 글 없음 · 이모지 대신 선 아이콘.
+   [쓰는 법] lf/frame.js 가 이 파일을 함께 붙입니다(화면에 따로 안 적어도 됨).
+   [이름표]
+     .lf-stack                 단추 묶음(세로) — 보조(.lf-btn-o)를 위, 할 일(.lf-btn)을 아래에 적음
+     .lf-btn / .lf-btn-o       할 일(딥네이비 채움) / 보조(테두리)   · 안에 <span class="lf-ci">아이콘</span>
+     .lf-acc                   접기 줄 — <details class="lf-acc"><summary><span class="lf-ci">…</span>왜 남기나요</summary>…</details>
+     .lf-ilist > .lf-row       아이콘 줄 목록 — <div class="lf-row"><span class="lf-ci c-…">…</span><span><b>제목</b><small>설명</small></span></div>
+     .lf-more                  ④ 부가 한 줄(작은 글 링크)
+     .lf-lead                  여는 말(기울임 없음 · 낱말 단위 줄바꿈)
+     .c-peach .c-rose .c-gold .c-green .c-violet .c-sky .c-navy   아이콘 동그라미 색(밝은 → 진한 순서로 놓기)
+   [원칙] 화면 CSS 와 겹치지 않게 모두 lf- 로 시작
+   ═══════════════════════════════════════════════════════════════════ */
+:root{
+  --lf-navy:#1E4A76; --lf-navy2:#163A5C; --lf-gold:#C9A96E; --lf-gold2:#C0872E; --lf-peach:#E59273;
+  --lf-cream:#FFFCF7; --lf-sand:#F4EEE4; --lf-ink:#2E3A46; --lf-sub:#7d7465; --lf-line:#EADFCF;
+}
+html.lfx body{word-break:keep-all;overflow-wrap:anywhere}
+
+/* 단추 묶음 — 위 보조, 아래 할 일 */
+.lf-stack{display:flex;flex-direction:column;gap:9px;max-width:420px;margin:14px auto 0}
+.lf-btn,.lf-btn-o{display:flex;align-items:center;justify-content:center;gap:9px;width:100%;box-sizing:border-box;min-height:50px;padding:11px 16px;
+  border-radius:14px;font:inherit;font-size:16px;font-weight:800;line-height:1.25;cursor:pointer;text-decoration:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lf-btn{background:var(--lf-navy);color:#fff;border:1.5px solid var(--lf-navy)}
+.lf-btn-o{background:#fff;color:var(--lf-navy);border:1.5px solid var(--lf-navy)}
+.lf-btn .lf-ci{background:rgba(255,255,255,.18);color:#fff}
+.lf-btn-o .lf-ci{background:#EAF1F8;color:var(--lf-navy)}
+.lf-btn .lf-ci,.lf-btn-o .lf-ci{width:26px;height:26px;flex:0 0 26px}
+
+/* 동그라미 아이콘 */
+.lf-ci{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;flex:0 0 34px;color:#fff;background:var(--lf-navy)}
+.lf-ci svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.c-peach{background:#E8A07E}.c-rose{background:#C25B7C}.c-gold{background:#C0872E}.c-green{background:#1D9E75}
+.c-violet{background:#8A6FC9}.c-sky{background:#5C7FA6}.c-navy{background:#1E4A76}
+
+/* 접기 줄 */
+.lf-acc{max-width:440px;margin:0 auto;border-top:1px solid var(--lf-line)}
+.lf-acc:last-of-type{border-bottom:1px solid var(--lf-line)}
+.lf-acc>summary{list-style:none;display:flex;align-items:center;gap:11px;padding:13px 4px;cursor:pointer;font-size:16px;font-weight:800;color:var(--lf-navy)}
+.lf-acc>summary::-webkit-details-marker{display:none}
+.lf-acc>summary:after{content:"";margin-left:auto;width:8px;height:8px;border-right:2px solid var(--lf-sub);border-bottom:2px solid var(--lf-sub);transform:rotate(45deg);transition:transform .15s}
+.lf-acc[open]>summary:after{transform:rotate(-135deg)}
+.lf-acc>summary .lf-ci{width:30px;height:30px;flex-basis:30px;background:#FBF1E6;color:var(--lf-gold2)}
+.lf-acc .lf-acc-b{padding:2px 6px 14px 45px;font-size:14.5px;line-height:1.7;color:var(--lf-ink)}
+
+/* 아이콘 줄 목록 */
+.lf-ilist{max-width:440px;margin:10px auto}
+.lf-row{display:flex;align-items:center;gap:13px;padding:11px 2px;border-top:1px solid var(--lf-line)}
+.lf-row:first-child{border-top:0}
+.lf-row .lf-ci{width:40px;height:40px;flex-basis:40px}
+.lf-row b{display:block;font-size:16px;color:var(--lf-navy);line-height:1.4}
+.lf-row small{display:block;font-size:13.5px;color:var(--lf-sub);line-height:1.5}
+
+/* 부가 한 줄 · 여는 말 */
+.lf-more{display:block;text-align:center;margin:12px auto 0;font-size:14px;color:var(--lf-navy);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.lf-lead{font-style:normal!important;text-align:center;font-size:16px;line-height:1.65;color:var(--lf-sub);max-width:420px;margin:14px auto}
+
+@media print{.lf-stack,.lf-more{display:none!important}}

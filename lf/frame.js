@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v2 · 261004 · [칸 27-2 · 대표 실폰 확인 지적] ★떠 있는 「안내 받아보기」 단추(#lfgBub) · 옛 공유 동그라미(↗)를 붙인 화면에서 감춤 — 안내 받기는 아래 띠 「둘러보기」에, 공유는 ☰ 메뉴 「공유하기」로.
+   현재 버전 ▶ lf/frame.js · v3 · 261004 · [칸 27-3] 알맹이 부품 lf/look.css 를 함께 붙임(화면에 따로 안 적어도 됨).
+   (이전) v2 · 261004 · [칸 27-2 · 대표 실폰 확인 지적] ★떠 있는 「안내 받아보기」 단추(#lfgBub) · 옛 공유 동그라미(↗)를 붙인 화면에서 감춤 — 안내 받기는 아래 띠 「둘러보기」에, 공유는 ☰ 메뉴 「공유하기」로.
    (이전) v1 · 261004 · [자서전 공사 칸 27-2 · 화면 틀 공용 부품]
    사랑흐름 화면 틀 — 위 띠 · ☰ 메뉴 · 아래 길목 띠(다섯 묶음) · 올라오는 판.
    이 한 파일만 고치면 붙인 화면이 함께 바뀝니다(기준서 「칸27_화면틀_기준서_261004」).
@@ -262,6 +263,10 @@
   function build() {
     if (document.getElementById('lfxTop')) { return; }
     document.documentElement.classList.add('lfx');
+    if (!document.getElementById('lfLookCss')) {
+      var lk = document.createElement('link'); lk.id = 'lfLookCss'; lk.rel = 'stylesheet'; lk.href = '/lf/look.css?v=1';
+      (document.head || document.documentElement).appendChild(lk);
+    }
     var st = document.createElement('style'); st.id = 'lfxCss'; st.appendChild(document.createTextNode(CSS));
     (document.head || document.documentElement).appendChild(st);
 
@@ -304,7 +309,7 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeAll(); } });
   }
 
-  window.LFFrame = { open: openSheet, menu: openMenu, close: closeAll, groups: GROUPS, version: 'v2' };
+  window.LFFrame = { open: openSheet, menu: openMenu, close: closeAll, groups: GROUPS, version: 'v3' };
 
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', build); } else { build(); }
 })();
