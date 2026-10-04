@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v4 · 261004 · [칸 27-4 · 나머지 화면에 틀 붙이기] 옛 상단바 한 종류 더 감춤(.lf-nav · #lfBackdrop — 발권 · 입금 정보 등 21곳이 쓰던 것) · 화면 이름을 .lf-nav .loc 에서도 읽음 · ★위 띠 오른쪽 자리(data-lfx-top) — 화면이 꼭 위에 두어야 하는 단추(마음 한마디 소리 켜고 끄기 등)를 ☰ 왼쪽으로 옮겨 붙임(제목 가운데는 그대로).
+   현재 버전 ▶ lf/frame.js · v4 · 261004 · [칸 27-4 · 나머지 화면에 틀 붙이기] 옛 상단바 한 종류 더 감춤(.lf-nav · #lfBackdrop — 발권 · 입금 정보 등 21곳이 쓰던 것) · 화면 이름을 .lf-nav .loc 에서도 읽음 · ★첫 주소(/)는 안내 홈 — 마음 한마디 길을 /hanmadi/ 로(아래 띠 맛보기 · ☰), / 에서는 아래 띠 불 안 켬 · ★위 띠 오른쪽 자리(data-lfx-top) — 화면이 꼭 위에 두어야 하는 단추(마음 한마디 소리 켜고 끄기 등)를 ☰ 왼쪽으로 옮겨 붙임(제목 가운데는 그대로).
    (이전) v3 · 261004 · [칸 27-3] 알맹이 부품 lf/look.css 를 함께 붙임(화면에 따로 안 적어도 됨).
    (이전) v2 · 261004 · [칸 27-2 · 대표 실폰 확인 지적] ★떠 있는 「안내 받아보기」 단추(#lfgBub) · 옛 공유 동그라미(↗)를 붙인 화면에서 감춤 — 안내 받기는 아래 띠 「둘러보기」에, 공유는 ☰ 메뉴 「공유하기」로.
    (이전) v1 · 261004 · [자서전 공사 칸 27-2 · 화면 틀 공용 부품]
@@ -57,7 +57,7 @@
       { t: '내 기록 보기', s: '쓴 글 · 완성된 기록', ic: 'mem', c: '#C0872E', u: '/memoir/home.html' }
     ] },
     { k: 'taste', t: '맛보기', ic: 'spark', c: '#8A6FC9', sub: '무료로 해 보기', items: [
-      { t: '마음 한마디', s: '오늘 마음을 한마디로', ic: 'word', c: '#E59273', u: '/' },
+      { t: '마음 한마디', s: '오늘 마음을 한마디로', ic: 'word', c: '#E59273', u: '/hanmadi/' },
       { t: '삐뚤빼뚤 마음 도화지', s: '손가락으로 그려 보내기', ic: 'draw', c: '#8A6FC9', u: '/draw/' },
       { t: '관계 나침반', s: '무료로 먼저 해 보기', ic: 'compass', c: '#1D9E75', u: '/compass.html' }
     ] },
@@ -84,7 +84,7 @@
   function groupOfPath(p) {
     p = p || location.pathname;
     if (/^\/(memoir\/(home|ask|sign|book|ritual|friends|invite)|reenter|find|enter|gate|apply|youth)/.test(p)) { return 'mine'; }
-    if (/^\/(draw|compass|free)/.test(p) || p === '/' || p === '/index.html') { return 'taste'; }
+    if (/^\/(hanmadi|draw|compass|free)/.test(p)) { return 'taste'; }   /* ★v4 첫 주소(/)는 안내 홈 — 어느 묶음에도 불 안 켬 */
     if (/^\/(pay|showcase)/.test(p)) { return 'buy'; }
     if (/^\/(showroom|memoir\/?$|memoir\/index|guide)/.test(p)) { return 'look'; }
     if (/^\/(partner|proposal)/.test(p)) { return 'partner'; }
@@ -221,7 +221,7 @@
       + mi('사랑흐름 여권 찾기', 'find', '#7F97B2', '/find/')
       + '<div class="lfx-grp">여행</div>'
       + '<div class="lfx-two">'
-      +   mi('마음 한마디', 'word', '#E59273', '/')
+      +   mi('마음 한마디', 'word', '#E59273', '/hanmadi/')
       +   mi('마음 도화지', 'draw', '#8A6FC9', '/draw/')
       +   mi('여행지도', 'map', '#1D9E75', '/journey/')
       +   mi('편지', 'letter', '#1E4A76', '/l/')
