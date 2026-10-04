@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v4 · 261004 · [칸 27-4 · 나머지 화면에 틀 붙이기] 옛 상단바 한 종류 더 감춤(.lf-nav · #lfBackdrop — 발권 · 입금 정보 등 21곳이 쓰던 것) · 화면 이름을 .lf-nav .loc 에서도 읽음 · ★첫 주소(/)는 안내 홈 — 마음 한마디 길을 /hanmadi/ 로(아래 띠 맛보기 · ☰), / 에서는 아래 띠 불 안 켬 · ★위 띠 오른쪽 자리(data-lfx-top) — 화면이 꼭 위에 두어야 하는 단추(마음 한마디 소리 켜고 끄기 등)를 ☰ 왼쪽으로 옮겨 붙임(제목 가운데는 그대로).
+   현재 버전 ▶ lf/frame.js · v5 · 261005 · [칸 27-4 · 대표 결정 261005 00:35] 아래 띠 「제휴」 셋 → 둘 — 「안내자 · 제휴 신청」(/partner.html · 안내자 되기와 사업 제휴를 한 화면으로) · 「기관 · 단체」(/proposal.html). ☰ 카드 이름도 「안내자 · 제휴 신청」.
+   (이전) v4 · 261004 · [칸 27-4 · 나머지 화면에 틀 붙이기] 옛 상단바 한 종류 더 감춤(.lf-nav · #lfBackdrop — 발권 · 입금 정보 등 21곳이 쓰던 것) · 화면 이름을 .lf-nav .loc 에서도 읽음 · ★첫 주소(/)는 안내 홈 — 마음 한마디 길을 /hanmadi/ 로(아래 띠 맛보기 · ☰), / 에서는 아래 띠 불 안 켬 · ★위 띠 오른쪽 자리(data-lfx-top) — 화면이 꼭 위에 두어야 하는 단추(마음 한마디 소리 켜고 끄기 등)를 ☰ 왼쪽으로 옮겨 붙임(제목 가운데는 그대로).
    (이전) v3 · 261004 · [칸 27-3] 알맹이 부품 lf/look.css 를 함께 붙임(화면에 따로 안 적어도 됨).
    (이전) v2 · 261004 · [칸 27-2 · 대표 실폰 확인 지적] ★떠 있는 「안내 받아보기」 단추(#lfgBub) · 옛 공유 동그라미(↗)를 붙인 화면에서 감춤 — 안내 받기는 아래 띠 「둘러보기」에, 공유는 ☰ 메뉴 「공유하기」로.
    (이전) v1 · 261004 · [자서전 공사 칸 27-2 · 화면 틀 공용 부품]
@@ -74,9 +75,8 @@
       { t: '안내 받기', s: '전화로 차근차근 안내해 드려요', ic: 'chat', c: '#1D9E75', u: '/guide/?ask=1', ask: 1 }
     ] },
     { k: 'partner', t: '제휴', ic: 'hand', c: '#5C7FA6', items: [
-      { t: '안내자 되기', s: '사랑흐름 여행 안내자', ic: 'hand', c: '#5C7FA6', u: '/partner.html' },
-      { t: '기관 · 단체', s: '복지 · 교육 · 공공 프로그램', ic: 'build', c: '#1E4A76', u: '/proposal.html' },
-      { t: '사업 제휴', s: '함께 일하는 길 여쭙기', ic: 'chat', c: '#C9A96E', u: '/partner-apply.html' }
+      { t: '안내자 · 제휴 신청', s: '안내자로 함께하기 · 사업으로 제휴하기', ic: 'hand', c: '#5C7FA6', u: '/partner.html' },
+      { t: '기관 · 단체', s: '복지 · 교육 · 공공 프로그램 제안', ic: 'build', c: '#1E4A76', u: '/proposal.html' }
     ] }
   ];
 
@@ -230,7 +230,7 @@
       + '<div class="lfx-opp"><div class="lfx-ot">새 여행 · 함께하기</div>'
       +   '<button class="lfx-big lfx-b1" data-u="/showcase.html"><i>' + svg('ticket', 20) + '</i><span><b>예매하기</b><small>마음여행 · 한 편의 기록 · 두 분의 여정</small></span></button>'
       +   '<button class="lfx-big lfx-b2" data-u="/showroom.html"><i>' + svg('show', 20) + '</i><span><b>여행의 기록</b><small>먼저 다녀간 분들의 이야기</small></span></button>'
-      +   '<button class="lfx-big lfx-b3" data-u="/partner.html"><i>' + svg('hand', 20) + '</i><span><b>안내자 · 제휴</b><small>사랑흐름과 함께 일하기</small></span></button>'
+      +   '<button class="lfx-big lfx-b3" data-u="/partner.html"><i>' + svg('hand', 20) + '</i><span><b>안내자 · 제휴 신청</b><small>안내자로 · 사업으로 함께하기</small></span></button>'
       + '</div>'
       + '<div style="display:flex;justify-content:space-between;margin-top:10px"><button class="lfx-restart" style="margin:0" data-share="1">공유하기</button><button class="lfx-restart" style="margin:0" data-restart="1">다시 시작</button></div>';
   }

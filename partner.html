@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ partner.html · v11 · 261005 · [작업 v11 · 자서전 공사 칸 27-4 · 둘째 묶음 틀 · 대표 결정 261005 00:35 「안내자 · 사업 제휴 한 화면」] ★partner-apply.html 과 똑같던 화면을 이 주소 하나로 — 맨 위 「어떻게 함께하시겠어요?」(안내자로 함께하기 / 사업으로 제휴하기) · 고른 갈래를 신청 글 맨 앞에 [안내자] · [사업 제휴]로 붙여 보냄(서버 그대로) · ?way=guide|biz 로 미리 고름 · 제목 「안내자 · 제휴 신청」. 공용 틀 /lf/frame.js?v=5 붙임(위 띠 · ☰ · 아래 길목 다섯 · 옛 상단바 · 드로어 · 길 셋 감춤). 화면 이름 짧게. [무손] 본문 · 배관 · 서버. -->
 <!-- ★ 현재 버전 ▶ partner-apply.html · v10 · 260810 · [작업 v10] ★문지기(/lf/pass.js) 한 줄 부착 — 대표 확정 260810 「어느 창에서 시작해도 일곱이 있어야 한다」. 홈 · 바로 앞 · 여권으로 문 열기 · 여권 찾기 · 하던 것 이어가기 · 받은 것 다시 보기 · 드나드는 길. 이 화면은 여권칸과 이어가기가 없어 일곱 중 셈이 비어 있었습니다. 문지기가 여권칸을 세우고 ☰ 메뉴 링크에 번호를 붙입니다(마크업 미변경). [무손] 화면 본문·기존 로직·색값 전부. 손대는 곳 = 헤더와 head 한 줄. · v9 · 260728 · ①하단 줄을 공용 부품(/lf-foot.js)으로 교체 — 링크 여섯(소개·이용약관·개인정보·환불정책·카카오톡 문의·안내자·제휴) + 저작권 한글 1줄 + 영문 2줄, 모두 네 줄. 화면 스물여섯 곳이 같은 한 벌. 「홈으로」는 상단바 로고와 중복이라 뺌(260706 확정). 앞으로 하단 줄은 lf-foot.js 한 파일만 고치면 전 화면이 함께 바뀜. ②드로어에 「사랑흐름 여행 안내자」 한 줄 신설 — 「마음 여행 예매하기」 다음·「다시 시작」 앞. 홈 index v25 와 같은 자리·같은 글자. 메뉴 12항목. 새 CSS 0줄·새 색 0개. ③신청 칸 정리 — 제목 아래 머리말 한 줄 / 「함께하시는 방식」 선택지 다섯으로 교체 + 「직접 기재」 빈칸 / 「상호 · 기관명」 칸 신설(선택 입력) / 채널 주소 칸 여는 조건을 「채널」 글자로 / 직접 기재·상호는 기존 pfVal·memoAll 에 실어 보냄 — 게시판 GAS·시트 손대지 않음.
      [무손] 상단바·본문·스크립트·GAS·결제·발권·색값 전부.
      ─── 지난 이력(v8 이전) ───────────────────────────── -->
@@ -244,7 +245,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
   .pfsub{margin:8px 0 0;font-size:13px;color:var(--sub,#6b6b6b);line-height:1.6}
 </style>
 </head>
-<body>
+<body data-lf-title="안내자 · 제휴 신청">
 <div class="lf-nav">
   <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
   <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
@@ -271,8 +272,13 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 <div class="pfwrap">
 
   <div class="pfhead">
-    <h1>사전 여행 신청</h1>
-    <p>사전 여행해 보실 사랑흐름 마음 여행여권을 보내 드립니다.</p>
+    <h1>안내자 · 제휴 신청</h1>
+    <p>먼저 사전 여행으로 다녀와 보시고, 어떻게 함께할지 정해 주세요. 사전 여행해 보실 사랑흐름 마음 여행여권을 보내 드립니다.</p>
+  </div>
+  <div class="pfway" id="pfWay" role="radiogroup" aria-label="어떻게 함께하시겠어요">
+    <div class="pfway-q">어떻게 함께하시겠어요?</div>
+    <button type="button" class="pfw on" data-w="안내자" onclick="pfWayPick(this)"><span class="pfw-ci" style="background:#C9A96E"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5.5 20c0-3.6 2.9-6.4 6.5-6.4s6.5 2.8 6.5 6.4"/></svg></span><span class="pfw-t"><b>안내자로 함께하기</b><small>손님 곁에서 여행을 안내합니다</small></span><span class="pfw-r"></span></button>
+    <button type="button" class="pfw" data-w="사업 제휴" onclick="pfWayPick(this)"><span class="pfw-ci" style="background:#5C7FA6"><svg viewBox="0 0 24 24"><path d="M3 12l4-4 4 2 3-2 7 5-4 4-3-1-3 3-3-1-3-3z"/></svg></span><span class="pfw-t"><b>사업으로 제휴하기</b><small>소개 · 판매 · 수행을 함께합니다</small></span><span class="pfw-r"></span></button>
   </div>
 
   <form class="pfcard" id="pfForm" onsubmit="return false;">
@@ -503,7 +509,7 @@ function pfSend(){
   var btn = document.getElementById("pfSub");
   btn.disabled = true; btn.textContent = "보내는 중입니다";
 
-  var memoAll = memo;
+  var memoAll = "[" + pfWayNow() + "] " + memo;   /* ★v11 갈래를 글 맨 앞에 */
 
   var data = { action:"partnerApply", name:name, tel:tel, mail:mail,
                from:from, org:org, title:title,
@@ -541,5 +547,22 @@ function pfDone(no){
 }
 </script>
 
+<script src="/lf/frame.js?v=5"></script>
+<style>/* ★[v11] 갈래 고르기 */
+.pfway{max-width:520px;margin:0 auto 14px;padding:0 16px;display:flex;flex-direction:column;gap:9px}
+.pfway-q{font-weight:800;color:#1E4A76;font-size:15.5px;margin:2px 2px 0}
+.pfw{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:1.5px solid #EADFCF;border-radius:16px;padding:12px;font:inherit;cursor:pointer}
+.pfw.on{border-color:#1E4A76;box-shadow:0 0 0 2px rgba(30,74,118,.12)}
+.pfw-ci{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:0 0 40px}
+.pfw-ci svg{width:21px;height:21px;fill:none;stroke:#fff;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.pfw-t b{display:block;color:#1E4A76;font-size:15.5px}.pfw-t small{display:block;color:#7d7465;font-size:12.5px;line-height:1.45}
+.pfw-r{margin-left:auto;width:20px;height:20px;border-radius:50%;border:2px solid #C9BBA6;flex:0 0 20px;box-sizing:border-box}
+.pfw.on .pfw-r{border:6px solid #1E4A76}
+</style>
+<script>
+function pfWayPick(b){ var bs=document.querySelectorAll('#pfWay .pfw'); for(var i=0;i<bs.length;i++){ bs[i].classList.toggle('on', bs[i]===b); bs[i].setAttribute('aria-checked', bs[i]===b?'true':'false'); } }
+function pfWayNow(){ var b=document.querySelector('#pfWay .pfw.on'); return b ? b.getAttribute('data-w') : '안내자'; }
+(function(){ try{ var w=new URLSearchParams(location.search).get('way'); if(w==='biz'){ pfWayPick(document.querySelectorAll('#pfWay .pfw')[1]); } }catch(e){} })();
+</script>
 </body>
 </html>
