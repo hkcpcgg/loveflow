@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v1 · 261004 · [자서전 공사 칸 27-2 · 화면 틀 공용 부품]
+   현재 버전 ▶ lf/frame.js · v2 · 261004 · [칸 27-2 · 대표 실폰 확인 지적] ★떠 있는 「안내 받아보기」 단추(#lfgBub) · 옛 공유 동그라미(↗)를 붙인 화면에서 감춤 — 안내 받기는 아래 띠 「둘러보기」에, 공유는 ☰ 메뉴 「공유하기」로.
+   (이전) v1 · 261004 · [자서전 공사 칸 27-2 · 화면 틀 공용 부품]
    사랑흐름 화면 틀 — 위 띠 · ☰ 메뉴 · 아래 길목 띠(다섯 묶음) · 올라오는 판.
    이 한 파일만 고치면 붙인 화면이 함께 바뀝니다(기준서 「칸27_화면틀_기준서_261004」).
 
@@ -141,7 +142,7 @@
     + '.lfx-b3{background:linear-gradient(135deg,#1E4A76,#2C6399);box-shadow:inset 0 0 0 1.5px #C9A96E,0 4px 12px rgba(30,74,118,.2)}'
     + '.lfx-b3 i{background:#C9A96E;color:#1E4A76}'
     + '.lfx-restart{display:block;margin:10px 4px 0 auto;border:0;background:none;color:#8a7a68;font:inherit;font-size:12px;cursor:pointer}'
-    + 'html.lfx #lfgBub{bottom:calc(82px + env(safe-area-inset-bottom))}'
+    + 'html.lfx #lfgBub,html.lfx .lff-share,html.lfx .lffsw,html.lfx .lff-sb{display:none!important}'
     + '@media print{.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu{display:none!important}html.lfx body{padding-bottom:0}}';
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -226,7 +227,16 @@
       +   '<button class="lfx-big lfx-b2" data-u="/showroom.html"><i>' + svg('show', 20) + '</i><span><b>여행의 기록</b><small>먼저 다녀간 분들의 이야기</small></span></button>'
       +   '<button class="lfx-big lfx-b3" data-u="/partner.html"><i>' + svg('hand', 20) + '</i><span><b>안내자 · 제휴</b><small>사랑흐름과 함께 일하기</small></span></button>'
       + '</div>'
-      + '<button class="lfx-restart" data-restart="1">다시 시작</button>';
+      + '<div style="display:flex;justify-content:space-between;margin-top:10px"><button class="lfx-restart" style="margin:0" data-share="1">공유하기</button><button class="lfx-restart" style="margin:0" data-restart="1">다시 시작</button></div>';
+  }
+
+  function share() {
+    var H = 'https://www.loveflow.ai.kr';
+    try {
+      if (navigator.share) { navigator.share({ title: '사랑흐름', text: '가장 소중한 사람을 더 알아가는 시간, 사랑흐름', url: H })['catch'](function () {}); return; }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(H).then(function () { alert('주소를 복사했어요'); }, function () {}); return; }
+    } catch (e) {}
+    prompt('주소를 복사해 주세요', H);
   }
 
   function openMenu() {
@@ -243,6 +253,7 @@
       bs[i].onclick = function () {
         if (this.getAttribute('data-x')) { closeAll(); return; }
         if (this.getAttribute('data-restart')) { location.reload(); return; }
+        if (this.getAttribute('data-share')) { share(); return; }
         var u = this.getAttribute('data-u'); if (u) { go(u); }
       };
     }
@@ -293,7 +304,7 @@
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeAll(); } });
   }
 
-  window.LFFrame = { open: openSheet, menu: openMenu, close: closeAll, groups: GROUPS, version: 'v1' };
+  window.LFFrame = { open: openSheet, menu: openMenu, close: closeAll, groups: GROUPS, version: 'v2' };
 
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', build); } else { build(); }
 })();
