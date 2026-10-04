@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ index.html · v39 · 261005 · [작업 v39 · 자서전 공사 칸 27-4 · 첫 화면 다시 짜기 · 대표 결정 261005 00:09 「① 타일 · 한 화면 꽉 채우기」] ★첫 주소(/)가 사랑흐름 안내 홈이 됨 — 마음 한마디는 /hanmadi/ 로 옮김(hanmadi/index.html v1).
+<!-- ★ 현재 버전 ▶ index.html · v40 · 261005 · [작업 v40 · 대표 실폰 확인 261005 00:22] ★화면이 짧을 때(카톡 안 창 · 주소줄 보일 때) 타일이 서로 겹치던 것 고침 — 묶음이 제 크기보다 줄어들지 않게(남는 높이만 나눠 가짐) · 짧은 화면에서는 글자 · 아이콘 · 여백을 한 단계 줄이고, 아주 짧으면 묻기—듣기—남기기 줄을 감춤 · 그래도 모자라면 겹치지 않고 살짝 밀림. 맨 아래에 따라붙던 「사랑흐름 여권번호로 문을 엽니다」 칸은 부품 쪽(lf/enter.js v16)에서 걷음.
+     이전 ▶ index.html · v39 · 261005 · [작업 v39 · 자서전 공사 칸 27-4 · 첫 화면 다시 짜기 · 대표 결정 261005 00:09 「① 타일 · 한 화면 꽉 채우기」] ★첫 주소(/)가 사랑흐름 안내 홈이 됨 — 마음 한마디는 /hanmadi/ 로 옮김(hanmadi/index.html v1).
      한 화면(위 띠와 아래 띠 사이)에 넷 — ① 첫 문장 「가장 소중한 사람을 더 알아가는 시간」 + 「마음을 묻고, 이야기를 듣고, 기록으로 남기는 관계 여행」 + 묻기 — 듣기 — 남기기
      ② 무료로 먼저 해 보기(타일 셋: 마음 한마디 · 마음 도화지 · 관계 나침반) ③ 사랑흐름 여행(타일 넷: 마음 여행지도 · 마음여행 · 한 편의 기록 · 두 분의 여정 — 값은 적지 않음 · 대표 결정)
      ④ 금색 「사랑흐름 여권으로 입장하기」(이미 손님인 분 — 대표 결정) + 맨 아래 네이비 「무료로 시작하기 · 마음 한마디」.
@@ -35,10 +36,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .ci{display:inline-grid;place-items:center;border-radius:50%;color:#fff;width:42px;height:42px;flex:0 0 42px}
 .ci svg{width:55%;height:55%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .steps .ci{width:26px;height:26px;flex-basis:26px}
-.g{display:flex;flex-direction:column;min-height:0}
-.g.grow{flex:1 1 0}.g.grow2{flex:1.6 1 0}
+.g{display:flex;flex-direction:column}
+.g.grow{flex:1 0 auto}.g.grow2{flex:1.6 0 auto}
 .lab{font-weight:800;color:var(--navy);font-size:15px;margin:0 2px 9px}
-.t3,.t4{display:grid;gap:10px;flex:1;grid-auto-rows:1fr}
+.t3,.t4{display:grid;gap:10px;flex:1 0 auto;grid-auto-rows:minmax(min-content,1fr)}
 .t3{grid-template-columns:repeat(3,1fr);max-height:150px}
 .t4{grid-template-columns:1fr 1fr;max-height:230px}
 .tile{background:#fff;border:1px solid var(--line);border-radius:18px;padding:14px 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;min-height:86px;transition:transform .12s}
@@ -51,11 +52,13 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pass .ci{width:40px;height:40px;flex-basis:40px;background:var(--gold)}
 .pass b{display:block;color:var(--navy);font-size:15.5px}.pass small{display:block;color:#9a7a3a;font-size:12.5px}
 .go{display:block;width:100%;margin-top:10px;background:var(--navy);color:#fff;border:0;border-radius:14px;padding:15px;font-size:16px;font-weight:800;white-space:nowrap}
-@media (max-height:700px){
+@media (max-height:760px){
   .hero h1{font-size:20px}.hero p{font-size:12.5px}.steps{margin-top:7px}
   .tile .ci{width:34px;height:34px;flex-basis:34px}.tile{padding:10px 6px;min-height:72px}.tile.h{padding:9px;min-height:52px}.tile.h small{display:none}
   .pass{padding:9px 12px}.go{padding:12px;margin-top:7px}.lab{margin-bottom:6px}
+  .home{gap:10px;padding-top:12px}.t3,.t4{gap:8px}.tile b{font-size:13.5px}.pass .ci{width:34px;height:34px;flex-basis:34px}.pass b{font-size:14.5px}
 }
+@media (max-height:640px){ .steps{display:none} .hero h1{font-size:19px} .pass small{display:none} }
 /* 올라오는 판 */
 .hdim{position:fixed;inset:0;z-index:1600;background:rgba(30,40,55,.38);opacity:0;visibility:hidden;transition:.2s}
 .hdim.on{opacity:1;visibility:visible}
