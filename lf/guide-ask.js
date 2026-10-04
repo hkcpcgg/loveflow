@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/guide-ask.js · v1 · 261004 — ★새 부품 · 칸 28 「나도 자서전 안내 받아보기」
+   현재 버전 ▶ lf/guide-ask.js · v2 · 261004 — ★[대표 지적 261004 「적지 않으셔도 됩니다」 걷음] 성명은 괄호 없이 · 전화는 「(안내자가 연락드릴 때 써요)」. [무손] 그 밖 전부.
+   ── 이전 ── v1 · 261004 — ★새 부품 · 칸 28 「나도 자서전 안내 받아보기」
    대표 결정 261004(카톡 상담 창 같은 작은 창 · 이메일로 가이드북 · 「상담」 말 안 씀) · 35차 결의 3 · 4 · 36차 클로드 답변
      LFG.open(from)    작은 창을 아래에서 올림
      LFG.bubble(from)  화면 오른쪽 아래에 작은 단추 「📖 자서전 안내 받아보기」(인쇄할 때 숨김)
@@ -51,8 +52,8 @@
     box('<h3>📖 나도 자서전 안내 받아보기</h3>'
       + '<div class="s">사랑흐름 안내 가이드북을 이메일로 보내 드려요</div>'
       + '<label class="f" for="lfgEm">이메일</label><input class="t" id="lfgEm" type="email" inputmode="email" autocomplete="email" placeholder="예: hong@naver.com" value="' + esc(k.em) + '">'
-      + '<label class="f" for="lfgNm">성명 <small>(적지 않으셔도 됩니다)</small></label><input class="t" id="lfgNm" maxlength="20" autocomplete="name" value="' + esc(k.nm) + '">'
-      + '<label class="f" for="lfgPh">전화 <small>' + (ST.need ? '(안내자가 연락드려요)' : '(적지 않으셔도 됩니다)') + '</small></label><input class="t" id="lfgPh" type="tel" inputmode="tel" maxlength="20" placeholder="010-0000-0000" value="' + esc(k.ph) + '">'
+      + '<label class="f" for="lfgNm">성명</label><input class="t" id="lfgNm" maxlength="20" autocomplete="name" value="' + esc(k.nm) + '">'
+      + '<label class="f" for="lfgPh">전화 <small>' + '(안내자가 연락드릴 때 써요)' + '</small></label><input class="t" id="lfgPh" type="tel" inputmode="tel" maxlength="20" placeholder="010-0000-0000" value="' + esc(k.ph) + '">'
       + '<label class="need"><input type="checkbox" id="lfgNeed" ' + (ST.need ? 'checked' : '') + ' onchange="LFG._need(this.checked)"><div><b>곁에서 도와주는 안내자가 필요해요</b><span>휴대폰이 어려우셔도 괜찮아요. 사랑흐름 안내자가 찾아가 도와 드려요.</span></div></label>'
       + (ST.need ? '<label class="f" for="lfgRg">사는 곳 <small>(시 · 군)</small></label><input class="t" id="lfgRg" maxlength="30" placeholder="예: 경기 파주시" value="' + esc(k.rg) + '">' : '')
       + '<label class="ag"><input type="checkbox" id="lfgA1"><span><em>(꼭)</em> 가이드북을 보내 드리려고 이메일 · 성명 · 전화를 받습니다. 받은 날부터 1년 뒤 지웁니다.</span></label>'
