@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ youth/index.html · v4 · 261005 · [대표 지적 20:03 · ok 20:08] ★첫 화면에 「초등 고학년용(5 · 6학년) / 중고등용(중학생 · 고등학생)」 두 칸 + 「고르지 않아도 돼요 · 받은 번호에 맞는 질문이 저절로 열려요」 · 「여덟 이야기」 → 「열 이야기」. 번호를 넣으면 서버가 이미 보내는 질문지(ver: Y-E- / Y-MH-)로 「✓ ○○용 질문으로 시작해요」를 보여 주고 「이어서 시작하기」. [무손] 서버 · 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ youth/index.html · v3 · 261005 · [작업 v3 · 자서전 공사 칸 27-4 · 셋째 묶음 틀] 공용 틀 /lf/frame.js?v=5 붙임(위 띠 · ☰ · 아래 길목 다섯 · 옛 상단바 · 드로어 · 길 셋 감춤).  [무손] 본문 · 배관 · 서버. -->
 <!-- ★ 현재 버전 ▶ youth/index.html · v2 · 261004 · [작업 v2 · 칸 27-3] kit.js 꼬리표 ?v=11 → ?v=12(종이 불러오기 · 맞춤법 창 선 아이콘 · 네이비 단추). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ youth/index.html · v1 · 261004 · [새 화면 · 묶음 C 청소년 · 이사회 32차 (마) · 안건 2 · 26차 「기관 계약으로만」] 「미리 써 보는 나의 자서전」 입구.
@@ -42,6 +43,11 @@ summary{cursor:pointer;font-weight:700;color:#7a4a2e;list-style:none}
 summary::-webkit-details-marker{display:none}
 details ul{margin:10px 0 2px 18px;color:#5b4a3a;font-size:14.5px}
 details li{margin:4px 0}
+.grade{display:flex;gap:8px;margin-top:6px}
+.grade div{flex:1;background:#fff;border:1.5px solid #F0E2D2;border-radius:16px;padding:10px 6px;text-align:center}
+.grade b{display:block;color:#1E4A76;font-size:15px}.grade span{font-size:12.5px;color:#7a6a58}
+.ghint{text-align:center;font-size:13px;color:#7a6a58;margin-top:8px;line-height:1.6}
+.verok{margin-top:12px;background:#FFF6E8;border-radius:14px;padding:12px;text-align:center;font-size:15px;color:#7A4A12}
 .foot{margin-top:22px;text-align:center;font-size:12.5px;color:#9a8a78}
 </style>
 </head>
@@ -51,9 +57,15 @@ details li{margin:4px 0}
   <div class="hero">
     <div class="sprout">🌱</div>
     <h1>미리 써 보는<br>나의 자서전</h1>
-    <p>지나온 나 · 지금의 나 · 앞으로의 나를<br>여덟 이야기로 써 봐요</p>
+    <p>지나온 나 · 지금의 나 · 앞으로의 나를<br>열 이야기로 써 봐요</p>
     <div class="three"><span>🎒 지나온 나</span><span>🙂 지금의 나</span><span>🚀 앞으로의 나</span></div>
   </div>
+
+  <div class="grade">
+    <div><b>초등 고학년용</b><span>5 · 6학년</span></div>
+    <div><b>중고등용</b><span>중학생 · 고등학생</span></div>
+  </div>
+  <div class="ghint">고르지 않아도 돼요. 학교(기관)에서 받은 번호에<br>맞는 질문이 저절로 열려요.</div>
 
   <div class="card">
     <div class="t">학교(기관)에서 받은 사랑흐름 여권번호를 넣어 주세요</div>
@@ -102,7 +114,13 @@ function yGo(){
     }
     try{ LFM.youth(v, true); }catch(e){}
     yKeep(v);
-    location.href='/memoir/home.html?id='+encodeURIComponent(v);
+    var go='/memoir/home.html?id='+encodeURIComponent(v);
+    var ver=String(d.ver||'').toUpperCase();
+    var kind=(ver.indexOf('Y-E')===0)?'초등 고학년용':(ver.indexOf('Y-MH')===0)?'중고등용':'';
+    if(!kind){ location.href=go; return; }
+    $('yMore').innerHTML='<div class="verok">✓ <b>'+kind+'</b> 질문으로 시작해요</div>'
+      +'<button class="btn" onclick="location.href=\''+go+'\'">이어서 시작하기</button>';
+    $('yBtn').style.display='none';
   }
   window[cb]=fin; sc.onerror=function(){ fin(null); };
   sc.src=Y_GAS+'?action=getMemoir&passport='+encodeURIComponent(v)+'&callback='+cb+'&t='+Date.now();
