@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v5 · 261005 · [칸 27-4 · 대표 결정 261005 00:35] 아래 띠 「제휴」 셋 → 둘 — 「안내자 · 제휴 신청」(/partner.html · 안내자 되기와 사업 제휴를 한 화면으로) · 「기관 · 단체」(/proposal.html). ☰ 카드 이름도 「안내자 · 제휴 신청」.
+   현재 버전 ▶ lf/frame.js · v6 · 261005 · [칸 27-4 · 화면 안 「‹ 이전」] 차례가 있는 화면(발권 · 입금 정보 · 이름 남기기 · 동의 · 입장)에서 옛 위 띠의 「‹」가 사라져 뒤로 갈 길이 휴대폰 뒤로 단추뿐이던 것 — <body data-lf-back="/돌아갈곳"> 이 있으면 위 띠 바로 아래에 작은 「‹ 이전」 줄을 깜(앞 화면이 사이트 안이면 그리로, 아니면 적어 둔 곳으로).
+   (이전) v5 · 261005 · [칸 27-4 · 대표 결정 261005 00:35] 아래 띠 「제휴」 셋 → 둘 — 「안내자 · 제휴 신청」(/partner.html · 안내자 되기와 사업 제휴를 한 화면으로) · 「기관 · 단체」(/proposal.html). ☰ 카드 이름도 「안내자 · 제휴 신청」.
    (이전) v4 · 261004 · [칸 27-4 · 나머지 화면에 틀 붙이기] 옛 상단바 한 종류 더 감춤(.lf-nav · #lfBackdrop — 발권 · 입금 정보 등 21곳이 쓰던 것) · 화면 이름을 .lf-nav .loc 에서도 읽음 · ★첫 주소(/)는 안내 홈 — 마음 한마디 길을 /hanmadi/ 로(아래 띠 맛보기 · ☰), / 에서는 아래 띠 불 안 켬 · ★위 띠 오른쪽 자리(data-lfx-top) — 화면이 꼭 위에 두어야 하는 단추(마음 한마디 소리 켜고 끄기 등)를 ☰ 왼쪽으로 옮겨 붙임(제목 가운데는 그대로).
    (이전) v3 · 261004 · [칸 27-3] 알맹이 부품 lf/look.css 를 함께 붙임(화면에 따로 안 적어도 됨).
    (이전) v2 · 261004 · [칸 27-2 · 대표 실폰 확인 지적] ★떠 있는 「안내 받아보기」 단추(#lfgBub) · 옛 공유 동그라미(↗)를 붙인 화면에서 감춤 — 안내 받기는 아래 띠 「둘러보기」에, 공유는 ☰ 메뉴 「공유하기」로.
@@ -148,7 +149,10 @@
     + '.lfx-b3 i{background:#C9A96E;color:#1E4A76}'
     + '.lfx-restart{display:block;margin:10px 4px 0 auto;border:0;background:none;color:#8a7a68;font:inherit;font-size:12px;cursor:pointer}'
     + 'html.lfx #lfgBub,html.lfx .lff-share,html.lfx .lffsw,html.lfx .lff-sb{display:none!important}'
-    + '@media print{.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu{display:none!important}html.lfx body{padding-bottom:0}}';
+    + '.lfx-back{position:fixed;top:52px;left:0;right:0;z-index:1400;height:34px;display:flex;align-items:center;padding:0 12px;box-sizing:border-box;background:rgba(255,252,247,.94);border-bottom:1px solid rgba(234,223,207,.8)}'
+    + 'html.lfx-hasback body{padding-top:86px!important}'
+    + '.lfx-back button{border:0;background:none;color:var(--lf-navy);font:inherit;font-size:14.5px;font-weight:700;padding:4px 2px;cursor:pointer}'
+    + '@media print{.lfx-back,.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu{display:none!important}html.lfx body{padding-bottom:0}}';
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
@@ -280,6 +284,17 @@
       + '<div class="lfx-title">' + esc(titleOf()) + '</div>'
       + '<button class="lfx-burger" aria-label="메뉴">' + svg('menu', 18) + '</button>';
     document.body.insertBefore(top, document.body.firstChild);
+    /* ★v6 화면 안 「‹ 이전」 */
+    var bk = document.body.getAttribute('data-lf-back');
+    if (bk) {
+      var bb = document.createElement('div'); bb.className = 'lfx-back';
+      bb.innerHTML = '<button type="button" aria-label="이전 화면으로">‹ 이전</button>';
+      top.parentNode.insertBefore(bb, top.nextSibling); document.documentElement.classList.add('lfx-hasback');
+      bb.firstChild.onclick = function () {
+        var r = document.referrer || '';
+        if (r.indexOf(location.origin) === 0 && history.length > 1) { history.back(); } else { location.href = bk; }
+      };
+    }
     top.querySelector('.lfx-logo').onclick = function () { location.href = '/'; };
     top.querySelector('.lfx-burger').onclick = openMenu;
     /* ★v4 위 띠 오른쪽 자리 — <button data-lfx-top> 를 ☰ 왼쪽으로 옮김 */
