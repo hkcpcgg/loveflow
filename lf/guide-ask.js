@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/guide-ask.js · v2 · 261004 — ★[대표 지적 261004 「적지 않으셔도 됩니다」 걷음] 성명은 괄호 없이 · 전화는 「(안내자가 연락드릴 때 써요)」. [무손] 그 밖 전부.
+   현재 버전 ▶ lf/guide-ask.js · v3 · 261005 — ★[약관 확정 · 대표 ok 261005] 안내자 연결 동의 글 — 받는 이 · 항목 · 지우는 때 · 동의하지 않을 때(가이드북만)를 한 글에.
+   ── 이전 ── v2 · 261004 — ★[대표 지적 261004 「적지 않으셔도 됩니다」 걷음] 성명은 괄호 없이 · 전화는 「(안내자가 연락드릴 때 써요)」. [무손] 그 밖 전부.
    ── 이전 ── v1 · 261004 — ★새 부품 · 칸 28 「나도 자서전 안내 받아보기」
    대표 결정 261004(카톡 상담 창 같은 작은 창 · 이메일로 가이드북 · 「상담」 말 안 씀) · 35차 결의 3 · 4 · 36차 클로드 답변
      LFG.open(from)    작은 창을 아래에서 올림
@@ -57,7 +58,7 @@
       + '<label class="need"><input type="checkbox" id="lfgNeed" ' + (ST.need ? 'checked' : '') + ' onchange="LFG._need(this.checked)"><div><b>곁에서 도와주는 안내자가 필요해요</b><span>휴대폰이 어려우셔도 괜찮아요. 사랑흐름 안내자가 찾아가 도와 드려요.</span></div></label>'
       + (ST.need ? '<label class="f" for="lfgRg">사는 곳 <small>(시 · 군)</small></label><input class="t" id="lfgRg" maxlength="30" placeholder="예: 경기 파주시" value="' + esc(k.rg) + '">' : '')
       + '<label class="ag"><input type="checkbox" id="lfgA1"><span><em>(꼭)</em> 가이드북을 보내 드리려고 이메일 · 성명 · 전화를 받습니다. 받은 날부터 1년 뒤 지웁니다.</span></label>'
-      + (ST.need ? '<label class="ag"><input type="checkbox" id="lfgA2"><span><em>(꼭)</em> 안내자 연결을 위해 성명 · 전화 · 사는 곳을 그 지역 사랑흐름 안내자에게 전합니다. 연결이 끝나면 안내자는 지웁니다.</span></label>' : '')
+      + (ST.need ? '<label class="ag"><input type="checkbox" id="lfgA2"><span><em>(꼭)</em> 안내자 연결을 위해 성명 · 전화 · 사는 곳을 그 지역 사랑흐름 안내자에게 드립니다. 안내자는 연결을 마치면 바로 지웁니다. 가이드북만 받으시려면 위 「안내자가 필요해요」를 다시 눌러 주세요.</span></label>' : '')
       + '<label class="ag"><input type="checkbox" id="lfgA3"><span>(골라도 됩니다) 사랑흐름 새 소식을 이메일로 받겠습니다.</span></label>'
       + '<div class="er" id="lfgEr"></div>'
       + '<button class="b" id="lfgGo" onclick="LFG._send()">안내 받아보기</button>'
