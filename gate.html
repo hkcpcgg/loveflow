@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ gate.html · v38 · 261005 · [작업 v38 · 한 바퀴 점검] [대표 261005 15:08 · 15:19] 「구입하신 곳」 — 네이버 스마트스토어 · G마켓 · 옥션 · 계좌이체 · 기타만 고를 수 있게(크몽 · 쿠팡 · 11번가 · 인터파크 · 카카오 선물하기는 회색 · 「준비 중」). 「구입하신 여행」 값 걷고 이름 · 차례를 결제 화면과 같게(두 분의 여정 · 한 편의 기록 · 마음여행 · 마음 여행지도). 신청 단추 아래 번호 넣는 칸(LF-XXXXX 확인) 감춤. 이메일 설명 「완성 소식」 걷음(보내지 않음). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ gate.html · v37 · 261005 · [작업 v37] [대표 ok 261005 · 약관 확정] 꼬리표 ident.js?v=3 — lf/ident.js v3(동의 기록 버전 v2-261012 · 「문구 초안」 표시 걷음). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ gate.html · v36 · 261005 · [작업 v36 · 칸 27-4 화면 안 「‹ 이전」] body data-lf-back="/pay.html" — 틀(frame v6)이 위 띠 아래에 「‹ 이전」 줄을 깜. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ gate.html · v35 · 261005 · [작업 v35 · 자서전 공사 칸 27-4 · 나머지 화면에 틀] 공용 틀 /lf/frame.js?v=4 붙임(위 띠 · ☰ · 아래 길목 다섯) — 옛 상단바 · 드로어 · 길 셋은 틀이 감춤. 맨 아래 「아직 여권이 없으시면 · 여행 둘러보기 · 여행 고르러 가기」 감춤(아래 띠와 겹침) · 단추 안 화살표 걷음. [무손] 본문 배관 · 서버 · 결제 · 발권. -->
@@ -324,13 +325,13 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
           <div class="field-label">구입하신 곳</div>
           <select id="channel" class="sel" onchange="onChannel()">
             <option value="네이버 스마트스토어">네이버 스마트스토어</option>
-            <option value="크몽">크몽</option>
-            <option value="쿠팡">쿠팡</option>
-            <option value="11번가">11번가</option>
+            <option value="크몽" disabled>크몽 · 준비 중</option>
+            <option value="쿠팡" disabled>쿠팡 · 준비 중</option>
+            <option value="11번가" disabled>11번가 · 준비 중</option>
             <option value="G마켓">G마켓</option>
             <option value="옥션">옥션</option>
-            <option value="인터파크">인터파크</option>
-            <option value="카카오 선물하기">카카오 선물하기</option>
+            <option value="인터파크" disabled>인터파크 · 준비 중</option>
+            <option value="카카오 선물하기" disabled>카카오 선물하기 · 준비 중</option>
             <option value="사랑흐름(직접결제)">사랑흐름 · 계좌이체</option>
             <option value="__etc__">기타 (직접 입력)</option>
           </select>
@@ -367,7 +368,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
           <div id="emailWrap" style="display:none">
             <div class="field-label" style="margin-top:12px">이메일</div>
             <input id="email" class="code-input" type="email" inputmode="email" placeholder="예: name@mail.com" maxlength="100" autocomplete="email" style="text-align:left;font-family:inherit">
-            <div class="item-note" style="margin-top:-6px">사랑흐름 여권번호를 잊으셨을 때 찾아 드리고, 완성 소식을 보내 드려요.</div>
+            <div class="item-note" style="margin-top:-6px">사랑흐름 여권번호를 잊으셨을 때 찾아 드리는 데 써요.</div>
           </div>
 
           <div class="field-label">이미 가진 사랑흐름 여권번호 <span style="font-weight:400;color:#7A7F88">(있으면)</span></div>
@@ -557,10 +558,10 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
   /* 금액은 두지 않습니다. 원장(lf/prices.js)에서 받습니다.
      고칠 곳은 lf/prices.js 한 곳입니다. */
   var ITEMS = [
-    { v:'map',    name:'마음 여행지도',                 code:'LF-M001' },
-    { v:'set',    name:'마음여행 · 지도와 편지',        code:'LF-S001' },
-    { v:'memoir', name:'자서전 · 한 편의 기록',         code:'LF-R001' },
-    { v:'life',   name:'두 분의 여정 · 자서전까지',      code:'LF-A001' }
+    { v:'life',   name:'두 분의 여정',                  code:'LF-A001' },   /* ★v38 결제 화면과 같은 이름 · 같은 차례 */
+    { v:'memoir', name:'한 편의 기록',                  code:'LF-R001' },
+    { v:'set',    name:'마음여행',                      code:'LF-S001' },
+    { v:'map',    name:'마음 여행지도',                 code:'LF-M001' }
   ];
 
   /* ★[v34] 한 편의 기록이면 몇 편 칸 */
@@ -591,7 +592,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
       var op = document.createElement('option');
       op.value = it.v;
       var amt = lfItemPrice(it.code);
-      op.textContent = amt ? (it.name + ' · ' + amt.toLocaleString() + '원') : it.name;   /* 금액은 원장에서 */
+      op.textContent = it.name;   /* ★v38 값은 붙이지 않음(대표 261005 — 여러 편을 사신 분과 안 맞음) */
       sel.appendChild(op);
     }
 
@@ -620,7 +621,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     /* [v9-22] 기본값을 두지 않습니다 — 안 고르고 넘어가면 편지까지 산 분께 지도만 여권이 나갑니다.
        [v11] ★단, 계좌이체는 칸 자체가 없습니다. 여기서 고르라고 하면 손님이 갈 곳이 없어집니다.
              계좌이체 상품은 GAS(issuePassport v5-1)가 접수 시트 F열의 금액으로 정합니다. */
-    if(channel !== CH_BANK && !item){ setMsg('구입하신 여행을 골라 주세요. (결제하신 금액으로 고르시면 됩니다)', true); return; }
+    if(channel !== CH_BANK && !item){ setMsg('구입하신 여행을 골라 주세요.', true); return; }
     if(!no){ setMsg('결제번호를 입력해 주세요.', true); return; }
 
     // ── F안: 채널별 결제번호 형식 검증 (쓰레기 입력 1차 차단) ──
@@ -1288,6 +1289,7 @@ try{ lfOrg(); }catch(e){}
      이 화면에는 꼬리표가 없습니다 — 부품을 고쳐도 이 파일은 다시 안 건드립니다. -->
 <style>/* ★[칸 27-4] */
 .gsplit,.gsplit+.ways{display:none!important}
+html.lfx #lfEnterSlot{display:none!important}   /* ★v38 신청 화면 아래 번호 넣는 칸 감춤 — 이미 번호가 있는 분은 아래 띠 「내 여행」으로 */
 </style>
 <script src="/lf/frame.js?v=6"></script>
 </body>

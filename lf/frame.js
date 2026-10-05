@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v7 · 261005 · [칸 15 · 이슈 77 · 대표 위임] ★안내자 주소(?lf=ORG-…)를 틀이 붙은 모든 화면에서 주워 둠(새 첫 화면에서 빠져 있던 것) · 안내자 기억은 90일 — 지나면 지움(lf_org 「번호|시각」). 결제 · 발권 · 입금 화면은 지금처럼 lf_org 를 읽음.
+   현재 버전 ▶ lf/frame.js · v8 · 261005 · [한 바퀴 점검 · 대표 261005] ★「사랑흐름 여행자들의 발자취」 띠(.lff-tick)를 틀을 붙인 모든 화면에서 감춤 — 흐르던 번호가 모두 지난 시험 번호라, 개통 뒤 손님 눈에 있지도 않은 손님처럼 보임. ☰ 메뉴 「예매하기」 아래 상품 넷을 결제 화면 이름 · 차례로.
+   (이전) v7 · 261005 · [칸 15 · 이슈 77 · 대표 위임] ★안내자 주소(?lf=ORG-…)를 틀이 붙은 모든 화면에서 주워 둠(새 첫 화면에서 빠져 있던 것) · 안내자 기억은 90일 — 지나면 지움(lf_org 「번호|시각」). 결제 · 발권 · 입금 화면은 지금처럼 lf_org 를 읽음.
    (이전) v6 · 261005 · [칸 27-4 · 화면 안 「‹ 이전」] 차례가 있는 화면(발권 · 입금 정보 · 이름 남기기 · 동의 · 입장)에서 옛 위 띠의 「‹」가 사라져 뒤로 갈 길이 휴대폰 뒤로 단추뿐이던 것 — <body data-lf-back="/돌아갈곳"> 이 있으면 위 띠 바로 아래에 작은 「‹ 이전」 줄을 깜(앞 화면이 사이트 안이면 그리로, 아니면 적어 둔 곳으로).
    (이전) v5 · 261005 · [칸 27-4 · 대표 결정 261005 00:35] 아래 띠 「제휴」 셋 → 둘 — 「안내자 · 제휴 신청」(/partner.html · 안내자 되기와 사업 제휴를 한 화면으로) · 「기관 · 단체」(/proposal.html). ☰ 카드 이름도 「안내자 · 제휴 신청」.
    (이전) v4 · 261004 · [칸 27-4 · 나머지 화면에 틀 붙이기] 옛 상단바 한 종류 더 감춤(.lf-nav · #lfBackdrop — 발권 · 입금 정보 등 21곳이 쓰던 것) · 화면 이름을 .lf-nav .loc 에서도 읽음 · ★첫 주소(/)는 안내 홈 — 마음 한마디 길을 /hanmadi/ 로(아래 띠 맛보기 · ☰), / 에서는 아래 띠 불 안 켬 · ★위 띠 오른쪽 자리(data-lfx-top) — 화면이 꼭 위에 두어야 하는 단추(마음 한마디 소리 켜고 끄기 등)를 ☰ 왼쪽으로 옮겨 붙임(제목 가운데는 그대로).
@@ -164,6 +165,7 @@
     + '.lfx-b3 i{background:#C9A96E;color:#1E4A76}'
     + '.lfx-restart{display:block;margin:10px 4px 0 auto;border:0;background:none;color:#8a7a68;font:inherit;font-size:12px;cursor:pointer}'
     + 'html.lfx #lfgBub,html.lfx .lff-share,html.lfx .lffsw,html.lfx .lff-sb{display:none!important}'
+    + 'html.lfx .lff-tick{display:none!important}'   /* ★v8 「여행자들의 발자취」 띠 감춤 — 번호가 모두 시험 번호(대표 확인 261005). 실제 발급이 쌓이면 여권대장에서 읽어 다시 */
     + '.lfx-back{position:fixed;top:52px;left:0;right:0;z-index:1400;height:34px;display:flex;align-items:center;padding:0 12px;box-sizing:border-box;background:rgba(255,252,247,.94);border-bottom:1px solid rgba(234,223,207,.8)}'
     + 'html.lfx-hasback body{padding-top:86px!important}'
     + '.lfx-back button{border:0;background:none;color:var(--lf-navy);font:inherit;font-size:14.5px;font-weight:700;padding:4px 2px;cursor:pointer}'
@@ -247,7 +249,7 @@
       + '</div>'
       + mi('자서전', 'mem', '#C0872E', '/memoir/')
       + '<div class="lfx-opp"><div class="lfx-ot">새 여행 · 함께하기</div>'
-      +   '<button class="lfx-big lfx-b1" data-u="/showcase.html"><i>' + svg('ticket', 20) + '</i><span><b>예매하기</b><small>마음여행 · 한 편의 기록 · 두 분의 여정</small></span></button>'
+      +   '<button class="lfx-big lfx-b1" data-u="/showcase.html"><i>' + svg('ticket', 20) + '</i><span><b>예매하기</b><small>두 분의 여정 · 한 편의 기록 · 마음여행 · 마음 여행지도</small></span></button>'
       +   '<button class="lfx-big lfx-b2" data-u="/showroom.html"><i>' + svg('show', 20) + '</i><span><b>여행의 기록</b><small>먼저 다녀간 분들의 이야기</small></span></button>'
       +   '<button class="lfx-big lfx-b3" data-u="/partner.html"><i>' + svg('hand', 20) + '</i><span><b>안내자 · 제휴 신청</b><small>안내자로 · 사업으로 함께하기</small></span></button>'
       + '</div>'
