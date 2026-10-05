@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v14 · 261005 · [대표 ok 18:14] ★상품 나눔 — 「미리 써 보는 나의 자서전 · 청소년」이 따로 섬. 상품마다 고를 수 있는 질문지만 보임(성인 상품 = 성인 하나 · 청소년 = 초등 고학년 / 중고등). 짝꿍 — 게시판 Code.gs v5-18.
+     사랑흐름 · admin.html   v15 · 261005 · [이슈 107 · 대표 위임 20:42] ★배포처 번호 — 받는 곳 이름을 넣으면 아는 곳은 그 번호, 처음 곳은 다음 번호를 스스로 채움 · 비워도 뽑힘(서버가 찾음). ★「발급 목록」 — 받는 곳 · 계약번호 · 여권번호로 찾기 · 시각 · 받는 곳 · 계약번호 · 상품 이름 · 질문지 · 편 수 · 번호 모두 복사. 짝꿍 — 게시판 Code.gs v5-19(adminIssued · adminOrgs).
+     ── 이전 ── 사랑흐름 · admin.html   v14 · 261005 · [대표 ok 18:14] ★상품 나눔 — 「미리 써 보는 나의 자서전 · 청소년」이 따로 섬. 상품마다 고를 수 있는 질문지만 보임(성인 상품 = 성인 하나 · 청소년 = 초등 고학년 / 중고등). 짝꿍 — 게시판 Code.gs v5-18.
      ── 이전 ── 사랑흐름 · admin.html   v13 · 261005 · [이슈 101 · 106 · 대표 ok 18:04] ★대량 발급에 「질문지」(성인 · 초등 고학년 · 중고등) · 「한 사람당 자서전 편 수」(1~10 · 자서전이 든 상품만) · 그 아래 「자서전 편 더하기」(이미 나간 번호 · 대표만). 짝꿍 — 게시판 Code.gs v5-17. [무손] 그 밖 v12 전부.
      ── 이전 ── 사랑흐름 · admin.html   v12 · 261005 · [자서전 공사 칸 15 · 안내자 대장] ★「안내자」 칸 — 새 신청 → 대장에 올리기(번호 자동) · 주문에 쓰였지만 대장에 없는 옛 번호 → 그 번호 그대로 올리기 · 대장 목록(역할 · 팀장 · 인증 · 이은 주문 · 맡은 기록) · 고치기 · 안내자 주소 복사 · 최근 발급에 수행 안내자 맡기기(고르기). ★번호는 사람이 외우지 않음 — 다음 번호를 서버가 띄우고 저장하면 꽂아 줌(대표 결정 261005 10:07). 짝꿍: 게시판 서버 v5-16(adminGuides · adminGuideSave · adminGuideAssign).
      ── 이전 ── admin.html   v11 · 261004 · [자서전 공사 칸 18 결제]
@@ -499,14 +500,14 @@ body{
 
         <div class="row">
           <label>받는 곳</label>
-          <input id="bOrg" type="text" autocomplete="off" placeholder="예) 다복복집" maxlength="40">
+          <input id="bOrg" type="text" autocomplete="off" placeholder="예) 다복복집" maxlength="40" oninput="orgFill()">
           <div class="hint">주문대장 소속 칸에 이 이름이 그대로 적힙니다.</div>
         </div>
 
         <div class="row">
           <label>배포처 번호</label>
-          <input id="bNo" type="text" inputmode="numeric" autocomplete="off" placeholder="예) 1001" maxlength="4">
-          <div class="hint">숫자 넉 자입니다. <b>1001부터</b> 쓰십시오 — 0으로 시작하면 시트가 앞자리를 떨굽니다.</div>
+          <input id="bNo" type="text" inputmode="numeric" autocomplete="off" placeholder="받는 곳을 넣으면 저절로" maxlength="4">
+          <div class="hint" id="bNoHint">받는 곳 이름을 넣으면 저절로 채워집니다. 비워 두셔도 뽑힙니다.</div>
         </div>
 
         <div class="row">
@@ -561,6 +562,17 @@ body{
           </div>
           <button class="run" id="aRun" onclick="doAdd()">편 더하기</button>
           <div class="out" id="aOut"></div>
+        </div>
+
+        <!-- ★v15 발급 목록 -->
+        <div class="addbox">
+          <h4>발급 목록</h4>
+          <div class="hint" style="margin-bottom:10px">받는 곳 · 계약번호 · 여권번호 가운데 아무 글자로 찾습니다. 비우면 최근 60장입니다.</div>
+          <div class="row" style="display:flex;gap:8px">
+            <input id="iQ" type="text" autocomplete="off" placeholder="예) 성동교회 · SD-TEST · LF-" onkeydown="if(event.key==='Enter'){loadIssued();}">
+            <button class="run" style="width:110px;margin-top:0" onclick="loadIssued()">찾기</button>
+          </div>
+          <div class="out" id="iOut"></div>
         </div>
       </div>
     </div>
@@ -689,6 +701,7 @@ function go(which){
   else {
     document.getElementById('cnt').textContent = '';
     if(which === 'bulk' && !BULK_ITEMS.length){ loadBulkItems(); }   /* ★v7 상품 목록 */
+    if(which === 'bulk' && !ORGS){ loadOrgs(); }                      /* ★v15 배포처 */
   }
 }
 function lockMsg(){ go('lock'); }
@@ -823,6 +836,58 @@ function doAdd(){
   }, function(m){ btn.disabled = false; btn.textContent = '편 더하기'; out.innerHTML = '<div class="bad">' + esc(m) + '</div>'; });
 }
 
+/* ★v15 배포처 번호 저절로 */
+var ORGS = null;
+function loadOrgs(){
+  jsonp({ action:'adminOrgs', key:KEY }, function(r){ if(r && r.status==='ok'){ ORGS = r; orgFill(); } }, function(){});
+}
+function orgFill(){
+  if(!ORGS) return;
+  var nm = (document.getElementById('bOrg').value || '').trim(), no = document.getElementById('bNo'), h = document.getElementById('bNoHint');
+  if(!nm){ h.textContent = '받는 곳 이름을 넣으면 저절로 채워집니다. 비워 두셔도 뽑힙니다.'; return; }
+  var hit = null, list = ORGS.orgs || [];
+  for(var i=0;i<list.length;i++){ if(list[i].name === nm){ hit = list[i]; break; } }
+  if(hit){ no.value = hit.no; h.textContent = '이미 있는 받는 곳 · 번호 ' + hit.no + ' · 지금까지 ' + (hit.count||0) + '장'; }
+  else { no.value = String(ORGS.next || ''); h.textContent = '처음 보는 받는 곳 · 다음 번호 ' + (ORGS.next || '') + ' (저절로 넣음)'; }
+}
+
+/* ★v15 발급 목록 */
+var ISSUED = [];
+function itemName_(flag, q){
+  flag = String(flag||'').toUpperCase(); q = String(q||'').toUpperCase();
+  if(flag.indexOf('MAP') >= 0 && flag.indexOf('LETTER') >= 0 && flag.indexOf('MEMOIR') >= 0) return '두 분의 여정';
+  if(flag.indexOf('MEMOIR') >= 0) return (q.indexOf('Y-') === 0) ? '미리 써 보는 나의 자서전' : '한 편의 기록';
+  if(flag.indexOf('LETTER') >= 0) return '마음여행';
+  if(flag.indexOf('MAP') >= 0) return '마음 여행지도';
+  return flag || '-';
+}
+function qName_(q){ q = String(q||'').toUpperCase(); return q.indexOf('Y-E') === 0 ? '초등 고학년' : q.indexOf('Y-MH') === 0 ? '중고등' : q.indexOf('A-') === 0 ? '성인' : ''; }
+function batchOf_(no){ no = String(no||''); var at = no.lastIndexOf('-'); return (at > 0 && /^[0-9]{3}$/.test(no.substring(at+1))) ? no.substring(0, at) : no; }
+function loadIssued(){
+  var out = document.getElementById('iOut'), q = (document.getElementById('iQ').value || '').trim();
+  out.innerHTML = '<div class="oh">불러오는 중…</div>';
+  jsonp({ action:'adminIssued', key:KEY, q:q, n:(q?300:60) }, function(r){
+    if(!r || r.status !== 'ok'){ out.innerHTML = '<div class="bad">' + esc((r && r.msg) ? r.msg : '불러오지 못했습니다.') + '</div>'; return; }
+    ISSUED = r.rows || [];
+    if(!ISSUED.length){ out.innerHTML = '<div class="oh">찾은 번호가 없습니다.</div>'; return; }
+    var h = '<div class="oh">' + ISSUED.length + '장' + (q ? (' · 「' + esc(q) + '」') : ' · 최근') + '</div><div class="list">';
+    for(var i=0;i<ISSUED.length;i++){
+      var x = ISSUED[i], qn = qName_(x.qset);
+      h += '<div class="li" style="display:block"><div style="display:flex;justify-content:space-between"><span class="p">' + esc(x.pp) + '</span><span class="n">' + esc(x.at) + '</span></div>'
+         + '<div class="n" style="margin-top:3px">' + esc(x.org || x.ch) + (x.orgNo ? (' (' + esc(x.orgNo) + ')') : '') + ' · ' + esc(batchOf_(x.no))
+         + ' · <b style="color:var(--navy)">' + esc(itemName_(x.flag, x.qset)) + '</b>' + (qn ? (' · ' + qn) : '') + (x.pieces ? (' · 자서전 ' + x.pieces + '편') : '') + '</div></div>';
+    }
+    h += '</div><button class="copy" onclick="copyIssued()">번호 모두 복사</button>';
+    out.innerHTML = h;
+  }, function(m){ out.innerHTML = '<div class="bad">' + esc(m) + '</div>'; });
+}
+function copyIssued(){
+  var t = ISSUED.map(function(x){ return x.pp + '\t' + itemName_(x.flag, x.qset) + (qName_(x.qset) ? (' · ' + qName_(x.qset)) : ''); }).join('\n');
+  try{ navigator.clipboard.writeText(t); }catch(e){}
+  var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta);
+  alert(ISSUED.length + '개 번호를 복사했습니다.');
+}
+
 function doBulk(){
   var org   = (document.getElementById('bOrg').value  || '').trim();
   var orgNo = (document.getElementById('bNo').value   || '').trim();
@@ -841,8 +906,8 @@ function doBulk(){
   if(batch && !/^[A-Z0-9\-]{4,20}$/.test(batch)){
                   out.innerHTML = '<div class="bad">계약번호는 영문·숫자·붙임표 4~20자입니다. (예: ORG-0730-DABOK)</div>'; return; }
   if(!org){       out.innerHTML = '<div class="bad">받는 곳 이름을 넣어 주십시오.</div>'; return; }
-  if(!/^[0-9]{4}$/.test(orgNo)){
-                  out.innerHTML = '<div class="bad">배포처 번호는 숫자 넉 자입니다. (예: 1001)</div>'; return; }
+  if(orgNo && !/^[0-9]{4}$/.test(orgNo)){   /* ★v15 비우면 서버가 찾음 */
+                  out.innerHTML = '<div class="bad">배포처 번호는 숫자 넉 자입니다. (예: 1001) 모르시면 비워 두십시오.</div>'; return; }
   if(!item){      out.innerHTML = '<div class="bad">상품을 골라 주십시오.</div>'; return; }
   if(qty < 1){    out.innerHTML = '<div class="bad">장수를 넣어 주십시오.</div>'; return; }
   if(qty > BULK_MAX){
