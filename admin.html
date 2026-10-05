@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v12 · 261005 · [자서전 공사 칸 15 · 안내자 대장] ★「안내자」 칸 — 새 신청 → 대장에 올리기(번호 자동) · 주문에 쓰였지만 대장에 없는 옛 번호 → 그 번호 그대로 올리기 · 대장 목록(역할 · 팀장 · 인증 · 이은 주문 · 맡은 기록) · 고치기 · 안내자 주소 복사 · 최근 발급에 수행 안내자 맡기기(고르기). ★번호는 사람이 외우지 않음 — 다음 번호를 서버가 띄우고 저장하면 꽂아 줌(대표 결정 261005 10:07). 짝꿍: 게시판 서버 v5-16(adminGuides · adminGuideSave · adminGuideAssign).
+     사랑흐름 · admin.html   v13 · 261005 · [이슈 101 · 106 · 대표 ok 18:04] ★대량 발급에 「질문지」(성인 · 초등 고학년 · 중고등) · 「한 사람당 자서전 편 수」(1~10 · 자서전이 든 상품만) · 그 아래 「자서전 편 더하기」(이미 나간 번호 · 대표만). 짝꿍 — 게시판 Code.gs v5-17. [무손] 그 밖 v12 전부.
+     ── 이전 ── 사랑흐름 · admin.html   v12 · 261005 · [자서전 공사 칸 15 · 안내자 대장] ★「안내자」 칸 — 새 신청 → 대장에 올리기(번호 자동) · 주문에 쓰였지만 대장에 없는 옛 번호 → 그 번호 그대로 올리기 · 대장 목록(역할 · 팀장 · 인증 · 이은 주문 · 맡은 기록) · 고치기 · 안내자 주소 복사 · 최근 발급에 수행 안내자 맡기기(고르기). ★번호는 사람이 외우지 않음 — 다음 번호를 서버가 띄우고 저장하면 꽂아 줌(대표 결정 261005 10:07). 짝꿍: 게시판 서버 v5-16(adminGuides · adminGuideSave · adminGuideAssign).
      ── 이전 ── admin.html   v11 · 261004 · [자서전 공사 칸 18 결제]
 
      [v11 · 261004 대표 결정] ★네이버 · 오픈마켓 「발권 신청」이 계좌이체 줄과 한 목록에 섭니다.
@@ -292,6 +293,14 @@ body{
 .bk .copy{width:100%; height:42px; margin-top:9px; border:1.5px solid var(--navy); border-radius:21px;
   background:#fff; color:var(--navy); font-size:13.5px; font-weight:700; font-family:inherit; cursor:pointer}
 .bk .bad{color:#C0392B; font-size:12px; line-height:1.7; margin-top:10px}
+/* ★v13 질문지 고르기 · 편 더하기 */
+.bk .seg{display:flex; gap:6px}
+.bk .seg button{flex:1; height:42px; border:1.5px solid var(--line); border-radius:11px; background:#fff; color:#2E2A24;
+  font-size:13.5px; font-family:inherit; cursor:pointer}
+.bk .seg button.on{background:var(--navy); border-color:var(--navy); color:#fff; font-weight:700}
+.bk .addbox{margin-top:26px; padding-top:18px; border-top:1px dashed var(--line)}
+.bk .addbox h4{margin:0 0 4px; font-size:14px; color:var(--navy)}
+.bk .num{width:90px!important}
 .locked{padding:34px 8px; text-align:center}
 .locked .lt{font-size:14px; font-weight:900; color:var(--navy); margin-bottom:8px}
 .locked .lm{font-size:12.5px; color:var(--sub); line-height:1.8}
@@ -504,6 +513,22 @@ body{
           <select id="bItem"><option value="">불러오는 중…</option></select>
         </div>
 
+        <div class="row" id="bMemRow" style="display:none">
+          <label>질문지</label>
+          <div class="seg" id="bQset">
+            <button type="button" data-q="A-01" onclick="pickQ(this)">성인</button>
+            <button type="button" data-q="Y-E-01" onclick="pickQ(this)">초등 고학년</button>
+            <button type="button" data-q="Y-MH-01" onclick="pickQ(this)">중고등</button>
+          </div>
+          <div class="hint">자서전을 열 때 이 질문지로 묻습니다.</div>
+        </div>
+
+        <div class="row" id="bPcRow" style="display:none">
+          <label>한 사람당 자서전 편 수</label>
+          <input id="bPieces" class="num" type="number" inputmode="numeric" value="1" min="1" max="10" step="1">
+          <div class="hint">번호 하나로 자서전을 몇 편까지 쓸 수 있게 열어 둘지입니다(1~10).</div>
+        </div>
+
         <div class="row">
           <label>계약번호</label>
           <input id="bBatch" type="text" autocomplete="off" placeholder="비우면 자동" maxlength="20">
@@ -519,6 +544,23 @@ body{
         <button class="run" id="bRun" onclick="doBulk()">여권 뽑기</button>
 
         <div class="out" id="bOut"></div>
+
+        <!-- ★v13 자서전 편 더하기 -->
+        <div class="addbox">
+          <h4>자서전 편 더하기</h4>
+          <div class="hint" style="margin-bottom:12px">이미 나간 번호에 자서전 편을 더 열어 줄 때 씁니다. 한 번호에 10편까지입니다.</div>
+          <div class="row">
+            <label>사랑흐름 여권번호</label>
+            <input id="aPp" type="text" autocomplete="off" placeholder="LF-XXXXX" maxlength="12" onchange="addLook()">
+            <div class="hint" id="aNow">번호를 넣으면 지금 편 수가 보입니다.</div>
+          </div>
+          <div class="row">
+            <label>더할 편 수</label>
+            <input id="aN" class="num" type="number" inputmode="numeric" value="1" min="1" max="9" step="1">
+          </div>
+          <button class="run" id="aRun" onclick="doAdd()">편 더하기</button>
+          <div class="out" id="aOut"></div>
+        </div>
       </div>
     </div>
 
@@ -696,6 +738,8 @@ function paintBulkItems(){
   }
   if(!openCnt){ h = '<option value="">뽑을 수 있는 상품이 없습니다</option>'; }
   sel.innerHTML = h;
+  sel.onchange = bulkMemShow;   /* ★v13 */
+  bulkMemShow();
 
   document.getElementById('bQtyHint').innerHTML =
       '한 번에 <b>' + BULK_MAX + '장</b>까지입니다. 한 장에 5초쯤 걸립니다. '
@@ -711,6 +755,55 @@ function paintBulkItems(){
     }
     cs.innerHTML = ch || '<option value="">채널을 불러오지 못했습니다</option>';
   }
+}
+
+/* ★v13 자서전이 든 상품이면 질문지 · 편 수 칸을 보임 */
+function bulkMem_(){
+  var v = (document.getElementById('bItem').value || '').trim();
+  for(var i=0;i<BULK_ITEMS.length;i++){ if(BULK_ITEMS[i].item === v){ return !!BULK_ITEMS[i].memoir; } }
+  return (v === 'memoir' || v === 'life');
+}
+function bulkMemShow(){
+  var on = bulkMem_();
+  document.getElementById('bMemRow').style.display = on ? '' : 'none';
+  document.getElementById('bPcRow').style.display  = on ? '' : 'none';
+}
+function pickQ(b){
+  var bs = document.querySelectorAll('#bQset button');
+  for(var i=0;i<bs.length;i++){ bs[i].classList.remove('on'); }
+  b.classList.add('on');
+}
+function bulkQ_(){
+  var b = document.querySelector('#bQset button.on');
+  return b ? { v:b.getAttribute('data-q'), name:b.textContent } : null;
+}
+
+/* ★v13 자서전 편 더하기 */
+function addLook(){
+  var pp = (document.getElementById('aPp').value || '').trim().toUpperCase();
+  var box = document.getElementById('aNow');
+  if(!/^LF[ML]?-[A-Z0-9]{4,8}$/.test(pp)){ box.textContent = '번호를 넣으면 지금 편 수가 보입니다.'; return; }
+  box.textContent = '찾는 중…';
+  jsonp({ action:'adminAddPieces', key:KEY, passport:pp, n:0 }, function(r){
+    if(!r || r.status !== 'ok'){ box.textContent = (r && r.msg) ? r.msg : '찾지 못했습니다.'; return; }
+    box.textContent = '지금 이 번호: 자서전 ' + r.pieces + '편' + (r.opened ? (' · 연 편 ' + r.opened) : '')
+                    + (r.memoir ? '' : ' · ※자서전이 없는 상품 번호입니다');
+  }, function(m){ box.textContent = m; });
+}
+function doAdd(){
+  var pp = (document.getElementById('aPp').value || '').trim().toUpperCase();
+  var n  = Number(document.getElementById('aN').value) || 0;
+  var out = document.getElementById('aOut'), btn = document.getElementById('aRun');
+  if(!/^LF[ML]?-[A-Z0-9]{4,8}$/.test(pp)){ out.innerHTML = '<div class="bad">사랑흐름 여권번호를 확인해 주십시오.</div>'; return; }
+  if(n < 1 || n > 9){ out.innerHTML = '<div class="bad">더할 편 수는 1~9입니다.</div>'; return; }
+  if(!confirm(pp + ' 에 자서전 ' + n + '편을 더합니다. 진행할까요?')){ return; }
+  btn.disabled = true; btn.textContent = '더하는 중…';
+  jsonp({ action:'adminAddPieces', key:KEY, passport:pp, n:n }, function(r){
+    btn.disabled = false; btn.textContent = '편 더하기';
+    if(!r || r.status !== 'ok'){ out.innerHTML = '<div class="bad">' + esc((r && r.msg) ? r.msg : '더하지 못했습니다.') + '</div>'; return; }
+    out.innerHTML = '<div class="oh">' + esc(pp) + ' · ' + r.added + '편 더함 · 이제 자서전 ' + r.pieces + '편</div>';
+    addLook();
+  }, function(m){ btn.disabled = false; btn.textContent = '편 더하기'; out.innerHTML = '<div class="bad">' + esc(m) + '</div>'; });
 }
 
 function doBulk(){
@@ -738,11 +831,19 @@ function doBulk(){
   if(qty > BULK_MAX){
                   out.innerHTML = '<div class="bad">한 번에 ' + BULK_MAX + '장까지입니다.</div>'; return; }
 
+  /* ★v13 자서전이 든 상품 — 질문지는 꼭 고름 · 편 수 1~10 */
+  var mem = bulkMem_(), q = mem ? bulkQ_() : null;
+  var pieces = mem ? (Number(document.getElementById('bPieces').value) || 0) : 0;
+  if(mem && !q){  out.innerHTML = '<div class="bad">질문지를 골라 주십시오. (성인 · 초등 고학년 · 중고등)</div>'; return; }
+  if(mem && (pieces < 1 || pieces > 10)){
+                  out.innerHTML = '<div class="bad">한 사람당 자서전 편 수는 1~10입니다.</div>'; return; }
+
   /* ★한 번 더 묻습니다 — 여기서 나가는 여권은 돈을 안 받은 것입니다 */
   var nm = document.getElementById('bItem');
   nm = nm.options[nm.selectedIndex] ? nm.options[nm.selectedIndex].text : item;
   if(!confirm(org + ' 앞으로\n' + nm + ' ' + qty + '장을 뽑습니다.\n'
             + '채널 ' + chNm + '\n'
+            + (mem ? ('질문지 ' + q.name + ' · 한 사람당 자서전 ' + pieces + '편\n') : '')
             + (batch ? ('계약번호 ' + batch + ' (순번은 이어집니다)\n') : '계약번호 자동\n')
             + '\n시스템이 입금을 확인하지 않습니다. 진행할까요?')){
     return;
@@ -753,7 +854,8 @@ function doBulk(){
   out.innerHTML = '<div class="oh">기다려 주십시오. 한 장에 5초쯤 걸립니다.</div>';
 
   jsonp({ action:'adminBulk', key:KEY, org:org, orgNo:orgNo, item:item, qty:qty,
-          channel:ch, batch:batch },                      /* ★v10 */
+          channel:ch, batch:batch,                        /* ★v10 */
+          qset:(q ? q.v : ''), pieces:(mem ? pieces : '') },   /* ★v13 */
     function(res){
       btn.disabled = false;
       btn.textContent = '여권 뽑기';
@@ -783,6 +885,10 @@ function paintBulkOut(res){
 
   h += '<div class="oh">' + esc(res.org) + ' &middot; ' + esc(res.name)
      + ' &middot; ' + made.length + '장 나왔습니다</div>';
+  if(res.qset || res.pieces){   /* ★v13 */
+    h += '<div class="oh">질문지 ' + esc(res.qset || '기본') + (res.pieces ? (' &middot; 한 사람당 자서전 ' + res.pieces + '편') : '') + '</div>';
+  }
+  if(res.markWarn){ h += '<div class="bad">' + esc(res.markWarn) + '</div>'; }
 
   /* ★v10 계약번호로 뽑으신 경우 — 몇 번부터 몇 번까지인지, 지금까지 몇 장인지 보여 줍니다.
      오백 장을 서른씩 나눠 뽑으실 때 어디까지 왔는지 이 줄로 확인하십시오. */
