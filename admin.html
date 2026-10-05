@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v13 · 261005 · [이슈 101 · 106 · 대표 ok 18:04] ★대량 발급에 「질문지」(성인 · 초등 고학년 · 중고등) · 「한 사람당 자서전 편 수」(1~10 · 자서전이 든 상품만) · 그 아래 「자서전 편 더하기」(이미 나간 번호 · 대표만). 짝꿍 — 게시판 Code.gs v5-17. [무손] 그 밖 v12 전부.
+     사랑흐름 · admin.html   v14 · 261005 · [대표 ok 18:14] ★상품 나눔 — 「미리 써 보는 나의 자서전 · 청소년」이 따로 섬. 상품마다 고를 수 있는 질문지만 보임(성인 상품 = 성인 하나 · 청소년 = 초등 고학년 / 중고등). 짝꿍 — 게시판 Code.gs v5-18.
+     ── 이전 ── 사랑흐름 · admin.html   v13 · 261005 · [이슈 101 · 106 · 대표 ok 18:04] ★대량 발급에 「질문지」(성인 · 초등 고학년 · 중고등) · 「한 사람당 자서전 편 수」(1~10 · 자서전이 든 상품만) · 그 아래 「자서전 편 더하기」(이미 나간 번호 · 대표만). 짝꿍 — 게시판 Code.gs v5-17. [무손] 그 밖 v12 전부.
      ── 이전 ── 사랑흐름 · admin.html   v12 · 261005 · [자서전 공사 칸 15 · 안내자 대장] ★「안내자」 칸 — 새 신청 → 대장에 올리기(번호 자동) · 주문에 쓰였지만 대장에 없는 옛 번호 → 그 번호 그대로 올리기 · 대장 목록(역할 · 팀장 · 인증 · 이은 주문 · 맡은 기록) · 고치기 · 안내자 주소 복사 · 최근 발급에 수행 안내자 맡기기(고르기). ★번호는 사람이 외우지 않음 — 다음 번호를 서버가 띄우고 저장하면 꽂아 줌(대표 결정 261005 10:07). 짝꿍: 게시판 서버 v5-16(adminGuides · adminGuideSave · adminGuideAssign).
      ── 이전 ── admin.html   v11 · 261004 · [자서전 공사 칸 18 결제]
 
@@ -763,10 +764,25 @@ function bulkMem_(){
   for(var i=0;i<BULK_ITEMS.length;i++){ if(BULK_ITEMS[i].item === v){ return !!BULK_ITEMS[i].memoir; } }
   return (v === 'memoir' || v === 'life');
 }
+function bulkPicked_(){
+  var v = (document.getElementById('bItem').value || '').trim();
+  for(var i=0;i<BULK_ITEMS.length;i++){ if(BULK_ITEMS[i].item === v){ return BULK_ITEMS[i]; } }
+  return null;
+}
 function bulkMemShow(){
   var on = bulkMem_();
   document.getElementById('bMemRow').style.display = on ? '' : 'none';
   document.getElementById('bPcRow').style.display  = on ? '' : 'none';
+  /* ★v14 그 상품에 쓰는 질문지만 · 하나뿐이면 미리 골라 둠 */
+  var it = bulkPicked_(), qs = (it && it.qsets) ? it.qsets : null;
+  var bs = document.querySelectorAll('#bQset button'), shown = [];
+  for(var i=0;i<bs.length;i++){
+    var ok = !qs || qs.indexOf(bs[i].getAttribute('data-q')) >= 0;
+    bs[i].style.display = ok ? '' : 'none';
+    if(!ok){ bs[i].classList.remove('on'); } else { shown.push(bs[i]); }
+  }
+  if(shown.length === 1){ pickQ(shown[0]); }
+  else if(qs && shown.length > 1 && !document.querySelector('#bQset button.on')){ /* 고르게 둠 */ }
 }
 function pickQ(b){
   var bs = document.querySelectorAll('#bQset button');
@@ -775,6 +791,7 @@ function pickQ(b){
 }
 function bulkQ_(){
   var b = document.querySelector('#bQset button.on');
+  if(b && b.style.display === 'none'){ b = null; }
   return b ? { v:b.getAttribute('data-q'), name:b.textContent } : null;
 }
 
