@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v11 · 261004 · [자서전 공사 칸 18 결제]
+     사랑흐름 · admin.html   v12 · 261005 · [자서전 공사 칸 15 · 안내자 대장] ★「안내자」 칸 — 새 신청 → 대장에 올리기(번호 자동) · 주문에 쓰였지만 대장에 없는 옛 번호 → 그 번호 그대로 올리기 · 대장 목록(역할 · 팀장 · 인증 · 이은 주문 · 맡은 기록) · 고치기 · 안내자 주소 복사 · 최근 발급에 수행 안내자 맡기기(고르기). ★번호는 사람이 외우지 않음 — 다음 번호를 서버가 띄우고 저장하면 꽂아 줌(대표 결정 261005 10:07). 짝꿍: 게시판 서버 v5-16(adminGuides · adminGuideSave · adminGuideAssign).
+     ── 이전 ── admin.html   v11 · 261004 · [자서전 공사 칸 18 결제]
 
      [v11 · 261004 대표 결정] ★네이버 · 오픈마켓 「발권 신청」이 계좌이체 줄과 한 목록에 섭니다.
        · 줄마다 구입처 꼬리표 · 고른 여행과 편 수 · 맞는 금액(결과 숫자만).
@@ -378,6 +379,28 @@ body{
   .state{padding:44px 0}
   .modal{max-width:380px}
 }
+
+/* ★v12 안내자 대장 */
+.g-sec{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px;margin:0 0 12px}
+.g-h{display:flex;align-items:center;gap:8px;font-weight:900;color:var(--navy);font-size:14.5px;margin-bottom:8px}
+.g-n{font-size:11px;background:#FBF1E6;color:#9a6a1e;border-radius:9px;padding:1px 8px;font-weight:700}
+.g-row{display:flex;align-items:center;gap:8px;padding:9px 0;border-top:1px solid #F1EBE1;font-size:13px}
+.g-h + .g-row{border-top:0}
+.g-no{font-weight:900;color:var(--navy);min-width:66px}
+.g-mid{flex:1;min-width:0}.g-mid b{display:block;font-size:13.5px}.g-mid small{display:block;color:#8a8070;font-size:11.5px;line-height:1.45}
+.g-chip{display:inline-block;font-size:10.5px;border-radius:8px;padding:0 6px;margin:1px 2px 1px 0;background:#EAF1F8;color:var(--navy)}
+.g-chip.w{background:#FBF1E6;color:#9a6a1e}.g-chip.t{background:#EEF7F1;color:#1D7A55}
+.g-b{border:1.5px solid var(--navy);background:#fff;color:var(--navy);border-radius:9px;padding:4px 9px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap}
+.g-b.n{background:var(--navy);color:#fff}
+.g-form{background:#FBF7F0;border:1.5px solid var(--navy);border-radius:14px;padding:12px;margin:0 0 12px}
+.g-form label{display:block;font-size:12px;font-weight:700;color:#6b6152;margin:9px 0 4px}
+.g-form input,.g-form select{width:100%;height:38px;border:1.5px solid var(--line);border-radius:10px;padding:0 10px;font-size:14px;font-family:inherit;background:#fff;box-sizing:border-box}
+.g-roles{display:flex;flex-wrap:wrap;gap:5px}
+.g-roles button{border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:4px 10px;font-size:12.5px;font-family:inherit;cursor:pointer;color:#5a5244}
+.g-roles button.on{border-color:var(--navy);background:var(--navy);color:#fff}
+.g-big{font-size:20px;font-weight:900;color:var(--navy)}
+.g-msg{font-size:12.5px;margin-top:8px;min-height:1em;color:#C0392B}
+.g-sel{height:30px;border:1.5px solid var(--line);border-radius:8px;font-size:12.5px;font-family:inherit;max-width:150px}
 </style>
 </head>
 <body>
@@ -396,6 +419,7 @@ body{
     <button class="tab lock" onclick="lockMsg()">결과 보기<small>준비 중</small></button>
     <button class="tab sel" id="tab2" onclick="go('pay')">입금 · 발급</button>
     <button class="tab" id="tab3" onclick="go('bulk')">대량 발급</button>
+    <button class="tab" id="tab4" onclick="go('guide')">안내자</button>
     <button class="tab lock" onclick="lockMsg()">문의<small>준비 중</small></button>
   </div>
 
@@ -499,6 +523,12 @@ body{
     </div>
 
     <!-- 잠긴 탭 -->
+    <!-- ④ 안내자 대장 (v12) -->
+    <div id="guideView" style="display:none">
+      <div class="state" id="gState">불러오는 중입니다…</div>
+      <div id="gBody"></div>
+    </div>
+
     <div id="lockView" style="display:none">
       <div class="locked">
         <div class="lt">아직 열지 않았습니다</div>
@@ -604,9 +634,12 @@ function go(which){
   document.getElementById('payView').style.display  = (which === 'pay')  ? 'block' : 'none';
   document.getElementById('bulkView').style.display = (which === 'bulk') ? 'block' : 'none';   /* ★v7 */
   document.getElementById('lockView').style.display = (which === 'lock') ? 'block' : 'none';
+  document.getElementById('guideView').style.display = (which === 'guide') ? 'block' : 'none';   /* ★v12 */
+  document.getElementById('tab4').classList.toggle('sel', which === 'guide');
   document.getElementById('barTtl').textContent =
-      (which === 'pay') ? '입금 · 발급' : (which === 'bulk') ? '대량 발급' : '관리';
+      (which === 'pay') ? '입금 · 발급' : (which === 'bulk') ? '대량 발급' : (which === 'guide') ? '안내자 대장' : '관리';
   document.getElementById('btnRefresh').style.display = (which === 'pay') ? 'flex' : 'none';
+  if(which === 'guide'){ gLoad(); }
   document.getElementById('tab2').classList.toggle('sel', which === 'pay');
   document.getElementById('tab3').classList.toggle('sel', which === 'bulk');                   /* ★v7 */
   if(which === 'pay'){ load(); }
@@ -1227,5 +1260,106 @@ function doPaid(){
 })();
 </script>
 
+
+<script>
+/* ═════ ★v12 안내자 대장 — 번호는 외우지 않습니다(서버가 다음 번호를 띄우고 꽂아 줍니다) ═════ */
+var G = { d:null, form:null };
+function gEsc(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function gLoad(){
+  var st=document.getElementById('gState'); st.style.display='block'; st.textContent='불러오는 중입니다…';
+  jsonp({ action:'adminGuides', key:KEY }, function(r){
+    if(!r || r.status!=='ok'){ st.textContent=(r&&r.msg)||'불러오지 못했습니다.'; return; }
+    G.d=r; st.style.display='none';
+    document.getElementById('cnt').textContent = r.guides.length + '명';
+    gPaint();
+  }, function(m){ st.textContent=m; });
+}
+function gRoleChips(t){ return String(t||'').split(/\s*·\s*/).filter(Boolean).map(function(x){ return '<span class="g-chip'+(x==='수행 제휴'?' t':'')+'">'+gEsc(x)+'</span>'; }).join(''); }
+function gName(no){ var gs=(G.d&&G.d.guides)||[]; for(var i=0;i<gs.length;i++){ if(gs[i].no===no){ return gs[i].name; } } return ''; }
+function gPaint(){
+  var d=G.d, h='';
+  if(G.form){ h+=gFormHtml(); }
+  else { h+='<div class="g-sec" style="display:flex;align-items:center;gap:10px"><div style="flex:1"><div style="font-size:12px;color:#8a8070">다음 번호</div><div class="g-big">'+gEsc(d.next)+'</div></div><button class="g-b n" onclick="gNew()">새 안내자 올리기</button></div>'; }
+  if(d.news.length){
+    h+='<div class="g-sec"><div class="g-h">새 신청 <span class="g-n">'+d.news.length+'</span></div>';
+    d.news.forEach(function(x,i){
+      h+='<div class="g-row"><div class="g-mid"><b>'+(x.way?'<span class="g-chip w">'+gEsc(x.way)+'</span> ':'')+gEsc(x.name)+(x.org?' · '+gEsc(x.org):'')+'</b><small>'+gEsc(x.when)+' · '+gEsc(x.tel)+(x.items?' · '+gEsc(x.items):'')+(x.memo?'<br>'+gEsc(x.memo):'')+'</small></div><button class="g-b n" onclick="gFromApp('+i+')">대장에 올리기</button></div>';
+    });
+    h+='</div>';
+  }
+  if(d.orphans.length){
+    h+='<div class="g-sec"><div class="g-h">주문에 쓰였지만 대장에 없는 번호 <span class="g-n">'+d.orphans.length+'</span></div>';
+    d.orphans.forEach(function(x,i){
+      h+='<div class="g-row"><span class="g-no">'+gEsc(x.no)+'</span><div class="g-mid"><small>이은 주문 '+x.link+' · 맡은 기록 '+x.does+'</small></div><button class="g-b" onclick="gFromOrphan('+i+')">이 번호로 올리기</button></div>';
+    });
+    h+='</div>';
+  }
+  h+='<div class="g-sec"><div class="g-h">안내자 대장 <span class="g-n">'+d.guides.length+'</span></div>';
+  if(!d.guides.length){ h+='<div style="font-size:13px;color:#8a8070">아직 올린 안내자가 없습니다. 「새 안내자 올리기」를 누르시면 '+gEsc(d.next)+' 이 붙습니다.</div>'; }
+  d.guides.forEach(function(x,i){
+    h+='<div class="g-row"><span class="g-no">'+gEsc(x.no)+'</span><div class="g-mid"><b>'+gEsc(x.name)+(x.state&&x.state!=='활동'?' <span class="g-chip w">'+gEsc(x.state)+'</span>':'')+'</b><small>'+gRoleChips(x.roles)+'</small><small>'+(x.team?'팀장 '+gEsc(x.team)+(gName(x.team)?' '+gEsc(gName(x.team)):'')+' · ':'')+(x.cert?'인증 '+gEsc(x.cert)+' · ':'')+'이은 주문 '+x.link+' · 맡은 기록 '+x.does+(x.tel?' · '+gEsc(x.tel):'')+'</small></div>'
+      +'<div style="display:flex;flex-direction:column;gap:4px"><button class="g-b" onclick="gEdit('+i+')">고치기</button><button class="g-b" onclick="gLink(\''+x.no+'\',this)">주소</button></div></div>';
+  });
+  h+='</div>';
+  if(d.recent.length){
+    h+='<div class="g-sec"><div class="g-h">최근 발급 · 수행 안내자 맡기기</div>';
+    var act=d.guides.filter(function(g){ return g.state!=='끝'; });
+    d.recent.forEach(function(x,i){
+      var o='<option value="">— 맡길 안내자 —</option>'+act.map(function(g){ return '<option value="'+g.no+'"'+(g.no===x.does?' selected':'')+'>'+g.no+' '+gEsc(g.name)+'</option>'; }).join('');
+      h+='<div class="g-row"><div class="g-mid"><b>'+gEsc(x.pp)+'</b><small>'+gEsc(x.when)+' · '+gEsc(x.item||x.ch)+(x.link?' · 이은 '+gEsc(x.link):'')+'</small></div><select class="g-sel" id="gAs'+i+'" onchange="gAssign('+i+')">'+o+'</select></div>';
+    });
+    h+='</div>';
+  }
+  document.getElementById('gBody').innerHTML=h;
+}
+function gNew(){ G.form={ no:'', name:'', tel:'', roles:['안내자'], team:'', cert:'', state:'활동', memo:'', app:'', fresh:true }; gPaint(); window.scrollTo(0,0); }
+function gFromApp(i){ var x=G.d.news[i]; G.form={ no:'', name:x.name+(x.org?' ('+x.org+')':''), tel:'', telNote:x.tel, roles:[x.way==='사업 제휴'?'판매 제휴':'안내자'], team:'', cert:'', state:'활동', memo:x.memo||'', app:x.app, fresh:true }; gPaint(); window.scrollTo(0,0); }
+function gFromOrphan(i){ var x=G.d.orphans[i]; G.form={ no:x.no, fixedNo:true, name:'', tel:'', roles:['안내자'], team:'', cert:'', state:'활동', memo:'', app:'', fresh:true }; gPaint(); window.scrollTo(0,0); }
+function gEdit(i){ var x=G.d.guides[i]; G.form={ no:x.no, fixedNo:true, name:x.name, tel:x.tel, roles:String(x.roles||'').split(/\s*·\s*/).filter(Boolean), team:x.team, cert:x.cert, state:x.state||'활동', memo:x.memo||'', app:'', fresh:false }; gPaint(); window.scrollTo(0,0); }
+function gFormHtml(){
+  var f=G.form, d=G.d;
+  var noLine = f.fixedNo ? '<div class="g-big">'+gEsc(f.no)+'</div>' : '<div class="g-big">'+gEsc(d.next)+'</div><div style="font-size:11.5px;color:#8a8070">저장하면 이 번호가 붙습니다 — 외우지 않으셔도 됩니다</div>';
+  var roles=d.roles.map(function(r){ return '<button type="button" class="'+(f.roles.indexOf(r)>-1?'on':'')+'" onclick="gRole(this,\''+r+'\')">'+r+'</button>'; }).join('');
+  var teams='<option value="">없음</option>'+d.guides.filter(function(g){ return g.no!==f.no && /팀장|관리자/.test(g.roles); }).map(function(g){ return '<option value="'+g.no+'"'+(g.no===f.team?' selected':'')+'>'+g.no+' '+gEsc(g.name)+'</option>'; }).join('');
+  var states=d.states.map(function(s){ return '<option'+(s===f.state?' selected':'')+'>'+s+'</option>'; }).join('');
+  return '<div class="g-form"><div class="g-h">'+(f.fresh?'대장에 올리기':'고치기')+'</div>'+noLine
+   +'<label>성명</label><input id="gfName" value="'+gEsc(f.name)+'" maxlength="40">'
+   +'<label>연락처'+(f.telNote?' <span style="font-weight:400">(비워 두시면 신청서 연락처 '+gEsc(f.telNote)+' 를 그대로 옮깁니다)</span>':'')+'</label><input id="gfTel" value="'+gEsc(f.tel)+'" inputmode="tel" placeholder="010-0000-0000">'
+   +'<label>역할 (여럿 고르셔도 됩니다)</label><div class="g-roles">'+roles+'</div>'
+   +'<label>팀장</label><select id="gfTeam">'+teams+'</select>'
+   +'<label>인증</label><select id="gfCert"><option value="'+gEsc(f.cert)+'">'+(f.cert?'인증함 '+gEsc(f.cert):'아직')+'</option>'+(f.cert?'<option value="">인증 지우기</option>':'<option value="today">오늘 인증함</option>')+'</select>'
+   +'<label>상태</label><select id="gfState">'+states+'</select>'
+   +'<label>메모</label><input id="gfMemo" value="'+gEsc(f.memo)+'" maxlength="200">'
+   +'<div style="display:flex;gap:8px;margin-top:12px"><button class="g-b" style="flex:1;padding:9px" onclick="G.form=null;gPaint()">그만두기</button><button class="g-b n" style="flex:2;padding:9px" id="gfGo" onclick="gSave()">저장하기</button></div>'
+   +'<div class="g-msg" id="gfMsg"></div></div>';
+}
+function gRole(b,r){ var f=G.form, i=f.roles.indexOf(r); if(i>-1){ f.roles.splice(i,1); b.classList.remove('on'); } else { f.roles.push(r); b.classList.add('on'); } }
+function gSave(){
+  var f=G.form, name=document.getElementById('gfName').value.trim(), msg=document.getElementById('gfMsg');
+  if(!name){ msg.textContent='성명을 넣어 주십시오.'; return; }
+  var b=document.getElementById('gfGo'); b.disabled=true; b.textContent='저장하는 중…';
+  jsonp({ action:'adminGuideSave', key:KEY, no:(f.fixedNo?f.no:''), name:name, tel:document.getElementById('gfTel').value.trim(),
+          roles:f.roles.join(','), team:document.getElementById('gfTeam').value, cert:document.getElementById('gfCert').value,
+          state:document.getElementById('gfState').value, memo:document.getElementById('gfMemo').value.trim(), app:f.app||'' },
+    function(r){ if(!r||r.status!=='ok'){ b.disabled=false; b.textContent='저장하기'; msg.textContent=(r&&r.msg)||'저장하지 못했습니다.'; return; }
+      G.form=null; gLoad(); },
+    function(m){ b.disabled=false; b.textContent='저장하기'; msg.textContent=m; });
+}
+function gAssign(i){
+  var x=G.d.recent[i], sel=document.getElementById('gAs'+i), no=sel.value;
+  sel.disabled=true;
+  jsonp({ action:'adminGuideAssign', key:KEY, passport:x.pp, no:no }, function(r){
+    sel.disabled=false;
+    if(!r||r.status!=='ok'){ alert((r&&r.msg)||'맡기지 못했습니다.'); sel.value=x.does||''; return; }
+    x.does=no; sel.style.borderColor='#1D9E75';
+  }, function(m){ sel.disabled=false; alert(m); });
+}
+function gLink(no,btn){
+  var u='https://www.loveflow.ai.kr/?lf='+no;
+  var ok=function(){ btn.textContent='복사됨'; setTimeout(function(){ btn.textContent='주소'; },1500); };
+  try{ if(navigator.clipboard&&window.isSecureContext){ navigator.clipboard.writeText(u).then(ok,function(){ prompt('안내자 주소',u); }); return; } }catch(e){}
+  prompt('안내자 주소',u);
+}
+</script>
 </body>
 </html>
