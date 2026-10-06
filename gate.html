@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ gate.html · v40 · 261006 · [대표 ok 261006 17:15] 「확인 중입니다…」 · 「신청을 보내는 중입니다…」 아래 ★기다림 물결(관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름 · /lf/flow.js v2). [무손] 발권 · 신청 · 서버 · 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ gate.html · v39 · 261005 · [작업 v39] [대표 261005 15:32 「쇼핑몰은 네이버만」] G마켓 · 옥션도 회색 「준비 중」 — 고를 수 있는 곳은 네이버 스마트스토어 · 계좌이체 · 기타. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ gate.html · v38 · 261005 · [작업 v38 · 한 바퀴 점검] [대표 261005 15:08 · 15:19] 「구입하신 곳」 — 네이버 스마트스토어 · G마켓 · 옥션 · 계좌이체 · 기타만 고를 수 있게(크몽 · 쿠팡 · 11번가 · 인터파크 · 카카오 선물하기는 회색 · 「준비 중」). 「구입하신 여행」 값 걷고 이름 · 차례를 결제 화면과 같게(두 분의 여정 · 한 편의 기록 · 마음여행 · 마음 여행지도). 신청 단추 아래 번호 넣는 칸(LF-XXXXX 확인) 감춤. 이메일 설명 「완성 소식」 걷음(보내지 않음). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ gate.html · v37 · 261005 · [작업 v37] [대표 ok 261005 · 약관 확정] 꼬리표 ident.js?v=3 — lf/ident.js v3(동의 기록 버전 v2-261012 · 「문구 초안」 표시 걷음). [무손] 그 밖 전부. -->
@@ -608,7 +609,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
   /* [v10-1] 첫 진입 1회 — 쿼리(?ch·?no·?p4)가 있으면 채우고, 없으면 안내만 채널에 맞게 그립니다. */
   try{ lfPrefill(); }catch(e){}
 
-  function setMsg(t, err){ var m=document.getElementById('msg'); m.textContent=t||''; m.className='msg'+(err?' err':''); if(!err)m.style.color='#1E7A4A'; }
+  function setMsg(t, err){ var m=document.getElementById('msg'); m.textContent=t||''; m.className='msg'+(err?' err':''); if(!err)m.style.color='#1E7A4A'; if(!err && /…$/.test(t||'') && window.LFFlow){ var w=document.createElement('div'); m.appendChild(w); LFFlow.wave(w); } }   /* ★[v40] 기다림 물결 */
 
   function issue(){
     var sel = document.getElementById('channel').value;
@@ -1293,5 +1294,6 @@ try{ lfOrg(); }catch(e){}
 html.lfx #lfEnterSlot{display:none!important}   /* ★v38 신청 화면 아래 번호 넣는 칸 감춤 — 이미 번호가 있는 분은 아래 띠 「내 여행」으로 */
 </style>
 <script src="/lf/frame.js?v=6"></script>
+<script src="/lf/flow.js?v=2"></script>
 </body>
 </html>

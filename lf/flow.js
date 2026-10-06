@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/flow.js · v1 · 261006 · [홍보 자료실 → 화면 · 대표 위임 261006 17:08]
+   현재 버전 ▶ lf/flow.js · v2 · 261006 · [대표 ok 261006 17:15] ★LFFlow.wave(el) · LFFlow.after(단추) — 작은 기다림 물결(관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름). class="lf-wave" 칸은 저절로 붙음. 결제 · 발권 · 접수 · 그림 · 결과 불러오기 기다림에.
+   (이전) v1 · 261006 · [홍보 자료실 → 화면 · 대표 위임 261006 17:08]
    사랑흐름 흐름 그림을 화면에 심는 부품 둘.
      LFFlow.strip(el)  — 홈 맨 위 띠: 나 → 그 사람 → 더 깊은 나 → 우리 → 마을 → 사랑흐름 (물결이 지나가며 마디가 피어남)
      LFFlow.vine(el)   — 둘러보기 · 예매하기: 열 가지가 한 덩굴에 · 어디서 시작해도 불이 옆으로 번짐 · 알을 누르면 그 곳으로
@@ -124,5 +125,47 @@
     }, function(){ start = Math.floor(Math.random()*10); });
   }
 
-  window.LFFlow = { strip:strip, vine:vine };
+  /* ── 작은 기다림 물결 (글이 흐르는 띠) ── */
+  function wave(host){
+    if (!host || host.getAttribute('data-lfw')) { return host; }
+    host.setAttribute('data-lfw', '1');
+    host.style.width = host.style.width || '100%'; host.style.maxWidth = host.style.maxWidth || '300px';
+    host.style.margin = host.style.margin || '10px auto 0'; host.style.display = 'block';
+    var svg = el('svg', { viewBox:'0 0 300 46', 'aria-hidden':'true', style:'width:100%;height:auto;display:block;overflow:hidden' }, null);
+    host.appendChild(svg);
+    var bd = band(svg), id = 'lffW' + (++uid);
+    var ln = el('path', { fill:'none', stroke:bd, 'stroke-width':2.6, 'stroke-linecap':'round' }, svg);
+    var tp = el('path', { id:id, fill:'none', stroke:'none' }, svg);
+    var tx = el('text', { 'font-size':12, fill:C.sub, 'font-family':'"Noto Sans KR",sans-serif' }, svg);
+    var tpp = el('textPath', { href:'#' + id }, tx);
+    for (var r = 0; r < 4; r++) {
+      el('tspan', {}, tpp).textContent = '관심 · 연결 · 온기 · 표현 · 회복 · ';
+      var b = el('tspan', { fill:C.orange, 'font-weight':700, 'font-size':13.5 }, tpp); b.textContent = '사랑흐름';
+      el('tspan', {}, tpp).textContent = ' · ';
+    }
+    var seg = 0, t0 = 0;
+    function tick(now){
+      if (!host.isConnected) { return; }
+      if (!t0) { t0 = now; }
+      var t = (now - t0)/1000, ph = RM ? 0 : -t*1.6;
+      ln.setAttribute('d', waveD(-10, 310, 34, 6, 160, ph));
+      tp.setAttribute('d', waveD(-10, 1400, 24, 6, 160, ph));
+      if (!seg) { try { seg = tx.getComputedTextLength()/4; } catch (e) { seg = 300; } }
+      tpp.setAttribute('startOffset', (-(RM ? 0 : (t*34) % (seg || 300))).toFixed(1));
+      if (!RM) { requestAnimationFrame(tick); }
+    }
+    requestAnimationFrame(tick);
+    return host;
+  }
+  /* 단추 · 글 바로 아래에 물결 하나 — 돌려받은 것의 remove() 로 걷음 */
+  function after(ref){
+    if (!ref || !ref.parentNode) { return null; }
+    var d = document.createElement('div'); d.className = 'lf-wave';
+    ref.parentNode.insertBefore(d, ref.nextSibling); wave(d);
+    return { remove:function(){ if (d.parentNode) { d.parentNode.removeChild(d); } } };
+  }
+  function auto(){ var a = document.querySelectorAll('.lf-wave'); for (var i = 0; i < a.length; i++) { wave(a[i]); } }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', auto); } else { auto(); }
+
+  window.LFFlow = { strip:strip, vine:vine, wave:wave, after:after };
 })();

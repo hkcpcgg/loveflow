@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ apply.html · v33 · 261006 · [대표 ok 261006 17:15] 「접수 중입니다…」 아래 ★기다림 물결(/lf/flow.js v2). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ apply.html · v32 · 261005 · [작업 v32 · 한 바퀴 점검] 이메일 설명 「완성 소식을 보내 드려요」 걷음(그런 메일은 보내지 않음). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ apply.html · v31 · 261005 · [작업 v31] [대표 ok 261005 · 약관 확정] 꼬리표 ident.js?v=3 — lf/ident.js v3(동의 기록 버전 v2-261012 · 「문구 초안」 표시 걷음). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ apply.html · v30 · 261005 · [작업 v30 · 칸 27-4 화면 안 「‹ 이전」] body data-lf-back="/pay.html" — 틀(frame v6)이 위 띠 아래에 「‹ 이전」 줄을 깜. [무손] 그 밖 전부. -->
@@ -679,7 +680,7 @@ function showReceipt(no){
   document.getElementById('receiptView').classList.remove('hide');
   window.scrollTo(0,0);
 }
-function setMsg(t,err){var m=document.getElementById('msg');m.textContent=t||'';m.className='msg'+(err?' err':'');}
+function setMsg(t,err){var m=document.getElementById('msg');m.textContent=t||'';m.className='msg'+(err?' err':'');if(!err&&/…$/.test(t||'')&&window.LFFlow){var w=document.createElement('div');m.appendChild(w);LFFlow.wave(w);}}
 
 function copyAcct(){
   var t='기업은행 019.355.3565 황규찬';
@@ -1141,5 +1142,6 @@ if (document.readyState === 'loading') {
 
 <script>/* ★[v27] 성명·연락처·동의 칸 */ try{LFIdent.mount('lfIdent',{labelClass:'lbl',inputClass:'inp',selectClass:'inp',consent:true,checked:/[?&]agree=1(&|$)/.test(location.search),onEnter:submitApply});}catch(e){}</script>
 <script src="/lf/frame.js?v=6"></script>
+<script src="/lf/flow.js?v=2"></script>
 </body>
 </html>
