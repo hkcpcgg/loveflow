@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v4 · 261006 · [대표 261006 22:08] 삭제 요청 판 말을 공식 표현으로(「본인 또는 가족이 나온 사진…」 · 「요청 사유(선택)」 · 「취소」) · 유튜브 영상 안내는 성격이 달라 판 아래 따로 띄운 상자로.
+<!-- ★ 현재 버전 ▶ rec/index.html · v5 · 261006 · [대표 261006 22:13] 기다림 물결 위에 「무엇을 하는 중인지」 한 줄(우리 기록을 여는 중입니다 · 해 차례로 펼치는 중 · 사진을 담는 중 …) · 「알겠어요」 → 「우리 기록 둘러보기」.
+     (이전) v4 · 261006 · [대표 261006 22:08] 삭제 요청 판 말을 공식 표현으로(「본인 또는 가족이 나온 사진…」 · 「요청 사유(선택)」 · 「취소」) · 유튜브 영상 안내는 성격이 달라 판 아래 따로 띄운 상자로.
      (이전) v3 · 261006 · [대표 261006 22:03] 위 칸(우리 기록 · 기록 남기기 · 내가 남긴 것)이 화면을 바꾸는 단추임이 보이게 — 위에 붙어 따라오는 칸 · 머리 카드 작게 · 설명 한 줄 · 「삭제 요청」은 작은 단추 → 누르면 큰 설명 판이 아래에서 올라옴(스크롤 줄임) · 때 콕 찍기 1900년대부터.
      (이전) v2 · 261006 · [대표 지적 261006 21:52 · 검증 2 첫 화면]
      ① 주체가 분명한 이름 + 한 줄 설명 — 「모아 보기 · 올리기 · 내 것」 → 「우리 기록 · 기록 남기기 · 내가 남긴 것 · 확인하기(관리자)」, 칸마다 무엇을 하는 곳인지 한 줄 · 처음 오신 분께 「이렇게 쓰세요」 세 걸음.
@@ -132,6 +133,7 @@ input.t:focus,textarea:focus,select:focus{outline:none;border-color:var(--navy)}
 .picked.none{color:#B9AC93;font-weight:500;font-size:15px}
 .note{font-size:13.5px;color:var(--sub);margin-top:6px}
 .msg{padding:26px 10px;text-align:center;color:var(--sub)}
+.waitbox{text-align:center;padding:22px 6px 10px}.waitbox b{display:block;font-size:15px;color:var(--navy2);font-weight:700}
 .err{color:var(--red);font-size:14.5px;margin-top:8px}
 .ok{color:#16795A;font-size:14.5px;margin-top:8px}
 .delrow{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:14px;font-size:14px;color:var(--sub)}
@@ -165,7 +167,7 @@ details.more summary{cursor:pointer;color:var(--navy);font-weight:800;font-size:
 <body data-lf-title="함께 남기는 우리 기록">
 <div class="app">
   <div class="test">시험 화면 · 검증 2 — 시험이 끝나면 기록은 지울 수 있습니다</div>
-  <div class="wrap" id="main"><div class="lf-wave"></div></div>
+  <div class="wrap" id="main"><div class="waitbox"><b>우리 기록을 여는 중입니다</b><div class="lf-wave"></div></div></div>
   <div class="foot">© 2026 사랑흐름 · LFRI™</div>
 </div>
 <script>
@@ -190,7 +192,7 @@ var IC={
   back:'<path d="M15 5l-7 7 7 7"/>'
 };
 function ic(n){ return '<svg class="i" viewBox="0 0 24 24">'+(IC[n]||'')+'</svg>'; }
-function wait(el){ el.innerHTML='<div class="lf-wave"></div>'; try{ if(window.LFFlow){ LFFlow.wave(el.firstChild); } else { el.innerHTML='<div class="msg">불러오는 중…</div>'; } }catch(e){ el.innerHTML='<div class="msg">불러오는 중…</div>'; } }
+function wait(el, msg){ msg=msg||'기록을 불러오는 중입니다'; el.innerHTML='<div class="waitbox"><b>'+esc(msg)+'</b><div class="lf-wave"></div></div>'; try{ if(window.LFFlow){ LFFlow.wave(el.querySelector('.lf-wave')); } }catch(e){} }
 function toast(t,s){ var d=document.createElement('div'); d.className='toast'; d.innerHTML='<b>'+esc(t)+'</b>'+(s?'<small>'+esc(s)+'</small>':''); document.body.appendChild(d); setTimeout(function(){ try{ d.parentNode.removeChild(d); }catch(e){} },3200); }
 
 /* 서버 — POST(text/plain) · 막히면 작은 요청은 JSONP 로 한 번 더 */
@@ -249,7 +251,7 @@ function joinForm(g){
   };
 }
 function loadMe(g){
-  wait($('main'));
+  wait($('main'),'우리 기록을 여는 중입니다');
   api({action:'recMe'},function(d){
     if(d.status!=='ok'){
       if(d.reason==='NO_KEY'){ sset(KEY,''); K=''; if(g){ joinForm(g); return; } }
@@ -285,11 +287,11 @@ function guideHtml(){
     '<div class="st"><span class="ci c-navy">'+ic('look')+'</span><span><b>① 우리 기록을 봅니다</b><small>가족 · 동네 · 학교가 함께 남긴 사진과 영상</small></span></div>'+
     '<div class="st"><span class="ci c-gold">'+ic('talk')+'</span><span><b>② 기억나는 것을 보탭니다</b><small>콕 찍거나 한두 줄이면 충분해요 — 보탤 때마다 포도 한 알이 열려요</small></span></div>'+
     (canAdd()?'<div class="st"><span class="ci c-peach">'+ic('plus')+'</span><span><b>③ 내 사진 · 영상을 남깁니다</b><small>확인한 뒤 함께 보여요</small></span></div>':'')+
-    '<button class="btn line" id="gdok">알겠어요</button></div>';
+    '<button class="btn" id="gdok">'+ic('look')+'우리 기록 둘러보기</button></div>';
 }
 function show(t){
   TAB=t; $('main').innerHTML=frameTop()+tabsHtml()+helpHtml(t)+(t==='see'?guideHtml():'')+'<div id="body"></div>'; bindTabs(); window.scrollTo(0,0);
-  if($('gdok')){ $('gdok').onclick=function(){ sset('lf_rec_guide','1'); var g=$('gd'); g.parentNode.removeChild(g); }; }
+  if($('gdok')){ $('gdok').onclick=function(){ sset('lf_rec_guide','1'); var g=$('gd'); g.parentNode.removeChild(g); try{ $('body').scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){} }; }
   if(NCOUNT){ drawCnt(); }
   if(t==='see'){ seeView(); } else if(t==='add'){ addView(); } else if(t==='chk'){ chkView(); } else { meView(); }
 }
@@ -303,7 +305,7 @@ function seeView(){
   if(F.kind==='영상'){ h+='<div class="chips" id="fm">'+[['','모든 영상'],['직접 만든 영상','직접 만든 영상'],['다른 사람 영상','다른 사람 영상']].map(function(x){ return '<button class="chip s'+(F.made===x[0]?' on':'')+'" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'; }
   if(cats.length){ h+='<div class="chips" id="fc"><button class="chip s'+(!F.cat?' on':'')+'" data-v="">모든 갈래</button>'+cats.map(function(c){ return '<button class="chip s'+(F.cat===c.name?' on':'')+'" data-v="'+esc(c.name)+'">'+esc(c.name)+'</button>'; }).join('')+'</div>'; }
   h+='<div id="list" style="margin-top:6px"></div>';
-  $('body').innerHTML=h; wait($('list'));
+  $('body').innerHTML=h; wait($('list'),F.q||F.kind||F.cat?'찾는 기록을 모으는 중입니다':'우리 기록을 해(年) 차례로 펼치는 중입니다');
   function chipBind(id,key){ var el=$(id); if(!el){return;} var bs=el.querySelectorAll('button'); for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){ F[key]=this.getAttribute('data-v'); if(key==='kind'&&F.kind!=='영상'){ F.made=''; } seeView(); }; } }
   chipBind('fk','kind'); chipBind('fm','made'); chipBind('fc','cat');
   $('fgo').onclick=function(){ F.q=$('fq').value.trim(); seeView(); };
@@ -354,22 +356,22 @@ function whenPicker(host, onChange){
   var S={dec:0,yr:0,se:'',mo:0,unk:false}, now=(new Date()).getFullYear(), decs=[];
   for(var d=1900; d<=now; d+=10){ decs.push(d); }
   function txt(){
-    if(S.unk){ return '잘 몰라요'; }
+    if(S.unk){ return '모름'; }
     if(!S.dec){ return ''; }
     var t=S.yr?(S.yr+'년'):(S.dec+'년대'); if(S.mo){ t+=' '+S.mo+'월'; } else if(S.se){ t+=' '+S.se; } return t;
   }
   function draw(){
-    var h='<div class="pick"><div class="lab">몇 년대쯤인가요?</div><div class="chips">'+decs.map(function(x){ return '<button class="chip s'+(S.dec===x?' on':'')+'" data-d="'+x+'">'+(x<2000?String(x).slice(2):x)+'년대</button>'; }).join('')+
-      '<button class="chip s'+(S.unk?' on':'')+'" data-u="1">잘 몰라요</button></div>';
+    var h='<div class="pick"><div class="lab">연대</div><div class="chips">'+decs.map(function(x){ return '<button class="chip s'+(S.dec===x?' on':'')+'" data-d="'+x+'">'+(x<2000?String(x).slice(2):x)+'년대</button>'; }).join('')+
+      '<button class="chip s'+(S.unk?' on':'')+'" data-u="1">모름</button></div>';
     if(S.dec&&!S.unk){
-      h+='<div class="lab" style="margin-top:10px">몇 해였나요? <small style="font-weight:400">(모르면 건너뛰어요)</small></div><div class="chips">';
+      h+='<div class="lab" style="margin-top:10px">몇 년 <small style="font-weight:400">(선택)</small></div><div class="chips">';
       for(var y=S.dec; y<S.dec+10 && y<=now; y++){ h+='<button class="chip s'+(S.yr===y?' on':'')+'" data-y="'+y+'">'+y+'</button>'; }
-      h+='</div><div class="lab" style="margin-top:10px">어느 계절이었나요?</div><div class="chips">'+['봄','여름','가을','겨울'].map(function(x){ return '<button class="chip s'+(S.se===x&&!S.mo?' on':'')+'" data-s="'+x+'">'+x+'</button>'; }).join('')+'</div>'+
-        '<details'+(S.mo?' open':'')+' style="margin-top:8px"><summary style="cursor:pointer;font-size:13.5px;color:var(--navy);font-weight:700">달까지 알아요</summary><div class="chips">';
+      h+='</div><div class="lab" style="margin-top:10px">계절</div><div class="chips">'+['봄','여름','가을','겨울'].map(function(x){ return '<button class="chip s'+(S.se===x&&!S.mo?' on':'')+'" data-s="'+x+'">'+x+'</button>'; }).join('')+'</div>'+
+        '<details'+(S.mo?' open':'')+' style="margin-top:8px"><summary style="cursor:pointer;font-size:13.5px;color:var(--navy);font-weight:700">월 선택</summary><div class="chips">';
       for(var m=1;m<=12;m++){ h+='<button class="chip s'+(S.mo===m?' on':'')+'" data-m="'+m+'">'+m+'월</button>'; }
       h+='</div></details>';
     }
-    var t=txt(); h+='<div class="picked'+(t?'':' none')+'">'+(t?esc(t):'위에서 콕 찍어 주세요')+'</div></div>';
+    var t=txt(); h+='<div class="picked'+(t?'':' none')+'">'+(t?esc(t):'위에서 선택해 주세요')+'</div></div>';
     host.innerHTML=h;
     var bs=host.querySelectorAll('button'); for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){
       var a=this;
@@ -382,12 +384,12 @@ function whenPicker(host, onChange){
     }; }
   }
   draw();
-  return { value:function(){ return txt()==='잘 몰라요'?'':txt(); }, unknown:function(){ return S.unk; } };
+  return { value:function(){ return txt()==='모름'?'':txt(); }, unknown:function(){ return S.unk; } };
 }
 
 /* ── 기록 하나 ── */
 function openItem(id, fresh){
-  $('main').innerHTML=frameTop()+tabsHtml()+'<div id="body"></div>'; bindTabs(); drawCnt(); wait($('body')); window.scrollTo(0,0);
+  $('main').innerHTML=frameTop()+tabsHtml()+'<div id="body"></div>'; bindTabs(); drawCnt(); wait($('body'),'기록을 펼치는 중입니다'); window.scrollTo(0,0);
   api({action:'recGet',id:id},function(d){
     if(d.status!=='ok'){ $('body').innerHTML='<button class="back" onclick="show(TAB)">'+ic('back')+'목록으로</button><div class="msg">'+esc(d.msg||'볼 수 있는 기록이 아니에요.')+'</div>'; return; }
     var it=d.item, h='<button class="back" id="bk">'+ic('back')+'목록으로</button><div class="card"><h2>'+esc(it.title||'(제목 없음)')+stTag(it)+'</h2>';
@@ -410,7 +412,7 @@ function openItem(id, fresh){
     if(canTell()){
       var q=it.next, isWhen=q&&String(q.tag||'').indexOf('때')===0;
       h+='<div class="ask"><div class="k">함께 채우는 물음</div><div class="q">'+esc(q?q.q:'이 기록에 대해 기억나는 것이 있으신가요?')+'</div>'+
-        (isWhen?'<div id="wp"></div><details class="more"><summary>덧붙일 말이 있어요</summary><textarea id="tt" style="margin-top:8px" placeholder="예: 형이 군대 가기 전 해"></textarea></details>'
+        (isWhen?'<div id="wp"></div><details class="more"><summary>덧붙일 말 (선택)</summary><textarea id="tt" style="margin-top:8px" placeholder="예: 형이 군대 가기 전 해"></textarea></details>'
                :'<textarea id="tt" placeholder="떠오르는 대로 한두 줄이면 충분해요"></textarea>')+
         '<button class="btn warm" id="tb">'+ic('heart')+'기억 보태기</button><div class="note">보태신 기억은 확인한 뒤 함께 보입니다.</div><div id="tm"></div></div>';
     }
@@ -424,7 +426,7 @@ function openItem(id, fresh){
     var WP=$('wp')?whenPicker($('wp')):null;
     if($('tb')){ $('tb').onclick=function(){
       var extra=$('tt')?$('tt').value.trim():'', tx='';
-      if(WP){ var w=WP.value(); if(!w&&!WP.unknown()&&!extra){ $('tm').innerHTML='<div class="err">콕 찍어 주시거나 덧붙일 말을 적어 주세요.</div>'; return; } tx=w?(w+(extra?' · '+extra:'')):(extra||'잘 몰라요'); }
+      if(WP){ var w=WP.value(); if(!w&&!WP.unknown()&&!extra){ $('tm').innerHTML='<div class="err">연대를 선택하시거나 덧붙일 말을 적어 주세요.</div>'; return; } tx=w?(w+(extra?' · '+extra:'')):(extra||'모름'); }
       else { tx=extra; if(!tx){ $('tm').innerHTML='<div class="err">한두 줄이면 충분해요.</div>'; return; } }
       var b=this; b.disabled=true;
       api({action:'recTell',id:it.id,q:(it.next?it.next.no:''),text:tx},function(r){
@@ -460,15 +462,15 @@ function addView(){
   A={type:A.type||'사진',photo:'',src:'',cat:'',vsrc:''};
   var h='<div class="card"><div class="seg" id="ty">'+[['사진','photo','c-peach'],['영상','video','c-rose'],['글','text','c-violet']].map(function(x){ return '<button data-v="'+x[0]+'"'+(A.type===x[0]?' class="on"':'')+'><span class="ci '+x[2]+'">'+ic(x[1])+'</span>'+x[0]+'</button>'; }).join('')+'</div>'+
     '<div id="tyBox"></div>'+
-    '<label class="f">제목 <small>짧게</small></label><input class="t" id="at" maxlength="60" placeholder="예: 운동회 날">'+
-    '<label class="f">한마디 <small>적지 않으셔도 돼요</small></label><textarea id="ax" placeholder="이 기록에 얽힌 이야기"></textarea>'+
-    '<label class="f">갈래 <small>하나 고르거나 새로 더해요</small></label><div class="chips" id="ac"></div><div id="acAdd"></div>'+
-    '<label class="f">언제쯤인가요? <small>콕 찍어 주세요 · 몰라도 돼요</small></label><div id="aw"></div>'+
-    '<details class="more"><summary>어디서 · 누구와 · 무슨 일 (아는 것만)</summary>'+
+    '<label class="f">제목</label><input class="t" id="at" maxlength="60" placeholder="예: 운동회 날">'+
+    '<label class="f">한마디 <small>선택</small></label><textarea id="ax" placeholder="이 기록에 얽힌 이야기"></textarea>'+
+    '<label class="f">갈래 <small>선택 · 새 갈래 추가 가능</small></label><div class="chips" id="ac"></div><div id="acAdd"></div>'+
+    '<label class="f">언제 <small>선택</small></label><div id="aw"></div>'+
+    '<details class="more"><summary>어디서 · 누구와 · 무슨 일 (선택)</summary>'+
     '<label class="f">어디서</label><input class="t" id="ap" maxlength="80">'+
     '<label class="f">누구와</label><input class="t" id="ah" maxlength="80">'+
     '<label class="f">무슨 일</label><input class="t" id="ae" maxlength="80"></details>'+
-    '<label class="f">누구에게 보일까요</label><div class="chips" id="as"><button class="chip on" data-v="공동체">우리 공동체 모두</button><button class="chip" data-v="비공개">나만</button></div>'+
+    '<label class="f">공개 범위</label><div class="chips" id="as"><button class="chip on" data-v="공동체">우리 공동체 모두</button><button class="chip" data-v="비공개">나만</button></div>'+
     '<button class="btn warm" id="ab">'+ic('plus')+'우리 기록에 남기기</button><div id="am"></div><div class="note">남긴 기록은 확인한 뒤 함께 보입니다. 바깥 주소(링크)는 넣을 수 없어요.</div></div>';
   $('body').innerHTML=h;
   var bs=$('ty').querySelectorAll('button'); for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){ A.type=this.getAttribute('data-v'); addView(); }; }
@@ -480,11 +482,11 @@ function tyDraw(){
   var b=$('tyBox'), h='';
   if(A.type==='사진'){
     h='<label class="f">사진</label><input type="file" id="af" accept="image/*"><img id="apv" class="prev" style="display:none" alt="">'+
-      '<label class="f">이 사진은</label><div class="chips" id="asrc">'+['직접 찍음','가진 사진','바깥에서 가져옴','출처 모름','AI로 만들었다고 밝힘'].map(function(x){ return '<button class="chip s" data-v="'+x+'">'+x+'</button>'; }).join('')+'</div>';
+      '<label class="f">사진 출처</label><div class="chips" id="asrc">'+['직접 찍음','가진 사진','바깥에서 가져옴','출처 모름','AI로 만들었다고 밝힘'].map(function(x){ return '<button class="chip s" data-v="'+x+'">'+x+'</button>'; }).join('')+'</div>';
   } else if(A.type==='영상'){
-    h='<label class="f">유튜브 주소 <small>쇼츠도 돼요</small></label><input class="t" id="av" inputmode="url" placeholder="https://youtube.com/shorts/…">'+
+    h='<label class="f">유튜브 주소 <small>쇼츠 포함</small></label><input class="t" id="av" inputmode="url" placeholder="https://youtube.com/shorts/…">'+
       '<img id="avp" class="prev" style="display:none" alt="">'+
-      '<label class="f">이 영상은 <small>꼭 골라 주세요</small></label><div class="chips" id="avs">'+['직접 만든 영상','다른 사람 영상'].map(function(x){ return '<button class="chip" data-v="'+x+'">'+x+'</button>'; }).join('')+'</div>'+
+      '<label class="f">영상 출처 <small>필수</small></label><div class="chips" id="avs">'+['직접 만든 영상','다른 사람 영상'].map(function(x){ return '<button class="chip" data-v="'+x+'">'+x+'</button>'; }).join('')+'</div>'+
       '<div class="note">영상은 유튜브에 그대로 두고, 여기에는 썸네일만 보입니다. 누르면 유튜브로 넘어갑니다. 「비공개」 영상은 열리지 않으니 「일부공개」나 「공개」로 올려 주세요.</div>';
   }
   b.innerHTML=h;
@@ -531,7 +533,7 @@ function addSend(){
     if(!A.vsrc){ m.innerHTML='<div class="err">직접 만든 영상인지, 다른 사람 영상인지 골라 주세요.</div>'; return; }
     p.video=v; p.src=A.vsrc;
   } else { if(!p.title&&!p.text){ m.innerHTML='<div class="err">제목이나 한마디를 적어 주세요.</div>'; return; } p.kind='글'; }
-  BUSY=true; $('ab').disabled=true; wait(m);
+  BUSY=true; $('ab').disabled=true; wait(m,A.type==='사진'?'사진을 우리 기록에 담는 중입니다':(A.type==='영상'?'영상을 우리 기록에 잇는 중입니다':'글을 우리 기록에 담는 중입니다'));
   api(p,function(r){
     BUSY=false; $('ab').disabled=false;
     if(r.status==='ok'){ m.innerHTML=''; toast('우리 기록에 담았어요','확인한 뒤 함께 보입니다'); if(isBoss()){ QN++; } setTimeout(function(){ show('me'); },900); }
@@ -542,14 +544,14 @@ function addSend(){
 /* ── 내가 남긴 것 ── */
 function meView(){
   $('body').innerHTML='<div id="mine"></div><button class="btn line" id="out" style="margin-top:20px">'+ic('out')+'이 기기에서 나가기</button><div class="note" style="text-align:center">다른 기기에서는 받으신 초대 링크로 다시 들어오세요.</div>';
-  wait($('mine'));
+  wait($('mine'),'내가 남긴 기록을 모으는 중입니다');
   api({action:'recMe'},function(d){ if(d.status==='ok'){ ME=d; if(!d.mine.length){ $('mine').innerHTML='<div class="card" style="text-align:center"><h2>아직 남긴 것이 없어요</h2><p class="lead">「우리 기록」에서 기억을 보태거나'+(canAdd()?', 「기록 남기기」에서 사진 한 장을 남겨 보세요.':' 보세요.')+'</p></div>'; } else { drawList($('mine'), d.mine, false); } } });
   $('out').onclick=function(){ if(confirm('이 기기에서 나가시겠어요? 다시 들어오려면 초대 링크가 필요해요.')){ sset(KEY,''); location.href=location.pathname; } };
 }
 
 /* ── 확인하기(관리자 · 확인자) ── */
 function chkView(){
-  $('body').innerHTML='<div id="cq"></div>'; wait($('cq'));
+  $('body').innerHTML='<div id="cq"></div>'; wait($('cq'),'확인할 기록을 모으는 중입니다');
   api({action:'recQueue'},function(d){
     if(d.status!=='ok'){ $('cq').innerHTML='<div class="msg">'+esc(d.msg||'')+'</div>'; return; }
     QN=d.items.length+d.links.length+(d.cats||[]).length;
