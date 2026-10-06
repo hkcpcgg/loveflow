@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v8 · 261006 · [대표 261006 22:28] 「언제」 연대 칸 열세 개 걷음 → ★한 줄(「연도 선택」) · 누르면 아래에서 판: 연도 바퀴(올해~1900) · 계절 넷 · 월 열둘(접힘) · 「정확하지 않음(무렵)」 · 모름 / 확인.
+<!-- ★ 현재 버전 ▶ rec/index.html · v9 · 261006 · [대표 261006 22:32] 「확인하기」 칸 → 「승인 관리」 · 관리자 단추 「공개」 → 「승인」 · 「회수」 → 「등록 취소」.
+     (이전) v8 · 261006 · [대표 261006 22:28] 「언제」 연대 칸 열세 개 걷음 → ★한 줄(「연도 선택」) · 누르면 아래에서 판: 연도 바퀴(올해~1900) · 계절 넷 · 월 열둘(접힘) · 「정확하지 않음(무렵)」 · 모름 / 확인.
      (이전) v7 · 261006 · [대표 261006 22:22] 「사진」 누르면 바로 파일 선택 · 「영상」 등록 방법 안내 + 붙여넣기 · 「글」 = 지금 직접 작성하는 글 · 공개 범위 두 칸과 남기기 단추 크기 균형 · 출처 말 공식 표현(본인 촬영 · 소장 사진 · 외부 자료 · 출처 미상 · AI 생성 · 본인 제작 영상 · 타인 제작 영상 — 서버 값은 그대로).
      (이전) v6 · 261006 · [대표 261006 22:17] 관리자 단추 「실음 · 가림 · 지움」 → ★「공개 · 비공개 · 삭제」 · 상태 꼬리표 「확인 기다림 · 실림 · 가림 · 거둠」 → 「승인 대기 · 공개 · 비공개 · 회수」 · 갈래 · 이어 보기 「확인 · 거둠」 → 「승인 · 반려」 · 「거두기」 → 「회수」. 서버 · 시트 안의 값(실음 · 실림 …)은 그대로(화면 말만).
      (이전) v5 · 261006 · [대표 261006 22:13] 기다림 물결 위에 「무엇을 하는 중인지」 한 줄(우리 기록을 여는 중입니다 · 해 차례로 펼치는 중 · 사진을 담는 중 …) · 「알겠어요」 → 「우리 기록 둘러보기」.
@@ -296,7 +297,7 @@ var TABS={
   see:{t:'우리 기록',ic:'book',c:'c-navy',h:'<b>우리 공동체가 함께 남긴</b> 사진 · 영상 · 글을 연도순으로 봅니다. 기록을 열어 기억나는 것을 보태 주십시오.'},
   add:{t:'기록 남기기',ic:'plus',c:'c-peach',h:'사진 · 영상 · 글을 <b>우리 기록에 등록</b>합니다. 등록한 기록은 승인 후 공개됩니다.'},
   me:{t:'내가 남긴 것',ic:'heart',c:'c-gold',h:'<b>내가 올린 기록</b>과 <b>내가 보탠 기억</b>, 그리고 처리 상태(승인 대기 · 공개 · 비공개)를 봅니다.'},
-  chk:{t:'확인하기',ic:'check',c:'c-green',h:'<b>관리자만 보는 곳</b> — 새로 들어온 기록 · 기억 · 갈래를 보고 공개 · 비공개 · 삭제를 정합니다. 삭제 요청도 여기로 옵니다.'}
+  chk:{t:'승인 관리',ic:'check',c:'c-green',h:'<b>관리자만 보는 곳</b> — 승인 대기 중인 기록 · 기억 · 갈래를 <b>승인</b>(공개) · 비공개 · 삭제합니다. 삭제 요청도 이곳으로 옵니다.'}
 };
 function tabKeys(){ var a=['see']; if(canAdd()){a.push('add');} a.push('me'); if(isBoss()){a.push('chk');} return a; }
 function tabsHtml(){
@@ -351,7 +352,7 @@ function thumb(it){
 }
 function stTag(it){
   if(!it.state){ return ''; }
-  var m={'기다림':'t-wait','가림':'t-hide','실림':'t-on','거둠':'t-hide'}, w={'기다림':'승인 대기','가림':'비공개','실림':'공개','거둠':'회수','지움':'삭제'};
+  var m={'기다림':'t-wait','가림':'t-hide','실림':'t-on','거둠':'t-hide'}, w={'기다림':'승인 대기','가림':'비공개','실림':'공개','거둠':'등록 취소','지움':'삭제'};
   return '<span class="tag '+(m[it.state]||'t-wait')+'">'+esc(w[it.state]||it.state)+'</span>';
 }
 function pips(it){ var a=[it.when,it.where,it.who,it.what]; return '<span class="pips" title="채워진 칸">'+a.map(function(v){ return '<i'+(v?' class="on"':'')+'></i>'; }).join('')+'</span>'; }
@@ -452,7 +453,7 @@ function openItem(id, fresh){
         '<button class="btn warm" id="tb">'+ic('heart')+'기억 보태기</button><div class="note">보태신 기억은 승인 후 공개됩니다.</div><div id="tm"></div></div>';
     }
     h+='<div class="delrow"><span>원하지 않는 기록인가요?</span><button class="sbtn red" id="td">삭제 요청</button></div>';
-    if(it.state && it.by===ME.name && it.state!=='거둠'){ h+='<button class="btn line" id="wd">내가 올린 이 기록 회수</button>'; }
+    if(it.state && it.by===ME.name && it.state!=='거둠'){ h+='<button class="btn line" id="wd">등록 취소 (내가 올린 기록 내리기)</button>'; }
     $('body').innerHTML=h;
     $('bk').onclick=function(){ show(TAB); };
     if(it.video){ $('yt').onclick=function(){ if(confirm('유튜브로 이동합니다. 여시겠습니까?')){ window.open(it.video.url,'_blank','noopener'); } }; }
@@ -470,7 +471,7 @@ function openItem(id, fresh){
       });
     }; }
     $('td').onclick=function(){ delSheet(it); };
-    if($('wd')){ $('wd').onclick=function(){ if(!confirm('이 기록을 회수하시겠습니까? 다른 분들에게 더 이상 보이지 않습니다.')){return;} api({action:'recWithdraw',id:it.id},function(r){ alert(r.status==='ok'?'회수되었습니다.':(r.msg||'처리하지 못했습니다.')); show('me'); }); }; }
+    if($('wd')){ $('wd').onclick=function(){ if(!confirm('등록을 취소하시겠습니까? 다른 분들에게 더 이상 보이지 않습니다.')){return;} api({action:'recWithdraw',id:it.id},function(r){ alert(r.status==='ok'?'등록이 취소되었습니다.':(r.msg||'처리하지 못했습니다.')); show('me'); }); }; }
   });
 }
 
@@ -610,7 +611,7 @@ function chkView(){
       return '<div class="qitem" data-id="'+esc(it.id)+'"><div class="item" style="margin:0;border:none;padding:0" data-open="'+esc(it.id)+'">'+thumb(it)+'<div class="tx"><b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b><span class="sub">'+esc(it.by||'')+(it.made?' · '+esc(srcL(it.made)):'')+'</span></div></div>'+
         (it.text?'<p style="font-size:14.5px;margin-top:6px;white-space:pre-wrap">'+esc(it.text.slice(0,300))+'</p>':'')+
         (it.takeDown?'<div class="err"><b>삭제 요청</b> · '+esc(it.takeDown)+'</div>':'')+
-        '<div class="acts"><button class="sbtn fill" data-a="실음">공개</button><button class="sbtn" data-a="가림">비공개</button>'+(ME.role==='관리자'?'<button class="sbtn red" data-a="지움">삭제</button>':'')+'</div></div>'; }).join(''); }
+        '<div class="acts"><button class="sbtn fill" data-a="실음">승인</button><button class="sbtn" data-a="가림">비공개</button>'+(ME.role==='관리자'?'<button class="sbtn red" data-a="지움">삭제</button>':'')+'</div></div>'; }).join(''); }
     if(d.cats&&d.cats.length){ h+='<h2 style="margin:16px 0 8px">새 갈래 '+d.cats.length+'</h2>'+d.cats.map(function(c){ return '<div class="qitem" data-cat="'+esc(c.name)+'"><b>'+esc(c.name)+'</b> <span class="note">· '+esc(c.by||'')+' 님이 더함</span><div class="acts"><button class="sbtn fill" data-c="갈래 확인">승인</button><button class="sbtn" data-c="갈래 거둠">반려</button></div></div>'; }).join(''); }
     if(d.links.length){ h+='<h2 style="margin:16px 0 8px">이어 보기 '+d.links.length+'</h2>'+d.links.map(function(l){ return '<div class="qitem" data-link="'+esc(l.no)+'">'+esc(l.a)+' — '+esc(l.rel)+' — '+esc(l.b)+'<div class="acts"><button class="sbtn fill" data-l="관계 확인">승인</button><button class="sbtn" data-l="관계 거둠">반려</button></div></div>'; }).join(''); }
     $('cq').innerHTML=h; tabsDraw();
