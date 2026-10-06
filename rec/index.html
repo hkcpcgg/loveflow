@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v5 · 261006 · [대표 261006 22:13] 기다림 물결 위에 「무엇을 하는 중인지」 한 줄(우리 기록을 여는 중입니다 · 해 차례로 펼치는 중 · 사진을 담는 중 …) · 「알겠어요」 → 「우리 기록 둘러보기」.
+<!-- ★ 현재 버전 ▶ rec/index.html · v6 · 261006 · [대표 261006 22:17] 관리자 단추 「실음 · 가림 · 지움」 → ★「공개 · 비공개 · 삭제」 · 상태 꼬리표 「확인 기다림 · 실림 · 가림 · 거둠」 → 「승인 대기 · 공개 · 비공개 · 회수」 · 갈래 · 이어 보기 「확인 · 거둠」 → 「승인 · 반려」 · 「거두기」 → 「회수」. 서버 · 시트 안의 값(실음 · 실림 …)은 그대로(화면 말만).
+     (이전) v5 · 261006 · [대표 261006 22:13] 기다림 물결 위에 「무엇을 하는 중인지」 한 줄(우리 기록을 여는 중입니다 · 해 차례로 펼치는 중 · 사진을 담는 중 …) · 「알겠어요」 → 「우리 기록 둘러보기」.
      (이전) v4 · 261006 · [대표 261006 22:08] 삭제 요청 판 말을 공식 표현으로(「본인 또는 가족이 나온 사진…」 · 「요청 사유(선택)」 · 「취소」) · 유튜브 영상 안내는 성격이 달라 판 아래 따로 띄운 상자로.
      (이전) v3 · 261006 · [대표 261006 22:03] 위 칸(우리 기록 · 기록 남기기 · 내가 남긴 것)이 화면을 바꾸는 단추임이 보이게 — 위에 붙어 따라오는 칸 · 머리 카드 작게 · 설명 한 줄 · 「삭제 요청」은 작은 단추 → 누르면 큰 설명 판이 아래에서 올라옴(스크롤 줄임) · 때 콕 찍기 1900년대부터.
      (이전) v2 · 261006 · [대표 지적 261006 21:52 · 검증 2 첫 화면]
@@ -268,8 +269,8 @@ function loadCats(cb){ api({action:'recCats'},function(d){ CATS=(d.status==='ok'
 var TABS={
   see:{t:'우리 기록',ic:'book',c:'c-navy',h:'<b>우리 공동체가 함께 남긴</b> 사진 · 영상 · 글을 해(年) 차례로 봅니다. 하나를 열어 기억나는 것을 보태 주세요.'},
   add:{t:'기록 남기기',ic:'plus',c:'c-peach',h:'<b>내가 가진</b> 사진 한 장, 영상 하나, 한마디를 우리 기록에 남깁니다. 남긴 것은 확인한 뒤 함께 보여요.'},
-  me:{t:'내가 남긴 것',ic:'heart',c:'c-gold',h:'<b>내가 올린 기록</b>과 <b>내가 보탠 기억</b>, 그리고 확인 상태(기다림 · 실림 · 가림)를 봅니다.'},
-  chk:{t:'확인하기',ic:'check',c:'c-green',h:'<b>관리자만 보는 곳</b> — 새로 들어온 기록 · 기억 · 갈래를 보고 실을지, 가릴지 정합니다. 삭제 요청도 여기로 옵니다.'}
+  me:{t:'내가 남긴 것',ic:'heart',c:'c-gold',h:'<b>내가 올린 기록</b>과 <b>내가 보탠 기억</b>, 그리고 처리 상태(승인 대기 · 공개 · 비공개)를 봅니다.'},
+  chk:{t:'확인하기',ic:'check',c:'c-green',h:'<b>관리자만 보는 곳</b> — 새로 들어온 기록 · 기억 · 갈래를 보고 공개 · 비공개 · 삭제를 정합니다. 삭제 요청도 여기로 옵니다.'}
 };
 function tabKeys(){ var a=['see']; if(canAdd()){a.push('add');} a.push('me'); if(isBoss()){a.push('chk');} return a; }
 function tabsHtml(){
@@ -324,8 +325,8 @@ function thumb(it){
 }
 function stTag(it){
   if(!it.state){ return ''; }
-  var m={'기다림':'t-wait','가림':'t-hide','실림':'t-on','거둠':'t-hide'};
-  return '<span class="tag '+(m[it.state]||'t-wait')+'">'+esc(it.state==='기다림'?'확인 기다림':it.state)+'</span>';
+  var m={'기다림':'t-wait','가림':'t-hide','실림':'t-on','거둠':'t-hide'}, w={'기다림':'승인 대기','가림':'비공개','실림':'공개','거둠':'회수','지움':'삭제'};
+  return '<span class="tag '+(m[it.state]||'t-wait')+'">'+esc(w[it.state]||it.state)+'</span>';
 }
 function pips(it){ var a=[it.when,it.where,it.who,it.what]; return '<span class="pips" title="채워진 칸">'+a.map(function(v){ return '<i'+(v?' class="on"':'')+'></i>'; }).join('')+'</span>'; }
 function drawList(el, items, byYear){
@@ -417,7 +418,7 @@ function openItem(id, fresh){
         '<button class="btn warm" id="tb">'+ic('heart')+'기억 보태기</button><div class="note">보태신 기억은 확인한 뒤 함께 보입니다.</div><div id="tm"></div></div>';
     }
     h+='<div class="delrow"><span>원하지 않는 기록인가요?</span><button class="sbtn red" id="td">삭제 요청</button></div>';
-    if(it.state && it.by===ME.name && it.state!=='거둠'){ h+='<button class="btn line" id="wd">내가 올린 이 기록 거두기</button>'; }
+    if(it.state && it.by===ME.name && it.state!=='거둠'){ h+='<button class="btn line" id="wd">내가 올린 이 기록 회수</button>'; }
     $('body').innerHTML=h;
     $('bk').onclick=function(){ show(TAB); };
     if(it.video){ $('yt').onclick=function(){ if(confirm('유튜브로 넘어갑니다. 여시겠어요?')){ window.open(it.video.url,'_blank','noopener'); } }; }
@@ -435,7 +436,7 @@ function openItem(id, fresh){
       });
     }; }
     $('td').onclick=function(){ delSheet(it); };
-    if($('wd')){ $('wd').onclick=function(){ if(!confirm('이 기록을 거두시겠어요? 다른 분들에게 더 보이지 않습니다.')){return;} api({action:'recWithdraw',id:it.id},function(r){ alert(r.status==='ok'?'거두었어요.':(r.msg||'하지 못했어요.')); show('me'); }); }; }
+    if($('wd')){ $('wd').onclick=function(){ if(!confirm('이 기록을 회수하시겠습니까? 다른 분들에게 더 이상 보이지 않습니다.')){return;} api({action:'recWithdraw',id:it.id},function(r){ alert(r.status==='ok'?'회수되었습니다.':(r.msg||'하지 못했어요.')); show('me'); }); }; }
   });
 }
 
@@ -557,20 +558,20 @@ function chkView(){
     QN=d.items.length+d.links.length+(d.cats||[]).length;
     var h='';
     if(!QN){ h='<div class="card" style="text-align:center"><h2>확인할 것이 없어요</h2><p class="lead">새 기록이 들어오면 여기에 숫자가 뜹니다.</p></div>'; }
-    if(d.items.length){ h+='<h2 style="margin:4px 0 8px">새 기록 · 기억 '+d.items.length+'</h2>'+d.items.map(function(it){
+    if(d.items.length){ h+='<h2 style="margin:4px 0 8px">승인 대기 기록 · 기억 '+d.items.length+'</h2>'+d.items.map(function(it){
       return '<div class="qitem" data-id="'+esc(it.id)+'"><div class="item" style="margin:0;border:none;padding:0" data-open="'+esc(it.id)+'">'+thumb(it)+'<div class="tx"><b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b><span class="sub">'+esc(it.by||'')+(it.made?' · '+esc(it.made):'')+'</span></div></div>'+
         (it.text?'<p style="font-size:14.5px;margin-top:6px;white-space:pre-wrap">'+esc(it.text.slice(0,300))+'</p>':'')+
         (it.takeDown?'<div class="err"><b>삭제 요청</b> · '+esc(it.takeDown)+'</div>':'')+
-        '<div class="acts"><button class="sbtn fill" data-a="실음">실음</button><button class="sbtn" data-a="가림">가림</button>'+(ME.role==='관리자'?'<button class="sbtn red" data-a="지움">지움</button>':'')+'</div></div>'; }).join(''); }
-    if(d.cats&&d.cats.length){ h+='<h2 style="margin:16px 0 8px">새 갈래 '+d.cats.length+'</h2>'+d.cats.map(function(c){ return '<div class="qitem" data-cat="'+esc(c.name)+'"><b>'+esc(c.name)+'</b> <span class="note">· '+esc(c.by||'')+' 님이 더함</span><div class="acts"><button class="sbtn fill" data-c="갈래 확인">모두의 갈래로</button><button class="sbtn" data-c="갈래 거둠">거둠</button></div></div>'; }).join(''); }
-    if(d.links.length){ h+='<h2 style="margin:16px 0 8px">이어 보기 '+d.links.length+'</h2>'+d.links.map(function(l){ return '<div class="qitem" data-link="'+esc(l.no)+'">'+esc(l.a)+' — '+esc(l.rel)+' — '+esc(l.b)+'<div class="acts"><button class="sbtn fill" data-l="관계 확인">확인</button><button class="sbtn" data-l="관계 거둠">거둠</button></div></div>'; }).join(''); }
+        '<div class="acts"><button class="sbtn fill" data-a="실음">공개</button><button class="sbtn" data-a="가림">비공개</button>'+(ME.role==='관리자'?'<button class="sbtn red" data-a="지움">삭제</button>':'')+'</div></div>'; }).join(''); }
+    if(d.cats&&d.cats.length){ h+='<h2 style="margin:16px 0 8px">새 갈래 '+d.cats.length+'</h2>'+d.cats.map(function(c){ return '<div class="qitem" data-cat="'+esc(c.name)+'"><b>'+esc(c.name)+'</b> <span class="note">· '+esc(c.by||'')+' 님이 더함</span><div class="acts"><button class="sbtn fill" data-c="갈래 확인">승인</button><button class="sbtn" data-c="갈래 거둠">반려</button></div></div>'; }).join(''); }
+    if(d.links.length){ h+='<h2 style="margin:16px 0 8px">이어 보기 '+d.links.length+'</h2>'+d.links.map(function(l){ return '<div class="qitem" data-link="'+esc(l.no)+'">'+esc(l.a)+' — '+esc(l.rel)+' — '+esc(l.b)+'<div class="acts"><button class="sbtn fill" data-l="관계 확인">승인</button><button class="sbtn" data-l="관계 거둠">반려</button></div></div>'; }).join(''); }
     $('cq').innerHTML=h; tabsDraw();
     lazyPhotos($('cq'));
     var os=$('cq').querySelectorAll('[data-open]'); for(var i=0;i<os.length;i++){ os[i].onclick=function(){ openItem(this.getAttribute('data-open')); }; }
     var as=$('cq').querySelectorAll('[data-a]'); for(var j=0;j<as.length;j++){ as[j].onclick=function(){
       var act=this.getAttribute('data-a'), id=this.closest('.qitem').getAttribute('data-id'), p={action:'recReview',act:act,id:id};
-      if(act==='지움'&&!confirm('지우면 되돌릴 수 없어요. 사진도 함께 지웁니다. 지우시겠어요?')){return;}
-      var go=function(){ api(p,function(r){ if(r.status==='ok'){ chkView(); } else if(r.reason==='TAKEDOWN'){ if(confirm('삭제 요청이 있는 기록이에요.\n\n확인하셨으면 다시 실을까요?')){ p.force='1'; go(); } } else { alert(r.msg||'하지 못했어요.'); } }); };
+      if(act==='지움'&&!confirm('삭제하면 되돌릴 수 없습니다. 사진도 함께 삭제됩니다. 삭제하시겠습니까?')){return;}
+      var go=function(){ api(p,function(r){ if(r.status==='ok'){ chkView(); } else if(r.reason==='TAKEDOWN'){ if(confirm('삭제 요청이 있는 기록입니다.\n\n확인하셨으면 다시 공개하시겠습니까?')){ p.force='1'; go(); } } else { alert(r.msg||'하지 못했어요.'); } }); };
       go();
     }; }
     var cs=$('cq').querySelectorAll('[data-c]'); for(var k=0;k<cs.length;k++){ cs[k].onclick=function(){ var n=this.closest('.qitem').getAttribute('data-cat'); api({action:'recReview',act:this.getAttribute('data-c'),name:n},function(){ loadCats(chkView); }); }; }
