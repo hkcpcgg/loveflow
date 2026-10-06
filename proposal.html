@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ proposal.html · v36 · 261006 · [작업 v36 · 대표 261006 17:26 「스크롤이 너무 많다 · 오늘 그림 넣고 뺄 것 빼고」] ①히어로 아래 ★흐름 띠(나 → … → 마을 → 사랑흐름 · /lf/flow.js) ②「단계별 연계 구성」 카드 넷 → ★열 가지 덩굴(누르면 그 곳) ③★「공동체 기록 · 회복 솔루션」(준비하고 있습니다) — 마을에 불이 켜지는 영상 + 세 줄 ④접어 두기 넷(생애 기록 제작 절차 · 프로그램 구성표 · 교육 성과 자료 · 제출용 문서 지원) — 펼치면 그대로 ⑤폰에서 다섯 축이 한 글자씩 세로로 쪼개지던 것 고침(한 줄씩) · 「누구와의 관계」 세 칸 · 성과 다섯 두 칸. [무손] 문구 · 값 · 예산 · 연락 · 아래 띠 전부. -->
 <!-- ★ 현재 버전 ▶ proposal.html · v35 · 261005 · [작업 v35 · 사진 90일] [대표 결정 261005 12:10 ok] 사진도 기록과 같은 90일 규정 하나로 — 14일 규정 없앰(26차 「사진 원본 14일」 바뀜). 「기록과 함께 보관했다가 기록을 지울 때 함께 지움(마지막 이야기를 마치신 날부터 90일)」. 기관 제안서 사진 줄. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ proposal.html · v34 · 261005 · [작업 v34 · 사진 문구] [클로드 판단 · 대표 위임 261005 11:29] 실제와 맞춤 — 사진은 휴대폰에서 기록에 싣는 크기(긴 쪽 1000)로 줄여 받으므로 원본 파일은 사랑흐름에 오지 않음. 「원본 14일 안에 지움」 → 「원본 파일은 받지 않음」(지킬 수 없는 약속 대신 사실). 기관 제안서 사진 줄. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ proposal.html · v33 · 261005 · [작업 v33 · 자서전 공사 칸 27-4 · 둘째 묶음 틀] 공용 틀 /lf/frame.js?v=5 붙임(위 띠 · ☰ · 아래 길목 다섯 · 옛 상단바 · 드로어 · 길 셋 감춤). 아래 고정 띠(내려받기 · 복사)를 길목 띠 위로 올림 · 「사랑흐름 여행 둘러보기」 감춤(아래 띠와 겹침) · 화면 이름 짧게. [무손] 본문 · 배관 · 서버. -->
@@ -176,6 +177,38 @@ footer .cr{color:#C8D6E5;margin-top:8px}
   .g4,.g5,.g3,.g2{grid-template-columns:1fr}
   .hero h1{font-size:26px}
 }
+
+/* ★v36 흐름 그림 · 접기 · 폰 다듬기 */
+.flowsec{padding:26px 0 8px}
+.flowsec .lfflow{max-width:560px;margin:4px auto 0;aspect-ratio:4/1}
+.flowsec p{text-align:center;color:var(--gray);font-size:14px;margin:8px 0 0}
+.vinebox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px 8px 4px;max-width:560px;margin:0 auto 14px}
+.comm{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}
+.comm video{width:100%;border-radius:14px;display:block;background:#FBF7F0}
+.comm ul{margin:10px 0 0;padding-left:18px;line-height:1.8}
+.soon{display:inline-block;font-size:12px;border:1px solid var(--gold);color:var(--gold);border-radius:999px;padding:1px 9px;margin-left:6px;vertical-align:middle}
+details.fold>summary{list-style:none;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary h2{margin:0}
+details.fold>summary .op{flex:none;font-size:13px;font-weight:700;color:var(--navy);border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;background:#fff}
+details.fold[open]>summary .op::after{content:' 접기'}
+details.fold:not([open])>summary .op::after{content:' 펼치기'}
+details.fold[open]>summary{margin-bottom:14px}
+@media (max-width:560px){
+  .axis{grid-template-columns:1fr;gap:6px}
+  .axis .r{display:flex;align-items:baseline;gap:12px;text-align:left;padding:10px 14px;border-top:1px solid var(--line);border-left:3px solid var(--gold)}
+  .axis .nm{font-size:17px;margin:0;flex:0 0 44px}
+  .axis .ds{font-size:13.5px}
+  .g5.rel{grid-template-columns:repeat(3,1fr)}
+  .g5{grid-template-columns:repeat(2,1fr)}
+  .comm{grid-template-columns:1fr}
+  section{padding:32px 0}
+  .g4,.g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g .c{padding:13px 12px}
+  .g .c h3{font-size:15px}
+  .g .c ul{grid-template-columns:1fr!important}
+  .g4.svc{grid-template-columns:1fr}
+}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 </style>
 </head>
@@ -218,18 +251,26 @@ footer .cr{color:#C8D6E5;margin-top:8px}
   </div>
 </div>
 
+<!-- ★v36 흐름 -->
+<section class="flowsec">
+  <div class="wrap">
+    <div class="lfflow" id="propFlow"></div>
+    <p>관심 · 연결 · 온기 · 표현 · 회복 — 한 사람에서 마을까지 이어져 <b style="color:#E8771E">사랑흐름</b>이 됩니다</p>
+  </div>
+</section>
+
 <!-- 2 -->
 <section>
   <div class="wrap">
     <h2>사랑흐름 서비스</h2>
     <p class="lead">삶에서 가장 먼저 떠오르는 한 사람. 그 사람과의 관계를 읽고, 그 마음을 글로 옮겨 건넵니다.<br><span style="font-size:.86em;color:#8a7f70">관계 심리 연구에서 가져온 다섯 축 — 관심 · 연결 · 온기 · 표현 · 회복 (Gottman 1994 · Bowen 1978 · Neff 2003 · Pennebaker 1997 · Chochinov 2005)</span></p>
-    <div class="g g4">
+    <div class="g g4 svc">
       <div class="c free" style="position:relative"><div class="t">무료</div><h3>마음 한마디</h3><p>짧은 한마디를 카드로 만들어 그 사람에게 보냅니다</p><img src='data:image/png;base64,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' alt='QR' style='position:absolute;top:14px;right:14px;width:58px;height:58px;border-radius:4px;background:#fff'></div>
       <div class="c free" style="position:relative"><div class="t">무료</div><h3>삐뚤빼뚤 마음 도화지</h3><p>손으로 적은 마음이 그대로 그림이 됩니다</p><img src='data:image/png;base64,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' alt='QR' style='position:absolute;top:14px;right:14px;width:58px;height:58px;border-radius:4px;background:#fff'></div>
       <div class="c" style="position:relative"><div class="t">프로그램 ①</div><h3>관계 이해 워크숍</h3><p>그 관계를 다섯 축으로 읽어 「마음 여행지도」가 나옵니다</p><img src='data:image/png;base64,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' alt='QR' style='position:absolute;top:14px;right:14px;width:58px;height:58px;border-radius:4px;background:#fff'></div>
       <div class="c" style="position:relative"><div class="t">프로그램 ②</div><h3>관계 소통 프로그램</h3><p>읽은 마음을 그 사람에게 전하는 「마음 여행편지」까지</p><img src='data:image/png;base64,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' alt='QR' style='position:absolute;top:14px;right:14px;width:58px;height:58px;border-radius:4px;background:#fff'></div>
     </div>
-    <div class="g g4" style="margin-top:14px">
+    <div class="g g4 svc" style="margin-top:14px">
       <div class="c" style="position:relative"><div class="t">프로그램 ③</div><h3>생애 기록 프로그램</h3><p>살아온 삶을 여덟 구간으로 나누어 한 편씩 씁니다</p><img src='data:image/png;base64,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' alt='QR' style='position:absolute;top:14px;right:14px;width:58px;height:58px;border-radius:4px;background:#fff'></div>
       <div class="c dark" style="position:relative"><div class="t">프로그램 ④</div><h3>세대 공감 프로그램</h3><p>읽고 전하고 남기는 것까지 한 번에</p><img src='data:image/png;base64,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' alt='QR' style='position:absolute;top:14px;right:14px;width:58px;height:58px;border-radius:4px;background:#fff'></div>
       <div class="c dark" style="position:relative"><div class="t">프로그램 ⑤</div><h3>생애사 기록 과정</h3><p>한 사람의 삶을 여덟 편으로</p><img src='data:image/png;base64,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' alt='QR' style='position:absolute;top:14px;right:14px;width:58px;height:58px;border-radius:4px;background:#fff'></div>
@@ -275,7 +316,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
       </div>
     </div>
     <p class="lead" style="margin:22px 0 12px">누구와의 관계를 읽으시겠습니까</p>
-    <div class="g g5" style="gap:8px">
+    <div class="g g5 rel" style="gap:8px">
       <div class="c" style="padding:11px 6px;text-align:center;font-size:13px;font-weight:700;color:var(--navy)">어머니</div>
       <div class="c" style="padding:11px 6px;text-align:center;font-size:13px;font-weight:700;color:var(--navy)">아버지</div>
       <div class="c" style="padding:11px 6px;text-align:center;font-size:13px;font-weight:700;color:var(--navy)">배우자 · 연인</div>
@@ -339,7 +380,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 <!-- 7 -->
 <section class="alt">
   <div class="wrap">
-    <h2>생애 기록 제작 절차</h2>
+    <details class="fold"><summary><h2>생애 기록 제작 절차</h2><span class="op"></span></summary>
 <p class="lead">참여자는 1 · 2 · 3 · 5번을 진행하고, 나머지는 저희가 합니다.</p>
 <ul class="steps">
 <li><span class="n">1</span><span class="t">마음 여행여권으로 입장</span><span class="d">여덟 자리 가운데 마음이 먼저 가는 곳부터 엽니다. 순서를 지키실 필요가 없습니다</span></li>
@@ -353,6 +394,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 <p class="fin" style="margin-top:4px">한 구간이 끝날 때마다 날짜와 함께 남기시고, 여덟 자리를 다 걸으시면 여덟 개의 증표가 한 사람의 여정으로 모입니다. 서명 전에는 언제든 고치실 수 있습니다.</p>
 
 <p class="fin">사진은 기록을 만드는 데만 쓰고 기록과 함께 보관했다가 함께 지웁니다. 완성 기록은 90일간 열람·내려받기가 가능합니다. 인쇄 시 색상은 화면과 차이가 있을 수 있습니다.</p>
+  </details>
   </div>
 </section>
 
@@ -374,20 +416,33 @@ footer .cr{color:#C8D6E5;margin-top:8px}
   <div class="wrap">
     <h2>단계별 연계 구성</h2>
     <p class="lead">좋은 사이는 더 깊게 이어지고, 궁금한 사이는 더 알게 되고, 멀어진 사이는 다시 가까워집니다.</p>
-    <div class="g g4">
-      <div class="c"><div class="t">시작</div><h3>마음 한마디</h3><p>짧은 한마디나 손글씨를 무료로 보내 봅니다</p></div>
-      <div class="c"><div class="t">발견</div><h3>마음 여행지도</h3><p>그 관계가 지금 어디쯤인지 읽습니다</p></div>
-      <div class="c dark"><div class="t">완성</div><h3>마음 여행편지</h3><p>그 사람에게 전하는 편지가 나옵니다</p></div>
-      <div class="c dark"><div class="t">기록</div><h3>한 편의 기록</h3><p>살아온 삶이 글로 남습니다</p></div>
-    </div>
+    <div class="vinebox" id="propVine"></div>
     <div class="note"><strong>연차별 단계 운영</strong><span>1차연도 관계 이해, 2차연도 생애 기록. 같은 사랑흐름 여권으로 이어집니다.</span></div>
+  </div>
+</section>
+
+<!-- ★v36 공동체 -->
+<section class="alt">
+  <div class="wrap">
+    <h2>공동체 기록 · 회복 솔루션<span class="soon">준비하고 있습니다</span></h2>
+    <div class="comm">
+      <video src="/promo/video/7_마을에불이켜지다.mp4" poster="/promo/still/정지_7_마을에불이켜지다.png" autoplay muted loop playsinline preload="metadata" aria-label="집집의 창에 불이 켜지고 덩굴이 집과 집을 잇는 그림"></video>
+      <div>
+        <p class="lead" style="margin:0">여럿이 함께 쓰는 공동체 변천사</p>
+        <ul>
+          <li>마을 · 시장 · 기관 · 단체의 지난 이야기를 여러 사람이 사진 · 목소리 · 글로 함께 보탭니다</li>
+          <li>사랑흐름 안내자(LD)가 어르신을 찾아가 이야기를 듣고 남깁니다</li>
+          <li>한 사람의 기록이 이웃의 기록으로, 마을의 기록으로 이어집니다</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- 9 -->
 <section class="alt">
   <div class="wrap">
-    <h2>프로그램 구성표</h2>
+    <details class="fold"><summary><h2>프로그램 구성표</h2><span class="op"></span></summary>
     <p class="lead">기관 사정에 맞춰 선택합니다.</p>
     <table class="tbl">
       <thead><tr><th>프로그램</th><th>교육 성과</th><th>가장 짧게</th></tr></thead>
@@ -400,6 +455,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
       </tbody>
     </table>
     <p class="fin">한 기관에서 복수 프로그램 운영이 가능합니다.</p>
+  </details>
   </div>
 </section>
 
@@ -443,7 +499,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 <!-- 12 -->
 <section>
   <div class="wrap">
-    <h2>교육 성과 자료</h2>
+    <details class="fold"><summary><h2>교육 성과 자료</h2><span class="op"></span></summary>
     <p class="lead">종료 후 참여 현황 보고서를 드립니다. 사업 성과 보고와 정산에 그대로 쓰십니다.</p>
     <div class="g g5">
       <div class="c"><h3>발급 인원</h3><p>전해 드린 마음 여행여권 수</p></div>
@@ -461,6 +517,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
       <div class="c"><h3>세대 간 소통</h3><p>가족 사이의 대화가 이어지는 계기가 됩니다</p></div>
       
     </div>
+  </details>
   </div>
 </section>
 
@@ -481,7 +538,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
 <!-- 14 -->
 <section>
   <div class="wrap">
-    <h2>제출용 문서 지원</h2>
+    <details class="fold"><summary><h2>제출용 문서 지원</h2><span class="op"></span></summary>
     <p class="lead">기관 사업명과 예산 규모에 맞춰 작성해 드립니다.</p>
     <div class="g g3">
       <div class="c"><div class="num">1</div><h3>사업 제안서</h3><p>사업명 · 목적 · 대상 · 시기 · 추진 방법을 기관 서식에 맞춰</p></div>
@@ -492,6 +549,7 @@ footer .cr{color:#C8D6E5;margin-top:8px}
       <div class="c"><div class="num">6</div><h3>사례 견본</h3><p>실제로 만들어진 것을 먼저 보십니다</p></div>
     </div>
     <div class="note"><strong>인원과 일정을 알려 주시면 기관 서식에 맞춰 작성해 드립니다</strong></div>
+  </details>
   </div>
 </section>
 
@@ -556,5 +614,7 @@ html.lfx body{padding-bottom:140px!important}
 html.lfx .toast{bottom:150px!important}
 </style>
 <script src="/lf/frame.js?v=5"></script>
+<script src="/lf/flow.js?v=2"></script>
+<script>try{LFFlow.strip(document.getElementById('propFlow'));LFFlow.vine(document.getElementById('propVine'));}catch(e){}</script>
 </body>
 </html>
