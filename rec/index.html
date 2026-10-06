@@ -434,7 +434,7 @@ function openItem(id, fresh){
     if(it.text){ h+='<p style="white-space:pre-wrap;margin:10px 0 4px;font-size:16px">'+esc(it.text)+'</p>'; }
     var bl=[['언제','when'],['어디서','where'],['누구와','who'],['무슨 일','what']], filled=bl.filter(function(x){ return it[x[1]]; }).length;
     h+='<div class="blanks">'+bl.map(function(x){ var v=it[x[1]]; return '<div class="blank'+(v?' on':'')+'"><small>'+x[0]+'</small><span>'+esc(v||'아직 몰라요')+'</span></div>'; }).join('')+'</div>'+
-      '<div class="bmeter">'+(filled===4?'네 칸이 모두 채워졌습니다 — 함께 만든 기록입니다':'네 칸 가운데 '+filled+'칸 채워짐 — '+(it.by===ME.name?'아래 물음에 답하시면 빈 칸이 금빛으로 채워져요':'보태신 기억은 포도송이에 한 알로 열려요'))+'</div>';
+      '<div class="bmeter">'+(filled===4?'네 칸이 모두 채워졌습니다 — 함께 만든 기록입니다':'네 칸 가운데 '+filled+'칸 채워짐 — '+(it.by===ME.name?'아래 물음에 답하시면 빈 칸이 금빛으로 채워집니다':'보태신 기억은 포도송이에 한 알로 열립니다'))+'</div>';
     h+='<div class="note">'+(it.cat?'갈래 · '+esc(it.cat)+' · ':'')+'남긴 분 · '+esc(it.by||'')+'</div></div>';
     var mems=it.linked.filter(function(x){ return x.kind==='기억'; }), others=it.linked.filter(function(x){ return x.kind!=='기억'; });
     if(it.together.length){
