@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v7 · 261006 · [대표 261006 22:22] 「사진」 누르면 바로 파일 선택 · 「영상」 등록 방법 안내 + 붙여넣기 · 「글」 = 지금 직접 작성하는 글 · 공개 범위 두 칸과 남기기 단추 크기 균형 · 출처 말 공식 표현(본인 촬영 · 소장 사진 · 외부 자료 · 출처 미상 · AI 생성 · 본인 제작 영상 · 타인 제작 영상 — 서버 값은 그대로).
+<!-- ★ 현재 버전 ▶ rec/index.html · v8 · 261006 · [대표 261006 22:28] 「언제」 연대 칸 열세 개 걷음 → ★한 줄(「연도 선택」) · 누르면 아래에서 판: 연도 바퀴(올해~1900) · 계절 넷 · 월 열둘(접힘) · 「정확하지 않음(무렵)」 · 모름 / 확인.
+     (이전) v7 · 261006 · [대표 261006 22:22] 「사진」 누르면 바로 파일 선택 · 「영상」 등록 방법 안내 + 붙여넣기 · 「글」 = 지금 직접 작성하는 글 · 공개 범위 두 칸과 남기기 단추 크기 균형 · 출처 말 공식 표현(본인 촬영 · 소장 사진 · 외부 자료 · 출처 미상 · AI 생성 · 본인 제작 영상 · 타인 제작 영상 — 서버 값은 그대로).
      (이전) v6 · 261006 · [대표 261006 22:17] 관리자 단추 「실음 · 가림 · 지움」 → ★「공개 · 비공개 · 삭제」 · 상태 꼬리표 「확인 기다림 · 실림 · 가림 · 거둠」 → 「승인 대기 · 공개 · 비공개 · 회수」 · 갈래 · 이어 보기 「확인 · 거둠」 → 「승인 · 반려」 · 「거두기」 → 「회수」. 서버 · 시트 안의 값(실음 · 실림 …)은 그대로(화면 말만).
      (이전) v5 · 261006 · [대표 261006 22:13] 기다림 물결 위에 「무엇을 하는 중인지」 한 줄(우리 기록을 여는 중입니다 · 해 차례로 펼치는 중 · 사진을 담는 중 …) · 「알겠어요」 → 「우리 기록 둘러보기」.
      (이전) v4 · 261006 · [대표 261006 22:08] 삭제 요청 판 말을 공식 표현으로(「본인 또는 가족이 나온 사진…」 · 「요청 사유(선택)」 · 「취소」) · 유튜브 영상 안내는 성격이 달라 판 아래 따로 띄운 상자로.
@@ -152,6 +153,20 @@ input.t:focus,textarea:focus,select:focus{outline:none;border-color:var(--navy)}
 .seg button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1.5px solid var(--line);border-radius:14px;background:#fff;font-family:inherit;font-size:14.5px;cursor:pointer;color:var(--ink)}
 .seg button .ci{width:32px;height:32px}
 .seg button.on{border-color:var(--navy);background:#F6F9FC;font-weight:800;color:var(--navy)}
+.wrow{display:flex;align-items:center;justify-content:space-between;width:100%;min-height:48px;padding:10px 14px;border:1.5px solid #DCCFB6;border-radius:12px;background:#fff;font-family:inherit;font-size:16px;color:#9a907e;cursor:pointer}
+.wrow.on{color:var(--navy);font-weight:800;border-color:var(--navy)}
+.wheel{position:relative;height:220px;overflow:hidden;border-radius:14px;background:#FFFDF8;border:1px solid var(--line)}
+.wlist{height:100%;overflow-y:scroll;scroll-snap-type:y mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.wlist::-webkit-scrollbar{display:none}
+.wy{height:44px;line-height:44px;text-align:center;scroll-snap-align:center;font-size:18px;color:#B9AC93;cursor:pointer}
+.wy.on{color:var(--navy);font-weight:800;font-size:21px}
+.wsel{position:absolute;left:10px;right:10px;top:88px;height:44px;border-top:1.5px solid var(--gold);border-bottom:1.5px solid var(--gold);pointer-events:none;background:rgba(201,169,110,.08)}
+.lab2{font-size:13.5px;font-weight:700;color:var(--sub);margin:12px 0 6px;display:block}
+.seg4{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.seg6{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.seg4 .chip,.seg6 .chip{padding:8px 0;text-align:center}
+.wab{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:14.5px;cursor:pointer}.wab input{width:18px;height:18px}
+.wout{margin-top:10px;text-align:center;font-size:18px;font-weight:800;color:var(--navy)}
+.sheet{max-height:92vh;overflow-y:auto}
 .seg2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .seg2 .chip{min-height:46px;border-radius:12px;font-size:15px;font-weight:700}
 .btn.sub{min-height:46px;font-size:15.5px;border-radius:12px;margin-top:18px}
@@ -363,39 +378,47 @@ function photo(id, cb){
   api({action:'recPhoto',id:id},function(d){ if(d.status==='ok'){ PHC[id]='data:'+d.type+';base64,'+d.data; cb(PHC[id]); } else { cb(''); } });
 }
 
-/* ── 때 콕 찍기: 연대 → 해 → 계절 또는 달 ── */
-function whenPicker(host, onChange){
-  var S={dec:0,yr:0,se:'',mo:0,unk:false}, now=(new Date()).getFullYear(), decs=[];
-  for(var d=1900; d<=now; d+=10){ decs.push(d); }
+/* ── 언제: 한 줄 → 누르면 아래에서 판(연도 바퀴 · 계절/월 · 무렵) ── */
+function whenPicker(host){
+  var S={yr:0,se:'',mo:0,ab:false,unk:false}, now=(new Date()).getFullYear();
   function txt(){
-    if(S.unk){ return '모름'; }
-    if(!S.dec){ return ''; }
-    var t=S.yr?(S.yr+'년'):(S.dec+'년대'); if(S.mo){ t+=' '+S.mo+'월'; } else if(S.se){ t+=' '+S.se; } return t;
+    if(S.unk){ return '모름'; } if(!S.yr){ return ''; }
+    var t=S.yr+'년'; if(S.mo){ t+=' '+S.mo+'월'; } else if(S.se){ t+=' '+S.se; } if(S.ab){ t+=' 무렵'; } return t;
   }
-  function draw(){
-    var h='<div class="pick"><div class="lab">연대</div><div class="chips">'+decs.map(function(x){ return '<button class="chip s'+(S.dec===x?' on':'')+'" data-d="'+x+'">'+(x<2000?String(x).slice(2):x)+'년대</button>'; }).join('')+
-      '<button class="chip s'+(S.unk?' on':'')+'" data-u="1">모름</button></div>';
-    if(S.dec&&!S.unk){
-      h+='<div class="lab" style="margin-top:10px">몇 년 <small style="font-weight:400">(선택)</small></div><div class="chips">';
-      for(var y=S.dec; y<S.dec+10 && y<=now; y++){ h+='<button class="chip s'+(S.yr===y?' on':'')+'" data-y="'+y+'">'+y+'</button>'; }
-      h+='</div><div class="lab" style="margin-top:10px">계절</div><div class="chips">'+['봄','여름','가을','겨울'].map(function(x){ return '<button class="chip s'+(S.se===x&&!S.mo?' on':'')+'" data-s="'+x+'">'+x+'</button>'; }).join('')+'</div>'+
-        '<details'+(S.mo?' open':'')+' style="margin-top:8px"><summary style="cursor:pointer;font-size:13.5px;color:var(--navy);font-weight:700">월 선택</summary><div class="chips">';
-      for(var m=1;m<=12;m++){ h+='<button class="chip s'+(S.mo===m?' on':'')+'" data-m="'+m+'">'+m+'월</button>'; }
-      h+='</div></details>';
-    }
-    var t=txt(); h+='<div class="picked'+(t?'':' none')+'">'+(t?esc(t):'위에서 선택해 주세요')+'</div></div>';
-    host.innerHTML=h;
-    var bs=host.querySelectorAll('button'); for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){
-      var a=this;
-      if(a.hasAttribute('data-u')){ S={dec:0,yr:0,se:'',mo:0,unk:!S.unk}; }
-      else if(a.hasAttribute('data-d')){ var v=+a.getAttribute('data-d'); S.unk=false; if(S.dec!==v){ S.dec=v; S.yr=0; } else { S.dec=0; S.yr=0; S.se=''; S.mo=0; } }
-      else if(a.hasAttribute('data-y')){ var y2=+a.getAttribute('data-y'); S.yr=(S.yr===y2)?0:y2; }
-      else if(a.hasAttribute('data-s')){ var s=a.getAttribute('data-s'); S.se=(S.se===s&&!S.mo)?'':s; S.mo=0; }
-      else if(a.hasAttribute('data-m')){ var m2=+a.getAttribute('data-m'); S.mo=(S.mo===m2)?0:m2; }
-      draw(); if(onChange){ onChange(txt()); }
-    }; }
+  function row(){
+    var t=txt();
+    host.innerHTML='<button type="button" class="wrow'+(t?' on':'')+'"><span>'+(t?esc(t):'연도 선택')+'</span><svg class="i" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></button>';
+    host.firstChild.onclick=sheet;
   }
-  draw();
+  function sheet(){
+    var T={yr:S.yr||1980,se:S.se,mo:S.mo,ab:S.ab}, H=44, d=document.createElement('div'); d.className='sheet-dim';
+    var ys=''; for(var y=now; y>=1900; y--){ ys+='<div class="wy" data-y="'+y+'">'+y+'년</div>'; }
+    d.innerHTML='<div class="sheet"><h2 style="margin-bottom:10px">언제</h2>'+
+      '<div class="wheel"><div class="wsel"></div><div class="wlist" id="wl"><div style="height:'+(H*2)+'px"></div>'+ys+'<div style="height:'+(H*2)+'px"></div></div></div>'+
+      '<div class="lab2">계절</div><div class="seg4" id="wse">'+['봄','여름','가을','겨울'].map(function(x){ return '<button type="button" class="chip" data-s="'+x+'">'+x+'</button>'; }).join('')+'</div>'+
+      '<details id="wmd"'+(T.mo?' open':'')+'><summary class="lab2" style="cursor:pointer;color:var(--navy)">월 선택</summary><div class="seg6" id="wmo">'+[1,2,3,4,5,6,7,8,9,10,11,12].map(function(m){ return '<button type="button" class="chip" data-m="'+m+'">'+m+'월</button>'; }).join('')+'</div></details>'+
+      '<label class="wab"><input type="checkbox" id="wab"'+(T.ab?' checked':'')+'> 정확하지 않음 (「무렵」으로 표시)</label>'+
+      '<div class="wout" id="wout"></div>'+
+      '<div class="seg2" style="margin-top:12px"><button type="button" class="chip" id="wunk">모름</button><button type="button" class="chip on" id="wok">확인</button></div></div>';
+    document.body.appendChild(d);
+    var wl=d.querySelector('#wl');
+    function close(){ try{ d.parentNode.removeChild(d); }catch(e){} }
+    function out(){ var t=T.yr+'년'+(T.mo?' '+T.mo+'월':(T.se?' '+T.se:''))+(T.ab?' 무렵':''); d.querySelector('#wout').textContent=t;
+      var a=d.querySelectorAll('#wse .chip'); for(var i=0;i<a.length;i++){ a[i].classList.toggle('on',!T.mo&&a[i].getAttribute('data-s')===T.se); }
+      var b=d.querySelectorAll('#wmo .chip'); for(var j=0;j<b.length;j++){ b[j].classList.toggle('on',+b[j].getAttribute('data-m')===T.mo); }
+      var c=d.querySelectorAll('.wy'); for(var k=0;k<c.length;k++){ c[k].classList.toggle('on',+c[k].getAttribute('data-y')===T.yr); } }
+    wl.scrollTop=(now-T.yr)*H;
+    var tm=0; wl.onscroll=function(){ clearTimeout(tm); tm=setTimeout(function(){ var i=Math.round(wl.scrollTop/H); T.yr=Math.max(1900,Math.min(now,now-i)); out(); },80); };
+    var yi=d.querySelectorAll('.wy'); for(var q=0;q<yi.length;q++){ yi[q].onclick=function(){ T.yr=+this.getAttribute('data-y'); wl.scrollTo({top:(now-T.yr)*H,behavior:'smooth'}); out(); }; }
+    var se=d.querySelectorAll('#wse .chip'); for(var i=0;i<se.length;i++){ se[i].onclick=function(){ var v=this.getAttribute('data-s'); T.se=(T.se===v&&!T.mo)?'':v; T.mo=0; out(); }; }
+    var mo=d.querySelectorAll('#wmo .chip'); for(var j=0;j<mo.length;j++){ mo[j].onclick=function(){ var v=+this.getAttribute('data-m'); T.mo=(T.mo===v)?0:v; out(); }; }
+    d.querySelector('#wab').onchange=function(){ T.ab=this.checked; out(); };
+    d.querySelector('#wunk').onclick=function(){ S={yr:0,se:'',mo:0,ab:false,unk:true}; close(); row(); };
+    d.querySelector('#wok').onclick=function(){ S={yr:T.yr,se:T.se,mo:T.mo,ab:T.ab,unk:false}; close(); row(); };
+    d.onclick=function(e){ if(e.target===d){ close(); } };
+    out();
+  }
+  row();
   return { value:function(){ return txt()==='모름'?'':txt(); }, unknown:function(){ return S.unk; } };
 }
 
@@ -415,7 +438,7 @@ function openItem(id, fresh){
     h+='<div class="note">'+(it.cat?'갈래 · '+esc(it.cat)+' · ':'')+'남긴 분 · '+esc(it.by||'')+'</div></div>';
     var mems=it.linked.filter(function(x){ return x.kind==='기억'; }), others=it.linked.filter(function(x){ return x.kind!=='기억'; });
     if(it.together.length){
-      h+='<div class="card"><h2>기억 포도송이</h2><p class="lead">이 기록에 마음을 보탠 분마다 한 알씩 열려요.</p><div class="grapes">'+
+      h+='<div class="card"><h2>기억 포도송이</h2><p class="lead">이 기록에 마음을 보탠 분마다 한 알씩 열립니다.</p><div class="grapes">'+
         it.together.map(function(n,i){ return '<div class="grape'+(fresh&&n===ME.name?' new':'')+'"><i></i>'+esc(n)+'</div>'; }).join('')+'</div>';
       if(mems.length){ h+='<div style="margin-top:8px">'+mems.map(function(m){ return '<div class="mem"><b>'+esc(m.by||'')+(m.title&&m.title!=='저도 기억해요'?' · '+esc(m.title):'')+'</b>'+stTag(m)+'<p>'+esc(m.text)+'</p></div>'; }).join('')+'</div>'; }
       h+='</div>';
@@ -438,7 +461,7 @@ function openItem(id, fresh){
     var WP=$('wp')?whenPicker($('wp')):null;
     if($('tb')){ $('tb').onclick=function(){
       var extra=$('tt')?$('tt').value.trim():'', tx='';
-      if(WP){ var w=WP.value(); if(!w&&!WP.unknown()&&!extra){ $('tm').innerHTML='<div class="err">연대를 선택하시거나 덧붙일 말을 적어 주세요.</div>'; return; } tx=w?(w+(extra?' · '+extra:'')):(extra||'모름'); }
+      if(WP){ var w=WP.value(); if(!w&&!WP.unknown()&&!extra){ $('tm').innerHTML='<div class="err">연도를 선택하시거나 덧붙일 말을 적어 주십시오.</div>'; return; } tx=w?(w+(extra?' · '+extra:'')):(extra||'모름'); }
       else { tx=extra; if(!tx){ $('tm').innerHTML='<div class="err">내용을 적어 주십시오.</div>'; return; } }
       var b=this; b.disabled=true;
       api({action:'recTell',id:it.id,q:(it.next?it.next.no:''),text:tx},function(r){
