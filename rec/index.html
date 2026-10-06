@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v2 · 261006 · [대표 지적 261006 21:52 · 검증 2 첫 화면]
+<!-- ★ 현재 버전 ▶ rec/index.html · v3 · 261006 · [대표 261006 22:03] 위 칸(우리 기록 · 기록 남기기 · 내가 남긴 것)이 화면을 바꾸는 단추임이 보이게 — 위에 붙어 따라오는 칸 · 머리 카드 작게 · 설명 한 줄 · 「삭제 요청」은 작은 단추 → 누르면 큰 설명 판이 아래에서 올라옴(스크롤 줄임) · 때 콕 찍기 1900년대부터.
+     (이전) v2 · 261006 · [대표 지적 261006 21:52 · 검증 2 첫 화면]
      ① 주체가 분명한 이름 + 한 줄 설명 — 「모아 보기 · 올리기 · 내 것」 → 「우리 기록 · 기록 남기기 · 내가 남긴 것 · 확인하기(관리자)」, 칸마다 무엇을 하는 곳인지 한 줄 · 처음 오신 분께 「이렇게 쓰세요」 세 걸음.
      ② 「내려 주세요」 → ★「삭제 요청」(붉은 단추) · 설명을 크게(「이럴 때 아래 「삭제 요청」을 눌러 주세요」) · 누르면 바로 가려지고 관리자가 확인.
      ③ 「언제쯤」 물음 · 올리기 「언제」 → ★콕 찍기 — 연대 → 해 → 계절(넷) 또는 달(열둘) · 「잘 몰라요」(서술 안 해도 됨).
@@ -30,26 +31,26 @@ svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stro
 .c-navy{background:var(--navy)}.c-peach{background:#E8A07E}.c-gold{background:var(--gold2)}.c-green{background:var(--green)}.c-rose{background:var(--rose)}.c-violet{background:var(--violet)}
 
 /* 머리 카드 — 공동체 이름 · 다섯 말 띠 */
-.hero{position:relative;overflow:hidden;border-radius:20px;padding:18px 18px 14px;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 45%,#EEF3F8 100%);border:1px solid var(--line);margin-bottom:14px}
+.hero{position:relative;overflow:hidden;border-radius:18px;padding:12px 16px 14px;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 45%,#EEF3F8 100%);border:1px solid var(--line);margin-bottom:14px}
 .hero .who{font-size:13px;color:var(--gold2);font-weight:700;letter-spacing:.04em}
-.hero h1{font-family:'Noto Serif KR',serif;font-size:23px;color:var(--navy2);line-height:1.35;margin:2px 0 6px}
+.hero h1{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--navy2);line-height:1.3;margin:0 0 2px}
 .hero .five{font-size:13px;color:var(--sub);letter-spacing:.02em}
 .hero .five b{color:var(--orange);font-weight:800}
-.hero .cnt{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.hero .cnt{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
 .hero .cnt span{font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--ink)}
 .hero .cnt b{color:var(--navy)}
 .hero svg.wv{position:absolute;left:0;right:0;bottom:0;width:100%;height:26px;opacity:.55;pointer-events:none}
 
 /* 칸 고르기 — 이름 + 한 줄 */
-.tabs{display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:8px;margin-bottom:10px}
-.tabs button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px 9px;border-radius:16px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-family:inherit;color:var(--ink);position:relative}
-.tabs button .ci{width:34px;height:34px}
+.tabs{position:sticky;top:52px;z-index:40;display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:6px;margin:0 -16px 10px;padding:8px 16px;background:rgba(255,252,247,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px 6px;border-radius:14px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-family:inherit;color:var(--ink);position:relative}
+.tabs button .ci{width:28px;height:28px}.tabs button .ci svg{width:15px;height:15px}
 .tabs button b{font-size:14.5px;line-height:1.25}
 .tabs[style*="--n:4"] button b{font-size:13px;letter-spacing:-.02em}
 .tabs button.on{border-color:var(--navy);box-shadow:0 0 0 2px rgba(30,74,118,.12);background:#F6F9FC}
 .tabs button.on b{color:var(--navy)}
 .tabs .dot{position:absolute;top:6px;right:8px;min-width:19px;padding:0 5px;border-radius:10px;background:var(--orange);color:#fff;font-size:11.5px;font-weight:800;line-height:19px}
-.tabhelp{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px dashed #E5D3B3;border-radius:14px;padding:10px 12px;margin-bottom:12px;font-size:14.5px;color:var(--ink)}
+.tabhelp{display:flex;gap:8px;align-items:flex-start;padding:0 2px;margin-bottom:10px;font-size:13.5px;color:var(--sub);line-height:1.55}
 .tabhelp b{color:var(--navy)}
 
 /* 처음 오신 분 */
@@ -132,9 +133,14 @@ input.t:focus,textarea:focus,select:focus{outline:none;border-color:var(--navy)}
 .msg{padding:26px 10px;text-align:center;color:var(--sub)}
 .err{color:var(--red);font-size:14.5px;margin-top:8px}
 .ok{color:#16795A;font-size:14.5px;margin-top:8px}
+.delrow{display:flex;align-items:center;justify-content:flex-end;gap:10px;margin-top:14px;font-size:14px;color:var(--sub)}
+.sheet-dim{position:fixed;inset:0;background:rgba(30,48,80,.45);z-index:4000;display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:560px;background:#fff;border-radius:22px 22px 0 0;padding:16px 16px calc(18px + env(safe-area-inset-bottom));animation:tin .25s ease-out}
+.sheet .del{margin:0}
 .del{border:1.5px solid #EBC6BF;background:#FFF6F4;border-radius:16px;padding:14px;margin-top:16px}
 .del p{font-size:15.5px;color:#6E2A22;line-height:1.6}
 .del .btn{background:var(--red);border-color:var(--red);margin-top:10px}
+.del .btn.line{background:#fff;color:var(--navy);border-color:var(--navy)}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .seg button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;border:1.5px solid var(--line);border-radius:14px;background:#fff;font-family:inherit;font-size:14.5px;cursor:pointer;color:var(--ink)}
 .seg button .ci{width:32px;height:32px}
@@ -266,7 +272,7 @@ function tabsHtml(){
   ks.forEach(function(k){ var x=TABS[k]; t+='<button data-t="'+k+'"><span class="ci '+x.c+'">'+ic(x.ic)+'</span><b>'+x.t+'</b>'+(k==='chk'&&QN?'<span class="dot">'+QN+'</span>':'')+'</button>'; });
   return t+'</div>';
 }
-function helpHtml(k){ return '<div class="tabhelp"><span class="ci '+TABS[k].c+'" style="width:28px;height:28px">'+ic(TABS[k].ic)+'</span><span>'+TABS[k].h+'</span></div>'; }
+function helpHtml(k){ return '<div class="tabhelp"><span>'+TABS[k].h+'</span></div>'; }
 function tabsDraw(){ var el=$('tabs'); if(!el){return;} el.outerHTML=tabsHtml(); bindTabs(); }
 function bindTabs(){ var bs=$('tabs').querySelectorAll('button'); for(var i=0;i<bs.length;i++){ bs[i].classList.toggle('on',bs[i].getAttribute('data-t')===TAB); bs[i].onclick=function(){ show(this.getAttribute('data-t')); }; } }
 function frameTop(){ return heroHtml(ME.comName||'우리 기록', ME.name+' 님 · '+roleName(ME.role)); }
@@ -279,7 +285,7 @@ function guideHtml(){
     '<button class="btn line" id="gdok">알겠어요</button></div>';
 }
 function show(t){
-  TAB=t; $('main').innerHTML=frameTop()+(t==='see'?guideHtml():'')+tabsHtml()+helpHtml(t)+'<div id="body"></div>'; bindTabs(); window.scrollTo(0,0);
+  TAB=t; $('main').innerHTML=frameTop()+tabsHtml()+helpHtml(t)+(t==='see'?guideHtml():'')+'<div id="body"></div>'; bindTabs(); window.scrollTo(0,0);
   if($('gdok')){ $('gdok').onclick=function(){ sset('lf_rec_guide','1'); var g=$('gd'); g.parentNode.removeChild(g); }; }
   if(NCOUNT){ drawCnt(); }
   if(t==='see'){ seeView(); } else if(t==='add'){ addView(); } else if(t==='chk'){ chkView(); } else { meView(); }
@@ -343,7 +349,7 @@ function photo(id, cb){
 /* ── 때 콕 찍기: 연대 → 해 → 계절 또는 달 ── */
 function whenPicker(host, onChange){
   var S={dec:0,yr:0,se:'',mo:0,unk:false}, now=(new Date()).getFullYear(), decs=[];
-  for(var d=1940; d<=now; d+=10){ decs.push(d); }
+  for(var d=1900; d<=now; d+=10){ decs.push(d); }
   function txt(){
     if(S.unk){ return '잘 몰라요'; }
     if(!S.dec){ return ''; }
@@ -405,8 +411,7 @@ function openItem(id, fresh){
                :'<textarea id="tt" placeholder="떠오르는 대로 한두 줄이면 충분해요"></textarea>')+
         '<button class="btn warm" id="tb">'+ic('heart')+'기억 보태기</button><div class="note">보태신 기억은 확인한 뒤 함께 보입니다.</div><div id="tm"></div></div>';
     }
-    h+='<div class="del"><p><b>나나 가족이 나온 사진, 원치 않는 기록인가요?</b><br>이럴 때는 아래 <b>「삭제 요청」</b>을 눌러 주세요. 누르는 즉시 다른 분들에게서 가려지고, 관리자가 확인합니다.'+
-      (it.video?'<br><small style="font-size:13.5px">유튜브에 있는 영상 자체는 올린 분이 유튜브에서 지워야 합니다.</small>':'')+'</p><button class="btn" id="td">삭제 요청</button></div>';
+    h+='<div class="delrow"><span>원치 않는 기록인가요?</span><button class="sbtn red" id="td">삭제 요청</button></div>';
     if(it.state && it.by===ME.name && it.state!=='거둠'){ h+='<button class="btn line" id="wd">내가 올린 이 기록 거두기</button>'; }
     $('body').innerHTML=h;
     $('bk').onclick=function(){ show(TAB); };
@@ -424,12 +429,25 @@ function openItem(id, fresh){
         else { b.disabled=false; $('tm').innerHTML='<div class="err">'+esc(r.msg||'담지 못했어요.')+'</div>'; }
       });
     }; }
-    $('td').onclick=function(){
-      var why=prompt('삭제 요청 — 까닭을 짧게 적어 주세요 (예: 제 얼굴이 나와요)'); if(why===null){return;}
-      api({action:'recTakeDown',id:it.id,why:why},function(r){ if(r.status==='ok'){ toast('삭제 요청을 받았어요','바로 가렸고, 관리자가 확인합니다'); show('see'); } else { alert(r.msg||'하지 못했어요.'); } });
-    };
+    $('td').onclick=function(){ delSheet(it); };
     if($('wd')){ $('wd').onclick=function(){ if(!confirm('이 기록을 거두시겠어요? 다른 분들에게 더 보이지 않습니다.')){return;} api({action:'recWithdraw',id:it.id},function(r){ alert(r.status==='ok'?'거두었어요.':(r.msg||'하지 못했어요.')); show('me'); }); }; }
   });
+}
+
+/* 삭제 요청 — 작은 단추 → 큰 설명 판 */
+function delSheet(it){
+  var d=document.createElement('div'); d.className='sheet-dim';
+  d.innerHTML='<div class="sheet"><div class="del"><p><b>나나 가족이 나온 사진, 원치 않는 기록인가요?</b><br>이럴 때는 아래 <b>「삭제 요청」</b>을 눌러 주세요. 누르는 즉시 다른 분들에게서 가려지고, 관리자가 확인합니다.'+
+    (it.video?'<br><small style="font-size:13.5px">유튜브에 있는 영상 자체는 올린 분이 유튜브에서 지워야 합니다.</small>':'')+'</p>'+
+    '<label class="f" style="color:#6E2A22">까닭 <small>짧게 · 적지 않으셔도 돼요</small></label><input class="t" id="dwhy" maxlength="60" placeholder="예: 제 얼굴이 나와요">'+
+    '<button class="btn" id="dgo">삭제 요청</button><button class="btn line" id="dno" style="margin-top:8px">그만두기</button></div></div>';
+  document.body.appendChild(d);
+  function close(){ try{ d.parentNode.removeChild(d); }catch(e){} }
+  d.onclick=function(e){ if(e.target===d){ close(); } };
+  $('dno').onclick=close;
+  $('dgo').onclick=function(){ this.disabled=true;
+    api({action:'recTakeDown',id:it.id,why:$('dwhy').value.trim()},function(r){ close(); if(r.status==='ok'){ toast('삭제 요청을 받았어요','바로 가렸고, 관리자가 확인합니다'); show('see'); } else { alert(r.msg||'하지 못했어요.'); } });
+  };
 }
 
 /* ── 기록 남기기 ── */
