@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v12 · 261004 — ★[자서전 공사 칸 27-3 화면 알맹이] 종이 불러오기 · 내 AI로 맞춤법 창 — 이모지(📷📄📋🤖📥🔍🌿✨⚠) → 선 아이콘 동그라미(kIc) · 단추 색 살구 → 네이비(살구는 단추 바탕에 안 씀) · 무게 순서(PDF 고르기 위 테두리 · 사진 찍기 아래 네이비 / 처음 글 그대로 두기 위 · 이대로 바꾸기 아래) · 단추 안 화살표 걷음(되돌아가기 줄은 「‹」) · 「부탁 글」→「살펴볼 글」(금지어). [무손] 글자 인식 · 서버 · 맞춤법 비교 · 관계 판(이모지 갈래는 대표 결정 대기).
+   현재 버전 ▶ memoir/kit.js · v13 · 261006 — ★[대표 위임 261006 17:08 · 홍보 자료실 → 화면] ⑤ LFM.wait 기다리는 물결 — 흐르는 글을 「관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름」으로(사랑흐름은 주황 굵게) · 물결 줄을 초록 → 주황 번짐 띠로. ⑥ LFM.grapes 새로 찬 알 — 차오름 1.6초 → 3.2초 · 둘레 빛 2.4초 → 4.2초(대표 「너무 빨라 · 여운 있게」). [무손] 그 밖 전부.
+   ── 이전 ── v12 · 261004 — ★[자서전 공사 칸 27-3 화면 알맹이] 종이 불러오기 · 내 AI로 맞춤법 창 — 이모지(📷📄📋🤖📥🔍🌿✨⚠) → 선 아이콘 동그라미(kIc) · 단추 색 살구 → 네이비(살구는 단추 바탕에 안 씀) · 무게 순서(PDF 고르기 위 테두리 · 사진 찍기 아래 네이비 / 처음 글 그대로 두기 위 · 이대로 바꾸기 아래) · 단추 안 화살표 걷음(되돌아가기 줄은 「‹」) · 「부탁 글」→「살펴볼 글」(금지어). [무손] 글자 인식 · 서버 · 맞춤법 비교 · 관계 판(이모지 갈래는 대표 결정 대기).
    ── 이전 ── v11 · 261004 — ★[묶음 C 청소년 · 이사회 32차 · 35차 결의 2 · 대표 지시 261004] ⑨ LFM.youth(pp, flag) — 청소년 질문지(Y-)면 부르는 말 「○○ 님」(HONOR 「님」) · 이 기기에 번호별로 기억(lf_y_번호) · html 에 lf-youth — class="ny" 숨김 · class="oy" 청소년만 보임 · LFM.title 청소년 갈래(여덟을 마치면 작은 줄 「미리 써 보는」 + 「○○의 자서전」 · pre). ⑩ LFM.REL 관계 떠올리기 판(어른 아홉 갈래 · 청소년 여섯 갈래 · 갈래마다 단추 · 묻는 한 줄 높임 · 친구 사이) · LFM.relGroup(이름) · LFM.relHintKey(갈래). [무손] 그 밖 전부.
    ── 이전 ── v10 · 261004 — ★[묶음 B 고침 · 대표 지시 261004 「지시형 · 큰 글씨 · 로그인 안내 · 따라 하기 영상」] ⑧ aifix 네 걸음 문구를 지시형으로 · ② 번호 걸음 넷(AI 단추 · 로그인 · 붙여넣기 · 복사해 돌아오기) · ⚠ 두 줄 · 「로그인이 어려우면 안내자에게 말씀하세요」 · 「안내자와 함께라면」 줄 걷음 · ▶ 따라 하기 영상 자리(LF_VID — 주소 넣은 자리만 보임 · 사진 불러오기 두 화면에도). [무손] 그 밖 전부.
    ── 이전 ── v9 · 261004 — ★[자서전 마무리 묶음 B · 이사회 29차 ★2 · ★8 · ★9 · ★11 · ★13 · ★20 · 대표 지시 261004 「풍성하게」] ⑧ LFM.aifix — 내 AI로 맞춤법 살펴보기.
@@ -176,7 +177,7 @@
   var HEART = 'M75 64 C 70 48, 52 41, 42 52 C 30 66, 44 84, 75 104 C 106 84, 120 66, 108 52 C 98 41, 80 48, 75 64 Z';
   var FLOW  = 'M4 96 C 24 80, 40 112, 60 92 C 64 88, 68 80, 75 64 C 70 48, 52 41, 42 52 C 30 66, 44 84, 75 104 C 106 84, 120 66, 108 52 C 98 41, 80 48, 75 64 C 82 80, 86 88, 90 92 C 110 112, 126 80, 146 96';
   var WAVE  = 'M-300 30 C -262 10, -225 50, -188 30 S -112 10, -75 30 S 0 50, 38 30 S 112 10, 150 30 S 225 50, 262 30 S 338 10, 375 30 S 450 50, 488 30 S 562 10, 600 30';
-  var WORD  = '사랑흐름  ·  LOVE FLOW  ·  ';
+  var WORD  = '관심 · 연결 · 온기 · 표현 · 회복 · <tspan class="lfw-b">사랑흐름</tspan> · ';
   function wCss(){
     if (document.getElementById('lfwCss')) { return; }
     var c = document.createElement('style'); c.id = 'lfwCss';
@@ -189,7 +190,7 @@
     + '#lfw .lfw-ghost{fill:none;stroke:#e2cf9a;stroke-width:1.5;stroke-linecap:round}'
     + '#lfw .lfw-flow{fill:none;stroke:#a9832e;stroke-width:3.5;stroke-linecap:round;stroke-dasharray:60 520;animation:lfwRun 4.8s linear infinite}'
     + '#lfw .lfw-fill{opacity:0;transform-box:fill-box;transform-origin:center;animation:lfwFill 4.8s ease-in-out infinite}'
-    + '#lfw .lfw-wt{font-family:"Noto Serif KR",serif;font-size:15px;letter-spacing:.14em;fill:#a9832e}'
+    + '#lfw .lfw-wt{font-family:"Noto Serif KR",serif;font-size:14px;letter-spacing:.08em;fill:#6B6357}#lfw .lfw-wt .lfw-b{fill:#E8771E;font-weight:700;font-size:16px}'
     + '#lfw .lfw-msg{font-family:"Noto Serif KR",serif;font-size:18px;color:#163a5e;margin:10px 0 4px;line-height:1.5;word-break:keep-all}'
     + '#lfw .lfw-sub{font-size:14px;color:#8a8070;line-height:1.55;margin-bottom:18px;word-break:keep-all}'
     + '#lfw ol{list-style:none;padding:0;margin:0;text-align:left;width:100%;display:grid;gap:10px}'
@@ -223,7 +224,7 @@
     + '<svg class="lfw-h" viewBox="0 0 150 130" aria-hidden="true"><defs><linearGradient id="lfwG" x1="0" y1="0" x2="0" y2="1">'
     + '<stop offset="0" stop-color="#f3e2a8"/><stop offset=".55" stop-color="#d9b45c"/><stop offset="1" stop-color="#b8913a"/></linearGradient></defs>'
     + '<path class="lfw-fill" fill="url(#lfwG)" d="' + HEART + '"/><path class="lfw-ghost" d="' + FLOW + '"/><path class="lfw-flow" d="' + FLOW + '"/></svg>'
-    + '<svg class="lfw-w" viewBox="0 0 300 50" aria-hidden="true"><path id="lfwP" d="' + WAVE + '" fill="none" stroke="#e2cf9a" stroke-width="1"/>'
+    + '<svg class="lfw-w" viewBox="0 0 300 50" aria-hidden="true"><defs><linearGradient id="lfwB" x1="0" x2="1"><stop offset="0" stop-color="#2E8B57"/><stop offset=".35" stop-color="#5FA14A"/><stop offset=".7" stop-color="#C9B43A"/><stop offset="1" stop-color="#E8771E"/></linearGradient></defs><path id="lfwP" d="' + WAVE + '" fill="none" stroke="url(#lfwB)" stroke-width="2.5" stroke-linecap="round"/>'
     + '<text class="lfw-wt"><textPath href="#lfwP" startOffset="0">' + WORD + WORD + WORD + WORD + WORD + WORD
     + '</textPath></text></svg>'
     + '<div class="lfw-msg">' + wEsc(o.title || '잠시만 기다려 주세요') + '</div>'
@@ -310,8 +311,8 @@
       + '.lfg .gt circle.b{fill:#F6F1FB;stroke:#CDBBE3;stroke-width:1.5;stroke-dasharray:3 4}.lfg .gt .l{fill:#8b7fa0}'
       + '.lfg .gv circle.b{fill:url(#lfgW);stroke:#E6D7F5;stroke-width:1.2}.lfg .gv .l{fill:#9a7cc0}'
       + '.lfg .spk{fill:#c9a24a;font-size:10px;text-anchor:middle;dominant-baseline:central;animation:lfgTw 2.2s ease-in-out infinite}'
-      + '.lfg .pop{transform-box:fill-box;transform-origin:center;animation:lfgPop 1.6s ease-out 1}'
-      + '.lfg .glow{fill:none;stroke:#B48BE0;stroke-width:3;opacity:0;animation:lfgGlow 2.4s ease-out 2}'
+      + '.lfg .pop{transform-box:fill-box;transform-origin:center;animation:lfgPop 3.2s ease-out 1}'
+      + '.lfg .glow{fill:none;stroke:#B48BE0;stroke-width:3;opacity:0;animation:lfgGlow 4.2s ease-out 2}'
       + '@keyframes lfgTw{50%{opacity:.25}}@keyframes lfgPop{0%{transform:scale(.6);opacity:.2}55%{transform:scale(1.12);opacity:1}100%{transform:scale(1)}}'
       + '@keyframes lfgGlow{30%{opacity:.9}100%{opacity:0;transform:scale(1.4)}}'
       + '@media (prefers-reduced-motion: reduce){.lfg .pop,.lfg .glow,.lfg .spk{animation:none}}';
