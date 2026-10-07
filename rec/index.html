@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v14 · 261007 · [대표 261007 11:48 「브라우저 고르게 하면 어르신은 나가 버림」 · 11:54 「카톡 쓰는 분이 대상」 · 12:07 ok · 서버 v33]
+<!-- ★ 현재 버전 ▶ rec/index.html · v15 · 261007 · [대표 261007 14:19 「카카오 연결 → 마지막에 들어오지 못했습니다」 · 서버 v37]
+     ① 휴대폰(카톡 안 화면)이 열쇠를 기억하지 못해도 — 받은 열쇠 · 카카오로 받은 열쇠로 그 자리에서 그대로 들어감.
+     ② 「카카오 연결」 = 가기 전에 서버에서 10분짜리 표를 받아 두고, 돌아와 그 표로 이음(열쇠를 잃어도 이어짐).
+     (이전) v14 · 261007 · [대표 261007 11:48 「브라우저 고르게 하면 어르신은 나가 버림」 · 11:54 「카톡 쓰는 분이 대상」 · 12:07 ok · 서버 v33]
      ① 브라우저 고르는 화면 걷음 — 손님 화면에 「브라우저」라는 말을 쓰지 않음.
      ② 초대 링크 화면 = 만 14세 확인 + 노란 「카카오로 들어오기」 하나(성명 칸 대신 카카오 이름 · 들어온 뒤 「보일 이름」 확인).
      ③ 열쇠가 없는 곳(다른 브라우저 · 새 휴대폰)에서 열면 「우리 기록에 다시 들어오기」 + 「카카오로 들어오기」 하나 → 같은 사람으로 이어짐.
@@ -391,7 +394,7 @@ function boot(){
   if(code||kerr){ kakaoBack(code,kerr,sp.get('state')||''); return; }
   if(k){ sset(KEY,k.toLowerCase()); }
   if(k||g){ try{ history.replaceState(null,'',location.pathname+(g&&!k?'?g='+encodeURIComponent(g):'')+(OPEN_R?(g&&!k?'&':'?')+'r='+OPEN_R:'')); }catch(e){} }
-  K=sget(KEY);
+  K=sget(KEY)||(k?k.toLowerCase():'');   /* ★v15 기억 못 하는 화면이어도 받은 열쇠로 */
   if(K){ loadMe(g); return; }
   if(g){ joinForm(g); return; }
   noKey();
@@ -400,7 +403,9 @@ function boot(){
 var KREST='fe792945db813c2a38cacfbe273cba8d', KREDIR='https://www.loveflow.ai.kr/rec/';   /* 카카오 REST API 키(앱 키 · 주소에 보이는 값) — 서버 KAKAO_REST 와 같은 값 */
 var KICON='<svg viewBox="0 0 24 24"><path d="M12 3.5C6.8 3.5 2.6 6.8 2.6 10.9c0 2.6 1.7 4.9 4.3 6.2l-1 3.7c-.1.3.3.6.6.4l4.4-2.9c.4 0 .7.1 1.1.1 5.2 0 9.4-3.3 9.4-7.4S17.2 3.5 12 3.5z"/></svg>';
 function kakaoGo(mode,o){
-  o=o||{}; var st=encodeURIComponent(JSON.stringify({m:mode,g:o.g||'',a:o.a?1:0,r:OPEN_R||o.r||''}));
+  o=o||{};
+  if(mode==='link'&&!o.t){ api({action:'recKakaoTicket'},function(d){ if(d.status==='ok'){ o.t=d.t; kakaoGo('link',o); } else { toast(d.msg||'잠시 후 다시 눌러 주십시오'); } }); return; }
+  var st=encodeURIComponent(JSON.stringify({m:mode,g:o.g||'',a:o.a?1:0,r:OPEN_R||o.r||'',t:o.t||''}));
   location.href='https://kauth.kakao.com/oauth/authorize?response_type=code&client_id='+KREST+'&redirect_uri='+encodeURIComponent(KREDIR)+'&state='+st;
 }
 function kakaoBtn(id){ return '<button class="btn kakao" id="'+id+'">'+KICON+'카카오로 들어오기</button>'; }
@@ -412,9 +417,9 @@ function kakaoBack(code,kerr,st){
   K=sget(KEY);
   if(kerr||!code){ if(K){ loadMe(); } else if(g){ joinForm(g); } else { noKey(); } return; }   /* 카카오 동의를 그만두신 경우 — 제자리로 */
   wait($('main'),'카카오로 확인하는 중입니다');
-  if(o.m==='link'&&K){
-    api({action:'recKakaoLink',code:code,redirect:KREDIR},function(d){
-      if(d.status==='ok'){ toast('카카오를 이었습니다','이제 어느 휴대폰에서도 카카오로 들어오실 수 있습니다'); }
+  if(o.m==='link'&&(K||o.t)){
+    api({action:'recKakaoLink',code:code,redirect:KREDIR,t:K?'':String(o.t||'')},function(d){
+      if(d.status==='ok'){ if(d.key){ sset(KEY,d.key); K=d.key; } toast('카카오를 이었습니다','이제 어느 휴대폰에서도 카카오로 들어오실 수 있습니다'); }
       else { toast(d.msg||'카카오를 잇지 못했습니다'); }
       loadMe();
     });
