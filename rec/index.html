@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v10 · 261007 · [대표 261007 08:29 「보는 사람 · 소통하는 사람 중심 · 이사 의견대로」 · 서버 v32]
+<!-- ★ 현재 버전 ▶ rec/index.html · v11 · 261007 · [대표 261007 11:13 카톡에서 기록 링크를 누르니 「초대받은 분만」 · 주소가 첫 화면으로 바뀜]
+     ① 카톡 안 브라우저에 열쇠가 없으면 → 기본 브라우저(처음 들어온 곳)로 넘김(kakaotalk://web/openExternal) · 자동이 안 되면 「기본 브라우저로 열기」 단추.
+     ② 「카톡으로 알리기」 = 카카오 공유 기능 대신 휴대폰 공유창(주소가 그대로 감) · 공유창이 없으면 링크 복사.
+     (이전) v10 · 261007 · [대표 261007 08:29 「보는 사람 · 소통하는 사람 중심 · 이사 의견대로」 · 서버 v32]
      ① 위 한 줄 — 왼쪽 처음으로(공동체 홈) · 가운데 찾기 · 오른쪽 내 동그라미(관리자는 승인 대기 숫자). 위 띠 가운데 이름 = 공동체 이름(상호).
      ② 갈래 줄 하나 옆으로 밀기 — 「새로 올라온 · 연도순」 · 전체 · 사진 · 영상(본인 · 타인 제작) · 글 · 갈래.
      ③ 큰 사진 · 영상 카드 — 「1978년 가을 · 포도 n알 · 기억해요 n · 대화 n」. ④ 오른쪽 아래 떠 있는 「+ 기록 남기기」.
@@ -307,7 +310,6 @@ svg.i.lg{width:34px;height:34px;stroke-width:1.5}
 <button class="fab" id="fab" style="display:none"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>기록 남기기</button>
 <script>
 var GAS='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
-var KAKAO_KEY='0c7493c2a8668712a43ccb9cf17387c8';
 var KEY='lf_rec_k', K='', ME=null, CATS=[], F={sort:'new',kind:'',made:'',cat:'',q:''}, QN=0, BUSY=false;
 var LIST=null, LISTKEY='', FEEDY=0, VIEW='feed';
 function $(i){ return document.getElementById(i); }
@@ -375,7 +377,13 @@ function boot(){
   K=sget(KEY);
   if(K){ loadMe(g); return; }
   if(g){ joinForm(g); return; }
-  $('main').innerHTML='<div class="card" style="text-align:center;margin-top:16px"><h2>초대받은 분만 이용할 수 있습니다</h2><p class="lead">받으신 초대 링크를 다시 눌러 주세요.'+(OPEN_R?'<br>이미 들어오셨던 기기라면 그 기기에서 이 링크를 열어 주십시오.':'')+'</p></div>';
+  if(/KAKAOTALK/i.test(navigator.userAgent)){
+    var ext='kakaotalk://web/openExternal?url='+encodeURIComponent(location.href);
+    $('main').innerHTML='<div class="card" style="text-align:center;margin-top:16px"><h2>기본 브라우저에서 엽니다</h2><p class="lead">우리 기록은 처음 들어오신 브라우저에서 열립니다. 잠시 뒤 바뀌지 않으면 아래 단추를 눌러 주십시오.</p><a class="btn" href="'+esc(ext)+'">기본 브라우저로 열기</a></div>';
+    setTimeout(function(){ location.href=ext; },300);
+    return;
+  }
+  $('main').innerHTML='<div class="card" style="text-align:center;margin-top:16px"><h2>초대받은 분만 이용할 수 있습니다</h2><p class="lead">받으신 초대 링크를 다시 눌러 주세요.'+(OPEN_R?'<br>이 기기에서 처음 여시는 경우, 받으신 초대 링크로 먼저 들어와 주십시오.':'')+'</p></div>';
 }
 function joinForm(g){
   $('main').innerHTML='<div class="joinhero"><div class="who">초대받으셨습니다</div><h1>함께 남기는 우리 기록</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
@@ -608,7 +616,6 @@ function photo(id, cb){
 function openItem(id, fresh){
   $('main').innerHTML='<div class="subhead"><button class="back" id="bk">'+ic('back')+'목록으로</button></div><div id="body"></div>';
   $('bk').onclick=back; wait($('body'),'기록을 펼치는 중입니다'); window.scrollTo(0,0);
-  kakaoLoad();
   api({action:'recGet',id:id},function(d){
     if(VIEW!=='item'){ return; }
     if(d.status!=='ok'){ $('body').innerHTML='<div class="msg">'+esc(d.msg||'볼 수 있는 기록이 아닙니다.')+'</div>'; return; }
@@ -621,7 +628,7 @@ function openItem(id, fresh){
     h+='<div class="acts3">'+
       '<button id="rx" class="'+(it.mine?'on':'')+'"'+(canTell()?'':' disabled')+'>'+ic('heart')+'<b>나도 기억해요</b><small id="rxn">'+(it.react||0)+'</small></button>'+
       '<button id="tx">'+ic('talk')+'<b>대화</b><small>'+(it.talks?it.talks.length:0)+'</small></button>'+
-      '<button id="sx" class="kk">'+ic('share')+'<b>카톡으로 알리기</b><small>링크 보내기</small></button></div>';
+      '<button id="sx" class="kk">'+ic('share')+'<b>카톡으로 알리기</b><small>공유창에서 카카오톡</small></button></div>';
     h+='<div class="pad">';
     if(it.text){ h+='<p style="white-space:pre-wrap;margin:6px 0 4px;font-size:16px">'+esc(it.text)+'</p>'; }
     var bl=[['언제','when'],['어디서','where'],['누구와','who'],['무슨 일','what']], filled=bl.filter(function(x){ return it[x[1]]; }).length;
@@ -719,26 +726,11 @@ function talkSend(it,b){
   });
 }
 
-/* 카톡으로 알리기 — 링크 /rec/?r=기록번호 (초대받은 분만 열림 · 사진은 싣지 않음) */
-var KAKAO_ST='';
-function kakaoLoad(){
-  if(KAKAO_ST){ return; } KAKAO_ST='loading';
-  var s=document.createElement('script'); s.src='https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js'; s.async=true;
-  s.onload=function(){ try{ if(!Kakao.isInitialized()){ Kakao.init(KAKAO_KEY); } KAKAO_ST='ok'; }catch(e){ KAKAO_ST='no'; } };
-  s.onerror=function(){ KAKAO_ST='no'; };
-  document.head.appendChild(s);
-}
+/* 카톡으로 알리기 — 휴대폰 공유창에서 카카오톡 선택(주소가 그대로 감) · 공유창이 없으면 링크 복사
+   링크 /rec/?r=기록번호 — 들어와 있는 분만 열림 · 사진은 싣지 않음 */
 function shareRec(it){
   var url=location.origin+'/rec/?r='+encodeURIComponent(it.id);
-  var com=ME.comName||'우리 기록', title='「'+(it.title||'우리 기록')+'」';
-  var text=com+' — '+title+'\n함께 보며 떠오르는 기억을 나누어 주십시오.';
-  try{
-    if(KAKAO_ST==='ok'&&window.Kakao&&Kakao.Share){
-      if(it.video){ Kakao.Share.sendDefault({objectType:'feed',content:{title:com+' · '+title,description:'함께 보며 떠오르는 기억을 나누어 주십시오.',imageUrl:it.video.thumb,link:{mobileWebUrl:url,webUrl:url}},buttons:[{title:'기록 열기',link:{mobileWebUrl:url,webUrl:url}}]}); }
-      else { Kakao.Share.sendDefault({objectType:'text',text:text,link:{mobileWebUrl:url,webUrl:url},buttonTitle:'기록 열기'}); }
-      return;
-    }
-  }catch(e){}
+  var com=ME.comName||'우리 기록', text=com+' — 「'+(it.title||'우리 기록')+'」\n함께 보며 떠오르는 기억을 나누어 주십시오.';
   if(navigator.share){ navigator.share({title:com,text:text,url:url}).catch(function(){}); return; }
   copyLink(url);
 }
