@@ -1,5 +1,13 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v9 · 261006 · [대표 261006 22:32] 「확인하기」 칸 → 「승인 관리」 · 관리자 단추 「공개」 → 「승인」 · 「회수」 → 「등록 취소」.
+<!-- ★ 현재 버전 ▶ rec/index.html · v10 · 261007 · [대표 261007 08:29 「보는 사람 · 소통하는 사람 중심 · 이사 의견대로」 · 서버 v32]
+     ① 위 한 줄 — 왼쪽 처음으로(공동체 홈) · 가운데 찾기 · 오른쪽 내 동그라미(관리자는 승인 대기 숫자). 위 띠 가운데 이름 = 공동체 이름(상호).
+     ② 갈래 줄 하나 옆으로 밀기 — 「새로 올라온 · 연도순」 · 전체 · 사진 · 영상(본인 · 타인 제작) · 글 · 갈래.
+     ③ 큰 사진 · 영상 카드 — 「1978년 가을 · 포도 n알 · 기억해요 n · 대화 n」. ④ 오른쪽 아래 떠 있는 「+ 기록 남기기」.
+     ⑤ 내 동그라미 → 내가 남긴 것 · 승인 관리 · 공동체 이름 바꾸기(관리자) · 이 기기에서 나가기.
+     ⑥ 기록 열면 큰 사진/영상 → 나도 기억해요 · 대화 · 카톡으로 알리기(/rec/?r=기록번호) → 포도송이 → 함께 채우는 물음 → 대화(300자) → 삭제 요청.
+     ⑦ 아래 길목 띠는 이 화면에서만 감춤(frame.js 손대지 않음) · 휴대폰 「뒤로」 = 앞 화면 · 목록으로 돌아오면 보던 자리.
+     ⑧ 「한두 줄이면 충분」 → 「떠오르는 장면을 마음 가는 대로 들려주세요」(말 기준).
+     (이전) v9 · 261006 · [대표 261006 22:32] 「확인하기」 칸 → 「승인 관리」 · 관리자 단추 「공개」 → 「승인」 · 「회수」 → 「등록 취소」.
      (이전) v8 · 261006 · [대표 261006 22:28] 「언제」 연대 칸 열세 개 걷음 → ★한 줄(「연도 선택」) · 누르면 아래에서 판: 연도 바퀴(올해~1900) · 계절 넷 · 월 열둘(접힘) · 「정확하지 않음(무렵)」 · 모름 / 확인.
      (이전) v7 · 261006 · [대표 261006 22:22] 「사진」 누르면 바로 파일 선택 · 「영상」 등록 방법 안내 + 붙여넣기 · 「글」 = 지금 직접 작성하는 글 · 공개 범위 두 칸과 남기기 단추 크기 균형 · 출처 말 공식 표현(본인 촬영 · 소장 사진 · 외부 자료 · 출처 미상 · AI 생성 · 본인 제작 영상 · 타인 제작 영상 — 서버 값은 그대로).
      (이전) v6 · 261006 · [대표 261006 22:17] 관리자 단추 「실음 · 가림 · 지움」 → ★「공개 · 비공개 · 삭제」 · 상태 꼬리표 「확인 기다림 · 실림 · 가림 · 거둠」 → 「승인 대기 · 공개 · 비공개 · 회수」 · 갈래 · 이어 보기 「확인 · 거둠」 → 「승인 · 반려」 · 「거두기」 → 「회수」. 서버 · 시트 안의 값(실음 · 실림 …)은 그대로(화면 말만).
@@ -25,47 +33,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--navy:#1E4A76;--navy2:#163A5C;--gold:#C9A96E;--gold2:#C0872E;--peach:#E59273;--orange:#E8771E;--green:#1D9E75;--rose:#C25B7C;--violet:#8A6FC9;
-  --cream:#FFFCF7;--sand:#F4EEE4;--ink:#2E3A46;--sub:#7d7465;--line:#EADFCF;--red:#B03A2E}
-*{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--cream);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;font-size:16px;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
-.app{max-width:560px;margin:0 auto}
-.test{background:#FFF4D6;color:#7a5a12;font-size:12.5px;text-align:center;padding:5px 10px}
-.wrap{padding:14px 16px 40px}
-svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
-.ci{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;color:#fff;flex:none}
-.c-navy{background:var(--navy)}.c-peach{background:#E8A07E}.c-gold{background:var(--gold2)}.c-green{background:var(--green)}.c-rose{background:var(--rose)}.c-violet{background:var(--violet)}
-
-/* 머리 카드 — 공동체 이름 · 다섯 말 띠 */
-.hero{position:relative;overflow:hidden;border-radius:18px;padding:12px 16px 14px;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 45%,#EEF3F8 100%);border:1px solid var(--line);margin-bottom:14px}
-.hero .who{font-size:13px;color:var(--gold2);font-weight:700;letter-spacing:.04em}
-.hero h1{font-family:'Noto Serif KR',serif;font-size:20px;color:var(--navy2);line-height:1.3;margin:0 0 2px}
-.hero .five{font-size:13px;color:var(--sub);letter-spacing:.02em}
-.hero .five b{color:var(--orange);font-weight:800}
-.hero .cnt{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
-.hero .cnt span{font-size:12.5px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 10px;color:var(--ink)}
-.hero .cnt b{color:var(--navy)}
-.hero svg.wv{position:absolute;left:0;right:0;bottom:0;width:100%;height:26px;opacity:.55;pointer-events:none}
-
-/* 칸 고르기 — 이름 + 한 줄 */
-.tabs{position:sticky;top:52px;z-index:40;display:grid;grid-template-columns:repeat(var(--n,3),1fr);gap:6px;margin:0 -16px 10px;padding:8px 16px;background:rgba(255,252,247,.96);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
-.tabs button{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px 6px;border-radius:14px;border:1.5px solid var(--line);background:#fff;cursor:pointer;font-family:inherit;color:var(--ink);position:relative}
-.tabs button .ci{width:28px;height:28px}.tabs button .ci svg{width:15px;height:15px}
-.tabs button b{font-size:14.5px;line-height:1.25}
-.tabs[style*="--n:4"] button b{font-size:13px;letter-spacing:-.02em}
-.tabs button.on{border-color:var(--navy);box-shadow:0 0 0 2px rgba(30,74,118,.12);background:#F6F9FC}
-.tabs button.on b{color:var(--navy)}
-.tabs .dot{position:absolute;top:6px;right:8px;min-width:19px;padding:0 5px;border-radius:10px;background:var(--orange);color:#fff;font-size:11.5px;font-weight:800;line-height:19px}
-.tabhelp{display:flex;gap:8px;align-items:flex-start;padding:0 2px;margin-bottom:10px;font-size:13.5px;color:var(--sub);line-height:1.55}
-.tabhelp b{color:var(--navy)}
-
-/* 처음 오신 분 */
-.guide{background:#fff;border:1.5px solid #E9D9BC;border-radius:18px;padding:16px;margin-bottom:14px}
-.guide h2{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--navy2);margin-bottom:8px}
-.guide .st{display:flex;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
-.guide .st:first-of-type{border-top:0}
-.guide .st small{display:block;color:var(--sub);font-size:13.5px;line-height:1.5}
-
 .card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px}
 h2{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--navy2);margin-bottom:6px}
 .lead{font-size:14.5px;color:var(--sub)}
@@ -184,8 +151,150 @@ input.t:focus,textarea:focus,select:focus{outline:none;border-color:var(--navy)}
 @keyframes tin{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
 details.more{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
 details.more summary{cursor:pointer;color:var(--navy);font-weight:800;font-size:15px}
+:root{--navy:#1E4A76;--navy2:#163A5C;--gold:#C9A96E;--gold2:#C0872E;--peach:#E59273;--orange:#E8771E;--green:#1D9E75;--rose:#C25B7C;--violet:#8A6FC9;
+  --cream:#FFFCF7;--sand:#F4EEE4;--ink:#2E3A46;--sub:#7d7465;--line:#EADFCF;--red:#B03A2E}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;font-size:16px;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
+/* ★v10 이 화면에서는 아래 길목 띠를 감춤(위 띠는 그대로) */
+.lfx-tab{display:none!important}
+html.lfx body{padding-bottom:0!important}
+.app{max-width:560px;margin:0 auto}
+.test{background:#FFF4D6;color:#7a5a12;font-size:12.5px;text-align:center;padding:5px 10px}
+.wrap{padding:0 16px 110px}
+svg.i{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round;flex:none}
+svg.i.sm{width:14px;height:14px;stroke-width:2}
+svg.i.lg{width:34px;height:34px;stroke-width:1.5}
+.ci{display:inline-grid;place-items:center;width:38px;height:38px;border-radius:50%;color:#fff;flex:none}
+.c-navy{background:var(--navy)}.c-peach{background:#E8A07E}.c-gold{background:var(--gold2)}.c-green{background:var(--green)}.c-rose{background:var(--rose)}.c-violet{background:var(--violet)}.c-gray{background:#9a907e}
+
+/* 위 한 줄 + 갈래 줄 — 붙어 따라옴 */
+.head{position:sticky;top:52px;z-index:40;margin:0 -16px 12px;background:rgba(255,252,247,.97);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.bar{display:grid;grid-template-columns:42px 1fr 42px;gap:10px;align-items:center;padding:9px 16px 7px}
+.home,.mecir{width:42px;height:42px;border-radius:50%;border:none;display:grid;place-items:center;cursor:pointer;font-family:inherit;position:relative}
+.home{background:#FFF3DE;color:var(--gold2);box-shadow:inset 0 0 0 1.5px #EBD7AE}
+.home svg.i{width:21px;height:21px}
+.mecir{background:var(--navy);color:#fff;font-size:17px;font-weight:800}
+.mecir .dot{position:absolute;top:-4px;right:-5px;min-width:20px;padding:0 5px;border-radius:10px;background:var(--orange);color:#fff;font-size:11.5px;font-weight:800;line-height:20px;border:2px solid #fff}
+.mecir.big{width:48px;height:48px;font-size:20px;flex:none;display:inline-grid}
+.search{display:flex;align-items:center;height:42px;border:1.5px solid #DCCFB6;border-radius:999px;background:#fff;padding-left:14px;min-width:0}
+.search:focus-within{border-color:var(--navy)}
+.search input{flex:1;min-width:0;border:none;outline:none;background:none;font-family:inherit;font-size:15.5px;color:var(--ink)}
+.search input::-webkit-search-cancel-button{display:none}
+.search button{width:40px;height:38px;border:none;background:none;color:var(--navy);display:grid;place-items:center;cursor:pointer}
+.strip{display:flex;gap:7px;align-items:center;overflow-x:auto;padding:2px 16px 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.strip::-webkit-scrollbar{display:none}
+.strip .chip{flex:none;display:inline-flex;align-items:center;gap:4px;white-space:nowrap}
+.strip .chip.sub{border-style:dashed}
+.strip .chip.sub.on{border-style:solid}
+.sep{flex:none;width:1px;height:22px;background:var(--line)}
+.sort{flex:none;display:inline-flex;border:1.5px solid var(--gold);border-radius:999px;overflow:hidden;background:#FFFBF2}
+.sort button{border:none;background:none;font-family:inherit;font-size:13.5px;padding:5px 11px;color:var(--gold2);font-weight:700;cursor:pointer;white-space:nowrap}
+.sort button.on{background:var(--gold2);color:#fff}
+
+/* 큰 카드 */
+.fc{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;margin-bottom:16px;cursor:pointer;box-shadow:0 2px 10px rgba(30,48,80,.05);transition:transform .12s}
+.fc:active{transform:scale(.99)}
+.fc .pic{position:relative;aspect-ratio:4/3;background:var(--sand) center/cover no-repeat;display:grid;place-items:center;color:#C9BDA6}
+.fc .pic.has{color:transparent}
+.fc .pic .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:64px;height:44px;background:rgba(211,58,44,.94);border-radius:13px}
+.fc .pic .play:after{content:'';position:absolute;left:25px;top:12px;border-left:17px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent}
+.fc .pic .badge{position:absolute;left:10px;bottom:10px;background:rgba(22,58,92,.82);color:#fff;font-size:12px;border-radius:8px;padding:2px 8px}
+.fc .pic.txt{aspect-ratio:auto;min-height:150px;padding:26px 22px;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 45%,#EEF3F8 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;color:var(--gold2)}
+.fc .pic.txt b{font-family:'Noto Serif KR',serif;font-size:21px;color:var(--navy2);line-height:1.4}
+.fc .meta{padding:11px 15px 13px}
+.fc .meta > b.tonly .tag{margin-left:0}
+.fc .meta > b{display:block;font-size:17px;color:var(--navy2);line-height:1.4}
+.fc .s2{font-size:13.5px;color:var(--sub);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ln{display:flex;flex-wrap:wrap;gap:4px 12px;margin-top:5px;font-size:13.5px;color:var(--sub)}
+.ln span{display:inline-flex;align-items:center;gap:4px}
+.ln .g{color:#7B5BBF}.ln .r.on{color:var(--rose);font-weight:700}
+.ln.sm{font-size:12.5px;gap:2px 9px;margin-top:2px}
+.yearh{display:flex;align-items:center;gap:10px;margin:18px 0 10px;color:var(--gold2);font-weight:800;font-size:15px;letter-spacing:.03em}
+.yearh:before,.yearh:after{content:'';flex:1;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold))}
+.yearh:after{background:linear-gradient(90deg,var(--gold),transparent)}
+
+/* 기록 남기기 — 오른쪽 아래 떠 있는 단추 */
+.fab{position:fixed;right:max(16px,calc(50vw - 264px));bottom:calc(20px + env(safe-area-inset-bottom));z-index:1400;display:flex;align-items:center;gap:6px;height:54px;padding:0 20px 0 16px;border-radius:999px;border:none;background:var(--orange);color:#fff;font-family:inherit;font-size:16px;font-weight:800;box-shadow:0 8px 22px rgba(232,119,30,.38);cursor:pointer}
+.fab svg.i{width:22px;height:22px;stroke-width:2.4}
+
+/* 첫 들어오기 · 이용 안내 */
+.joinhero{border-radius:18px;padding:16px;margin:14px 0;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 45%,#EEF3F8 100%);border:1px solid var(--line);text-align:center}
+.joinhero .who{font-size:13px;color:var(--gold2);font-weight:700}
+.joinhero h1{font-family:'Noto Serif KR',serif;font-size:21px;color:var(--navy2)}
+.joinhero .five{font-size:13px;color:var(--sub)}.joinhero .five b{color:var(--orange)}
+.guide{background:#fff;border:1.5px solid #E9D9BC;border-radius:18px;padding:16px;margin-bottom:14px}
+.guide h2{font-family:'Noto Serif KR',serif;font-size:18px;color:var(--navy2);margin-bottom:8px}
+.guide .st{display:flex;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line)}
+.guide .st:first-of-type{border-top:0}
+.guide .st small{display:block;color:var(--sub);font-size:13.5px;line-height:1.5}
+
+/* 작은 목록 줄 */
+.item{display:flex;gap:12px;align-items:center;padding:11px;border:1px solid var(--line);border-radius:16px;background:#fff;margin-bottom:8px;cursor:pointer}
+.item .th{width:68px;height:68px;border-radius:12px;background:var(--sand) center/cover no-repeat;flex:none;display:grid;place-items:center;color:#B9AC93;position:relative}
+.item .th .yt{position:absolute;right:4px;bottom:4px;width:22px;height:16px;background:#D33A2C;border-radius:5px}
+.item .th .yt:after{content:'';position:absolute;left:8px;top:4px;border-left:7px solid #fff;border-top:4px solid transparent;border-bottom:4px solid transparent}
+.item .tx{flex:1;min-width:0}
+.item .tx b{display:block;color:var(--navy2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:16px}
+.item .tx .sub{font-size:13px;color:var(--sub);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tag{display:inline-block;font-size:11.5px;border-radius:7px;padding:0 7px;font-weight:700;margin-left:6px;vertical-align:2px}
+.t-wait{background:#FFF1DC;color:#9A5B12}.t-hide{background:#F6E1DE;color:#9a2f24}.t-on{background:#E3F4EC;color:#16795A}
+.t-own{background:#EAF1F8;color:var(--navy)}.t-oth{background:var(--sand);color:#6b5f48}
+
+/* 하위 화면 머리 */
+.subhead{padding-top:12px}
+.subhead h2{margin-bottom:2px}
+.subhead .lead{margin-bottom:12px;font-size:14px}
+
+/* 기록 하나 */
+.card.big{padding:0;overflow:hidden}
+.card.big .pad{padding:14px 16px 4px}
+.card.big .media{margin:0;border-radius:0}
+.card.big .ytnote{padding:8px 0 0}
+.media{width:100%;display:block;background:var(--sand)}
+.ytbox{position:relative;cursor:pointer}
+.ytbox .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:66px;height:46px;background:rgba(211,58,44,.94);border-radius:13px}
+.ytbox .play:after{content:'';position:absolute;left:26px;top:13px;border-left:17px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent}
+.ytnote{display:flex;align-items:center;justify-content:center;gap:6px;font-size:13.5px;color:var(--sub)}
+.acts3{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:10px}
+.card.big .pad + .acts3{margin-top:10px}
+.card.big .pad:last-child{padding-bottom:14px}
+.card.big img.media{max-height:70vh;object-fit:contain}
+.acts3 button{display:flex;flex-direction:column;align-items:center;gap:1px;padding:11px 2px 10px;border:none;background:#fff;font-family:inherit;color:var(--navy);cursor:pointer}
+.acts3 button + button{border-left:1px solid var(--line)}
+.acts3 button svg.i{width:23px;height:23px}
+.acts3 button b{font-size:13.5px;line-height:1.3}
+.acts3 button small{font-size:12px;color:var(--sub)}
+.acts3 #rx{color:var(--rose)}
+.acts3 #rx.on svg.i{fill:var(--rose)}
+.acts3 #rx.on{background:#FFF4F7}
+.acts3 #rx:disabled{opacity:.55;cursor:default}
+.acts3 #rx.pop svg.i{animation:pop .5s ease-out}
+.acts3 .kk{color:#3B1E1E}
+.acts3 .kk svg.i{color:#3B1E1E;background:#FEE500;border-radius:50%;padding:4px;width:27px;height:27px}
+@keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.35)}100%{transform:scale(1)}}
+.rnames{display:flex;align-items:center;gap:6px;font-size:13.5px;color:var(--rose);margin:-4px 4px 12px}
+.tl1{border-radius:14px;background:#F7F4EE;padding:9px 12px;margin-bottom:8px}
+.tl1.me{background:#EEF4FA}
+.th1{display:flex;align-items:center;gap:8px}
+.th1 b{font-size:14px;color:var(--navy2)}
+.th1 small{font-size:12px;color:var(--sub)}
+.tdel{margin-left:auto;border:none;background:none;color:var(--sub);font-family:inherit;font-size:12.5px;text-decoration:underline;cursor:pointer}
+.tl1 p{font-size:15px;white-space:pre-wrap}
+.tbox textarea{min-height:70px}
+.trow{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+.trow small{color:var(--sub);font-size:12.5px}
+#talkc h2{display:flex;align-items:center;gap:6px}
+
+/* 내 메뉴 판 */
+.mehead{display:flex;gap:12px;align-items:center;padding:4px 2px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.mehead b{display:block;font-size:17px;color:var(--navy2)}
+.mehead small{color:var(--sub);font-size:13px}
+.mrow{display:flex;gap:12px;align-items:center;width:100%;padding:10px 4px;border:none;border-bottom:1px solid var(--line);background:none;font-family:inherit;text-align:left;cursor:pointer;color:var(--ink)}
+.mrow b{display:block;font-size:16px}
+.mrow small{display:block;color:var(--sub);font-size:13px}
+.mrow .cnt{display:inline-block;background:var(--orange);color:#fff;border-radius:10px;font-size:12px;padding:0 7px;margin-left:4px;vertical-align:2px}
 .foot{font-size:12px;color:#a59c8a;text-align:center;padding:16px 0 10px}
-@media (prefers-reduced-motion:reduce){.grape.new i,.toast{animation:none}}
+@media (prefers-reduced-motion:reduce){.grape.new i,.toast,.acts3 #rx.pop svg.i{animation:none}}
 </style>
 </head>
 <body data-lf-title="함께 남기는 우리 기록">
@@ -195,9 +304,12 @@ details.more summary{cursor:pointer;color:var(--navy);font-weight:800;font-size:
   <div class="foot">© 2026 사랑흐름 · LFRI™</div>
   <input type="file" id="afH" accept="image/*" style="display:none">
 </div>
+<button class="fab" id="fab" style="display:none"><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>기록 남기기</button>
 <script>
 var GAS='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
-var KEY='lf_rec_k', K='', ME=null, CATS=[], TAB='see', F={kind:'',made:'',cat:'',q:''}, QN=0, BUSY=false, NCOUNT=null;
+var KAKAO_KEY='0c7493c2a8668712a43ccb9cf17387c8';
+var KEY='lf_rec_k', K='', ME=null, CATS=[], F={sort:'new',kind:'',made:'',cat:'',q:''}, QN=0, BUSY=false;
+var LIST=null, LISTKEY='', FEEDY=0, VIEW='feed';
 function $(i){ return document.getElementById(i); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
 function sget(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } }
@@ -205,7 +317,8 @@ function sset(k,v){ try{ if(v){ localStorage.setItem(k,v); } else { localStorage
 /* 선 아이콘 */
 var IC={
   book:'<path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5"/><path d="M9 7h6"/>',
-  plus:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  plusc:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
   heart:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
   check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.5L16 9.5"/>',
   photo:'<rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M21 16l-5-5-8 8"/>',
@@ -214,12 +327,17 @@ var IC={
   look:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.3-4.3"/>',
   talk:'<path d="M4 5h16v11H9l-5 4z"/>',
   out:'<path d="M14 4h5v16h-5"/><path d="M10 8l-4 4 4 4"/><path d="M6 12h9"/>',
-  back:'<path d="M15 5l-7 7 7 7"/>'
+  back:'<path d="M15 5l-7 7 7 7"/>',
+  home:'<path d="M4 11l8-7 8 7"/><path d="M6 10v10h12V10"/>',
+  share:'<circle cx="18" cy="6" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 11l7.6-3.8M8.2 13l7.6 3.8"/>',
+  grape:'<circle cx="9" cy="9" r="3"/><circle cx="15" cy="9" r="3"/><circle cx="12" cy="14" r="3"/><circle cx="12" cy="19.5" r="2"/><path d="M12 6V3l2-1"/>',
+  pen:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'
 };
 /* 화면 말 ↔ 서버 값 (서버 값은 그대로 · 화면에만 공식 표현) */
 var SRC_L={'직접 찍음':'본인 촬영','가진 사진':'소장 사진','바깥에서 가져옴':'외부 자료','출처 모름':'출처 미상','AI로 만들었다고 밝힘':'AI 생성','직접 만든 영상':'본인 제작 영상','다른 사람 영상':'타인 제작 영상'};
 function srcL(v){ return SRC_L[v]||v; }
-function ic(n){ return '<svg class="i" viewBox="0 0 24 24">'+(IC[n]||'')+'</svg>'; }
+function ic(n,c){ return '<svg class="i'+(c?' '+c:'')+'" viewBox="0 0 24 24">'+(IC[n]||'')+'</svg>'; }
 function wait(el, msg){ msg=msg||'기록을 불러오는 중입니다'; el.innerHTML='<div class="waitbox"><b>'+esc(msg)+'</b><div class="lf-wave"></div></div>'; try{ if(window.LFFlow){ LFFlow.wave(el.querySelector('.lf-wave')); } }catch(e){} }
 function toast(t,s){ var d=document.createElement('div'); d.className='toast'; d.innerHTML='<b>'+esc(t)+'</b>'+(s?'<small>'+esc(s)+'</small>':''); document.body.appendChild(d); setTimeout(function(){ try{ d.parentNode.removeChild(d); }catch(e){} },3200); }
 
@@ -247,23 +365,20 @@ function isBoss(){ return ME && (ME.role==='관리자'||ME.role==='확인자'); 
 function canAdd(){ return ME && (isBoss()||ME.role==='올리는 사람'); }
 function canTell(){ return ME && ME.role!=='보는 사람'; }
 
-/* ── 들어오기 ── */
+/* ── 들어오기 ── ?g=초대 · ?k=열쇠 · ?r=기록번호(카톡으로 받은 링크) */
+var OPEN_R='';
 function boot(){
   var sp=new URLSearchParams(location.search), g=(sp.get('g')||'').trim(), k=(sp.get('k')||'').trim();
+  OPEN_R=(sp.get('r')||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,20);
   if(k){ sset(KEY,k.toLowerCase()); }
-  if(k||g){ try{ history.replaceState(null,'',location.pathname+(g&&!k?'?g='+encodeURIComponent(g):'')); }catch(e){} }
+  if(k||g){ try{ history.replaceState(null,'',location.pathname+(g&&!k?'?g='+encodeURIComponent(g):'')+(OPEN_R?(g&&!k?'&':'?')+'r='+OPEN_R:'')); }catch(e){} }
   K=sget(KEY);
   if(K){ loadMe(g); return; }
   if(g){ joinForm(g); return; }
-  $('main').innerHTML='<div class="card" style="text-align:center"><h2>초대받은 분만 이용할 수 있습니다</h2><p class="lead">받으신 초대 링크를 다시 눌러 주세요.</p></div>';
-}
-function heroHtml(name, sub){
-  return '<div class="hero"><div class="who">'+esc(sub||'함께 남기는 우리 기록')+'</div><h1>'+esc(name)+'</h1>'+
-    '<div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div><div class="cnt" id="cnt"></div>'+
-    '<svg class="wv" viewBox="0 0 400 26" preserveAspectRatio="none"><defs><linearGradient id="hw" x1="0" x2="1"><stop offset="0" stop-color="#2E8B57"/><stop offset=".4" stop-color="#5FA14A"/><stop offset=".7" stop-color="#C9B43A"/><stop offset="1" stop-color="#E8771E"/></linearGradient></defs><path d="M0 16 C 50 6, 100 26, 150 16 S 250 6, 300 16 S 380 24, 400 14" fill="none" stroke="url(#hw)" stroke-width="3"/></svg></div>';
+  $('main').innerHTML='<div class="card" style="text-align:center;margin-top:16px"><h2>초대받은 분만 이용할 수 있습니다</h2><p class="lead">받으신 초대 링크를 다시 눌러 주세요.'+(OPEN_R?'<br>이미 들어오셨던 기기라면 그 기기에서 이 링크를 열어 주십시오.':'')+'</p></div>';
 }
 function joinForm(g){
-  $('main').innerHTML=heroHtml('함께 남기는 우리 기록','초대받으셨습니다')+
+  $('main').innerHTML='<div class="joinhero"><div class="who">초대받으셨습니다</div><h1>함께 남기는 우리 기록</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
     '<div class="card"><h2>들어가기</h2><p class="lead">성명만 적으시면 이 기기에서 바로 이어집니다. 전화번호 · 연락처는 받지 않습니다.</p>'+
     '<label class="f">성명</label><input class="t" id="jn" maxlength="20" autocomplete="name">'+
     '<label style="display:flex;gap:10px;align-items:center;margin-top:14px;font-size:15.5px;cursor:pointer"><input type="checkbox" id="ja" style="width:20px;height:20px"> 만 14세 이상입니다</label>'+
@@ -273,7 +388,7 @@ function joinForm(g){
     if(!$('ja').checked){ $('je').textContent='만 14세 이상인지 확인해 주세요.'; return; }
     this.disabled=true; $('je').textContent='';
     api({action:'recJoin',g:g,name:n,age14:'1'},function(d){
-      if(d.status==='ok'){ sset(KEY,d.key); K=d.key; try{ history.replaceState(null,'',location.pathname); }catch(e){} loadMe(); }
+      if(d.status==='ok'){ sset(KEY,d.key); K=d.key; try{ history.replaceState(null,'',location.pathname+(OPEN_R?'?r='+OPEN_R:'')); }catch(e){} loadMe(); }
       else { $('jb').disabled=false; $('je').textContent=d.msg||'입장하지 못했습니다.'; }
     });
   };
@@ -285,66 +400,177 @@ function loadMe(g){
       if(d.reason==='NO_KEY'){ sset(KEY,''); K=''; if(g){ joinForm(g); return; } }
       $('main').innerHTML='<div class="msg">'+esc(d.msg||'열지 못했습니다.')+'</div>'; return;
     }
-    ME=d;
-    loadCats(function(){ show('see'); });
-    if(isBoss()){ api({action:'recQueue'},function(q){ if(q.status==='ok'){ QN=q.items.length+q.links.length+(q.cats||[]).length; tabsDraw(); } }); }
+    ME=d; setTitle();
+    loadCats(function(){
+      try{ history.replaceState({v:'feed'},'',location.pathname); }catch(e){}
+      if(OPEN_R){ var r=OPEN_R; OPEN_R=''; render('feed'); go('item',r); } else { render('feed'); }
+    });
+    queueCount();
   });
 }
+function queueCount(){ if(!isBoss()){ return; } api({action:'recQueue'},function(q){ if(q.status==='ok'){ QN=q.items.length+q.links.length+(q.cats||[]).length; drawBadge(); } }); }
 function loadCats(cb){ api({action:'recCats'},function(d){ CATS=(d.status==='ok')?d.items:[]; if(cb){cb();} }); }
+/* 위 띠 가운데 이름 = 공동체 이름(상호) */
+function setTitle(){ try{ var t=document.querySelector('.lfx-title'); if(t&&ME&&ME.comName){ t.textContent=ME.comName; } document.title=(ME&&ME.comName?ME.comName+' · ':'')+'사랑흐름'; }catch(e){} }
+function drawBadge(){ var b=$('meDot'); if(b){ b.textContent=QN; b.style.display=(isBoss()&&QN)?'':'none'; } }
 
-/* ── 칸: 이름 + 한 줄 (주체가 분명하게) ── */
-var TABS={
-  see:{t:'우리 기록',ic:'book',c:'c-navy',h:'<b>우리 공동체가 함께 남긴</b> 사진 · 영상 · 글을 연도순으로 봅니다. 기록을 열어 기억나는 것을 보태 주십시오.'},
-  add:{t:'기록 남기기',ic:'plus',c:'c-peach',h:'사진 · 영상 · 글을 <b>우리 기록에 등록</b>합니다. 등록한 기록은 승인 후 공개됩니다.'},
-  me:{t:'내가 남긴 것',ic:'heart',c:'c-gold',h:'<b>내가 올린 기록</b>과 <b>내가 보탠 기억</b>, 그리고 처리 상태(승인 대기 · 공개 · 비공개)를 봅니다.'},
-  chk:{t:'승인 관리',ic:'check',c:'c-green',h:'<b>관리자만 보는 곳</b> — 승인 대기 중인 기록 · 기억 · 갈래를 <b>승인</b>(공개) · 비공개 · 삭제합니다. 삭제 요청도 이곳으로 옵니다.'}
-};
-function tabKeys(){ var a=['see']; if(canAdd()){a.push('add');} a.push('me'); if(isBoss()){a.push('chk');} return a; }
-function tabsHtml(){
-  var ks=tabKeys(), t='<div class="tabs" id="tabs" style="--n:'+ks.length+'">';
-  ks.forEach(function(k){ var x=TABS[k]; t+='<button data-t="'+k+'"><span class="ci '+x.c+'">'+ic(x.ic)+'</span><b>'+x.t+'</b>'+(k==='chk'&&QN?'<span class="dot">'+QN+'</span>':'')+'</button>'; });
-  return t+'</div>';
+/* ── 화면 옮기기 — 휴대폰 「뒤로」가 앞 화면으로 ── */
+function go(v,id){
+  if(VIEW==='feed'){ FEEDY=window.scrollY||0; }
+  try{ history.pushState({v:v,id:id||''},'',location.pathname+(v==='item'&&id?'?r='+encodeURIComponent(id):'')); }catch(e){}
+  render(v,id);
 }
-function helpHtml(k){ return '<div class="tabhelp"><span>'+TABS[k].h+'</span></div>'; }
-function tabsDraw(){ var el=$('tabs'); if(!el){return;} el.outerHTML=tabsHtml(); bindTabs(); }
-function bindTabs(){ var bs=$('tabs').querySelectorAll('button'); for(var i=0;i<bs.length;i++){ bs[i].classList.toggle('on',bs[i].getAttribute('data-t')===TAB); bs[i].onclick=function(){ show(this.getAttribute('data-t')); }; } }
-function frameTop(){ return heroHtml(ME.comName||'우리 기록', ME.name+' 님 · '+roleName(ME.role)); }
+function back(){ if(history.state&&history.state.v&&history.state.v!=='feed'){ history.back(); } else { render('feed'); } }
+window.addEventListener('popstate',function(e){ if(!ME){ return; } var s=e.state||{v:'feed'}; render(s.v||'feed',s.id); });
+function render(v,id){
+  closeSheets();
+  VIEW=v; $('fab').style.display=(v==='feed'&&canAdd())?'':'none';
+  if(v==='item'){ openItem(id); return; }
+  if(v==='add'){ subPage('기록 남기기','사진 · 영상 · 글을 우리 기록에 등록합니다. 승인 후 공개됩니다.'); addView(); return; }
+  if(v==='me'){ subPage('내가 남긴 것','내가 올린 기록과 보탠 기억, 처리 상태를 봅니다.'); meView(); return; }
+  if(v==='chk'){ subPage('승인 관리','승인 대기 중인 기록 · 기억 · 갈래를 승인 · 비공개 · 삭제합니다. 삭제 요청도 이곳으로 옵니다.'); chkView(); return; }
+  feedView();
+}
+function subPage(t,h){
+  $('main').innerHTML='<div class="subhead"><button class="back" id="bk">'+ic('back')+'목록으로</button><h2>'+esc(t)+'</h2><p class="lead">'+esc(h)+'</p></div><div id="body"></div>';
+  $('bk').onclick=back; window.scrollTo(0,0);
+}
+function closeSheets(){ var s=document.querySelectorAll('.sheet-dim'); for(var i=0;i<s.length;i++){ try{ s[i].parentNode.removeChild(s[i]); }catch(e){} } }
+
+/* ── 첫 화면: 위 한 줄(공동체 · 찾기 · 내 동그라미) · 갈래 줄 · 큰 카드 ── */
+function feedView(){
+  var nm=(ME.name||'나').trim();
+  var h='<div class="head" id="head"><div class="bar">'+
+      '<button class="home" id="hm" aria-label="처음으로">'+ic('home')+'</button>'+
+      '<div class="search"><input id="fq" type="search" enterkeyhint="search" placeholder="찾기 — 사람 · 곳 · 해 · 한마디" value="'+esc(F.q)+'"><button id="fgo" aria-label="찾기">'+ic('look')+'</button></div>'+
+      '<button class="mecir" id="mc" aria-label="내 메뉴">'+esc(nm.charAt(0))+'<span class="dot" id="meDot" style="display:none"></span></button>'+
+    '</div><div class="strip" id="strip"></div></div>'+
+    guideHtml()+'<div id="feed"></div>';
+  $('main').innerHTML=h;
+  drawBadge(); stripDraw();
+  $('hm').onclick=function(){ F={sort:F.sort,kind:'',made:'',cat:'',q:''}; LIST=null; feedView(); window.scrollTo(0,0); };
+  $('mc').onclick=meMenu;
+  $('fgo').onclick=function(){ F.q=$('fq').value.trim(); LIST=null; feedLoad(); };
+  $('fq').onkeydown=function(e){ if(e.key==='Enter'){ F.q=this.value.trim(); LIST=null; this.blur(); feedLoad(); } };
+  if($('gdok')){ $('gdok').onclick=function(){ sset('lf_rec_guide','1'); var g=$('gd'); g.parentNode.removeChild(g); }; }
+  feedLoad(true);
+}
 function guideHtml(){
   if(sget('lf_rec_guide')==='1'){ return ''; }
   return '<div class="guide" id="gd"><h2>이용 안내</h2>'+
-    '<div class="st"><span class="ci c-navy">'+ic('look')+'</span><span><b>① 우리 기록을 봅니다</b><small>가족 · 동네 · 학교가 함께 남긴 사진과 영상</small></span></div>'+
-    '<div class="st"><span class="ci c-gold">'+ic('talk')+'</span><span><b>② 기억나는 것을 보탭니다</b><small>선택하거나 한두 줄로 충분합니다 — 보탤 때마다 포도 한 알이 열립니다</small></span></div>'+
-    (canAdd()?'<div class="st"><span class="ci c-peach">'+ic('plus')+'</span><span><b>③ 내 사진 · 영상을 남깁니다</b><small>확인한 뒤 함께 보여요</small></span></div>':'')+
+    '<div class="st"><span class="ci c-navy">'+ic('look')+'</span><span><b>① 우리 사진 · 영상을 봅니다</b><small>가족 · 동네 · 학교 · 일터가 함께 남긴 기록</small></span></div>'+
+    '<div class="st"><span class="ci c-rose">'+ic('heart')+'</span><span><b>② 「나도 기억해요」 · 대화로 마음을 나눕니다</b><small>기록을 열면 아래에 단추가 있습니다</small></span></div>'+
+    '<div class="st"><span class="ci c-violet">'+ic('grape')+'</span><span><b>③ 기억을 보태면 포도 한 알이 열립니다</b><small>함께 채울수록 기록이 풍성해집니다</small></span></div>'+
+    (canAdd()?'<div class="st"><span class="ci c-peach">'+ic('plus')+'</span><span><b>④ 오른쪽 아래 「기록 남기기」</b><small>내 사진 · 영상 · 글을 남깁니다</small></span></div>':'')+
     '<button class="btn" id="gdok">'+ic('look')+'우리 기록 둘러보기</button></div>';
 }
-function show(t){
-  TAB=t; $('main').innerHTML=frameTop()+tabsHtml()+helpHtml(t)+(t==='see'?guideHtml():'')+'<div id="body"></div>'; bindTabs(); window.scrollTo(0,0);
-  if($('gdok')){ $('gdok').onclick=function(){ sset('lf_rec_guide','1'); var g=$('gd'); g.parentNode.removeChild(g); try{ $('body').scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){} }; }
-  if(NCOUNT){ drawCnt(); }
-  if(t==='see'){ seeView(); } else if(t==='add'){ addView(); } else if(t==='chk'){ chkView(); } else { meView(); }
-}
-function drawCnt(){ var c=$('cnt'); if(!c||!NCOUNT){return;} c.innerHTML='<span>기록 <b>'+NCOUNT.n+'</b></span><span>사진 <b>'+NCOUNT.p+'</b></span><span>영상 <b>'+NCOUNT.v+'</b></span>'+(NCOUNT.y?'<span><b>'+NCOUNT.y+'</b>부터</span>':''); }
-
-/* ── 우리 기록 ── */
-function seeView(){
+function stripDraw(){
   var cats=CATS.filter(function(c){ return c.state==='사용'; });
-  var h='<div class="row"><input class="t" id="fq" placeholder="찾기 — 이름 · 곳 · 해 · 한마디" value="'+esc(F.q)+'"><button class="sbtn fill" id="fgo" style="flex:none;padding:11px 14px">찾기</button></div>'+
-    '<div class="chips" id="fk">'+[['','전체'],['사진','사진'],['영상','영상'],['글','글']].map(function(x){ return '<button class="chip s'+(F.kind===x[0]?' on':'')+'" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>';
-  if(F.kind==='영상'){ h+='<div class="chips" id="fm">'+[['','모든 영상'],['직접 만든 영상','본인 제작'],['다른 사람 영상','타인 제작']].map(function(x){ return '<button class="chip s'+(F.made===x[0]?' on':'')+'" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'; }
-  if(cats.length){ h+='<div class="chips" id="fc"><button class="chip s'+(!F.cat?' on':'')+'" data-v="">모든 갈래</button>'+cats.map(function(c){ return '<button class="chip s'+(F.cat===c.name?' on':'')+'" data-v="'+esc(c.name)+'">'+esc(c.name)+'</button>'; }).join('')+'</div>'; }
-  h+='<div id="list" style="margin-top:6px"></div>';
-  $('body').innerHTML=h; wait($('list'),F.q||F.kind||F.cat?'찾는 기록을 모으는 중입니다':'우리 기록을 해(年) 차례로 펼치는 중입니다');
-  function chipBind(id,key){ var el=$(id); if(!el){return;} var bs=el.querySelectorAll('button'); for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){ F[key]=this.getAttribute('data-v'); if(key==='kind'&&F.kind!=='영상'){ F.made=''; } seeView(); }; } }
-  chipBind('fk','kind'); chipBind('fm','made'); chipBind('fc','cat');
-  $('fgo').onclick=function(){ F.q=$('fq').value.trim(); seeView(); };
-  $('fq').onkeydown=function(e){ if(e.key==='Enter'){ F.q=this.value.trim(); seeView(); } };
-  var p={action:'recList',mode:'time'}; if(F.q){p.q=F.q;} if(F.kind){p.kind=F.kind;} if(F.made){p.made=F.made;} if(F.cat){p.cat=F.cat;}
+  var h='<span class="sort"><button data-s="new"'+(F.sort==='new'?' class="on"':'')+'>새로 올라온</button><button data-s="time"'+(F.sort==='time'?' class="on"':'')+'>연도순</button></span><i class="sep"></i>'+
+    '<button class="chip s'+(!F.kind&&!F.cat?' on':'')+'" data-all="1">전체</button>';
+  [['사진','photo'],['영상','video'],['글','text']].forEach(function(x){
+    h+='<button class="chip s'+(F.kind===x[0]?' on':'')+'" data-k="'+x[0]+'">'+ic(x[1],'sm')+x[0]+'</button>';
+    if(x[0]==='영상'&&F.kind==='영상'){ h+=[['직접 만든 영상','본인 제작'],['다른 사람 영상','타인 제작']].map(function(m){ return '<button class="chip s sub'+(F.made===m[0]?' on':'')+'" data-m="'+m[0]+'">'+m[1]+'</button>'; }).join(''); }
+  });
+  if(cats.length){ h+='<i class="sep"></i>'+cats.map(function(c){ return '<button class="chip s'+(F.cat===c.name?' on':'')+'" data-c="'+esc(c.name)+'">'+esc(c.name)+'</button>'; }).join(''); }
+  var el=$('strip'); var sx=el.scrollLeft; el.innerHTML=h; el.scrollLeft=sx;
+  var bs=el.querySelectorAll('button');
+  for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){
+    var b=this;
+    if(b.getAttribute('data-s')){ F.sort=b.getAttribute('data-s'); }
+    else if(b.getAttribute('data-all')){ F.kind=''; F.made=''; F.cat=''; }
+    else if(b.getAttribute('data-k')){ var k=b.getAttribute('data-k'); F.kind=(F.kind===k)?'':k; F.made=''; }
+    else if(b.getAttribute('data-m')){ var m=b.getAttribute('data-m'); F.made=(F.made===m)?'':m; }
+    else if(b.getAttribute('data-c')){ var c=b.getAttribute('data-c'); F.cat=(F.cat===c)?'':c; }
+    LIST=null; stripDraw(); feedLoad();
+  }; }
+}
+function feedKey(){ return [F.sort,F.kind,F.made,F.cat,F.q].join('|'); }
+function feedLoad(restore){
+  var el=$('feed');
+  if(LIST&&LISTKEY===feedKey()){ feedDraw(el,LIST); if(restore){ window.scrollTo(0,FEEDY); } return; }
+  wait(el,F.q||F.kind||F.cat?'찾는 기록을 모으는 중입니다':(F.sort==='time'?'우리 기록을 연도 차례로 펼치는 중입니다':'새로 올라온 기록을 모으는 중입니다'));
+  var p={action:'recList',mode:F.sort}; if(F.q){p.q=F.q;} if(F.kind){p.kind=F.kind;} if(F.made){p.made=F.made;} if(F.cat){p.cat=F.cat;}
+  var key=feedKey();
   api(p,function(d){
-    if(d.status!=='ok'){ $('list').innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
-    if(!F.q&&!F.kind&&!F.cat){ var n={n:d.items.length,p:0,v:0,y:0}; d.items.forEach(function(x){ if(x.video){n.v++;} else if(x.photo){n.p++;} if(x.y&&x.y<9999&&(!n.y||x.y<n.y)){ n.y=Math.floor(x.y); } }); NCOUNT=n; drawCnt(); }
-    drawList($('list'), d.items, !F.q);
+    if(key!==feedKey()||VIEW!=='feed'){ return; }
+    if(d.status!=='ok'){ el.innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
+    LIST=d.items; LISTKEY=key; feedDraw(el,LIST);
   });
 }
+function cardLine(it){
+  var a=[];
+  if(it.when){ a.push('<span>'+ic('clock','sm')+esc(it.when)+'</span>'); }
+  a.push('<span class="g">'+ic('grape','sm')+'포도 '+(it.mem||0)+'알</span>');
+  a.push('<span class="r'+(it.mineReact?' on':'')+'">'+ic('heart','sm')+'기억해요 '+(it.react||0)+'</span>');
+  a.push('<span>'+ic('talk','sm')+'대화 '+(it.talk||0)+'</span>');
+  return a.join('');
+}
+function feedCard(it){
+  var pic;
+  if(it.video){ pic='<div class="pic" style="background-image:url('+esc(it.video.thumb)+')"><span class="play"></span>'+(it.made?'<span class="badge">'+esc(srcL(it.made))+'</span>':'')+'</div>'; }
+  else if(it.photo){ pic='<div class="pic" data-ph="'+esc(it.id)+'">'+ic('photo','lg')+'</div>'; }
+  else { pic='<div class="pic txt"><span>'+ic('pen','sm')+'</span><b>'+esc(it.title||'(제목 없음)')+'</b></div>'; }
+  var sub=[it.where,it.who].filter(Boolean).join(' · ')||(it.cat||'');
+  var tl=(it.video||it.photo)?'<b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b>':(it.state?'<b class="tonly">'+stTag(it)+'</b>':'');
+  return '<article class="fc" data-id="'+esc(it.id)+'">'+pic+'<div class="meta">'+tl+(sub?'<div class="s2">'+esc(sub)+'</div>':'')+'<div class="ln">'+cardLine(it)+'</div></div></article>';
+}
+function feedDraw(el, items){
+  if(!items.length){
+    el.innerHTML='<div class="card" style="text-align:center"><h2>'+(F.q||F.kind||F.cat?'찾는 기록이 없습니다':'아직 기록이 없습니다')+'</h2><p class="lead">'+(F.q||F.kind||F.cat?'다른 말로 찾아보시거나 「전체」를 눌러 주십시오.':(canAdd()?'오른쪽 아래 「기록 남기기」에서 첫 사진 한 장을 남겨 주세요. 첫 기록이 다음 기억을 부릅니다.':'곧 첫 기록이 올라옵니다.'))+'</p></div>'; return;
+  }
+  var h='', last=null;
+  items.forEach(function(it){
+    if(F.sort==='time'){ var y=(it.y&&it.y<9999)?Math.floor(it.y)+'년':'연도를 아직 모르는 기록'; if(y!==last){ h+='<div class="yearh"><span>'+y+'</span></div>'; last=y; } }
+    h+=feedCard(it);
+  });
+  el.innerHTML=h;
+  var cs=el.querySelectorAll('.fc'); for(var i=0;i<cs.length;i++){ cs[i].onclick=function(){ go('item',this.getAttribute('data-id')); }; }
+  lazyPhotos(el);
+}
+function listPatch(id,o){ if(!LIST){return;} for(var i=0;i<LIST.length;i++){ if(LIST[i].id===id){ for(var k in o){ LIST[i][k]=o[k]; } } } }
+
+/* ── 내 동그라미 → 메뉴 ── */
+function meMenu(){
+  var d=document.createElement('div'); d.className='sheet-dim';
+  var rows=[['me','heart','c-gold','내가 남긴 것','내가 올린 기록 · 보탠 기억']];
+  if(isBoss()){ rows.push(['chk','check','c-green','승인 관리'+(QN?' <span class="cnt">'+QN+'</span>':''),'승인 대기 · 삭제 요청']); }
+  if(ME.role==='관리자'){ rows.push(['name','pen','c-navy','공동체 이름 바꾸기','지금 이름 · '+esc(ME.comName||'')]); }
+  rows.push(['out','out','c-gray','이 기기에서 나가기','다시 들어오려면 초대 링크가 필요합니다']);
+  d.innerHTML='<div class="sheet"><div class="mehead"><span class="mecir big">'+esc((ME.name||'나').charAt(0))+'</span><div><b>'+esc(ME.name||'')+' 님</b><small>'+esc(roleName(ME.role))+' · '+esc(ME.comName||'')+'</small></div></div>'+
+    rows.map(function(r){ return '<button class="mrow" data-v="'+r[0]+'"><span class="ci '+r[2]+'">'+ic(r[1])+'</span><span><b>'+r[3]+'</b><small>'+r[4]+'</small></span></button>'; }).join('')+
+    '<button class="btn line" id="mx" style="margin-top:12px">닫기</button></div>';
+  document.body.appendChild(d);
+  function close(){ try{ d.parentNode.removeChild(d); }catch(e){} }
+  d.onclick=function(e){ if(e.target===d){ close(); } };
+  $('mx').onclick=close;
+  var bs=d.querySelectorAll('.mrow'); for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){
+    var v=this.getAttribute('data-v'); close();
+    if(v==='out'){ if(confirm('이 기기에서 나가시겠습니까? 다시 들어오려면 초대 링크가 필요합니다.')){ sset(KEY,''); location.href=location.pathname; } return; }
+    if(v==='name'){ nameSheet(); return; }
+    go(v);
+  }; }
+}
+function nameSheet(){
+  var d=document.createElement('div'); d.className='sheet-dim';
+  d.innerHTML='<div class="sheet"><h2>공동체 이름 바꾸기</h2><p class="lead">위 띠 가운데와 카톡 알림에 보이는 이름입니다. 가족 · 모임 · 가게 이름(상호)으로 정해 주십시오.</p>'+
+    '<label class="f">공동체 이름</label><input class="t" id="cn" maxlength="40" value="'+esc(ME.comName||'')+'">'+
+    '<button class="btn" id="cnok">저장</button><button class="btn line" id="cnno" style="margin-top:8px">취소</button><div id="cnm"></div></div>';
+  document.body.appendChild(d);
+  function close(){ try{ d.parentNode.removeChild(d); }catch(e){} }
+  d.onclick=function(e){ if(e.target===d){ close(); } };
+  $('cnno').onclick=close;
+  $('cnok').onclick=function(){
+    var n=$('cn').value.trim(); if(!n){ $('cnm').innerHTML='<div class="err">이름을 적어 주십시오.</div>'; return; }
+    var b=this; b.disabled=true;
+    api({action:'recComName',name:n},function(r){
+      if(r.status==='ok'){ ME.comName=r.name; setTitle(); close(); toast('공동체 이름을 바꾸었습니다',r.name); }
+      else { b.disabled=false; $('cnm').innerHTML='<div class="err">'+esc(r.msg||'바꾸지 못했습니다.')+'</div>'; }
+    });
+  };
+}
+
+/* ── 작은 목록 줄(내가 남긴 것 · 함께 보면 좋은 기록 · 승인 관리) ── */
 function thumb(it){
   if(it.video){ return '<div class="th" style="background-image:url('+esc(it.video.thumb)+')"><span class="yt"></span></div>'; }
   if(it.photo){ return '<div class="th" data-ph="'+esc(it.id)+'">'+ic('photo')+'</div>'; }
@@ -355,28 +581,179 @@ function stTag(it){
   var m={'기다림':'t-wait','가림':'t-hide','실림':'t-on','거둠':'t-hide'}, w={'기다림':'승인 대기','가림':'비공개','실림':'공개','거둠':'등록 취소','지움':'삭제'};
   return '<span class="tag '+(m[it.state]||'t-wait')+'">'+esc(w[it.state]||it.state)+'</span>';
 }
-function pips(it){ var a=[it.when,it.where,it.who,it.what]; return '<span class="pips" title="채워진 칸">'+a.map(function(v){ return '<i'+(v?' class="on"':'')+'></i>'; }).join('')+'</span>'; }
-function drawList(el, items, byYear){
-  if(!items.length){ el.innerHTML='<div class="card" style="text-align:center"><h2>아직 기록이 없습니다</h2><p class="lead">'+(canAdd()?'「기록 남기기」에서 첫 사진 한 장을 남겨 주세요. 첫 기록이 다음 기억을 부릅니다.':'곧 첫 기록이 올라옵니다.')+'</p></div>'; return; }
-  var h=byYear?'<div class="tl">':'<div>', last=null;
+function drawList(el, items){
+  if(!items.length){ el.innerHTML=''; return; }
+  var h='<div>';
   items.forEach(function(it){
-    if(byYear){ var y=(it.y&&it.y<9999)?Math.floor(it.y)+'년':'때를 아직 모르는 기록'; if(y!==last){ h+='<div class="year">'+y+'</div>'; last=y; } }
     var sub=[it.when,it.where,it.who].filter(Boolean).join(' · ')||(it.cat||'함께 채워 주세요');
-    h+='<div class="item" data-id="'+esc(it.id)+'">'+thumb(it)+'<div class="tx"><b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b><span class="sub">'+pips(it)+esc(sub)+'</span>'+(it.made?'<span class="tag '+(it.made==='직접 만든 영상'?'t-own':'t-oth')+'" style="margin:3px 0 0">'+esc(srcL(it.made))+'</span>':'')+'</div></div>';
+    h+='<div class="item" data-id="'+esc(it.id)+'">'+thumb(it)+'<div class="tx"><b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b><span class="sub">'+esc(sub)+'</span>'+
+      (it.react!=null?'<span class="ln sm">'+cardLine(it)+'</span>':'')+'</div></div>';
   });
   el.innerHTML=h+'</div>';
-  var ds=el.querySelectorAll('.item'); for(var i=0;i<ds.length;i++){ ds[i].onclick=function(){ openItem(this.getAttribute('data-id')); }; }
+  var ds=el.querySelectorAll('.item'); for(var i=0;i<ds.length;i++){ ds[i].onclick=function(){ go('item',this.getAttribute('data-id')); }; }
   lazyPhotos(el);
 }
 var PHC={};
 function lazyPhotos(el){
   var ts=el.querySelectorAll('[data-ph]'), i=0;
   (function next(){ if(i>=ts.length){return;} var t=ts[i++], id=t.getAttribute('data-ph');
-    photo(id,function(src){ if(src){ t.style.backgroundImage='url('+src+')'; t.innerHTML=''; } next(); }); })();
+    photo(id,function(src){ if(src){ t.style.backgroundImage='url('+src+')'; t.innerHTML=''; t.classList.add('has'); } next(); }); })();
 }
 function photo(id, cb){
   if(PHC[id]){ cb(PHC[id]); return; }
   api({action:'recPhoto',id:id},function(d){ if(d.status==='ok'){ PHC[id]='data:'+d.type+';base64,'+d.data; cb(PHC[id]); } else { cb(''); } });
+}
+
+/* ── 기록 하나: 큰 사진/영상 → 나도 기억해요 · 대화 · 카톡으로 알리기 → 포도송이 → 물음 → 대화 → 삭제 요청 ── */
+function openItem(id, fresh){
+  $('main').innerHTML='<div class="subhead"><button class="back" id="bk">'+ic('back')+'목록으로</button></div><div id="body"></div>';
+  $('bk').onclick=back; wait($('body'),'기록을 펼치는 중입니다'); window.scrollTo(0,0);
+  kakaoLoad();
+  api({action:'recGet',id:id},function(d){
+    if(VIEW!=='item'){ return; }
+    if(d.status!=='ok'){ $('body').innerHTML='<div class="msg">'+esc(d.msg||'볼 수 있는 기록이 아닙니다.')+'</div>'; return; }
+    var it=d.item, h='<div class="card big">';
+    if(it.video){
+      h+='<div class="ytbox" id="yt"><img class="media" src="'+esc(it.video.thumb)+'" alt="영상 썸네일"><div class="play"></div></div><div class="ytnote">'+ic('video')+'누르면 유튜브로 이동합니다 · <span class="tag '+(it.made==='직접 만든 영상'?'t-own':'t-oth')+'" style="margin:0">'+esc(srcL(it.made||''))+'</span></div>';
+    } else if(it.photo){ h+='<img class="media" id="ph" alt="사진" style="min-height:220px">'; }
+    h+='<div class="pad"><h2>'+esc(it.title||'(제목 없음)')+stTag(it)+'</h2></div>';
+    /* 세 단추 */
+    h+='<div class="acts3">'+
+      '<button id="rx" class="'+(it.mine?'on':'')+'"'+(canTell()?'':' disabled')+'>'+ic('heart')+'<b>나도 기억해요</b><small id="rxn">'+(it.react||0)+'</small></button>'+
+      '<button id="tx">'+ic('talk')+'<b>대화</b><small>'+(it.talks?it.talks.length:0)+'</small></button>'+
+      '<button id="sx" class="kk">'+ic('share')+'<b>카톡으로 알리기</b><small>링크 보내기</small></button></div>';
+    h+='<div class="pad">';
+    if(it.text){ h+='<p style="white-space:pre-wrap;margin:6px 0 4px;font-size:16px">'+esc(it.text)+'</p>'; }
+    var bl=[['언제','when'],['어디서','where'],['누구와','who'],['무슨 일','what']], filled=bl.filter(function(x){ return it[x[1]]; }).length;
+    h+='<div class="blanks">'+bl.map(function(x){ var v=it[x[1]]; return '<div class="blank'+(v?' on':'')+'"><small>'+x[0]+'</small><span>'+esc(v||'아직 몰라요')+'</span></div>'; }).join('')+'</div>'+
+      '<div class="bmeter">'+(filled===4?'네 칸이 모두 채워졌습니다 — 함께 만든 기록입니다':'네 칸 가운데 '+filled+'칸 채워짐 — '+(it.by===ME.name?'아래 물음에 답하시면 빈 칸이 금빛으로 채워집니다':'보태신 기억은 포도송이에 한 알로 열립니다'))+'</div>'+
+      '<div class="note">'+(it.cat?'갈래 · '+esc(it.cat)+' · ':'')+'남긴 분 · '+esc(it.by||'')+'</div></div></div>';
+    if(it.react&&it.reactNames&&it.reactNames.length){ h+='<div class="rnames">'+ic('heart','sm')+esc(it.reactNames.slice(0,6).join(' · '))+(it.reactNames.length>6?' 외 '+(it.reactNames.length-6)+'분':'')+' 님이 기억하십니다</div>'; }
+    var mems=it.linked.filter(function(x){ return x.kind==='기억'; }), others=it.linked.filter(function(x){ return x.kind!=='기억'; });
+    if(it.together.length){
+      h+='<div class="card"><h2>기억 포도송이</h2><p class="lead">이 기록에 마음을 보탠 분마다 한 알씩 열립니다.</p><div class="grapes">'+
+        it.together.map(function(n){ return '<div class="grape'+(fresh&&n===ME.name?' new':'')+'"><i></i>'+esc(n)+'</div>'; }).join('')+'</div>';
+      if(mems.length){ h+='<div style="margin-top:8px">'+mems.map(function(m){ return '<div class="mem"><b>'+esc(m.by||'')+(m.title&&m.title!=='저도 기억해요'?' · '+esc(m.title):'')+'</b>'+stTag(m)+'<p>'+esc(m.text)+'</p></div>'; }).join('')+'</div>'; }
+      h+='</div>';
+    }
+    if(canTell()){
+      var q=it.next, isWhen=q&&String(q.tag||'').indexOf('때')===0;
+      h+='<div class="ask"><div class="k">함께 채우는 물음</div><div class="q">'+esc(q?q.q:'이 기록에 대해 기억나는 것이 있으신가요?')+'</div>'+
+        (isWhen?'<div id="wp"></div><details class="more"><summary>덧붙일 말 (선택)</summary><textarea id="tt" style="margin-top:8px" placeholder="예: 형이 군대 가기 전 해"></textarea></details>'
+               :'<textarea id="tt" placeholder="떠오르는 장면을 마음 가는 대로 들려주세요"></textarea>')+
+        '<button class="btn warm" id="tb">'+ic('grape')+'기억 보태기</button><div class="note">보태신 기억은 승인 후 공개됩니다.</div><div id="tm"></div></div>';
+    }
+    h+='<div class="card" id="talkc"><h2>'+ic('talk')+' 대화</h2><div id="talks"></div>'+
+      (canTell()?'<div class="tbox"><textarea id="tk" maxlength="300" placeholder="이 기록을 보며 나누고 싶은 이야기"></textarea><div class="trow"><small id="tkn">0 / 300</small><button class="sbtn fill" id="tks">보내기</button></div><div id="tkm"></div></div>'
+                 :'<div class="note">보는 분은 대화를 읽을 수 있습니다.</div>')+'</div>';
+    if(others.length){ h+='<div class="card"><h2>함께 보면 좋은 기록</h2><div id="oth"></div></div>'; }
+    h+='<div class="delrow"><span>원하지 않는 기록인가요?</span><button class="sbtn red" id="td">삭제 요청</button></div>';
+    if(it.state && it.by===ME.name && it.state!=='거둠'){ h+='<button class="btn line" id="wd">등록 취소 (내가 올린 기록 내리기)</button>'; }
+    $('body').innerHTML=h;
+    drawTalks(it);
+    if(it.video){ $('yt').onclick=function(){ if(confirm('유튜브로 이동합니다. 여시겠습니까?')){ window.open(it.video.url,'_blank','noopener'); } }; }
+    if(it.photo && !it.video){ photo(it.id,function(src){ if(src&&$('ph')){ $('ph').src=src; $('ph').style.minHeight=''; } }); }
+    if(others.length){ drawList($('oth'), others); }
+    $('rx').onclick=function(){ react(it); };
+    $('tx').onclick=function(){ var t=$('talkc'); try{ t.scrollIntoView({behavior:'smooth',block:'start'}); }catch(e){} if($('tk')){ setTimeout(function(){ $('tk').focus(); },400); } };
+    $('sx').onclick=function(){ shareRec(it); };
+    if($('tk')){
+      $('tk').oninput=function(){ $('tkn').textContent=this.value.length+' / 300'; };
+      $('tks').onclick=function(){ talkSend(it,this); };
+    }
+    var WP=$('wp')?whenPicker($('wp')):null;
+    if($('tb')){ $('tb').onclick=function(){
+      var extra=$('tt')?$('tt').value.trim():'', tx='';
+      if(WP){ var w=WP.value(); if(!w&&!WP.unknown()&&!extra){ $('tm').innerHTML='<div class="err">연도를 선택하시거나 덧붙일 말을 적어 주십시오.</div>'; return; } tx=w?(w+(extra?' · '+extra:'')):(extra||'모름'); }
+      else { tx=extra; if(!tx){ $('tm').innerHTML='<div class="err">내용을 적어 주십시오.</div>'; return; } }
+      var b=this; b.disabled=true;
+      api({action:'recTell',id:it.id,q:(it.next?it.next.no:''),text:tx},function(r){
+        if(r.status==='ok'){ LIST=null; toast('사랑이 흘러 사랑을 부르다','기억 한 알이 열렸습니다'+(r.filled?' · 「'+r.filled+'」 칸이 채워졌습니다':'')); setTimeout(function(){ if(VIEW==='item'){ openItem(it.id,true); } },900); }
+        else { b.disabled=false; $('tm').innerHTML='<div class="err">'+esc(r.msg||'저장하지 못했습니다.')+'</div>'; }
+      });
+    }; }
+    $('td').onclick=function(){ delSheet(it); };
+    if($('wd')){ $('wd').onclick=function(){ if(!confirm('등록을 취소하시겠습니까? 다른 분들에게 더 이상 보이지 않습니다.')){return;} api({action:'recWithdraw',id:it.id},function(r){ alert(r.status==='ok'?'등록이 취소되었습니다.':(r.msg||'처리하지 못했습니다.')); LIST=null; go('me'); }); }; }
+  });
+}
+function react(it){
+  if(!canTell()){ return; }
+  var b=$('rx'); if(b.disabled){ return; } b.disabled=true;
+  api({action:'recReact',id:it.id},function(r){
+    b.disabled=false;
+    if(r.status!=='ok'){ alert(r.msg||'처리하지 못했습니다.'); return; }
+    b.classList.toggle('on',!!r.on); $('rxn').textContent=r.react;
+    if(r.on){ b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
+    listPatch(it.id,{react:r.react,mineReact:!!r.on});
+  });
+}
+function drawTalks(it){
+  var el=$('talks'); if(!el){ return; }
+  var ts=it.talks||[];
+  if(!ts.length){ el.innerHTML='<div class="note" style="margin:2px 0 8px">'+(canTell()?'첫 이야기를 남겨 주십시오.':'아직 나눈 대화가 없습니다.')+'</div>'; return; }
+  el.innerHTML=ts.map(function(t){
+    var act=t.me?'<button class="tdel" data-no="'+esc(t.no)+'" data-a="mine">삭제</button>':(isBoss()?'<button class="tdel" data-no="'+esc(t.no)+'" data-a="boss">비공개</button>':'');
+    return '<div class="tl1'+(t.me?' me':'')+'"><div class="th1"><b>'+esc(t.by)+'</b><small>'+esc(t.at)+'</small>'+act+'</div><p>'+esc(t.text)+'</p></div>';
+  }).join('');
+  var ds=el.querySelectorAll('.tdel'); for(var i=0;i<ds.length;i++){ ds[i].onclick=function(){
+    var mine=this.getAttribute('data-a')==='mine';
+    if(!confirm(mine?'이 말을 삭제하시겠습니까?':'이 말을 비공개로 전환하시겠습니까? 다른 분들에게 보이지 않습니다.')){ return; }
+    api({action:'recTalkHide',no:this.getAttribute('data-no')},function(r){ if(r.status==='ok'){ talkReload(it); } else { alert(r.msg||'처리하지 못했습니다.'); } });
+  }; }
+}
+function talkReload(it){
+  api({action:'recGet',id:it.id},function(d){
+    if(d.status!=='ok'||VIEW!=='item'){ return; }
+    it.talks=d.item.talks; drawTalks(it);
+    var n=document.querySelector('#tx small'); if(n){ n.textContent=it.talks.length; }
+    listPatch(it.id,{talk:it.talks.length});
+  });
+}
+function talkSend(it,b){
+  var t=$('tk').value.trim(); if(!t){ $('tkm').innerHTML='<div class="err">내용을 적어 주십시오.</div>'; return; }
+  b.disabled=true; $('tkm').innerHTML='<div class="note">보내는 중입니다</div>';
+  api({action:'recTalk',id:it.id,text:t},function(r){
+    b.disabled=false;
+    if(r.status==='ok'){ $('tk').value=''; $('tkn').textContent='0 / 300'; $('tkm').innerHTML=''; talkReload(it); }
+    else { $('tkm').innerHTML='<div class="err">'+esc(r.msg||'보내지 못했습니다.')+'</div>'; }
+  });
+}
+
+/* 카톡으로 알리기 — 링크 /rec/?r=기록번호 (초대받은 분만 열림 · 사진은 싣지 않음) */
+var KAKAO_ST='';
+function kakaoLoad(){
+  if(KAKAO_ST){ return; } KAKAO_ST='loading';
+  var s=document.createElement('script'); s.src='https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js'; s.async=true;
+  s.onload=function(){ try{ if(!Kakao.isInitialized()){ Kakao.init(KAKAO_KEY); } KAKAO_ST='ok'; }catch(e){ KAKAO_ST='no'; } };
+  s.onerror=function(){ KAKAO_ST='no'; };
+  document.head.appendChild(s);
+}
+function shareRec(it){
+  var url=location.origin+'/rec/?r='+encodeURIComponent(it.id);
+  var com=ME.comName||'우리 기록', title='「'+(it.title||'우리 기록')+'」';
+  var text=com+' — '+title+'\n함께 보며 떠오르는 기억을 나누어 주십시오.';
+  try{
+    if(KAKAO_ST==='ok'&&window.Kakao&&Kakao.Share){
+      if(it.video){ Kakao.Share.sendDefault({objectType:'feed',content:{title:com+' · '+title,description:'함께 보며 떠오르는 기억을 나누어 주십시오.',imageUrl:it.video.thumb,link:{mobileWebUrl:url,webUrl:url}},buttons:[{title:'기록 열기',link:{mobileWebUrl:url,webUrl:url}}]}); }
+      else { Kakao.Share.sendDefault({objectType:'text',text:text,link:{mobileWebUrl:url,webUrl:url},buttonTitle:'기록 열기'}); }
+      return;
+    }
+  }catch(e){}
+  if(navigator.share){ navigator.share({title:com,text:text,url:url}).catch(function(){}); return; }
+  copyLink(url);
+}
+function copyLink(url){
+  function ok(){ toast('링크를 복사했습니다','카카오톡 대화방에 붙여 넣어 주십시오'); }
+  try{ navigator.clipboard.writeText(url).then(ok).catch(function(){ prompt('아래 링크를 복사해 주십시오.',url); }); }catch(e){ prompt('아래 링크를 복사해 주십시오.',url); }
+}
+
+/* ── 내가 남긴 것 ── */
+function meView(){
+  $('body').innerHTML='<div id="mine"></div>';
+  wait($('mine'),'내가 남긴 기록을 모으는 중입니다');
+  api({action:'recMe'},function(d){ if(d.status!=='ok'||VIEW!=='me'){ return; } ME=d; setTitle();
+    if(!d.mine.length){ $('mine').innerHTML='<div class="card" style="text-align:center"><h2>아직 남긴 기록이 없습니다</h2><p class="lead">기록을 열어 기억을 보태거나'+(canAdd()?', 「기록 남기기」에서 사진 한 장을 남겨 보세요.':' 「나도 기억해요」를 눌러 보세요.')+'</p></div>'; }
+    else { drawList($('mine'), d.mine); } });
 }
 
 /* ── 언제: 한 줄 → 누르면 아래에서 판(연도 바퀴 · 계절/월 · 무렵) ── */
@@ -423,58 +800,6 @@ function whenPicker(host){
   return { value:function(){ return txt()==='모름'?'':txt(); }, unknown:function(){ return S.unk; } };
 }
 
-/* ── 기록 하나 ── */
-function openItem(id, fresh){
-  $('main').innerHTML=frameTop()+tabsHtml()+'<div id="body"></div>'; bindTabs(); drawCnt(); wait($('body'),'기록을 펼치는 중입니다'); window.scrollTo(0,0);
-  api({action:'recGet',id:id},function(d){
-    if(d.status!=='ok'){ $('body').innerHTML='<button class="back" onclick="show(TAB)">'+ic('back')+'목록으로</button><div class="msg">'+esc(d.msg||'볼 수 있는 기록이 아닙니다.')+'</div>'; return; }
-    var it=d.item, h='<button class="back" id="bk">'+ic('back')+'목록으로</button><div class="card"><h2>'+esc(it.title||'(제목 없음)')+stTag(it)+'</h2>';
-    if(it.video){
-      h+='<div class="ytbox" id="yt"><img class="media" src="'+esc(it.video.thumb)+'" alt="영상 썸네일"><div class="play"></div></div><div class="ytnote">'+ic('video')+'누르면 유튜브로 이동합니다 · <span class="tag '+(it.made==='직접 만든 영상'?'t-own':'t-oth')+'" style="margin:0">'+esc(srcL(it.made||''))+'</span></div>';
-    } else if(it.photo){ h+='<img class="media" id="ph" alt="사진" style="min-height:140px">'; }
-    if(it.text){ h+='<p style="white-space:pre-wrap;margin:10px 0 4px;font-size:16px">'+esc(it.text)+'</p>'; }
-    var bl=[['언제','when'],['어디서','where'],['누구와','who'],['무슨 일','what']], filled=bl.filter(function(x){ return it[x[1]]; }).length;
-    h+='<div class="blanks">'+bl.map(function(x){ var v=it[x[1]]; return '<div class="blank'+(v?' on':'')+'"><small>'+x[0]+'</small><span>'+esc(v||'아직 몰라요')+'</span></div>'; }).join('')+'</div>'+
-      '<div class="bmeter">'+(filled===4?'네 칸이 모두 채워졌습니다 — 함께 만든 기록입니다':'네 칸 가운데 '+filled+'칸 채워짐 — '+(it.by===ME.name?'아래 물음에 답하시면 빈 칸이 금빛으로 채워집니다':'보태신 기억은 포도송이에 한 알로 열립니다'))+'</div>';
-    h+='<div class="note">'+(it.cat?'갈래 · '+esc(it.cat)+' · ':'')+'남긴 분 · '+esc(it.by||'')+'</div></div>';
-    var mems=it.linked.filter(function(x){ return x.kind==='기억'; }), others=it.linked.filter(function(x){ return x.kind!=='기억'; });
-    if(it.together.length){
-      h+='<div class="card"><h2>기억 포도송이</h2><p class="lead">이 기록에 마음을 보탠 분마다 한 알씩 열립니다.</p><div class="grapes">'+
-        it.together.map(function(n,i){ return '<div class="grape'+(fresh&&n===ME.name?' new':'')+'"><i></i>'+esc(n)+'</div>'; }).join('')+'</div>';
-      if(mems.length){ h+='<div style="margin-top:8px">'+mems.map(function(m){ return '<div class="mem"><b>'+esc(m.by||'')+(m.title&&m.title!=='저도 기억해요'?' · '+esc(m.title):'')+'</b>'+stTag(m)+'<p>'+esc(m.text)+'</p></div>'; }).join('')+'</div>'; }
-      h+='</div>';
-    }
-    if(others.length){ h+='<div class="card"><h2>함께 보면 좋은 기록</h2><div id="oth"></div></div>'; }
-    if(canTell()){
-      var q=it.next, isWhen=q&&String(q.tag||'').indexOf('때')===0;
-      h+='<div class="ask"><div class="k">함께 채우는 물음</div><div class="q">'+esc(q?q.q:'이 기록에 대해 기억나는 것이 있으신가요?')+'</div>'+
-        (isWhen?'<div id="wp"></div><details class="more"><summary>덧붙일 말 (선택)</summary><textarea id="tt" style="margin-top:8px" placeholder="예: 형이 군대 가기 전 해"></textarea></details>'
-               :'<textarea id="tt" placeholder="떠오르는 대로 한두 줄이면 충분합니다"></textarea>')+
-        '<button class="btn warm" id="tb">'+ic('heart')+'기억 보태기</button><div class="note">보태신 기억은 승인 후 공개됩니다.</div><div id="tm"></div></div>';
-    }
-    h+='<div class="delrow"><span>원하지 않는 기록인가요?</span><button class="sbtn red" id="td">삭제 요청</button></div>';
-    if(it.state && it.by===ME.name && it.state!=='거둠'){ h+='<button class="btn line" id="wd">등록 취소 (내가 올린 기록 내리기)</button>'; }
-    $('body').innerHTML=h;
-    $('bk').onclick=function(){ show(TAB); };
-    if(it.video){ $('yt').onclick=function(){ if(confirm('유튜브로 이동합니다. 여시겠습니까?')){ window.open(it.video.url,'_blank','noopener'); } }; }
-    if(it.photo && !it.video){ photo(it.id,function(src){ if(src){ $('ph').src=src; $('ph').style.minHeight=''; } }); }
-    if(others.length){ drawList($('oth'), others, false); }
-    var WP=$('wp')?whenPicker($('wp')):null;
-    if($('tb')){ $('tb').onclick=function(){
-      var extra=$('tt')?$('tt').value.trim():'', tx='';
-      if(WP){ var w=WP.value(); if(!w&&!WP.unknown()&&!extra){ $('tm').innerHTML='<div class="err">연도를 선택하시거나 덧붙일 말을 적어 주십시오.</div>'; return; } tx=w?(w+(extra?' · '+extra:'')):(extra||'모름'); }
-      else { tx=extra; if(!tx){ $('tm').innerHTML='<div class="err">내용을 적어 주십시오.</div>'; return; } }
-      var b=this; b.disabled=true;
-      api({action:'recTell',id:it.id,q:(it.next?it.next.no:''),text:tx},function(r){
-        if(r.status==='ok'){ toast('사랑이 흘러 사랑을 부르다','기억 한 알이 열렸습니다'+(r.filled?' · 「'+r.filled+'」 칸이 채워졌습니다':'')); setTimeout(function(){ openItem(it.id,true); },900); }
-        else { b.disabled=false; $('tm').innerHTML='<div class="err">'+esc(r.msg||'저장하지 못했습니다.')+'</div>'; }
-      });
-    }; }
-    $('td').onclick=function(){ delSheet(it); };
-    if($('wd')){ $('wd').onclick=function(){ if(!confirm('등록을 취소하시겠습니까? 다른 분들에게 더 이상 보이지 않습니다.')){return;} api({action:'recWithdraw',id:it.id},function(r){ alert(r.status==='ok'?'등록이 취소되었습니다.':(r.msg||'처리하지 못했습니다.')); show('me'); }); }; }
-  });
-}
-
 /* 삭제 요청 — 작은 단추 → 큰 설명 판 */
 function delSheet(it){
   var d=document.createElement('div'); d.className='sheet-dim';
@@ -488,7 +813,7 @@ function delSheet(it){
   d.onclick=function(e){ if(e.target===d){ close(); } };
   $('dno').onclick=close;
   $('dgo').onclick=function(){ this.disabled=true;
-    api({action:'recTakeDown',id:it.id,why:$('dwhy').value.trim()},function(r){ close(); if(r.status==='ok'){ toast('삭제 요청이 접수되었습니다','즉시 비공개로 전환되었으며, 관리자가 확인합니다'); show('see'); } else { alert(r.msg||'처리하지 못했습니다.'); } });
+    api({action:'recTakeDown',id:it.id,why:$('dwhy').value.trim()},function(r){ close(); if(r.status==='ok'){ toast('삭제 요청이 접수되었습니다','즉시 비공개로 전환되었으며, 관리자가 확인합니다'); LIST=null; back(); } else { alert(r.msg||'처리하지 못했습니다.'); } });
   };
 }
 
@@ -499,7 +824,7 @@ function addView(){
   var h='<div class="card"><div class="seg" id="ty">'+[['사진','photo','c-peach'],['영상','video','c-rose'],['글','text','c-violet']].map(function(x){ return '<button data-v="'+x[0]+'"'+(A.type===x[0]?' class="on"':'')+'><span class="ci '+x[2]+'">'+ic(x[1])+'</span>'+x[0]+'</button>'; }).join('')+'</div>'+
     '<div id="tyBox"></div>'+
     '<label class="f">제목</label><input class="t" id="at" maxlength="60" placeholder="예: 운동회 날">'+
-    '<label class="f">한마디 <small>선택</small></label><textarea id="ax" placeholder="이 기록에 얽힌 이야기"></textarea>'+
+    '<label class="f">한마디 <small>선택</small></label><textarea id="ax" placeholder="이 기록에 얽힌 이야기를 들려주세요"></textarea>'+
     '<label class="f">갈래 <small>선택 · 새 갈래 추가 가능</small></label><div class="chips" id="ac"></div><div id="acAdd"></div>'+
     '<label class="f">언제 <small>선택</small></label><div id="aw"></div>'+
     '<details class="more"><summary>어디서 · 누구와 · 무슨 일 (선택)</summary>'+
@@ -586,17 +911,9 @@ function addSend(){
   BUSY=true; $('ab').disabled=true; wait(m,A.type==='사진'?'사진을 우리 기록에 담는 중입니다':(A.type==='영상'?'영상을 우리 기록에 잇는 중입니다':'글을 우리 기록에 담는 중입니다'));
   api(p,function(r){
     BUSY=false; $('ab').disabled=false;
-    if(r.status==='ok'){ m.innerHTML=''; toast('우리 기록에 등록되었습니다','승인 후 공개됩니다'); if(isBoss()){ QN++; } setTimeout(function(){ show('me'); },900); }
+    if(r.status==='ok'){ m.innerHTML=''; toast('우리 기록에 등록되었습니다','승인 후 공개됩니다'); if(isBoss()){ QN++; } LIST=null; setTimeout(function(){ try{ history.replaceState({v:'me'},'',location.pathname); }catch(e){} render('me'); },900); }
     else { m.innerHTML='<div class="err">'+esc(r.msg||'등록하지 못했습니다.')+'</div>'; }
   });
-}
-
-/* ── 내가 남긴 것 ── */
-function meView(){
-  $('body').innerHTML='<div id="mine"></div><button class="btn line" id="out" style="margin-top:20px">'+ic('out')+'이 기기에서 나가기</button><div class="note" style="text-align:center">다른 기기에서는 받으신 초대 링크로 다시 들어오세요.</div>';
-  wait($('mine'),'내가 남긴 기록을 모으는 중입니다');
-  api({action:'recMe'},function(d){ if(d.status==='ok'){ ME=d; if(!d.mine.length){ $('mine').innerHTML='<div class="card" style="text-align:center"><h2>아직 남긴 기록이 없습니다</h2><p class="lead">「우리 기록」에서 기억을 보태거나'+(canAdd()?', 「기록 남기기」에서 사진 한 장을 남겨 보세요.':' 보세요.')+'</p></div>'; } else { drawList($('mine'), d.mine, false); } } });
-  $('out').onclick=function(){ if(confirm('이 기기에서 나가시겠습니까? 다시 들어오려면 초대 링크가 필요합니다.')){ sset(KEY,''); location.href=location.pathname; } };
 }
 
 /* ── 확인하기(관리자 · 확인자) ── */
@@ -614,9 +931,9 @@ function chkView(){
         '<div class="acts"><button class="sbtn fill" data-a="실음">승인</button><button class="sbtn" data-a="가림">비공개</button>'+(ME.role==='관리자'?'<button class="sbtn red" data-a="지움">삭제</button>':'')+'</div></div>'; }).join(''); }
     if(d.cats&&d.cats.length){ h+='<h2 style="margin:16px 0 8px">새 갈래 '+d.cats.length+'</h2>'+d.cats.map(function(c){ return '<div class="qitem" data-cat="'+esc(c.name)+'"><b>'+esc(c.name)+'</b> <span class="note">· '+esc(c.by||'')+' 님이 더함</span><div class="acts"><button class="sbtn fill" data-c="갈래 확인">승인</button><button class="sbtn" data-c="갈래 거둠">반려</button></div></div>'; }).join(''); }
     if(d.links.length){ h+='<h2 style="margin:16px 0 8px">이어 보기 '+d.links.length+'</h2>'+d.links.map(function(l){ return '<div class="qitem" data-link="'+esc(l.no)+'">'+esc(l.a)+' — '+esc(l.rel)+' — '+esc(l.b)+'<div class="acts"><button class="sbtn fill" data-l="관계 확인">승인</button><button class="sbtn" data-l="관계 거둠">반려</button></div></div>'; }).join(''); }
-    $('cq').innerHTML=h; tabsDraw();
+    $('cq').innerHTML=h; drawBadge();
     lazyPhotos($('cq'));
-    var os=$('cq').querySelectorAll('[data-open]'); for(var i=0;i<os.length;i++){ os[i].onclick=function(){ openItem(this.getAttribute('data-open')); }; }
+    var os=$('cq').querySelectorAll('[data-open]'); for(var i=0;i<os.length;i++){ os[i].onclick=function(){ go('item',this.getAttribute('data-open')); }; }
     var as=$('cq').querySelectorAll('[data-a]'); for(var j=0;j<as.length;j++){ as[j].onclick=function(){
       var act=this.getAttribute('data-a'), id=this.closest('.qitem').getAttribute('data-id'), p={action:'recReview',act:act,id:id};
       if(act==='지움'&&!confirm('삭제하면 되돌릴 수 없습니다. 사진도 함께 삭제됩니다. 삭제하시겠습니까?')){return;}
@@ -627,7 +944,7 @@ function chkView(){
     var ls=$('cq').querySelectorAll('[data-l]'); for(var l=0;l<ls.length;l++){ ls[l].onclick=function(){ var n=this.closest('.qitem').getAttribute('data-link'); api({action:'recReview',act:this.getAttribute('data-l'),id:n},function(){ chkView(); }); }; }
   });
 }
-document.addEventListener('DOMContentLoaded', function(){ $('afH').onchange=onFile; boot(); });
+document.addEventListener('DOMContentLoaded', function(){ $('afH').onchange=onFile; $('fab').onclick=function(){ go('add'); }; boot(); });
 </script>
 <script src="/lf/flow.js?v=2"></script>
 <script src="/lf/frame.js?v=3"></script>
