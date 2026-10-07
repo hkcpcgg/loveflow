@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v11 · 261007 · [대표 261007 11:13 카톡에서 기록 링크를 누르니 「초대받은 분만」 · 주소가 첫 화면으로 바뀜]
+<!-- ★ 현재 버전 ▶ rec/index.html · v12 · 261007 · [대표 261007 11:18 카톡 → 기본 브라우저로 넘어가도 「초대받은 분만」 — 열쇠는 크롬 · 기본은 삼성 인터넷처럼 서로 다름]
+     ① 자동으로 넘기지 않음 — 열쇠 없는 브라우저면 「크롬으로 열기 · 삼성 인터넷으로 열기 · 기본 브라우저로 열기」를 골라 누름(안드로이드 intent) · 초대 링크 · 들어오기 링크 안내.
+     ② 내 동그라미 → 「다른 브라우저에서도 열기」 — 나만의 들어오기 링크(?k=) 복사 → 「나와의 채팅」에 보내 누르면 카톡 안에서도 바로 열림(남에게 보내지 말라는 안내).
+     (이전) v11 · 261007 · [대표 261007 11:13 카톡에서 기록 링크를 누르니 「초대받은 분만」 · 주소가 첫 화면으로 바뀜]
      ① 카톡 안 브라우저에 열쇠가 없으면 → 기본 브라우저(처음 들어온 곳)로 넘김(kakaotalk://web/openExternal) · 자동이 안 되면 「기본 브라우저로 열기」 단추.
      ② 「카톡으로 알리기」 = 카카오 공유 기능 대신 휴대폰 공유창(주소가 그대로 감) · 공유창이 없으면 링크 복사.
      (이전) v10 · 261007 · [대표 261007 08:29 「보는 사람 · 소통하는 사람 중심 · 이사 의견대로」 · 서버 v32]
@@ -292,6 +295,7 @@ svg.i.lg{width:34px;height:34px;stroke-width:1.5}
 .mehead{display:flex;gap:12px;align-items:center;padding:4px 2px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
 .mehead b{display:block;font-size:17px;color:var(--navy2)}
 .mehead small{color:var(--sub);font-size:13px}
+a.btn{text-decoration:none}
 .mrow{display:flex;gap:12px;align-items:center;width:100%;padding:10px 4px;border:none;border-bottom:1px solid var(--line);background:none;font-family:inherit;text-align:left;cursor:pointer;color:var(--ink)}
 .mrow b{display:block;font-size:16px}
 .mrow small{display:block;color:var(--sub);font-size:13px}
@@ -377,13 +381,31 @@ function boot(){
   K=sget(KEY);
   if(K){ loadMe(g); return; }
   if(g){ joinForm(g); return; }
-  if(/KAKAOTALK/i.test(navigator.userAgent)){
-    var ext='kakaotalk://web/openExternal?url='+encodeURIComponent(location.href);
-    $('main').innerHTML='<div class="card" style="text-align:center;margin-top:16px"><h2>기본 브라우저에서 엽니다</h2><p class="lead">우리 기록은 처음 들어오신 브라우저에서 열립니다. 잠시 뒤 바뀌지 않으면 아래 단추를 눌러 주십시오.</p><a class="btn" href="'+esc(ext)+'">기본 브라우저로 열기</a></div>';
-    setTimeout(function(){ location.href=ext; },300);
-    return;
+  noKey();
+}
+/* 이 브라우저에 열쇠가 없을 때 — 처음 들어오신 브라우저로 열기(크롬 · 삼성 인터넷 · 기본) · 초대 링크 안내
+   ★자동으로 넘기지 않음: 카톡이 여는 「기본 브라우저」와 열쇠가 있는 브라우저가 다를 수 있음(대표 261007 11:18) */
+function noKey(){
+  var ua=navigator.userAgent, and=/Android/i.test(ua), ios=/iPhone|iPad|iPod/i.test(ua), kk=/KAKAOTALK/i.test(ua);
+  var here=location.host+location.pathname+location.search;
+  function intent(pkg){ return 'intent://'+here+'#Intent;scheme=https;package='+pkg+';end'; }
+  var bs=[];
+  if(and){
+    var sam=/SamsungBrowser/i.test(ua);
+    if(kk||!sam){ bs.push(['크롬으로 열기',intent('com.android.chrome')]); }
+    if(kk||sam){ bs.push(['삼성 인터넷으로 열기',intent('com.sec.android.app.sbrowser')]); }
+    if(!kk&&!sam){ bs=[['삼성 인터넷으로 열기',intent('com.sec.android.app.sbrowser')]]; }
+    if(!kk&&sam){ bs=[['크롬으로 열기',intent('com.android.chrome')]]; }
   }
-  $('main').innerHTML='<div class="card" style="text-align:center;margin-top:16px"><h2>초대받은 분만 이용할 수 있습니다</h2><p class="lead">받으신 초대 링크를 다시 눌러 주세요.'+(OPEN_R?'<br>이 기기에서 처음 여시는 경우, 받으신 초대 링크로 먼저 들어와 주십시오.':'')+'</p></div>';
+  if(kk){ bs.push(['기본 브라우저로 열기','kakaotalk://web/openExternal?url='+encodeURIComponent(location.href)]); }
+  else if(ios){ bs.push(['Safari로 열기','x-safari-https://'+here]); }
+  $('main').innerHTML='<div class="card nokey" style="margin-top:16px"><h2>이 브라우저에서는 아직 들어오지 않으셨습니다</h2>'+
+    '<p class="lead">우리 기록은 처음 들어오신 브라우저에 열쇠가 남아 있습니다. 처음 들어오신 브라우저로 열어 주십시오.</p>'+
+    bs.map(function(b,n){ return '<a class="btn'+(n?' line':'')+'" href="'+esc(b[1])+'">'+esc(b[0])+'</a>'; }).join('')+
+    '<div class="howto" style="margin-top:16px"><b>이 브라우저에서도 바로 열리게 하려면</b>'+
+    (kk?'① 받으신 <b style="display:inline">초대 링크</b>를 카카오톡에서 누르시면 카카오톡 안에서도 열립니다.<br>② 이미 들어오신 분은 들어와 있는 브라우저에서 내 동그라미 → 「다른 브라우저에서도 열기」 링크를 「나와의 채팅」에 보내 누르십시오.'
+        :'① 받으신 <b style="display:inline">초대 링크</b>를 이 브라우저에서 누르십시오.<br>② 이미 들어오신 분은 들어와 있는 브라우저에서 내 동그라미 → 「다른 브라우저에서도 열기」를 눌러 링크를 옮겨 오십시오.')+
+    '</div></div>';
 }
 function joinForm(g){
   $('main').innerHTML='<div class="joinhero"><div class="who">초대받으셨습니다</div><h1>함께 남기는 우리 기록</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
@@ -544,6 +566,7 @@ function meMenu(){
   var rows=[['me','heart','c-gold','내가 남긴 것','내가 올린 기록 · 보탠 기억']];
   if(isBoss()){ rows.push(['chk','check','c-green','승인 관리'+(QN?' <span class="cnt">'+QN+'</span>':''),'승인 대기 · 삭제 요청']); }
   if(ME.role==='관리자'){ rows.push(['name','pen','c-navy','공동체 이름 바꾸기','지금 이름 · '+esc(ME.comName||'')]); }
+  rows.push(['key','share','c-violet','다른 브라우저에서도 열기','카카오톡 안 · 다른 브라우저에서도 바로 열리게']);
   rows.push(['out','out','c-gray','이 기기에서 나가기','다시 들어오려면 초대 링크가 필요합니다']);
   d.innerHTML='<div class="sheet"><div class="mehead"><span class="mecir big">'+esc((ME.name||'나').charAt(0))+'</span><div><b>'+esc(ME.name||'')+' 님</b><small>'+esc(roleName(ME.role))+' · '+esc(ME.comName||'')+'</small></div></div>'+
     rows.map(function(r){ return '<button class="mrow" data-v="'+r[0]+'"><span class="ci '+r[2]+'">'+ic(r[1])+'</span><span><b>'+r[3]+'</b><small>'+r[4]+'</small></span></button>'; }).join('')+
@@ -556,8 +579,26 @@ function meMenu(){
     var v=this.getAttribute('data-v'); close();
     if(v==='out'){ if(confirm('이 기기에서 나가시겠습니까? 다시 들어오려면 초대 링크가 필요합니다.')){ sset(KEY,''); location.href=location.pathname; } return; }
     if(v==='name'){ nameSheet(); return; }
+    if(v==='key'){ keySheet(); return; }
     go(v);
   }; }
+}
+function keySheet(){
+  var url=location.origin+'/rec/?k='+K;
+  var d=document.createElement('div'); d.className='sheet-dim';
+  d.innerHTML='<div class="sheet"><h2>다른 브라우저에서도 열기</h2>'+
+    '<p class="lead">카카오톡에서 기록 링크를 누르면 카카오톡 안의 브라우저로 열립니다. 아래 <b>나만의 들어오기 링크</b>를 그 브라우저에서 한 번 누르시면, 그다음부터는 그곳에서도 바로 열립니다.</p>'+
+    '<div class="howto"><b>카카오톡에서 쓰시려면</b>① 「링크 복사」를 누릅니다.<br>② 카카오톡 「나와의 채팅」에 붙여 넣어 보냅니다.<br>③ 그 링크를 누릅니다.</div>'+
+    '<div class="del" style="margin-top:12px"><p><b>이 링크는 나만 쓰는 열쇠입니다.</b> 다른 분이나 단톡방에 보내지 마십시오. 다른 분은 초대 링크로 들어오십니다.</p></div>'+
+    '<button class="btn" id="kcp">링크 복사</button><button class="btn line" id="kno" style="margin-top:8px">닫기</button></div>';
+  document.body.appendChild(d);
+  function close(){ try{ d.parentNode.removeChild(d); }catch(e){} }
+  d.onclick=function(e){ if(e.target===d){ close(); } };
+  $('kno').onclick=close;
+  $('kcp').onclick=function(){
+    function ok(){ close(); toast('나만의 들어오기 링크를 복사했습니다','「나와의 채팅」에 붙여 넣어 주십시오'); }
+    try{ navigator.clipboard.writeText(url).then(ok).catch(function(){ prompt('아래 링크를 복사해 주십시오.',url); }); }catch(e){ prompt('아래 링크를 복사해 주십시오.',url); }
+  };
 }
 function nameSheet(){
   var d=document.createElement('div'); d.className='sheet-dim';
