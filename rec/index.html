@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v15 · 261007 · [대표 261007 14:19 「카카오 연결 → 마지막에 들어오지 못했습니다」 · 서버 v37]
+<!-- ★ 현재 버전 ▶ rec/index.html · v16 · 261007 · [대표 261007 14:44 「기억 보내기도 오래 걸림 · 물결이든 뭐든 표현 · 지연될 만한 데는 ○○ 중이라고 안내」]
+     ① 서버에 보내는 일(올리기 · 기억 · 대화 · 기억해요 · 승인 · 삭제 요청 · 이름 · 갈래 · 카카오)은 0.4초가 넘으면
+        화면 아래에 「○○하는 중입니다」 + 기다림 물결 띠가 저절로 뜸 — 끝나면 사라짐(화면마다 따로 손대지 않고 서버 호출 한 곳에서).
+     (이전) v15 · 261007 · [대표 261007 14:19 「카카오 연결 → 마지막에 들어오지 못했습니다」 · 서버 v37]
      ① 휴대폰(카톡 안 화면)이 열쇠를 기억하지 못해도 — 받은 열쇠 · 카카오로 받은 열쇠로 그 자리에서 그대로 들어감.
      ② 「카카오 연결」 = 가기 전에 서버에서 10분짜리 표를 받아 두고, 돌아와 그 표로 이음(열쇠를 잃어도 이어짐).
      (이전) v14 · 261007 · [대표 261007 11:48 「브라우저 고르게 하면 어르신은 나가 버림」 · 11:54 「카톡 쓰는 분이 대상」 · 12:07 ok · 서버 v33]
@@ -166,6 +169,9 @@ input.t:focus,textarea:focus,select:focus{outline:none;border-color:var(--navy)}
 .qitem{border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:8px;background:#fff}
 .qitem .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .toast{position:fixed;left:50%;bottom:calc(92px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#fff;border:1.5px solid #EBD7AE;border-radius:16px;padding:12px 16px;box-shadow:0 8px 24px rgba(30,48,80,.15);z-index:3000;text-align:center;min-width:260px;max-width:92vw;animation:tin .4s ease-out}
+.busy{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--navy);color:#fff;border-radius:16px;padding:12px 18px 10px;box-shadow:0 8px 24px rgba(30,48,80,.25);z-index:3100;text-align:center;min-width:240px;max-width:92vw}
+.busy b{display:block;font-size:15.5px;font-weight:700}
+.busy .lf-wave{height:18px;margin-top:6px}
 .toast b{display:block;font-family:'Noto Serif KR',serif;color:var(--navy2);font-size:16px}
 .toast small{color:var(--orange);font-weight:800;font-size:13px}
 @keyframes tin{from{opacity:0;transform:translate(-50%,12px)}to{opacity:1;transform:translate(-50%,0)}}
@@ -362,9 +368,14 @@ function wait(el, msg){ msg=msg||'기록을 불러오는 중입니다'; el.inner
 function toast(t,s){ var d=document.createElement('div'); d.className='toast'; d.innerHTML='<b>'+esc(t)+'</b>'+(s?'<small>'+esc(s)+'</small>':''); document.body.appendChild(d); setTimeout(function(){ try{ d.parentNode.removeChild(d); }catch(e){} },3200); }
 
 /* 서버 — POST(text/plain) · 막히면 작은 요청은 JSONP 로 한 번 더 */
+var BUSY_MSG={recAdd:'기록을 올리는 중입니다',recTell:'기억을 남기는 중입니다',recTalk:'대화를 남기는 중입니다',recReact:'마음을 전하는 중입니다',recReview:'처리하는 중입니다',recTakeDown:'삭제 요청을 보내는 중입니다',recWithdraw:'등록을 취소하는 중입니다',recTalkHide:'처리하는 중입니다',recMyName:'이름을 바꾸는 중입니다',recComName:'이름을 바꾸는 중입니다',recCatAdd:'갈래를 더하는 중입니다',recKakao:'카카오로 확인하는 중입니다',recKakaoLink:'카카오를 잇는 중입니다',recKakaoTicket:'카카오로 가는 중입니다',recPhoto:'사진을 불러오는 중입니다'};
+var BUSY_N=0, BUSY_T=null;
+function busyOn(msg){ BUSY_N++; if(BUSY_T||document.getElementById('busy')){ return; } BUSY_T=setTimeout(function(){ BUSY_T=null; if(!BUSY_N){ return; } var d=document.createElement('div'); d.className='busy'; d.id='busy'; d.innerHTML='<b>'+esc(msg)+'</b><div class="lf-wave"></div>'; document.body.appendChild(d); try{ if(window.LFFlow){ LFFlow.wave(d.querySelector('.lf-wave')); } }catch(e){} },400); }
+function busyOff(){ BUSY_N=Math.max(0,BUSY_N-1); if(BUSY_N){ return; } if(BUSY_T){ clearTimeout(BUSY_T); BUSY_T=null; } var d=document.getElementById('busy'); if(d){ try{ d.parentNode.removeChild(d); }catch(e){} } }
 function api(p, cb){
   if(K && !p.k){ p.k=K; }
-  var done=false; function fin(d){ if(done){return;} done=true; cb(d||{status:'err',msg:'지금은 연결되지 않습니다. 잠시 후 다시 시도해 주십시오.'}); }
+  var bm=BUSY_MSG[p.action]; if(bm){ busyOn(bm); }
+  var done=false; function fin(d){ if(done){return;} done=true; if(bm){ busyOff(); } cb(d||{status:'err',msg:'지금은 연결되지 않습니다. 잠시 후 다시 시도해 주십시오.'}); }
   try{
     fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)})
       .then(function(r){ return r.json(); }).then(fin)
