@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v12 · 261007 · [대표 261007 11:18 카톡 → 기본 브라우저로 넘어가도 「초대받은 분만」 — 열쇠는 크롬 · 기본은 삼성 인터넷처럼 서로 다름]
+<!-- ★ 현재 버전 ▶ rec/index.html · v13 · 261007 · [대표 261007 12:25 「사람 · 곳 · 해 · 한마디」 낯섦 · 꼭 써 넣을 필요 없음]
+     ① 위 한 줄 가운데 칸 안내 글 → 「검색」 한 말(돋보기 단추 그대로) · 「찾는 기록」 → 「검색한 기록」 · 「검색 결과가 없습니다」(말사전 등재).
+     (이전) v12 · 261007 · [대표 261007 11:18 카톡 → 기본 브라우저로 넘어가도 「초대받은 분만」 — 열쇠는 크롬 · 기본은 삼성 인터넷처럼 서로 다름]
      ① 자동으로 넘기지 않음 — 열쇠 없는 브라우저면 「크롬으로 열기 · 삼성 인터넷으로 열기 · 기본 브라우저로 열기」를 골라 누름(안드로이드 intent) · 초대 링크 · 들어오기 링크 안내.
      ② 내 동그라미 → 「다른 브라우저에서도 열기」 — 나만의 들어오기 링크(?k=) 복사 → 「나와의 채팅」에 보내 누르면 카톡 안에서도 바로 열림(남에게 보내지 말라는 안내).
      (이전) v11 · 261007 · [대표 261007 11:13 카톡에서 기록 링크를 누르니 「초대받은 분만」 · 주소가 첫 화면으로 바뀜]
@@ -472,7 +474,7 @@ function feedView(){
   var nm=(ME.name||'나').trim();
   var h='<div class="head" id="head"><div class="bar">'+
       '<button class="home" id="hm" aria-label="처음으로">'+ic('home')+'</button>'+
-      '<div class="search"><input id="fq" type="search" enterkeyhint="search" placeholder="찾기 — 사람 · 곳 · 해 · 한마디" value="'+esc(F.q)+'"><button id="fgo" aria-label="찾기">'+ic('look')+'</button></div>'+
+      '<div class="search"><input id="fq" type="search" enterkeyhint="search" placeholder="검색" value="'+esc(F.q)+'"><button id="fgo" aria-label="검색">'+ic('look')+'</button></div>'+
       '<button class="mecir" id="mc" aria-label="내 메뉴">'+esc(nm.charAt(0))+'<span class="dot" id="meDot" style="display:none"></span></button>'+
     '</div><div class="strip" id="strip"></div></div>'+
     guideHtml()+'<div id="feed"></div>';
@@ -519,7 +521,7 @@ function feedKey(){ return [F.sort,F.kind,F.made,F.cat,F.q].join('|'); }
 function feedLoad(restore){
   var el=$('feed');
   if(LIST&&LISTKEY===feedKey()){ feedDraw(el,LIST); if(restore){ window.scrollTo(0,FEEDY); } return; }
-  wait(el,F.q||F.kind||F.cat?'찾는 기록을 모으는 중입니다':(F.sort==='time'?'우리 기록을 연도 차례로 펼치는 중입니다':'새로 올라온 기록을 모으는 중입니다'));
+  wait(el,F.q||F.kind||F.cat?'검색한 기록을 모으는 중입니다':(F.sort==='time'?'우리 기록을 연도 차례로 펼치는 중입니다':'새로 올라온 기록을 모으는 중입니다'));
   var p={action:'recList',mode:F.sort}; if(F.q){p.q=F.q;} if(F.kind){p.kind=F.kind;} if(F.made){p.made=F.made;} if(F.cat){p.cat=F.cat;}
   var key=feedKey();
   api(p,function(d){
@@ -547,7 +549,7 @@ function feedCard(it){
 }
 function feedDraw(el, items){
   if(!items.length){
-    el.innerHTML='<div class="card" style="text-align:center"><h2>'+(F.q||F.kind||F.cat?'찾는 기록이 없습니다':'아직 기록이 없습니다')+'</h2><p class="lead">'+(F.q||F.kind||F.cat?'다른 말로 찾아보시거나 「전체」를 눌러 주십시오.':(canAdd()?'오른쪽 아래 「기록 남기기」에서 첫 사진 한 장을 남겨 주세요. 첫 기록이 다음 기억을 부릅니다.':'곧 첫 기록이 올라옵니다.'))+'</p></div>'; return;
+    el.innerHTML='<div class="card" style="text-align:center"><h2>'+(F.q||F.kind||F.cat?'검색 결과가 없습니다':'아직 기록이 없습니다')+'</h2><p class="lead">'+(F.q||F.kind||F.cat?'다른 말로 검색하시거나 「전체」를 눌러 주십시오.':(canAdd()?'오른쪽 아래 「기록 남기기」에서 첫 사진 한 장을 남겨 주세요. 첫 기록이 다음 기억을 부릅니다.':'곧 첫 기록이 올라옵니다.'))+'</p></div>'; return;
   }
   var h='', last=null;
   items.forEach(function(it){
