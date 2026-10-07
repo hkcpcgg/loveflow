@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v17 · 261007 · [대표 261007 14:44 · 14:53 「승인 하나하나는 감당 못 함 · 한 번에 · 사진 여러 장 한 번에」 · 서버 v38]
+<!-- ★ 현재 버전 ▶ rec/index.html · v18 · 261007 · [대표 261007 15:03 「이사님 안대로」 — 화면 말 점검 1~10]
+     갈래 → 분류 · 기억 보태기 → 기억 남기기 · 역할 이름 → 작성자 · 참여자 · 확인자 · 남긴 분 → 작성자 · 아직 몰라요 → 입력 전 ·
+     무렵 → 경 · 덧붙일 말 → 메모 · 함께 채우는 물음 → 함께 답하는 질문 · 이어 보기 → 연결된 기록 · 등록 알림 → 「기억이 등록되었습니다」.
+     기억 포도송이 · 나도 기억해요는 그대로(정해 둔 말). 서버 값(갈래 확인 · 갈래 거둠 등)은 그대로.
+     (이전) v17 · 261007 · [대표 261007 14:44 · 14:53 「승인 하나하나는 감당 못 함 · 한 번에 · 사진 여러 장 한 번에」 · 서버 v38]
      ① 사진 여러 장 한 번에 — 메일 첨부처럼 최대 10장 · 미리보기 · 한 장씩 빼기 · 「사진 더하기」 · 「3/10 올리는 중입니다」.
      ② 바로 공개 — 관리자 · 확인자 · 지정된 분 · 「바로 공개」 공동체는 등록 즉시 공개(안내 말도 따라 바뀜).
      ③ 승인 관리 맨 위 「모두 승인」(삭제 요청 걸린 것은 남김).
@@ -385,7 +389,7 @@ function wait(el, msg){ msg=msg||'기록을 불러오는 중입니다'; el.inner
 function toast(t,s){ var d=document.createElement('div'); d.className='toast'; d.innerHTML='<b>'+esc(t)+'</b>'+(s?'<small>'+esc(s)+'</small>':''); document.body.appendChild(d); setTimeout(function(){ try{ d.parentNode.removeChild(d); }catch(e){} },3200); }
 
 /* 서버 — POST(text/plain) · 막히면 작은 요청은 JSONP 로 한 번 더 */
-var BUSY_MSG={recAdd:'기록을 올리는 중입니다',recTell:'기억을 남기는 중입니다',recTalk:'대화를 남기는 중입니다',recReact:'마음을 전하는 중입니다',recReview:'처리하는 중입니다',recTakeDown:'삭제 요청을 보내는 중입니다',recWithdraw:'등록을 취소하는 중입니다',recTalkHide:'처리하는 중입니다',recMyName:'이름을 바꾸는 중입니다',recComName:'이름을 바꾸는 중입니다',recCatAdd:'갈래를 더하는 중입니다',recKakao:'카카오로 확인하는 중입니다',recKakaoLink:'카카오를 잇는 중입니다',recKakaoTicket:'카카오로 가는 중입니다',recPhoto:'사진을 불러오는 중입니다',recApproveAll:'모두 승인하는 중입니다',recComAuto:'바꾸는 중입니다',recPersonAuto:'바꾸는 중입니다'};
+var BUSY_MSG={recAdd:'기록을 올리는 중입니다',recTell:'기억을 남기는 중입니다',recTalk:'대화를 남기는 중입니다',recReact:'마음을 전하는 중입니다',recReview:'처리하는 중입니다',recTakeDown:'삭제 요청을 보내는 중입니다',recWithdraw:'등록을 취소하는 중입니다',recTalkHide:'처리하는 중입니다',recMyName:'이름을 바꾸는 중입니다',recComName:'이름을 바꾸는 중입니다',recCatAdd:'분류를 추가하는 중입니다',recKakao:'카카오로 확인하는 중입니다',recKakaoLink:'카카오를 잇는 중입니다',recKakaoTicket:'카카오로 가는 중입니다',recPhoto:'사진을 불러오는 중입니다',recApproveAll:'모두 승인하는 중입니다',recComAuto:'바꾸는 중입니다',recPersonAuto:'바꾸는 중입니다'};
 var BUSY_N=0, BUSY_T=null;
 function busyOn(msg){ BUSY_N++; if(BUSY_T||document.getElementById('busy')){ return; } BUSY_T=setTimeout(function(){ BUSY_T=null; if(!BUSY_N){ return; } var d=document.createElement('div'); d.className='busy'; d.id='busy'; d.innerHTML='<b>'+esc(msg)+'</b><div class="lf-wave"></div>'; document.body.appendChild(d); try{ if(window.LFFlow){ LFFlow.wave(d.querySelector('.lf-wave')); } }catch(e){} },400); }
 function busyOff(){ BUSY_N=Math.max(0,BUSY_N-1); if(BUSY_N){ return; } if(BUSY_T){ clearTimeout(BUSY_T); BUSY_T=null; } var d=document.getElementById('busy'); if(d){ try{ d.parentNode.removeChild(d); }catch(e){} } }
@@ -408,7 +412,7 @@ function jsonp(p, cb){
   sc.src=GAS+'?'+q.join('&')+'&callback='+name+'&t='+Date.now(); document.body.appendChild(sc);
   setTimeout(function(){ fin(null); }, 25000);
 }
-function roleName(r){ return {'관리자':'관리자','확인자':'확인하는 분','올리는 사람':'기록을 남기는 분','참여자':'기억을 보태는 분','보는 사람':'보는 분'}[r]||r; }
+function roleName(r){ return {'관리자':'관리자','확인자':'확인자','올리는 사람':'작성자','참여자':'참여자','보는 사람':'보는 분'}[r]||r; }
 function autoOk(){ return ME && (ME.autoMe||ME.autoCom); }
 function isBoss(){ return ME && (ME.role==='관리자'||ME.role==='확인자'); }
 function canAdd(){ return ME && (isBoss()||ME.role==='올리는 사람'); }
@@ -537,7 +541,7 @@ function render(v,id){
   if(v==='add'){ subPage('기록 남기기','사진 · 영상 · 글을 우리 기록에 등록합니다. '+(autoOk()?'등록하시면 바로 공개됩니다.':'승인 후 공개됩니다.')); addView(); return; }
   if(v==='ppl'){ subPage('함께하는 분','우리 기록에 함께하는 분과 공개 방식을 관리합니다.'); pplView(); return; }
   if(v==='me'){ subPage('내가 남긴 것','내가 올린 기록과 보탠 기억, 처리 상태를 봅니다.'); meView(); return; }
-  if(v==='chk'){ subPage('승인 관리','승인 대기 중인 기록 · 기억 · 갈래를 승인 · 비공개 · 삭제합니다. 삭제 요청도 이곳으로 옵니다.'); chkView(); return; }
+  if(v==='chk'){ subPage('승인 관리','승인 대기 중인 기록 · 기억 · 분류를 승인 · 비공개 · 삭제합니다. 삭제 요청도 이곳으로 옵니다.'); chkView(); return; }
   feedView();
 }
 function subPage(t,h){
@@ -569,7 +573,7 @@ function guideHtml(){
   return '<div class="guide" id="gd"><h2>이용 안내</h2>'+
     '<div class="st"><span class="ci c-navy">'+ic('look')+'</span><span><b>① 우리 사진 · 영상을 봅니다</b><small>가족 · 동네 · 학교 · 일터가 함께 남긴 기록</small></span></div>'+
     '<div class="st"><span class="ci c-rose">'+ic('heart')+'</span><span><b>② 「나도 기억해요」 · 대화로 마음을 나눕니다</b><small>기록을 열면 아래에 단추가 있습니다</small></span></div>'+
-    '<div class="st"><span class="ci c-violet">'+ic('grape')+'</span><span><b>③ 기억을 보태면 포도 한 알이 열립니다</b><small>함께 채울수록 기록이 풍성해집니다</small></span></div>'+
+    '<div class="st"><span class="ci c-violet">'+ic('grape')+'</span><span><b>③ 기억을 남기면 포도 한 알이 열립니다</b><small>함께 채울수록 기록이 풍성해집니다</small></span></div>'+
     (canAdd()?'<div class="st"><span class="ci c-peach">'+ic('plus')+'</span><span><b>④ 오른쪽 아래 「기록 남기기」</b><small>내 사진 · 영상 · 글을 남깁니다</small></span></div>':'')+
     '<button class="btn" id="gdok">'+ic('look')+'우리 기록 둘러보기</button></div>';
 }
@@ -755,9 +759,9 @@ function openItem(id, fresh){
     h+='<div class="pad">';
     if(it.text){ h+='<p style="white-space:pre-wrap;margin:6px 0 4px;font-size:16px">'+esc(it.text)+'</p>'; }
     var bl=[['언제','when'],['어디서','where'],['누구와','who'],['무슨 일','what']], filled=bl.filter(function(x){ return it[x[1]]; }).length;
-    h+='<div class="blanks">'+bl.map(function(x){ var v=it[x[1]]; return '<div class="blank'+(v?' on':'')+'"><small>'+x[0]+'</small><span>'+esc(v||'아직 몰라요')+'</span></div>'; }).join('')+'</div>'+
-      '<div class="bmeter">'+(filled===4?'네 칸이 모두 채워졌습니다 — 함께 만든 기록입니다':'네 칸 가운데 '+filled+'칸 채워짐 — '+(it.by===ME.name?'아래 물음에 답하시면 빈 칸이 금빛으로 채워집니다':'보태신 기억은 포도송이에 한 알로 열립니다'))+'</div>'+
-      '<div class="note">'+(it.cat?'갈래 · '+esc(it.cat)+' · ':'')+'남긴 분 · '+esc(it.by||'')+'</div></div></div>';
+    h+='<div class="blanks">'+bl.map(function(x){ var v=it[x[1]]; return '<div class="blank'+(v?' on':'')+'"><small>'+x[0]+'</small><span>'+esc(v||'입력 전')+'</span></div>'; }).join('')+'</div>'+
+      '<div class="bmeter">'+(filled===4?'네 칸이 모두 채워졌습니다 — 함께 만든 기록입니다':'네 칸 가운데 '+filled+'칸 채워짐 — '+(it.by===ME.name?'아래 물음에 답하시면 빈 칸이 금빛으로 채워집니다':'남기신 기억은 포도송이에 한 알로 열립니다'))+'</div>'+
+      '<div class="note">'+(it.cat?'분류 · '+esc(it.cat)+' · ':'')+'작성자 · '+esc(it.by||'')+'</div></div></div>';
     if(it.react&&it.reactNames&&it.reactNames.length){ h+='<div class="rnames">'+ic('heart','sm')+esc(it.reactNames.slice(0,6).join(' · '))+(it.reactNames.length>6?' 외 '+(it.reactNames.length-6)+'분':'')+' 님이 기억하십니다</div>'; }
     var mems=it.linked.filter(function(x){ return x.kind==='기억'; }), others=it.linked.filter(function(x){ return x.kind!=='기억'; });
     if(it.together.length){
@@ -768,10 +772,10 @@ function openItem(id, fresh){
     }
     if(canTell()){
       var q=it.next, isWhen=q&&String(q.tag||'').indexOf('때')===0;
-      h+='<div class="ask"><div class="k">함께 채우는 물음</div><div class="q">'+esc(q?q.q:'이 기록에 대해 기억나는 것이 있으신가요?')+'</div>'+
-        (isWhen?'<div id="wp"></div><details class="more"><summary>덧붙일 말 (선택)</summary><textarea id="tt" style="margin-top:8px" placeholder="예: 형이 군대 가기 전 해"></textarea></details>'
+      h+='<div class="ask"><div class="k">함께 답하는 질문</div><div class="q">'+esc(q?q.q:'이 기록에 대해 기억나는 것이 있으신가요?')+'</div>'+
+        (isWhen?'<div id="wp"></div><details class="more"><summary>메모 (선택)</summary><textarea id="tt" style="margin-top:8px" placeholder="예: 형이 군대 가기 전 해"></textarea></details>'
                :'<textarea id="tt" placeholder="떠오르는 장면을 마음 가는 대로 들려주세요"></textarea>')+
-        '<button class="btn warm" id="tb">'+ic('grape')+'기억 보태기</button><div class="note">'+((it.state==='실림'||autoOk())?'보태신 기억은 바로 공개됩니다.':'보태신 기억은 승인 후 공개됩니다.')+'</div><div id="tm"></div></div>';
+        '<button class="btn warm" id="tb">'+ic('grape')+'기억 남기기</button><div class="note">'+((it.state==='실림'||autoOk())?'남기신 기억은 바로 공개됩니다.':'남기신 기억은 승인 후 공개됩니다.')+'</div><div id="tm"></div></div>';
     }
     h+='<div class="card" id="talkc"><h2>'+ic('talk')+' 대화</h2><div id="talks"></div>'+
       (canTell()?'<div class="tbox"><textarea id="tk" maxlength="300" placeholder="이 기록을 보며 나누고 싶은 이야기"></textarea><div class="trow"><small id="tkn">0 / 300</small><button class="sbtn fill" id="tks">보내기</button></div><div id="tkm"></div></div>'
@@ -794,11 +798,11 @@ function openItem(id, fresh){
     var WP=$('wp')?whenPicker($('wp')):null;
     if($('tb')){ $('tb').onclick=function(){
       var extra=$('tt')?$('tt').value.trim():'', tx='';
-      if(WP){ var w=WP.value(); if(!w&&!WP.unknown()&&!extra){ $('tm').innerHTML='<div class="err">연도를 선택하시거나 덧붙일 말을 적어 주십시오.</div>'; return; } tx=w?(w+(extra?' · '+extra:'')):(extra||'모름'); }
+      if(WP){ var w=WP.value(); if(!w&&!WP.unknown()&&!extra){ $('tm').innerHTML='<div class="err">연도를 선택하시거나 메모을 적어 주십시오.</div>'; return; } tx=w?(w+(extra?' · '+extra:'')):(extra||'모름'); }
       else { tx=extra; if(!tx){ $('tm').innerHTML='<div class="err">내용을 적어 주십시오.</div>'; return; } }
       var b=this; b.disabled=true;
       api({action:'recTell',id:it.id,q:(it.next?it.next.no:''),text:tx},function(r){
-        if(r.status==='ok'){ LIST=null; toast('사랑이 흘러 사랑을 부르다','기억 한 알이 열렸습니다'+(r.filled?' · 「'+r.filled+'」 칸이 채워졌습니다':'')); setTimeout(function(){ if(VIEW==='item'){ openItem(it.id,true); } },900); }
+        if(r.status==='ok'){ LIST=null; toast('기억이 등록되었습니다',(r.state==='실림'?'바로 공개되었습니다':'승인 후 공개됩니다')+(r.filled?' · 「'+r.filled+'」 칸이 채워졌습니다':'')); setTimeout(function(){ if(VIEW==='item'){ openItem(it.id,true); } },900); }
         else { b.disabled=false; $('tm').innerHTML='<div class="err">'+esc(r.msg||'저장하지 못했습니다.')+'</div>'; }
       });
     }; }
@@ -867,7 +871,7 @@ function meView(){
   $('body').innerHTML='<div id="mine"></div>';
   wait($('mine'),'내가 남긴 기록을 모으는 중입니다');
   api({action:'recMe'},function(d){ if(d.status!=='ok'||VIEW!=='me'){ return; } ME=d; setTitle();
-    if(!d.mine.length){ $('mine').innerHTML='<div class="card" style="text-align:center"><h2>아직 남긴 기록이 없습니다</h2><p class="lead">기록을 열어 기억을 보태거나'+(canAdd()?', 「기록 남기기」에서 사진 한 장을 남겨 보세요.':' 「나도 기억해요」를 눌러 보세요.')+'</p></div>'; }
+    if(!d.mine.length){ $('mine').innerHTML='<div class="card" style="text-align:center"><h2>아직 남긴 기록이 없습니다</h2><p class="lead">기록을 열어 기억을 남기거나'+(canAdd()?', 「기록 남기기」에서 사진 한 장을 남겨 보세요.':' 「나도 기억해요」를 눌러 보세요.')+'</p></div>'; }
     else { drawList($('mine'), d.mine); } });
 }
 
@@ -876,7 +880,7 @@ function whenPicker(host){
   var S={yr:0,se:'',mo:0,ab:false,unk:false}, now=(new Date()).getFullYear();
   function txt(){
     if(S.unk){ return '모름'; } if(!S.yr){ return ''; }
-    var t=S.yr+'년'; if(S.mo){ t+=' '+S.mo+'월'; } else if(S.se){ t+=' '+S.se; } if(S.ab){ t+=' 무렵'; } return t;
+    var t=S.yr+'년'; if(S.mo){ t+=' '+S.mo+'월'; } else if(S.se){ t+=' '+S.se; } if(S.ab){ t+='경'; } return t;
   }
   function row(){
     var t=txt();
@@ -890,13 +894,13 @@ function whenPicker(host){
       '<div class="wheel"><div class="wsel"></div><div class="wlist" id="wl"><div style="height:'+(H*2)+'px"></div>'+ys+'<div style="height:'+(H*2)+'px"></div></div></div>'+
       '<div class="lab2">계절</div><div class="seg4" id="wse">'+['봄','여름','가을','겨울'].map(function(x){ return '<button type="button" class="chip" data-s="'+x+'">'+x+'</button>'; }).join('')+'</div>'+
       '<details id="wmd"'+(T.mo?' open':'')+'><summary class="lab2" style="cursor:pointer;color:var(--navy)">월 선택</summary><div class="seg6" id="wmo">'+[1,2,3,4,5,6,7,8,9,10,11,12].map(function(m){ return '<button type="button" class="chip" data-m="'+m+'">'+m+'월</button>'; }).join('')+'</div></details>'+
-      '<label class="wab"><input type="checkbox" id="wab"'+(T.ab?' checked':'')+'> 정확하지 않음 (「무렵」으로 표시)</label>'+
+      '<label class="wab"><input type="checkbox" id="wab"'+(T.ab?' checked':'')+'> 정확하지 않음 (「경」으로 표시)</label>'+
       '<div class="wout" id="wout"></div>'+
       '<div class="seg2" style="margin-top:12px"><button type="button" class="chip" id="wunk">모름</button><button type="button" class="chip on" id="wok">확인</button></div></div>';
     document.body.appendChild(d);
     var wl=d.querySelector('#wl');
     function close(){ try{ d.parentNode.removeChild(d); }catch(e){} }
-    function out(){ var t=T.yr+'년'+(T.mo?' '+T.mo+'월':(T.se?' '+T.se:''))+(T.ab?' 무렵':''); d.querySelector('#wout').textContent=t;
+    function out(){ var t=T.yr+'년'+(T.mo?' '+T.mo+'월':(T.se?' '+T.se:''))+(T.ab?'경':''); d.querySelector('#wout').textContent=t;
       var a=d.querySelectorAll('#wse .chip'); for(var i=0;i<a.length;i++){ a[i].classList.toggle('on',!T.mo&&a[i].getAttribute('data-s')===T.se); }
       var b=d.querySelectorAll('#wmo .chip'); for(var j=0;j<b.length;j++){ b[j].classList.toggle('on',+b[j].getAttribute('data-m')===T.mo); }
       var c=d.querySelectorAll('.wy'); for(var k=0;k<c.length;k++){ c[k].classList.toggle('on',+c[k].getAttribute('data-y')===T.yr); } }
@@ -940,7 +944,7 @@ function addView(){
     '<div id="tyBox"></div>'+
     '<label class="f">제목</label><input class="t" id="at" maxlength="60" placeholder="예: 운동회 날">'+
     '<label class="f">한마디 <small>선택</small></label><textarea id="ax" placeholder="이 기록에 얽힌 이야기를 들려주세요"></textarea>'+
-    '<label class="f">갈래 <small>선택 · 새 갈래 추가 가능</small></label><div class="chips" id="ac"></div><div id="acAdd"></div>'+
+    '<label class="f">분류 <small>선택 · 새 분류 추가 가능</small></label><div class="chips" id="ac"></div><div id="acAdd"></div>'+
     '<label class="f">언제 <small>선택</small></label><div id="aw"></div>'+
     '<details class="more"><summary>어디서 · 누구와 · 무슨 일 (선택)</summary>'+
     '<label class="f">어디서</label><input class="t" id="ap" maxlength="80">'+
@@ -1003,13 +1007,13 @@ function shrink(file, cb){
   if(window.createImageBitmap){ createImageBitmap(file,{imageOrientation:'from-image'}).then(function(b){ draw(b,b.width,b.height); }).catch(fallback); } else { fallback(); }
   function fallback(){ var u=URL.createObjectURL(file), im=new Image(); im.onload=function(){ draw(im,im.naturalWidth,im.naturalHeight); URL.revokeObjectURL(u); }; im.onerror=function(){ cb(''); }; im.src=u; }
 }
-/* 갈래 — 시트에 탭 더하듯 「+ 갈래 더하기」 */
+/* 갈래 — 시트에 탭 더하듯 「+ 분류 추가」 */
 function catDraw(){
   var el=$('ac'); if(!el){return;}
-  el.innerHTML=CATS.map(function(c){ return '<button class="chip s'+(c.state==='후보'?' cand':'')+(A.cat===c.name?' on':'')+'" data-v="'+esc(c.name)+'">'+esc(c.name)+(c.state==='후보'?' · 확인 전':'')+'</button>'; }).join('')+'<button class="chip s add" id="acPlus">+ 갈래 더하기</button>';
+  el.innerHTML=CATS.map(function(c){ return '<button class="chip s'+(c.state==='후보'?' cand':'')+(A.cat===c.name?' on':'')+'" data-v="'+esc(c.name)+'">'+esc(c.name)+(c.state==='후보'?' · 확인 전':'')+'</button>'; }).join('')+'<button class="chip s add" id="acPlus">+ 분류 추가</button>';
   var cs=el.querySelectorAll('.chip:not(.add)'); for(var i=0;i<cs.length;i++){ cs[i].onclick=function(){ var v=this.getAttribute('data-v'); A.cat=(A.cat===v)?'':v; catDraw(); }; }
   $('acPlus').onclick=function(){
-    $('acAdd').innerHTML='<div class="row" style="margin-top:8px"><input class="t" id="acN" maxlength="20" placeholder="새 갈래 (예: 우리집 강아지)"><button class="sbtn fill" id="acB" style="flex:none;padding:11px 14px">더하기</button></div><div class="note">'+(isBoss()?'더하시면 바로 모두의 갈래가 됩니다.':'더하시면 내 기록에는 바로 쓰이고, 다른 분들에게는 관리자가 확인한 뒤 보입니다.')+'</div><div id="acM"></div>';
+    $('acAdd').innerHTML='<div class="row" style="margin-top:8px"><input class="t" id="acN" maxlength="20" placeholder="새 분류 (예: 우리집 강아지)"><button class="sbtn fill" id="acB" style="flex:none;padding:11px 14px">더하기</button></div><div class="note">'+(isBoss()?'추가하시면 바로 모두의 분류가 됩니다.':'더하시면 내 기록에는 바로 쓰이고, 다른 분들에게는 관리자가 확인한 뒤 보입니다.')+'</div><div id="acM"></div>';
     $('acN').focus();
     $('acB').onclick=function(){
       var n=$('acN').value.trim(); if(!n){return;}
@@ -1057,7 +1061,7 @@ function pplView(){
     if(d.status!=='ok'){ $('pq').innerHTML='<div class="msg">'+esc(d.msg||'')+'</div>'; return; }
     var boss=ME.role==='관리자';
     var h='<div class="card"><h2>공개 방식</h2><div class="sw"><span><b>승인 없이 바로 공개</b><small>켜면 모든 분이 올린 기록이 바로 공개됩니다. 가족처럼 믿는 공동체에 맞습니다.</small></span><button class="tg'+(d.autoCom?' on':'')+'" id="tgc"'+(boss?'':' disabled')+' aria-label="승인 없이 바로 공개"></button></div>'+
-      '<p class="note">관리자 · 확인하는 분이 올린 것과, 공개된 기록에 덧붙이는 기억은 언제나 바로 공개됩니다. 삭제 요청이 들어오면 바로 가려집니다.</p></div>'+
+      '<p class="note">관리자 · 확인자가 올린 것과, 공개된 기록에 덧붙이는 기억은 언제나 바로 공개됩니다. 삭제 요청이 들어오면 바로 가려집니다.</p></div>'+
       '<div class="card"><h2>함께하는 분 '+d.items.length+'</h2><p class="lead">「바로 공개」를 켠 분이 올린 기록은 승인 없이 공개됩니다.</p>'+
       d.items.map(function(x){ var fixed=(x.role==='관리자'||x.role==='확인자');
         return '<div class="sw"><span><b>'+esc(x.name||'(이름 없음)')+(x.me?' (나)':'')+'</b><small>'+esc(roleName(x.role))+(x.kakao?' · 카카오 연결':'')+'</small></span>'+
@@ -1086,8 +1090,8 @@ function chkView(){
         (it.text?'<p style="font-size:14.5px;margin-top:6px;white-space:pre-wrap">'+esc(it.text.slice(0,300))+'</p>':'')+
         (it.takeDown?'<div class="err"><b>삭제 요청</b> · '+esc(it.takeDown)+'</div>':'')+
         '<div class="acts"><button class="sbtn fill" data-a="실음">승인</button><button class="sbtn" data-a="가림">비공개</button>'+(ME.role==='관리자'?'<button class="sbtn red" data-a="지움">삭제</button>':'')+'</div></div>'; }).join(''); }
-    if(d.cats&&d.cats.length){ h+='<h2 style="margin:16px 0 8px">새 갈래 '+d.cats.length+'</h2>'+d.cats.map(function(c){ return '<div class="qitem" data-cat="'+esc(c.name)+'"><b>'+esc(c.name)+'</b> <span class="note">· '+esc(c.by||'')+' 님이 더함</span><div class="acts"><button class="sbtn fill" data-c="갈래 확인">승인</button><button class="sbtn" data-c="갈래 거둠">반려</button></div></div>'; }).join(''); }
-    if(d.links.length){ h+='<h2 style="margin:16px 0 8px">이어 보기 '+d.links.length+'</h2>'+d.links.map(function(l){ return '<div class="qitem" data-link="'+esc(l.no)+'">'+esc(l.a)+' — '+esc(l.rel)+' — '+esc(l.b)+'<div class="acts"><button class="sbtn fill" data-l="관계 확인">승인</button><button class="sbtn" data-l="관계 거둠">반려</button></div></div>'; }).join(''); }
+    if(d.cats&&d.cats.length){ h+='<h2 style="margin:16px 0 8px">새 분류 '+d.cats.length+'</h2>'+d.cats.map(function(c){ return '<div class="qitem" data-cat="'+esc(c.name)+'"><b>'+esc(c.name)+'</b> <span class="note">· '+esc(c.by||'')+' 님이 더함</span><div class="acts"><button class="sbtn fill" data-c="갈래 확인">승인</button><button class="sbtn" data-c="갈래 거둠">반려</button></div></div>'; }).join(''); }
+    if(d.links.length){ h+='<h2 style="margin:16px 0 8px">연결된 기록 '+d.links.length+'</h2>'+d.links.map(function(l){ return '<div class="qitem" data-link="'+esc(l.no)+'">'+esc(l.a)+' — '+esc(l.rel)+' — '+esc(l.b)+'<div class="acts"><button class="sbtn fill" data-l="관계 확인">승인</button><button class="sbtn" data-l="관계 거둠">반려</button></div></div>'; }).join(''); }
     $('cq').innerHTML=h; drawBadge();
     if($('allOk')){ $('allOk').onclick=function(){ if(!confirm('승인 대기 '+waitN+'건을 모두 승인하시겠습니까?\n삭제 요청이 들어온 기록은 그대로 남습니다.')){ return; } var b=this; b.disabled=true; api({action:'recApproveAll'},function(r){ if(r.status==='ok'){ toast('모두 승인했습니다',(r.n+r.cats+r.links)+'건'+(r.skip?' · 삭제 요청 '+r.skip+'건은 남김':'')); LIST=null; loadCats(chkView); } else { b.disabled=false; alert(r.msg||'처리하지 못했습니다.'); } }); }; }
     lazyPhotos($('cq'));
