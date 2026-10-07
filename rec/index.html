@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v20 · 261007 · [대표 261007 19:43 「첫 화면에 이용 안내가 계속 떠서 사진을 막음 — 맨 밑으로」]
+<!-- ★ 현재 버전 ▶ rec/index.html · v21 · 261007 · [대표 261007 19:38 「열 장인데 AI로 만든 것 · 직접 찍은 것 · 내용이 다 다름」 → 시험판 「가 · 같이 + 따로」 · 19:58 「그대로 진행」]
+     ① 여러 장을 담으면 출처 · 제목 · 한마디는 「모든 사진에 같게」 한 번 고르고, 다른 사진만 눌러 그 사진의 출처 · 제목 · 한마디를 따로 고름.
+     ② 사진 칸 아래쪽에 그 사진의 출처가 보이고, 따로 고친 사진은 주황 표시 · 「모두와 같게」로 되돌림.
+     ③ 분류 · 언제 · 어디서 · 누구와 · 무슨 일 · 공개 범위는 모든 사진에 같게(서버는 그대로 — 한 장 = 기록 하나).
+     (이전) v20 · 261007 · [대표 261007 19:43 「첫 화면에 이용 안내가 계속 떠서 사진을 막음 — 맨 밑으로」]
      ① 이용 안내를 첫 화면 맨 위에서 빼고, 기록 목록이 다 그려진 뒤 맨 아래에 둠(사진이 먼저 보임) · 「우리 기록 둘러보기」 단추 대신 「맨 위로」.
      ② 내 메뉴에 「이용 안내」 줄 — 누르면 맨 아래 안내로 내려감.
      (이전) v19 · 261007 · [대표 261007 16:56 「열두 장 골랐는데 한 장만 올라가고 아무 말이 없음 — 소통」]
@@ -183,6 +187,12 @@ input.t:focus,textarea:focus,select:focus{outline:none;border-color:var(--navy)}
 .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:4px}
 .pgrid .pc{position:relative;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:#F3EEE3}
 .pgrid .pc img{width:100%;height:100%;object-fit:cover;display:block}
+.pgrid .pc img{cursor:pointer}
+.pgrid .pc.sel{outline:3px solid var(--orange);outline-offset:-3px}
+.pgrid .pc .ptag{position:absolute;left:4px;bottom:4px;max-width:calc(100% - 8px);font-size:11px;line-height:1.5;padding:0 5px;border-radius:6px;background:rgba(255,255,255,.92);color:#1E3050;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.pgrid .pc .ptag.diff{background:#E07A2E;color:#fff}
+.pone{border:1.5px solid #E07A2E;border-radius:14px;padding:12px;margin-top:10px;background:#FFFDF8;text-align:left}
+.pone .ttl{font-weight:800;color:var(--navy);margin-bottom:2px}
 .pgrid .pc button{position:absolute;top:4px;right:4px;width:26px;height:26px;border-radius:50%;border:none;background:rgba(20,32,56,.72);color:#fff;font-size:15px;line-height:26px;padding:0;cursor:pointer}
 .pcount{font-size:13.5px;color:var(--sub);margin-top:8px}
 .sw{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #EFE8DA}
@@ -948,11 +958,11 @@ function delSheet(it){
 /* ── 기록 남기기 ── */
 var A={type:'사진'};
 function addView(){
-  A={type:A.type||'사진',photos:[],src:'',cat:'',vsrc:''};
+  A={type:A.type||'사진',photos:[],pm:[],psel:-1,src:'',cat:'',vsrc:''};
   var h='<div class="card"><div class="seg" id="ty">'+[['사진','photo','c-peach'],['영상','video','c-rose'],['글','text','c-violet']].map(function(x){ return '<button data-v="'+x[0]+'"'+(A.type===x[0]?' class="on"':'')+'><span class="ci '+x[2]+'">'+ic(x[1])+'</span>'+x[0]+'</button>'; }).join('')+'</div>'+
     '<div id="tyBox"></div>'+
-    '<label class="f">제목</label><input class="t" id="at" maxlength="60" placeholder="예: 운동회 날">'+
-    '<label class="f">한마디 <small>선택</small></label><textarea id="ax" placeholder="이 기록에 얽힌 이야기를 들려주세요"></textarea>'+
+    '<label class="f">제목<small id="atAll"></small></label><input class="t" id="at" maxlength="60" placeholder="예: 운동회 날">'+
+    '<label class="f">한마디 <small>선택<span id="axAll"></span></small></label><textarea id="ax" placeholder="이 기록에 얽힌 이야기를 들려주세요"></textarea>'+
     '<label class="f">분류 <small>선택 · 새 분류 추가 가능</small></label><div class="chips" id="ac"></div><div id="acAdd"></div>'+
     '<label class="f">언제 <small>선택</small></label><div id="aw"></div>'+
     '<details class="more"><summary>어디서 · 누구와 · 무슨 일 (선택)</summary>'+
@@ -970,9 +980,9 @@ function addView(){
 function tyDraw(){
   var b=$('tyBox'), h='';
   if(A.type==='사진'){
-    h='<div class="pbox" id="pbox">'+(A.photos.length?'<div class="pgrid">'+A.photos.map(function(u,i){ return '<div class="pc"><img src="'+u+'" alt=""><button type="button" data-x="'+i+'" aria-label="빼기">×</button></div>'; }).join('')+'</div><div class="pcount">'+A.photos.length+'장'+(A.photos.length<PMAX?' · '+(PMAX-A.photos.length)+'장 더 담을 수 있습니다':' · 한 번에 '+PMAX+'장까지 모두 담았습니다')+'</div>'+(A.kakaoOne&&A.photos.length<PMAX?'<div class="note" style="text-align:center;margin:8px 0 0">카카오톡 화면에서는 여러 장을 골라도 한 장만 담길 수 있습니다.<br>「사진 더하기」를 눌러 이어서 담아 주십시오.</div>':''):'<div class="note" style="text-align:center;margin:0">사진을 선택해 주십시오. 한 번에 '+PMAX+'장까지 고를 수 있습니다.</div>')+
+    h='<div class="pbox" id="pbox">'+(A.photos.length?'<div class="pgrid">'+A.photos.map(function(u,i){ var m=A.pm[i]||{}, d=pDiff(i), sv=m.src||A.src; return '<div class="pc'+(A.psel===i?' sel':'')+'"><img src="'+u+'" alt="사진 '+(i+1)+'" data-ps="'+i+'">'+((sv||d)?'<span class="ptag'+(d?' diff':'')+'" id="ptag'+i+'">'+esc(sv?srcL(sv):'따로 고침')+'</span>':'<span class="ptag" id="ptag'+i+'" style="display:none"></span>')+'<button type="button" data-x="'+i+'" aria-label="빼기">×</button></div>'; }).join('')+'</div>'+(A.photos.length>1?'<div class="note" style="text-align:center;margin:8px 0 0">사진마다 출처 · 제목이 다르면 그 사진을 눌러 따로 고르세요.</div>':'')+pOne()+'<div class="pcount">'+A.photos.length+'장'+(A.photos.length<PMAX?' · '+(PMAX-A.photos.length)+'장 더 담을 수 있습니다':' · 한 번에 '+PMAX+'장까지 모두 담았습니다')+'</div>'+(A.kakaoOne&&A.photos.length<PMAX?'<div class="note" style="text-align:center;margin:8px 0 0">카카오톡 화면에서는 여러 장을 골라도 한 장만 담길 수 있습니다.<br>「사진 더하기」를 눌러 이어서 담아 주십시오.</div>':''):'<div class="note" style="text-align:center;margin:0">사진을 선택해 주십시오. 한 번에 '+PMAX+'장까지 고를 수 있습니다.</div>')+
       (A.photos.length<PMAX?'<button type="button" class="sbtn" id="pre" style="margin-top:10px">'+(A.photos.length?'사진 더하기':'사진 선택')+'</button>':'')+'</div>'+
-      '<label class="f">사진 출처</label><div class="chips" id="asrc">'+['직접 찍음','가진 사진','바깥에서 가져옴','출처 모름','AI로 만들었다고 밝힘'].map(function(x){ return '<button class="chip s'+(A.src===x?' on':'')+'" data-v="'+x+'">'+srcL(x)+'</button>'; }).join('')+'</div>';
+      '<label class="f">사진 출처'+(A.photos.length>1?' <small>모든 사진에 같게</small>':'')+'</label><div class="chips" id="asrc">'+['직접 찍음','가진 사진','바깥에서 가져옴','출처 모름','AI로 만들었다고 밝힘'].map(function(x){ return '<button class="chip s'+(A.src===x?' on':'')+'" data-v="'+x+'">'+srcL(x)+'</button>'; }).join('')+'</div>';
   } else if(A.type==='영상'){
     h='<div class="howto"><b>영상 등록 방법</b>① 유튜브에서 영상의 「공유」를 누릅니다.<br>② 「링크 복사」를 누릅니다.<br>③ 아래 칸에 붙여 넣습니다. (쇼츠 포함)</div>'+
       '<label class="f">유튜브 주소</label><div class="row"><input class="t" id="av" inputmode="url" placeholder="https://youtube.com/shorts/…"><button type="button" class="sbtn fill" id="paste" style="flex:none;padding:11px 12px">붙여넣기</button></div>'+
@@ -984,14 +994,37 @@ function tyDraw(){
   }
   b.innerHTML=h;
   function pick(id,key){ var el=$(id); if(!el){return;} var cs=el.querySelectorAll('.chip'); for(var i=0;i<cs.length;i++){ cs[i].onclick=function(){ A[key]=this.getAttribute('data-v'); for(var j=0;j<cs.length;j++){ cs[j].classList.toggle('on',cs[j]===this); } }; } }
-  pick('asrc','src'); pick('avs','vsrc');
+  pick('avs','vsrc');
+  if($('asrc')){ var ac2=$('asrc').querySelectorAll('.chip'); for(var ai=0;ai<ac2.length;ai++){ ac2[ai].onclick=function(){ var v=this.getAttribute('data-v'); A.src=(A.src===v)?'':v; tyDraw(); }; } }
+  pOneBind();
+  var many=(A.type==='사진'&&A.photos.length>1); if($('atAll')){ $('atAll').textContent=many?' 모든 사진에 같게':''; } if($('axAll')){ $('axAll').textContent=many?' · 모든 사진에 같게':''; }
   if($('pre')){ $('pre').onclick=openFile; }
-  var xs=b.querySelectorAll('[data-x]'); for(var xi=0;xi<xs.length;xi++){ xs[xi].onclick=function(){ A.photos.splice(+this.getAttribute('data-x'),1); tyDraw(); }; }
+  var xs=b.querySelectorAll('[data-x]'); for(var xi=0;xi<xs.length;xi++){ xs[xi].onclick=function(){ var k=+this.getAttribute('data-x'); A.photos.splice(k,1); A.pm.splice(k,1); A.psel=-1; tyDraw(); }; }
   if($('av')){ $('av').oninput=function(){ var id=ytId(this.value); $('avp').style.display=id?'block':'none'; if(id){ $('avp').src='https://i.ytimg.com/vi/'+id+'/hqdefault.jpg'; } }; }
   if($('paste')){ $('paste').onclick=function(){
     try{ navigator.clipboard.readText().then(function(t){ $('av').value=t||''; $('av').oninput(); }).catch(function(){ $('av').focus(); alert('주소 칸을 길게 눌러 「붙여넣기」를 선택해 주십시오.'); }); }
     catch(e){ $('av').focus(); }
   }; }
+}
+/* 사진마다 따로 — 출처 · 제목 · 한마디 (v21) */
+function pDiff(i){ var m=A.pm[i]||{}; return !!(m.src||m.title||m.text); }
+function pOne(){
+  var i=A.psel; if(i<0||i>=A.photos.length){ return ''; } var m=A.pm[i]||{}, sv=m.src||A.src;
+  return '<div class="pone" id="pone"><div class="ttl">'+(i+1)+'번째 사진만</div><div class="note" style="margin:0 0 6px">고르지 않은 칸은 모든 사진과 같게 올라갑니다.</div>'+
+    '<label class="f">이 사진의 출처</label><div class="chips" id="psrc">'+['직접 찍음','가진 사진','바깥에서 가져옴','출처 모름','AI로 만들었다고 밝힘'].map(function(x){ return '<button type="button" class="chip s'+(sv===x?' on':'')+'" data-v="'+x+'">'+srcL(x)+'</button>'; }).join('')+'</div>'+
+    '<label class="f">이 사진의 제목</label><input class="t" id="ptt" maxlength="60" value="'+esc(m.title||'')+'" placeholder="비우면 위 제목에 번호가 붙습니다">'+
+    '<label class="f">이 사진의 한마디</label><textarea id="ptx" placeholder="비우면 위 한마디가 붙습니다">'+esc(m.text||'')+'</textarea>'+
+    '<div class="row" style="margin-top:10px"><button type="button" class="sbtn" id="pall">모두와 같게</button><button type="button" class="sbtn fill" id="pok">다 골랐습니다</button></div></div>';
+}
+function pTag(i){ var t=$('ptag'+i); if(!t){return;} var m=A.pm[i]||{}, sv=m.src||A.src, d=pDiff(i); t.textContent=sv?srcL(sv):'따로 고침'; t.style.display=(sv||d)?'':'none'; t.className='ptag'+(d?' diff':''); }
+function pOneBind(){
+  var ims=document.querySelectorAll('[data-ps]'); for(var i=0;i<ims.length;i++){ ims[i].onclick=function(){ var k=+this.getAttribute('data-ps'); A.psel=(A.psel===k)?-1:k; tyDraw(); var o=$('pone'); if(o){ try{ o.scrollIntoView({behavior:'smooth',block:'nearest'}); }catch(e){} } }; }
+  if(!$('pone')){ return; } var k=A.psel; if(!A.pm[k]){ A.pm[k]={}; }
+  var cs=$('psrc').querySelectorAll('.chip'); for(var j=0;j<cs.length;j++){ cs[j].onclick=function(){ var v=this.getAttribute('data-v'); A.pm[k].src=(v===A.src)?'':v; for(var q=0;q<cs.length;q++){ cs[q].classList.toggle('on',cs[q]===this); } pTag(k); }; }
+  $('ptt').oninput=function(){ A.pm[k].title=this.value.trim(); pTag(k); };
+  $('ptx').oninput=function(){ A.pm[k].text=this.value.trim(); pTag(k); };
+  $('pall').onclick=function(){ A.pm[k]={}; A.psel=-1; tyDraw(); toast((k+1)+'번째 사진을 모두와 같게 했습니다'); };
+  $('pok').onclick=function(){ A.psel=-1; tyDraw(); };
 }
 /* 사진 — 「사진」을 누르면 바로 파일 선택 */
 function openFile(){ var f=$('afH'); f.value=''; f.click(); }
@@ -1015,7 +1048,7 @@ function onFile(){
       if(A.type==='사진'&&$('tyBox')){ tyDraw(); } return;
     }
     busyText('사진을 담는 중입니다 ('+(i+1)+'/'+n+')');
-    shrink(fs[i],function(u){ if(u){ A.photos.push(u); got++; } else { bad++; } next(i+1); });
+    shrink(fs[i],function(u){ if(u){ A.photos.push(u); A.pm.push({}); got++; } else { bad++; } next(i+1); });
   })(0);
 }
 function ytId(s){
@@ -1057,7 +1090,7 @@ function addSend(){
     if(!A.vsrc){ m.innerHTML='<div class="err">본인 제작 영상인지, 타인 제작 영상인지 골라 주십시오.</div>'; return; }
     p.video=v; p.src=A.vsrc;
   } else { if(!p.title&&!p.text){ m.innerHTML='<div class="err">제목이나 한마디를 적어 주십시오.</div>'; return; } p.kind='글'; }
-  if(A.type==='사진'){ var many=A.photos.length>1; A.photos.forEach(function(u,i){ var q={}; for(var k in p){ q[k]=p[k]; } q.photo=u; if(many){ q.title=(p.title||'사진')+' ('+(i+1)+')'; q._busy='사진 '+(i+1)+'/'+A.photos.length+' 올리는 중입니다'; } list.push(q); }); }
+  if(A.type==='사진'){ var many=A.photos.length>1; A.photos.forEach(function(u,i){ var q={}; for(var k in p){ q[k]=p[k]; } q.photo=u; var pm=A.pm[i]||{}; if(pm.src){ q.src=pm.src; } if(pm.text){ q.text=pm.text; } if(pm.title){ q.title=pm.title; } else if(many){ q.title=(p.title||'사진')+' ('+(i+1)+')'; } if(many){ q._busy='사진 '+(i+1)+'/'+A.photos.length+' 올리는 중입니다'; } list.push(q); }); }
   else { list=[p]; }
   BUSY=true; $('ab').disabled=true; m.innerHTML='';
   var okN=0, pub=0, errs=[];
