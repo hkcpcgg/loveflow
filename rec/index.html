@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v13 · 261007 · [대표 261007 12:25 「사람 · 곳 · 해 · 한마디」 낯섦 · 꼭 써 넣을 필요 없음]
+<!-- ★ 현재 버전 ▶ rec/index.html · v14 · 261007 · [대표 261007 11:48 「브라우저 고르게 하면 어르신은 나가 버림」 · 11:54 「카톡 쓰는 분이 대상」 · 12:07 ok · 서버 v33]
+     ① 브라우저 고르는 화면 걷음 — 손님 화면에 「브라우저」라는 말을 쓰지 않음.
+     ② 초대 링크 화면 = 만 14세 확인 + 노란 「카카오로 들어오기」 하나(성명 칸 대신 카카오 이름 · 들어온 뒤 「보일 이름」 확인).
+     ③ 열쇠가 없는 곳(다른 브라우저 · 새 휴대폰)에서 열면 「우리 기록에 다시 들어오기」 + 「카카오로 들어오기」 하나 → 같은 사람으로 이어짐.
+     ④ 내 동그라미 — 「카카오 연결」(이미 들어와 계신 분) · 「보일 이름 바꾸기」 · 「다른 브라우저에서도 열기」 걷음.
+     ⑤ 카카오에서 받는 것 = 회원 번호 · 이름(닉네임)만. 전화번호 · 이메일 받지 않음.
+     (이전) v13 · 261007 · [대표 261007 12:25 「사람 · 곳 · 해 · 한마디」 낯섦 · 꼭 써 넣을 필요 없음]
      ① 위 한 줄 가운데 칸 안내 글 → 「검색」 한 말(돋보기 단추 그대로) · 「찾는 기록」 → 「검색한 기록」 · 「검색 결과가 없습니다」(말사전 등재).
      (이전) v12 · 261007 · [대표 261007 11:18 카톡 → 기본 브라우저로 넘어가도 「초대받은 분만」 — 열쇠는 크롬 · 기본은 삼성 인터넷처럼 서로 다름]
      ① 자동으로 넘기지 않음 — 열쇠 없는 브라우저면 「크롬으로 열기 · 삼성 인터넷으로 열기 · 기본 브라우저로 열기」를 골라 누름(안드로이드 intent) · 초대 링크 · 들어오기 링크 안내.
@@ -53,6 +59,9 @@ input.t:focus,textarea:focus,select:focus{outline:none;border-color:var(--navy)}
 .btn.line{background:#fff;color:var(--navy)}
 .btn.warm{background:var(--orange);border-color:var(--orange)}
 .btn:disabled{opacity:.45;cursor:default}
+.btn.kakao{background:#FEE500;border-color:#FEE500;color:#191919;font-size:17px;min-height:56px}
+.btn.kakao svg{width:22px;height:22px;fill:#191919;stroke:none}
+.kk-note{font-size:13.5px;color:var(--sub);text-align:center;margin-top:10px;line-height:1.6}
 .sbtn{padding:8px 13px;border-radius:10px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
 .sbtn.red{border-color:var(--red);color:var(--red)}.sbtn.fill{background:var(--navy);color:#fff}
 .chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:6px}
@@ -378,6 +387,8 @@ var OPEN_R='';
 function boot(){
   var sp=new URLSearchParams(location.search), g=(sp.get('g')||'').trim(), k=(sp.get('k')||'').trim();
   OPEN_R=(sp.get('r')||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,20);
+  var code=(sp.get('code')||'').trim(), kerr=(sp.get('error')||'').trim();
+  if(code||kerr){ kakaoBack(code,kerr,sp.get('state')||''); return; }
   if(k){ sset(KEY,k.toLowerCase()); }
   if(k||g){ try{ history.replaceState(null,'',location.pathname+(g&&!k?'?g='+encodeURIComponent(g):'')+(OPEN_R?(g&&!k?'&':'?')+'r='+OPEN_R:'')); }catch(e){} }
   K=sget(KEY);
@@ -385,44 +396,75 @@ function boot(){
   if(g){ joinForm(g); return; }
   noKey();
 }
-/* 이 브라우저에 열쇠가 없을 때 — 처음 들어오신 브라우저로 열기(크롬 · 삼성 인터넷 · 기본) · 초대 링크 안내
-   ★자동으로 넘기지 않음: 카톡이 여는 「기본 브라우저」와 열쇠가 있는 브라우저가 다를 수 있음(대표 261007 11:18) */
-function noKey(){
-  var ua=navigator.userAgent, and=/Android/i.test(ua), ios=/iPhone|iPad|iPod/i.test(ua), kk=/KAKAOTALK/i.test(ua);
-  var here=location.host+location.pathname+location.search;
-  function intent(pkg){ return 'intent://'+here+'#Intent;scheme=https;package='+pkg+';end'; }
-  var bs=[];
-  if(and){
-    var sam=/SamsungBrowser/i.test(ua);
-    if(kk||!sam){ bs.push(['크롬으로 열기',intent('com.android.chrome')]); }
-    if(kk||sam){ bs.push(['삼성 인터넷으로 열기',intent('com.sec.android.app.sbrowser')]); }
-    if(!kk&&!sam){ bs=[['삼성 인터넷으로 열기',intent('com.sec.android.app.sbrowser')]]; }
-    if(!kk&&sam){ bs=[['크롬으로 열기',intent('com.android.chrome')]]; }
+/* ── ★v13 카카오로 들어오기 ── 열쇠는 이 기기에 · 잃으면 카카오로 다시(같은 사람) */
+var KREST='fe792945db813c2a38cacfbe273cba8d', KREDIR='https://www.loveflow.ai.kr/rec/';   /* 카카오 REST API 키(앱 키 · 주소에 보이는 값) — 서버 KAKAO_REST 와 같은 값 */
+var KICON='<svg viewBox="0 0 24 24"><path d="M12 3.5C6.8 3.5 2.6 6.8 2.6 10.9c0 2.6 1.7 4.9 4.3 6.2l-1 3.7c-.1.3.3.6.6.4l4.4-2.9c.4 0 .7.1 1.1.1 5.2 0 9.4-3.3 9.4-7.4S17.2 3.5 12 3.5z"/></svg>';
+function kakaoGo(mode,o){
+  o=o||{}; var st=encodeURIComponent(JSON.stringify({m:mode,g:o.g||'',a:o.a?1:0,r:OPEN_R||o.r||''}));
+  location.href='https://kauth.kakao.com/oauth/authorize?response_type=code&client_id='+KREST+'&redirect_uri='+encodeURIComponent(KREDIR)+'&state='+st;
+}
+function kakaoBtn(id){ return '<button class="btn kakao" id="'+id+'">'+KICON+'카카오로 들어오기</button>'; }
+function kakaoBack(code,kerr,st){
+  var o={}; try{ o=JSON.parse(decodeURIComponent(st))||{}; }catch(e){}
+  OPEN_R=String(o.r||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,20);
+  var g=String(o.g||'').replace(/[^a-f0-9]/gi,'').slice(0,32);
+  try{ history.replaceState(null,'',location.pathname+(g&&o.m==='join'?'?g='+g:'')); }catch(e){}
+  K=sget(KEY);
+  if(kerr||!code){ if(K){ loadMe(); } else if(g){ joinForm(g); } else { noKey(); } return; }   /* 카카오 동의를 그만두신 경우 — 제자리로 */
+  wait($('main'),'카카오로 확인하는 중입니다');
+  if(o.m==='link'&&K){
+    api({action:'recKakaoLink',code:code,redirect:KREDIR},function(d){
+      if(d.status==='ok'){ toast('카카오를 이었습니다','이제 어느 휴대폰에서도 카카오로 들어오실 수 있습니다'); }
+      else { toast(d.msg||'카카오를 잇지 못했습니다'); }
+      loadMe();
+    });
+    return;
   }
-  if(kk){ bs.push(['기본 브라우저로 열기','kakaotalk://web/openExternal?url='+encodeURIComponent(location.href)]); }
-  else if(ios){ bs.push(['Safari로 열기','x-safari-https://'+here]); }
-  $('main').innerHTML='<div class="card nokey" style="margin-top:16px"><h2>이 브라우저에서는 아직 들어오지 않으셨습니다</h2>'+
-    '<p class="lead">우리 기록은 처음 들어오신 브라우저에 열쇠가 남아 있습니다. 처음 들어오신 브라우저로 열어 주십시오.</p>'+
-    bs.map(function(b,n){ return '<a class="btn'+(n?' line':'')+'" href="'+esc(b[1])+'">'+esc(b[0])+'</a>'; }).join('')+
-    '<div class="howto" style="margin-top:16px"><b>이 브라우저에서도 바로 열리게 하려면</b>'+
-    (kk?'① 받으신 <b style="display:inline">초대 링크</b>를 카카오톡에서 누르시면 카카오톡 안에서도 열립니다.<br>② 이미 들어오신 분은 들어와 있는 브라우저에서 내 동그라미 → 「다른 브라우저에서도 열기」 링크를 「나와의 채팅」에 보내 누르십시오.'
-        :'① 받으신 <b style="display:inline">초대 링크</b>를 이 브라우저에서 누르십시오.<br>② 이미 들어오신 분은 들어와 있는 브라우저에서 내 동그라미 → 「다른 브라우저에서도 열기」를 눌러 링크를 옮겨 오십시오.')+
-    '</div></div>';
+  api({action:'recKakao',code:code,redirect:KREDIR,g:o.m==='join'?g:'',age14:o.a?'1':''},function(d){
+    if(d.status!=='ok'){ kakaoFail(d,g); return; }
+    function enter(x){ sset(KEY,x.key); K=x.key; if(x.isNew){ nameFirst(x.name); } else { loadMe(); } }
+    if(d.items&&d.items.length>1){ pickCom(d.items,enter); } else { enter(d); }
+  });
+}
+function kakaoFail(d,g){
+  var msg=d.msg||'들어오지 못했습니다.';
+  $('main').innerHTML='<div class="card nokey" style="margin-top:16px"><h2>들어오지 못했습니다</h2><p class="lead">'+esc(msg)+'</p>'+
+    (d.reason==='KAKAO'?kakaoBtn('kgo'):'')+'</div>';
+  if($('kgo')){ $('kgo').onclick=function(){ kakaoGo(g?'join':'login',{g:g,a:1}); }; }
+}
+/* 들어와 있는 곳이 둘 이상이면 고르기 */
+function pickCom(items,cb){
+  $('main').innerHTML='<div class="card" style="margin-top:16px"><h2>어느 곳으로 들어가시겠습니까?</h2><p class="lead">들어와 계신 곳이 여럿입니다.</p>'+
+    items.map(function(x,i){ return '<button class="btn'+(i?' line':'')+'" data-i="'+i+'">'+esc(x.comName||x.com)+'</button>'; }).join('')+'</div>';
+  var bs=$('main').querySelectorAll('[data-i]'); for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){ cb(items[+this.getAttribute('data-i')]); }; }
+}
+/* 처음 들어오신 분 — 우리 기록에 보일 이름 확인 */
+function nameFirst(n){
+  $('main').innerHTML='<div class="card" style="margin-top:16px"><h2>반갑습니다</h2><p class="lead">우리 기록에 남기신 것 옆에 이 이름이 보입니다. 가족 · 모임에서 알아보시기 쉬운 이름으로 정해 주십시오.</p>'+
+    '<label class="f">보일 이름</label><input class="t" id="fn" maxlength="20" value="'+esc(n==='이름 없음'?'':n)+'">'+
+    '<button class="btn" id="fnok">이 이름으로 들어가기</button><div id="fnm"></div></div>';
+  $('fnok').onclick=function(){
+    var v=$('fn').value.trim(); if(!v){ $('fnm').innerHTML='<div class="err">보일 이름을 적어 주십시오.</div>'; return; }
+    if(v===n){ loadMe(); return; }
+    var b=this; b.disabled=true;
+    api({action:'recMyName',name:v},function(r){ if(r.status==='ok'){ loadMe(); } else { b.disabled=false; $('fnm').innerHTML='<div class="err">'+esc(r.msg||'저장하지 못했습니다.')+'</div>'; } });
+  };
+}
+/* 열쇠가 없는 곳에서 열었을 때 — 카카오로 다시(같은 사람) */
+function noKey(){
+  $('main').innerHTML='<div class="joinhero"><h1>함께 남기는 우리 기록</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
+    '<div class="card"><h2>우리 기록에 다시 들어오기</h2><p class="lead">카카오로 들어오시면 전에 남기신 기록이 그대로 이어집니다.</p>'+
+    kakaoBtn('kgo')+'<p class="kk-note">처음 오셨으면 받으신 초대 링크를 눌러 주십시오.</p></div>';
+  $('kgo').onclick=function(){ kakaoGo('login'); };
 }
 function joinForm(g){
   $('main').innerHTML='<div class="joinhero"><div class="who">초대받으셨습니다</div><h1>함께 남기는 우리 기록</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
-    '<div class="card"><h2>들어가기</h2><p class="lead">성명만 적으시면 이 기기에서 바로 이어집니다. 전화번호 · 연락처는 받지 않습니다.</p>'+
-    '<label class="f">성명</label><input class="t" id="jn" maxlength="20" autocomplete="name">'+
-    '<label style="display:flex;gap:10px;align-items:center;margin-top:14px;font-size:15.5px;cursor:pointer"><input type="checkbox" id="ja" style="width:20px;height:20px"> 만 14세 이상입니다</label>'+
-    '<button class="btn" id="jb">들어가기</button><div class="err" id="je"></div></div>';
+    '<div class="card"><h2>들어가기</h2><p class="lead">카카오로 들어오시면 어느 휴대폰에서 열어도 이어집니다. 전화번호 · 연락처는 받지 않습니다.</p>'+
+    '<label style="display:flex;gap:10px;align-items:center;margin-top:6px;font-size:15.5px;cursor:pointer"><input type="checkbox" id="ja" style="width:20px;height:20px"> 만 14세 이상입니다</label>'+
+    kakaoBtn('jb')+'<div class="err" id="je"></div></div>';
   $('jb').onclick=function(){
-    var n=$('jn').value.trim(); if(!n){ $('je').textContent='성명을 적어 주세요.'; return; }
-    if(!$('ja').checked){ $('je').textContent='만 14세 이상인지 확인해 주세요.'; return; }
-    this.disabled=true; $('je').textContent='';
-    api({action:'recJoin',g:g,name:n,age14:'1'},function(d){
-      if(d.status==='ok'){ sset(KEY,d.key); K=d.key; try{ history.replaceState(null,'',location.pathname+(OPEN_R?'?r='+OPEN_R:'')); }catch(e){} loadMe(); }
-      else { $('jb').disabled=false; $('je').textContent=d.msg||'입장하지 못했습니다.'; }
-    });
+    if(!$('ja').checked){ $('je').textContent='만 14세 이상인지 확인해 주십시오.'; return; }
+    $('je').textContent=''; kakaoGo('join',{g:g,a:1});
   };
 }
 function loadMe(g){
@@ -568,8 +610,9 @@ function meMenu(){
   var rows=[['me','heart','c-gold','내가 남긴 것','내가 올린 기록 · 보탠 기억']];
   if(isBoss()){ rows.push(['chk','check','c-green','승인 관리'+(QN?' <span class="cnt">'+QN+'</span>':''),'승인 대기 · 삭제 요청']); }
   if(ME.role==='관리자'){ rows.push(['name','pen','c-navy','공동체 이름 바꾸기','지금 이름 · '+esc(ME.comName||'')]); }
-  rows.push(['key','share','c-violet','다른 브라우저에서도 열기','카카오톡 안 · 다른 브라우저에서도 바로 열리게']);
-  rows.push(['out','out','c-gray','이 기기에서 나가기','다시 들어오려면 초대 링크가 필요합니다']);
+  if(!ME.kakao){ rows.push(['kk','share','c-violet','카카오 연결','다른 휴대폰에서도 카카오로 이어서 들어옵니다']); }
+  rows.push(['myname','pen','c-navy','보일 이름 바꾸기','지금 이름 · '+esc(ME.name||'')]);
+  rows.push(['out','out','c-gray','이 기기에서 나가기',ME.kakao?'카카오로 다시 들어오실 수 있습니다':'카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다']);
   d.innerHTML='<div class="sheet"><div class="mehead"><span class="mecir big">'+esc((ME.name||'나').charAt(0))+'</span><div><b>'+esc(ME.name||'')+' 님</b><small>'+esc(roleName(ME.role))+' · '+esc(ME.comName||'')+'</small></div></div>'+
     rows.map(function(r){ return '<button class="mrow" data-v="'+r[0]+'"><span class="ci '+r[2]+'">'+ic(r[1])+'</span><span><b>'+r[3]+'</b><small>'+r[4]+'</small></span></button>'; }).join('')+
     '<button class="btn line" id="mx" style="margin-top:12px">닫기</button></div>';
@@ -579,27 +622,29 @@ function meMenu(){
   $('mx').onclick=close;
   var bs=d.querySelectorAll('.mrow'); for(var i=0;i<bs.length;i++){ bs[i].onclick=function(){
     var v=this.getAttribute('data-v'); close();
-    if(v==='out'){ if(confirm('이 기기에서 나가시겠습니까? 다시 들어오려면 초대 링크가 필요합니다.')){ sset(KEY,''); location.href=location.pathname; } return; }
+    if(v==='out'){ if(confirm(ME.kakao?'이 기기에서 나가시겠습니까? 카카오로 다시 들어오실 수 있습니다.':'이 기기에서 나가시겠습니까? 카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다.')){ sset(KEY,''); location.href=location.pathname; } return; }
     if(v==='name'){ nameSheet(); return; }
-    if(v==='key'){ keySheet(); return; }
+    if(v==='myname'){ myNameSheet(); return; }
+    if(v==='kk'){ kakaoGo('link'); return; }
     go(v);
   }; }
 }
-function keySheet(){
-  var url=location.origin+'/rec/?k='+K;
+function myNameSheet(){
   var d=document.createElement('div'); d.className='sheet-dim';
-  d.innerHTML='<div class="sheet"><h2>다른 브라우저에서도 열기</h2>'+
-    '<p class="lead">카카오톡에서 기록 링크를 누르면 카카오톡 안의 브라우저로 열립니다. 아래 <b>나만의 들어오기 링크</b>를 그 브라우저에서 한 번 누르시면, 그다음부터는 그곳에서도 바로 열립니다.</p>'+
-    '<div class="howto"><b>카카오톡에서 쓰시려면</b>① 「링크 복사」를 누릅니다.<br>② 카카오톡 「나와의 채팅」에 붙여 넣어 보냅니다.<br>③ 그 링크를 누릅니다.</div>'+
-    '<div class="del" style="margin-top:12px"><p><b>이 링크는 나만 쓰는 열쇠입니다.</b> 다른 분이나 단톡방에 보내지 마십시오. 다른 분은 초대 링크로 들어오십니다.</p></div>'+
-    '<button class="btn" id="kcp">링크 복사</button><button class="btn line" id="kno" style="margin-top:8px">닫기</button></div>';
+  d.innerHTML='<div class="sheet"><h2>보일 이름 바꾸기</h2><p class="lead">우리 기록에 남기신 것 옆에 보이는 이름입니다.</p>'+
+    '<label class="f">보일 이름</label><input class="t" id="mn" maxlength="20" value="'+esc(ME.name||'')+'">'+
+    '<button class="btn" id="mnok">저장</button><button class="btn line" id="mnno" style="margin-top:8px">취소</button><div id="mnm"></div></div>';
   document.body.appendChild(d);
   function close(){ try{ d.parentNode.removeChild(d); }catch(e){} }
   d.onclick=function(e){ if(e.target===d){ close(); } };
-  $('kno').onclick=close;
-  $('kcp').onclick=function(){
-    function ok(){ close(); toast('나만의 들어오기 링크를 복사했습니다','「나와의 채팅」에 붙여 넣어 주십시오'); }
-    try{ navigator.clipboard.writeText(url).then(ok).catch(function(){ prompt('아래 링크를 복사해 주십시오.',url); }); }catch(e){ prompt('아래 링크를 복사해 주십시오.',url); }
+  $('mnno').onclick=close;
+  $('mnok').onclick=function(){
+    var n=$('mn').value.trim(); if(!n){ $('mnm').innerHTML='<div class="err">보일 이름을 적어 주십시오.</div>'; return; }
+    var b=this; b.disabled=true;
+    api({action:'recMyName',name:n},function(r){
+      if(r.status==='ok'){ ME.name=r.name; close(); toast('보일 이름을 바꾸었습니다',r.name); }
+      else { b.disabled=false; $('mnm').innerHTML='<div class="err">'+esc(r.msg||'바꾸지 못했습니다.')+'</div>'; }
+    });
   };
 }
 function nameSheet(){
