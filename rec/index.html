@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v22 · 261008 · [58차 · 작업기준_261008_1310 · 시험판 v26(공사 기준판) · 자서전 서버 v40]
+<!-- ★ 현재 버전 ▶ rec/index.html · v23 · 261008 · [대표 261008 13:55 「매우 중요 — 지금 해 놓고 넘어감」 · 이슈 183 · 자서전 서버 v41]
+     ① 지역기록 연결 — 링크를 「다른 사람 · 기관 글」로 고르면 「만든 곳」(기관 · 학교 · 단체) · 「이용 조건」(공개된 자료 · 허락 받음 · 잘 모름)을 적음.
+     ② 카드 · 보탠 링크 줄 · 「링크 열기」 판에 「원본 · ○○기관 · 공개된 자료」 한 줄. 검색은 기관 이름으로도 찾음. 그 밖 전부 v22 그대로.
+     (이전) v22 · 261008 · [58차 · 작업기준_261008_1310 · 시험판 v26(공사 기준판) · 자서전 서버 v40]
      ① 시험판 v26 화면을 실제로 — 첫 화면 큰 카드(사진 묶음 3×3 · 글 카드 · 링크 카드) · 좋아요 · 싫어요(싫어요 수 안 보임) · 「새로 올라온 · 연도순」 · 20개씩 「더 보기」 · 검색(띄어 쓰면 모두 맞는 것 · 70년대 · 1978).
      ② 기록 남기기 다섯 걸음(고르기 → 출처 → 언제 · 분류 → 공개 범위 → 미리 보기) · 사진 9장까지 사진마다 출처 콕콕 · 한 묶음으로 올림 · 링크(블로그 · 인스타 · 틱톡 카드) · 올리기 약속 ☐(처음만 네 줄 · 문구는 59차).
      ③ 기록 하나 — 함께 답하는 질문(빈 칸을 물음 · 언제는 연도 고르기 · 답하면 그 칸이 채워짐) · 보태기(사진 · 영상 · 링크 — 따로 한 기록) · 사진 한 장씩 삭제 요청 · 기억 · 보태기 뒤 「이 기록 더 보기 · 목록으로」.
@@ -701,14 +704,14 @@ function media(it,inItem){
 }
 function linkCard(it){
   var d=it.link.dom||'', col=/naver/.test(d)?'#03A94D':/instagram/.test(d)?'#C13584':/tiktok/.test(d)?'#222':/youtu/.test(d)?'#D33A2C':/daum|kakao/.test(d)?'#F7B500':'#5A6B80';
-  return '<div class="lk"><span class="fav" style="background:'+col+'">'+esc((d||'?').charAt(0).toUpperCase())+'</span><div class="tx"><div class="dom">'+ic('link','sm')+esc(d)+' <span class="tag t-out">바깥 링크</span>'+(it.link.mine?' <span class="tag '+(it.link.mine==='내가 쓴 글'?'t-own':'t-oth')+'">'+esc(it.link.mine)+'</span>':'')+'</div><h3>'+esc(it.title)+'</h3>'+(it.text?'<p>'+esc(it.text)+'</p>':'')+'</div></div>';
+  return '<div class="lk"><span class="fav" style="background:'+col+'">'+esc((d||'?').charAt(0).toUpperCase())+'</span><div class="tx"><div class="dom">'+ic('link','sm')+esc(d)+' <span class="tag t-out">바깥 링크</span>'+(it.link.mine?' <span class="tag '+(it.link.mine==='내가 쓴 글'?'t-own':'t-oth')+'">'+esc(it.link.mine)+'</span>':'')+'</div><h3>'+esc(it.title)+'</h3>'+(orgLine(it.link)?'<div class="dom" style="color:var(--navy);font-weight:700">'+ic('pin','sm')+esc(orgLine(it.link))+'</div>':'')+(it.text?'<p>'+esc(it.text)+'</p>':'')+'</div></div>';
 }
 function upDown(it){
   return '<span class="ud"><button type="button" class="up'+(it.myUp?' on':'')+'" data-up="'+esc(it.id)+'" aria-label="좋아요">'+ic('up','sm')+(it.like||0)+'</button>'+
     '<button type="button" class="dn'+(it.myDn?' on':'')+'" data-dn="'+esc(it.id)+'" aria-label="싫어요">'+ic('dn','sm')+(it.myDn?'눌렀어요':'')+'</button></span>';
 }
 function card(it){
-  var tl=(it.kind==='글')?(stTag(it)?'<b>'+stTag(it)+'</b>':''):'<b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b>';
+  var tl=(it.kind==='글'||it.kind==='링크')?(stTag(it)?'<b>'+stTag(it)+'</b>':''):'<b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b>';
   var sub=[it.where,it.who].filter(Boolean).join(' · ')||(it.cat||'');
   return '<article class="fc" data-id="'+esc(it.id)+'">'+media(it,false)+'<div class="meta">'+tl+(sub?'<div class="s2">'+esc(sub)+'</div>':'')+
     '<div class="ln">'+(it.when?'<span class="when">'+ic('clock','sm')+esc(it.when)+'</span>':'<span class="when"></span>')+(it.voice?'<span style="color:var(--violet)">'+ic('mic','sm')+'목소리</span>':'')+'<span class="g">'+ic('grape','sm')+(it.mem||0)+'알</span>'+upDown(it)+'</div></div></article>';
@@ -788,7 +791,7 @@ function drawItem(it,fresh){
   if(!it.from){
     h+='<div class="card" id="addc"><h2>함께 보탠 것 <small style="font-family:var(--f-body);font-size:13px;color:var(--sub);font-weight:400">'+ad.length+'</small></h2>'+
       (ad.length?(adP.length?'<div class="addp">'+adP.map(function(p,i){ return '<div data-ph="'+esc(p.id)+'" data-small="1" data-ad="'+i+'"><b>'+esc(p.by||'')+'</b></div>'; }).join('')+'</div>':'')+
-        adO.map(function(a){ return '<div class="adl" data-ao="'+esc(a.id)+'" style="cursor:pointer"><span class="ci '+(a.kind==='영상'?'c-rose':'c-navy')+'">'+ic(a.kind==='영상'?'video':'link')+'</span><div class="tx"><b>'+esc(a.title||a.kind)+stTag(a)+'</b><small>'+esc(a.by||'')+' 님이 보탬 · '+esc(a.kind==='영상'?srcL(a.made):((a.link&&a.link.dom)||'')+(a.link&&a.link.mine?' · '+a.link.mine:''))+'</small></div><span class="tag t-out">바깥 링크</span></div>'; }).join('')
+        adO.map(function(a){ return '<div class="adl" data-ao="'+esc(a.id)+'" style="cursor:pointer"><span class="ci '+(a.kind==='영상'?'c-rose':'c-navy')+'">'+ic(a.kind==='영상'?'video':'link')+'</span><div class="tx"><b>'+esc(a.title||a.kind)+stTag(a)+'</b><small>'+esc(a.by||'')+' 님이 보탬 · '+esc(a.kind==='영상'?srcL(a.made):((a.link&&a.link.org)?orgLine(a.link):((a.link&&a.link.dom)||'')+(a.link&&a.link.mine?' · '+a.link.mine:'')))+'</small></div><span class="tag t-out">바깥 링크</span></div>'; }).join('')
       :'<p class="lead">이 기록과 같은 날 · 같은 일의 사진 · 영상 · 링크를 가지고 계시면 보태 주세요. 글은 아래 「기억 남기기」에 쓰시면 됩니다.</p>')+
       (canTell()?'<button class="btn line" id="addPh" type="button">'+ic('plus')+'보태기 (사진 · 영상 · 링크)</button>':'')+'</div>';
   }
@@ -822,7 +825,7 @@ function drawItem(it,fresh){
   if($('askW')){ $('askW').onclick=function(){ whenSheet(function(v){ tell(it,'때',v,'언제 · '+v,$('askW')); }); }; }
   if($('memGo')){ $('memGo').onclick=function(){ var t=$('memT').value.trim(); if(!t){ toast('내용을 적거나 말씀해 주십시오'); return; } tell(it,(emp&&emp[1]!=='when')?emp[2]:'',t.slice(0,80),t,this); }; }
   $('del').onclick=function(){ delSheet(it); };
-  if($('goLink')){ $('goLink').onclick=function(){ sheet('<h2>바깥 사이트로 갑니다</h2><p class="lead" style="margin-top:6px">'+esc(it.link.dom)+' 에 있는 글을 새 창으로 엽니다. 사랑흐름 밖이라 그 사이트의 규칙을 따릅니다.</p><div class="linkbox">'+esc(it.link.url)+'</div><div class="pair" style="margin-top:16px"><button class="btn line" id="lNo" type="button">취소</button><a class="btn" style="text-decoration:none" id="lGo" href="'+esc(it.link.url)+'" target="_blank" rel="noopener noreferrer nofollow">열기</a></div>',function(){ $('lNo').onclick=closeSheet; $('lGo').onclick=function(){ setTimeout(closeSheet,200); }; }); }; }
+  if($('goLink')){ $('goLink').onclick=function(){ sheet('<h2>바깥 사이트로 갑니다</h2>'+(it.link.org?'<p style="margin-top:6px;font-weight:700;color:var(--navy)">'+esc(orgLine(it.link))+'</p>':'')+'<p class="lead" style="margin-top:6px">'+esc(it.link.dom)+' 에 있는 글을 새 창으로 엽니다. 사랑흐름 밖이라 그 사이트의 규칙을 따릅니다.</p><div class="linkbox">'+esc(it.link.url)+'</div><div class="pair" style="margin-top:16px"><button class="btn line" id="lNo" type="button">취소</button><a class="btn" style="text-decoration:none" id="lGo" href="'+esc(it.link.url)+'" target="_blank" rel="noopener noreferrer nofollow">열기</a></div>',function(){ $('lNo').onclick=closeSheet; $('lGo').onclick=function(){ setTimeout(closeSheet,200); }; }); }; }
   if($('wd')){ $('wd').onclick=function(){ sheet('<h2>등록 취소</h2><p class="lead" style="margin-top:6px">다른 분들에게 더 이상 보이지 않습니다.</p><div class="pair" style="margin-top:16px"><button class="btn line" id="wNo" type="button">그대로 두기</button><button class="btn red" id="wGo" type="button">등록 취소</button></div>',function(){ $('wNo').onclick=closeSheet; $('wGo').onclick=function(){ closeSheet(); api({action:'recWithdraw',id:it.id},function(r){ toast(r.status==='ok'?'등록이 취소되었습니다':(r.msg||'처리하지 못했습니다')); LKEY=''; doBack(); }); }; }); }; }
 }
 function tell(it,field,value,text,b){
@@ -994,7 +997,7 @@ function voiceBtn(attr){ return '<button type="button" class="sbtn" '+attr+' sty
 
 /* ══ 기록 남기기 — 다섯 걸음 (167) ══ */
 var STEPS=['고르기','출처','언제·분류','공개 범위','미리 보기'], PMAX=9;
-function newA(){ return {step:1,type:'',photos:[],title:'',text:'',video:'',vsrc:'',link:{url:'',mine:''},when:'',where:'',who:'',what:'',scope:'공동체',all:'',cat:''}; }
+function newA(){ return {step:1,type:'',photos:[],title:'',text:'',video:'',vsrc:'',link:{url:'',mine:'',org:'',terms:''},when:'',where:'',who:'',what:'',scope:'공동체',all:'',cat:''}; }
 var A=newA(), PICKING=false;
 function dirty(){ return !!(A.type&&(A.photos.length||A.title||A.text||A.video||A.link.url||A.when||A.where||A.who||A.what))||ADD_V.some(function(i){ return !!VOICE[i]; }); }
 function addView(){
@@ -1079,7 +1082,8 @@ function step2(){
   } else if(A.type==='영상'){
     h='<p class="lead">이 영상은 누가 만들었나요?</p><div class="kind" style="margin-top:10px">'+[['직접 만든 영상','본인 제작','c-green'],['다른 사람 영상','타인 제작','c-gray']].map(function(x){ return '<button type="button" data-v="'+x[0]+'"'+(A.vsrc===x[0]?' class="on"':'')+'><span class="ci '+x[2]+'">'+ic('video')+'</span>'+x[1]+'</button>'; }).join('')+'</div>';
   } else if(A.type==='링크'){
-    h='<p class="lead">이 링크의 글은 누가 쓴 것인가요?</p><div class="kind" style="margin-top:10px">'+[['내가 쓴 글','내가 쓴 글','c-green'],['다른 사람 글','다른 사람 글','c-gray']].map(function(x){ return '<button type="button" data-v="'+x[0]+'"'+(A.link.mine===x[0]?' class="on"':'')+'><span class="ci '+x[2]+'">'+ic('link')+'</span>'+x[1]+'</button>'; }).join('')+'</div>';
+    h='<p class="lead">이 링크의 글은 누가 쓴 것인가요?</p><div class="kind" style="margin-top:10px">'+[['내가 쓴 글','내가 쓴 글','c-green'],['다른 사람 글','다른 사람 · 기관 글','c-gray']].map(function(x){ return '<button type="button" data-v="'+x[0]+'"'+(A.link.mine===x[0]?' class="on"':'')+'><span class="ci '+x[2]+'">'+ic('link')+'</span>'+x[1]+'</button>'; }).join('')+'</div>'+
+      (A.link.mine==='다른 사람 글'?orgHtml(A.link):'');
   } else {
     h='<div class="card" style="text-align:center"><span class="ci c-violet">'+ic('text')+'</span><h2 style="margin-top:8px">지금 직접 쓰신 글입니다</h2><p class="lead">출처는 「직접 씀」으로 남습니다. 「다음」을 눌러 주십시오.</p></div>';
   }
@@ -1088,7 +1092,20 @@ function step2(){
   each(b,'[data-s]',function(x){ x.onclick=function(){ A.photos[+x.getAttribute('data-i')].src=x.getAttribute('data-s'); A.all=''; step2(); }; });
   each(b,'[data-x]',function(x){ x.onclick=function(){ A.photos.splice(+x.getAttribute('data-x'),1); if(!A.photos.length){ A.step=1; render(); return; } step2(); }; });
   each(b,'[data-v]',function(x){ x.onclick=function(){ if(A.type==='영상'){ A.vsrc=x.getAttribute('data-v'); } else { A.link.mine=x.getAttribute('data-v'); } step2(); }; });
+  orgBind(b,A.link,step2);
 }
+/* ★v23 지역기록 연결(183) — 이 자료를 만든 곳 · 이용 조건 */
+var TERMS=[['누구나 볼 수 있게 공개된 자료','공개된 자료'],['기관 · 단체 허락 받음','허락 받음'],['확인 전','잘 모름']];
+function orgHtml(L){
+  return '<label class="f">만든 곳 <small>기관 · 학교 · 단체 · 사람 이름 · 원본이 있는 곳</small></label><div class="mf"><input class="t" id="lkO" maxlength="40" placeholder="예: 파주시청 · 문산초등학교 · 파주문화원" value="'+esc(L.org||'')+'">'+micBtn('lkO')+'</div><div class="hear" id="hear_lkO"></div>'+
+    '<label class="f">이용 조건</label><div style="display:flex;flex-wrap:wrap;gap:7px" id="lkTm">'+TERMS.map(function(t){ return '<button type="button" class="chip s'+(L.terms===t[0]?' on':'')+'" data-tm="'+t[0]+'">'+t[1]+'</button>'; }).join('')+'</div>'+
+    '<p class="note">원본은 그 기관 사이트에 그대로 있고, 우리 기록에는 카드로만 이어 줍니다.</p>';
+}
+function orgBind(el,L,redraw){
+  if($('lkO')){ $('lkO').oninput=function(){ L.org=this.value.trim(); }; }
+  each(el,'[data-tm]',function(x){ x.onclick=function(){ var v=x.getAttribute('data-tm'); L.terms=(L.terms===v)?'':v; if(redraw){ redraw(); bindMics(); } else { each(el,'[data-tm]',function(y){ y.classList.toggle('on',y.getAttribute('data-tm')===L.terms); }); } }; });
+}
+function orgLine(l){ return l&&l.org?'원본 · '+l.org+(l.terms?' · '+(TERMS.filter(function(t){ return t[0]===l.terms; })[0]||[0,l.terms])[1]:''):''; }
 function step3(){
   var F4=[['when','언제','clock','c-gold','연대 → 연도'],['where','어디서','pin','c-green','곳 이름'],['who','누구와','ppl','c-rose','함께 나온 분'],['what','무슨 일','star','c-violet','그날의 일']];
   var cats=CATS.filter(function(c){ return c.state==='사용'||c.mine; });
@@ -1165,7 +1182,7 @@ function draft(){
   var it={id:'',kind:A.type,title:A.title||(A.type==='사진'?'사진':'(제목 없음)'),text:A.text,when:A.when,where:A.where,who:A.who,what:A.what,like:0,mem:0,cat:A.cat};
   if(A.type==='사진'){ it.photos=A.photos.map(function(p){ return {u:p.u,src:p.src}; }); it.photo=true; it.src=A.photos[0]&&A.photos[0].src; }
   if(A.type==='영상'){ var y=ytId(A.video); it.video={thumb:'https://i.ytimg.com/vi/'+y+'/hqdefault.jpg'}; it.made=A.vsrc; }
-  if(A.type==='링크'){ var m=/^https?:\/\/([^\/?#:]+)/i.exec(A.link.url); it.link={url:A.link.url,dom:m?m[1].replace(/^www\./i,'').toLowerCase():'',mine:A.link.mine}; }
+  if(A.type==='링크'){ var m=/^https?:\/\/([^\/?#:]+)/i.exec(A.link.url); it.link={url:A.link.url,dom:m?m[1].replace(/^www\./i,'').toLowerCase():'',mine:A.link.mine,org:A.link.mine==='다른 사람 글'?A.link.org:'',terms:A.link.mine==='다른 사람 글'?A.link.terms:''}; }
   return it;
 }
 function promiseHtml(kind){
@@ -1192,7 +1209,7 @@ function publish2(voice){
     var many=A.photos.length>1;
     A.photos.forEach(function(ph,i){ var q={}; for(var k in p){ q[k]=p[k]; } if(i>0){ delete q.voice; } q.kind='사진'; q.photo=ph.u; q.src=ph.src; if(!q.title){ q.title='사진'; } if(many){ q._busy='사진 '+(i+1)+'/'+A.photos.length+' 올리는 중입니다'; } list.push(q); });
   } else if(A.type==='영상'){ p.video=A.video; p.src=A.vsrc; list=[p]; }
-  else if(A.type==='링크'){ p.kind='링크'; p.url=A.link.url; p.src=A.link.mine; list=[p]; }
+  else if(A.type==='링크'){ p.kind='링크'; p.url=A.link.url; p.src=A.link.mine; if(A.link.mine==='다른 사람 글'){ p.org=A.link.org||''; p.terms=A.link.terms||''; } list=[p]; }
   else { p.kind='글'; list=[p]; }
   sendAll(list,A.type==='사진'&&list.length>1,function(okN,pub,errs){
     if(!okN){ toast(errs[0]||'등록하지 못했습니다'); return; }
@@ -1261,15 +1278,16 @@ function boStart(it){
   });
 }
 function boOther(it,t){
-  var O={src:''}, isV=(t==='영상');
+  var O={src:'',org:'',terms:''}, isV=(t==='영상');
   sheet('<h2>'+t+' 보태기</h2>'+
     '<label class="f">'+(isV?'유튜브 주소':'링크 주소')+'</label><input class="t" id="boU" inputmode="url" placeholder="'+(isV?'https://youtube.com/…':'https://blog.naver.com/…')+'">'+
     '<label class="f">제목</label><div class="mf"><input class="t" id="boN" maxlength="60" placeholder="예: '+(isV?'그해 김장하는 영상':'제 블로그에 쓴 김장 이야기')+'">'+micBtn('boN')+'</div><div class="hear" id="hear_boN"></div>'+
-    '<label class="f">'+(isV?'누가 만든 영상인가요':'누가 쓴 글인가요')+'</label><div class="pair" id="boS">'+(isV?[['직접 만든 영상','본인 제작'],['다른 사람 영상','타인 제작']]:[['내가 쓴 글','내가 쓴 글'],['다른 사람 글','다른 사람 글']]).map(function(x){ return '<button type="button" class="btn line" style="margin-top:0" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div>'+
+    '<label class="f">'+(isV?'누가 만든 영상인가요':'누가 쓴 글인가요')+'</label><div class="pair" id="boS">'+(isV?[['직접 만든 영상','본인 제작'],['다른 사람 영상','타인 제작']]:[['내가 쓴 글','내가 쓴 글'],['다른 사람 글','다른 사람 · 기관 글']]).map(function(x){ return '<button type="button" class="btn line" style="margin-top:0" data-v="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div><div id="boOrg"></div>'+
     promiseHtml(t)+
     '<div class="pair" style="margin-top:14px"><button class="btn line" id="boNo" type="button">취소</button><button class="btn warm" id="boGo" type="button">보태기</button></div>',function(d){
     bindMics();
-    each(d,'#boS [data-v]',function(b){ b.onclick=function(){ O.src=b.getAttribute('data-v'); each(d,'#boS [data-v]',function(x){ x.className='btn'+(x===b?'':' line'); x.style.marginTop='0'; }); }; });
+    each(d,'#boS [data-v]',function(b){ b.onclick=function(){ O.src=b.getAttribute('data-v'); each(d,'#boS [data-v]',function(x){ x.className='btn'+(x===b?'':' line'); x.style.marginTop='0'; });
+      if(!isV){ var bo=$('boOrg'); bo.innerHTML=O.src==='다른 사람 글'?orgHtml(O):''; orgBind(bo,O,null); bindMics(); } }; });
     if($('agrR')){ $('agrR').onclick=function(e){ e.preventDefault(); }; }
     $('boNo').onclick=closeSheet;
     $('boGo').onclick=function(){
@@ -1279,7 +1297,7 @@ function boOther(it,t){
       if(!isV&&!n){ toast('링크 제목을 적어 주십시오'); return; }
       if(!O.src){ toast(isV?'본인 제작인지 타인 제작인지 골라 주십시오':'누가 쓴 글인지 골라 주십시오'); return; }
       if(!$('agr').checked){ toast('「읽었고, 지키겠습니다」에 표시해 주십시오'); return; }
-      var q={action:'recAdd',cv:CV,agree:'1',to:it.id,title:n,src:O.src}; if(isV){ q.video=u; } else { q.kind='링크'; q.url=u; }
+      var q={action:'recAdd',cv:CV,agree:'1',to:it.id,title:n,src:O.src}; if(isV){ q.video=u; } else { q.kind='링크'; q.url=u; if(O.src==='다른 사람 글'){ q.org=O.org; q.terms=O.terms; } }
       var b=this; b.disabled=true;
       takeVoice(['boN'],function(voice){ if(voice){ q.voice=voice; clearVoice(['boN']); }
       api(q,function(r){ b.disabled=false; if(r.status!=='ok'){ toast(r.msg||'보태지 못했습니다'); return; } ME.agreed=1; closeSheet(); LKEY=''; itemView(it.id,true,t+'을(를) 보탰습니다'+(r.state==='실림'?'':' · 승인 후 공개됩니다')); });
