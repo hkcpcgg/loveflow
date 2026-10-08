@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/config.js · v1 · 261008 · [대표 261008 13:04 「config.js 반영」 · 작업기준_261008_1310 이슈 178]
+   현재 버전 ▶ lf/config.js · v2 · 261008 · [대표 261008 17:13 카카오 JavaScript 키 · 17:00 메인 「우리 기록 · 준비 중」]
+   (이전) v1 · 261008 · [대표 261008 13:04 「config.js 반영」 · 작업기준_261008_1310 이슈 178]
    사랑흐름 서버 주소를 적는 단 한 곳. 서버를 옮기면 이 파일의 주소만 고칩니다.
    [쓰는 법] 화면에서 <script src="/lf/config.js?v=1"></script> 를 먼저 붙이고 LF_CONFIG.gas.이름 으로 읽음.
    [지금 읽는 화면] /rec/ (우리 기록 v22) — 나머지 37곳은 그 화면을 고칠 때마다 차례로 옮김.
@@ -15,5 +16,7 @@
     lookup: 'https://script.google.com/macros/s/AKfycbyTroJxyBICtL516b6l9KQ45eQRSaKspj35IXOKET2sHvbS_pAlH2gxM9mvBsVsZJ9X/exec'   /* 조회 서버(…ZJ9X) */
   };
   C.site = 'https://www.loveflow.ai.kr';
+  C.kakaoJs = '0c7493c2a8668712a43ccb9cf17387c8';   /* 카카오 JavaScript 키(사랑흐름 앱 1483391 · 공개용 · 등록한 도메인에서만 작동) — 카톡으로 보내기 */
+  C.homeRec = '';   /* 메인 「우리 기록 · 준비 중」이 여는 시험 모임의 초대 열쇠(32자) — 비면 메인 줄 숨김. 초대 링크를 「새로 만들기」 하면 여기도 고침 */
   window.LF_CONFIG = C;
 })();
