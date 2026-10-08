@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v23 · 261008 · [대표 261008 13:55 「매우 중요 — 지금 해 놓고 넘어감」 · 이슈 183 · 자서전 서버 v41]
-     ① 지역기록 연결 — 링크를 「다른 사람 · 기관 글」로 고르면 「만든 곳」(기관 · 학교 · 단체) · 「이용 조건」(공개된 자료 · 허락 받음 · 잘 모름)을 적음.
-     ② 카드 · 보탠 링크 줄 · 「링크 열기」 판에 「원본 · ○○기관 · 공개된 자료」 한 줄. 검색은 기관 이름으로도 찾음. 그 밖 전부 v22 그대로.
+<!-- ★ 현재 버전 ▶ rec/index.html · v24 · 261008 · [대표 261008 14:20 「사진 한 장에 3초 · 못 씀」 · 자서전 서버 v42]
+     ① 까닭: 첫 화면 사진을 한 장씩 차례로, 원본(1600px)으로 서버에 따로 불렀음(한 번에 2~4초).
+     ② 고침: 첫 화면을 서버 한 번(recHome)에 · 올릴 때 작은 미리보기(480px)를 함께 보냄 → 목록과 같이 실려 와서 바로 보임 · 큰 칸만 원본을 동시에 셋씩 받아 바꿔 끼움 · 확대 · 기록 하나도 미리보기 먼저.
+     (이전) v23 · 261008 · [대표 261008 13:55 · 이슈 183 · 자서전 서버 v41] 링크에 만든 곳 · 이용 조건.
      (이전) v22 · 261008 · [58차 · 작업기준_261008_1310 · 시험판 v26(공사 기준판) · 자서전 서버 v40]
      ① 시험판 v26 화면을 실제로 — 첫 화면 큰 카드(사진 묶음 3×3 · 글 카드 · 링크 카드) · 좋아요 · 싫어요(싫어요 수 안 보임) · 「새로 올라온 · 연도순」 · 20개씩 「더 보기」 · 검색(띄어 쓰면 모두 맞는 것 · 70년대 · 1978).
      ② 기록 남기기 다섯 걸음(고르기 → 출처 → 언제 · 분류 → 공개 범위 → 미리 보기) · 사진 9장까지 사진마다 출처 콕콕 · 한 묶음으로 올림 · 링크(블로그 · 인스타 · 틱톡 카드) · 올리기 약속 ☐(처음만 네 줄 · 문구는 59차).
@@ -551,18 +552,16 @@ function joinForm(g){
 }
 function loadMe(g){
   wait($('main'),'우리 기록을 여는 중입니다');
-  api({action:'recMe'},function(d){
+  api({action:'recHome',mode:F.sort,n:'20'},function(d){   /* ★v24 나 · 분류 · 첫 20개 · 승인 대기 수를 한 번에 */
     if(d.status!=='ok'){
       if(d.reason==='NO_KEY'){ sset(KEY,''); K=''; if(g){ joinForm(g); return; } noKey(); return; }
       $('main').innerHTML='<div class="msg">'+esc(d.msg||'열지 못했습니다.')+'</div>'; return;
     }
-    ME=d; setTitle();
-    loadCats(function(){
-      STACK=[{v:'feed'}];
-      if(OPEN_R){ var r=OPEN_R; OPEN_R=''; STACK.push({v:'item',id:r}); holdHistory(); }
-      render();
-    });
-    queueCount();
+    ME=d; setTitle(); CATS=d.cats||[]; QN=d.qn||0;
+    if(d.list&&d.list.status==='ok'&&!F.q&&!F.kind&&!F.cat){ LIST=d.list.items; LMORE=d.list.more; LNEXT=d.list.next; LKEY=feedKey(); }
+    STACK=[{v:'feed'}];
+    if(OPEN_R){ var r=OPEN_R; OPEN_R=''; STACK.push({v:'item',id:r}); holdHistory(); }
+    render();
   });
 }
 function queueCount(){ if(!isBoss()){ return; } api({action:'recQueue'},function(q){ if(q.status==='ok'){ QN=q.items.length+q.links.length+(q.cats||[]).length; drawBadge(); } }); }
@@ -694,9 +693,9 @@ function guideHtml(){
 function media(it,inItem){
   if(it.kind==='사진'&&it.photos&&it.photos.length>1){
     var ps=it.photos.slice(0,9);
-    return '<div class="g9">'+ps.map(function(p,i){ return '<i class="wait" data-phs="'+esc(p.id)+'" data-z="'+i+'"></i>'; }).join('')+'<span class="badge">'+it.photos.length+'장</span></div>';
+    return '<div class="g9">'+ps.map(function(p,i){ return p.pv?'<i data-z="'+i+'" style="background-image:url('+p.pv+')"></i>':'<i class="wait" data-phs="'+esc(p.id)+'" data-z="'+i+'"></i>'; }).join('')+'<span class="badge">'+it.photos.length+'장</span></div>';
   }
-  if(it.photo){ var s=it.src||(it.photos&&it.photos[0]&&it.photos[0].src)||''; return inItem?'<img class="media" id="ph" alt="사진" style="min-height:220px">'+(s?'<div class="note" style="padding:6px 16px 0">출처 · '+esc(srcL(s))+'</div>':''):'<div class="pic wait" data-ph="'+esc(it.id)+'">'+(s?'<span class="badge">'+esc(srcL(s))+'</span>':'')+'</div>'; }
+  if(it.photo){ var s=it.src||(it.photos&&it.photos[0]&&it.photos[0].src)||''; return inItem?'<img class="media" id="ph" alt="사진"'+(it.pv?' src="'+it.pv+'"':' style="min-height:220px"')+'>'+(s?'<div class="note" style="padding:6px 16px 0">출처 · '+esc(srcL(s))+'</div>':''):'<div class="pic'+(it.pv?'':' wait')+'" data-ph="'+esc(it.id)+'"'+(it.pv?' style="background-image:url('+it.pv+')"':'')+'>'+(s?'<span class="badge">'+esc(srcL(s))+'</span>':'')+'</div>'; }
   if(it.video){ return '<div class="pic vid'+(inItem?'" id="yt" style="cursor:pointer;':'')+'" style="background-image:url('+esc(it.video.thumb)+')"><span class="play"></span>'+(it.made?'<span class="badge">'+esc(srcL(it.made))+'</span>':'')+'</div>'; }
   if(it.kind==='글'){ return '<div class="txt"><div class="k">'+ic('text','sm')+'글</div><h3>'+esc(it.title||'(제목 없음)')+'</h3>'+(it.text?'<p class="'+(inItem?'open':'')+'">'+esc(it.text)+'</p>'+(inItem||String(it.text).length<90&&String(it.text).split('\n').length<4?'':'<button class="more" type="button" data-more="1">더 보기</button>'):'')+'</div>'; }
   if(it.kind==='링크'&&it.link){ return linkCard(it); }
@@ -744,8 +743,10 @@ function photo(id,small,cb){
   api({action:'recPhoto',id:id,small:small?'1':''},function(d){ if(d.status==='ok'){ PHC[k]='data:'+d.type+';base64,'+d.data; cb(PHC[k]); } else { cb(''); } });
 }
 function lazyPhotos(el){
-  var one=el.querySelectorAll('[data-ph]'), i=0;
-  (function next(){ if(i>=one.length){ return; } var t=one[i++]; photo(t.getAttribute('data-ph'),!!t.getAttribute('data-small'),function(src){ if(src){ t.style.backgroundImage='url('+src+')'; t.classList.remove('wait'); } next(); }); })();
+  /* ★v24 미리보기는 목록과 함께 이미 그려짐 → 큰 칸만 원본으로 바꿔 끼움 · 동시에 셋씩 */
+  var one=Array.prototype.filter.call(el.querySelectorAll('[data-ph]'),function(t){ return !(t.getAttribute('data-small')&&t.style.backgroundImage); }), i=0, run=0;
+  function next(){ while(run<3&&i<one.length){ (function(t){ run++; photo(t.getAttribute('data-ph'),!!t.getAttribute('data-small'),function(src){ run--; if(src){ t.style.backgroundImage='url('+src+')'; t.classList.remove('wait'); } next(); }); })(one[i++]); } }
+  next();
   var grids=el.querySelectorAll('.g9');
   Array.prototype.forEach.call(grids,function(g){
     var tiles=g.querySelectorAll('[data-phs]'), need=[], map={};
@@ -790,7 +791,7 @@ function drawItem(it,fresh){
   var ad=it.added||[], adP=ad.filter(function(a){ return a.kind==='사진'; }), adO=ad.filter(function(a){ return a.kind!=='사진'; });
   if(!it.from){
     h+='<div class="card" id="addc"><h2>함께 보탠 것 <small style="font-family:var(--f-body);font-size:13px;color:var(--sub);font-weight:400">'+ad.length+'</small></h2>'+
-      (ad.length?(adP.length?'<div class="addp">'+adP.map(function(p,i){ return '<div data-ph="'+esc(p.id)+'" data-small="1" data-ad="'+i+'"><b>'+esc(p.by||'')+'</b></div>'; }).join('')+'</div>':'')+
+      (ad.length?(adP.length?'<div class="addp">'+adP.map(function(p,i){ return '<div data-ph="'+esc(p.id)+'" data-small="1" data-ad="'+i+'"'+(p.pv?' style="background-image:url('+p.pv+')"':'')+'><b>'+esc(p.by||'')+'</b></div>'; }).join('')+'</div>':'')+
         adO.map(function(a){ return '<div class="adl" data-ao="'+esc(a.id)+'" style="cursor:pointer"><span class="ci '+(a.kind==='영상'?'c-rose':'c-navy')+'">'+ic(a.kind==='영상'?'video':'link')+'</span><div class="tx"><b>'+esc(a.title||a.kind)+stTag(a)+'</b><small>'+esc(a.by||'')+' 님이 보탬 · '+esc(a.kind==='영상'?srcL(a.made):((a.link&&a.link.org)?orgLine(a.link):((a.link&&a.link.dom)||'')+(a.link&&a.link.mine?' · '+a.link.mine:'')))+'</small></div><span class="tag t-out">바깥 링크</span></div>'; }).join('')
       :'<p class="lead">이 기록과 같은 날 · 같은 일의 사진 · 영상 · 링크를 가지고 계시면 보태 주세요. 글은 아래 「기억 남기기」에 쓰시면 됩니다.</p>')+
       (canTell()?'<button class="btn line" id="addPh" type="button">'+ic('plus')+'보태기 (사진 · 영상 · 링크)</button>':'')+'</div>';
@@ -850,7 +851,7 @@ function memDone(t){
 }
 function zoom(ps,i){
   var p=ps[i];
-  sheet('<div class="lb"><img id="zImg" alt="'+(i+1)+'번째 사진" style="min-height:200px;background:var(--sand)"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><b>'+(i+1)+' / '+ps.length+'</b><span class="tag '+(p.src==='AI로 만들었다고 밝힘'?'t-ai':'t-oth')+'">'+esc(srcL(p.src))+'</span></div>'+
+  sheet('<div class="lb"><img id="zImg" alt="'+(i+1)+'번째 사진"'+(p.pv?' src="'+p.pv+'"':' style="min-height:200px;background:var(--sand)"')+'></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><b>'+(i+1)+' / '+ps.length+'</b><span class="tag '+(p.src==='AI로 만들었다고 밝힘'?'t-ai':'t-oth')+'">'+esc(srcL(p.src))+'</span></div>'+
     (p.text?'<p style="margin-top:6px">'+esc(p.text)+'</p>':'')+
     '<div class="pair" style="margin-top:10px"><button class="btn line" id="zp" type="button"'+(i?'':' disabled')+'>이전 사진</button><button class="btn line" id="zn" type="button"'+(i<ps.length-1?'':' disabled')+'>다음 사진</button></div>'+
     '<div class="pair"><button class="btn line" id="zdel" type="button" style="color:var(--red);border-color:var(--red)">이 사진 삭제 요청</button><button class="btn" id="zx" type="button">닫기</button></div>',function(){
@@ -919,7 +920,7 @@ function drawList(el,items){
   if(!items.length){ el.innerHTML=''; return; }
   el.innerHTML=items.map(function(it){
     var sub=[it.when,it.where,it.who].filter(Boolean).join(' · ')||(it.cat||'함께 채워 주세요');
-    var th=it.video?'<div class="th" style="background-image:url('+esc(it.video.thumb)+')"></div>':(it.photo?'<div class="th" data-ph="'+esc(it.id)+'" data-small="1"></div>':'<div class="th">'+ic(it.kind==='기억'?'talk':it.kind==='링크'?'link':'text')+'</div>');
+    var th=it.video?'<div class="th" style="background-image:url('+esc(it.video.thumb)+')"></div>':(it.photo?'<div class="th" data-ph="'+esc(it.id)+'" data-small="1"'+(it.pv?' style="background-image:url('+it.pv+')"':'')+'></div>':'<div class="th">'+ic(it.kind==='기억'?'talk':it.kind==='링크'?'link':'text')+'</div>');
     return '<div class="item" data-id="'+esc(it.id)+'">'+th+'<div class="tx"><b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b><span class="s2">'+esc(sub)+'</span></div></div>';
   }).join('');
   each(el,'.item',function(d){ d.onclick=function(){ go('item',d.getAttribute('data-id')); }; });
@@ -1207,7 +1208,7 @@ function publish2(voice){
   var p=base(), list=[]; if(voice){ p.voice=voice; }
   if(A.type==='사진'){
     var many=A.photos.length>1;
-    A.photos.forEach(function(ph,i){ var q={}; for(var k in p){ q[k]=p[k]; } if(i>0){ delete q.voice; } q.kind='사진'; q.photo=ph.u; q.src=ph.src; if(!q.title){ q.title='사진'; } if(many){ q._busy='사진 '+(i+1)+'/'+A.photos.length+' 올리는 중입니다'; } list.push(q); });
+    A.photos.forEach(function(ph,i){ var q={}; for(var k in p){ q[k]=p[k]; } if(i>0){ delete q.voice; } q.kind='사진'; q.photo=ph.u; q.pv=ph.pv||''; q.src=ph.src; if(!q.title){ q.title='사진'; } if(many){ q._busy='사진 '+(i+1)+'/'+A.photos.length+' 올리는 중입니다'; } list.push(q); });
   } else if(A.type==='영상'){ p.video=A.video; p.src=A.vsrc; list=[p]; }
   else if(A.type==='링크'){ p.kind='링크'; p.url=A.link.url; p.src=A.link.mine; if(A.link.mine==='다른 사람 글'){ p.org=A.link.org||''; p.terms=A.link.terms||''; } list=[p]; }
   else { p.kind='글'; list=[p]; }
@@ -1240,7 +1241,8 @@ var PICKMODE='';
 function openFile(mode){ PICKMODE=mode; var f=$('fileIn'); f.value=''; f.click(); }
 function shrink(file,cb){
   var MAX=1600;
-  function draw(img,w,h){ var r=Math.min(1,MAX/Math.max(w,h)), c=document.createElement('canvas'); c.width=Math.round(w*r); c.height=Math.round(h*r); c.getContext('2d').drawImage(img,0,0,c.width,c.height); cb(c.toDataURL('image/jpeg',0.82)); }
+  function draw(img,w,h){ var r=Math.min(1,MAX/Math.max(w,h)), c=document.createElement('canvas'); c.width=Math.round(w*r); c.height=Math.round(h*r); c.getContext('2d').drawImage(img,0,0,c.width,c.height); cb(c.toDataURL('image/jpeg',0.82),preview(img,w,h)); }
+  function preview(img,w,h){ var sz=[[480,0.6],[400,0.5],[320,0.45]]; for(var k=0;k<sz.length;k++){ var r=Math.min(1,sz[k][0]/Math.max(w,h)), c=document.createElement('canvas'); c.width=Math.round(w*r); c.height=Math.round(h*r); c.getContext('2d').drawImage(img,0,0,c.width,c.height); var u=c.toDataURL('image/jpeg',sz[k][1]); if(u.length<=45000){ return u; } } return ''; }
   function fallback(){ var u=URL.createObjectURL(file), im=new Image(); im.onload=function(){ draw(im,im.naturalWidth,im.naturalHeight); URL.revokeObjectURL(u); }; im.onerror=function(){ cb(''); }; im.src=u; }
   if(window.createImageBitmap){ createImageBitmap(file,{imageOrientation:'from-image'}).then(function(b){ draw(b,b.width,b.height); }).catch(fallback); } else { fallback(); }
 }
@@ -1259,7 +1261,7 @@ function onFile(){
       return;
     }
     busyText('사진을 담는 중입니다 ('+(i+1)+'/'+n+')');
-    shrink(fs[i],function(u){ if(u){ arr.push({u:u,src:''}); got++; } else { bad++; } nx(i+1); });
+    shrink(fs[i],function(u,pv){ if(u){ arr.push({u:u,src:'',pv:pv||''}); got++; } else { bad++; } nx(i+1); });
   })(0);
 }
 
@@ -1323,7 +1325,7 @@ function boSheet(){
     $('boGo').onclick=function(){
       for(var i=0;i<BO.list.length;i++){ if(!BO.list[i].src){ toast((i+1)+'번째 사진의 출처를 골라 주십시오'); return; } }
       if(!$('agr').checked){ toast('「읽었고, 지키겠습니다」에 표시해 주십시오'); return; }
-      var it=BO.it, tx=$('boT').value.trim(), list=BO.list.map(function(p,i){ return {action:'recAdd',cv:CV,agree:'1',to:it.id,kind:'사진',photo:p.u,src:p.src,title:'보탠 사진',text:tx,_busy:'사진 '+(i+1)+'/'+BO.list.length+' 보태는 중입니다'}; });
+      var it=BO.it, tx=$('boT').value.trim(), list=BO.list.map(function(p,i){ return {action:'recAdd',cv:CV,agree:'1',to:it.id,kind:'사진',photo:p.u,pv:p.pv||'',src:p.src,title:'보탠 사진',text:tx,_busy:'사진 '+(i+1)+'/'+BO.list.length+' 보태는 중입니다'}; });
       this.disabled=true; closeSheet();
       var okN=0, pub=0, errs=[], bid='';
       takeVoice(['boT'],function(voice){ if(voice){ list[0].voice=voice; clearVoice(['boT']); }
@@ -1431,7 +1433,7 @@ function chkView(){
     var waitN=d.items.filter(function(it){ return it.state==='기다림'&&!it.takeDown; }).length+(d.cats||[]).length+d.links.length;
     if(waitN){ h+='<button class="btn" id="allOk" type="button" style="margin:0 0 14px">'+ic('check')+'모두 승인 ('+waitN+')</button>'; }
     if(d.items.length){ h+='<h2 style="margin:4px 0 8px">승인 대기 기록 · 기억 '+d.items.length+'</h2>'+d.items.map(function(it){
-      var th=it.video?'<div class="th" style="background-image:url('+esc(it.video.thumb)+')"></div>':(it.photo?'<div class="th" data-ph="'+esc(it.id)+'" data-small="1"></div>':'<div class="th">'+ic(it.kind==='기억'?'talk':it.kind==='링크'?'link':'text')+'</div>');
+      var th=it.video?'<div class="th" style="background-image:url('+esc(it.video.thumb)+')"></div>':(it.photo?'<div class="th" data-ph="'+esc(it.id)+'" data-small="1"'+(it.pv?' style="background-image:url('+it.pv+')"':'')+'></div>':'<div class="th">'+ic(it.kind==='기억'?'talk':it.kind==='링크'?'link':'text')+'</div>');
       return '<div class="qitem" data-id="'+esc(it.id)+'"><div class="item" style="margin:0;border:none;padding:0" data-open="'+esc(it.id)+'">'+th+'<div class="tx"><b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b><span class="s2">'+esc(it.by||'')+(it.kind==='링크'&&it.link?' · '+esc(it.link.dom):'')+(it.made?' · '+esc(srcL(it.made)):'')+(it.src?' · '+esc(srcL(it.src)):'')+(it.from?' · 보탠 것':'')+'</span></div></div>'+
         (it.text?'<p style="font-size:14.5px;margin-top:6px;white-space:pre-wrap">'+esc(it.text.slice(0,300))+'</p>':'')+
         (it.takeDown?'<div class="err"><b>삭제 요청</b> · '+esc(it.takeDown)+'</div>':'')+
