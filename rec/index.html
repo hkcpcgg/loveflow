@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v24 · 261008 · [대표 261008 14:20 「사진 한 장에 3초 · 못 씀」 · 자서전 서버 v42]
+<!-- ★ 현재 버전 ▶ rec/index.html · v25 · 261008 · [대표 261008 15:05 「미리보기 채움 0 · 못 만듦 18」 · 자서전 서버 v43]
+     ① 스스로 채우기 — 미리보기 없는 옛 사진을 이 폰이 처음 열면 480px 작은 사진을 만들어 서버에 남김(recPvSet) → 다음부터 누구나 빨리. 그 밖 v24 그대로.
+     (이전) v24 · 261008 · [대표 261008 14:20 「사진 한 장에 3초 · 못 씀」 · 자서전 서버 v42]
      ① 까닭: 첫 화면 사진을 한 장씩 차례로, 원본(1600px)으로 서버에 따로 불렀음(한 번에 2~4초).
      ② 고침: 첫 화면을 서버 한 번(recHome)에 · 올릴 때 작은 미리보기(480px)를 함께 보냄 → 목록과 같이 실려 와서 바로 보임 · 큰 칸만 원본을 동시에 셋씩 받아 바꿔 끼움 · 확대 · 기록 하나도 미리보기 먼저.
      (이전) v23 · 261008 · [대표 261008 13:55 · 이슈 183 · 자서전 서버 v41] 링크에 만든 곳 · 이용 조건.
@@ -693,9 +695,10 @@ function guideHtml(){
 function media(it,inItem){
   if(it.kind==='사진'&&it.photos&&it.photos.length>1){
     var ps=it.photos.slice(0,9);
+    ps.forEach(function(p){ if(!p.pv){ NEEDPV[p.id]=1; } });
     return '<div class="g9">'+ps.map(function(p,i){ return p.pv?'<i data-z="'+i+'" style="background-image:url('+p.pv+')"></i>':'<i class="wait" data-phs="'+esc(p.id)+'" data-z="'+i+'"></i>'; }).join('')+'<span class="badge">'+it.photos.length+'장</span></div>';
   }
-  if(it.photo){ var s=it.src||(it.photos&&it.photos[0]&&it.photos[0].src)||''; return inItem?'<img class="media" id="ph" alt="사진"'+(it.pv?' src="'+it.pv+'"':' style="min-height:220px"')+'>'+(s?'<div class="note" style="padding:6px 16px 0">출처 · '+esc(srcL(s))+'</div>':''):'<div class="pic'+(it.pv?'':' wait')+'" data-ph="'+esc(it.id)+'"'+(it.pv?' style="background-image:url('+it.pv+')"':'')+'>'+(s?'<span class="badge">'+esc(srcL(s))+'</span>':'')+'</div>'; }
+  if(it.photo){ if(!it.pv&&it.id){ NEEDPV[it.id]=1; } var s=it.src||(it.photos&&it.photos[0]&&it.photos[0].src)||''; return inItem?'<img class="media" id="ph" alt="사진"'+(it.pv?' src="'+it.pv+'"':' style="min-height:220px"')+'>'+(s?'<div class="note" style="padding:6px 16px 0">출처 · '+esc(srcL(s))+'</div>':''):'<div class="pic'+(it.pv?'':' wait')+'" data-ph="'+esc(it.id)+'"'+(it.pv?' style="background-image:url('+it.pv+')"':'')+'>'+(s?'<span class="badge">'+esc(srcL(s))+'</span>':'')+'</div>'; }
   if(it.video){ return '<div class="pic vid'+(inItem?'" id="yt" style="cursor:pointer;':'')+'" style="background-image:url('+esc(it.video.thumb)+')"><span class="play"></span>'+(it.made?'<span class="badge">'+esc(srcL(it.made))+'</span>':'')+'</div>'; }
   if(it.kind==='글'){ return '<div class="txt"><div class="k">'+ic('text','sm')+'글</div><h3>'+esc(it.title||'(제목 없음)')+'</h3>'+(it.text?'<p class="'+(inItem?'open':'')+'">'+esc(it.text)+'</p>'+(inItem||String(it.text).length<90&&String(it.text).split('\n').length<4?'':'<button class="more" type="button" data-more="1">더 보기</button>'):'')+'</div>'; }
   if(it.kind==='링크'&&it.link){ return linkCard(it); }
@@ -737,10 +740,17 @@ function bindUD(el,cur){
   }; });
 }
 /* 사진 — 첫 화면 큰 칸은 원본(1600px) · 3×3 칸은 작은 그림을 한 번에 */
-var PHC={};
+var PHC={}, NEEDPV={};
 function photo(id,small,cb){
   var k=(small?'s:':'')+id; if(PHC[k]){ cb(PHC[k]); return; }
-  api({action:'recPhoto',id:id,small:small?'1':''},function(d){ if(d.status==='ok'){ PHC[k]='data:'+d.type+';base64,'+d.data; cb(PHC[k]); } else { cb(''); } });
+  api({action:'recPhoto',id:id,small:small?'1':''},function(d){ if(d.status==='ok'){ PHC[k]='data:'+d.type+';base64,'+d.data; pvHeal(id,PHC[k]); cb(PHC[k]); } else { cb(''); } });
+}
+/* ★v25 스스로 채우기 — 미리보기 없는 옛 사진을 이 폰이 처음 열면 작은 사진을 만들어 서버에 남김(다음부터 모두 빨리) */
+function pvHeal(id,url){
+  if(!NEEDPV[id]){ return; } delete NEEDPV[id];
+  var im=new Image(); im.onload=function(){ var sz=[[480,0.6],[400,0.5],[320,0.45]], w=im.naturalWidth, h=im.naturalHeight;
+    for(var k=0;k<sz.length;k++){ var r=Math.min(1,sz[k][0]/Math.max(w,h)), c=document.createElement('canvas'); c.width=Math.round(w*r); c.height=Math.round(h*r); c.getContext('2d').drawImage(im,0,0,c.width,c.height); var u=c.toDataURL('image/jpeg',sz[k][1]); if(u.length<=45000){ api({action:'recPvSet',id:id,pv:u},function(){}); var l=findL(id); if(l){ l.pv=u; } return; } } };
+  im.src=url;
 }
 function lazyPhotos(el){
   /* ★v24 미리보기는 목록과 함께 이미 그려짐 → 큰 칸만 원본으로 바꿔 끼움 · 동시에 셋씩 */
@@ -752,7 +762,7 @@ function lazyPhotos(el){
     var tiles=g.querySelectorAll('[data-phs]'), need=[], map={};
     Array.prototype.forEach.call(tiles,function(t){ var id=t.getAttribute('data-phs'); map[id]=t; if(PHC['s:'+id]){ t.style.backgroundImage='url('+PHC['s:'+id]+')'; t.classList.remove('wait'); } else { need.push(id); } });
     if(!need.length){ return; }
-    api({action:'recPhotos',ids:need.join(','),small:'1'},function(d){ if(d.status!=='ok'){ return; } d.items.forEach(function(x){ var u='data:'+x.type+';base64,'+x.data; PHC['s:'+x.id]=u; if(map[x.id]){ map[x.id].style.backgroundImage='url('+u+')'; map[x.id].classList.remove('wait'); } }); });
+    api({action:'recPhotos',ids:need.join(','),small:'1'},function(d){ if(d.status!=='ok'){ return; } d.items.forEach(function(x){ var u='data:'+x.type+';base64,'+x.data; PHC['s:'+x.id]=u; pvHeal(x.id,u); if(map[x.id]){ map[x.id].style.backgroundImage='url('+u+')'; map[x.id].classList.remove('wait'); } }); });
   });
 }
 
