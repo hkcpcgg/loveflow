@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v28 · 261008 · [대표 261008 17:37 · 17:39 「크롬 · 브라우저 말 쓰지 말 것」 · 「공식 말로」 · 「초대 링크 다섯 개」 · 자서전 서버 v46]
+<!-- ★ 현재 버전 ▶ rec/index.html · v29 · 261008 · [대표 261008 18:12 「우리 이야기로 결정 · 앞뒤로 붙여 쓰게」 · 59차 이름 공모 · 자서전 서버 v46]
+     ① 서비스 이름 「우리 기록」 → 「우리 이야기」(화면 말 · 제목 · 안내 모두).
+     ② 관리자 ☰ 「모임 이름 짓기」 — ① 어디 · 어느 모임(문산초 59회 · 파주 성동리) + ② 누구의(우리 친구들 · 우리 동문 · 우리 가족 · ○○네 가족 · 우리 마을 · 우리 모임 · 우리 회사 · 우리 학교 · 직접 쓰기) + ③ 이야기 → 미리 보기 → 저장(recComName 그대로).
+     (이전) v28 · 261008 · [대표 261008 17:37 · 17:39 「크롬 · 브라우저 말 쓰지 말 것」 · 「공식 말로」 · 「초대 링크 다섯 개」 · 자서전 서버 v46]
      ① 음성 텍스트 변환 — 카톡 안 🎤 아래 「음성을 텍스트로도 변환할까요? · 텍스트로 변환」 → 「화면이 한 번 새로 열립니다」 판 → 새 화면에서 작성 중인 내용 그대로 + 🎤 깜빡임(?v=1). 앱 · 브라우저 이름을 쓰지 않음.
      ② 공식 말 — 보는 분 · 작성자 · 등록 신청 · 승인 · 작성 제한 · 제한 해제 · 공개 설정 · 공개 모임 · 등록 신청 승인제 · 첫 게시물 승인 · 참여 현황 · 관계 · 참여하기(말사전 4-3 · 58차 ★2).
      ③ 보낼 곳별 초대 링크(최대 10) — 이름 · 열람 · 참여 · 기록 수 · 카톡으로 보내기 · 복사 · 지우기 · 기본 링크와 전체 관리는 접어 둠.
@@ -97,7 +100,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<title>사랑흐름 · 함께 남기는 우리 기록</title>
+<title>사랑흐름 · 함께 남기는 우리 이야기</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
@@ -436,12 +439,18 @@ html.lfx body{padding-bottom:0!important}
 .mic.pulse{animation:micp 1.2s ease-in-out infinite}
 @keyframes micp{0%,100%{box-shadow:0 0 0 0 rgba(229,138,95,.6)}50%{box-shadow:0 0 0 10px rgba(229,138,95,0)}}
 @media (prefers-reduced-motion:reduce){.mic.pulse{animation:none;outline:3px solid var(--orange)}}
+/* ── v29 모임 이름 짓기 ── */
+.nbv{margin:12px 0 4px;padding:14px 12px;border-radius:14px;background:linear-gradient(135deg,#FFF6EA,#EEF3F8);border:1px solid var(--line);text-align:center;font-family:var(--f-disp);font-size:20px;color:var(--navy2);font-weight:700;line-height:1.35;min-height:56px}
+.nbw{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.nbw .chip{margin:0}
+#nbNe,#nbOwn{margin-top:8px}
+.nbe{margin-top:4px;padding:10px 12px;border-radius:12px;background:#F7F4EE;font-weight:800;color:var(--navy2)}.nbe small{font-weight:400;color:var(--sub)}
 </style>
 </head>
-<body data-lf-title="함께 남기는 우리 기록">
+<body data-lf-title="함께 남기는 우리 이야기">
 <div class="app" id="app">
   <div class="test"><span>시험 운영 · 체험단 전 — 시험이 끝나면 기록은 지울 수 있습니다</span></div>
-  <div id="main"><div class="waitbox"><b>우리 기록을 여는 중입니다</b><div class="lf-wave"></div></div></div>
+  <div id="main"><div class="waitbox"><b>우리 이야기를 여는 중입니다</b><div class="lf-wave"></div></div></div>
   <div class="foot">© 2026 사랑흐름 · LFRI™</div>
   <input type="file" id="fileIn" accept="image/*" multiple hidden>
 </div>
@@ -539,7 +548,7 @@ var DRAFT='lf_rec_draft';
 function saveDraft(){ var o={r:(VIEW==='item'&&STACK.length?STACK[STACK.length-1].id:''),t:($('memT')&&$('memT').value)||''}; if(o.r||o.t){ sset(DRAFT,JSON.stringify(o)); } }
 function joinGate(){
   saveDraft();
-  sheet('<div style="text-align:center"><span class="ci c-gold" style="width:52px;height:52px">'+ic('heart')+'</span><h2 style="margin-top:8px">함께하시겠어요?</h2><p class="lead">「'+esc((ME&&ME.comName)||'우리 기록')+'」에 기억을 남기려면 카카오로 한 번만 들어와 주십시오. 전화번호 · 연락처는 받지 않습니다. 쓰시던 글은 그대로 남아 있습니다.</p></div>'+
+  sheet('<div style="text-align:center"><span class="ci c-gold" style="width:52px;height:52px">'+ic('heart')+'</span><h2 style="margin-top:8px">함께하시겠어요?</h2><p class="lead">「'+esc((ME&&ME.comName)||'우리 이야기')+'」에 기억을 남기려면 카카오로 한 번만 들어와 주십시오. 전화번호 · 연락처는 받지 않습니다. 쓰시던 글은 그대로 남아 있습니다.</p></div>'+
     '<label class="wab" style="font-size:15.5px;justify-content:center"><input type="checkbox" id="gja"> 만 14세 이상입니다</label>'+kakaoBtn('gjb')+'<div class="err" id="gje" style="text-align:center"></div><button class="btn line" id="gjx" type="button">조금 더 둘러보기</button>',function(){
     $('gjx').onclick=closeSheet;
     $('gjb').onclick=function(){ if(!$('gja').checked){ $('gje').textContent='만 14세 이상인지 확인해 주십시오.'; return; } kakaoGo('join',{g:G,a:1,f:FROM,r:(VIEW==='item'?STACK[STACK.length-1].id:'')}); };
@@ -570,7 +579,7 @@ function boot(){
 }
 /* ★v26 열린 모임이면 가입 없이 전체를 봄 · 닫힌 방이면 지금처럼 들어오기 화면 */
 function guestIn(g){
-  G=g; wait($('main'),'우리 기록을 여는 중입니다');
+  G=g; wait($('main'),'우리 이야기를 여는 중입니다');
   api({action:'recHome',g:g,f:FROM||'',mode:F.sort,n:'20'},function(d){
     if(d.status!=='ok'||!d.guest){ G=''; joinForm(g); return; }
     ME={guest:1,name:'',role:'손님',comName:d.comName,room:d.room,stat:d.stat,best:d.best}; setTitle(); CATS=d.cats||[]; QN=0;
@@ -616,7 +625,7 @@ function kakaoFail(d,g){
 }
 function pickCom(items,cb){
   $('main').innerHTML='<div class="card" style="margin-top:16px"><h2>어느 곳으로 들어가시겠습니까?</h2><p class="lead">들어와 계신 곳이 여럿입니다.</p>'+
-    items.map(function(x,i){ return '<button type="button" class="btn'+(i?' line':'')+'" data-i="'+i+'">'+esc(x.comName||'우리 기록')+'</button>'; }).join('')+'</div>';
+    items.map(function(x,i){ return '<button type="button" class="btn'+(i?' line':'')+'" data-i="'+i+'">'+esc(x.comName||'우리 이야기')+'</button>'; }).join('')+'</div>';
   each($('main'),'[data-i]',function(b){ b.onclick=function(){ cb(items[+b.getAttribute('data-i')]); }; });
 }
 function nameFirst(n,waitIn){
@@ -634,18 +643,18 @@ function nameFirst(n,waitIn){
   };
 }
 function noKey(){
-  $('main').innerHTML='<div class="joinhero"><h1>함께 남기는 우리 기록</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
-    '<div class="card"><h2>우리 기록에 다시 들어오기</h2><p class="lead">카카오로 들어오시면 전에 남기신 기록이 그대로 이어집니다.</p>'+kakaoBtn('kgo')+'<p class="kk-note">처음 오셨으면 받으신 초대 링크를 눌러 주십시오.</p></div>';
+  $('main').innerHTML='<div class="joinhero"><h1>함께 남기는 우리 이야기</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
+    '<div class="card"><h2>우리 이야기에 다시 들어오기</h2><p class="lead">카카오로 들어오시면 전에 남기신 기록이 그대로 이어집니다.</p>'+kakaoBtn('kgo')+'<p class="kk-note">처음 오셨으면 받으신 초대 링크를 눌러 주십시오.</p></div>';
   $('kgo').onclick=function(){ kakaoGo('login'); };
 }
 function joinForm(g){
-  $('main').innerHTML='<div class="joinhero"><div class="who">초대받으셨습니다</div><h1>함께 남기는 우리 기록</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
+  $('main').innerHTML='<div class="joinhero"><div class="who">초대받으셨습니다</div><h1>함께 남기는 우리 이야기</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
     '<div class="card"><h2>들어가기</h2><p class="lead">카카오로 들어오시면 어느 휴대폰에서 열어도 이어집니다. 전화번호 · 연락처는 받지 않습니다.</p>'+
     '<label class="wab" style="font-size:15.5px"><input type="checkbox" id="ja"> 만 14세 이상입니다</label>'+kakaoBtn('jb')+'<div class="err" id="je"></div></div>';
   $('jb').onclick=function(){ if(!$('ja').checked){ $('je').textContent='만 14세 이상인지 확인해 주십시오.'; return; } $('je').textContent=''; kakaoGo('join',{g:g,a:1}); };
 }
 function loadMe(g){
-  wait($('main'),'우리 기록을 여는 중입니다');
+  wait($('main'),'우리 이야기를 여는 중입니다');
   api({action:'recHome',mode:F.sort,n:'20'},function(d){   /* ★v24 나 · 분류 · 첫 20개 · 승인 대기 수를 한 번에 */
     if(d.status!=='ok'){
       if(d.reason==='NO_KEY'){ sset(KEY,''); K=''; if(g){ joinForm(g); return; } noKey(); return; }
@@ -717,7 +726,7 @@ function subPage(t,h){
   $('bk').onclick=doBack; each($('main'),'[data-help]',function(b){ b.onclick=function(){ helpSheet(); }; });
 }
 function outView(){
-  $('main').innerHTML='<div class="outv"><span class="ci c-gray">'+ic('out')+'</span><h2>우리 기록에서 나왔습니다</h2><p class="lead">카카오톡으로 돌아가시려면 화면 위 닫기(×)를 눌러 주십시오.</p><button class="btn" id="reIn" type="button">다시 들어가기</button></div>';
+  $('main').innerHTML='<div class="outv"><span class="ci c-gray">'+ic('out')+'</span><h2>우리 이야기에서 나왔습니다</h2><p class="lead">카카오톡으로 돌아가시려면 화면 위 닫기(×)를 눌러 주십시오.</p><button class="btn" id="reIn" type="button">다시 들어가기</button></div>';
   $('reIn').onclick=function(){ STACK=[{v:'feed'}]; render(); };
 }
 function sheet(h,bind){
@@ -745,7 +754,7 @@ function feedView(){
 function heroHtml(){
   if(F.q||F.kind||F.cat||!ME){ return ''; }
   var st=ME.stat||{}, best=null; for(var i=0;i<LIST.length;i++){ if(LIST[i].id===ME.best){ best=LIST[i]; } }
-  var h='<section class="hero"><div class="hk">'+esc(ME.comName||'우리 기록')+'</div><h1>이 안에 혹시<br>당신이 있나요?</h1>'+
+  var h='<section class="hero"><div class="hk">'+esc(ME.comName||'우리 이야기')+'</div><h1>이 안에 혹시<br>당신이 있나요?</h1>'+
     '<p class="hs">함께한 분 <b>'+(st.people||0)+'</b> · 남긴 기억 <b>'+(st.mem||0)+'</b></p>';
   if(best){ h+='<div class="hb" data-hb="'+esc(best.id)+'">'+media(best,false)+'<div class="hq">'+esc(best.title||'')+(best.when?' · '+esc(best.when):'')+'<b>이 사진 아는 분 계세요?</b></div></div>'; }
   h+=isGuest()?'<div class="pair" style="margin-top:12px"><button class="btn warm" id="hJoin" type="button" style="margin-top:0">'+ic('heart')+'나도 기억 남기기</button><button class="btn line" id="hLook" type="button" style="margin-top:0">둘러보기</button></div>'
@@ -779,7 +788,7 @@ function feedKey(){ return [F.sort,F.kind,F.cat,F.q].join('|'); }
 function feedLoad(){
   var el=$('feed'); if(!el){ return; }
   if(LKEY===feedKey()){ feedDraw(); return; }
-  wait(el,F.q||F.kind||F.cat?'검색한 기록을 모으는 중입니다':(F.sort==='time'?'우리 기록을 연도 차례로 펼치는 중입니다':'새로 올라온 기록을 모으는 중입니다'));
+  wait(el,F.q||F.kind||F.cat?'검색한 기록을 모으는 중입니다':(F.sort==='time'?'우리 이야기를 연도 차례로 펼치는 중입니다':'새로 올라온 기록을 모으는 중입니다'));
   var key=feedKey();
   listGet(0,function(d){
     if(key!==feedKey()||VIEW!=='feed'){ return; }
@@ -1062,8 +1071,8 @@ function kakaoJs(cb){
 }
 function pvFile(pv){ try{ var bin=atob(pv.split(',')[1]), arr=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++){ arr[i]=bin.charCodeAt(i); } return new File([arr],'photo.jpg',{type:'image/jpeg'}); }catch(e){ return null; } }
 function sendOut(it,url,room){
-  var com=(ME&&ME.comName)||'우리 기록';
-  var text=it&&it.id?'「'+(it.title||'우리 기록')+'」'+(it.when?' ('+it.when+')':'')+'\n혹시 이 안에 계신가요? 떠오르는 기억을 한마디 남겨 주세요.\n— '+com:com+'\n우리 옛 사진과 기억이 모여 있어요. 혹시 이 안에 계신가요?';
+  var com=(ME&&ME.comName)||'우리 이야기';
+  var text=it&&it.id?'「'+(it.title||'우리 이야기')+'」'+(it.when?' ('+it.when+')':'')+'\n혹시 이 안에 계신가요? 떠오르는 기억을 한마디 남겨 주세요.\n— '+com:com+'\n우리 옛 사진과 기억이 모여 있어요. 혹시 이 안에 계신가요?';
   var pv=it&&(it.pv||(it.photos&&it.photos[0]&&it.photos[0].pv));
   if(!pv&&!it&&ME&&ME.best){ for(var i=0;i<LIST.length;i++){ if(LIST[i].id===ME.best){ pv=LIST[i].pv||(LIST[i].photos&&LIST[i].photos[0]&&LIST[i].photos[0].pv); } } }
   busyOn('카카오톡을 여는 중입니다');
@@ -1079,14 +1088,14 @@ function sendOut(it,url,room){
 }
 function sendOld(text,url,pv,room){
   if(pv&&room!=='닫힌 방'&&navigator.canShare){ var file=pvFile(pv); try{ if(file&&navigator.canShare({files:[file]})){ navigator.share({files:[file],text:text+'\n'+url}).catch(function(){}); return; } }catch(e){} }
-  if(navigator.share){ navigator.share({title:(ME&&ME.comName)||'우리 기록',text:text,url:url}).catch(function(){}); return; }
+  if(navigator.share){ navigator.share({title:(ME&&ME.comName)||'우리 이야기',text:text,url:url}).catch(function(){}); return; }
   copyLink(text+'\n'+url,'보낼 글을 복사했습니다','카카오톡 대화방에 붙여 넣어 주십시오');
 }
 /* ★v26 단톡방 · 밴드에 올릴 글 만들기 — 사진 제목 · 질문 · 링크를 한 번에 */
 function chatPost(){
   function make(link){
     var news=LIST.filter(function(x){ return x.title; }).slice(0,3).map(function(x){ return '· '+x.title+(x.when?' ('+x.when+')':''); }).join('\n');
-    var t='['+((ME&&ME.comName)||'우리 기록')+']\n우리 옛 사진과 기억을 한곳에 모으고 있어요.\n'+(news?'\n요즘 올라온 것\n'+news+'\n':'')+'\n혹시 이 안에 계신가요? 사진을 보고 떠오르는 기억을 한마디 남겨 주세요. 가입 없이 바로 볼 수 있어요.\n'+link;
+    var t='['+((ME&&ME.comName)||'우리 이야기')+']\n우리 옛 사진과 기억을 한곳에 모으고 있어요.\n'+(news?'\n요즘 올라온 것\n'+news+'\n':'')+'\n혹시 이 안에 계신가요? 사진을 보고 떠오르는 기억을 한마디 남겨 주세요. 가입 없이 바로 볼 수 있어요.\n'+link;
     sheet('<h2>단톡방 · 밴드에 올릴 글</h2><p class="lead" style="margin-top:4px">고쳐서 쓰셔도 됩니다. 「복사」를 누르고 단톡방에 붙여 넣으세요.</p><textarea id="cpT" style="min-height:220px;margin-top:10px">'+esc(t)+'</textarea><div class="pair" style="margin-top:10px"><button class="btn" id="cpC" type="button" style="margin-top:0">복사</button><button class="btn line" id="cpS" type="button" style="margin-top:0">'+ic('share')+'다른 곳으로</button></div><button class="btn kakao" id="cpK" type="button">'+KICON+'카톡 방에 사진 카드로 보내기</button>',function(){
       $('cpK').onclick=function(){ closeSheet(); sendOut(null,link,ME&&ME.room); };
       $('cpC').onclick=function(){ copyLink($('cpT').value,'복사했습니다','단톡방에 붙여 넣어 주십시오'); };
@@ -1191,7 +1200,7 @@ function chromeUrl(){
 }
 function chromeSheet(){
   stopMic();
-  sheet('<h2>음성 텍스트 변환</h2><p class="lead" style="margin-top:6px">변환 화면을 엽니다. 사랑흐름 「우리 기록」 화면 그대로이며, <b>작성 중인 내용도 함께 옮겨집니다.</b> 화면이 한 번 새로 열립니다.</p>'+
+  sheet('<h2>음성 텍스트 변환</h2><p class="lead" style="margin-top:6px">변환 화면을 엽니다. 사랑흐름 「우리 이야기」 화면 그대로이며, <b>작성 중인 내용도 함께 옮겨집니다.</b> 화면이 한 번 새로 열립니다.</p>'+
     '<p class="lead">새 화면에서 🎤를 누르면 음성이 텍스트로 입력되고, 음성도 함께 저장됩니다.'+(VIEW==='add'&&A.photos.length?' 선택한 사진은 새 화면에서 다시 선택해 주십시오.':'')+'</p>'+
     '<div class="pair" style="margin-top:14px"><button class="btn line" id="crNo" type="button">취소</button><button class="btn" id="crGo" type="button">텍스트로 변환</button></div>',function(){
     $('crNo').onclick=closeSheet;
@@ -1230,7 +1239,7 @@ function addView(){
   bindMics();
   $('nPrev').disabled=(s===1); $('nPrev').onclick=doBack;
   $('nNext').disabled=false;
-  $('nNext').innerHTML=(s===5?(A.type==='사진'&&A.photos.length>1?'한꺼번에 올리기 ('+A.photos.length+'장)':'우리 기록에 남기기'):'다음');
+  $('nNext').innerHTML=(s===5?(A.type==='사진'&&A.photos.length>1?'한꺼번에 올리기 ('+A.photos.length+'장)':'우리 이야기에 남기기'):'다음');
   $('nNext').onclick=next;
 }
 function next(){
@@ -1319,7 +1328,7 @@ var TERMS=[['누구나 볼 수 있게 공개된 자료','공개된 자료'],['�
 function orgHtml(L){
   return '<label class="f">만든 곳 <small>기관 · 학교 · 단체 · 사람 이름 · 원본이 있는 곳</small></label><div class="mf"><input class="t" id="lkO" maxlength="40" placeholder="예: 파주시청 · 문산초등학교 · 파주문화원" value="'+esc(L.org||'')+'">'+'</div><div class="hear" id="hear_lkO"></div>'+
     '<label class="f">이용 조건</label><div style="display:flex;flex-wrap:wrap;gap:7px" id="lkTm">'+TERMS.map(function(t){ return '<button type="button" class="chip s'+(L.terms===t[0]?' on':'')+'" data-tm="'+t[0]+'">'+t[1]+'</button>'; }).join('')+'</div>'+
-    '<p class="note">원본은 그 기관 사이트에 그대로 있고, 우리 기록에는 카드로만 이어 줍니다.</p>';
+    '<p class="note">원본은 그 기관 사이트에 그대로 있고, 우리 이야기에는 카드로만 이어 줍니다.</p>';
 }
 function orgBind(el,L,redraw){
   if($('lkO')){ $('lkO').oninput=function(){ L.org=this.value.trim(); }; }
@@ -1411,7 +1420,7 @@ function promiseHtml(kind){
 }
 function step5(){
   var it=draft();
-  $('stepBody').innerHTML='<p class="lead">우리 기록에 이렇게 보입니다.</p><div style="margin-top:10px" id="pv"></div>'+
+  $('stepBody').innerHTML='<p class="lead">우리 이야기에 이렇게 보입니다.</p><div style="margin-top:10px" id="pv"></div>'+
     '<div class="card" style="margin-top:-4px"><div class="note" style="margin:0">공개 범위 · <b style="color:var(--navy)">'+(A.scope==='공동체'?'우리 모임 모두':'나만 보기')+'</b></div></div>'+promiseHtml(A.type)+
     (takeId()?'<div class="note" style="color:var(--violet)">'+ic('mic','sm')+' 목소리 '+fmtS(VOICE[takeId()].sec)+'도 함께 남깁니다</div>':'')+'<div class="safe"><b>올리기 전에 저절로 확인합니다</b>사진 속 위치 · 기기 정보 지움 · 파일 종류와 크기 · 링크 주소 · 하루에 올리는 양</div>';
   var pv=$('pv');
@@ -1562,7 +1571,7 @@ function boSheet(){
 function meMenu(){
   var R=[['me','heart','c-gold','내가 남긴 것','내가 올린 기록 · 남긴 기억']];
   if(isBoss()){ R.push(['chk','check','c-green','승인 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),'승인 대기 · 삭제 요청']); R.push(['ppl','ppl','c-peach','함께하는 분',ME.role==='관리자'?'초대 링크 · 사람 내보내기 · 공개 방식':'함께하는 분 · 공개 방식']); }
-  if(ME.role==='관리자'){ R.push(['name','pen','c-navy','모임 이름 바꾸기','지금 이름 · '+esc(ME.comName||'')]); }
+  if(ME.role==='관리자'){ R.push(['name','pen','c-navy','모임 이름 짓기','지금 이름 · '+esc(ME.comName||'')]); }
   if(!ME.kakao){ R.push(['kk','share','c-violet','카카오 연결','다른 휴대폰에서도 카카오로 이어서 들어옵니다']); }
   R.push(['myname','pen','c-navy','보일 이름 바꾸기','지금 이름 · '+esc(ME.name||'')]);
   if(ME.room==='열린 모임'||ME.role==='관리자'){ R.splice(1,0,['post','share','c-peach','단톡방에 올릴 글','사진 제목 · 질문 · 링크를 한 번에 복사']); }
@@ -1576,8 +1585,8 @@ function meMenu(){
     each(d,'[data-m]',function(b){ b.onclick=function(){ var m=b.getAttribute('data-m'); closeSheet();
       if(m==='out'){ exitApp(); return; }
       if(m==='logout'){ sheet('<h2>이 기기에서 나가기</h2><p class="lead" style="margin-top:6px">'+(ME.kakao?'카카오로 다시 들어오실 수 있습니다.':'카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다.')+'</p><div class="pair" style="margin-top:16px"><button class="btn line" id="loNo" type="button">취소</button><button class="btn" id="loGo" type="button">나가기</button></div>',function(){ $('loNo').onclick=closeSheet; $('loGo').onclick=function(){ sset(KEY,''); location.href=location.pathname; }; }); return; }
-      if(m==='name'){ textSheet('모임 이름 바꾸기','위 띠 가운데와 카톡 알림에 보이는 이름입니다. 가족 · 모임 · 가게 이름(상호)으로 정해 주십시오.',ME.comName,40,function(v,cb){ api({action:'recComName',name:v},function(r){ if(r.status==='ok'){ ME.comName=r.name; setTitle(); toast('모임 이름을 바꾸었습니다',r.name); } cb(r); }); }); return; }
-      if(m==='myname'){ textSheet('보일 이름 바꾸기','우리 기록에 남기신 것 옆에 보이는 이름입니다.',ME.name,20,function(v,cb){ api({action:'recMyName',name:v},function(r){ if(r.status==='ok'){ ME.name=r.name; toast('보일 이름을 바꾸었습니다',r.name); if(VIEW==='feed'){ feedView(); } } cb(r); }); }); return; }
+      if(m==='name'){ nameBuild(); return; }
+      if(m==='myname'){ textSheet('보일 이름 바꾸기','우리 이야기에 남기신 것 옆에 보이는 이름입니다.',ME.name,20,function(v,cb){ api({action:'recMyName',name:v},function(r){ if(r.status==='ok'){ ME.name=r.name; toast('보일 이름을 바꾸었습니다',r.name); if(VIEW==='feed'){ feedView(); } } cb(r); }); }); return; }
       if(m==='kk'){ kakaoGo('link'); return; }
       if(m==='post'){ chatPost(); return; }
       if(m==='guide'){ helpSheet(); return; }
@@ -1591,7 +1600,7 @@ var HELP={
   '보는 분':['링크만 누르면 이 모임의 사진과 기억을 모두 볼 수 있습니다. 가입하지 않아도 됩니다.','사진을 눌러 크게 보세요. 혹시 그 안에 계신가요?','기억을 남기거나 「나도 기억해요」를 누르려면 카카오로 한 번만 로그인하시면 됩니다. 전화번호는 받지 않습니다.'],
   '작성자':['사진을 열고 「기억 남기기」에 한마디 쓰세요. 🎤를 누르면 음성도 함께 남습니다.','그 사진을 보면 떠오르는 분이 있으면 「떠오르는 분께 · 카톡으로 보내기」를 누르세요. 카톡 친구 · 채팅방 선택 창이 바로 열립니다.','다시 오시면 맨 위 「새 소식」에서 내 기억에 달린 답을 봅니다.','갖고 계신 사진은 오른쪽 아래 「기록 남기기」 — 한 번에 9장까지.','원하지 않는 사진은 「삭제 요청」 — 누르는 즉시 비공개로 바뀝니다.'],
   '확인자':['내 메뉴 「승인 관리」에 숫자가 뜨면 열어서 「승인」 또는 「비공개」.','신규 참여자의 첫 게시물 3건과 등록 신청이 여기로 옵니다.','삭제 요청이 2건 쌓인 분은 자동으로 작성이 제한됩니다. 확인 뒤 「제한 해제」를 누르세요.'],
-  '관리자':['처음에 「저기 내가 있나?」 싶은 사진 9장을 먼저 올려 두세요.','「함께하는 분 → 초대 링크」에서 보낼 곳마다 링크를 따로 만들어(예: 동창 단톡방 · 등산 밴드) 보내면, 어디서 몇 분이 열어 보고 참여했는지 보입니다.','「공개 설정」에서 공개 모임 · 등록 신청 승인제 · 첫 게시물 승인을 고릅니다.','엉뚱한 사람이 오면 「내보내기」(게시물도 모두 비공개) · 링크가 엉뚱한 곳에 퍼졌으면 그 링크를 지우세요.']
+  '관리자':['☰ 「모임 이름 짓기」로 「문산초 59회 우리 친구들 이야기」처럼 이 모임의 이름을 지으세요.','처음에 「저기 내가 있나?」 싶은 사진 9장을 먼저 올려 두세요.','「함께하는 분 → 초대 링크」에서 보낼 곳마다 링크를 따로 만들어(예: 동창 단톡방 · 등산 밴드) 보내면, 어디서 몇 분이 열어 보고 참여했는지 보입니다.','「공개 설정」에서 공개 모임 · 등록 신청 승인제 · 첫 게시물 승인을 고릅니다.','엉뚱한 사람이 오면 「내보내기」(게시물도 모두 비공개) · 링크가 엉뚱한 곳에 퍼졌으면 그 링크를 지우세요.']
 };
 function helpSheet(key){
   var ks=Object.keys(HELP), cur=key||(isGuest()?'보는 분':ME.role==='관리자'?'관리자':ME.role==='확인자'?'확인자':'작성자');
@@ -1602,6 +1611,34 @@ function helpSheet(key){
   sheet('<h2>이용 안내</h2><div id="hlB" style="margin-top:8px"></div><button class="btn" id="hlX" type="button">알겠습니다</button>',function(){ draw(); $('hlX').onclick=closeSheet; });
 }
 function helpBtn(){ return '<button type="button" class="sbtn" data-help="1" style="padding:4px 10px">? 안내</button>'; }
+/* ★v29 모임 이름 짓기 — 「우리 이야기」를 가운데 두고 앞뒤를 붙임(대표 18:12)
+   앞(어디 · 어느 모임) + 가운데(누구의) + 「이야기」 → 예: 문산초 59회 우리 친구들 이야기 · 황규찬네 가족 이야기 · 파주 성동리 우리 마을 이야기 */
+var NB_WHO=[['우리 친구들','우리 친구들'],['우리 동문','우리 동문'],['우리 가족','우리 가족'],['○○네 가족','네 가족'],['우리 마을','우리 마을'],['우리 모임','우리 모임'],['우리 회사','우리 회사'],['우리 학교','우리 학교'],['직접 쓰기','']];
+function nameBuild(){
+  var cur=ME.comName||'', st={front:'',who:0,ne:'',own:''};
+  var m=/^(.*?)\s*(우리 친구들|우리 동문|우리 가족|우리 마을|우리 모임|우리 회사|우리 학교)\s*이야기$/.exec(cur);
+  if(m){ st.front=m[1]; for(var i=0;i<NB_WHO.length;i++){ if(NB_WHO[i][1]===m[2]){ st.who=i; } } }
+  else { var m2=/^(.*?)\s*(\S+)네 가족 이야기$/.exec(cur); if(m2){ st.front=m2[1]; st.ne=m2[2]; st.who=3; } else if(cur){ st.who=NB_WHO.length-1; st.own=cur.replace(/\s*이야기$/,''); } }
+  function full(){ var w=NB_WHO[st.who], mid=w[1]==='네 가족'?(st.ne?st.ne+'네 가족':''):(w[1]||st.own); return [st.front.trim(),mid.trim()].filter(function(x){ return x; }).join(' ')+(mid.trim()?' 이야기':''); }
+  sheet('<h2>모임 이름 짓기</h2><p class="lead" style="margin-top:4px">「우리 이야기」를 가운데 두고 앞뒤를 붙여 이 모임만의 이름을 짓습니다. 맨 위 띠 · 카톡으로 보낸 카드에 이 이름이 보입니다.</p>'+
+    '<div class="nbv" id="nbV"></div>'+
+    '<label class="f">① 어디 · 어느 모임 <small>지역 · 학교 · 기수 · 단체 이름</small></label><input class="t" id="nbF" maxlength="20" placeholder="예: 문산초 59회 · 파주 성동리 · 창원황씨" value="'+esc(st.front)+'">'+
+    '<label class="f">② 누구의</label><div class="nbw">'+NB_WHO.map(function(w,i){ return '<button type="button" class="chip s'+(i===st.who?' on':'')+'" data-nw="'+i+'">'+w[0]+'</button>'; }).join('')+'</div>'+
+    '<div id="nbNe" style="display:none"><input class="t" id="nbNeV" maxlength="10" placeholder="예: 황규찬" value="'+esc(st.ne)+'"><small class="note">「○○네 가족 이야기」의 ○○</small></div>'+
+    '<div id="nbOwn" style="display:none"><input class="t" id="nbOwnV" maxlength="20" placeholder="예: 그때 그 시절" value="'+esc(st.own)+'"><small class="note">뒤에 「이야기」가 붙습니다</small></div>'+
+    '<label class="f">③ 이야기</label><div class="nbe">이야기 <small>— 모든 모임에 같게 붙습니다</small></div>'+
+    '<div id="nbM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="nbNo" type="button">취소</button><button class="btn" id="nbOk" type="button">이 이름으로</button></div>',function(){
+    function draw(){ var w=NB_WHO[st.who]; $('nbNe').style.display=w[1]==='네 가족'?'':'none'; $('nbOwn').style.display=w[1]===''?'':'none'; var f=full(); $('nbV').innerHTML=f?esc(f):'<span style="color:var(--sub)">이름이 여기에 보입니다</span>'; }
+    $('nbF').oninput=function(){ st.front=this.value; draw(); };
+    $('nbNeV').oninput=function(){ st.ne=this.value.trim(); draw(); };
+    $('nbOwnV').oninput=function(){ st.own=this.value; draw(); };
+    each($('dimTop'),'[data-nw]',function(b){ b.onclick=function(){ st.who=+b.getAttribute('data-nw'); each($('dimTop'),'[data-nw]',function(x){ x.classList.toggle('on',x===b); }); draw(); }; });
+    $('nbNo').onclick=closeSheet;
+    $('nbOk').onclick=function(){ var v=full(); if(!v){ $('nbM').innerHTML='<div class="err">② 누구의 이야기인지 골라 주십시오.</div>'; return; } if(v.length>40){ $('nbM').innerHTML='<div class="err">이름이 깁니다. 40자 안으로 줄여 주십시오.</div>'; return; }
+      var b=this; b.disabled=true; api({action:'recComName',name:v},function(r){ b.disabled=false; if(r.status==='ok'){ ME.comName=r.name; setTitle(); closeSheet(); toast('모임 이름을 지었습니다',r.name); if(VIEW==='feed'){ render(); } } else { $('nbM').innerHTML='<div class="err">'+esc(r.msg||'바꾸지 못했습니다')+'</div>'; } }); };
+    draw();
+  });
+}
 function textSheet(t,lead,val,max,save){
   sheet('<h2>'+esc(t)+'</h2><p class="lead" style="margin-top:4px">'+esc(lead)+'</p><input class="t" id="tsV" maxlength="'+max+'" value="'+esc(val||'')+'" style="margin-top:10px"><div id="tsM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="tsNo" type="button">취소</button><button class="btn" id="tsOk" type="button">저장</button></div>',function(){
     $('tsNo').onclick=closeSheet;
@@ -1656,7 +1693,7 @@ function pplView(){
   });
 }
 function outSheet(no,nm,after){
-  sheet('<h2 style="color:#6E2A22">'+esc(nm)+' 님 내보내기</h2><p class="lead" style="margin-top:6px">이 분은 더 이상 우리 기록에 들어오지 못합니다. 카카오로도 다시 들어오지 못합니다.</p>'+
+  sheet('<h2 style="color:#6E2A22">'+esc(nm)+' 님 내보내기</h2><p class="lead" style="margin-top:6px">이 분은 더 이상 우리 이야기에 들어오지 못합니다. 카카오로도 다시 들어오지 못합니다.</p>'+
     '<label class="chk" style="display:flex;gap:10px;align-items:flex-start;margin-top:12px;font-size:15px"><input type="checkbox" id="poWipe" style="width:22px;height:22px;flex:none"><span><b>이 분 글 모두 가리기</b><br><small style="color:var(--sub)">광고 · 엉뚱한 사진을 올린 분이면 켜 주십시오. 가린 글은 「승인 관리」에서 지울 수 있습니다.</small></span></label>'+
     '<label class="f">까닭 <small>선택 · 관리 기록에만</small></label><input class="t" id="poWhy" maxlength="60"><div class="pair" style="margin-top:14px"><button class="btn line" id="poNo" type="button">취소</button><button class="btn red" id="poGo" type="button">내보내기</button></div>',function(){
     $('poNo').onclick=closeSheet;
