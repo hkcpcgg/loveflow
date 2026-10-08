@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v27 · 261008 · [대표 261008 16:56~17:13 「카톡을 바로 열어 줘야」 · 「녹음은 되는데 글이 안 됨」 · 「단추 글자 큼」 · 자서전 서버 v45]
+<!-- ★ 현재 버전 ▶ rec/index.html · v28 · 261008 · [대표 261008 17:37 · 17:39 「크롬 · 브라우저 말 쓰지 말 것」 · 「공식 말로」 · 「초대 링크 다섯 개」 · 자서전 서버 v46]
+     ① 음성 텍스트 변환 — 카톡 안 🎤 아래 「음성을 텍스트로도 변환할까요? · 텍스트로 변환」 → 「화면이 한 번 새로 열립니다」 판 → 새 화면에서 작성 중인 내용 그대로 + 🎤 깜빡임(?v=1). 앱 · 브라우저 이름을 쓰지 않음.
+     ② 공식 말 — 보는 분 · 작성자 · 등록 신청 · 승인 · 작성 제한 · 제한 해제 · 공개 설정 · 공개 모임 · 등록 신청 승인제 · 첫 게시물 승인 · 참여 현황 · 관계 · 참여하기(말사전 4-3 · 58차 ★2).
+     ③ 보낼 곳별 초대 링크(최대 10) — 이름 · 열람 · 참여 · 기록 수 · 카톡으로 보내기 · 복사 · 지우기 · 기본 링크와 전체 관리는 접어 둠.
+     (이전) v27 · 261008 · [대표 261008 16:56~17:13 「카톡을 바로 열어 줘야」 · 「녹음은 되는데 글이 안 됨」 · 「단추 글자 큼」 · 자서전 서버 v45]
      ① 「떠오르는 분께」 = 카카오톡으로 보내기 — 누르면 카톡 친구 · 방 고르는 창이 바로 열림(카카오 공유 · JavaScript 키는 /lf/config.js) · 사진 카드 + 「기억 남기러 가기」. 안 되면 예전 길(휴대폰 공유 → 복사).
      ② 카톡 안 🎤 = 녹음만 되고 글은 막혀 있음 → 무료 두 길 안내: 「크롬(아이폰은 사파리)으로 바꿔 열기」(창이 바뀐다고 먼저 알림 · 들어온 상태와 쓰던 글을 함께 넘김 · ?t= ?w=) · 「자판의 🎤」.
      ③ 메인 화면에서 온 분(?f=home) — 서버 v45가 「신청 중」으로 받음. ④ 첫 머리 큰 단추 글자 한 줄.
@@ -417,6 +421,21 @@ html.lfx body{padding-bottom:0!important}
 .stth small{display:block;margin-top:8px;color:var(--sub);font-size:13.5px}
 .stth small b{color:var(--navy2)}
 @media (max-width:360px){.hero .pair .btn{font-size:14px;padding:10px 4px}}
+/* ── v28 보낼 곳별 초대 링크 · 음성 텍스트 변환 ── */
+.lnk{border:1px solid var(--line);border-radius:14px;padding:10px 12px;margin-top:8px;background:#FFFDF8}
+.lnk .lh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.lnk .lh>b{font-size:15.5px;color:var(--navy2)}
+.lnk .ln{font-size:13px;color:var(--sub)}.lnk .ln b{color:var(--orange);font-size:14.5px}
+.lnk .la{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.sbtn.kk2{background:#FEE500;border-color:#FEE500;color:#191919;display:inline-flex;align-items:center;gap:4px}
+.sbtn.kk2 svg{width:15px;height:15px;fill:#191919;stroke:none}
+.ladd{display:flex;gap:8px;margin-top:12px}.ladd .t{flex:1;min-width:0}.ladd .btn{width:auto;margin-top:0;padding:10px 14px;font-size:15px;white-space:nowrap;min-height:46px}
+.lbase{margin-top:14px;border-top:1px solid var(--line);padding-top:10px}
+.lbase summary{cursor:pointer;font-size:14px;color:var(--sub);font-weight:700}
+.stth .btn.sm{background:var(--navy);color:#fff}
+.mic.pulse{animation:micp 1.2s ease-in-out infinite}
+@keyframes micp{0%,100%{box-shadow:0 0 0 0 rgba(229,138,95,.6)}50%{box-shadow:0 0 0 10px rgba(229,138,95,0)}}
+@media (prefers-reduced-motion:reduce){.mic.pulse{animation:none;outline:3px solid var(--orange)}}
 </style>
 </head>
 <body data-lf-title="함께 남기는 우리 기록">
@@ -502,7 +521,8 @@ function jsonp(p,cb){
   sc.src=GAS+'?'+q.join('&')+'&callback='+name+'&t='+Date.now(); document.body.appendChild(sc);
   setTimeout(function(){ fin(null); },25000);
 }
-function roleName(r){ return {'관리자':'관리자','확인자':'확인자','올리는 사람':'작성자','참여자':'참여자','보는 사람':'보는 분'}[r]||r; }
+function roleName(r){ return {'관리자':'관리자','확인자':'확인자','올리는 사람':'작성자','참여자':'참여자','보는 사람':'보는 분','손님':'보는 분','신청 중':'등록 신청'}[r]||r; }
+function byTxt(b){ if(!b){ return ''; } return b==='메인 화면'?'메인 화면에서 신청':/ 링크$/.test(b)?b+'로 참여':b+' 님 초대'; }   /* ★v28 */
 function autoOk(){ return ME&&(ME.autoMe||ME.autoCom); }
 function isGuest(){ return !!(ME&&ME.guest); }
 function isBoss(){ return ME&&!ME.guest&&(ME.role==='관리자'||ME.role==='확인자'); }
@@ -511,7 +531,7 @@ function canTell(){ return ME&&!ME.guest&&!ME.stop&&!ME.wait&&ME.role!=='보는 
 /* ★v26 쓰려는 순간 — 손님은 카카오로 한 번 · 신청 중 · 멈춤은 까닭을 알림 */
 function gate(){
   if(isGuest()){ joinGate(); return false; }
-  if(ME&&ME.wait){ toast('함께하기 신청이 들어가 있습니다','관리자가 받으면 바로 쓰실 수 있습니다'); return false; }
+  if(ME&&ME.wait){ toast('등록 신청이 접수되어 있습니다','관리자 승인 후 작성하실 수 있습니다'); return false; }
   if(ME&&ME.stop){ toast('지금은 글을 올릴 수 없습니다','모임 관리자께 여쭤 주십시오'); return false; }
   return canTell();
 }
@@ -540,7 +560,7 @@ function boot(){
   if(code||kerr){ kakaoBack(code,kerr,sp.get('state')||''); return; }
   if(k){ sset(KEY,k.toLowerCase()); }
   var f0=(sp.get('f')||'').trim(), f=(f0==='home')?'home':f0.replace(/[^a-f0-9]/gi,'').slice(0,10); if(f){ sset('lf_rec_f',f); } FROM=f||sget('lf_rec_f');   /* ★v27 home = 메인 화면에서 옴 */
-  var tx=(sp.get('t')||'').slice(0,3000), w=(sp.get('w')||'');   /* ★v27 크롬으로 옮겨 온 쓰던 글 */
+  var tx=(sp.get('t')||'').slice(0,3000), w=(sp.get('w')||''); VIA=sp.get('v')==='1';   /* ★v27 크롬으로 옮겨 온 쓰던 글 */
   if(tx&&OPEN_R){ DRAFT_T=tx; } if(['사진','영상','글','링크'].indexOf(w)>-1){ PEND_ADD={type:w,title:(sp.get('tt')||'').slice(0,60),text:tx}; }
   if(k||g||OPEN_R||f||tx||w){ try{ history.replaceState(null,'',location.pathname+(g&&!k?'?g='+encodeURIComponent(g):'')); }catch(e){} }   /* 열쇠는 주소창에서 바로 지움(160) */
   K=sget(KEY)||(k?k.toLowerCase():'');
@@ -551,7 +571,7 @@ function boot(){
 /* ★v26 열린 모임이면 가입 없이 전체를 봄 · 닫힌 방이면 지금처럼 들어오기 화면 */
 function guestIn(g){
   G=g; wait($('main'),'우리 기록을 여는 중입니다');
-  api({action:'recHome',g:g,mode:F.sort,n:'20'},function(d){
+  api({action:'recHome',g:g,f:FROM||'',mode:F.sort,n:'20'},function(d){
     if(d.status!=='ok'||!d.guest){ G=''; joinForm(g); return; }
     ME={guest:1,name:'',role:'손님',comName:d.comName,room:d.room,stat:d.stat,best:d.best}; setTitle(); CATS=d.cats||[]; QN=0;
     if(d.list&&d.list.status==='ok'){ LIST=d.list.items; LMORE=d.list.more; LNEXT=d.list.next; LKEY=feedKey(); }
@@ -602,12 +622,12 @@ function pickCom(items,cb){
 function nameFirst(n,waitIn){
   $('main').innerHTML='<div class="card" style="margin-top:16px"><h2>반갑습니다</h2><p class="lead">남기신 것 옆에 이 이름이 보입니다. 동문 · 가족이 알아보기 쉬운 이름으로 적어 주십시오.</p>'+
     '<label class="f">보일 이름</label><input class="t" id="fn" maxlength="20" value="'+esc(n==='이름 없음'?'':n)+'">'+
-    '<label class="f">이 모임과 어떤 사이인가요? <small>'+(waitIn?'관리자가 보고 받습니다':'선택')+'</small></label><input class="t" id="frel" maxlength="40" placeholder="예: 82년 졸업 3반 · 4학년 담임 · 김○○ 딸">'+
-    (waitIn?'<div class="safe"><b>함께하기 신청이 들어갑니다</b>관리자가 받으면 바로 기억을 남기실 수 있습니다. 그동안 둘러보실 수 있습니다.</div>':'')+
+    '<label class="f">이 모임과의 관계 <small>'+(waitIn?'관리자가 확인 후 승인합니다':'선택')+'</small></label><input class="t" id="frel" maxlength="40" placeholder="예: 82년 졸업 3반 · 4학년 담임 · 김○○ 딸">'+
+    (waitIn?'<div class="safe"><b>등록 신청이 접수됩니다</b>관리자 승인 후 기억을 남기실 수 있습니다. 그동안 모든 기록을 보실 수 있습니다.</div>':'')+
     '<button type="button" class="btn" id="fnok">들어가기</button><div id="fnm"></div></div>';
   $('fnok').onclick=function(){
     var v=$('fn').value.trim(), rl=$('frel').value.trim(); if(!v){ $('fnm').innerHTML='<div class="err">보일 이름을 적어 주십시오.</div>'; return; }
-    if(waitIn&&!rl){ $('fnm').innerHTML='<div class="err">어떤 사이인지 한 줄 적어 주십시오.</div>'; return; }
+    if(waitIn&&!rl){ $('fnm').innerHTML='<div class="err">이 모임과의 관계를 한 줄 적어 주십시오. (예: 82년 졸업 3반)</div>'; return; }
     if(v===n&&!rl){ loadMe(); return; }
     var b=this; b.disabled=true;
     api({action:'recMyName',name:v,rel:rl},function(r){ if(r.status==='ok'){ loadMe(); } else { b.disabled=false; $('fnm').innerHTML='<div class="err">'+esc(r.msg||'저장하지 못했습니다.')+'</div>'; } });
@@ -638,11 +658,12 @@ function loadMe(g){
     if(dr&&dr.r&&!DRAFT_T){ OPEN_R=dr.r; DRAFT_T=dr.t||''; }
     if(OPEN_R){ var r=OPEN_R; OPEN_R=''; STACK.push({v:'item',id:r}); holdHistory(); }
     render();
-    if(PEND_ADD&&canAdd()){ var pa=PEND_ADD; PEND_ADD=null; A=newA(); A.type=pa.type; A.title=pa.title; A.text=pa.text; go('add'); toast('쓰시던 글을 그대로 가져왔습니다',pa.type==='사진'?'사진은 여기서 다시 골라 주십시오':'🎤를 누르고 말씀하시면 글로 적힙니다'); }
-    if(ME.wait){ toast('함께하기 신청이 들어가 있습니다','관리자가 받으면 바로 쓰실 수 있습니다'); }
+    if(PEND_ADD&&canAdd()){ var pa=PEND_ADD; PEND_ADD=null; A=newA(); A.type=pa.type; A.title=pa.title; A.text=pa.text; go('add'); if(VIA){ setTimeout(function(){ viaHint(pa.type==='글'?'aT':pa.type==='링크'?'lkX':'ax2'); },300); } else { toast('작성 중이던 내용을 가져왔습니다'); } }
+    if(ME.wait){ toast('등록 신청이 접수되어 있습니다','관리자 승인 후 작성하실 수 있습니다'); }
   });
 }
-var DRAFT_T='', PEND_ADD=null;
+var DRAFT_T='', PEND_ADD=null, VIA=false;   /* ★v28 VIA = 음성 텍스트 변환으로 다시 열림 */
+function viaHint(id){ if(!VIA){ return; } VIA=false; var m=document.querySelector('[data-mic="'+id+'"]'); if(m){ m.classList.add('pulse'); } toast('작성 중이던 내용을 가져왔습니다','🎤를 누르면 음성이 텍스트로 입력됩니다'); }
 function queueCount(){ if(!isBoss()){ return; } api({action:'recQueue'},function(q){ if(q.status==='ok'){ QN=q.items.length+q.links.length+(q.cats||[]).length+(q.people||[]).length; drawBadge(); } }); }
 function loadCats(cb){ api({action:'recCats'},function(d){ CATS=(d.status==='ok')?d.items:[]; if(cb){ cb(); } }); }
 function setTitle(){ try{ var t=document.querySelector('.lfx-title'); if(t&&ME&&ME.comName){ t.textContent=ME.comName; } document.title=(ME&&ME.comName?ME.comName+' · ':'')+'사랑흐름'; }catch(e){} }
@@ -681,7 +702,7 @@ function render(){
   if(STACK.length===1&&HELD){ HELD=false; IGN=true; try{ history.back(); }catch(e){ IGN=false; } }
   var top=STACK[STACK.length-1], was=VIEW; VIEW=top.v;
   $('fab').hidden=!(VIEW==='feed'&&(canAdd()||isGuest())); $('navbar').hidden=(VIEW!=='add');
-  $('fab').lastChild.textContent=isGuest()?'함께하기':'기록 남기기';
+  $('fab').lastChild.textContent=isGuest()?'참여하기':'기록 남기기';
   if(VIEW==='feed'){ feedView(); if(was&&was!=='feed'&&was!=='add'){ setTimeout(function(){ window.scrollTo(0,FEEDY); },30); } return; }
   window.scrollTo(0,0);
   if(VIEW==='item'){ itemView(top.id); }
@@ -713,7 +734,7 @@ function feedView(){
   var nm=((ME&&ME.name)||'나').trim();
   $('main').innerHTML='<div class="head"><div class="bar"><button class="rnd home" id="hm" type="button" aria-label="처음으로">'+ic('home')+'</button>'+
     '<form class="search" id="sf" role="search"><input id="fq" type="search" enterkeyhint="search" placeholder="검색 (예: 70년대 가족 사진)" value="'+esc(F.q)+'"><button type="submit" aria-label="검색">'+ic('look')+'</button></form>'+
-    (isGuest()?'<button class="rnd me" id="mc" type="button" aria-label="함께하기" style="background:var(--orange)">'+ic('plus')+'</button>':'<button class="rnd me" id="mc" type="button" aria-label="내 메뉴">'+esc(nm.charAt(0))+'<span class="dot" id="meDot" style="display:none"></span></button>')+'</div><div class="strip" id="strip"></div></div><div id="feed"></div>';
+    (isGuest()?'<button class="rnd me" id="mc" type="button" aria-label="참여하기" style="background:var(--orange)">'+ic('plus')+'</button>':'<button class="rnd me" id="mc" type="button" aria-label="내 메뉴">'+esc(nm.charAt(0))+'<span class="dot" id="meDot" style="display:none"></span></button>')+'</div><div class="strip" id="strip"></div></div><div id="feed"></div>';
   drawBadge(); stripDraw();
   $('hm').onclick=function(){ F={sort:F.sort,kind:'',cat:'',q:''}; LKEY=''; feedView(); window.scrollTo(0,0); };
   $('sf').onsubmit=function(e){ e.preventDefault(); F.q=$('fq').value.trim(); LKEY=''; $('fq').blur(); feedView(); };
@@ -791,7 +812,7 @@ function feedDraw(){
 }
 function yearHead(it){ if(!it.y||it.y>=99999){ return '연도를 아직 모르는 기록'; } var y=Math.floor(it.y); return (/년대/.test(it.when||'')&&it.y-y<0.05)?y+'년대':y+'년'; }
 function guideHtml(){
-  var key=isGuest()?'처음 오신 분':ME.role==='관리자'?'관리자':ME.role==='확인자'?'확인자':'함께하는 분';
+  var key=isGuest()?'보는 분':ME.role==='관리자'?'관리자':ME.role==='확인자'?'확인자':'작성자';
   return '<div class="card foot2" id="gd"><h2>이용 안내 <small style="font-family:var(--f-body);font-size:13px;color:var(--sub);font-weight:400">'+key+'</small></h2><ul class="chk" style="margin-top:8px">'+HELP[key].slice(0,3).map(function(x,i){ return '<li><b>'+(i+1)+'</b><span>'+esc(x)+'</span></li>'; }).join('')+'</ul><div class="pair"><button class="btn line" id="gdMore" type="button">안내 더 보기</button><button class="btn line" id="gdok" type="button">맨 위로</button></div></div>';
 }
 /* 카드 */
@@ -916,7 +937,7 @@ function drawItem(it,fresh){
     h+='<div class="ask" id="ask"><div class="note" style="margin:0 0 2px;color:var(--gold2);font-weight:800">함께 답하는 질문</div><div class="q">'+esc(emp?Q[emp[1]]:(it.next&&it.next.q)||'이 기록에 대해 기억나는 것이 있으신가요?')+'</div>'+
       (emp&&emp[1]==='when'?'<button class="btn line" id="askW" type="button" style="margin:0 0 10px">'+ic('clock')+'연도 고르기</button>':'')+
       '<div class="mf"><textarea id="memT" placeholder="떠오르는 장면을 마음 가는 대로 들려주세요 · 🎤를 누르고 말씀하셔도 됩니다"></textarea>'+micBtn('memT')+'</div><div class="hear" id="hear_memT"></div>'+
-      '<button class="btn warm" id="memGo" type="button">'+ic('grape')+'기억 남기기</button><div class="note">'+(isGuest()?'처음 한 번만 카카오로 들어오시면 남겨집니다.':ME.wait?'관리자가 함께하기를 받으면 남겨집니다.':((it.state==='실림'||!it.state||autoOk())?'남기신 기억은 바로 공개됩니다.':'남기신 기억은 승인 후 공개됩니다.'))+'</div></div>';
+      '<button class="btn warm" id="memGo" type="button">'+ic('grape')+'기억 남기기</button><div class="note">'+(isGuest()?'처음 한 번만 카카오로 들어오시면 남겨집니다.':ME.wait?'관리자 승인 후 남기실 수 있습니다.':((it.state==='실림'||!it.state||autoOk())?'남기신 기억은 바로 공개됩니다.':'남기신 기억은 승인 후 공개됩니다.'))+'</div></div>';
   }
   h+='<div class="card" id="talkc" style="margin-top:12px"><h2>'+ic('talk')+' 대화</h2><div id="talks"></div>'+
     (canTell()?'<div class="mf" style="margin-top:8px"><textarea id="tkT" maxlength="300" style="min-height:70px" placeholder="이 기록을 보며 나누고 싶은 이야기"></textarea>'+micBtn('tkT')+'</div><div class="hear" id="hear_tkT"></div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px"><small class="note" id="tkN" style="margin:0">0 / 300</small><button class="sbtn" id="tkGo" type="button" style="background:var(--navy);color:#fff">보내기</button></div>'
@@ -933,7 +954,8 @@ function drawItem(it,fresh){
   if(others.length){ drawList($('oth'),others); }
   $('rx').onclick=function(){ if(!gate()){ return; } react(it); };
   if($('tkJoin')){ $('tkJoin').onclick=joinGate; }
-  if(DRAFT_T&&$('memT')){ $('memT').value=DRAFT_T; DRAFT_T=''; setTimeout(function(){ var a=$('ask'); if(a){ a.scrollIntoView({behavior:'smooth',block:'center'}); } toast('쓰시던 글을 그대로 가져왔습니다','「기억 남기기」를 눌러 주십시오'); },400); }
+  if(VIA&&$('memT')){ if(DRAFT_T){ $('memT').value=DRAFT_T; DRAFT_T=''; } setTimeout(function(){ var a=$('ask'); if(a){ a.scrollIntoView({behavior:'smooth',block:'center'}); } viaHint('memT'); },400); }
+  else if(DRAFT_T&&$('memT')){ $('memT').value=DRAFT_T; DRAFT_T=''; setTimeout(function(){ var a=$('ask'); if(a){ a.scrollIntoView({behavior:'smooth',block:'center'}); } toast('쓰시던 글을 그대로 가져왔습니다','「기억 남기기」를 눌러 주십시오'); },400); }
   $('tx').onclick=function(){ var c=$('talkc'); if(c){ c.scrollIntoView({behavior:'smooth',block:'start'}); } setTimeout(function(){ if($('tkT')){ $('tkT').focus(); } },400); };
   $('sx').onclick=function(){ shareRec(it); };
   if($('tkGo')){ $('tkT').oninput=function(){ $('tkN').textContent=this.value.length+' / 300'; }; $('tkGo').onclick=function(){ talkSend(it,this); }; }
@@ -1152,11 +1174,12 @@ function micGo(b){
     }).catch(function(){ if(hear){ hear.textContent='마이크를 쓸 수 있게 「허용」을 눌러 주십시오. 안 되면 자판의 🎤를 써 주십시오.'; } if(MIC===M){ M.mr=null; startSR(); if(!SR){ stopMic(); } } });
   } else { if(hear){ hear.textContent='이 화면은 녹음을 못 합니다 · 받아 적기만 합니다'; } startSR(); if(!SR){ stopMic(); if(hear){ hear.textContent='이 화면에서는 말로 쓰기가 되지 않습니다. 자판의 🎤(마이크)를 눌러 말씀해 주십시오.'; } } }
 }
-/* ★v27 카톡 안 — 받아 적기 두 길(무료): ① 크롬(아이폰은 사파리)으로 바꿔 열기 ② 자판의 🎤 */
+/* ★v28 카톡 안 — 음성 텍스트 변환(무료 두 길): ① 「텍스트로 변환」 = 기본 인터넷 앱으로 이 화면을 다시 열어 받아 적기 ② 자판의 🎤(음성 입력)
+   화면 말에 앱 · 브라우저 이름을 쓰지 않음(대표 17:37 · 말사전 「기술 말 · 기술 선택 내놓지 않음」) */
 function sttHelp(done){
-  return '<div class="stth"><b>'+(done?'목소리를 녹음했습니다.':'목소리를 녹음하고 있습니다.')+'</b> 카카오톡 안에서는 말씀이 글로 바뀌지 않습니다. 글로도 남기시려면 둘 중 하나를 고르세요.'+
-    '<button type="button" class="btn line sm" data-chrome="1">'+ic('share','sm')+'크롬으로 바꿔 열기 · 말하면 글로 적힘</button>'+
-    '<small>또는 글 칸을 누른 뒤 <b>자판의 🎤(마이크)</b>를 누르고 말씀하세요.</small></div>';
+  return '<div class="stth"><b>'+(done?'녹음되었습니다.':'녹음 중입니다.')+'</b> 음성을 텍스트로도 변환할까요?'+
+    '<button type="button" class="btn sm" data-chrome="1">'+ic('mic','sm')+'텍스트로 변환</button>'+
+    '<small>또는 입력 칸을 누른 뒤 자판의 🎤(음성 입력)를 사용하셔도 됩니다.</small></div>';
 }
 function bindSttHelp(el){ each(el,'[data-chrome]',function(b){ b.onclick=chromeSheet; }); }
 function chromeUrl(){
@@ -1167,12 +1190,12 @@ function chromeUrl(){
   return location.origin+'/rec/'+(q.length?'?'+q.join('&'):'');
 }
 function chromeSheet(){
-  var ios=/iPhone|iPad|iPod/i.test(navigator.userAgent||''), nm=ios?'사파리':'크롬';
   stopMic();
-  sheet('<h2>'+nm+'으로 바꿔 엽니다</h2><p class="lead" style="margin-top:6px"><b>창이 '+nm+'으로 바뀝니다.</b> 들어온 상태와 쓰시던 글은 그대로 갑니다'+(VIEW==='add'&&A.photos.length?'(고르신 사진은 '+nm+'에서 다시 골라 주십시오)':'')+'.</p><p class="lead">'+nm+'에서 🎤를 다시 누르고 말씀하시면 <b>글로 적히고 목소리도 함께</b> 남습니다(여기서 녹음한 것은 넘어가지 않습니다). 다 쓰시면 거기서 그대로 올리시면 됩니다.</p>'+
-    '<div class="pair" style="margin-top:14px"><button class="btn line" id="crNo" type="button">그대로 두기</button><button class="btn" id="crGo" type="button">'+nm+'으로 열기</button></div>',function(){
+  sheet('<h2>음성 텍스트 변환</h2><p class="lead" style="margin-top:6px">변환 화면을 엽니다. 사랑흐름 「우리 기록」 화면 그대로이며, <b>작성 중인 내용도 함께 옮겨집니다.</b> 화면이 한 번 새로 열립니다.</p>'+
+    '<p class="lead">새 화면에서 🎤를 누르면 음성이 텍스트로 입력되고, 음성도 함께 저장됩니다.'+(VIEW==='add'&&A.photos.length?' 선택한 사진은 새 화면에서 다시 선택해 주십시오.':'')+'</p>'+
+    '<div class="pair" style="margin-top:14px"><button class="btn line" id="crNo" type="button">취소</button><button class="btn" id="crGo" type="button">텍스트로 변환</button></div>',function(){
     $('crNo').onclick=closeSheet;
-    $('crGo').onclick=function(){ var u=chromeUrl(); closeSheet(); location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(u); };
+    $('crGo').onclick=function(){ var u=chromeUrl(); closeSheet(); location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(u+(u.indexOf('?')>-1?'&':'?')+'v=1'); };
   });
 }
 /* 보낼 목소리 — 그 화면의 칸들 가운데 녹음된 것(마지막에 녹음한 칸 먼저) */
@@ -1565,13 +1588,13 @@ function meMenu(){
 }
 /* ★v26 이용 안내 — 역할마다 몇 줄 · 화면마다 「?」 */
 var HELP={
-  '처음 오신 분':['링크만 누르면 우리 모임 사진과 기억을 모두 볼 수 있습니다.','사진을 눌러 크게 보세요. 혹시 그 안에 계신가요?','기억을 남기거나 「나도 기억해요」를 누르면 카카오로 한 번만 들어오시면 됩니다. 전화번호는 받지 않습니다.'],
-  '함께하는 분':['사진을 열고 「기억 남기기」에 한마디 — 🎤를 누르고 말씀하셔도 글로 적힙니다.','그 사진을 보면 떠오르는 분이 있으면 「떠오르는 분께 · 카톡으로 보내기」를 누르세요. 카톡 친구 · 방 고르는 창이 바로 열립니다.','다시 오시면 맨 위 「새 소식」에서 내 기억에 달린 답을 봅니다.','갖고 계신 사진은 오른쪽 아래 「기록 남기기」 — 한 번에 9장까지.','원하지 않는 사진은 「삭제 요청」 — 누르는 즉시 가려집니다.'],
-  '확인자':['내 메뉴 「승인 관리」에 숫자가 뜨면 열어서 「승인」 또는 「비공개」.','새로 온 분의 첫 사진 3건과 함께하기 신청이 여기로 옵니다.','삭제 요청이 2건 쌓인 분은 저절로 쓰기가 멈춥니다. 확인 뒤 「풀기」를 누르세요.'],
-  '관리자':['처음에 「저기 내가 있나?」 싶은 사진 9장을 먼저 올려 두세요.','내 메뉴 「단톡방에 올릴 글」을 복사해 동문 단톡방 · 밴드에 올리세요.','「함께하는 분」에서 열린 모임 · 받기 방식 · 새 분 확인을 고르고, 퍼짐 숫자를 봅니다.','엉뚱한 사람이 오면 「내보내기」(글도 모두 가리기) · 링크가 퍼졌으면 「새로 만들기」.']
+  '보는 분':['링크만 누르면 이 모임의 사진과 기억을 모두 볼 수 있습니다. 가입하지 않아도 됩니다.','사진을 눌러 크게 보세요. 혹시 그 안에 계신가요?','기억을 남기거나 「나도 기억해요」를 누르려면 카카오로 한 번만 로그인하시면 됩니다. 전화번호는 받지 않습니다.'],
+  '작성자':['사진을 열고 「기억 남기기」에 한마디 쓰세요. 🎤를 누르면 음성도 함께 남습니다.','그 사진을 보면 떠오르는 분이 있으면 「떠오르는 분께 · 카톡으로 보내기」를 누르세요. 카톡 친구 · 채팅방 선택 창이 바로 열립니다.','다시 오시면 맨 위 「새 소식」에서 내 기억에 달린 답을 봅니다.','갖고 계신 사진은 오른쪽 아래 「기록 남기기」 — 한 번에 9장까지.','원하지 않는 사진은 「삭제 요청」 — 누르는 즉시 비공개로 바뀝니다.'],
+  '확인자':['내 메뉴 「승인 관리」에 숫자가 뜨면 열어서 「승인」 또는 「비공개」.','신규 참여자의 첫 게시물 3건과 등록 신청이 여기로 옵니다.','삭제 요청이 2건 쌓인 분은 자동으로 작성이 제한됩니다. 확인 뒤 「제한 해제」를 누르세요.'],
+  '관리자':['처음에 「저기 내가 있나?」 싶은 사진 9장을 먼저 올려 두세요.','「함께하는 분 → 초대 링크」에서 보낼 곳마다 링크를 따로 만들어(예: 동창 단톡방 · 등산 밴드) 보내면, 어디서 몇 분이 열어 보고 참여했는지 보입니다.','「공개 설정」에서 공개 모임 · 등록 신청 승인제 · 첫 게시물 승인을 고릅니다.','엉뚱한 사람이 오면 「내보내기」(게시물도 모두 비공개) · 링크가 엉뚱한 곳에 퍼졌으면 그 링크를 지우세요.']
 };
 function helpSheet(key){
-  var ks=Object.keys(HELP), cur=key||(isGuest()?'처음 오신 분':ME.role==='관리자'?'관리자':ME.role==='확인자'?'확인자':'함께하는 분');
+  var ks=Object.keys(HELP), cur=key||(isGuest()?'보는 분':ME.role==='관리자'?'관리자':ME.role==='확인자'?'확인자':'작성자');
   function draw(){
     $('hlB').innerHTML='<div class="strip" style="padding:0 0 10px;margin:0">'+ks.map(function(k){ return '<button type="button" class="chip s'+(k===cur?' on':'')+'" data-hk="'+k+'">'+k+'</button>'; }).join('')+'</div><ul class="chk">'+HELP[cur].map(function(x,i){ return '<li><b>'+(i+1)+'</b><span>'+esc(x)+'</span></li>'; }).join('')+'</ul>';
     each($('hlB'),'[data-hk]',function(b){ b.onclick=function(){ cur=b.getAttribute('data-hk'); draw(); }; });
@@ -1602,31 +1625,31 @@ function pplView(){
     if(VIEW!=='ppl'){ return; }
     if(d.status!=='ok'){ $('pq').innerHTML='<div class="msg">'+esc(d.msg||'')+'</div>'; return; }
     var sp=d.spread||{}, open=d.room==='열린 모임';
-    var h='<div class="card"><h2>모임 문</h2>'+
-      swRow('tgRoom',open,'열린 모임','켜면 링크를 받은 누구나 가입 없이 둘러봅니다. 남기려면 카카오로 한 번 들어옵니다.',!boss)+
-      swRow('tgTake',d.take==='받기','함께하기 신청 받기','켜면 다른 분이 데려온 새 분은 관리자 · 확인자가 「받기」를 눌러야 글을 씁니다. 관리자가 보낸 초대 링크로 온 분은 바로 들어옵니다.',!boss)+
-      swRow('tgChk',d.check!=='아니오','새 분 첫 글 확인','켜면 새 분의 처음 사진 · 링크 · 영상 3건은 확인 뒤 공개됩니다. 엉뚱한 광고를 막습니다.',!boss)+
+    var h='<div class="card"><h2>공개 설정</h2>'+
+      swRow('tgRoom',open,'공개 모임','켜면 링크를 받은 누구나 가입 없이 모든 기록을 봅니다. 기억을 남기려면 카카오로 한 번 로그인합니다. 끄면 참여자만 봅니다.',!boss)+
+      swRow('tgTake',d.take==='받기','등록 신청 승인제','켜면 참여자가 공유한 링크로 온 분은 관리자 · 확인자의 「승인」 뒤 작성할 수 있습니다. 관리자 초대 링크로 온 분은 바로 참여합니다. 메인 화면에서 온 분은 늘 승인 뒤 작성합니다.',!boss)+
+      swRow('tgChk',d.check!=='아니오','첫 게시물 승인','켜면 신규 참여자의 첫 사진 · 링크 · 영상 3건은 승인 뒤 공개됩니다. 광고 · 스팸을 막습니다.',!boss)+
       swRow('tgc',!!d.autoCom,'승인 없이 바로 공개','켜면 모든 분이 올린 기록이 바로 공개됩니다. 가족처럼 믿는 모임에 맞습니다.',!boss)+
-      '<p class="note">새 분은 들어온 날 사진 9장까지 올립니다. 한 분의 글에 삭제 요청이 2번 들어오면 그분은 쓰기가 멈추고, 여기서 풀 수 있습니다.</p></div>'+
-      '<div class="card"><h2>얼마나 퍼졌나</h2><div class="spread"><span><b>'+(sp.people||0)+'</b>함께하는 분</span><span><b>'+(sp.wrote||0)+'</b>남긴 분</span><span><b>'+(sp.sent||0)+'</b>보낸 분</span><span><b>'+(sp.brought||0)+'</b>데려온 새 분</span></div></div>'+
+      '<p class="note">신규 참여자는 첫날 사진 9장까지 올립니다. 한 분의 게시물에 삭제 요청이 2건 들어오면 자동으로 작성이 제한되고, 여기서 해제할 수 있습니다.</p></div>'+
+      '<div class="card"><h2>참여 현황</h2><div class="spread"><span><b>'+(sp.people||0)+'</b>참여자</span><span><b>'+(sp.wrote||0)+'</b>기록 남긴 분</span><span><b>'+(sp.sent||0)+'</b>공유한 분</span><span><b>'+(sp.brought||0)+'</b>링크로 온 분</span></div></div>'+
       '<div class="card"><h2>함께하는 분 '+d.items.length+'</h2><p class="lead">「바로 공개」를 켠 분이 올린 기록은 승인 없이 공개됩니다.</p>'+
       d.items.map(function(x){ var fixed=(x.role==='관리자'||x.role==='확인자');
-        var sub=esc(roleName(x.role))+(x.rel?' · '+esc(x.rel):'')+(x.by?' · '+esc(x.by)+' 님이 데려옴':'')+(x.brought?' · '+x.brought+'분 데려옴':'');
-        return '<div class="sw"><span><b>'+esc(x.name||'(이름 없음)')+(x.me?' (나)':'')+(x.stop?' <span class="tag t-hide">쓰기 멈춤</span>':'')+(x.role==='신청 중'?' <span class="tag t-wait">신청 중</span>':'')+'</b><small>'+sub+'</small></span>'+
+        var sub=esc(roleName(x.role))+(x.rel?' · '+esc(x.rel):'')+(x.by?' · '+esc(byTxt(x.by)):'')+(x.brought?' · '+x.brought+'분 초대':'');
+        return '<div class="sw"><span><b>'+esc(x.name||'(이름 없음)')+(x.me?' (나)':'')+(x.stop?' <span class="tag t-hide">작성 제한</span>':'')+(x.role==='신청 중'?' <span class="tag t-wait">등록 신청</span>':'')+'</b><small>'+sub+'</small></span>'+
           '<span style="display:flex;gap:6px;align-items:center;flex:none;flex-wrap:wrap;justify-content:flex-end">'+
-          (x.role==='신청 중'?'<button type="button" class="sbtn" style="background:var(--navy);color:#fff" data-ok="'+esc(x.no)+'" data-act="받기">받기</button>':'')+
-          (x.stop?'<button type="button" class="sbtn" data-ok="'+esc(x.no)+'" data-act="풀기">풀기</button>':'')+
+          (x.role==='신청 중'?'<button type="button" class="sbtn" style="background:var(--navy);color:#fff" data-ok="'+esc(x.no)+'" data-act="받기">승인</button>':'')+
+          (x.stop?'<button type="button" class="sbtn" data-ok="'+esc(x.no)+'" data-act="풀기">제한 해제</button>':'')+
           (fixed||x.role==='신청 중'?'':'<button type="button" class="tg'+(x.auto?' on':'')+'" data-no="'+esc(x.no)+'"'+(boss?'':' disabled')+' aria-label="바로 공개"></button>')+
           (boss&&!x.me&&x.role!=='관리자'?'<button type="button" class="sbtn red" data-out="'+esc(x.no)+'" data-nm="'+esc(x.name||'')+'">내보내기</button>':'')+'</span></div>'; }).join('')+
-      (boss?'':'<p class="note">모임 문 · 공개 방식 · 내보내기는 관리자만 바꿉니다. 「받기」 · 「풀기」는 확인자도 합니다.</p>')+'</div>';
+      (boss?'':'<p class="note">공개 설정 · 내보내기는 관리자만 바꿉니다. 「승인」 · 「제한 해제」는 확인자도 합니다.</p>')+'</div>';
     $('pq').innerHTML=h;
-    each($('pq'),'[data-ok]',function(b){ b.onclick=function(){ b.disabled=true; var act=b.getAttribute('data-act'); api({action:'recPersonOk',no:b.getAttribute('data-ok'),act:act},function(r){ if(r.status==='ok'){ toast(act==='받기'?'함께하기를 받았습니다':'쓰기 멈춤을 풀었습니다'); pplView(); } else { b.disabled=false; toast(r.msg||'처리하지 못했습니다'); } }); }; });
+    each($('pq'),'[data-ok]',function(b){ b.onclick=function(){ b.disabled=true; var act=b.getAttribute('data-act'); api({action:'recPersonOk',no:b.getAttribute('data-ok'),act:act},function(r){ if(r.status==='ok'){ toast(act==='받기'?'등록을 승인했습니다':'작성 제한을 해제했습니다'); pplView(); } else { b.disabled=false; toast(r.msg||'처리하지 못했습니다'); } }); }; });
     if(!boss){ return; }
     var setSw=function(id,key,onV,offV,msgOn,msgOff){ $(id).onclick=function(){ var b=this, on=!b.classList.contains('on'), p={action:'recComSet'}; p[key]=on?onV:offV; b.disabled=true;
       api(p,function(r){ b.disabled=false; if(r.status==='ok'){ var v=r[key]; b.classList.toggle('on',v===onV||(key==='check'&&v!=='아니오'&&onV==='예')); if(key==='room'){ ME.room=v; } toast(on?msgOn:msgOff); } else { toast(r.msg||'바꾸지 못했습니다'); } }); }; };
-    setSw('tgRoom','room','열린 모임','닫힌 방','열린 모임 — 링크로 누구나 둘러봅니다','닫힌 방 — 들어온 분만 봅니다');
-    setSw('tgTake','take','받기','바로','새 분은 「받기」 뒤에 글을 씁니다','새 분이 바로 들어옵니다');
-    setSw('tgChk','check','예','아니오','새 분 첫 글은 확인 뒤 공개합니다','새 분 첫 글도 바로 공개합니다');
+    setSw('tgRoom','room','열린 모임','닫힌 방','공개 모임 — 링크로 누구나 봅니다','비공개 — 참여자만 봅니다');
+    setSw('tgTake','take','받기','바로','등록 신청은 승인 뒤 작성합니다','링크로 온 분이 바로 참여합니다');
+    setSw('tgChk','check','예','아니오','첫 게시물은 승인 뒤 공개합니다','첫 게시물도 바로 공개합니다');
     $('tgc').onclick=function(){ var b=this, on=!b.classList.contains('on'); b.disabled=true; api({action:'recComAuto',on:on?'1':'0'},function(r){ b.disabled=false; if(r.status==='ok'){ b.classList.toggle('on',!!r.autoCom); ME.autoCom=r.autoCom; toast(r.autoCom?'승인 없이 바로 공개합니다':'승인 후 공개합니다'); } else { toast(r.msg||'바꾸지 못했습니다'); } }); };
     each($('pq'),'[data-no]',function(b){ b.onclick=function(){ var on=!b.classList.contains('on'); b.disabled=true; api({action:'recPersonAuto',no:b.getAttribute('data-no'),on:on?'1':'0'},function(r){ b.disabled=false; if(r.status==='ok'){ b.classList.toggle('on',!!r.auto); } else { toast(r.msg||'바꾸지 못했습니다'); } }); }; });
     each($('pq'),'[data-out]',function(b){ b.onclick=function(){ outSheet(b.getAttribute('data-out'),b.getAttribute('data-nm'),pplView); }; });
@@ -1640,20 +1663,33 @@ function outSheet(no,nm,after){
     $('poGo').onclick=function(){ this.disabled=true; api({action:'recPersonOut',no:no,why:$('poWhy').value.trim(),wipe:$('poWipe').checked?'1':'0'},function(r){ closeSheet(); if(r.status==='ok'){ LKEY=''; toast(nm+' 님을 내보냈습니다',r.hid?'글 '+r.hid+'건을 가렸습니다':'링크가 엉뚱한 곳에 퍼졌다면 「새로 만들기」를 눌러 주십시오'); after(); } else { toast(r.msg||'처리하지 못했습니다'); } }); };
   });
 }
-function invDraw(act){
+function invDraw(act,extra){
   var el=$('inv'); if(!el){ return; }
   if(!act){ wait(el,'초대 링크를 여는 중입니다'); }
-  api({action:'recInvite',act:act||'see'},function(r){
+  var p={action:'recInvite',act:act||'see'}; if(extra){ for(var k in extra){ p[k]=extra[k]; } }
+  api(p,function(r){
     if(VIEW!=='ppl'||!$('inv')){ return; }
-    if(r.status!=='ok'){ el.innerHTML='<div class="msg">'+esc(r.msg||'')+'</div>'; return; }
-    el.innerHTML='<div class="card"><h2>초대 링크</h2>'+(r.open?'<p class="lead">이 링크를 받은 분은 카카오로 들어옵니다. 카톡방 · 문자로 보내 주십시오.</p><div class="linkbox">'+esc(r.link)+'</div>'+
-        '<div class="pair" style="margin-top:10px"><button class="btn" id="ivCopy" type="button" style="margin-top:0">링크 복사</button><button class="btn line" id="ivShare" type="button" style="margin-top:0">'+ic('share')+'보내기</button></div>'
-        :'<p class="lead">지금은 새 분을 받지 않습니다. 이미 들어온 분은 그대로입니다.</p>')+
-      '<div class="pair" style="margin-top:10px"><button class="btn line" id="ivNew" type="button" style="margin-top:0">새로 만들기</button><button class="btn line" id="ivStop" type="button" style="margin-top:0">'+(r.open?'새 분 받기 멈춤':'다시 받기')+'</button></div>'+
-      '<p class="note">링크가 엉뚱한 곳에 퍼졌으면 「새로 만들기」 — 옛 링크는 막히고 새 링크만 열립니다.</p></div>';
+    if(r.status!=='ok'){ toast(r.msg||'처리하지 못했습니다'); if(act){ invDraw(); } else { el.innerHTML='<div class="msg">'+esc(r.msg||'')+'</div>'; } return; }
+    var L=r.links||[];
+    el.innerHTML='<div class="card"><h2>초대 링크</h2>'+(r.open?
+        '<p class="lead">보낼 곳마다 링크를 따로 만들면, 어디서 몇 분이 열어 보고 참여했는지 보입니다. 관리자 초대 링크로 온 분은 승인 없이 바로 참여합니다.</p>'+
+        (L.length?L.map(function(x){ return '<div class="lnk"><div class="lh"><b>'+esc(x.name)+'</b><span class="ln">열람 <b>'+x.views+'</b> · 참여 <b>'+x.joined+'</b> · 기록 <b>'+x.wrote+'</b></span></div>'+
+          '<div class="la"><button type="button" class="sbtn kk2" data-lk="'+esc(x.f)+'">'+KICON+'카톡으로 보내기</button><button type="button" class="sbtn" data-lc="'+esc(x.f)+'">링크 복사</button><button type="button" class="sbtn red" data-ld="'+esc(x.f)+'" data-nm="'+esc(x.name)+'">지우기</button></div></div>'; }).join(''):'<p class="note">아직 만든 링크가 없습니다. 아래에 보낼 곳 이름을 적고 만드세요.</p>')+
+        (L.length<10?'<div class="ladd"><input class="t" id="lkNm" maxlength="20" placeholder="보낼 곳 이름 (예: 동창 단톡방)"><button class="btn" id="lkAdd" type="button">링크 만들기</button></div>':'<p class="note">링크는 10개까지 만들 수 있습니다.</p>')+
+        '<details class="lbase"><summary>기본 초대 링크 · 전체 관리</summary><div class="linkbox">'+esc(r.link)+'</div>'+
+        '<div class="pair" style="margin-top:10px"><button class="btn line" id="ivCopy" type="button">링크 복사</button><button class="btn line" id="ivShare" type="button">'+ic('share')+'보내기</button></div>'
+      :'<p class="lead">지금은 새로 참여를 받지 않습니다. 이미 참여한 분은 그대로입니다.</p><details class="lbase" open><summary>전체 관리</summary>')+
+      '<div class="pair" style="margin-top:10px"><button class="btn line" id="ivNew" type="button">모두 새로 만들기</button><button class="btn line" id="ivStop" type="button">'+(r.open?'새 참여 멈춤':'참여 다시 받기')+'</button></div>'+
+      '<p class="note">「모두 새로 만들기」 — 기본 링크와 보낼 곳별 링크가 모두 새 주소로 바뀌고, 이전에 보낸 주소는 막힙니다. 링크 하나만 엉뚱한 곳에 퍼졌으면 그 링크만 「지우기」.</p></details></div>';
+    var byF={}; L.forEach(function(x){ byF[x.f]=x; });
+    each(el,'[data-lk]',function(b){ b.onclick=function(){ sendOut(null,byF[b.getAttribute('data-lk')].url,'열린 모임'); }; });
+    each(el,'[data-lc]',function(b){ b.onclick=function(){ copyLink(byF[b.getAttribute('data-lc')].url,'링크를 복사했습니다','보낼 곳에 붙여 넣어 주십시오'); }; });
+    each(el,'[data-ld]',function(b){ b.onclick=function(){ var f=b.getAttribute('data-ld'), nm=b.getAttribute('data-nm');
+      sheet('<h2>「'+esc(nm)+'」 링크 지우기</h2><p class="lead" style="margin-top:6px">이 링크로 이미 참여한 분은 그대로입니다. 지운 뒤 이 링크로 오는 분은 기본 초대 링크로 온 것처럼 셉니다.</p><div class="pair" style="margin-top:14px"><button class="btn line" id="ldNo" type="button">취소</button><button class="btn red" id="ldGo" type="button">지우기</button></div>',function(){ $('ldNo').onclick=closeSheet; $('ldGo').onclick=function(){ closeSheet(); invDraw('del',{f:f}); }; }); }; });
+    if($('lkAdd')){ $('lkAdd').onclick=function(){ var nm=$('lkNm').value.trim(); if(!nm){ toast('보낼 곳 이름을 적어 주십시오','예: 동창 단톡방'); return; } this.disabled=true; invDraw('add',{name:nm}); toast('「'+nm+'」 링크를 만들었습니다'); }; }
     if($('ivCopy')){ $('ivCopy').onclick=function(){ copyLink(r.link,'초대 링크를 복사했습니다','카톡방에 붙여 넣어 주십시오'); }; }
-    if($('ivShare')){ $('ivShare').onclick=function(){ var t=(ME.comName||'우리 기록')+' — 함께 남기는 우리 기록에 초대합니다.'; if(navigator.share){ navigator.share({title:ME.comName||'우리 기록',text:t,url:r.link}).catch(function(){}); } else { copyLink(r.link,'초대 링크를 복사했습니다','카톡방에 붙여 넣어 주십시오'); } }; }
-    $('ivNew').onclick=function(){ sheet('<h2>초대 링크 새로 만들기</h2><p class="lead" style="margin-top:6px">지금 링크는 막히고 새 링크가 생깁니다. 이미 들어온 분은 그대로입니다.</p><div class="pair" style="margin-top:16px"><button class="btn line" id="nvNo" type="button">취소</button><button class="btn" id="nvGo" type="button">새로 만들기</button></div>',function(){ $('nvNo').onclick=closeSheet; $('nvGo').onclick=function(){ closeSheet(); invDraw('new'); toast('새 초대 링크를 만들었습니다','옛 링크는 막혔습니다'); }; }); };
+    if($('ivShare')){ $('ivShare').onclick=function(){ sendOut(null,r.link,ME.room); }; }
+    $('ivNew').onclick=function(){ sheet('<h2>초대 링크 모두 새로 만들기</h2><p class="lead" style="margin-top:6px">기본 링크와 보낼 곳별 링크가 모두 새 주소로 바뀌고, 이전에 보낸 주소는 막힙니다. 이미 참여한 분은 그대로입니다.</p><div class="pair" style="margin-top:16px"><button class="btn line" id="nvNo" type="button">취소</button><button class="btn" id="nvGo" type="button">새로 만들기</button></div>',function(){ $('nvNo').onclick=closeSheet; $('nvGo').onclick=function(){ closeSheet(); invDraw('new'); toast('새 초대 링크를 만들었습니다','이전 링크는 막혔습니다'); }; }); };
     $('ivStop').onclick=function(){ invDraw(r.open?'stop':'open'); };
   });
 }
@@ -1669,7 +1705,7 @@ function chkView(){
     if(!QN){ h='<div class="card" style="text-align:center"><h2>승인 대기 중인 기록이 없습니다</h2><p class="lead">새 기록이 들어오면 여기에 숫자가 뜹니다.</p></div>'; }
     var waitN=d.items.filter(function(it){ return it.state==='기다림'&&!it.takeDown; }).length+(d.cats||[]).length+d.links.length;
     if(waitN){ h+='<button class="btn" id="allOk" type="button" style="margin:0 0 14px">'+ic('check')+'모두 승인 ('+waitN+')</button>'; }
-    if(PP.length){ h+='<h2 style="margin:4px 0 8px">새 분 · 멈춘 분 '+PP.length+'</h2>'+PP.map(function(x){ return '<div class="qitem"><b>'+esc(x.name||'(이름 없음)')+'</b> '+(x.wait?'<span class="tag t-wait">함께하기 신청</span>':'<span class="tag t-hide">쓰기 멈춤</span>')+'<p class="note" style="margin-top:4px">'+(x.rel?'사이 · '+esc(x.rel):'사이를 적지 않음')+(x.by?' · '+esc(x.by)+' 님이 데려옴':'')+(x.stop&&!x.wait?' · 삭제 요청 2번':'')+'</p><div class="acts">'+(x.wait?'<button type="button" class="sbtn" style="background:var(--navy);color:#fff" data-pok="'+esc(x.no)+'" data-act="받기">받기</button>':'<button type="button" class="sbtn" data-pok="'+esc(x.no)+'" data-act="풀기">멈춤 풀기</button>')+(ME.role==='관리자'?'<button type="button" class="sbtn red" data-pout="'+esc(x.no)+'" data-nm="'+esc(x.name||'')+'">내보내기</button>':'')+'</div></div>'; }).join('')+'<div style="height:10px"></div>'; }
+    if(PP.length){ h+='<h2 style="margin:4px 0 8px">등록 신청 · 작성 제한 '+PP.length+'</h2>'+PP.map(function(x){ return '<div class="qitem"><b>'+esc(x.name||'(이름 없음)')+'</b> '+(x.wait?'<span class="tag t-wait">등록 신청</span>':'<span class="tag t-hide">작성 제한</span>')+'<p class="note" style="margin-top:4px">'+(x.rel?'관계 · '+esc(x.rel):'관계 미입력')+(x.by?' · '+esc(byTxt(x.by)):'')+(x.stop&&!x.wait?' · 삭제 요청 2건':'')+'</p><div class="acts">'+(x.wait?'<button type="button" class="sbtn" style="background:var(--navy);color:#fff" data-pok="'+esc(x.no)+'" data-act="받기">승인</button>':'<button type="button" class="sbtn" data-pok="'+esc(x.no)+'" data-act="풀기">제한 해제</button>')+(ME.role==='관리자'?'<button type="button" class="sbtn red" data-pout="'+esc(x.no)+'" data-nm="'+esc(x.name||'')+'">내보내기</button>':'')+'</div></div>'; }).join('')+'<div style="height:10px"></div>'; }
     if(d.items.length){ h+='<h2 style="margin:4px 0 8px">승인 대기 기록 · 기억 '+d.items.length+'</h2>'+d.items.map(function(it){
       var th=it.video?'<div class="th" style="background-image:url('+esc(it.video.thumb)+')"></div>':(it.photo?'<div class="th" data-ph="'+esc(it.id)+'" data-small="1"'+(it.pv?' style="background-image:url('+it.pv+')"':'')+'></div>':'<div class="th">'+ic(it.kind==='기억'?'talk':it.kind==='링크'?'link':'text')+'</div>');
       return '<div class="qitem" data-id="'+esc(it.id)+'"><div class="item" style="margin:0;border:none;padding:0" data-open="'+esc(it.id)+'">'+th+'<div class="tx"><b>'+esc(it.title||'(제목 없음)')+stTag(it)+'</b><span class="s2">'+esc(it.by||'')+(it.kind==='링크'&&it.link?' · '+esc(it.link.dom):'')+(it.made?' · '+esc(srcL(it.made)):'')+(it.src?' · '+esc(srcL(it.src)):'')+(it.from?' · 보탠 것':'')+'</span></div></div>'+
@@ -1680,7 +1716,7 @@ function chkView(){
     if(d.links.length){ h+='<h2 style="margin:16px 0 8px">연결된 기록 '+d.links.length+'</h2>'+d.links.map(function(l){ return '<div class="qitem" data-link="'+esc(l.no)+'">'+esc(l.a)+' — '+esc(l.rel)+' — '+esc(l.b)+'<div class="acts"><button type="button" class="sbtn" style="background:var(--navy);color:#fff" data-l="관계 확인">승인</button><button type="button" class="sbtn" data-l="관계 거둠">반려</button></div></div>'; }).join(''); }
     $('cq').innerHTML=h; drawBadge(); lazyPhotos($('cq'));
     if($('allOk')){ $('allOk').onclick=function(){ var b=this; sheet('<h2>모두 승인</h2><p class="lead" style="margin-top:6px">승인 대기 '+waitN+'건을 모두 승인합니다. 삭제 요청이 들어온 기록은 그대로 남습니다.</p><div class="pair" style="margin-top:16px"><button class="btn line" id="aaNo" type="button">취소</button><button class="btn" id="aaGo" type="button">모두 승인</button></div>',function(){ $('aaNo').onclick=closeSheet; $('aaGo').onclick=function(){ closeSheet(); b.disabled=true; api({action:'recApproveAll'},function(r){ if(r.status==='ok'){ toast('모두 승인했습니다',(r.n+r.cats+r.links)+'건'+(r.skip?' · 삭제 요청 '+r.skip+'건은 남김':'')); LKEY=''; loadCats(chkView); } else { b.disabled=false; toast(r.msg||'처리하지 못했습니다'); } }); }; }); }; }
-    each($('cq'),'[data-pok]',function(b){ b.onclick=function(){ b.disabled=true; api({action:'recPersonOk',no:b.getAttribute('data-pok'),act:b.getAttribute('data-act')},function(r){ if(r.status==='ok'){ toast(b.getAttribute('data-act')==='받기'?'함께하기를 받았습니다':'쓰기 멈춤을 풀었습니다'); chkView(); } else { b.disabled=false; toast(r.msg||'처리하지 못했습니다'); } }); }; });
+    each($('cq'),'[data-pok]',function(b){ b.onclick=function(){ b.disabled=true; api({action:'recPersonOk',no:b.getAttribute('data-pok'),act:b.getAttribute('data-act')},function(r){ if(r.status==='ok'){ toast(b.getAttribute('data-act')==='받기'?'등록을 승인했습니다':'작성 제한을 해제했습니다'); chkView(); } else { b.disabled=false; toast(r.msg||'처리하지 못했습니다'); } }); }; });
     each($('cq'),'[data-pout]',function(b){ b.onclick=function(){ outSheet(b.getAttribute('data-pout'),b.getAttribute('data-nm'),chkView); }; });
     each($('cq'),'[data-open]',function(o){ o.onclick=function(){ go('item',o.getAttribute('data-open')); }; });
     each($('cq'),'[data-a]',function(a){ a.onclick=function(){
