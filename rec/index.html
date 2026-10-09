@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v30 · 261009 · [64차 · 대표 261009 14:03 우리 이야기 서버 이사] 서버 주소를 config.js 의 gas.rec(새 서버 · 사랑흐름 계정)에서 읽음 · 없으면 gas.memoir(옛 서버) · 꼬리표 config.js?v=2 → v=4. [무손] 그 밖 전부 v29 그대로. -->
 <!-- ★ 현재 버전 ▶ rec/index.html · v29 · 261008 · [대표 261008 18:12 「우리 이야기로 결정 · 앞뒤로 붙여 쓰게」 · 59차 이름 공모 · 자서전 서버 v46]
      ① 서비스 이름 「우리 기록」 → 「우리 이야기」(화면 말 · 제목 · 안내 모두).
      ② 관리자 ☰ 「모임 이름 짓기」 — ① 어디 · 어느 모임(문산초 59회 · 파주 성동리) + ② 누구의(우리 친구들 · 우리 동문 · 우리 가족 · ○○네 가족 · 우리 마을 · 우리 모임 · 우리 회사 · 우리 학교 · 직접 쓰기) + ③ 이야기 → 미리 보기 → 저장(recComName 그대로).
@@ -456,11 +457,11 @@ html.lfx body{padding-bottom:0!important}
 </div>
 <button class="fab" id="fab" type="button" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>기록 남기기</button>
 <div class="navbar" id="navbar" hidden><div class="in"><button class="btn line" id="nPrev" type="button">이전</button><button class="btn warm" id="nNext" type="button">다음</button></div></div>
-<script src="/lf/config.js?v=2"></script>
+<script src="/lf/config.js?v=4"></script>
 <script>
 (function(){
 /* ── 서버 주소 — /lf/config.js 한 곳에서(이슈 178) ── */
-var GAS=(window.LF_CONFIG&&LF_CONFIG.gas&&LF_CONFIG.gas.memoir)||'';
+var GAS=(window.LF_CONFIG&&LF_CONFIG.gas&&(LF_CONFIG.gas.rec||LF_CONFIG.gas.memoir))||'';   /* ★v30 새 서버 먼저 */
 var CV='22';                                   /* 화면 판 — 서버 v40 은 이것이 있으면 올리기 약속을 꼭 봄 */
 var KEY='lf_rec_k', K='', ME=null, CATS=[], QN=0, G='', FROM='';   /* ★v26 G = 열린 모임 손님(모임 링크) · FROM = 보낸 표 */
 var F={sort:'new',kind:'',cat:'',q:''}, LIST=[], LMORE=0, LNEXT=0, LKEY='', FEEDY=0;
