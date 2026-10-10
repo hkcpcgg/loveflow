@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v34 · 261010 · [대표 휴대폰 확인 261010 13:45~14:27] 화면만 · 서버 그대로(v7).
+<!-- ★ 현재 버전 ▶ rec/index.html · v35 · 261010 · [대표 OK 261010 16:36 「서버 v8 · 화면 v35 — 212 · 215」] 관리자 · 확인자 ☰ 「결과 보고」(서버 v8 recReport) — 이번 달 · 지난달 · 전체 / 올린 것 · 기억 남기기 · 함께하는 분 · 활동 비율 · 반응 · 종류별 · 초대 링크별 · 삭제 요청 · 가림. [무손] 그 밖 v34 전부. -->
+<!-- (이전) rec/index.html · v34 · 261010 · [대표 휴대폰 확인 261010 13:45~14:27] 화면만 · 서버 그대로(v7).
      235 첫 화면 꾸미기 「문구 저장」 · 「대표 사진 걸기」 → 저장되면 첫 화면으로 돌아가 바뀐 모습을 보임.
      236 🎤 안내 둘째 단추 「🎤가 안 보이면」 — 설정하면 쓸 수 있음 · 갤럭시는 Gboard 설치 바로가기 · 아이폰은 받아쓰기 켜기 · 말이 2~3초 멈추면 🎤가 꺼짐(다시 누르면 이어짐).
      237 첫 화면 사진 바둑판 바로 아래 「✍ 나도 추억 남기기」(＋와 같은 주황 · 누르면 ＋와 같은 「새 기록 올리기」).
@@ -551,6 +552,15 @@ body.kbon #navbar{display:none!important}
 .gor .ga{display:flex;gap:4px;flex:none}.gor .ga .sbtn{padding:4px 9px}
 .tl.pk{opacity:.75}.tl.pk.on{opacity:1;outline:3px solid var(--orange);outline-offset:-3px}
 .tl .pn{position:absolute;left:6px;top:6px;width:24px;height:24px;border-radius:50%;background:var(--orange);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center}
+.rpk{display:flex;gap:8px;overflow-x:auto;margin:4px 0 14px;padding-bottom:2px}
+.rpg{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.rpt{background:var(--paper);border:1.5px solid #E8DCC4;border-radius:16px;padding:14px 12px;text-align:center}
+.rpt b{display:block;font-size:30px;line-height:1.1;color:var(--navy2);font-family:var(--f-title,inherit)}
+.rpt small{display:block;margin-top:4px;font-size:13.5px;color:var(--sub)}
+.rpt.hi{background:#FFF4E8;border-color:#F2C7A5}
+.rpl{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:15px}
+.rpl:first-of-type{border-top:0}.rpl em{font-style:normal;font-weight:700;color:var(--navy2)}
+.rpl small{color:var(--sub);font-size:13px}
 </style>
 </head>
 <body data-lf-title="함께 남기는 우리 이야기">
@@ -594,6 +604,7 @@ var IC={
   look:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.3-4.3"/>',
   ext:'<path d="M14 4h6v6"/><path d="M20 4l-9 9"/><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>',
   check:'<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.6 2.5L16 9.5"/>',
+  chart:'<path d="M4 20h16"/><path d="M7 16v-5M12 16V7M17 16v-8"/>',
   pen:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
   key:'<circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3"/>'
 };
@@ -832,6 +843,7 @@ function render(){
   else if(VIEW==='chk'){ subPage('승인 관리','승인 대기 중인 기록 · 기억 · 분류를 승인 · 비공개 · 삭제합니다. 삭제 요청도 이곳으로 옵니다.'); chkView(); }
   else if(VIEW==='deco'){ subPage('첫 화면 꾸미기','바로가기 · 대표 사진 · 문구를 고칩니다. 저장하면 첫 화면에 바로 실립니다.'); decoView(); }
   else if(VIEW==='ppl'){ subPage('함께하는 분','함께하는 분 · 초대 링크 · 공개 방식을 관리합니다.'); pplView(); }
+  else if(VIEW==='rep'){ subPage('결과 보고','이 모임에 올라온 것과 함께하는 분을 숫자로 봅니다.'); repView('month'); }
   else if(VIEW==='out'){ outView(); }
 }
 function subPage(t,h){
@@ -1800,7 +1812,7 @@ function boSheet(){
 /* ══ 내 메뉴 ══ */
 function meMenu(){
   var R=[['me','heart','c-gold','내가 남긴 것','내가 올린 기록 · 남긴 기억']];
-  if(isBoss()){ R.push(['chk','check','c-green','승인 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),'승인 대기 · 삭제 요청']); R.push(['ppl','ppl','c-peach','함께하는 분',ME.role==='관리자'?'초대 링크 · 사람 내보내기 · 공개 방식':'함께하는 분 · 공개 방식']); }
+  if(isBoss()){ R.push(['chk','check','c-green','승인 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),'승인 대기 · 삭제 요청']); R.push(['ppl','ppl','c-peach','함께하는 분',ME.role==='관리자'?'초대 링크 · 사람 내보내기 · 공개 방식':'함께하는 분 · 공개 방식']); R.push(['rep','chart','c-green','결과 보고','올린 것 · 반응 · 함께하는 분 · 초대 링크']); }
   if(ME.role==='관리자'){ R.push(['deco','star','c-gold','첫 화면 꾸미기','바로가기 · 대표 사진 · 문구']); R.push(['invq','share','c-violet','초대 링크 꺼내기','복사 · 카톡으로 보내기']); R.push(['name','pen','c-navy','모임 이름 짓기','지금 이름 · '+esc(ME.comName||'')]); }
   if(!ME.kakao){ R.push(['kk','share','c-violet','카카오 연결','다른 휴대폰에서도 카카오로 이어서 들어옵니다']); }
   R.push(['myname','pen','c-navy','보일 이름 바꾸기','지금 이름 · '+esc(ME.name||'')]);
@@ -1824,6 +1836,35 @@ function meMenu(){
       if(m==='leave'){ sheet('<h2>이 모임에서 나가기</h2><p class="lead" style="margin-top:6px">나가셔도 남기신 기록은 그대로 남습니다. 지우고 싶은 기록은 나가기 전에 「삭제 요청」을 해 주십시오. 다시 오시려면 모임 링크를 누르고 카카오로 들어오시면 됩니다.</p><div class="pair" style="margin-top:16px"><button class="btn line" id="lvNo2" type="button">취소</button><button class="btn red" id="lvGo2" type="button">나가기</button></div>',function(){ $('lvNo2').onclick=closeSheet; $('lvGo2').onclick=function(){ api({action:'recLeave'},function(r){ if(r.status==='ok'){ sset(KEY,''); location.href=location.pathname; } else { toast(r.msg||'처리하지 못했습니다'); } }); }; }); return; }
       go(m);
     }; });
+  });
+}
+/* ★v35 212 결과 보고(관리자 · 확인자) — 서버 v8 recReport */
+var REP_SPAN='month';
+function repView(sp){
+  REP_SPAN=sp||REP_SPAN;
+  var SP=[['month','이번 달'],['last','지난달'],['all','전체']];
+  $('body').innerHTML='<div class="rpk">'+SP.map(function(x){ return '<button type="button" class="chip'+(x[0]===REP_SPAN?' on':'')+'" data-sp="'+x[0]+'">'+x[1]+'</button>'; }).join('')+'</div><div id="rpB"></div>';
+  each($('body'),'[data-sp]',function(b){ b.onclick=function(){ repView(b.getAttribute('data-sp')); }; });
+  wait($('rpB'),'숫자를 세는 중입니다');
+  api({action:'recReport',span:REP_SPAN},function(d){
+    if(VIEW!=='rep'){ return; }
+    if(d.status!=='ok'){ $('rpB').innerHTML='<div class="msg">'+esc(d.reason==='NONE'||!d.msg?'결과 보고를 열지 못했습니다. 잠시 후 다시 시도해 주십시오.':d.msg)+'</div>'; return; }
+    function n(v){ return Number(v||0).toLocaleString('ko-KR'); }
+    function row(a,b,c){ return '<div class="rpl"><span>'+a+(c?' <small>'+c+'</small>':'')+'</span><em>'+b+'</em></div>'; }
+    var all=d.span==='all', when=all?'전체 기간':(d.spanName+' · '+esc(d.label));
+    var h='<p class="note" style="margin:0 0 10px">'+when+' · '+esc(d.at||'')+' 기준</p>'+
+      '<div class="rpg">'+
+        '<div class="rpt hi"><b>'+n(d.upAll)+'</b><small>올린 것</small></div>'+
+        '<div class="rpt hi"><b>'+n(d.mem)+'</b><small>기억 남기기</small></div>'+
+        '<div class="rpt"><b>'+n(d.people)+'</b><small>함께하는 분</small></div>'+
+        '<div class="rpt"><b>'+n(d.rate)+'%</b><small>활동 비율</small></div>'+
+      '</div>'+
+      '<div class="card"><h2>'+ic('heart','sm')+' 반응</h2>'+row('기억해요',n(d.react['기억해요']))+row('좋아요',n(d.react['좋아요']))+row('대화',n(d.react['대화']))+'</div>'+
+      '<div class="card"><h2>'+ic('chart','sm')+' 올린 것</h2>'+row('사진',n(d.up['사진']))+row('영상',n(d.up['영상']))+row('글',n(d.up['글']))+row('링크',n(d.up['링크']))+(d.up['그 밖']?row('그 밖',n(d.up['그 밖'])):'')+'</div>'+
+      '<div class="card"><h2>'+ic('ppl','sm')+' 함께하는 분</h2>'+row('지금 함께하는 분',n(d.people))+(all?'':row('새로 들어온 분',n(d.newPeople)))+row('올린 분',n(d.wrote),'기억 남기기 포함')+row('활동 비율',n(d.rate)+'%','올린 분 ÷ 함께하는 분')+'</div>'+
+      '<div class="card"><h2>'+ic('share','sm')+' 초대 링크</h2>'+(d.links&&d.links.length?d.links.map(function(l){ return '<div class="rpl"><span>'+esc(l.name)+'</span><small>열어 봄 '+n(l.views)+' · 들어옴 '+n(l.joined)+' · 올림 '+n(l.wrote)+'</small></div>'; }).join('')+'<p class="note">초대 링크는 기간과 상관없이 처음부터 센 숫자입니다. 「열어 봄」은 사람 수가 아니라 링크를 연 횟수입니다.</p>':'<p class="note">만든 초대 링크가 없습니다.</p>')+'</div>'+
+      '<div class="card"><h2>'+ic('check','sm')+' 운영</h2>'+row('삭제 요청',n(d.takeDown))+row('가려진 기록',n(d.hidden),'지금 기준')+'</div>';
+    $('rpB').innerHTML=h;
   });
 }
 /* ★v26 이용 안내 — 역할마다 몇 줄 · 화면마다 「?」 */
