@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v34 · 261010 · [대표 휴대폰 확인 261010 13:45~14:27] 화면만 · 서버 그대로(v7).
+     235 첫 화면 꾸미기 「문구 저장」 · 「대표 사진 걸기」 → 저장되면 첫 화면으로 돌아가 바뀐 모습을 보임.
+     236 🎤 안내 둘째 단추 「🎤가 안 보이면」 — 설정하면 쓸 수 있음 · 갤럭시는 Gboard 설치 바로가기 · 아이폰은 받아쓰기 켜기 · 말이 2~3초 멈추면 🎤가 꺼짐(다시 누르면 이어짐).
+     237 첫 화면 사진 바둑판 바로 아래 「✍ 나도 추억 남기기」(＋와 같은 주황 · 누르면 ＋와 같은 「새 기록 올리기」).
+     238 「남기기」를 글 칸 바로 밑으로(기억 · 대화) · 보태기는 약속 칸을 위로 올려 「보태기」가 한마디 바로 밑 · 글 칸을 누르면 남기기 단추까지 보이게 당김 ·
+         새 기록 올리기의 글 칸 아래에는 자판이 올라온 동안만 「다 썼어요 · 다음」 · 자판 그림은 단추 아래로. -->
 <!-- ★ 현재 버전 ▶ rec/index.html · v33 · 261010 · [대표 OK 12:42 · 공사 전 설명 「화면 v33 · 서버 v7」]
      230 새 기록 올리기 「나가기 · 뒤로」 — 같은 이름 함수 둘(leaveSheet) → 남기기 창은 memSheet 로 이름 바꿈.
      231 🎤 녹음 · 받아 적기 · 「텍스트로 변환」(chromeSheet · sttHelp · VIA) · 「말로 하기」 · 목소리 듣기 뺌 → 글 칸 위 한 줄 「말로 쓰시려면 자판의 🎤를 누르고 말씀하세요」 + 처음 한 번 자판 그림.
@@ -529,6 +535,10 @@ details.more2 summary{cursor:pointer;font-weight:700;color:var(--navy);font-size
 /* ★v33 231 · 232 · 234 · 관리 */
 .sayh{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:4px 0 4px;font-size:13px;color:var(--sub)}
 .sayh .sayq{flex:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:2px 10px;font-size:12.5px;color:var(--navy);cursor:pointer}
+.kbnext{display:none}body.kbon .kbnext{display:block;margin-top:8px}
+.sayh .sayq+.sayq{margin-left:6px}
+.kbdb ol{margin:6px 0 6px;padding-left:18px}.kbdb a{color:var(--navy);font-weight:700}
+.mymem{margin-top:12px}
 .kbdb{background:#FFF8EF;border:1px solid #F3D9B8;border-radius:12px;padding:10px 12px;margin:2px 0 8px;font-size:13px;color:var(--ink,#2b2730)}
 .kbdb .kbd{display:block;width:100%;max-width:300px;margin:8px auto}
 .kbdb .sbtn{display:block;margin:0 auto}
@@ -932,7 +942,8 @@ function gridDraw(){
   if(core.length){ h+='<div class="core">'+core.map(function(g,i){ return '<button type="button" class="c'+i+'" data-go="'+esc(g.f)+'">'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
   h+='</section>';
   if(nw.length){ h+='<div class="sl">'+ic('star','sm')+' 새 소식</div><div class="tgrid">'+nw.map(function(it){ return tile(it,false,''); }).join('')+'</div>'; }
-  if(st.length){ h+='<div class="sl">우리 이야기</div><div class="tgrid" id="stg">'+st.map(function(it){ return tile(it,false,''); }).join('')+'</div>'+(GRID.story.more?'<button class="btn line morebtn" id="moreG" type="button">'+ic('photo','sm')+' 사진 · 영상 더 보기</button>':''); }
+  if(st.length){ h+='<div class="sl">우리 이야기</div><div class="tgrid" id="stg">'+st.map(function(it){ return tile(it,false,''); }).join('')+'</div>'+(GRID.story.more?'<button class="btn line morebtn" id="moreG" type="button">'+ic('photo','sm')+' 사진 · 영상 더 보기</button>':'');
+    if(canAdd()||isGuest()){ h+='<button class="btn warm mymem" id="hMine" type="button">✍ 나도 추억 남기기</button><p class="note" style="text-align:center;margin-top:6px">사진 · 영상 · 글, 무엇이든 남길 수 있어요</p>'; } }   /* ★v34 237 */
   if(TXT&&TXT.items.length){ h+='<div class="sl">'+ic('text','sm')+' 글 · 링크</div><div class="txl">'+TXT.items.map(function(it){ var lk=it.kind==='링크';
       return '<button type="button" class="txr" data-tid="'+esc(it.id)+'"><span class="ci '+(lk?'c-navy':'c-violet')+'">'+ic(lk?'link':'text','sm')+'</span><span class="tt"><b>'+esc(it.title||(it.text||'').slice(0,30)||'(제목 없음)')+'</b><small>'+esc(it.by||'')+(lk&&it.link&&it.link.dom?' · '+esc(it.link.dom):'')+(it.mem?' · 기억 '+it.mem:'')+'</small></span></button>'; }).join('')+'</div>'+
       (TXT.more?'<button class="btn line morebtn" id="moreT" type="button">'+ic('text','sm')+' 글 · 링크 더 보기</button>':''); }
@@ -943,6 +954,7 @@ function gridDraw(){
   h+=guideFold()+'<div class="brand">🍇 사랑흐름 · 우리 이야기</div></div>';
   el.innerHTML=h;
   each(el,'[data-tid]',function(t){ t.onclick=function(){ go('item',t.getAttribute('data-tid')); }; });
+  if($('hMine')){ $('hMine').onclick=function(){ if(isGuest()){ joinGate(); return; } A=newA(); go('add'); }; }   /* ★v34 237 = ＋ 와 같음 */
   each(el,'[data-go]',function(t){ t.onclick=function(){ goOut(t.getAttribute('data-go')); }; });
   each(el,'[data-qx]',function(t){ t.onclick=function(){ F.q=t.getAttribute('data-qx'); LKEY=''; feedView(); window.scrollTo(0,0); }; });
   if($('hJoin')){ $('hJoin').onclick=function(){ if(b[0]){ go('item',b[0].id); setTimeout(joinGate,400); } else { joinGate(); } }; }
@@ -1226,13 +1238,13 @@ function memSheet(it,mode){
     if(m==='m'){
       h='<div class="q2">'+esc(askQ(it,emp))+'</div>'+
         '<div class="mf"><textarea id="memT" placeholder="떠오르는 장면을 마음 가는 대로 들려주세요">'+esc(dr.m)+'</textarea>'+micBtn('memT')+'</div><div class="hear" id="hear_memT"></div>'+
-        '<div class="lvtools"><button type="button" id="ltPh">'+ic('photo','sm')+'사진 보태기</button>'+(emp&&emp[1]==='when'?'<button type="button" id="ltYr">'+ic('clock','sm')+'연도 고르기</button>':'')+'</div>'+
-        '<button class="btn warm lv" id="memGo" type="button">'+ic('grape')+'남기기</button><div id="voice_memT"></div><div class="note">'+pubNote()+'</div>';
+        '<button class="btn warm lv" id="memGo" type="button">'+ic('grape')+'남기기</button><div id="voice_memT"></div>'+
+        '<div class="lvtools"><button type="button" id="ltPh">'+ic('photo','sm')+'사진 보태기</button>'+(emp&&emp[1]==='when'?'<button type="button" id="ltYr">'+ic('clock','sm')+'연도 고르기</button>':'')+'</div><div class="note">'+pubNote()+'</div>';
     } else {
       h='<div class="q2">이 기록을 보며 나누고 싶은 한마디</div>'+
         '<div class="mf"><textarea id="tkT" maxlength="300" style="min-height:90px" placeholder="한마디 남겨 주세요">'+esc(dr.t)+'</textarea>'+micBtn('tkT')+'</div><div class="hear" id="hear_tkT"></div>'+
-        '<div class="lvtools"><small id="tkN">'+dr.t.length+' / 300</small></div>'+
-        '<button class="btn warm lv" id="tkGo" type="button">'+ic('talk')+'남기기</button><div id="voice_tkT"></div><div class="note">'+pubNote()+'</div>';
+        '<button class="btn warm lv" id="tkGo" type="button">'+ic('talk')+'남기기</button><div id="voice_tkT"></div>'+
+        '<div class="lvtools"><small id="tkN">'+dr.t.length+' / 300</small></div><div class="note">'+pubNote()+'</div>';
     }
     box.innerHTML=h; bindMics();
     var ta=$(m==='m'?'memT':'tkT');
@@ -1409,16 +1421,27 @@ var KBD_IMG='<svg viewBox="0 0 260 132" class="kbd" role="img" aria-label="휴�
   [0,1,2].map(function(r){ var o=''; for(var c=0;c<9;c++){ o+='<rect x="'+(10+c*27)+'" y="'+(36+r*24)+'" width="23" height="19" rx="4" fill="#fff"/>'; } return o; }).join('')+
   '<rect x="10" y="108" width="34" height="19" rx="4" fill="#fff"/><rect x="48" y="108" width="23" height="19" rx="4" fill="#E8771E"/><rect x="57.4" y="110.6" width="4.2" height="7.6" rx="2.1" fill="#fff"/><path d="M55.2 115.6a4.3 4.3 0 008.6 0M59.5 119.9v2.4" stroke="#fff" stroke-width="1.4" fill="none" stroke-linecap="round"/>'+
   '<rect x="75" y="108" width="130" height="19" rx="4" fill="#fff"/><text x="140" y="121" font-size="10" text-anchor="middle" fill="#8A93A3">띄어쓰기</text><rect x="209" y="108" width="41" height="19" rx="4" fill="#fff"/></svg>';
+function setBox(){ return '<div class="kbdb"><b>🎤가 안 보이시면 — 설정하면 쓸 수 있습니다</b>'+
+  '<ol><li><b>갤럭시</b>: 「Gboard」를 설치하고 기본 자판으로 고르면 자판 오른쪽 위에 🎤가 생깁니다. <a href="https://play.google.com/store/apps/details?id=com.google.android.inputmethod.latin" target="_blank" rel="noopener">Gboard 설치하러 가기</a></li>'+
+  '<li><b>아이폰</b>: 설정 → 일반 → 키보드 → 「받아쓰기」를 켜면 자판 아래에 🎤가 생깁니다.</li></ol>'+
+  '말이 2~3초 멈추면 🎤가 꺼집니다. 다시 누르면 이어서 써집니다.<br><button type="button" class="sbtn" data-kbok="1" style="margin-top:6px">확인</button></div>'; }
 function sayBox(){ return '<div class="kbdb"><b>🎤 자리</b> — 자판 맨 위 줄 오른쪽, 또는 맨 아래 줄 띄어쓰기 옆에 있습니다.'+KBD_IMG+'<button type="button" class="sbtn" data-kbok="1">확인</button></div>'; }
 function bindMics(){
   each(document,'[data-say]',function(m){
     var mf=m.closest?m.closest('.mf'):null; if(!mf||mf.previousElementSibling&&mf.previousElementSibling.classList.contains('sayh')){ return; }
     var d=document.createElement('div'); d.className='sayh';
-    d.innerHTML='<span>🎤 말로 쓰시려면 자판의 🎤를 누르고 말씀하세요</span><button type="button" class="sayq">위치 보기</button>';
+    d.innerHTML='<span>🎤 말로 쓰시려면 자판의 🎤를 누르고 말씀하세요</span><span style="flex:none"><button type="button" class="sayq">위치 보기</button><button type="button" class="sayq" data-sset="1">🎤가 안 보이면</button></span>';
     mf.parentNode.insertBefore(d,mf);
     var first=!sget('lf_rec_kbd')&&!document.querySelector('.kbdb');
-    var show=function(){ if(mf.parentNode.querySelector('.kbdb')){ return; } var x=document.createElement('div'); x.innerHTML=sayBox(); var bx=x.firstChild, hr=mf.nextElementSibling&&mf.nextElementSibling.classList.contains('hear')?mf.nextElementSibling:mf; hr.parentNode.insertBefore(bx,hr.nextSibling); bx.querySelector('[data-kbok]').onclick=function(){ sset('lf_rec_kbd','1'); if(bx.parentNode){ bx.parentNode.removeChild(bx); } }; };
+    /* ★v34 238 — 글 칸 바로 밑 단추(남기기 · 다음)를 찾아, 자판 그림은 그 아래에 · 글 칸을 누르면 단추까지 보이게 */
+    var hr0=mf.nextElementSibling&&mf.nextElementSibling.classList.contains('hear')?mf.nextElementSibling:mf, nb=hr0.nextElementSibling;
+    var sendB=(nb&&nb.classList&&nb.classList.contains('btn'))?nb:null, anchor=sendB||hr0;
+    var ta=mf.querySelector('textarea,input');
+    if(ta&&sendB){ ta.addEventListener('focus',function(){ setTimeout(function(){ try{ sendB.scrollIntoView({block:'nearest',behavior:'smooth'}); }catch(e){} },420); }); }
+    var put=function(html,mark){ var old=mf.parentNode.querySelector('.kbdb'); if(old){ var same=old.getAttribute('data-k')===mark; old.parentNode.removeChild(old); if(same){ return; } } var x=document.createElement('div'); x.innerHTML=html; var bx=x.firstChild; bx.setAttribute('data-k',mark); anchor.parentNode.insertBefore(bx,anchor.nextSibling); bx.querySelector('[data-kbok]').onclick=function(){ sset('lf_rec_kbd','1'); if(bx.parentNode){ bx.parentNode.removeChild(bx); } }; };
+    var show=function(){ put(sayBox(),'pos'); };
     d.querySelector('.sayq').onclick=show;
+    d.querySelector('[data-sset]').onclick=function(){ put(setBox(),'set'); };
     if(first){ show(); }
   });
 }
@@ -1486,21 +1509,22 @@ function step1(){
     if(A.kakaoOne&&A.photos.length<PMAX){ x+='<p class="note" style="text-align:center">카카오톡 화면에서는 여러 장을 골라도 한 장만 담길 수 있습니다. 「사진 더하기」로 이어서 담아 주십시오.</p>'; }
     x+=A.photos.length<PMAX?'<button class="btn line" id="pk" type="button" style="margin-top:10px">'+(A.photos.length?'사진 더하기':'사진 선택')+'</button>':'';
     x+='<label class="f">제목 <small>모든 사진에 같게</small></label><div class="mf"><input class="t" id="at" maxlength="60" placeholder="예: 추석 성묘" value="'+esc(A.title)+'">'+'</div><div class="hear" id="hear_at"></div>';
-    x+='<label class="f">한마디 <small>선택</small></label><div class="mf"><textarea id="ax2" placeholder="이 사진에 얽힌 이야기">'+esc(A.text)+'</textarea>'+micBtn('ax2')+'</div><div class="hear" id="hear_ax2"></div>';
+    x+='<label class="f">한마디 <small>선택</small></label><div class="mf"><textarea id="ax2" placeholder="이 사진에 얽힌 이야기">'+esc(A.text)+'</textarea>'+micBtn('ax2')+'</div><div class="hear" id="hear_ax2"></div>'+'<button class="btn warm kbnext" type="button" data-kbnext="1">다 썼어요 · 다음</button>';
   } else if(t==='영상'){
     x='<label class="f">유튜브 주소</label><input class="t" id="av" inputmode="url" placeholder="https://youtube.com/shorts/…" value="'+esc(A.video)+'">'+
       '<p class="note">유튜브에서 「공유」 → 「링크 복사」 하신 뒤, 이 칸을 길게 눌러 「붙여넣기」 하시면 됩니다. 「비공개」 영상은 열리지 않으니 「일부공개」나 「공개」로 올려 주십시오.</p><div id="avp"></div>'+
       '<label class="f">제목</label><div class="mf"><input class="t" id="at" maxlength="60" placeholder="예: 아버지 경운기" value="'+esc(A.title)+'">'+'</div><div class="hear" id="hear_at"></div>';
   } else if(t==='글'){
     x='<label class="f">제목</label><div class="mf"><input class="t" id="at" maxlength="60" placeholder="예: 할머니 김장 날" value="'+esc(A.title)+'">'+'</div><div class="hear" id="hear_at"></div>'+
-      '<label class="f">글</label><div class="mf"><textarea id="aT" style="min-height:180px" placeholder="떠오르는 장면을 마음 가는 대로">'+esc(A.text)+'</textarea>'+micBtn('aT')+'</div><div class="hear" id="hear_aT"></div>';
+      '<label class="f">글</label><div class="mf"><textarea id="aT" style="min-height:180px" placeholder="떠오르는 장면을 마음 가는 대로">'+esc(A.text)+'</textarea>'+micBtn('aT')+'</div><div class="hear" id="hear_aT"></div>'+'<button class="btn warm kbnext" type="button" data-kbnext="1">다 썼어요 · 다음</button>';
   } else if(t==='링크'){
     x='<label class="f">링크 주소</label><input class="t" id="lkU" inputmode="url" placeholder="https://blog.naver.com/…" value="'+esc(A.link.url)+'">'+
       '<p class="note">블로그 · 인스타그램 · 틱톡 · 카페 글의 주소. 화면에는 그 글을 끼워 넣지 않고 카드로만 보여 드립니다.</p>'+
       '<label class="f">제목</label><div class="mf"><input class="t" id="lkT" maxlength="60" placeholder="예: 마을 잔치 다녀온 이야기" value="'+esc(A.title)+'">'+'</div><div class="hear" id="hear_lkT"></div>'+
-      '<label class="f">한마디 <small>선택</small></label><div class="mf"><textarea id="lkX" placeholder="어떤 글인지 한두 줄">'+esc(A.text)+'</textarea>'+micBtn('lkX')+'</div><div class="hear" id="hear_lkX"></div>';
+      '<label class="f">한마디 <small>선택</small></label><div class="mf"><textarea id="lkX" placeholder="어떤 글인지 한두 줄">'+esc(A.text)+'</textarea>'+micBtn('lkX')+'</div><div class="hear" id="hear_lkX"></div>'+'<button class="btn warm kbnext" type="button" data-kbnext="1">다 썼어요 · 다음</button>';
   }
   $('kb').innerHTML=x;
+  each($('kb'),'[data-kbnext]',function(b){ b.addEventListener('pointerdown',function(e){ e.preventDefault(); var a=document.activeElement; if(a&&a.blur){ a.blur(); } setTimeout(function(){ if($('nNext')){ $('nNext').click(); } },60); }); });   /* ★v34 238 */
   if($('pk')){ $('pk').onclick=function(){ openFile('add'); }; }
   if($('at')){ $('at').oninput=function(){ A.title=this.value; }; }
   if($('ax2')){ $('ax2').oninput=function(){ A.text=this.value; }; }
@@ -1746,8 +1770,8 @@ function boSheet(){
   sheet('<h2>보탤 사진 '+BO.list.length+'장</h2><p class="lead" style="margin-top:4px">사진마다 어디서 온 사진인지 콕 눌러 주십시오.</p>'+
     BO.list.map(function(p,i){ return '<div class="prow"><div class="ph" style="background-image:url('+p.u+')"><b>'+(i+1)+'</b><button type="button" data-bx="'+i+'" aria-label="빼기">×</button></div><div class="dots">'+PSRC.map(function(s){ return '<button type="button" class="dot'+(p.src===s[0]?' on':'')+'" data-bi="'+i+'" data-bs="'+s[0]+'"><i></i>'+s[1]+'</button>'; }).join('')+'</div></div>'; }).join('')+
     (BO.list.length<PMAX?'<button class="btn line" id="boMore" type="button">사진 더하기</button>':'')+
-    '<label class="f">한마디 <small>선택</small></label><div class="mf"><input class="t" id="boT" maxlength="80" placeholder="예: 그해 김장 날 제가 찍었습니다" value="'+esc(BO.text)+'">'+micBtn('boT')+'</div><div class="hear" id="hear_boT"></div>'+
     promiseHtml('사진')+
+    '<label class="f">한마디 <small>선택</small></label><div class="mf"><input class="t" id="boT" maxlength="80" placeholder="예: 그해 김장 날 제가 찍었습니다" value="'+esc(BO.text)+'">'+micBtn('boT')+'</div><div class="hear" id="hear_boT"></div>'+
     '<div class="pair" style="margin-top:12px"><button class="btn line" id="boNo" type="button">취소</button><button class="btn warm" id="boGo" type="button">보태기</button></div>',function(d){
     bindMics();
     $('boT').oninput=function(){ BO.text=this.value; };
@@ -1957,6 +1981,7 @@ function decoView(){
     api({action:'recComSet'},function(c){ if(VIEW!=='deco'){ return; } DECO={g:g,c:c.status==='ok'?c:{}}; goDraw(); bestDraw(); txDraw(); }); });
 }
 function homeDirty(){ GRID=null; GKEY=''; TXT=null; }
+function toHome(){ STACK=[{v:'feed'}]; LKEY=''; render(); window.scrollTo(0,0); }   /* ★v34 235 저장하면 첫 화면으로 */
 function goDraw(){
   var el=$('dGo'); if(!el||!DECO){ return; } var ls=DECO.g.gos||[];
   el.innerHTML='<div class="card"><h2>바로가기 <small style="font-family:var(--f-body);font-size:13px;color:var(--sub);font-weight:400">'+ls.length+' / 10</small></h2><p class="lead">첫 화면 아래에 늘 보입니다. ★ 핵심(3개까지)은 대표 사진 바로 아래에도 나옵니다.'+(DECO.g.goHint?' 추천: '+esc(DECO.g.goHint):'')+'</p>'+
@@ -1993,7 +2018,7 @@ function bestDraw(){
   api({action:'recList',grid:'1',lite:'1',mode:'new',n:'30',from:'0'},function(d){ if(VIEW!=='deco'){ return; } BCAND=(d.items||[]).filter(function(x){ return !x.state||x.state==='실림'; });
     var have={}; BCAND.forEach(function(x){ have[x.id]=1; }); BPICK=BPICK.filter(function(id){ return have[id]; }); bestGrid(); });
   $('bClr').onclick=function(){ BPICK=[]; bestGrid(); };
-  $('bOk').onclick=function(){ var b=this; b.disabled=true; api({action:'recComSet',best:BPICK.join(','),_busy:'대표 사진을 거는 중입니다'},function(r){ b.disabled=false; if(r.status!=='ok'){ toast(r.msg||'걸지 못했습니다'); return; } DECO.c=r; homeDirty(); toast(BPICK.length?'대표 사진 '+BPICK.length+'장을 걸었습니다':'대표 사진을 비웠습니다','첫 화면에 바로 실립니다'); }); };
+  $('bOk').onclick=function(){ var b=this; b.disabled=true; api({action:'recComSet',best:BPICK.join(','),_busy:'대표 사진을 거는 중입니다'},function(r){ b.disabled=false; if(r.status!=='ok'){ toast(r.msg||'걸지 못했습니다'); return; } DECO.c=r; homeDirty(); toHome(); toast(BPICK.length?'대표 사진 '+BPICK.length+'장을 걸었습니다':'대표 사진을 비웠습니다','첫 화면에 바로 실립니다'); }); };
 }
 function bestGrid(){
   var g=$('bG'); if(!g){ return; }
@@ -2012,7 +2037,7 @@ function txDraw(){
   $('txOk').onclick=function(){ var b=this, pg={action:'recGoSet',act:'text'}, pc={action:'recComSet'};
     F5.forEach(function(x){ (x[6]==='go'?pg:pc)[x[3]]=$(x[0]).value.trim(); }); b.disabled=true;
     api(pg,function(r1){ if(r1.status!=='ok'){ b.disabled=false; toast(r1.msg||'저장하지 못했습니다'); return; } DECO.g=r1; if(ME){ ME.intro=r1.intro; ME.outText=r1.outText; ME.backText=r1.backText; }
-      api(pc,function(r2){ b.disabled=false; if(r2.status!=='ok'){ toast(r2.msg||'저장하지 못했습니다'); return; } DECO.c=r2; if(ME){ ME.bestText=r2.bestText; ME.invText=r2.invText; } homeDirty(); toast('문구를 저장했습니다','첫 화면에 바로 실립니다'); }); }); };
+      api(pc,function(r2){ b.disabled=false; if(r2.status!=='ok'){ toast(r2.msg||'저장하지 못했습니다'); return; } DECO.c=r2; if(ME){ ME.bestText=r2.bestText; ME.invText=r2.invText; } homeDirty(); toast('문구를 저장했습니다','첫 화면에 실렸습니다'); toHome(); }); }); };
 }
 
 /* ══ 승인 관리(관리자 · 확인자 — v26: 새 분 · 멈춘 분 더함) ══ */

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ═══════════════════════════════════════════════════════════════════
-     사랑흐름 · admin.html   v15 · 261005 · [이슈 107 · 대표 위임 20:42] ★배포처 번호 — 받는 곳 이름을 넣으면 아는 곳은 그 번호, 처음 곳은 다음 번호를 스스로 채움 · 비워도 뽑힘(서버가 찾음). ★「발급 목록」 — 받는 곳 · 계약번호 · 여권번호로 찾기 · 시각 · 받는 곳 · 계약번호 · 상품 이름 · 질문지 · 편 수 · 번호 모두 복사. 짝꿍 — 게시판 Code.gs v5-19(adminIssued · adminOrgs).
+     사랑흐름 · admin.html   v16 · 261010 · [62차 · 대표 261010] ★대량 발급 — 누를 때마다 요청 번호를 붙임(응답을 못 받아 다시 눌러도 두 번 뽑히지 않음 · 같은 결과를 다시 보여 줌) · 계약 수량을 넘으면 「증액 승인」 칸(더할 수량 · 사유)이 열림 · 결과에 계약 최초 · 증액 · 누적 · 남은 몫 · 응답을 못 받은 번호는 「확인 필요」로 따로 보임. 짝꿍 — 게시판 Code.gs v5-20.
+     ── 이전 ── 사랑흐름 · admin.html   v15 · 261005 · [이슈 107 · 대표 위임 20:42] ★배포처 번호 — 받는 곳 이름을 넣으면 아는 곳은 그 번호, 처음 곳은 다음 번호를 스스로 채움 · 비워도 뽑힘(서버가 찾음). ★「발급 목록」 — 받는 곳 · 계약번호 · 여권번호로 찾기 · 시각 · 받는 곳 · 계약번호 · 상품 이름 · 질문지 · 편 수 · 번호 모두 복사. 짝꿍 — 게시판 Code.gs v5-19(adminIssued · adminOrgs).
      ── 이전 ── 사랑흐름 · admin.html   v14 · 261005 · [대표 ok 18:14] ★상품 나눔 — 「미리 써 보는 나의 자서전 · 청소년」이 따로 섬. 상품마다 고를 수 있는 질문지만 보임(성인 상품 = 성인 하나 · 청소년 = 초등 고학년 / 중고등). 짝꿍 — 게시판 Code.gs v5-18.
      ── 이전 ── 사랑흐름 · admin.html   v13 · 261005 · [이슈 101 · 106 · 대표 ok 18:04] ★대량 발급에 「질문지」(성인 · 초등 고학년 · 중고등) · 「한 사람당 자서전 편 수」(1~10 · 자서전이 든 상품만) · 그 아래 「자서전 편 더하기」(이미 나간 번호 · 대표만). 짝꿍 — 게시판 Code.gs v5-17. [무손] 그 밖 v12 전부.
      ── 이전 ── 사랑흐름 · admin.html   v12 · 261005 · [자서전 공사 칸 15 · 안내자 대장] ★「안내자」 칸 — 새 신청 → 대장에 올리기(번호 자동) · 주문에 쓰였지만 대장에 없는 옛 번호 → 그 번호 그대로 올리기 · 대장 목록(역할 · 팀장 · 인증 · 이은 주문 · 맡은 기록) · 고치기 · 안내자 주소 복사 · 최근 발급에 수행 안내자 맡기기(고르기). ★번호는 사람이 외우지 않음 — 다음 번호를 서버가 띄우고 저장하면 꽂아 줌(대표 결정 261005 10:07). 짝꿍: 게시판 서버 v5-16(adminGuides · adminGuideSave · adminGuideAssign).
@@ -718,6 +719,7 @@ var BULK_CH    = [];      /* ★v10 채널 목록도 GAS 가 보내줍니다. �
 var BULK_MAX   = 30;
 var BULK_WAIT  = 8 * 60 * 1000;   /* 8분 — 서른 장이 3분쯤 걸립니다 */
 var BULK_LAST  = null;    /* 마지막으로 뽑은 결과 (복사용) */
+var BULK_REQ   = null;    /* ★v16 이번 누름의 요청 번호 — 답을 받기 전까지 그대로(다시 눌러도 같은 요청) */
 
 /* 상품 목록 — adminList 가 함께 실어 보냅니다(bulkItems). */
 function loadBulkItems(){
@@ -888,7 +890,7 @@ function copyIssued(){
   alert(ISSUED.length + '개 번호를 복사했습니다.');
 }
 
-function doBulk(){
+function doBulk(over, why){   /* ★v16 over · why = 증액 승인 */
   var org   = (document.getElementById('bOrg').value  || '').trim();
   var orgNo = (document.getElementById('bNo').value   || '').trim();
   var item  = (document.getElementById('bItem').value || '').trim();
@@ -923,7 +925,7 @@ function doBulk(){
   /* ★한 번 더 묻습니다 — 여기서 나가는 여권은 돈을 안 받은 것입니다 */
   var nm = document.getElementById('bItem');
   nm = nm.options[nm.selectedIndex] ? nm.options[nm.selectedIndex].text : item;
-  if(!confirm(org + ' 앞으로\n' + nm + ' ' + qty + '장을 뽑습니다.\n'
+  if(!over && !confirm(org + ' 앞으로\n' + nm + ' ' + qty + '장을 뽑습니다.\n'
             + '채널 ' + chNm + '\n'
             + (mem ? ('질문지 ' + q.name + ' · 한 사람당 자서전 ' + pieces + '편\n') : '')
             + (batch ? ('계약번호 ' + batch + ' (순번은 이어집니다)\n') : '계약번호 자동\n')
@@ -935,12 +937,16 @@ function doBulk(){
   btn.textContent = '뽑는 중입니다…';
   out.innerHTML = '<div class="oh">기다려 주십시오. 한 장에 5초쯤 걸립니다.</div>';
 
+  if(!BULK_REQ){ BULK_REQ = 'B' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
   jsonp({ action:'adminBulk', key:KEY, org:org, orgNo:orgNo, item:item, qty:qty,
           channel:ch, batch:batch,                        /* ★v10 */
-          qset:(q ? q.v : ''), pieces:(mem ? pieces : '') },   /* ★v13 */
+          qset:(q ? q.v : ''), pieces:(mem ? pieces : ''),     /* ★v13 */
+          req:BULK_REQ, over:(over || ''), why:(why || '') },  /* ★v16 */
     function(res){
       btn.disabled = false;
       btn.textContent = '여권 뽑기';
+      if(!(res && (res.code === 'BUSY' || res.code === 'IN_PROGRESS'))){ BULK_REQ = null; }   /* ★v16 답을 받았으니 다음 누름은 새 요청 */
+      if(res && res.code === 'CONTRACT_OVER'){ paintOver(res); return; }
 
       if(!res || res.status !== 'ok'){
         if(res && res.msg && res.msg.indexOf('권한') >= 0){ backToKey(); return; }
@@ -954,8 +960,7 @@ function doBulk(){
       btn.disabled = false;
       btn.textContent = '여권 뽑기';
       out.innerHTML = '<div class="bad">' + esc(msg)
-        + '<br>★주문대장을 열어 실제로 나갔는지 확인해 주십시오. '
-        + '나갔는데 화면만 못 받았을 수 있습니다.</div>';
+        + '<br>★나갔는데 화면만 못 받았을 수 있습니다. 「여권 뽑기」를 다시 누르시면 같은 요청으로 확인만 하고, 두 번 뽑지 않습니다.</div>';
     },
     BULK_WAIT);
 }
@@ -971,6 +976,14 @@ function paintBulkOut(res){
     h += '<div class="oh">질문지 ' + esc(res.qset || '기본') + (res.pieces ? (' &middot; 한 사람당 자서전 ' + res.pieces + '편') : '') + '</div>';
   }
   if(res.markWarn){ h += '<div class="bad">' + esc(res.markWarn) + '</div>'; }
+  if(res.again){ h += '<div class="oh">' + esc(res.msg || '이미 처리된 요청입니다.') + '</div>'; }
+  if(res.contractInfo){   /* ★v16 */
+    var ci = res.contractInfo;
+    h += '<div class="oh">계약 ' + esc(ci.contract) + ' &middot; 최초 ' + ci.first + (ci.extra ? ' &middot; 증액 ' + ci.extra : '') + ' &middot; 누적 ' + ci.used + ' &middot; 남은 ' + ci.left + '</div>';
+  }
+  if(res.review && res.review.length){
+    h += '<div class="bad">응답을 받지 못한 번호 ' + res.review.length + '장 — 나갔을 수 있습니다. 「발급 목록」에서 확인하시고, 다시 뽑지 마십시오.<br>' + res.review.map(esc).join(' ') + '</div>';
+  }
 
   /* ★v10 계약번호로 뽑으신 경우 — 몇 번부터 몇 번까지인지, 지금까지 몇 장인지 보여 줍니다.
      오백 장을 서른씩 나눠 뽑으실 때 어디까지 왔는지 이 줄로 확인하십시오. */
@@ -1005,6 +1018,21 @@ function paintBulkOut(res){
   }
 
   document.getElementById('bOut').innerHTML = h;
+}
+
+/* ★v16 계약 수량을 넘을 때 — 더할 수량 · 사유를 적고 승인하면 그대로 이어 뽑음 */
+function paintOver(res){
+  var ci = res.contractInfo || {};
+  document.getElementById('bOut').innerHTML = '<div class="bad">' + esc(res.msg || '계약 수량을 넘습니다.') + '</div>'
+    + '<div class="oh">계약 ' + esc(ci.contract || '') + ' &middot; 최초 ' + (ci.first || 0) + ' &middot; 증액 ' + (ci.extra || 0) + ' &middot; 누적 ' + (ci.used || 0) + ' &middot; 남은 ' + (ci.left || 0) + '</div>'
+    + '<label>더할 수량</label><input id="bOver" type="number" min="1" inputmode="numeric" placeholder="예: 5">'
+    + '<label>사유</label><input id="bWhy" maxlength="80" placeholder="예: 기관 추가 신청 (10/10 공문)">'
+    + '<button class="run" id="bOverGo" style="margin-top:8px">증액 승인하고 뽑기</button>';
+  document.getElementById('bOverGo').onclick = function(){
+    var o = Number(document.getElementById('bOver').value) || 0, w = (document.getElementById('bWhy').value || '').trim();
+    if(o < 1 || !w){ alert('더할 수량과 사유를 적어 주십시오.'); return; }
+    doBulk(o, w);
+  };
 }
 
 /* 번호 모두 복사 — 카톡·메일로 그대로 붙여 보내시면 됩니다 */

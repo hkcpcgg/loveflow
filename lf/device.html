@@ -1,0 +1,209 @@
+<!-- ★ 현재 버전 ▶ lf/device.html · v1 · 261010 · [자서전 서버 v47 · 기기 열쇠 · 63차] 「휴대폰 관리」 — 이 휴대폰이 본인 기기인지 · 카카오 잇기 · 대리인 잇기 · 빼기 · 다른 휴대폰 등록(카카오 · 대리인 숫자 · 운영자 등록 링크 ?c=). 카카오 로그인 돌아오는 주소 = 이 화면(www · 맨 앞 둘). -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>휴대폰 관리 · 사랑흐름</title>
+<script src="/lf/dk.js?v=1"></script>
+<style>
+:root{--navy:#1E2A44;--ink:#2E3A46;--mute:#6B7685;--line:#EADFCF;--paper:#FFFCF7;--orange:#E8833A;--orange2:#F2A65A;--green:#1D9E75;--red:#C2463E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:15.5px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+.w{max-width:520px;margin:0 auto;padding:60px 16px 120px;display:grid;gap:14px}
+h1{margin:0;font-size:22px;color:var(--navy);text-align:center}
+.sub{margin:-6px 0 4px;text-align:center;color:var(--mute);font-size:14px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;display:grid;gap:10px}
+.st{display:flex;align-items:center;gap:12px}
+.st i{flex:0 0 46px;height:46px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:22px;color:#fff}
+.st b{display:block;font-size:16.5px;color:var(--navy)}
+.st small{color:var(--mute);font-size:13.5px}
+.btn{display:block;width:100%;border:0;border-radius:12px;padding:13px 14px;font:inherit;font-weight:800;cursor:pointer;text-align:center;text-decoration:none}
+.b1{background:var(--orange);color:#fff}.b2{background:#F4EEE4;color:var(--navy)}.b3{background:#FEE500;color:#191600}
+.btn:disabled{opacity:.5}
+.row{display:flex;gap:8px;align-items:center}
+.row>*{min-width:0}
+input{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:16px;background:#fff;color:var(--ink)}
+input:focus{outline:2px solid var(--orange2);border-color:var(--orange2)}
+.code{font-size:34px;font-weight:900;letter-spacing:.18em;text-align:center;color:var(--navy);font-variant-numeric:tabular-nums}
+.note{color:var(--mute);font-size:13.5px;margin:0}
+.msg{border-radius:12px;padding:11px 13px;font-size:14.5px}
+.ok{background:#E6F5EE;color:#165C45}.er{background:#FDECEA;color:#8A2A23}
+.px{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid #F3EADF;padding-top:10px}
+.px button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;color:var(--red);cursor:pointer}
+.wait{text-align:center;color:var(--mute)}
+</style>
+</head>
+<body>
+<main class="w" id="app">
+  <h1>📱 휴대폰 관리</h1>
+  <p class="sub">사랑흐름 여권으로 쓰는 휴대폰</p>
+  <div class="card wait" id="box">확인하는 중입니다</div>
+</main>
+<script>
+(function () {
+  var KAKAO_REST = 'fe792945db813c2a38cacfbe273cba8d';
+  var HERE = 'https://' + (location.host === 'loveflow.ai.kr' ? 'loveflow.ai.kr' : 'www.loveflow.ai.kr') + '/lf/device.html';
+  var CH = 'https://pf.kakao.com/_ExndxfX/chat';
+  var Q = {}; location.search.replace(/^\?/, '').split('&').forEach(function (x) { if (!x) { return; } var i = x.indexOf('='); Q[decodeURIComponent(x.slice(0, i < 0 ? x.length : i))] = i < 0 ? '' : decodeURIComponent(x.slice(i + 1).replace(/\+/g, ' ')); });
+  var box = document.getElementById('box');
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function ls(k, v) { try { if (v === undefined) { return localStorage.getItem(k); } if (v === null) { localStorage.removeItem(k); } else { localStorage.setItem(k, v); } } catch (e) { } return null; }
+  var back = Q.back || ls('lf_dk_back') || '';
+  if (Q.back) { ls('lf_dk_back', Q.back); }
+  var PP = LFDK.clean(Q.pp) || LFDK.now();
+  function call(p, cb) { box.className = 'card wait'; box.innerHTML = '확인하는 중입니다'; LFDK.call(p, cb); }
+  function msg(cls, t) { return '<div class="msg ' + cls + '">' + t + '</div>'; }
+  function backBtn() { return back ? '<a class="btn b2" href="' + esc(back) + '">하던 곳으로 돌아가기</a>' : '<a class="btn b2" href="/memoir/home.html">내 기록 보기</a>'; }
+  function kakao(what) {
+    ls('lf_dk_kk', what + '|' + PP);
+    location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=' + KAKAO_REST + '&redirect_uri=' + encodeURIComponent(HERE) + '&response_type=code&state=' + encodeURIComponent(what);
+  }
+
+  /* 번호가 없으면 */
+  function ask(err) {
+    box.className = 'card';
+    box.innerHTML = (err ? msg('er', esc(err)) : '')
+      + '<b>사랑흐름 여권번호를 넣어 주십시오</b>'
+      + '<input id="pp" inputmode="latin" autocapitalize="characters" placeholder="LF-XXXXX" aria-label="사랑흐름 여권번호">'
+      + '<button class="btn b1" id="go">확인</button>';
+    document.getElementById('go').onclick = function () {
+      var v = LFDK.clean(document.getElementById('pp').value);
+      if (!v) { ask('사랑흐름 여권번호를 확인해 주십시오.'); return; }
+      PP = v; ls('lf_passport', v); start();
+    };
+  }
+
+  /* 본인 기기 */
+  function owner(d, note) {
+    var px = d.proxies || [], pxh = '';
+    for (var i = 0; i < px.length; i++) {
+      pxh += '<div class="px"><span>👤 ' + esc(px[i].rel || '대리인') + (px[i].made ? ' <small style="color:#6B7685">· ' + esc(px[i].made) + '</small>' : '') + '</span><button data-drop="' + esc(px[i].id) + '">빼기</button></div>';
+    }
+    box.className = 'card';
+    box.innerHTML = (note || '')
+      + '<div class="st"><i style="background:var(--green)">✓</i><span><b>이 휴대폰은 본인 기기입니다</b><small>' + esc(PP) + '</small></span></div>'
+      + '<div class="card" style="padding:12px;border-color:#F3EADF">'
+      +   (d.kakao ? '<div class="st"><i style="background:#FEE500;color:#191600;font-size:18px">K</i><span><b>카카오가 이어져 있습니다</b><small>휴대폰을 바꾸면 카카오로 바로 옮겨 옵니다</small></span></div>'
+                   : '<b>휴대폰을 바꿀 때를 위해 카카오를 이어 두십시오</b><p class="note">이어 두면 새 휴대폰에서 카카오로 바로 등록됩니다.</p><button class="btn b3" id="kl">카카오 잇기</button>')
+      + '</div>'
+      + '<div class="card" style="padding:12px;border-color:#F3EADF"><b>대리인 휴대폰</b>'
+      +   '<p class="note">가족이 대신 써 드릴 때 씁니다. 대리인은 쓰기와 고치기만 됩니다. 이름 남기기(서명)는 본인 휴대폰에서 합니다.</p>'
+      +   pxh
+      +   (px.length < (d.proxyMax || 1) ? '<button class="btn b2" id="inv">대리인 휴대폰 잇기</button>' : '')
+      +   '<div id="invBox"></div>'
+      + '</div>'
+      + backBtn();
+    var kl = document.getElementById('kl'); if (kl) { kl.onclick = function () { kakao('link'); }; }
+    var iv = document.getElementById('inv');
+    if (iv) {
+      iv.onclick = function () {
+        iv.disabled = true;
+        LFDK.call({ action: 'devInvite', passport: PP, dk: LFDK.key(PP) }, function (r) {
+          iv.disabled = false;
+          var b = document.getElementById('invBox');
+          if (r.status !== 'ok') { b.innerHTML = msg('er', esc(r.msg || '잠시 후 다시 해 주십시오.')); return; }
+          b.innerHTML = '<p class="note" style="text-align:center">대리인 휴대폰의 「휴대폰 관리」에서 이 숫자를 넣으면 됩니다. 10분 동안 쓸 수 있습니다.</p><div class="code">' + esc(r.code) + '</div>';
+        });
+      };
+    }
+    var dr = box.querySelectorAll('[data-drop]');
+    for (var j = 0; j < dr.length; j++) {
+      dr[j].onclick = function () {
+        var id = this.getAttribute('data-drop'), bt = this;
+        if (bt.getAttribute('data-sure') !== '1') { bt.setAttribute('data-sure', '1'); bt.textContent = '한 번 더 누르면 뺍니다'; return; }
+        call({ action: 'devDrop', passport: PP, dk: LFDK.key(PP), id: id }, function (r) { show(r.status === 'ok' ? msg('ok', '대리인 휴대폰을 뺐습니다.') : msg('er', esc(r.msg || '처리하지 못했습니다.'))); });
+      };
+    }
+  }
+
+  /* 대리인 기기 */
+  function proxy(note) {
+    box.className = 'card';
+    box.innerHTML = (note || '') + '<div class="st"><i style="background:#5C7FA6">👤</i><span><b>이 휴대폰은 대리인 기기입니다</b><small>' + esc(PP) + ' · 쓰기와 고치기만 됩니다</small></span></div>'
+      + '<p class="note">이름 남기기(서명)와 목소리 지우기는 본인 휴대폰에서 해 주십시오.</p>' + backBtn();
+  }
+
+  /* 등록되지 않은 휴대폰 */
+  function stranger(info, note) {
+    box.className = 'card';
+    box.innerHTML = (note || '')
+      + '<div class="st"><i style="background:var(--orange)">!</i><span><b>이 사랑흐름 여권은 다른 휴대폰에 등록되어 있습니다</b><small>' + esc(PP) + '</small></span></div>'
+      + '<b style="margin-top:4px">휴대폰을 바꾸셨으면</b>'
+      + (info.kakao ? '<button class="btn b3" id="kc">카카오로 이 휴대폰 등록</button>'
+                    : '<p class="note">본인 휴대폰에 카카오를 이어 두지 않아, 사랑흐름에서 등록을 도와 드립니다.</p>')
+      + '<a class="btn b2" href="' + CH + '" target="_blank" rel="noopener">사랑흐름에 문의</a>'
+      + '<b style="margin-top:8px">가족이 대신 써 드리시면</b>'
+      + '<p class="note">본인 휴대폰의 「휴대폰 관리」 → 「대리인 휴대폰 잇기」에서 받은 여섯 자리 숫자를 넣어 주십시오.</p>'
+      + '<div class="row"><input id="jc" inputmode="numeric" maxlength="6" placeholder="여섯 자리 숫자" aria-label="여섯 자리 숫자"></div>'
+      + '<input id="jr" maxlength="20" placeholder="본인과 어떤 사이인지 (예: 딸)" aria-label="본인과의 사이">'
+      + '<button class="btn b1" id="jg">대리인으로 등록</button>';
+    var kc = document.getElementById('kc'); if (kc) { kc.onclick = function () { kakao('claim'); }; }
+    document.getElementById('jg').onclick = function () {
+      var c = document.getElementById('jc').value.replace(/\D/g, ''), r = document.getElementById('jr').value.trim();
+      if (c.length !== 6) { stranger(info, msg('er', '여섯 자리 숫자를 넣어 주십시오.')); return; }
+      if (!r) { stranger(info, msg('er', '본인과 어떤 사이인지 적어 주십시오.')); return; }
+      call({ action: 'devJoin', code: c, rel: r }, function (d) {
+        if (d.status === 'ok' && d.dk) { PP = d.passport || PP; LFDK.save(PP, d.dk, d.role); proxy(msg('ok', '대리인 휴대폰으로 등록되었습니다.')); return; }
+        stranger(info, msg('er', esc(d.msg || '등록하지 못했습니다.')));
+      });
+    };
+  }
+
+  function show(note) {
+    call({ action: 'devInfo', passport: PP, dk: LFDK.key(PP) }, function (d) {
+      if (d.status !== 'ok') { box.className = 'card'; box.innerHTML = msg('er', '지금은 확인하지 못했습니다. 잠시 후 다시 열어 주십시오.') + backBtn(); return; }
+      if (d.role === '본인') { owner(d, note); return; }
+      if (d.role === '대리') { proxy(note); return; }
+      if (LFDK.key(PP)) { ls('lf_dk_' + PP, null); }   /* 막힌 열쇠는 지움 */
+      if (!d.owned) {
+        call({ action: 'devClaim', passport: PP }, function (c) {
+          if (c.status === 'ok' && c.dk) { LFDK.save(PP, c.dk, c.role); show(msg('ok', '이 휴대폰을 본인 기기로 등록했습니다.')); return; }
+          if (c.status === 'owned') { stranger({ kakao: c.kakao }, note); return; }
+          ask(c.msg || '사랑흐름 여권번호를 확인해 주십시오.');
+        });
+        return;
+      }
+      stranger(d, note);
+    });
+  }
+
+  function start() {
+    if (!PP) { ask(); return; }
+    ls('lf_passport', PP);
+    /* 운영자가 보낸 등록 링크 */
+    if (Q.c) {
+      call({ action: 'devClaim', passport: PP, c: Q.c }, function (d) {
+        history.replaceState(null, '', '/lf/device.html');
+        if (d.status === 'ok' && d.dk) { LFDK.save(PP, d.dk, d.role); show(msg('ok', '이 휴대폰을 본인 기기로 등록했습니다. 예전 휴대폰은 더 쓰지 않습니다.')); return; }
+        show(msg('er', esc(d.msg || '등록하지 못했습니다.')));
+      });
+      return;
+    }
+    /* 카카오에서 돌아옴 */
+    if (Q.code) {
+      var kk = (ls('lf_dk_kk') || '').split('|'), what = Q.state || kk[0];
+      if (kk[1]) { PP = LFDK.clean(kk[1]) || PP; }
+      ls('lf_dk_kk', null);
+      history.replaceState(null, '', '/lf/device.html');
+      if (what === 'link') {
+        call({ action: 'devKakaoLink', passport: PP, dk: LFDK.key(PP), code: Q.code, redirect: HERE }, function (d) {
+          show(d.status === 'ok' ? msg('ok', '카카오를 이었습니다.') : msg('er', esc(d.msg || '카카오를 잇지 못했습니다.')));
+        });
+      } else {
+        call({ action: 'devKakaoClaim', passport: PP, code: Q.code, redirect: HERE }, function (d) {
+          if (d.status === 'ok' && d.dk) { LFDK.save(PP, d.dk, d.role); show(msg('ok', '이 휴대폰을 본인 기기로 등록했습니다. 예전 휴대폰은 더 쓰지 않습니다.')); return; }
+          show(msg('er', esc(d.msg || '등록하지 못했습니다.')));
+        });
+      }
+      return;
+    }
+    show();
+  }
+  start();
+})();
+</script>
+<script src="/lf-foot.js" defer></script>
+<script src="/lf/frame.js?v=9"></script>
+</body>
+</html>
