@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v37 · 261010 · [대표 OK 261010 18:07 「화면 v37 할 작업 보고」 · 서버 v10 과 짝]
+<!-- ★ 현재 버전 ▶ rec/index.html · v38 · 261010 · [대표 OK 261010 20:14 「담당자가 모임을 열게 경로를 열어 줌」 + 65차 회의 결과 · 서버 v11 과 짝]
+     ☰ 「내가 관리하는 곳」(recMyPlaces — 카카오 한 번으로 맡은 모임 모두 · 오늘 할 일 · 본부) · ☰ 「본부」(본부 카카오면 보임 · 주소 입력 없음) · ☰ 「다른 모임으로 가기」.
+     관리 화면 「아래 모임 열기」(recPlug make — 틀 · 공개 방식 · 내가 맡기 / 다른 분께 임명 링크) · 「최근 관리 기록」(recAdminLog) · 모임 잇기 아래 모임 관리자 빼기(subOut).
+     관리자 임명 링크 ?adm= 받기(recAdminClaim — 카카오 확인 뒤 관리자 · 7일 · 한 번). 본부: 관리자 빼기 · 임명 대기 표시 · 첫 관리자 = 임명 링크.
+     「일반인으로 보기」(관리 기능 잠금 · 위 띠) · 「이 기기 기억하기」(끄면 창을 닫을 때 나감) · 30일 안 쓴 기기는 열쇠 지움 · 관리 확인 표를 카카오에 묶음(모임을 옮겨도 그대로).
+     첫 화면 답의 paused 로 운영 멈춤을 바로 앎(242). [무손] 그 밖 v37 전부. -->
+<!-- ★ (이전) rec/index.html · v37 · 261010 · [대표 OK 261010 18:07 「화면 v37 할 작업 보고」 · 서버 v10 과 짝]
      217 관리 화면 분리 — ☰ 에는 「관리」 한 줄(관리자 · 확인자) → 카카오 관리 확인(recAdminTicket · at 6시간 · 이 기기) → 관리 화면 3단(우리 모임 · 첫 화면 · 초대 · 모임 잇기).
      관리 요청 16가지에 at 실음 · 막힘(ADMIN_KAKAO)이면 관리 확인 창. 역할 변경 · 관리자 넘기기(함께하는 분 · recRoleSet). 모임 잇기(recPlug — 링크 만들기 · ?plug= 받기 · 연결 해제 · 거두기 · 아래 모임 관리자 지정).
      아래 모임 모아 보기(recBundle · 모임별 숫자 · 바둑판 · 보기만). 본부 /rec/?hq=1(recHqLogin · recHq — 모임 목록 · 만들기 · 관리자 더하기 · 열쇠 다시 · 운영 멈춤 · 틀 · 메인).
@@ -569,6 +575,12 @@ body.kbon #navbar{display:none!important}
 .rpl{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:15px}
 .rpl:first-of-type{border-top:0}.rpl em{font-style:normal;font-weight:700;color:var(--navy2)}
 .rpl small{color:var(--sub);font-size:13px}
+.rmb{flex-wrap:wrap;font-size:14.5px;color:var(--ink)} .rmb small{flex-basis:100%;margin-left:28px;color:#7a7268;font-size:12.5px}
+.asub{position:fixed;left:0;right:0;top:0;z-index:1200;display:flex;align-items:center;justify-content:center;gap:10px;padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top, 0px));background:#FFF1DC;color:#9A5B12;font-size:14.5px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.asub button{border:0;border-radius:99px;padding:5px 12px;background:#9A5B12;color:#fff;font-weight:700;font-size:13.5px}
+body.asu #main{padding-top:46px}
+.adl{padding-left:14px;border-left:3px solid var(--line)}
+.todo{display:flex;align-items:center;gap:8px}
 .pzb{display:flex;align-items:center;justify-content:center;gap:6px;margin:4px 0 10px;padding:9px 12px;border-radius:12px;background:#FFF1DC;color:#9A5B12;font-size:14.5px;font-weight:700}
 .rlo{position:relative}.rlo .rdo{flex:none;width:22px;height:22px;border-radius:50%;border:2px solid #C9CED8;background:var(--paper)}.rlo.on .rdo{border:7px solid var(--navy)}.rlo.on b{color:var(--navy)}
 .bdt{display:flex;flex-direction:column;gap:8px}.bdr{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:8px 0;border-bottom:1px solid var(--line)}.bdr:last-child{border-bottom:none}
@@ -630,8 +642,13 @@ var GRAPE='<path d="M20 3Q21 7 20 10" stroke="#3B6D11" stroke-width="2.4" fill="
 function ic(n,c){ if(n==='grape'){ return '<svg class="i gr'+(c?' '+c:'')+'" viewBox="0 0 40 40" aria-hidden="true">'+GRAPE+'</svg>'; } return '<svg class="i'+(c?' '+c:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+(IC[n]||'')+'</svg>'; }
 function $(i){ return document.getElementById(i); }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
-function sget(k){ try{ return localStorage.getItem(k)||''; }catch(e){ return ''; } }
-function sset(k,v){ try{ if(v){ localStorage.setItem(k,v); } else { localStorage.removeItem(k); } }catch(e){} }
+/* ★v38 「이 기기 기억하기」를 끄면 열쇠 · 관리 확인 표를 창을 닫을 때 지워지는 곳(sessionStorage)에 둠 */
+var TMPK={lf_rec_k:1,lf_rec_at:1,lf_rec_ht:1};
+function tmpOn(){ try{ return sessionStorage.getItem('lf_rec_tmp')==='1'; }catch(e){ return false; } }
+function sget(k){ try{ if(TMPK[k]){ var s0=sessionStorage.getItem(k); if(s0){ return s0; } } return localStorage.getItem(k)||''; }catch(e){ return ''; } }
+function sset(k,v){ try{ var st=(TMPK[k]&&tmpOn())?sessionStorage:localStorage; if(v){ st.setItem(k,v); } else { localStorage.removeItem(k); try{ sessionStorage.removeItem(k); }catch(e1){} } }catch(e){} }
+function rememberSet(on){ try{ if(on){ sessionStorage.removeItem('lf_rec_tmp'); } else { sessionStorage.setItem('lf_rec_tmp','1'); ['lf_rec_k','lf_rec_at','lf_rec_ht'].forEach(function(k){ localStorage.removeItem(k); }); } }catch(e){} }
+function rememberBox(){ return '<label class="wab rmb"><input type="checkbox" id="rmX"'+(tmpOn()?'':' checked')+'> 이 기기 기억하기 <small>공용 컴퓨터에서는 끄십시오</small></label>'; }
 function each(el,sel,fn){ Array.prototype.forEach.call(el.querySelectorAll(sel),fn); }
 function toast(t,s){ var d=document.createElement('div'); d.className='toast'; d.innerHTML='<b>'+esc(t)+'</b>'+(s?'<small>'+esc(s)+'</small>':''); document.body.appendChild(d); setTimeout(function(){ if(d.parentNode){ d.parentNode.removeChild(d); } },3200); }
 function wait(el,msg){ el.innerHTML='<div class="waitbox"><b>'+esc(msg||'기록을 불러오는 중입니다')+'</b><div class="lf-wave"></div></div>'; try{ if(window.LFFlow){ LFFlow.wave(el.querySelector('.lf-wave')); } }catch(e){} }
@@ -641,7 +658,7 @@ var PSRC=[['직접 찍음','본인 촬영'],['가진 사진','소장 사진'],['
 function srcL(v){ for(var i=0;i<PSRC.length;i++){ if(PSRC[i][0]===v){ return PSRC[i][1]; } } return {'직접 만든 영상':'본인 제작 영상','다른 사람 영상':'타인 제작 영상','확인 필요':'출처 확인 전'}[v]||v||''; }
 
 /* ── 서버 — POST(text/plain) · 막히면 작은 요청은 JSONP 로 한 번 더 · 0.4초 넘으면 「○○하는 중입니다」 띠 ── */
-var BUSY_MSG={recAdd:'기록을 올리는 중입니다',recTell:'기억을 남기는 중입니다',recTalk:'대화를 남기는 중입니다',recReact:'마음을 전하는 중입니다',recReview:'처리하는 중입니다',recTakeDown:'삭제 요청을 보내는 중입니다',recWithdraw:'등록을 취소하는 중입니다',recTalkHide:'처리하는 중입니다',recMyName:'이름을 바꾸는 중입니다',recComName:'이름을 바꾸는 중입니다',recCatAdd:'분류를 추가하는 중입니다',recKakao:'카카오로 확인하는 중입니다',recKakaoLink:'카카오를 잇는 중입니다',recKakaoTicket:'카카오로 가는 중입니다',recApproveAll:'모두 승인하는 중입니다',recComAuto:'바꾸는 중입니다',recPersonAuto:'바꾸는 중입니다',recInvite:'초대 링크를 여는 중입니다',recPersonOut:'처리하는 중입니다',recRoleSet:'역할을 바꾸는 중입니다',recAdminTicket:'관리 확인을 하는 중입니다',recHqLogin:'본부로 들어가는 중입니다'};
+var BUSY_MSG={recAdd:'기록을 올리는 중입니다',recTell:'기억을 남기는 중입니다',recTalk:'대화를 남기는 중입니다',recReact:'마음을 전하는 중입니다',recReview:'처리하는 중입니다',recTakeDown:'삭제 요청을 보내는 중입니다',recWithdraw:'등록을 취소하는 중입니다',recTalkHide:'처리하는 중입니다',recMyName:'이름을 바꾸는 중입니다',recComName:'이름을 바꾸는 중입니다',recCatAdd:'분류를 추가하는 중입니다',recKakao:'카카오로 확인하는 중입니다',recKakaoLink:'카카오를 잇는 중입니다',recKakaoTicket:'카카오로 가는 중입니다',recApproveAll:'모두 승인하는 중입니다',recComAuto:'바꾸는 중입니다',recPersonAuto:'바꾸는 중입니다',recInvite:'초대 링크를 여는 중입니다',recPersonOut:'처리하는 중입니다',recRoleSet:'역할을 바꾸는 중입니다',recAdminTicket:'관리 확인을 하는 중입니다',recHqLogin:'본부로 들어가는 중입니다',recAdminClaim:'관리자로 들어가는 중입니다',recMyPlaces:'맡은 모임을 모으는 중입니다',recAdminLog:'관리 기록을 모으는 중입니다'};
 var BUSY_N=0, BUSY_T=null;
 function busyOn(msg){ BUSY_N++; if(BUSY_T||$('busy')){ busyText(msg); return; } BUSY_T=setTimeout(function(){ BUSY_T=null; if(!BUSY_N){ return; } var d=document.createElement('div'); d.className='busy'; d.id='busy'; d.innerHTML='<b>'+esc(msg)+'</b><div class="lf-wave"></div>'; document.body.appendChild(d); try{ if(window.LFFlow){ LFFlow.wave(d.querySelector('.lf-wave')); } }catch(e){} },400); }
 function busyOff(){ BUSY_N=Math.max(0,BUSY_N-1); if(BUSY_N){ return; } if(BUSY_T){ clearTimeout(BUSY_T); BUSY_T=null; } var d=$('busy'); if(d&&d.parentNode){ d.parentNode.removeChild(d); } }
@@ -652,6 +669,7 @@ function api(p,cb,again){
   if(!GAS){ cb({status:'err',msg:'서버 주소를 읽지 못했습니다. 잠시 후 다시 열어 주십시오.'}); return; }
   var p0=again?null:JSON.parse(JSON.stringify(p));
   if(p._hq){ delete p._hq; } else if(K&&!p.k){ p.k=K; } else if(!K&&G&&!p.g){ p.g=G; }
+  if(ASU&&ADM_ACTS[p.action]){ cb({status:'err',msg:'일반인으로 보는 중에는 관리 기능을 쓰지 않습니다.'}); return; }   /* ★v38 */
   if(ADM_ACTS[p.action]&&!p.at){ var at0=tkGet(ATK); if(at0){ p.at=at0.v; } }   /* ★v37 216 관리 확인 표 */
   var bm=p._busy||BUSY_MSG[p.action]; delete p._busy; if(bm){ busyOn(bm); }
   var done=false; function fin(d){ if(done){ return; } done=true; if(bm){ busyOff(); }
@@ -678,8 +696,10 @@ function roleName(r){ return {'관리자':'관리자','확인자':'확인자','�
 function byTxt(b){ if(!b){ return ''; } return b==='메인 화면'?'메인 화면에서 신청':/ 링크$/.test(b)?b+'로 참여':b+' 님 초대'; }   /* ★v28 */
 function autoOk(){ return ME&&(ME.autoMe||ME.autoCom); }
 function isGuest(){ return !!(ME&&ME.guest); }
-function isBoss(){ return ME&&!ME.guest&&(ME.role==='관리자'||ME.role==='확인자'); }
-function canAdd(){ return ME&&!ME.paused&&!ME.guest&&!ME.stop&&!ME.wait&&(isBoss()||ME.role==='올리는 사람'); }
+var ASU=false; try{ ASU=sessionStorage.getItem('lf_rec_as')==='1'; }catch(e){}   /* ★v38 일반인으로 보기 */
+function realBoss(){ return ME&&!ME.guest&&(ME.role==='관리자'||ME.role==='확인자'); }
+function isBoss(){ return !ASU&&realBoss(); }
+function canAdd(){ return ME&&!ME.paused&&!ME.guest&&!ME.stop&&!ME.wait&&(isBoss()||ME.role==='올리는 사람'||(ASU&&realBoss())); }   /* ★v38 일반인으로 보기 = 올리는 사람처럼 */
 function canTell(){ return ME&&!ME.paused&&!ME.guest&&!ME.stop&&!ME.wait&&ME.role!=='보는 사람'; }
 /* ★v26 쓰려는 순간 — 손님은 카카오로 한 번 · 신청 중 · 멈춤은 까닭을 알림 */
 function gate(){
@@ -713,6 +733,10 @@ function boot(){
   var code=(sp.get('code')||'').trim(), kerr=(sp.get('error')||'').trim();
   if(code||kerr){ kakaoBack(code,kerr,sp.get('state')||''); return; }
   if(sp.get('hq')){ hqBoot(); return; }   /* ★v37 본부 */
+  var adm=(sp.get('adm')||'').replace(/[^a-f0-9]/gi,'').slice(0,32).toLowerCase();   /* ★v38 관리자 임명 링크 */
+  if(adm.length===32){ try{ history.replaceState(null,'',location.pathname); }catch(e){} admClaimView(adm); return; }
+  var seen=parseInt(sget('lf_rec_seen'),10)||0;   /* ★v38 30일 안 쓴 기기는 열쇠를 지움 */
+  if(seen&&Date.now()-seen>30*86400000){ sset(KEY,''); sset('lf_rec_at',''); sset('lf_rec_seen',''); }
   var pl=(sp.get('plug')||'').replace(/[^a-f0-9]/gi,'').slice(0,12); if(pl){ sset(PLUGK,pl.toLowerCase()); }   /* ★v37 모임 잇기 링크 */
   if(k){ sset(KEY,k.toLowerCase()); }
   var f0=(sp.get('f')||'').trim(), f=(f0==='home')?'home':f0.replace(/[^a-f0-9]/gi,'').slice(0,10); if(f){ sset('lf_rec_f',f); } FROM=f||sget('lf_rec_f');   /* ★v27 home = 메인 화면에서 옴 */
@@ -740,7 +764,8 @@ var KICON='<svg viewBox="0 0 24 24"><path d="M12 3.5C6.8 3.5 2.6 6.8 2.6 10.9c0 
 function kakaoGo(mode,o){
   o=o||{};
   if(mode==='link'&&!o.t){ api({action:'recKakaoTicket'},function(d){ if(d.status==='ok'){ o.t=d.t; kakaoGo('link',o); } else { toast(d.msg||'잠시 후 다시 눌러 주십시오'); } }); return; }
-  var st=encodeURIComponent(JSON.stringify({m:mode,g:o.g||'',a:o.a?1:0,r:OPEN_R||o.r||'',t:o.t||'',f:o.f||FROM||'',n:o.n||'',s:o.s||''}));
+  var rb=$('rmX'), rm=rb?(rb.checked?1:0):(tmpOn()?0:1);   /* ★v38 이 기기 기억하기 */
+  var st=encodeURIComponent(JSON.stringify({m:mode,g:o.g||'',a:o.a?1:0,r:OPEN_R||o.r||'',t:o.t||'',f:o.f||FROM||'',n:o.n||'',s:o.s||'',x:o.x||'',rm:rm}));
   location.href='https://kauth.kakao.com/oauth/authorize?response_type=code&client_id='+KREST+'&redirect_uri='+encodeURIComponent(KREDIR)+'&state='+st;
 }
 function kakaoBtn(id){ return '<button type="button" class="btn kakao" id="'+id+'">'+KICON+'카카오로 들어오기</button>'; }
@@ -749,7 +774,9 @@ function kakaoBack(code,kerr,st){
   OPEN_R=String(o.r||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,20);
   var g=String(o.g||'').replace(/[^a-f0-9]/gi,'').slice(0,32);
   try{ history.replaceState(null,'',location.pathname+(g&&o.m==='join'?'?g='+g:'')); }catch(e){}
+  if(o.rm===0||o.rm===1){ rememberSet(o.rm===1); }   /* ★v38 */
   K=sget(KEY);
+  if(o.m==='adm'){ admClaimBack(code,kerr,String(o.x||'').replace(/[^a-f0-9]/gi,'').slice(0,32).toLowerCase()); return; }   /* ★v38 관리자 임명 링크 */
   if(o.m==='hq'){ hqBack(code,kerr,String(o.s||'')); return; }   /* ★v37 */
   if(o.m==='admin'){ adminBack(code,kerr,o.n); return; }
   if(kerr||!code){ if(K){ loadMe(); } else if(g){ joinForm(g); } else { noKey(); } return; }
@@ -763,13 +790,15 @@ function kakaoBack(code,kerr,st){
     return;
   }
   api({action:'recKakao',code:code,redirect:KREDIR,g:o.m==='join'?g:'',age14:o.a?'1':'',f:String(o.f||'').replace(/[^a-f0-9]/gi,'').slice(0,10)},function(d){
+    if(d.hq){ sset('lf_rec_hq','1'); }   /* ★v38 본부 카카오 */
     if(d.status!=='ok'){ kakaoFail(d,g); return; }
     function enter(x){ sset(KEY,x.key); K=x.key; G=''; sset('lf_rec_f',''); if(x.isNew){ nameFirst(x.name,x.wait); } else { loadMe(); } }
     if(d.items&&d.items.length>1){ pickCom(d.items,enter); } else { enter(d); }
   });
 }
 function kakaoFail(d,g){
-  $('main').innerHTML='<div class="card" style="margin-top:16px"><h2>들어오지 못했습니다</h2><p class="lead">'+esc(d.msg||'들어오지 못했습니다.')+'</p>'+(d.reason==='KAKAO'?kakaoBtn('kgo'):'')+'</div>';
+  $('main').innerHTML='<div class="card" style="margin-top:16px"><h2>들어오지 못했습니다</h2><p class="lead">'+esc(d.msg||'들어오지 못했습니다.')+'</p>'+(d.reason==='KAKAO'?kakaoBtn('kgo'):'')+(d.hq?'<button class="btn" id="kfHq" type="button">'+ic('key')+'본부로 들어가기</button>':'')+'</div>';
+  if($('kfHq')){ $('kfHq').onclick=function(){ location.href=location.pathname+'?hq=1'; }; }   /* ★v38 */
   if($('kgo')){ $('kgo').onclick=function(){ kakaoGo(g?'join':'login',{g:g,a:1}); }; }
 }
 function pickCom(items,cb){
@@ -793,13 +822,13 @@ function nameFirst(n,waitIn){
 }
 function noKey(){
   $('main').innerHTML='<div class="joinhero"><h1>함께 남기는 우리 이야기</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
-    '<div class="card"><h2>우리 이야기에 다시 들어오기</h2><p class="lead">카카오로 들어오시면 전에 남기신 기록이 그대로 이어집니다.</p>'+kakaoBtn('kgo')+(sget(PLUGK)?'<p class="kk-note">모임 잇기 링크를 받으셨으면 모임 관리자 카카오로 들어와 주십시오.</p>':'<p class="kk-note">처음 오셨으면 받으신 초대 링크를 눌러 주십시오.</p>')+'</div>';
+    '<div class="card"><h2>우리 이야기에 다시 들어오기</h2><p class="lead">카카오로 들어오시면 전에 남기신 기록이 그대로 이어집니다.</p>'+kakaoBtn('kgo')+rememberBox()+(sget(PLUGK)?'<p class="kk-note">모임 잇기 링크를 받으셨으면 모임 관리자 카카오로 들어와 주십시오.</p>':'<p class="kk-note">처음 오셨으면 받으신 초대 링크를 눌러 주십시오.</p>')+'</div>';
   $('kgo').onclick=function(){ kakaoGo('login'); };
 }
 function joinForm(g){
   $('main').innerHTML='<div class="joinhero"><div class="who">초대받으셨습니다</div><h1>함께 남기는 우리 이야기</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
     '<div class="card"><h2>들어가기</h2><p class="lead">카카오로 들어오시면 어느 휴대폰에서 열어도 이어집니다. 전화번호 · 연락처는 받지 않습니다.</p>'+
-    '<label class="wab" style="font-size:15.5px"><input type="checkbox" id="ja"> 만 14세 이상입니다</label>'+kakaoBtn('jb')+'<div class="err" id="je"></div></div>';
+    '<label class="wab" style="font-size:15.5px"><input type="checkbox" id="ja"> 만 14세 이상입니다</label>'+kakaoBtn('jb')+rememberBox()+'<div class="err" id="je"></div></div>';
   $('jb').onclick=function(){ if(!$('ja').checked){ $('je').textContent='만 14세 이상인지 확인해 주십시오.'; return; } $('je').textContent=''; kakaoGo('join',{g:g,a:1}); };
 }
 function loadMe(g){
@@ -809,7 +838,8 @@ function loadMe(g){
       if(d.reason==='NO_KEY'){ sset(KEY,''); K=''; if(g){ joinForm(g); return; } noKey(); return; }
       $('main').innerHTML='<div class="msg">'+esc(d.msg||'열지 못했습니다.')+'</div>'; return;
     }
-    ME=d; setTitle(); CATS=d.cats||[]; QN=d.qn||0;
+    ME=d; setTitle(); CATS=d.cats||[]; QN=d.qn||0; sset('lf_rec_seen',String(Date.now()));   /* ★v38 */
+    if(ME.role==='관리자'||ME.role==='확인자'){ sset('lf_rec_mgr','1'); } if(ASU&&!realBoss()){ ASU=false; try{ sessionStorage.removeItem('lf_rec_as'); }catch(e){} } asuSync();
     gridSet(d.grid);
     STACK=[{v:'feed'}];
     var dr=null; try{ dr=JSON.parse(sget(DRAFT)||'null'); }catch(e){} sset(DRAFT,'');
@@ -879,6 +909,8 @@ function render(){
   else if(VIEW==='adm'){ subPage('관리','이 모임을 관리합니다. 관리 기능은 카카오로 확인한 이 기기에서만 열립니다.'); admView(); }
   else if(VIEW==='plug'){ subPage('모임 잇기','두 모임을 위 · 아래로 잇습니다. 위 모임 관리자 · 확인자는 아래 모임의 공개 기록을 모아 볼 수 있습니다(보기만).'); plugView(); }
   else if(VIEW==='bund'){ subPage('아래 모임 모아 보기','이어진 아래 모임의 공개 기록입니다. 보기만 할 수 있습니다.'); bundView(''); }
+  else if(VIEW==='plc'){ subPage('내가 관리하는 곳','카카오 한 번으로 맡은 모임을 오갑니다. 오늘 할 일이 맨 위에 옵니다.'); plcView(); }   /* ★v38 */
+  else if(VIEW==='alog'){ subPage('최근 관리 기록','이 모임에서 누가 언제 무엇을 바꾸었는지 봅니다.'); alogView(); }
   else if(VIEW==='out'){ outView(); }
 }
 function subPage(t,h){
@@ -1848,7 +1880,11 @@ function boSheet(){
 /* ══ 내 메뉴 ══ */
 function meMenu(){
   var R=[['me','heart','c-gold','내가 남긴 것','내가 올린 기록 · 남긴 기억']];
-  if(isBoss()){ R.push(['adm','key','c-navy','관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),ME.role==='관리자'?'승인 · 함께하는 분 · 결과 보고 · 첫 화면 · 모임 잇기':'승인 · 함께하는 분 · 결과 보고 · 아래 모임']); }   /* ★v37 217 관리는 한 줄 */
+  if(isBoss()){ R.push(['adm','key','c-navy','관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),ME.role==='관리자'?'승인 · 함께하는 분 · 결과 보고 · 첫 화면 · 모임 잇기 · 아래 모임 열기':'승인 · 함께하는 분 · 결과 보고 · 아래 모임']); }   /* ★v37 217 관리는 한 줄 */
+  if(!ASU&&ME.kakao&&(realBoss()||sget('lf_rec_mgr')==='1'||sget('lf_rec_hq')==='1')){ R.push(['plc','home','c-green','내가 관리하는 곳','맡은 모임 모두 · 오늘 할 일']); }   /* ★v38 */
+  if(!ASU&&sget('lf_rec_hq')==='1'){ R.push(['hq','key','c-violet','본부','모임 목록 · 만들기 · 관리자 지정 · 운영 멈춤']); }
+  if(realBoss()){ R.push(ASU?['asu','look','c-gold','관리자로 돌아가기','지금은 일반인으로 보는 중입니다']:['asu','look','c-gray','일반인으로 보기','관리 기능을 숨기고 참여자 화면으로 봅니다']); }
+  if(ME.kakao){ R.push(['swc','link','c-peach','다른 모임으로 가기','카카오로 들어와 계신 다른 모임을 고릅니다']); }
   if(!ME.kakao){ R.push(['kk','share','c-violet','카카오 연결','다른 휴대폰에서도 카카오로 이어서 들어옵니다']); }
   R.push(['myname','pen','c-navy','보일 이름 바꾸기','지금 이름 · '+esc(ME.name||'')]);
   if(ME.room==='열린 모임'||ME.role==='관리자'){ R.splice(1,0,['post','share','c-peach','단톡방에 올릴 글','사진 제목 · 질문 · 링크를 한 번에 복사']); }
@@ -1861,7 +1897,7 @@ function meMenu(){
     $('mX').onclick=closeSheet;
     each(d,'[data-m]',function(b){ b.onclick=function(){ var m=b.getAttribute('data-m'); closeSheet();
       if(m==='out'){ exitApp(); return; }
-      if(m==='logout'){ sheet('<h2>이 기기에서 나가기</h2><p class="lead" style="margin-top:6px">'+(ME.kakao?'카카오로 다시 들어오실 수 있습니다.':'카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다.')+'</p><div class="pair" style="margin-top:16px"><button class="btn line" id="loNo" type="button">취소</button><button class="btn" id="loGo" type="button">나가기</button></div>',function(){ $('loNo').onclick=closeSheet; $('loGo').onclick=function(){ sset(KEY,''); location.href=location.pathname; }; }); return; }
+      if(m==='logout'){ sheet('<h2>이 기기에서 나가기</h2><p class="lead" style="margin-top:6px">'+(ME.kakao?'카카오로 다시 들어오실 수 있습니다.':'카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다.')+'</p><div class="pair" style="margin-top:16px"><button class="btn line" id="loNo" type="button">취소</button><button class="btn" id="loGo" type="button">나가기</button></div>',function(){ $('loNo').onclick=closeSheet; $('loGo').onclick=function(){ ['lf_rec_k','lf_rec_at','lf_rec_ht','lf_rec_hq','lf_rec_mgr','lf_rec_seen'].forEach(function(k){ sset(k,''); }); try{ sessionStorage.removeItem('lf_rec_as'); sessionStorage.removeItem('lf_rec_tmp'); }catch(e){} location.href=location.pathname; };   /* ★v38 맡은 자리 표시도 지움 */ }); return; }
       if(m==='name'){ nameBuild(); return; }
       if(m==='invq'){ invQuick(); return; }
       if(m==='myname'){ textSheet('보일 이름 바꾸기','우리 이야기에 남기신 것 옆에 보이는 이름입니다.',ME.name,20,function(v,cb){ api({action:'recMyName',name:v},function(r){ if(r.status==='ok'){ ME.name=r.name; toast('보일 이름을 바꾸었습니다',r.name); if(VIEW==='feed'){ feedView(); } } cb(r); }); }); return; }
@@ -1870,6 +1906,10 @@ function meMenu(){
       if(m==='guide'){ helpSheet(); return; }
       if(m==='leave'){ sheet('<h2>이 모임에서 나가기</h2><p class="lead" style="margin-top:6px">나가셔도 남기신 기록은 그대로 남습니다. 지우고 싶은 기록은 나가기 전에 「삭제 요청」을 해 주십시오. 다시 오시려면 모임 링크를 누르고 카카오로 들어오시면 됩니다.</p><div class="pair" style="margin-top:16px"><button class="btn line" id="lvNo2" type="button">취소</button><button class="btn red" id="lvGo2" type="button">나가기</button></div>',function(){ $('lvNo2').onclick=closeSheet; $('lvGo2').onclick=function(){ api({action:'recLeave'},function(r){ if(r.status==='ok'){ sset(KEY,''); location.href=location.pathname; } else { toast(r.msg||'처리하지 못했습니다'); } }); }; }); return; }
       if(m==='adm'){ admGo('adm'); return; }
+      if(m==='plc'){ plcGo(); return; }   /* ★v38 */
+      if(m==='hq'){ location.href=location.pathname+'?hq=1'; return; }
+      if(m==='asu'){ asuToggle(); return; }
+      if(m==='swc'){ kakaoGo('login'); return; }
       go(m);
     }; });
   });
@@ -2156,8 +2196,8 @@ function chkView(){
 
 /* ══ ★v37 관리 화면(217) · 역할 · 모임 잇기 · 묶어 보기 · 본부 · 운영 멈춤 — 서버 v10 과 짝 ══ */
 var ATK='lf_rec_at', HTK='lf_rec_ht', PLUGK='lf_rec_plug', PEND_ADM='';
-var ADM_ACTS={recComAuto:1,recPersonAuto:1,recComSet:1,recPersonOk:1,recInvite:1,recPersonOut:1,recComName:1,recGoSet:1,recReview:1,recApproveAll:1,recQueue:1,recPeople:1,recReport:1,recRoleSet:1,recPlug:1,recBundle:1};
-function tkGet(n){ try{ var o=JSON.parse(sget(n)||'null'); if(o&&o.v&&o.e>Date.now()&&(n!==ATK||o.k===K)){ return o; } }catch(e){} return null; }
+var ADM_ACTS={recComAuto:1,recPersonAuto:1,recComSet:1,recPersonOk:1,recInvite:1,recPersonOut:1,recComName:1,recGoSet:1,recReview:1,recApproveAll:1,recQueue:1,recPeople:1,recReport:1,recRoleSet:1,recPlug:1,recBundle:1,recMyPlaces:1,recAdminLog:1};
+function tkGet(n){ try{ var o=JSON.parse(sget(n)||'null'); if(o&&o.v&&o.e>Date.now()){ return o; } }catch(e){} return null; }   /* ★v38 표는 카카오에 묶임 — 모임을 옮겨도 그대로 */
 function tkSet(n,v,h){ sset(n,v?JSON.stringify({v:v,e:Date.now()+(h||6)*3600000-60000,k:n===ATK?K:''}):''); }
 function atOk(){ return !!tkGet(ATK); }
 function tkLeft(n){ var o=tkGet(n); if(!o){ return ''; } var m=Math.max(1,Math.round((o.e-Date.now())/60000)); return m>=60?Math.floor(m/60)+'시간'+(m%60?' '+(m%60)+'분':''):m+'분'; }
@@ -2188,7 +2228,8 @@ function adminBack(code,kerr,next){
 function afterMe(){
   var pa=PEND_ADM; PEND_ADM='';
   if(sget(PLUGK)){ plugPend(); return; }
-  if(pa&&isBoss()){ if(pa==='plug'&&ME.role!=='관리자'){ pa='adm'; } go(pa); }
+  if(pa==='plc'){ go('plc'); return; }   /* ★v38 */
+  if(pa&&isBoss()){ if((pa==='plug'||pa==='make')&&ME.role!=='관리자'){ pa='adm'; } if(pa==='make'){ go('adm'); setTimeout(makeSheet,300); return; } go(pa); }
 }
 
 /* 운영 멈춤 — 서버가 PAUSED 로 막으면 쓰기 단추를 숨김 */
@@ -2202,18 +2243,21 @@ function admView(){
   var h=pauseBar()+'<div class="card"><h2>'+ic('ppl','sm')+' 우리 모임</h2>'+
     row('chk','check','c-green','승인 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),'승인 대기 · 삭제 요청')+
     row('ppl','ppl','c-peach','함께하는 분',boss?'역할 변경 · 관리자 넘기기 · 초대 링크 · 공개 설정':'역할 변경 · 승인 · 작성 제한 해제')+
-    row('rep','chart','c-green','결과 보고','올린 것 · 반응 · 함께하는 분 · 초대 링크')+'</div>';
+    row('rep','chart','c-green','결과 보고','올린 것 · 반응 · 함께하는 분 · 초대 링크')+
+    row('alog','clock','c-navy','최근 관리 기록','누가 언제 무엇을 바꾸었는지')+'</div>';   /* ★v38 */
   if(boss){ h+='<div class="card"><h2>'+ic('star','sm')+' 첫 화면 · 초대</h2>'+
     row('deco','star','c-gold','첫 화면 꾸미기','바로가기 · 대표 사진 · 문구')+
     row('invq','share','c-violet','초대 링크 꺼내기','복사 · 카톡으로 보내기')+
     row('name','pen','c-navy','모임 이름 짓기','지금 이름 · '+esc(ME.comName||''))+'</div>'; }
-  h+='<div class="card"><h2>'+ic('link','sm')+' 모임 잇기</h2>'+
-    (boss?row('plug','link','c-navy','모임 잇기','위 · 아래 모임 연결 · 연결 해제 · 아래 모임 관리자 지정'):'')+
-    row('bund','grape','c-violet','아래 모임 모아 보기','이어진 아래 모임의 공개 기록 · 모임별 숫자 (보기만)')+'</div>'+
+  h+='<div class="card"><h2>'+ic('link','sm')+' 아래 모임 · 모임 잇기</h2>'+
+    (boss?row('make','plus','c-green','아래 모임 열기','우리 모임 아래에 새 모임을 엽니다 · 관리자를 세웁니다'):'')+   /* ★v38 */
+    (boss?row('plug','link','c-navy','모임 잇기','위 · 아래 모임 연결 · 연결 해제 · 아래 모임 관리자 지정 · 빼기'):'')+
+    row('bund','grape','c-violet','아래 모임 모아 보기','이어진 아래 모임의 공개 기록 · 모임별 숫자 (보기만)')+
+    (ME.kakao?row('plc','home','c-green','내가 관리하는 곳','맡은 다른 모임으로 가기'):'')+'</div>'+
     (left?'<p class="note" style="text-align:center">관리 확인 · '+left+' 남음</p>':'');
   $('body').innerHTML=h;
   each($('body'),'[data-am]',function(b){ b.onclick=function(){ var m=b.getAttribute('data-am');
-    if(m==='invq'){ invQuick(); return; } if(m==='name'){ nameBuild(); return; } go(m); }; });
+    if(m==='invq'){ invQuick(); return; } if(m==='name'){ nameBuild(); return; } if(m==='make'){ makeSheet(); return; } go(m); }; });
 }
 
 /* ── 역할 변경 · 관리자 넘기기(함께하는 분 목록에서) ── */
@@ -2254,7 +2298,9 @@ function linkSheet(t,lead,url,warn){
 function plugView(){
   $('body').innerHTML=pauseBar()+'<div class="card"><h2>잇기 링크 만들기</h2><p class="lead">링크를 상대 모임 관리자께 보내고, 그분이 받으면 두 모임이 이어집니다.</p>'+
     '<button type="button" class="mrow" data-pa="up"><span class="ci c-navy">'+ic('aup')+'</span><span><b>위 모임에 꽂기 링크 만들기</b><small>우리 모임을 다른 모임 아래로 잇습니다</small></span></button>'+
-    '<button type="button" class="mrow" data-pa="down"><span class="ci c-green">'+ic('adn')+'</span><span><b>아래 모임 받기 링크 만들기</b><small>다른 모임을 우리 모임 아래로 받습니다</small></span></button></div><div id="plB"></div>';
+    '<button type="button" class="mrow" data-pa="down"><span class="ci c-green">'+ic('adn')+'</span><span><b>아래 모임 받기 링크 만들기</b><small>다른 모임을 우리 모임 아래로 받습니다</small></span></button>'+
+    '<button type="button" class="mrow" id="plMk"><span class="ci c-green">'+ic('plus')+'</span><span><b>아래 모임 열기</b><small>새 모임을 바로 우리 모임 아래에 엽니다</small></span></button></div><div id="plB"></div>';   /* ★v38 */
+  $('plMk').onclick=makeSheet;
   each($('body'),'[data-pa]',function(b){ b.onclick=function(){ var side=b.getAttribute('data-pa');
     api({action:'recPlug',act:'ask',side:side,_busy:'잇기 링크를 만드는 중입니다'},function(r){ if(r.status!=='ok'){ toast(r.msg||'만들지 못했습니다'); return; }
       linkSheet(side==='up'?'위 모임에 꽂기 링크':'아래 모임 받기 링크',side==='up'?'우리 모임을 아래로 받아 줄 <b>위 모임 관리자</b>께 보내 주십시오. 한 번만 쓰입니다.':'우리 모임 아래로 들어올 <b>아래 모임 관리자</b>께 보내 주십시오. 한 번만 쓰입니다.',r.link);
@@ -2269,7 +2315,9 @@ function plugList(){
     function nm(n,c){ return esc(n||c||''); }
     var ups=d.ups||[], downs=d.downs||[], wt=d.wait||[], deep=(d.tree||[]).filter(function(x){ return x.depth>1; });
     var h='<div class="card"><h2>'+ic('aup','sm')+' 위 모임 '+ups.length+'</h2>'+(ups.length?ups.map(function(o){ return '<div class="sw"><span><b>'+nm(o.upName,o.up)+'</b><small>'+esc(o.up)+'</small></span><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.upName,o.up)+'">연결 해제</button></div>'; }).join(''):'<p class="note">이어진 위 모임이 없습니다.</p>')+'</div>'+
-      '<div class="card"><h2>'+ic('adn','sm')+' 아래 모임 '+downs.length+'</h2>'+(downs.length?downs.map(function(o){ return '<div class="sw"><span><b>'+nm(o.lowName,o.low)+'</b><small>'+esc(o.low)+'</small></span><span style="display:flex;gap:6px;flex:none"><button type="button" class="sbtn" data-sa="'+esc(o.low)+'" data-nm="'+nm(o.lowName,o.low)+'">관리자 지정</button><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.lowName,o.low)+'">연결 해제</button></span></div>'; }).join('')+
+      '<div class="card"><h2>'+ic('adn','sm')+' 아래 모임 '+downs.length+'</h2>'+(downs.length?downs.map(function(o){ var ad=o.admins||[];   /* ★v38 관리자 · 임명 대기 · 빼기 */
+          return '<div class="sw"><span><b>'+nm(o.lowName,o.low)+'</b><small>'+esc(o.low)+'</small></span><span style="display:flex;gap:6px;flex:none">'+(ad.length?'':'<button type="button" class="sbtn" data-sa="'+esc(o.low)+'" data-nm="'+nm(o.lowName,o.low)+'">관리자 지정</button>')+'<button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.lowName,o.low)+'">연결 해제</button></span></div>'+
+            (ad.length?ad.map(function(a){ return '<div class="sw adl"><span><b>'+esc(a.name||'(이름 없음)')+(a.pend?' <span class="tag t-wait">임명 대기</span>':'')+'</b><small>관리자'+(a.pend?' · 임명 링크를 아직 받지 않음':'')+'</small></span><button type="button" class="sbtn red" data-so="'+esc(o.low)+'" data-sn="'+esc(a.no)+'" data-nm="'+esc(a.name||'')+'" data-pd="'+(a.pend?1:'')+'">'+(a.pend?'링크 거두기':'빼기')+'</button></div>'; }).join(''):'<p class="err" style="margin:0 0 6px">관리자가 없습니다</p>'); }).join('')+
         (deep.length?'<p class="note" style="margin-top:10px">더 아래 모임</p>'+deep.map(function(x){ return '<div class="sw"><span><b>'+'└ '.repeat(Math.min(4,x.depth-1))+nm(x.name,x.com)+'</b><small>'+esc(x.com)+'</small></span></div>'; }).join(''):'')+
         '<p class="note">「관리자 지정」은 관리자가 없는 바로 아래 모임에만 됩니다.</p>':'<p class="note">이어진 아래 모임이 없습니다.</p>')+'</div>';
     if(wt.length){ h+='<div class="card"><h2>'+ic('clock','sm')+' 아직 받지 않은 링크 '+wt.length+'</h2>'+wt.map(function(o){ var up=!!o.low; return '<div class="sw"><span><b>'+(up?'위 모임에 꽂기 링크':'아래 모임 받기 링크')+'</b><small>'+esc(o.no)+'</small></span><span style="display:flex;gap:6px;flex:none"><button type="button" class="sbtn" data-lk="'+esc(o.link||'')+'">복사</button><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="" data-wt="1">거두기</button></span></div>'; }).join('')+'</div>'; }
@@ -2277,6 +2325,7 @@ function plugList(){
     each(el,'[data-lk]',function(b){ b.onclick=function(){ copyLink(b.getAttribute('data-lk'),'복사했습니다','상대 모임 관리자께 보내 주십시오'); }; });
     each(el,'[data-off]',function(b){ b.onclick=function(){ plugOff(b.getAttribute('data-off'),b.getAttribute('data-nm'),!!b.getAttribute('data-wt')); }; });
     each(el,'[data-sa]',function(b){ b.onclick=function(){ subAdmin(b.getAttribute('data-sa'),b.getAttribute('data-nm')); }; });
+    each(el,'[data-so]',function(b){ b.onclick=function(){ subOut(b.getAttribute('data-so'),b.getAttribute('data-sn'),b.getAttribute('data-nm'),!!b.getAttribute('data-pd')); }; });   /* ★v38 */
   });
 }
 function plugOff(no,nm,wt){
@@ -2287,12 +2336,12 @@ function plugOff(no,nm,wt){
   });
 }
 function subAdmin(com,nm){
-  sheet('<h2>'+esc(nm)+' 관리자 지정</h2><p class="lead" style="margin-top:4px">관리자가 없는 아래 모임에 관리자를 세웁니다. 만든 링크를 그분께 보내 주십시오.</p><label class="f">관리자 이름</label><input class="t" id="saN" maxlength="20" placeholder="예: 홍길동">'+
+  sheet('<h2>'+esc(nm)+' 관리자 지정</h2><p class="lead" style="margin-top:4px">관리자가 없는 아래 모임에 관리자를 세웁니다. 임명 링크를 그분께 보내 주십시오.</p><label class="f">관리자 이름</label><input class="t" id="saN" maxlength="20" placeholder="예: 홍길동">'+
     '<div id="saM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="saNo" type="button">취소</button><button class="btn" id="saOk" type="button">링크 만들기</button></div>',function(){
     $('saNo').onclick=closeSheet;
     $('saOk').onclick=function(){ var v=$('saN').value.trim(); if(!v){ $('saM').innerHTML='<div class="err">관리자 이름을 적어 주십시오.</div>'; return; }
       var b=this; b.disabled=true; api({action:'recPlug',act:'subAdmin',com:com,name:v,_busy:'관리자 링크를 만드는 중입니다'},function(r){ b.disabled=false; if(r.status!=='ok'){ $('saM').innerHTML='<div class="err">'+esc(r.msg||'만들지 못했습니다.')+'</div>'; return; }
-        linkSheet(v+' 님 관리자 링크','이 링크를 누르면 <b>'+esc(nm)+'</b> 관리자로 바로 들어갑니다.',r.link,'이 링크는 관리자 열쇠입니다. 단톡방에 올리지 마시고 그분께만 보내 주십시오.'); }); };
+        linkSheet(v+' 님 관리자 임명 링크','받은 분이 카카오로 확인하면 <b>'+esc(nm)+'</b> 관리자가 됩니다.',r.link,'7일 안에 한 번만 쓰입니다. '+esc(r.until||'')+'까지 · 단톡방에 올리지 마시고 그분께만 보내 주십시오.'); plugList(); }); };
   });
 }
 /* ?plug= 로 들어온 분 — 그 모임 관리자만 받음 */
@@ -2347,6 +2396,119 @@ function bundSheet(x){
     '<p class="note">아래 모임의 기록은 보기만 할 수 있습니다. 승인 · 삭제는 그 모임에서 합니다.</p><button class="btn line" id="bsX" type="button">닫기</button>',function(){ $('bsX').onclick=closeSheet; });
 }
 
+/* ══ ★v38 관리자 임명 링크 · 내가 관리하는 곳 · 아래 모임 열기 · 관리 기록 · 일반인으로 보기 — 서버 v11 과 짝 ══ */
+function admClaimView(t,msg){
+  $('main').innerHTML='<div class="joinhero"><div class="who">관리자로 임명되셨습니다</div><h1>함께 남기는 우리 이야기</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
+    '<div class="card"><h2>'+ic('key','sm')+' 모임 관리 시작하기</h2><p class="lead">카카오로 한 번 확인하시면 이 모임의 관리자가 됩니다. 다음부터는 링크 없이 카카오로 들어오시면 됩니다.</p>'+
+    (msg?'<div class="err">'+esc(msg)+'</div>':'')+kakaoBtn('acGo')+rememberBox()+'<p class="kk-note">임명 링크는 7일 안에 한 번만 쓰입니다.</p></div>';
+  $('acGo').onclick=function(){ kakaoGo('adm',{x:t}); };
+}
+function admClaimBack(code,kerr,t){
+  if(t.length!==32){ noKey(); return; }
+  if(kerr||!code){ admClaimView(t,kerr?'카카오 확인을 마치지 못했습니다.':''); return; }
+  wait($('main'),'관리자로 들어가는 중입니다');
+  api({action:'recAdminClaim',t:t,code:code,redirect:KREDIR,_hq:1},function(d){
+    if(d.status!=='ok'){
+      $('main').innerHTML='<div class="card" style="margin-top:16px"><h2>관리자로 들어가지 못했습니다</h2><p class="lead">'+esc(d.msg||'들어가지 못했습니다.')+'</p>'+(d.reason==='KAKAO'?kakaoBtn('acR'):'')+'<button class="btn line" id="acH" type="button">우리 이야기로</button></div>';
+      if($('acR')){ $('acR').onclick=function(){ kakaoGo('adm',{x:t}); }; } $('acH').onclick=function(){ location.href=location.pathname; }; return;
+    }
+    sset(KEY,d.key); K=d.key; G=''; tkSet(ATK,d.at,d.hours||6); sset('lf_rec_mgr','1'); if(d.hq){ sset('lf_rec_hq','1'); }
+    PEND_ADM='adm'; toast('「'+(d.comName||'')+'」 관리자가 되셨습니다',d.merged?'함께하시던 자리가 관리자로 바뀌었습니다':'다음부터는 카카오로 들어오시면 됩니다');
+    loadMe();
+  });
+}
+/* 일반인으로 보기 — 화면만 바꿈(서버 권한은 그대로) · 관리 요청은 화면에서 막음 */
+function asuSync(){ document.body.classList.toggle('asu',ASU); var b=$('asuB');
+  if(ASU&&!b){ b=document.createElement('div'); b.id='asuB'; b.className='asub'; b.innerHTML='<span>'+ic('look','sm')+' 일반인으로 보는 중</span><button type="button" id="asuX">관리자로 돌아가기</button>'; document.body.appendChild(b); $('asuX').onclick=asuToggle; }
+  if(ASU&&b){ var tp=$('lfxTop'); b.style.top=(tp?Math.max(0,tp.getBoundingClientRect().bottom):0)+'px'; b.style.paddingTop=tp?'8px':''; }   /* 사이트 위 띠 바로 아래 */
+  if(!ASU&&b&&b.parentNode){ b.parentNode.removeChild(b); } }
+function asuToggle(){ ASU=!ASU; try{ if(ASU){ sessionStorage.setItem('lf_rec_as','1'); } else { sessionStorage.removeItem('lf_rec_as'); } }catch(e){}
+  asuSync(); toast(ASU?'일반인으로 봅니다':'관리자로 돌아왔습니다',ASU?'관리 기능은 잠겨 있습니다 · 위 띠에서 돌아옵니다':''); STACK=[{v:'feed'}]; loadMe(); }
+/* 내가 관리하는 곳 */
+function plcGo(){ if(atOk()){ go('plc'); return; } adminNeed('plc'); }
+function plcEnter(x,next){ closeSheet(); sset(KEY,x.key); K=x.key; G=''; PEND_ADM=next||''; STACK=[{v:'feed'}]; toast('「'+(x.comName||'')+'」으로 갑니다'); loadMe(); }
+function plcView(){
+  wait($('body'),'맡은 모임을 모으는 중입니다');
+  api({action:'recMyPlaces'},function(d){
+    if(VIEW!=='plc'){ return; }
+    if(d.status!=='ok'){ $('body').innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
+    if(d.hq){ sset('lf_rec_hq','1'); }
+    var it=d.items||[], boss=it.filter(function(x){ return x.boss; }), mem=it.filter(function(x){ return !x.boss; }), todo=boss.filter(function(x){ return x.wait||x.ask; });
+    sset('lf_rec_mgr',boss.length?'1':'');
+    function tg(x){ return (x.here?' <span class="tag t-on">지금 여기</span>':'')+(x.paused?' <span class="tag t-hide">운영 멈춤</span>':''); }
+    var h='';
+    if(!d.kakao){ h+='<div class="card"><h2>카카오를 이어 주십시오</h2><p class="lead">카카오가 이어지지 않아 이 모임만 보입니다. 이으시면 맡은 모임을 모두 한곳에서 오갑니다.</p><button class="btn kakao" id="plK" type="button">'+KICON+'카카오 연결</button></div>'; }
+    h+='<div class="card"><h2>'+ic('check','sm')+' 오늘 할 일</h2>'+(todo.length?todo.map(function(x){ return '<button type="button" class="mrow" data-pg="'+esc(x.com)+'" data-nx="chk"><span class="ci c-green">'+ic('check')+'</span><span><b>'+esc(x.comName||x.com)+'</b><small>'+(x.wait?'승인 대기 '+x.wait:'')+(x.wait&&x.ask?' · ':'')+(x.ask?'등록 신청 '+x.ask:'')+'</small></span></button>'; }).join(''):'<p class="note">지금 처리할 일이 없습니다.</p>')+'</div>';
+    if(d.hq){ h+='<div class="card"><h2>'+ic('key','sm')+' 본부</h2><button type="button" class="mrow" id="plHq"><span class="ci c-violet">'+ic('key')+'</span><span><b>본부 들어가기</b><small>모임 목록 · 만들기 · 관리자 지정 · 운영 멈춤</small></span></button></div>'; }
+    h+='<div class="card"><h2>'+ic('key','sm')+' 관리하는 모임 '+boss.length+'</h2>'+(boss.length?boss.map(function(x){ return '<div class="sw"><span><b>'+esc(x.comName||x.com)+tg(x)+'</b><small>'+esc(roleName(x.role))+' · 위 모임 '+(x.ups||0)+' · 아래 모임 '+(x.downs||0)+'</small></span><button type="button" class="sbtn" data-pg="'+esc(x.com)+'" data-nx="adm" style="background:var(--navy);color:#fff">관리</button></div>'; }).join(''):'<p class="note">관리하는 모임이 없습니다.</p>')+'</div>';
+    if(mem.length){ h+='<div class="card"><h2>'+ic('ppl','sm')+' 함께하는 모임 '+mem.length+'</h2>'+mem.map(function(x){ return '<div class="sw"><span><b>'+esc(x.comName||x.com)+tg(x)+'</b><small>'+esc(roleName(x.role))+'</small></span><button type="button" class="sbtn" data-pg="'+esc(x.com)+'" data-nx="">들어가기</button></div>'; }).join('')+'</div>'; }
+    $('body').innerHTML=h;
+    if($('plK')){ $('plK').onclick=function(){ kakaoGo('link'); }; }
+    if($('plHq')){ $('plHq').onclick=function(){ location.href=location.pathname+'?hq=1'; }; }
+    each($('body'),'[data-pg]',function(b){ b.onclick=function(){ var c=b.getAttribute('data-pg'), nx=b.getAttribute('data-nx'), x=null; it.forEach(function(y){ if(y.com===c){ x=y; } }); if(!x){ return; }
+      if(x.here){ if(nx){ STACK=[{v:'feed'}]; go(nx==='chk'?'chk':'adm'); } else { STACK=[{v:'feed'}]; render(); } return; }
+      if(!x.key){ toast('그 모임으로 가지 못했습니다'); return; } plcEnter(x,nx); }; });
+  });
+}
+/* 최근 관리 기록 */
+function alogView(){
+  wait($('body'),'관리 기록을 모으는 중입니다');
+  api({action:'recAdminLog'},function(d){
+    if(VIEW!=='alog'){ return; }
+    if(d.status!=='ok'){ $('body').innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
+    var it=d.items||[];
+    $('body').innerHTML='<div class="card">'+(it.length?it.map(function(x){ return '<div class="sw"><span><b>'+esc(x.what)+'</b><small>'+esc(x.who||'')+' · '+esc(x.at||'')+(x.why?' · '+esc(x.why):'')+'</small></span></div>'; }).join(''):'<p class="note">아직 관리 기록이 없습니다.</p>')+'<p class="note">최근 30줄까지 보입니다.</p></div>';
+  });
+}
+/* 아래 모임 열기 — 저절로 우리 모임 아래로 이어짐 · 첫 관리자 = 나 또는 임명 링크 */
+var MK_FR=null;
+function makeSheet(){
+  if(!isBoss()||ME.role!=='관리자'){ toast('관리자만 아래 모임을 엽니다'); return; }
+  if(!MK_FR){ api({action:'recPlug',act:'frames',_busy:'모임 틀을 불러오는 중입니다'},function(r){ MK_FR=r.status==='ok'?(r.frames||[]):[]; makeSheet(); }); return; }
+  var fr=MK_FR, room='닫힌 방', frame='', who=ME.kakao?'me':'other';
+  sheet('<h2>아래 모임 열기</h2><p class="lead" style="margin-top:4px">「'+esc(ME.comName||'')+'」 아래에 새 모임을 엽니다. 열면 바로 이어집니다.</p>'+
+    '<label class="f">모임 이름</label><input class="t" id="smN" maxlength="40" placeholder="예: 2026 가을 축제 이야기">'+
+    (fr.length?'<label class="f">모임 틀</label><div class="strip" style="padding:0"><button type="button" class="chip s on" data-fm="">없음</button>'+fr.map(function(f){ return '<button type="button" class="chip s" data-fm="'+esc(f.no)+'">'+esc(f.name||f.no)+'</button>'; }).join('')+'</div>':'')+
+    '<label class="f">공개 방식</label><div class="strip" style="padding:0"><button type="button" class="chip s on" data-rm="닫힌 방">비공개 (참여자만)</button><button type="button" class="chip s" data-rm="열린 모임">공개 모임</button></div>'+
+    '<label class="f">새 모임 관리자</label><div class="strip" style="padding:0">'+(ME.kakao?'<button type="button" class="chip s on" data-wh="me">내가 맡기</button>':'')+'<button type="button" class="chip s'+(ME.kakao?'':' on')+'" data-wh="other">다른 분께 맡기</button></div>'+
+    '<div id="smO"'+(ME.kakao?' hidden':'')+'><label class="f">맡을 분 이름 <small>임명 링크를 그분께 보냅니다</small></label><input class="t" id="smA" maxlength="20" placeholder="예: 홍길동"></div>'+
+    '<div id="smM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="smNo" type="button">취소</button><button class="btn" id="smOk" type="button">모임 열기</button></div>',function(dd){
+    each(dd,'[data-fm]',function(b){ b.onclick=function(){ frame=b.getAttribute('data-fm'); each(dd,'[data-fm]',function(o){ o.classList.toggle('on',o===b); }); }; });
+    each(dd,'[data-rm]',function(b){ b.onclick=function(){ room=b.getAttribute('data-rm'); each(dd,'[data-rm]',function(o){ o.classList.toggle('on',o===b); }); }; });
+    each(dd,'[data-wh]',function(b){ b.onclick=function(){ who=b.getAttribute('data-wh'); each(dd,'[data-wh]',function(o){ o.classList.toggle('on',o===b); }); $('smO').hidden=(who==='me'); }; });
+    $('smNo').onclick=closeSheet;
+    $('smOk').onclick=function(){ var n=$('smN').value.trim(), a=$('smA').value.trim();
+      if(!n){ $('smM').innerHTML='<div class="err">모임 이름을 적어 주십시오.</div>'; return; }
+      if(who==='other'&&!a){ $('smM').innerHTML='<div class="err">맡을 분 이름을 적어 주십시오.</div>'; return; }
+      var b=this; b.disabled=true;
+      api({action:'recPlug',act:'make',name:n,frame:frame,room:room,self:who==='me'?'1':'',admin:who==='me'?'':a,_busy:'모임을 여는 중입니다'},function(r){ b.disabled=false;
+        if(r.status!=='ok'){ $('smM').innerHTML='<div class="err">'+esc(r.msg||'열지 못했습니다.')+'</div>'; return; }
+        sheet('<h2>새 모임을 열었습니다</h2><p class="lead" style="margin-top:4px"><b>'+esc(n)+'</b> · 「'+esc(ME.comName||'')+'」 아래로 이어졌습니다.</p>'+
+          (r.adm?'<div class="card" style="margin-top:10px"><h2>'+ic('key','sm')+' '+esc(a)+' 님 관리자 임명 링크</h2><p class="note" style="margin-top:0">받은 분이 카카오로 확인하면 관리자가 됩니다. 7일 안에 한 번만 쓰입니다 ('+esc(r.adm.until||'')+'까지). 그분께만 보내 주십시오.</p><button class="btn" id="smA2" type="button">임명 링크 복사</button></div>':'')+
+          '<div class="card"><h2>'+ic('share','sm')+' 초대 링크</h2><p class="note" style="margin-top:0">새 모임에 함께할 분들께 보냅니다.</p><button class="btn line" id="smI" type="button">초대 링크 복사</button></div>'+
+          (r.self?'<button class="btn" id="smGo" type="button">'+ic('key')+'새 모임 관리로 가기</button>':'')+'<button class="btn line" id="smX" type="button">닫기</button>',function(){
+          if($('smA2')){ $('smA2').onclick=function(){ copyLink(r.adm.link,'임명 링크를 복사했습니다','그분께만 보내 주십시오'); }; }
+          $('smI').onclick=function(){ copyLink(r.inviteLink,'초대 링크를 복사했습니다','함께할 분들께 보내 주십시오'); };
+          if($('smGo')){ $('smGo').onclick=function(){ sset('lf_rec_mgr','1'); plcEnter({key:r.self.key,comName:n},'adm'); }; }
+          $('smX').onclick=function(){ closeSheet(); if(VIEW==='plug'){ plugList(); } };
+        });
+      });
+    };
+  });
+}
+/* 아래 모임 관리자 빼기 · 임명 링크 거두기 */
+function subOut(com,no,nm,pend){
+  sheet('<h2>'+(pend?'임명 링크 거두기':'관리자 빼기')+'</h2><p class="lead" style="margin-top:6px">'+(pend?'<b>'+esc(nm)+'</b> 님께 보낸 임명 링크를 더 이상 쓰지 못하게 합니다.':'<b>'+esc(nm)+'</b> 님을 이 아래 모임 관리자에서 뺍니다. 그분은 일반 참여자로 남습니다. 새 관리자는 「관리자 지정」으로 세웁니다.')+'</p>'+
+    '<div class="pair" style="margin-top:16px"><button class="btn line" id="soNo" type="button">취소</button><button class="btn red" id="soGo" type="button">'+(pend?'거두기':'빼기')+'</button></div>',function(){
+    $('soNo').onclick=closeSheet;
+    $('soGo').onclick=function(){ this.disabled=true; api({action:'recPlug',act:'subOut',com:com,no:no,_busy:'처리하는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'){ toast(pend?'임명 링크를 거두었습니다':'관리자에서 뺐습니다',nm); plugList(); } else { toast(r.msg||'처리하지 못했습니다'); } }); };
+  });
+}
+function hqOut(x,no,nm,pend){
+  hqConfirm(pend?'임명 링크 거두기':'관리자 빼기',pend?'<b>'+esc(nm)+'</b> 님께 보낸 임명 링크를 거둡니다.':'<b>'+esc(nm)+'</b> 님을 「'+esc(x.name)+'」 관리자에서 뺍니다. 그분은 일반 참여자로 남습니다.',pend?'거두기':'빼기',true,function(fail){
+    hqApi({action:'recHq',act:'adminOut',com:x.com,no:no,_busy:'처리하는 중입니다'},function(r){ if(r.status==='ok'){ closeSheet(); toast(pend?'임명 링크를 거두었습니다':'관리자에서 뺐습니다',nm); hqList(); } else { fail(r.msg); } }); });
+}
+
 /* ══ 본부 — /rec/?hq=1 · 카카오 + 허용 목록 · 본부 표 6시간 ══ */
 var HQ=null;
 function hqApi(p,cb){ p._hq=1; var h=tkGet(HTK); if(h){ p.ht=h.v; } api(p,function(d){ if(d&&d.reason==='NO_HQ'){ tkSet(HTK,''); hqLogin('본부 확인이 끝났습니다. 다시 들어와 주십시오.'); return; } cb(d); }); }
@@ -2357,7 +2519,7 @@ function hqLogin(msg){
   $('main').innerHTML='<div class="joinhero"><div class="who">사랑흐름 본부</div><h1>본부</h1><div class="five">모임 만들기 · 관리자 지정 · 운영 멈춤</div></div>'+
     '<div class="card"><h2>본부로 들어가기</h2><p class="lead">본부로 등록된 카카오 계정만 들어옵니다.</p>'+(msg?'<div class="err">'+esc(msg)+'</div>':'')+
     '<label class="f">본부 등록 번호 <small>처음 한 번만 · 편집기에서 받은 8자리</small></label><input class="t" id="hqS" maxlength="8" inputmode="latin" autocomplete="off" placeholder="등록된 분은 비워 두십시오">'+
-    '<div class="err" id="hqE"></div>'+kakaoBtn('hqGo')+'<button class="btn line" id="hqOut" type="button">우리 이야기로</button></div>';
+    '<div class="err" id="hqE"></div>'+kakaoBtn('hqGo')+rememberBox()+'<button class="btn line" id="hqOut" type="button">우리 이야기로</button></div>';
   $('hqGo').onclick=function(){ var s=$('hqS').value.trim().toLowerCase(); if(s&&!/^[a-f0-9]{8}$/.test(s)){ $('hqE').textContent='등록 번호 8자리를 다시 확인해 주십시오.'; return; } kakaoGo('hq',{s:s}); };
   $('hqOut').onclick=function(){ location.href=location.pathname; };
 }
@@ -2366,7 +2528,7 @@ function hqBack(code,kerr,s){
   if(kerr||!code){ hqLogin(kerr?'카카오 확인을 마치지 못했습니다.':''); return; }
   wait($('main'),'본부로 들어가는 중입니다');
   api({action:'recHqLogin',code:code,redirect:KREDIR,setup:String(s||'').replace(/[^a-f0-9]/gi,'').slice(0,8),_hq:1},function(d){
-    if(d.status==='ok'){ tkSet(HTK,d.ht,d.hours||6); if(s){ toast('본부로 등록했습니다','이 카카오 계정으로 본부에 들어옵니다'); } hqList(); return; }
+    if(d.status==='ok'){ tkSet(HTK,d.ht,d.hours||6); sset('lf_rec_hq','1'); if(s){ toast('본부로 등록했습니다','이 카카오 계정으로 본부에 들어옵니다'); } hqList(); return; }
     hqLogin(d.msg||'들어오지 못했습니다.');
   });
 }
@@ -2383,7 +2545,7 @@ function hqList(){
         var tg=(x.main?' <span class="tag t-on">메인</span>':'')+(x.paused?' <span class="tag t-hide">운영 멈춤</span>':'')+(x.state&&x.state!=='열림'?' <span class="tag t-wait">'+esc(x.state)+'</span>':'');
         return '<div class="card hqc" data-com="'+esc(x.com)+'"><h2>'+esc(x.name||'(이름 없음)')+tg+'</h2><p class="note" style="margin:0 0 8px">'+esc(x.com)+' · '+esc(x.room||'')+(x.frame?' · 틀 '+esc(x.frame):'')+'</p>'+
           '<div class="spread"><span><b>'+(x.people||0)+'</b>함께하는 분</span><span><b>'+(x.recs||0)+'</b>기록</span><span><b>'+((x.ups||[]).length)+'</b>위 모임</span><span><b>'+((x.downs||[]).length)+'</b>아래 모임</span></div>'+
-          '<p class="note" style="margin-top:10px">관리자</p>'+((x.admins||[]).length?x.admins.map(function(a){ return '<div class="sw"><span><b>'+esc(a.name||'(이름 없음)')+'</b><small>'+(a.kakao?'카카오 이어짐':'카카오 안 이어짐')+'</small></span><button type="button" class="sbtn" data-hk="'+esc(a.no)+'" data-nm="'+esc(a.name||'')+'">열쇠 다시</button></div>'; }).join(''):'<p class="err" style="margin-top:0">관리자가 없습니다</p>')+
+          '<p class="note" style="margin-top:10px">관리자</p>'+((x.admins||[]).length?x.admins.map(function(a){ return '<div class="sw"><span><b>'+esc(a.name||'(이름 없음)')+(a.pend?' <span class="tag t-wait">임명 대기</span>':'')+'</b><small>'+(a.pend?'임명 링크를 아직 받지 않음':(a.kakao?'카카오 이어짐':'카카오 안 이어짐'))+'</small></span><span style="display:flex;gap:6px;flex:none">'+(a.pend?'':'<button type="button" class="sbtn" data-hk="'+esc(a.no)+'" data-nm="'+esc(a.name||'')+'">열쇠 다시</button>')+'<button type="button" class="sbtn red" data-ho="'+esc(a.no)+'" data-nm="'+esc(a.name||'')+'" data-pd="'+(a.pend?1:'')+'">'+(a.pend?'링크 거두기':'빼기')+'</button></span></div>'; }).join('')+(x.noAdmin?'<p class="err" style="margin-top:0">카카오로 확인한 관리자가 아직 없습니다</p>':''):'<p class="err" style="margin-top:0">관리자가 없습니다</p>')+
           '<div class="hqb"><button type="button" class="sbtn" data-ha="admin">관리자 더하기</button><button type="button" class="sbtn'+(x.paused?'':' red')+'" data-ha="'+(x.paused?'resume':'pause')+'">'+(x.paused?'운영 다시 시작':'운영 멈춤')+'</button><button type="button" class="sbtn" data-ha="frame">틀</button>'+(x.main?'':'<button type="button" class="sbtn" data-ha="main">메인으로</button>')+'</div></div>';
       }).join('');
     $('main').innerHTML=h;
@@ -2392,6 +2554,7 @@ function hqList(){
     each($('main'),'.hqc',function(c){ var com=c.getAttribute('data-com'), x=null; items.forEach(function(y){ if(y.com===com){ x=y; } });
       each(c,'[data-ha]',function(b){ b.onclick=function(){ hqAct(b.getAttribute('data-ha'),x); }; });
       each(c,'[data-hk]',function(b){ b.onclick=function(){ hqKey(x,b.getAttribute('data-hk'),b.getAttribute('data-nm')); }; });
+      each(c,'[data-ho]',function(b){ b.onclick=function(){ hqOut(x,b.getAttribute('data-ho'),b.getAttribute('data-nm'),!!b.getAttribute('data-pd')); }; });   /* ★v38 */
     });
   });
 }
@@ -2402,10 +2565,10 @@ function hqConfirm(t,lead,okT,red,run){
 }
 function hqAct(a,x){
   if(a==='admin'){
-    sheet('<h2>관리자 더하기</h2><p class="lead" style="margin-top:4px">「'+esc(x.name)+'」에 관리자를 더합니다. 만든 링크를 그분께 보내 주십시오.</p><label class="f">관리자 이름</label><input class="t" id="haN" maxlength="20" placeholder="예: 홍길동"><div id="haM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="haNo" type="button">취소</button><button class="btn" id="haOk" type="button">링크 만들기</button></div>',function(){
+    sheet('<h2>관리자 더하기</h2><p class="lead" style="margin-top:4px">「'+esc(x.name)+'」에 관리자를 더합니다. 임명 링크를 그분께 보내 주십시오. 받은 분이 카카오로 확인하면 관리자가 됩니다.</p><label class="f">관리자 이름</label><input class="t" id="haN" maxlength="20" placeholder="예: 홍길동"><div id="haM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="haNo" type="button">취소</button><button class="btn" id="haOk" type="button">링크 만들기</button></div>',function(){
       $('haNo').onclick=closeSheet;
       $('haOk').onclick=function(){ var v=$('haN').value.trim(); if(!v){ $('haM').innerHTML='<div class="err">관리자 이름을 적어 주십시오.</div>'; return; } var b=this; b.disabled=true;
-        hqApi({action:'recHq',act:'admin',com:x.com,admin:v,_busy:'관리자 링크를 만드는 중입니다'},function(r){ b.disabled=false; if(r.status!=='ok'){ $('haM').innerHTML='<div class="err">'+esc(r.msg||'만들지 못했습니다.')+'</div>'; return; } linkSheet(v+' 님 관리자 링크','이 링크를 누르면 「'+esc(x.name)+'」 관리자로 바로 들어갑니다.',r.adminLink,'이 링크는 관리자 열쇠입니다. 그분께만 보내 주십시오.'); hqRefresh(); }); };
+        hqApi({action:'recHq',act:'admin',com:x.com,admin:v,_busy:'관리자 링크를 만드는 중입니다'},function(r){ b.disabled=false; if(r.status!=='ok'){ $('haM').innerHTML='<div class="err">'+esc(r.msg||'만들지 못했습니다.')+'</div>'; return; } linkSheet(v+' 님 관리자 임명 링크','받은 분이 카카오로 확인하면 「'+esc(x.name)+'」 관리자가 됩니다.',r.adminLink,'7일 안에 한 번만 쓰입니다. '+esc(r.until||'')+'까지 · 그분께만 보내 주십시오.'); hqRefresh(); }); };
     }); return;
   }
   if(a==='pause'||a==='resume'){
@@ -2448,9 +2611,9 @@ function hqMake(){
       $('hmOk').onclick=function(){ var n=$('hmN').value.trim(), a=$('hmA').value.trim(); if(!n||!a){ $('hmM').innerHTML='<div class="err">모임 이름 · 첫 관리자 이름을 적어 주십시오.</div>'; return; } var b=this; b.disabled=true;
         hqApi({action:'recHq',act:'make',name:n,admin:a,room:room,frame:frame,_busy:'모임을 만드는 중입니다'},function(r){ b.disabled=false; if(r.status!=='ok'){ $('hmM').innerHTML='<div class="err">'+esc(r.msg||'만들지 못했습니다.')+'</div>'; return; }
           sheet('<h2>새 모임을 만들었습니다</h2><p class="lead" style="margin-top:4px"><b>'+esc(n)+'</b> · '+esc(r.com)+'<br>링크 두 개를 각각 보내 주십시오.</p>'+
-            '<div class="card" style="margin-top:10px"><h2>'+ic('key','sm')+' '+esc(a)+' 님 관리자 링크</h2><p class="note" style="margin-top:0">관리자 열쇠입니다. 그분께만 보내 주십시오.</p><button class="btn" id="mkA" type="button">관리자 링크 복사</button></div>'+
+            '<div class="card" style="margin-top:10px"><h2>'+ic('key','sm')+' '+esc(a)+' 님 관리자 임명 링크</h2><p class="note" style="margin-top:0">받은 분이 카카오로 확인하면 관리자가 됩니다. 7일 안에 한 번만 쓰입니다'+(r.until?' ('+esc(r.until)+'까지)':'')+'. 그분께만 보내 주십시오.</p><button class="btn" id="mkA" type="button">임명 링크 복사</button></div>'+
             '<div class="card"><h2>'+ic('share','sm')+' 초대 링크</h2><p class="note" style="margin-top:0">함께할 분들께 보냅니다.</p><button class="btn line" id="mkI" type="button">초대 링크 복사</button></div><button class="btn line" id="mkX" type="button">닫기</button>',function(){
-            $('mkA').onclick=function(){ copyLink(r.adminLink,'관리자 링크를 복사했습니다','그분께만 보내 주십시오'); };
+            $('mkA').onclick=function(){ copyLink(r.adminLink,'임명 링크를 복사했습니다','그분께만 보내 주십시오'); };
             $('mkI').onclick=function(){ copyLink(r.inviteLink,'초대 링크를 복사했습니다','함께할 분들께 보내 주십시오'); };
             $('mkX').onclick=function(){ closeSheet(); hqList(); };
           });
