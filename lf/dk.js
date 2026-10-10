@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/dk.js · v1 · 261010 · ★기기 열쇠(자서전 서버 v47 · 유료여행지도 v13-3 · 63차)
+   현재 버전 ▶ lf/dk.js · v2 · 261010 · ★편지 서버(…LjdA · v38)도 지켜봄 · 몸통 없는 fetch(주소에 번호)에도 열쇠를 실음(편지 getLetter)
+   이전 ▶ lf/dk.js · v1 · 261010 · ★기기 열쇠(자서전 서버 v47 · 유료여행지도 v13-3 · 63차)
    · 사랑흐름 여권번호로 부르는 자서전 · 여행지도 서버 요청에 이 휴대폰의 기기 열쇠(dk)를 저절로 실음.
      화면마다 고치지 않음 — script src · fetch 를 이 파일이 지켜봄. 화면 파일은 이 줄 하나만 더함.
    · 처음 여는 휴대폰이면 서버에 등록을 청함(devClaim) — 등록이 끝날 때까지 그 번호 요청을 잠시 기다리게 함(최대 8초).
@@ -10,7 +11,8 @@
 (function () {
   if (window.LFDK) { return; }
   var MEM = 'https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
-  var HOSTS = [MEM.split('/exec')[0], 'https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A'];
+  var HOSTS = [MEM.split('/exec')[0], 'https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A',
+    'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA'];   /* ★v2 편지 서버 */
   var RE = /^LF[ML]?-[A-Z0-9]{4,8}$/;
   var pend = {}, waits = {};
 
@@ -81,7 +83,17 @@
     var rawFetch = window.fetch;
     window.fetch = function (u, o) {
       var url = (typeof u === 'string') ? u : (u && u.url) || '';
-      if (!ours(url) || !o || typeof o.body !== 'string') { return rawFetch.apply(this, arguments); }
+      if (!ours(url)) { return rawFetch.apply(this, arguments); }
+      if (typeof u === 'string' && (!o || o.body == null)) {   /* ★v2 몸통 없는 요청 — 주소의 번호를 보고 주소에 열쇠를 붙임 */
+        var qp = ppOfUrl(url), me = this;
+        if (!qp) { return rawFetch.apply(this, arguments); }
+        if (key(qp)) { return rawFetch.call(this, addDk(u, qp), o); }
+        return new Promise(function (res, rej) {
+          var gone2 = false, t2 = setTimeout(function () { if (!gone2) { gone2 = true; rawFetch.call(me, addDk(u, qp), o).then(res, rej); } }, 8000);
+          claim(qp, function () { if (!gone2) { gone2 = true; clearTimeout(t2); rawFetch.call(me, addDk(u, qp), o).then(res, rej); } });
+        });
+      }
+      if (!o || typeof o.body !== 'string') { return rawFetch.apply(this, arguments); }
       var b; try { b = JSON.parse(o.body); } catch (e) { return rawFetch.apply(this, arguments); }
       var pp = clean(b.passport) || clean(b.meta && b.meta.passport) || clean(b.row && b.row['여권번호']) || ppOfUrl(url);
       if (!pp) { return rawFetch.apply(this, arguments); }

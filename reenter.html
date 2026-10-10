@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ reenter.html · v2-24 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
 <!-- ★ 현재 버전 ▶ reenter.html · v2-23 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
 <!-- ★ 현재 버전 ▶ reenter.html · v2-22 · 261005 · [작업 v2-22 · 한 바퀴 점검] 「여권으로 문을 엽니다」 → 「사랑흐름 여권번호로 문을 엽니다」(「여권」 단독 금지). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ reenter.html · v2-21 · 261005 · [작업 v2-21 · 자서전 공사 칸 27-4 · 나머지 화면에 틀] 공용 틀 /lf/frame.js?v=4 붙임(위 띠 · ☰ · 아래 길목 다섯) — 옛 상단바 · 드로어 · 길 셋은 틀이 감춤. 「여권 찾기」 줄 화살표 걷음(이 화면에서 바로 필요한 길이라 줄은 남김). [무손] 본문 배관 · 서버 · 결제 · 발권. -->
@@ -379,7 +380,7 @@ function resumeGoNow(fresh){
   }
   /* ★LINK.letter 는 '/l/'(꽃비 맞이 의식)입니다. 이어가는 손님에게 의식을 다시 보여줄 수 없고
      ?resume= 도 그 화면을 넘어가며 사라집니다. → 이어가기는 편지 본 화면(/letter/)으로 직행합니다. */
-  var RESUME_LINK = { journey:'/journey/', letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec' };
+  var RESUME_LINK = { journey:'/journey/', letter:'/letter/' };
   var u = RESUME_LINK[RES.kind];
   if(!u){ showToast('연결 예정입니다'); return; }
   u += '?id=' + encodeURIComponent(RES.pp) + (fresh ? '&fresh=1' : '&resume=1');
@@ -662,7 +663,7 @@ function lfPaintWay(){
      폰에서 쓰다 PC로 오면 번호를 넣어도 못 찾습니다.
      어디서든 이어지려면 서버(시트)에 담아야 하고, 그건 GAS 위험구간이라 별건입니다.
    ═══════════════════════════════════════════════════════════════════ */
-var LF_RESUME_LINK = { journey:'/journey/', letter:'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec' };
+var LF_RESUME_LINK = { journey:'/journey/', letter:'/letter/' };
 
 function lfReadDraft(kind, pp){
   try{
