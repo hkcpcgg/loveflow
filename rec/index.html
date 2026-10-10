@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v31 · 261010 · [대표 OK 10:55 · 11:33 · 공사 전 설명 2단계 · 서버 v6] 첫 화면 바둑판 — 모임 이름 한 줄 · 대표 사진 6칸(첫 칸 크게) · 단추 둘 · 핵심 바로가기 3 · 새 소식 칸 · 이야기 9칸(사진 · 영상만 · 겹침 없음 · 더 보기 9칸씩) · 아래 늘 보임(바로가기 · 이렇게 찾아보세요 · 이용 안내 · 사랑흐름) · 그림은 따로 받음(recPvs) · 작은 ＋(내려 읽을 때 숨김) · 바깥으로 나갈 때 「다녀오셔서 추억을 더해 주세요.」 / 돌아올 때 「다시 오셨네요. 추억을 더해 주세요.」 · 이용 안내는 접어 둠(누르면 펼침) · 「혹시 이 안에 계신가요?」 세 곳 뺌(205) · 글 · 링크 · 검색은 예전 카드 목록. [무손] 기록 하나 · 남기기 · 관리 화면은 v30 그대로(v32 · v33). -->
 <!-- ★ 현재 버전 ▶ rec/index.html · v30 · 261009 · [64차 · 대표 261009 14:03 우리 이야기 서버 이사] 서버 주소를 config.js 의 gas.rec(새 서버 · 사랑흐름 계정)에서 읽음 · 없으면 gas.memoir(옛 서버) · 꼬리표 config.js?v=2 → v=4. [무손] 그 밖 전부 v29 그대로. -->
 <!-- ★ 현재 버전 ▶ rec/index.html · v29 · 261008 · [대표 261008 18:12 「우리 이야기로 결정 · 앞뒤로 붙여 쓰게」 · 59차 이름 공모 · 자서전 서버 v46]
      ① 서비스 이름 「우리 기록」 → 「우리 이야기」(화면 말 · 제목 · 안내 모두).
@@ -446,6 +447,44 @@ html.lfx body{padding-bottom:0!important}
 .nbw .chip{margin:0}
 #nbNe,#nbOwn{margin-top:8px}
 .nbe{margin-top:4px;padding:10px 12px;border-radius:12px;background:#F7F4EE;font-weight:800;color:var(--navy2)}.nbe small{font-weight:400;color:var(--sub)}
+
+/* ★v31 첫 화면 바둑판 */
+.strip{-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.hm{margin:2px 0 16px}
+.hm .cn{font-family:var(--f-disp);font-size:20px;color:var(--navy2);font-weight:800;margin:2px 2px 8px;line-height:1.3}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:14px;overflow:hidden}
+.tl{position:relative;aspect-ratio:1/1;border:0;padding:0;margin:0;background:var(--sand) center/cover no-repeat;cursor:pointer;display:block;width:100%}
+.tl.big{grid-column:span 2;grid-row:span 2}
+.tl.wait{background-image:linear-gradient(135deg,#EFE6D6,#E6ECF2)}
+.tl .pl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center}
+.tl .pl:after{content:'';border-left:11px solid #fff;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.tl .cnt{position:absolute;right:5px;bottom:5px;background:rgba(22,58,92,.84);color:#fff;font-size:11.5px;border-radius:8px;padding:1px 7px}
+.tl .nw{position:absolute;left:5px;top:5px;background:var(--orange);color:#fff;font-size:11.5px;font-weight:700;border-radius:9px;padding:1px 8px}
+.tl .bq{position:absolute;left:0;right:0;bottom:0;padding:18px 10px 8px;background:linear-gradient(transparent,rgba(20,28,44,.72));color:#fff;font-size:14px;font-weight:700;text-align:left}
+.hm .pair{margin-top:10px}.hm .pair .btn{margin-top:0;min-height:48px;font-size:15px}
+.core{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.core button{border:0;border-radius:12px;padding:10px 4px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.core .c0{background:#FDE3D6;color:#A8461C}.core .c1{background:#DCEFDC;color:#2F6B37}.core .c2{background:#DDE6F2;color:#2C4A6E}
+.sl{font-size:13px;color:var(--sub);font-weight:700;margin:18px 2px 6px}
+.morebtn{margin-top:10px}
+.lo{border-top:2px solid var(--line);margin-top:22px;padding-top:6px}
+.lo h3{font-size:15px;color:var(--navy2);margin:14px 2px 4px}
+.lo .intro{font-size:13.5px;color:var(--sub);margin:0 2px 6px}
+.row1{display:flex;gap:7px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:none;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.row1::-webkit-scrollbar{display:none}
+.gopill{flex:none;display:inline-flex;align-items:center;gap:7px;border:1.5px solid var(--line);background:var(--paper);border-radius:999px;padding:5px 13px 5px 5px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer;white-space:nowrap}
+.gopill i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;color:#fff;font-style:normal;font-size:12px;font-weight:800}
+.gfold{margin-top:16px;border:1px solid var(--line);border-radius:14px;background:var(--paper);padding:0 14px}
+.gfh{width:100%;display:flex;justify-content:space-between;align-items:center;border:0;background:none;font:inherit;font-size:15.5px;font-weight:700;color:var(--navy2);padding:12px 0;cursor:pointer}
+#gdB{padding-bottom:12px}
+.brand{text-align:center;font-size:13px;color:var(--sub);margin-top:14px}
+.fab.round{width:56px;height:56px;padding:0;justify-content:center;border-radius:50%;opacity:.92;transition:transform .25s,opacity .25s}
+.fab.round svg.i{width:26px;height:26px}
+.fab.round.hid{transform:translateY(90px);opacity:0;pointer-events:none}
+.fabtip{position:fixed;right:max(80px,calc(50vw - 200px));bottom:calc(30px + env(safe-area-inset-bottom,0px));z-index:31;background:var(--navy2);color:#fff;border-radius:12px;padding:7px 12px;font-size:14px;font-weight:700;box-shadow:0 3px 10px rgba(0,0,0,.2)}
+.backcard{position:fixed;left:50%;transform:translateX(-50%);top:calc(14px + env(safe-area-inset-top,0px));z-index:60;width:min(92vw,420px);background:var(--navy2);color:#fff;border-radius:16px;padding:14px 14px 12px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.backcard b{display:block;font-size:16px}.backcard p{margin:4px 0 10px;font-size:14.5px}
+.backcard .pair .btn{margin-top:0;min-height:42px;font-size:14.5px}
 </style>
 </head>
 <body data-lf-title="함께 남기는 우리 이야기">
@@ -455,7 +494,7 @@ html.lfx body{padding-bottom:0!important}
   <div class="foot">© 2026 사랑흐름 · LFRI™</div>
   <input type="file" id="fileIn" accept="image/*" multiple hidden>
 </div>
-<button class="fab" id="fab" type="button" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>기록 남기기</button>
+<button class="fab round" id="fab" type="button" aria-label="기록 남기기" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
 <div class="navbar" id="navbar" hidden><div class="in"><button class="btn line" id="nPrev" type="button">이전</button><button class="btn warm" id="nNext" type="button">다음</button></div></div>
 <script src="/lf/config.js?v=4"></script>
 <script>
@@ -581,10 +620,10 @@ function boot(){
 /* ★v26 열린 모임이면 가입 없이 전체를 봄 · 닫힌 방이면 지금처럼 들어오기 화면 */
 function guestIn(g){
   G=g; wait($('main'),'우리 이야기를 여는 중입니다');
-  api({action:'recHome',g:g,f:FROM||'',mode:F.sort,n:'20'},function(d){
+  api({action:'recHome',g:g,f:FROM||'',mode:F.sort,n:'20',lite:'1'},function(d){
     if(d.status!=='ok'||!d.guest){ G=''; joinForm(g); return; }
-    ME={guest:1,name:'',role:'손님',comName:d.comName,room:d.room,stat:d.stat,best:d.best}; setTitle(); CATS=d.cats||[]; QN=0;
-    if(d.list&&d.list.status==='ok'){ LIST=d.list.items; LMORE=d.list.more; LNEXT=d.list.next; LKEY=feedKey(); }
+    ME={guest:1,name:'',role:'손님',comName:d.comName,room:d.room,stat:d.stat,best:d.best,gos:d.gos||[],intro:d.intro||'',outText:d.outText||'',backText:d.backText||'',bestText:d.bestText||'',invText:d.invText||''}; setTitle(); CATS=d.cats||[]; QN=0;
+    gridSet(d.grid);
     STACK=[{v:'feed'}]; if(OPEN_R){ var r=OPEN_R; OPEN_R=''; STACK.push({v:'item',id:r}); holdHistory(); }
     render();
   });
@@ -656,13 +695,13 @@ function joinForm(g){
 }
 function loadMe(g){
   wait($('main'),'우리 이야기를 여는 중입니다');
-  api({action:'recHome',mode:F.sort,n:'20'},function(d){   /* ★v24 나 · 분류 · 첫 20개 · 승인 대기 수를 한 번에 */
+  api({action:'recHome',mode:F.sort,n:'20',lite:'1'},function(d){   /* ★v31 lite = 바둑판 · 그림은 따로 */
     if(d.status!=='ok'){
       if(d.reason==='NO_KEY'){ sset(KEY,''); K=''; if(g){ joinForm(g); return; } noKey(); return; }
       $('main').innerHTML='<div class="msg">'+esc(d.msg||'열지 못했습니다.')+'</div>'; return;
     }
     ME=d; setTitle(); CATS=d.cats||[]; QN=d.qn||0;
-    if(d.list&&d.list.status==='ok'&&!F.q&&!F.kind&&!F.cat){ LIST=d.list.items; LMORE=d.list.more; LNEXT=d.list.next; LKEY=feedKey(); }
+    gridSet(d.grid);
     STACK=[{v:'feed'}];
     var dr=null; try{ dr=JSON.parse(sget(DRAFT)||'null'); }catch(e){} sset(DRAFT,'');
     if(dr&&dr.r&&!DRAFT_T){ OPEN_R=dr.r; DRAFT_T=dr.t||''; }
@@ -712,7 +751,7 @@ function render(){
   if(STACK.length===1&&HELD){ HELD=false; IGN=true; try{ history.back(); }catch(e){ IGN=false; } }
   var top=STACK[STACK.length-1], was=VIEW; VIEW=top.v;
   $('fab').hidden=!(VIEW==='feed'&&(canAdd()||isGuest())); $('navbar').hidden=(VIEW!=='add');
-  $('fab').lastChild.textContent=isGuest()?'참여하기':'기록 남기기';
+  $('fab').setAttribute('aria-label',isGuest()?'참여하기':'기록 남기기'); fabTip();
   if(VIEW==='feed'){ feedView(); if(was&&was!=='feed'&&was!=='add'){ setTimeout(function(){ window.scrollTo(0,FEEDY); },30); } return; }
   window.scrollTo(0,0);
   if(VIEW==='item'){ itemView(top.id); }
@@ -785,9 +824,111 @@ function stripDraw(){
   each(el,'[data-k]',function(b){ b.onclick=function(){ F.kind=b.getAttribute('data-k'); if(!F.kind){ F.cat=''; } LKEY=''; stripDraw(); feedLoad(); }; });
   each(el,'[data-c]',function(b){ b.onclick=function(){ var c=b.getAttribute('data-c'); F.cat=(F.cat===c)?'':c; LKEY=''; stripDraw(); feedLoad(); }; });
 }
+/* ══ ★v31 첫 화면 바둑판 ══ */
+var GRID=null, GKEY='', PVC={};
+function gridSet(g){ GRID=g||null; GKEY=GRID?F.sort:''; if(GRID){ LIST=GRID.best.concat(GRID.news,GRID.story.items||[]); } }
+function gridLoad(){
+  var el=$('feed'); if(!el){ return; }
+  if(GRID&&GKEY===F.sort){ gridDraw(); return; }
+  if(!GRID){ wait(el,'우리 이야기를 여는 중입니다'); api({action:'recHome',mode:F.sort,n:'20',lite:'1'},function(d){ if(VIEW!=='feed'){ return; } if(d.status!=='ok'){ el.innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; } gridSet(d.grid); if(d.gos){ ME.gos=d.gos; } gridDraw(); }); return; }
+  wait(el,F.sort==='time'?'우리 이야기를 연도 차례로 펼치는 중입니다':'새로 올라온 기록을 모으는 중입니다');
+  var ex=GRID.best.concat(GRID.news).map(function(x){ return x.id; }).join(','), key=F.sort;
+  api({action:'recList',grid:'1',lite:'1',mode:F.sort,n:'9',from:'0',ex:ex},function(d){ if(key!==F.sort||VIEW!=='feed'){ return; } if(d.status==='ok'){ GRID.story=d; GKEY=F.sort; LIST=GRID.best.concat(GRID.news,d.items||[]); } gridDraw(); });
+}
+/* ★v31 이용 안내 — 접어 두고 누르면 펼침 */
+function guideFold(){
+  var key=isGuest()?'보는 분':ME.role==='관리자'?'관리자':ME.role==='확인자'?'확인자':'작성자';
+  return '<div class="gfold"><button type="button" class="gfh" id="gdT" aria-expanded="false"><span>이용 안내</span><span>▾</span></button><div id="gdB" hidden><ul class="chk" style="margin-top:4px">'+HELP[key].slice(0,3).map(function(x,i){ return '<li><b>'+(i+1)+'</b><span>'+esc(x)+'</span></li>'; }).join('')+'</ul><div class="pair"><button class="btn line" id="gdMore" type="button">안내 더 보기</button><button class="btn line" id="gdok" type="button">맨 위로</button></div></div></div>';
+}
+function nwTag(nw){ if(!nw){ return ''; } var o=[['기억','기억'],['보탬','보탬'],['대화','대화'],['기억해요','❤'],['좋아요','👍']], t=[]; o.forEach(function(k){ if(nw[k[0]]){ t.push(k[1]+' '+nw[k[0]]); } }); return t.length?'<span class="nw">'+esc(t.slice(0,2).join(' · '))+'</span>':''; }
+function tile(it,big,cap){
+  var bg='', cls='tl'+(big?' big':''), vid=it.kind==='영상'&&it.video;
+  if(vid){ bg=it.video.thumb; } else if(it.pv||PVC[it.id]){ bg=it.pv||PVC[it.id]; } else if(it.photo){ cls+=' wait'; }
+  var n=it.photos&&it.photos.length>1?it.photos.length:0;
+  return '<button type="button" class="'+cls+'" data-tid="'+esc(it.id)+'"'+(it.photo&&!vid?' data-tpv="'+esc(it.id)+'"':'')+(bg?' style="background-image:url('+esc(bg)+')"':'')+' aria-label="'+esc(it.title||'사진')+'">'+
+    (vid?'<span class="pl"></span>':'')+(n?'<span class="cnt">'+n+'장</span>':'')+nwTag(it.nw)+(cap?'<span class="bq">'+esc(cap)+'</span>':'')+'</button>';
+}
+function pvLoad(el){
+  var need=[]; each(el,'[data-tpv].wait',function(t){ var id=t.getAttribute('data-tpv'); if(need.indexOf(id)<0){ need.push(id); } });
+  function put(id,u){ PVC[id]=u; var l=findL(id); if(l&&!l.pv){ l.pv=u; } each(el,'[data-tpv="'+id+'"]',function(t){ t.style.backgroundImage='url('+u+')'; t.classList.remove('wait'); }); }
+  for(var i=0;i<need.length;i+=9){ (function(ids){
+    api({action:'recPvs',ids:ids.join(',')},function(d){ if(d.status!=='ok'){ return; } for(var k in (d.items||{})){ put(k,d.items[k]); }
+      (d.miss||[]).forEach(function(id){ NEEDPV[id]=1; photo(id,true,function(u){ if(u){ put(id,u); } }); }); });
+  })(need.slice(i,i+9)); }
+}
+function josa(w){ var c=String(w||'').trim(), ch=c.charCodeAt(c.length-1); if(ch>=0xAC00&&ch<=0xD7A3){ var j=(ch-0xAC00)%28; return c+(j===0||j===8?'로':'으로'); } return c+'(으)로'; }
+function goColor(u){ var d=(String(u).match(/^https?:\/\/([^\/?#:]+)/i)||['',''])[1].replace(/^www\./,''); return /naver/.test(d)?['#03A94D','N']:/instagram/.test(d)?['#C13584','I']:/youtu/.test(d)?['#D33A2C','Y']:/daum|kakao/.test(d)?['#F7B500','K']:/band\.us/.test(d)?['#2DB400','B']:['#5A6B80',(d.charAt(0)||'?').toUpperCase()]; }
+function gridDraw(){
+  var el=$('feed'); if(!el||!GRID){ return; }
+  var b=GRID.best||[], nw=GRID.news||[], st=(GRID.story&&GRID.story.items)||[], gos=(ME&&ME.gos)||[], core=gos.filter(function(x){ return x.core; }).slice(0,3);
+  var cap=(ME&&ME.bestText)||'아는 분 계세요?';
+  var h='<section class="hm"><div class="cn">'+esc((ME&&ME.comName)||'우리 이야기')+'</div>';
+  if(b.length){ h+='<div class="tgrid">'+b.map(function(it,i){ return tile(it,i===0,i===0?cap:''); }).join('')+'</div>'; }
+  h+=isGuest()?'<div class="pair"><button class="btn warm" id="hJoin" type="button">'+ic('heart')+'나도 기억 남기기</button><button class="btn line" id="hLook" type="button">둘러보기</button></div>'
+    :'<div class="pair"><button class="btn warm" id="hGo" type="button">'+ic('grape')+'기억 남기기</button><button class="btn kakao" id="hShare" type="button">'+KICON+'카톡으로 보내기</button></div>';
+  if(core.length){ h+='<div class="core">'+core.map(function(g,i){ return '<button type="button" class="c'+i+'" data-go="'+esc(g.f)+'">'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
+  h+='</section>';
+  if(nw.length){ h+='<div class="sl">'+ic('star','sm')+' 새 소식</div><div class="tgrid">'+nw.map(function(it){ return tile(it,false,''); }).join('')+'</div>'; }
+  if(st.length){ h+='<div class="sl">우리 이야기</div><div class="tgrid" id="stg">'+st.map(function(it){ return tile(it,false,''); }).join('')+'</div>'+(GRID.story.more?'<button class="btn line morebtn" id="moreG" type="button">더 보기</button>':''); }
+  if(!b.length&&!nw.length&&!st.length){ h+='<div class="card" style="text-align:center"><h2>아직 기록이 없습니다</h2><p class="lead">'+(canAdd()?'오른쪽 아래 ＋ 에서 첫 사진 한 장을 남겨 주세요.':'곧 첫 기록이 올라옵니다.')+'</p></div>'; }
+  h+='<div class="lo">';
+  if(gos.length){ h+='<h3>바로가기</h3>'+(ME.intro?'<p class="intro">'+esc(ME.intro)+'</p>':'')+'<div class="row1">'+gos.map(function(g){ var c=goColor(g.url); return '<button type="button" class="gopill" data-go="'+esc(g.f)+'"><i style="background:'+c[0]+'">'+esc(c[1])+'</i>'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
+  h+='<h3>이렇게 찾아보세요</h3><div class="row1">'+['70년대','가족 사진','운동회','할머니'].map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div>';
+  h+=guideFold()+'<div class="brand">🍇 사랑흐름 · 우리 이야기</div></div>';
+  el.innerHTML=h;
+  each(el,'[data-tid]',function(t){ t.onclick=function(){ go('item',t.getAttribute('data-tid')); }; });
+  each(el,'[data-go]',function(t){ t.onclick=function(){ goOut(t.getAttribute('data-go')); }; });
+  each(el,'[data-qx]',function(t){ t.onclick=function(){ F.q=t.getAttribute('data-qx'); LKEY=''; feedView(); window.scrollTo(0,0); }; });
+  if($('hJoin')){ $('hJoin').onclick=function(){ if(b[0]){ go('item',b[0].id); setTimeout(joinGate,400); } else { joinGate(); } }; }
+  if($('hLook')){ $('hLook').onclick=function(){ var g=$('stg'); if(g){ g.scrollIntoView({behavior:'smooth',block:'start'}); } }; }
+  if($('hGo')){ $('hGo').onclick=function(){ if(b[0]){ go('item',b[0].id); } }; }
+  if($('hShare')){ $('hShare').onclick=function(){ shareRec(null); }; }
+  if($('gdok')){ $('gdok').onclick=function(){ window.scrollTo({top:0,behavior:'smooth'}); }; }
+  if($('gdMore')){ $('gdMore').onclick=function(){ helpSheet(); }; }
+  if($('gdT')){ $('gdT').onclick=function(){ var bx=$('gdB'), op=bx.hidden; bx.hidden=!op; this.setAttribute('aria-expanded',op?'true':'false'); this.lastChild.textContent=op?'▴':'▾'; }; }
+  if($('moreG')){ $('moreG').onclick=function(){ var btn=this, y=window.scrollY, key=F.sort, ex=GRID.best.concat(GRID.news).map(function(x){ return x.id; }).join(','); btn.disabled=true; btn.textContent='더 불러오는 중입니다';
+    api({action:'recList',grid:'1',lite:'1',mode:F.sort,n:'9',from:String(GRID.story.next||0),ex:ex},function(d){ if(key!==F.sort||VIEW!=='feed'){ return; } if(d.status!=='ok'){ btn.disabled=false; btn.textContent='더 보기'; toast(d.msg||'불러오지 못했습니다'); return; }
+      var seen={}; LIST.forEach(function(x){ seen[x.id]=1; }); var add=(d.items||[]).filter(function(x){ return !seen[x.id]; });
+      GRID.story.items=(GRID.story.items||[]).concat(add); GRID.story.more=d.more; GRID.story.next=d.next; LIST=LIST.concat(add); gridDraw(); window.scrollTo(0,y); }); }; }
+  pvLoad(el);
+  if(ME&&ME.news&&ME.news.length){ setTimeout(function(){ if(ME){ ME.news=[]; } },60000); }
+}
+/* ★v31 바깥으로 나갈 때 · 돌아올 때 */
+var OUT_AT=0, OUT_DEF='다녀오셔서 추억을 더해 주세요.', BACK_DEF='추억을 더해 주세요.', OLD_TX=['보고 오셔서 오늘 사진 한 장 남겨 주세요.','오늘 찍은 사진 한 장 남겨 주세요.'];
+function outTx(v,d){ v=String(v||'').trim(); return (!v||OLD_TX.indexOf(v)>-1)?d:v; }
+function goOut(f){
+  var g=((ME&&ME.gos)||[]).filter(function(x){ return x.f===f; })[0]; if(!g){ return; }
+  sheet('<h2>'+esc(josa(g.name))+' 갑니다</h2><p class="lead" style="margin-top:6px">새 창으로 열립니다. 이 화면은 그대로 둡니다.</p><p style="margin-top:8px;font-weight:700;color:var(--navy2)">'+esc(outTx(ME&&ME.outText,OUT_DEF))+'</p><div class="pair" style="margin-top:16px"><button class="btn line" id="goNo" type="button">취소</button><button class="btn warm" id="goGo" type="button">다녀오기 ↗</button></div>',function(){
+    $('goNo').onclick=closeSheet;
+    $('goGo').onclick=function(){ closeSheet(); OUT_AT=Date.now(); try{ window.open(g.url,'_blank','noopener'); }catch(e){ location.href=g.url; } api({action:'recGoTap',f:f},function(){}); };
+  });
+}
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState!=='visible'||!OUT_AT||Date.now()-OUT_AT<3000){ return; } OUT_AT=0;
+  var old=$('backc'); if(old&&old.parentNode){ old.parentNode.removeChild(old); }
+  var d=document.createElement('div'); d.className='backcard'; d.id='backc';
+  d.innerHTML='<b>다시 오셨네요.</b><p>'+esc(outTx(ME&&ME.backText,BACK_DEF))+'</p><div class="pair"><button class="btn line" id="bcNo" type="button">닫기</button><button class="btn warm" id="bcGo" type="button">'+(isGuest()?'참여하기':'사진 남기기')+'</button></div>';
+  document.body.appendChild(d);
+  var close=function(){ if(d.parentNode){ d.parentNode.removeChild(d); } };
+  $('bcNo').onclick=close; setTimeout(close,12000);
+  $('bcGo').onclick=function(){ close(); if(isGuest()){ joinGate(); return; } if(!canAdd()){ toast('관리자 승인 후 남기실 수 있습니다'); return; } A=newA(); A.type='사진'; go('add'); };
+});
+/* ★v31 작은 ＋ — 내려 읽을 때 숨고 멈추거나 올리면 나타남 · 처음 한 번 말풍선 */
+var FAB_Y=0, FAB_T=null;
+window.addEventListener('scroll',function(){
+  var f=$('fab'); if(!f||f.hidden){ return; } var y=window.scrollY||0;
+  if(y>FAB_Y+6&&y>120){ f.classList.add('hid'); } else if(y<FAB_Y-6){ f.classList.remove('hid'); }
+  FAB_Y=y; clearTimeout(FAB_T); FAB_T=setTimeout(function(){ f.classList.remove('hid'); },700);
+},{passive:true});
+function fabTip(){
+  var f=$('fab'); if(!f||f.hidden||sget('lf_rec_fabtip')){ return; } sset('lf_rec_fabtip','1');
+  var d=document.createElement('div'); d.className='fabtip'; d.textContent=isGuest()?'＋ 참여하기':'＋ 남기기'; document.body.appendChild(d);
+  setTimeout(function(){ if(d.parentNode){ d.parentNode.removeChild(d); } },3500);
+}
 function feedKey(){ return [F.sort,F.kind,F.cat,F.q].join('|'); }
 function feedLoad(){
   var el=$('feed'); if(!el){ return; }
+  if(!F.q&&!F.kind&&!F.cat){ gridLoad(); return; }   /* ★v31 거르지 않으면 바둑판 */
   if(LKEY===feedKey()){ feedDraw(); return; }
   wait(el,F.q||F.kind||F.cat?'검색한 기록을 모으는 중입니다':(F.sort==='time'?'우리 이야기를 연도 차례로 펼치는 중입니다':'새로 올라온 기록을 모으는 중입니다'));
   var key=feedKey();
@@ -804,7 +945,7 @@ function listGet(from,cb){
 function feedDraw(){
   var el=$('feed'); if(!el){ return; }
   var top=F.q?'<div class="qline">'+ic('look','sm')+'<span>「<b>'+esc(F.q)+'</b>」 검색 결과 '+LIST.length+(LMORE?'+':'')+'건</span><button class="sbtn" id="qClr" type="button">검색 지우기</button></div>'
-    :'<div class="qex">'+['70년대','가족 사진','운동회','할머니'].map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div>';
+    :'';   /* ★v31 검색 예시는 바둑판 아래로 */
   if(!LIST.length){
     el.innerHTML=top+'<div class="card" style="text-align:center"><h2>'+(F.q||F.kind||F.cat?'검색 결과가 없습니다':'아직 기록이 없습니다')+'</h2><p class="lead">'+(F.q||F.kind||F.cat?'다른 말로 검색하시거나 「전체」를 눌러 주십시오.':(canAdd()?'오른쪽 아래 「기록 남기기」에서 첫 사진 한 장을 남겨 주세요. 첫 기록이 다음 기억을 부릅니다.':'곧 첫 기록이 올라옵니다.'))+'</p></div>'+guideHtml();
   } else {
@@ -1073,14 +1214,14 @@ function kakaoJs(cb){
 function pvFile(pv){ try{ var bin=atob(pv.split(',')[1]), arr=new Uint8Array(bin.length); for(var i=0;i<bin.length;i++){ arr[i]=bin.charCodeAt(i); } return new File([arr],'photo.jpg',{type:'image/jpeg'}); }catch(e){ return null; } }
 function sendOut(it,url,room){
   var com=(ME&&ME.comName)||'우리 이야기';
-  var text=it&&it.id?'「'+(it.title||'우리 이야기')+'」'+(it.when?' ('+it.when+')':'')+'\n혹시 이 안에 계신가요? 떠오르는 기억을 한마디 남겨 주세요.\n— '+com:com+'\n우리 옛 사진과 기억이 모여 있어요. 혹시 이 안에 계신가요?';
+  var text=it&&it.id?'「'+(it.title||'우리 이야기')+'」'+(it.when?' ('+it.when+')':'')+'\n떠오르는 기억을 한마디 남겨 주세요.\n— '+com:(ME&&ME.invText?com+'\n'+ME.invText:com+'\n우리 옛 사진과 기억이 모여 있어요. 떠오르는 기억을 한마디 남겨 주세요.');   /* ★v31 205 */
   var pv=it&&(it.pv||(it.photos&&it.photos[0]&&it.photos[0].pv));
   if(!pv&&!it&&ME&&ME.best){ for(var i=0;i<LIST.length;i++){ if(LIST[i].id===ME.best){ pv=LIST[i].pv||(LIST[i].photos&&LIST[i].photos[0]&&LIST[i].photos[0].pv); } } }
   busyOn('카카오톡을 여는 중입니다');
   kakaoJs(function(ok){
     if(!ok){ busyOff(); sendOld(text,url,pv,room); return; }
     var go=function(img){ busyOff();
-      try{ Kakao.Share.sendDefault({objectType:'feed',content:{title:it&&it.id?(it.title||com):'혹시 이 안에 계신가요?',description:it&&it.id?((it.when?it.when+' · ':'')+com+' — 떠오르는 기억을 한마디 남겨 주세요'):com+' — 우리 옛 사진과 기억이 모여 있어요',imageUrl:img,link:{mobileWebUrl:url,webUrl:url}},buttons:[{title:'기억 남기러 가기',link:{mobileWebUrl:url,webUrl:url}}]}); }
+      try{ Kakao.Share.sendDefault({objectType:'feed',content:{title:it&&it.id?(it.title||com):com,description:it&&it.id?((it.when?it.when+' · ':'')+com+' — 떠오르는 기억을 한마디 남겨 주세요'):com+' — 우리 옛 사진과 기억이 모여 있어요',imageUrl:img,link:{mobileWebUrl:url,webUrl:url}},buttons:[{title:'기억 남기러 가기',link:{mobileWebUrl:url,webUrl:url}}]}); }
       catch(e){ sendOld(text,url,pv,room); } };
     var dflt=location.origin+'/og-image.png', f=(pv&&room!=='닫힌 방')?pvFile(pv):null;
     if(!f){ go(dflt); return; }
@@ -1096,7 +1237,7 @@ function sendOld(text,url,pv,room){
 function chatPost(){
   function make(link){
     var news=LIST.filter(function(x){ return x.title; }).slice(0,3).map(function(x){ return '· '+x.title+(x.when?' ('+x.when+')':''); }).join('\n');
-    var t='['+((ME&&ME.comName)||'우리 이야기')+']\n우리 옛 사진과 기억을 한곳에 모으고 있어요.\n'+(news?'\n요즘 올라온 것\n'+news+'\n':'')+'\n혹시 이 안에 계신가요? 사진을 보고 떠오르는 기억을 한마디 남겨 주세요. 가입 없이 바로 볼 수 있어요.\n'+link;
+    var t='['+((ME&&ME.comName)||'우리 이야기')+']\n'+((ME&&ME.invText)||'우리 옛 사진과 기억을 한곳에 모으고 있어요.')+'\n'+(news?'\n요즘 올라온 것\n'+news+'\n':'')+'\n사진을 보고 떠오르는 기억을 한마디 남겨 주세요. 가입 없이 바로 볼 수 있어요.\n'+link;
     sheet('<h2>단톡방 · 밴드에 올릴 글</h2><p class="lead" style="margin-top:4px">고쳐서 쓰셔도 됩니다. 「복사」를 누르고 단톡방에 붙여 넣으세요.</p><textarea id="cpT" style="min-height:220px;margin-top:10px">'+esc(t)+'</textarea><div class="pair" style="margin-top:10px"><button class="btn" id="cpC" type="button" style="margin-top:0">복사</button><button class="btn line" id="cpS" type="button" style="margin-top:0">'+ic('share')+'다른 곳으로</button></div><button class="btn kakao" id="cpK" type="button">'+KICON+'카톡 방에 사진 카드로 보내기</button>',function(){
       $('cpK').onclick=function(){ closeSheet(); sendOut(null,link,ME&&ME.room); };
       $('cpC').onclick=function(){ copyLink($('cpT').value,'복사했습니다','단톡방에 붙여 넣어 주십시오'); };
