@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ certificate.html · v3 · 261010 · [이슈 239 · 대표 OK 261010 16:27 「③ 하나로 합침」] ☰ 「편지」 링크를 구글 편지 화면(새 창) → /letter/(같은 창)로 · 「편지 쓰러 가기」(goToLetter)도 /letter/?id=여권번호 로 — 점수는 /letter/ 가 서버에서 불러옴. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ certificate.html · v2 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
 <!-- ★ 현재 버전 ▶ certificate.html · v1 · 261005 · [작업 v1 · 자서전 공사 칸 27-4 · 셋째 묶음 틀] 공용 틀 /lf/frame.js?v=5 붙임(위 띠 · ☰ · 아래 길목 다섯 · 옛 상단바 · 드로어 · 길 셋 감춤).  [무손] 본문 · 배관 · 서버. -->
 <html lang="ko">
@@ -378,7 +379,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sa
   <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
   <a href="/compass.html"><span class="ic">🧭</span>무료 나침반</a>
   <a class="lf-buy" href="https://smartstore.naver.com/wellnongbunet/products/13639174278" target="_blank" rel="noopener"><span class="ic">🗺️</span>여행지도 구매</a>
-  <a href="https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec" target="_blank" rel="noopener"><span class="ic">💌</span>마음편지</a>
+  <a href="/letter/" ><span class="ic">💌</span>마음편지</a>
   <a href="/about.html"><span class="ic">📖</span>소개</a>
   <div id="lfMineGrp" style="display:none">
     <div class="lf-grp">내 여행</div>
@@ -2384,13 +2385,9 @@ async function saveEmail(){
   }
 }
 function goToLetter(){
-  var LB='https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA/exec';
-  var ei=document.getElementById('collect-email-id')?document.getElementById('collect-email-id').value.trim():'';
-  var ds=document.getElementById('collect-email-domain')?document.getElementById('collect-email-domain').value:'naver.com';
-  var dc=document.getElementById('collect-email-custom')?document.getElementById('collect-email-custom').value.trim():'';
-  var domain=ds==='custom'?dc:ds; var email=ei?ei+'@'+domain:'';
-  var params=new URLSearchParams({code:currentCode,c:pct(sc.C,sc.D),w:pct(sc.W,sc.G),e:pct(sc.E,sc.H),r:pct(sc.R,sc.P),myMBTI:myMBTI,ptMBTI:partnerMBTI,rel:relType,nick:relNick,email:email,ts:Date.now()});
-  window.open(LB+'?'+params.toString(),'_blank');
+  /* v3 · 261010 이슈 239 — 구글 편지 화면 대신 /letter/ 로. 점수 · 유형 · 별명 · MBTI 는 /letter/ 가 여권번호로 서버에서 불러옴(주소에 싣지 않음) */
+  var pp=''; try{ pp=window.lfPassport||sessionStorage.getItem('lf_passport')||localStorage.getItem('lf_passport')||''; }catch(e){}
+  location.href='/letter/'+(pp?'?id='+encodeURIComponent(pp):'');
 }
 function doShare(){
   var t=T[currentCode]||T['DWHR']; var shareUrl=BASE_URL;
