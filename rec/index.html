@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v36 · 261010 · [대표 OK 261010 17:00 「240 부하 결과 · 서버 v9 · 화면 v36」]
+     240 읽기 요청(첫 화면 · 목록 · 그림 · 기록 열기 · 분류 · 승인 대기 · 함께하는 분 · 결과 보고)이 깨져 오면 1.5초 뒤 한 번 더 받음 — 그동안 「○○하는 중입니다」 글은 그대로.
+     쓰기 요청(올리기 · 남기기 등)은 다시 보내지 않음(두 번 올라가지 않게). 서버 v9 와 짝 · v8 서버와도 그대로 돌아감. -->
 <!-- ★ 현재 버전 ▶ rec/index.html · v35 · 261010 · [대표 OK 261010 16:36 「서버 v8 · 화면 v35 — 212 · 215」] 관리자 · 확인자 ☰ 「결과 보고」(서버 v8 recReport) — 이번 달 · 지난달 · 전체 / 올린 것 · 기억 남기기 · 함께하는 분 · 활동 비율 · 반응 · 종류별 · 초대 링크별 · 삭제 요청 · 가림. [무손] 그 밖 v34 전부. -->
 <!-- (이전) rec/index.html · v34 · 261010 · [대표 휴대폰 확인 261010 13:45~14:27] 화면만 · 서버 그대로(v7).
      235 첫 화면 꾸미기 「문구 저장」 · 「대표 사진 걸기」 → 저장되면 첫 화면으로 돌아가 바뀐 모습을 보임.
@@ -628,11 +631,16 @@ var BUSY_N=0, BUSY_T=null;
 function busyOn(msg){ BUSY_N++; if(BUSY_T||$('busy')){ busyText(msg); return; } BUSY_T=setTimeout(function(){ BUSY_T=null; if(!BUSY_N){ return; } var d=document.createElement('div'); d.className='busy'; d.id='busy'; d.innerHTML='<b>'+esc(msg)+'</b><div class="lf-wave"></div>'; document.body.appendChild(d); try{ if(window.LFFlow){ LFFlow.wave(d.querySelector('.lf-wave')); } }catch(e){} },400); }
 function busyOff(){ BUSY_N=Math.max(0,BUSY_N-1); if(BUSY_N){ return; } if(BUSY_T){ clearTimeout(BUSY_T); BUSY_T=null; } var d=$('busy'); if(d&&d.parentNode){ d.parentNode.removeChild(d); } }
 function busyText(msg){ var d=$('busy'); if(d&&d.firstChild){ d.firstChild.textContent=msg; } }
-function api(p,cb){
+/* ★v36 240 — 읽기 요청이 깨져 오면(많은 분이 한꺼번에 열 때 구글이 오류 페이지를 줌) 1.5초 뒤 한 번 더 */
+var API_AGAIN={recHome:1,recList:1,recPvs:1,recGet:1,recCats:1,recQueue:1,recPeople:1,recReport:1};
+function api(p,cb,again){
   if(!GAS){ cb({status:'err',msg:'서버 주소를 읽지 못했습니다. 잠시 후 다시 열어 주십시오.'}); return; }
+  var p0=again?null:JSON.parse(JSON.stringify(p));
   if(K&&!p.k){ p.k=K; } else if(!K&&G&&!p.g){ p.g=G; }
   var bm=p._busy||BUSY_MSG[p.action]; delete p._busy; if(bm){ busyOn(bm); }
-  var done=false; function fin(d){ if(done){ return; } done=true; if(bm){ busyOff(); } cb(d||{status:'err',msg:'지금은 연결되지 않습니다. 잠시 후 다시 시도해 주십시오.'}); }
+  var done=false; function fin(d){ if(done){ return; } done=true; if(bm){ busyOff(); }
+    if(!d&&p0&&API_AGAIN[p.action]){ setTimeout(function(){ api(p0,cb,1); },1500); return; }
+    cb(d||{status:'err',msg:'지금은 연결되지 않습니다. 잠시 후 다시 시도해 주십시오.'}); }
   try{
     fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(p)})
       .then(function(r){ return r.json(); }).then(fin)
