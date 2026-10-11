@@ -301,7 +301,7 @@
 
     var top = document.createElement('div');
     top.className = 'lfx-top'; top.id = 'lfxTop';
-    top.innerHTML = '<button class="lfx-logo" aria-label="사랑흐름 첫 화면"><img src="/logo.png" alt=""></button>'
+    top.innerHTML = '<button class="lfx-logo" aria-label="사랑흐름 첫 화면"><img src="/logo-96.png" alt=""></button>'
       + '<div class="lfx-title">' + esc(titleOf()) + '</div>'
       + '<button class="lfx-burger" aria-label="메뉴">' + svg('menu', 18) + '</button>';
     document.body.insertBefore(top, document.body.firstChild);
