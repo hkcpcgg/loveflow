@@ -1,4 +1,12 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v48 · 261011 · [대표 261011 23:34 「사랑흐름을 제일 메인에 · 아래 홈은 우리 이야기 홈으로」 · 서버 v17 그대로]
+     · 방 고르기 — 방 주소(?g=)로 들어오면 그 방을 엶. 이 기기에 그 방 열쇠가 있으면 그 열쇠로, 없으면(관리 확인 표가 있으면 「내가 관리하는 곳」에서 찾아) 그 방으로,
+       그래도 없으면 손님으로 봄. 전에는 이 기기에 남은 열쇠(마지막 들어간 방 · 예: 다복)가 늘 먼저 열려 메인 「사랑흐름 우리 이야기」를 눌러도 다른 방이 떴음.
+       이 기기가 들어가 본 방 열쇠를 방 이름별로 기억(lf_rec_keys · 「이 기기에서 나가기」로 지움).
+     · 🏠(방 위 줄 왼쪽) — 우리 이야기 홈 = 메인 방(사랑흐름 우리 이야기)으로. 메인 방 안에서는 지금처럼 첫 화면으로. 위 띠 로고는 지금처럼 사랑흐름 첫 화면(/).
+     · 다른 이야기방 · 둘러볼 모임 카드 — 내 열쇠가 있는 방이면 손님이 아니라 내 자리로 들어감.
+     · 「내가 관리하는 곳」 — 메인 방을 맨 위로.
+-->
 <!-- ★ 현재 버전 ▶ rec/index.html · v47 · 261011 · [대표 261011 22:57 「클로드로 · 먼저 가림 · 매일 받음」 · 서버 v17 과 짝]
      · 316 살펴보기 — 걸린 기록 · 대화는 올린 분에게 「확인 중」 꼬리표 · 올린 뒤 알림에 「확인되면 공개됩니다」.
        본부 맨 위 「살펴볼 것 n건」 → 하나씩 「가림 / 그대로」 · 「살펴보기 설정」(클로드 키 넣기 · 오늘 · 이번 달 살핀 수 · 대략 값).
@@ -857,7 +865,8 @@ function boot(){
   if(tx&&OPEN_R){ DRAFT_T=tx; } if(['사진','영상','글','링크'].indexOf(w)>-1){ PEND_ADD={type:w,title:(sp.get('tt')||'').slice(0,60),text:tx}; }
   if(k||g||OPEN_R||f||tx||w||pl){ try{ history.replaceState(null,'',location.pathname+(g&&!k?'?g='+encodeURIComponent(g):'')); }catch(e){} }   /* 열쇠는 주소창에서 바로 지움(160) */
   K=sget(KEY)||(k?k.toLowerCase():'');
-  if(K){ loadMe(g); return; }
+  if(K&&g){ roomPick(g); return; }   /* ★v48 방 주소가 있으면 그 방 */
+  if(K){ loadMe(); return; }
   if(g){ guestIn(g); return; }
   var lg=''; try{ lg=(localStorage.getItem('lf_rec_lastg')||'').replace(/[^a-f0-9]/gi,'').slice(0,32); }catch(e){}   /* ★v42 309 바탕 아이콘 · 손님은 마지막 본 방 */
   if(lg.length===32&&(sp.get('app')==='1'||pwaIn())){ guestIn(lg); return; }
@@ -948,13 +957,15 @@ function joinForm(g){
     '<label class="wab" style="font-size:15.5px"><input type="checkbox" id="ja"> 만 14세 이상입니다</label>'+kakaoBtn('jb')+rememberBox()+'<div class="err" id="je"></div></div>';
   $('jb').onclick=function(){ if(!$('ja').checked){ $('je').textContent='만 14세 이상인지 확인해 주십시오.'; return; } $('je').textContent=''; kakaoGo('join',{g:g,a:1}); };
 }
-function loadMe(g){
+function loadMe(g,want){
   wait($('main'),'우리 이야기를 여는 중입니다');
   api({action:'recHome',mode:F.sort,n:'20',lite:'1'},function(d){   /* ★v31 lite = 바둑판 · 그림은 따로 */
     if(d.status!=='ok'){
       if(d.reason==='NO_KEY'){ sset(KEY,''); K=''; if(g){ joinForm(g); return; } noKey(); return; }
       $('main').innerHTML='<div class="msg">'+esc(d.msg||'열지 못했습니다.')+'</div>'; return;
     }
+    rksPut(d.comName,K);
+    if(want&&d.comName!==want){ roomMiss(g,want); return; }   /* ★v48 이 열쇠는 다른 방 */
     ME=d; setTitle(); CATS=d.cats||[]; QN=d.qn||0; sset('lf_rec_seen',String(Date.now()));   /* ★v38 */
     if(ME.role==='관리자'||ME.role==='확인자'){ sset('lf_rec_mgr','1'); } if(ASU&&!realBoss()){ ASU=false; try{ sessionStorage.removeItem('lf_rec_as'); }catch(e){} } asuSync();
     gridSet(d.grid);
@@ -968,6 +979,31 @@ function loadMe(g){
     afterMe();   /* ★v37 */
   });
 }
+/* ★v48 방 고르기 · 이 기기가 들어가 본 방 열쇠(방 이름별) · 메인 방 */
+var RKS='lf_rec_keys', MAINC=null;
+function rksGet(){ try{ var a=JSON.parse(localStorage.getItem(RKS)||'[]'); return Array.isArray(a)?a:[]; }catch(e){ return []; } }
+function rksPut(n,k){ if(!n||!/^[a-f0-9]{32}$/.test(k||'')||tmpOn()){ return; } var a=rksGet().filter(function(x){ return x.n!==n&&x.k!==k; }); a.unshift({n:n,k:k}); try{ localStorage.setItem(RKS,JSON.stringify(a.slice(0,20))); }catch(e){} }
+function rksFind(n){ var a=rksGet(); for(var i=0;i<a.length;i++){ if(a[i].n===n&&/^[a-f0-9]{32}$/.test(a[i].k||'')){ return a[i].k; } } return ''; }
+function roomPick(g){
+  wait($('main'),'우리 이야기를 여는 중입니다');
+  api({action:'recHome',g:g,lite:'1',n:'1',_hq:1},function(d){
+    if(!d||d.status!=='ok'||!d.guest){ loadMe(g); return; }   /* 닫힌 방 · 못 닿음 — 지금처럼 */
+    var nm=d.comName||'', k2=rksFind(nm);
+    if(k2){ if(k2!==K){ sset(KEY,k2); K=k2; } loadMe(g); return; }
+    loadMe(g,nm);
+  });
+}
+function roomMiss(g,want){
+  if(atOk()){ api({action:'recMyPlaces',_busy:'우리 이야기를 여는 중입니다'},function(d){ var hit=null;
+      if(d&&d.status==='ok'){ (d.items||[]).forEach(function(x){ if(x.key){ rksPut(x.comName,x.key); if(x.comName===want){ hit=x; } } }); }
+      if(hit){ sset(KEY,hit.key); K=hit.key; loadMe(); } else { roomPeek(g); } }); return; }
+  roomPeek(g);
+}
+function roomPeek(g){ PEEK=1; K=''; ME=null; guestIn(g); }   /* 내 열쇠는 그대로 · 이 방은 손님으로 */
+function mainGet(cb){ if(MAINC){ cb(MAINC); return; }
+  api({action:'recMainKey',_hq:1},function(r){ if(r&&r.status==='ok'&&/^[a-f0-9]{32}$/.test(r.g||'')){ MAINC={g:r.g,n:r.comName||''}; try{ localStorage.setItem('lf_main_g',r.g); }catch(e){} cb(MAINC); } else { cb(null); } }); }
+function homeGo(){ var reset=function(){ F={sort:F.sort,kind:'',cat:'',q:''}; LKEY=''; feedView(); window.scrollTo(0,0); };
+  mainGet(function(m){ if(!m||!ME||m.n===ME.comName){ reset(); return; } location.href=location.pathname+'?g='+encodeURIComponent(m.g); }); }
 var DRAFT_T='', PEND_ADD=null, VIA=false;   /* ★v33 VIA 는 늘 false(231) */
 function queueCount(){ if(!isBoss()){ return; } api({action:'recQueue'},function(q){ if(q.status==='ok'){ QN=q.items.length+q.links.length+(q.cats||[]).length+(q.people||[]).length; drawBadge(); } }); }
 function loadCats(cb){ api({action:'recCats'},function(d){ CATS=(d.status==='ok')?d.items:[]; if(cb){ cb(); } }); }
@@ -1054,7 +1090,7 @@ function feedView(){
     '<form class="search" id="sf" role="search"><input id="fq" type="search" enterkeyhint="search" placeholder="검색 (예: 70년대 가족 사진)" value="'+esc(F.q)+'"><button type="submit" aria-label="검색">'+ic('look')+'</button></form>'+
     (isGuest()?'<button class="rnd me" id="mc" type="button" aria-label="참여하기" style="background:var(--orange)">'+ic('plus')+'</button>':'<button class="rnd me" id="mc" type="button" aria-label="내 메뉴">'+esc(nm.charAt(0))+'<span class="dot" id="meDot" style="display:none"></span></button>')+'</div><div class="strip" id="strip"></div></div><div id="feed"></div>';
   drawBadge(); stripDraw();
-  $('hm').onclick=function(){ F={sort:F.sort,kind:'',cat:'',q:''}; LKEY=''; feedView(); window.scrollTo(0,0); };
+  $('hm').onclick=homeGo; if(!MAINC){ mainGet(function(){}); }   /* ★v48 🏠 = 우리 이야기 홈(메인 방) */
   $('sf').onsubmit=function(e){ e.preventDefault(); F.q=$('fq').value.trim(); LKEY=''; $('fq').blur(); feedView(); };
   $('mc').onclick=isGuest()?joinGate:meMenu;
   feedLoad();
@@ -1177,7 +1213,7 @@ function upBar(){
   u.forEach(function(x){ h+='<button type="button" data-ug="'+esc(x.g)+'">↑ '+esc(x.name)+'</button>'; });
   return h?'<div class="upb">'+h+'</div>':'';
 }
-function peekGo(g){ if(!g){ return; } location.href=location.pathname+'?g='+encodeURIComponent(g)+(sget(KEY)?'&pk=1':''); }
+function peekGo(g){ if(!g){ return; } location.href=location.pathname+'?g='+encodeURIComponent(g); }   /* ★v48 내 열쇠가 있는 방이면 내 자리로 · 없으면 손님으로(roomPick) */
 function gridDraw(){
   var el=$('feed'); if(!el||!GRID){ return; }
   var b=GRID.best||[], nw=GRID.news||[], st=(GRID.story&&GRID.story.items)||[], gos=(ME&&ME.gos)||[], core=gos.filter(function(x){ return x.core; }).slice(0,3);
@@ -2082,7 +2118,7 @@ function meMenu(){
     $('mX').onclick=closeSheet;
     each(d,'[data-m]',function(b){ b.onclick=function(){ var m=b.getAttribute('data-m'); closeSheet();
       if(m==='out'){ exitApp(); return; }
-      if(m==='logout'){ sheet('<h2>이 기기에서 나가기</h2><p class="lead" style="margin-top:6px">'+(ME.kakao?'카카오로 다시 들어오실 수 있습니다.':'카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다.')+'</p><div class="pair" style="margin-top:16px"><button class="btn line" id="loNo" type="button">취소</button><button class="btn" id="loGo" type="button">나가기</button></div>',function(){ $('loNo').onclick=closeSheet; $('loGo').onclick=function(){ ['lf_rec_k','lf_rec_at','lf_rec_ht','lf_rec_hq','lf_rec_mgr','lf_rec_seen'].forEach(function(k){ sset(k,''); }); try{ sessionStorage.removeItem('lf_rec_as'); sessionStorage.removeItem('lf_rec_tmp'); }catch(e){} location.href=location.pathname; };   /* ★v38 맡은 자리 표시도 지움 */ }); return; }
+      if(m==='logout'){ sheet('<h2>이 기기에서 나가기</h2><p class="lead" style="margin-top:6px">'+(ME.kakao?'카카오로 다시 들어오실 수 있습니다.':'카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다.')+'</p><div class="pair" style="margin-top:16px"><button class="btn line" id="loNo" type="button">취소</button><button class="btn" id="loGo" type="button">나가기</button></div>',function(){ $('loNo').onclick=closeSheet; $('loGo').onclick=function(){ ['lf_rec_k','lf_rec_at','lf_rec_ht','lf_rec_hq','lf_rec_mgr','lf_rec_seen'].forEach(function(k){ sset(k,''); }); try{ localStorage.removeItem('lf_rec_keys'); }catch(e2){} try{ sessionStorage.removeItem('lf_rec_as'); sessionStorage.removeItem('lf_rec_tmp'); }catch(e){} location.href=location.pathname; };   /* ★v38 맡은 자리 표시도 지움 */ }); return; }
       if(m==='name'){ nameBuild(); return; }
       if(m==='invq'){ invQuick(); return; }
       if(m==='myname'){ textSheet('보일 이름 바꾸기','우리 이야기에 남기신 것 옆에 보이는 이름입니다.',ME.name,20,function(v,cb){ api({action:'recMyName',name:v},function(r){ if(r.status==='ok'){ ME.name=r.name; toast('보일 이름을 바꾸었습니다',r.name); if(VIEW==='feed'){ feedView(); } } cb(r); }); }); return; }
@@ -2620,7 +2656,8 @@ function plcView(){
     if(VIEW!=='plc'){ return; }
     if(d.status!=='ok'){ $('body').innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
     if(d.hq){ sset('lf_rec_hq','1'); }
-    var it=d.items||[], boss=it.filter(function(x){ return x.boss; }), mem=it.filter(function(x){ return !x.boss; }), todo=boss.filter(function(x){ return x.wait||x.ask; });
+    var it=d.items||[]; it.forEach(function(x){ if(x.key){ rksPut(x.comName,x.key); } }); if(MAINC){ it.sort(function(a,b){ return (b.comName===MAINC.n?1:0)-(a.comName===MAINC.n?1:0); }); }   /* ★v48 메인 방 맨 위 */
+    var boss=it.filter(function(x){ return x.boss; }), mem=it.filter(function(x){ return !x.boss; }), todo=boss.filter(function(x){ return x.wait||x.ask; });
     sset('lf_rec_mgr',boss.length?'1':'');
     function tg(x){ return (x.here?' <span class="tag t-on">지금 여기</span>':'')+(x.paused?' <span class="tag t-hide">운영 멈춤</span>':''); }
     var h='';
