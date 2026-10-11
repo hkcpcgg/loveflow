@@ -1,4 +1,10 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v47 · 261011 · [대표 261011 22:57 「클로드로 · 먼저 가림 · 매일 받음」 · 서버 v17 과 짝]
+     · 316 살펴보기 — 걸린 기록 · 대화는 올린 분에게 「확인 중」 꼬리표 · 올린 뒤 알림에 「확인되면 공개됩니다」.
+       본부 맨 위 「살펴볼 것 n건」 → 하나씩 「가림 / 그대로」 · 「살펴보기 설정」(클로드 키 넣기 · 오늘 · 이번 달 살핀 수 · 대략 값).
+     · 315 대신 만들기 — 본부 「대신 만들기」 = 방 만들기 화면으로(본부 카카오는 하루 · 대기 수 세지 않음). 만든 뒤 「관리자 더하기」로 주인께 넘김.
+     · 그 밖 v46 그대로 · v16 서버에서도 돎(새 칸이 없으면 안 보임).
+-->
 <!-- ★ 현재 버전 ▶ rec/index.html · v46 · 261011 · [대표 261011 21:57 「그 텍스트 지우고」] 모든 방 맨 위 노란 띠 「시험 운영 · 체험단 전 — 시험이 끝나면 기록은 지울 수 있습니다」 뺌. 그 밖 v45 그대로.
 -->
 <!-- ★ 현재 버전 ▶ rec/index.html · v45 · 261011 · [대표 261011 21:24 · 21:32 · 21:41 「한 묶음으로 다 만들어」 · 서버 v16 과 짝]
@@ -821,6 +827,7 @@ function joinGate(){
   });
 }
 function stTag(it){
+  if(it.check){ return ' <span class="tag t-wait">확인 중</span>'; }   /* ★v47 316 */
   if(!it.state||it.state==='실림'){ return ''; }
   var m={'기다림':'t-wait','가림':'t-hide','실림':'t-on','거둠':'t-hide'}, w={'기다림':'승인 대기','가림':'비공개','실림':'공개','거둠':'등록 취소','지움':'삭제'};
   return ' <span class="tag '+(m[it.state]||'t-wait')+'">'+esc(w[it.state]||it.state)+'</span>';
@@ -1520,7 +1527,7 @@ function tell(it,field,value,text,b){
     if(voice){ clearVoice(['memT']); }
     if(field!=='때'&&MEMD[it.id]){ MEMD[it.id].m=''; } closeSheet();
     LKEY=''; var nm={'때':'언제','곳':'어디서','사람':'누구와','일':'무슨 일'}[r.filled];
-    itemView(it.id,true,(nm?'「'+nm+'」 칸이 채워졌습니다':'기억이 등록되었습니다')+(r.state==='실림'?'':' · 승인 후 공개됩니다'));
+    itemView(it.id,true,(nm?'「'+nm+'」 칸이 채워졌습니다':'기억이 등록되었습니다')+(r.check?' · 확인되면 공개됩니다':(r.state==='실림'?'':' · 승인 후 공개됩니다')));
   });
   });
 }
@@ -1580,7 +1587,7 @@ function talkSend(it,b){
   var t=$('tkT').value.trim(); if(!t){ b.disabled=false; toast('나누실 말을 적어 주십시오'); return; }
   b.disabled=true;
   takeVoice(['tkT'],function(voice){
-    api({action:'recTalk',id:it.id,text:t,voice:voice},function(r){ b.disabled=false; if(r.status==='ok'){ clearVoice(['tkT']); if(MEMD[it.id]){ MEMD[it.id].t=''; } closeSheet(); toast('대화를 남겼습니다'); talkReload(it); var c=$('talkc'); if(c){ setTimeout(function(){ c.scrollIntoView({behavior:'smooth',block:'start'}); },300); } } else { toast(r.msg||'남기지 못했습니다'); } });
+    api({action:'recTalk',id:it.id,text:t,voice:voice},function(r){ b.disabled=false; if(r.status==='ok'){ clearVoice(['tkT']); if(MEMD[it.id]){ MEMD[it.id].t=''; } closeSheet(); toast('대화를 남겼습니다',r.check?'확인되면 보입니다':''); talkReload(it); var c=$('talkc'); if(c){ setTimeout(function(){ c.scrollIntoView({behavior:'smooth',block:'start'}); },300); } } else { toast(r.msg||'남기지 못했습니다'); } });
   });
 }
 /* 카톡으로 알리기 — 휴대폰 공유창(주소 /rec/?r=기록번호 · 들어와 있는 분만 열림 · 사진은 싣지 않음 · 가린 기록은 이 링크로도 안 보임) */
@@ -1931,18 +1938,19 @@ function publish2(voice){
     A=newA(); STACK=[{v:'feed'}]; F={sort:'new',kind:'',cat:'',q:''}; LKEY='';
     if(isBoss()&&pub<okN){ QN+=okN-pub; }
     render(); window.scrollTo(0,0);
-    toast('기억이 등록되었습니다',(errs.length?errs.length+'장은 올리지 못했습니다 · ':'')+(n>1?'사진 '+n+'장을 한 칸으로 묶어 올렸습니다 · ':'')+(pub===okN?'맨 위에 보입니다':'승인 후 공개됩니다'));
+    toast('기억이 등록되었습니다',(errs.length?errs.length+'장은 올리지 못했습니다 · ':'')+(n>1?'사진 '+n+'장을 한 칸으로 묶어 올렸습니다 · ':'')+(CHK_N?'확인 중인 것이 있습니다 · 확인되면 공개됩니다':(pub===okN?'맨 위에 보입니다':'승인 후 공개됩니다')));
   });
 }
 /* 차례로 보냄 — 여러 장이면 첫 장이 묶음을 열고(bundle=new) 나머지는 그 묶음에 붙음 */
+var CHK_N=0;   /* ★v47 316 */
 function sendAll(list,bundle,done){
-  var okN=0, pub=0, errs=[], bid='';
+  var okN=0, pub=0, errs=[], bid=''; CHK_N=0;
   $('nNext').disabled=true;
   (function nx(i){
     if(i>=list.length){ if($('nNext')){ $('nNext').disabled=false; } done(okN,pub,errs); return; }
     var q=list[i]; if(bundle){ q.bundle=i===0?'new':bid; }
     api(q,function(r){
-      if(r.status==='ok'){ okN++; if(r.state==='실림'){ pub++; } if(i===0&&r.bundle){ bid=r.bundle; } }
+      if(r.status==='ok'){ okN++; if(r.state==='실림'){ pub++; } if(r.check){ CHK_N++; } if(i===0&&r.bundle){ bid=r.bundle; } }
       else { errs.push(r.msg||'등록하지 못했습니다.'); if(r.reason==='DAY_MAX'||r.reason==='AGREE'||r.reason==='NO_KEY'){ nx(list.length); return; } }
       nx(i+1);
     });
@@ -2015,7 +2023,7 @@ function boOther(it,t){
       var q={action:'recAdd',cv:CV,agree:'1',to:it.id,title:n,src:O.src}; if(isV){ q.video=u; } else { q.kind='링크'; q.url=u; if(O.src==='다른 사람 글'){ q.org=O.org; q.terms=O.terms; } }
       var b=this; b.disabled=true;
       takeVoice(['boN'],function(voice){ if(voice){ q.voice=voice; clearVoice(['boN']); }
-      api(q,function(r){ b.disabled=false; if(r.status!=='ok'){ toast(r.msg||'보태지 못했습니다'); return; } ME.agreed=1; closeSheet(); LKEY=''; itemView(it.id,true,t+'을(를) 보탰습니다'+(r.state==='실림'?'':' · 승인 후 공개됩니다')); });
+      api(q,function(r){ b.disabled=false; if(r.status!=='ok'){ toast(r.msg||'보태지 못했습니다'); return; } ME.agreed=1; closeSheet(); LKEY=''; itemView(it.id,true,t+'을(를) 보탰습니다'+(r.check?' · 확인되면 공개됩니다':(r.state==='실림'?'':' · 승인 후 공개됩니다'))); });
       });
     };
   });
@@ -2933,8 +2941,9 @@ function hqList(){
     HQ=d; var items=d.items||[], main=null; items.forEach(function(x){ if(x.main){ main=x; } });
     var GT={'끔':'끔','관찰':'관찰 (막지 않고 적음)','막음':'막음'};
     var h='<div class="sub"><span class="ci c-navy" style="width:34px;height:34px">'+ic('key','sm')+'</span><b style="font-size:17px;color:var(--navy2)">본부</b><span class="grow"></span><button class="sbtn" id="hqX" type="button">나가기</button></div>'+
-      '<div class="card hqi"><div class="rpl"><span>메인 모임</span><em>'+esc(main?main.name:'정하지 않음')+'</em></div><div class="rpl"><span>관리 확인</span><em>'+esc(GT[d.gate]||d.gate||'')+'</em></div><div class="rpl"><span>모임</span><em>'+items.length+(d.hid?' · 시험 방 '+d.hid+'곳 숨김':'')+'</em></div><p class="note">본부 확인 · '+tkLeft(HTK)+' 남음</p></div>'+
-      '<button class="btn" id="hqMk" type="button">'+ic('plus')+'새 모임 만들기</button><button class="btn line" id="hqAp" type="button">'+ic('check')+'새로 생긴 방 보기</button><div style="height:12px"></div>'+
+      '<div class="card hqi"><div class="rpl"><span>메인 모임</span><em>'+esc(main?main.name:'정하지 않음')+'</em></div><div class="rpl"><span>관리 확인</span><em>'+esc(GT[d.gate]||d.gate||'')+'</em></div><div class="rpl"><span>모임</span><em>'+items.length+(d.hid?' · 시험 방 '+d.hid+'곳 숨김':'')+'</em></div>'+hqModRow(d.mod)+'<p class="note">본부 확인 · '+tkLeft(HTK)+' 남음</p></div>'+
+      (d.checkN?'<button class="btn red" id="hqCk" type="button">'+ic('look')+'살펴볼 것 '+d.checkN+'건</button>':'')+
+      '<button class="btn" id="hqMk" type="button">'+ic('plus')+'새 모임 만들기</button><button class="btn" id="hqPx" type="button">'+ic('plus')+'대신 만들기</button><button class="btn line" id="hqAp" type="button">'+ic('check')+'새로 생긴 방 보기</button><button class="btn line" id="hqMs" type="button">'+ic('look')+'살펴보기 설정</button><div style="height:12px"></div>'+
       items.map(function(x){
         var tg=(x.main?' <span class="tag t-on">메인</span>':'')+(x.paused?' <span class="tag t-hide">운영 멈춤</span>':'')+(x.state&&x.state!=='열림'?' <span class="tag t-wait">'+esc(x.state)+'</span>':'');
         return '<div class="card hqc" data-com="'+esc(x.com)+'"><h2>'+esc(x.name||'(이름 없음)')+tg+'</h2><p class="note" style="margin:0 0 8px">'+esc(x.com)+' · '+esc(x.room||'')+(x.frame?' · 틀 '+esc(x.frame):'')+'</p>'+
@@ -2945,11 +2954,67 @@ function hqList(){
     $('main').innerHTML=h;
     $('hqX').onclick=function(){ tkSet(HTK,''); location.href=location.pathname; };
     $('hqMk').onclick=hqMake; $('hqAp').onclick=hqApplies;   /* ★v39 292 */
+    if($('hqCk')){ $('hqCk').onclick=hqChecks; } $('hqMs').onclick=function(){ hqModSet(d.mod); }; $('hqPx').onclick=hqProxy;   /* ★v47 315 · 316 */
     each($('main'),'.hqc',function(c){ var com=c.getAttribute('data-com'), x=null; items.forEach(function(y){ if(y.com===com){ x=y; } });
       each(c,'[data-ha]',function(b){ b.onclick=function(){ hqAct(b.getAttribute('data-ha'),x); }; });
       each(c,'[data-hk]',function(b){ b.onclick=function(){ hqKey(x,b.getAttribute('data-hk'),b.getAttribute('data-nm')); }; });
       each(c,'[data-ho]',function(b){ b.onclick=function(){ hqOut(x,b.getAttribute('data-ho'),b.getAttribute('data-nm'),!!b.getAttribute('data-pd')); }; });   /* ★v38 */
     });
+  });
+}
+/* ══ ★v47 316 살펴보기 · 315 대신 만들기 ══ */
+function hqModRow(m){
+  if(!m){ return ''; }
+  return '<div class="rpl"><span>살펴보기</span><em>'+(m.key?'클로드 · 금칙어':'금칙어만 (클로드 키 없음)')+'</em></div>'+
+    '<div class="rpl"><span>살핀 수</span><em>오늘 '+((m.today||{}).n||0)+' · 이번 달 '+((m.month||{}).n||0)+'건 · 대략 $'+((m.month||{}).usd||0)+'</em></div>';
+}
+function hqChecks(){
+  hqMode(); wait($('main'),'살펴볼 것을 모으는 중입니다');
+  hqApi({action:'recHq',act:'checks'},function(d){
+    if(d.status!=='ok'){ $('main').innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
+    var items=d.items||[];
+    $('main').innerHTML='<div class="sub"><button class="sbtn" id="ckB" type="button">본부로</button><span class="grow"></span><b style="font-size:17px;color:var(--navy2)">살펴볼 것 '+items.length+'건</b><span class="grow"></span><span style="width:52px"></span></div>'+
+      '<p class="note" style="margin:0 2px 12px">걸린 것은 지금 가려져 있습니다. 「그대로」를 누르면 원래대로 보이고, 「가림」을 누르면 그대로 숨겨 둡니다.</p>'+
+      (items.length?items.map(function(x){
+        var pic=x.pv?'<img src="'+x.pv+'" alt="" style="width:100%;border-radius:12px;margin:8px 0">':(x.thumb?'<img src="'+esc(x.thumb)+'" alt="" style="width:100%;border-radius:12px;margin:8px 0">':'');
+        var txt=[x.title,x.body].filter(function(v){ return v&&v!=='사진'; }).join(' · ')||x.text||'';
+        return '<div class="card ckc" data-no="'+esc(x.no)+'"><h2>'+esc(x.why||'살펴볼 것')+' <span class="tag t-wait">'+esc(x.by||'')+'</span></h2>'+
+          '<p class="note" style="margin:0">'+esc(x.comName||x.com||'방 만들기')+' · '+esc(x.kind||'')+(x.who?' · '+esc(x.who):'')+' · '+esc(x.at||'')+'</p>'+pic+
+          (txt?'<p style="white-space:pre-wrap;margin:8px 0 0">'+esc(txt)+'</p>':'')+(x.url?'<p class="note" style="word-break:break-all">'+esc(x.url)+'</p>':'')+
+          '<div class="pair" style="margin-top:12px"><button class="btn line" type="button" data-ck="pass">그대로</button><button class="btn red" type="button" data-ck="keep">가림</button></div></div>';
+      }).join(''):'<div class="card"><p class="lead" style="margin:0">살펴볼 것이 없습니다.</p></div>');
+    $('ckB').onclick=hqList;
+    each($('main'),'.ckc',function(c){ var no=c.getAttribute('data-no');
+      each(c,'[data-ck]',function(b){ b.onclick=function(){ var pass=b.getAttribute('data-ck')==='pass'; each(c,'[data-ck]',function(o){ o.disabled=true; });
+        hqApi({action:'recHq',act:pass?'checkPass':'checkKeep',no:no,_busy:'처리하는 중입니다'},function(r){
+          if(r.status!=='ok'){ each(c,'[data-ck]',function(o){ o.disabled=false; }); toast(r.msg||'처리하지 못했습니다'); return; }
+          c.parentNode.removeChild(c); toast(pass?'원래대로 보입니다':'가려 두었습니다',r.left?'남은 것 '+r.left+'건':'모두 살폈습니다');
+          if(!r.left){ hqList(); }
+        }); }; });
+    });
+  });
+}
+function hqModSet(m){
+  m=m||{};
+  sheet('<h2>살펴보기 설정</h2><p class="lead" style="margin-top:4px">올라오는 글 · 사진을 금칙어와 클로드가 살핍니다. 걸리면 먼저 가리고, 매일 아침 7시 사랑흐름 계정 메일로 알립니다.</p>'+
+    '<div class="rpl"><span>클로드 키</span><em>'+(m.key?'있음 · 끝 '+esc(m.last4||''):'없음 · 지금은 금칙어만')+'</em></div>'+
+    '<div class="rpl"><span>오늘</span><em>'+((m.today||{}).n||0)+'건 · 걸림 '+((m.today||{}).bad||0)+'</em></div>'+
+    '<div class="rpl"><span>이번 달</span><em>'+((m.month||{}).n||0)+'건 · 걸림 '+((m.month||{}).bad||0)+' · 대략 $'+((m.month||{}).usd||0)+'</em></div>'+
+    '<div class="rpl"><span>10분 살피기</span><em>'+(m.clock?'돌고 있음':'멈춤')+(m.sweep?' · '+esc(m.sweep):'')+'</em></div>'+
+    '<label class="f">클로드 키 '+(m.key?'바꾸기':'넣기')+' <small>sk-ant- 로 시작</small></label><input class="t" id="mkK" autocomplete="off" spellcheck="false" placeholder="sk-ant-…">'+
+    '<div id="mkM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="mkNo" type="button">닫기</button><button class="btn" id="mkOk" type="button">키 넣기</button></div>'+
+    (m.key?'<button class="btn line" id="mkOff" type="button" style="margin-top:10px">키 빼기</button>':''),function(){
+    $('mkNo').onclick=closeSheet;
+    $('mkOk').onclick=function(){ var v=$('mkK').value.trim(); if(!/^sk-ant-/.test(v)){ $('mkM').innerHTML='<div class="err">sk-ant- 로 시작하는 키를 그대로 붙여 주십시오.</div>'; return; } var b=this; b.disabled=true;
+      hqApi({action:'recHq',act:'modKey',key:v,_busy:'키로 클로드에 닿는지 보는 중입니다'},function(r){ b.disabled=false; if(r.status!=='ok'){ $('mkM').innerHTML='<div class="err">'+esc(r.msg||'넣지 못했습니다.')+'</div>'; return; } closeSheet(); toast('클로드 키를 넣었습니다','이제 올라오는 것을 클로드가 살핍니다'); hqList(); }); };
+    if($('mkOff')){ $('mkOff').onclick=function(){ var b=this; b.disabled=true; hqApi({action:'recHq',act:'modKey',off:'1',_busy:'처리하는 중입니다'},function(r){ b.disabled=false; if(r.status==='ok'){ closeSheet(); toast('클로드 키를 뺐습니다','지금은 금칙어만 살핍니다'); hqList(); } else { $('mkM').innerHTML='<div class="err">'+esc(r.msg||'처리하지 못했습니다.')+'</div>'; } }); }; }
+  });
+}
+function hqProxy(){
+  sheet('<h2>대신 만들기</h2><p class="lead" style="margin-top:4px">방 만들기 화면으로 갑니다. 본부 카카오로 만들면 처음 관리자는 본부입니다.</p>'+
+    '<div class="card" style="margin-top:10px"><p style="margin:0">① 이름 · 틀 · 소개 · 사진 · 바로가기를 넣어 방을 엽니다.<br>② 본부 목록에서 그 방 「관리자 더하기」로 주인께 임명 링크를 보냅니다.<br>③ 주인이 받으면 본부 관리자는 「빼기」.</p></div>'+
+    '<div class="pair" style="margin-top:14px"><button class="btn line" id="pxNo" type="button">취소</button><button class="btn" id="pxGo" type="button">방 만들기 화면으로</button></div>',function(){
+    $('pxNo').onclick=closeSheet; $('pxGo').onclick=function(){ location.href=location.pathname+'?open=form'; };
   });
 }
 function hqConfirm(t,lead,okT,red,run){
