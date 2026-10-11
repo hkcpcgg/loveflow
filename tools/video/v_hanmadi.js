@@ -1,0 +1,21 @@
+const rec=require('./rec.js');
+rec('사랑흐름_마음한마디_소개',async T=>{
+  await T.card('사랑흐름 · 무료','마음 한마디','하고 싶었던 말을|한 줄로 전합니다',false,3400);
+  await T.go('https://www.loveflow.ai.kr/hanmadi/',1800);
+  await T.cap('가장 먼저 떠오른 분을 눌러 보세요','어머니 · 아버지 · 친구 · 나 자신 …',2200);
+  await T.tap('.key >> text=어머니',900);
+  await T.tap('text=어머니께 마음을 전합니다',1600);
+  await T.cap('지금 어떤 마음인가요?','고마워서 · 보고 싶어서 · 응원하고 싶어서 …',2000);
+  await T.tap('text=고마워서',800);
+  await T.tap('.bnext:visible',1800);
+  await T.cap('세 가지 한마디 가운데 하나를 고릅니다','담백하게 · 다정하게 · 유쾌하게',2200);
+  await T.tap('text=표현은 서툴러도, 늘 고마워요.',900);
+  await T.tap('.bnext:visible',1600);
+  await T.cap('내 말로 고쳐 쓰고, 보내는 분 이름을 적어요','',1600);
+  await T.type('#fromIn','지수',800);
+  await T.tap('.bnext:visible',2200);
+  await T.cap('완성! 카카오톡으로 바로 보낼 수 있어요','받는 분은 가입 없이 링크로 봅니다',3200,true);
+  await T.toSel('.lfmap',1200);
+  await T.cap('더 깊은 마음은 사랑흐름 여행으로 이어집니다','',2400,true);
+  await T.card('www.loveflow.ai.kr','마음 한마디','오늘 떠오른 그분께|한 줄의 마음을',true,3600);
+});

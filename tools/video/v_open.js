@@ -1,0 +1,46 @@
+const rec=require('./rec.js');
+const S=require('./server.js')(process.env.LF_REC_GS||'우리이야기_Code_v12.gs');
+S.fake({ ka:{id:'appl-1',nick:'황규찬'}, kb:{id:'hq-1',nick:'본부'} });
+S.props.LF_HQ_KAKAO=JSON.stringify(['kakao:hq-1']); S.props.LF_ADMIN_GATE='끔';
+let codeQ=[];
+const gas=(r,u)=>{ let p={}; const q=r.request(); if(q.method()==='POST'){ try{ p=JSON.parse(q.postData()||'{}'); }catch(e){} } else { u.searchParams.forEach((v,k)=>p[k]=v); }
+  const res=S.route_(String(p.action||''),p); return r.fulfill({status:200,body:q.method()==='GET'?((p.callback||'cb')+'('+JSON.stringify(res)+')'):JSON.stringify(res),headers:{'content-type':'application/json','access-control-allow-origin':'*'}}); };
+const kakao=(r,u)=>{ const st=u.searchParams.get('state'), code=codeQ.shift()||'zz'; return r.fulfill({status:200,headers:{'content-type':'text/html'},body:'<script>setTimeout(function(){location.replace('+JSON.stringify('https://www.loveflow.ai.kr/rec/?code='+code+'&state='+encodeURIComponent(st))+')},300)</script>'}); };
+rec('사랑흐름_우리모임이야기_열기',async T=>{
+  await T.card('사랑흐름 · 우리 이야기','우리 모임도|이렇게 남겨 보세요','가족 · 동창 · 마을 · 회사 · 행사|함께 보고, 함께 남기는 곳',false,3600);
+  await T.go('https://www.loveflow.ai.kr/rec/?open=1',1800);
+  await T.cap('무엇이 생기는지 먼저 봅니다','첫 화면 · 함께 남기는 기록 · 관리자 자리',2600);
+  await T.toSel('#opForm',900);
+  await T.cap('신청서 한 장이면 됩니다','본부 확인 뒤 모임이 열립니다',2000);
+  await T.tap('#opForm',1600);
+  await T.cap('1. 모임 이름','어디 · 어느 모임 + 누구의 + 「이야기」',900,true);
+  await T.type('#ofN','사랑흐름 우리 이야기',600);
+  await T.cap('2. 모임 틀 · 3. 공개 방식','틀을 고르면 분류가 저절로 들어갑니다',900,true);
+  await T.tap('[data-of="F-03"]',900);
+  await T.toSel('#ofI',700);
+  await T.cap('4. 첫 관리자 · 5. 소개 한 줄','',600,true);
+  await T.type('#ofI','관심 · 연결 · 온기 · 표현 · 회복이 흐르는 곳',500);
+  await T.cap('6. 대표 사진 여섯 장','첫 장이 크게 걸립니다',800,true);
+  await T.files('#ofF',(function(){ const fs=require('fs'),p=require('path'),d=p.resolve(__dirname,'../../promo/still'); const f=fs.readdirSync(d).filter(x=>/\.png$/.test(x)).sort(); return [6,1,2,3,4,5].map(i=>p.join(d,f[i])); })()); await T.wait(2600);
+  await T.toSel('#ofP',1200);
+  await T.toSel('#ogN0',700);
+  await T.cap('7. 분류 · 8. 바로가기','홈페이지 · 길찾기 · 예약 등 지금 쓰는 주소',800,true);
+  await T.type('#ogN0','함께하기 상담',200); await T.type('#ogU0','https://www.loveflow.ai.kr/partner.html',300);
+  await T.type('#ogN1','여행 고르기',200); await T.type('#ogU1','https://www.loveflow.ai.kr/showcase.html',300);
+  await T.toSel('#ofGo',800);
+  await T.tap('#ofY',400); await T.tap('#ofG',600);
+  await T.cap('카카오로 신청하신 분만 확인합니다','전화번호 · 이메일은 받지 않습니다',2000,true);
+  codeQ.push('ka'); await T.tap('#ofGo',300);
+  await T.p.waitForSelector('#opH',{timeout:20000}); await T.wait(600);
+  await T.cap('신청이 접수되었습니다','사랑흐름 본부가 확인합니다',2600);
+  // 본부가 확인 — 화면 밖에서
+  const ht=S.route_('recHqLogin',{code:'kb',redirect:'x'}).ht; const ap=S.route_('recHq',{ht:ht,act:'applies'}).items[0]; const mk=S.route_('recHq',{ht:ht,act:'applyMake',no:ap.no});
+  S.props.LF_MAIN_COM=mk.com;
+  await T.go('https://www.loveflow.ai.kr/rec/?open=1',1500);
+  await T.cap('모임이 열리면 「내 신청」에 뜹니다','첫 관리자는 카카오로 들어오면 바로 관리자',2600,true);
+  await T.tap('[data-ol]',2600);
+  await T.cap('우리 모임 첫 화면이 섰습니다','대표 사진 · 바로가기 · 분류가 그대로',2800);
+  await T.toSel('.mnu',900);
+  await T.cap('함께하는 분을 초대해 기억을 모읍니다','카톡으로 보내기 · 초대 링크',2600);
+  await T.card('www.loveflow.ai.kr','우리 모임 이야기 열기','메인 화면 「우리 모임 이야기도|열어 보기」에서 시작합니다',true,3800);
+},{gas,kakao});

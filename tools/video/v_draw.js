@@ -1,0 +1,22 @@
+const rec=require('./rec.js');
+rec('사랑흐름_마음도화지_소개',async T=>{
+  await T.card('사랑흐름 · 무료','삐뚤빼뚤|마음 도화지','손으로 쓴 마음을|그대로 전합니다',false,3400);
+  await T.go('https://www.loveflow.ai.kr/draw/',2000);
+  await T.cap('잘 못 써도 괜찮아요','삐뚤빼뚤한 게 진짜니까요',2200,true);
+  await T.cap('오늘 떠올릴 분을 고르고','',1400);
+  await T.tap('text=엄마',1000);
+  await T.toSel('#pad',800);
+  await T.cap('손가락으로 그대로 적어요','색도 고를 수 있어요',1200,true);
+  await T.draw('#pad','thanks');
+  await T.wait(800);
+  await T.toSel('#sig',700);
+  await T.cap('전하는 분 이름도 손글씨로','',1000,true);
+  await T.draw('#sig','name');
+  await T.toSel('#born',700);
+  await T.cap('어디서 태어난 마음인지 한 줄','안 쓰시면 안 찍혀요',1200,true);
+  await T.tap('text=벚꽃 지던 길에서',1200);
+  await T.tap('#seal',2600);
+  await T.toSel('#kko',1000);
+  await T.cap('카톡으로 보내거나 이미지로 저장해요','받는 분은 가입 없이 바로 봅니다',3200,true);
+  await T.card('www.loveflow.ai.kr','삐뚤빼뚤|마음 도화지','오늘은 누구를|떠올려 볼까요?',true,3600);
+});
