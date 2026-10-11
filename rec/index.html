@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v44 · 261011 · [대표 261011 20:19 「사진 뜨는 게 엄청 느려졌다」]
+     · 까닭: v41부터 첫 화면이 열리자마자 「다른 우리 이야기방」 진열(recShow — 서버가 기록 탭 전체를 읽음)을 사진 미리보기와 동시에 불러 서버가 붐빔.
+     · 고침: 진열 · 내 신청은 맨 아래(띠) 가까이 내려왔을 때만 불러옴 → 첫 화면은 v40처럼 사진만 먼저. [무손] 그 밖 v43 그대로.
+-->
 <!-- ★ 현재 버전 ▶ rec/index.html · v43 · 261011 · [대표 지시 261011 20:08]
      · 첫 화면 맨 아래 「＋ 새 사진 · 영상 · 글 올리기」 큰 단추 — 「이용 안내」 아래 · 「바탕화면에 두기」 위 · 단추 크기 통일(높이 60 · 폭 가득).
        손님은 「＋ 참여하기」. 떠다니는 둥근 ＋ 는 그대로 두되, 큰 단추가 화면에 보이는 동안은 숨김(같은 단추 둘이 겹쳐 보이지 않게).
@@ -1127,6 +1131,14 @@ function showWire(){
   var m=$('shMore'); if(m&&window.IntersectionObserver){ SHO=new IntersectionObserver(function(es){ if(es[0]&&es[0].isIntersecting){ showLoad(); } },{rootMargin:'300px'}); SHO.observe(m); }
   else if(m){ m.textContent='더 보기'; m.style.cursor='pointer'; m.onclick=showLoad; }
 }
+var LZO=null;
+function lazyBottom(){
+  if(LZO){ try{ LZO.disconnect(); }catch(e){} LZO=null; }
+  var t=$('opBand')||$('shBox'); if(!t){ return; }
+  function fire(){ if(LZO){ try{ LZO.disconnect(); }catch(e){} LZO=null; } if($('opMine')){ openMine(); } if(!SHW.asked){ showLoad(); } }
+  if(!window.IntersectionObserver){ setTimeout(fire,4000); return; }
+  LZO=new IntersectionObserver(function(es){ if(es[0]&&es[0].isIntersecting){ fire(); } },{rootMargin:'250px'}); LZO.observe(t);
+}
 function showLoad(){
   if(SHW.busy||(SHW.asked&&!SHW.more)){ return; } SHW.busy=1;
   var p={action:'recShow',n:'12',from:String(SHW.next||0)}; if(isGuest()&&G){ p._hq=1; p.g=G; }   /* 손님 · 엿보기는 지금 보는 모임 열쇠로 */
@@ -1180,8 +1192,7 @@ function gridDraw(){
   if($('opnGo')){ $('opnGo').onclick=opnStart; }
   if($('pwaGo')){ $('pwaGo').onclick=pwaGo; }
   if($('upGo')){ $('upGo').onclick=function(){ $('fab').onclick(); }; }   /* ★v43 */   /* ★v42 309 */
-  if($('opMine')){ openMine(); }
-  showWire(); if(!SHW.asked){ showLoad(); }   /* ★v41 302 */
+  showWire(); lazyBottom();   /* ★v44 진열 · 내 신청은 맨 아래 가까이 왔을 때만 서버에 물음(사진 먼저) */
   if($('hJoin')){ $('hJoin').onclick=function(){ if(b[0]){ go('item',b[0].id); setTimeout(joinGate,400); } else { joinGate(); } }; }
   if($('hLook')){ $('hLook').onclick=function(){ var g=$('stg'); if(g){ g.scrollIntoView({behavior:'smooth',block:'start'}); } }; }
   if($('hGo')){ $('hGo').onclick=function(){ if(b[0]){ go('item',b[0].id); } }; }
