@@ -3,7 +3,8 @@
      /rec/?open=1 = 글 안내 없이 「사랑흐름 우리 이야기」 첫 화면을 그대로 보여 주고 맨 아래 「우리 모임도 이렇게 남겨 보세요 · 신청서 쓰기」 띠(손님으로 보는 모든 모임 하단에도 같은 띠 · 내 신청 상태도 띠 안)
      · 신청서: 설명 줄 뺌 · 체크 순서 만 14세 → 안내를 읽었습니다 → 개설 도움(맨 밑) · 체크 상자 24px 고정(설명 긴 줄에서 쪼그라들던 것)
      · 대표 칸 = 사진 · 영상(유튜브 주소) 섞어 여섯 · 바로가기 「＋ 바로가기 더하기」로 열까지(앞 셋 = 핵심)
-     · 300 바로가기에 전화번호(tel:) — 신청서 · 첫 화면 꾸미기 · 누르면 전화 걸기. [무손] 그 밖 v39 전부. -->
+     · 300 바로가기에 전화번호(tel:) — 신청서 · 첫 화면 꾸미기 · 누르면 전화 걸기.
+     · [대표 261011 18:16~18:20] 「개설 도움」 칸 뺌 · 돈 이야기 없음 · 띠 제목 옆 「무료」 이름표 하나(움직임 없음) · 단추 말 「우리 이야기 만들기」 · 카카오 단추 「카카오로 신청」 · 단추 아래 설명 줄 뺌. [무손] 그 밖 v39 전부. -->
 <!-- ★ 현재 버전 ▶ rec/index.html · v39 · 261011 · [대표 OK 261011 14:18 「영상까지 한꺼번에 풀로」 · 서버 v12 와 짝]
      285 첫 화면 분류 줄(대표 사진 · 핵심 바로가기 아래 · 누르면 그 분류만) · 286 둘러볼 모임(바로 아래 열린 모임 · 누르면 손님으로 둘러봄 · 「내 모임으로」)
      · 위 모임으로 가는 띠 · 287 「이렇게 찾아보세요」 = 모임 값(관리자 「첫 화면 꾸미기 → 문구」에서 고침 · 비우면 틀 기본)
@@ -345,6 +346,7 @@ input.t:focus,textarea:focus{outline:none;border-color:var(--navy)}
 .wab input{flex:0 0 24px;width:24px;height:24px;margin:0;accent-color:var(--orange)}
 .wab.top{align-items:flex-start}.wab.top input{margin-top:1px}
 .opband{margin:20px 0 6px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 50%,#EEF3F8 100%);border:1px solid var(--line);text-align:center}
+.opband .free{display:inline-block;vertical-align:middle;margin-left:4px;padding:1px 8px;border:1.5px solid var(--orange);border-radius:999px;color:var(--orange);font-family:var(--f-body);font-size:12px;font-style:normal;font-weight:700}
 .opband b{display:block;font-family:var(--f-disp);font-size:18px;color:var(--navy2)}.opband small{display:block;font-size:13px;color:var(--sub);margin:4px 0 10px}
 .opband #opMine .card{text-align:left;margin:12px 0 0}
 .oph .th.vd::after{content:"▶";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34px;height:34px;line-height:34px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:14px;text-align:center}
@@ -1097,8 +1099,8 @@ function gridDraw(){
   h+='<div class="lo">';
   if(gos.length){ h+='<h3>바로가기</h3>'+(ME.intro?'<p class="intro">'+esc(ME.intro)+'</p>':'')+'<div class="row1">'+gos.map(function(g){ var c=goColor(g.url); return '<button type="button" class="gopill" data-go="'+esc(g.f)+'"><i style="background:'+c[0]+'">'+esc(c[1])+'</i>'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
   h+='<h3>이렇게 찾아보세요</h3><div class="row1">'+findList().map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div>';
-  if(OPN||isGuest()){ h+='<div class="opband" id="opBand"><b>우리 모임도 이렇게 남겨 보세요</b><small>가게 · 모임 · 마을 · 가족 · 학교 · 기관</small><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'신청서 쓰기</button><div id="opMine"></div></div>'; }   /* ★v40 띠 — 보고 있는 화면 아래에서 바로 신청 */
-  h+=guideFold()+'<div class="brand">🍇 사랑흐름 · 우리 이야기</div>'+(OPN||isGuest()?'':'<button type="button" class="opn" id="opnGo">우리 모임도 이렇게 열어 보기 ›</button>')+'</div>';
+  if(OPN||isGuest()){ h+='<div class="opband" id="opBand"><b>우리 모임도 이렇게 남겨 보세요 <em class="free">무료</em></b><small>가게 · 모임 · 마을 · 가족 · 학교 · 기관</small><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기 만들기</button><div id="opMine"></div></div>'; }   /* ★v40 띠 — 보고 있는 화면 아래에서 바로 신청 */
+  h+=guideFold()+'<div class="brand">🍇 사랑흐름 · 우리 이야기</div>'+(OPN||isGuest()?'':'<button type="button" class="opn" id="opnGo">우리 이야기 만들기 ›</button>')+'</div>';
   el.innerHTML=h;
   each(el,'[data-tid]',function(t){ t.onclick=function(){ go('item',t.getAttribute('data-tid')); }; });
   if($('hMine')){ $('hMine').onclick=function(){ if(isGuest()){ joinGate(); return; } A=newA(); go('add'); }; }   /* ★v34 237 = ＋ 와 같음 */
@@ -2635,7 +2637,7 @@ function hqApDrop(x){
 var OPK='lf_rec_open', OTS='lf_rec_ots', OP=null;
 function otsGet(){ try{ return (localStorage.getItem(OTS)||'').split(',').filter(function(x){ return /^[a-f0-9]{32}$/.test(x); }); }catch(e){ return []; } }
 function otsAdd(t){ var a=otsGet().filter(function(x){ return x!==t; }); a.unshift(t); try{ localStorage.setItem(OTS,a.slice(0,10).join(',')); }catch(e){} }
-function openMode(){ document.body.classList.add('hqm'); $('fab').hidden=true; function tt(){ try{ document.title='우리 모임 이야기 열기 · 사랑흐름'; var t=document.querySelector('.lfx-title'); if(t){ t.textContent='우리 모임 이야기 열기'; } }catch(e){} } tt(); setTimeout(tt,300); setTimeout(tt,1200); }
+function openMode(){ document.body.classList.add('hqm'); $('fab').hidden=true; function tt(){ try{ document.title='우리 이야기 만들기 · 사랑흐름'; var t=document.querySelector('.lfx-title'); if(t){ t.textContent='우리 이야기 만들기'; } }catch(e){} } tt(); setTimeout(tt,300); setTimeout(tt,1200); }
 var OPN=0, ORET='lf_rec_oret', ODR='lf_rec_odraft';
 function openBoot(){   /* ★v40 글 안내 대신 사랑흐름 우리 이야기 첫 화면 + 맨 아래 띠 */
   OPN=1; try{ history.replaceState(null,'',location.pathname+'?open=1'); }catch(e){}
@@ -2670,7 +2672,7 @@ function openForm(dr,msg){
     var fr=fd.status==='ok'?(fd.frames||[]):[];
     function v(x){ return esc(x||''); }
     $('main').innerHTML='<div class="sub"><button class="sbtn" id="ofB" type="button">← 둘러보기</button><span class="grow"></span></div>'+
-      '<div class="card"><h2>신청서</h2>'+(msg?'<div class="err">'+esc(msg)+'</div>':'')+
+      '<div class="card"><h2>우리 이야기 만들기</h2>'+(msg?'<div class="err">'+esc(msg)+'</div>':'')+
       '<label class="f">1. 모임 이름</label><input class="t" id="ofN" maxlength="40" placeholder="예: 파주 성동리 우리 마을 이야기" value="'+v(OP.name)+'"><p class="note" style="margin-top:4px">어디 · 어느 모임 + 누구의 + 「이야기」</p>'+
       '<label class="f">2. 모임 틀</label><div class="strip" style="padding:0;flex-wrap:wrap">'+fr.map(function(f){ return '<button type="button" class="chip s'+(OP.frame===f.no?' on':'')+'" data-of="'+esc(f.no)+'">'+(FR_ICON[f.no]||'')+' '+esc(f.name)+'</button>'; }).join('')+'</div>'+
       '<label class="f">3. 공개 방식</label><div class="strip" style="padding:0"><button type="button" class="chip s'+(OP.room==='열린 모임'?' on':'')+'" data-or="열린 모임">누구나 둘러봄</button><button type="button" class="chip s'+(OP.room!=='열린 모임'?' on':'')+'" data-or="닫힌 방">초대받은 분만</button></div>'+
@@ -2683,8 +2685,7 @@ function openForm(dr,msg){
       '</div>'+
       '<div class="card"><label class="wab"><input type="checkbox" id="ofY"><span>만 14세 이상입니다</span></label>'+
       '<label class="wab top"><input type="checkbox" id="ofG"><span>안내를 읽었습니다<small style="display:block;color:var(--sub);font-weight:400;font-size:13px">신청하신 분의 전화번호 · 이메일은 받지 않습니다. 올린 사진 · 글은 올린 분의 것입니다. 사랑흐름 본부가 확인한 뒤 모임이 열립니다.</small></span></label>'+
-      '<label class="wab top"><input type="checkbox" id="ofH"'+(OP.help?' checked':'')+'><span>개설 도움을 받겠습니다<small style="display:block;color:var(--sub);font-weight:400;font-size:13px">사랑흐름이 첫 화면 꾸미기 · 첫 기록 올리기를 함께합니다. 비용은 따로 안내드립니다.</small></span></label>'+
-      '<div class="err" id="ofE"></div><button type="button" class="btn kakao" id="ofGo">'+KICON+'카카오로 확인하고 신청하기</button><p class="note" style="text-align:center;margin-top:6px">카카오로 신청하신 분을 확인한 뒤 바로 접수됩니다</p></div>';
+      '<div class="err" id="ofE"></div><button type="button" class="btn kakao" id="ofGo">'+KICON+'카카오로 신청</button></div>';
     function photos(){
       var el=$('ofP'); el.innerHTML=OP.photos.map(function(p,i){ var bg=p.yt?'https://i.ytimg.com/vi/'+p.yt+'/hqdefault.jpg':(p.pv||p.ph); return '<div class="th'+(p.yt?' vd':'')+'" style="background-image:url('+esc(bg)+')"><i class="no">'+(i+1)+'</i><button type="button" data-px="'+i+'" aria-label="빼기">×</button></div>'; }).join('')+(OP.photos.length<6?'<div class="th add" id="ofAdd" role="button" tabindex="0">＋ 사진</div><div class="th add" id="ofVd" role="button" tabindex="0">＋ 영상</div>':'');
       if($('ofVd')){ $('ofVd').onclick=function(){ grab(); sheet('<h2>영상 넣기</h2><p class="lead" style="margin-top:4px">유튜브에 올린 영상 주소를 붙여 넣습니다.</p><label class="f">유튜브 주소</label><input class="t" id="ovU" inputmode="url" placeholder="https://youtube.com/shorts/…"><div id="ovM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="ovNo" type="button">취소</button><button class="btn" id="ovOk" type="button">넣기</button></div>',function(){
@@ -2702,7 +2703,7 @@ function openForm(dr,msg){
     $('ofF').onchange=function(){ var fs=Array.prototype.slice.call(this.files||[]), room=6-OP.photos.length, cut=0; if(fs.length>room){ cut=fs.length-room; fs=fs.slice(0,room); } var n=fs.length, i=0; if(!n){ return; }
       busyOn('사진을 담는 중입니다 (1/'+n+')');
       (function nx(){ if(i>=n){ busyOff(); photos(); if(cut){ toast('대표 사진은 여섯 장까지입니다',cut+'장은 담지 않았습니다'); } return; } busyText('사진을 담는 중입니다 ('+(i+1)+'/'+n+')'); shrink(fs[i],function(ph,pv){ if(ph){ OP.photos.push({ph:ph,pv:pv||''}); } i++; nx(); }); })(); };
-    function grab(){ OP.name=$('ofN').value.trim(); OP.admin=$('ofA').value.trim(); OP.intro=$('ofI').value.trim(); OP.cats=$('ofC').value.trim(); OP.help=$('ofH').checked?1:0;
+    function grab(){ OP.name=$('ofN').value.trim(); OP.admin=$('ofA').value.trim(); OP.intro=$('ofI').value.trim(); OP.cats=$('ofC').value.trim(); OP.help=0;
       OP.gos=OP.gos.map(function(g,i){ return {name:$('ogN'+i).value.trim(),url:goUrl($('ogU'+i).value)}; }); }
     each($('main'),'[data-of]',function(b){ b.onclick=function(){ OP.frame=b.getAttribute('data-of'); each($('main'),'[data-of]',function(o){ o.classList.toggle('on',o===b); });
       var f=fr.filter(function(x){ return x.no===OP.frame; })[0]; if(f&&(!$('ofC').value.trim()||!OP.catsEd)){ $('ofC').value=(f.cats||[]).join(' · '); } }; });
