@@ -1,4 +1,9 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v43 · 261011 · [대표 지시 261011 20:08]
+     · 첫 화면 맨 아래 「＋ 새 사진 · 영상 · 글 올리기」 큰 단추 — 「이용 안내」 아래 · 「바탕화면에 두기」 위 · 단추 크기 통일(높이 60 · 폭 가득).
+       손님은 「＋ 참여하기」. 떠다니는 둥근 ＋ 는 그대로 두되, 큰 단추가 화면에 보이는 동안은 숨김(같은 단추 둘이 겹쳐 보이지 않게).
+     · [무손] 그 밖 v42 그대로.
+-->
 <!-- ★ 현재 버전 ▶ rec/index.html · v42 · 261011 · [대표 지시 261011 19:57 · 20:03]
      · 308 「우리 이야기방 만들기」 — 방에 들어온 분(회원)에게도 손님과 같은 큰 띠 단추 · 자리 = 「이렇게 찾아보세요」와 「이용 안내」 사이 · 작은 밑줄 글 뺌 · 단추 조금 더 크게.
        ☰(내 메뉴) 「우리 모임도 열기」 → 「우리 이야기방 만들기」(말 통일 · 곧바로 신청서).
@@ -369,7 +374,8 @@ input.t:focus,textarea:focus{outline:none;border-color:var(--navy)}
 .opband .free{display:inline-block;vertical-align:middle;margin-left:4px;padding:1px 8px;border:1.5px solid var(--orange);border-radius:999px;color:var(--orange);font-family:var(--f-body);font-size:12px;font-style:normal;font-weight:700}
 .opband b{display:block;font-family:var(--f-disp);font-size:18px;color:var(--navy2)}.opband small{display:block;font-size:13px;color:var(--sub);margin:4px 0 10px}
 .opband .btn{min-height:60px;font-size:18.5px}
-.pwab{margin-top:14px}
+.pwab{margin-top:14px;min-height:60px;font-size:18.5px}
+.btn.upb{margin-top:16px;min-height:60px;font-size:18.5px}
 .pwaimg{display:flex;gap:10px;align-items:center;justify-content:center;margin:14px 0 4px;font-size:15px;font-weight:700;color:var(--navy2)}
 .pwaimg span{display:inline-grid;place-items:center;min-width:44px;height:44px;padding:0 10px;border-radius:12px;background:var(--sand);font-size:20px}
 .opband #opMine .card{text-align:left;margin:12px 0 0}
@@ -1161,7 +1167,7 @@ function gridDraw(){
   if(gos.length){ h+='<h3>바로가기</h3>'+(ME.intro?'<p class="intro">'+esc(ME.intro)+'</p>':'')+'<div class="row1">'+gos.map(function(g){ var c=goColor(g.url); return '<button type="button" class="gopill" data-go="'+esc(g.f)+'"><i style="background:'+c[0]+'">'+esc(c[1])+'</i>'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
   h+='<h3>이렇게 찾아보세요</h3><div class="row1">'+findList().map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div>';
   { h+='<div class="opband" id="opBand"><b>우리 모임도 이렇게 남겨 보세요 <em class="free">무료</em></b><small>가게 · 모임 · 마을 · 가족 · 학교 · 기관</small><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기방 만들기</button><div id="opMine"></div></div>'; }   /* ★v40 띠 — 보고 있는 화면 아래에서 바로 신청 */
-  h+=guideFold()+(OPN||pwaIn()?'':'<button class="btn line pwab" id="pwaGo" type="button">📲 휴대폰 바탕화면에 두기</button>')+'<div class="brand">🍇 사랑흐름 · 우리 이야기</div></div>';   /* ★v42 308 · 309 */
+  h+=guideFold()+(!OPN&&!(ME&&ME.paused)&&(canAdd()||isGuest())?'<button class="btn upb" id="upGo" type="button">'+ic('plus')+(isGuest()?'참여하기':'새 사진 · 영상 · 글 올리기')+'</button>':'')+(OPN||pwaIn()?'':'<button class="btn line pwab" id="pwaGo" type="button">📲 휴대폰 바탕화면에 두기</button>')+'<div class="brand">🍇 사랑흐름 · 우리 이야기</div></div>';   /* ★v42 308 · 309 */
   el.innerHTML=h;
   each(el,'[data-tid]',function(t){ t.onclick=function(){ go('item',t.getAttribute('data-tid')); }; });
   if($('hMine')){ $('hMine').onclick=function(){ if(isGuest()){ joinGate(); return; } A=newA(); go('add'); }; }   /* ★v34 237 = ＋ 와 같음 */
@@ -1172,7 +1178,8 @@ function gridDraw(){
   each(el,'[data-ug]',function(t){ t.onclick=function(){ peekGo(t.getAttribute('data-ug')); }; });
   if($('pkX')){ $('pkX').onclick=function(){ location.href=location.pathname; }; }
   if($('opnGo')){ $('opnGo').onclick=opnStart; }
-  if($('pwaGo')){ $('pwaGo').onclick=pwaGo; }   /* ★v42 309 */
+  if($('pwaGo')){ $('pwaGo').onclick=pwaGo; }
+  if($('upGo')){ $('upGo').onclick=function(){ $('fab').onclick(); }; }   /* ★v43 */   /* ★v42 309 */
   if($('opMine')){ openMine(); }
   showWire(); if(!SHW.asked){ showLoad(); }   /* ★v41 302 */
   if($('hJoin')){ $('hJoin').onclick=function(){ if(b[0]){ go('item',b[0].id); setTimeout(joinGate,400); } else { joinGate(); } }; }
@@ -1218,6 +1225,7 @@ document.addEventListener('visibilitychange',function(){
 var FAB_Y=0, FAB_T=null, FAB_PLUS='';
 window.addEventListener('scroll',function(){
   var f=$('fab'); if(!f||f.hidden){ return; } var y=window.scrollY||0;
+  var ub=$('upGo'); if(ub&&VIEW==='feed'){ var rb=ub.getBoundingClientRect(); if(rb.top<window.innerHeight&&rb.bottom>0){ f.classList.add('hid'); each(document,'.fabtip',function(t){ t.remove(); }); clearTimeout(FAB_T); FAB_Y=y; return; } }   /* ★v43 큰 단추가 보이면 둥근 ＋ 숨김 */
   if(y>FAB_Y+6&&y>120){ f.classList.add('hid'); } else if(y<FAB_Y-6){ f.classList.remove('hid'); }
   FAB_Y=y; clearTimeout(FAB_T); FAB_T=setTimeout(function(){ f.classList.remove('hid'); },700);
 },{passive:true});
