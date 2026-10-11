@@ -1,4 +1,11 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v42 · 261011 · [대표 지시 261011 19:57 · 20:03]
+     · 308 「우리 이야기방 만들기」 — 방에 들어온 분(회원)에게도 손님과 같은 큰 띠 단추 · 자리 = 「이렇게 찾아보세요」와 「이용 안내」 사이 · 작은 밑줄 글 뺌 · 단추 조금 더 크게.
+       ☰(내 메뉴) 「우리 모임도 열기」 → 「우리 이야기방 만들기」(말 통일 · 곧바로 신청서).
+     · 309 「휴대폰 바탕화면에 두기」 — 이용 안내 아래 단추 + ☰. 안드로이드 = 설치 창 바로 · 아이폰 = 공유 → 홈 화면에 추가 그림 안내 ·
+       카카오톡 안 = 인터넷으로 열기. 바탕 아이콘 = 그 기기가 마지막 본 방(회원은 열쇠 · 손님은 마지막 본 방). manifest · 아이콘 · sw.js 새로.
+     · [무손] 그 밖 v41 그대로 · 서버 손대지 않음.
+-->
 <!-- ★ 현재 버전 ▶ rec/index.html · v41 · 261011 · [대표 지시 261011 19:25 · 19:31]
      · 말 통일 — 「우리 이야기 만들기」 → 「우리 이야기방 만들기」(띠 단추 · 신청서 제목 · 창 제목 · 그 밖 모든 자리).
      · /rec/?open=form = 곧바로 신청서(메인 v46 「우리 이야기방 만들기」 단추) · 신청서 「돌아가기」는 메인으로.
@@ -153,6 +160,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="robots" content="noindex,nofollow">
 <meta name="referrer" content="strict-origin-when-cross-origin">
+<link rel="manifest" href="/rec/manifest.webmanifest">
+<meta name="theme-color" content="#1E4A76">
+<link rel="apple-touch-icon" href="/rec/apple-icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="우리 이야기">
 <title>사랑흐름 · 함께 남기는 우리 이야기</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
@@ -356,6 +368,10 @@ input.t:focus,textarea:focus{outline:none;border-color:var(--navy)}
 .opband{margin:20px 0 6px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 50%,#EEF3F8 100%);border:1px solid var(--line);text-align:center}
 .opband .free{display:inline-block;vertical-align:middle;margin-left:4px;padding:1px 8px;border:1.5px solid var(--orange);border-radius:999px;color:var(--orange);font-family:var(--f-body);font-size:12px;font-style:normal;font-weight:700}
 .opband b{display:block;font-family:var(--f-disp);font-size:18px;color:var(--navy2)}.opband small{display:block;font-size:13px;color:var(--sub);margin:4px 0 10px}
+.opband .btn{min-height:60px;font-size:18.5px}
+.pwab{margin-top:14px}
+.pwaimg{display:flex;gap:10px;align-items:center;justify-content:center;margin:14px 0 4px;font-size:15px;font-weight:700;color:var(--navy2)}
+.pwaimg span{display:inline-grid;place-items:center;min-width:44px;height:44px;padding:0 10px;border-radius:12px;background:var(--sand);font-size:20px}
 .opband #opMine .card{text-align:left;margin:12px 0 0}
 .oph .th.vd::after{content:"▶";position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34px;height:34px;line-height:34px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:14px;text-align:center}
 .oph .th i.no{position:absolute;left:4px;top:4px;min-width:20px;height:20px;line-height:20px;border-radius:10px;background:rgba(0,0,0,.55);color:#fff;font-size:11px;font-style:normal;text-align:center;padding:0 5px}
@@ -810,6 +826,8 @@ function boot(){
   K=sget(KEY)||(k?k.toLowerCase():'');
   if(K){ loadMe(g); return; }
   if(g){ guestIn(g); return; }
+  var lg=''; try{ lg=(localStorage.getItem('lf_rec_lastg')||'').replace(/[^a-f0-9]/gi,'').slice(0,32); }catch(e){}   /* ★v42 309 바탕 아이콘 · 손님은 마지막 본 방 */
+  if(lg.length===32&&(sp.get('app')==='1'||pwaIn())){ guestIn(lg); return; }
   noKey();
 }
 /* ★v26 열린 모임이면 가입 없이 전체를 봄 · 닫힌 방이면 지금처럼 들어오기 화면 */
@@ -817,6 +835,7 @@ function guestIn(g){
   G=g; wait($('main'),'우리 이야기를 여는 중입니다');
   api({action:'recHome',g:g,f:FROM||'',mode:F.sort,n:'20',lite:'1'},function(d){
     if(d.status!=='ok'||!d.guest){ G=''; joinForm(g); return; }
+    if(!PEEK){ try{ localStorage.setItem('lf_rec_lastg',g); }catch(e0){} }   /* ★v42 309 바탕 아이콘이 열 방 */
     ME={guest:1,name:'',role:'손님',comName:d.comName,room:d.room,stat:d.stat,best:d.best,gos:d.gos||[],intro:d.intro||'',outText:d.outText||'',backText:d.backText||'',bestText:d.bestText||'',invText:d.invText||'',finds:d.finds||[],subs:d.subs||[],ups:d.ups||[]}; setTitle(); CATS=d.cats||[]; QN=0;
     gridSet(d.grid);
     STACK=[{v:'feed'}]; if(OPEN_R){ var r=OPEN_R; OPEN_R=''; STACK.push({v:'item',id:r}); holdHistory(); }
@@ -1141,8 +1160,8 @@ function gridDraw(){
   h+='<div class="lo">';
   if(gos.length){ h+='<h3>바로가기</h3>'+(ME.intro?'<p class="intro">'+esc(ME.intro)+'</p>':'')+'<div class="row1">'+gos.map(function(g){ var c=goColor(g.url); return '<button type="button" class="gopill" data-go="'+esc(g.f)+'"><i style="background:'+c[0]+'">'+esc(c[1])+'</i>'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
   h+='<h3>이렇게 찾아보세요</h3><div class="row1">'+findList().map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div>';
-  if(OPN||isGuest()){ h+='<div class="opband" id="opBand"><b>우리 모임도 이렇게 남겨 보세요 <em class="free">무료</em></b><small>가게 · 모임 · 마을 · 가족 · 학교 · 기관</small><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기방 만들기</button><div id="opMine"></div></div>'; }   /* ★v40 띠 — 보고 있는 화면 아래에서 바로 신청 */
-  h+=guideFold()+'<div class="brand">🍇 사랑흐름 · 우리 이야기</div>'+(OPN||isGuest()?'':'<button type="button" class="opn" id="opnGo">우리 이야기방 만들기 ›</button>')+'</div>';
+  { h+='<div class="opband" id="opBand"><b>우리 모임도 이렇게 남겨 보세요 <em class="free">무료</em></b><small>가게 · 모임 · 마을 · 가족 · 학교 · 기관</small><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기방 만들기</button><div id="opMine"></div></div>'; }   /* ★v40 띠 — 보고 있는 화면 아래에서 바로 신청 */
+  h+=guideFold()+(OPN||pwaIn()?'':'<button class="btn line pwab" id="pwaGo" type="button">📲 휴대폰 바탕화면에 두기</button>')+'<div class="brand">🍇 사랑흐름 · 우리 이야기</div></div>';   /* ★v42 308 · 309 */
   el.innerHTML=h;
   each(el,'[data-tid]',function(t){ t.onclick=function(){ go('item',t.getAttribute('data-tid')); }; });
   if($('hMine')){ $('hMine').onclick=function(){ if(isGuest()){ joinGate(); return; } A=newA(); go('add'); }; }   /* ★v34 237 = ＋ 와 같음 */
@@ -1153,6 +1172,7 @@ function gridDraw(){
   each(el,'[data-ug]',function(t){ t.onclick=function(){ peekGo(t.getAttribute('data-ug')); }; });
   if($('pkX')){ $('pkX').onclick=function(){ location.href=location.pathname; }; }
   if($('opnGo')){ $('opnGo').onclick=opnStart; }
+  if($('pwaGo')){ $('pwaGo').onclick=pwaGo; }   /* ★v42 309 */
   if($('opMine')){ openMine(); }
   showWire(); if(!SHW.asked){ showLoad(); }   /* ★v41 302 */
   if($('hJoin')){ $('hJoin').onclick=function(){ if(b[0]){ go('item',b[0].id); setTimeout(joinGate,400); } else { joinGate(); } }; }
@@ -2010,7 +2030,8 @@ function meMenu(){
   R.push(['myname','pen','c-navy','보일 이름 바꾸기','지금 이름 · '+esc(ME.name||'')]);
   if(ME.room==='열린 모임'||ME.role==='관리자'){ R.splice(1,0,['post','share','c-peach','단톡방에 올릴 글','사진 제목 · 질문 · 링크를 한 번에 복사']); }
   R.push(['guide','look','c-navy','이용 안내','처음 오신 분 · 함께하는 분 · 확인자 · 관리자']);
-  R.push(['open','plus','c-gold','우리 모임도 열기','다른 모임 · 단체의 우리 이야기를 신청합니다']);   /* ★v39 291 */
+  R.push(['open','plus','c-gold','우리 이야기방 만들기','가게 · 모임 · 마을 · 가족 · 학교 · 기관']);   /* ★v42 308 */
+  if(!pwaIn()){ R.push(['pwa','home','c-green','휴대폰 바탕화면에 두기','주소 찾지 않고 아이콘으로 바로 들어옵니다']); }   /* ★v42 309 */
   R.push(['out','out','c-gray','나가기','카카오톡으로 돌아갑니다']);
   if(ME.role!=='관리자'){ R.push(['leave','out','c-gray','이 모임에서 나가기','남기신 기록은 그대로 남습니다']); }
   R.push(['logout','key','c-gray','이 기기에서 나가기',ME.kakao?'카카오로 다시 들어오실 수 있습니다':'카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다']);
@@ -2030,7 +2051,8 @@ function meMenu(){
       if(m==='adm'){ admGo('adm'); return; }
       if(m==='plc'){ plcGo(); return; }   /* ★v38 */
       if(m==='hq'){ location.href=location.pathname+'?hq=1'; return; }
-      if(m==='open'){ location.href=location.pathname+'?open=1'; return; }
+      if(m==='open'){ opnStart(); return; }
+      if(m==='pwa'){ pwaGo(); return; }
       if(m==='asu'){ asuToggle(); return; }
       if(m==='swc'){ kakaoGo('login'); return; }
       go(m);
@@ -2688,6 +2710,33 @@ function openBoot(){   /* ★v40 글 안내 대신 사랑흐름 우리 이야기
   api({action:'recMainKey'},function(r){ if(r.status==='ok'&&r.g){ if(sget(KEY)){ PEEK=1; } guestIn(r.g); } else { openForm(null); } });
 }
 function openHome(msg){ if(msg){ toast(msg); } location.href=location.pathname+'?open=1'; }
+/* ★v42 309 휴대폰 바탕화면에 두기 */
+var PWA_EV=null;
+window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); PWA_EV=e; });
+window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo'); if(b){ b.hidden=true; } toast('바탕화면에 두었습니다','이제 아이콘을 누르면 바로 들어옵니다'); });
+try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){}); } }catch(e){}
+function pwaIn(){ try{ return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true; }catch(e){ return false; } }
+function pwaGo(){
+  var ua=navigator.userAgent||'', ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1), kk=/KAKAOTALK/i.test(ua), inapp=kk||/NAVER\(inapp|Instagram|FBAN|FBAV|Line\//i.test(ua);
+  if(PWA_EV&&!inapp){ var ev=PWA_EV; PWA_EV=null; ev.prompt(); try{ ev.userChoice.then(function(c){ if(c&&c.outcome!=='accepted'){ PWA_EV=ev; } }); }catch(e){} return; }
+  var here=location.href.split('#')[0];
+  if(inapp){
+    sheet('<h2>📲 바탕화면에 두기</h2><p class="lead" style="margin-top:6px">카카오톡 안에서는 바탕화면에 둘 수 없습니다. 인터넷으로 연 뒤 이 단추를 한 번 더 눌러 주십시오.</p>'+
+      (kk?'<button class="btn warm" id="pwOut" type="button">인터넷으로 열기</button>':'<div class="pwaimg"><span>⋮</span>→<span>다른 브라우저로 열기</span></div>')+'<button class="btn line" id="pwX" type="button">닫기</button>',
+      function(){ $('pwX').onclick=closeSheet; if($('pwOut')){ $('pwOut').onclick=function(){ location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(here); }; } });
+    return;
+  }
+  if(ios){
+    sheet('<h2>📲 바탕화면에 두기</h2><p class="lead" style="margin-top:6px">아래 순서대로 한 번만 눌러 주십시오.</p>'+
+      '<div class="pwaimg"><span>□↑</span>공유 단추(화면 아래)</div><div class="pwaimg">↓</div><div class="pwaimg"><span>＋</span>홈 화면에 추가</div><div class="pwaimg">↓</div><div class="pwaimg"><span>추가</span>오른쪽 위</div>'+
+      '<p class="note" style="text-align:center;margin-top:8px">바탕 아이콘으로 처음 여실 때 카카오로 한 번 들어와 주십시오.</p><button class="btn line" id="pwX" type="button">닫기</button>',
+      function(){ $('pwX').onclick=closeSheet; });
+    return;
+  }
+  sheet('<h2>📲 바탕화면에 두기</h2><p class="lead" style="margin-top:6px">아래 순서대로 한 번만 눌러 주십시오.</p>'+
+    '<div class="pwaimg"><span>⋮</span>브라우저 메뉴(오른쪽 위 · 아래)</div><div class="pwaimg">↓</div><div class="pwaimg"><span>＋</span>홈 화면에 추가</div><button class="btn line" id="pwX" type="button">닫기</button>',
+    function(){ $('pwX').onclick=closeSheet; });
+}
 function opnStart(){
   try{ sessionStorage.setItem(ORET,OPN?location.pathname+'?open=1':location.href); }catch(e){}
   var dr=null; try{ dr=JSON.parse(sessionStorage.getItem(ODR)||'null'); }catch(e){}
