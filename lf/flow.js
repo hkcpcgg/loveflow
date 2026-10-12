@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/flow.js · v2 · 261006 · [대표 ok 261006 17:15] ★LFFlow.wave(el) · LFFlow.after(단추) — 작은 기다림 물결(관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름). class="lf-wave" 칸은 저절로 붙음. 결제 · 발권 · 접수 · 그림 · 결과 불러오기 기다림에.
+   현재 버전 ▶ lf/flow.js · v3 · 261012 · [대표 261012 16:20 · ok 16:27 「여행 고르기 안정적으로」] 그림 칸에 data-still="1" 이면 움직이지 않고 다 핀 모습으로 멈춤(움직임 줄이기와 같음). [무손] 그 밖 v2 전부.
+   (이전) lf/flow.js · v2 · 261006 · [대표 ok 261006 17:15] ★LFFlow.wave(el) · LFFlow.after(단추) — 작은 기다림 물결(관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름). class="lf-wave" 칸은 저절로 붙음. 결제 · 발권 · 접수 · 그림 · 결과 불러오기 기다림에.
    (이전) v1 · 261006 · [홍보 자료실 → 화면 · 대표 위임 261006 17:08]
    사랑흐름 흐름 그림을 화면에 심는 부품 둘.
      LFFlow.strip(el)  — 홈 맨 위 띠: 나 → 그 사람 → 더 깊은 나 → 우리 → 마을 → 사랑흐름 (물결이 지나가며 마디가 피어남)
@@ -25,7 +26,7 @@
   /* 돌리기: 보일 때만 · 화면에 들어오면 처음부터 */
   function run(host, len, draw, reset){
     var t0 = 0, vis = true, raf = 0;
-    if (RM) { draw(len * 0.9); return; }
+    if (RM || (host && host.getAttribute && host.getAttribute('data-still') === '1')) { draw(len * 0.9); return; }   /* ★v3 */
     function tick(now){
       if (!t0) { t0 = now; }
       var t = (now - t0)/1000;
