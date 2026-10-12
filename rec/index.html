@@ -1,4 +1,8 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ rec/index.html · v50 · 261012 · [대표 OK 261012 16:14 · 서버 v18 그대로]
+     · 330 재기 더함 — 카톡 사진 카드 「기억 남기러 가기」처럼 사진 한 장으로 바로 들어오는 길도 잼(전에는 방 첫 화면으로 들어올 때만).
+       첫 글자 = 사진 한 장 화면이 그려진 때 · 첫 사진 = 작은 사진 · 사진 다 = 큰 사진까지. 서버 「속도」 탭 방 칸 끝에 「 · 사진 한 장」.
+-->
 <!-- ★ 현재 버전 ▶ rec/index.html · v49 · 261012 · [68차 회의 결과 · 대표 OK 261012 15:39 「1번 묶음」 · 서버 v18 과 짝(v17 서버에서도 돎)]
      · 336 기다림 하트 「가」(대표 확정 261012 15:11) — 물결 띠 대신, 사랑흐름 색 선이 하트를 천천히 그리고 한 바퀴를 다 그리면 고운 색 방울이 「펑」.
        방을 여는 동안은 큰 하트(첫 화면 글 안에 바로 들어 있어 화면 파일이 오자마자 보임) · 올리는 중 아래 띠는 작은 하트. 그림 파일 없음 · 움직임 줄이기 설정이면 멈춘 하트.
@@ -875,6 +879,7 @@ function spdStep(a,t0,d,sz){ if(SPD.sent||a==='recSpeed'){ return; } SPD.steps.p
 function spdFirst(el){ if(SPD.t1||SPD.sent){ return; } SPD.t1=spdNow(); SPD.room=(ME&&ME.comName)||'';
   var tl=el.querySelectorAll('.tl'), bg=0; for(var i=0;i<tl.length;i++){ if(tl[i].style.backgroundImage){ bg++; } } SPD.pn=tl.length; if(bg){ SPD.p1=SPD.t1; }
   SPD.tm=setTimeout(spdDone,30000); }
+function spdItem(it){ if(SPD.t1||SPD.sent){ return; } SPD.t1=spdNow(); SPD.room=((ME&&ME.comName)||'')+' · 사진 한 장'; SPD.pn=(it.photos&&it.photos.length)||(it.photo?1:0); if(it.pv){ SPD.p1=SPD.t1; } SPD.tm=setTimeout(spdDone,30000); }   /* ★v50 */
 function spdPic(){ if(SPD.t1&&!SPD.p1){ SPD.p1=spdNow(); } }
 function spdPend(n){ if(!SPD.t1||SPD.sent){ return; } SPD.pend=Math.max(0,SPD.pend+n); if(!SPD.pend){ setTimeout(function(){ if(!SPD.pend){ spdDone(); } },0); } }
 function spdDev(){ var u=navigator.userAgent||'', a=/KAKAOTALK/i.test(u)?'카톡':/NAVER/i.test(u)?'네이버':/SamsungBrowser/i.test(u)?'삼성':/CriOS|Chrome/i.test(u)?'크롬':/Safari/i.test(u)?'사파리':'기타';
@@ -885,7 +890,7 @@ function spdDone(){
   var page=nav?Math.round(nav.responseEnd):0, fk='lf_spd_'+SPD.room, fresh='1'; try{ if(localStorage.getItem(fk)){ fresh='0'; } localStorage.setItem(fk,'1'); }catch(e){}
   var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'; }).join(' · ');
   var net=''; try{ net=(navigator.connection&&navigator.connection.effectiveType)||''; }catch(e){}
-  var body={action:'recSpeed',v:'v49',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
+  var body={action:'recSpeed',v:'v50',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
   try{ if(GAS){ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),keepalive:true}).catch(function(){}); } }catch(e){}
   if(spdOn()){ spdBox(body); }
 }
@@ -1486,6 +1491,7 @@ function itemView(id,fresh,doneMsg){
   });
 }
 function drawItem(it,fresh){
+  spdItem(it);   /* ★v50 330 */
   /* ★v32 기록 하나 3단 — 사진 → 세 단추 → 제목 · 때 · 설명 → 다른 분들의 기억 · 대화 → 나도 남기기 → 함께 보탠 것 · 함께 보면 좋은 기록 → 자세히 */
   var bl=[['언제','when','때'],['어디서','where','곳'],['누구와','who','사람'],['무슨 일','what','일']], filled=bl.filter(function(x){ return it[x[1]]; }).length;
   var h='<div class="card big"><button class="mo3" id="mo3" type="button" aria-label="더 보기 (링크 복사 · 삭제 요청)">⋯</button>'+media(it,true);
@@ -1535,7 +1541,7 @@ function drawItem(it,fresh){
   $('body').innerHTML=h;
   drawTalks(it); bindUD($('body'),it); lazyPhotos($('body'));
   each($('body'),'[data-vr]',function(b){ b.onclick=function(e){ e.stopPropagation(); playRec({id:b.getAttribute('data-vr')},b); }; });
-  if(it.photo&&!(it.photos&&it.photos.length>1)){ photo(it.id,false,function(src){ if(src&&$('ph')){ $('ph').src=src; $('ph').style.minHeight=''; } }); }
+  if(it.photo&&!(it.photos&&it.photos.length>1)){ spdPend(1); photo(it.id,false,function(src){ if(src&&$('ph')){ $('ph').src=src; $('ph').style.minHeight=''; spdPic(); } spdPend(-1); }); } else { spdPend(0); }   /* ★v50 330 */
   each($('body'),'.big [data-z]',function(z){ z.onclick=function(){ zoom(it.photos,+z.getAttribute('data-z')); }; });
   if($('yt')){ $('yt').onclick=function(){ sheet('<h2>유튜브로 갑니다</h2><p class="lead" style="margin-top:6px">유튜브에서 영상을 엽니다.</p><div class="pair" style="margin-top:16px"><button class="btn line" id="yNo" type="button">취소</button><a class="btn" style="text-decoration:none" href="'+esc(it.video.url)+'" target="_blank" rel="noopener noreferrer" id="yGo">열기</a></div>',function(){ $('yNo').onclick=closeSheet; $('yGo').onclick=function(){ setTimeout(closeSheet,200); }; }); }; }
   each($('body'),'[data-oid]',function(z){ z.onclick=function(){ go('item',z.getAttribute('data-oid')); }; });
