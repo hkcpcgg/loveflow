@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v52 · 261012 · [대표 OK 261012 16:34 「쭉」 · 서버 v19와 짝]
+<!-- ★ 현재 버전 ▶ rec/index.html · v53 · 261012 · [대표 OK 261012 16:34 「쭉」 · 서버 v20과 짝]
+     · 333 사진 바로 주소 — 열린 방의 공개 사진은 서버를 거치지 않고 구글 그림 주소로 바로 받음(작은 칸 480 · 크게 볼 때 1600) · 안 되면 예전처럼 서버에서.
+       비공개 · 닫힌 방은 그대로 서버가 권한 확인. 받은 주소도 이 기기에 남겨 둠(334).
+     · 339 움직이는 그림 — 우리 사이트 영상이 걸린 칸(사랑흐름 방 흐름 사진 여섯)은 화면에 보일 때만 소리 없이 반복 · 안 보이면 멈춤 · 「움직임 줄이기」 기기는 멈춘 그림.
+       [무손] 그 밖 v52 전부. -->
+<!-- ★ 이전 버전 ▶ rec/index.html · v52 · 261012 · [대표 OK 261012 16:34 「쭉」 · 서버 v19와 짝]
      · 334 다시 온 방은 휴대폰에 남겨 둔 첫 화면을 먼저 — 방마다 마지막 첫 화면(최근 4곳 · 7일)과 사진 작은 그림(약 1.5MB까지)을 이 기기에 남겨 두고,
        다시 열면 서버를 기다리지 않고 바로 그림. 서버 답이 오면 바뀐 것이 있을 때만 다시 그림(첫 화면에 머물러 있을 때 · 보던 자리 그대로).
        「이 기기 기억하기」를 끈 기기에는 남기지 않음. [무손] 그 밖 v51 전부. -->
@@ -603,6 +608,7 @@ html.lfx body{padding-bottom:0!important}
 .hm .cn{font-family:var(--f-disp);font-size:20px;color:var(--navy2);font-weight:800;margin:2px 2px 8px;line-height:1.3}
 .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;border-radius:14px;overflow:hidden}
 .tl{position:relative;aspect-ratio:1/1;border:0;padding:0;margin:0;background:var(--sand) center/cover no-repeat;cursor:pointer;display:block;width:100%}
+.tl .tv{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;opacity:0;transition:opacity .4s}.tl .tv.on{opacity:1}   /* ★v53 339 */
 .tl.big{grid-column:span 2;grid-row:span 2}
 .tl.wait{background-image:linear-gradient(135deg,#EFE6D6,#E6ECF2)}
 .tl .pl{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.45);display:grid;place-items:center}
@@ -823,7 +829,7 @@ function api(p,cb,again){
   if(ADM_ACTS[p.action]&&!p.at){ var at0=tkGet(ATK); if(at0){ p.at=at0.v; } }   /* ★v37 216 관리 확인 표 */
   var bm=p._busy||BUSY_MSG[p.action]; delete p._busy; if(bm){ busyOn(bm); }
   var t0s=spdNow(), szs=0, act0=p.action;   /* ★v49 330 */
-  var done=false; function fin(d){ if(done){ return; } done=true; if(bm){ busyOff(); } spdStep(act0,t0s,d,szs);
+  var done=false; function fin(d){ if(done){ return; } done=true; if(bm){ busyOff(); } spdStep(act0,t0s,d,szs); if(d){ try{ duScan(d); }catch(e0){} }   /* ★v53 333 · 339 */
     if(!d&&p0&&API_AGAIN[p.action]){ setTimeout(function(){ api(p0,cb,1); },1500); return; }
     if(d&&d.reason==='ADMIN_KAKAO'){ tkSet(ATK,''); setTimeout(function(){ adminNeed(VIEW==='feed'?'adm':VIEW); },0); }   /* ★v37 */
     if(d&&d.reason==='PAUSED'){ setTimeout(pausedOn,0); }
@@ -898,7 +904,7 @@ function spdDone(){
   var page=nav?Math.round(nav.responseEnd):0, fk='lf_spd_'+SPD.room, fresh='1'; try{ if(localStorage.getItem(fk)){ fresh='0'; } localStorage.setItem(fk,'1'); }catch(e){}
   var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'; }).join(' · ');
   var net=''; try{ net=(navigator.connection&&navigator.connection.effectiveType)||''; }catch(e){}
-  var body={action:'recSpeed',v:'v52',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
+  var body={action:'recSpeed',v:'v53',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
   try{ if(GAS){ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),keepalive:true}).catch(function(){}); } }catch(e){}
   if(spdOn()){ spdBox(body); }
 }
@@ -1244,15 +1250,23 @@ function stripDraw(){
 var GRID=null, GKEY='', PVC={};
 /* ★v52 334 휴대폰에 남겨 두기 — 첫 화면(방마다 · 최근 4곳 · 7일) · 사진 작은 그림(약 1.5MB) */
 var SNK='lf_rec_snap', PVK='lf_rec_pv', PVSAVE=null;
+/* ★v53 333 사진 바로 주소(u) · 339 움직이는 그림(mv) — 서버 답에서 모아 둠 */
+var DU={}, MV={};
+function duScan(o,d){ d=d||0; if(!o||typeof o!=='object'||d>6){ return; } if(Array.isArray(o)){ for(var i=0;i<o.length;i++){ duScan(o[i],d+1); } return; }
+  if(o.id){ if(o.u&&/^[A-Za-z0-9_-]{10,80}$/.test(o.u)){ DU[o.id]=o.u; } if(o.mv&&/^https:\/\/www\.loveflow\.ai\.kr\/rec\/seed\/[A-Za-z0-9_\/-]+\.mp4$/.test(o.mv)){ MV[o.id]=o.mv; } }
+  for(var k in o){ if(o[k]&&typeof o[k]==='object'){ duScan(o[k],d+1); } } }
+function duUrl(id,w){ return DU[id]?'https://drive.google.com/thumbnail?id='+encodeURIComponent(DU[id])+'&sz=w'+(w||480):''; }
+function duLoad(id,w,cb){ var u=duUrl(id,w); if(!u){ cb(''); return; } var im=new Image(), done=false; function fin(x){ if(done){ return; } done=true; cb(x); }
+  im.onload=function(){ fin(im.naturalWidth>1?u:''); }; im.onerror=function(){ fin(''); }; setTimeout(function(){ fin(''); },8000); im.src=u; }
 try{ var pv0=JSON.parse(localStorage.getItem(PVK)||'{}'); for(var pk0 in pv0){ PVC[pk0]=pv0[pk0]; } }catch(e){}
 function pvKeep(id,u){ if(tmpOn()||!u||u.length>60000){ return; } PVC[id]=u; if(PVSAVE){ return; }
   PVSAVE=setTimeout(function(){ PVSAVE=null; var o={}; try{ o=JSON.parse(localStorage.getItem(PVK)||'{}'); }catch(e){ o={}; }
-    for(var k in PVC){ if(/^data:image\//.test(PVC[k]||'')){ delete o[k]; o[k]=PVC[k]; } }
+    for(var k in PVC){ if(/^(data:image\/|https:\/\/drive\.google\.com\/thumbnail)/.test(PVC[k]||'')){ delete o[k]; o[k]=PVC[k]; } }
     var ks=Object.keys(o), tot=0, keep={}; for(var i=ks.length-1;i>=0;i--){ tot+=o[ks[i]].length; if(tot>1500000){ break; } keep[ks[i]]=1; }
     var out={}; ks.forEach(function(k){ if(keep[k]){ out[k]=o[k]; } });
     try{ localStorage.setItem(PVK,JSON.stringify(out)); }catch(e){ try{ localStorage.removeItem(PVK); }catch(e2){} } },1200); }
 function snapSig(d){ var x={}; for(var k in d){ if(k!=='sms'){ x[k]=d[k]; } } return JSON.stringify(x); }
-function snapGet(id){ if(ME||!id){ return null; } try{ var a=JSON.parse(localStorage.getItem(SNK)||'[]'); for(var i=0;i<a.length;i++){ if(a[i].id===id&&Date.now()-a[i].at<7*86400000){ return a[i].d; } } }catch(e){} return null; }
+function snapGet(id){ if(ME||!id){ return null; } try{ var a=JSON.parse(localStorage.getItem(SNK)||'[]'); for(var i=0;i<a.length;i++){ if(a[i].id===id&&Date.now()-a[i].at<7*86400000){ duScan(a[i].d); return a[i].d; } } }catch(e){} return null; }
 function snapPut(id,d){ if(!id||tmpOn()||!d||d.status!=='ok'){ return; } var s=snapSig(d); if(s.length>150000){ return; }
   var a=[]; try{ a=JSON.parse(localStorage.getItem(SNK)||'[]'); }catch(e){ a=[]; } a=a.filter(function(x){ return x.id!==id; }); a.unshift({id:id,at:Date.now(),d:JSON.parse(s)});
   try{ localStorage.setItem(SNK,JSON.stringify(a.slice(0,4))); }catch(e){ try{ localStorage.setItem(SNK,JSON.stringify(a.slice(0,1))); }catch(e2){} } }
@@ -1276,16 +1290,20 @@ function tile(it,big,cap){
   var bg='', cls='tl'+(big?' big':''), vid=it.kind==='영상'&&it.video;
   if(vid){ bg=it.video.thumb; } else if(it.pv||PVC[it.id]){ bg=it.pv||PVC[it.id]; } else if(it.photo){ cls+=' wait'; }
   var n=it.photos&&it.photos.length>1?it.photos.length:0;
+  var mv=!vid&&(it.mv||MV[it.id]);   /* ★v53 339 */
   return '<button type="button" class="'+cls+'" data-tid="'+esc(it.id)+'"'+(it.photo&&!vid?' data-tpv="'+esc(it.id)+'"':'')+(bg?' style="background-image:url('+esc(bg)+')"':'')+' aria-label="'+esc(it.title||'사진')+'">'+
-    (vid?'<span class="pl"></span>':'')+(n?'<span class="cnt">'+n+'장</span>':'')+nwTag(it.nw)+(cap?'<span class="bq">'+esc(cap)+'</span>':'')+'</button>';
+    (mv?'<video class="tv" muted loop playsinline preload="none" data-mv="'+esc(mv)+'"></video>':'')+(vid?'<span class="pl"></span>':'')+(n?'<span class="cnt">'+n+'장</span>':'')+nwTag(it.nw)+(cap?'<span class="bq">'+esc(cap)+'</span>':'')+'</button>';
 }
 function pvLoad(el){
   var need=[]; each(el,'[data-tpv].wait',function(t){ var id=t.getAttribute('data-tpv'); if(need.indexOf(id)<0){ need.push(id); } });
   function put(id,u){ spdPic(); PVC[id]=u; pvKeep(id,u); var l=findL(id); if(l&&!l.pv){ l.pv=u; } each(el,'[data-tpv="'+id+'"]',function(t){ t.style.backgroundImage='url('+u+')'; t.classList.remove('wait'); }); }
-  for(var i=0;i<need.length;i+=9){ (function(ids){ spdPend(1);
-    api({action:'recPvs',ids:ids.join(',')},function(d){ if(d.status!=='ok'){ spdPend(-1); return; } for(var k in (d.items||{})){ put(k,d.items[k]); }
-      (d.miss||[]).forEach(function(id){ NEEDPV[id]=1; spdPend(1); photo(id,true,function(u){ if(u){ put(id,u); } spdPend(-1); }); }); spdPend(-1); });
-  })(need.slice(i,i+9)); }
+  function srvAsk(ids){ for(var i=0;i<ids.length;i+=9){ (function(part){ spdPend(1);
+    api({action:'recPvs',ids:part.join(',')},function(d){ if(d.status!=='ok'){ spdPend(-1); return; } for(var k in (d.items||{})){ put(k,d.items[k]); }
+      (d.miss||[]).forEach(function(id){ NEEDPV[id]=1; spdPend(1); photo(id,true,function(u){ if(u){ put(id,u); } spdPend(-1); },1); }); spdPend(-1); });
+  })(ids.slice(i,i+9)); } }
+  var srv=[], du=need.filter(function(id){ if(DU[id]){ return true; } srv.push(id); return false; }), duLeft=du.length, duBad=[];   /* ★v53 333 바로 주소 먼저 · 안 되는 것만 서버로 */
+  du.forEach(function(id){ spdPend(1); duLoad(id,480,function(u){ if(u){ put(id,u); } else { duBad.push(id); } duLeft--; if(!duLeft&&duBad.length){ srvAsk(duBad); } spdPend(-1); }); });
+  srvAsk(srv);
   spdPend(0);
 }
 function josa(w){ var c=String(w||'').trim(), ch=c.charCodeAt(c.length-1); if(ch>=0xAC00&&ch<=0xD7A3){ var j=(ch-0xAC00)%28; return c+(j===0||j===8?'로':'으로'); } return c+'(으)로'; }
@@ -1390,8 +1408,18 @@ function gridDraw(){
       var seen={}; LIST.forEach(function(x){ seen[x.id]=1; }); var add=(d.items||[]).filter(function(x){ return !seen[x.id]; });
       GRID.story.items=(GRID.story.items||[]).concat(add); GRID.story.more=d.more; GRID.story.next=d.next; LIST=LIST.concat(add); gridDraw(); window.scrollTo(0,y); }); }; }
   if($('moreT')){ $('moreT').onclick=function(){ F.kind='글링크'; F.cat=''; LKEY=''; stripDraw(); feedLoad(); window.scrollTo(0,0); }; }
-  spdFirst(el); pvLoad(el); txtLoad();   /* ★v49 330 */
+  spdFirst(el); pvLoad(el); txtLoad(); mvWire(el);   /* ★v49 330 · ★v53 339 */
   if(ME&&ME.news&&ME.news.length){ setTimeout(function(){ if(ME){ ME.news=[]; } },60000); }
+}
+/* ★v53 339 움직이는 그림 — 보일 때만 소리 없이 반복 · 안 보이면 멈춤 */
+var MVO=null;
+function mvWire(el){
+  var vs=el.querySelectorAll('video[data-mv]'); if(!vs.length){ return; }
+  var still=false; try{ still=window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){} if(still||!('IntersectionObserver' in window)){ return; }
+  if(!MVO){ MVO=new IntersectionObserver(function(es){ es.forEach(function(e){ var v=e.target;
+    if(e.isIntersecting&&e.intersectionRatio>=0.5){ if(!v.src){ v.src=v.getAttribute('data-mv'); v.onplaying=function(){ v.classList.add('on'); }; } var p=v.play(); if(p&&p['catch']){ p['catch'](function(){}); } }
+    else if(!v.paused){ v.pause(); } }); },{threshold:[0,0.5]}); }
+  Array.prototype.forEach.call(vs,function(v){ MVO.observe(v); });
 }
 /* ★v33 232 첫 화면 아래 글 · 링크(서버 v7 kind=글링크 · 옛 서버면 비어 안 보임) */
 var TXT=null, TXT_ASK=false;
@@ -1523,8 +1551,9 @@ function bindUD(el,cur){
 }
 /* 사진 — 첫 화면 큰 칸은 원본(1600px) · 3×3 칸은 작은 그림을 한 번에 */
 var PHC={}, NEEDPV={};
-function photo(id,small,cb){
+function photo(id,small,cb,noDu){
   var k=(small?'s:':'')+id; if(PHC[k]){ cb(PHC[k]); return; }
+  if(DU[id]&&!noDu){ duLoad(id,small?480:1600,function(u){ if(u){ PHC[k]=u; cb(u); } else { photo(id,small,cb,1); } }); return; }   /* ★v53 333 서버를 거치지 않고 */
   api({action:'recPhoto',id:id,small:small?'1':''},function(d){ if(d.status==='ok'){ PHC[k]='data:'+d.type+';base64,'+d.data; pvHeal(id,PHC[k]); cb(PHC[k]); } else { cb(''); } });
 }
 /* ★v25 스스로 채우기 — 미리보기 없는 옛 사진을 이 폰이 처음 열면 작은 사진을 만들어 서버에 남김(다음부터 모두 빨리) */
@@ -1542,7 +1571,7 @@ function lazyPhotos(el){
   var grids=el.querySelectorAll('.g9');
   Array.prototype.forEach.call(grids,function(g){
     var tiles=g.querySelectorAll('[data-phs]'), need=[], map={};
-    Array.prototype.forEach.call(tiles,function(t){ var id=t.getAttribute('data-phs'); map[id]=t; if(PHC['s:'+id]){ t.style.backgroundImage='url('+PHC['s:'+id]+')'; t.classList.remove('wait'); } else { need.push(id); } });
+    Array.prototype.forEach.call(tiles,function(t){ var id=t.getAttribute('data-phs'); map[id]=t; if(PHC['s:'+id]){ t.style.backgroundImage='url('+PHC['s:'+id]+')'; t.classList.remove('wait'); } else if(DU[id]){ photo(id,true,function(u){ if(u){ t.style.backgroundImage='url('+u+')'; t.classList.remove('wait'); } }); } else { need.push(id); } });   /* ★v53 333 */
     if(!need.length){ return; }
     api({action:'recPhotos',ids:need.join(','),small:'1'},function(d){ if(d.status!=='ok'){ return; } d.items.forEach(function(x){ var u='data:'+x.type+';base64,'+x.data; PHC['s:'+x.id]=u; pvHeal(x.id,u); if(map[x.id]){ map[x.id].style.backgroundImage='url('+u+')'; map[x.id].classList.remove('wait'); } }); });
   });
