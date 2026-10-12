@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v55 · 261012 · [대표 OK 261012 18:18 · 서버 v21과 짝 · 서버 v20이면 🏠 = 지금처럼 메인 방]
+<!-- ★ 현재 버전 ▶ rec/index.html · v56 · 261012 · [대표 OK 261012 18:39 「346 나」 · 서버 v21 그대로]
+     · 346 올리기 4걸음 「누가 볼 수 있게 할까요?」 — 열린 방(누구나 둘러봄)에서 사진 · 영상이면 세 칸: 우리 모임 모두 · 🏠 누구나 보기(→ 서버 「공개」 ·
+       위 모임 있으면 up=1 → 「아래 모임 이야기」에도) · 나만 보기. 열린 방 「우리 모임 모두」 작은 글 → 「이 방에 오신 분이 봅니다」. 닫힌 방은 그대로.
+       누구나 보기를 고르면 확인 넷째 줄 「광장에서 누구나 보고 휴대폰에 저장할 수 있습니다」 · 5걸음 「공개 범위 · 누구나 보기」. 그 밖 v55 그대로.
+-->
+<!-- ★ 이전 버전 ▶ rec/index.html · v55 · 261012 · [대표 OK 261012 18:18 · 서버 v21과 짝 · 서버 v20이면 🏠 = 지금처럼 메인 방]
      · 344 🏠 = 「우리 이야기 광장」(?plaza=1) — 맨 위 방 띠(한 줄 옆으로 밀기 · 사랑흐름 방 맨 앞) · 그 아래 여러 방의 공개 사진 · 영상이 섞인 바둑판(칸마다 방 이름 꼬리표 ·
        방 띠에 쓴 사진은 다시 안 나옴) · 누르면 그 방의 그 사진(?g=…&r=…) · 내리면 저절로 더 · 맨 아래 큰 「우리 이야기방 만들기」. 사진은 바로 주소로만(안 열리면 그 칸은 뺌).
        광장에는 「＋ 올리기」를 두지 않음(올리기는 방 안에서). 다시 열면 휴대폰에 남겨 둔 광장 먼저(334와 같음).
@@ -932,7 +937,7 @@ function spdDone(){
   var page=nav?Math.round(nav.responseEnd):0, fk='lf_spd_'+SPD.room, fresh='1'; try{ if(localStorage.getItem(fk)){ fresh='0'; } localStorage.setItem(fk,'1'); }catch(e){}
   var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'; }).join(' · ');
   var net=''; try{ net=(navigator.connection&&navigator.connection.effectiveType)||''; }catch(e){}
-  var body={action:'recSpeed',v:'v55',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
+  var body={action:'recSpeed',v:'v56',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
   try{ if(GAS){ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),keepalive:true}).catch(function(){}); } }catch(e){}
   if(spdOn()){ spdBox(body); }
 }
@@ -2197,8 +2202,15 @@ function whenSheet(cb,canClear){
   }
   sheet('<div id="wBox"></div>',draw);
 }
+function openRoom(){ return !!(ME&&ME.room==='열린 모임'); }   /* ★v56 346 */
+function pubOk(){ return openRoom()&&(A.type==='사진'||A.type==='영상'); }
+function scopeFix(){ if(A.scope==='공개'&&!pubOk()){ A.scope='공동체'; } }
+function scopeName(sc){ return sc==='공개'?'누구나 보기':(sc==='공동체'?'우리 모임 모두':'나만 보기'); }
 function step4(){
-  var S=[['공동체','우리 모임 모두','초대받은 분만 봅니다','c-navy','ppl'],['비공개','나만 보기','나중에 공개로 바꿀 수 있습니다','c-gray','look']];
+  scopeFix();
+  var S=[['공동체','우리 모임 모두',openRoom()?'이 방에 오신 분이 봅니다':'초대받은 분만 봅니다','c-navy','ppl']];
+  if(pubOk()){ S.push(['공개','누구나 보기',(ME.upN?'우리 이야기 광장 · 위 모임에도 보입니다':'우리 이야기 광장에도 보입니다'),'c-gold','home']); }
+  S.push(['비공개','나만 보기','나중에 공개로 바꿀 수 있습니다','c-gray','look']);
   $('stepBody').innerHTML='<p class="lead">누가 볼 수 있게 할까요?</p><div style="display:grid;gap:10px;margin-top:12px">'+S.map(function(s){ return '<button type="button" class="mrow" data-sc="'+s[0]+'" style="border:1.5px solid '+(A.scope===s[0]?'var(--navy)':'var(--line)')+';border-radius:16px;padding:14px;background:'+(A.scope===s[0]?'#F6F9FC':'var(--paper)')+'"><span class="ci '+s[3]+'">'+ic(s[4])+'</span><span><b>'+s[1]+'</b><small>'+s[2]+'</small></span></button>'; }).join('')+'</div>'+
     '<p class="note" style="margin-top:12px">'+(autoOk()?'등록하시면 바로 공개됩니다.':'등록하시면 관리자 승인 후 공개됩니다.')+'</p>';
   each($('stepBody'),'[data-sc]',function(b){ b.onclick=function(){ A.scope=b.getAttribute('data-sc'); step4(); }; });
@@ -2210,21 +2222,23 @@ function draft(){
   if(A.type==='링크'){ var m=/^https?:\/\/([^\/?#:]+)/i.exec(A.link.url); it.link={url:A.link.url,dom:m?m[1].replace(/^www\./i,'').toLowerCase():'',mine:A.link.mine,org:A.link.mine==='다른 사람 글'?A.link.org:'',terms:A.link.mine==='다른 사람 글'?A.link.terms:''}; }
   return it;
 }
-function promiseHtml(kind){
+function promiseHtml(kind,pub){
   return ME&&ME.agreed?'<label class="wab" style="margin-top:12px"><input type="checkbox" id="agr" checked> 올리기 약속을 지킵니다 <button type="button" class="sbtn" id="agrR" style="margin-left:auto">다시 읽기</button></label>'
-    :'<div class="card" style="border-color:#EBD7AE;background:#FFFBF2;margin-top:12px"><b style="color:var(--navy2)">올리기 전에 확인해 주세요</b><ul style="margin:6px 0 0 18px;font-size:14.5px;line-height:1.7"><li>내가 찍었거나 올려도 되는 '+(kind==='링크'?'글':'사진 · 글')+'입니다. 남의 것은 출처를 밝혔습니다.</li><li>사진 속 다른 분이 원하지 않으시면 내려 드립니다.</li><li>주민등록번호 · 통장 · 집 주소 같은 정보가 보이지 않습니다.</li><li>이 모임 분들이 보고 휴대폰에 저장할 수 있습니다.</li>'+(kind==='링크'||kind==='영상'?'<li>링크한 '+(kind==='영상'?'영상':'글')+'은 그 사이트의 규칙을 따릅니다. 그쪽에서 지우면 열리지 않습니다.</li>':'')+'</ul><label class="wab"><input type="checkbox" id="agr"> 읽었고, 지키겠습니다</label></div>';
+    :'<div class="card" style="border-color:#EBD7AE;background:#FFFBF2;margin-top:12px"><b style="color:var(--navy2)">올리기 전에 확인해 주세요</b><ul style="margin:6px 0 0 18px;font-size:14.5px;line-height:1.7"><li>내가 찍었거나 올려도 되는 '+(kind==='링크'?'글':'사진 · 글')+'입니다. 남의 것은 출처를 밝혔습니다.</li><li>사진 속 다른 분이 원하지 않으시면 내려 드립니다.</li><li>주민등록번호 · 통장 · 집 주소 같은 정보가 보이지 않습니다.</li><li>'+(pub?'광장에서 누구나 보고 휴대폰에 저장할 수 있습니다.':'이 모임 분들이 보고 휴대폰에 저장할 수 있습니다.')+'</li>'+(kind==='링크'||kind==='영상'?'<li>링크한 '+(kind==='영상'?'영상':'글')+'은 그 사이트의 규칙을 따릅니다. 그쪽에서 지우면 열리지 않습니다.</li>':'')+'</ul><label class="wab"><input type="checkbox" id="agr"> 읽었고, 지키겠습니다</label></div>';
 }
 function step5(){
-  var it=draft();
+  scopeFix(); var it=draft();
   $('stepBody').innerHTML='<p class="lead">우리 이야기에 이렇게 보입니다.</p><div style="margin-top:10px" id="pv"></div>'+
-    '<div class="card" style="margin-top:-4px"><div class="note" style="margin:0">공개 범위 · <b style="color:var(--navy)">'+(A.scope==='공동체'?'우리 모임 모두':'나만 보기')+'</b></div></div>'+promiseHtml(A.type)+
+    '<div class="card" style="margin-top:-4px"><div class="note" style="margin:0">공개 범위 · <b style="color:var(--navy)">'+scopeName(A.scope)+'</b></div></div>'+promiseHtml(A.type,A.scope==='공개')+
     (takeId()?'<div class="note" style="color:var(--violet)">'+ic('mic','sm')+' 목소리 '+fmtS(VOICE[takeId()].sec)+'도 함께 남깁니다</div>':'')+'<div class="safe"><b>올리기 전에 저절로 확인합니다</b>사진 속 위치 · 기기 정보 지움 · 파일 종류와 크기 · 링크 주소 · 하루에 올리는 양</div>';
   var pv=$('pv');
   if(A.type==='사진'){ pv.innerHTML=(A.photos.length>1?'<div class="fc" style="cursor:default"><div class="g9">'+A.photos.map(function(p){ return '<i style="background-image:url('+p.u+')"></i>'; }).join('')+'<span class="badge">'+A.photos.length+'장</span></div>':'<div class="fc" style="cursor:default"><div class="pic" style="background-image:url('+A.photos[0].u+')"><span class="badge">'+esc(srcL(A.photos[0].src))+'</span></div>')+'<div class="meta"><b>'+esc(it.title)+'</b><div class="ln">'+(it.when?'<span class="when">'+ic('clock','sm')+esc(it.when)+'</span>':'')+'</div></div></div>'; }
   else { pv.innerHTML=card(it); var c=pv.querySelector('.fc'); if(c){ c.style.cursor='default'; } }
   if($('agrR')){ $('agrR').onclick=function(e){ e.preventDefault(); var a=ME.agreed; ME.agreed=0; step5(); ME.agreed=a; }; }
 }
-function base(){ return {action:'recAdd',cv:CV,agree:'1',title:A.title.trim(),text:A.text.trim(),cat:A.cat,when:A.when,where:A.where,who:A.who,what:A.what,scope:A.scope}; }
+function base(){ scopeFix(); var q={action:'recAdd',cv:CV,agree:'1',title:A.title.trim(),text:A.text.trim(),cat:A.cat,when:A.when,where:A.where,who:A.who,what:A.what,scope:A.scope};
+  if(A.scope==='공개'&&ME&&ME.upN>0){ q.up='1'; }   /* ★v56 346 위 모임에도 */
+  return q; }
 var ADD_V=['aT','ax2','lkX'];   /* ★v26 🎤는 본문 칸에만 */
 function publish(){ takeVoice(ADD_V,function(v){ publish2(v); }); }
 function takeId(){ if(VOICE._last&&ADD_V.indexOf(VOICE._last)>-1&&VOICE[VOICE._last]){ return VOICE._last; } for(var i=0;i<ADD_V.length;i++){ if(VOICE[ADD_V[i]]){ return ADD_V[i]; } } return ''; }
