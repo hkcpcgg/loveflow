@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v60 · 261015 · [대표 OK 261015 16:36 · 서버 v25 그대로]
+<!-- ★ 현재 버전 ▶ rec/index.html · v61 · 261015 · [대표 OK 261015 17:35 「가로 진행」 · 서버 v25 그대로]
+     · 374 바로가기 한 번만 — 대표 사진 아래 한 줄에 전부(★ 핵심 먼저 · 넷 이상이면 넷째가 살짝 보이고 옆으로 밀어 봄) · 맨 밑 묶음의 바로가기는 뺌(소개 한 줄은 맨 밑에 그대로).
+     · 속도 기록에 적는 화면 버전 v58 → v61(v59 · v60 때 안 올림).
+     · 372 손님 단추 「대화에 끼기」 → 「한마디 남기기」(누르면 지금처럼 「함께하시겠어요?」).
+     (이전) v60 · 261015 · [대표 OK 261015 16:36 · 서버 v25 그대로]
      · 첫 화면 「글 · 링크」 — 제목 「(방 이름)의 글 · 링크」(길면 … 로 자름) · 세로 네 줄 → 가로 한 줄 카드(옆으로 밀어 봄 · 끝에 닿으면 다음 것을 저절로 불러옴)
        · 카드 두 줄: ① 그림 글자(≡ 글 · ↗ 링크) + 작은 글씨 「글 · 기억 n」(링크면 사이트 이름) ② 제목 한 줄 · 올린 사람 줄 뺌 · 「글 · 링크 더 보기」 큰 단추 뺌. 자리는 그대로(아래 모임 이야기 다음 · 찾아보기 앞).
      (이전) v59 · 261015 · [대표 OK 261015 16:14 · 서버 v25 그대로 · 서버 바뀜 없음]
@@ -682,7 +686,8 @@ html.lfx body{padding-bottom:0!important}
 .hm .pair{margin-top:10px}.hm .pair .btn{margin-top:0;min-height:40px;font-size:14px;padding:6px 8px}
 .core{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
 .core button{border:0;border-radius:12px;padding:10px 4px;font:inherit;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.core .c0{background:#FDE3D6;color:#A8461C}.core .c1{background:#DCEFDC;color:#2F6B37}.core .c2{background:#DDE6F2;color:#2C4A6E}
+.core .c0{background:#FDE3D6;color:#A8461C}.core .c1{background:#DCEFDC;color:#2F6B37}.core .c2{background:#DDE6F2;color:#2C4A6E}.core .c3{background:#F1EBDD;color:#6B5A36}
+.core.sc{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.core.sc::-webkit-scrollbar{display:none}.core.sc button{flex:0 0 29%;scroll-snap-align:start}   /* ★v61 374 넷째부터는 옆으로 밀어 봄 */
 .sl{font-size:13px;color:var(--sub);font-weight:700;margin:18px 2px 6px}
 .morebtn{margin-top:10px}
 .lo{border-top:2px solid var(--line);margin-top:22px;padding-top:6px}
@@ -1018,7 +1023,7 @@ function spdDone(){
   var page=nav?Math.round(nav.responseEnd):0, fk='lf_spd_'+SPD.room, fresh='1'; try{ if(localStorage.getItem(fk)){ fresh='0'; } localStorage.setItem(fk,'1'); }catch(e){}
   var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'; }).join(' · ');
   var net=''; try{ net=(navigator.connection&&navigator.connection.effectiveType)||''; }catch(e){}
-  var body={action:'recSpeed',v:'v58',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
+  var body={action:'recSpeed',v:'v61',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
   try{ if(GAS){ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),keepalive:true}).catch(function(){}); } }catch(e){}
 }   /* ★v58 속도 상자 뺌 — 숫자는 서버 「속도」 탭 */
 
@@ -1561,14 +1566,14 @@ function upLine(){ var u=(ME&&ME.ups)||[]; return u.length?'<div class="upl">'+u
 function peekGo(g){ if(!g){ return; } location.href=location.pathname+'?g='+encodeURIComponent(g); }   /* ★v48 내 열쇠가 있는 방이면 내 자리로 · 없으면 손님으로(roomPick) */
 function gridDraw(){
   var el=$('feed'); if(!el||!GRID){ return; }
-  var b=GRID.best||[], nw=GRID.news||[], st=(GRID.story&&GRID.story.items)||[], gos=(ME&&ME.gos)||[], core=gos.filter(function(x){ return x.core; }).slice(0,3);
+  var b=GRID.best||[], nw=GRID.news||[], st=(GRID.story&&GRID.story.items)||[], gos=(ME&&ME.gos)||[], core=gos.filter(function(x){ return x.core; }).concat(gos.filter(function(x){ return !x.core; }));   /* ★v61 374 바로가기 전부 · 핵심 먼저 · 한 줄 */
   var cap=(ME&&ME.bestText)||'아는 분 계세요?';
   var h=pauseBar()+upBar()+'<section class="hm"><div class="cn">'+esc((ME&&ME.comName)||'우리 이야기')+'</div>'+upLine();
   if(b.length){ h+='<div class="tgrid">'+b.map(function(it,i){ return tile(it,i===0,i===0?cap:''); }).join('')+'</div>'; }
   h+=isGuest()?'<div class="pair"><button class="btn warm" id="hJoin" type="button">'+ic('heart')+'나도 기억 남기기</button><button class="btn line" id="hLook" type="button">둘러보기</button></div>'
     :ME.paused?'<button class="btn kakao" id="hShare" type="button" style="margin-top:10px">'+KICON+'카톡으로 보내기</button>'   /* ★v37 운영 멈춤 = 쓰기 단추 숨김 */
     :'<div class="pair"><button class="btn warm" id="hGo" type="button">'+ic('grape')+'사진에 기억 남기기</button><button class="btn kakao" id="hShare" type="button">'+KICON+'카톡으로 보내기</button></div>';
-  if(core.length){ h+='<div class="core">'+core.map(function(g,i){ return '<button type="button" class="c'+i+'" data-go="'+esc(g.f)+'">'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
+  if(core.length){ h+='<div class="core'+(core.length>3?' sc':'')+'">'+core.map(function(g,i){ return '<button type="button" class="c'+Math.min(i,3)+'" data-go="'+esc(g.f)+'">'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
   h+='</section>'+menuRow();   /* ★v39 285 */
   if(nw.length){ h+='<div class="sl">'+ic('star','sm')+' 새 소식</div><div class="tgrid">'+nw.map(function(it){ return tile(it,false,''); }).join('')+'</div>'; }
   if(st.length){ h+='<div class="sl">우리 이야기</div><div class="tgrid" id="stg">'+st.map(function(it){ return tile(it,false,''); }).join('')+'</div>'+(GRID.story.more?'<button class="btn line morebtn" id="moreG" type="button">'+ic('photo','sm')+' 사진 · 영상 더 보기</button>':''); }
@@ -1580,7 +1585,7 @@ function gridDraw(){
   h+='<div class="lo lo3">'+subsRow()+'<div id="shBox">'+showBox()+'</div>';   /* ★v45 ③ 바깥 — 다른 이야기방 · 만들기 띠 */
   { h+='<div class="opband" id="opBand"><b>우리 모임도 이렇게 남겨 보세요 <em class="free">무료</em></b><small>가게 · 모임 · 마을 · 가족 · 학교 · 기관</small><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기방 만들기</button><div id="opMine"></div></div>'; }
   h+='</div><div class="lo lo4">';   /* ★v59 필요할 때만 쓰는 것 — 맨 밑 */
-  if(gos.length){ h+='<h3>바로가기</h3>'+(ME.intro?'<p class="intro">'+esc(ME.intro)+'</p>':'')+'<div class="row1">'+gos.map(function(g){ var c=goColor(g.url); return '<button type="button" class="gopill" data-go="'+esc(g.f)+'"><i style="background:'+c[0]+'">'+esc(c[1])+'</i>'+esc(g.name)+' ↗</button>'; }).join('')+'</div>'; }
+  if(ME&&ME.intro){ h+='<p class="intro">'+esc(ME.intro)+'</p>'; }   /* ★v61 374 바로가기는 위 한 줄에만 — 맨 밑에서 뺌 */
   if(isBoss()&&!OPN){ h+='<button class="btn upb adb" id="admB" type="button">⚙ 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':'')+'</button>'; }   /* ★v58 364 · ★v59 맨 밑 */
   h+=guideFold()+(OPN||pwaIn()?'':'<button class="btn line pwab" id="pwaGo" type="button">📲 휴대폰 바탕화면에 두기</button>');
   h+='<div class="brand">🍇 사랑흐름 · 우리 이야기</div></div>';
@@ -1826,7 +1831,7 @@ function drawItem(it,fresh){
       mems.map(function(m){ return '<div class="mem"><b>'+esc(m.by||'')+(m.title&&m.title!=='저도 기억해요'&&m.title!=='기억 남기기'?' · '+esc(m.title):'')+'</b>'+stTag(m)+'<p>'+esc(m.text)+'</p>'+(m.voice?voiceBtn('data-vr="'+esc(m.id)+'"'):'')+'</div>'; }).join('');
   } else { h+='<p class="note" style="margin:4px 0 0">아직 남긴 기억이 없습니다.</p>'; }
   h+='<div class="sub2">'+ic('talk','sm')+'대화</div><div id="talks"></div>'+
-    (canTell()?'<button class="sbtn" id="tkOpen" type="button" style="margin-top:6px">'+ic('talk','sm')+' 한마디 남기기</button>':(isGuest()?'<button class="btn line lv" id="tkJoin" type="button">'+ic('talk')+'대화에 끼기</button>':''))+'</div>';
+    (canTell()?'<button class="sbtn" id="tkOpen" type="button" style="margin-top:6px">'+ic('talk','sm')+' 한마디 남기기</button>':(isGuest()?'<button class="btn line lv" id="tkJoin" type="button">'+ic('talk')+'한마디 남기기</button>':''))+'</div>';
   var emp=bl.filter(function(x){ return !it[x[1]]; })[0];
   if(canTell()||isGuest()||(ME&&ME.wait)){
     var dr=MEMD[it.id];
@@ -2752,7 +2757,7 @@ function goSheet(x){
   var core=(DECO.g.gos||[]).filter(function(y){ return y.core&&(!x||y.f!==x.f); }).length;
   sheet('<h2>'+(x?'바로가기 고치기':'바로가기 넣기')+'</h2><label class="f">이름</label><input class="t" id="gN" maxlength="20" placeholder="예: 메뉴 · 길찾기 · 예약" value="'+esc(x?x.name:'')+'">'+
     '<label class="f">주소 <small>또는 전화번호</small></label><input class="t" id="gU" inputmode="url" placeholder="https://naver.me/… · 031-000-0000" value="'+esc(x?(/^tel:/i.test(x.url)?x.url.slice(4):x.url):'')+'">'+
-    swRow('gC',x?!!x.core:false,'★ 핵심','대표 사진 바로 아래에도 보입니다 · 3개까지',!(x&&x.core)&&core>=3)+
+    swRow('gC',x?!!x.core:false,'★ 핵심','대표 사진 아래 줄 맨 앞에 보입니다 · 3개까지',!(x&&x.core)&&core>=3)+
     (x?swRow('gH',!!x.hide,'숨기기','켜면 손님 화면에 보이지 않습니다',false):'')+'<div id="gM"></div>'+
     '<div class="pair" style="margin-top:14px">'+(x?'<button class="btn line red" id="gDel" type="button">빼기</button>':'<button class="btn line" id="gNo" type="button">취소</button>')+'<button class="btn" id="gOk" type="button">저장</button></div>',function(){
     if($('gNo')){ $('gNo').onclick=closeSheet; }
