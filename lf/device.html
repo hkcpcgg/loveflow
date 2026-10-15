@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ lf/device.html · v1 · 261010 · [자서전 서버 v47 · 기기 열쇠 · 63차] 「휴대폰 관리」 — 이 휴대폰이 본인 기기인지 · 카카오 잇기 · 대리인 잇기 · 빼기 · 다른 휴대폰 등록(카카오 · 대리인 숫자 · 운영자 등록 링크 ?c=). 카카오 로그인 돌아오는 주소 = 이 화면(www · 맨 앞 둘). -->
+<!-- ★ 현재 버전 ▶ lf/device.html · v2 · 261016 · [rec v63 과 같이] 카카오 로그인 주소에 scope=profile_nickname(닉네임만 묻기 · 카톡 메시지 동의는 본부에서만) ·
+     (이전) v1 · 261010 · [자서전 서버 v47 · 기기 열쇠 · 63차] 「휴대폰 관리」 — 이 휴대폰이 본인 기기인지 · 카카오 잇기 · 대리인 잇기 · 빼기 · 다른 휴대폰 등록(카카오 · 대리인 숫자 · 운영자 등록 링크 ?c=). 카카오 로그인 돌아오는 주소 = 이 화면(www · 맨 앞 둘). -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -57,7 +58,7 @@ input:focus{outline:2px solid var(--orange2);border-color:var(--orange2)}
   function backBtn() { return back ? '<a class="btn b2" href="' + esc(back) + '">하던 곳으로 돌아가기</a>' : '<a class="btn b2" href="/memoir/home.html">내 기록 보기</a>'; }
   function kakao(what) {
     ls('lf_dk_kk', what + '|' + PP);
-    location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=' + KAKAO_REST + '&redirect_uri=' + encodeURIComponent(HERE) + '&response_type=code&state=' + encodeURIComponent(what);
+    location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=' + KAKAO_REST + '&redirect_uri=' + encodeURIComponent(HERE) + '&response_type=code&state=' + encodeURIComponent(what) + '&scope=profile_nickname';   /* ★v2 261016 닉네임만 */
   }
 
   /* 번호가 없으면 */

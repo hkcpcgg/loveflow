@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v62 · 261015 · [대표 OK 261015 22:35 · 서버 v25 그대로 · sw.js v3 와 짝]
+<!-- ★ 현재 버전 ▶ rec/index.html · v63 · 261016 · [대표 OK 261015 23:58 · 서버 v26 과 짝 · sw.js v3 그대로]
+     · 365 본부 들어가기 카톡 승인 — 처음 보는 기기는 카카오 뒤 「휴대폰 카카오톡에서 [승인]을 눌러 주십시오」 화면(3초마다 확인 · 15분) →
+       승인되면 본부로 · 「내가 아님」이면 막힘. 기기 번호(lf_hq_dev · 이 기기 기억하기를 끄면 창을 닫을 때 지움) · 기기 이름(윈도우 · 크롬 등)을 서버에 보냄.
+     · 카톡 [승인] · [내가 아님] 단추가 여는 화면 ?hqok= — 누르면 바로 처리 · 「컴퓨터 화면으로 돌아가십시오」.
+     · 카카오 로그인 주소 — 본부는 scope=talk_message(카톡 메시지 전송 동의) · 그 밖(손님 · 모임 관리자 · 임명 · 개설)은 scope=profile_nickname(닉네임만).
+     · 본부 첫 줄에 「카톡 승인 켬 · 대표 카톡 알림 됨/안 됨」.
+     (이전) v62 · 261015 · [대표 OK 261015 22:35 · 서버 v25 그대로 · sw.js v3 와 짝]
      · 375 휴대폰에 남겨 둔 옛 화면 — sw.js v3 가 새 화면 파일을 받아 오면 알려 줌 → 첫 화면 · 광장이면 한 번 바꿔 엶(1분 안에 되풀이 안 함) · 쓰는 중이면 첫 화면으로 돌아올 때.
      · 376 「내가 남긴 것」 — 서버 답이 실패하거나 20초가 넘으면 하트만 돌지 않고 「불러오지 못했습니다 · 다시 불러오기」.
      · 377 「내가 남긴 것」 — 20개씩 보이고 「더 보기」.
@@ -1027,7 +1033,7 @@ function spdDone(){
   var page=nav?Math.round(nav.responseEnd):0, fk='lf_spd_'+SPD.room, fresh='1'; try{ if(localStorage.getItem(fk)){ fresh='0'; } localStorage.setItem(fk,'1'); }catch(e){}
   var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'; }).join(' · ');
   var net=''; try{ net=(navigator.connection&&navigator.connection.effectiveType)||''; }catch(e){}
-  var body={action:'recSpeed',v:'v62',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
+  var body={action:'recSpeed',v:'v63',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
   try{ if(GAS){ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),keepalive:true}).catch(function(){}); } }catch(e){}
 }   /* ★v58 속도 상자 뺌 — 숫자는 서버 「속도」 탭 */
 
@@ -1039,6 +1045,7 @@ function boot(){
   OPEN_R=(sp.get('r')||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,20);
   var code=(sp.get('code')||'').trim(), kerr=(sp.get('error')||'').trim();
   if(code||kerr){ kakaoBack(code,kerr,sp.get('state')||''); return; }
+  var hok=(sp.get('hqok')||'').replace(/[^a-f0-9]/gi,'').slice(0,32).toLowerCase(); if(hok.length===32){ try{ history.replaceState(null,'',location.pathname); }catch(e){} hqOkView(hok,sp.get('y')==='1'); return; }   /* ★v63 365 카톡 [승인] */
   if(sp.get('hq')){ hqBoot(); return; }   /* ★v37 본부 */
   if(sp.get('open')==='form'){ OPN=1; try{ sessionStorage.setItem(ORET,'/'); history.replaceState(null,'',location.pathname+'?open=1'); }catch(e){} var dr0=null; try{ dr0=JSON.parse(sessionStorage.getItem(ODR)||'null'); }catch(e){} openFormR(dr0); return; }   /* ★v41 메인 「우리 이야기방 만들기」 → 곧바로 신청서 · 돌아가기는 메인 */
   if(sp.get('open')){ openBoot(); return; }   /* ★v39 291 우리 모임 이야기 열기 */
@@ -1090,7 +1097,7 @@ function kakaoGo(mode,o){
   if(mode==='link'&&!o.t){ api({action:'recKakaoTicket'},function(d){ if(d.status==='ok'){ o.t=d.t; kakaoGo('link',o); } else { toast(d.msg||'잠시 후 다시 눌러 주십시오'); } }); return; }
   var rb=$('rmX'), rm=rb?(rb.checked?1:0):(tmpOn()?0:1);   /* ★v38 이 기기 기억하기 */
   var st=encodeURIComponent(JSON.stringify({m:mode,g:o.g||'',a:o.a?1:0,r:OPEN_R||o.r||'',t:o.t||'',f:o.f||FROM||'',n:o.n||'',s:o.s||'',x:o.x||'',rm:rm}));
-  location.href='https://kauth.kakao.com/oauth/authorize?response_type=code&client_id='+KREST+'&redirect_uri='+encodeURIComponent(KREDIR)+'&state='+st;
+  location.href='https://kauth.kakao.com/oauth/authorize?response_type=code&client_id='+KREST+'&redirect_uri='+encodeURIComponent(KREDIR)+'&state='+st+'&scope='+(mode==='hq'?'talk_message':'profile_nickname');   /* ★v63 365 본부만 카톡 메시지 동의 */
 }
 function kakaoBtn(id){ return '<button type="button" class="btn kakao" id="'+id+'">'+KICON+'카카오로 들어오기</button>'; }
 function kakaoBack(code,kerr,st){
@@ -3479,7 +3486,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=62;
+var NEWV=0, REC_VER=63;
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
@@ -3649,12 +3656,12 @@ var HQ=null;
 function hqApi(p,cb){ p._hq=1; var h=tkGet(HTK); if(h){ p.ht=h.v; } api(p,function(d){ if(d&&d.reason==='NO_HQ'){ tkSet(HTK,''); hqLogin('본부 확인이 끝났습니다. 다시 들어와 주십시오.'); return; } cb(d); }); }
 function hqMode(){ document.body.classList.add('hqm'); $('fab').hidden=true; function tt(){ try{ document.title='본부 · 사랑흐름'; var t=document.querySelector('.lfx-title'); if(t){ t.textContent='본부'; } }catch(e){} } tt(); setTimeout(tt,300); setTimeout(tt,1200); }
 function hqBoot(){ hqMode(); if(tkGet(HTK)){ hqList(); } else { hqLogin(); } }
-function hqLogin(msg){
+function hqLogin(msg,talk){
   hqMode();
   $('main').innerHTML='<div class="joinhero"><div class="who">사랑흐름 본부</div><h1>본부</h1><div class="five">모임 만들기 · 관리자 지정 · 운영 멈춤</div></div>'+
     '<div class="card"><h2>본부로 들어가기</h2><p class="lead">본부로 등록된 카카오 계정만 들어옵니다.</p>'+(msg?'<div class="err">'+esc(msg)+'</div>':'')+
     '<label class="f">본부 등록 번호 <small>처음 한 번만 · 편집기에서 받은 8자리</small></label><input class="t" id="hqS" maxlength="8" inputmode="latin" autocomplete="off" placeholder="등록된 분은 비워 두십시오">'+
-    '<div class="err" id="hqE"></div>'+kakaoBtn('hqGo')+rememberBox()+'<button class="btn line" id="hqOut" type="button">우리 이야기로</button></div>';
+    (talk?'<p class="note">카카오 화면에서 <b>「카카오톡 메시지 전송」</b>에 표시한 뒤 「동의하고 계속하기」를 눌러 주십시오. 처음 쓰는 기기를 휴대폰 카카오톡으로 승인할 때만 씁니다.</p>':'<p class="note">처음 쓰는 기기에서는 휴대폰 카카오톡으로 한 번 승인합니다.</p>')+'<div class="err" id="hqE"></div>'+kakaoBtn('hqGo')+rememberBox()+'<button class="btn line" id="hqOut" type="button">우리 이야기로</button></div>';
   $('hqGo').onclick=function(){ var s=$('hqS').value.trim().toLowerCase(); if(s&&!/^[a-f0-9]{8}$/.test(s)){ $('hqE').textContent='등록 번호 8자리를 다시 확인해 주십시오.'; return; } kakaoGo('hq',{s:s}); };
   $('hqOut').onclick=function(){ location.href=location.pathname; };
 }
@@ -3662,9 +3669,51 @@ function hqBack(code,kerr,s){
   hqMode(); try{ history.replaceState(null,'',location.pathname+'?hq=1'); }catch(e){}
   if(kerr||!code){ hqLogin(kerr?'카카오 확인을 마치지 못했습니다.':''); return; }
   wait($('main'),'본부로 들어가는 중입니다');
-  api({action:'recHqLogin',code:code,redirect:KREDIR,setup:String(s||'').replace(/[^a-f0-9]/gi,'').slice(0,8),_hq:1},function(d){
+  api({action:'recHqLogin',code:code,redirect:KREDIR,setup:String(s||'').replace(/[^a-f0-9]/gi,'').slice(0,8),dev:hqDev(),ua:hqUa(),_hq:1},function(d){
+    if(d.status==='ok'&&d.wait&&d.id){ hqWaitView(d.id,d.mins||15,!!s); return; }   /* ★v63 365 처음 보는 기기 */
     if(d.status==='ok'){ tkSet(HTK,d.ht,d.hours||6); sset('lf_rec_hq','1'); if(s){ toast('본부로 등록했습니다','이 카카오 계정으로 본부에 들어옵니다'); } hqList(); return; }
+    if(d.reason==='NEED_TALK'){ hqLogin(d.msg||'「카카오톡 메시지 전송」에 동의해 주십시오.',1); return; }
     hqLogin(d.msg||'들어오지 못했습니다.');
+  });
+}
+/* ══ ★v63 365 카톡 승인 — 기기 번호 · 기다림 · [승인] 화면 ══ */
+function hqDev(){ var st=tmpOn()?sessionStorage:localStorage, v=''; try{ v=st.getItem('lf_hq_dev')||''; if(!/^[a-f0-9]{32}$/.test(v)){ var a=new Uint8Array(16); (window.crypto||window.msCrypto).getRandomValues(a); v=Array.prototype.map.call(a,function(b){ return ('0'+b.toString(16)).slice(-2); }).join(''); st.setItem('lf_hq_dev',v); } }catch(e){ v=''; } return v; }
+function hqUa(){ var u=navigator.userAgent||'', os=/iPhone|iPad/.test(u)?'아이폰':/Android/.test(u)?'안드로이드':/Mac OS X/.test(u)?'맥':/Windows/.test(u)?'윈도우':'기기', br=/KAKAOTALK/i.test(u)?'카카오톡':/SamsungBrowser/.test(u)?'삼성 인터넷':/Edg\//.test(u)?'엣지':/Whale/.test(u)?'웨일':/Chrome\//.test(u)?'크롬':/Safari\//.test(u)?'사파리':/Firefox/.test(u)?'파이어폭스':'브라우저'; return os+' · '+br; }
+var HQW=null;
+function hqWaitView(id,mins,reg){
+  hqMode(); window.scrollTo(0,0); if(HQW){ clearInterval(HQW); HQW=null; }
+  var end=Date.now()+mins*60000;
+  $('main').innerHTML='<div class="joinhero"><div class="who">사랑흐름 본부</div><h1>휴대폰에서<br>승인해 주십시오</h1><div class="five">처음 쓰는 기기입니다</div></div>'+
+    '<div class="card"><div class="ostep"><b>1</b><span>휴대폰 <b>카카오톡</b> → <b>나와의 채팅</b>을 엽니다</span></div><div class="ostep"><b>2</b><span>「사랑흐름 전체 관리 · 새 기기에서 들어오려 합니다」의 <b>[승인]</b>을 누릅니다</span></div><div class="ostep"><b>3</b><span>이 화면이 저절로 본부로 넘어갑니다</span></div>'+
+    '<div class="waitbox" style="padding:14px 0 4px">'+LFH+'<b id="hqWt">승인을 기다리는 중입니다</b></div><p class="note" id="hqWr" style="text-align:center"></p>'+
+    '<button class="btn line" id="hqWa" type="button">승인 메시지 다시 받기</button><button class="btn line" id="hqWx" type="button">취소</button></div>';
+  function stop(){ if(HQW){ clearInterval(HQW); HQW=null; } }
+  $('hqWa').onclick=function(){ stop(); hqLogin(); };
+  $('hqWx').onclick=function(){ stop(); location.href=location.pathname; };
+  var busy=false;
+  function tick(){
+    var left=Math.max(0,Math.ceil((end-Date.now())/60000)); if($('hqWr')){ $('hqWr').textContent=left+'분 안에 눌러 주십시오'; }
+    if(Date.now()>end){ stop(); hqLogin('15분이 지났습니다. 다시 들어와 주십시오.'); return; }
+    if(busy){ return; } busy=true;
+    api({action:'recHqWait',id:id,dev:hqDev(),_hq:1},function(d){ busy=false;
+      if(!$('hqWt')){ stop(); return; }
+      if(d.status==='ok'&&d.wait){ return; }
+      stop();
+      if(d.status==='ok'&&d.ht){ tkSet(HTK,d.ht,d.hours||6); sset('lf_rec_hq','1'); toast('승인되었습니다',reg?'본부로 등록했습니다 · 이 기기는 다음부터 카카오만으로 들어옵니다':'이 기기는 다음부터 카카오만으로 들어옵니다'); hqList(); return; }
+      if(d.status==='err'&&d.msg&&d.reason!=='DENIED'&&d.reason!=='NONE'&&d.reason!=='NOT_HQ'){ busy=false; HQW=setInterval(tick,3000); return; }   /* 연결이 잠깐 끊긴 것은 다시 물음 */
+      hqLogin(d.msg||'들어오지 못했습니다.');
+    });
+  }
+  tick(); HQW=setInterval(tick,3000);
+}
+function hqOkView(id,y){
+  hqMode(); wait($('main'),y?'승인하는 중입니다':'막는 중입니다');
+  api({action:'recHqApprove',id:id,y:y?'1':'0',_hq:1},function(d){
+    var ok=d.status==='ok', yy=ok&&d.y===1;
+    $('main').innerHTML='<div class="joinhero"><div class="who">사랑흐름 전체 관리</div><h1>'+(!ok?'처리하지<br>못했습니다':yy?'승인했습니다':'막았습니다')+'</h1><div class="five">'+esc(ok?((d.what||'새 기기')+(d.ua?' · '+d.ua:'')):'')+'</div></div>'+
+      '<div class="card"><p class="lead" style="text-align:center">'+(!ok?esc(d.msg||'15분이 지났거나 이미 처리했습니다.'):yy?'컴퓨터 화면으로 돌아가십시오.<br>저절로 본부로 넘어갑니다.':'그 기기로는 들어오지 못합니다.<br>본인이 하신 일이 아니면 카카오 비밀번호를 바꿔 주십시오.')+'</p>'+(d.done?'<p class="note" style="text-align:center">이미 처리한 승인입니다.</p>':'')+
+      '<button class="btn line" id="okX" type="button">닫기</button></div>';
+    $('okX').onclick=function(){ try{ window.close(); }catch(e){} location.href=location.pathname; };
   });
 }
 function hqList(){
@@ -3674,7 +3723,7 @@ function hqList(){
     HQ=d; var items=d.items||[], main=null; items.forEach(function(x){ if(x.main){ main=x; } });
     var GT={'끔':'끔','관찰':'관찰 (막지 않고 적음)','막음':'막음'};
     var h='<div class="sub"><span class="ci c-navy" style="width:34px;height:34px">'+ic('key','sm')+'</span><b style="font-size:17px;color:var(--navy2)">본부</b><span class="grow"></span><button class="sbtn" id="hqX" type="button">나가기</button></div>'+
-      '<div class="card hqi"><div class="rpl"><span>메인 모임</span><em>'+esc(main?main.name:'정하지 않음')+'</em></div><div class="rpl"><span>관리 확인</span><em>'+esc(GT[d.gate]||d.gate||'')+'</em></div><div class="rpl"><span>모임</span><em>'+items.length+(d.hid?' · 시험 방 '+d.hid+'곳 숨김':'')+'</em></div>'+hqModRow(d.mod)+(d.pay!==undefined?'<div class="rpl"><span>유료 틀</span><em>'+(d.pay===1?'켬':'끔 (칸 · 알림만)')+'</em></div>':'')+'<p class="note">본부 확인 · '+tkLeft(HTK)+' 남음</p></div>'+
+      '<div class="card hqi"><div class="rpl"><span>메인 모임</span><em>'+esc(main?main.name:'정하지 않음')+'</em></div>'+(d.talk?'<div class="rpl"><span>카톡 승인</span><em>'+(d.talk.mode==='끔'?'끔 (비상)':'켬')+' · 대표 카톡 알림 '+(d.talk.bossTok?'됨':'안 됨')+' · 기기 '+(d.talk.devs||0)+'</em></div>':'')+'<div class="rpl"><span>관리 확인</span><em>'+esc(GT[d.gate]||d.gate||'')+'</em></div><div class="rpl"><span>모임</span><em>'+items.length+(d.hid?' · 시험 방 '+d.hid+'곳 숨김':'')+'</em></div>'+hqModRow(d.mod)+(d.pay!==undefined?'<div class="rpl"><span>유료 틀</span><em>'+(d.pay===1?'켬':'끔 (칸 · 알림만)')+'</em></div>':'')+'<p class="note">본부 확인 · '+tkLeft(HTK)+' 남음</p></div>'+
       (d.checkN?'<button class="btn red" id="hqCk" type="button">'+ic('look')+'살펴볼 것 '+d.checkN+'건</button>':'')+
       '<button class="btn" id="hqMk" type="button">'+ic('plus')+'새 모임 만들기</button><button class="btn" id="hqPx" type="button">'+ic('plus')+'대신 만들기</button><button class="btn line" id="hqAp" type="button">'+ic('check')+'새로 생긴 방 보기</button><button class="btn line" id="hqMs" type="button">'+ic('look')+'살펴보기 설정</button>'+(d.pay!==undefined?'<button class="btn line" id="hqPl" type="button">'+ic('clock')+'요금표 · 이용 기록</button>':'')+'<div style="height:12px"></div>'+
       items.map(function(x){
