@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v59 · 261015 · [대표 OK 261015 16:14 · 서버 v25 그대로 · 서버 바뀜 없음]
+<!-- ★ 현재 버전 ▶ rec/index.html · v60 · 261015 · [대표 OK 261015 16:36 · 서버 v25 그대로]
+     · 첫 화면 「글 · 링크」 — 제목 「(방 이름)의 글 · 링크」(길면 … 로 자름) · 세로 네 줄 → 가로 한 줄 카드(옆으로 밀어 봄 · 끝에 닿으면 다음 것을 저절로 불러옴)
+       · 카드 두 줄: ① 그림 글자(≡ 글 · ↗ 링크) + 작은 글씨 「글 · 기억 n」(링크면 사이트 이름) ② 제목 한 줄 · 올린 사람 줄 뺌 · 「글 · 링크 더 보기」 큰 단추 뺌. 자리는 그대로(아래 모임 이야기 다음 · 찾아보기 앞).
+     (이전) v59 · 261015 · [대표 OK 261015 16:14 · 서버 v25 그대로 · 서버 바뀜 없음]
      · 첫 화면 차례 — 사진 · 이야기는 끊기지 않게(우리 이야기 → 아래 모임 이야기 → 글 · 링크 → 찾아보기 → 둘러볼 모임 · 다른 이야기방 → 우리 이야기방 만들기)
        · 필요할 때만 쓰는 것은 맨 밑(바로가기 · ⚙ 관리 · 이용 안내 · 휴대폰 바탕화면에 두기). 핵심 바로가기 셋은 방 이름 아래 그대로 · 승인 대기 숫자는 ☰ 점 그대로.
      · 「이렇게 찾아보세요」 → 「찾아보기」.
@@ -742,6 +745,14 @@ details.more2 summary{cursor:pointer;font-weight:700;color:var(--navy);font-size
 .kbdb .sbtn{display:block;margin:0 auto}
 body.kbon #navbar{display:none!important}
 .txl{display:flex;flex-direction:column;gap:6px;margin:0 0 6px}
+.txh{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}   /* ★v60 */
+.txw{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:0 0 6px;margin:0 0 6px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.txw::-webkit-scrollbar{display:none}
+.txc{flex:0 0 64%;max-width:260px;scroll-snap-align:start;text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 11px 9px;cursor:pointer;font:inherit;color:inherit;min-width:0}
+.txc .l1{display:flex;align-items:center;gap:6px;margin-bottom:3px;min-width:0}
+.txc .l1 .ci{width:24px;height:24px;flex:none}
+.txc .l1 small{color:var(--sub);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.txc b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .txr{display:flex;gap:10px;align-items:center;text-align:left;width:100%;background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 11px;cursor:pointer}
 .txr .tt{display:flex;flex-direction:column;min-width:0}.txr .tt b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:15px}.txr .tt small{color:var(--sub);font-size:12.5px}
 .gor{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--line)}.gor.off{opacity:.55}
@@ -1563,9 +1574,7 @@ function gridDraw(){
   if(st.length){ h+='<div class="sl">우리 이야기</div><div class="tgrid" id="stg">'+st.map(function(it){ return tile(it,false,''); }).join('')+'</div>'+(GRID.story.more?'<button class="btn line morebtn" id="moreG" type="button">'+ic('photo','sm')+' 사진 · 영상 더 보기</button>':''); }
   if(!OPN&&!(ME&&ME.paused)&&(canAdd()||isGuest())){ h+='<button class="btn warm upb" id="upGo" type="button">'+ic('plus')+(isGuest()?'참여하기':'새 사진 · 영상 · 글 올리기')+'</button>'; }   /* ★v45 「나도 추억 남기기」와 하나로 · 바둑판 바로 아래 */
   var dn=(ME&&ME.downs)||[]; if(dn.length){ h+='<div class="sl">'+ic('grape','sm')+' 아래 모임 이야기</div><div class="tgrid">'+dn.map(function(x){ return pzTile(x,{g:x.g,name:x.room}); }).join('')+'</div>'; }   /* ★v55 338 ③ */
-  if(TXT&&TXT.items.length){ h+='<div class="sl">'+ic('text','sm')+' 글 · 링크</div><div class="txl">'+TXT.items.map(function(it){ var lk=it.kind==='링크';
-      return '<button type="button" class="txr" data-tid="'+esc(it.id)+'"><span class="ci '+(lk?'c-navy':'c-violet')+'">'+ic(lk?'link':'text','sm')+'</span><span class="tt"><b>'+esc(it.title||(it.text||'').slice(0,30)||'(제목 없음)')+'</b><small>'+esc(it.by||'')+(lk&&it.link&&it.link.dom?' · '+esc(it.link.dom):'')+(it.mem?' · 기억 '+it.mem:'')+'</small></span></button>'; }).join('')+'</div>'+
-      (TXT.more?'<button class="btn line morebtn" id="moreT" type="button">'+ic('text','sm')+' 글 · 링크 더 보기</button>':''); }
+  if(TXT&&TXT.items.length){ h+='<div class="sl txh">'+ic('text','sm')+' '+esc((ME&&ME.comName)||'이 방')+'의 글 · 링크</div><div class="txw" id="txRow">'+TXT.items.map(txCard).join('')+'</div>'; }   /* ★v60 가로 한 줄 */
   if(!b.length&&!nw.length&&!st.length){ h+='<div class="card" style="text-align:center"><h2>아직 기록이 없습니다</h2><p class="lead">'+(canAdd()?'오른쪽 아래 ＋ 에서 첫 사진 한 장을 남겨 주세요.':'곧 첫 기록이 올라옵니다.')+'</p></div>'; }
   h+='<div class="lo"><h3>찾아보기</h3><div class="row1">'+findList().map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div></div>';   /* ★v59 */
   h+='<div class="lo lo3">'+subsRow()+'<div id="shBox">'+showBox()+'</div>';   /* ★v45 ③ 바깥 — 다른 이야기방 · 만들기 띠 */
@@ -1600,7 +1609,7 @@ function gridDraw(){
     api({action:'recList',grid:'1',lite:'1',mode:F.sort,n:'9',from:String(GRID.story.next||0),ex:ex},function(d){ if(key!==F.sort||VIEW!=='feed'){ return; } if(d.status!=='ok'){ btn.disabled=false; btn.textContent='사진 · 영상 더 보기'; toast(d.msg||'불러오지 못했습니다'); return; }
       var seen={}; LIST.forEach(function(x){ seen[x.id]=1; }); var add=(d.items||[]).filter(function(x){ return !seen[x.id]; });
       GRID.story.items=(GRID.story.items||[]).concat(add); GRID.story.more=d.more; GRID.story.next=d.next; LIST=LIST.concat(add); gridDraw(); window.scrollTo(0,y); }); }; }
-  if($('moreT')){ $('moreT').onclick=function(){ F.kind='글링크'; F.cat=''; LKEY=''; stripDraw(); feedLoad(); window.scrollTo(0,0); }; }
+  if($('txRow')){ $('txRow').onscroll=function(){ var r=this; if(r.scrollLeft+r.clientWidth>=r.scrollWidth-80){ txtMore(); } }; }   /* ★v60 끝에 닿으면 더 */
   spdFirst(el); pvLoad(el); txtLoad(); mvWire(el);   /* ★v49 330 · ★v53 339 */
   if(ME&&ME.news&&ME.news.length){ setTimeout(function(){ if(ME){ ME.news=[]; } },60000); }
 }
@@ -1616,7 +1625,16 @@ function mvWire(el){
 }
 /* ★v33 232 첫 화면 아래 글 · 링크(서버 v7 kind=글링크 · 옛 서버면 비어 안 보임) */
 var TXT=null, TXT_ASK=false;
-function txtLoad(){ if(TXT||TXT_ASK){ return; } TXT_ASK=true; api({action:'recList',kind:'글링크',mode:'new',n:'4',from:'0',lite:'1'},function(d){ TXT_ASK=false; if(d.status!=='ok'){ TXT={items:[],more:0}; return; } TXT={items:d.items||[],more:d.more}; if(VIEW==='feed'&&!F.q&&!F.kind&&!F.cat&&TXT.items.length){ var y=window.scrollY; gridDraw(); window.scrollTo(0,y); } }); }
+function txCard(it){ var lk=it.kind==='링크', m=lk?(it.link&&it.link.dom?'링크 · '+it.link.dom:'링크'):'글';
+  if(it.mem){ m+=' · 기억 '+it.mem; }
+  return '<button type="button" class="txc" data-tid="'+esc(it.id)+'"><span class="l1"><span class="ci '+(lk?'c-navy':'c-violet')+'">'+ic(lk?'link':'text','sm')+'</span><small>'+esc(m)+'</small></span><b>'+esc(it.title||(it.text||'').slice(0,30)||'(제목 없음)')+'</b></button>'; }
+var TXT_MORE=false;
+function txtMore(){ if(!TXT||!TXT.more||TXT_MORE){ return; } TXT_MORE=true;
+  api({action:'recList',kind:'글링크',mode:'new',n:'8',from:String(TXT.next||TXT.items.length),lite:'1'},function(d){ TXT_MORE=false; if(!d||d.status!=='ok'){ return; }
+    var add=d.items||[]; TXT.items=TXT.items.concat(add); TXT.more=d.more?1:0; TXT.next=d.next||TXT.items.length;
+    var row=$('txRow'); if(!row){ return; } row.insertAdjacentHTML('beforeend',add.map(txCard).join(''));
+    each(row,'[data-tid]',function(t){ t.onclick=function(){ go('item',t.getAttribute('data-tid')); }; }); }); }
+function txtLoad(){ if(TXT||TXT_ASK){ return; } TXT_ASK=true; api({action:'recList',kind:'글링크',mode:'new',n:'4',from:'0',lite:'1'},function(d){ TXT_ASK=false; if(d.status!=='ok'){ TXT={items:[],more:0}; return; } TXT={items:d.items||[],more:d.more,next:d.next||(d.items||[]).length}; if(VIEW==='feed'&&!F.q&&!F.kind&&!F.cat&&TXT.items.length){ var y=window.scrollY; gridDraw(); window.scrollTo(0,y); } }); }
 /* ★v31 바깥으로 나갈 때 · 돌아올 때 */
 var OUT_AT=0, OUT_DEF='다녀오셔서 추억을 더해 주세요.', BACK_DEF='추억을 더해 주세요.', OLD_TX=['보고 오셔서 오늘 사진 한 장 남겨 주세요.','오늘 찍은 사진 한 장 남겨 주세요.'];
 function outTx(v,d){ v=String(v||'').trim(); return (!v||OLD_TX.indexOf(v)>-1)?d:v; }
