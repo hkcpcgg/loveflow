@@ -1,5 +1,18 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v57 · 261012 · [대표 OK 261012 19:28 (서버 v22 설명 안 353 · 354) · 서버 v23과 짝 · 서버 v21이면 새 칸만 안 보이고 그 밖은 그대로]
+<!-- ★ 현재 버전 ▶ rec/index.html · v58 · 261015 · [대표 OK 261015 11:00 시험판 v3 · 14:00 「서버 v24와 같이」 · 서버 v24와 짝 · 서버 v23이면 「되돌리기」 단추만 안 보이고 그 밖은 그대로]
+     · 364 우리 이야기 관리(초록) — 시험판 v3대로.
+       ① 📍 「지금 위치」 줄(모임 · 이름 · 직위 · 방 첫 화면 위) → 누르면 「내 자리」(관리하는 모임 · 함께하는 모임 · 본부면 「사랑흐름 전체 관리로」).
+       ② 바둑판 아래 「새 사진 · 영상 · 글 올리기」 바로 밑에 같은 크기 「⚙ 관리」(관리자 · 확인자만). ☰ 「관리」 줄도 그대로.
+       ③ 관리 중에는 위 띠가 초록 · 그 아래 금색 「⚙ 관리 중 · 이름 · 직위 · 관리 나가기」 줄(관리 화면 · 승인 · 함께하는 분 · 모임 연결 · 이용 등 관리 화면 모두).
+       ④ 관리 화면 순서: 찾기 → 🚨 긴급 조치 → 오늘 할 일 → 맡은 대상 → 숫자 → 설정 → 이럴 땐 → 관리 기록.
+          긴급 조치 = 기록 가리기(최근 기록 · 사유) · 쓰기 멈춤(한 사람 · 보기는 그대로) · 새 분 받기 멈춤(관리자). 「모임 멈춤」은 본부 일이라 넣지 않음.
+          오늘 할 일 맨 위 「사진 용량 N% · 곧 찹니다」(80% 넘을 때 · 한도가 있을 때) → 이용 · 요금 · 이어서 삭제 요청 · 승인 대기 · 함께하기 신청 · 쓰기 멈춘 분.
+          찾기 = 관리 화면 줄 · 이럴 땐 · 함께하는 분 이름. 이럴 땐 여섯(단계 · 바로 가는 단추).
+       ⑤ 관리 기록 — 관리 화면에 다섯 줄 · 「모두 보기」 30줄 · 줄마다 「되돌리기」(서버 v24 recAdminUndo · 같은 대상의 맨 위 기록에만).
+       ⑥ 「모임 잇기 · 꽂힘」 → 「모임 연결」(위 모임 · 아래 모임 · 연결 끊기) — 화면 · 이용 안내 · 링크 문구 · 관리 기록 글 모두. 서버 안 이름은 그대로.
+       ⑦ 속도 상자 뺌(?speed=1 기기에만 뜨던 것) — 재기는 그대로 서버 「속도」 탭으로.
+-->
+<!-- ★ 이전 버전 ▶ rec/index.html · v57 · 261012 · [대표 OK 261012 19:28 (서버 v22 설명 안 353 · 354) · 서버 v23과 짝 · 서버 v21이면 새 칸만 안 보이고 그 밖은 그대로]
      · 347 받기 — 주소 ?c=방번호(C-0001)로 오면 서버에 c를 실어 그 방을 엶(서버가 지금 초대 열쇠를 돌려줌 · 주소창은 ?c= 그대로).
        닫힌 방 · 없는 번호는 서버 말 그대로(「초대받은 분만 들어오는 방입니다.」) + 「광장으로」 · 이 기기에 열쇠가 있으면 「내 방으로」.
      · 353 관리 → 「이용 · 요금」 — 요금제 · 상태 · 이용 시작 · 이용 끝(남은 날) · 다음 결제일 · 내는 곳 · 위 모임 이용에 함께 든 방은 그 모임 이름 ·
@@ -798,6 +811,28 @@ body.hqm .test{display:none}
 .cmiss{margin-top:28px;text-align:center}.cmiss .ci{margin:0 auto 10px}
 .qrb{margin-top:10px;text-align:center}.qrb img{width:100%;max-width:340px;border-radius:12px;border:1px solid var(--line);display:block;margin:0 auto}
 .hqf{display:grid;grid-template-columns:1fr 1fr;gap:8px}.hqf label.f{margin-top:10px}
+/* ★v58 364 우리 이야기 관리(초록) */
+:root{--adm:#1D5A49;--adm2:#E3F0EA;--admg:#D6A03C}
+body.admm .lfx-top{background:var(--adm)!important}
+.admb{display:flex;align-items:center;justify-content:center;gap:10px;margin:0 -16px 10px;padding:7px 12px;background:var(--admg);color:#2B2108;font-size:14px;font-weight:800}
+.admb button{border:0;border-radius:999px;padding:4px 12px;background:#2B2108;color:#fff;font-size:13px;font-weight:800;cursor:pointer}
+.where{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;margin:8px 0 2px;padding:8px 10px;border:1px solid var(--line);border-radius:12px;background:var(--paper);color:var(--ink);font-size:14px;cursor:pointer;font-family:inherit}
+.where b{color:var(--navy2)}.where .wv{color:var(--sub)}
+.t-adm{background:var(--adm2);color:var(--adm)}.t-mem{background:var(--sand);color:#6B5F48}
+.btn.adb{background:var(--adm);border-color:var(--adm)}
+.asrch{display:flex;gap:6px;margin-bottom:10px}
+.asrch input{flex:1;min-width:0;border:2px solid var(--adm);border-radius:12px;padding:10px 12px;font-size:15.5px;background:var(--paper);color:var(--ink);font-family:inherit}
+.asrch button{border:0;border-radius:12px;background:var(--adm);color:#fff;font-weight:800;padding:0 16px;font-size:15px;cursor:pointer}
+.emg{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:50px;margin-bottom:12px;border:2px solid var(--red);border-radius:14px;background:#FBE9E6;color:var(--red);font-size:16.5px;font-weight:800;cursor:pointer;font-family:inherit}
+.emgo{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}.emgo .chip.on{background:var(--red);border-color:var(--red)}
+.emgl{max-height:260px;overflow:auto;border:1px solid var(--line);border-radius:12px;padding:0 8px}
+.sl2{font-size:13.5px;font-weight:800;color:var(--sub);margin:12px 0 4px}
+.anums{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center;margin-bottom:4px}
+.anums div{background:var(--sand);border-radius:12px;padding:8px 2px}.anums b{display:block;font-size:19px;color:var(--navy2);font-variant-numeric:tabular-nums}.anums small{font-size:12px;color:var(--sub)}
+.asteps{counter-reset:s;list-style:none;margin:8px 0 0;padding:0}
+.asteps li{counter-increment:s;display:flex;gap:10px;padding:6px 0;font-size:15.5px}
+.asteps li::before{content:counter(s);flex:none;width:24px;height:24px;border-radius:50%;background:var(--adm);color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center}
+.alr .sbtn{border-color:var(--adm);color:var(--adm)}
 </style>
 </head>
 <body data-lf-title="함께 남기는 우리 이야기">
@@ -868,7 +903,7 @@ var PSRC=[['직접 찍음','본인 촬영'],['가진 사진','소장 사진'],['
 function srcL(v){ for(var i=0;i<PSRC.length;i++){ if(PSRC[i][0]===v){ return PSRC[i][1]; } } return {'직접 만든 영상':'본인 제작 영상','다른 사람 영상':'타인 제작 영상','확인 필요':'출처 확인 전'}[v]||v||''; }
 
 /* ── 서버 — POST(text/plain) · 막히면 작은 요청은 JSONP 로 한 번 더 · 0.4초 넘으면 「○○하는 중입니다」 띠 ── */
-var BUSY_MSG={recAdd:'기록을 올리는 중입니다',recTell:'기억을 남기는 중입니다',recTalk:'대화를 남기는 중입니다',recReact:'마음을 전하는 중입니다',recReview:'처리하는 중입니다',recTakeDown:'삭제 요청을 보내는 중입니다',recWithdraw:'등록을 취소하는 중입니다',recTalkHide:'처리하는 중입니다',recMyName:'이름을 바꾸는 중입니다',recComName:'이름을 바꾸는 중입니다',recCatAdd:'분류를 추가하는 중입니다',recKakao:'카카오로 확인하는 중입니다',recKakaoLink:'카카오를 잇는 중입니다',recKakaoTicket:'카카오로 가는 중입니다',recApproveAll:'모두 승인하는 중입니다',recComAuto:'바꾸는 중입니다',recPersonAuto:'바꾸는 중입니다',recInvite:'초대 링크를 여는 중입니다',recPersonOut:'처리하는 중입니다',recRoleSet:'역할을 바꾸는 중입니다',recAdminTicket:'관리 확인을 하는 중입니다',recHqLogin:'본부로 들어가는 중입니다',recAdminClaim:'관리자로 들어가는 중입니다',recMyPlaces:'맡은 모임을 모으는 중입니다',recAdminLog:'관리 기록을 모으는 중입니다'};
+var BUSY_MSG={recAdd:'기록을 올리는 중입니다',recTell:'기억을 남기는 중입니다',recTalk:'대화를 남기는 중입니다',recReact:'마음을 전하는 중입니다',recReview:'처리하는 중입니다',recTakeDown:'삭제 요청을 보내는 중입니다',recWithdraw:'등록을 취소하는 중입니다',recTalkHide:'처리하는 중입니다',recMyName:'이름을 바꾸는 중입니다',recComName:'이름을 바꾸는 중입니다',recCatAdd:'분류를 추가하는 중입니다',recKakao:'카카오로 확인하는 중입니다',recKakaoLink:'카카오를 잇는 중입니다',recKakaoTicket:'카카오로 가는 중입니다',recApproveAll:'모두 승인하는 중입니다',recComAuto:'바꾸는 중입니다',recPersonAuto:'바꾸는 중입니다',recInvite:'초대 링크를 여는 중입니다',recPersonOut:'처리하는 중입니다',recRoleSet:'역할을 바꾸는 중입니다',recAdminTicket:'관리 확인을 하는 중입니다',recHqLogin:'본부로 들어가는 중입니다',recAdminClaim:'관리자로 들어가는 중입니다',recMyPlaces:'맡은 모임을 모으는 중입니다',recAdminLog:'관리 기록을 모으는 중입니다',recAdminUndo:'되돌리는 중입니다'};
 var BUSY_N=0, BUSY_T=null;
 function busyOn(msg){ BUSY_N++; if(BUSY_T||$('busy')){ busyText(msg); return; } BUSY_T=setTimeout(function(){ BUSY_T=null; if(!BUSY_N){ return; } var d=document.createElement('div'); d.className='busy'; d.id='busy'; d.innerHTML='<b>'+esc(msg)+'</b>'+LFH; document.body.appendChild(d); },400); }   /* ★v49 336 */
 function busyOff(){ BUSY_N=Math.max(0,BUSY_N-1); if(BUSY_N){ return; } if(BUSY_T){ clearTimeout(BUSY_T); BUSY_T=null; } var d=$('busy'); if(d&&d.parentNode){ d.parentNode.removeChild(d); } }
@@ -958,14 +993,10 @@ function spdDone(){
   var page=nav?Math.round(nav.responseEnd):0, fk='lf_spd_'+SPD.room, fresh='1'; try{ if(localStorage.getItem(fk)){ fresh='0'; } localStorage.setItem(fk,'1'); }catch(e){}
   var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'; }).join(' · ');
   var net=''; try{ net=(navigator.connection&&navigator.connection.effectiveType)||''; }catch(e){}
-  var body={action:'recSpeed',v:'v57',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
+  var body={action:'recSpeed',v:'v58',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
   try{ if(GAS){ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),keepalive:true}).catch(function(){}); } }catch(e){}
-  if(spdOn()){ spdBox(body); }
-}
-function spdBox(b){ var s=function(v){ return v?(Number(v)/1000).toFixed(1)+'초':'-'; }, d=document.createElement('div'); d.id='spdBox';
-  d.innerHTML='<div><b>속도</b> · '+(b.fresh==='1'?'처음':'다시')+' · '+esc(b.dev)+(b.net?' · '+esc(b.net):'')+'</div><div>화면 받기 '+s(b.page)+' · 첫 글자 '+s(b.t1)+'</div><div>첫 사진 '+s(b.p1)+' · 사진 다 '+s(b.pa)+' ('+b.pn+'칸)</div>'+
-    SPD.steps.map(function(x){ return '<div>'+esc(x.a)+' '+(x.ms/1000).toFixed(1)+'초 · 서버 '+(x.s/1000).toFixed(1)+' · '+x.kb+'K</div>'; }).join('')+'<button type="button" id="spdX">닫기</button>';
-  document.body.appendChild(d); $('spdX').onclick=function(){ d.parentNode.removeChild(d); }; }
+}   /* ★v58 속도 상자 뺌 — 숫자는 서버 「속도」 탭 */
+
 function boot(){
   try{ var sq=new URLSearchParams(location.search).get('speed'); if(sq==='1'){ localStorage.setItem('lf_speed','1'); } else if(sq==='0'){ localStorage.removeItem('lf_speed'); } }catch(e){}   /* ★v49 330 */
   var sp=new URLSearchParams(location.search);
@@ -1082,7 +1113,7 @@ function nameFirst(n,waitIn){
 }
 function noKey(){
   $('main').innerHTML='<div class="joinhero"><h1>함께 남기는 우리 이야기</h1><div class="five">관심 · 연결 · 온기 · 표현 · 회복 · <b>사랑흐름</b></div></div>'+
-    '<div class="card"><h2>우리 이야기에 다시 들어오기</h2><p class="lead">카카오로 들어오시면 전에 남기신 기록이 그대로 이어집니다.</p>'+kakaoBtn('kgo')+rememberBox()+(sget(PLUGK)?'<p class="kk-note">모임 잇기 링크를 받으셨으면 모임 관리자 카카오로 들어와 주십시오.</p>':'<p class="kk-note">처음 오셨으면 받으신 초대 링크를 눌러 주십시오.</p>')+'</div>';
+    '<div class="card"><h2>우리 이야기에 다시 들어오기</h2><p class="lead">카카오로 들어오시면 전에 남기신 기록이 그대로 이어집니다.</p>'+kakaoBtn('kgo')+rememberBox()+(sget(PLUGK)?'<p class="kk-note">모임 연결 링크를 받으셨으면 모임 관리자 카카오로 들어와 주십시오.</p>':'<p class="kk-note">처음 오셨으면 받으신 초대 링크를 눌러 주십시오.</p>')+'</div>';
   $('kgo').onclick=function(){ kakaoGo('login'); };
 }
 function joinForm(g){
@@ -1233,7 +1264,7 @@ document.addEventListener('focusout',function(){ setTimeout(function(){ var a=do
 function render(){
   closeSheet(); stopMic();
   if(STACK.length===1&&HELD){ HELD=false; IGN=true; try{ history.back(); }catch(e){ IGN=false; } }
-  var top=STACK[STACK.length-1], was=VIEW; VIEW=top.v;
+  var top=STACK[STACK.length-1], was=VIEW; VIEW=top.v; admMode(!!ADMV[VIEW]&&isBoss());   /* ★v58 관리 중 = 초록 띠 */
   var fb=$('fab'), onItem=(VIEW==='item'&&(canTell()||isGuest()));   /* ★v32 228 기록 하나 쪽 = 떠다니는 포도(기억 남기기) */
   if(!FAB_PLUS){ FAB_PLUS=fb.innerHTML; }
   fb.hidden=(ME&&ME.paused)||!((VIEW==='feed'&&(canAdd()||isGuest()))||onItem); $('navbar').hidden=(VIEW!=='add');
@@ -1249,16 +1280,17 @@ function render(){
   else if(VIEW==='ppl'){ subPage('함께하는 분','함께하는 분 · 초대 링크 · 공개 방식을 관리합니다.'); pplView(); }
   else if(VIEW==='rep'){ subPage('결과 보고','이 모임에 올라온 것과 함께하는 분을 숫자로 봅니다.'); repView('month'); }
   else if(VIEW==='adm'){ subPage('관리','이 모임을 관리합니다. 관리 기능은 카카오로 확인한 이 기기에서만 열립니다.'); admView(); }
-  else if(VIEW==='plug'){ subPage('모임 잇기','두 모임을 위 · 아래로 잇습니다. 위 모임 관리자 · 확인자는 아래 모임의 공개 기록을 모아 볼 수 있습니다(보기만).'); plugView(); }
+  else if(VIEW==='plug'){ subPage('모임 연결','두 모임을 위 · 아래로 연결합니다. 위 모임 관리자 · 확인자는 아래 모임의 공개 기록을 모아 볼 수 있습니다(보기만).'); plugView(); }
   else if(VIEW==='bund'){ subPage('아래 모임 모아 보기','이어진 아래 모임의 공개 기록입니다. 보기만 할 수 있습니다.'); bundView(''); }
   else if(VIEW==='plc'){ subPage('내가 관리하는 곳','카카오 한 번으로 맡은 모임을 오갑니다. 오늘 할 일이 맨 위에 옵니다.'); plcView(); }   /* ★v38 */
   else if(VIEW==='plan'){ subPage('이용 · 요금','이 방의 이용 기간과 사진 용량을 봅니다.'); planView(); }   /* ★v57 353 */
-  else if(VIEW==='alog'){ subPage('최근 관리 기록','이 모임에서 누가 언제 무엇을 바꾸었는지 봅니다.'); alogView(); }
+  else if(VIEW==='alog'){ subPage('관리 기록','이 모임에서 누가 언제 무엇을 바꾸었는지 봅니다. 잘못 바꾼 것은 되돌립니다.'); alogView(); }
+  else if(VIEW==='ahelp'){ subPage('이럴 땐','차례대로 따라 하시면 됩니다.'); ahelpView(top.id); }   /* ★v58 */
   else if(VIEW==='out'){ outView(); }
 }
 function subPage(t,h){
-  $('main').innerHTML='<div class="sub"><button class="back" id="bk" type="button">'+ic('back')+'뒤로</button><span class="grow"></span>'+helpBtn()+'</div><h2>'+esc(t)+'</h2><p class="lead" style="margin-bottom:12px">'+esc(h)+'</p><div id="body"></div>';
-  $('bk').onclick=doBack; each($('main'),'[data-help]',function(b){ b.onclick=function(){ helpSheet(); }; });
+  $('main').innerHTML=(ADMV[VIEW]&&isBoss()?admStrip():'')+'<div class="sub"><button class="back" id="bk" type="button">'+ic('back')+'뒤로</button><span class="grow"></span>'+helpBtn()+'</div><h2>'+esc(t)+'</h2><p class="lead" style="margin-bottom:12px">'+esc(h)+'</p><div id="body"></div>';
+  $('bk').onclick=doBack; if($('admX')){ $('admX').onclick=admExit; } each($('main'),'[data-help]',function(b){ b.onclick=function(){ helpSheet(); }; });
 }
 function outView(){
   $('main').innerHTML='<div class="outv"><span class="ci c-gray">'+ic('out')+'</span><h2>우리 이야기에서 나왔습니다</h2><p class="lead">카카오톡으로 돌아가시려면 화면 위 닫기(×)를 눌러 주십시오.</p><button class="btn" id="reIn" type="button">다시 들어가기</button></div>';
@@ -1278,8 +1310,8 @@ function feedView(){
   var nm=((ME&&ME.name)||'나').trim();
   $('main').innerHTML='<div class="head"><div class="bar"><button class="rnd home" id="hm" type="button" aria-label="우리 이야기 광장">'+ic('home')+'</button>'+
     '<form class="search" id="sf" role="search"><input id="fq" type="search" enterkeyhint="search" placeholder="검색 (예: 70년대 가족 사진)" value="'+esc(F.q)+'"><button type="submit" aria-label="검색">'+ic('look')+'</button></form>'+
-    (isGuest()?'<button class="rnd me" id="mc" type="button" aria-label="참여하기" style="background:var(--orange)">'+ic('plus')+'</button>':'<button class="rnd me" id="mc" type="button" aria-label="내 메뉴">'+esc(nm.charAt(0))+'<span class="dot" id="meDot" style="display:none"></span></button>')+'</div><div class="strip" id="strip"></div></div><div id="feed"></div>';
-  drawBadge(); stripDraw();
+    (isGuest()?'<button class="rnd me" id="mc" type="button" aria-label="참여하기" style="background:var(--orange)">'+ic('plus')+'</button>':'<button class="rnd me" id="mc" type="button" aria-label="내 메뉴">'+esc(nm.charAt(0))+'<span class="dot" id="meDot" style="display:none"></span></button>')+'</div><div class="strip" id="strip"></div></div>'+whereLine()+'<div id="feed"></div>';
+  drawBadge(); stripDraw(); if($('whr')){ $('whr').onclick=seatSheet; }   /* ★v58 */
   $('hm').onclick=homeGo;   /* ★v48 🏠 = 우리 이야기 홈(메인 방) · ★v51 따로 묻지 않음 */
   $('sf').onsubmit=function(e){ e.preventDefault(); F.q=$('fq').value.trim(); LKEY=''; $('fq').blur(); feedView(); };
   $('mc').onclick=isGuest()?joinGate:meMenu;
@@ -1491,6 +1523,7 @@ function gridDraw(){
   if(nw.length){ h+='<div class="sl">'+ic('star','sm')+' 새 소식</div><div class="tgrid">'+nw.map(function(it){ return tile(it,false,''); }).join('')+'</div>'; }
   if(st.length){ h+='<div class="sl">우리 이야기</div><div class="tgrid" id="stg">'+st.map(function(it){ return tile(it,false,''); }).join('')+'</div>'+(GRID.story.more?'<button class="btn line morebtn" id="moreG" type="button">'+ic('photo','sm')+' 사진 · 영상 더 보기</button>':''); }
   if(!OPN&&!(ME&&ME.paused)&&(canAdd()||isGuest())){ h+='<button class="btn warm upb" id="upGo" type="button">'+ic('plus')+(isGuest()?'참여하기':'새 사진 · 영상 · 글 올리기')+'</button>'; }   /* ★v45 「나도 추억 남기기」와 하나로 · 바둑판 바로 아래 */
+  if(isBoss()&&!OPN){ h+='<button class="btn upb adb" id="admB" type="button">⚙ 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':'')+'</button>'; }   /* ★v58 364 */
   var dn=(ME&&ME.downs)||[]; if(dn.length){ h+='<div class="sl">'+ic('grape','sm')+' 아래 모임 이야기</div><div class="tgrid">'+dn.map(function(x){ return pzTile(x,{g:x.g,name:x.room}); }).join('')+'</div>'; }   /* ★v55 338 ③ */
   if(TXT&&TXT.items.length){ h+='<div class="sl">'+ic('text','sm')+' 글 · 링크</div><div class="txl">'+TXT.items.map(function(it){ var lk=it.kind==='링크';
       return '<button type="button" class="txr" data-tid="'+esc(it.id)+'"><span class="ci '+(lk?'c-navy':'c-violet')+'">'+ic(lk?'link':'text','sm')+'</span><span class="tt"><b>'+esc(it.title||(it.text||'').slice(0,30)||'(제목 없음)')+'</b><small>'+esc(it.by||'')+(lk&&it.link&&it.link.dom?' · '+esc(it.link.dom):'')+(it.mem?' · 기억 '+it.mem:'')+'</small></span></button>'; }).join('')+'</div>'+
@@ -1514,7 +1547,8 @@ function gridDraw(){
   if($('pkX')){ $('pkX').onclick=function(){ location.href=location.pathname; }; }
   if($('opnGo')){ $('opnGo').onclick=opnStart; }
   if($('pwaGo')){ $('pwaGo').onclick=pwaGo; }
-  if($('upGo')){ $('upGo').onclick=function(){ $('fab').onclick(); }; }   /* ★v43 */   /* ★v42 309 */
+  if($('upGo')){ $('upGo').onclick=function(){ $('fab').onclick(); }; }
+  if($('admB')){ $('admB').onclick=function(){ admGo('adm'); }; }   /* ★v58 */   /* ★v43 */   /* ★v42 309 */
   showWire(); lazyBottom();   /* ★v44 진열 · 내 신청은 맨 아래 가까이 왔을 때만 서버에 물음(사진 먼저) */
   if($('hJoin')){ $('hJoin').onclick=function(){ if(b[0]){ go('item',b[0].id); setTimeout(joinGate,400); } else { joinGate(); } }; }
   if($('hLook')){ $('hLook').onclick=function(){ var g=$('stg'); if(g){ g.scrollIntoView({behavior:'smooth',block:'start'}); } }; }
@@ -2421,7 +2455,7 @@ function boSheet(){
 /* ══ 내 메뉴 ══ */
 function meMenu(){
   var R=[['me','heart','c-gold','내가 남긴 것','내가 올린 기록 · 남긴 기억']];
-  if(isBoss()){ R.push(['adm','key','c-navy','관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),ME.role==='관리자'?'승인 · 함께하는 분 · 결과 보고 · 첫 화면 · 모임 잇기 · 아래 모임 열기':'승인 · 함께하는 분 · 결과 보고 · 아래 모임']); }   /* ★v37 217 관리는 한 줄 */
+  if(isBoss()){ R.push(['adm','key','c-navy','관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),ME.role==='관리자'?'긴급 조치 · 오늘 할 일 · 함께하는 분 · 설정 · 모임 연결':'승인 · 함께하는 분 · 결과 보고 · 아래 모임']); }   /* ★v37 217 관리는 한 줄 */
   if(!ASU&&ME.kakao&&(realBoss()||sget('lf_rec_mgr')==='1'||sget('lf_rec_hq')==='1')){ R.push(['plc','home','c-green','내가 관리하는 곳','맡은 모임 모두 · 오늘 할 일']); }   /* ★v38 */
   if(!ASU&&sget('lf_rec_hq')==='1'){ R.push(['hq','key','c-violet','본부','모임 목록 · 만들기 · 관리자 지정 · 운영 멈춤']); }
   if(realBoss()){ R.push(ASU?['asu','look','c-gold','관리자로 돌아가기','지금은 일반인으로 보는 중입니다']:['asu','look','c-gray','일반인으로 보기','관리 기능을 숨기고 참여자 화면으로 봅니다']); }
@@ -2492,8 +2526,8 @@ function repView(sp){
 var HELP={
   '보는 분':['링크만 누르면 이 모임의 사진과 기억을 모두 볼 수 있습니다. 가입하지 않아도 됩니다.','사진을 눌러 크게 보세요.','기억을 남기거나 「나도 기억해요」를 누르려면 카카오로 한 번만 로그인하시면 됩니다. 전화번호는 받지 않습니다.'],
   '작성자':['사진을 열고 「이 사진에 기억 남기기」를 누르세요. 말로 쓰시려면 글 칸을 누른 뒤 자판의 🎤를 누르고 말씀하세요.','그 사진을 보면 떠오르는 분이 있으면 「떠오르는 분께 · 카톡으로 보내기」를 누르세요. 카톡 친구 · 채팅방 선택 창이 바로 열립니다.','다시 오시면 맨 위 「새 소식」에서 내 기억에 달린 답을 봅니다.','갖고 계신 사진은 오른쪽 아래 ＋ 「새 기록 올리기」 — 한 번에 9장까지.','원하지 않는 사진은 사진 오른쪽 위 ⋯ → 「삭제 요청」 — 누르는 즉시 비공개로 바뀝니다.'],
-  '확인자':['☰ 「관리」(카카오로 한 번 확인) → 「승인 관리」에 숫자가 뜨면 열어서 「승인」 또는 「비공개」.','신규 참여자의 첫 게시물 3건과 등록 신청이 여기로 옵니다.','삭제 요청이 2건 쌓인 분은 자동으로 작성이 제한됩니다. 확인 뒤 「제한 해제」를 누르세요.'],
-  '관리자':['☰ 「관리」는 카카오로 한 번 확인한 뒤 6시간 동안 열립니다. 관리 기능은 모두 그 안에 있습니다.','「관리 → 모임 이름 짓기」로 「문산초 59회 우리 친구들 이야기」처럼 이 모임의 이름을 지으세요.','처음에 「저기 내가 있나?」 싶은 사진 9장을 먼저 올려 두세요.','「함께하는 분 → 초대 링크」에서 보낼 곳마다 링크를 따로 만들어(예: 동창 단톡방 · 등산 밴드) 보내면, 어디서 몇 분이 열어 보고 참여했는지 보입니다.','「공개 설정」에서 공개 모임 · 등록 신청 승인제 · 첫 게시물 승인을 고릅니다.','엉뚱한 사람이 오면 「내보내기」(게시물도 모두 비공개) · 링크가 엉뚱한 곳에 퍼졌으면 그 링크를 지우세요.']
+  '확인자':['방 첫 화면의 「⚙ 관리」(카카오로 한 번 확인) → 「오늘 할 일」에 뜬 것부터 처리합니다. 승인 대기는 「승인」 또는 「비공개」.','급할 때는 맨 위 「🚨 긴급 조치」 — 기록 가리기 · 쓰기 멈춤. 잘못했으면 「관리 기록」에서 되돌립니다.','신규 참여자의 첫 게시물 3건과 등록 신청이 여기로 옵니다.','삭제 요청이 2건 쌓인 분은 자동으로 작성이 제한됩니다. 확인 뒤 「제한 해제」를 누르세요.'],
+  '관리자':['방 첫 화면의 「⚙ 관리」(☰ 「관리」도 같음)는 카카오로 한 번 확인한 뒤 6시간 동안 열립니다. 관리 중에는 위 띠가 초록으로 바뀝니다.','맨 위 📍 줄을 누르면 「내 자리」 — 관리하는 모임 · 함께하는 모임을 오갑니다.','다른 모임과 위 · 아래로 묶으려면 「설정 → 모임 연결」에서 연결 링크를 만들어 상대 관리자께 보냅니다.','「관리 → 모임 이름 짓기」로 「문산초 59회 우리 친구들 이야기」처럼 이 모임의 이름을 지으세요.','처음에 「저기 내가 있나?」 싶은 사진 9장을 먼저 올려 두세요.','「함께하는 분 → 초대 링크」에서 보낼 곳마다 링크를 따로 만들어(예: 동창 단톡방 · 등산 밴드) 보내면, 어디서 몇 분이 열어 보고 참여했는지 보입니다.','「공개 설정」에서 공개 모임 · 등록 신청 승인제 · 첫 게시물 승인을 고릅니다.','엉뚱한 사람이 오면 「내보내기」(게시물도 모두 비공개) · 링크가 엉뚱한 곳에 퍼졌으면 그 링크를 지우세요.']
 };
 function helpSheet(key){
   var ks=Object.keys(HELP), cur=key||(isGuest()?'보는 분':ME.role==='관리자'?'관리자':ME.role==='확인자'?'확인자':'작성자');
@@ -2741,7 +2775,7 @@ function chkView(){
 
 /* ══ ★v37 관리 화면(217) · 역할 · 모임 잇기 · 묶어 보기 · 본부 · 운영 멈춤 — 서버 v10 과 짝 ══ */
 var ATK='lf_rec_at', HTK='lf_rec_ht', PLUGK='lf_rec_plug', PEND_ADM='';
-var ADM_ACTS={recComAuto:1,recPersonAuto:1,recComSet:1,recPersonOk:1,recInvite:1,recPersonOut:1,recComName:1,recGoSet:1,recReview:1,recApproveAll:1,recQueue:1,recPeople:1,recReport:1,recRoleSet:1,recPlug:1,recBundle:1,recMyPlaces:1,recAdminLog:1};
+var ADM_ACTS={recComAuto:1,recPersonAuto:1,recComSet:1,recPersonOk:1,recInvite:1,recPersonOut:1,recComName:1,recGoSet:1,recReview:1,recApproveAll:1,recQueue:1,recPeople:1,recReport:1,recRoleSet:1,recPlug:1,recBundle:1,recMyPlaces:1,recAdminLog:1,recAdminUndo:1};   /* ★v58 */
 function tkGet(n){ try{ var o=JSON.parse(sget(n)||'null'); if(o&&o.v&&o.e>Date.now()){ return o; } }catch(e){} return null; }   /* ★v38 표는 카카오에 묶임 — 모임을 옮겨도 그대로 */
 function tkSet(n,v,h){ sset(n,v?JSON.stringify({v:v,e:Date.now()+(h||6)*3600000-60000,k:n===ATK?K:''}):''); }
 function atOk(){ return !!tkGet(ATK); }
@@ -2867,30 +2901,210 @@ function qrSheet(){
 }
 
 /* ── 관리 화면 ── */
+/* ══ ★v58 364 우리 이야기 관리(초록) — 시험판 v3대로 ══
+   순서: 찾기 → 🚨 긴급 조치 → 오늘 할 일 → 맡은 대상 → 숫자 → 설정 → 이럴 땐 → 관리 기록(되돌리기) */
+var ADMV={adm:1,chk:1,ppl:1,rep:1,deco:1,plug:1,bund:1,plan:1,alog:1,ahelp:1,plc:1};
+var AQ=null, AQ_AT=0, APPL=null, AHQ='';
+function admMode(on){
+  document.body.classList.toggle('admm',!!on);
+  try{ var t=document.querySelector('.lfx-title'); if(t&&ME&&ME.comName){ t.textContent=ME.comName+(on?' 관리':''); } }catch(e){}
+}
+function admStrip(){ return '<div class="admb"><span>⚙ 관리 중 · '+esc((ME&&ME.name)||'')+' 님 · '+esc(roleName(ME.role))+'</span><button type="button" id="admX">관리 나가기</button></div>'; }
+function admExit(){ STACK=[{v:'feed'}]; render(); toast('관리에서 나왔습니다'); }
+/* 📍 지금 위치 — 모임 · 이름 · 직위 → 누르면 「내 자리」 */
+function whereLine(){ if(!ME||isGuest()||ASU){ return ''; } return '<button type="button" class="where" id="whr">📍 <b>'+esc(ME.comName||'')+'</b> · '+esc(ME.name||'')+' 님 <span class="tag '+(isBoss()?'t-adm':'t-mem')+'">'+esc(roleName(ME.role))+'</span> <span class="wv">⌄</span></button>'; }
+function seatSheet(){
+  var here='<div class="sw"><span><b>'+esc(ME.comName||'')+' <span class="tag t-on">지금 여기</span></b><small>'+esc(roleName(ME.role))+'</small></span></div>';
+  if(!ME.kakao){
+    sheet('<h2>내 자리</h2><p class="lead" style="margin-top:4px">'+esc(ME.name||'')+' 님</p>'+here+'<p class="note">카카오를 이으면 관리하는 모임 · 함께하는 모임을 한곳에서 오갑니다.</p><button class="btn kakao" id="stK" type="button">'+KICON+'카카오 연결</button><button class="btn line" id="stX" type="button">닫기</button>',function(){
+      $('stK').onclick=function(){ kakaoGo('link'); }; $('stX').onclick=closeSheet; });
+    return;
+  }
+  sheet('<h2>내 자리</h2><p class="lead" style="margin-top:4px">'+esc(ME.name||'')+' 님 · 카카오</p><div id="stB"></div><button class="btn line" id="stX" type="button">닫기</button>',function(){ $('stX').onclick=closeSheet; });
+  wait($('stB'),'내 자리를 모으는 중입니다');
+  api({action:'recMyPlaces'},function(d){
+    var el=$('stB'); if(!el){ return; }
+    if(d.status!=='ok'){ el.innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
+    if(d.hq){ sset('lf_rec_hq','1'); }
+    var it=d.items||[]; it.forEach(function(x){ if(x.key){ rksPut(x.comName,x.key); } });
+    var boss=it.filter(function(x){ return x.boss; }), mem=it.filter(function(x){ return !x.boss; });
+    sset('lf_rec_mgr',boss.length?'1':'');
+    function row(x,i){ var td=(x.wait||x.ask)?' <span class="tag t-wait">'+((x.wait||0)+(x.ask||0))+'</span>':'';
+      return '<button type="button" class="mrow" data-si="'+i+'"><span class="ci '+(x.boss?'c-green':'c-peach')+'">'+ic(x.boss?'key':'grape')+'</span><span><b>'+esc(x.comName||x.com)+(x.here?' <span class="tag t-on">지금 여기</span>':'')+td+'</b><small>'+esc(roleName(x.role))+(x.boss?' · 위 모임 '+(x.ups||0)+' · 아래 모임 '+(x.downs||0):'')+(x.paused?' · 운영 멈춤':'')+'</small></span></button>'; }
+    var h='<p class="sl2">관리하는 모임 '+boss.length+'</p>'+(boss.length?boss.map(function(x){ return row(x,it.indexOf(x)); }).join(''):'<p class="note">관리하는 모임이 없습니다.</p>');
+    if(mem.length){ h+='<p class="sl2">함께하는 모임 '+mem.length+'</p>'+mem.map(function(x){ return row(x,it.indexOf(x)); }).join(''); }
+    if(d.hq){ h+='<p class="sl2">본부</p><button type="button" class="mrow" id="stHq"><span class="ci c-violet">'+ic('key')+'</span><span><b>사랑흐름 전체 관리로</b><small>우리 이야기 모임 목록 · 만들기 · 관리자 지정 · 운영 멈춤</small></span></button>'; }
+    el.innerHTML=h;
+    if($('stHq')){ $('stHq').onclick=function(){ location.href=location.pathname+'?hq=1'; }; }
+    each(el,'[data-si]',function(b){ b.onclick=function(){ var x=it[+b.getAttribute('data-si')]; if(!x){ return; }
+      if(x.here){ closeSheet(); return; } if(!x.key){ toast('그 모임으로 가지 못했습니다'); return; } plcEnter(x,''); }; });
+  });
+}
+
+/* 관리 화면 */
 function admView(){
-  var boss=ME.role==='관리자', left=tkLeft(ATK);
-  function row(m,i,c,t,s){ return '<button type="button" class="mrow" data-am="'+m+'"><span class="ci '+c+'">'+ic(i)+'</span><span><b>'+t+'</b><small>'+s+'</small></span></button>'; }
-  var h=planBars()+'<div class="card"><h2>'+ic('ppl','sm')+' 우리 모임</h2>'+
-    row('chk','check','c-green','승인 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':''),'승인 대기 · 삭제 요청')+
-    row('ppl','ppl','c-peach','함께하는 분',boss?'역할 변경 · 관리자 넘기기 · 초대 링크 · 공개 설정':'역할 변경 · 승인 · 작성 제한 해제')+
-    row('rep','chart','c-green','결과 보고','올린 것 · 반응 · 함께하는 분 · 초대 링크')+
-    row('alog','clock','c-navy','최근 관리 기록','누가 언제 무엇을 바꾸었는지')+'</div>';   /* ★v38 */
-  if(boss){ h+='<div class="card"><h2>'+ic('star','sm')+' 첫 화면 · 초대</h2>'+
-    row('deco','star','c-gold','첫 화면 꾸미기','바로가기 · 대표 사진 · 문구')+
+  var boss=ME.role==='관리자', left=tkLeft(ATK), p=ME.plan;
+  function row(m,i,c,t,s,tag){ return '<button type="button" class="mrow" data-am="'+m+'"><span class="ci '+c+'">'+ic(i)+'</span><span><b>'+t+(tag||'')+'</b>'+(s?'<small>'+s+'</small>':'')+'</span></button>'; }
+  var h=planBars()+'<form class="asrch" id="asf" role="search"><input id="aq" type="search" enterkeyhint="search" placeholder="찾기 — 사람 · 기록 · 설정 · 이럴 땐" autocomplete="off"><button type="submit">찾기</button></form>'+
+    '<button type="button" class="emg" id="emgB">🚨 긴급 조치</button>'+
+    '<div class="card"><h2>✅ 오늘 할 일 <span id="tdN"></span></h2><div id="tdL"></div></div>';
+  h+='<div class="card"><h2>'+ic('ppl','sm')+' 맡은 대상</h2>'+
+    row('ppl','ppl','c-peach','함께하는 분',boss?'역할 변경 · 관리자 넘기기 · 초대 링크 · 공개 방식':'역할 변경 · 승인 · 쓰기 멈춤 풀기')+
+    row('chk','check','c-green','승인 관리','승인 대기 · 삭제 요청 · 가린 기록',QN?' <span class="tag t-wait">'+QN+'</span>':'')+
+    row('bund','grape','c-violet','아래 모임 모아 보기','연결된 아래 모임의 공개 기록 · 모임별 숫자 (보기만)')+'</div>';
+  var st=ME.stat||{};
+  h+='<div class="card"><h2>'+ic('chart','sm')+' 숫자</h2><div class="anums"><div><b>'+(st.people||0)+'</b><small>함께한 분</small></div><div><b>'+(st.mem||0)+'</b><small>남긴 기억</small></div><div><b>'+(p?(p.photos||0):'-')+'</b><small>사진</small></div><div><b>'+(QN||0)+'</b><small>승인 대기</small></div></div>'+
+    row('rep','chart','c-green','결과 보고','올린 것 · 반응 · 함께하는 분 · 초대 링크')+'</div>';
+  h+='<div class="card"><h2>'+ic('star','sm')+' 설정</h2>';
+  if(boss){ h+=row('deco','star','c-gold','첫 화면 꾸미기','바로가기 · 대표 사진 · 문구')+
     row('invq','share','c-violet','초대 링크 꺼내기','복사 · 카톡으로 보내기')+
     row('name','pen','c-navy','모임 이름 짓기','지금 이름 · '+esc(ME.comName||''))+
-    (ME.room==='열린 모임'&&ME.com?row('qr','qr','c-gold','QR 내려받기','이 방 주소 QR · 인쇄용 그림'):'<div class="mrow off"><span class="ci c-gray">'+ic('qr')+'</span><span><b>QR 내려받기</b><small>누구나 둘러봄으로 바꾸면 QR을 쓸 수 있습니다</small></span></div>')+'</div>'; }   /* ★v57 354 */
-  if(ME.plan){ h+='<div class="card"><h2>'+ic('clock','sm')+' 이용</h2>'+row('plan','clock','c-green','이용 · 요금',esc(planLine(ME.plan)))+'</div>'; }   /* ★v57 353 */
-  h+='<div class="card"><h2>'+ic('link','sm')+' 아래 모임 · 모임 잇기</h2>'+
-    (boss?row('make','plus','c-green','아래 모임 열기','우리 모임 아래에 새 모임을 엽니다 · 관리자를 세웁니다'):'')+   /* ★v38 */
-    (boss?row('plug','link','c-navy','모임 잇기','위 · 아래 모임 연결 · 연결 해제 · 아래 모임 관리자 지정 · 빼기'):'')+
-    row('bund','grape','c-violet','아래 모임 모아 보기','이어진 아래 모임의 공개 기록 · 모임별 숫자 (보기만)')+
-    (ME.kakao?row('plc','home','c-green','내가 관리하는 곳','맡은 다른 모임으로 가기'):'')+'</div>'+
+    (ME.room==='열린 모임'&&ME.com?row('qr','qr','c-gold','QR 내려받기','이 방 주소 QR · 인쇄용 그림'):'<div class="mrow off"><span class="ci c-gray">'+ic('qr')+'</span><span><b>QR 내려받기</b><small>누구나 둘러봄으로 바꾸면 QR을 쓸 수 있습니다</small></span></div>')+
+    row('plug','link','c-navy','모임 연결','위 모임 · 아래 모임 · 연결 끊기 · 아래 모임 관리자')+
+    row('make','plus','c-green','아래 모임 열기','우리 모임 아래에 새 모임을 엽니다 · 관리자를 세웁니다'); }
+  if(p){ h+=row('plan','clock','c-green','이용 · 요금',esc(planLine(p))); }
+  if(boss){ h+=row('ppl','look','c-peach','공개 방식',ME.room==='열린 모임'?'누구나 둘러봄':'초대받은 분만'); }
+  h+='</div>';
+  h+='<div class="card"><h2>💡 이럴 땐</h2>'+AHELP.filter(ahOk).map(function(x){ return '<button type="button" class="mrow" data-ah="'+x.id+'"><span class="ci c-gold" style="font-size:20px">'+x.ic+'</span><span><b>'+esc(x.t)+'</b></span></button>'; }).join('')+'</div>';
+  h+='<div class="card"><h2>'+ic('clock','sm')+' 관리 기록</h2><div id="alL"></div><button type="button" class="btn line" id="alAll">관리 기록 모두 보기</button></div>'+
     (left?'<p class="note" style="text-align:center">관리 확인 · '+left+' 남음</p>':'');
   $('body').innerHTML=h; planBind();
-  each($('body'),'[data-am]',function(b){ b.onclick=function(){ var m=b.getAttribute('data-am');
-    if(m==='invq'){ invQuick(); return; } if(m==='qr'){ qrSheet(); return; } if(m==='name'){ nameBuild(); return; } if(m==='make'){ makeSheet(); return; } go(m); }; });
+  each($('body'),'[data-am]',function(b){ b.onclick=function(){ admTap(b.getAttribute('data-am')); }; });
+  each($('body'),'[data-ah]',function(b){ b.onclick=function(){ go('ahelp',b.getAttribute('data-ah')); }; });
+  $('emgB').onclick=function(){ emgSheet(''); };
+  $('alAll').onclick=function(){ go('alog'); };
+  $('asf').onsubmit=function(e){ e.preventDefault(); var q=$('aq').value.trim(); $('aq').blur(); if(q){ admFind(q); } };
+  admToday(); alogLoad($('alL'),5);
 }
+function admTap(m){
+  if(m==='invq'){ invQuick(); return; } if(m==='qr'){ qrSheet(); return; } if(m==='name'){ nameBuild(); return; } if(m==='make'){ makeSheet(); return; }
+  if((m==='plug'||m==='deco')&&ME.role!=='관리자'){ toast('관리자만 할 수 있습니다'); return; }
+  if(m==='plan'&&!ME.plan){ toast('이용 정보를 아직 받지 못했습니다'); return; }
+  go(m);
+}
+/* 오늘 할 일 — 맨 위 「사진 용량」 · 승인 대기 · 삭제 요청 · 함께하기 신청 · 쓰기 멈춤 */
+function admToday(){
+  var el=$('tdL'); if(!el){ return; }
+  function draw(q){
+    if(VIEW!=='adm'||!$('tdL')){ return; }
+    var p=ME.plan, R=[], it=(q&&q.items)||[], tk=it.filter(function(x){ return x.takeDown; }).length, wt=it.length-tk+((q&&q.links)||[]).length+((q&&q.cats)||[]).length,
+      pw=((q&&q.people)||[]).filter(function(x){ return x.wait; }).length, ps=((q&&q.people)||[]).filter(function(x){ return x.stop; }).length;
+    if(p&&p.limitMB&&p.pct>=80){ R.push(['plan','clock',p.pct>=100?'c-rose':'c-gold',p.pct>=100?'사진 용량이 다 찼습니다':'사진 용량 '+p.pct+'% · 곧 찹니다','이용 · 요금에서 쓴 양을 봅니다',p.pct>=100?'t-hide':'t-wait']); }
+    if(tk){ R.push(['chk','out','c-rose','삭제 요청 '+tk,'즉시 비공개로 바뀐 기록 · 확인해 주십시오','t-hide']); }
+    if(wt){ R.push(['chk','check','c-green','승인 대기 '+wt,'새 분 첫 기록 · 분류 · 이어 보기','t-wait']); }
+    if(pw){ R.push(['ppl','ppl','c-peach','함께하기 신청 '+pw,'받기 · 받지 않기','t-wait']); }
+    if(ps){ R.push(['ppl','key','c-gray','쓰기 멈춘 분 '+ps,'확인 뒤 「쓰기 멈춤 풀기」','t-wait']); }
+    $('tdN').innerHTML=R.length?'<span class="tag t-wait">'+R.length+'</span>':'';
+    el.innerHTML=R.length?R.map(function(r){ return '<button type="button" class="mrow" data-td="'+r[0]+'"><span class="ci '+r[2]+'">'+ic(r[1])+'</span><span><b>'+esc(r[3])+'</b><small>'+esc(r[4])+'</small></span></button>'; }).join(''):'<p class="note">지금 처리할 일이 없습니다.</p>';
+    each(el,'[data-td]',function(b){ b.onclick=function(){ admTap(b.getAttribute('data-td')); }; });
+  }
+  if(AQ&&Date.now()-AQ_AT<20000){ draw(AQ); return; }
+  wait(el,'오늘 할 일을 모으는 중입니다');
+  api({action:'recQueue'},function(q){ if(q.status==='ok'){ AQ=q; AQ_AT=Date.now(); QN=q.items.length+q.links.length+(q.cats||[]).length+(q.people||[]).length; drawBadge(); } draw(q.status==='ok'?q:null); });
+}
+
+/* 찾기 — 관리 화면 줄 · 이럴 땐 · 함께하는 분 이름 */
+var AFIND=[['ppl','함께하는 분','역할 · 관리자 넘기기 · 내보내기 · 초대 링크 · 쓰기 멈춤 풀기'],['chk','승인 관리','승인 대기 · 삭제 요청 · 가린 기록 · 비공개'],['rep','결과 보고','숫자 · 반응 · 초대 링크'],['deco','첫 화면 꾸미기','바로가기 · 대표 사진 · 문구'],
+  ['invq','초대 링크 꺼내기','초대 · 카톡 · 복사'],['name','모임 이름 짓기','이름'],['qr','QR 내려받기','QR · 인쇄'],['plug','모임 연결','위 모임 · 아래 모임 · 연결 끊기 · 관리자 지정'],['make','아래 모임 열기','새 모임 · 아래 모임'],
+  ['plan','이용 · 요금','사진 용량 · 이용 기간 · 요금'],['bund','아래 모임 모아 보기','아래 모임 · 모아 보기'],['alog','관리 기록','기록 · 되돌리기'],['emg','긴급 조치','가리기 · 쓰기 멈춤 · 새 분 받기 멈춤']];
+function admFind(q){
+  var R=AFIND.filter(function(x){ return (x[1]+' '+x[2]).indexOf(q)>-1; }).map(function(x){ return {t:x[1],s:x[2],a:'am:'+x[0]}; });
+  AHELP.filter(ahOk).forEach(function(x){ if((x.t+' '+x.st.join(' ')).indexOf(q)>-1){ R.push({t:'💡 '+x.t,s:'이럴 땐',a:'ah:'+x.id}); } });
+  function draw(pp){
+    (pp||[]).forEach(function(x){ if(String(x.name||'').indexOf(q)>-1){ R.push({t:x.name+' 님',s:roleName(x.role)+(x.stop?' · 쓰기 멈춤':''),a:'pp:'+x.no}); } });
+    sheet('<h2>「'+esc(q)+'」</h2><p class="lead" style="margin-top:2px">'+R.length+'건</p>'+(R.length?R.map(function(x,i){ return '<button type="button" class="mrow" data-fr="'+i+'"><span><b>'+esc(x.t)+'</b><small>'+esc(x.s)+'</small></span></button>'; }).join(''):'<p class="note">찾은 것이 없습니다. 예: 사진 · 삭제 · 연결 · 용량</p>')+'<button class="btn line" id="frX" type="button">닫기</button>',function(d){
+      $('frX').onclick=closeSheet;
+      each(d,'[data-fr]',function(b){ b.onclick=function(){ var a=R[+b.getAttribute('data-fr')].a, k=a.slice(0,2), v=a.slice(3); closeSheet();
+        if(k==='am'){ if(v==='emg'){ emgSheet(''); } else { admTap(v); } return; }
+        if(k==='ah'){ go('ahelp',v); return; }
+        if(k==='pp'){ var x=null; (APPL||[]).forEach(function(y){ if(y.no===v){ x=y; } }); emgSheet('stop',x); }
+      }; });
+    });
+  }
+  if(APPL){ draw(APPL); return; }
+  api({action:'recPeople',_busy:'찾는 중입니다'},function(d){ APPL=d.status==='ok'?(d.items||[]):[]; draw(APPL); });
+}
+
+/* 🚨 긴급 조치 — 고르기 → 대상 → 사유 → 실행 · 관리 기록에서 되돌림 */
+var EMG_WHY=['개인정보','다른 사람 사진','광고','욕설','그 밖'];
+function emgSheet(a,pre){
+  var E={a:a||'',t:pre||null,why:''}, boss=ME.role==='관리자';
+  var ACTS=[['hide','기록 가리기'],['stop','쓰기 멈춤 (한 사람)']].concat(boss?[['door','새 분 받기 멈춤']]:[]);
+  sheet('<h2>🚨 긴급 조치</h2><p class="lead" style="margin-top:2px">고르기 → 대상 → 실행 · 관리 기록에서 되돌릴 수 있습니다</p><div class="emgo" id="emA"></div><div id="emT"></div><div id="emW"></div><div id="emM"></div>'+
+    '<div class="pair" style="margin-top:14px"><button class="btn line" id="emNo" type="button">취소</button><button class="btn red" id="emGo" type="button" disabled>실행</button></div>',function(){
+    $('emNo').onclick=closeSheet;
+    function ready(){ return E.a==='door'||(E.t&&(E.a!=='hide'||E.why)); }
+    function drawA(){ $('emA').innerHTML=ACTS.map(function(x){ return '<button type="button" class="chip'+(E.a===x[0]?' on':'')+'" data-ea="'+x[0]+'">'+x[1]+'</button>'; }).join('');
+      each($('emA'),'[data-ea]',function(b){ b.onclick=function(){ E.a=b.getAttribute('data-ea'); E.t=null; E.why=''; drawA(); drawT(); }; }); }
+    function pick(rows,lab){ $('emT').innerHTML='<p class="sl2">'+lab+'</p><div class="emgl">'+(rows.length?rows.map(function(r,i){ var on=E.t&&E.t._k===r._k; return '<button type="button" class="mrow rlo'+(on?' on':'')+'" data-et="'+i+'"><span class="rdo"></span><span><b>'+esc(r._t)+'</b><small>'+esc(r._s)+'</small></span></button>'; }).join(''):'<p class="note">고를 대상이 없습니다.</p>')+'</div>';
+      each($('emT'),'[data-et]',function(b){ b.onclick=function(){ E.t=rows[+b.getAttribute('data-et')]; pick(rows,lab); drawW(); }; }); }
+    function drawT(){
+      $('emW').innerHTML=''; $('emGo').disabled=!ready();
+      if(E.a==='hide'){ wait($('emT'),'최근 기록을 모으는 중입니다');
+        api({action:'recList',mode:'new',n:'15',from:'0'},function(d){ if(E.a!=='hide'||!$('emT')){ return; }
+          var rows=((d&&d.items)||[]).filter(function(x){ return x.state!=='가림'&&x.state!=='지움'; }).map(function(x){ return {_k:x.id,_t:x.title||(x.text||'').slice(0,24)||'(제목 없음)',_s:(x.by||'')+(x.kind?' · '+x.kind:'')+(x.when?' · '+x.when:''),id:x.id}; });
+          pick(rows,'가릴 기록 (최근 올라온 것)'); }); return; }
+      if(E.a==='stop'){
+        var draw=function(pp){ var rows=pp.filter(function(x){ return !x.me&&x.role!=='관리자'&&x.role!=='신청 중'&&!x.stop&&!x.pend; }).map(function(x){ return {_k:x.no,_t:(x.name||'(이름 없음)')+' 님',_s:roleName(x.role),no:x.no,name:x.name}; });
+          if(pre&&pre.no){ rows.forEach(function(r){ if(r.no===pre.no){ E.t=r; } }); pre=null; }
+          pick(rows,'쓰기를 멈출 분 (보기는 그대로)'); $('emGo').disabled=!ready(); };
+        if(APPL){ draw(APPL); return; } wait($('emT'),'함께하는 분을 모으는 중입니다');
+        api({action:'recPeople'},function(d){ APPL=d.status==='ok'?(d.items||[]):[]; if(E.a==='stop'&&$('emT')){ draw(APPL); } }); return; }
+      if(E.a==='door'){ $('emT').innerHTML='<p class="note">초대 링크 · 모임 주소로 새 분이 들어오지 못하게 합니다. 이미 함께하는 분은 그대로입니다.</p>'; return; }
+      $('emT').innerHTML='';
+    }
+    function drawW(){ if(E.a!=='hide'){ $('emW').innerHTML=''; $('emGo').disabled=!ready(); return; }
+      $('emW').innerHTML='<p class="sl2">사유</p><div class="emgo">'+EMG_WHY.map(function(w){ return '<button type="button" class="chip s'+(E.why===w?' on':'')+'" data-ew="'+w+'">'+w+'</button>'; }).join('')+'</div>';
+      each($('emW'),'[data-ew]',function(b){ b.onclick=function(){ E.why=b.getAttribute('data-ew'); drawW(); }; }); $('emGo').disabled=!ready(); }
+    $('emGo').onclick=function(){ if(!ready()){ return; } var b=this; b.disabled=true;
+      var q=E.a==='hide'?{action:'recReview',act:'가림',id:E.t.id,why:'긴급 조치 · '+E.why,_busy:'기록을 가리는 중입니다'}:E.a==='stop'?{action:'recPersonOk',no:E.t.no,act:'멈춤',_busy:'쓰기를 멈추는 중입니다'}:{action:'recInvite',act:'stop',_busy:'새 분 받기를 멈추는 중입니다'};
+      api(q,function(r){ if(r.status!=='ok'){ b.disabled=false; $('emM').innerHTML='<div class="err">'+esc(r.msg||'처리하지 못했습니다.')+'</div>'; return; }
+        closeSheet(); AQ=null; APPL=null; LKEY='';
+        toast(E.a==='hide'?'기록을 가렸습니다':E.a==='stop'?(E.t.name||'')+' 님 쓰기를 멈추었습니다':'새 분 받기를 멈추었습니다','관리 기록에서 되돌릴 수 있습니다');
+        if(VIEW==='adm'){ admView(); } }); };
+    drawA(); if(E.a){ drawT(); }
+  });
+}
+
+/* 이럴 땐 */
+var AHELP=[
+  {id:'h1',ic:'🖼️',t:'잘못 올라온 사진 · 글',st:['🚨 긴급 조치 → 「기록 가리기」를 누릅니다.','가릴 기록과 사유를 고르고 「실행」 — 바로 안 보입니다.','잘못 가렸으면 관리 기록에서 「되돌리기」.'],go:['긴급 조치','emg:hide']},
+  {id:'h2',ic:'🙅',t:'모르는 분이 글을 써요',st:['🚨 긴급 조치 → 「쓰기 멈춤 (한 사람)」 — 보기는 그대로입니다.','계속되면 「새 분 받기 멈춤」 또는 공개 방식을 「초대받은 분만」으로.','확인 뒤에는 함께하는 분에서 「쓰기 멈춤 풀기」.'],go:['긴급 조치','emg:stop']},
+  {id:'h3',ic:'🗑️',t:'삭제 요청이 왔어요',st:['요청된 기록은 누르는 즉시 비공개로 바뀌어 있습니다.','승인 관리에서 사유를 읽고 「삭제」 또는 다시 공개합니다.'],go:['승인 관리','am:chk']},
+  {id:'h4',ic:'📦',t:'사진 용량이 곧 차요',st:['이용 · 요금에서 쓴 양을 봅니다.','필요 없는 사진은 승인 관리에서 정리합니다.','더 쓰시려면 「카카오톡으로 문의하기」.'],go:['이용 · 요금','am:plan'],plan:1},
+  {id:'h5',ic:'🔑',t:'관리자를 바꾸고 싶어요',st:['함께하는 분에서 그분을 누릅니다.','「역할 변경」 또는 「이 분께 관리자 넘기기」.'],go:['함께하는 분','am:ppl'],boss:1},
+  {id:'h6',ic:'🔗',t:'다른 모임과 연결하고 싶어요',st:['설정 → 「모임 연결」.','위 모임 연결 링크 또는 아래 모임 연결 링크를 만들어 상대 관리자께 보냅니다.','상대 관리자가 받으면 연결됩니다. 끊을 때는 「연결 끊기」.'],go:['모임 연결','am:plug'],boss:1}
+];
+function ahOk(x){ return !(x.boss&&ME.role!=='관리자')&&!(x.plan&&!ME.plan); }
+function ahelpView(id){
+  var x=AHELP.filter(function(y){ return y.id===id; })[0]; if(!x){ $('body').innerHTML=''; return; }
+  $('body').innerHTML='<div class="card"><h2>'+x.ic+' '+esc(x.t)+'</h2><ol class="asteps">'+x.st.map(function(s){ return '<li>'+esc(s)+'</li>'; }).join('')+'</ol><button class="btn" id="ahGo" type="button" style="background:var(--adm);border-color:var(--adm)">'+esc(x.go[0])+'</button></div>';
+  $('ahGo').onclick=function(){ var a=x.go[1], v=a.slice(3); if(a.indexOf('emg:')===0){ doBack(); setTimeout(function(){ emgSheet(a.slice(4)); },80); return; } doBack(); setTimeout(function(){ admTap(v); },60); };
+}
+
+/* 관리 기록 · 되돌리기 (서버 v24) */
+var ALOG_W={'꽂힘':'모임 연결','꽂힘 풂':'모임 연결 끊음','꽂힘 표 만듦':'모임 연결 링크 만듦'};
+function alogWhat(w){ return ALOG_W[w]||String(w||'').replace(/꽂힘/g,'모임 연결'); }
+function alogLoad(el,n){
+  if(!el){ return; } wait(el,'관리 기록을 모으는 중입니다');
+  api({action:'recAdminLog'},function(d){
+    if(!el.isConnected){ return; }
+    if(d.status!=='ok'){ el.innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
+    var it=(d.items||[]).slice(0,n||30);
+    el.innerHTML=it.length?it.map(function(x,i){ return '<div class="sw alr"><span><b>'+esc(alogWhat(x.what))+(x.back?' <span class="tag t-out">되돌림</span>':'')+'</b><small>'+esc(x.who||'')+' · '+esc(x.at||'')+(x.why?' · '+esc(x.why):'')+'</small></span>'+(x.undo?'<button type="button" class="sbtn" data-un="'+i+'">되돌리기</button>':'')+'</div>'; }).join(''):'<p class="note">아직 관리 기록이 없습니다.</p>';
+    each(el,'[data-un]',function(b){ b.onclick=function(){ undoSheet(it[+b.getAttribute('data-un')],function(){ alogLoad(el,n); }); }; });
+  });
+}
+function undoSheet(x,after){
+  sheet('<h2>되돌리기</h2><p class="lead" style="margin-top:6px"><b>'+esc(alogWhat(x.what))+'</b><br>'+esc(x.who||'')+' · '+esc(x.at||'')+'</p>'+(x.to?'<p class="note" style="text-align:center">되돌리면 → <b>'+esc(x.to)+'</b></p>':'')+
+    '<div id="unM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="unNo" type="button">취소</button><button class="btn" id="unGo" type="button" style="background:var(--adm);border-color:var(--adm)">되돌리기</button></div>',function(){
+    $('unNo').onclick=closeSheet;
+    $('unGo').onclick=function(){ var b=this; b.disabled=true; api({action:'recAdminUndo',n:String(x.n),_busy:'되돌리는 중입니다'},function(r){
+      if(r.status!=='ok'){ b.disabled=false; $('unM').innerHTML='<div class="err">'+esc(r.msg||(r.reason==='NONE'&&!r.msg?'서버가 아직 v24가 아닙니다.':'되돌리지 못했습니다.'))+'</div>'; return; }
+      closeSheet(); AQ=null; APPL=null; LKEY=''; toast('되돌렸습니다',r.label||''); if(after){ after(); } }); };
+  });
+}
+function alogView(){ $('body').innerHTML='<div class="card"><div id="alF"></div><p class="note">최근 30줄까지 보입니다. 「되돌리기」는 같은 대상의 맨 위 기록에만 붙습니다.</p></div>'; alogLoad($('alF'),30); }
 
 /* ── 역할 변경 · 관리자 넘기기(함께하는 분 목록에서) ── */
 function canRole(x){ return ME&&!x.me&&x.role!=='신청 중'&&(RANK[x.role]||0)<(RANK[ME.role]||0); }
@@ -2928,14 +3142,14 @@ function linkSheet(t,lead,url,warn){
 
 /* ── 모임 잇기(꽂힘) — 관리자 ── */
 function plugView(){
-  $('body').innerHTML=pauseBar()+'<div class="card"><h2>잇기 링크 만들기</h2><p class="lead">링크를 상대 모임 관리자께 보내고, 그분이 받으면 두 모임이 이어집니다.</p>'+
-    '<button type="button" class="mrow" data-pa="up"><span class="ci c-navy">'+ic('aup')+'</span><span><b>위 모임에 꽂기 링크 만들기</b><small>우리 모임을 다른 모임 아래로 잇습니다</small></span></button>'+
-    '<button type="button" class="mrow" data-pa="down"><span class="ci c-green">'+ic('adn')+'</span><span><b>아래 모임 받기 링크 만들기</b><small>다른 모임을 우리 모임 아래로 받습니다</small></span></button>'+
+  $('body').innerHTML=pauseBar()+'<div class="card"><h2>연결 링크 만들기</h2><p class="lead">링크를 상대 모임 관리자께 보내고, 그분이 받으면 두 모임이 연결됩니다.</p>'+
+    '<button type="button" class="mrow" data-pa="up"><span class="ci c-navy">'+ic('aup')+'</span><span><b>위 모임 연결 링크 만들기</b><small>우리 모임을 다른 모임 아래로 연결합니다</small></span></button>'+
+    '<button type="button" class="mrow" data-pa="down"><span class="ci c-green">'+ic('adn')+'</span><span><b>아래 모임 연결 링크 만들기</b><small>다른 모임을 우리 모임 아래로 연결합니다</small></span></button>'+
     '<button type="button" class="mrow" id="plMk"><span class="ci c-green">'+ic('plus')+'</span><span><b>아래 모임 열기</b><small>새 모임을 바로 우리 모임 아래에 엽니다</small></span></button></div><div id="plB"></div>';   /* ★v38 */
   $('plMk').onclick=makeSheet;
   each($('body'),'[data-pa]',function(b){ b.onclick=function(){ var side=b.getAttribute('data-pa');
-    api({action:'recPlug',act:'ask',side:side,_busy:'잇기 링크를 만드는 중입니다'},function(r){ if(r.status!=='ok'){ toast(r.msg||'만들지 못했습니다'); return; }
-      linkSheet(side==='up'?'위 모임에 꽂기 링크':'아래 모임 받기 링크',side==='up'?'우리 모임을 아래로 받아 줄 <b>위 모임 관리자</b>께 보내 주십시오. 한 번만 쓰입니다.':'우리 모임 아래로 들어올 <b>아래 모임 관리자</b>께 보내 주십시오. 한 번만 쓰입니다.',r.link);
+    api({action:'recPlug',act:'ask',side:side,_busy:'연결 링크를 만드는 중입니다'},function(r){ if(r.status!=='ok'){ toast(r.msg||'만들지 못했습니다'); return; }
+      linkSheet(side==='up'?'위 모임 연결 링크':'아래 모임 연결 링크',side==='up'?'우리 모임을 아래로 받아 줄 <b>위 모임 관리자</b>께 보내 주십시오. 한 번만 쓰입니다.':'우리 모임 아래로 들어올 <b>아래 모임 관리자</b>께 보내 주십시오. 한 번만 쓰입니다.',r.link);
       plugList(); }); }; });
   plugList();
 }
@@ -2946,13 +3160,13 @@ function plugList(){
     if(d.status!=='ok'){ el.innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
     function nm(n,c){ return esc(n||c||''); }
     var ups=d.ups||[], downs=d.downs||[], wt=d.wait||[], deep=(d.tree||[]).filter(function(x){ return x.depth>1; });
-    var h='<div class="card"><h2>'+ic('aup','sm')+' 위 모임 '+ups.length+'</h2>'+(ups.length?ups.map(function(o){ return '<div class="sw"><span><b>'+nm(o.upName,o.up)+'</b><small>'+esc(o.up)+'</small></span><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.upName,o.up)+'">연결 해제</button></div>'; }).join(''):'<p class="note">이어진 위 모임이 없습니다.</p>')+'</div>'+
+    var h='<div class="card"><h2>'+ic('aup','sm')+' 위 모임 '+ups.length+'</h2>'+(ups.length?ups.map(function(o){ return '<div class="sw"><span><b>'+nm(o.upName,o.up)+'</b><small>'+esc(o.up)+'</small></span><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.upName,o.up)+'">연결 끊기</button></div>'; }).join(''):'<p class="note">연결된 위 모임이 없습니다.</p>')+'</div>'+
       '<div class="card"><h2>'+ic('adn','sm')+' 아래 모임 '+downs.length+'</h2>'+(downs.length?downs.map(function(o){ var ad=o.admins||[];   /* ★v38 관리자 · 임명 대기 · 빼기 */
-          return '<div class="sw"><span><b>'+nm(o.lowName,o.low)+'</b><small>'+esc(o.low)+'</small></span><span style="display:flex;gap:6px;flex:none">'+(ad.length?'':'<button type="button" class="sbtn" data-sa="'+esc(o.low)+'" data-nm="'+nm(o.lowName,o.low)+'">관리자 지정</button>')+'<button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.lowName,o.low)+'">연결 해제</button></span></div>'+
+          return '<div class="sw"><span><b>'+nm(o.lowName,o.low)+'</b><small>'+esc(o.low)+'</small></span><span style="display:flex;gap:6px;flex:none">'+(ad.length?'':'<button type="button" class="sbtn" data-sa="'+esc(o.low)+'" data-nm="'+nm(o.lowName,o.low)+'">관리자 지정</button>')+'<button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.lowName,o.low)+'">연결 끊기</button></span></div>'+
             (ad.length?ad.map(function(a){ return '<div class="sw adl"><span><b>'+esc(a.name||'(이름 없음)')+(a.pend?' <span class="tag t-wait">임명 대기</span>':'')+'</b><small>관리자'+(a.pend?' · 임명 링크를 아직 받지 않음':'')+'</small></span><button type="button" class="sbtn red" data-so="'+esc(o.low)+'" data-sn="'+esc(a.no)+'" data-nm="'+esc(a.name||'')+'" data-pd="'+(a.pend?1:'')+'">'+(a.pend?'링크 거두기':'빼기')+'</button></div>'; }).join(''):'<p class="err" style="margin:0 0 6px">관리자가 없습니다</p>'); }).join('')+
         (deep.length?'<p class="note" style="margin-top:10px">더 아래 모임</p>'+deep.map(function(x){ return '<div class="sw"><span><b>'+'└ '.repeat(Math.min(4,x.depth-1))+nm(x.name,x.com)+'</b><small>'+esc(x.com)+'</small></span></div>'; }).join(''):'')+
-        '<p class="note">「관리자 지정」은 관리자가 없는 바로 아래 모임에만 됩니다.</p>':'<p class="note">이어진 아래 모임이 없습니다.</p>')+'</div>';
-    if(wt.length){ h+='<div class="card"><h2>'+ic('clock','sm')+' 아직 받지 않은 링크 '+wt.length+'</h2>'+wt.map(function(o){ var up=!!o.low; return '<div class="sw"><span><b>'+(up?'위 모임에 꽂기 링크':'아래 모임 받기 링크')+'</b><small>'+esc(o.no)+'</small></span><span style="display:flex;gap:6px;flex:none"><button type="button" class="sbtn" data-lk="'+esc(o.link||'')+'">복사</button><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="" data-wt="1">거두기</button></span></div>'; }).join('')+'</div>'; }
+        '<p class="note">「관리자 지정」은 관리자가 없는 바로 아래 모임에만 됩니다.</p>':'<p class="note">연결된 아래 모임이 없습니다.</p>')+'</div>';
+    if(wt.length){ h+='<div class="card"><h2>'+ic('clock','sm')+' 아직 받지 않은 링크 '+wt.length+'</h2>'+wt.map(function(o){ var up=!!o.low; return '<div class="sw"><span><b>'+(up?'위 모임 연결 링크':'아래 모임 연결 링크')+'</b><small>'+esc(o.no)+'</small></span><span style="display:flex;gap:6px;flex:none"><button type="button" class="sbtn" data-lk="'+esc(o.link||'')+'">복사</button><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="" data-wt="1">거두기</button></span></div>'; }).join('')+'</div>'; }
     el.innerHTML=h;
     each(el,'[data-lk]',function(b){ b.onclick=function(){ copyLink(b.getAttribute('data-lk'),'복사했습니다','상대 모임 관리자께 보내 주십시오'); }; });
     each(el,'[data-off]',function(b){ b.onclick=function(){ plugOff(b.getAttribute('data-off'),b.getAttribute('data-nm'),!!b.getAttribute('data-wt')); }; });
@@ -2961,10 +3175,10 @@ function plugList(){
   });
 }
 function plugOff(no,nm,wt){
-  sheet('<h2>'+(wt?'링크 거두기':'연결 해제')+'</h2><p class="lead" style="margin-top:6px">'+(wt?'이 링크는 더 이상 쓰이지 않습니다.':'<b>'+esc(nm)+'</b> 모임과의 연결을 풉니다. 두 모임의 기록은 그대로 남고, 묶어 보기에서만 빠집니다.')+'</p>'+
-    '<div class="pair" style="margin-top:16px"><button class="btn line" id="poNo2" type="button">취소</button><button class="btn red" id="poGo2" type="button">'+(wt?'거두기':'연결 해제')+'</button></div>',function(){
+  sheet('<h2>'+(wt?'링크 거두기':'연결 끊기')+'</h2><p class="lead" style="margin-top:6px">'+(wt?'이 링크는 더 이상 쓰이지 않습니다.':'<b>'+esc(nm)+'</b> 모임과의 연결을 끊습니다. 두 모임의 기록은 그대로 남고, 묶어 보기에서만 빠집니다.')+'</p>'+
+    '<div class="pair" style="margin-top:16px"><button class="btn line" id="poNo2" type="button">취소</button><button class="btn red" id="poGo2" type="button">'+(wt?'거두기':'연결 끊기')+'</button></div>',function(){
     $('poNo2').onclick=closeSheet;
-    $('poGo2').onclick=function(){ this.disabled=true; api({action:'recPlug',act:'off',no:no,_busy:'처리하는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'){ toast(wt?'링크를 거두었습니다':'연결을 해제했습니다'); plugList(); } else { toast(r.msg||'처리하지 못했습니다'); } }); };
+    $('poGo2').onclick=function(){ this.disabled=true; api({action:'recPlug',act:'off',no:no,_busy:'처리하는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'){ toast(wt?'링크를 거두었습니다':'연결을 끊었습니다'); plugList(); } else { toast(r.msg||'처리하지 못했습니다'); } }); };
   });
 }
 function subAdmin(com,nm){
@@ -2979,14 +3193,14 @@ function subAdmin(com,nm){
 /* ?plug= 로 들어온 분 — 그 모임 관리자만 받음 */
 function plugPend(){
   var code=sget(PLUGK); if(!code){ return; }
-  if(!ME||ME.guest||ME.role!=='관리자'){ sset(PLUGK,''); toast('모임 잇기 링크는 모임 관리자만 받을 수 있습니다'); return; }
+  if(!ME||ME.guest||ME.role!=='관리자'){ sset(PLUGK,''); toast('모임 연결 링크는 모임 관리자만 받을 수 있습니다'); return; }
   if(!atOk()){ adminNeed('adm'); return; }
-  sheet('<div style="text-align:center"><span class="ci c-navy" style="width:52px;height:52px">'+ic('link')+'</span><h2 style="margin-top:8px">모임 잇기</h2><p class="lead">다른 모임 관리자가 보낸 잇기 링크입니다. 받으시면 <b>'+esc(ME.comName||'우리 모임')+'</b> 모임과 그 모임이 위 · 아래로 이어집니다. 위 모임 관리자 · 확인자는 아래 모임의 공개 기록을 모아 볼 수 있습니다(보기만).</p></div>'+
-    '<div id="ptM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="ptNo" type="button">받지 않기</button><button class="btn" id="ptGo" type="button">잇기</button></div>',function(){
+  sheet('<div style="text-align:center"><span class="ci c-navy" style="width:52px;height:52px">'+ic('link')+'</span><h2 style="margin-top:8px">모임 연결</h2><p class="lead">다른 모임 관리자가 보낸 모임 연결 링크입니다. 받으시면 <b>'+esc(ME.comName||'우리 모임')+'</b> 모임과 그 모임이 위 · 아래로 연결됩니다. 위 모임 관리자 · 확인자는 아래 모임의 공개 기록을 모아 볼 수 있습니다(보기만).</p></div>'+
+    '<div id="ptM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="ptNo" type="button">받지 않기</button><button class="btn" id="ptGo" type="button">연결하기</button></div>',function(){
     $('ptNo').onclick=function(){ sset(PLUGK,''); closeSheet(); };
-    $('ptGo').onclick=function(){ var b=this; b.disabled=true; api({action:'recPlug',act:'take',code:code,_busy:'모임을 잇는 중입니다'},function(r){
-      if(r.status==='ok'){ sset(PLUGK,''); closeSheet(); toast('모임을 이었습니다',(r.lowName||r.low)+' → '+(r.upName||r.up)); STACK=[{v:'feed'},{v:'adm'},{v:'plug'}]; holdHistory(); render(); return; }
-      b.disabled=false; if(r.reason==='ADMIN_KAKAO'){ return; } sset(PLUGK,''); $('ptM').innerHTML='<div class="err">'+esc(r.msg||'잇지 못했습니다.')+'</div>'; }); };
+    $('ptGo').onclick=function(){ var b=this; b.disabled=true; api({action:'recPlug',act:'take',code:code,_busy:'모임을 연결하는 중입니다'},function(r){
+      if(r.status==='ok'){ sset(PLUGK,''); closeSheet(); toast('모임을 연결했습니다',(r.lowName||r.low)+' → '+(r.upName||r.up)); STACK=[{v:'feed'},{v:'adm'},{v:'plug'}]; holdHistory(); render(); return; }
+      b.disabled=false; if(r.reason==='ADMIN_KAKAO'){ return; } sset(PLUGK,''); $('ptM').innerHTML='<div class="err">'+esc(r.msg||'연결하지 못했습니다.')+'</div>'; }); };
   });
 }
 
@@ -3007,7 +3221,7 @@ function bundLoad(){
 }
 function bundDraw(d){
   var subs=BD.subs||[];
-  if(!subs.length){ $('bdS').innerHTML=''; $('bdG').innerHTML='<div class="card" style="text-align:center"><h2>아직 이어진 아래 모임이 없습니다</h2><p class="lead">'+(ME.role==='관리자'?'「모임 잇기」에서 아래 모임 받기 링크를 만들어 보내 주십시오.':'모임 관리자가 아래 모임을 이으면 여기에 모입니다.')+'</p></div>'; return; }
+  if(!subs.length){ $('bdS').innerHTML=''; $('bdG').innerHTML='<div class="card" style="text-align:center"><h2>아직 연결된 아래 모임이 없습니다</h2><p class="lead">'+(ME.role==='관리자'?'「모임 연결」에서 아래 모임 연결 링크를 만들어 보내 주십시오.':'모임 관리자가 아래 모임을 연결하면 여기에 모입니다.')+'</p></div>'; return; }
   function n(v){ return Number(v||0).toLocaleString('ko-KR'); }
   $('bdS').innerHTML='<div class="strip" style="padding:0 0 10px">'+'<button type="button" class="chip s'+(!BD.com?' on':'')+'" data-bc="">전체</button>'+subs.map(function(s){ return '<button type="button" class="chip s'+(BD.com===s.com?' on':'')+'" data-bc="'+esc(s.com)+'">'+esc(s.name||s.com)+'</button>'; }).join('')+'</div>'+
     '<div class="card"><h2>'+ic('chart','sm')+' 모임별 숫자 <small class="note" style="font-weight:400">이번 달</small></h2><div class="bdt">'+subs.filter(function(s){ return !BD.com||s.com===BD.com; }).map(function(s){ return '<div class="bdr"><b>'+(s.depth>1?'└ ':'')+esc(s.name||s.com)+'</b><span><em>'+n(s.upAll)+'</em>올린 것</span><span><em>'+n(s.mem)+'</em>기억</span><span><em>'+n(s.people)+'</em>함께하는 분</span><span><em>'+n(s.rate)+'%</em>활동</span></div>'; }).join('')+'</div></div>';
@@ -3081,16 +3295,6 @@ function plcView(){
     each($('body'),'[data-pg]',function(b){ b.onclick=function(){ var c=b.getAttribute('data-pg'), nx=b.getAttribute('data-nx'), x=null; it.forEach(function(y){ if(y.com===c){ x=y; } }); if(!x){ return; }
       if(x.here){ if(nx){ STACK=[{v:'feed'}]; go(nx==='chk'?'chk':'adm'); } else { STACK=[{v:'feed'}]; render(); } return; }
       if(!x.key){ toast('그 모임으로 가지 못했습니다'); return; } plcEnter(x,nx); }; });
-  });
-}
-/* 최근 관리 기록 */
-function alogView(){
-  wait($('body'),'관리 기록을 모으는 중입니다');
-  api({action:'recAdminLog'},function(d){
-    if(VIEW!=='alog'){ return; }
-    if(d.status!=='ok'){ $('body').innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
-    var it=d.items||[];
-    $('body').innerHTML='<div class="card">'+(it.length?it.map(function(x){ return '<div class="sw"><span><b>'+esc(x.what)+'</b><small>'+esc(x.who||'')+' · '+esc(x.at||'')+(x.why?' · '+esc(x.why):'')+'</small></span></div>'; }).join(''):'<p class="note">아직 관리 기록이 없습니다.</p>')+'<p class="note">최근 30줄까지 보입니다.</p></div>';
   });
 }
 /* 아래 모임 열기 — 저절로 우리 모임 아래로 이어짐 · 첫 관리자 = 나 또는 임명 링크 */
