@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v61 · 261015 · [대표 OK 261015 17:35 「가로 진행」 · 서버 v25 그대로]
+<!-- ★ 현재 버전 ▶ rec/index.html · v62 · 261015 · [대표 OK 261015 22:35 · 서버 v25 그대로 · sw.js v3 와 짝]
+     · 375 휴대폰에 남겨 둔 옛 화면 — sw.js v3 가 새 화면 파일을 받아 오면 알려 줌 → 첫 화면 · 광장이면 한 번 바꿔 엶(1분 안에 되풀이 안 함) · 쓰는 중이면 첫 화면으로 돌아올 때.
+     · 376 「내가 남긴 것」 — 서버 답이 실패하거나 20초가 넘으면 하트만 돌지 않고 「불러오지 못했습니다 · 다시 불러오기」.
+     · 377 「내가 남긴 것」 — 20개씩 보이고 「더 보기」.
+     (이전) v61 · 261015 · [대표 OK 261015 17:35 「가로 진행」 · 서버 v25 그대로]
      · 374 바로가기 한 번만 — 대표 사진 아래 한 줄에 전부(★ 핵심 먼저 · 넷 이상이면 넷째가 살짝 보이고 옆으로 밀어 봄) · 맨 밑 묶음의 바로가기는 뺌(소개 한 줄은 맨 밑에 그대로).
      · 속도 기록에 적는 화면 버전 v58 → v61(v59 · v60 때 안 올림).
      · 372 손님 단추 「대화에 끼기」 → 「한마디 남기기」(누르면 지금처럼 「함께하시겠어요?」).
@@ -1023,7 +1027,7 @@ function spdDone(){
   var page=nav?Math.round(nav.responseEnd):0, fk='lf_spd_'+SPD.room, fresh='1'; try{ if(localStorage.getItem(fk)){ fresh='0'; } localStorage.setItem(fk,'1'); }catch(e){}
   var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'; }).join(' · ');
   var net=''; try{ net=(navigator.connection&&navigator.connection.effectiveType)||''; }catch(e){}
-  var body={action:'recSpeed',v:'v61',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
+  var body={action:'recSpeed',v:'v62',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
   try{ if(GAS){ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),keepalive:true}).catch(function(){}); } }catch(e){}
 }   /* ★v58 속도 상자 뺌 — 숫자는 서버 「속도」 탭 */
 
@@ -1325,7 +1329,7 @@ function render(){
   fb.hidden=(ME&&ME.paused)||!((VIEW==='feed'&&(canAdd()||isGuest()))||onItem); $('navbar').hidden=(VIEW!=='add'); wayDraw();
   fb.classList.toggle('gp',onItem); fb.innerHTML=onItem?ic('grape'):FAB_PLUS; fb.classList.remove('hid');
   fb.setAttribute('aria-label',onItem?kindOn(CUR)+' 기억 남기기':(isGuest()?'참여하기':'새 사진 · 영상 · 글 올리기')); if(VIEW==='feed'){ fabTip(); }
-  if(VIEW==='feed'){ feedView(); if(was&&was!=='feed'&&was!=='add'){ setTimeout(function(){ window.scrollTo(0,FEEDY); },30); } return; }
+  if(VIEW==='feed'){ if(NEWV){ setTimeout(newGo,0); } feedView(); if(was&&was!=='feed'&&was!=='add'){ setTimeout(function(){ window.scrollTo(0,FEEDY); },30); } return; }   /* ★v62 375 */
   window.scrollTo(0,0);
   if(VIEW==='item'){ itemView(top.id); }
   else if(VIEW==='add'){ addView(); }
@@ -2634,11 +2638,15 @@ function textSheet(t,lead,val,max,save){
     $('tsOk').onclick=function(){ var v=$('tsV').value.trim(); if(!v){ $('tsM').innerHTML='<div class="err">이름을 적어 주십시오.</div>'; return; } var b=this; b.disabled=true; save(v,function(r){ b.disabled=false; if(r.status==='ok'){ closeSheet(); } else { $('tsM').innerHTML='<div class="err">'+esc(r.msg||'바꾸지 못했습니다.')+'</div>'; } }); };
   });
 }
+var MINE_N=20;
+function meFail(msg){ var el=$('mine'); if(!el||VIEW!=='me'){ return; } el.innerHTML='<div class="card" style="text-align:center"><h2>불러오지 못했습니다</h2><p class="lead">'+esc(msg||'지금은 연결이 느립니다. 잠시 후 다시 불러와 주십시오.')+'</p><button class="btn warm" id="meAgain" type="button">'+ic('look')+'다시 불러오기</button></div>'; $('meAgain').onclick=meView; }   /* ★v62 376 */
+function meMore(all,n){ var el=$('mineL'); if(!el){ return; } drawList(el,all.slice(0,n)); var b=$('meMoreB'); if(b){ b.hidden=n>=all.length; b.onclick=function(){ meMore(all,n+MINE_N); }; } }   /* ★v62 377 20개씩 */
 function meView(){
   $('body').innerHTML='<div id="mine"></div>'; wait($('mine'),'내가 남긴 기록을 모으는 중입니다');
-  api({action:'recMe'},function(d){ if(d.status!=='ok'||VIEW!=='me'){ return; } ME.name=d.name; ME.agreed=d.agreed;
+  var got=false, tm=setTimeout(function(){ if(!got){ meFail(); } },20000);   /* ★v62 376 20초 넘으면 안내 */
+  api({action:'recMe'},function(d){ got=true; clearTimeout(tm); if(VIEW!=='me'){ return; } if(d.status!=='ok'){ meFail(d.msg); return; } ME.name=d.name; ME.agreed=d.agreed;
     if(!d.mine.length){ $('mine').innerHTML='<div class="card" style="text-align:center"><h2>아직 남긴 기록이 없습니다</h2><p class="lead">기록을 열어 기억을 남기거나'+(canAdd()?', 오른쪽 아래 ＋ 「새 기록 올리기」에서 사진 한 장을 남겨 보세요.':' 「나도 기억해요」를 눌러 보세요.')+'</p></div>'; }
-    else { $('mine').innerHTML='<p class="lead" style="margin-bottom:8px">올린 기록 · 남긴 기억 '+d.mine.length+'</p><div id="mineL"></div>'; drawList($('mineL'),d.mine); } });
+    else { $('mine').innerHTML='<p class="lead" style="margin-bottom:8px">올린 기록 · 남긴 기억 '+d.mine.length+'</p><div id="mineL"></div><button class="btn line morebtn" id="meMoreB" type="button" hidden>'+ic('text','sm')+' 더 보기</button>'; meMore(d.mine,MINE_N); } });
 }
 
 /* ══ 함께하는 분 — 모임 문 · 받기 방식 · 퍼짐 · 사람(v26) ══ */
@@ -3468,7 +3476,20 @@ function openHome(msg){ if(msg){ toast(msg); } location.href=location.pathname+'
 var PWA_EV=null;
 window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); PWA_EV=e; });
 window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo'); if(b){ b.hidden=true; } toast('바탕화면에 두었습니다','이제 아이콘을 누르면 바로 들어옵니다'); });
-try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){}); } }catch(e){}
+try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
+  /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
+  navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
+var NEWV=0, REC_VER=62;
+function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
+setTimeout(newChk,5000); setTimeout(newChk,15000);
+document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
+function newGo(){
+  if(!NEWV||$('dimTop')||!(VIEW==='feed'||VIEW==='plaza')){ return; }
+  var last=0; try{ last=parseInt(sessionStorage.getItem('lf_rec_rl')||'0',10)||0; }catch(e){}
+  if(Date.now()-last<60000){ return; }   /* 한 번만 · 되풀이 막음 */
+  try{ sessionStorage.setItem('lf_rec_rl',String(Date.now())); }catch(e){}
+  NEWV=0; location.reload();
+}
 function pwaIn(){ try{ return window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true; }catch(e){ return false; } }
 function pwaGo(){
   var ua=navigator.userAgent||'', ios=/iPhone|iPad|iPod/i.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1), kk=/KAKAOTALK/i.test(ua), inapp=kk||/NAVER\(inapp|Instagram|FBAN|FBAV|Line\//i.test(ua);
