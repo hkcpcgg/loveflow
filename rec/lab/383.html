@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 시험판 ▶ rec/lab/383.html · v1 · 261022 · 383 인스타식 화면 뼈대 · 384 고르게 섞기 · 385 가운데 「이야기방 만들기」 한 칸(세 묶음 27장 뒤)
+<!-- ★ 시험판 ▶ rec/lab/383.html · v2 · 261022 · [대표 20:48 색 — 방 테두리 오로라(보라 · 빙하 · 오팔 · 샴페인) · 견본 칸 깊은 그러데이션 · 만들기 칸 밤하늘]
+     (이전) v1 · 261022 · 383 인스타식 화면 뼈대 · 384 고르게 섞기 · 385 가운데 「이야기방 만들기」 한 칸(세 묶음 27장 뒤)
      진짜 서버 없이 눌러 보는 시험판(사진은 rec/seed 의 사랑흐름 · 다복 사진 · 「견본」 방 둘은 색 그림). 실화면(rec/index.html)은 건드리지 않음. -->
 <html lang="ko">
 <head>
@@ -31,11 +32,11 @@ main{padding-top:calc(var(--barH) + env(safe-area-inset-top))}
 .rooms{display:flex;gap:14px;overflow-x:auto;padding:14px 14px 10px;scrollbar-width:none}
 .rooms::-webkit-scrollbar{display:none}
 .rm{flex:0 0 auto;width:68px;text-align:center;border:0;background:none;padding:0;color:var(--ink)}
-.rm .c{display:block;width:64px;height:64px;margin:0 auto;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,var(--gold),var(--orange),var(--rose),var(--gold))}
+.rm .c{display:block;width:64px;height:64px;margin:0 auto;border-radius:50%;padding:3px;background:conic-gradient(from 210deg,#8E7CF0,#5CC8E0,#B7F0E0,#F6E3B4,#F2B8D9,#8E7CF0);box-shadow:0 0 14px rgba(142,124,240,.28)}
 .rm .c i{display:block;width:100%;height:100%;border-radius:50%;border:2px solid var(--cream);background:#ddd center/cover no-repeat}
 .rm .n{display:block;font-size:12px;margin-top:5px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rm.mk .c{background:var(--line)}
-.rm.mk .c i{display:grid;place-items:center;background:var(--sand);font-size:26px;color:var(--navy)}
+.rm.mk .c{background:linear-gradient(140deg,#d9d2f5,#cfeef4);box-shadow:none}
+.rm.mk .c i{display:grid;place-items:center;background:#fff;font-size:26px;color:#6B5BD2}
 
 /* ── 바둑판 : 3칸 · 열 칸마다 큰 칸 하나(왼쪽 · 오른쪽 번갈아) ── */
 .grid{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:calc((100vw - 4px) / 3);gap:2px}
@@ -46,14 +47,15 @@ main{padding-top:calc(var(--barH) + env(safe-area-inset-top))}
 .t .tag{position:absolute;left:5px;bottom:5px;max-width:calc(100% - 10px);font-size:11px;line-height:1;color:#fff;background:rgba(0,0,0,.42);
   padding:4px 7px;border-radius:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 .t .mvi{position:absolute;right:6px;top:6px;color:#fff;font-size:13px;text-shadow:0 0 4px rgba(0,0,0,.5);pointer-events:none}
-.art{display:grid!important;place-items:center;font-size:40px}
+.art{display:grid!important;place-items:center;font-size:40px;filter:saturate(.9)}
+.art{text-shadow:0 0 22px rgba(255,255,255,.55)}
 .t.big .art{font-size:64px}
-.make{grid-column:1 / -1;background:linear-gradient(160deg,#fff 0%,var(--sand) 100%);display:flex;flex-direction:column;align-items:center;
+.make{grid-column:1 / -1;color:#fff;background:radial-gradient(80% 120% at 15% 0%,rgba(242,184,217,.55),transparent 60%),radial-gradient(70% 120% at 100% 100%,rgba(92,200,224,.5),transparent 60%),linear-gradient(150deg,#1B2350 0%,#3B2F72 55%,#1F4A6E 100%);display:flex;flex-direction:column;align-items:center;
   justify-content:center;text-align:center;padding:16px;border:0}
-.make h3{margin:0 0 8px;font-size:19px;color:var(--navy);letter-spacing:-.3px}
+.make h3{margin:0 0 10px;font-size:20px;color:#fff;letter-spacing:-.3px;text-shadow:0 0 18px rgba(183,240,224,.35)}
 .make .chips{display:flex;flex-wrap:nowrap;gap:5px;overflow-x:auto;max-width:100%;margin:0 0 14px;scrollbar-width:none}
-.make .chips span{flex:0 0 auto;font-size:13px;padding:5px 10px;border-radius:14px;background:#fff;border:1px solid var(--line);color:var(--sub)}
-.make .go{border:0;background:var(--navy);color:#fff;font-size:16px;font-weight:700;padding:13px 26px;border-radius:26px;box-shadow:0 3px 10px rgba(30,74,118,.25)}
+.make .chips span{flex:0 0 auto;font-size:13px;padding:5px 10px;border-radius:14px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.28);color:#fff;backdrop-filter:blur(4px)}
+.make .go{border:0;background:linear-gradient(120deg,#F6E3B4,#F2B8D9 55%,#B7F0E0);color:#1B2350;font-size:16px;font-weight:700;padding:13px 28px;border-radius:26px;box-shadow:0 4px 18px rgba(242,184,217,.45)}
 .more{text-align:center;color:var(--sub);font-size:13px;padding:18px}
 
 /* ── 맨 아래 : ← ⌂ → · 푸터 ── */
@@ -161,8 +163,8 @@ var SEED='../seed/';
 var ROOMS=[
   {id:'lf',name:'사랑흐름 우리 이야기',cover:SEED+'lf/s4_t.jpg'},
   {id:'db',name:'파주 프로방스 복요리 다복 이야기',cover:SEED+'dabok/d01_t.jpg'},
-  {id:'fa',name:'견본 · 우리 가족 이야기',art:['🎂','#F6D7C3']},
-  {id:'mu',name:'견본 · 문산 마을 이야기',art:['🌾','#DCE8C8']}
+  {id:'fa',name:'견본 · 우리 가족 이야기',art:['🎂','radial-gradient(120% 90% at 20% 15%,#E7B7D3 0%,#7C6FC4 42%,#1F2A55 100%)']},
+  {id:'mu',name:'견본 · 문산 마을 이야기',art:['🌾','radial-gradient(120% 90% at 70% 15%,#F8D9A0 0%,#B06A86 50%,#2A2140 100%)']}
 ];
 function rm(id){for(var i=0;i<ROOMS.length;i++){if(ROOMS[i].id===id){return ROOMS[i];}}return ROOMS[0];}
 var ITEMS=[];
@@ -170,9 +172,9 @@ var lfT=[['s4','사랑이 흘러 사랑을 부르다','m4'],['s7','마을에 불
 lfT.forEach(function(x,i){ITEMS.push({room:'lf',img:SEED+'lf/'+x[0]+'.jpg',th:SEED+'lf/'+x[0]+'_t.jpg',mv:x[2]?SEED+'lf/'+x[2]+'.mp4':'',title:x[1],when:'2026년 10월',age:i*3+1});});
 var dbT=['다복 한 상','복 지리 한 냄비','복 튀김','다복 마당','현관 가는 돌길','다복 간판','대숲 돌계단','돌담길','대숲 사이 창','마당에서 본 앞산','밤의 대숲','이끼 연못','마당 손님 두꺼비','나뭇결 그대로 살린 문','돌 틈 다육 정원','손으로 쓴 간판','다복 가는 이정표','길가 다복 표지'];
 dbT.forEach(function(t,i){var n=('0'+(i+1)).slice(-2);ITEMS.push({room:'db',img:SEED+'dabok/d'+n+'.jpg',th:SEED+'dabok/d'+n+'_t.jpg',title:t,when:'2026년 10월',age:i*2});});
-var faA=[['🎂','할머니 여든 생신','#F6D7C3'],['🎣','아버지와 첫 낚시','#CFE3EE'],['🎒','첫 등굣날','#F3E3B5'],['🌸','봄 소풍','#F7D6DF'],['🍉','여름 외갓집','#D5EBCF'],['🎄','막내 첫 크리스마스','#E4D9F2'],['📷','가족사진 1988','#EADFCF'],['🥟','설날 만두 빚기','#F1E6D3'],['🏖','대천 바닷가','#CFE7EA'],['🎓','큰딸 졸업식','#E1E6F4']];
+var faA=[['🎂','할머니 여든 생신','radial-gradient(120% 90% at 20% 15%,#E7B7D3 0%,#7C6FC4 42%,#1F2A55 100%)'],['🎣','아버지와 첫 낚시','radial-gradient(120% 90% at 80% 10%,#C8F0EC 0%,#3FA3B3 45%,#0F3446 100%)'],['🎒','첫 등굣날','radial-gradient(120% 90% at 30% 20%,#F6DDEB 0%,#9B84C9 48%,#2E2550 100%)'],['🌸','봄 소풍','radial-gradient(120% 90% at 70% 15%,#F8D9A0 0%,#B06A86 50%,#2A2140 100%)'],['🍉','여름 외갓집','radial-gradient(120% 90% at 25% 10%,#DDF0D5 0%,#5E9C86 48%,#16302C 100%)'],['🎄','막내 첫 크리스마스','radial-gradient(120% 90% at 75% 20%,#B9DDF5 0%,#3F6FB8 48%,#101A3A 100%)'],['📷','가족사진 1988','radial-gradient(120% 90% at 20% 15%,#E7B7D3 0%,#7C6FC4 42%,#1F2A55 100%)'],['🥟','설날 만두 빚기','radial-gradient(120% 90% at 80% 10%,#C8F0EC 0%,#3FA3B3 45%,#0F3446 100%)'],['🏖','대천 바닷가','radial-gradient(120% 90% at 30% 20%,#F6DDEB 0%,#9B84C9 48%,#2E2550 100%)'],['🎓','큰딸 졸업식','radial-gradient(120% 90% at 70% 15%,#F8D9A0 0%,#B06A86 50%,#2A2140 100%)']];
 faA.forEach(function(x,i){ITEMS.push({room:'fa',art:[x[0],x[2]],title:x[1],when:'견본',age:i*4+2});});
-var muA=[['🌾','성동리 가을 들녘','#E9E2BE'],['🏫','문산초 운동회','#D8E6F2'],['🚂','문산역 옛 모습','#E3DAD0'],['🎎','마을 잔치','#F2D8CC'],['🌳','동구 밖 느티나무','#D3E6CD'],['🧺','장날 풍경','#F0E3C9'],['⛪','마을 회관 준공','#E2E2EA'],['🐄','외양간 송아지','#EEE0CC']];
+var muA=[['🌾','성동리 가을 들녘','radial-gradient(120% 90% at 70% 15%,#F8D9A0 0%,#B06A86 50%,#2A2140 100%)'],['🏫','문산초 운동회','radial-gradient(120% 90% at 25% 10%,#DDF0D5 0%,#5E9C86 48%,#16302C 100%)'],['🚂','문산역 옛 모습','radial-gradient(120% 90% at 75% 20%,#B9DDF5 0%,#3F6FB8 48%,#101A3A 100%)'],['🎎','마을 잔치','radial-gradient(120% 90% at 20% 15%,#E7B7D3 0%,#7C6FC4 42%,#1F2A55 100%)'],['🌳','동구 밖 느티나무','radial-gradient(120% 90% at 80% 10%,#C8F0EC 0%,#3FA3B3 45%,#0F3446 100%)'],['🧺','장날 풍경','radial-gradient(120% 90% at 30% 20%,#F6DDEB 0%,#9B84C9 48%,#2E2550 100%)'],['⛪','마을 회관 준공','radial-gradient(120% 90% at 70% 15%,#F8D9A0 0%,#B06A86 50%,#2A2140 100%)'],['🐄','외양간 송아지','radial-gradient(120% 90% at 25% 10%,#DDF0D5 0%,#5E9C86 48%,#16302C 100%)']];
 muA.forEach(function(x,i){ITEMS.push({room:'mu',art:[x[0],x[2]],title:x[1],when:'견본',age:i*5+1});});
 
 /* ── 자리 짓기 : 9장이 한 묶음(4줄) · 큰 칸(2×2) 하나 · 왼쪽 · 오른쪽 번갈아 · 세 묶음(27장) 뒤 「이야기방 만들기」 한 칸 ── */
