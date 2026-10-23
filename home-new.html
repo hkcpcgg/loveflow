@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ home-new.html · v2 · 261023 · [71차 결과 · 대표 OK 261023 13:50 · 칸 1] 우리 이야기 문 아래 「나의 일상부터 / 가족 · 친구 · 우리 가게까지」(「마을」 뺌) · 「이야기방 만들기」 · 「기록관 열기」 같은 크기로 나란히(이야기방이 왼쪽 · 「무료」 글 뺌) · 둘 다 /rec/?open=form 으로 가며 꼬리표 kind=story · kind=hall(칸 3 만들기 화면이 읽어 카드 고르기를 건너뜀 — 그 전에는 지금 신청서가 그대로 열림) · 여권 입장은 아래 한 줄 그대로. [무손] 그 밖 v1 전부. -->
 <!-- ★ 현재 버전 ▶ home-new.html · v1 · 261023 · 메인 시험판(index.html v50 후보) · [대표 OK 261023 13:07 · GPT 이사 동의] 첫 화면을 큰 문 둘(사랑흐름 여행 · 우리 이야기)로 · 이야기방 만들기 · 사랑흐름 여권으로 입장하기 · 우리 이야기 마당 사진 한 줄 · ← ⌂ → · 아래 길목 띠는 이 화면에서만 감춤(길목 다섯 묶음이 모두 여행 쪽이라 「사랑흐름 여행」 안쪽 화면에 둠). 지금 메인(index.html v49)은 손대지 않음 · 검색에 안 잡히게 noindex. 확정되면 이 내용이 index.html v50 이 됨. -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -51,7 +52,12 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pass .ci{display:inline-grid;place-items:center;border-radius:50%;color:#fff;width:40px;height:40px;flex:0 0 40px}
 .pass .ci svg{width:55%;height:55%;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
 .pass b{display:block;color:var(--navy);font-size:15.5px}.pass small{display:block;color:#9a7a3a;font-size:12.5px}
-.pass.mk{border-color:#3FA59A;background:linear-gradient(135deg,#F2FBF9,#E2F4F0)}.pass.mk small{color:#2F7F76}
+.mk2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mkb{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding:14px 8px 13px;border:1.5px solid #3FA59A;background:linear-gradient(160deg,#F4FBFA,#E3F3F0);border-radius:16px;transition:transform .12s}
+.mkb:active{transform:scale(.97)}
+.mkb .mi{width:42px;height:42px;border-radius:50%;background:#fff;border:1px solid #CFE8E3;display:grid;place-items:center;font-size:22px;line-height:1;margin-bottom:2px}
+.mkb b{font-size:15.5px;color:var(--navy);font-weight:800}
+.mkb small{font-size:12.5px;line-height:1.45;color:#2F7F76}
 /* 우리 이야기 마당 사진 한 줄 — 옆으로 밀어 보기 */
 .pz[hidden]{display:none}
 .pzh{display:flex;align-items:center;justify-content:space-between;margin:0 2px 9px}
@@ -83,11 +89,11 @@ button{font:inherit;color:inherit;cursor:pointer}
 
   <section class="doors">
     <button class="door d1" type="button" id="dTrip"><span class="di"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20s-7-4.3-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.7-7 10-7 10z"/></svg></span><b>사랑흐름 여행</b><small>나를 알고,<br>그 사람을 알아 가는 여행</small><span class="go">시작하기 →</span></button>
-    <button class="door d2" type="button" id="dRec"><span class="di" aria-hidden="true">🍇</span><b>우리 이야기</b><small>나의 하루부터<br>우리 마을까지</small><span class="go">들어가기 →</span></button>
+    <button class="door d2" type="button" id="dRec"><span class="di" aria-hidden="true">🍇</span><b>우리 이야기</b><small>나의 일상부터<br>가족 · 친구 · 우리 가게까지</small><span class="go">들어가기 →</span></button>
   </section>
 
   <section class="acts">
-    <button class="pass mk" type="button" id="aMake"><span class="ci" style="background:#1D9E75"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 11l8-6 8 6v8a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M12 11v6M9 14h6"/></svg></span><span><b>이야기방 만들기</b><small>나 · 가족 · 모임 · 일터 · 마을 · 기관 — 무료</small></span></button>
+    <div class="mk2"><button class="mkb" type="button" id="aMake"><span class="mi">📔</span><b>이야기방 만들기</b><small>나 · 가족 · 친구<br>모임 · 우리 가게</small></button><button class="mkb" type="button" id="aHall"><span class="mi">🏛</span><b>기록관 열기</b><small>학교 · 기관<br>마을 · 단체</small></button></div>
     <button class="pass" type="button" id="aPass"><span class="ci" style="background:#C9A96E"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M9 16h6"/></svg></span><span><b>사랑흐름 여권으로 입장하기</b><small>쓰던 곳으로 바로 이어집니다</small></span></button>
   </section>
 
@@ -110,7 +116,8 @@ button{font:inherit;color:inherit;cursor:pointer}
   var PLAZA='/rec/?plaza=1';
   $('dTrip').onclick=function(){ go('/travel/','trip'); };
   $('dRec').onclick=function(){ go(PLAZA,'rec'); };
-  $('aMake').onclick=function(){ go('/rec/?open=form','make'); };
+  $('aMake').onclick=function(){ go('/rec/?open=form&kind=story','make'); };
+  $('aHall').onclick=function(){ go('/rec/?open=form&kind=hall','hall'); };
   $('aPass').onclick=function(){ go('/reenter.html','pass'); };
   $('pzAll').onclick=function(){ go(PLAZA,'plaza_all'); };
   /* ← ⌂ → */
