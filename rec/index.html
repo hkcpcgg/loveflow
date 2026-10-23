@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v74 · 261023 · [대표 16:29 「OK 없이 쭉」 · 412 · 418] ① 412 관리자 「아래 모임 열기」 · 본부 「새 모임 만들기」 — 틀 열 가지 줄 → 📔 이야기방 / 🏛 기록관 고르고 종류(만들기 화면과 같은 여섯) · 「공개 방식」 → 「공개 범위」(초대받은 분만 / 전체 공개) · 이름 예시가 종류 따라 바뀜 · 본부 「모임 틀」 붙이기는 두 갈래로 묶고 옛 틀은 「예전 틀」 아래 ② 410-4 마당 위 방 띠에서 기록관 동그라미에 🏛 표시 ③ 418 휴대폰 비밀번호 창 — 모든 손님 입력 칸에 자동 완성 끔 · 종류를 눌러도 자판을 바로 띄우지 않음(칸이 보이게만). [무손] 그 밖 v73 전부. -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v75 · 261023 · [대표 16:29 「OK 없이 쭉」 · 419 · 410-6 · ★서버 ①Code v34와 짝(v33이면 기록만 안 남고 화면은 그대로)] 화면 기록 장치 — 화면 오류(window.onerror · 약속 실패) · 튕김(마당 늦은 대답을 막은 때 · 마당 못 받아 메인 방으로 간 때) · 만들기 걸음(카드 → 갈래 → 종류 → 만들기 누름 → 카카오 → 열림)을 모아 3초마다 · 화면 떠날 때 서버 「화면 기록」 탭에 한 번에 보냄 · 한 화면 40줄까지 · 같은 줄 거듭 안 보냄 · 손님 화면엔 아무것도 안 보임. [무손] 그 밖 v74 전부. -->
+<!-- (이전) rec/index.html · v74 · 261023 · [대표 16:29 「OK 없이 쭉」 · 412 · 418] ① 412 관리자 「아래 모임 열기」 · 본부 「새 모임 만들기」 — 틀 열 가지 줄 → 📔 이야기방 / 🏛 기록관 고르고 종류(만들기 화면과 같은 여섯) · 「공개 방식」 → 「공개 범위」(초대받은 분만 / 전체 공개) · 이름 예시가 종류 따라 바뀜 · 본부 「모임 틀」 붙이기는 두 갈래로 묶고 옛 틀은 「예전 틀」 아래 ② 410-4 마당 위 방 띠에서 기록관 동그라미에 🏛 표시 ③ 418 휴대폰 비밀번호 창 — 모든 손님 입력 칸에 자동 완성 끔 · 종류를 눌러도 자판을 바로 띄우지 않음(칸이 보이게만). [무손] 그 밖 v73 전부. -->
 <!-- (이전) rec/index.html · v73 · 261023 · [대표 말씀 16:01 · 412] ① 마당 → 만들기 튕김 막음 — 마당 첫 대답(1~3초 뒤)이 늦게 와도 만들기 화면이 열려 있으면 마당을 다시 그리지 않음(「더 불러오기」도) · ② 미리보기 칸(옛 사진 · 명절 …) 누르면 그 칸이 켜지고 위 그림에 「○○ 칸」 한 줄 · ③ 🏠 · 로고 누르는 즉시 「이동 중」 표시 · 두 번 눌림 막음 · 늦게 온 대답이 이동을 가로채지 않음. [무손] 그 밖 v72 전부. -->
 <!-- (이전) rec/index.html · v72 · 261023 · [대표 OK 15:32 · 411] 만들기 화면 — 종류 끝 「기타」(이야기방 F-13 · 기록관 F-14 · 서버 ①Code v33) · 카드 말 열린 말(「나와 가까운 사람들, 누구나」 · 「학교 · 기관 · 단체 · 회사, 어디든」) · 종류를 누르면 「미리보기」(대표 사진 · 이름 · 분류) · 카드 배경 = 마당 실제 사진 · 「나의 일상부터 가족 · 친구 · 우리 가게까지」 → 「나의 일상부터 우리 모두의 이야기까지」(마당 · 띠 · 공유). [무손] 그 밖 v71 전부. -->
 <!-- (이전) rec/index.html · v71 · 261023 · [대표 OK 14:42] 만들기 대표 사진 — 세 칸 한 줄 기준 · 줄이 덜 차면 남은 칸을 점선 「＋」(누르면 사진 고르기)로 채움 · 빈 공간 없음. [무손] 그 밖 v70 전부. -->
@@ -1520,6 +1521,17 @@ function mainGet(cb){ if(MAINC){ cb(MAINC); return; }
 function lfGone(){ return !!window.LF_LEAVE; }   /* ★v73 412 이동 시작하면 늦은 대답이 화면을 건드리지 않음 */
 function goAway(u){ if(window.LF_LEAVE){ return; } window.LF_LEAVE=1; try{ document.body.classList.add('lfgo'); }catch(e){} location.href=u; }
 window.addEventListener('pageshow',function(e){ if(e.persisted){ window.LF_LEAVE=0; try{ document.body.classList.remove('lfgo'); }catch(x){} } });
+/* ★v75 419 화면 기록 — 오류 · 튕김 · 만들기 걸음 → 서버 「화면 기록」 탭(관리자만 봄) */
+var LGQ=[], LGN=0, LGSEEN={}, LGT=null, LGSID='';
+try{ LGSID=sessionStorage.getItem('lf_sid')||''; if(!LGSID){ LGSID=Math.random().toString(36).slice(2,10); sessionStorage.setItem('lf_sid',LGSID); } }catch(e){ LGSID=Math.random().toString(36).slice(2,10); }
+function lfLog(k,m){ try{ m=String(m||'').slice(0,300); var key=k+'|'+m; if(LGSEEN[key]||LGN>=40){ return; } LGSEEN[key]=1; LGN++;
+  LGQ.push([k,String(VIEW||'')+(location.search?' '+location.search.slice(0,60):''),m]); if(!LGT){ LGT=setTimeout(lfFlush,3000); } }catch(e){} }
+function lfFlush(){ LGT=null; if(!LGQ.length||!GAS){ return; } var a=LGQ.splice(0,10);
+  try{ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recLog',items:JSON.stringify(a),dev:(typeof spdDev==='function'?spdDev():''),v:'v75',sid:LGSID}),keepalive:true}).catch(function(){}); }catch(e){}
+  if(LGQ.length){ LGT=setTimeout(lfFlush,1000); } }
+window.addEventListener('pagehide',function(){ if(LGT){ clearTimeout(LGT); } lfFlush(); });
+window.addEventListener('error',function(e){ if(!e){ return; } var s=(e.filename||'').split('/').pop(); lfLog('오류',(e.message||'오류')+(s?' @'+s+':'+(e.lineno||''):'')); });
+window.addEventListener('unhandledrejection',function(e){ var r=e&&e.reason; lfLog('오류','약속 실패 · '+((r&&r.message)||String(r||'')).slice(0,200)); });
 function formUp(){ return !!document.querySelector('#main .mkk, #main #ofN, #main #ofPv, #main #ofT'); }   /* ★v73 만들기 화면이 떠 있나 */
 function homeGo(){ goAway(location.pathname+'?plaza=1'); }   /* ★v55 344 🏠 = 우리 이야기 광장(서버 v20 이면 광장이 메인 방으로 넘김) */
 var DRAFT_T='', PEND_ADD=null, PEND_NEW=0, VIA=false;   /* ★v33 VIA 는 늘 false(231) */
@@ -1827,9 +1839,9 @@ function plazaBoot(){
   var sn=snapGet('plaza'); if(sn){ plazaSet(sn); plazaDraw(); } else { wait($('main'),'우리 이야기 마당을 여는 중입니다'); }
   api({action:'recPlaza',n:'24',_hq:1},function(d){
     if(lfGone()){ return; }   /* ★v73 */
-    if(!d||d.status!=='ok'||!(d.rooms||[]).length){ if(!sn&&VIEW==='plaza'&&!formUp()){ location.replace(location.pathname+'?main=1'); } return; }   /* 서버 v20 이면 recPlaza 를 몰라 메인 방으로 */
+    if(!d||d.status!=='ok'||!(d.rooms||[]).length){ if(!sn&&VIEW==='plaza'&&!formUp()){ lfLog('튕김','마당을 못 받아 메인 방으로 · '+((d&&(d.msg||d.status))||'대답 없음')); lfFlush(); location.replace(location.pathname+'?main=1'); } return; }   /* 서버 v20 이면 recPlaza 를 몰라 메인 방으로 */
     snapPut('plaza',d); if(sn&&snapSig(sn)===snapSig(d)){ return; }
-    if(VIEW!=='plaza'||formUp()){ PLZ.late=d; return; }   /* ★v73 412 만들기 화면이 열려 있으면 마당을 다시 그리지 않음(튕김의 까닭) */
+    if(VIEW!=='plaza'||formUp()){ PLZ.late=d; lfLog('튕김','막음 · 마당 대답이 늦게 옴(만들기 열려 있음)'); return; }   /* ★v73 412 만들기 화면이 열려 있으면 마당을 다시 그리지 않음(튕김의 까닭) */
     var y=sn?(window.scrollY||0):0; plazaSet(d); plazaDraw(); if(y){ window.scrollTo(0,y); } });
 }
 function plazaDraw(){
@@ -4395,6 +4407,7 @@ function pwaAsk(){ if(pwaIn()){ return; }
   sheet('<h2>📲 바탕화면에 두기</h2><p class="lead" style="margin-top:6px">인터넷으로 넘어왔습니다. 아래 단추를 한 번 더 누르면 바탕화면에 생깁니다.</p><button class="btn warm" id="pwY" type="button">📲 바탕화면에 두기</button><button class="btn line" id="pwX" type="button">닫기</button>',
     function(){ $('pwX').onclick=closeSheet; $('pwY').onclick=function(){ closeSheet(); setTimeout(pwaGo,200); }; }); }
 function opnStart(){
+  lfLog('만들기','1 카드 화면');   /* ★v75 410-6 */
   try{ sessionStorage.setItem(ORET,OPN?location.pathname+'?open=1':location.href); }catch(e){}
   var dr=null; try{ dr=JSON.parse(sessionStorage.getItem(ODR)||'null'); }catch(e){}
   openFormR(dr);
@@ -4459,8 +4472,8 @@ function openForm(dr,msg){
     h+='</div>';
     $('main').innerHTML=h;
     $('ofB').onclick=function(){ grab(); odSave(); openRet(); };
-    each($('main'),'[data-ok]',function(b){ b.onclick=function(){ grab(); var k=b.getAttribute('data-ok'); if(OP.kind!==k){ OP.kind=k; OP.frame=''; OP.room=MK_KIND[k].room; } draw(); oKeep(); var t=$('ofT'); if(t&&t.scrollIntoView){ t.scrollIntoView({behavior:'smooth',block:'center'}); } }; });
-    each($('main'),'[data-of]',function(b){ b.onclick=function(){ grab(); var first=!OP.frame; OP.frame=b.getAttribute('data-of'); if(!OP.room){ OP.room=MK_KIND[OP.kind].room; }
+    each($('main'),'[data-ok]',function(b){ b.onclick=function(){ grab(); var k=b.getAttribute('data-ok'); lfLog('만들기','2 갈래 · '+k); if(OP.kind!==k){ OP.kind=k; OP.frame=''; OP.room=MK_KIND[k].room; } draw(); oKeep(); var t=$('ofT'); if(t&&t.scrollIntoView){ t.scrollIntoView({behavior:'smooth',block:'center'}); } }; });
+    each($('main'),'[data-of]',function(b){ b.onclick=function(){ grab(); var first=!OP.frame; OP.frame=b.getAttribute('data-of'); lfLog('만들기','3 종류 · '+OP.frame); if(!OP.room){ OP.room=MK_KIND[OP.kind].room; }
       if(OP.frame==='F-10'){ OP.room='닫힌 방'; toast('「나」 방은 초대받은 분만 봅니다','나중에 관리 화면에서 바꿀 수 있습니다'); }
       draw(); oKeep(); if(first){ var n=$('ofN'); if(n&&n.scrollIntoView){ n.scrollIntoView({behavior:'smooth',block:'center'}); } } }; });   /* ★v74 418 자판을 바로 띄우지 않음(비밀번호 창의 까닭) */
     if(!T){ return; }
@@ -4474,7 +4487,7 @@ function openForm(dr,msg){
       if(!OP.name){ e.textContent=K.t+' 이름을 적어 주십시오.'; $('ofN').focus(); return; }
       if(!$('ofY').checked){ e.textContent='만 14세 이상인지 확인해 주십시오.'; return; }
       if(!$('ofG').checked){ e.textContent='안내를 읽으셨는지 확인해 주십시오.'; return; }
-      e.textContent=''; odSave(); var s=JSON.stringify(OP), ok=true; try{ sessionStorage.setItem(OPK,s); }catch(x){ ok=false; }
+      e.textContent=''; lfLog('만들기','4 만들기 누름 · '+OP.frame); lfFlush(); odSave(); var s=JSON.stringify(OP), ok=true; try{ sessionStorage.setItem(OPK,s); }catch(x){ ok=false; }
       if(!ok){ var lite=JSON.parse(s); lite.photos=[]; lite.noPhoto=1; try{ sessionStorage.setItem(OPK,JSON.stringify(lite)); }catch(x2){} }
       kakaoGo('open');
     };
@@ -4510,17 +4523,18 @@ function openBack(code,kerr){
   openBack2(code,kerr,dr);
 }
 function openBack2(code,kerr,dr){
-  if(kerr||!code){ openForm(dr,'카카오 로그인을 마치지 못했습니다. 아래 단추를 다시 눌러 주십시오.'); return; }
+  if(kerr||!code){ lfLog('만들기','5 카카오 못 마침 · '+(kerr||'코드 없음')); openForm(dr,'카카오 로그인을 마치지 못했습니다. 아래 단추를 다시 눌러 주십시오.'); return; }
+  lfLog('만들기','5 카카오 다녀옴');
   wait($('main'),'방을 만드는 중입니다');
   var gos=(dr.gos||[]).filter(function(g){ return g.name&&g.url; });
   var all=dr.photos||[], vids=[]; all.forEach(function(p,i){ if(p.yt){ vids.push({i:i,yt:p.yt}); } });   /* ★v40 대표 칸 영상 */
   api({action:'recOpenApply',code:code,redirect:KREDIR,name:dr.name,frame:dr.frame,room:dr.room,admin:dr.self?'':dr.admin,intro:dr.intro,cats:dr.cats,gos:JSON.stringify(gos),help:dr.help?'1':'',vids:JSON.stringify(vids),agree:'1'},function(r){
-    if(r.status!=='ok'){ openForm(dr,r.msg||'방을 만들지 못했습니다. 다시 시도해 주십시오.'); return; }
+    if(r.status!=='ok'){ lfLog('만들기','6 신청 막힘 · '+(r.reason||'')+' '+(r.msg||'')); openForm(dr,r.msg||'방을 만들지 못했습니다. 다시 시도해 주십시오.'); return; }
     otsAdd(r.ot);
     var ph=[], i=0, okN=0; all.forEach(function(p,k){ if(!p.yt&&p.ph){ ph.push({ph:p.ph,pv:p.pv,k:k}); } });
     function done(){ busyOn('방을 여는 중입니다');   /* ★v45 그 자리에서 방이 열림 */
       api({action:'recOpenDone',no:r.no,ot:r.ot},function(m){ busyOff();
-        if(m.status==='ok'){ try{ sessionStorage.removeItem(OPK); sessionStorage.removeItem(ODR); }catch(e){} odPut(null); }
+        if(m.status==='ok'){ lfLog('만들기','7 열림 · '+(dr.frame||'')); lfFlush(); try{ sessionStorage.removeItem(OPK); sessionStorage.removeItem(ODR); }catch(e){} odPut(null); } else { lfLog('만들기','7 열기 실패 · '+(m.msg||'')); }
         if(m.status==='ok'&&m.self&&m.link){ toast('방이 열렸습니다','이제 관리자로 들어갑니다'); setTimeout(function(){ location.href=m.link+(m.link.indexOf('?')>-1?'&':'?')+'new=1'; },700); return; }
         openDone(r,dr,okN,ph.length,m); }); }
     if(!ph.length){ done(); return; }
