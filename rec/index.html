@@ -1,5 +1,11 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v68 · 261023 · [대표 09:44 OK 「시험판 406」 · ★서버 v30과 짝(v29 · v28에서도 열림 — 넘기기만 「서버 v30」 안내) · sw.js v3 그대로]
+<!-- ★ 현재 버전 ▶ rec/index.html · v69 · 261023 · [이사회 71차 · 대표 OK 14:28 · ★서버 ① Code v32와 짝(v31에서도 열림 — 「친구」 · 「모임」만 서버 v32 필요)]
+     · 만들기 화면 다시 짬 — 맨 위 큰 카드 둘(📔 이야기방 · 🏛 기록관) → 고른 쪽 종류 다섯(이야기방: 나 · 가족 · 친구 · 모임 · 우리 가게 / 기록관: 학교 · 기관 · 마을 · 단체 · 회사) →
+       이름 · 대표 사진(없어도 됨) · 공개 범위(전체 공개 / 초대받은 분만 · 이야기방은 초대받은 분만 · 기록관은 전체 공개로 시작) → 「이야기방 만들기」 · 「기록관 만들기」(누르면 카카오 로그인).
+       틀 열 가지 · 소개 한 줄 · 분류 · 바로가기 · 첫 관리자 칸은 만들 때 뺌(방이 열린 뒤 관리에서) · 종류 → 틀: 나 F-10 · 가족 F-06 · 친구 F-11 · 모임 F-12 · 우리 가게 F-01 · 학교 F-04 · 기관 F-09 · 마을 F-05 · 단체 F-03 · 회사 F-08.
+     · 말 — 「나의 하루부터 우리 마을까지」 · 「나 · 가족 · 모임 · 일터 · 마을 · 기관」 → 「나의 일상부터 가족 · 친구 · 우리 가게까지」 · 「📔 이야기방 · 🏛 기록관」 · 단추 「＋ 이야기방 만들기」 → 「＋ 우리 이야기 만들기」(마당 · 나 · ☰ · 공유) · 만들기 띠 「무료」 이름표 뺌(71차).
+     · /rec/?open=form&kind=story|hall — 그 카드를 골라 둔 채 엶. [무손] 본부 · 관리자 「아래 모임 만들기」 · 그 밖 v68 전부.
+     (이전) rec/index.html · v68 · 261023 · [대표 09:44 OK 「시험판 406」 · ★서버 v30과 짝(v29 · v28에서도 열림 — 넘기기만 「서버 v30」 안내) · sw.js v3 그대로]
      · 406 자리 띠 — 위 띠 바로 아래 늘 붙음 · 「어디 · 누구로」 · 색 다섯(본부 보라 ♛ · 위 방 관리자 청색 ◆ · 관리자 · 확인자 초록 ⚙ · 작성자 · 참여자 짙은 회색 ✎ · 둘러보는 분 · 보는 분 옅은 회색 ◌) · 누르면 「내 자리」.
        방 첫 화면(📍 줄 대신) · 관리 화면(옛 노란 「관리 중」 띠 대신 · 🚨 응급 · 나가기) · 마당 · 본부에 같은 띠.
      · 406 「내 자리」 — 이 기기 이야기방 + 서버 내 방 목록 역할 색 · 맡은 방은 「관리」 바로 가기 · 본부(카카오가 본부면) · 카카오로 다른 기기 자리 불러오기.
@@ -530,6 +536,16 @@ input.t:focus,textarea:focus{outline:none;border-color:var(--navy)}
 .season .chip{justify-content:center}
 .wout{text-align:center;font-size:20px;font-weight:800;color:var(--navy);margin-top:12px;min-height:30px;font-family:var(--f-disp)}
 .lab2{font-size:13.5px;font-weight:700;color:var(--sub);margin:14px 0 6px;display:block}
+/* ★v69 만들기 두 갈래 */
+.mkk{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:6px 0 4px}
+.mkc2{display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px 14px;border-radius:16px;border:1.5px solid var(--line);background:#fff;text-align:center;cursor:pointer;transition:transform .12s}
+.mkc2:active{transform:scale(.97)}
+.mkc2 .i{font-size:30px;line-height:1.1}.mkc2 b{font-size:16.5px;color:var(--navy);font-weight:800}.mkc2 small{font-size:12px;color:var(--sub);line-height:1.4}
+.mkc2.story.on{border-color:#1D9E75;background:#E1F5EE}.mkc2.hall.on{border-color:#534AB7;background:#EEEDFE}
+.mkt,.mkr{display:flex;gap:7px;overflow-x:auto;margin:12px 0 2px;padding-bottom:4px;scrollbar-width:none}
+.mkt::-webkit-scrollbar,.mkr::-webkit-scrollbar{display:none}
+.mkf .mkgo{margin-top:16px;border:0;color:#fff}
+.mkgo.story{background:linear-gradient(160deg,#0F5A68,#08303D)}.mkgo.hall{background:linear-gradient(160deg,#3B2F72,#1F1840)}
 .wab{display:flex;gap:8px;align-items:center;margin-top:12px;font-size:14.5px;cursor:pointer}
 .wab input{flex:0 0 24px;width:24px;height:24px;margin:0;accent-color:var(--orange)}
 .wab.top{align-items:flex-start}.wab.top input{margin-top:1px}
@@ -1264,7 +1280,7 @@ function boot(){
   var ss=(sp.get('s')||'').replace(/[^a-f0-9]/gi,'').slice(0,20).toLowerCase(); if(ss.length===20){ rcvBoot(ss); return; }   /* ★v67 388 받는 분 화면 */
   var hok=(sp.get('hqok')||'').replace(/[^a-f0-9]/gi,'').slice(0,32).toLowerCase(); if(hok.length===32){ try{ history.replaceState(null,'',location.pathname); }catch(e){} hqOkView(hok,sp.get('y')==='1'); return; }   /* ★v63 365 카톡 [승인] */
   if(sp.get('hq')){ hqBoot(); return; }   /* ★v37 본부 */
-  if(sp.get('open')==='form'){ OPN=1; try{ sessionStorage.setItem(ORET,'/'); history.replaceState(null,'',location.pathname+'?open=1'); }catch(e){} var dr0=null; try{ dr0=JSON.parse(sessionStorage.getItem(ODR)||'null'); }catch(e){} openFormR(dr0); return; }   /* ★v41 메인 「우리 이야기방 만들기」 → 곧바로 신청서 · 돌아가기는 메인 */
+  if(sp.get('open')==='form'){ OPN=1; OKIND=/^(story|hall)$/.test(sp.get('kind')||'')?sp.get('kind'):''; try{ sessionStorage.setItem(ORET,'/'); history.replaceState(null,'',location.pathname+'?open=1'); }catch(e){} var dr0=null; try{ dr0=JSON.parse(sessionStorage.getItem(ODR)||'null'); }catch(e){} openFormR(dr0); return; }   /* ★v41 메인 「우리 이야기방 만들기」 → 곧바로 신청서 · 돌아가기는 메인 */
   if(sp.get('open')){ openBoot(); return; }   /* ★v39 291 우리 모임 이야기 열기 */
   if(sp.get('pk')==='1'&&g){ PEEK=1; try{ history.replaceState(null,'',location.pathname+'?g='+encodeURIComponent(g)+'&pk=1'); }catch(e){} guestIn(g); return; }   /* ★v39 286 둘러볼 모임 — 내 열쇠는 그대로 · 손님으로 봄 */
   var adm=(sp.get('adm')||'').replace(/[^a-f0-9]/gi,'').slice(0,32).toLowerCase();   /* ★v38 관리자 임명 링크 */
@@ -1760,9 +1776,9 @@ function pzCell(o,i){
   return '<button type="button" class="tl'+(big?' big':'')+(bg?'':' wait')+'" data-vz="'+i+'"'+(!bg&&x.u?' data-pu="'+esc(x.id)+'"':'')+(big&&x.u?' data-pb="'+esc(x.id)+'"':'')+' style="'+pos+(bg?';background-image:url('+esc(bg)+')':'')+'" aria-label="'+esc((x.t||'사진')+' · '+r.name)+'">'+
     (mv?'<video class="tv" muted loop playsinline preload="none" data-mv="'+esc(mv)+'"></video><span class="mvi">▶</span>':'')+(x.yt?'<span class="pl"></span>':'')+'<i class="rt">'+esc(r.name)+'</i></button>';
 }
-function pzMake(r){ return '<div class="mkc"'+(r?' style="grid-row:'+r+' / span 2"':'')+'><h3>나의 하루부터 우리 마을까지</h3>'+
-  '<div class="chips"><span>📔 나</span><span>👪 가족</span><span>🤝 모임</span><span>🏪 일터</span><span>🌾 마을</span><span>🏛 기관</span></div>'+
-  '<button type="button" class="go mkGo">＋ 이야기방 만들기</button></div>'; }
+function pzMake(r){ return '<div class="mkc"'+(r?' style="grid-row:'+r+' / span 2"':'')+'><h3>나의 일상부터 가족 · 친구 · 우리 가게까지</h3>'+
+  '<div class="chips"><span>📔 이야기방</span><span>🏛 기록관</span></div>'+
+  '<button type="button" class="go mkGo">＋ 우리 이야기 만들기</button></div>'; }
 function pzRooms(){   /* ★v66 390 내 방 먼저(이 기기에서 들어가 본 방) · 마당에 없는 내 방(닫힌 방 · 나의 이야기)도 · 사이에 금 · 끝에 ＋ 만들기 */
   var my=myRoomsL(), mine={}, rs=PLZ.rooms.slice(), h='', extra=[];
   my.forEach(function(x){ mine[x.n]=x; });
@@ -1967,9 +1983,9 @@ function meOpen(){
   var h=phHtml('나')+'<div class="mh"><span class="av"><span>'+esc(nm.charAt(0))+'</span></span><div><div class="nm">'+esc(nm==='나'?'나':nm+' 님')+'</div><div class="sb">'+(ME&&!isGuest()?esc(roleName(ME.role))+' · '+esc(ME.comName||''):'이 기기에서 들어가 본 이야기방')+'</div></div></div>'+
     '<div class="msec"><h3>내 이야기방 '+rooms.length+'</h3>'+(rooms.length?rooms.map(function(x,i){ return mcard(x,i); }).join(''):'<p class="note">아직 들어가 본 이야기방이 없습니다.</p>')+'</div>';
   if(ME&&!isGuest()){ h+='<div class="msec"><h3>내가 남긴 사진</h3><p class="note" style="margin:0 0 8px">'+esc(ME.comName||'')+' · 나에게만 보입니다</p></div><div class="mpg" id="mePics"></div><div class="msec" id="meRestW" hidden><h3 id="meRestH">내가 남긴 글 · 기억</h3><div id="meRest"></div></div>'; }
-  h+='<button type="button" class="bigb" id="meMk">＋ 이야기방 만들기</button>';
+  h+='<button type="button" class="bigb" id="meMk">＋ 우리 이야기 만들기</button>';
   if(ME&&!isGuest()){ h+='<div class="msec"><h3>설정 · 메뉴</h3>'+meRows().filter(function(r){ return r[0]!=='me'; }).map(function(r){ return '<button type="button" class="mrow" data-m="'+r[0]+'"><span class="ci '+r[2]+'">'+ic(r[1])+'</span><span><b>'+r[3]+'</b><small>'+r[4]+'</small></span></button>'; }).join('')+'</div>'; }
-  else { h+='<div class="msec"><button type="button" class="mrow" data-m="shr"><span class="ci c-green">'+ic('share')+'</span><span><b>공유하기</b><small>우리 이야기 마당 · 이야기방 만들기 링크</small></span></button></div>'; }
+  else { h+='<div class="msec"><button type="button" class="mrow" data-m="shr"><span class="ci c-green">'+ic('share')+'</span><span><b>공유하기</b><small>우리 이야기 마당 · 우리 이야기 만들기 링크</small></span></button></div>'; }
   pgOpen('meP',h);
   var el=$('meP');
   each(el,'[data-mr]',function(c){ c.onclick=function(e){ if(e.target.closest('[data-mo]')){ return; } roomGo(MEP.rooms[+c.getAttribute('data-mr')]); }; });
@@ -2240,7 +2256,7 @@ function gridDraw(){
   if(!b.length&&!nw.length&&!st.length){ h+='<div class="card" style="text-align:center"><h2>아직 기록이 없습니다</h2><p class="lead">'+(canAdd()?'오른쪽 아래 ＋ 에서 첫 사진 한 장을 남겨 주세요.':'곧 첫 기록이 올라옵니다.')+'</p></div>'; }
   h+='<div class="lo"><h3>찾아보기</h3><div class="row1">'+findList().map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div></div>';   /* ★v59 */
   h+='<div class="lo lo3">'+subsRow()+'<div id="shBox">'+showBox()+'</div>';   /* ★v45 ③ 바깥 — 다른 이야기방 · 만들기 띠 */
-  { h+='<div class="opband" id="opBand"><b>나의 하루부터 우리 마을까지 <em class="free">무료</em></b><small>나 · 가족 · 모임 · 일터 · 마을 · 기관</small><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'이야기방 만들기</button><div id="opMine"></div></div>'; }
+  { h+='<div class="opband" id="opBand"><b>나의 일상부터 가족 · 친구 · 우리 가게까지</b><small>📔 이야기방 · 🏛 기록관</small><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기 만들기</button><div id="opMine"></div></div>'; }
   h+='</div><div class="lo lo4">';   /* ★v59 필요할 때만 쓰는 것 — 맨 밑 */
   if(ME&&ME.intro){ h+='<p class="intro">'+esc(ME.intro)+'</p>'; }   /* ★v61 374 바로가기는 위 한 줄에만 — 맨 밑에서 뺌 */
   if(isBoss()&&!OPN){ h+='<button class="btn upb adb" id="admB" type="button">⚙ 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':'')+'</button>'; }   /* ★v58 364 · ★v59 맨 밑 */
@@ -2761,7 +2777,7 @@ function copyLink(url,t,s){
 function siteShare(pick){
   pick=pick==='open'?'open':'yard';
   var O={yard:{u:location.origin+'/rec/?plaza=1',t:'우리 이야기 마당',s:'여러 이야기방의 사진 둘러보기',d:'사진과 이야기가 모인 사랑흐름 우리 이야기 마당입니다.'},
-         open:{u:location.origin+'/rec/?open=form',t:'이야기방 만들기',s:'바로 만드는 화면 · 무료',d:'나의 하루부터 우리 마을까지 — 이야기방을 무료로 만들어 보세요.'}};
+         open:{u:location.origin+'/rec/?open=form',t:'우리 이야기 만들기',s:'바로 만드는 화면',d:'나의 일상부터 가족 · 친구 · 우리 가게까지, 학교 · 기관 · 마을의 기록관까지 — 바로 만들어 보세요.'}};
   sheet('<h2>공유하기</h2><p class="lead" style="margin-top:4px">보낼 것을 고르세요.</p>'+['yard','open'].map(function(k){ return '<button type="button" class="mrow" data-sp="'+k+'"><span class="ci '+(k==='yard'?'c-green':'c-gold')+'">'+ic(k==='yard'?'grape':'plus')+'</span><span><b>'+O[k].t+(pick===k?' <span class="tag t-on">고름</span>':'')+'</b><small>'+O[k].s+'</small></span></button>'; }).join('')+
     '<div class="linkbox" style="margin-top:10px">'+esc(O[pick].u)+'</div><div class="pair" style="margin-top:12px"><button class="btn kakao" id="spK" type="button" style="margin-top:0">'+KICON+'카카오톡</button><button class="btn line" id="spC" type="button" style="margin-top:0">링크 복사</button></div><button class="btn line" id="spX" type="button">닫기</button>',function(d){
     each(d,'[data-sp]',function(b){ b.onclick=function(){ siteShare(b.getAttribute('data-sp')); }; });
@@ -3208,7 +3224,7 @@ function meRows(){
   R.push(['myname','pen','c-navy','보일 이름 바꾸기','지금 이름 · '+esc(ME.name||'')]);
   if(ME.room==='열린 모임'||ME.role==='관리자'){ R.splice(1,0,['post','share','c-peach','단톡방에 올릴 글','사진 제목 · 질문 · 링크를 한 번에 복사']); }
   R.push(['guide','look','c-navy','이용 안내','처음 오신 분 · 함께하는 분 · 확인자 · 관리자']);
-  R.push(['shr','share','c-green','공유하기','우리 이야기 마당 · 이야기방 만들기 링크']); R.push(['open','plus','c-gold','이야기방 만들기','나 · 가족 · 모임 · 일터 · 마을 · 기관']);   /* ★v42 308 */
+  R.push(['shr','share','c-green','공유하기','우리 이야기 마당 · 우리 이야기 만들기 링크']); R.push(['open','plus','c-gold','우리 이야기 만들기','📔 이야기방 · 🏛 기록관']);   /* ★v42 308 */
   if(!pwaIn()){ R.push(['pwa','home','c-green','휴대폰 바탕화면에 두기','주소 찾지 않고 아이콘으로 바로 들어옵니다']); }   /* ★v42 309 */
   R.push(['out','out','c-gray','나가기','카카오톡으로 돌아갑니다']);
   if(ME.role!=='관리자'){ R.push(['leave','out','c-gray','이 모임에서 나가기','남기신 기록은 그대로 남습니다']); }
@@ -3693,7 +3709,7 @@ function mySeats(){
     h+='<div class="seat'+(x.here&&VIEW!=='hq'&&VIEW!=='plaza'?' here':'')+'" data-se="'+i+'"><span class="sd '+o[0]+'">'+o[1]+'</span><span class="tx"><b>'+esc(x.n)+'</b><small>'+esc(r?o[2]:'들어가 본 방')+(my&&my.newN&&!x.here?' · 새 기억 '+my.newN:'')+'</small></span>'+(boss?'<button type="button" class="sga" data-sa="'+i+'">관리</button>':'')+'<em>'+(x.here&&VIEW!=='hq'&&VIEW!=='plaza'?'지금 여기':'가기 ›')+'</em></div>'; });
   if(!rooms.length&&!hqKnown()){ h+='<p class="note">아직 함께하는 이야기방이 없습니다. 초대를 받거나 이야기방을 만들면 여기에 생깁니다.</p>'; }
   h+=(ME&&!isGuest()&&ME.kakao)?'<button type="button" class="btn line" id="seMore">'+ic('key')+'카카오로 맡은 자리 모두 불러오기</button>':(ME&&!isGuest()?'<button type="button" class="btn kakao" id="seK">'+KICON+'카카오 연결 — 다른 휴대폰에서도 내 자리</button>':'');
-  h+='<button type="button" class="btn line" id="seMk">＋ 이야기방 만들기</button><button class="btn line lv" id="seX" type="button">닫기</button>';
+  h+='<button type="button" class="btn line" id="seMk">＋ 우리 이야기 만들기</button><button class="btn line lv" id="seX" type="button">닫기</button>';
   sheet(h,function(d){
     $('seX').onclick=closeSheet; $('seMk').onclick=function(){ closeSheet(); opnStart(); };
     if($('seHq')){ $('seHq').onclick=function(){ closeSheet(); if(VIEW==='hq'){ return; } location.href=location.pathname+'?hq=1'; }; }
@@ -3714,7 +3730,7 @@ function recMenu(){
   var h='<div class="rmh"><span>🍇 우리 이야기</span><button type="button" id="rmX" aria-label="닫기">✕</button></div><div class="rmp">'+posBar(mode)+'</div>';
   h+=row('plaza',ic('grape'),'c-violet','우리 이야기 마당','여러 이야기방 사진');
   h+=row('me',ic('heart'),'c-gold','나 · 내 이야기방','내 자리 · 내가 남긴 사진 · 글');
-  h+=row('open',ic('plus'),'c-green','이야기방 만들기','나 · 가족 · 모임 · 일터 · 마을 · 기관');
+  h+=row('open',ic('plus'),'c-green','우리 이야기 만들기','📔 이야기방 · 🏛 기록관');
   var mg=[], rooms=myRoomsL();
   rooms.forEach(function(x){ var my=myrOf(x.n), r=x.here&&ME?ME.role:(my&&my.role)||''; if((r==='관리자'||r==='확인자')&&!(x.here&&ASU)){ mg.push({x:x,k:x.here?posKey():roleKey(r,my&&my.up)}); } });
   if(mg.length||hqKnown()){ h+='<div class="rsl">관리</div>'; }
@@ -3722,7 +3738,7 @@ function recMenu(){
   if(hqKnown()){ h+='<button type="button" class="mrow" data-rm="hq"><span class="sd p-hq" style="width:36px;height:36px">♛</span><span><b>본부</b><small>모든 방 · 오늘 손볼 것 · 관리자 지정</small></span></button>'; }
   h+='<div class="rsl">도움</div>';
   if(ME&&!isGuest()){ h+=row('guide',ic('look'),'c-navy','이용 안내','처음 오신 분 · 함께하는 분 · 관리자'); }
-  h+=row('shr',ic('share'),'c-green','공유하기','우리 이야기 마당 · 이야기방 만들기 링크');
+  h+=row('shr',ic('share'),'c-green','공유하기','우리 이야기 마당 · 우리 이야기 만들기 링크');
   if(!pwaIn()){ h+=row('pwa',ic('home'),'c-green','휴대폰 바탕화면에 두기','아이콘으로 바로 들어옵니다'); }
   if(ME&&!isGuest()){ h+=row('menu',ic('star'),'c-gray','이 방 설정 · 메뉴','보일 이름 · 카카오 연결 · 이 방에서 나가기'); }
   h+='<div class="rlf">'+row('lf',ic('home'),'c-navy','사랑흐름 홈','사랑흐름 전체 메뉴는 여기에서')+'</div>';
@@ -4284,8 +4300,8 @@ function hqApDrop(x){
 var OPK='lf_rec_open', OTS='lf_rec_ots', OP=null;
 function otsGet(){ try{ return (localStorage.getItem(OTS)||'').split(',').filter(function(x){ return /^[a-f0-9]{32}$/.test(x); }); }catch(e){ return []; } }
 function otsAdd(t){ var a=otsGet().filter(function(x){ return x!==t; }); a.unshift(t); try{ localStorage.setItem(OTS,a.slice(0,10).join(',')); }catch(e){} }
-function openMode(){ document.body.classList.add('hqm'); $('fab').hidden=true; function tt(){ try{ document.title='이야기방 만들기 · 사랑흐름'; var t=document.querySelector('.lfx-title'); if(t){ t.textContent='이야기방 만들기'; } }catch(e){} } tt(); setTimeout(tt,300); setTimeout(tt,1200); }
-var OPN=0, ORET='lf_rec_oret', ODR='lf_rec_odraft';
+function openMode(){ document.body.classList.add('hqm'); $('fab').hidden=true; function tt(){ try{ document.title='우리 이야기 만들기 · 사랑흐름'; var t=document.querySelector('.lfx-title'); if(t){ t.textContent='우리 이야기 만들기'; } }catch(e){} } tt(); setTimeout(tt,300); setTimeout(tt,1200); }
+var OPN=0, ORET='lf_rec_oret', ODR='lf_rec_odraft', OKIND='';
 function openBoot(){   /* ★v40 글 안내 대신 사랑흐름 우리 이야기 첫 화면 + 맨 아래 띠 */
   OPN=1; try{ history.replaceState(null,'',location.pathname+'?open=1'); }catch(e){}
   wait($('main'),'사랑흐름 우리 이야기를 여는 중입니다');
@@ -4361,69 +4377,71 @@ function odPut(v){ odb(function(db){ if(!db){ return; } try{ var st=db.transacti
 function odGet(cb){ var done=0; function fin(v){ if(!done){ done=1; cb(v); } } setTimeout(function(){ fin(null); },1500); odb(function(db){ if(!db){ fin(null); return; } try{ var r=db.transaction('kv','readonly').objectStore('kv').get('draft'); r.onsuccess=function(){ fin(r.result||null); }; r.onerror=function(){ fin(null); }; }catch(e){ fin(null); } }); }
 function openFormR(dr){ if(dr){ openForm(dr); return; } odGet(function(d){ var has=d&&(d.name||d.intro||(d.photos||[]).length||(d.gos||[]).some(function(g){ return g.name||g.url; })); openForm(has?d:null); if(has){ toast('쓰시던 것을 이어서 엽니다','사진 · 칸이 그대로 있습니다'); } }); }
 function odSave(){ if(!OP){ return; } try{ sessionStorage.setItem(ODR,JSON.stringify(OP)); }catch(e){ try{ var l=JSON.parse(JSON.stringify(OP)); l.photos=(l.photos||[]).filter(function(p){ return p.yt; }); sessionStorage.setItem(ODR,JSON.stringify(l)); }catch(e2){} } }
+/* ★v69 71차 — 만들기 두 갈래: 카드(이야기방 · 기록관) → 종류 다섯 → 이름 · 대표 사진 · 공개 범위 → 만들기(카카오 로그인) */
+var MK_KIND={
+  story:{t:'이야기방',ic:'📔',s:'나 · 가족 · 친구<br>모임 · 우리 가게',room:'닫힌 방',go:'이야기방 만들기',
+    types:[['나','F-10','예: 홍길동의 하루'],['가족','F-06','예: 우리 가족 이야기'],['친구','F-11','예: 문산초 59회 친구들'],['모임','F-12','예: 파주 자전거 동호회'],['우리 가게','F-01','예: 프로방스 복요리 다복']]},
+  hall:{t:'기록관',ic:'🏛',s:'학교 · 기관 · 마을<br>단체 · 회사',room:'열린 모임',go:'기록관 만들기',
+    types:[['학교','F-04','예: ○○초등학교 기록관'],['기관','F-09','예: ○○복지관 기록관'],['마을','F-05','예: ○○면 기록관'],['단체','F-03','예: ○○협회 기록관'],['회사','F-08','예: ○○주식회사 기록관']]}};
+function mkKindOf(fr){ for(var k in MK_KIND){ for(var i=0;i<MK_KIND[k].types.length;i++){ if(MK_KIND[k].types[i][1]===fr){ return k; } } } return ''; }
 function openForm(dr,msg){
   openMode(); window.scrollTo(0,0);
-  OP=dr||{name:'',frame:'',room:'열린 모임',self:1,admin:'',intro:'',cats:'',catsEd:0,gos:[{name:'',url:''},{name:'',url:''},{name:'',url:''}],help:0,photos:[]};
-  if(!OP.gos||!OP.gos.length){ OP.gos=[{name:'',url:''}]; }
-  wait($('main'),'모임 틀을 불러오는 중입니다');
-  api({action:'recOpenFrames'},function(fd){
-    var fr=fd.status==='ok'?(fd.frames||[]):[]; fr.sort(function(a,b){ return (b.no==='F-10')-(a.no==='F-10'); });   /* ★v64 나부터 — 나의 이야기 틀을 맨 앞 */
-    function v(x){ return esc(x||''); }
-    $('main').innerHTML='<div class="sub"><button class="sbtn" id="ofB" type="button">← 둘러보기</button><span class="grow"></span></div>'+
-      '<div class="card"><h2>이야기방 만들기</h2>'+(msg?'<div class="err">'+esc(msg)+'</div>':'')+
-      '<label class="f">1. 모임 이름</label><input class="t" id="ofN" maxlength="40" placeholder="예: 파주 성동리 우리 마을 이야기" value="'+v(OP.name)+'"><p class="note" style="margin-top:4px">어디 · 어느 모임 + 누구의 + 「이야기」</p>'+
-      '<label class="f">2. 모임 틀</label><div class="strip" style="padding:0;flex-wrap:wrap">'+fr.map(function(f){ return '<button type="button" class="chip s'+(OP.frame===f.no?' on':'')+'" data-of="'+esc(f.no)+'">'+(FR_ICON[f.no]||'')+' '+esc(f.name)+'</button>'; }).join('')+'</div>'+
-      '<label class="f">3. 공개 방식</label><div class="strip" style="padding:0"><button type="button" class="chip s'+(OP.room==='열린 모임'?' on':'')+'" data-or="열린 모임">누구나 둘러봄</button><button type="button" class="chip s'+(OP.room!=='열린 모임'?' on':'')+'" data-or="닫힌 방">초대받은 분만</button></div>'+
-      '<label class="f">4. 첫 관리자</label><div class="strip" style="padding:0"><button type="button" class="chip s'+(OP.self?' on':'')+'" data-oa="1">만드는 제가 맡습니다</button><button type="button" class="chip s'+(OP.self?'':' on')+'" data-oa="0">다른 분이 맡습니다</button></div>'+
-      '<input class="t" id="ofA" maxlength="20" placeholder="맡으실 분 이름" value="'+v(OP.admin)+'"'+(OP.self?' hidden':'')+'>'+
-      '<label class="f">5. 소개 한 줄</label><input class="t" id="ofI" maxlength="60" placeholder="예: 우리 마을 70년의 사진과 기억" value="'+v(OP.intro)+'">'+
-      '<label class="f">6. 대표 사진 · 영상 <small>여섯 칸 · 첫 칸이 크게</small></label><div class="oph" id="ofP"></div><input type="file" id="ofF" accept="image/*" multiple hidden>'+
-      '<label class="f">7. 분류 <small>다섯까지 · 가운뎃점(·)으로 나눔 · 틀을 고르면 기본이 들어감</small></label><input class="t" id="ofC" maxlength="80" placeholder="예: 옛 모습 · 행사 · 사람 · 오늘" value="'+v(OP.cats)+'">'+
-      '<label class="f">8. 바로가기 <small>홈페이지 · 길찾기 · 예약 · 전화 · 앞 셋은 대표 사진 아래에도</small></label><div id="ogL"></div><button class="btn line goadd" id="ogAdd" type="button">'+ic('plus','sm')+' 바로가기 더하기</button>'+
-      '</div>'+
-      '<div class="card"><label class="wab"><input type="checkbox" id="ofY"><span>만 14세 이상입니다</span></label>'+
-      '<label class="wab top"><input type="checkbox" id="ofG"><span>안내를 읽었습니다<small style="display:block;color:var(--sub);font-weight:400;font-size:13px">만드시는 분의 전화번호 · 이메일은 받지 않습니다. 올린 사진 · 글은 올린 분의 것입니다. 카카오로 확인하면 바로 방이 열립니다.</small></span></label>'+
-      '<div class="err" id="ofE"></div><button type="button" class="btn kakao" id="ofGo">'+KICON+'카카오로 만들기</button></div>';
-    function photos(){
-      var el=$('ofP'); el.innerHTML=OP.photos.map(function(p,i){ var bg=p.yt?'https://i.ytimg.com/vi/'+p.yt+'/hqdefault.jpg':(p.pv||p.ph); return '<div class="th'+(p.yt?' vd':'')+'" style="background-image:url('+esc(bg)+')"><i class="no">'+(i+1)+'</i><button type="button" data-px="'+i+'" aria-label="빼기">×</button></div>'; }).join('')+(OP.photos.length<6?'<div class="th add" id="ofAdd" role="button" tabindex="0">＋ 사진</div><div class="th add" id="ofVd" role="button" tabindex="0">＋ 영상</div>':'');
-      if($('ofVd')){ $('ofVd').onclick=function(){ grab(); sheet('<h2>영상 넣기</h2><p class="lead" style="margin-top:4px">유튜브에 올린 영상 주소를 붙여 넣습니다.</p><label class="f">유튜브 주소</label><input class="t" id="ovU" inputmode="url" placeholder="https://youtube.com/shorts/…"><div id="ovM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="ovNo" type="button">취소</button><button class="btn" id="ovOk" type="button">넣기</button></div>',function(){
-        $('ovNo').onclick=closeSheet; $('ovOk').onclick=function(){ var id=ytId($('ovU').value); if(!id){ $('ovM').innerHTML='<div class="err">유튜브 주소를 확인해 주십시오.</div>'; return; } if(OP.photos.length>=6){ closeSheet(); return; } OP.photos.push({yt:id}); closeSheet(); photos(); oKeep(); }; }); }; }
-      each(el,'[data-px]',function(b){ b.onclick=function(){ OP.photos.splice(+b.getAttribute('data-px'),1); photos(); try{ odPut(JSON.parse(JSON.stringify(OP))); }catch(e){} }; });
-      if($('ofAdd')){ $('ofAdd').onclick=function(){ var f=$('ofF'); f.value=''; f.click(); }; }
+  OP=dr||{name:'',frame:'',room:'',self:1,admin:'',intro:'',cats:'',catsEd:0,gos:[],help:0,photos:[],kind:OKIND||''};
+  OP.self=1; OP.admin=''; OP.intro=OP.intro||''; OP.gos=OP.gos||[]; OP.photos=OP.photos||[];
+  if(!OP.kind){ OP.kind=mkKindOf(OP.frame)||OKIND||''; }
+  if(OKIND){ if(OP.kind!==OKIND){ OP.kind=OKIND; OP.frame=''; OP.room=MK_KIND[OKIND].room; } OKIND=''; }   /* 주소 kind 가 이어 쓰던 것보다 앞섬 · 한 번만 */
+  if(OP.frame&&mkKindOf(OP.frame)!==OP.kind){ OP.frame=''; }   /* 옛 틀(행사 · 군부대)로 쓰던 것은 종류를 다시 고름 */
+  function v(x){ return esc(x||''); }
+  function draw(){
+    var K=MK_KIND[OP.kind], T=K&&OP.frame?K.types.filter(function(x){ return x[1]===OP.frame; })[0]:null, h='';
+    h+='<div class="sub"><button class="sbtn" id="ofB" type="button">← 둘러보기</button><span class="grow"></span></div>';
+    h+='<div class="card mkf">'+(msg?'<div class="err">'+esc(msg)+'</div>':'');
+    h+='<div class="mkk">'+['story','hall'].map(function(k){ var o=MK_KIND[k]; return '<button type="button" class="mkc2 '+k+(OP.kind===k?' on':'')+'" data-ok="'+k+'"><span class="i">'+o.ic+'</span><b>'+o.t+'</b><small>'+o.s+'</small></button>'; }).join('')+'</div>';
+    if(K){
+      h+='<div class="mkt" id="ofT">'+K.types.map(function(x){ return '<button type="button" class="chip'+(OP.frame===x[1]?' on':'')+'" data-of="'+x[1]+'">'+esc(x[0])+'</button>'; }).join('')+'</div>';
     }
+    if(T){
+      h+='<div id="ofRest"><label class="f">'+K.t+' 이름</label><input class="t" id="ofN" maxlength="40" placeholder="'+v(T[2])+'" value="'+v(OP.name)+'">'+
+        '<label class="f">대표 사진</label><div class="oph" id="ofP"></div><input type="file" id="ofF" accept="image/*" multiple hidden>'+
+        '<label class="f">공개 범위</label><div class="mkr"><button type="button" class="chip'+(OP.room==='열린 모임'?' on':'')+'" data-or="열린 모임">전체 공개</button><button type="button" class="chip'+(OP.room!=='열린 모임'?' on':'')+'" data-or="닫힌 방">초대받은 분만</button></div>'+
+        '<label class="wab"><input type="checkbox" id="ofY"'+(OP.y14?' checked':'')+'><span>만 14세 이상입니다</span></label>'+
+        '<label class="wab top"><input type="checkbox" id="ofG"'+(OP.gd?' checked':'')+'><span>안내를 읽었습니다<small style="display:block;color:var(--sub);font-weight:400;font-size:13px">만드시는 분의 전화번호 · 이메일은 받지 않습니다. 올린 사진 · 글은 올린 분의 것입니다. 카카오 로그인으로 본인 확인을 하면 바로 방이 열립니다.</small></span></label>'+
+        '<div class="err" id="ofE"></div><button type="button" class="btn mkgo '+OP.kind+'" id="ofGo">'+K.go+'</button></div>';
+    }
+    h+='</div>';
+    $('main').innerHTML=h;
+    $('ofB').onclick=function(){ grab(); odSave(); openRet(); };
+    each($('main'),'[data-ok]',function(b){ b.onclick=function(){ grab(); var k=b.getAttribute('data-ok'); if(OP.kind!==k){ OP.kind=k; OP.frame=''; OP.room=MK_KIND[k].room; } draw(); oKeep(); var t=$('ofT'); if(t&&t.scrollIntoView){ t.scrollIntoView({behavior:'smooth',block:'center'}); } }; });
+    each($('main'),'[data-of]',function(b){ b.onclick=function(){ grab(); var first=!OP.frame; OP.frame=b.getAttribute('data-of'); if(!OP.room){ OP.room=MK_KIND[OP.kind].room; }
+      if(OP.frame==='F-10'){ OP.room='닫힌 방'; toast('「나」 방은 초대받은 분만 봅니다','나중에 관리 화면에서 바꿀 수 있습니다'); }
+      draw(); oKeep(); if(first){ var n=$('ofN'); if(n){ n.focus(); if(n.scrollIntoView){ n.scrollIntoView({behavior:'smooth',block:'center'}); } } } }; });
+    if(!T){ return; }
     photos();
-    function gosDraw(){   /* ★v40 바로가기 열까지 */
-      $('ogL').innerHTML=OP.gos.map(function(g,i){ return '<div class="gorow"><input class="t" id="ogN'+i+'" maxlength="20" placeholder="'+(['예: 길찾기','예: 예약','예: 전화'][i]||'이름')+'" value="'+v(g.name)+'"><input class="t" id="ogU'+i+'" maxlength="300" inputmode="url" placeholder="https:// · 전화번호" value="'+v(/^tel:/i.test(g.url||'')?g.url.slice(4):g.url)+'"></div>'; }).join('');
-      $('ogAdd').hidden=OP.gos.length>=10;
-    }
-    gosDraw();
-    $('ogAdd').onclick=function(){ grab(); if(OP.gos.length<10){ OP.gos.push({name:'',url:''}); gosDraw(); var n=$('ogN'+(OP.gos.length-1)); if(n){ n.focus(); } } };
+    each($('main'),'[data-or]',function(b){ b.onclick=function(){ OP.room=b.getAttribute('data-or'); each($('main'),'[data-or]',function(o){ o.classList.toggle('on',o===b); }); oKeep(); }; });
     $('ofF').onchange=function(){ var fs=Array.prototype.slice.call(this.files||[]), room=6-OP.photos.length, cut=0; if(fs.length>room){ cut=fs.length-room; fs=fs.slice(0,room); } var n=fs.length, i=0; if(!n){ return; }
       busyOn('사진을 담는 중입니다 (1/'+n+')');
       (function nx(){ if(i>=n){ busyOff(); photos(); oKeep(); if(cut){ toast('대표 사진은 여섯 장까지입니다',cut+'장은 담지 않았습니다'); } return; } busyText('사진을 담는 중입니다 ('+(i+1)+'/'+n+')'); shrink(fs[i],function(ph,pv){ if(ph){ OP.photos.push({ph:ph,pv:pv||''}); } i++; nx(); }); })(); };
-    function oKeep(){ try{ grab(); }catch(e){ return; } odSave(); try{ odPut(JSON.parse(JSON.stringify(OP))); }catch(e){} }
-    var okT=0; $('main').addEventListener('input',function(){ clearTimeout(okT); okT=setTimeout(oKeep,400); }); $('main').addEventListener('click',function(){ setTimeout(oKeep,0); }); $('main').addEventListener('change',function(){ setTimeout(oKeep,0); });
-    function grab(){ OP.name=$('ofN').value.trim(); OP.admin=$('ofA').value.trim(); OP.intro=$('ofI').value.trim(); OP.cats=$('ofC').value.trim(); OP.help=0;
-      OP.gos=OP.gos.map(function(g,i){ return {name:$('ogN'+i).value.trim(),url:goUrl($('ogU'+i).value)}; }); }
-    each($('main'),'[data-of]',function(b){ b.onclick=function(){ OP.frame=b.getAttribute('data-of'); each($('main'),'[data-of]',function(o){ o.classList.toggle('on',o===b); });
-      var f=fr.filter(function(x){ return x.no===OP.frame; })[0]; if(f&&(!$('ofC').value.trim()||!OP.catsEd)){ $('ofC').value=(f.cats||[]).join(' · '); }
-      if(OP.frame==='F-10'){ OP.room='닫힌 방'; each($('main'),'[data-or]',function(o){ o.classList.toggle('on',o.getAttribute('data-or')==='닫힌 방'); }); toast('나의 이야기는 초대받은 분만 봅니다','나중에 관리 화면에서 바꿀 수 있습니다'); } }; });   /* ★v64 일기는 닫힌 방으로 시작 */
-    $('ofC').oninput=function(){ OP.catsEd=1; };
-    each($('main'),'[data-or]',function(b){ b.onclick=function(){ OP.room=b.getAttribute('data-or'); each($('main'),'[data-or]',function(o){ o.classList.toggle('on',o===b); }); }; });
-    each($('main'),'[data-oa]',function(b){ b.onclick=function(){ OP.self=b.getAttribute('data-oa')==='1'?1:0; each($('main'),'[data-oa]',function(o){ o.classList.toggle('on',o===b); }); $('ofA').hidden=!!OP.self; if(!OP.self){ $('ofA').focus(); } }; });
-    $('ofB').onclick=function(){ grab(); odSave(); openRet(); };
     $('ofGo').onclick=function(){ grab(); var e=$('ofE');
-      if(!OP.name){ e.textContent='모임 이름을 적어 주십시오.'; return; }
-      if(!OP.frame){ e.textContent='모임 틀을 골라 주십시오.'; return; }
-      if(!OP.self&&!OP.admin){ e.textContent='첫 관리자를 맡으실 분 이름을 적어 주십시오.'; return; }
-      for(var i=0;i<OP.gos.length;i++){ var g=OP.gos[i]; if((g.name||g.url)&&(!g.name||!urlOk(g.url))){ e.textContent='바로가기 '+(i+1)+'번은 이름과 주소(https://) 또는 전화번호를 함께 적어 주십시오.'; return; } }
+      if(!OP.name){ e.textContent=K.t+' 이름을 적어 주십시오.'; $('ofN').focus(); return; }
       if(!$('ofY').checked){ e.textContent='만 14세 이상인지 확인해 주십시오.'; return; }
       if(!$('ofG').checked){ e.textContent='안내를 읽으셨는지 확인해 주십시오.'; return; }
       e.textContent=''; odSave(); var s=JSON.stringify(OP), ok=true; try{ sessionStorage.setItem(OPK,s); }catch(x){ ok=false; }
       if(!ok){ var lite=JSON.parse(s); lite.photos=[]; lite.noPhoto=1; try{ sessionStorage.setItem(OPK,JSON.stringify(lite)); }catch(x2){} }
       kakaoGo('open');
     };
-  });
+  }
+  function photos(){
+    var el=$('ofP'); if(!el){ return; }
+    el.innerHTML=OP.photos.map(function(p,i){ var bg=p.yt?'https://i.ytimg.com/vi/'+p.yt+'/hqdefault.jpg':(p.pv||p.ph); return '<div class="th'+(p.yt?' vd':'')+'" style="background-image:url('+esc(bg)+')"><i class="no">'+(i+1)+'</i><button type="button" data-px="'+i+'" aria-label="빼기">×</button></div>'; }).join('')+(OP.photos.length<6?'<div class="th add" id="ofAdd" role="button" tabindex="0">＋ 사진</div><div class="th add" id="ofVd" role="button" tabindex="0">＋ 영상</div>':'');
+    if($('ofVd')){ $('ofVd').onclick=function(){ grab(); sheet('<h2>영상 넣기</h2><p class="lead" style="margin-top:4px">유튜브에 올린 영상 주소를 붙여 넣습니다.</p><label class="f">유튜브 주소</label><input class="t" id="ovU" inputmode="url" placeholder="https://youtube.com/shorts/…"><div id="ovM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="ovNo" type="button">취소</button><button class="btn" id="ovOk" type="button">넣기</button></div>',function(){
+      $('ovNo').onclick=closeSheet; $('ovOk').onclick=function(){ var id=ytId($('ovU').value); if(!id){ $('ovM').innerHTML='<div class="err">유튜브 주소를 확인해 주십시오.</div>'; return; } if(OP.photos.length>=6){ closeSheet(); return; } OP.photos.push({yt:id}); closeSheet(); photos(); oKeep(); }; }); }; }
+    each(el,'[data-px]',function(b){ b.onclick=function(){ OP.photos.splice(+b.getAttribute('data-px'),1); photos(); try{ odPut(JSON.parse(JSON.stringify(OP))); }catch(e){} }; });
+    if($('ofAdd')){ $('ofAdd').onclick=function(){ var f=$('ofF'); f.value=''; f.click(); }; }
+  }
+  function grab(){ var n=$('ofN'); if(n){ OP.name=n.value.trim(); } var y=$('ofY'); if(y){ OP.y14=y.checked?1:0; } var g=$('ofG'); if(g){ OP.gd=g.checked?1:0; } OP.self=1; OP.admin=''; OP.help=0; }
+  function oKeep(){ try{ grab(); }catch(e){ return; } odSave(); try{ odPut(JSON.parse(JSON.stringify(OP))); }catch(e){} }
+  draw();
+  var okT=0; $('main').oninput=function(){ clearTimeout(okT); okT=setTimeout(oKeep,400); };
 }
 function openBack(code,kerr){
   openMode(); try{ history.replaceState(null,'',location.pathname+'?open=1'); }catch(e){}
@@ -4432,7 +4450,7 @@ function openBack(code,kerr){
   openBack2(code,kerr,dr);
 }
 function openBack2(code,kerr,dr){
-  if(kerr||!code){ openForm(dr,'카카오 확인을 마치지 못했습니다. 아래 단추를 다시 눌러 주십시오.'); return; }
+  if(kerr||!code){ openForm(dr,'카카오 로그인을 마치지 못했습니다. 아래 단추를 다시 눌러 주십시오.'); return; }
   wait($('main'),'방을 만드는 중입니다');
   var gos=(dr.gos||[]).filter(function(g){ return g.name&&g.url; });
   var all=dr.photos||[], vids=[]; all.forEach(function(p,i){ if(p.yt){ vids.push({i:i,yt:p.yt}); } });   /* ★v40 대표 칸 영상 */
