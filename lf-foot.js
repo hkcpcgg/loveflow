@@ -1,5 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v2 · 261004 · [자서전 공사 칸 27-2 · 대표 결정]
+   현재 버전 ▶ lf-foot.js · v3 · 261023 · [할일 395 · 토스 카드사 심사 「하단 사업자 정보」]
+   ★사업자 정보 두 줄을 글자로 넣음(그림 아님 · 결제 화면 showcase · pay 와 공용 푸터를 쓰는 모든 화면)
+     상호 · 대표자 · 사업자등록번호 · 통신판매업신고번호 · 사업장 주소 · 유선번호 · 이메일 · 개인정보보호책임자
+     ★주소 · 상호는 사업자등록증과 글자 하나까지 같아야 함 — 바뀌면 아래 BIZ 한 곳만 고침
+   (이전) v2 · 261004 · [자서전 공사 칸 27-2 · 대표 결정]
    ★네 줄 → 두 줄(점 없이 · 한 색 · 가운데 · 글자 한 단계 작게).
      첫 줄 링크 다섯: 소개 · 이용약관 · 개인정보 · 환불정책 · 문의(카카오톡으로 열림)
      둘째 줄: © 2026 LoveFlow 사랑흐름 · LFRI™ All rights reserved.
@@ -14,12 +18,21 @@
 
   var KAKAO = "http://pf.kakao.com/_ExndxfX/chat";
 
+  /* ★v3 사업자 정보 — 사업자등록증과 똑같이 */
+  var BIZ = {
+    name: "사랑흐름", ceo: "황규찬", no: "285-17-02228", sale: "제2025-경기파주-1747호",
+    addr: "경기도 파주시 매봉길 17-13", tel: "070-4158-7786", mail: "hkcpcgg@gmail.com", privacy: "유상열"
+  };
+
   var CSS = ""
     + ".lfft{text-align:center;padding:12px 8px 14px;margin:18px 0 0;border-top:1px solid #EFE7DA;font-family:inherit;color:#9d8f80}"
     + ".lfft-links{font-size:10.5px;line-height:1.8}"
     + ".lfft-links a{color:#9d8f80;text-decoration:none;cursor:pointer;margin:0 5px;white-space:nowrap}"
     + ".lfft-links a:hover{text-decoration:underline}"
-    + ".lfft-c{font-size:10px;line-height:1.7;letter-spacing:.01em}";
+    + ".lfft-c{font-size:10px;line-height:1.7;letter-spacing:.01em}"
+    + ".lfft-biz{font-size:10.5px;line-height:1.75;margin:6px 0 4px;word-break:keep-all}"
+    + ".lfft-biz span{white-space:nowrap}"
+    + ".lfft-biz a{color:#9d8f80;text-decoration:none}";
 
   var HTML = ""
     + '<div class="lfft">'
@@ -29,6 +42,11 @@
     +     '<a href="/trust.html#privacy">개인정보</a>'
     +     '<a href="/trust.html#refund">환불정책</a>'
     +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">문의</a>'
+    +   '</div>'
+    +   '<div class="lfft-biz">'
+    +     '<span>상호 ' + BIZ.name + '</span> &middot; <span>대표자 ' + BIZ.ceo + '</span> &middot; <span>사업자등록번호 ' + BIZ.no + '</span><br>'
+    +     '<span>통신판매업신고 ' + BIZ.sale + '</span> &middot; <span>개인정보보호책임자 ' + BIZ.privacy + '</span><br>'
+    +     '<span>' + BIZ.addr + '</span><br><span>전화 <a href="tel:' + BIZ.tel.replace(/-/g, '') + '">' + BIZ.tel + '</a></span> &middot; <span><a href="mailto:' + BIZ.mail + '">' + BIZ.mail + '</a></span>'
     +   '</div>'
     +   '<div class="lfft-c">&copy; 2026 LoveFlow 사랑흐름 &middot; LFRI&trade; All rights reserved.</div>'
     + '</div>';
