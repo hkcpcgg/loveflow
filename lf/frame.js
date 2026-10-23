@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v10 · 261023 · [대표 말씀 16:01] 로고 누르면 즉시 반쯤 흐려짐 · window.LF_LEAVE 표시(우리 이야기 화면이 늦은 대답으로 이동을 가로채지 않음) · 두 번 눌림 막음. [무손] 그 밖 v9 전부.
+   현재 버전 ▶ lf/frame.js · v11 · 261023 · [대표 16:29 「OK 없이 쭉」 · 415 · 306] ① 아래 길목 띠 다섯째 「제휴」 → 「우리 이야기」(마당 · 이야기방 만들기 · 기록관 만들기) — 제휴 두 칸은 「둘러보기」 아래로 ② ☰에 「우리 이야기」 묶음(마당 · 만들기) ③ 「마음 여행여권으로 입장」 → 「여권 입장」(71차 말). [무손] 그 밖 v10 전부.
+   (이전) lf/frame.js · v10 · 261023 · [대표 말씀 16:01] 로고 누르면 즉시 반쯤 흐려짐 · window.LF_LEAVE 표시(우리 이야기 화면이 늦은 대답으로 이동을 가로채지 않음) · 두 번 눌림 막음. [무손] 그 밖 v9 전부.
    (이전) lf/frame.js · v9 · 261010 · [기기 열쇠 · 자서전 서버 v47] ☰ 메뉴와 「내 여행」 칸에 「휴대폰 관리」(/lf/device.html) 한 줄 · 아이콘 phone. [무손] 그 밖 전부.
    (이전) lf/frame.js · v8 · 261005 · [한 바퀴 점검 · 대표 261005] ★「사랑흐름 여행자들의 발자취」 띠(.lff-tick)를 틀을 붙인 모든 화면에서 감춤 — 흐르던 번호가 모두 지난 시험 번호라, 개통 뒤 손님 눈에 있지도 않은 손님처럼 보임. ☰ 메뉴 「예매하기」 아래 상품 넷을 결제 화면 이름 · 차례로.
    (이전) v7 · 261005 · [칸 15 · 이슈 77 · 대표 위임] ★안내자 주소(?lf=ORG-…)를 틀이 붙은 모든 화면에서 주워 둠(새 첫 화면에서 빠져 있던 것) · 안내자 기억은 90일 — 지나면 지움(lf_org 「번호|시각」). 결제 · 발권 · 입금 화면은 지금처럼 lf_org 를 읽음.
@@ -73,7 +74,7 @@
   /* ── 길목 다섯 묶음 · 그 안의 칸 ── */
   var GROUPS = [
     { k: 'mine', t: '내 여행', ic: 'pass', c: '#C9A96E', items: [
-      { t: '마음 여행여권으로 입장', s: '쓰던 곳으로 바로', ic: 'pass', c: '#C9A96E', u: '/reenter.html' },
+      { t: '여권 입장', s: '쓰던 곳으로 바로', ic: 'pass', c: '#C9A96E', u: '/reenter.html' },
       { t: '사랑흐름 여권 찾기', s: '번호가 기억나지 않을 때', ic: 'find', c: '#7F97B2', u: '/find/' },
       { t: '내 기록 보기', s: '쓴 글 · 완성된 기록', ic: 'mem', c: '#C0872E', u: '/memoir/home.html' },
       { t: '휴대폰 관리', s: '다른 휴대폰 · 대리인', ic: 'phone', c: '#5C7FA6', u: '/lf/device.html' }
@@ -93,11 +94,14 @@
     { k: 'look', t: '둘러보기', ic: 'show', c: '#C25B7C', items: [
       { t: '여행의 기록', s: '먼저 다녀간 분들의 이야기', ic: 'show', c: '#C25B7C', u: '/showroom.html' },
       { t: '자서전 소개', s: '한 편의 기록이 무엇인지', ic: 'mem', c: '#C0872E', u: '/memoir/' },
-      { t: '안내 받기', s: '전화로 차근차근 안내해 드려요', ic: 'chat', c: '#1D9E75', u: '/guide/?ask=1', ask: 1 }
-    ] },
-    { k: 'partner', t: '제휴', ic: 'hand', c: '#5C7FA6', items: [
+      { t: '안내 받기', s: '전화로 차근차근 안내해 드려요', ic: 'chat', c: '#1D9E75', u: '/guide/?ask=1', ask: 1 },
       { t: '안내자 · 제휴 신청', s: '안내자로 함께하기 · 사업으로 제휴하기', ic: 'hand', c: '#5C7FA6', u: '/partner.html' },
       { t: '기관 · 단체', s: '복지 · 교육 · 공공 프로그램 제안', ic: 'build', c: '#1E4A76', u: '/proposal.html' }
+    ] },
+    { k: 'story', t: '우리 이야기', ic: 'group', c: '#2E7D6B', sub: '나의 일상부터 우리 모두의 이야기까지', items: [   /* ★v11 415 */
+      { t: '우리 이야기 마당', s: '여러 이야기방 · 기록관의 사진', ic: 'show', c: '#2E7D6B', u: '/rec/?plaza=1' },
+      { t: '이야기방 만들기', s: '나 · 가족 · 친구 · 모임 · 우리 가게', ic: 'spark', c: '#1E4A76', u: '/rec/?open=form&kind=story' },
+      { t: '기록관 만들기', s: '학교 · 기관 · 단체 · 회사', ic: 'build', c: '#3B2F72', u: '/rec/?open=form&kind=hall' }
     ] }
   ];
 
@@ -108,7 +112,8 @@
     if (/^\/(hanmadi|draw|compass|free)/.test(p)) { return 'taste'; }   /* ★v4 첫 주소(/)는 안내 홈 — 어느 묶음에도 불 안 켬 */
     if (/^\/(pay|showcase)/.test(p)) { return 'buy'; }
     if (/^\/(showroom|memoir\/?$|memoir\/index|guide)/.test(p)) { return 'look'; }
-    if (/^\/(partner|proposal)/.test(p)) { return 'partner'; }
+    if (/^\/(partner|proposal)/.test(p)) { return 'look'; }
+    if (/^\/rec\//.test(p)) { return 'story'; }
     return '';
   }
 
@@ -242,7 +247,7 @@
     }
     return ''
       + '<div class="lfx-mh"><span>사랑흐름</span><button data-x="1" aria-label="닫기">' + svg('x', 16) + '</button></div>'
-      + mi('마음 여행여권으로 입장', 'pass', '#C9A96E', '/reenter.html', 'gold')
+      + mi('여권 입장', 'pass', '#C9A96E', '/reenter.html', 'gold')
       + mi('사랑흐름 여권 찾기', 'find', '#7F97B2', '/find/')
       + mi('휴대폰 관리', 'phone', '#5C7FA6', '/lf/device.html')
       + '<div class="lfx-grp">여행</div>'
@@ -253,6 +258,11 @@
       +   mi('편지', 'letter', '#1E4A76', '/l/')
       + '</div>'
       + mi('자서전', 'mem', '#C0872E', '/memoir/')
+      + '<div class="lfx-grp">우리 이야기</div>'   /* ★v11 306 */
+      + '<div class="lfx-two">'
+      +   mi('마당', 'show', '#2E7D6B', '/rec/?plaza=1')
+      +   mi('만들기', 'spark', '#1E4A76', '/rec/?open=form')
+      + '</div>'
       + '<div class="lfx-opp"><div class="lfx-ot">새 여행 · 함께하기</div>'
       +   '<button class="lfx-big lfx-b1" data-u="/showcase.html"><i>' + svg('ticket', 20) + '</i><span><b>예매하기</b><small>두 분의 여정 · 한 편의 기록 · 마음여행 · 마음 여행지도</small></span></button>'
       +   '<button class="lfx-big lfx-b2" data-u="/showroom.html"><i>' + svg('show', 20) + '</i><span><b>여행의 기록</b><small>먼저 다녀간 분들의 이야기</small></span></button>'
