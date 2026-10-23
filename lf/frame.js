@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v9 · 261010 · [기기 열쇠 · 자서전 서버 v47] ☰ 메뉴와 「내 여행」 칸에 「휴대폰 관리」(/lf/device.html) 한 줄 · 아이콘 phone. [무손] 그 밖 전부.
+   현재 버전 ▶ lf/frame.js · v10 · 261023 · [대표 말씀 16:01] 로고 누르면 즉시 반쯤 흐려짐 · window.LF_LEAVE 표시(우리 이야기 화면이 늦은 대답으로 이동을 가로채지 않음) · 두 번 눌림 막음. [무손] 그 밖 v9 전부.
+   (이전) lf/frame.js · v9 · 261010 · [기기 열쇠 · 자서전 서버 v47] ☰ 메뉴와 「내 여행」 칸에 「휴대폰 관리」(/lf/device.html) 한 줄 · 아이콘 phone. [무손] 그 밖 전부.
    (이전) lf/frame.js · v8 · 261005 · [한 바퀴 점검 · 대표 261005] ★「사랑흐름 여행자들의 발자취」 띠(.lff-tick)를 틀을 붙인 모든 화면에서 감춤 — 흐르던 번호가 모두 지난 시험 번호라, 개통 뒤 손님 눈에 있지도 않은 손님처럼 보임. ☰ 메뉴 「예매하기」 아래 상품 넷을 결제 화면 이름 · 차례로.
    (이전) v7 · 261005 · [칸 15 · 이슈 77 · 대표 위임] ★안내자 주소(?lf=ORG-…)를 틀이 붙은 모든 화면에서 주워 둠(새 첫 화면에서 빠져 있던 것) · 안내자 기억은 90일 — 지나면 지움(lf_org 「번호|시각」). 결제 · 발권 · 입금 화면은 지금처럼 lf_org 를 읽음.
    (이전) v6 · 261005 · [칸 27-4 · 화면 안 「‹ 이전」] 차례가 있는 화면(발권 · 입금 정보 · 이름 남기기 · 동의 · 입장)에서 옛 위 띠의 「‹」가 사라져 뒤로 갈 길이 휴대폰 뒤로 단추뿐이던 것 — <body data-lf-back="/돌아갈곳"> 이 있으면 위 띠 바로 아래에 작은 「‹ 이전」 줄을 깜(앞 화면이 사이트 안이면 그리로, 아니면 적어 둔 곳으로).
@@ -316,7 +317,7 @@
         if (r.indexOf(location.origin) === 0 && history.length > 1) { history.back(); } else { location.href = bk; }
       };
     }
-    top.querySelector('.lfx-logo').onclick = function () { location.href = '/'; };
+    top.querySelector('.lfx-logo').onclick = function () { if (window.LF_LEAVE) { return; } window.LF_LEAVE = 1; this.style.opacity = '.5'; try { document.body.classList.add('lfgo'); } catch (e) {} location.href = '/'; };   /* ★v10 누르는 즉시 표시 · 두 번 눌림 막음 · 늦게 온 대답이 이동을 가로채지 않게 */
     top.querySelector('.lfx-burger').onclick = openMenu;
     /* ★v4 위 띠 오른쪽 자리 — <button data-lfx-top> 를 ☰ 왼쪽으로 옮김 */
     var slots = document.querySelectorAll('[data-lfx-top]');
