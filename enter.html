@@ -1,3 +1,4 @@
+<!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
 <!-- ★ 현재 버전 ▶ enter.html · v5-21 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
 <!-- ★ 현재 버전 ▶ enter.html · v5-20 · 261005 · [작업 v5-20 · 한 바퀴 점검] 「나의 여권번호」 → 「나의 사랑흐름 여권번호」. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ enter.html · v5-19 · 261005 · [작업 v5-19 · 칸 27-4 화면 안 「‹ 이전」] body data-lf-back="/gate.html" — 틀(frame v6)이 위 띠 아래에 「‹ 이전」 줄을 깜. [무손] 그 밖 전부. -->
@@ -654,10 +655,11 @@ function lfPaintResume(){
   + '.lfsheet .pan{width:100%;max-width:412px;background:#FFFBF5;border-radius:20px 20px 0 0;padding:18px 16px 24px;box-sizing:border-box}'
   + '.lfsheet .ttl{text-align:center;font-size:13.5px;font-weight:700;color:#1E4A76}'
   + '.lfsheet .sub{text-align:center;font-size:11.5px;color:#9A9287;margin:5px 0 13px}'
-  + '.lfsheet input{width:100%;box-sizing:border-box;border:1.5px solid #D9CFC0;border-radius:12px;'
+  + '.lfsheet textarea{resize:none;overflow:hidden;white-space:pre;display:block;line-height:22px}'
+  + '.lfsheet input,.lfsheet textarea{width:100%;box-sizing:border-box;border:1.5px solid #D9CFC0;border-radius:12px;'
   + 'padding:12px;text-align:center;font-family:inherit;font-size:15px;color:#1E4A76;'
   + 'letter-spacing:1px;background:#fff;text-transform:uppercase}'
-  + '.lfsheet input:focus{outline:none;border-color:#1E4A76}'
+  + '.lfsheet textarea:focus,.lfsheet input:focus{outline:none;border-color:#1E4A76}'
   + '.lfsheet .found{margin-top:12px;padding:13px;background:#FFF7FA;border:1px solid #F0DCE4;border-radius:14px;display:none}'
   + '.lfsheet .found.on{display:block}'
   + '.lfsheet .found .ft{font-size:11px;font-weight:800;color:#C98BA5;margin-bottom:6px}'
@@ -683,7 +685,7 @@ function lfPaintResume(){
     + '<div class="pan">'
     + '<div class="ttl">지난 여행 이어가기</div>'
     + '<div class="sub">여권번호를 넣어주세요</div>'
-    + '<input id="lfResIn" placeholder="LF-XXXXX" autocomplete="off" oninput="lfResCheck()">'
+    + '<textarea id="lfResIn" rows="1" wrap="off" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done" oninput="this.value=this.value.replace(/[\\r\\n]+/g,\'\');lfResCheck()" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}"></textarea>'
     + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
     + '<p id="lfResMsg"></p>'
     + '<div class="fb"><button class="go" id="lfResGo">이어서 여행하기</button>'

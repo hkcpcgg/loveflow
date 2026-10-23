@@ -1,3 +1,4 @@
+<!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
 <!-- ★ 현재 버전 ▶ showcase.html · v5-27 · 261012 · [대표 261012 16:20 「여행 고르기 — 빙글빙글 돌아가는 것, 안정적으로 표현하기로」 · ok 16:27] 움직이던 것 둘을 멈춤 — ① 머리말 아래 「어디서 시작해도, 이어집니다」 덩굴은 다 핀 모습으로 서 있음(flow.js v3 data-still) ② 「사랑흐름 여행자들의 발자취」 카드는 저절로 흐르지 않고 손가락으로 옆으로 밀어 봄. [무손] 그 밖 v5-26 전부. -->
 <!-- ★ 현재 버전 ▶ showcase.html · v5-26 · 261006 · [작업 v5-26 · 대표 위임 261006 17:08] 진열장 머리말 아래 ★「어디서 시작해도, 이어집니다」 덩굴 — 마음 한마디부터 공동체 변천사까지 열 가지 · 알을 누르면 그 곳으로(/lf/flow.js LFFlow.vine) · 맨 아래 사랑흐름 표. [무손] 진열 카드 · 값 · 예매 · 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ showcase.html · v5-25 · 261005 · [작업 v5-25 · 자서전 공사 칸 27-4 · 나머지 화면에 틀] 공용 틀 /lf/frame.js?v=4 붙임(위 띠 · ☰ · 아래 길목 다섯) — 옛 상단바 · 드로어 · 길 셋은 틀이 감춤. 「먼저 다녀간 분들의 여행 보기」 감춤(아래 띠 둘러보기와 겹침). [무손] 본문 배관 · 서버 · 결제 · 발권. -->
@@ -821,10 +822,11 @@ function lfPaintResume(){
   + '.lfsheet .pan{width:100%;max-width:412px;background:#FFFBF5;border-radius:20px 20px 0 0;padding:18px 16px 24px;box-sizing:border-box}'
   + '.lfsheet .ttl{text-align:center;font-size:13.5px;font-weight:700;color:#1E4A76}'
   + '.lfsheet .sub{text-align:center;font-size:11.5px;color:#9A9287;margin:5px 0 13px}'
-  + '.lfsheet input{width:100%;box-sizing:border-box;border:1.5px solid #D9CFC0;border-radius:12px;'
+  + '.lfsheet textarea{resize:none;overflow:hidden;white-space:pre;display:block;line-height:22px}'
+  + '.lfsheet input,.lfsheet textarea{width:100%;box-sizing:border-box;border:1.5px solid #D9CFC0;border-radius:12px;'
   + 'padding:12px;text-align:center;font-family:inherit;font-size:15px;color:#1E4A76;'
   + 'letter-spacing:1px;background:#fff;text-transform:uppercase}'
-  + '.lfsheet input:focus{outline:none;border-color:#1E4A76}'
+  + '.lfsheet textarea:focus,.lfsheet input:focus{outline:none;border-color:#1E4A76}'
   + '.lfsheet .found{margin-top:12px;padding:13px;background:#FFF7FA;border:1px solid #F0DCE4;border-radius:14px;display:none}'
   + '.lfsheet .found.on{display:block}'
   + '.lfsheet .found .ft{font-size:11px;font-weight:800;color:#C98BA5;margin-bottom:6px}'
@@ -850,7 +852,7 @@ function lfPaintResume(){
     + '<div class="pan">'
     + '<div class="ttl">지난 여행 이어가기</div>'
     + '<div class="sub">여권번호를 넣어주세요</div>'
-    + '<input id="lfResIn" placeholder="LF-XXXXX" autocomplete="off" oninput="lfResCheck()">'
+    + '<textarea id="lfResIn" rows="1" wrap="off" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done" oninput="this.value=this.value.replace(/[\\r\\n]+/g,\'\');lfResCheck()" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}"></textarea>'
     + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
     + '<p id="lfResMsg"></p>'
     + '<div class="fb"><button class="go" id="lfResGo">이어서 여행하기</button>'

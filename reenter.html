@@ -1,3 +1,4 @@
+<!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
 <!-- ★ 현재 버전 ▶ reenter.html · v2-24 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
 <!-- ★ 현재 버전 ▶ reenter.html · v2-23 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
 <!-- ★ 현재 버전 ▶ reenter.html · v2-22 · 261005 · [작업 v2-22 · 한 바퀴 점검] 「여권으로 문을 엽니다」 → 「사랑흐름 여권번호로 문을 엽니다」(「여권」 단독 금지). [무손] 그 밖 전부. -->
@@ -168,6 +169,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#eef1f4;display:flex;justi
 .f-res.on{display:block}
 .f-res .rtx{font-size:12px;color:var(--sub);margin-bottom:14px}
 .pp-in{width:100%;box-sizing:border-box;background:rgba(255,255,255,.06);border:1.5px solid rgba(201,162,39,.5);border-radius:8px;color:var(--gold);font-family:'Nanum Myeongjo',serif;font-size:clamp(24px,8vw,34px);font-weight:800;letter-spacing:.06em;text-align:center;padding:10px 8px;margin-bottom:12px;text-transform:uppercase}
+.pp-in{resize:none;overflow:hidden;white-space:pre;display:block;line-height:1.3}
 .pp-in::placeholder{color:rgba(201,162,39,.4);font-size:19px;letter-spacing:.04em}
 .err{display:none;color:#e05a5a;font-size:12.5px;text-align:center;margin-top:12px}
 .err.on{display:block}
@@ -240,7 +242,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:#eef1f4;display:flex;justi
       <div class="cert-en">LOVE FLOW · MIND JOURNEY PASSPORT</div>
       <div class="cert-divider"></div>
       <div class="cert-label">사랑흐름 여권번호</div>
-      <input id="ppInput" class="pp-in" placeholder="LF-XXXXX" inputmode="text" autocomplete="off" oninput="checkResume()">
+      <textarea id="ppInput" class="pp-in" rows="1" wrap="off" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done" oninput="this.value=this.value.replace(/[\r\n]+/g,'');checkResume()" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></textarea>
       <div class="cert-note"><span class="cert-note-en">Use the number you received</span></div>
     </div>
     <div id="errMsg" class="err">사랑흐름 여권번호를 다시 확인해 주세요 (예: LF-XXXXX)</div>
@@ -714,10 +716,11 @@ function lfPaintResume(){
   + '.lfsheet .pan{width:100%;max-width:412px;background:#FFFBF5;border-radius:20px 20px 0 0;padding:18px 16px 24px;box-sizing:border-box}'
   + '.lfsheet .ttl{text-align:center;font-size:13.5px;font-weight:700;color:#1E4A76}'
   + '.lfsheet .sub{text-align:center;font-size:11.5px;color:#9A9287;margin:5px 0 13px}'
-  + '.lfsheet input{width:100%;box-sizing:border-box;border:1.5px solid #D9CFC0;border-radius:12px;'
+  + '.lfsheet textarea{resize:none;overflow:hidden;white-space:pre;display:block;line-height:22px}'
+  + '.lfsheet input,.lfsheet textarea{width:100%;box-sizing:border-box;border:1.5px solid #D9CFC0;border-radius:12px;'
   + 'padding:12px;text-align:center;font-family:inherit;font-size:15px;color:#1E4A76;'
   + 'letter-spacing:1px;background:#fff;text-transform:uppercase}'
-  + '.lfsheet input:focus{outline:none;border-color:#1E4A76}'
+  + '.lfsheet textarea:focus,.lfsheet input:focus{outline:none;border-color:#1E4A76}'
   + '.lfsheet .found{margin-top:12px;padding:13px;background:#FFF7FA;border:1px solid #F0DCE4;border-radius:14px;display:none}'
   + '.lfsheet .found.on{display:block}'
   + '.lfsheet .found .ft{font-size:11px;font-weight:800;color:#C98BA5;margin-bottom:6px}'
@@ -743,7 +746,7 @@ function lfPaintResume(){
     + '<div class="pan">'
     + '<div class="ttl">지난 여행 이어가기</div>'
     + '<div class="sub">여권번호를 넣어주세요</div>'
-    + '<input id="lfResIn" placeholder="LF-XXXXX" autocomplete="off" oninput="lfResCheck()">'
+    + '<textarea id="lfResIn" rows="1" wrap="off" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done" oninput="this.value=this.value.replace(/[\\r\\n]+/g,\'\');lfResCheck()" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}"></textarea>'
     + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
     + '<p id="lfResMsg"></p>'
     + '<div class="fb"><button class="go" id="lfResGo">이어서 여행하기</button>'
