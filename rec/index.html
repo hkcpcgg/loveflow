@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v78 · 261023 · [대표 18:22 「다음 진행」 · 418 나머지] 한 줄 글 칸 42곳을 모두 한 줄 textarea 로(v77 이름 칸과 같은 방법 · 찾기 칸 · 읽기 전용 칸은 그대로) · Enter = 자판 닫기 · 줄바꿈 붙여넣기는 띄어쓰기 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v79 · 261023 · [310 속도] 속도 줄에 서버 담아 둔 것 맞음 글자(h:) 함께 — 서버 ①Code v37과 짝(v36이면 h: 가 안 붙을 뿐) -->
+<!-- (이전) rec/index.html · v78 · 261023 · [대표 18:22 「다음 진행」 · 418 나머지] 한 줄 글 칸 42곳을 모두 한 줄 textarea 로(v77 이름 칸과 같은 방법 · 찾기 칸 · 읽기 전용 칸은 그대로) · Enter = 자판 닫기 · 줄바꿈 붙여넣기는 띄어쓰기 -->
 <!-- (이전) rec/index.html · v77 · 261023 · [대표 17:38 비밀번호 창] 이야기방 · 기록관 이름 칸을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰의 비밀번호 창은 input 칸에만 붙고 autocomplete=off 를 듣지 않음(v74 418 로 못 막음) · Enter 는 칸 닫기 · 화면 기록 판 표시 v77 -->
 <!-- (이전) rec/index.html · v76 · 261023 · [대표 16:29 「OK 없이 쭉」 · 366 · 399 ①②⑤⑦ · 70차 · ★서버 ①Code v35 · ③본부 v33과 짝(v32면 ⑥의 화면 기록 · 속도 칸만 「볼 수 없음」)] 보라 본부 다시 지음 — ?hq=1 들어오면 여섯 갈래(① 오늘 ② 우리 이야기 ③ 판매 · 발급 ④ 서비스 ⑤ 사람 · 권한 ⑥ 운영 · 설정) · 컴퓨터(900px 넘음)는 왼쪽 갈래 · 가운데 표 · 오른쪽 방 자세히, 휴대폰은 위 갈래 띠 · 자세히는 아래에서 올라옴 · ① 손볼 것만(관리자 없음 · 요청 · 살펴볼 것 · 관리자 안 옴 · 임시 · 멈춤 · 신청 · 이용 끝남) ② 찾기 → 거름(개수) → 한 줄 표(머리 눌러 정렬 · 50줄씩) → 방 자세히(숫자 · 관리자 열쇠 · 빼기 · 이어진 방 · 이번 달 · 감사 15줄 · 관리자 지정 · 멈춤 · 종류 · 메인 · 이용) ③④ 우리 이야기 요금표 + 예전 관리 화면 잇기 ⑤ 누가 무엇을 언제까지 표 · 대표는 바꾸기 · 빼기 · 새 분 등록 번호(카톡 재확인) · 내 기기 ⑥ 화면 기록 · 속도 7일 · 감사 기록 찾기 · 사슬 확인 · 살펴보기 설정 · 예전 본부 화면. 방마다 큰 카드 본부는 「예전 본부 화면」으로만. [무손] 그 밖 v75 전부. -->
 <!-- (이전) rec/index.html · v75 · 261023 · [대표 16:29 「OK 없이 쭉」 · 419 · 410-6 · ★서버 ①Code v34와 짝(v33이면 기록만 안 남고 화면은 그대로)] 화면 기록 장치 — 화면 오류(window.onerror · 약속 실패) · 튕김(마당 늦은 대답을 막은 때 · 마당 못 받아 메인 방으로 간 때) · 만들기 걸음(카드 → 갈래 → 종류 → 만들기 누름 → 카카오 → 열림)을 모아 3초마다 · 화면 떠날 때 서버 「화면 기록」 탭에 한 번에 보냄 · 한 화면 40줄까지 · 같은 줄 거듭 안 보냄 · 손님 화면엔 아무것도 안 보임. [무손] 그 밖 v74 전부. -->
@@ -1325,7 +1326,7 @@ var OPEN_R='';
 var SPD={steps:[],t1:0,p1:0,pa:0,pend:0,pn:0,sent:0,room:'',tm:null};
 function spdNow(){ try{ return Math.round(performance.now()); }catch(e){ return Date.now(); } }
 function spdOn(){ try{ return localStorage.getItem('lf_speed')==='1'; }catch(e){ return false; } }
-function spdStep(a,t0,d,sz){ if(SPD.sent||a==='recSpeed'){ return; } SPD.steps.push({a:a,ms:spdNow()-t0,s:(d&&d.sms)||0,kb:Math.round((sz||0)/1024)}); }
+function spdStep(a,t0,d,sz){ if(SPD.sent||a==='recSpeed'){ return; } SPD.steps.push({a:a,ms:spdNow()-t0,s:(d&&d.sms)||0,kb:Math.round((sz||0)/1024),h:(d&&typeof d.hit==='string')?d.hit.replace(/[^a-z]/g,'').slice(0,8):null}); }   /* ★v79 서버 ①Code v37 담아 둔 것 맞음 글자 */
 function spdFirst(el){ if(SPD.t1||SPD.sent){ return; } SPD.t1=spdNow(); SPD.room=(ME&&ME.comName)||'';
   var tl=el.querySelectorAll('.tl'), bg=0; for(var i=0;i<tl.length;i++){ if(tl[i].style.backgroundImage){ bg++; } } SPD.pn=tl.length; if(bg){ SPD.p1=SPD.t1; }
   SPD.tm=setTimeout(spdDone,30000); }
@@ -1338,7 +1339,7 @@ function spdDone(){
   if(SPD.sent||!SPD.t1){ return; } SPD.sent=1; if(SPD.tm){ clearTimeout(SPD.tm); } SPD.pa=SPD.pend?0:spdNow();
   var nav=null; try{ nav=performance.getEntriesByType('navigation')[0]; }catch(e){}
   var page=nav?Math.round(nav.responseEnd):0, fk='lf_spd_'+SPD.room, fresh='1'; try{ if(localStorage.getItem(fk)){ fresh='0'; } localStorage.setItem(fk,'1'); }catch(e){}
-  var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'; }).join(' · ');
+  var st=SPD.steps.map(function(x){ return x.a+' '+x.ms+'/'+x.s+' '+x.kb+'K'+(x.h!==null&&x.h!==undefined?' h:'+x.h:''); }).join(' · ');
   var net=''; try{ net=(navigator.connection&&navigator.connection.effectiveType)||''; }catch(e){}
   var body={action:'recSpeed',v:'v63',dev:spdDev(),room:SPD.room,fresh:fresh,page:String(page),t1:String(SPD.t1),p1:String(SPD.p1||''),pa:String(SPD.pa||''),pn:String(SPD.pn),steps:st,net:net};
   try{ if(GAS){ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),keepalive:true}).catch(function(){}); } }catch(e){}
@@ -1581,7 +1582,7 @@ try{ LGSID=sessionStorage.getItem('lf_sid')||''; if(!LGSID){ LGSID=Math.random()
 function lfLog(k,m){ try{ m=String(m||'').slice(0,300); var key=k+'|'+m; if(LGSEEN[key]||LGN>=40){ return; } LGSEEN[key]=1; LGN++;
   LGQ.push([k,String(VIEW||'')+(location.search?' '+location.search.slice(0,60):''),m]); if(!LGT){ LGT=setTimeout(lfFlush,3000); } }catch(e){} }
 function lfFlush(){ LGT=null; if(!LGQ.length||!GAS){ return; } var a=LGQ.splice(0,10);
-  try{ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recLog',items:JSON.stringify(a),dev:(typeof spdDev==='function'?spdDev():''),v:'v78',sid:LGSID}),keepalive:true}).catch(function(){}); }catch(e){}
+  try{ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recLog',items:JSON.stringify(a),dev:(typeof spdDev==='function'?spdDev():''),v:'v79',sid:LGSID}),keepalive:true}).catch(function(){}); }catch(e){}
   if(LGQ.length){ LGT=setTimeout(lfFlush,1000); } }
 window.addEventListener('pagehide',function(){ if(LGT){ clearTimeout(LGT); } lfFlush(); });
 window.addEventListener('error',function(e){ if(!e){ return; } var s=(e.filename||'').split('/').pop(); lfLog('오류',(e.message||'오류')+(s?' @'+s+':'+(e.lineno||''):'')); });
