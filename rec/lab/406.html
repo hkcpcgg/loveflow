@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<!-- ★ 시험판 ▶ rec/lab/406.html · v1 · 261023 · [대표 09:23 「관리자가 제일 급함 · 시각화 먼저 보여 주고 작업」]
+     406 자리 띠(색 다섯 · 늘 붙음 · 누르면 「내 자리」) · 405 주소 치는 길 없음(본부 · 관리는 ☰ · 내 자리에서 눌러 감) · 404 우리 이야기 전용 ☰
+     · 다복 「관리자 넘기기」 한 길(방 관리 첫 화면 큰 단추 · 본부 방 자세히에도 같은 단추) · 초록 관리 화면(70차 꼴 — 오늘 할 일 · 아래 탭) · 보라 본부 휴대폰(오늘 · 방 목록 한 줄 표)
+     진짜 서버 없이 눌러 보는 시험판(사진은 rec/seed). 실화면(rec/index.html)은 건드리지 않음. 아래 「시험판 · 누구로 보기」로 자리를 바꿔 봄. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>우리 이야기 · 내 자리 시험판 406</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--navy2:#163A5C;--cream:#FFFCF7;--sand:#F4EEE4;--ink:#2E3A46;--sub:#7D7465;--line:#EADFCF;--red:#B03A2E;
+  --hq:#534AB7;--hqbg:#EEEDFE;--hqtx:#26215C;--up:#185FA5;--upbg:#E6F1FB;--uptx:#042C53;--adm:#0F6E56;--admbg:#E1F5EE;--admtx:#04342C;
+  --mem:#444441;--membg:#F1EFE8;--memtx:#2C2C2A;--gst:#9C9A92;--gstbg:#F7F6F2;--gsttx:#5F5E5A;
+  --f:'Noto Sans KR',system-ui,-apple-system,'Apple SD Gothic Neo',sans-serif}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--f);word-break:keep-all}
+button{font-family:inherit;cursor:pointer}
+.top{position:sticky;top:0;z-index:30;height:52px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 12px}
+.top .ttl{font-weight:700;font-size:17px;display:flex;align-items:center;gap:8px}
+.top .rb{width:38px;height:38px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:19px}
+/* 자리 띠 */
+.pos{position:sticky;top:52px;z-index:29;display:flex;align-items:center;gap:10px;padding:9px 12px;border:0;width:100%;text-align:left;border-bottom:1px solid rgba(0,0,0,.06)}
+.pos .dot{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:15px;flex:none}
+.pos .tx{flex:1;min-width:0}.pos b{display:block;font-size:15px;font-weight:700}.pos small{display:block;font-size:12.5px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pos .go{font-size:12px;opacity:.8;flex:none}
+.pos .sos{flex:none;border:0;border-radius:18px;padding:6px 10px;background:#fff;color:var(--red);font-weight:700;font-size:13px;box-shadow:0 0 0 1px rgba(176,58,46,.35)}
+.r-hq{background:var(--hqbg);color:var(--hqtx)}.r-hq .dot{background:var(--hq)}
+.r-up{background:var(--upbg);color:var(--uptx)}.r-up .dot{background:var(--up)}
+.r-adm{background:var(--admbg);color:var(--admtx)}.r-adm .dot{background:var(--adm)}
+.r-mem{background:var(--membg);color:var(--memtx)}.r-mem .dot{background:var(--mem)}
+.r-gst{background:var(--gstbg);color:var(--gsttx)}.r-gst .dot{background:var(--gst)}
+main{min-height:calc(100vh - 110px);padding-bottom:110px}
+h1{font-size:20px;margin:16px 14px 4px;color:var(--navy2)}
+.lead{margin:0 14px 12px;color:var(--sub);font-size:14px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.grid img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:var(--sand)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 14px}
+.btn{border:0;border-radius:14px;padding:14px 10px;font-size:15.5px;font-weight:700;background:var(--navy);color:#fff;width:100%}
+.btn.g{background:var(--adm)}.btn.p{background:var(--hq)}.btn.line{background:#fff;color:var(--navy2);box-shadow:inset 0 0 0 1.5px var(--line)}.btn.red{background:var(--red)}
+.card{background:#fff;border-radius:16px;margin:10px 14px;padding:14px;box-shadow:0 1px 0 var(--line),0 0 0 1px var(--line)}
+.card h2{margin:0 0 6px;font-size:16px;color:var(--navy2)}
+.card p{margin:0;color:var(--sub);font-size:14px;line-height:1.6}
+.big{display:flex;align-items:center;gap:12px;width:100%;border:0;border-radius:16px;padding:16px 14px;text-align:left;font-size:16px;font-weight:700}
+.big small{display:block;font-weight:400;font-size:13px;opacity:.85;margin-top:2px}
+.big .ic{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:20px;color:#fff;flex:none}
+.todo{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line);font-size:15px}
+.todo:last-child{border-bottom:0}.todo em{margin-left:auto;font-style:normal;background:var(--red);color:#fff;border-radius:12px;padding:2px 9px;font-size:13px;font-weight:700}
+.todo .q{border:0;background:var(--sand);color:var(--sub);width:24px;height:24px;border-radius:50%;font-weight:700;flex:none}
+.tabs[hidden]{display:none!important}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:25;display:flex;background:#fff;border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom)}
+.tabs button{flex:1;border:0;background:none;padding:9px 0 10px;font-size:12.5px;color:var(--sub)}
+.tabs button i{display:block;font-style:normal;font-size:19px;margin-bottom:2px}
+.tabs button.on{color:var(--adm);font-weight:700}.tabs.hq button.on{color:var(--hq)}
+.row{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);background:#fff;width:100%;border-left:0;border-right:0;border-top:0;text-align:left;font-size:15px}
+.row .nm{flex:1;min-width:0}.row .nm b{display:block;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.row .nm small{color:var(--sub);font-size:12.5px}
+.tag{display:inline-block;border-radius:10px;padding:2px 8px;font-size:12px;font-weight:700;margin-left:4px}
+.t-red{background:#FCEBEB;color:#791F1F}.t-adm{background:var(--admbg);color:var(--admtx)}.t-wait{background:#FAEEDA;color:#633806}.t-hq{background:var(--hqbg);color:var(--hqtx)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding:4px 14px 10px;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:0;border-radius:18px;padding:7px 12px;background:#fff;box-shadow:inset 0 0 0 1px var(--line);font-size:13.5px;color:var(--ink)}
+.chip.on{background:var(--hq);color:#fff;box-shadow:none}.chip b{margin-left:4px}
+.find{display:flex;gap:6px;margin:12px 14px 8px}.find input{flex:1;border:0;border-radius:12px;padding:12px;font-size:15px;box-shadow:inset 0 0 0 1.5px var(--line);font-family:inherit}
+.find button{border:0;border-radius:12px;background:var(--hq);color:#fff;padding:0 14px;font-weight:700}
+.nav3{display:flex;justify-content:center;gap:18px;margin:24px 0 8px}
+.nav3 button{width:44px;height:44px;border-radius:50%;border:0;background:#fff;box-shadow:0 0 0 1px var(--line);font-size:18px;color:var(--navy2)}
+.foot{text-align:center;color:var(--sub);font-size:12px;padding:6px 0 20px}
+.dim{position:fixed;inset:0;background:rgba(20,24,30,.42);z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}.dim.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:61;background:#fff;border-radius:20px 20px 0 0;max-height:86vh;overflow:auto;padding:18px 16px calc(20px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .25s}
+.sheet.on{transform:none}.sheet h2{margin:0 0 6px;font-size:18px;color:var(--navy2)}.sheet .lead{margin:0 0 12px}
+.menu{position:fixed;top:0;right:0;bottom:0;width:84%;max-width:330px;z-index:61;background:#fff;transform:translateX(105%);transition:transform .25s;overflow:auto;padding-bottom:30px}
+.menu.on{transform:none}
+.menu .hd{background:var(--navy);color:#fff;padding:16px 14px;font-weight:700;font-size:16px;display:flex;justify-content:space-between;align-items:center}
+.menu .hd button{border:0;background:rgba(255,255,255,.14);color:#fff;width:34px;height:34px;border-radius:50%;font-size:16px}
+.mr{display:flex;align-items:center;gap:12px;width:100%;border:0;background:none;padding:13px 16px;font-size:15.5px;text-align:left;color:var(--ink)}
+.mr i{font-style:normal;width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--sand);font-size:16px;flex:none}
+.mr small{display:block;color:var(--sub);font-size:12.5px}
+.sl{font-size:12.5px;color:var(--sub);padding:12px 16px 2px;font-weight:700}
+.place{display:flex;align-items:center;gap:10px;width:100%;border:0;background:#fff;padding:12px 4px;border-bottom:1px solid var(--line);text-align:left;font-size:15px}
+.place .dot{width:28px;height:28px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:14px;flex:none}
+.place .tx{flex:1}.place b{display:block}.place small{color:var(--sub);font-size:12.5px}.place em{font-style:normal;font-size:12.5px;color:var(--sub)}
+.place.here{background:var(--sand);border-radius:12px;padding-left:8px}
+label.f{display:block;font-size:14px;font-weight:700;margin:10px 0 6px;color:var(--navy2)}
+input.t{width:100%;border:0;border-radius:12px;padding:13px;font-size:16px;box-shadow:inset 0 0 0 1.5px var(--line);font-family:inherit}
+.steps{display:flex;gap:6px;margin:4px 0 12px}.steps span{flex:1;height:5px;border-radius:3px;background:var(--line)}.steps span.on{background:var(--adm)}
+.toast{position:fixed;left:50%;bottom:120px;transform:translateX(-50%);background:#1E2A36;color:#fff;padding:10px 16px;border-radius:20px;font-size:14px;z-index:80;opacity:0;transition:opacity .2s;pointer-events:none;max-width:88%;text-align:center}.toast.on{opacity:1}
+.demo{position:fixed;left:10px;bottom:calc(66px + env(safe-area-inset-bottom));z-index:40;border:0;border-radius:18px;padding:7px 11px;background:#2E3A46;color:#fff;font-size:12.5px;opacity:.88}
+.demo.low{bottom:calc(14px + env(safe-area-inset-bottom))}
+.who{display:grid;gap:8px}
+</style>
+</head>
+<body>
+<header class="top"><span class="ttl"><span>🍇</span><span id="ttl">우리 이야기</span></span><button class="rb" id="burger" aria-label="메뉴">☰</button></header>
+<button class="pos" id="pos" type="button"></button>
+<main id="main"></main>
+<nav class="tabs" id="tabs" hidden></nav>
+<button class="demo" id="demo" type="button">시험판 · 누구로 보기</button>
+<div class="dim" id="dim"></div>
+<div class="sheet" id="sheet"></div>
+<nav class="menu" id="menu" aria-label="우리 이야기 메뉴"></nav>
+<div class="toast" id="toast"></div>
+<script>
+(function(){
+var $=function(i){return document.getElementById(i);};
+function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+var R={hq:{c:'r-hq',ic:'♛',nm:'본부',col:'var(--hq)'},up:{c:'r-up',ic:'◆',nm:'위 방 관리자',col:'var(--up)'},adm:{c:'r-adm',ic:'⚙',nm:'관리자',col:'var(--adm)'},chk:{c:'r-adm',ic:'⚙',nm:'확인자',col:'var(--adm)'},mem:{c:'r-mem',ic:'✎',nm:'올리는 분',col:'var(--mem)'},gst:{c:'r-gst',ic:'◌',nm:'둘러보는 분',col:'var(--gst)'}};
+var ROOMS={
+  dabok:{name:'파주 프로방스 복요리 다복 이야기',short:'다복',pics:['d01','d02','d04','d05','d06','d07','d08','d10','d11'].map(function(x){return '../seed/dabok/'+x+'_t.jpg';})},
+  lf:{name:'사랑흐름 우리 이야기',short:'사랑흐름',pics:['s1','s2','s3','s4','s5','s6','s7','s1','s2'].map(function(x){return '../seed/lf/'+x+'_t.jpg';})},
+  school:{name:'문산초등학교 우리 이야기',short:'문산초',pics:['s3','s4','s5','s6','s7','s1','s2','s3','s4'].map(function(x){return '../seed/lf/'+x+'_t.jpg';}),downs:12},
+  munsan:{name:'문산초 59회 우리 친구들 이야기',short:'문산초 59회',pics:['s5','s6','s7','s1','s2','s3','s4','s5','s6'].map(function(x){return '../seed/lf/'+x+'_t.jpg';})}
+};
+/* 시험판 사람 다섯 — 카카오 하나가 가진 자리 */
+var P={
+  boss:{label:'대표님(본부)',home:'dabok',places:function(){var a=[{w:'hq',r:'hq'},{w:'lf',r:'adm'}];if(HO<3){a.push({w:'dabok',r:'adm',note:HO===1?'넘기는 중':HO===2?'사장님과 둘':'넘기기 전'});}a.push({w:'munsan',r:'mem'});return a;}},
+  owner:{label:'다복 사장님',home:'dabok',places:function(){return [{w:'dabok',r:HO>=2?'adm':'gst'}];}},
+  upper:{label:'문산초 위 방 관리자',home:'school',places:function(){return [{w:'school',r:'up'},{w:'munsan',r:'mem'}];}},
+  member:{label:'다복 단골(올리는 분)',home:'dabok',places:function(){return [{w:'dabok',r:'mem'}];}},
+  guest:{label:'마당에서 들어온 분',home:'dabok',places:function(){return [];}}
+};
+var who='boss', HO=0, STACK=[], hqF='', admTab='home';
+function places(){return P[who].places();}
+function roleAt(w){if(w==='hq'){return places().some(function(p){return p.w==='hq';})?'hq':'';}var p=places().filter(function(x){return x.w===w;})[0];if(p){return p.r;}return 'gst';}
+function isHq(){return places().some(function(p){return p.w==='hq';});}
+function cur(){return STACK[STACK.length-1];}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.k);toast.k=setTimeout(function(){t.classList.remove('on');},1900);}
+function go(v,push){if(push!==false){STACK.push(v);}render();window.scrollTo(0,0);}
+function back(){if(STACK.length>1){STACK.pop();render();window.scrollTo(0,0);return;}sheet('<h2>우리 이야기에서 나가시겠습니까?</h2><p class="lead">카카오톡 대화로 돌아갑니다.</p><div class="pair" style="margin:0"><button class="btn line" data-x>머물기</button><button class="btn" data-x data-t="시험판 — 실제로는 카카오톡으로 돌아갑니다">나가기</button></div>');}
+function home(){STACK=[{v:'room',w:P[who].home}];render();window.scrollTo(0,0);}
+/* 자리 띠 — 늘 붙음 */
+function posBar(){
+  var v=cur(),b=$('pos'),r,w,sub,sos=false,lab;
+  if(v.v==='hq'){r='hq';sub='사랑흐름 우리 이야기 전체 · 방 '+HQROOMS.length;lab='본부';sos=true;}
+  else if(v.v==='plaza'){var top=isHq()?'hq':(places()[0]?places()[0].r:'gst');r=top;sub='우리 이야기 마당';lab=R[r].nm;}
+  else{w=v.w;r=roleAt(w);sub=ROOMS[w].name;lab=R[r].nm+(v.v==='adm'?' · 관리 중':'');sos=v.v==='adm';if(r==='up'){sub=ROOMS[w].short+' · 아래 방 '+ROOMS[w].downs;}}
+  var o=R[r];b.className='pos '+o.c;
+  b.innerHTML='<span class="dot">'+o.ic+'</span><span class="tx"><b>'+esc(lab)+'</b><small>'+esc(sub)+'</small></span>'+(sos?'<span class="sos" id="sos">🚨 응급</span>':'<span class="go">내 자리 ▾</span>');
+  b.onclick=function(e){if(e.target&&e.target.id==='sos'){sosSheet();return;}mySeats();};
+}
+/* 내 자리 판 */
+function mySeats(){
+  var v=cur(),ps=places(),h='<h2>내 자리</h2><p class="lead">카카오 하나로 맡은 자리입니다. 누르면 그 자리로 갑니다.</p>';
+  if(!ps.length){h+='<div class="card" style="margin:0 0 10px"><p>아직 함께하는 이야기방이 없습니다. 초대를 받거나 이야기방을 만들면 여기에 생깁니다.</p></div><button class="btn" data-x data-t="시험판 — 이야기방 만들기 화면으로 갑니다">이야기방 만들기</button>';sheet(h);return;}
+  ps.forEach(function(p,i){var o=R[p.r],here=(p.w==='hq'&&v.v==='hq')||(v.w===p.w&&v.v!=='hq');
+    h+='<button class="place'+(here?' here':'')+'" data-pl="'+i+'"><span class="dot" style="background:'+o.col+'">'+o.ic+'</span><span class="tx"><b>'+(p.w==='hq'?'본부':esc(ROOMS[p.w].short))+'</b><small>'+o.nm+(p.note?' · '+esc(p.note):'')+'</small></span><em>'+(here?'지금 여기':'가기 ›')+'</em></button>';});
+  h+='<p class="lead" style="margin-top:12px;font-size:13px">본부는 처음 쓰는 기기에서만 카카오톡 [승인]을 한 번 더 받습니다.</p>';
+  sheet(h,function(s){[].forEach.call(s.querySelectorAll('[data-pl]'),function(b){b.onclick=function(){var p=ps[+b.getAttribute('data-pl')];close();if(p.w==='hq'){go({v:'hq',t:'today'});}else{go({v:'room',w:p.w});}};});});
+}
+/* ☰ 우리 이야기 메뉴 */
+function openMenu(){
+  var v=cur(),ps=places(),m=$('menu'),h='<div class="hd"><span>우리 이야기</span><button id="mX" aria-label="닫기">✕</button></div>';
+  h+='<div style="padding:10px 12px 4px">'+$('pos').outerHTML.replace('id="pos"','id="mPos"').replace('id="sos"','')+'</div>';
+  h+='<button class="mr" data-m="plaza"><i>🌿</i><span>우리 이야기 마당<small>여러 이야기방 사진</small></span></button>';
+  h+='<button class="mr" data-m="seats"><i>📍</i><span>내 이야기방<small>내 자리 · 맡은 방 · 함께하는 방</small></span></button>';
+  h+='<button class="mr" data-m="make"><i>＋</i><span>이야기방 만들기<small>나 · 가족 · 모임 · 일터 · 마을 · 기관</small></span></button>';
+  var mg=ps.filter(function(p){return p.r==='adm'||p.r==='chk'||p.r==='up';});
+  if(mg.length){h+='<div class="sl">관리</div>';mg.forEach(function(p){h+='<button class="mr" data-adm="'+p.w+'"><i style="background:'+(p.r==='up'?'var(--upbg)':'var(--admbg)')+'">'+R[p.r].ic+'</i><span>'+esc(ROOMS[p.w].short)+' 관리<small>'+R[p.r].nm+'</small></span></button>';});}
+  if(isHq()){h+='<button class="mr" data-m="hq"><i style="background:var(--hqbg)">♛</i><span>본부<small>모든 방 · 오늘 손볼 것 · 관리자 넘기기</small></span></button>';}
+  h+='<div class="sl">도움</div><button class="mr" data-m="guide"><i>？</i><span>이용 안내</span></button><button class="mr" data-m="share"><i>↗</i><span>공유하기<small>마당 · 이야기방 만들기 링크</small></span></button>';
+  h+='<div style="border-top:1px solid var(--line);margin-top:8px"></div><button class="mr" data-m="lf"><i>⌂</i><span>사랑흐름 홈<small>사랑흐름 전체 메뉴는 여기에서</small></span></button>';
+  m.innerHTML=h;m.classList.add('on');$('dim').classList.add('on');
+  $('mX').onclick=close;
+  var mp=$('mPos');if(mp){mp.style.position='static';mp.style.borderRadius='12px';mp.onclick=function(){close();setTimeout(mySeats,220);};}
+  [].forEach.call(m.querySelectorAll('[data-m]'),function(b){b.onclick=function(){var k=b.getAttribute('data-m');close();
+    if(k==='plaza'){go({v:'plaza'});}else if(k==='seats'){setTimeout(mySeats,220);}else if(k==='hq'){go({v:'hq',t:'today'});}else if(k==='lf'){toast('시험판 — 사랑흐름 홈(www.loveflow.ai.kr)으로 갑니다');}else{toast('시험판 — '+b.querySelector('span').firstChild.textContent+' 화면으로 갑니다');}};});
+  [].forEach.call(m.querySelectorAll('[data-adm]'),function(b){b.onclick=function(){close();admTab='home';go({v:'adm',w:b.getAttribute('data-adm')});};});
+}
+/* 방 화면 */
+function roomView(v){
+  var rm=ROOMS[v.w],r=roleAt(v.w),mg=r==='adm'||r==='chk'||r==='up';
+  var h='<h1>'+esc(rm.name)+'</h1><p class="lead">'+(r==='gst'?'둘러보는 중입니다. 함께하시면 사진을 올릴 수 있습니다.':'사진 '+(rm.pics.length*4)+' · 함께하는 분 '+(v.w==='dabok'?18:42))+'</p>';
+  h+='<div class="grid">'+rm.pics.map(function(p){return '<img src="'+p+'" alt="" loading="lazy">';}).join('')+'</div>';
+  if(r==='gst'){h+='<div class="pair" style="grid-template-columns:1fr"><button class="btn" id="join">함께하기</button></div>';}
+  else{h+='<div class="pair"'+(mg?'':' style="grid-template-columns:1fr"')+'><button class="btn" id="up">사진 · 영상 · 글 올리기</button>'+(mg?'<button class="btn '+(r==='up'?'':'g')+'" style="'+(r==='up'?'background:var(--up)':'')+'" id="adm">'+R[r].ic+' 관리</button>':'')+'</div>';}
+  return h+nav3();
+}
+function plazaView(){
+  var all=[].concat(ROOMS.dabok.pics.slice(0,5),ROOMS.lf.pics.slice(0,5),ROOMS.munsan.pics.slice(0,5));
+  return '<h1>우리 이야기 마당</h1><p class="lead">여러 이야기방의 사진이 모입니다.</p><div class="grid">'+all.map(function(p){return '<img src="'+p+'" alt="" loading="lazy">';}).join('')+'</div>'+nav3();
+}
+function nav3(){return '<div class="nav3"><button id="nb" aria-label="뒤로">←</button><button id="nh" aria-label="홈">⌂</button><button id="nf" aria-label="앞으로">→</button></div><div class="foot">© 2026 사랑흐름 · 우리 이야기</div>';}
+/* 초록 — 방 관리 */
+function admView(v){
+  var rm=ROOMS[v.w],r=roleAt(v.w),h='';
+  if(admTab==='home'){
+    var todo=v.w==='dabok'?[['승인 기다리는 사진',2,'올린 분이 처음이라 확인을 기다립니다. 보고 「싣기」나 「가리기」를 누릅니다.'],['「저를 빼 주세요」 요청',1,'사진 속 분이 빼 달라고 했습니다. 「비공개로 내리기」나 「그대로 둠」을 고릅니다.']]:v.w==='school'?[['아래 방 새 소식',5,'아래 방에 새로 올라온 것입니다. 위 방에서는 보기만 합니다.']]:[];
+    h+='<div class="card"><h2>오늘 할 일</h2>'+(todo.length?todo.map(function(t,i){return '<div class="todo"><span>'+t[0]+'</span><button class="q" data-q="'+i+'" aria-label="이럴 땐">?</button><em>'+t[1]+'</em></div>';}).join(''):'<p>오늘은 손볼 것이 없습니다.</p>')+'</div>';
+    if(r==='adm'){h+='<div style="margin:12px 14px"><button class="big" id="hoBig" style="background:var(--admbg);color:var(--admtx)"><span class="ic" style="background:var(--adm)">🤝</span><span>관리자 넘기기<small>'+hoLine()+'</small></span></button></div>';}
+    h+='<div style="margin:0 14px"><button class="big" id="inv" style="background:#fff;color:var(--navy2);box-shadow:inset 0 0 0 1.5px var(--line)"><span class="ic" style="background:var(--navy)">✉</span><span>초대하기<small>카카오톡으로 이 방 링크 보내기</small></span></button></div>';
+    window._todo=todo;
+  }else if(admTab==='people'){
+    h+='<div class="card" style="padding:0;overflow:hidden"><div style="padding:12px 14px 6px;font-weight:700;color:var(--navy2)">관리하는 분</div>'+staffRows(v.w)+'</div>';
+    h+='<div class="card" style="padding:0;overflow:hidden"><div style="padding:12px 14px 6px;font-weight:700;color:var(--navy2)">함께하는 분 18</div>'+['단골 김○○','단골 이○○','단골 박○○'].map(function(n){return '<div class="row"><span class="nm"><b>'+n+'</b><small>올리는 분</small></span><span style="color:var(--sub)">›</span></div>';}).join('')+'</div>';
+  }else if(admTab==='downs'){
+    h+='<div class="card"><h2>아래 방 12</h2><p>위 방에서는 보기 · 숫자 · 알림만 합니다. 승인 · 삭제는 그 방 관리자가 합니다.</p></div>'+['1학년','2학년','59회 우리 친구들','60회 동창','교직원'].map(function(n,i){return '<div class="row"><span class="nm"><b>문산초 '+n+'</b><small>사진 '+(30+i*7)+' · 새 소식 '+(i%3)+'</small></span>'+(i===4?'<span class="tag t-red">관리자 없음</span>':'')+'</div>';}).join('');
+  }else if(admTab==='log'){
+    h+='<div class="card" style="padding:0;overflow:hidden">'+[['10월 23일 09:40','관리자 넘기기 링크 보냄','되돌리기'],['10월 22일 21:10','사진 가림 · R-000231','되돌리기'],['10월 22일 18:02','초대 링크 새로 만듦','']].map(function(x){return '<div class="row"><span class="nm"><b>'+x[1]+'</b><small>'+x[0]+'</small></span>'+(x[2]?'<button class="chip">'+x[2]+'</button>':'')+'</div>';}).join('')+'</div><p class="lead">감사 기록에도 같이 남습니다(지울 수 없음).</p>';
+  }else{
+    h+='<div class="card"><h2>'+({posts:'글',photos:'사진',set:'설정'}[admTab])+'</h2><p>시험판에서는 비워 둡니다. 실화면에서는 지금 있는 기능을 이 탭으로 옮깁니다.</p></div>';
+  }
+  return h;
+}
+function hoLine(){return ['다복 사장님께 이 방을 맡깁니다','사장님께 링크를 보냈습니다 · 받기를 기다림(7일)','사장님이 받으셨습니다 · 대표님이 빠질 차례','넘기기를 마쳤습니다'][HO];}
+function staffRows(w){
+  var a=[];
+  if(w==='dabok'){if(HO<3){a.push(['대표님','관리자','']);}if(HO===1){a.push(['다복 사장님','관리자','받기 기다림']);}if(HO>=2){a.push(['다복 사장님','관리자','']);}}
+  else{a.push([w==='school'?'교감 선생님':'대표님',w==='school'?'위 방 관리자':'관리자','']);}
+  return a.map(function(x){return '<div class="row"><span class="nm"><b>'+x[0]+'</b><small>'+x[1]+'</small></span>'+(x[2]?'<span class="tag t-wait">'+x[2]+'</span>':'<span class="tag t-adm">⚙</span>')+'</div>';}).join('');
+}
+function admTabs(w){
+  var r=roleAt(w),t=[['home','⌂','오늘'],['people','👥','사람']];
+  if(r==='up'){t.push(['downs','▦','아래 방']);}else{t.push(['posts','✎','글'],['photos','▣','사진']);}
+  t.push(['set','⚙','설정'],['log','↺','기록']);
+  var n=$('tabs');n.className='tabs';n.hidden=false;
+  n.innerHTML=t.map(function(x){return '<button class="'+(admTab===x[0]?'on':'')+'" data-tb="'+x[0]+'"><i>'+x[1]+'</i>'+x[2]+'</button>';}).join('');
+  [].forEach.call(n.querySelectorAll('[data-tb]'),function(b){b.onclick=function(){admTab=b.getAttribute('data-tb');render();};});
+}
+/* 넘기기 한 길 */
+function handover(){
+  if(HO===0){
+    sheet('<h2>관리자 넘기기</h2><div class="steps"><span class="on"></span><span></span><span></span></div><p class="lead">이 방을 맡으실 분께 카카오톡으로 링크를 보냅니다. 그분이 누르고 카카오로 확인하시면 관리자가 됩니다.</p><label class="f">맡으실 분 성명</label><input class="t" id="hoN" maxlength="20" placeholder="예: 다복 사장님"><div id="hoE" style="color:var(--red);font-size:13px;margin-top:6px"></div><div class="pair" style="margin:14px 0 0"><button class="btn line" data-x>취소</button><button class="btn g" id="hoGo">카카오톡으로 보내기</button></div><button class="btn line" style="margin-top:8px" id="hoCp">링크 복사</button>',function(){
+      function ok(){var n=$('hoN').value.trim();if(!n){$('hoE').textContent='성명을 넣어 주십시오.';return false;}return true;}
+      $('hoN').oninput=function(){$('hoE').textContent='';};
+      $('hoGo').onclick=function(){if(!ok()){return;}HO=1;close();toast('카카오톡 보내기 화면이 열립니다(시험판)');render();};
+      $('hoCp').onclick=function(){if(!ok()){return;}HO=1;close();toast('링크를 복사했습니다 · 7일 · 한 번');render();};
+    });return;}
+  if(HO===1){sheet('<h2>받기를 기다립니다</h2><div class="steps"><span class="on"></span><span class="on"></span><span></span></div><p class="lead">사장님이 링크를 누르고 카카오로 확인하시면 여기가 바뀝니다. 링크는 7일 · 한 번만 됩니다.</p><button class="btn g" id="hoT">시험판 — 사장님이 받으심</button><div class="pair" style="margin:10px 0 0"><button class="btn line" id="hoRe">링크 다시 보내기</button><button class="btn line" id="hoNo">보낸 링크 거두기</button></div>',function(){
+      $('hoT').onclick=function(){HO=2;close();toast('사장님이 다복 관리자가 되셨습니다');render();};
+      $('hoRe').onclick=function(){close();toast('새 링크를 보냈습니다 · 앞 링크는 막힘');};
+      $('hoNo').onclick=function(){HO=0;close();toast('보낸 링크를 거두었습니다');render();};
+    });return;}
+  if(HO===2){sheet('<h2>대표님이 빠질 차례</h2><div class="steps"><span class="on"></span><span class="on"></span><span class="on"></span></div><p class="lead">사장님이 관리자가 되셨습니다. 대표님은 다복 관리자에서 빠집니다. 본부에서는 그대로 이 방을 볼 수 있습니다.</p><div class="pair" style="margin:0"><button class="btn line" data-x>나중에</button><button class="btn g" id="hoOut">관리자에서 빠지기</button></div>',function(){
+      $('hoOut').onclick=function(){HO=3;close();toast('넘기기를 마쳤습니다 · 본부에서 계속 볼 수 있습니다');if(who==='boss'){STACK=[{v:'hq',t:'rooms'}];}render();};
+    });return;}
+  toast('넘기기를 마쳤습니다');
+}
+/* 🚨 응급 */
+function sosSheet(){
+  var v=cur(),inHq=v.v==='hq';
+  sheet('<h2>🚨 응급</h2><p class="lead">'+(inHq?'본부 — 어느 방이든':'이 방에서')+' 바로 막습니다. 나중에 「기록」에서 되돌릴 수 있습니다.</p>'+
+    '<button class="big" data-x data-t="시험판 — 글 · 사진 고르기 화면" style="background:#FCEBEB;color:#501313;margin-bottom:8px"><span class="ic" style="background:var(--red)">▣</span><span>글 · 사진 가리기<small>문제 된 것 하나를 바로 가림</small></span></button>'+
+    '<button class="big" data-x data-t="시험판 — 사람 고르기 화면" style="background:#FCEBEB;color:#501313;margin-bottom:8px"><span class="ic" style="background:var(--red)">👤</span><span>사람 쓰기 멈춤<small>그분이 더 올리지 못하게</small></span></button>'+
+    '<button class="big" data-x data-t="시험판 — '+(inHq?'방 고르기 화면':'새 분 받기를 멈췄습니다')+'" style="background:#FCEBEB;color:#501313"><span class="ic" style="background:var(--red)">⏸</span><span>'+(inHq?'방 운영 멈춤':'새 분 받기 멈춤')+'<small>'+(inHq?'방 전체 쓰기 막음 · 보기는 됨':'초대 링크로 들어오는 것을 막음')+'</small></span></button>');
+}
+/* 보라 — 본부(휴대폰) */
+var HQROOMS=[
+  {com:'C-0001',name:'사랑흐름 우리 이야기',adm:'대표님',p:42,wait:0,rq:0,tag:''},
+  {com:'C-0018',name:'파주 프로방스 복요리 다복 이야기',adm:'',p:18,wait:2,rq:1,tag:''},
+  {com:'C-0024',name:'문산초등학교 우리 이야기',adm:'교감 선생님',p:120,wait:0,rq:0,tag:'위 방'},
+  {com:'C-0025',name:'문산초 59회 우리 친구들 이야기',adm:'총무 정○○',p:37,wait:1,rq:0,tag:''},
+  {com:'C-0031',name:'문산초 교직원 이야기',adm:'',p:9,wait:0,rq:0,tag:'관리자 없음'},
+  {com:'C-0033',name:'성동리 우리 마을 이야기',adm:'이장 최○○',p:61,wait:0,rq:2,tag:''},
+  {com:'C-0036',name:'○○네 가족 이야기',adm:'김○○',p:6,wait:0,rq:0,tag:''}
+];
+function hqRooms(){return HQROOMS.map(function(x){var y={};for(var k in x){y[k]=x[k];}if(x.com==='C-0018'){y.adm=HO===0?'대표님':HO===1?'대표님 · 사장님(받기 기다림)':HO===2?'대표님 · 다복 사장님':'다복 사장님';}return y;});}
+function hqView(v){
+  var h='<div class="chips" style="padding-top:12px"><button class="chip'+(v.t==='today'?' on':'')+'" data-ht="today">오늘</button><button class="chip'+(v.t==='rooms'?' on':'')+'" data-ht="rooms">우리 이야기 방</button><button class="chip" data-ht="pc">판매 · 발급 · 서비스 · 사람 · 운영 — 컴퓨터에서</button></div>';
+  var rs=hqRooms();
+  if(v.t==='today'){
+    var noA=rs.filter(function(x){return x.tag==='관리자 없음';}),rq=rs.filter(function(x){return x.rq;}),wt=rs.filter(function(x){return x.wait;});
+    h+='<div class="card"><h2>오늘 손볼 것</h2>'+
+      '<div class="todo"><span>관리자 없는 방</span><em>'+noA.length+'</em></div><div class="todo"><span>삭제 · 빼 주세요 요청 있는 방</span><em>'+rq.length+'</em></div><div class="todo"><span>승인 기다리는 방</span><em>'+wt.length+'</em></div><div class="todo"><span>새로 생긴 방 신청</span><em>1</em></div></div>';
+    h+='<p class="lead" style="margin-top:4px">누르면 그 방들만 걸러 보입니다.</p>';
+  }else{
+    h+='<div class="find"><input id="hqQ" placeholder="방 이름 · 번호 · 관리자" value="'+esc(v.q||'')+'"><button id="hqS">찾기</button></div>';
+    var F=[['','전체',rs.length],['noAdm','관리자 없음',rs.filter(function(x){return x.tag==='관리자 없음';}).length],['rq','요청',rs.filter(function(x){return x.rq;}).length],['wait','승인 대기',rs.filter(function(x){return x.wait;}).length],['up','위 방',1]];
+    h+='<div class="chips">'+F.map(function(f){return '<button class="chip'+(hqF===f[0]?' on':'')+'" data-hf="'+f[0]+'">'+f[1]+'<b>'+f[2]+'</b></button>';}).join('')+'</div>';
+    var q=(v.q||'').trim(),show=rs.filter(function(x){if(q&&(x.name+x.com+x.adm).indexOf(q)<0){return false;}if(hqF==='noAdm'){return x.tag==='관리자 없음';}if(hqF==='rq'){return x.rq>0;}if(hqF==='wait'){return x.wait>0;}if(hqF==='up'){return x.tag==='위 방';}return true;});
+    h+='<div style="background:#fff;border-top:1px solid var(--line)">'+show.map(function(x){return '<button class="row" data-rm="'+x.com+'"><span class="nm"><b>'+esc(x.name)+'</b><small>'+x.com+' · '+(x.adm?esc(x.adm):'관리자 없음')+' · '+x.p+'명</small></span>'+(x.rq?'<span class="tag t-red">요청 '+x.rq+'</span>':'')+(x.wait?'<span class="tag t-wait">대기 '+x.wait+'</span>':'')+(x.tag==='관리자 없음'?'<span class="tag t-red">관리자 없음</span>':'')+'<span style="color:var(--sub)">›</span></button>';}).join('')+(show.length?'':'<div class="row"><span class="nm"><small>맞는 방이 없습니다.</small></span></div>')+'</div><p class="lead" style="margin-top:8px">50줄씩 · 맨 아래에서 더 불러옴</p>';
+  }
+  return h+nav3();
+}
+function hqRoom(com){
+  var x=hqRooms().filter(function(y){return y.com===com;})[0],isD=com==='C-0018',w=isD?'dabok':com==='C-0001'?'lf':com==='C-0024'?'school':com==='C-0025'?'munsan':'';
+  sheet('<h2>'+esc(x.name)+'</h2><p class="lead">'+x.com+' · 관리자 '+(x.adm?esc(x.adm):'없음')+' · '+x.p+'명</p>'+
+    (isD?'<button class="big" id="rHo" style="background:var(--admbg);color:var(--admtx);margin-bottom:8px"><span class="ic" style="background:var(--adm)">🤝</span><span>관리자 넘기기<small>'+hoLine()+'</small></span></button>':'<button class="big" data-x data-t="시험판 — 관리자 지정 링크 만들기" style="background:var(--admbg);color:var(--admtx);margin-bottom:8px"><span class="ic" style="background:var(--adm)">🤝</span><span>관리자 지정 · 넘기기<small>맡으실 분께 카카오톡으로 링크</small></span></button>')+
+    '<div class="pair" style="margin:0 0 8px"><button class="btn line" id="rGo">이 방으로 가기</button><button class="btn red" data-x data-t="시험판 — 운영을 멈췄습니다 · 기록에서 되돌림">🚨 운영 멈춤</button></div>'+
+    '<div class="card" style="margin:6px 0 0"><h2>이번 달</h2><p>올린 것 34 · 새로 온 분 5 · 요청 '+x.rq+' · 감사 기록 12줄</p></div>',function(){
+      if($('rHo')){$('rHo').onclick=function(){close();setTimeout(handover,230);};}
+      $('rGo').onclick=function(){close();if(w){go({v:'room',w:w});}else{toast('시험판 — 그 방으로 갑니다');}};
+    });
+}
+/* 판 · 메뉴 공통 */
+function sheet(html,fn){var s=$('sheet');s.innerHTML=html;s.classList.add('on');$('dim').classList.add('on');
+  [].forEach.call(s.querySelectorAll('[data-x]'),function(b){b.onclick=function(){var t=b.getAttribute('data-t');close();if(t){toast(t);}};});
+  if(fn){fn(s);}}
+function close(){$('sheet').classList.remove('on');$('menu').classList.remove('on');$('dim').classList.remove('on');}
+$('dim').onclick=close;$('burger').onclick=openMenu;
+$('demo').onclick=function(){
+  sheet('<h2>시험판 · 누구로 보기</h2><p class="lead">자리를 바꾸면 자리 띠 · ☰ · 내 자리 · 관리 단추가 같이 바뀝니다.</p><div class="who">'+Object.keys(P).map(function(k){return '<button class="btn '+(k===who?'':'line')+'" data-w="'+k+'">'+P[k].label+'</button>';}).join('')+'<button class="btn line" id="rst">넘기기 처음부터</button></div>',function(s){
+    [].forEach.call(s.querySelectorAll('[data-w]'),function(b){b.onclick=function(){who=b.getAttribute('data-w');close();admTab='home';hqF='';home();toast(P[who].label+'(으)로 봅니다');};});
+    $('rst').onclick=function(){HO=0;close();home();toast('다복 넘기기를 처음으로 돌렸습니다');};
+  });
+};
+/* 그리기 */
+function render(){
+  var v=cur(),m=$('main'),n=$('tabs');n.hidden=true;$('demo').className='demo low';
+  if(v.v==='adm'&&!/^(adm|chk|up)$/.test(roleAt(v.w))){STACK=[{v:'room',w:v.w}];v=cur();}
+  if(v.v==='hq'&&!isHq()){STACK=[{v:'room',w:P[who].home}];v=cur();}
+  $('ttl').textContent=v.v==='hq'?'우리 이야기 · 본부':v.v==='adm'?'우리 이야기 · 관리':'우리 이야기';
+  posBar();
+  if(v.v==='room'){m.innerHTML=roomView(v);}
+  else if(v.v==='plaza'){m.innerHTML=plazaView();}
+  else if(v.v==='adm'){m.innerHTML=admView(v);admTabs(v.w);$('demo').className='demo';}
+  else if(v.v==='hq'){m.innerHTML=hqView(v);}
+  if($('nb')){$('nb').onclick=back;$('nh').onclick=home;$('nf').onclick=function(){toast('앞으로 갈 화면이 없습니다');};}
+  if($('adm')){$('adm').onclick=function(){admTab='home';go({v:'adm',w:v.w});};}
+  if($('up')){$('up').onclick=function(){toast('시험판 — 올리기 4걸음 화면');};}
+  if($('join')){$('join').onclick=function(){toast('시험판 — 카카오로 함께하기');};}
+  if($('hoBig')){$('hoBig').onclick=handover;}
+  if($('inv')){$('inv').onclick=function(){toast('시험판 — 카카오톡 초대하기');};}
+  [].forEach.call(m.querySelectorAll('[data-q]'),function(b){b.onclick=function(){var t=window._todo[+b.getAttribute('data-q')];sheet('<h2>이럴 땐 · '+t[0]+'</h2><p class="lead">'+t[2]+'</p><button class="btn g" data-x>알았습니다</button>');};});
+  [].forEach.call(m.querySelectorAll('[data-ht]'),function(b){b.onclick=function(){var t=b.getAttribute('data-ht');if(t==='pc'){toast('판매 · 발급 · 서비스 · 사람 · 운영은 컴퓨터 본부에서 엽니다');return;}v.t=t;render();};});
+  [].forEach.call(m.querySelectorAll('.todo'),function(d,i){if(v.v==='hq'){d.style.cursor='pointer';d.onclick=function(){hqF=['noAdm','rq','wait',''][i];if(i===3){toast('시험판 — 새로 생긴 방 신청 목록');return;}v.t='rooms';render();};}});
+  [].forEach.call(m.querySelectorAll('[data-hf]'),function(b){b.onclick=function(){hqF=b.getAttribute('data-hf');render();};});
+  if($('hqS')){$('hqS').onclick=function(){v.q=$('hqQ').value;render();};$('hqQ').onkeydown=function(e){if(e.key==='Enter'){v.q=this.value;render();}};}
+  [].forEach.call(m.querySelectorAll('[data-rm]'),function(b){b.onclick=function(){hqRoom(b.getAttribute('data-rm'));};});
+}
+home();
+})();
+</script>
+</body>
+</html>
