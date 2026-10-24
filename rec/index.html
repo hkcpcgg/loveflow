@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v82 · 261024 · [칸 7-가 · 431 본부 첫 화면 · 429 방 관리 열기 · 72차 B-1 · B-2 · B-3] 「오늘」 맨 위 검색 · 손볼 것 숫자(누르면 그 일로) · 바로 가기 · 휴대폰은 ① · ② 만 · 방 자세히 「이 방 관리 열기」 → 초록(위 띠 「본부에서 엶」 · 「본부로」) → 본부 ② 로 돌아오면 검색어 · 거름 · 정렬 · 고른 방 그대로 · 서버 ①Code v40 · ③본부 v35 필요 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v83 · 261024 · [대표 10:21 「본부에 이 방 관리 열기가 안 보인다」] 시스템 누수: 이 기기에 남겨 둔 옛 화면(sw.js)을 새 화면으로 바꿔 여는 일이 첫 화면 · 마당에서만 일어나 본부에서는 v82가 끝내 안 열림 → 본부 화면에서도 새 화면이 오면 바꿔 엶(창 · 시트가 열려 있지 않을 때) · 견줄 버전 REC_VER 63 → 83 -->
+<!-- (이전) rec/index.html · v82 · 261024 · [칸 7-가 · 431 본부 첫 화면 · 429 방 관리 열기 · 72차 B-1 · B-2 · B-3] 「오늘」 맨 위 검색 · 손볼 것 숫자(누르면 그 일로) · 바로 가기 · 휴대폰은 ① · ② 만 · 방 자세히 「이 방 관리 열기」 → 초록(위 띠 「본부에서 엶」 · 「본부로」) → 본부 ② 로 돌아오면 검색어 · 거름 · 정렬 · 고른 방 그대로 · 서버 ①Code v40 · ③본부 v35 필요 -->
 <!-- (이전) rec/index.html · v81 · 261023 · [343 수정 · 대표 OK 21:52] ⋯ → 「수정」(내가 올린 기록 · 내 🍇 기억) · 대화 「수정」 · 수정 화면(제목 · 한마디 · 언제 · 어디서 · 누구와 · 무슨 일 · 분류 · 공개 범위 · 사진마다 출처 · 묶음에서 사진 빼기 · 영상 출처) · 「수정됨」 표시 · 서버 ①Code v39 필요 -->
 <!-- (이전) rec/index.html · v80 · 261023 · [422 기록관 사칭 막기 · 대표 OK 19:48] 관리 「인증」(서류 종류 넷 · 사진 하나 → 인증 신청 · 신청 취소 · 반려 사유) · 학교 · 기관 이름 방은 인증 전 마당에 안 나옴 안내 · 인증된 방 이름 옆 ✓(마당 띠 · 위 제목) · ☰ 「신고」(사칭 · 부적절한 내용 · 그 밖) · 본부 ① 오늘에 인증 신청(서류 보기 · 인증 · 반려 — 대표만) · 방 신고(처리 끝 · 인증 풀기) · 새 기록관 7일 — 서버 ①Code v38 · ②관리 v33 · ③본부 v34와 짝 -->
 <!-- (이전) rec/index.html · v79 · 261023 · [310 속도] 속도 줄에 서버 담아 둔 것 맞음 글자(h:) 함께 — 서버 ①Code v37과 짝(v36이면 h: 가 안 붙을 뿐) -->
@@ -4600,12 +4601,12 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=63;
+var NEWV=0, REC_VER=83;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
 function newGo(){
-  if(!NEWV||$('dimTop')||!(VIEW==='feed'||VIEW==='plaza')){ return; }
+  if(!NEWV||$('dimTop')||!(VIEW==='feed'||VIEW==='plaza'||document.body.classList.contains('desk'))){ return; }   /* ★v83 본부(desk)에서도 */
   var last=0; try{ last=parseInt(sessionStorage.getItem('lf_rec_rl')||'0',10)||0; }catch(e){}
   if(Date.now()-last<60000){ return; }   /* 한 번만 · 되풀이 막음 */
   try{ sessionStorage.setItem('lf_rec_rl',String(Date.now())); }catch(e){}
@@ -4910,7 +4911,7 @@ function dkWide(){ return (window.innerWidth||0)>=900; }
 function dkKind(fr){ var k=mkKindOf(fr); if(!k){ return fr?'예전 틀':'—'; } var t=MK_KIND[k].types.filter(function(x){ return x[1]===fr; })[0]; return MK_KIND[k].ic+' '+(t?t[0]:MK_KIND[k].t); }
 function dkDay(s){ s=String(s||''); return s?s.slice(2,10).replace(/-/g,'.'):'—'; }
 function hqDesk(sec){
-  hqMode(); document.body.classList.add('desk'); if(sec){ HQD.sec=sec; } window.scrollTo(0,0);
+  hqMode(); document.body.classList.add('desk'); if(sec){ HQD.sec=sec; } window.scrollTo(0,0); setTimeout(function(){ try{ newChk(); }catch(e){} },1500);   /* ★v83 */
   var el=$('main');
   el.innerHTML=posBar('hq')+'<div class="dk"><nav class="dk-nav" aria-label="본부 갈래">'+DK_SECS.map(function(s,i){ return '<button type="button" data-dk="'+s[0]+'" class="'+(s[0]===HQD.sec?'on':'')+(i>1?' pc':'')+'"><i>'+'①②③④⑤⑥'.charAt(i)+'</i>'+esc(s[1])+'</button>'; }).join('')+
     '<button type="button" class="dk-out" id="dkX">본부에서 나가기</button></nav><section class="dk-body" id="dkB"></section><aside class="dk-side" id="dkS" hidden></aside></div>';
