@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v13 · 261024 · [칸 2 434 · 대표 18:49 OK] 방문 통계 — 첫 화면 · 사랑흐름 여행 · 상품 진열 · 결제 화면에서만 방문(처음 · 다시) · 단추 누름(단추 글 → 갈 곳 · 주소 뒤 물음은 빼고) · 나감(머문 초 · 누름 수)을 우리 이야기 서버 recVisit 로 보냄(「방문 통계」 탭) · 이름 · 연락처 · 입력 칸 글은 보내지 않음 · 묶음 = 그 창의 무작위 번호 · 들어온 곳은 바깥 주소 이름만 · 본부에서 열고 온 화면은 세지 않음 · [무손] 그 밖 v12 전부
+   현재 버전 ▶ lf/frame.js · v14 · 261024 · [칸 3 435 · 73차 결정 5 · 9] ☰ 메뉴 새 차례(시험판) — body 에 data-lf-menu="2" 를 단 화면(첫 화면 시험판 home-new v6)에서만 새 ☰: 우리 이야기 · 기록관(마당 · 이야기방 만들기 · 기록관 만들기 · 기관 · 단체 제안) → 마음 전하기 (무료) → 사랑흐름 여행(사랑흐름 여행 · 구매한 여행 이어가기 · 여권 찾기 · 휴대폰 관리 · 여행의 기록) → 함께하기 · 그 화면의 아래 묶음 「맛보기」 이름 = 「마음 전하기 (무료)」. 다른 화면은 v13 그대로(대표 휴대폰 OK 뒤 v15 에서 모든 화면에). [무손] 그 밖 v13 전부
+   (이전) lf/frame.js · v13 · 261024 · [칸 2 434 · 대표 18:49 OK] 방문 통계 — 첫 화면 · 사랑흐름 여행 · 상품 진열 · 결제 화면에서만 방문(처음 · 다시) · 단추 누름(단추 글 → 갈 곳 · 주소 뒤 물음은 빼고) · 나감(머문 초 · 누름 수)을 우리 이야기 서버 recVisit 로 보냄(「방문 통계」 탭) · 이름 · 연락처 · 입력 칸 글은 보내지 않음 · 묶음 = 그 창의 무작위 번호 · 들어온 곳은 바깥 주소 이름만 · 본부에서 열고 온 화면은 세지 않음 · [무손] 그 밖 v12 전부
    (이전) lf/frame.js · v12 · 261024 · [칸 7-나 428 · 443] 본부(/rec/?hq=1) 「화면 목록」 · 「주문 · 발급」에서 같은 창으로 연 화면은 위 띠 로고 자리에 「⌂ 본부로」 — 본부로 돌아가는 길(본부에 들어가면 표시가 지워짐) · 그 밖 무손
    (이전) lf/frame.js · v11 · 261023 · [대표 16:29 「OK 없이 쭉」 · 415 · 306] ① 아래 길목 띠 다섯째 「제휴」 → 「우리 이야기」(마당 · 이야기방 만들기 · 기록관 만들기) — 제휴 두 칸은 「둘러보기」 아래로 ② ☰에 「우리 이야기」 묶음(마당 · 만들기) ③ 「마음 여행여권으로 입장」 → 「여권 입장」(71차 말). [무손] 그 밖 v10 전부.
    (이전) lf/frame.js · v10 · 261023 · [대표 말씀 16:01] 로고 누르면 즉시 반쯤 흐려짐 · window.LF_LEAVE 표시(우리 이야기 화면이 늦은 대답으로 이동을 가로채지 않음) · 두 번 눌림 막음. [무손] 그 밖 v9 전부.
@@ -175,6 +176,7 @@
     + '.lfx-b2{background:linear-gradient(135deg,#C25B7C,#A84466)}'
     + '.lfx-b3{background:linear-gradient(135deg,#1E4A76,#2C6399);box-shadow:inset 0 0 0 1.5px #C9A96E,0 4px 12px rgba(30,74,118,.2)}'
     + '.lfx-b3 i{background:#C9A96E;color:#1E4A76}'
+    + '.lfx-b4{background:linear-gradient(160deg,#0F5A68,#08303D);margin:4px 0 4px}.lfx-b5{background:linear-gradient(160deg,#3B2F72,#1F1840);margin:4px 0 4px}.lfx-b4 i{font-size:19px}'   /* ★v14 */
     + '.lfx-restart{display:block;margin:10px 4px 0 auto;border:0;background:none;color:#8a7a68;font:inherit;font-size:12px;cursor:pointer}'
     + 'html.lfx #lfgBub,html.lfx .lff-share,html.lfx .lffsw,html.lfx .lff-sb{display:none!important}'
     + 'html.lfx .lff-tick{display:none!important}'   /* ★v8 「여행자들의 발자취」 띠 감춤 — 번호가 모두 시험 번호(대표 확인 261005). 실제 발급이 쌓이면 여권대장에서 읽어 다시 */
@@ -274,6 +276,40 @@
       + '<div style="display:flex;justify-content:space-between;margin-top:10px"><button class="lfx-restart" style="margin:0" data-share="1">공유하기</button><button class="lfx-restart" style="margin:0" data-restart="1">다시 시작</button></div>';
   }
 
+  /* ★v14 칸 3 435 — 새 ☰(73차) · data-lf-menu="2" 화면에서만 */
+  function menu2() { return document.body && document.body.getAttribute('data-lf-menu') === '2'; }
+  function menuHtml2() {
+    var p = location.pathname + location.search;
+    function mi(t, ic, c, u, cls) {
+      var now = (u === p) || (u === location.pathname && u.length > 1 && u.slice(-1) === '/');
+      return '<button class="lfx-mi' + (cls ? ' ' + cls : '') + (now ? ' now' : '') + '" data-u="' + u + '">'
+        + '<span class="lfx-ci" style="background:' + c + ';width:30px;height:30px;flex-basis:30px">' + svg(ic, 16) + '</span>' + t + '</button>';
+    }
+    return ''
+      + '<div class="lfx-mh"><span>사랑흐름</span><button data-x="1" aria-label="닫기">' + svg('x', 16) + '</button></div>'
+      + '<div class="lfx-grp">우리 이야기 · 기록관</div>'
+      + '<button class="lfx-big lfx-b4" data-u="/rec/?plaza=1"><i>🍇</i><span><b>우리 이야기 마당</b><small>이야기방 · 기록관의 사진과 이야기</small></span></button>'
+      + '<div class="lfx-two">'
+      +   mi('이야기방 만들기', 'spark', '#1E4A76', '/rec/?open=form&kind=story')
+      +   mi('기록관 만들기', 'build', '#3B2F72', '/rec/?open=form&kind=hall')
+      + '</div>'
+      + mi('기관 · 단체 제안', 'group', '#5C7FA6', '/proposal.html')
+      + '<div class="lfx-grp">마음 전하기 (무료)</div>'
+      + mi('마음 한마디', 'word', '#E59273', '/hanmadi/')
+      + mi('삐뚤빼뚤 마음 도화지', 'draw', '#8A6FC9', '/draw/')
+      + mi('관계 나침반', 'compass', '#1D9E75', '/compass.html')
+      + '<div class="lfx-grp">사랑흐름 여행</div>'
+      + '<button class="lfx-big lfx-b5" data-u="/travel/"><i>' + svg('map', 20) + '</i><span><b>사랑흐름 여행</b><small>여행지도 · 편지 · 자서전</small></span></button>'
+      + mi('구매한 여행 이어가기', 'pass', '#C9A96E', '/reenter.html', 'gold')
+      + mi('사랑흐름 여권 찾기', 'find', '#7F97B2', '/find/')
+      + mi('휴대폰 관리', 'phone', '#5C7FA6', '/lf/device.html')
+      + mi('여행의 기록', 'show', '#C25B7C', '/showroom.html')
+      + '<div class="lfx-grp">함께하기</div>'
+      + mi('안내자 · 제휴 신청', 'hand', '#1E4A76', '/partner.html')
+      + mi('안내 받기', 'chat', '#1D9E75', '/guide/?ask=1')
+      + '<div style="display:flex;justify-content:space-between;margin-top:12px"><button class="lfx-restart" style="margin:0" data-share="1">공유하기</button><button class="lfx-restart" style="margin:0" data-restart="1">다시 시작</button></div>';
+  }
+
   function share() {
     var H = 'https://www.loveflow.ai.kr';
     try {
@@ -304,6 +340,7 @@
   }
 
   function build() {
+    if (menu2()) { for (var gi = 0; gi < GROUPS.length; gi++) { if (GROUPS[gi].k === 'taste') { GROUPS[gi].t = '마음 전하기'; GROUPS[gi].sub = '무료'; } } }   /* ★v14 71차 말 */
     if (document.getElementById('lfxTop')) { return; }
     document.documentElement.classList.add('lfx');
     if (!document.getElementById('lfLookCss')) {
@@ -345,7 +382,7 @@
     var dim = document.createElement('div'); dim.className = 'lfx-dim'; dim.id = 'lfxDim'; dim.onclick = closeAll;
     var sh = document.createElement('div'); sh.className = 'lfx-sheet'; sh.id = 'lfxSheet'; sh.setAttribute('role', 'dialog');
     var m = document.createElement('nav'); m.className = 'lfx-menu'; m.id = 'lfxMenu'; m.setAttribute('aria-label', '사이트 메뉴');
-    m.innerHTML = menuHtml(); wireMenu(m);
+    m.innerHTML = menu2() ? menuHtml2() : menuHtml(); wireMenu(m);   /* ★v14 */
 
     var tab = document.createElement('nav'); tab.className = 'lfx-tab'; tab.id = 'lfxTab'; tab.setAttribute('aria-label', '사랑흐름 길목');
     var cur = groupOfPath(), th = '';

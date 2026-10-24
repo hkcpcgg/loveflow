@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<!-- ★ 시험판 ▶ rec/lab/423.html · v1 · 261024 · [칸 3 · 72차 A-3 · 423] 사진 날짜 확인 — 카카오톡 안 화면 · 크롬 · 사파리에서 사진을 골랐을 때 「찍은 날」(사진 속 정보)과 「파일 시각」이 남아 오는지 보는 확인 화면. 사진은 이 휴대폰 안에서만 읽고 어디에도 보내지 않음. 결과는 「결과 복사」로 클로드에게 붙여 줌. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>사진 날짜 확인 (시험판)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--teal:#0F5A68;--cream:#FFFCF7;--ink:#2E3A46;--sub:#7D7465;--line:#EADFCF;--ok:#0F6E56;--okbg:#E1F5EE;--no:#B03A2E;--nobg:#FBEAE7}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--cream);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;word-break:keep-all}
+.wrap{max-width:520px;margin:0 auto;padding:22px 16px 40px;display:flex;flex-direction:column;gap:14px}
+h1{margin:0;text-align:center;font-size:22px;color:var(--navy)}
+.where{text-align:center;font-size:13.5px;color:var(--sub)}
+.where b{color:var(--teal)}
+.pick{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:16px;border:0;border-radius:16px;background:linear-gradient(160deg,#0F5A68,#08303D);color:#fff;font:inherit;font-size:17px;font-weight:800;cursor:pointer}
+.pick:active{transform:scale(.98)}
+input[type=file]{display:none}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;display:flex;gap:12px}
+.card img{width:76px;height:76px;object-fit:cover;border-radius:10px;background:#EEE8DE;flex:0 0 76px}
+.card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:3px 8px;font-size:13px;align-content:start}
+.card dt{color:var(--sub)}
+.card dd{margin:0;font-weight:700;word-break:break-all}
+.tag{display:inline-block;border-radius:8px;padding:0 7px;font-size:12px;font-weight:800}
+.tag.ok{background:var(--okbg);color:var(--ok)}.tag.no{background:var(--nobg);color:var(--no)}
+.sum{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:12px 14px;font-size:14.5px;line-height:1.6;text-align:center}
+.copy{width:100%;padding:13px;border-radius:14px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font:inherit;font-size:15px;font-weight:800;cursor:pointer}
+.note{font-size:12.5px;color:var(--sub);text-align:center;line-height:1.5}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <h1>📷 사진 날짜 확인</h1>
+  <div class="where" id="where"></div>
+  <label class="pick" for="f">＋ 사진 고르기</label>
+  <input type="file" id="f" accept="image/*" multiple>
+  <div class="sum" id="sum" hidden></div>
+  <div id="list"></div>
+  <button class="copy" id="copy" type="button" hidden>결과 복사</button>
+  <p class="note">고른 사진은 이 휴대폰 안에서만 읽습니다. 어디에도 올라가지 않습니다.</p>
+</main>
+<script>
+(function(){
+  function $(i){ return document.getElementById(i); }
+  var ua=navigator.userAgent||'';
+  var WHERE=/KAKAOTALK/i.test(ua)?'카카오톡 안 화면':/NAVER/i.test(ua)?'네이버 앱 안 화면':/SamsungBrowser/i.test(ua)?'삼성 인터넷':/CriOS|Chrome/i.test(ua)?'크롬':/Safari/i.test(ua)?'사파리':'그 밖의 브라우저';
+  var OS=/iPhone|iPad/i.test(ua)?'아이폰':/Android/i.test(ua)?'안드로이드':'컴퓨터';
+  $('where').innerHTML='지금 여기: <b>'+OS+' · '+WHERE+'</b>';
+  var OUT=[];
+  function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function pad(n){ return (n<10?'0':'')+n; }
+  function fmt(d){ return d.getFullYear()+'.'+pad(d.getMonth()+1)+'.'+pad(d.getDate())+' '+pad(d.getHours())+':'+pad(d.getMinutes()); }
+  /* JPEG 사진 속 정보(EXIF)에서 찍은 날 — 없으면 파일 안 「YYYY:MM:DD HH:MM:SS」 글자를 찾아봄(HEIC 등) */
+  function exifDate(buf){
+    var v=new DataView(buf), len=v.byteLength;
+    try{
+      if(len>4&&v.getUint16(0)===0xFFD8){
+        var o=2;
+        while(o+4<len){
+          var mk=v.getUint16(o), sz=v.getUint16(o+2);
+          if(mk===0xFFE1&&v.getUint32(o+4)===0x45786966){
+            var t=o+10, le=v.getUint16(t)===0x4949;
+            function u16(p){ return v.getUint16(p,le); } function u32(p){ return v.getUint32(p,le); }
+            function str(p,n){ var s=''; for(var i=0;i<n&&p+i<len;i++){ var c=v.getUint8(p+i); if(!c){ break; } s+=String.fromCharCode(c); } return s; }
+            function ifd(p){ var n=u16(t+p), r={}; for(var i=0;i<n;i++){ var e=t+p+2+i*12, tag=u16(e), cnt=u32(e+4), val=e+8; if(tag===0x8769){ r.sub=u32(val); } if(tag===0x9003||tag===0x0132||tag===0x9004){ r[tag]=str(t+u32(val),cnt); } } return r; }
+            var a=ifd(u32(t+4)), b=a.sub?ifd(a.sub):{};
+            return { d:b[0x9003]||b[0x9004]||a[0x0132]||'', how:b[0x9003]?'찍은 날':(b[0x9004]?'기록된 날':(a[0x0132]?'고친 날':'')) };
+          }
+          if(mk===0xFFDA||sz<2){ break; } o+=2+sz;
+        }
+      }
+    }catch(e){}
+    try{
+      var bytes=new Uint8Array(buf, 0, Math.min(len, 262144)), s='';
+      for(var i=0;i<bytes.length;i++){ var c=bytes[i]; s+=(c>=32&&c<127)?String.fromCharCode(c):' '; }
+      var m=s.match(/(19|20)\d\d:[01]\d:[0-3]\d [0-2]\d:[0-5]\d:[0-5]\d/);
+      if(m){ return { d:m[0], how:'파일 안 글자' }; }
+    }catch(e2){}
+    return { d:'', how:'' };
+  }
+  function nice(s){ var m=/^(\d{4}):(\d\d):(\d\d) (\d\d):(\d\d)/.exec(s||''); return m?(m[1]+'.'+m[2]+'.'+m[3]+' '+m[4]+':'+m[5]):''; }
+  $('f').onchange=function(){
+    var fs=Array.prototype.slice.call(this.files||[]); if(!fs.length){ return; }
+    $('list').innerHTML=''; OUT=[]; var done=0, got=0, now=Date.now();
+    fs.slice(0,10).forEach(function(f,idx){
+      var card=document.createElement('div'); card.className='card'; $('list').appendChild(card);
+      var url=''; try{ url=URL.createObjectURL(f); }catch(e){}
+      var rd=new FileReader();
+      rd.onload=function(){
+        var ex=exifDate(rd.result), shot=nice(ex.d), lm=f.lastModified?new Date(f.lastModified):null;
+        var lmNow=lm&&Math.abs(now-f.lastModified)<5*60*1000;   /* 파일 시각이 방금이면 고를 때 새로 만든 파일 — 날짜가 지워진 것 */
+        if(shot){ got++; }
+        card.innerHTML=(url?'<img src="'+esc(url)+'" alt="">':'')
+          +'<dl><dt>찍은 날</dt><dd>'+(shot?'<span class="tag ok">남음</span> '+esc(shot)+' <small>('+esc(ex.how)+')</small>':'<span class="tag no">없음</span>')+'</dd>'
+          +'<dt>파일 시각</dt><dd>'+(lm?esc(fmt(lm))+(lmNow?' <span class="tag no">방금</span>':''):'없음')+'</dd>'
+          +'<dt>형식</dt><dd>'+esc(f.type||'모름')+' · '+Math.round(f.size/1024)+'KB</dd>'
+          +'<dt>파일 이름</dt><dd>'+esc(f.name||'')+'</dd></dl>';
+        OUT[idx]=(idx+1)+') 찍은 날 '+(shot?shot+' ('+ex.how+')':'없음')+' · 파일 시각 '+(lm?fmt(lm)+(lmNow?' (방금)':''):'없음')+' · '+(f.type||'모름')+' · '+Math.round(f.size/1024)+'KB · '+(f.name||'');
+        done++; if(done===Math.min(fs.length,10)){ fin(done,got); }
+      };
+      rd.onerror=function(){ OUT[idx]=(idx+1)+') 읽기 실패'; done++; if(done===Math.min(fs.length,10)){ fin(done,got); } };
+      rd.readAsArrayBuffer(f);
+    });
+    if(fs.length>10){ alert('한 번에 10장까지 봅니다'); }
+  };
+  function fin(n,got){
+    $('sum').hidden=false;
+    $('sum').innerHTML='<b>'+n+'장 가운데 '+got+'장</b>에 찍은 날이 남아 있습니다'+(got<n?'<br><small>없음 = 이 길로 올리면 찍은 날을 알 수 없음</small>':'');
+    $('copy').hidden=false;
+  }
+  $('copy').onclick=function(){
+    var t='[423 사진 날짜 확인] '+OS+' · '+WHERE+'\n'+OUT.join('\n')+'\n('+ua.slice(0,160)+')';
+    function ok(){ $('copy').textContent='복사했습니다'; setTimeout(function(){ $('copy').textContent='결과 복사'; },1600); }
+    try{ if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(ok,function(){ prompt('아래 글을 길게 눌러 복사하세요',t); }); return; } }catch(e){}
+    prompt('아래 글을 길게 눌러 복사하세요',t);
+  };
+})();
+</script>
+</body>
+</html>
