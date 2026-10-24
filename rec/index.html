@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v86 · 261024 · [칸 7-나 428 · 대표 13:30 OK] 본부 ⑥ 운영 · 설정 · ① 오늘 바로 가기에 「화면 목록」 — 손으로 적는 페이지 관리표 대신 저장소 파일에서 저절로 지은 lf/screens.json 을 읽음(화면을 올리면 GitHub 자동 실행이 다시 지음) · 묶음 · 설명은 lf/screens-notes.json · 묶음에 아직 없는 새 화면은 맨 위 「묶음에 아직 안 넣은 화면」 · 시험 · 옛 화면은 걸러 두고 「시험 · 옛 화면도 보기」 · 줄마다 열기(같은 창) · 링크 복사 · QR · 찾기 · REC_VER 86 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v87 · 261024 · [칸 7-나 448 · 대표 13:51 OK] ④ 서비스 「사랑흐름 전체 관리표」 → 옛 페이지 관리표(hq-3756)가 아니라 본부 「화면 목록」 · REC_VER 87 -->
+<!-- (이전) ★ 현재 버전 ▶ rec/index.html · v86 · 261024 · [칸 7-나 428 · 대표 13:30 OK] 본부 ⑥ 운영 · 설정 · ① 오늘 바로 가기에 「화면 목록」 — 손으로 적는 페이지 관리표 대신 저장소 파일에서 저절로 지은 lf/screens.json 을 읽음(화면을 올리면 GitHub 자동 실행이 다시 지음) · 묶음 · 설명은 lf/screens-notes.json · 묶음에 아직 없는 새 화면은 맨 위 「묶음에 아직 안 넣은 화면」 · 시험 · 옛 화면은 걸러 두고 「시험 · 옛 화면도 보기」 · 줄마다 열기(같은 창) · 링크 복사 · QR · 찾기 · REC_VER 86 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v85 · 261024 · [칸 7-나 444 · 445 · 446 · 대표 11:29 OK] 444 요금표 화면 맨 위 빨간 「유료 틀 켜기」를 뺌 — 맨 아래 「요금 적용」 한 줄로 내리고 단추는 대표에게만 작게(430 대표 전용이 생기면 그리로) · 「유료 틀」 → 「요금 적용」 445 본부 위 띠 「사랑흐름 우리 이야기 전체」 → 「사랑흐름 전체」 446 ① 오늘 바로 가기 맨 앞 「주문 · 발급 (예전 관리 화면)」 · 「페이지 관리표」(칸 8 전까지) · 겹치던 「입금 확인」 카드 뺌 · REC_VER 85 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v84 · 261024 · [칸 7-나 441 · 442 · 443 · 대표 10:00 「본부 안에서 다른 화면이 독립 페이지처럼 펼쳐지고 ← ⌂ → · 본부 첫 화면으로 돌아갈 길이 막힘」] ①새로 생긴 방 · 살펴볼 글 · 사진 · 요금표 · 이용 기록 · 예전 본부 화면 넷을 본부 틀(위 띠 · 갈래) 안에서 엶 · 머리에 「← 뒤로」 ②본부에도 「← ⌂ →」(⌂ = 본부 「오늘」) · 휴대폰 뒤로 = 본부 안 한 칸 뒤 · 맨 처음에서 뒤로 = 「본부에서 나가시겠습니까?」 ③예전 관리 화면(admin.html · hq-3756)을 새 탭이 아니라 같은 창에서 엶(그 화면 맨 위 「⌂ 본부로」 · 돌아오면 보던 갈래 그대로) · REC_VER 84 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v83 · 261024 · [대표 10:21 「본부에 이 방 관리 열기가 안 보인다」] 시스템 누수: 이 기기에 남겨 둔 옛 화면(sw.js)을 새 화면으로 바꿔 여는 일이 첫 화면 · 마당에서만 일어나 본부에서는 v82가 끝내 안 열림 → 본부 화면에서도 새 화면이 오면 바꿔 엶(창 · 시트가 열려 있지 않을 때) · 견줄 버전 REC_VER 63 → 83 -->
@@ -1614,7 +1615,7 @@ try{ LGSID=sessionStorage.getItem('lf_sid')||''; if(!LGSID){ LGSID=Math.random()
 function lfLog(k,m){ try{ m=String(m||'').slice(0,300); var key=k+'|'+m; if(LGSEEN[key]||LGN>=40){ return; } LGSEEN[key]=1; LGN++;
   LGQ.push([k,String(VIEW||'')+(location.search?' '+location.search.slice(0,60):''),m]); if(!LGT){ LGT=setTimeout(lfFlush,3000); } }catch(e){} }
 function lfFlush(){ LGT=null; if(!LGQ.length||!GAS){ return; } var a=LGQ.splice(0,10);
-  try{ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recLog',items:JSON.stringify(a),dev:(typeof spdDev==='function'?spdDev():''),v:'v86',sid:LGSID}),keepalive:true}).catch(function(){}); }catch(e){}
+  try{ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recLog',items:JSON.stringify(a),dev:(typeof spdDev==='function'?spdDev():''),v:'v87',sid:LGSID}),keepalive:true}).catch(function(){}); }catch(e){}
   if(LGQ.length){ LGT=setTimeout(lfFlush,1000); } }
 window.addEventListener('pagehide',function(){ if(LGT){ clearTimeout(LGT); } lfFlush(); });
 window.addEventListener('error',function(e){ if(!e){ return; } var s=(e.filename||'').split('/').pop(); lfLog('오류',(e.message||'오류')+(s?' @'+s+':'+(e.lineno||''):'')); });
@@ -4608,7 +4609,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=86;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=87;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
@@ -5122,7 +5123,7 @@ function dkAuLine(a){ return '<div class="dk-al"><time>'+esc(String(a.at||'').sl
 function dkLinks(t,sub,a){ $('dkB').innerHTML=dkHead(t,sub)+'<div class="dk-lk">'+a.map(function(x,i){ return '<button type="button" class="dk-row" data-li="'+i+'"><b>'+esc(x[0])+'</b><small>'+esc(x[1])+'</small><span>'+(x[3]?'↗':'›')+'</span></button>'; }).join('')+'</div><p class="note" style="margin-top:14px">↗ 표시는 아직 예전 관리 화면에서 엽니다(게시판 서버 · 개인 계정). 같은 창에서 열리고, 그 화면 맨 위 「⌂ 본부로」로 돌아옵니다. 그 서버를 옮겨 올 때 이 자리로 들어옵니다.</p>';
   each($('dkB'),'[data-li]',function(b){ var x=a[+b.getAttribute('data-li')]; b.onclick=function(){ if(typeof x[2]==='function'){ x[2](); } else { hqOutGo(x[2]); } }; }); }
 function dkSales(){ dkLinks('판매 · 발급','주문 · 입금 · 여권번호 · 대량 발급 · 정산 — 「돈」을 따로 두지 않고 여기 한 곳',[['우리 이야기 요금표 · 이용 켜기','방마다 이용 등급 · 기한 · 사진 용량',hqPlansView],['주문 · 입금 확인','여행 · 기록 상품 주문 대장','/admin.html',1],['여권번호 발급 · 대량 발급','기관 · 단체 묶음 발급 포함','/admin.html',1],['정산 · 안내자 지급','LD 보상 · 지급 기록','/admin.html',1]]); }
-function dkSvc(){ dkLinks('서비스','자서전 · 편지 · 추억록 · 마음 한마디 · 게시판',[['사랑흐름 전체 관리표','서비스별 화면 · 상태 한눈에','/hq-3756.html',1],['게시판 · 마음 한마디','올라온 글 관리','/admin.html',1],['자서전 · 편지','진행 중인 기록 · 받는 분','/admin.html',1]]); }
+function dkSvc(){ dkLinks('서비스','자서전 · 편지 · 추억록 · 마음 한마디 · 게시판',[['화면 목록','사이트 화면 전부 · 링크 복사 · QR',hqScreens],['게시판 · 마음 한마디','올라온 글 관리','/admin.html',1],['자서전 · 편지','진행 중인 기록 · 받는 분','/admin.html',1]]); }
 /* ⑤ 사람 · 권한 — 역할 틀 → 범위 → 기한 · 「누가 무엇을 언제까지」 한 화면 */
 function dkPeople(){
   wait($('dkB'),'본부 명단을 모으는 중입니다');
