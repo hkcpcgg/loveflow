@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v12 · 261024 · [칸 7-나 428 · 443] 본부(/rec/?hq=1) 「화면 목록」 · 「주문 · 발급」에서 같은 창으로 연 화면은 위 띠 로고 자리에 「⌂ 본부로」 — 본부로 돌아가는 길(본부에 들어가면 표시가 지워짐) · 그 밖 무손
+   현재 버전 ▶ lf/frame.js · v13 · 261024 · [칸 2 434 · 대표 18:49 OK] 방문 통계 — 첫 화면 · 사랑흐름 여행 · 상품 진열 · 결제 화면에서만 방문(처음 · 다시) · 단추 누름(단추 글 → 갈 곳 · 주소 뒤 물음은 빼고) · 나감(머문 초 · 누름 수)을 우리 이야기 서버 recVisit 로 보냄(「방문 통계」 탭) · 이름 · 연락처 · 입력 칸 글은 보내지 않음 · 묶음 = 그 창의 무작위 번호 · 들어온 곳은 바깥 주소 이름만 · 본부에서 열고 온 화면은 세지 않음 · [무손] 그 밖 v12 전부
+   (이전) lf/frame.js · v12 · 261024 · [칸 7-나 428 · 443] 본부(/rec/?hq=1) 「화면 목록」 · 「주문 · 발급」에서 같은 창으로 연 화면은 위 띠 로고 자리에 「⌂ 본부로」 — 본부로 돌아가는 길(본부에 들어가면 표시가 지워짐) · 그 밖 무손
    (이전) lf/frame.js · v11 · 261023 · [대표 16:29 「OK 없이 쭉」 · 415 · 306] ① 아래 길목 띠 다섯째 「제휴」 → 「우리 이야기」(마당 · 이야기방 만들기 · 기록관 만들기) — 제휴 두 칸은 「둘러보기」 아래로 ② ☰에 「우리 이야기」 묶음(마당 · 만들기) ③ 「마음 여행여권으로 입장」 → 「여권 입장」(71차 말). [무손] 그 밖 v10 전부.
    (이전) lf/frame.js · v10 · 261023 · [대표 말씀 16:01] 로고 누르면 즉시 반쯤 흐려짐 · window.LF_LEAVE 표시(우리 이야기 화면이 늦은 대답으로 이동을 가로채지 않음) · 두 번 눌림 막음. [무손] 그 밖 v9 전부.
    (이전) lf/frame.js · v9 · 261010 · [기기 열쇠 · 자서전 서버 v47] ☰ 메뉴와 「내 여행」 칸에 「휴대폰 관리」(/lf/device.html) 한 줄 · 아이콘 phone. [무손] 그 밖 전부.
@@ -374,4 +375,45 @@
   window.LFFrame = { open: openSheet, menu: openMenu, close: closeAll, groups: GROUPS, version: 'v3' };
 
   if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', build); } else { build(); }
+})();
+
+/* ★v13 칸 2 434 방문 통계 — 개인정보 없이 · 서버 주소는 lf/config.js 한 곳에서 읽음 */
+(function () {
+  var P = location.pathname, SCR = { '/': '첫 화면', '/index.html': '첫 화면', '/travel/': '사랑흐름 여행', '/travel/index.html': '사랑흐름 여행', '/showcase.html': '상품 진열', '/pay.html': '결제 화면' }[P];
+  if (!SCR) { return; }
+  try { if (sessionStorage.getItem('lf_from_hq')) { return; } } catch (e0) { }
+  var Q = [], T = null, N = 0, CLK = 0, T0 = Date.now(), SID = '', FIRST = '처음', DEV = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '') ? '폰' : '컴', REF = '';
+  try { SID = sessionStorage.getItem('lf_vsid') || ''; if (!SID) { SID = Math.random().toString(36).slice(2, 10); sessionStorage.setItem('lf_vsid', SID); } } catch (e1) { SID = Math.random().toString(36).slice(2, 10); }
+  try { if (localStorage.getItem('lf_vseen')) { FIRST = '다시'; } localStorage.setItem('lf_vseen', '1'); } catch (e2) { }
+  try { var rh = document.referrer ? new URL(document.referrer).hostname : ''; if (rh && rh.indexOf('loveflow.ai.kr') < 0) { REF = rh; } } catch (e3) { }
+  function gas() { var C = window.LF_CONFIG; return (C && C.gas && C.gas.rec) || ''; }
+  function flush() {
+    T = null; if (!Q.length) { return; } var u = gas(); if (!u) { return; }
+    var a = Q.splice(0, 10), b = JSON.stringify({ action: 'recVisit', items: JSON.stringify(a), dev: DEV, ref: REF, sid: SID });
+    try { fetch(u, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: b, keepalive: true }).catch(function () { }); } catch (e) { }
+    if (Q.length) { T = setTimeout(flush, 800); }
+  }
+  function add(k, m) { if (N >= 40) { return; } N++; Q.push([k, SCR, String(m || '').slice(0, 80)]); if (!T) { T = setTimeout(flush, 2500); } }
+  function label(el) {
+    var t = el.getAttribute('aria-label') || '', b = el.querySelector('b');
+    if (!t) { t = b ? b.textContent : el.textContent; }
+    return String(t || '').replace(/\s+/g, ' ').trim().slice(0, 30);
+  }
+  function dest(el) {
+    var u = el.getAttribute('data-u') || (el.tagName === 'A' ? el.getAttribute('href') : '') || '';
+    if (!u || /^(javascript:|#|tel:|mailto:)/i.test(u)) { return ''; }
+    try { var x = new URL(u, location.href); return x.hostname === location.hostname ? x.pathname : x.hostname; } catch (e) { return ''; }
+  }
+  document.addEventListener('click', function (e) {
+    var el = e.target && e.target.closest ? e.target.closest('a,button,[data-u],[data-k],[role=button]') : null;
+    if (!el || el.closest('input,textarea,select')) { return; }
+    var l = label(el); if (!l) { return; } CLK++;
+    var d = dest(el); add('누름', l + (d ? ' → ' + d : ''));
+  }, true);
+  function leave() { if (leave.done) { return; } leave.done = 1; add('나감', Math.round((Date.now() - T0) / 1000) + '초 · 누름 ' + CLK); if (T) { clearTimeout(T); } flush(); }
+  window.addEventListener('pagehide', leave);
+  document.addEventListener('visibilitychange', function () { if (document.visibilityState === 'hidden') { leave(); } });
+  function start() { add('방문', FIRST); }
+  if (gas()) { start(); return; }
+  var s = document.createElement('script'); s.src = '/lf/config.js?v=5'; s.onload = start; s.onerror = function () { }; document.head.appendChild(s);
 })();
