@@ -1,5 +1,6 @@
-<!-- ★ 현재 버전 ▶ memoir/index.html · v48 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
-<!-- ★ 현재 버전 ▶ memoir/index.html · v47 · 261005 · [작업 v47 · 한 바퀴 점검] 「알아두실 사항」 — 「완성까지 보통 2주 · 보내 드립니다」 · 「보내드린 뒤에는 고치기 어려워요」 → 지금 방식대로(바로 보고 직접 인쇄 · 저장 / 서명을 풀고 고친 뒤 다시 이름). [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/index.html · v49 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
+<!-- (이전) memoir/index.html · v48 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
+<!-- ★ (이전) memoir/index.html · v47 · 261005 · [작업 v47 · 한 바퀴 점검] 「알아두실 사항」 — 「완성까지 보통 2주 · 보내 드립니다」 · 「보내드린 뒤에는 고치기 어려워요」 → 지금 방식대로(바로 보고 직접 인쇄 · 저장 / 서명을 풀고 고친 뒤 다시 이름). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ memoir/index.html · v46 · 261005 · [작업 v46 · 사진 90일] [대표 결정 261005 12:10 ok] 사진도 기록과 같은 90일 규정 하나로 — 14일 규정 없앰(26차 「사진 원본 14일」 바뀜). 「기록과 함께 보관했다가 기록을 지울 때 함께 지움(마지막 이야기를 마치신 날부터 90일)」. 알아두실 사항 사진 줄. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ memoir/index.html · v45 · 261005 · [작업 v45 · 사진 문구] [클로드 판단 · 대표 위임 261005 11:29] 실제와 맞춤 — 사진은 휴대폰에서 기록에 싣는 크기(긴 쪽 1000)로 줄여 받으므로 원본 파일은 사랑흐름에 오지 않음. 「원본 14일 안에 지움」 → 「원본 파일은 받지 않음」(지킬 수 없는 약속 대신 사실). 알아두실 사항 사진 줄. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ memoir/index.html · v44 · 261005 · [작업 v44] [대표 ok 261005 · 약관 확정] 꼬리표 guide-ask.js?v=3 — lf/guide-ask.js v3(안내자 연결 동의 글). [무손] 그 밖 전부. -->
@@ -293,7 +294,7 @@ body{background:#E7E1D6 !important}
       <a onclick="glgo('reenter')">마음 여행여권으로 입장</a>
       <a onclick="glgo('find')">사랑흐름 여권 찾기</a>
       <a onclick="glgo('showroom')">여행의 기록</a>
-      <a onclick="glgo('showcase')">마음 여행 예매하기</a>
+      <a onclick="glgo('showcase')">사랑흐름 여행 자세히 보기</a>
       <a onclick="location.reload()">다시 시작</a>
     </div>
   </div>
@@ -595,7 +596,7 @@ function miEnter(){
   function to(u){ location.href=u; }
   function fin(d){
     if(done){ return; } done=true; try{ delete window[cb]; }catch(e){} try{ if(sc.parentNode){ sc.parentNode.removeChild(sc); } }catch(e){}
-    if(d && d.status==='locked'){ miW_('done'); miNote_('이 번호에는 한 편의 기록이 없어요. 번호를 확인하시거나 아래에서 예매해 주세요.', true); return; }
+    if(d && d.status==='locked'){ miW_('done'); miNote_('이 번호에는 한 편의 기록이 없어요. 번호를 확인하시거나 아래에서 구매해 주세요.', true); return; }
     if(!d || d.status!=='ok'){ to('/memoir/ritual.html?id='+encodeURIComponent(v)); return; }   /* 답이 없으면 막지 않고 여는 의식으로 — 거기서 다시 확인 */
     try{ LFM.youth(v, !!d.youth); }catch(eY){}   /* ★v36 */
     miW_('step',1);
@@ -657,6 +658,6 @@ function toggleNotice(){var b=document.getElementById('ntBody'),t=document.getEl
 
 <!-- ★[260810] 문 그리는 부품은 문지기(/lf/pass.js)가 불러옵니다.
      이 화면에는 꼬리표가 없습니다 — 부품을 고쳐도 이 파일은 다시 안 건드립니다. -->
-<script src="/lf/frame.js?v=9"></script><!-- ★[칸 27-2] 화면 틀 공용 부품 -->
+<script src="/lf/frame.js?v=16"></script><!-- ★[칸 27-2] 화면 틀 공용 부품 -->
 </body>
 </html>

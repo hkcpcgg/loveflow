@@ -1,6 +1,7 @@
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
-<!-- ★ 현재 버전 ▶ pay.html · v14-51 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
-<!-- ★ 현재 버전 ▶ pay.html · v14-47 · 261006 · [대표 ok 261006 17:15] 「결제창을 여는 중…」 단추 아래 ★기다림 물결(/lf/flow.js v2) · 결제창이 안 열리면 걷음. [무손] 값 · 결제 · 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ pay.html · v14-52 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
+<!-- (이전) pay.html · v14-51 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
+<!-- ★ (이전) pay.html · v14-47 · 261006 · [대표 ok 261006 17:15] 「결제창을 여는 중…」 단추 아래 ★기다림 물결(/lf/flow.js v2) · 결제창이 안 열리면 걷음. [무손] 값 · 결제 · 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ pay.html · v14-50 · 261005 · [작업 v14-50 · 한 바퀴 점검] 「시작 전 알아두실 사항」 — 「보통 2주」 → 이름을 남기시면 바로 보고 직접 인쇄 · 저장 / 「완성본을 보내드린 뒤」 → 서명을 풀고 고친 뒤 다시 이름(이야기마다 다섯 번까지). 「여권번호」만 쓴 다섯 자리 → 「사랑흐름 여권번호」. FAQ 「결제 후 바로 시작되나요?」 답 쉽게. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ pay.html · v14-49 · 261005 · [작업 v14-49 · 사진 90일] [대표 결정 261005 12:10 ok] 사진도 기록과 같은 90일 규정 하나로 — 14일 규정 없앰(26차 「사진 원본 14일」 바뀜). 「기록과 함께 보관했다가 기록을 지울 때 함께 지움(마지막 이야기를 마치신 날부터 90일)」. 알아두실 사항 사진 줄. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ pay.html · v14-48 · 261005 · [작업 v14-48 · 사진 문구] [클로드 판단 · 대표 위임 261005 11:29] 실제와 맞춤 — 사진은 휴대폰에서 기록에 싣는 크기(긴 쪽 1000)로 줄여 받으므로 원본 파일은 사랑흐름에 오지 않음. 「원본 14일 안에 지움」 → 「원본 파일은 받지 않음」(지킬 수 없는 약속 대신 사실). 「시작 전 알아두실 사항」 사진 줄. [무손] 그 밖 전부. -->
@@ -370,7 +371,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <a onclick="lfGo('reenter')">마음 여행여권으로 입장</a>
         <a onclick="lfGo('find')">사랑흐름 여권 찾기</a>
         <a onclick="lfGo('showroom')">여행의 기록</a>
-        <a onclick="lfGo('showcase')">마음 여행 예매하기</a>
+        <a onclick="lfGo('showcase')">사랑흐름 여행 자세히 보기</a>
         <a onclick="location.reload()">다시 시작</a>
       </div>
     </div>
@@ -955,7 +956,7 @@ var LF_NAME = {
   '/l/':'편지', '/letter/':'편지', '/letter/index.html':'편지',
   '/gate.html':'여권 발급', '/enter.html':'여권 발급',
   '/pay.html':'결제', '/apply.html':'계좌이체',
-  '/showcase.html':'여행 예매', '/showroom.html':'여행의 기록',
+  '/showcase.html':'여행 고르기', '/showroom.html':'여행의 기록',
   '/reenter.html':'마음 여행여권으로 입장', '/find/':'여권 찾기', '/m/':'마음 한마디'
 };
 
@@ -963,7 +964,7 @@ var LF_NAME = {
 var LF_NEXT = {
   '/':                    { k:'showroom', t:'여행의 기록 보러 가기' },
   '/index.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
-  '/showroom.html':       { k:'showcase', t:'마음 여행 예매하기' },
+  '/showroom.html':       { k:'showcase', t:'사랑흐름 여행 자세히 보기' },
   '/showcase.html':       { k:'pay',      t:'결제하기' },
   '/enter.html':          { k:'journey',  t:'함께 떠나기' },
   '/journey/result.html': { k:'letter',   t:'이 여행을 편지로 이어가기' },
@@ -1312,6 +1313,6 @@ function lffShare(){var u='https://www.loveflow.ai.kr';if(navigator.share){navig
 .choice-cap{text-align:center;font-size:13px;color:var(--sub);margin:0 0 6px;word-break:keep-all}
 #payWays{display:none!important}
 </style>
-<script src="/lf/frame.js?v=3"></script><!-- ★[칸 27-2] 화면 틀 공용 부품 -->
+<script src="/lf/frame.js?v=16"></script><!-- ★[칸 27-2] 화면 틀 공용 부품 -->
 <script src="/lf/flow.js?v=2"></script>
 </body></html>
