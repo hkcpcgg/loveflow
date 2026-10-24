@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v3 · 261023 · [할일 395 · 토스 카드사 심사 「하단 사업자 정보」]
+   현재 버전 ▶ lf-foot.js · v4 · 261024 · [칸 7-나 428 · 443] 공통 위 띠(lf/frame.js)가 없는 화면(kit · 표지 등)을 본부에서 같은 창으로 열었을 때 맨 위 「⌂ 본부로」 띠 · 푸터 무손
+   (이전) lf-foot.js · v3 · 261023 · [할일 395 · 토스 카드사 심사 「하단 사업자 정보」]
    ★사업자 정보 두 줄을 글자로 넣음(그림 아님 · 결제 화면 showcase · pay 와 공용 푸터를 쓰는 모든 화면)
      상호 · 대표자 · 사업자등록번호 · 통신판매업신고번호 · 사업장 주소 · 유선번호 · 이메일 · 개인정보보호책임자
      ★주소 · 상호는 사업자등록증과 글자 하나까지 같아야 함 — 바뀌면 아래 BIZ 한 곳만 고침
@@ -69,10 +70,23 @@
     }
   }
 
+  function hqBack() {   /* ★v4 본부에서 연 화면 · 공통 위 띠가 없을 때만 */
+    try {
+      if (sessionStorage.getItem("lf_from_hq") !== "1" || /[?&](hq|door)=1/.test(location.search)) { return; }
+      if (document.getElementById("lfHqPill") || document.getElementById("lfHqBack") || document.getElementById("lfxTop")) { return; }
+      var b = document.createElement("div"); b.id = "lfHqBack";
+      b.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:center;padding:8px 12px;background:#26215C";
+      b.innerHTML = '<a href="/rec/?hq=1" style="display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font:700 14px/1.2 \'Noto Sans KR\',sans-serif;border:1.5px solid #AFA9EC;border-radius:999px;padding:7px 18px">⌂ 본부로</a>';
+      document.body.insertBefore(b, document.body.firstChild);
+      var bp = parseFloat(getComputedStyle(document.body).paddingTop) || 0; document.body.style.paddingTop = (bp + 52) + "px";
+    } catch (e) {}
+  }
+  function start() { paint(); setTimeout(hqBack, 400); }
+
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", paint);
+    document.addEventListener("DOMContentLoaded", start);
   } else {
-    paint();
+    start();
   }
 
 })();

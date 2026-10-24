@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v11 · 261023 · [대표 16:29 「OK 없이 쭉」 · 415 · 306] ① 아래 길목 띠 다섯째 「제휴」 → 「우리 이야기」(마당 · 이야기방 만들기 · 기록관 만들기) — 제휴 두 칸은 「둘러보기」 아래로 ② ☰에 「우리 이야기」 묶음(마당 · 만들기) ③ 「마음 여행여권으로 입장」 → 「여권 입장」(71차 말). [무손] 그 밖 v10 전부.
+   현재 버전 ▶ lf/frame.js · v12 · 261024 · [칸 7-나 428 · 443] 본부(/rec/?hq=1) 「화면 목록」 · 「주문 · 발급」에서 같은 창으로 연 화면은 위 띠 로고 자리에 「⌂ 본부로」 — 본부로 돌아가는 길(본부에 들어가면 표시가 지워짐) · 그 밖 무손
+   (이전) lf/frame.js · v11 · 261023 · [대표 16:29 「OK 없이 쭉」 · 415 · 306] ① 아래 길목 띠 다섯째 「제휴」 → 「우리 이야기」(마당 · 이야기방 만들기 · 기록관 만들기) — 제휴 두 칸은 「둘러보기」 아래로 ② ☰에 「우리 이야기」 묶음(마당 · 만들기) ③ 「마음 여행여권으로 입장」 → 「여권 입장」(71차 말). [무손] 그 밖 v10 전부.
    (이전) lf/frame.js · v10 · 261023 · [대표 말씀 16:01] 로고 누르면 즉시 반쯤 흐려짐 · window.LF_LEAVE 표시(우리 이야기 화면이 늦은 대답으로 이동을 가로채지 않음) · 두 번 눌림 막음. [무손] 그 밖 v9 전부.
    (이전) lf/frame.js · v9 · 261010 · [기기 열쇠 · 자서전 서버 v47] ☰ 메뉴와 「내 여행」 칸에 「휴대폰 관리」(/lf/device.html) 한 줄 · 아이콘 phone. [무손] 그 밖 전부.
    (이전) lf/frame.js · v8 · 261005 · [한 바퀴 점검 · 대표 261005] ★「사랑흐름 여행자들의 발자취」 띠(.lff-tick)를 틀을 붙인 모든 화면에서 감춤 — 흐르던 번호가 모두 지난 시험 번호라, 개통 뒤 손님 눈에 있지도 않은 손님처럼 보임. ☰ 메뉴 「예매하기」 아래 상품 넷을 결제 화면 이름 · 차례로.
@@ -125,6 +126,7 @@
     /* 위 띠 */
     + '.lfx-top{position:fixed;top:0;left:0;right:0;z-index:1500;height:52px;display:flex;align-items:center;justify-content:space-between;gap:8px;'
     +   'padding:0 10px;background:var(--lf-navy);color:#fff;box-sizing:border-box;font-family:inherit}'
+    + '.lfx-hq{flex:0 0 auto;display:inline-flex;align-items:center;height:32px;padding:0 12px;border-radius:999px;background:#534AB7;color:#fff;font-size:13px;font-weight:700;text-decoration:none;white-space:nowrap}'
     + '.lfx-logo{width:36px;height:36px;border-radius:50%;background:#fff;display:grid;place-items:center;border:0;padding:0;cursor:pointer;flex:0 0 36px;overflow:hidden}'
     + '.lfx-logo img{width:28px;height:28px;object-fit:contain;display:block}'
     + '.lfx-title{flex:1;text-align:center;font-size:15.5px;font-weight:800;letter-spacing:-.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}'
@@ -329,6 +331,8 @@
     }
     top.querySelector('.lfx-logo').onclick = function () { if (window.LF_LEAVE) { return; } window.LF_LEAVE = 1; this.style.opacity = '.5'; try { document.body.classList.add('lfgo'); } catch (e) {} location.href = '/'; };   /* ★v10 누르는 즉시 표시 · 두 번 눌림 막음 · 늦게 온 대답이 이동을 가로채지 않게 */
     top.querySelector('.lfx-burger').onclick = openMenu;
+    /* ★v12 본부에서 같은 창으로 연 화면 — 로고 자리에 「⌂ 본부로」 */
+    try { if (sessionStorage.getItem('lf_from_hq') === '1' && !/[?&](hq|door)=1/.test(location.search)) { var lg = top.querySelector('.lfx-logo'), hp = document.createElement('a'); hp.id = 'lfHqPill'; hp.className = 'lfx-hq'; hp.href = '/rec/?hq=1'; hp.textContent = '⌂ 본부로'; lg.parentNode.replaceChild(hp, lg); } } catch (e) {}
     /* ★v4 위 띠 오른쪽 자리 — <button data-lfx-top> 를 ☰ 왼쪽으로 옮김 */
     var slots = document.querySelectorAll('[data-lfx-top]');
     if (slots.length) {
