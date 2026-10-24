@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v84 · 261024 · [칸 7-나 441 · 442 · 443 · 대표 10:00 「본부 안에서 다른 화면이 독립 페이지처럼 펼쳐지고 ← ⌂ → · 본부 첫 화면으로 돌아갈 길이 막힘」] ①새로 생긴 방 · 살펴볼 글 · 사진 · 요금표 · 이용 기록 · 예전 본부 화면 넷을 본부 틀(위 띠 · 갈래) 안에서 엶 · 머리에 「← 뒤로」 ②본부에도 「← ⌂ →」(⌂ = 본부 「오늘」) · 휴대폰 뒤로 = 본부 안 한 칸 뒤 · 맨 처음에서 뒤로 = 「본부에서 나가시겠습니까?」 ③예전 관리 화면(admin.html · hq-3756)을 새 탭이 아니라 같은 창에서 엶(그 화면 맨 위 「⌂ 본부로」 · 돌아오면 보던 갈래 그대로) · REC_VER 84 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v85 · 261024 · [칸 7-나 444 · 445 · 446 · 대표 11:29 OK] 444 요금표 화면 맨 위 빨간 「유료 틀 켜기」를 뺌 — 맨 아래 「요금 적용」 한 줄로 내리고 단추는 대표에게만 작게(430 대표 전용이 생기면 그리로) · 「유료 틀」 → 「요금 적용」 445 본부 위 띠 「사랑흐름 우리 이야기 전체」 → 「사랑흐름 전체」 446 ① 오늘 바로 가기 맨 앞 「주문 · 발급 (예전 관리 화면)」 · 「페이지 관리표」(칸 8 전까지) · 겹치던 「입금 확인」 카드 뺌 · REC_VER 85 -->
+<!-- (이전) ★ 현재 버전 ▶ rec/index.html · v84 · 261024 · [칸 7-나 441 · 442 · 443 · 대표 10:00 「본부 안에서 다른 화면이 독립 페이지처럼 펼쳐지고 ← ⌂ → · 본부 첫 화면으로 돌아갈 길이 막힘」] ①새로 생긴 방 · 살펴볼 글 · 사진 · 요금표 · 이용 기록 · 예전 본부 화면 넷을 본부 틀(위 띠 · 갈래) 안에서 엶 · 머리에 「← 뒤로」 ②본부에도 「← ⌂ →」(⌂ = 본부 「오늘」) · 휴대폰 뒤로 = 본부 안 한 칸 뒤 · 맨 처음에서 뒤로 = 「본부에서 나가시겠습니까?」 ③예전 관리 화면(admin.html · hq-3756)을 새 탭이 아니라 같은 창에서 엶(그 화면 맨 위 「⌂ 본부로」 · 돌아오면 보던 갈래 그대로) · REC_VER 84 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v83 · 261024 · [대표 10:21 「본부에 이 방 관리 열기가 안 보인다」] 시스템 누수: 이 기기에 남겨 둔 옛 화면(sw.js)을 새 화면으로 바꿔 여는 일이 첫 화면 · 마당에서만 일어나 본부에서는 v82가 끝내 안 열림 → 본부 화면에서도 새 화면이 오면 바꿔 엶(창 · 시트가 열려 있지 않을 때) · 견줄 버전 REC_VER 63 → 83 -->
 <!-- (이전) rec/index.html · v82 · 261024 · [칸 7-가 · 431 본부 첫 화면 · 429 방 관리 열기 · 72차 B-1 · B-2 · B-3] 「오늘」 맨 위 검색 · 손볼 것 숫자(누르면 그 일로) · 바로 가기 · 휴대폰은 ① · ② 만 · 방 자세히 「이 방 관리 열기」 → 초록(위 띠 「본부에서 엶」 · 「본부로」) → 본부 ② 로 돌아오면 검색어 · 거름 · 정렬 · 고른 방 그대로 · 서버 ①Code v40 · ③본부 v35 필요 -->
 <!-- (이전) rec/index.html · v81 · 261023 · [343 수정 · 대표 OK 21:52] ⋯ → 「수정」(내가 올린 기록 · 내 🍇 기억) · 대화 「수정」 · 수정 화면(제목 · 한마디 · 언제 · 어디서 · 누구와 · 무슨 일 · 분류 · 공개 범위 · 사진마다 출처 · 묶음에서 사진 빼기 · 영상 출처) · 「수정됨」 표시 · 서버 ①Code v39 필요 -->
@@ -1611,7 +1612,7 @@ try{ LGSID=sessionStorage.getItem('lf_sid')||''; if(!LGSID){ LGSID=Math.random()
 function lfLog(k,m){ try{ m=String(m||'').slice(0,300); var key=k+'|'+m; if(LGSEEN[key]||LGN>=40){ return; } LGSEEN[key]=1; LGN++;
   LGQ.push([k,String(VIEW||'')+(location.search?' '+location.search.slice(0,60):''),m]); if(!LGT){ LGT=setTimeout(lfFlush,3000); } }catch(e){} }
 function lfFlush(){ LGT=null; if(!LGQ.length||!GAS){ return; } var a=LGQ.splice(0,10);
-  try{ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recLog',items:JSON.stringify(a),dev:(typeof spdDev==='function'?spdDev():''),v:'v84',sid:LGSID}),keepalive:true}).catch(function(){}); }catch(e){}
+  try{ fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recLog',items:JSON.stringify(a),dev:(typeof spdDev==='function'?spdDev():''),v:'v85',sid:LGSID}),keepalive:true}).catch(function(){}); }catch(e){}
   if(LGQ.length){ LGT=setTimeout(lfFlush,1000); } }
 window.addEventListener('pagehide',function(){ if(LGT){ clearTimeout(LGT); } lfFlush(); });
 window.addEventListener('error',function(e){ if(!e){ return; } var s=(e.filename||'').split('/').pop(); lfLog('오류',(e.message||'오류')+(s?' @'+s+':'+(e.lineno||''):'')); });
@@ -3892,7 +3893,7 @@ function plazaKey(){ if(hqKnown()){ return 'hq'; } var m=myrGet(), best='gst', r
   ((m&&m.items)||[]).forEach(function(x){ var k=roleKey(x.role,x.up); if((rk[k]||0)>(rk[best]||0)){ best=k; } }); return best; }
 function posBar(mode){
   var k, sub, lab, right;
-  if(mode==='hq'){ k='hq'; sub='사랑흐름 우리 이야기 전체'; }
+  if(mode==='hq'){ k='hq'; sub='사랑흐름 전체'; }   /* ★v85 445 */
   else if(mode==='plaza'){ k=plazaKey(); sub='우리 이야기 마당'; }
   else { k=posKey(); sub=(ME&&ME.comName)||'우리 이야기'; if(k==='up'){ var n=(ME.subs||[]).length; sub=(ME.comName||'')+(n?' · 아래 방 '+n:''); } }
   var o=POSK[k]||POSK.gst; lab=o[2]+(mode==='adm'?' · 관리 중':'');
@@ -4605,7 +4606,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=84;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=85;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
@@ -4886,7 +4887,7 @@ function dkOld(){ var M=$('dkB'); if(!M){ return; }
     HQ=d; var items=d.items||[], main=null; items.forEach(function(x){ if(x.main){ main=x; } });
     var GT={'끔':'끔','관찰':'관찰 (막지 않고 적음)','막음':'막음'};
     var h=dkSubHead('예전 본부 화면','방마다 큰 카드로 늘어놓던 옛 화면')+
-      '<div class="card hqi"><div class="rpl"><span>메인 모임</span><em>'+esc(main?main.name:'정하지 않음')+'</em></div>'+(d.talk?'<div class="rpl"><span>카톡 승인</span><em>'+(d.talk.mode==='끔'?'끔 (비상)':'켬')+' · 대표 카톡 알림 '+(d.talk.bossTok?'됨':'안 됨')+' · 기기 '+(d.talk.devs||0)+'</em></div>':'')+'<div class="rpl"><span>관리 확인</span><em>'+esc(GT[d.gate]||d.gate||'')+'</em></div><div class="rpl"><span>모임</span><em>'+items.length+(d.hid?' · 시험 방 '+d.hid+'곳 숨김':'')+'</em></div>'+hqModRow(d.mod)+(d.pay!==undefined?'<div class="rpl"><span>유료 틀</span><em>'+(d.pay===1?'켬':'끔 (칸 · 알림만)')+'</em></div>':'')+'<p class="note">본부 확인 · '+tkLeft(HTK)+' 남음</p></div>'+
+      '<div class="card hqi"><div class="rpl"><span>메인 모임</span><em>'+esc(main?main.name:'정하지 않음')+'</em></div>'+(d.talk?'<div class="rpl"><span>카톡 승인</span><em>'+(d.talk.mode==='끔'?'끔 (비상)':'켬')+' · 대표 카톡 알림 '+(d.talk.bossTok?'됨':'안 됨')+' · 기기 '+(d.talk.devs||0)+'</em></div>':'')+'<div class="rpl"><span>관리 확인</span><em>'+esc(GT[d.gate]||d.gate||'')+'</em></div><div class="rpl"><span>모임</span><em>'+items.length+(d.hid?' · 시험 방 '+d.hid+'곳 숨김':'')+'</em></div>'+hqModRow(d.mod)+(d.pay!==undefined?'<div class="rpl"><span>요금 적용</span><em>'+(d.pay===1?'켜짐':'꺼짐 (기록 · 알림만)')+'</em></div>':'')+'<p class="note">본부 확인 · '+tkLeft(HTK)+' 남음</p></div>'+
       (d.checkN?'<button class="btn red" id="hqCk" type="button">'+ic('look')+'살펴볼 것 '+d.checkN+'건</button>':'')+
       '<button class="btn" id="hqMk" type="button">'+ic('plus')+'새 모임 만들기</button><button class="btn" id="hqPx" type="button">'+ic('plus')+'대신 만들기</button><button class="btn line" id="hqSh" type="button">'+ic('share')+'공유하기</button><button class="btn line" id="hqAp" type="button">'+ic('check')+'새로 생긴 방 보기</button><button class="btn line" id="hqMs" type="button">'+ic('look')+'살펴보기 설정</button>'+(d.pay!==undefined?'<button class="btn line" id="hqPl" type="button">'+ic('clock')+'요금표 · 이용 기록</button>':'')+'<div style="height:12px"></div>'+
       items.map(function(x){
@@ -4961,9 +4962,8 @@ function dkToday(){
     var tot=0; CN.forEach(function(c){ tot+=c[1]; });
     var h=dkHead('오늘',tot?'손볼 것 <b>'+tot+'</b>건 — 숫자를 누르면 바로 그 일로 갑니다':'오늘 손볼 것이 없습니다 ✓','<span class="dk-me">'+dkMeTx(d.me)+'</span>');
     h+='<form class="dk-find" id="dkTF"><input id="dkTQ" type="search" placeholder="방 이름 · 번호 · 관리자 이름으로 찾기" autocomplete="off"><button type="submit">찾기</button></form>';
-    h+='<div class="dk-cards">'+CN.map(function(c){ return '<button type="button" class="dk-n'+(c[1]?' hot':' zero')+'" data-tn="'+c[0]+'"><b>'+c[1]+'</b><span>'+esc(c[2])+'</span></button>'; }).join('')+
-      '<button type="button" class="dk-n pc" data-tn="pay"><b>↗</b><span>입금 확인 · 예전 관리 화면</span></button></div>';
-    h+='<div class="dk-go"><button type="button" class="sbtn" data-tg="rooms">방 찾기</button><button type="button" class="sbtn pc" data-tg="sales">판매 · 발급</button><button type="button" class="sbtn pc" data-tg="svc">서비스</button><button type="button" class="sbtn pc" data-tg="ppl">사람 · 권한</button><button type="button" class="sbtn pc" data-tg="ops">운영 · 설정</button></div>';
+    h+='<div class="dk-cards">'+CN.map(function(c){ return '<button type="button" class="dk-n'+(c[1]?' hot':' zero')+'" data-tn="'+c[0]+'"><b>'+c[1]+'</b><span>'+esc(c[2])+'</span></button>'; }).join('')+'</div>';   /* ★v85 446 「입금 확인」 카드는 바로 가기 「주문 · 발급」과 겹쳐 뺌 */
+    h+='<div class="dk-go"><button type="button" class="sbtn pc" data-tx="/admin.html">↗ 주문 · 발급 (예전 관리 화면)</button><button type="button" class="sbtn pc" data-tx="/hq-3756.html">↗ 페이지 관리표</button><button type="button" class="sbtn" data-tg="rooms">방 찾기</button><button type="button" class="sbtn pc" data-tg="sales">판매 · 발급</button><button type="button" class="sbtn pc" data-tg="svc">서비스</button><button type="button" class="sbtn pc" data-tg="ppl">사람 · 권한</button><button type="button" class="sbtn pc" data-tg="ops">운영 · 설정</button></div>';
     h+='<p class="note dk-pcnote">판매 · 발급 · 사람 · 권한 · 운영 · 설정은 컴퓨터에서 엽니다.</p>';
     G.forEach(function(g){ var a=d[g[0]]||[]; if(!a.length){ return; }
       h+='<div class="dk-grp"><h2>'+esc(g[1])+' <em>'+a.length+'</em></h2>'+(g[2]?'<p class="note">'+esc(g[2])+'</p>':'')+a.map(function(x){ var tx=[]; if(x.wait){ tx.push('승인 대기 '+x.wait); } if(x.takeDown){ tx.push('삭제 요청 '+x.takeDown); } if(x.outReq){ tx.push('빼 주세요 '+x.outReq); } if(x.check){ tx.push('살펴볼 것 '+x.check); } if(x.adminIn){ tx.push('관리자 마지막 '+dkDay(x.adminIn)); } if(x.tmp){ tx.push('임시 '+x.tmp); } if(x.paused){ tx.push('멈춤 '+dkDay(x.paused)); }
@@ -4982,6 +4982,7 @@ function dkToday(){
       if(k==='noAdmin'||k==='report'){ HQD.q=''; HQD.f=[k]; hqDesk('rooms'); } else if(k==='mod'){ hqChecks(); } else if(k==='ap'){ hqApplies(); } else if(k==='plan'){ hqPlansView(); }
       else if(k==='cert'){ jump('dkGcert'); } else if(k==='flag'){ jump('dkGflag'); } else if(k==='err'){ hqDesk('ops'); } else if(k==='pay'){ hqOutGo('/admin.html'); } }; });
     each($('dkB'),'[data-tg]',function(b){ b.onclick=function(){ hqDesk(b.getAttribute('data-tg')); }; });
+    each($('dkB'),'[data-tx]',function(b){ b.onclick=function(){ hqOutGo(b.getAttribute('data-tx')); }; });   /* ★v85 446 칸 8 전까지 */
     each($('dkB'),'[data-ct]',function(b){ b.onclick=function(){ hqCertView(b.getAttribute('data-ct')); }; });
     each($('dkB'),'[data-fq]',function(b){ b.onclick=function(){ hqFlagView(fll[+b.getAttribute('data-fq')]); }; });
   });
@@ -5158,14 +5159,15 @@ function dkPl(){ var M=$('dkB'); if(!M){ return; }
     if(!$('dkB')){ return; } M=$('dkB');
     if(d.status!=='ok'){ M.innerHTML=dkSubHead('요금표 · 이용 기록')+'<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; dkSubWire(); return; }
     var on=d.on===1, h=dkSubHead('요금표 · 이용 기록','우리 이야기 방마다 이용 등급 · 기한 · 사진 용량');
-    h+='<div class="card"><h2>유료 틀 <span class="tag '+(on?'t-hide':'t-on')+'">'+(on?'켬':'끔')+'</span></h2><p class="note" style="margin:0 0 6px">'+(on?'이용 끝 + '+(d.grace||7)+'일이 지난 방은 운영이 멈추고, 용량 한도를 넘은 방은 사진을 올릴 수 없습니다.':'칸 · 알림 · 기록만 돌고 손님을 막지 않습니다.')+'</p><button class="btn'+(on?' line':' red')+'" id="plS" type="button">'+(on?'유료 틀 끄기':'유료 틀 켜기')+'</button></div>';
     h+='<div class="card"><h2>요금표</h2><p class="note" style="margin:0 0 6px">숫자 · 설명은 시트 「요금표」 탭에서 고칩니다. 고치면 바로 적용됩니다.</p>'+(d.plans||[]).map(function(x){
       return '<div class="sw"><span><b>'+esc(x.name)+(x.on?'':' <span class="tag t-hide">거둠</span>')+'</b><small>'+['월 '+(x.month!==''&&x.month!=null?esc(String(x.month)):'비어 있음'),'연 '+(x.year!==''&&x.year!=null?esc(String(x.year)):'비어 있음'),'용량 한도 '+(x.limitMB?mbTx(x.limitMB):'없음'),'주의선 '+(x.watchMB?mbTx(x.watchMB):'없음'),x.down?'아래 모임 포함':'이 방만'].join(' · ')+(x.desc?'<br>'+esc(x.desc):'')+'</small></span></div>'; }).join('')+'</div>';
     h+='<div class="card"><h2>이용 기록 <small style="font-size:13px;color:var(--sub)">최근 20줄</small></h2>'+((d.log||[]).length?d.log.map(function(x){
       return '<div class="sw"><span><b>'+esc(x.name||x.com)+' · '+esc(x.plan||'')+'</b><small>'+esc(x.at||'')+(x.start||x.end?' · '+dayTx(x.start)+' ~ '+dayTx(x.end):'')+(x.amount!==''&&x.amount!=null?' · '+Number(x.amount).toLocaleString('ko-KR')+'원':'')+(x.payer?' · '+esc(x.payer):'')+(x.memo?' · '+esc(x.memo):'')+(x.by?' · '+esc(x.by):'')+'</small></span></div>'; }).join(''):'<p class="note">아직 기록이 없습니다.</p>')+'</div>';
+    var boss=!!(HQD.me&&HQD.me.boss);   /* ★v85 444 요금 적용은 맨 아래 한 줄 · 단추는 대표만 */
+    h+='<div class="dk-grp" style="margin-top:6px"><h2>요금 적용 <span class="tag '+(on?'t-hide':'t-on')+'">'+(on?'켜짐':'꺼짐')+'</span></h2><p class="note" style="margin:0 0 6px">'+(on?'이용 기간이 끝나고 '+(d.grace||7)+'일이 지난 방은 운영이 멈추고, 용량을 넘은 방은 사진을 올릴 수 없습니다.':'지금은 손님을 막지 않습니다. 기록 · 알림만 남깁니다.')+'</p>'+(boss?'<button class="sbtn'+(on?'':' red')+'" id="plS" type="button">'+(on?'요금 적용 끄기':'요금 적용 켜기')+'</button>':'')+'</div>';
     M.innerHTML=h; dkSubWire();
-    $('plS').onclick=function(){ hqConfirm(on?'유료 틀 끄기':'유료 틀 켜기',on?'칸 · 알림 · 기록만 돌고 손님을 막지 않습니다. 만료로 멈춘 방은 저절로 풀립니다.':'이용 끝 + '+(d.grace||7)+'일이 지난 방은 운영이 멈추고, 용량 한도를 넘은 방은 사진을 올릴 수 없습니다.',on?'끄기':'켜기',!on,function(fail){
-      hqApi({action:'recHq',act:'paySwitch',on:on?'0':'1',_busy:'처리하는 중입니다'},function(r){ if(r.status==='ok'){ closeSheet(); HQ_PL=r; toast(r.on===1?'유료 틀을 켰습니다':'유료 틀을 껐습니다'); dkPl(); } else { fail(r.msg); } }); }); };
+    if($('plS')) $('plS').onclick=function(){ hqConfirm(on?'요금 적용 끄기':'요금 적용 켜기',on?'손님을 막지 않고 기록 · 알림만 남깁니다. 기간이 끝나 멈춘 방은 저절로 풀립니다.':'이용 기간이 끝나고 '+(d.grace||7)+'일이 지난 방은 운영이 멈추고, 용량을 넘은 방은 사진을 올릴 수 없습니다.',on?'끄기':'켜기',!on,function(fail){
+      hqApi({action:'recHq',act:'paySwitch',on:on?'0':'1',_busy:'처리하는 중입니다'},function(r){ if(r.status==='ok'){ closeSheet(); HQ_PL=r; toast(r.on===1?'요금 적용을 켰습니다':'요금 적용을 껐습니다'); dkPl(); } else { fail(r.msg); } }); }); };
   },true);
 }
 function hqPlanSheet(x){
