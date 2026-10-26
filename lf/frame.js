@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v16 · 261024 · [칸 4 · 454 · 대표 OK 261024 21:16] 아래 묶음 띠 · ☰ 큰 카드 「예매하기」 → 「사랑흐름 여행」(첫 화면 보라 띠 · 새 ☰ 묶음과 같은 이름 · 73차 결정 6). [무손] 그 밖 v15 전부.
+   현재 버전 ▶ lf/frame.js · v17 · 261026 · [칸 4-나 458 · 대표 「진행」 11:16] ① 상품 설명 화면(/item/) 방문 · 누름 · 나감을 방문 통계 「상품 진열」 칸으로 셈(옛 진열장 자리 · 서버 이름표 그대로라 서버는 안 고침) ② /item/ · /travel/ 에서 아래 띠 「사랑흐름 여행」에 불 ③ 쓰이지 않던 옛 ☰(menuHtml) 지움. [무손] 새 ☰ · 방문 통계 장치 · 그 밖 v16 전부.
+   (이전) lf/frame.js · v16 · 261024 · [칸 4 · 454 · 대표 OK 261024 21:16] 아래 묶음 띠 · ☰ 큰 카드 「예매하기」 → 「사랑흐름 여행」(첫 화면 보라 띠 · 새 ☰ 묶음과 같은 이름 · 73차 결정 6). [무손] 그 밖 v15 전부.
    (이전) lf/frame.js · v15 · 261024 · [칸 3 435 · 대표 20:49 「바로 반영」] 새 ☰(우리 이야기 · 기록관 → 마음 전하기 (무료) → 사랑흐름 여행 · 구매한 여행 이어가기 → 함께하기)를 모든 화면에 · 아래 묶음 「맛보기」 → 「마음 전하기 · 무료」 모든 화면 · 「내 여행」 묶음 「여권 입장」 → 「구매한 여행 이어가기」. [무손] 그 밖 v14 전부
    (이전) lf/frame.js · v14 · 261024 · [칸 3 435 · 73차 결정 5 · 9] ☰ 메뉴 새 차례(시험판) — body 에 data-lf-menu="2" 를 단 화면(첫 화면 시험판 home-new v6)에서만 새 ☰: 우리 이야기 · 기록관(마당 · 이야기방 만들기 · 기록관 만들기 · 기관 · 단체 제안) → 마음 전하기 (무료) → 사랑흐름 여행(사랑흐름 여행 · 구매한 여행 이어가기 · 여권 찾기 · 휴대폰 관리 · 여행의 기록) → 함께하기 · 그 화면의 아래 묶음 「맛보기」 이름 = 「마음 전하기 (무료)」. 다른 화면은 v13 그대로(대표 휴대폰 OK 뒤 v15 에서 모든 화면에). [무손] 그 밖 v13 전부
    (이전) lf/frame.js · v13 · 261024 · [칸 2 434 · 대표 18:49 OK] 방문 통계 — 첫 화면 · 사랑흐름 여행 · 상품 진열 · 결제 화면에서만 방문(처음 · 다시) · 단추 누름(단추 글 → 갈 곳 · 주소 뒤 물음은 빼고) · 나감(머문 초 · 누름 수)을 우리 이야기 서버 recVisit 로 보냄(「방문 통계」 탭) · 이름 · 연락처 · 입력 칸 글은 보내지 않음 · 묶음 = 그 창의 무작위 번호 · 들어온 곳은 바깥 주소 이름만 · 본부에서 열고 온 화면은 세지 않음 · [무손] 그 밖 v12 전부
@@ -115,7 +116,7 @@
     p = p || location.pathname;
     if (/^\/(memoir\/(home|ask|sign|book|ritual|friends|invite)|reenter|find|enter|gate|apply|youth)/.test(p)) { return 'mine'; }
     if (/^\/(hanmadi|draw|compass|free)/.test(p)) { return 'taste'; }   /* ★v4 첫 주소(/)는 안내 홈 — 어느 묶음에도 불 안 켬 */
-    if (/^\/(pay|showcase)/.test(p)) { return 'buy'; }
+    if (/^\/(pay|showcase|item\/|travel\/)/.test(p)) { return 'buy'; }   /* ★v17 458 상품 설명 · 사랑흐름 여행 */
     if (/^\/(showroom|memoir\/?$|memoir\/index|guide)/.test(p)) { return 'look'; }
     if (/^\/(partner|proposal)/.test(p)) { return 'look'; }
     if (/^\/rec\//.test(p)) { return 'story'; }
@@ -245,38 +246,7 @@
     STATE.open = k;
   }
 
-  function menuHtml() {
-    var p = location.pathname;
-    function mi(t, ic, c, u, cls) {
-      var now = (u === p) || (u !== '/' && u.length > 1 && p.indexOf(u.replace(/index\.html$/, '')) === 0 && u.slice(-1) === '/');
-      return '<button class="lfx-mi' + (cls ? ' ' + cls : '') + (now ? ' now' : '') + '" data-u="' + u + '">'
-        + '<span class="lfx-ci" style="background:' + c + ';width:30px;height:30px;flex-basis:30px">' + svg(ic, 16) + '</span>' + t + '</button>';
-    }
-    return ''
-      + '<div class="lfx-mh"><span>사랑흐름</span><button data-x="1" aria-label="닫기">' + svg('x', 16) + '</button></div>'
-      + mi('여권 입장', 'pass', '#C9A96E', '/reenter.html', 'gold')
-      + mi('사랑흐름 여권 찾기', 'find', '#7F97B2', '/find/')
-      + mi('휴대폰 관리', 'phone', '#5C7FA6', '/lf/device.html')
-      + '<div class="lfx-grp">여행</div>'
-      + '<div class="lfx-two">'
-      +   mi('마음 한마디', 'word', '#E59273', '/hanmadi/')
-      +   mi('마음 도화지', 'draw', '#8A6FC9', '/draw/')
-      +   mi('여행지도', 'map', '#1D9E75', '/journey/')
-      +   mi('편지', 'letter', '#1E4A76', '/l/')
-      + '</div>'
-      + mi('자서전', 'mem', '#C0872E', '/memoir/')
-      + '<div class="lfx-grp">우리 이야기</div>'   /* ★v11 306 */
-      + '<div class="lfx-two">'
-      +   mi('마당', 'show', '#2E7D6B', '/rec/?plaza=1')
-      +   mi('만들기', 'spark', '#1E4A76', '/rec/?open=form')
-      + '</div>'
-      + '<div class="lfx-opp"><div class="lfx-ot">새 여행 · 함께하기</div>'
-      +   '<button class="lfx-big lfx-b1" data-u="/showcase.html"><i>' + svg('ticket', 20) + '</i><span><b>사랑흐름 여행</b><small>두 분의 여정 · 한 편의 기록 · 마음여행 · 마음 여행지도</small></span></button>'
-      +   '<button class="lfx-big lfx-b2" data-u="/showroom.html"><i>' + svg('show', 20) + '</i><span><b>여행의 기록</b><small>먼저 다녀간 분들의 이야기</small></span></button>'
-      +   '<button class="lfx-big lfx-b3" data-u="/partner.html"><i>' + svg('hand', 20) + '</i><span><b>안내자 · 제휴 신청</b><small>안내자로 · 사업으로 함께하기</small></span></button>'
-      + '</div>'
-      + '<div style="display:flex;justify-content:space-between;margin-top:10px"><button class="lfx-restart" style="margin:0" data-share="1">공유하기</button><button class="lfx-restart" style="margin:0" data-restart="1">다시 시작</button></div>';
-  }
+  /* ★v17 458 — 옛 ☰(menuHtml · v14 전) 지움 · 이제 새 ☰ 하나 */
 
   /* ★v14 칸 3 435 — 새 ☰(73차) · data-lf-menu="2" 화면에서만 */
   function menu2() { return true; }   /* ★v15 모든 화면 */
@@ -384,7 +354,7 @@
     var dim = document.createElement('div'); dim.className = 'lfx-dim'; dim.id = 'lfxDim'; dim.onclick = closeAll;
     var sh = document.createElement('div'); sh.className = 'lfx-sheet'; sh.id = 'lfxSheet'; sh.setAttribute('role', 'dialog');
     var m = document.createElement('nav'); m.className = 'lfx-menu'; m.id = 'lfxMenu'; m.setAttribute('aria-label', '사이트 메뉴');
-    m.innerHTML = menu2() ? menuHtml2() : menuHtml(); wireMenu(m);   /* ★v14 */
+    m.innerHTML = menuHtml2(); wireMenu(m);   /* ★v14 */
 
     var tab = document.createElement('nav'); tab.className = 'lfx-tab'; tab.id = 'lfxTab'; tab.setAttribute('aria-label', '사랑흐름 길목');
     var cur = groupOfPath(), th = '';
@@ -418,7 +388,7 @@
 
 /* ★v13 칸 2 434 방문 통계 — 개인정보 없이 · 서버 주소는 lf/config.js 한 곳에서 읽음 */
 (function () {
-  var P = location.pathname, SCR = { '/': '첫 화면', '/index.html': '첫 화면', '/travel/': '사랑흐름 여행', '/travel/index.html': '사랑흐름 여행', '/showcase.html': '상품 진열', '/pay.html': '결제 화면' }[P];
+  var P = location.pathname, SCR = { '/': '첫 화면', '/index.html': '첫 화면', '/travel/': '사랑흐름 여행', '/travel/index.html': '사랑흐름 여행', '/showcase.html': '상품 진열', '/item/': '상품 진열', '/item/index.html': '상품 진열', '/pay.html': '결제 화면' }[P];   /* ★v17 458 — 상품 설명 화면은 서버 표의 「상품 진열」 칸으로 셈(서버 VIS_SCREENS 그대로) */
   if (!SCR) { return; }
   try { if (sessionStorage.getItem('lf_from_hq')) { return; } } catch (e0) { }
   var Q = [], T = null, N = 0, CLK = 0, T0 = Date.now(), SID = '', FIRST = '처음', DEV = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '') ? '폰' : '컴', REF = '';
