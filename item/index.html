@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ item/index.html · v1 · 261026 · [칸 4-나 ② 시험판 · 대표 OK 261026 11:03(그림 시안)] 상품 하나를 처음 온 분 눈높이로 설명하는 화면 — /item/?k=map. 차례: 한 줄 물음 → 견본(위아래로 · 옆으로 밀지 않음) → 이런 여행입니다 → 이렇게 진행돼요 → 끝나면 남는 것 → 알아두실 것 → 값 · 구매하기 → 다른 여행. 말은 지금 사이트에 있는 것만(견본 = showroom · 1년 이용 · 디지털 = pay · 열기 전 전액 환불 = trust · 답할 때마다 저장 = journey). 관계흐름증명서는 마음 여행지도만으로 받는지 [확인 안 됨]이라 뺌. 물음 수 · 걸리는 시간은 소스로 단정 못 해 뺌. 지금은 마음 여행지도 하나만 · 검색 막음(시험판). -->
+<!-- ★ 현재 버전 ▶ item/index.html · v2 · 261026 · [칸 4-나 ② · 대표 OK 261026 11:10] 같은 꼴로 마음여행(?k=set) · 두 분의 여정(?k=life) 더함 · ?k=memoir 는 자서전 소개(/memoir/)로 넘김 · k 없거나 모르는 값은 map. 편지 견본 = 여행의 기록 편지 봉투 글 · 자서전 견본 = memoir/samples 그림. 1년 이용 · 디지털 = pay(상품 공통 한 줄) · 두 분의 여정 환불 = trust ⑤ · 기록 90일 = 자서전 소개. 편지를 그 사람에게 어떻게 보내는지는 [확인 안 됨]이라 「편지 한 통이 남아요」까지만. [무손] 마음 여행지도 v1 글 그대로. -->
+<!-- (이전) item/index.html · v1 · 261026 · [칸 4-나 ② 시험판 · 대표 OK 261026 11:03(그림 시안)] 상품 하나를 처음 온 분 눈높이로 설명하는 화면 — /item/?k=map. 차례: 한 줄 물음 → 견본(위아래로 · 옆으로 밀지 않음) → 이런 여행입니다 → 이렇게 진행돼요 → 끝나면 남는 것 → 알아두실 것 → 값 · 구매하기 → 다른 여행. 말은 지금 사이트에 있는 것만(견본 = showroom · 1년 이용 · 디지털 = pay · 열기 전 전액 환불 = trust · 답할 때마다 저장 = journey). 관계흐름증명서는 마음 여행지도만으로 받는지 [확인 안 됨]이라 뺌. 물음 수 · 걸리는 시간은 소스로 단정 못 해 뺌. 지금은 마음 여행지도 하나만 · 검색 막음(시험판). -->
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -50,6 +51,18 @@ button{font:inherit;color:inherit;cursor:pointer}
 .buy .won{font-size:21px;font-weight:800;color:var(--navy)}
 .buy .won small{display:block;font-size:12px;font-weight:500;color:var(--sub)}
 .buy button{border:0;background:var(--navy);color:#fff;font-weight:800;font-size:16px;border-radius:14px;padding:13px 26px}
+.letter{background:linear-gradient(160deg,#3A2E22,#241B12);border:none;text-align:center}
+.letter .clb{color:#D9B43A}
+.letter .lz1{font-family:var(--serif);font-size:15px;color:#F0E6D2;line-height:1.8;margin:8px 0 14px}
+.paper{background:#F5ECD8;border-radius:10px;padding:18px 16px;text-align:left;font-family:var(--serif);font-size:15px;color:#4A3E2C;line-height:1.9;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+.paper .to{font-weight:700;margin-bottom:6px}
+.letter .what{color:rgba(240,230,210,.75);border-top-color:rgba(240,230,210,.2)}
+.mz{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.mz img{width:100%;border-radius:8px;border:1px solid #E7DCC4;display:block;background:#fff}
+.memo{background:linear-gradient(160deg,#FFFDF8,#F5EEDE);border-color:#E7DCC4}
+.p-set,.p-life{display:none}
+body.k-set .p-map,body.k-life .p-map{display:none}
+body.k-set .p-set,body.k-life .p-life{display:block}
 .more{margin-top:28px}
 .more h2{font-size:15px;font-weight:800;color:var(--navy);margin:0 0 8px}
 .more a{display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:8px;font-size:15px}
@@ -59,6 +72,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 </head>
 <body data-lf-title="마음 여행지도">
 <div class="wrap">
+<div class="p-map">
 
   <div class="lead">
     <h1>그 사람과 나,<br>지금 어디쯤일까요?</h1>
@@ -137,12 +151,169 @@ button{font:inherit;color:inherit;cursor:pointer}
 
   <div class="more">
     <h2>다른 여행도 보기</h2>
-    <a href="/travel/"><b>마음여행</b><span>지도 + 그 사람에게 편지 ›</span></a>
+    <a href="/item/?k=set"><b>마음여행</b><span>지도 + 그 사람에게 편지 ›</span></a>
     <a href="/memoir/"><b>한 편의 기록</b><span>나의 이야기 한 편 ›</span></a>
-    <a href="/travel/"><b>두 분의 여정</b><span>지도 · 편지 · 기록까지 ›</span></a>
+    <a href="/item/?k=life"><b>두 분의 여정</b><span>지도 · 편지 · 기록까지 ›</span></a>
   </div>
 
 </div>
+
+<div class="p-set">
+  <div class="lead">
+    <h1>그 사람과 나 사이를 돌아보고,<br>하지 못한 말을 편지로</h1>
+    <p>마음 여행지도를 먼저 그리고,<br>그 마음으로 편지 한 통을 씁니다.</p>
+  </div>
+
+  <div class="smp-h">이렇게 받아 보세요</div>
+  <div class="smp-n">실제 결과물 견본이에요 · 아래로 내려 보세요</div>
+
+  <div class="card type">
+    <div class="clb">마음 여행지도 · 여행자 유형</div>
+    <div class="ci">🌋</div>
+    <div class="cn">화산 여행자</div>
+    <div class="cf">불꽃을 품은 화산형</div>
+    <div class="cc">이 뜨거움은 사랑에서 나온 것입니다.<br>그런데 왜 이렇게 됐는지, 그 이유가<br>아직 번역되지 않았습니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="clb">마음 여행지도 · 이 관계의 계절</div>
+    <div class="stampC"><span class="se">🌱</span><span class="sn">봄</span><span class="ss">새로운 연결</span></div>
+    <div class="poem" style="font-size:14px">막 피어나는 새싹처럼,<br>새로운 연결의 기운이 돌고 있어요.</div>
+  </div>
+
+  <div class="card letter">
+    <div class="clb">마음 여행편지</div>
+    <div class="lz1">여행은 끝났습니다.<br>하지만 아직, 하지 못한 말이 남았습니다.</div>
+    <div class="paper"><div class="to">사랑하는 엄마에게</div>엄마.<br>그동안 한 번도 말하지<br>못했던 이야기를…</div>
+    <div class="what">지도를 그리며 떠오른 마음을, 내 말로 천천히 적어 편지 한 통으로 남깁니다.</div>
+  </div>
+
+  <div class="sec">
+    <h2>이런 여행입니다</h2>
+    <p>마음에 걸리는 한 사람을 떠올리고, 먼저 물음에 답하며 그 사람과 나 사이를 지도로 돌아봅니다. 그다음 그 사람에게 전하지 못한 마음을 편지로 씁니다. 맞고 틀린 답은 없습니다. 검사나 진단이 아닙니다.</p>
+  </div>
+
+  <div class="sec">
+    <h2>이렇게 진행돼요</h2>
+    <ol class="steps">
+      <li><span class="n">1</span><span>구매하면 나의 사랑흐름 여권 번호를 받아요</span></li>
+      <li><span class="n">2</span><span>그 사람을 떠올리며 물음에 답해요<small>답할 때마다 저장돼요 · 쉬었다가 이어서 해도 돼요</small></span></li>
+      <li><span class="n">3</span><span>나의 마음 여행지도가 열려요</span></li>
+      <li><span class="n">4</span><span>이어서, 그 사람에게 편지를 써요<small>쓰실 때마다 저장돼요</small></span></li>
+    </ol>
+  </div>
+
+  <div class="sec">
+    <h2>끝나면 남는 것</h2>
+    <ul class="left">
+      <li><b>마음 여행지도</b> — 여행자 유형 · 다섯 갈래 마음 흐름 · 이 관계의 계절 · 가장 오래 머문 마음</li>
+      <li><b>마음 여행편지</b> — 그 사람에게 쓴 편지 한 통</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>알아두실 것</h2>
+    <div class="note">받은 날부터 1년 동안 이용하실 수 있어요.<br>휴대폰에서 보는 디지털 결과물이에요.<br>결과를 열어 보기 전이면 전액 환불돼요.</div>
+  </div>
+
+  <div class="buy">
+    <span class="won"><span data-lf-price="LF-S001">48,900원</span><small>마음여행</small></span>
+    <button type="button" onclick="location.href='/pay.html?item=set'">구매하기</button>
+  </div>
+
+  <div class="more">
+    <h2>다른 여행도 보기</h2>
+    <a href="/item/?k=map"><b>마음 여행지도</b><span>지도만 먼저 ›</span></a>
+    <a href="/memoir/"><b>한 편의 기록</b><span>나의 이야기 한 편 ›</span></a>
+    <a href="/item/?k=life"><b>두 분의 여정</b><span>지도 · 편지 · 기록까지 ›</span></a>
+  </div>
+</div>
+
+<div class="p-life">
+  <div class="lead">
+    <h1>두 분의 이야기를,<br>지도 · 편지 · 기록으로</h1>
+    <p>마음 여행지도와 편지에 한 편의 기록까지,<br>두 분의 이야기를 함께 남기는 여정입니다.</p>
+  </div>
+
+  <div class="smp-h">이렇게 받아 보세요</div>
+  <div class="smp-n">실제 결과물 견본이에요 · 아래로 내려 보세요</div>
+
+  <div class="card type">
+    <div class="clb">하나 · 마음 여행지도</div>
+    <div class="ci">🌋</div>
+    <div class="cn">화산 여행자</div>
+    <div class="cf">불꽃을 품은 화산형</div>
+    <div class="cc">이 뜨거움은 사랑에서 나온 것입니다.<br>그런데 왜 이렇게 됐는지, 그 이유가<br>아직 번역되지 않았습니다.</div>
+  </div>
+
+  <div class="card letter">
+    <div class="clb">둘 · 마음 여행편지</div>
+    <div class="lz1">여행은 끝났습니다.<br>하지만 아직, 하지 못한 말이 남았습니다.</div>
+    <div class="paper"><div class="to">사랑하는 엄마에게</div>엄마.<br>그동안 한 번도 말하지<br>못했던 이야기를…</div>
+  </div>
+
+  <div class="card memo">
+    <div class="clb">셋 · 한 편의 기록</div>
+    <div class="poem">살아온 이야기 하나가<br>글 한 편으로 남습니다.</div>
+    <div class="mz"><img src="/memoir/samples/cover.png" alt="한 편의 기록 표지 견본" loading="lazy"><img src="/memoir/samples/ch1.png" alt="한 편의 기록 본문 견본" loading="lazy"></div>
+    <div class="what">견본입니다. 실제 기록은 들려주신 이야기로 채워집니다.</div>
+  </div>
+
+  <div class="sec">
+    <h2>이런 여행입니다</h2>
+    <p>그 사람과 나 사이를 지도로 돌아보고, 그 마음을 편지로 전하고, 함께 지나온 이야기 하나를 한 편의 글로 남깁니다. 셋을 한 번에 이어서 하는 여정입니다. 검사나 진단이 아닙니다.</p>
+  </div>
+
+  <div class="sec">
+    <h2>이렇게 진행돼요</h2>
+    <ol class="steps">
+      <li><span class="n">1</span><span>구매하면 나의 사랑흐름 여권 번호를 받아요</span></li>
+      <li><span class="n">2</span><span>물음에 답하며 마음 여행지도를 그려요<small>답할 때마다 저장돼요</small></span></li>
+      <li><span class="n">3</span><span>그 사람에게 편지를 써요</span></li>
+      <li><span class="n">4</span><span>이야기 하나를 골라 물음에 답하며 한 편의 기록을 남겨요<small>사진 · 목소리도 함께 담을 수 있어요</small></span></li>
+      <li><span class="n">5</span><span>이름을 남기면 바로 보고, 인쇄하거나 파일로 저장해요</span></li>
+    </ol>
+  </div>
+
+  <div class="sec">
+    <h2>끝나면 남는 것</h2>
+    <ul class="left">
+      <li><b>마음 여행지도</b> — 여행자 유형 · 다섯 갈래 마음 흐름 · 이 관계의 계절</li>
+      <li><b>마음 여행편지</b> — 그 사람에게 쓴 편지 한 통</li>
+      <li><b>한 편의 기록</b> — 이름이 새겨진 이야기 한 편</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>알아두실 것</h2>
+    <div class="note">받은 날부터 1년 동안 이용하실 수 있어요.<br>한 편의 기록은 마지막 이야기를 마치신 날부터 90일 동안 화면에서 다시 보실 수 있어요. 그 사이 파일로 저장해 두세요.<br>지도 · 편지 · 기록 가운데 하나도 열기 전이면 전액 환불돼요.</div>
+  </div>
+
+  <div class="buy">
+    <span class="won"><span data-lf-price="LF-A001">110,000원</span><small>두 분의 여정</small></span>
+    <button type="button" onclick="location.href='/pay.html?item=life'">구매하기</button>
+  </div>
+
+  <div class="more">
+    <h2>다른 여행도 보기</h2>
+    <a href="/item/?k=map"><b>마음 여행지도</b><span>지도만 먼저 ›</span></a>
+    <a href="/item/?k=set"><b>마음여행</b><span>지도 + 그 사람에게 편지 ›</span></a>
+    <a href="/memoir/"><b>한 편의 기록</b><span>나의 이야기 한 편 ›</span></a>
+  </div>
+</div>
+
+</div>
+<script>
+(function(){
+  var k=(location.search.match(/[?&]k=([a-z]+)/)||[])[1]||'map';
+  if(k==='memoir'){ location.replace('/memoir/'); return; }
+  var T={map:'마음 여행지도',set:'마음여행',life:'두 분의 여정'};
+  if(!T[k]) k='map';
+  document.body.classList.add('k-'+k);
+  document.body.setAttribute('data-lf-title',T[k]);
+  document.title=T[k]+' · 사랑흐름';
+})();
+</script>
 <script src="/lf/prices.js" defer></script>
 <script src="/lf-foot.js" defer></script>
 <script src="/lf/frame.js?v=16"></script>
