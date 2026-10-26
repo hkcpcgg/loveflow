@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ item/index.html · v2 · 261026 · [칸 4-나 ② · 대표 OK 261026 11:10] 같은 꼴로 마음여행(?k=set) · 두 분의 여정(?k=life) 더함 · ?k=memoir 는 자서전 소개(/memoir/)로 넘김 · k 없거나 모르는 값은 map. 편지 견본 = 여행의 기록 편지 봉투 글 · 자서전 견본 = memoir/samples 그림. 1년 이용 · 디지털 = pay(상품 공통 한 줄) · 두 분의 여정 환불 = trust ⑤ · 기록 90일 = 자서전 소개. 편지를 그 사람에게 어떻게 보내는지는 [확인 안 됨]이라 「편지 한 통이 남아요」까지만. [무손] 마음 여행지도 v1 글 그대로. -->
+<!-- ★ 현재 버전 ▶ item/index.html · v3 · 261026 · [461 · 대표 OK 261026 19:57] 한 편의 기록도 같은 틀(?k=memoir — 옛 자서전 소개로 넘기지 않음 · 견본 넷은 두 줄 바둑판 · 옆으로 밀지 않음 · 말은 자서전 소개 · 결제 화면 문구 그대로) · 네 화면 맨 아래 「다른 여행도 보기」 줄 없앰(← 뒤로가 카드 넷으로) · 두 분의 여정 견본 큰 카드 셋 → 지도 · 편지 · 기록 작은 그림 셋 한 줄. [무손] 그 밖 v2 전부. -->
+<!-- (이전) item/index.html · v2 · 261026 · [칸 4-나 ② · 대표 OK 261026 11:10] 같은 꼴로 마음여행(?k=set) · 두 분의 여정(?k=life) 더함 · ?k=memoir 는 자서전 소개(/memoir/)로 넘김 · k 없거나 모르는 값은 map. 편지 견본 = 여행의 기록 편지 봉투 글 · 자서전 견본 = memoir/samples 그림. 1년 이용 · 디지털 = pay(상품 공통 한 줄) · 두 분의 여정 환불 = trust ⑤ · 기록 90일 = 자서전 소개. 편지를 그 사람에게 어떻게 보내는지는 [확인 안 됨]이라 「편지 한 통이 남아요」까지만. [무손] 마음 여행지도 v1 글 그대로. -->
 <!-- (이전) item/index.html · v1 · 261026 · [칸 4-나 ② 시험판 · 대표 OK 261026 11:03(그림 시안)] 상품 하나를 처음 온 분 눈높이로 설명하는 화면 — /item/?k=map. 차례: 한 줄 물음 → 견본(위아래로 · 옆으로 밀지 않음) → 이런 여행입니다 → 이렇게 진행돼요 → 끝나면 남는 것 → 알아두실 것 → 값 · 구매하기 → 다른 여행. 말은 지금 사이트에 있는 것만(견본 = showroom · 1년 이용 · 디지털 = pay · 열기 전 전액 환불 = trust · 답할 때마다 저장 = journey). 관계흐름증명서는 마음 여행지도만으로 받는지 [확인 안 됨]이라 뺌. 물음 수 · 걸리는 시간은 소스로 단정 못 해 뺌. 지금은 마음 여행지도 하나만 · 검색 막음(시험판). -->
 <!DOCTYPE html>
 <html lang="ko">
@@ -60,14 +61,16 @@ button{font:inherit;color:inherit;cursor:pointer}
 .mz{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
 .mz img{width:100%;border-radius:8px;border:1px solid #E7DCC4;display:block;background:#fff}
 .memo{background:linear-gradient(160deg,#FFFDF8,#F5EEDE);border-color:#E7DCC4}
-.p-set,.p-life{display:none}
-body.k-set .p-map,body.k-life .p-map{display:none}
-body.k-set .p-set,body.k-life .p-life{display:block}
-.more{margin-top:28px}
-.more h2{font-size:15px;font-weight:800;color:var(--navy);margin:0 0 8px}
-.more a{display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:8px;font-size:15px}
-.more a span{color:var(--sub);font-size:13px}
-.more a b{font-weight:700}
+.p-set,.p-life,.p-memoir{display:none}
+body.k-set .p-map,body.k-life .p-map,body.k-memoir .p-map{display:none}
+body.k-set .p-set,body.k-life .p-life,body.k-memoir .p-memoir{display:block}
+.mz figure{margin:0}.mz figcaption{font-size:12px;color:var(--sub);line-height:1.45;margin-top:6px;text-align:center}
+.trio{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.trio .tc{border-radius:12px;padding:10px 6px;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:132px}
+.trio .tc small{display:block;font-size:11px;font-weight:800;letter-spacing:.06em;margin-bottom:6px}
+.trio .t1{background:linear-gradient(150deg,#1E4A76,#0F1B2D);color:#fff}.trio .t1 small{color:#D9B43A}.trio .t1 .e{font-size:30px}.trio .t1 b{font-size:13px;margin-top:4px}
+.trio .t2{background:linear-gradient(160deg,#3A2E22,#241B12)}.trio .t2 small{color:#D9B43A}.trio .t2 .pp{background:#F5ECD8;border-radius:6px;padding:8px 6px;font-family:var(--serif);font-size:11.5px;line-height:1.6;color:#4A3E2C;text-align:left}
+.trio .t3{background:#F5EEDE;border:1px solid #E7DCC4}.trio .t3 small{color:#A8880A}.trio .t3 img{width:72%;border-radius:4px;border:1px solid #E7DCC4;display:block;background:#fff}
 </style>
 </head>
 <body data-lf-title="마음 여행지도">
@@ -149,12 +152,6 @@ body.k-set .p-set,body.k-life .p-life{display:block}
     <button type="button" onclick="location.href='/pay.html?item=map'">구매하기</button>
   </div>
 
-  <div class="more">
-    <h2>다른 여행도 보기</h2>
-    <a href="/item/?k=set"><b>마음여행</b><span>지도 + 그 사람에게 편지 ›</span></a>
-    <a href="/memoir/"><b>한 편의 기록</b><span>나의 이야기 한 편 ›</span></a>
-    <a href="/item/?k=life"><b>두 분의 여정</b><span>지도 · 편지 · 기록까지 ›</span></a>
-  </div>
 
 </div>
 
@@ -221,11 +218,57 @@ body.k-set .p-set,body.k-life .p-life{display:block}
     <button type="button" onclick="location.href='/pay.html?item=set'">구매하기</button>
   </div>
 
-  <div class="more">
-    <h2>다른 여행도 보기</h2>
-    <a href="/item/?k=map"><b>마음 여행지도</b><span>지도만 먼저 ›</span></a>
-    <a href="/memoir/"><b>한 편의 기록</b><span>나의 이야기 한 편 ›</span></a>
-    <a href="/item/?k=life"><b>두 분의 여정</b><span>지도 · 편지 · 기록까지 ›</span></a>
+</div>
+
+<div class="p-memoir">
+  <div class="lead">
+    <h1>살아온 이야기 하나가,<br>글 한 편으로 남습니다</h1>
+    <p>물음에 답하며 내 삶의 이야기 하나를 남깁니다.<br>열 편이 모이면 한 사람의 삶이 담긴 자서전이 됩니다.</p>
+  </div>
+
+  <div class="smp-h">이렇게 받아 보세요</div>
+  <div class="smp-n">실제 결과물 견본이에요 · 아래로 내려 보세요</div>
+
+  <div class="card memo">
+    <div class="mz">
+      <figure><img src="/memoir/samples/cover.png" alt="한 편의 기록 표지 견본" loading="lazy"><figcaption>이름이 새겨진, 나만의 표지</figcaption></figure>
+      <figure><img src="/memoir/samples/ch1.png" alt="한 편의 기록 본문 견본" loading="lazy"><figcaption>나를 만든 사람들</figcaption></figure>
+      <figure><img src="/memoir/samples/ch2.png" alt="한 편의 기록 사진이 담긴 견본" loading="lazy"><figcaption>사진과 목소리까지, 그대로</figcaption></figure>
+      <figure><img src="/memoir/samples/ch3.png" alt="한 편의 기록 본문 견본" loading="lazy"><figcaption>살아온 모든 계절이, 한 편씩</figcaption></figure>
+    </div>
+    <div class="what">견본입니다. 실제 기록은 들려주신 이야기로 채워집니다.</div>
+  </div>
+
+  <div class="sec">
+    <h2>이런 여행입니다</h2>
+    <p>열 이야기 가운데 마음 가는 이야기부터 하나씩 남깁니다. 쓰신 분의 말투를 그대로 존중해, 맞춤법도 문장도 고치지 않고 쓰신 그대로 담습니다. 검사나 진단이 아닙니다.</p>
+  </div>
+
+  <div class="sec">
+    <h2>이렇게 진행돼요</h2>
+    <ol class="steps">
+      <li><span class="n">1</span><span>구매하면 나의 사랑흐름 여권 번호를 받아요</span></li>
+      <li><span class="n">2</span><span>이야기 하나를 골라 물음에 답해요<small>사진 · 목소리도 함께 담을 수 있어요 · 종이에 쓰신 글도 사진으로 불러올 수 있어요</small></span></li>
+      <li><span class="n">3</span><span>이름을 남기면 바로 보고, 인쇄하거나 파일로 저장해요</span></li>
+    </ol>
+  </div>
+
+  <div class="sec">
+    <h2>끝나면 남는 것</h2>
+    <ul class="left">
+      <li><b>한 편의 기록</b> — 이름이 새겨진 이야기 한 편</li>
+      <li><b>열 편이 모이면</b> — 한 사람의 삶이 담긴 자서전</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>알아두실 것</h2>
+    <div class="note">받은 날부터 1년 동안 이용하실 수 있어요.<br>마지막 이야기를 마치신 날부터 90일 동안 화면에서 다시 보고 내려받으실 수 있어요. 그 사이 파일로 저장해 두세요.<br>이야기를 여시면 그 이야기는 환불되지 않아요.</div>
+  </div>
+
+  <div class="buy">
+    <span class="won"><span data-lf-price="LF-R001">79,000원</span><small>한 편의 기록</small></span>
+    <button type="button" onclick="location.href='/pay.html?item=memoir'">구매하기</button>
   </div>
 </div>
 
@@ -238,25 +281,14 @@ body.k-set .p-set,body.k-life .p-life{display:block}
   <div class="smp-h">이렇게 받아 보세요</div>
   <div class="smp-n">실제 결과물 견본이에요 · 아래로 내려 보세요</div>
 
-  <div class="card type">
-    <div class="clb">하나 · 마음 여행지도</div>
-    <div class="ci">🌋</div>
-    <div class="cn">화산 여행자</div>
-    <div class="cf">불꽃을 품은 화산형</div>
-    <div class="cc">이 뜨거움은 사랑에서 나온 것입니다.<br>그런데 왜 이렇게 됐는지, 그 이유가<br>아직 번역되지 않았습니다.</div>
-  </div>
-
-  <div class="card letter">
-    <div class="clb">둘 · 마음 여행편지</div>
-    <div class="lz1">여행은 끝났습니다.<br>하지만 아직, 하지 못한 말이 남았습니다.</div>
-    <div class="paper"><div class="to">사랑하는 엄마에게</div>엄마.<br>그동안 한 번도 말하지<br>못했던 이야기를…</div>
-  </div>
-
-  <div class="card memo">
-    <div class="clb">셋 · 한 편의 기록</div>
-    <div class="poem">살아온 이야기 하나가<br>글 한 편으로 남습니다.</div>
-    <div class="mz"><img src="/memoir/samples/cover.png" alt="한 편의 기록 표지 견본" loading="lazy"><img src="/memoir/samples/ch1.png" alt="한 편의 기록 본문 견본" loading="lazy"></div>
-    <div class="what">견본입니다. 실제 기록은 들려주신 이야기로 채워집니다.</div>
+  <div class="card">
+    <div class="poem" style="margin-top:0">지도 · 편지 · 기록,<br>셋이 함께 남습니다.</div>
+    <div class="trio">
+      <div class="tc t1"><small>지도</small><span class="e">🌋</span><b>화산 여행자</b></div>
+      <div class="tc t2"><small>편지</small><div class="pp">사랑하는 엄마에게<br>엄마. 그동안…</div></div>
+      <div class="tc t3"><small>기록</small><img src="/memoir/samples/cover.png" alt="한 편의 기록 표지 견본" loading="lazy"></div>
+    </div>
+    <div class="what">견본입니다. 실제 결과물은 들려주신 마음과 이야기로 채워집니다.</div>
   </div>
 
   <div class="sec">
@@ -294,20 +326,13 @@ body.k-set .p-set,body.k-life .p-life{display:block}
     <button type="button" onclick="location.href='/pay.html?item=life'">구매하기</button>
   </div>
 
-  <div class="more">
-    <h2>다른 여행도 보기</h2>
-    <a href="/item/?k=map"><b>마음 여행지도</b><span>지도만 먼저 ›</span></a>
-    <a href="/item/?k=set"><b>마음여행</b><span>지도 + 그 사람에게 편지 ›</span></a>
-    <a href="/memoir/"><b>한 편의 기록</b><span>나의 이야기 한 편 ›</span></a>
-  </div>
 </div>
 
 </div>
 <script>
 (function(){
   var k=(location.search.match(/[?&]k=([a-z]+)/)||[])[1]||'map';
-  if(k==='memoir'){ location.replace('/memoir/'); return; }
-  var T={map:'마음 여행지도',set:'마음여행',life:'두 분의 여정'};
+  var T={map:'마음 여행지도',set:'마음여행',memoir:'한 편의 기록',life:'두 분의 여정'};
   if(!T[k]) k='map';
   document.body.classList.add('k-'+k);
   document.body.setAttribute('data-lf-title',T[k]);
