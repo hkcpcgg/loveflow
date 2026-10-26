@@ -1,0 +1,150 @@
+<!-- ★ 현재 버전 ▶ item/index.html · v1 · 261026 · [칸 4-나 ② 시험판 · 대표 OK 261026 11:03(그림 시안)] 상품 하나를 처음 온 분 눈높이로 설명하는 화면 — /item/?k=map. 차례: 한 줄 물음 → 견본(위아래로 · 옆으로 밀지 않음) → 이런 여행입니다 → 이렇게 진행돼요 → 끝나면 남는 것 → 알아두실 것 → 값 · 구매하기 → 다른 여행. 말은 지금 사이트에 있는 것만(견본 = showroom · 1년 이용 · 디지털 = pay · 열기 전 전액 환불 = trust · 답할 때마다 저장 = journey). 관계흐름증명서는 마음 여행지도만으로 받는지 [확인 안 됨]이라 뺌. 물음 수 · 걸리는 시간은 소스로 단정 못 해 뺌. 지금은 마음 여행지도 하나만 · 검색 막음(시험판). -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<script src="/lf/pass.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>마음 여행지도 · 사랑흐름</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--cream:#FFFCF7;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;--navy:#1E4A76;--gold:#C9A227;--serif:'Noto Serif KR',serif}
+html,body{margin:0;background:var(--cream);color:var(--ink);font-family:'Noto Sans KR',system-ui,sans-serif;word-break:keep-all;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+.wrap{max-width:460px;margin:0 auto;padding:22px 18px 30px}
+.lead{text-align:center;margin:6px 0 20px}
+.lead h1{font-family:var(--serif);font-size:23px;line-height:1.45;color:var(--navy);margin:0;font-weight:700}
+.lead p{font-size:15px;color:#5E5A52;line-height:1.7;margin:8px 0 0}
+.smp-h{text-align:center;font-size:12px;font-weight:800;letter-spacing:.12em;color:var(--gold);margin:4px 0 10px}
+.smp-n{text-align:center;font-size:12px;color:var(--sub);margin:-2px 0 12px}
+.card{background:#fff;border:1.5px solid var(--line);border-radius:18px;padding:20px 18px;box-shadow:0 6px 20px rgba(0,0,0,.05);margin-bottom:12px}
+.card .clb{font-size:10.5px;font-weight:800;letter-spacing:.14em;color:var(--gold);text-align:center}
+.card.type{background:linear-gradient(150deg,#1E4A76,#0F1B2D);border:none}
+.card.type .clb{color:rgba(201,162,39,.85)}
+.card.type .ci{font-size:44px;text-align:center;margin:10px 0 4px}
+.card.type .cn{font-size:22px;font-weight:900;color:#fff;text-align:center}
+.card.type .cf{font-size:12px;color:var(--gold);text-align:center;font-weight:700;margin-top:4px}
+.card.type .cc{font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.85;text-align:center;margin-top:12px;font-style:italic}
+.card .poem{font-family:var(--serif);font-size:15px;color:var(--navy);text-align:center;line-height:1.7;margin:12px 0 10px}
+.card .what{font-size:13px;color:#5E5A52;text-align:center;line-height:1.7;margin-top:10px;padding-top:10px;border-top:1px dashed var(--line)}
+.ax .ar{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;font-weight:700}
+.ax .bar{height:7px;background:#F0ECE2;border-radius:5px;overflow:hidden;margin-bottom:9px}
+.ax .fill{height:100%;background:linear-gradient(90deg,#C9A227,#1E4A76);border-radius:5px}
+.stampC{width:110px;height:110px;border-radius:50%;border:2.5px dashed var(--gold);display:flex;flex-direction:column;align-items:center;justify-content:center;margin:10px auto 0;background:#FEFCF6}
+.stampC .se{font-size:26px}.stampC .sn{font-size:14px;font-weight:900;color:#A8880A;margin-top:2px}.stampC .ss{font-size:11px;color:var(--sub)}
+.sec{margin:26px 2px 0}
+.sec h2{font-size:16px;font-weight:800;color:var(--navy);margin:0 0 8px}
+.sec p{font-size:15px;line-height:1.8;margin:0}
+.steps{list-style:none;padding:0;margin:0}
+.steps li{display:flex;gap:12px;align-items:flex-start;font-size:15px;line-height:1.7;margin-bottom:10px}
+.steps .n{flex:0 0 28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.steps small{display:block;color:var(--sub);font-size:13px}
+.left{list-style:none;padding:0;margin:0}
+.left li{font-size:15px;line-height:1.7;padding:8px 0;border-bottom:1px solid var(--line)}
+.left li:last-child{border-bottom:0}
+.left b{color:var(--navy)}
+.note{font-size:14px;color:#5E5A52;line-height:1.8;background:#F6F1E8;border-radius:14px;padding:14px 16px}
+.buy{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:28px 0 0;padding:16px 18px;background:#fff;border:1.5px solid var(--navy);border-radius:18px}
+.buy .won{font-size:21px;font-weight:800;color:var(--navy)}
+.buy .won small{display:block;font-size:12px;font-weight:500;color:var(--sub)}
+.buy button{border:0;background:var(--navy);color:#fff;font-weight:800;font-size:16px;border-radius:14px;padding:13px 26px}
+.more{margin-top:28px}
+.more h2{font-size:15px;font-weight:800;color:var(--navy);margin:0 0 8px}
+.more a{display:flex;justify-content:space-between;align-items:center;text-decoration:none;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px 16px;margin-bottom:8px;font-size:15px}
+.more a span{color:var(--sub);font-size:13px}
+.more a b{font-weight:700}
+</style>
+</head>
+<body data-lf-title="마음 여행지도">
+<div class="wrap">
+
+  <div class="lead">
+    <h1>그 사람과 나,<br>지금 어디쯤일까요?</h1>
+    <p>물음에 답하면, 두 사람 사이의 마음이<br>지도 한 장으로 그려집니다.</p>
+  </div>
+
+  <div class="smp-h">이렇게 받아 보세요</div>
+  <div class="smp-n">실제 결과물 견본이에요 · 아래로 내려 보세요</div>
+
+  <div class="card type">
+    <div class="clb">여행자 유형</div>
+    <div class="ci">🌋</div>
+    <div class="cn">화산 여행자</div>
+    <div class="cf">불꽃을 품은 화산형</div>
+    <div class="cc">이 뜨거움은 사랑에서 나온 것입니다.<br>그런데 왜 이렇게 됐는지, 그 이유가<br>아직 번역되지 않았습니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="clb">다섯 갈래 마음 흐름</div>
+    <div class="poem">그날의 마음은<br>다섯 갈래 길로 남았습니다.</div>
+    <div class="ax">
+      <div class="ar"><span>관심</span><span>72%</span></div><div class="bar"><div class="fill" style="width:72%"></div></div>
+      <div class="ar"><span>연결</span><span>60%</span></div><div class="bar"><div class="fill" style="width:60%"></div></div>
+      <div class="ar"><span>온기</span><span>81%</span></div><div class="bar"><div class="fill" style="width:81%"></div></div>
+      <div class="ar"><span>표현</span><span>67%</span></div><div class="bar"><div class="fill" style="width:67%"></div></div>
+      <div class="ar"><span>회복</span><span>54%</span></div><div class="bar"><div class="fill" style="width:54%"></div></div>
+    </div>
+    <div class="what">관심 · 연결 · 온기 · 표현 · 회복 — 내 마음이 어디에 많이 가 있고, 어디가 비어 있는지 보여 줍니다.</div>
+  </div>
+
+  <div class="card">
+    <div class="clb">이 관계의 계절</div>
+    <div class="stampC"><span class="se">🌱</span><span class="sn">봄</span><span class="ss">새로운 연결</span></div>
+    <div class="poem" style="font-size:14px">막 피어나는 새싹처럼,<br>새로운 연결의 기운이 돌고 있어요.</div>
+  </div>
+
+  <div class="card">
+    <div class="clb">오늘 가장 오래 머문 마음</div>
+    <div class="poem" style="font-size:17px;margin:16px 0 6px">“고맙다는 말을,<br>끝내 하지 못했습니다.”</div>
+    <div class="what">답하는 동안 가장 오래 머문 물음을, 사랑흐름이 조용히 기억해 둡니다.</div>
+  </div>
+
+  <div class="sec">
+    <h2>이런 여행입니다</h2>
+    <p>어머니, 배우자, 자녀처럼 마음에 걸리는 한 사람을 떠올리고 휴대폰으로 물음에 하나씩 답합니다. 맞고 틀린 답은 없습니다. 검사나 진단이 아닙니다.</p>
+  </div>
+
+  <div class="sec">
+    <h2>이렇게 진행돼요</h2>
+    <ol class="steps">
+      <li><span class="n">1</span><span>구매하면 나의 사랑흐름 여권 번호를 받아요</span></li>
+      <li><span class="n">2</span><span>그 사람을 떠올리며 물음에 답해요<small>답할 때마다 저장돼요 · 쉬었다가 이어서 해도 돼요</small></span></li>
+      <li><span class="n">3</span><span>다 마치면 바로 나의 마음 여행지도가 열려요</span></li>
+    </ol>
+  </div>
+
+  <div class="sec">
+    <h2>끝나면 남는 것</h2>
+    <ul class="left">
+      <li><b>여행자 유형</b> — 나는 이 관계에서 어떤 여행자인지</li>
+      <li><b>다섯 갈래 마음 흐름</b> — 관심 · 연결 · 온기 · 표현 · 회복</li>
+      <li><b>이 관계의 계절</b> — 지금 두 사람 사이는 어느 계절인지</li>
+      <li><b>가장 오래 머문 마음</b> — 오늘 여행에서 남은 한 줄</li>
+    </ul>
+  </div>
+
+  <div class="sec">
+    <h2>알아두실 것</h2>
+    <div class="note">받은 날부터 1년 동안 이용하실 수 있어요.<br>휴대폰에서 보는 디지털 결과물이에요.<br>결과를 열어 보기 전이면 전액 환불돼요.</div>
+  </div>
+
+  <div class="buy">
+    <span class="won"><span data-lf-price="LF-M001">19,900원</span><small>마음 여행지도</small></span>
+    <button type="button" onclick="location.href='/pay.html?item=map'">구매하기</button>
+  </div>
+
+  <div class="more">
+    <h2>다른 여행도 보기</h2>
+    <a href="/travel/"><b>마음여행</b><span>지도 + 그 사람에게 편지 ›</span></a>
+    <a href="/memoir/"><b>한 편의 기록</b><span>나의 이야기 한 편 ›</span></a>
+    <a href="/travel/"><b>두 분의 여정</b><span>지도 · 편지 · 기록까지 ›</span></a>
+  </div>
+
+</div>
+<script src="/lf/prices.js" defer></script>
+<script src="/lf-foot.js" defer></script>
+<script src="/lf/frame.js?v=16"></script>
+</body>
+</html>
