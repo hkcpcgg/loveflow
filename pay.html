@@ -1,3 +1,4 @@
+<!-- ★ 현재 버전 ▶ pay.html · v14-53 · 261026 · [토스 카드 결제 · 대표 OK 261026 19:31 · 토스 계약 완료 261026 · MID gsiteshcz6] ①클라이언트 키를 라이브(live_ck_)로. ②결제창에서 돌아오면 발권 서버(M1A · tossConfirm.gs v1)에 승인을 요청 — 서버가 금액을 상품 값과 대조하고 토스 승인까지 마친 뒤에만 「결제가 완료되었습니다」. ③완료 화면에 「사랑흐름 여권 발급받기」 → gate(구입처 카드결제 · 주문번호 미리 채움 · 바로 받기). 카드 길의 「확인 후 카카오톡 · 문자로 보내드려요」 두 자리 고침(카드 길에서는 연락처를 받지 않음). ④실패 · 취소면 토스가 준 까닭을 함께 보임. [무손] 상품 · 금액 · 편 수 · 동의 · 계좌이체 · 오픈마켓 · 그 밖 전부. -->
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
 <!-- ★ 현재 버전 ▶ pay.html · v14-52 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) pay.html · v14-51 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
@@ -452,7 +453,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="sec-t">바로 결제하기</div>
     <p class="g">카드·간편결제로 지금 바로 결제하실 수 있어요.</p>
     <button class="btn btn-navy" id="tossPayBtn" onclick="payWithToss()">카드로 결제하기</button>
-    <p class="g" style="margin-top:10px">결제해 주시면 확인 후 카카오톡·문자로 사랑흐름 여권번호를 보내드려요.</p>
+    <p class="g" style="margin-top:10px">결제를 마치시면 바로 사랑흐름 여권번호를 받으실 수 있어요.</p>
     <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
       <p class="g">다른 방법으로 결제하시려면</p>
       <button class="btn btn-naver" onclick="choosePath('online')"><span class="n">N</span> 오픈마켓(네이버)으로 결제하기</button>
@@ -742,13 +743,15 @@ function go(k){
 }
 
 /* ===== 토스페이먼츠 결제창 (v14-10) =====
-   ★ TOSS_CLIENT_KEY = 사랑흐름 상점 테스트용 클라이언트 키(API 개별 연동 키).
+   ★[v14-53 · 261026] 라이브 키(API 개별 연동 키 · live_ck_) — 토스 계약 완료. 카드사는 심사가 끝난 곳부터 결제됨.
+     승인(돈이 실제로 나가는 단계)은 발권 서버 tossConfirm.gs 가 시크릿 키로 합니다.
+   (이전) TOSS_CLIENT_KEY = 사랑흐름 상점 테스트용 클라이언트 키(API 개별 연동 키) test_ck_DpexMgkW36b6dZ5zDWXB3GbR5ozO.
      ※결제위젯 키(중간 gck)가 아니라 결제창용 키(중간 ck)여야 함 — v14-9에서 위젯키 넣어 401 났던 지점.
      실결제 전환 시 같은 자리에 live_ck_ 키로 교체.
    ★시크릿 키(test_sk_/live_sk_)는 이 파일에 절대 넣지 말 것(브라우저 노출).
    ★오늘 범위 = 결제창이 뜨는 것까지(카드사 심사용).
      결제 승인 API·여권 자동발급은 다음 별건(GAS·gate 무손). */
-var TOSS_CLIENT_KEY = 'test_ck_DpexMgkW36b6dZ5zDWXB3GbR5ozO';
+var TOSS_CLIENT_KEY = 'live_ck_nRQoOaPz8LEovWPx0WGN3y47BMw6';
 
 function makeOrderId(){
   var s = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -785,21 +788,82 @@ function payWithToss(){
   }
 }
 
-/* 결제창에서 돌아왔을 때 안내 */
+/* ===== 결제창에서 돌아왔을 때 (v14-53) =====
+   토스는 successUrl 에 paymentKey · orderId · amount 를 붙여 돌려보냅니다.
+   이 단계까지는 카드 인증만 된 것 — 발권 서버(M1A · tossConfirm)가 승인해야 결제가 끝납니다.
+   ★새로고침해도 같은 주문을 두 번 긋지 않습니다(서버가 「토스결제」 탭을 보고 이미 승인됐으면 그대로 돌려줌). */
+var LF_PAY_GAS = 'https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A/exec';
+var LF_CARD_CH = '사랑흐름(카드결제)';   /* gate · 발권 서버 CH_CARD 와 같은 저장값 */
+
+function lfPaidBox(html){
+  choosePath('toss');
+  /* 결제 뒤에는 동의 상자 · 「다른 여행으로 바꾸기」를 걷음 — 이미 동의하고 결제한 화면 */
+  ['privAgree', 'memoirAgree', 'plistT', 'plist'].forEach(function(id){ var el = document.getElementById(id); if (el) { el.style.display = 'none'; } });
+  var box = document.getElementById('pathToss');
+  if (box) { box.innerHTML = html; }
+  try { box.scrollIntoView({ block: 'center' }); } catch (e) { }
+  return box;
+}
+function lfPayEsc(t){ return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return '&#' + c.charCodeAt(0) + ';'; }); }
+function lfPayFail(msg){
+  lfPaidBox('<div class="sec-t">결제가 완료되지 않았습니다</div>'
+    + '<p class="g">' + lfPayEsc(msg || '잠시 후 다시 시도해 주세요.') + '</p>'
+    + '<a class="btn btn-navy" href="/pay.html?item=' + encodeURIComponent(ITEM) + '">다시 결제하기</a>'
+    + '<a class="kakao-mini" href="' + LINK.kakao + '" target="_blank" rel="noopener">카카오톡으로 문의하기</a>');
+}
+function lfPayDone(res){
+  var go = '/gate.html?ch=' + encodeURIComponent(LF_CARD_CH)
+         + '&no=' + encodeURIComponent(res.orderId)
+         + '&item=' + encodeURIComponent(res.item || ITEM)
+         + '&agree=1';
+  lfPaidBox('<div class="sec-t">결제가 완료되었습니다</div>'
+    + '<p class="g">' + lfPayEsc(P ? P.name : '') + (res.pieces > 1 ? ' ' + res.pieces + '편' : '')
+    + ' · ' + Number(res.amount || 0).toLocaleString() + '원<br>주문번호 ' + lfPayEsc(res.orderId) + '</p>'
+    + '<a class="btn btn-navy" href="' + go + '">사랑흐름 여권 발급받기</a>'
+    + (res.receipt ? '<a class="g" style="display:block;text-align:center;text-decoration:underline" href="' + lfPayEsc(res.receipt) + '" target="_blank" rel="noopener">카드 영수증 보기</a>' : ''));
+}
 (function(){
   var paid = _q.get('paid');
   if (paid === '1') {
+    var pk = _q.get('paymentKey') || '', oid = _q.get('orderId') || '', amt = _q.get('amount') || '';
     setTimeout(function(){
-      choosePath('toss');
-      var box = document.getElementById('pathToss');
-      if (box) {
-        box.innerHTML = '<div class="sec-t">결제해 주셔서 고맙습니다</div>'
-          + '<p class="g">확인 후 카카오톡·문자로 사랑흐름 여권번호를 보내드려요.<br>번호를 받으시면 여행을 시작하실 수 있어요.</p>'
-          + '<a class="kakao-mini" href="' + LINK.kakao + '" target="_blank" rel="noopener">카카오톡으로 문의하기</a>';
-      }
+      if (!pk || !oid || !amt) { lfPayFail('결제 정보를 받지 못했어요. 카드에서 돈이 나갔다면 카카오톡으로 알려 주세요.'); return; }
+      lfPaidBox('<div class="sec-t">결제를 확인하는 중입니다…</div><div id="lfPayWait"></div>');
+      try { if (window.LFFlow) { LFFlow.wave(document.getElementById('lfPayWait')); } } catch (e) { }
+      var cb = 'lfpay' + Date.now(), done = false;
+      var timer = setTimeout(function(){
+        if (done) return; done = true;
+        try { delete window[cb]; } catch (e) { }
+        lfPayFail('확인이 늦어지고 있어요. 이 화면을 새로고침해 주세요. 같은 결제가 두 번 되지 않아요.');
+      }, 25000);
+      window[cb] = function(res){
+        if (done) return; done = true; clearTimeout(timer);
+        try { delete window[cb]; } catch (e) { }
+        if (res && res.status === 'ok' && res.orderId) {
+          try { gtag('event', 'purchase', { transaction_id: res.orderId, value: Number(res.amount), currency: 'KRW', items: [{ item_id: res.item }] }); } catch (e) { }
+          lfPayDone(res);
+        } else {
+          lfPayFail(res && res.msg);
+        }
+      };
+      var s = document.createElement('script');
+      s.src = LF_PAY_GAS + '?action=tossConfirm'
+        + '&paymentKey=' + encodeURIComponent(pk)
+        + '&orderId=' + encodeURIComponent(oid)
+        + '&amount=' + encodeURIComponent(amt)
+        + '&callback=' + cb;
+      s.onerror = function(){
+        if (done) return; done = true; clearTimeout(timer);
+        lfPayFail('연결에 실패했어요. 이 화면을 새로고침해 주세요. 같은 결제가 두 번 되지 않아요.');
+      };
+      document.body.appendChild(s);
     }, 60);
   } else if (paid === '0') {
-    setTimeout(function(){ choosePath('toss'); showToast('결제가 완료되지 않았어요'); }, 60);
+    var why = _q.get('message') || '';
+    var cancel = (_q.get('code') === 'PAY_PROCESS_CANCELED');
+    setTimeout(function(){
+      lfPayFail(cancel ? '결제를 취소하셨어요. 카드에서 돈은 나가지 않았어요.' : ((why ? why + ' ' : '') + '카드에서 돈은 나가지 않았어요.'));
+    }, 60);
   }
 })();
 
