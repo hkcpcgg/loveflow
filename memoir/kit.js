@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v13 · 261006 — ★[대표 위임 261006 17:08 · 홍보 자료실 → 화면] ⑤ LFM.wait 기다리는 물결 — 흐르는 글을 「관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름」으로(사랑흐름은 주황 굵게) · 물결 줄을 초록 → 주황 번짐 띠로. ⑥ LFM.grapes 새로 찬 알 — 차오름 1.6초 → 3.2초 · 둘레 빛 2.4초 → 4.2초(대표 「너무 빨라 · 여운 있게」). [무손] 그 밖 전부.
+   현재 버전 ▶ memoir/kit.js · v14 · 261027 — ★[본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] ④ LFM.consent — 여권조회(ZJ9X)가 「만료」(결제가 취소된 여권 · expired)로 답하면 동의 화면만 건너뛰고 그냥 들여보내던 것 → 결제취소 안내 판(/lf/canceled.js · 닫기 없음)을 띄우고 멈춤(go 를 부르지 않음). 자서전 서버 v48 도 같은 여권을 CANCELED 로 막음. [무손] 그 밖 전부.
+   ── 이전 ── v13 · 261006 — ★[대표 위임 261006 17:08 · 홍보 자료실 → 화면] ⑤ LFM.wait 기다리는 물결 — 흐르는 글을 「관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름」으로(사랑흐름은 주황 굵게) · 물결 줄을 초록 → 주황 번짐 띠로. ⑥ LFM.grapes 새로 찬 알 — 차오름 1.6초 → 3.2초 · 둘레 빛 2.4초 → 4.2초(대표 「너무 빨라 · 여운 있게」). [무손] 그 밖 전부.
    ── 이전 ── v12 · 261004 — ★[자서전 공사 칸 27-3 화면 알맹이] 종이 불러오기 · 내 AI로 맞춤법 창 — 이모지(📷📄📋🤖📥🔍🌿✨⚠) → 선 아이콘 동그라미(kIc) · 단추 색 살구 → 네이비(살구는 단추 바탕에 안 씀) · 무게 순서(PDF 고르기 위 테두리 · 사진 찍기 아래 네이비 / 처음 글 그대로 두기 위 · 이대로 바꾸기 아래) · 단추 안 화살표 걷음(되돌아가기 줄은 「‹」) · 「부탁 글」→「살펴볼 글」(금지어). [무손] 글자 인식 · 서버 · 맞춤법 비교 · 관계 판(이모지 갈래는 대표 결정 대기).
    ── 이전 ── v11 · 261004 — ★[묶음 C 청소년 · 이사회 32차 · 35차 결의 2 · 대표 지시 261004] ⑨ LFM.youth(pp, flag) — 청소년 질문지(Y-)면 부르는 말 「○○ 님」(HONOR 「님」) · 이 기기에 번호별로 기억(lf_y_번호) · html 에 lf-youth — class="ny" 숨김 · class="oy" 청소년만 보임 · LFM.title 청소년 갈래(여덟을 마치면 작은 줄 「미리 써 보는」 + 「○○의 자서전」 · pre). ⑩ LFM.REL 관계 떠올리기 판(어른 아홉 갈래 · 청소년 여섯 갈래 · 갈래마다 단추 · 묻는 한 줄 높임 · 친구 사이) · LFM.relGroup(이름) · LFM.relHintKey(갈래). [무손] 그 밖 전부.
    ── 이전 ── v10 · 261004 — ★[묶음 B 고침 · 대표 지시 261004 「지시형 · 큰 글씨 · 로그인 안내 · 따라 하기 영상」] ⑧ aifix 네 걸음 문구를 지시형으로 · ② 번호 걸음 넷(AI 단추 · 로그인 · 붙여넣기 · 복사해 돌아오기) · ⚠ 두 줄 · 「로그인이 어려우면 안내자에게 말씀하세요」 · 「안내자와 함께라면」 줄 걷음 · ▶ 따라 하기 영상 자리(LF_VID — 주소 넣은 자리만 보임 · 사진 불러오기 두 화면에도). [무손] 그 밖 전부.
@@ -154,6 +155,15 @@
     function fin(){ if (done) { return; } done = true; try { delete window[cb]; } catch (e) {} go(); }
     window[cb] = function(res){
       if (done) { return; }
+      if (res && res.ok && res.expired === true) {   /* ★v14 결제가 취소된 여권 */
+        done = true;
+        try { delete window[cb]; } catch (e) {}
+        try { sessionStorage.removeItem('lf_consent_' + pp); } catch (e) {}
+        var show = function(){ try { window.lfCanceled(pp, { closable: false }); } catch (e) {} };
+        if (window.lfCanceled) { show(); }
+        else { var cs = document.createElement('script'); cs.src = '/lf/canceled.js?v=1'; cs.onload = show; (document.head || document.body).appendChild(cs); }
+        return;
+      }
       if (res && res.ok && res.needConsent === true) {
         done = true;
         location.href = '/consent.html?id=' + encodeURIComponent(pp) + '&next=' + encodeURIComponent(location.pathname + location.search);
