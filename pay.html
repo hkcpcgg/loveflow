@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ pay.html · v14-53 · 261026 · [토스 카드 결제 · 대표 OK 261026 19:31 · 토스 계약 완료 261026 · MID gsiteshcz6] ①클라이언트 키를 라이브(live_ck_)로. ②결제창에서 돌아오면 발권 서버(M1A · tossConfirm.gs v1)에 승인을 요청 — 서버가 금액을 상품 값과 대조하고 토스 승인까지 마친 뒤에만 「결제가 완료되었습니다」. ③완료 화면에 「사랑흐름 여권 발급받기」 → gate(구입처 카드결제 · 주문번호 미리 채움 · 바로 받기). 카드 길의 「확인 후 카카오톡 · 문자로 보내드려요」 두 자리 고침(카드 길에서는 연락처를 받지 않음). ④실패 · 취소면 토스가 준 까닭을 함께 보임. [무손] 상품 · 금액 · 편 수 · 동의 · 계좌이체 · 오픈마켓 · 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ pay.html · v14-54 · 261027 · [본부 ③ 칸 2 · 469 · 대표 OK 261027 13:05] 「시작 전 알아두실 사항」을 네 상품 모두에 띄움 — 마음 여행지도 · 마음여행은 청약철회 제한 고지가 없었음(환불정책 제2조② 「결제 전 고지 · 동의를 받은 경우에만 제한」). 지도 두 상품 줄은 자서전 줄(v14-47 약관 확정)과 같은 꼴: 지도 = 「여행지도 결과를 여시면 …」 · 마음여행 = 「여행지도 결과나 편지를 여시면 …」 + 「오류나 하자가 있으면 환불해 드려요」. 네 상품 모두 「위 안내를 읽고 동의합니다」를 체크해야 결제 길이 열림. 자서전 두 상품 줄은 그대로. 토스 심사 반려 항목(사업자정보 · 연락처 · 카테고리 · 판매 상태 · 값 · 주소) 안 건드림. ★카드 길 동의 기록(서버)은 칸 3 · 472. [무손] 그 밖 v14-53 전부. -->
+<!-- (이전) pay.html · v14-53 · 261026 · [토스 카드 결제 · 대표 OK 261026 19:31 · 토스 계약 완료 261026 · MID gsiteshcz6] ①클라이언트 키를 라이브(live_ck_)로. ②결제창에서 돌아오면 발권 서버(M1A · tossConfirm.gs v1)에 승인을 요청 — 서버가 금액을 상품 값과 대조하고 토스 승인까지 마친 뒤에만 「결제가 완료되었습니다」. ③완료 화면에 「사랑흐름 여권 발급받기」 → gate(구입처 카드결제 · 주문번호 미리 채움 · 바로 받기). 카드 길의 「확인 후 카카오톡 · 문자로 보내드려요」 두 자리 고침(카드 길에서는 연락처를 받지 않음). ④실패 · 취소면 토스가 준 까닭을 함께 보임. [무손] 상품 · 금액 · 편 수 · 동의 · 계좌이체 · 오픈마켓 · 그 밖 전부. -->
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
 <!-- ★ 현재 버전 ▶ pay.html · v14-52 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) pay.html · v14-51 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
@@ -414,7 +415,8 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 
   <div class="magree hidden" id="memoirAgree">
     <div class="magree-t">시작 전 알아두실 사항</div>
-    <ul class="magree-list">
+    <ul class="magree-list hidden" id="agreeMap"><li id="agreeMapLi"></li></ul><!-- ★[v14-54] 마음 여행지도 · 마음여행 -->
+    <ul class="magree-list" id="agreeMemoir">
       <li>질문에 답하시며 이야기를 남기시면, 그 이야기로 한 편의 기록을 만들어 드려요.</li>
       <li>남기신 이야기는 고치지 않고 쓰신 그대로 담아요.</li>
       <li>보내주신 사진은 기록을 만드는 데만 쓰고, 기록과 함께 보관했다가 기록을 지울 때 함께 지워요(마지막 이야기를 마치신 날부터 90일).</li>
@@ -675,11 +677,18 @@ function pickItem(k){
     _faq.parentNode.insertBefore(L, _faq);
   }
   resetPath();
-  var need = (k === 'memoir' || k === 'life');
+  var need = true;                                           /* ★[v14-54] 네 상품 모두 「시작 전 알아두실 사항」 동의 */
+  var isMemo = (k === 'memoir' || k === 'life');
   var ag = document.getElementById('memoirAgree');
   var chk = document.getElementById('agreeChk');
   if (chk) chk.checked = false;
-  if (ag) ag.classList.toggle('hidden', !need);
+  if (ag) ag.classList.remove('hidden');
+  var _am = document.getElementById('agreeMap'), _ae = document.getElementById('agreeMemoir'), _al = document.getElementById('agreeMapLi');
+  if (_am) _am.classList.toggle('hidden', isMemo);
+  if (_ae) _ae.classList.toggle('hidden', !isMemo);
+  if (_al) _al.textContent = (k === 'set')
+    ? '여행지도 결과나 편지를 여시면 청약철회가 제한될 수 있어요. 오류나 하자가 있으면 환불해 드려요.'
+    : '여행지도 결과를 여시면 청약철회가 제한될 수 있어요. 오류나 하자가 있으면 환불해 드려요.';
   var pa = document.getElementById('privAgree');           /* ★[v14-41] */
   if (pa) pa.classList.remove('hidden');
   var _pc = document.getElementById('privChk');             /* onAgree 는 아래 스크립트에 있어 여기선 직접 잠급니다 */
@@ -1363,7 +1372,7 @@ function lfPrivOk(){ var p=document.getElementById('privChk'); return !!(p && p.
 function onAgree(){
   /* ★[v14-41] 개인정보 [필수] 동의 + (자서전 두 상품이면) 이용 안내 동의 — 둘 다 돼야 결제 길이 열립니다 */
   var k = (typeof ITEM !== 'undefined') ? ITEM : '';
-  var need = (k === 'memoir' || k === 'life');
+  var need = !!k;                                           /* ★[v14-54] 네 상품 모두 */
   var ok = document.getElementById('agreeChk');
   var open = lfPrivOk() && (!need || (ok && ok.checked));
   var ch = document.getElementById('choice'); if(ch) ch.classList.toggle('locked', !open);

@@ -1,5 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/enter.js · v16 · 261005 — ★[칸 27-4 · 대표 실폰 확인] 첫 주소(/)가 안내 홈이 되어 번호 칸을 그리지 않습니다(홈 맨 아래 「사랑흐름 여권번호로 문을 엽니다」가 한 벌 더 붙던 것). 편지 입구 · 발권은 그대로.
+   현재 버전 ▶ lf/enter.js · v17 · 261027 — ★[본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(조회 답 expired)을 「번호를 찾지 못했어요」로 보내던 것 →
+     안내 판(/lf/canceled.js · 닫기 있음)을 띄우고 칸에 「결제가 취소된 사랑흐름 여권입니다」. 기억해 둔 번호면 기억을 지웁니다. [무손] 그 밖 v16 전부.
+   ── 이전 ── v16 · 261005 — ★[칸 27-4 · 대표 실폰 확인] 첫 주소(/)가 안내 홈이 되어 번호 칸을 그리지 않습니다(홈 맨 아래 「사랑흐름 여권번호로 문을 엽니다」가 한 벌 더 붙던 것). 편지 입구 · 발권은 그대로.
    ── 이전 ── v15 · 261003 — ★[자서전 공사 칸 25-2 · 이슈 31] 자서전 소개 화면(/memoir/)에서는 이 번호 칸을 그리지 않습니다.
      그 화면이 자기 입구(번호 하나 → 확인 → 바로 맞는 문)를 갖게 되어, 두 벌이 되고 「어느 여행을 이어가시겠어요(지도 · 편지 · 기록)」 고르기가
      자서전 소개에 나오던 것을 걷습니다. 홈 · 편지 입구 · 발권은 그대로. [무손] 그 밖 한 글자도 안 바꿨습니다.
@@ -314,6 +316,7 @@
       try { delete window[cb]; } catch (e) { window[cb] = undefined; }
       if (!res || !res.ok) { return; }
       if (pp !== PP) { return; }                     /* ★[v11] 늦게 온 옛 번호의 답은 버립니다 */
+      if (res.expired) { canceled(pp); return; }     /* ★[v17] 결제가 취소된 여권 */
       if (!ownsAny(res)) {                           /* ★[v11] 찾을 수 없는 번호 */
         unknown(pp); return;
       }
@@ -327,6 +330,26 @@
     sc.src = GAS + '?action=have&id=' + encodeURIComponent(pp) + '&callback=' + cb;
     sc.onerror = function () { try { delete window[cb]; } catch (e) {} basic(); };   /* [260810] ★문은 그대로 */
     document.body.appendChild(sc);
+  }
+
+  /* ★[v17] 결제가 취소된 여권 — 안내 판(/lf/canceled.js)을 띄우고 칸에도 한 줄 */
+  function canceled(pp) {
+    DATA = null;
+    if (!TYPED) { forget(pp); PP = ''; }
+    var box = document.getElementById('lfeBox');
+    var btns = document.getElementById('lfeBtns');
+    var note = document.getElementById('lfeNote');
+    var pel = document.getElementById('lfePp');
+    if (box) { box.style.display = 'block'; }
+    if (pel) { pel.textContent = ''; }
+    if (btns) { btns.innerHTML = ''; }
+    if (note) { note.innerHTML = '<b>' + pp + '</b> 결제가 취소된 사랑흐름 여권입니다.'; }
+    function show() { if (window.lfCanceled) { window.lfCanceled(pp, { closable: true }); } }
+    if (window.lfCanceled) { show(); return; }
+    var s = document.createElement('script');
+    s.src = '/lf/canceled.js?v=1';
+    s.onload = show;
+    document.body.appendChild(s);
   }
 
   /* ★[v11] 찾을 수 없는 번호 — 기억에서 온 것이면 지우고 칸을 비웁니다 */

@@ -1,5 +1,6 @@
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
-<!-- ★ 현재 버전 ▶ reenter.html · v2-25 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ reenter.html · v2-26 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(조회 답 expired)을 넣으면 아무것도 안 가진 빈 상자가 뜨던 것 → 안내 판(/lf/canceled.js · 닫기 있음). [무손] 그 밖 v2-25 전부. -->
+<!-- (이전) reenter.html · v2-25 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) reenter.html · v2-24 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
 <!-- ★ (이전) reenter.html · v2-23 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
 <!-- ★ 현재 버전 ▶ reenter.html · v2-22 · 261005 · [작업 v2-22 · 한 바퀴 점검] 「여권으로 문을 엽니다」 → 「사랑흐름 여권번호로 문을 엽니다」(「여권」 단독 금지). [무손] 그 밖 전부. -->
@@ -975,6 +976,13 @@ function lfHaveLookup(pp){
   window[cb]=function(res){
     try{ delete window[cb]; }catch(e){ window[cb]=undefined; }
     if(!res||!res.ok){ return; }
+    if(res.expired){                                   /* ★[v2-26] 결제가 취소된 여권 */
+      LFHAVE_DATA=null; lfHavePaint();
+      var go=function(){ if(window.lfCanceled){ window.lfCanceled(pp,{closable:true}); } };
+      if(window.lfCanceled){ go(); return; }
+      var cs=document.createElement('script'); cs.src='/lf/canceled.js?v=1'; cs.onload=go; document.body.appendChild(cs);
+      return;
+    }
     LFHAVE_DATA=res;
     var sel=document.getElementById('lfHaveSel');
     if(sel){ sel.value=lfHavePick(); }
