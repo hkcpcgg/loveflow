@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ pay.html · v14-54 · 261027 · [본부 ③ 칸 2 · 469 · 대표 OK 261027 13:05] 「시작 전 알아두실 사항」을 네 상품 모두에 띄움 — 마음 여행지도 · 마음여행은 청약철회 제한 고지가 없었음(환불정책 제2조② 「결제 전 고지 · 동의를 받은 경우에만 제한」). 지도 두 상품 줄은 자서전 줄(v14-47 약관 확정)과 같은 꼴: 지도 = 「여행지도 결과를 여시면 …」 · 마음여행 = 「여행지도 결과나 편지를 여시면 …」 + 「오류나 하자가 있으면 환불해 드려요」. 네 상품 모두 「위 안내를 읽고 동의합니다」를 체크해야 결제 길이 열림. 자서전 두 상품 줄은 그대로. 토스 심사 반려 항목(사업자정보 · 연락처 · 카테고리 · 판매 상태 · 값 · 주소) 안 건드림. ★카드 길 동의 기록(서버)은 칸 3 · 472. [무손] 그 밖 v14-53 전부. -->
+<!-- ★ 현재 버전 ▶ pay.html · v14-55 · 261027 · [본부 ③ 칸 3-가 · 대표 OK 261027 15:29] 472 카드 결제 동의 기록 — 결제창 돌아올 주소(successUrl)에 ag=v14-55.안내.개인정보(체크면 1)를 실어 두고, 돌아와서 발권 서버(③tossConfirm.gs v2)를 부를 때 함께 보냄 → 「토스결제」 탭 「동의」 칸 · 473 「카드 결제」 옆 「곧」 표시 지움(카드 결제 261026 라이브). [무손] 그 밖 v14-54 전부. -->
+<!-- (이전) pay.html · v14-54 · 261027 · [본부 ③ 칸 2 · 469 · 대표 OK 261027 13:05] 「시작 전 알아두실 사항」을 네 상품 모두에 띄움 — 마음 여행지도 · 마음여행은 청약철회 제한 고지가 없었음(환불정책 제2조② 「결제 전 고지 · 동의를 받은 경우에만 제한」). 지도 두 상품 줄은 자서전 줄(v14-47 약관 확정)과 같은 꼴: 지도 = 「여행지도 결과를 여시면 …」 · 마음여행 = 「여행지도 결과나 편지를 여시면 …」 + 「오류나 하자가 있으면 환불해 드려요」. 네 상품 모두 「위 안내를 읽고 동의합니다」를 체크해야 결제 길이 열림. 자서전 두 상품 줄은 그대로. 토스 심사 반려 항목(사업자정보 · 연락처 · 카테고리 · 판매 상태 · 값 · 주소) 안 건드림. ★카드 길 동의 기록(서버)은 칸 3 · 472. [무손] 그 밖 v14-53 전부. -->
 <!-- (이전) pay.html · v14-53 · 261026 · [토스 카드 결제 · 대표 OK 261026 19:31 · 토스 계약 완료 261026 · MID gsiteshcz6] ①클라이언트 키를 라이브(live_ck_)로. ②결제창에서 돌아오면 발권 서버(M1A · tossConfirm.gs v1)에 승인을 요청 — 서버가 금액을 상품 값과 대조하고 토스 승인까지 마친 뒤에만 「결제가 완료되었습니다」. ③완료 화면에 「사랑흐름 여권 발급받기」 → gate(구입처 카드결제 · 주문번호 미리 채움 · 바로 받기). 카드 길의 「확인 후 카카오톡 · 문자로 보내드려요」 두 자리 고침(카드 길에서는 연락처를 받지 않음). ④실패 · 취소면 토스가 준 까닭을 함께 보임. [무손] 상품 · 금액 · 편 수 · 동의 · 계좌이체 · 오픈마켓 · 그 밖 전부. -->
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
 <!-- ★ 현재 버전 ▶ pay.html · v14-52 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -434,7 +435,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
   </div>
   <div class="choice" id="choice">
     <div class="choice-row2">
-      <button class="choice-btn" onclick="choosePath('toss')">카드 결제 <span class="soon">곧</span></button>
+      <button class="choice-btn" onclick="choosePath('toss')">카드 결제</button>
       <button class="choice-btn" onclick="choosePath('online')">오픈마켓</button>
     </div>
     <button class="choice-btn main" onclick="choosePath('acct')" style="margin-top:12px;margin-bottom:6px">계좌이체</button>
@@ -769,6 +770,11 @@ function makeOrderId(){
   return 'LF-' + ITEM.toUpperCase() + '-' + r;
 }
 
+/* ★[v14-55] 472 — 동의 표시: 화면 버전 . 안내 체크 . 개인정보 체크 (예: v14-55.1.1) */
+function lfAgreeMark(){
+  var a = document.getElementById('agreeChk'), b = document.getElementById('privChk');
+  return 'v14-55.' + (a && a.checked ? 1 : 0) + '.' + (b && b.checked ? 1 : 0);
+}
 function payWithToss(){
   if (!P.now) { showToast('금액을 불러오지 못했어요. 새로고침 후 다시 시도해 주세요'); return; }
   if (typeof TossPayments !== 'function') { showToast('결제 모듈을 불러오지 못했어요'); return; }
@@ -783,7 +789,7 @@ function payWithToss(){
       amount: { currency: 'KRW', value: lfAmount() },                       /* ★[v14-43] 값 × 편 수 */
       orderId: makeOrderId(),
       orderName: P.name + (lfPieces() > 1 ? ' ' + lfPieces() + '편' : ''),
-      successUrl: location.origin + '/pay.html?item=' + encodeURIComponent(ITEM) + '&paid=1',
+      successUrl: location.origin + '/pay.html?item=' + encodeURIComponent(ITEM) + '&paid=1&ag=' + lfAgreeMark(),   /* ★[v14-55] 472 */
       failUrl:    location.origin + '/pay.html?item=' + encodeURIComponent(ITEM) + '&paid=0',
       card: { useEscrow: false, flowMode: 'DEFAULT' }
     })['catch'](function(){
@@ -860,6 +866,7 @@ function lfPayDone(res){
         + '&paymentKey=' + encodeURIComponent(pk)
         + '&orderId=' + encodeURIComponent(oid)
         + '&amount=' + encodeURIComponent(amt)
+        + '&ag=' + encodeURIComponent(_q.get('ag') || '')   /* ★[v14-55] 472 */
         + '&callback=' + cb;
       s.onerror = function(){
         if (done) return; done = true; clearTimeout(timer);
