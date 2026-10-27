@@ -416,9 +416,18 @@ body{
 .g-big{font-size:20px;font-weight:900;color:var(--navy)}
 .g-msg{font-size:12.5px;margin-top:8px;min-height:1em;color:#C0392B}
 .g-sel{height:30px;border:1.5px solid var(--line);border-radius:8px;font-size:12.5px;font-family:inherit;max-width:150px}
+html.emb body{background:transparent;padding:0;display:block;min-height:0}
+html.emb .phone{max-width:none;border-radius:0;box-shadow:none;min-height:0}
+html.emb #lfHqBack,html.emb #lfHqWay,html.emb #tabs,html.emb .foot,html.emb .bar .ttl{display:none!important}
+html.emb .phone{display:block!important}
+html.emb .body{padding:4px 18px 26px!important;overflow:visible}
+html.emb .bar{display:none!important}
+html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
+#bulkView.m-issued #bkMain,#bulkView.m-issued #bkAdd,#bulkView.m-bulk #bkIss{display:none}
 </style>
 </head>
 <body>
+<script>/* ★v20 본부 안(틀)에서 열렸는가 */ var EMB=/[?&]in=hq(&|$)/.test(location.search), EMB_TAB=((location.search.match(/[?&]tab=([a-z]+)/)||[])[1])||'pay'; if(EMB){ document.documentElement.classList.add('emb'); }</script>
 <!-- ★443 본부(/rec/?hq=1)에서 이 화면을 열었을 때만 맨 위 「⌂ 본부로」 — 같은 창으로 왔으므로 이 단추로 본부(보던 갈래)로 돌아감 -->
 <div id="lfHqBack" hidden style="position:fixed;top:0;left:0;right:0;z-index:9999;justify-content:center;padding:8px 12px;background:#26215C"><a href="/rec/?hq=1" style="display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font:700 14px/1.2 'Noto Sans KR',sans-serif;border:1.5px solid #AFA9EC;border-radius:999px;padding:7px 18px">⌂ 본부로</a></div>
 <script>try{ if(sessionStorage.getItem('lf_from_hq')==='1'){ var _hb=document.getElementById('lfHqBack'); _hb.hidden=false; _hb.style.display='flex'; var _bp=parseFloat(getComputedStyle(document.body).paddingTop)||0; document.body.style.paddingTop=(_bp+52)+'px'; } else { document.getElementById('lfHqBack').style.display='none'; } }catch(e){ document.getElementById('lfHqBack').style.display='none'; }</script>
@@ -497,6 +506,7 @@ body{
     <!-- ③ 대량 발급 (v7) -->
     <div id="bulkView" style="display:none">
       <div class="bk">
+       <div id="bkMain">
 
         <div class="warn">
           여기서 뽑은 여권은 <b>시스템이 입금을 확인하지 않고 나갑니다.</b><br>
@@ -557,9 +567,10 @@ body{
         <button class="run" id="bRun" onclick="doBulk()">여권 뽑기</button>
 
         <div class="out" id="bOut"></div>
+       </div>
 
         <!-- ★v13 자서전 편 더하기 -->
-        <div class="addbox">
+        <div class="addbox" id="bkAdd">
           <h4>자서전 편 더하기</h4>
           <div class="hint" style="margin-bottom:12px">이미 나간 번호에 자서전 편을 더 열어 줄 때 씁니다. 한 번호에 10편까지입니다.</div>
           <div class="row">
@@ -576,13 +587,14 @@ body{
         </div>
 
         <!-- ★v15 발급 목록 -->
-        <div class="addbox">
+        <div class="addbox" id="bkIss">
           <h4>발급 목록</h4>
           <div class="hint" style="margin-bottom:10px">받는 곳 · 계약번호 · 여권번호 가운데 아무 글자로 찾습니다. 비우면 최근 60장입니다.</div>
           <div class="row" style="display:flex;gap:8px">
             <input id="iQ" type="text" autocomplete="off" placeholder="예) 성동교회 · SD-TEST · LF-" onkeydown="if(event.key==='Enter'){loadIssued();}">
             <button class="run" style="width:110px;margin-top:0" onclick="loadIssued()">찾기</button>
           </div>
+          <button class="copy" id="iDl" style="display:none;margin:2px 0 8px" onclick="dlIssued()">내려받기 (지금 찾은 조건 · 전부)</button>
           <div class="out" id="iOut"></div>
         </div>
       </div>
@@ -689,7 +701,7 @@ var PASS_AT = 0, PASS_WAIT = [], BYKEY = false;
 function saveKey(k){}
 function dropKey(){ try{ localStorage.removeItem('lf_admin_key'); }catch(e){} }
 function hqHt(){ try{ var o = JSON.parse(localStorage.getItem('lf_rec_ht') || 'null'); if(o && o.v && o.e > Date.now()) return o.v; }catch(e){} return ''; }
-function hqLoginGo(){ try{ sessionStorage.setItem('lf_rec_hqback', JSON.stringify({sec:'today',sub:''})); }catch(e){} location.href = '/rec/?hq=1'; }
+function hqLoginGo(){ try{ sessionStorage.setItem('lf_rec_hqback', JSON.stringify({sec:'today',sub:''})); }catch(e){} if(EMB){ try{ window.top.location.href = '/rec/?hq=1'; return; }catch(e){} } location.href = '/rec/?hq=1'; }
 function hqNeed(msg, canLogin){
   KEY = ''; PASS_AT = 0;
   document.getElementById('payView').style.display = 'none';
@@ -728,12 +740,20 @@ function useKey(){
 function enter(){
   document.getElementById('keyView').style.display = 'none';
   document.getElementById('tabs').classList.add('on');
+  if(EMB){ go(EMB_TAB); return; }   /* ★v20 본부 칩이 고른 것 */
   go('pay');
 }
+/* ★v20 본부 표의 역할(서버가 서명한 표 앞부분) — 내려받기 단추를 보일지만 정함 · 막기는 서버 */
+function passRole(){ try{ var b = String(KEY||'').split('.')[0].replace(/-/g,'+').replace(/_/g,'/'); while(b.length % 4){ b += '='; } return JSON.parse(decodeURIComponent(escape(atob(b)))).r || ''; }catch(e){ return ''; } }
 function backToKey(msg){ hqNeed(msg || '열 수 없습니다.', !BYKEY && String(msg||'').indexOf('맡으신 권한') < 0); }   /* 권한 밖이면 다시 로그인해도 같으므로 단추 없음 */
 
 /* ── 탭 ── */
 function go(which){
+  document.documentElement.classList.toggle('m-pay', which === 'pay');
+  var bm = (which === 'issued') ? 'm-issued' : (EMB && which === 'bulk') ? 'm-bulk' : '';   /* ★v20 본부 안에서는 대량 발급 · 발급 목록을 따로 */
+  if(which === 'issued'){ which = 'bulk'; }
+  document.getElementById('bulkView').className = bm;
+  if(bm === 'm-issued'){ document.getElementById('iDl').style.display = (BYKEY || passRole() === '대표') ? 'block' : 'none'; if(!ISSUED.length){ loadIssued(); } }
   document.getElementById('payView').style.display  = (which === 'pay')  ? 'block' : 'none';
   document.getElementById('bulkView').style.display = (which === 'bulk') ? 'block' : 'none';   /* ★v7 */
   document.getElementById('lockView').style.display = (which === 'lock') ? 'block' : 'none';
@@ -935,6 +955,22 @@ function copyIssued(){
   try{ navigator.clipboard.writeText(t); }catch(e){}
   var ta = document.createElement('textarea'); ta.value = t; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} document.body.removeChild(ta);
   alert(ISSUED.length + '개 번호를 복사했습니다.');
+}
+
+/* ★v20 53 발급 목록 내려받기 — 대표만(서버가 막음) · 성명 · 연락처 없음 */
+function dlIssued(){
+  var b = document.getElementById('iDl'), q = (document.getElementById('iQ').value || '').trim();
+  b.textContent = '모으는 중…';
+  jsonp({ action:'adminIssued', key:KEY, q:q, dl:1 }, function(r){
+    b.textContent = '내려받기 (지금 찾은 조건 · 전부)';
+    if(!r || r.status !== 'ok'){ alert((r && r.msg) ? r.msg : '내려받지 못했습니다.'); return; }
+    function c(v){ v = String(v == null ? '' : v); return /[",\n]/.test(v) ? '"' + v.replace(/"/g,'""') + '"' : v; }
+    var L = [['발급일시','사랑흐름 여권번호','받는 곳','배포처 번호','계약번호','상품','질문지','자서전 편 수','채널','입력방식'].join(',')];
+    (r.rows || []).forEach(function(x){ L.push([x.at, x.pp, x.org, x.orgNo, batchOf_(x.no), itemName_(x.flag, x.qset), qName_(x.qset), x.pieces, x.ch, x.how].map(c).join(',')); });
+    var d = new Date(), nm = '사랑흐름_발급목록_' + String(d.getFullYear()).slice(2) + ('0'+(d.getMonth()+1)).slice(-2) + ('0'+d.getDate()).slice(-2) + (q ? '_' + q.replace(/[^0-9A-Za-z가-힣-]/g,'') : '') + '.csv';
+    var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + L.join('\r\n')], {type:'text/csv;charset=utf-8'})); a.download = nm;
+    document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 800);
+  }, function(m){ b.textContent = '내려받기 (지금 찾은 조건 · 전부)'; alert(m); }, 60000);
 }
 
 function doBulk(over, why){   /* ★v16 over · why = 증액 승인 */
@@ -1519,6 +1555,11 @@ function doPaid(){
 /* ── 진입 — ★주소에서 열쇠를 안 읽습니다. 이 기기에 저장된 것만. ── */
 (function(){   /* ★v19 본부 로그인으로 — 이 기기에 남은 옛 공용 열쇠는 지움 */
   dropKey();
+  /* ★v20 주소로 바로 열면 — 본부에 들어와 있으면 본부 ③ 판매 · 발급으로 넘김 · 아니면 「본부로 들어오기 · 비상용 열쇠」 */
+  if(!EMB){
+    if(hqHt()){ try{ sessionStorage.setItem('lf_rec_hqback', JSON.stringify({sec:'sales',sub:''})); }catch(e){} location.replace('/rec/?hq=1'); return; }
+    hqNeed('', true); return;
+  }
   getPass(function(ok, msg, login){ if(ok){ enter(); } else { hqNeed(msg, login); } });
 })();
 </script>
