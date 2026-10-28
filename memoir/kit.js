@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v14 · 261027 — ★[본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] ④ LFM.consent — 여권조회(ZJ9X)가 「만료」(결제가 취소된 여권 · expired)로 답하면 동의 화면만 건너뛰고 그냥 들여보내던 것 → 결제취소 안내 판(/lf/canceled.js · 닫기 없음)을 띄우고 멈춤(go 를 부르지 않음). 자서전 서버 v48 도 같은 여권을 CANCELED 로 막음. [무손] 그 밖 전부.
+   현재 버전 ▶ memoir/kit.js · v15 · 261028 — ★[481 · 대표 OK 261028 10:15 · 자서전 서버 v49 와 짝] ④ LFM.consent 가 자서전 서버 keepInfo(지울 날만)를 함께 부름 — 지운 여권이면 「보관 기간이 지나 기록을 지웠습니다」 안내 판(닫기 없음 · go 를 부르지 않음) · 지울 날 30일 안이면 화면 위에 「○월 ○일까지 다시 보고 내려받으실 수 있어요」 띠(「내려받기」 → 결과물 화면 · ✕ 닫으면 이 창에서는 다시 안 뜸). 답이 늦거나 실패하면 아무것도 안 띄움(손님을 막지 않음). [무손] 그 밖 전부.
+   ── 이전 ── v14 · 261027 — ★[본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] ④ LFM.consent — 여권조회(ZJ9X)가 「만료」(결제가 취소된 여권 · expired)로 답하면 동의 화면만 건너뛰고 그냥 들여보내던 것 → 결제취소 안내 판(/lf/canceled.js · 닫기 없음)을 띄우고 멈춤(go 를 부르지 않음). 자서전 서버 v48 도 같은 여권을 CANCELED 로 막음. [무손] 그 밖 전부.
    ── 이전 ── v13 · 261006 — ★[대표 위임 261006 17:08 · 홍보 자료실 → 화면] ⑤ LFM.wait 기다리는 물결 — 흐르는 글을 「관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름」으로(사랑흐름은 주황 굵게) · 물결 줄을 초록 → 주황 번짐 띠로. ⑥ LFM.grapes 새로 찬 알 — 차오름 1.6초 → 3.2초 · 둘레 빛 2.4초 → 4.2초(대표 「너무 빨라 · 여운 있게」). [무손] 그 밖 전부.
    ── 이전 ── v12 · 261004 — ★[자서전 공사 칸 27-3 화면 알맹이] 종이 불러오기 · 내 AI로 맞춤법 창 — 이모지(📷📄📋🤖📥🔍🌿✨⚠) → 선 아이콘 동그라미(kIc) · 단추 색 살구 → 네이비(살구는 단추 바탕에 안 씀) · 무게 순서(PDF 고르기 위 테두리 · 사진 찍기 아래 네이비 / 처음 글 그대로 두기 위 · 이대로 바꾸기 아래) · 단추 안 화살표 걷음(되돌아가기 줄은 「‹」) · 「부탁 글」→「살펴볼 글」(금지어). [무손] 글자 인식 · 서버 · 맞춤법 비교 · 관계 판(이모지 갈래는 대표 결정 대기).
    ── 이전 ── v11 · 261004 — ★[묶음 C 청소년 · 이사회 32차 · 35차 결의 2 · 대표 지시 261004] ⑨ LFM.youth(pp, flag) — 청소년 질문지(Y-)면 부르는 말 「○○ 님」(HONOR 「님」) · 이 기기에 번호별로 기억(lf_y_번호) · html 에 lf-youth — class="ny" 숨김 · class="oy" 청소년만 보임 · LFM.title 청소년 갈래(여덟을 마치면 작은 줄 「미리 써 보는」 + 「○○의 자서전」 · pre). ⑩ LFM.REL 관계 떠올리기 판(어른 아홉 갈래 · 청소년 여섯 갈래 · 갈래마다 단추 · 묻는 한 줄 높임 · 친구 사이) · LFM.relGroup(이름) · LFM.relHintKey(갈래). [무손] 그 밖 전부.
@@ -147,9 +148,87 @@
     };
   }
 
-  function consent(pp, go){
+  /* ═══ ★v15 481 — 지울 날 띠 · 지운 기록 안내 판 ═══ */
+  var MEM_GAS = 'https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+  var KEEP = { gone: false };
+  var KTEL = '070-4158-7786';
+  function kCss(){
+    if (document.getElementById('lfkCss')) { return; }
+    var c = document.createElement('style'); c.id = 'lfkCss';
+    c.textContent =
+      '#lfkb{position:fixed;left:50%;transform:translateX(-50%);top:calc(env(safe-area-inset-top,0px) + 66px);z-index:900;width:calc(100% - 28px);max-width:460px;box-sizing:border-box;display:flex;align-items:center;gap:10px;padding:11px 12px 11px 14px;border-radius:16px;background:#F3F1FC;border:1px solid #CECBF6;box-shadow:0 6px 20px rgba(38,33,92,.12);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;animation:lfkIn .3s ease-out}'
+    + '#lfkb .ki{flex:none;width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;font-size:18px}'
+    + '#lfkb .kt{flex:1;font-size:14px;line-height:1.5;color:#3C3489;word-break:keep-all}'
+    + '#lfkb .kt b{font-weight:800}'
+    + '#lfkb .kd{flex:none;padding:8px 13px;border-radius:20px;border:0;background:#3C3489;color:#fff;font-size:13px;font-weight:700;cursor:pointer;text-decoration:none;white-space:nowrap}'
+    + '#lfkb .kx{flex:none;width:28px;height:28px;border:0;background:transparent;color:#7F77DD;font-size:18px;cursor:pointer;line-height:1}'
+    + '#lfkg{position:fixed;inset:0;z-index:2147483000;background:rgba(18,28,44,.55);display:flex;align-items:center;justify-content:center;padding:20px}'
+    + '#lfkg .gx{width:100%;max-width:340px;background:#fff;border-radius:22px;padding:28px 22px 22px;text-align:center;box-shadow:0 18px 50px rgba(0,0,0,.25);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;animation:lfkIn .25s ease-out}'
+    + '#lfkg .ic{width:58px;height:58px;margin:0 auto;border-radius:50%;background:#EEEDFE;display:flex;align-items:center;justify-content:center;font-size:28px}'
+    + '#lfkg .t{font-size:17px;font-weight:800;color:#3C3489;margin:14px 0 6px;word-break:keep-all}'
+    + '#lfkg .pp{font-family:"Courier New",monospace;font-size:14px;color:#7A8794;letter-spacing:.05em}'
+    + '#lfkg .s{font-size:14px;line-height:1.7;color:#4A5563;margin:14px 0 4px;word-break:keep-all}'
+    + '#lfkg .tel{display:inline-block;font-size:17px;font-weight:800;color:#3C3489;text-decoration:none;margin-bottom:16px}'
+    + '#lfkg .b{display:block;width:100%;padding:14px;border-radius:24px;font-size:15px;font-weight:700;border:0;cursor:pointer;background:#3C3489;color:#fff}'
+    + '@keyframes lfkIn{from{opacity:0;margin-top:-6px}to{opacity:1;margin-top:0}}'
+    + '@media (prefers-reduced-motion:reduce){#lfkb,#lfkg .gx{animation:none}}';
+    document.head.appendChild(c);
+  }
+  function kEsc(s){ return String(s == null ? '' : s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function kGone(pp){
+    KEEP.gone = true;
+    try { LFM.wait.done(); } catch (e) {}
+    kCss();
+    var old = document.getElementById('lfkg'); if (old) { old.parentNode.removeChild(old); }
+    var d = document.createElement('div'); d.id = 'lfkg'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
+    d.innerHTML = '<div class="gx"><div class="ic">🗂️</div><div class="t">보관 기간이 지나 기록을 지웠습니다</div><div class="pp">' + kEsc(pp) + '</div>'
+      + '<div class="s">완성하신 날부터 90일 동안 보관한 뒤 약관에 따라 지웠습니다. 궁금하신 점은 연락 주세요.</div>'
+      + '<a class="tel" href="tel:' + KTEL.replace(/-/g, '') + '">' + KTEL + '</a>'
+      + '<button type="button" class="b" id="lfkgHome">⌂ 홈으로</button></div>';
+    document.body.appendChild(d);
+    document.getElementById('lfkgHome').onclick = function(){ location.href = '/'; };
+  }
+  function kBand(pp, r){
+    var sk = 'lf_keepx_' + pp;
+    try { if (sessionStorage.getItem(sk) === '1') { return; } } catch (e) {}
+    var md = '';
+    var m = String(r.due || '').match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    if (m) { md = parseInt(m[2], 10) + '월 ' + parseInt(m[3], 10) + '일'; }
+    var line = (r.left > 0 && md) ? ('<b>' + md + '까지</b> 다시 보고 내려받으실 수 있어요') : '보관 기간이 지났어요. <b>지금 내려받아 두세요</b>';
+    var onBook = /\/memoir\/book\.html/.test(location.pathname);
+    function draw(){
+      kCss();
+      var old = document.getElementById('lfkb'); if (old) { old.parentNode.removeChild(old); }
+      var d = document.createElement('div'); d.id = 'lfkb'; d.setAttribute('role', 'status');
+      d.innerHTML = '<span class="ki">📥</span><span class="kt">' + line + '</span>'
+        + (onBook ? '' : '<a class="kd" href="/memoir/book.html?id=' + encodeURIComponent(pp) + '">내려받기</a>')
+        + '<button type="button" class="kx" aria-label="닫기">✕</button>';
+      document.body.appendChild(d);
+      d.querySelector('.kx').onclick = function(){ try { sessionStorage.setItem(sk, '1'); } catch (e) {} if (d.parentNode) { d.parentNode.removeChild(d); } };
+    }
+    if (document.body) { draw(); } else { document.addEventListener('DOMContentLoaded', draw); }
+  }
+  function keep(pp){
+    var cb = 'lfmkeep_' + Date.now() + '_' + Math.floor(Math.random() * 1e6), done = false;
+    var s = document.createElement('script');
+    function fin(){ if (done) { return; } done = true; try { delete window[cb]; } catch (e) {} if (s.parentNode) { s.parentNode.removeChild(s); } }
+    window[cb] = function(r){
+      fin();
+      if (!r || r.status !== 'ok') { return; }
+      if (r.deleted) { kGone(pp); return; }
+      if (r.due && typeof r.left === 'number' && r.left <= 30) { kBand(pp, r); }
+    };
+    s.src = MEM_GAS + '?action=keepInfo&passport=' + encodeURIComponent(pp) + '&callback=' + cb;
+    s.onerror = fin;
+    setTimeout(fin, 20000);
+    (document.head || document.body).appendChild(s);
+  }
+
+  function consent(pp, go0){
     pp = String(pp || '').trim().toUpperCase();
-    if (!/^LF[ML]?-[A-Z0-9]{4,8}$/.test(pp)) { go(); return; }
+    if (!/^LF[ML]?-[A-Z0-9]{4,8}$/.test(pp)) { go0(); return; }
+    var go = function(){ if (!KEEP.gone) { go0(); } };   /* ★v15 지운 여권이면 들여보내지 않음 */
+    try { keep(pp); } catch (eK) {}
     try { if (sessionStorage.getItem('lf_consent_' + pp) === '1') { go(); return; } } catch (e) {}
     var cb = 'lfmcons_' + Date.now() + '_' + Math.floor(Math.random() * 1e6), done = false;
     function fin(){ if (done) { return; } done = true; try { delete window[cb]; } catch (e) {} go(); }
