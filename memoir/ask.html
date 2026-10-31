@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v89 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v90 · 261031 · [499 · 75차 · 대표 OK 17:39 「선택형」] 「말로 쓰기」 길을 더함 — 이야기를 열면 「말로 쓰기 · 글로 쓰기」 고르기(기기에 기억 · 언제든 바꿈) · 말로 쓰기 = 안내 듣기 → 큰 녹음 단추 → 글로 바뀐 것 → 다음 물음 → 「여기까지 했어요」 · 「이어서 하기」 · 답은 지금 답 칸 · 저장 길(onType · nextQ · markNA) 그대로 · 휴대폰 받아쓰기가 되는 화면에서만(501 뒤 어디서나) · 녹음은 기기 안 다시 듣기만(500). [무손] 글로 쓰기 화면 · 저장 · 서버 · 그 밖 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v89 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v88 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v87 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v86 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
@@ -2044,6 +2045,359 @@ function askAi_(){
 .rspanel .btn{white-space:nowrap}
 @media print{.aids{display:none !important}}
 </style>
+<!-- ══ ★v90 · 499 · 75차 · 대표 OK 261031 17:39 — 「말로 쓰기」 길 (고르는 길 · 지금 「글로 쓰기」 화면은 그대로) ══
+     이야기를 열면 「말로 쓰기 · 글로 쓰기」 둘 중 고름(고른 것은 이 기기에 기억 · 언제든 바꿈).
+     말로 쓰기 = 같은 물음 · 같은 소재 · 같은 저장(answers · nextQ · markNA · 소재를 마칠 때 서버) — 답 칸에 들어갈 글만 말로 받음.
+     한 소재 = 안내 듣기 → 큰 녹음 단추 → 글로 바뀐 것 → 다음 물음 … → 「여기까지 했어요」 · 다시 오면 「이어서 하기」.
+     ★지금은 휴대폰 받아쓰기가 되는 화면에서만 고르기 판이 뜸(카카오톡 안 화면 등은 지금 화면 그대로) — 501 국내 음성 인식이 붙으면 어디서나.
+     ★목소리 녹음은 이 휴대폰 안에서 다시 듣기만(서버 저장 · 90일은 500). 안내 목소리는 기계 목소리(대표님 녹음 오면 바꿈).
+     말로 쓰기에 들어가지 않는 물음: 고르기 · 자유(제목) 물음 · 아홉째(이야기 주머니) · 쓴 글 고치기 — 그 물음은 지금 화면으로. -->
+<script>
+(function(){
+var TK={on:false,view:'',ci:-1,qi:-1,sec:-1,secs:0,cnt:0,R:{st:'idle'},SR:null,AN:null,url:{}};
+var HOW='lf_memoir_how';
+function $(i){ return document.getElementById(i); }
+function srOk_(){ return !!(window.SpeechRecognition||window.webkitSpeechRecognition); }
+function recOk_(){ return !!(window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia); }
+function eligible_(){ try{ if(REVIEW_ON || RV_EDIT){ return false; } if(typeof pzOn_==='function' && pzOn_()){ return false; } }catch(e){} return srOk_(); }
+function qOk_(){ var Q=cur(); return !!Q && Q.type!=='pick' && Q.type!=='free'; }
+function how_(){ try{ return localStorage.getItem(HOW)||''; }catch(e){ return ''; } }
+function setHow_(v){ try{ localStorage.setItem(HOW,v); }catch(e){} }
+function esc_(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function mmss_(s){ s=Math.round(s||0); return (s<600?'0':'')+Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60); }
+function josa_(w,a,b){ w=String(w||''); var c=w.charCodeAt(w.length-1)-0xAC00; return (c>=0&&c<11172&&c%28)?a:b; }
+var MIC='<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg>';
+var PEN='<svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>';
+var PLAY='<svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg>';
+
+function css_(){
+  if($('tkCss')){ return; }
+  var s=document.createElement('style'); s.id='tkCss';
+  s.textContent=
+  '#tk{display:none;width:100%;max-width:412px;margin:0 auto;padding:14px 18px 6px;flex-direction:column;gap:14px;min-height:calc(100vh - 190px)}'
+  +'#tk.on{display:flex}'
+  +'#tk .tk-k{text-align:center;font-size:13.5px;color:#8A8580}'
+  +'#tk .tk-t{text-align:center;font-family:"Noto Serif KR",serif;font-size:22px;font-weight:700;color:#173A5A;line-height:1.4;word-break:keep-all}'
+  +'#tk .tk-q{text-align:center;font-family:"Noto Serif KR",serif;font-size:23px;font-weight:700;line-height:1.5;color:#2A3542;word-break:keep-all}'
+  +'#tk .tk-q.sm{font-size:18px}'
+  +'#tk .tk-r{text-align:center;font-size:15px;color:#5a5a5a;line-height:1.6;word-break:keep-all}'
+  +'#tk .tk-card{background:#fff;border:1px solid #E7DCC9;border-radius:18px;padding:16px;text-align:center}'
+  +'#tk .tk-big{width:100%;border:none;border-radius:18px;background:#1E4A76;color:#fff;font-family:inherit;font-weight:700;font-size:19px;padding:18px 0;cursor:pointer}'
+  +'#tk .tk-big:disabled{background:#B9C3CE}'
+  +'#tk .tk-big.xl{font-size:21px;padding:22px 0}'
+  +'#tk .tk-gh{width:100%;border:1.5px solid #1E4A76;border-radius:16px;background:#fff;color:#1E4A76;font-family:inherit;font-weight:700;font-size:16px;padding:13px 0;cursor:pointer}'
+  +'#tk .tk-l{background:none;border:none;color:#1E4A76;font-family:inherit;font-size:14px;text-decoration:underline;cursor:pointer;padding:6px;align-self:center}'
+  +'#tk .tk-l.mut{color:#8A8580}'
+  +'#tk .tk-ch2{display:grid;grid-template-columns:1fr 1fr;gap:12px}'
+  +'#tk .tk-ch{border:2px solid #E7DCC9;background:#fff;border-radius:20px;padding:20px 8px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;font-family:inherit;color:#2A3542}'
+  +'#tk .tk-ch .ic{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center}'
+  +'#tk .tk-ch .ic svg{width:32px;height:32px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+  +'#tk .tk-ch b{font-size:19px}#tk .tk-ch span.s{font-size:12.5px;color:#8A8580;line-height:1.4}'
+  +'#tk .tk-ch.talk .ic{background:radial-gradient(circle at 35% 30%,#ff8080,#D64545)}#tk .tk-ch.write .ic{background:#1E4A76}'
+  +'#tk .tk-vo{display:flex;align-items:center;gap:10px;background:#E3F4F3;border:none;border-radius:14px;padding:10px 12px;width:100%;font-family:inherit;font-size:14px;color:#0F8B8D;font-weight:700;cursor:pointer;text-align:left}'
+  +'#tk .tk-vo .pl{width:34px;height:34px;border-radius:50%;background:#0F8B8D;display:flex;align-items:center;justify-content:center;flex:none}'
+  +'#tk .tk-vo .pl svg{width:16px;height:16px;fill:#fff}'
+  +'#tk .tk-vo.mine{background:#F7F0E4;color:#2A3542}#tk .tk-vo.mine .pl{background:#1E4A76}'
+  +'#tk .tk-vo.playing .pl{animation:tkPulse 1s infinite}'
+  +'#tk .tk-hint{font-size:13px;color:#8A8580;background:#F3EFE7;border-radius:10px;padding:9px 12px;text-align:center;line-height:1.55}'
+  +'#tk .tk-dots{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}#tk .tk-dots i{width:11px;height:11px;border-radius:50%;background:#ddd;display:block}'
+  +'#tk .tk-dots i.on{background:#D4AF37}#tk .tk-dots i.cur{background:#1E4A76}'
+  +'#tk .tk-mw{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:240px}'
+  +'#tk .tk-mic{width:150px;height:150px;border-radius:50%;border:none;background:radial-gradient(circle at 35% 30%,#ff8080,#D64545);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 0 0 12px rgba(214,69,69,.12),0 0 0 24px rgba(214,69,69,.05)}'
+  +'#tk .tk-mic svg{width:48px;height:48px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}'
+  +'#tk .tk-mic.on{animation:tkRing 1.6s infinite}'
+  +'@keyframes tkRing{0%{box-shadow:0 0 0 0 rgba(214,69,69,.35),0 0 0 0 rgba(214,69,69,.15)}100%{box-shadow:0 0 0 22px rgba(214,69,69,0),0 0 0 40px rgba(214,69,69,0)}}'
+  +'@keyframes tkPulse{50%{transform:scale(1.12)}}@keyframes tkPop{0%{transform:scale(.3)}70%{transform:scale(1.25)}100%{transform:scale(1)}}'
+  +'#tk .tk-wave{display:flex;gap:4px;align-items:center;height:36px}#tk .tk-wave i{display:block;width:5px;height:6px;background:#0F8B8D;border-radius:3px;transition:height .1s}'
+  +'#tk .tk-tm{font-weight:700;color:#D64545;font-size:17px;text-align:center}#tk .tk-tm.idle{color:#8A8580;font-weight:500;font-size:14px}'
+  +'#tk .tk-msg{font-size:13.5px;color:#b23c3c;text-align:center;line-height:1.5}'
+  +'#tk .tk-txt{background:#FAF6EE;border:1px dashed #cbbfa8;border-radius:14px;padding:14px;font-size:16.5px;line-height:1.7;min-height:110px;white-space:pre-wrap;word-break:keep-all}'
+  +'#tk .tk-txt.wait{color:#8A8580;font-size:14.5px;text-align:center;display:flex;align-items:center;justify-content:center}'
+  +'#tk .tk-gr{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}#tk .tk-gr i{width:20px;height:20px;border-radius:50%;background:#E8E0F0;display:block}'
+  +'#tk .tk-gr i.f{background:#7B5EA7}#tk .tk-gr i.n{background:#D4AF37;box-shadow:0 0 0 4px rgba(212,175,55,.3);animation:tkPop .6s ease-out}'
+  +'#tk .tk-bell{text-align:center;font-size:44px;animation:tkPop .6s ease-out}#tk .tk-sp{flex:1}'
+  +'.tk-pill{display:block;margin:10px auto 0;background:#fff;border:1.5px solid #D64545;color:#C23B3B;border-radius:20px;font-family:inherit;font-size:14px;font-weight:700;padding:7px 16px;cursor:pointer}';
+  document.head.appendChild(s);
+}
+function box_(){
+  var b=$('tk'); if(b){ return b; }
+  css_(); b=document.createElement('section'); b.id='tk';
+  var p=$('prog'); if(p && p.parentNode){ p.parentNode.insertBefore(b,p); } else { document.body.appendChild(b); }
+  return b;
+}
+function normal_(show){
+  ['prog','card','foot'].forEach(function(id){ var e=$(id); if(e){ e.style.display=show?'':'none'; } });
+  var sd=$('secdots'); if(sd){ sd.style.display=show?'':'none'; }
+  var tp=$('resumeTip'); if(tp && !show){ tp.style.display='none'; }
+}
+function on_(html, view){
+  var b=box_(); b.innerHTML=html; b.classList.add('on'); TK.on=true; TK.view=view; normal_(false);
+  try{ var d=$('done'); if(d){ d.classList.remove('on'); } }catch(e){}
+  if(cur()){ TK.ci=ci; TK.qi=qi; TK.sec=cur().sec; }
+  window.scrollTo(0,0);
+}
+function off_(){ hush_(); recKill_(); var b=$('tk'); if(b){ b.classList.remove('on'); b.innerHTML=''; } TK.on=false; TK.view=''; normal_(true); pill_(); }
+
+/* ── 소재 안의 물음 차례 ── */
+function secQs_(){ var Q=cur(), a=[]; if(!Q){ return a; } var qs=BOOK[ci].qs; for(var i=0;i<qs.length;i++){ if(qs[i].sec===Q.sec){ a.push(i); } } return a; }
+function dots_(){ var a=secQs_(), h=''; for(var i=0;i<a.length;i++){ h+='<i class="'+(a[i]<qi?'on':(a[i]===qi?'cur':''))+'"></i>'; } return '<div class="tk-dots">'+h+'</div>'; }
+function stepTxt_(){ var a=secQs_(); return '물음 '+(a.indexOf(qi)+1)+' / '+a.length; }
+function secName_(){ var Q=cur(); return (Q && (Q.open || (BOOK[ci].secs||[])[Q.sec])) || ''; }
+function grapes_(justIdx){ var n=(BOOK[ci].secs||[]).length||1, h=''; for(var i=0;i<n;i++){ var c=(i<justIdx)?'f':''; if(i===justIdx){ c='n'; } h+='<i class="'+c+'"></i>'; } return '<div class="tk-gr">'+h+'</div>'; }
+
+/* ── 안내 목소리 (대표님 녹음 전 = 기계 목소리 · 지금 「들려드릴게요」와 같은 목소리) ── */
+function say_(){
+  if(!window.speechSynthesis){ return; }
+  var b=$('tkVo');
+  if(speechSynthesis.speaking){ hush_(); return; }
+  try{ if(!_voice){ pickVoice(); } }catch(e){}
+  var Q=cur(); if(!Q){ return; }
+  var u=new SpeechSynthesisUtterance(((Q.recall||'')+' '+Q.q).trim()); u.lang='ko-KR'; u.rate=.9; u.pitch=1.05;
+  try{ if(_voice){ u.voice=_voice; } }catch(e){}
+  u.onend=function(){ var x=$('tkVo'); if(x){ x.classList.remove('playing'); var t=$('tkVoT'); if(t){ t.textContent='다시 듣기'; } } };
+  if(b){ b.classList.add('playing'); var t=$('tkVoT'); if(t){ t.textContent='안내를 들려드리고 있어요'; } }
+  try{ speechSynthesis.speak(u); }catch(e){}
+}
+function hush_(){ try{ speechSynthesis.cancel(); }catch(e){} var b=$('tkVo'); if(b){ b.classList.remove('playing'); } }
+
+/* ── ① 고르기 ── */
+function pick_(){
+  on_('<div class="tk-k">'+esc_(lfStory_(BOOK[ci].title))+'</div>'
+   +'<div class="tk-t">'+esc_(secName_())+'</div>'
+   +'<div class="tk-k">어떻게 남기시겠어요?</div>'
+   +'<div class="tk-ch2"><button type="button" class="tk-ch talk" onclick="tkTalk_()"><span class="ic">'+MIC+'</span><b>말로 쓰기</b><span class="s">말씀하시면<br>글로 바뀝니다</span></button>'
+   +'<button type="button" class="tk-ch write" onclick="tkWrite_()"><span class="ic">'+PEN+'</span><b>글로 쓰기</b><span class="s">자판으로<br>직접 씁니다</span></button></div>'
+   +'<div class="tk-k" style="font-size:12.5px">어느 쪽으로 쓰셔도 한 권의 기록에 함께 담깁니다.<br>고르신 방법은 다음에도 기억하고, 언제든 바꾸실 수 있어요.</div>','pick');
+}
+window.tkTalk_=function(){ setHow_('talk'); TK.secs=0; TK.cnt=0; start_(); };
+window.tkWrite_=function(){ setHow_('write'); var b=$('tk'); if(b){ b.classList.remove('on'); b.innerHTML=''; } TK.on=false; normal_(true); ORIG_BOOT(); pill_(); };
+function start_(){
+  var b=$('tk'); if(b){ b.classList.remove('on'); } TK.on=false; normal_(true);
+  var o=_rsSaved();
+  TK.lock=true; try{ if(o){ resumeYes(); } else { paint(); } }finally{ TK.lock=false; }
+  if(o){ home_(); } else { intro_(); }
+}
+
+/* ── ② 이어서 하기 ── */
+function home_(){
+  hush_();
+  if(!qOk_()){ off_(); return; }
+  var a=secQs_(), first=(a.indexOf(qi)===0);
+  on_('<div class="tk-card"><div class="tk-k">지난번에 하시던 곳</div>'
+   +'<div class="tk-t" style="font-size:20px;margin:6px 0">'+esc_(lfStory_(BOOK[ci].title))+' · '+esc_(secName_())+'</div>'
+   +'<div class="tk-k">'+(first?('「'+esc_(secName_())+'」'+josa_(secName_(),'을','를')+' 시작하실 차례예요'):(stepTxt_()+' 차례예요'))+'</div></div>'
+   +'<button type="button" class="tk-big xl" onclick="tkGoOn_()">▶ 이어서 하기</button>'
+   +'<button type="button" class="tk-gh" onclick="openReview_()">쓴 글 보기</button>'
+   +'<div class="tk-sp"></div>'+grapes_(-1).replace(/<i class="">/g,'<i>')
+   +'<div class="tk-k">'+esc_(secName_())+' · 소재 '+(cur().sec+1)+' / '+((BOOK[ci].secs||[]).length||1)+'</div>'
+   +'<button type="button" class="tk-l mut" onclick="tkToWrite_()">글로 쓰기로 바꾸기</button>','home');
+  /* 지나온 소재 포도알 */
+  try{ var gi=document.querySelectorAll('#tk .tk-gr i'); for(var i=0;i<gi.length && i<cur().sec;i++){ gi[i].className='f'; } }catch(e){}
+}
+window.tkGoOn_=function(){ TK.secs=0; TK.cnt=0; var a=secQs_(); if(a.indexOf(qi)===0){ intro_(); } else { rec_(); say_(); } };
+window.tkToWrite_=function(){ setHow_('write'); off_(); };
+
+/* ── ③ 안내 듣기 ── */
+var HINTK='lf_memoir_talk_hint';
+function intro_(){
+  if(!qOk_()){ off_(); return; }
+  var Q=cur(), seen=''; try{ seen=localStorage.getItem(HINTK)||''; }catch(e){}
+  on_('<div class="tk-k">오늘의 이야기 · '+esc_(secName_())+'</div>'
+   +'<button type="button" class="tk-vo" id="tkVo" onclick="tkSay_()"><span class="pl">'+PLAY+'</span><span id="tkVoT">안내 듣기</span></button>'
+   +(Q.recall?'<div class="tk-r">'+esc_(Q.recall)+'</div>':'')
+   +'<div class="tk-q">'+esc_(Q.q)+'</div>'
+   +(seen?'':'<div class="tk-hint">남기고 싶은 것만 남기셔도 됩니다.<br>나중에 빼거나 가릴 수 있습니다.</div>')
+   +'<div class="tk-sp"></div><button type="button" class="tk-big xl" onclick="tkStartRec_()">말씀 시작하기</button>'
+   +'<button type="button" class="tk-l mut" onclick="tkNA_()">저에게는 해당하지 않아요</button>','intro');
+  try{ localStorage.setItem(HINTK,'1'); }catch(e){}
+  say_();
+}
+window.tkSay_=say_;
+window.tkStartRec_=function(){ hush_(); rec_(); recGo_(); };
+
+/* ── ④ 말씀하기 ── */
+function rec_(){
+  if(!qOk_()){ off_(); return; }
+  on_(dots_()+'<div class="tk-k" style="margin-top:-6px">'+stepTxt_()+'</div>'
+   +'<button type="button" class="tk-vo" id="tkVo" onclick="tkSay_()" style="padding:6px 10px"><span class="pl" style="width:28px;height:28px">'+PLAY+'</span><span id="tkVoT">안내 듣기</span></button>'
+   +'<div class="tk-q sm">'+esc_(cur().q)+'</div>'
+   +'<div class="tk-mw"><button type="button" class="tk-mic" id="tkMic" onclick="tkMic_()">'+MIC+'<span id="tkMicT">누르고 말씀</span></button>'
+   +'<div class="tk-wave" id="tkWave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>'
+   +'<div class="tk-tm idle" id="tkTm">말씀이 잠깐 끊겨도 저절로 멈추지 않아요</div><div class="tk-msg" id="tkMsg"></div></div>'
+   +'<button type="button" class="tk-big" id="tkDone" onclick="tkStop_()" style="display:none">다 말했어요</button>'
+   +'<button type="button" class="tk-l" onclick="tkHere_()">글로 쓰기</button>'
+   +'<button type="button" class="tk-l mut" onclick="tkNA_()">저에게는 해당하지 않아요</button>','rec');
+}
+window.tkMic_=function(){ if(TK.R.st==='rec'){ tkStop_(); } else { hush_(); recGo_(); } };
+function mime_(){ var c=['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus']; for(var i=0;i<c.length;i++){ try{ if(MediaRecorder.isTypeSupported(c[i])){ return c[i]; } }catch(e){} } return ''; }
+function recGo_(){
+  var R=TK.R; R.text=''; R.part=''; R.chunks=[]; R.t0=Date.now(); R.st='rec'; R.key=ci+'_'+qi;
+  var m=$('tkMic'); if(m){ m.classList.add('on'); } var mt=$('tkMicT'); if(mt){ mt.textContent='듣고 있어요'; }
+  var d=$('tkDone'); if(d){ d.style.display='block'; }
+  var tm=$('tkTm'); if(tm){ tm.className='tk-tm'; tm.textContent='● 00:00'; }
+  R.timer=setInterval(function(){ var t=$('tkTm'); if(t){ t.textContent='● '+mmss_((Date.now()-R.t0)/1000); } },500);
+  srOn_();
+  if(recOk_()){
+    var mm=mime_();
+    navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}).then(function(st){
+      if(R.st!=='rec'){ st.getTracks().forEach(function(t){ t.stop(); }); return; }
+      R.stream=st;
+      try{ R.rec=mm?new MediaRecorder(st,{mimeType:mm,audioBitsPerSecond:64000}):new MediaRecorder(st); }catch(e){ try{ R.rec=new MediaRecorder(st); }catch(e2){ R.rec=null; } }
+      if(R.rec){ R.rec.ondataavailable=function(e){ if(e.data&&e.data.size){ R.chunks.push(e.data); } }; try{ R.rec.start(1000); }catch(e){ R.rec=null; } }
+      wave_(st);
+    }).catch(function(){});
+  }
+}
+/* 받아쓰기 — 글이 답 칸으로 감 · [확인 안 됨] 녹음과 함께 켤 때 마이크가 부딪히는 휴대폰은 녹음을 내려놓고 받아쓰기만 */
+function srOn_(){
+  var C=window.SpeechRecognition||window.webkitSpeechRecognition; if(!C){ return; }
+  var R=TK.R;
+  try{ var sr=new C(); TK.SR=sr; sr.lang='ko-KR'; sr.continuous=true; sr.interimResults=true; sr.keep=true;
+    sr.onresult=function(ev){ var p=''; for(var i=ev.resultIndex;i<ev.results.length;i++){ if(ev.results[i].isFinal){ R.text+=' '+ev.results[i][0].transcript; } else { p+=ev.results[i][0].transcript; } } R.part=p; };
+    sr.onerror=function(ev){
+      var e=(ev&&ev.error)||'';
+      if(e==='audio-capture' && R.rec){ recDrop_(); return; }   /* 마이크가 부딪힘 → 녹음을 내려놓고 받아쓰기를 다시 */
+      if(e==='not-allowed'||e==='service-not-allowed'){ sr.keep=false; var m=$('tkMsg'); if(m){ m.textContent='마이크를 쓸 수 있게 허락해 주세요. 어려우시면 아래 「글로 쓰기」로 남기실 수 있어요.'; } }
+    };
+    sr.onend=function(){ if(sr.keep && R.st==='rec'){ try{ sr.start(); }catch(e){} } };   /* 말씀이 끊겨도 다시 들음 */
+    sr.start();
+  }catch(e){ TK.SR=null; }
+}
+function recDrop_(){ var R=TK.R; try{ if(R.rec && R.rec.state!=='inactive'){ R.rec.onstop=null; R.rec.stop(); } }catch(e){} R.rec=null; R.chunks=[]; try{ R.stream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){} waveOff_(); }
+function srOff_(){ var sr=TK.SR; if(sr){ sr.keep=false; try{ sr.stop(); }catch(e){} } }
+function wave_(st){
+  var A=window.AudioContext||window.webkitAudioContext; if(!A){ return; }
+  try{ var ac=new A(), an=ac.createAnalyser(); an.fftSize=64; ac.createMediaStreamSource(st).connect(an); var dd=new Uint8Array(an.frequencyBinCount);
+    TK.AN={ac:ac,run:true}; (function f(){ if(!TK.AN||!TK.AN.run){ return; } var w=$('tkWave'); if(w){ an.getByteFrequencyData(dd); for(var i=0;i<w.children.length;i++){ w.children[i].style.height=(6+dd[i+2]/255*30)+'px'; } } requestAnimationFrame(f); })();
+  }catch(e){}
+}
+function waveOff_(){ if(TK.AN){ TK.AN.run=false; try{ TK.AN.ac.close(); }catch(e){} TK.AN=null; } }
+function recKill_(){ var R=TK.R; if(R.st!=='rec'){ return; } R.st='idle'; try{ clearInterval(R.timer); }catch(e){} srOff_(); recDrop_(); }
+window.tkStop_=function(){
+  var R=TK.R; if(R.st!=='rec'){ return; } R.st='stopping';
+  try{ clearInterval(R.timer); }catch(e){} waveOff_();
+  var m=$('tkMic'); if(m){ m.classList.remove('on'); } var mt=$('tkMicT'); if(mt){ mt.textContent='담고 있어요'; }
+  var d=$('tkDone'); if(d){ d.disabled=true; }
+  srOff_();
+  setTimeout(function(){   /* 받아쓰기 마지막 말을 기다림 */
+    var secs=(Date.now()-R.t0)/1000;
+    var fin=function(){
+      if(R.chunks && R.chunks.length){ try{ if(TK.url[R.key]){ URL.revokeObjectURL(TK.url[R.key]); } TK.url[R.key]=URL.createObjectURL(new Blob(R.chunks,{type:((R.rec&&R.rec.mimeType)||'audio/webm').split(';')[0]})); }catch(e){} }
+      try{ R.stream.getTracks().forEach(function(t){ t.stop(); }); }catch(e){}
+      R.st='idle'; R.secs=secs; TK.secs+=secs;
+      res_((R.text+' '+R.part).replace(/\s+/g,' ').trim());
+    };
+    if(R.rec && R.rec.state!=='inactive'){ R.rec.onstop=fin; try{ R.rec.stop(); }catch(e){ fin(); } } else { fin(); }
+  },800);
+};
+
+/* ── ⑤ 글로 바뀐 것 ── */
+function res_(t){
+  TK.text=t;
+  var key=ci+'_'+qi, last=(function(){ var a=secQs_(); return a.indexOf(qi)===a.length-1; })();
+  on_(dots_()+'<div class="tk-k">'+(t?'말씀하신 것이 이렇게 남았어요':'말씀이 글로 잡히지 않았어요')+'</div>'
+   +(t?'<div class="tk-txt">'+esc_(t)+'</div>':'<div class="tk-txt wait">조금 더 가까이에서, 천천히<br>한 번 더 말씀해 주세요.</div>')
+   +(TK.url[key]?'<button type="button" class="tk-vo mine" onclick="tkPlay_()"><span class="pl">'+PLAY+'</span><span>내 목소리 다시 듣기 · '+mmss_(TK.R.secs)+'</span></button><audio id="tkAu" style="display:none"></audio>':'')
+   +'<div class="tk-sp"></div>'
+   +'<button type="button" class="tk-big" onclick="tkNext_()"'+(t?'':' disabled')+'>'+(last?'이 이야기 남기기':'다음 물음')+'</button>'
+   +'<button type="button" class="tk-gh" onclick="tkAgain_()">다시 말하기</button>','res');
+}
+window.tkPlay_=function(){ var au=$('tkAu'), u=TK.url[ci+'_'+qi]; if(!au||!u){ return; } if(!au.paused){ au.pause(); return; } au.src=u; au.play().catch(function(){}); };
+window.tkAgain_=function(){ var au=$('tkAu'); if(au){ au.pause(); } rec_(); };
+function keep_(t){
+  /* 지금 화면의 답 칸에 넣고 지금 저장 길(onType)을 그대로 탐 — 앞에 쓰신 글이 있으면 뒤에 이어 붙임 */
+  var ta=$('ans'); if(!ta){ return; }
+  var prev=(answers[ci+'_'+qi]||'').trim();
+  ta.value = prev && prev!==NA_MARK ? (prev+' '+t) : t;
+  try{ onType(); }catch(e){}
+  TK.cnt++;
+}
+function moved_(pc, ps){
+  var d=$('done'); if(d && d.classList.contains('on')){ off_(); return true; }   /* 이야기를 다 마침 → 지금 다 쓴 뒤 화면 */
+  if(!cur()){ off_(); return true; }
+  return (ci!==pc || cur().sec!==ps);
+}
+window.tkNext_=function(){
+  var au=$('tkAu'); if(au){ au.pause(); }
+  if(!TK.text){ return; }
+  keep_(TK.text);
+  var pc=ci, ps=cur().sec, pname=secName_();
+  TK.lock=true; try{ nextQ(); }finally{ TK.lock=false; }
+  var d=$('done'); if(d && d.classList.contains('on')){ off_(); return; }
+  if(moved_(pc,ps)){ done_(pname, ps); return; }
+  rec_(); say_();
+};
+window.tkNA_=function(){
+  recKill_(); var pc=ci, ps=cur().sec;
+  TK.lock=true; try{ markNA(); }finally{ TK.lock=false; }
+  var d=$('done'); if(d && d.classList.contains('on')){ off_(); return; }
+  if(!cur()){ off_(); return; }
+  intro_();
+};
+/* 이 물음만 글로 */
+window.tkHere_=function(){ recKill_(); hush_(); var b=$('tk'); if(b){ b.classList.remove('on'); b.innerHTML=''; } TK.on=false; normal_(true); pill_(); try{ $('ans').focus(); }catch(e){} };
+
+/* ── ⑥ 여기까지 ── */
+function chime_(){ try{ var A=window.AudioContext||window.webkitAudioContext, ac=new A(); [880,1318].forEach(function(f,i){ var o=ac.createOscillator(), g=ac.createGain(); o.frequency.value=f; o.connect(g); g.connect(ac.destination); var t=ac.currentTime+i*.18; g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.25,t+.02); g.gain.exponentialRampToValueAtTime(.0001,t+.9); o.start(t); o.stop(t+1); }); }catch(e){} }
+function done_(name, idx){
+  hush_();
+  on_('<div class="tk-bell">🔔</div>'
+   +'<div class="tk-t">「'+esc_(name)+'」 이야기를<br>남기셨어요</div>'
+   +'<div class="tk-k">오늘 '+Math.max(1,Math.round(TK.secs/60))+'분 · 말씀 '+TK.cnt+'번</div>'
+   +grapes_(idx)
+   +'<div class="tk-k">다음에 들어오시면<br>「이어서 하기」로 바로 시작합니다.</div>'
+   +'<div class="tk-sp"></div><button type="button" class="tk-big xl" onclick="tkClose_()">여기까지 했어요</button>'
+   +'<button type="button" class="tk-gh" onclick="tkMore_()">한 가지 더 이야기하기</button>','done');
+  try{ var gi=document.querySelectorAll('#tk .tk-gr i'); for(var i=0;i<idx && i<gi.length;i++){ gi[i].className='f'; } }catch(e){}
+  chime_();
+}
+window.tkClose_=function(){ home_(); };
+window.tkMore_=function(){ TK.secs=0; TK.cnt=0; intro_(); };
+
+/* ── 지금 화면(글로 쓰기)에서 말로 쓰기로 ── */
+function pill_(){
+  var f=$('foot'); if(!f){ return; }
+  var p=$('tkPill');
+  if(!eligible_() || !qOk_()){ if(p){ p.style.display='none'; } return; }
+  if(!p){ p=document.createElement('button'); p.type='button'; p.id='tkPill'; p.className='tk-pill'; p.onclick=function(){ setHow_('talk'); TK.secs=0; TK.cnt=0; var a=secQs_(); if(a.indexOf(qi)===0){ intro_(); } else { rec_(); say_(); } }; f.appendChild(p); }
+  p.textContent='🎙 말로 쓰기'; p.style.display='block';
+}
+
+/* ── 지금 화면과 잇기 ── */
+var ORIG_BOOT=boot;
+boot=function(){
+  css_();
+  if(!eligible_()){ ORIG_BOOT(); pill_(); return; }
+  var h=how_();
+  if(h==='write'){ ORIG_BOOT(); pill_(); return; }
+  if(h==='talk'){ TK.secs=0; TK.cnt=0; start_(); return; }
+  if(!_rsSaved()){ paint(); } else { try{ var o=_rsSaved(); ci=o.ci||0; qi=o.qi||0; }catch(e){} }
+  if(!qOk_()){ ORIG_BOOT(); pill_(); return; }
+  pick_();
+};
+/* 건강 여쭙기 · 고치기 등으로 자리가 바뀌면 말로 쓰기 화면도 따라감 */
+var ORIG_PAINT=paint;
+paint=function(){
+  ORIG_PAINT.apply(this, arguments);
+  if(TK.lock){ return; }
+  if(TK.on && RV_EDIT){ off_(); return; }   /* 쓴 글 고치기는 지금 화면에서 */
+  if(TK.on && (TK.view==='intro'||TK.view==='rec'||TK.view==='res') && (ci!==TK.ci || qi!==TK.qi)){
+    if(!qOk_()){ off_(); return; }
+    if(cur().sec!==TK.sec){ intro_(); } else { rec_(); }
+    return;
+  }
+  if(!TK.on){
+    /* 「이 물음만 글로」 · 고르기 물음을 지나 다음 물음으로 가면 말로 쓰기로 돌아옴(말로 쓰기를 고르신 분) */
+    if(how_()==='talk' && eligible_() && qOk_() && TK.ci>=0 && (ci!==TK.ci || qi!==TK.qi)){
+      if(ci===TK.ci && cur().sec!==TK.sec && TK.sec>=0){ done_((BOOK[ci].secs||[])[TK.sec]||'', TK.sec); return; }   /* 소재를 마침 */
+      if(secQs_().indexOf(qi)===0){ intro_(); } else { rec_(); say_(); }
+      return;
+    }
+    pill_();
+  }
+};
+})();
+</script>
 <script src="/lf/frame.js?v=17"></script><!-- ★[칸 27-2] 화면 틀 공용 부품 -->
 </body>
 </html>
