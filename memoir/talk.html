@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ memoir/talk.html · v1 · 261031 · [499 · 75차 · 대표 OK 16:42 「선택형」] 시험판 — 자서전 「말로 쓰기」 길. 이야기를 열면 「말로 쓰기 · 글로 쓰기」 둘 중 고름 → 글로 쓰기 = 지금 화면(ask.html) 그대로 · 말로 쓰기 = 오늘의 이야기(물음 하나 + 되묻기 3번 · 안내 듣기 → 큰 녹음 단추 → 글로 바뀐 것 → 여기까지 했어요) · 들어오면 「이어서 하기」. 시험판 한계: 물음 · 되묻기는 견본(소재 셋) · 녹음은 이 휴대폰 안에만(다시 듣기) · 글로 바꾸기는 휴대폰 받아쓰기(되는 기기만) · 안내 목소리는 기계 목소리(대표님 녹음 전) · 멈춘 자리는 이 기기만. 뒤 칸: 500 서버 저장 · 90일 · 501 국내 음성 인식 · 502 되묻기 공모. -->
+<html lang="ko">
+<head>
+<script src="/lf/dk.js?v=1"></script>
+<script src="/lf/pass.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>사랑흐름 · 자서전 말로 쓰기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--navy-deep:#173A5A;--gold:#D4AF37;--gold-deep:#B8923E;--cream:#FFFBF5;--ink:#2A3542;--muted:#8A8580;--line:#E7DCC9;--soft:#F7F0E4;--teal:#0F8B8D;--teal-soft:#E3F4F3;--rec:#D64545;--grape:#7B5EA7;--grape-soft:#E8E0F0}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Noto Sans KR',sans-serif;background:#EDE4D6;color:var(--ink);min-height:100vh;display:flex;flex-direction:column;align-items:center}
+.wrap{width:100%;max-width:412px;flex:1;display:flex;flex-direction:column;padding:16px 18px 18px}
+.serif{font-family:'Noto Serif KR',serif}
+.demo{align-self:center;font-size:11.5px;color:#8a6d00;background:#FFF4CC;border:1px solid #E9D27A;border-radius:20px;padding:2px 10px;margin-bottom:10px}
+.v{display:none;flex-direction:column;align-items:stretch;gap:14px;flex:1}
+.v.on{display:flex}
+.kick{text-align:center;font-size:13.5px;color:var(--muted)}
+.ttl{text-align:center;font-size:22px;font-weight:700;color:var(--navy-deep);line-height:1.4}
+.q{text-align:center;font-size:23px;font-weight:700;line-height:1.5;color:var(--ink);word-break:keep-all}
+.q.sm{font-size:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center}
+.big{width:100%;border:none;border-radius:18px;background:var(--navy);color:#fff;font-family:inherit;font-weight:700;font-size:19px;padding:18px 0;cursor:pointer}
+.big:active{background:var(--navy-deep)}
+.big.xl{font-size:21px;padding:22px 0}
+.ghost{width:100%;border:1.5px solid var(--navy);border-radius:16px;background:#fff;color:var(--navy);font-family:inherit;font-weight:700;font-size:16px;padding:13px 0;cursor:pointer}
+.lnk{background:none;border:none;color:var(--navy);font-family:inherit;font-size:14px;text-decoration:underline;cursor:pointer;padding:6px;align-self:center}
+.lnk.mut{color:var(--muted)}
+/* 고르기 */
+.choose{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.ch{border:2px solid var(--line);background:#fff;border-radius:20px;padding:20px 8px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.ch .ic{width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.ch .ic svg{width:32px;height:32px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ch b{font-size:19px}
+.ch span{font-size:12.5px;color:var(--muted);line-height:1.4}
+.ch.talk .ic{background:radial-gradient(circle at 35% 30%,#ff8080,var(--rec))}
+.ch.write .ic{background:var(--navy)}
+.ch.last{border-color:var(--gold);box-shadow:0 0 0 3px rgba(212,175,55,.18)}
+.mem{text-align:center;font-size:12.5px;color:var(--muted)}
+/* 안내 목소리 */
+.voice{display:flex;align-items:center;gap:10px;background:var(--teal-soft);border:none;border-radius:14px;padding:10px 12px;width:100%;font-family:inherit;font-size:14px;color:var(--teal);font-weight:700;cursor:pointer;text-align:left}
+.voice .pl{width:34px;height:34px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;flex:none}
+.voice .pl svg{width:16px;height:16px;fill:#fff}
+.voice.mine{background:var(--soft);color:var(--ink)}
+.voice.mine .pl{background:var(--navy)}
+.voice.playing .pl{animation:pulse 1s infinite}
+.hint{font-size:13px;color:var(--muted);background:#F3EFE7;border-radius:10px;padding:9px 12px;text-align:center;line-height:1.55}
+/* 점 */
+.dots{display:flex;gap:8px;justify-content:center}
+.dots i{width:11px;height:11px;border-radius:50%;background:#ddd;display:block}
+.dots i.on{background:var(--gold)}
+.dots i.cur{background:var(--navy)}
+.dotl{text-align:center;font-size:13px;color:var(--muted);margin-top:-6px}
+/* 녹음 단추 */
+.micwrap{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;min-height:250px}
+.mic{width:150px;height:150px;border-radius:50%;border:none;background:radial-gradient(circle at 35% 30%,#ff8080,var(--rec));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;box-shadow:0 0 0 12px rgba(214,69,69,.12),0 0 0 24px rgba(214,69,69,.05)}
+.mic svg{width:48px;height:48px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+.mic.on{animation:ring 1.6s infinite}
+@keyframes ring{0%{box-shadow:0 0 0 0 rgba(214,69,69,.35),0 0 0 0 rgba(214,69,69,.15)}100%{box-shadow:0 0 0 22px rgba(214,69,69,0),0 0 0 40px rgba(214,69,69,0)}}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.wave{display:flex;gap:4px;align-items:center;height:36px}
+.wave i{display:block;width:5px;height:6px;background:var(--teal);border-radius:3px;transition:height .1s}
+.tm{font-weight:700;color:var(--rec);font-size:17px}
+.tm.idle{color:var(--muted);font-weight:500;font-size:14px}
+.msg{font-size:13.5px;color:#b23c3c;text-align:center;line-height:1.5}
+/* 글 */
+.txt{background:#FAF6EE;border:1px dashed #cbbfa8;border-radius:14px;padding:14px;font-size:16.5px;line-height:1.7;min-height:110px;white-space:pre-wrap;word-break:keep-all}
+.txt.wait{color:var(--muted);font-size:14.5px;text-align:center;display:flex;align-items:center;justify-content:center}
+textarea{width:100%;min-height:180px;border:1.5px solid var(--line);border-radius:14px;padding:14px;font-family:inherit;font-size:17px;line-height:1.7;resize:vertical;background:#fff;color:var(--ink)}
+/* 포도알 */
+.grape{display:flex;gap:6px;justify-content:center}
+.grape i{width:20px;height:20px;border-radius:50%;background:var(--grape-soft);display:block}
+.grape i.f{background:var(--grape)}
+.grape i.n{background:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.3);animation:pop .6s ease-out}
+@keyframes pop{0%{transform:scale(.3)}70%{transform:scale(1.25)}100%{transform:scale(1)}}
+.bell{text-align:center;font-size:44px;animation:pop .6s ease-out}
+.sp{flex:1}
+</style>
+</head>
+<body data-lf-title="자서전">
+<div class="wrap">
+  <div class="demo">시험판 · 견본 물음</div>
+
+  <!-- ① 고르기 -->
+  <section class="v" id="vPick">
+    <div class="kick" id="pkKick">첫째 이야기</div>
+    <div class="ttl serif" id="pkTtl">살던 집</div>
+    <div class="kick">어떻게 남기시겠어요?</div>
+    <div class="choose">
+      <button class="ch talk" id="chTalk" onclick="pickTalk()"><span class="ic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg></span><b>말로 쓰기</b><span>말씀하시면<br>글로 바뀝니다</span></button>
+      <button class="ch write" id="chWrite" onclick="pickWrite()"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></span><b>글로 쓰기</b><span>자판으로<br>직접 씁니다</span></button>
+    </div>
+    <div class="mem">어느 쪽으로 쓰셔도 한 권의 기록에 함께 담깁니다.<br>고르신 방법은 다음에도 기억하고, 언제든 바꾸실 수 있어요.</div>
+  </section>
+
+  <!-- ② 이어서 하기 -->
+  <section class="v" id="vHome">
+    <div class="card">
+      <div class="kick" id="hmWhen">지난번</div>
+      <div class="ttl serif" style="font-size:20px;margin:6px 0" id="hmTtl">첫째 이야기 · 살던 집</div>
+      <div class="kick" id="hmWhere">되묻기 2 / 3 까지 하셨어요</div>
+    </div>
+    <button class="big xl" onclick="goOn()">▶ 이어서 하기</button>
+    <button class="ghost" onclick="otherSec()">다른 이야기 하기</button>
+    <div class="sp"></div>
+    <div class="grape" id="hmGrape"></div>
+    <div class="dotl" id="hmCount">소재 1 / 8</div>
+    <button class="lnk mut" onclick="pickWrite()">글로 쓰기로 바꾸기</button>
+  </section>
+
+  <!-- ③ 안내 듣기 -->
+  <section class="v" id="vIntro">
+    <div class="kick">오늘의 이야기 · <span id="inSec">살던 집</span></div>
+    <button class="voice" id="inVoice" onclick="sayQ()"><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span><span id="inVoiceT">안내 듣기</span></button>
+    <div class="q serif" id="inQ"></div>
+    <div class="hint" id="inHint">남기고 싶은 것만 남기셔도 됩니다.<br>나중에 빼거나 가릴 수 있습니다.</div>
+    <div class="sp"></div>
+    <button class="big xl" onclick="startRec()">말씀 시작하기</button>
+  </section>
+
+  <!-- ④ 말씀하기 -->
+  <section class="v" id="vRec">
+    <div class="dots" id="rcDots"></div>
+    <div class="dotl" id="rcStep">물음</div>
+    <div class="q sm serif" id="rcQ"></div>
+    <div class="micwrap">
+      <button class="mic" id="mic" onclick="micTap()"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg><span id="micT">누르고 말씀</span></button>
+      <div class="wave" id="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="tm idle" id="tm">말씀이 잠깐 끊겨도 저절로 멈추지 않아요</div>
+      <div class="msg" id="rcMsg"></div>
+    </div>
+    <button class="big" id="doneB" onclick="stopRec()" style="display:none">다 말했어요</button>
+    <button class="lnk" onclick="toWrite()">글로 쓰기</button>
+    <button class="lnk mut" onclick="markNA()">저에게는 해당하지 않아요</button>
+  </section>
+
+  <!-- ⑤ 글로 바뀐 것 -->
+  <section class="v" id="vRes">
+    <div class="dots" id="rsDots"></div>
+    <div class="kick">말씀하신 것이 이렇게 남았어요</div>
+    <div class="txt" id="rsTxt"></div>
+    <button class="voice mine" id="rsPlay" onclick="playMine()"><span class="pl"><svg viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></svg></span><span id="rsPlayT">내 목소리 다시 듣기</span></button>
+    <audio id="au" style="display:none"></audio>
+    <div class="sp"></div>
+    <button class="big" id="rsNext" onclick="nextStep()">다음 물음</button>
+    <button class="ghost" onclick="again()">다시 말하기</button>
+  </section>
+
+  <!-- ⑥ 글로 쓰기(이 물음만) -->
+  <section class="v" id="vWrite">
+    <div class="dots" id="wrDots"></div>
+    <div class="q sm serif" id="wrQ"></div>
+    <textarea id="wrTa" placeholder="여기에 적어 주세요"></textarea>
+    <div class="msg" id="wrMsg"></div>
+    <div class="sp"></div>
+    <button class="big" onclick="saveWrite()">확인</button>
+    <button class="lnk" onclick="backToTalk()">말로 하기로 돌아가기</button>
+  </section>
+
+  <!-- ⑦ 여기까지 -->
+  <section class="v" id="vDone">
+    <div class="bell">🔔</div>
+    <div class="ttl serif" id="dnTtl">「살던 집」 이야기를<br>남기셨어요</div>
+    <div class="kick" id="dnInfo">오늘 11분 · 말씀 4번</div>
+    <div class="grape" id="dnGrape"></div>
+    <div class="kick">다음에 들어오시면<br>「이어서 하기」로 바로 시작합니다.</div>
+    <div class="sp"></div>
+    <button class="big xl" onclick="closeDay()">여기까지 했어요</button>
+    <button class="ghost" onclick="nextSec()">한 가지 더 이야기하기</button>
+  </section>
+</div>
+
+<!-- 아래 길 셋 — 자서전 화면 표준(sign 과 같음) -->
+<div id="lfway" style="display:flex;gap:6px;justify-content:center;flex-wrap:wrap;margin:18px auto 26px">
+  <a onclick="history.back()" style="display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #DDD3C4;border-radius:13px;background:#fff;cursor:pointer;text-decoration:none"><span style="font-size:11px;color:#94A0AE">←</span><span style="font-size:10.5px;font-weight:500;color:#7A8794">뒤로</span></a>
+  <a href="/" style="display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #DDD3C4;border-radius:13px;background:#fff;cursor:pointer;text-decoration:none"><span style="font-size:11px;color:#94A0AE">⌂</span><span style="font-size:10.5px;font-weight:500;color:#7A8794">홈</span></a>
+  <a href="/memoir/book.html" id="lfwayBook" style="display:inline-flex;align-items:center;gap:4px;height:26px;padding:0 11px;border:1px solid #DDD3C4;border-radius:13px;background:#fff;cursor:pointer;text-decoration:none"><span style="font-size:11px;color:#94A0AE">→</span><span style="font-size:10.5px;font-weight:500;color:#7A8794">내 기록 보기</span></a>
+</div>
+<script>
+/* ─── 견본 물음 (502 · 76차 공모 전) ─── */
+var SECS=[
+ {name:'살던 집', q:['어릴 적 살던 집을 떠올려 보세요. 대문을 열면 무엇이 보였나요?','그 집에서 가장 좋아하던 자리는 어디였나요?','그 집에서 함께 살던 분들은 누구였나요?','그 집을 떠올리면 어떤 냄새나 소리가 생각나시나요?']},
+ {name:'어머니', q:['어머니를 떠올리면 가장 먼저 생각나는 모습은 무엇인가요?','어머니가 자주 하시던 말씀이 있었나요?','어머니가 해 주신 음식 가운데 지금도 생각나는 것은 무엇인가요?','지금 어머니께 한마디 하신다면 무슨 말씀을 드리고 싶으세요?']},
+ {name:'첫 일터', q:['처음으로 일을 하신 곳은 어디였나요?','첫 월급을 받던 날이 기억나시나요?','그곳에서 만난 잊지 못할 분이 있나요?','그 일을 하시며 가장 보람 있던 때는 언제였나요?']}
+];
+var TOTAL=8, STORY='첫째 이야기';
+var STEPNAME=['물음','되묻기 1 / 3','되묻기 2 / 3','되묻기 3 / 3'];
+var NA='저에게는 해당하지 않아요';
+var KEY='lf_talk_t1', HOW='lf_memoir_how';
+
+/* ─── 상태 (시험판 = 이 기기에만) ─── */
+var S={sec:0,step:0,ans:{},at:0,secsToday:0,cnt:0};
+try{var o=JSON.parse(localStorage.getItem(KEY)||'null'); if(o){S=o;}}catch(e){}
+function save(){ try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){} }
+var BLOB={};
+function $(i){return document.getElementById(i);}
+function show(id){ var a=document.querySelectorAll('.v'); for(var i=0;i<a.length;i++){a[i].classList.remove('on');} $(id).classList.add('on'); window.scrollTo(0,0); }
+function cur(){ return SECS[S.sec%SECS.length]; }
+function k(){ return S.sec+'-'+S.step; }
+function dots(id){ var h=''; for(var i=0;i<4;i++){ h+='<i class="'+(i<S.step?'on':(i===S.step?'cur':''))+'"></i>'; } $(id).innerHTML=h; }
+function grape(id,justDone){ var h=''; for(var i=0;i<TOTAL;i++){ var c=i<S.sec?'f':''; if(justDone&&i===S.sec){c='n';} h+='<i class="'+c+'"></i>'; } $(id).innerHTML=h; }
+function josa(w){ var c=w.charCodeAt(w.length-1)-0xAC00; return (c>=0&&c<11172&&c%28)?'을':'를'; }
+function mmss(s){ s=Math.round(s); return (s<600?'0':'')+Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60); }
+
+/* ─── 처음 ─── */
+function boot(){
+  try{ var pp=new URLSearchParams(location.search).get('id'); if(pp){ $('lfwayBook').href='/memoir/book.html?id='+encodeURIComponent(pp); } }catch(e){}
+  var how=''; try{how=localStorage.getItem(HOW)||'';}catch(e){}
+  $('pkKick').textContent=STORY; $('pkTtl').textContent=cur().name;
+  if(how==='talk' && S.at){ $('chTalk').classList.add('last'); paintHome(); show('vHome'); return; }
+  if(how==='talk'){ $('chTalk').classList.add('last'); } else if(how==='write'){ $('chWrite').classList.add('last'); }
+  show('vPick');
+}
+function paintHome(){
+  var d=Math.floor((Date.now()-(S.at||Date.now()))/86400000);
+  $('hmWhen').textContent='지난번 · '+(d<1?'오늘':d+'일 전');
+  $('hmTtl').textContent=STORY+' · '+cur().name;
+  $('hmWhere').textContent=S.step===0?'「'+cur().name+'」'+josa(cur().name)+' 시작하실 차례예요':STEPNAME[S.step-1]+' 까지 하셨어요';
+  grape('hmGrape'); $('hmCount').textContent=cur().name+' · 소재 '+(S.sec+1)+' / '+TOTAL;
+}
+function pickTalk(){ try{localStorage.setItem(HOW,'talk');}catch(e){} S.secsToday=0; S.cnt=0; toIntro(); }
+function pickWrite(){
+  try{localStorage.setItem(HOW,'write');}catch(e){}
+  location.href='/memoir/ask.html'+location.search;   /* 지금 화면 그대로 */
+}
+function goOn(){ S.secsToday=0; S.cnt=0; if(S.step===0){ toIntro(); } else { toRec(); sayQ(); } }
+
+/* ─── 안내 목소리 (대표님 녹음 전 = 기계 목소리) ─── */
+var VOICE=null;
+function pickVoice(){ if(!window.speechSynthesis){return;} var vs=speechSynthesis.getVoices().filter(function(v){return /ko/i.test(v.lang);}); var pref=['Yuna','Google 한국의','SunHi','Heami']; for(var p=0;p<pref.length;p++){ for(var i=0;i<vs.length;i++){ if(vs[i].name.indexOf(pref[p])>=0){VOICE=vs[i];return;} } } VOICE=vs[0]||null; }
+if(window.speechSynthesis){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
+function sayQ(){
+  if(!window.speechSynthesis){return;}
+  var b=$('inVoice');
+  if(speechSynthesis.speaking){ speechSynthesis.cancel(); b.classList.remove('playing'); return; }
+  var u=new SpeechSynthesisUtterance(cur().q[S.step]); u.lang='ko-KR'; u.rate=.9; u.pitch=1.05; if(VOICE){u.voice=VOICE;}
+  u.onend=function(){ b.classList.remove('playing'); $('inVoiceT').textContent='다시 듣기'; };
+  b.classList.add('playing'); $('inVoiceT').textContent='안내를 들려드리고 있어요';
+  try{ speechSynthesis.speak(u); }catch(e){}
+}
+function hush(){ try{ speechSynthesis.cancel(); }catch(e){} $('inVoice').classList.remove('playing'); }
+
+function toIntro(){
+  S.step=0; $('inSec').textContent=cur().name; $('inQ').textContent=cur().q[0];
+  $('inHint').style.display=(S.sec===0)?'block':'none';   /* 첫 소재에만 */
+  $('inVoiceT').textContent='안내 듣기';
+  show('vIntro'); sayQ();
+}
+
+/* ─── 녹음 (이름 남기기 화면 틀) + 휴대폰 받아쓰기 ─── */
+var R={st:'idle'};
+function toRec(){
+  dots('rcDots'); $('rcStep').textContent=STEPNAME[S.step]; $('rcQ').textContent=cur().q[S.step];
+  $('mic').classList.remove('on'); $('micT').textContent='누르고 말씀'; $('doneB').style.display='none';
+  $('tm').className='tm idle'; $('tm').textContent='말씀이 잠깐 끊겨도 저절로 멈추지 않아요'; $('rcMsg').textContent='';
+  show('vRec');
+}
+function startRec(){ hush(); toRec(); recGo(); }
+function micTap(){ if(R.st==='rec'){ stopRec(); } else { hush(); recGo(); } }
+function mime(){ if(!window.MediaRecorder){return null;} var c=['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus']; for(var i=0;i<c.length;i++){ try{ if(MediaRecorder.isTypeSupported(c[i])){return c[i];} }catch(e){} } return ''; }
+function recGo(){
+  var m=mime();
+  if(m===null||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){ $('rcMsg').textContent='이 휴대폰에서는 녹음을 할 수 없어요. 아래 「글로 쓰기」로 남기실 수 있어요.'; return; }
+  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}).then(function(st){
+    R.stream=st; R.chunks=[]; R.text=''; R.part='';
+    try{ R.rec=m?new MediaRecorder(st,{mimeType:m,audioBitsPerSecond:64000}):new MediaRecorder(st); }catch(e){ R.rec=new MediaRecorder(st); }
+    R.rec.ondataavailable=function(e){ if(e.data&&e.data.size){R.chunks.push(e.data);} };
+    R.rec.onstop=recStopped;
+    R.rec.start(1000); R.t0=Date.now(); R.st='rec';
+    $('mic').classList.add('on'); $('micT').textContent='듣고 있어요'; $('doneB').style.display='block';
+    $('tm').className='tm'; $('tm').textContent='● 00:00';
+    R.timer=setInterval(function(){ $('tm').textContent='● '+mmss((Date.now()-R.t0)/1000); },500);
+    waveOn(st); srOn();
+  }).catch(function(){ $('rcMsg').textContent='마이크를 쓸 수 있게 허락해 주세요. 허락이 어려우시면 아래 「글로 쓰기」로 남기실 수 있어요.'; });
+}
+function stopRec(){
+  if(R.st!=='rec'){return;} R.st='stopping';
+  try{clearInterval(R.timer);}catch(e){} waveOff();
+  $('mic').classList.remove('on'); $('micT').textContent='담고 있어요';
+  srOff();
+  setTimeout(function(){ try{ if(R.rec.state!=='inactive'){R.rec.stop();} }catch(e){ recStopped(); } try{ R.stream.getTracks().forEach(function(t){t.stop();}); }catch(e){} },700);  /* 받아쓰기 마지막 말을 기다림 */
+}
+function recStopped(){
+  var secs=(Date.now()-R.t0)/1000;
+  var b=new Blob(R.chunks,{type:(R.rec&&R.rec.mimeType||'audio/webm').split(';')[0]});
+  BLOB[k()]=URL.createObjectURL(b);
+  var t=(R.text+' '+R.part).replace(/\s+/g,' ').trim();
+  S.ans[k()]={t:t,s:Math.round(secs),how:'talk'}; S.secsToday+=secs; S.cnt++; S.at=Date.now(); save();
+  R.st='idle'; toRes();
+}
+/* 받아쓰기 — 되는 기기만 · [확인 안 됨] 녹음과 함께 켤 때 기기마다 마이크가 부딪히는지 */
+var SR=null;
+function srOn(){
+  var C=window.SpeechRecognition||window.webkitSpeechRecognition; if(!C){return;}
+  try{ SR=new C(); SR.lang='ko-KR'; SR.continuous=true; SR.interimResults=true; SR.keep=true;
+    SR.onresult=function(ev){ var p=''; for(var i=ev.resultIndex;i<ev.results.length;i++){ if(ev.results[i].isFinal){ R.text+=' '+ev.results[i][0].transcript; } else { p+=ev.results[i][0].transcript; } } R.part=p; };
+    SR.onend=function(){ if(SR&&SR.keep&&R.st==='rec'){ try{SR.start();}catch(e){} } };   /* 말씀이 끊겨도 다시 들음 */
+    SR.onerror=function(){};
+    SR.start();
+  }catch(e){ SR=null; }
+}
+function srOff(){ if(SR){ SR.keep=false; try{SR.stop();}catch(e){} } }
+/* 소리 물결 */
+var AN=null;
+function waveOn(st){
+  var A=window.AudioContext||window.webkitAudioContext; if(!A){return;}
+  try{ var ac=new A(), an=ac.createAnalyser(); an.fftSize=64; ac.createMediaStreamSource(st).connect(an); var d=new Uint8Array(an.frequencyBinCount), bars=$('wave').children;
+    AN={ac:ac,run:true}; (function f(){ if(!AN||!AN.run){return;} an.getByteFrequencyData(d); for(var i=0;i<bars.length;i++){ bars[i].style.height=(6+d[i+2]/255*30)+'px'; } requestAnimationFrame(f); })();
+  }catch(e){}
+}
+function waveOff(){ if(AN){ AN.run=false; try{AN.ac.close();}catch(e){} AN=null; } var b=$('wave').children; for(var i=0;i<b.length;i++){b[i].style.height='6px';} }
+
+/* ─── 글로 바뀐 것 ─── */
+function toRes(){
+  dots('rsDots');
+  var a=S.ans[k()]||{};
+  var el=$('rsTxt');
+  if(a.t){ el.className='txt'; el.textContent=a.t; }
+  else { el.className='txt wait'; el.textContent='글로 바꾸는 중입니다.\n목소리는 잘 남았어요.'; }
+  $('rsPlay').style.display=BLOB[k()]?'flex':'none'; $('rsPlayT').textContent='내 목소리 다시 듣기 · '+mmss(a.s||0);
+  $('rsNext').textContent=(S.step>=3)?'여기까지 하기':'다음 물음';
+  show('vRes');
+}
+function playMine(){ var au=$('au'); if(!BLOB[k()]){return;} if(!au.paused){au.pause();return;} au.src=BLOB[k()]; au.play().catch(function(){}); }
+function again(){ $('au').pause(); toRec(); }
+function nextStep(){
+  $('au').pause();
+  if(S.step>=3){ toDone(); return; }
+  S.step++; save(); toRec(); sayQ();
+}
+function markNA(){ srOff(); S.ans[k()]={t:NA,s:0,how:'na'}; S.at=Date.now(); save(); nextStep(); }
+
+/* ─── 글로 쓰기(이 물음만) ─── */
+function toWrite(){ if(R.st==='rec'){ stopRec(); return; } hush(); dots('wrDots'); $('wrQ').textContent=cur().q[S.step]; var a=S.ans[k()]; $('wrTa').value=(a&&a.how==='write')?a.t:''; $('wrMsg').textContent=''; show('vWrite'); }
+function saveWrite(){ var t=$('wrTa').value.trim(); if(!t){ $('wrMsg').textContent='적어 주시면 다음 물음으로 넘어갑니다.'; return; } S.ans[k()]={t:t,s:0,how:'write'}; S.cnt++; S.at=Date.now(); save(); toRes(); }
+function backToTalk(){ toRec(); }
+
+/* ─── 여기까지 ─── */
+function chime(){ try{ var A=window.AudioContext||window.webkitAudioContext, ac=new A(); [880,1318].forEach(function(f,i){ var o=ac.createOscillator(), g=ac.createGain(); o.frequency.value=f; o.connect(g); g.connect(ac.destination); var t=ac.currentTime+i*.18; g.gain.setValueAtTime(.0001,t); g.gain.exponentialRampToValueAtTime(.25,t+.02); g.gain.exponentialRampToValueAtTime(.0001,t+.9); o.start(t); o.stop(t+1); }); }catch(e){} }
+function toDone(){
+  $('dnTtl').innerHTML='「'+cur().name+'」 이야기를<br>남기셨어요';
+  $('dnInfo').textContent='오늘 '+Math.max(1,Math.round(S.secsToday/60))+'분 · 말씀 '+S.cnt+'번';
+  grape('dnGrape',true); show('vDone'); chime();
+  S.sec++; S.step=0; S.at=Date.now(); save();
+}
+function closeDay(){ paintHome(); show('vHome'); }
+function nextSec(){ S.secsToday=0; S.cnt=0; toIntro(); }
+function otherSec(){ S.sec++; S.step=0; S.secsToday=0; S.cnt=0; save(); toIntro(); }   /* 견본: 다음 소재로 */
+
+boot();
+</script>
+<script src="/lf-foot.js" defer></script>
+<script src="/lf/frame.js?v=17"></script>
+</body>
+</html>
