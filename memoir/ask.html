@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v90 · 261031 · [499 · 75차 · 대표 OK 17:39 「선택형」] 「말로 쓰기」 길을 더함 — 이야기를 열면 「말로 쓰기 · 글로 쓰기」 고르기(기기에 기억 · 언제든 바꿈) · 말로 쓰기 = 안내 듣기 → 큰 녹음 단추 → 글로 바뀐 것 → 다음 물음 → 「여기까지 했어요」 · 「이어서 하기」 · 답은 지금 답 칸 · 저장 길(onType · nextQ · markNA) 그대로 · 휴대폰 받아쓰기가 되는 화면에서만(501 뒤 어디서나) · 녹음은 기기 안 다시 듣기만(500). [무손] 글로 쓰기 화면 · 저장 · 서버 · 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v90-1 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「이야기 주머니로」→「이야깃거리 목록으로」 · 「여기까지 했어요」→「여기까지 저장」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
+<!-- (이전) memoir/ask.html · v90 · 261031 · [499 · 75차 · 대표 OK 17:39 「선택형」] 「말로 쓰기」 길을 더함 — 이야기를 열면 「말로 쓰기 · 글로 쓰기」 고르기(기기에 기억 · 언제든 바꿈) · 말로 쓰기 = 안내 듣기 → 큰 녹음 단추 → 글로 바뀐 것 → 다음 물음 → 「여기까지 했어요」 · 「이어서 하기」 · 답은 지금 답 칸 · 저장 길(onType · nextQ · markNA) 그대로 · 휴대폰 받아쓰기가 되는 화면에서만(501 뒤 어디서나) · 녹음은 기기 안 다시 듣기만(500). [무손] 글로 쓰기 화면 · 저장 · 서버 · 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v89 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v88 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v87 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -1656,7 +1657,7 @@ function pzPouch_(s, err){
     h+='</div>';
   }
   h+='<div class="pz-err">'+(err?rvEsc_(err):'')+'</div>'
-   +'<div class="rv-foot"><button type="button" class="btn prev" style="flex:none;width:100%" onclick="pzBoard_()">이야기 주머니로</button></div></div>';
+   +'<div class="rv-foot"><button type="button" class="btn prev" style="flex:none;width:100%" onclick="pzBoard_()">이야깃거리 목록으로</button></div></div>';
   var m=document.getElementById('rvmask'), y=(m && m.style.display==='block') ? m.scrollTop : 0;
   pzMask_(h); if(m){ m.scrollTop=y; }
 }
@@ -1756,8 +1757,8 @@ paint = function(){
     var an=document.getElementById('ans'); an.placeholder='하고 싶은 이야기를 마음 가는 대로 들려주세요';
     pzCount_();
     document.getElementById('nextb').textContent='이 칸 다 썼어요';
-    var pv=document.querySelector('#foot .btn.prev'); if(pv){ pv.style.display=''; pv.textContent='이야기 주머니로'; }
-    var rb=document.getElementById('rvBtn'); if(rb){ rb.textContent='이야기 주머니로'; }
+    var pv=document.querySelector('#foot .btn.prev'); if(pv){ pv.style.display=''; pv.textContent='이야깃거리 목록으로'; }
+    var rb=document.getElementById('rvBtn'); if(rb){ rb.textContent='이야깃거리 목록으로'; }
   }catch(e){}
 };
 function pzCount_(){
@@ -2346,7 +2347,7 @@ function done_(name, idx){
    +'<div class="tk-k">오늘 '+Math.max(1,Math.round(TK.secs/60))+'분 · 말씀 '+TK.cnt+'번</div>'
    +grapes_(idx)
    +'<div class="tk-k">다음에 들어오시면<br>「이어서 하기」로 바로 시작합니다.</div>'
-   +'<div class="tk-sp"></div><button type="button" class="tk-big xl" onclick="tkClose_()">여기까지 했어요</button>'
+   +'<div class="tk-sp"></div><button type="button" class="tk-big xl" onclick="tkClose_()">여기까지 저장</button>'
    +'<button type="button" class="tk-gh" onclick="tkMore_()">한 가지 더 이야기하기</button>','done');
   try{ var gi=document.querySelectorAll('#tk .tk-gr i'); for(var i=0;i<idx && i<gi.length;i++){ gi[i].className='f'; } }catch(e){}
   chime_();

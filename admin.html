@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ admin.html · v21 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「여권 뽑기」→「여권 발급」 · 「자서전 편 더하기」→「자서전 편 수 늘리기」 · 「편 더하기」→「편 수 늘리기」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
 <!-- ═══════════════════════════════════════════════════════════════════
      사랑흐름 · admin.html   v19 · 261024 · [칸 8-가 · 대표 OK 15:13 · ★게시판 서버 v5-22와 짝] 공용 열쇠 칸을 뺌 — 본부(/rec/?hq=1)에 들어와 있으면 그 로그인으로 바로 열림(우리 이야기 서버가 서명한 60분 「본부 표」를 받아 씀 · 50분이 지나면 저절로 새로 받음) · 본부에 들어와 있지 않으면 「본부로 들어오기」 · 이 기기에 남아 있던 옛 열쇠는 지움 · 비상용 열쇠 칸은 접어 둠(게시판 서버에서 비상 켬일 때만 됨) · 그 밖 무손
      ── 이전 ── 사랑흐름 · admin.html   v18 · 261024 · [칸 7-나 447 · 대표 13:47] 본부에서 열었을 때 맨 아래 푸터 위 「← ⌂ →」(⌂ = 본부 「오늘」) · 그 밖 무손
@@ -510,7 +511,7 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
 
         <div class="warn">
           여기서 뽑은 여권은 <b>시스템이 입금을 확인하지 않고 나갑니다.</b><br>
-          돈이 들어왔는지 눈으로 확인하신 뒤 뽑으십시오. 뽑기 전에 장수를 다시 보십시오.
+          돈이 들어왔는지 눈으로 확인하신 뒤 발급하십시오. 발급 전에 장수를 다시 보십시오.
         </div>
 
         <div class="row">
@@ -555,7 +556,7 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
         <div class="row">
           <label>계약번호</label>
           <input id="bBatch" type="text" autocomplete="off" placeholder="비우면 자동" maxlength="20">
-          <div class="hint">여러 번 나눠 뽑을 때 <b>같은 번호</b>를 넣으십시오. 순번이 스스로 이어집니다. 비우시면 이번 뽑기만의 번호가 생깁니다.</div>
+          <div class="hint">여러 번 나눠 뽑을 때 <b>같은 번호</b>를 넣으십시오. 순번이 스스로 이어집니다. 비우시면 이번 발급만의 번호가 생깁니다.</div>
         </div>
 
         <div class="row">
@@ -564,14 +565,14 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
           <div class="hint" id="bQtyHint">한 장에 5초쯤 걸립니다. 뽑는 동안 이 창을 닫지 마십시오.</div>
         </div>
 
-        <button class="run" id="bRun" onclick="doBulk()">여권 뽑기</button>
+        <button class="run" id="bRun" onclick="doBulk()">여권 발급</button>
 
         <div class="out" id="bOut"></div>
        </div>
 
         <!-- ★v13 자서전 편 더하기 -->
         <div class="addbox" id="bkAdd">
-          <h4>자서전 편 더하기</h4>
+          <h4>자서전 편 수 늘리기</h4>
           <div class="hint" style="margin-bottom:12px">이미 나간 번호에 자서전 편을 더 열어 줄 때 씁니다. 한 번호에 10편까지입니다.</div>
           <div class="row">
             <label>사랑흐름 여권번호</label>
@@ -582,7 +583,7 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
             <label>더할 편 수</label>
             <input id="aN" class="num" type="number" inputmode="numeric" value="1" min="1" max="9" step="1">
           </div>
-          <button class="run" id="aRun" onclick="doAdd()">편 더하기</button>
+          <button class="run" id="aRun" onclick="doAdd()">편 수 늘리기</button>
           <div class="out" id="aOut"></div>
         </div>
 
@@ -898,11 +899,11 @@ function doAdd(){
   if(!confirm(pp + ' 에 자서전 ' + n + '편을 더합니다. 진행할까요?')){ return; }
   btn.disabled = true; btn.textContent = '더하는 중…';
   jsonp({ action:'adminAddPieces', key:KEY, passport:pp, n:n }, function(r){
-    btn.disabled = false; btn.textContent = '편 더하기';
+    btn.disabled = false; btn.textContent = '편 수 늘리기';
     if(!r || r.status !== 'ok'){ out.innerHTML = '<div class="bad">' + esc((r && r.msg) ? r.msg : '더하지 못했습니다.') + '</div>'; return; }
     out.innerHTML = '<div class="oh">' + esc(pp) + ' · ' + r.added + '편 더함 · 이제 자서전 ' + r.pieces + '편</div>';
     addLook();
-  }, function(m){ btn.disabled = false; btn.textContent = '편 더하기'; out.innerHTML = '<div class="bad">' + esc(m) + '</div>'; });
+  }, function(m){ btn.disabled = false; btn.textContent = '편 수 늘리기'; out.innerHTML = '<div class="bad">' + esc(m) + '</div>'; });
 }
 
 /* ★v15 배포처 번호 저절로 */
@@ -1027,7 +1028,7 @@ function doBulk(over, why){   /* ★v16 over · why = 증액 승인 */
           req:BULK_REQ, over:(over || ''), why:(why || '') },  /* ★v16 */
     function(res){
       btn.disabled = false;
-      btn.textContent = '여권 뽑기';
+      btn.textContent = '여권 발급';
       if(!(res && (res.code === 'BUSY' || res.code === 'IN_PROGRESS'))){ BULK_REQ = null; }   /* ★v16 답을 받았으니 다음 누름은 새 요청 */
       if(res && res.code === 'CONTRACT_OVER'){ paintOver(res); return; }
 
@@ -1041,9 +1042,9 @@ function doBulk(over, why){   /* ★v16 over · why = 증액 승인 */
     },
     function(msg){
       btn.disabled = false;
-      btn.textContent = '여권 뽑기';
+      btn.textContent = '여권 발급';
       out.innerHTML = '<div class="bad">' + esc(msg)
-        + '<br>★나갔는데 화면만 못 받았을 수 있습니다. 「여권 뽑기」를 다시 누르시면 같은 요청으로 확인만 하고, 두 번 뽑지 않습니다.</div>';
+        + '<br>★나갔는데 화면만 못 받았을 수 있습니다. 「여권 발급」를 다시 누르시면 같은 요청으로 확인만 하고, 두 번 뽑지 않습니다.</div>';
     },
     BULK_WAIT);
 }
@@ -1076,7 +1077,7 @@ function paintBulkOut(res){
        + esc(f) + '번부터 ' + esc(l) + '번까지 &middot; 이 계약 누적 '
        + (Number(l)) + '장</div>';
   }else if(made.length){
-    h += '<div class="oh">배치 ' + esc(res.batch) + ' (이번 뽑기만의 번호)</div>';
+    h += '<div class="oh">배치 ' + esc(res.batch) + ' (이번 발급만의 번호)</div>';
   }
 
   if(made.length){
@@ -1110,7 +1111,7 @@ function paintOver(res){
     + '<div class="oh">계약 ' + esc(ci.contract || '') + ' &middot; 최초 ' + (ci.first || 0) + ' &middot; 증액 ' + (ci.extra || 0) + ' &middot; 누적 ' + (ci.used || 0) + ' &middot; 남은 ' + (ci.left || 0) + '</div>'
     + '<label>더할 수량</label><input id="bOver" type="number" min="1" inputmode="numeric" placeholder="예: 5">'
     + '<label>사유</label><input id="bWhy" maxlength="80" placeholder="예: 기관 추가 신청 (10/10 공문)">'
-    + '<button class="run" id="bOverGo" style="margin-top:8px">증액 승인하고 뽑기</button>';
+    + '<button class="run" id="bOverGo" style="margin-top:8px">증액 승인하고 발급</button>';
   document.getElementById('bOverGo').onclick = function(){
     var o = Number(document.getElementById('bOver').value) || 0, w = (document.getElementById('bWhy').value || '').trim();
     if(o < 1 || !w){ alert('더할 수량과 사유를 적어 주십시오.'); return; }

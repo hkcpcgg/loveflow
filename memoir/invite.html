@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/invite.html · v12 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/invite.html · v13 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「쓴 글 거두기」→「쓴 글 지우기」 · 「쓴 글을 거둘까요?」→「쓴 글을 지울까요?」 · 「거두시면 들려주신 글이」→「지우시면 들려주신 글이」 · 「기록은 거둘 수 없어요」→「기록은 지울 수 없어요」 · 「">거두기</button」→「">지우기</button」 · 「글을 거두었어요」→「글을 지웠어요」 외. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
+<!-- (이전) memoir/invite.html · v12 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/invite.html · v11 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/invite.html · v10 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/invite.html · v9 · 261005 · [작업 v9] [대표 ok 261005 · 약관 확정] 꼬리표 guide-ask.js?v=3 — lf/guide-ask.js v3(안내자 연결 동의 글). [무손] 그 밖 전부. -->
@@ -187,7 +188,7 @@ function first(){
   if(D.state==='받음'){
     h+='<p style="margin-top:14px;text-align:center;font-weight:700;color:#2f8a4c"><span class="ii"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>들려주신 기억이 '+f+' 님께 닿아 있어요'+(D.edited?' · '+esc(fmtDay(D.edited)):'')+'</p>'
      +'<button class="btn" onclick="toWrite()">더하거나 고치기</button>'
-     +'<button class="lk" onclick="dropAsk()">쓴 글 거두기</button>';
+     +'<button class="lk" onclick="dropAsk()">쓴 글 지우기</button>';
   } else {
     h+='<label class="age"><input type="checkbox" id="ag" '+(ST.age?'checked':'')+' onchange="ST.age=this.checked;$(\'go1\').disabled=!this.checked"><span>만 14세 이상입니다</span></label>'
      +'<div class="small">'+(YT()?'만 14세가 되지 않으셨다면 이 초대장에는 글을 남기실 수 없어요.':'만 14세가 되지 않으셨다면, 보호자와 함께 종이 물음지로 들려주실 수 있어요. '+f+' 님께 말씀해 주세요.')+'</div>'
@@ -296,13 +297,13 @@ function thanks(){
    +'<div class="card"><div class="lf-ilist" style="margin:0"><div class="lf-row" style="cursor:pointer" onclick="try{LFG.open(\'고맙습니다 화면\')}catch(e){}"><span class="lf-ci c-navy"><svg viewBox="0 0 24 24"><path d="M5 4h10a2 2 0 012 2v14H7a2 2 0 01-2-2z"/><path d="M8 8h6M8 11h6"/></svg></span><span><b>저도 제 이야기를 남겨 보고 싶어요</b><small>휴대폰이 낯설어도 괜찮아요 · 안내 가이드북을 보내 드려요</small></span></div></div></div>');
 }
 function dropAsk(){
-  draw('<div class="card"><h2>쓴 글을 거둘까요?</h2><p>거두시면 들려주신 글이 지워지고, '+esc(D.from||'보내신 분')+' 님의 기록에서도 빠집니다. 이미 종이로 나간 기록은 거둘 수 없어요.</p>'
-   +'<button class="btn" onclick="dropGo()">거두기</button><button class="lk" onclick="first()">그대로 두기</button></div>');
+  draw('<div class="card"><h2>쓴 글을 지울까요?</h2><p>지우시면 들려주신 글이 지워지고, '+esc(D.from||'보내신 분')+' 님의 기록에서도 빠집니다. 이미 종이로 나간 기록은 지울 수 없어요.</p>'
+   +'<button class="btn" onclick="dropGo()">지우기</button><button class="lk" onclick="first()">그대로 두기</button></div>');
 }
 function dropGo(){
   jsonp({ action:'memDrop', key:KEY }, function(d){
-    if(d && d.status==='ok'){ D.state='거둠'; ST.ans=['','','','','','','']; try{ localStorage.removeItem(DK); }catch(e){} draw('<div class="card" style="text-align:center"><h2>글을 거두었어요</h2><p class="small">마음이 바뀌시면 같은 링크로 다시 들려주실 수 있어요.</p><button class="btn line" onclick="first()">초대장으로</button></div>'+linksHtml()); }
-    else { alert('지금은 거둘 수 없어요. 잠시 뒤 다시 해 주세요.'); first(); }
+    if(d && d.status==='ok'){ D.state='거둠'; ST.ans=['','','','','','','']; try{ localStorage.removeItem(DK); }catch(e){} draw('<div class="card" style="text-align:center"><h2>글을 지웠어요</h2><p class="small">마음이 바뀌시면 같은 링크로 다시 들려주실 수 있어요.</p><button class="btn line" onclick="first()">초대장으로</button></div>'+linksHtml()); }
+    else { alert('지금은 지울 수 없어요. 잠시 뒤 다시 해 주세요.'); first(); }
   });
 }
 function linksHtml(){ return ''; /* ★v7 아래 띠와 겹쳐 걷음 */
@@ -349,7 +350,7 @@ function groupFirst(){
    +'<label class="age"><input type="checkbox" id="ag" onchange="gGate()"><span>만 14세 이상입니다</span></label>'
    +'<div class="small">만 14세가 되지 않으셨다면, 보호자와 함께 종이 물음지로 들려주실 수 있어요. '+f+' 님께 말씀해 주세요.</div>'
    +'<label class="f" for="gNm">성함</label><input class="t" id="gNm" maxlength="20" oninput="gGate()" placeholder="예: 김철수">'
-   +'<div class="err" id="gEr"></div><button class="btn" id="gGo" disabled onclick="gJoin()">내 칸 열기</button></div>';
+   +'<div class="err" id="gEr"></div><button class="btn" id="gGo" disabled onclick="gJoin()">이름 적고 시작하기</button></div>';
   draw(h);
 }
 function gGate(){ var b=$('gGo'); if(b){ b.disabled=!($('ag').checked && ($('gNm').value||'').trim()); } }
@@ -357,7 +358,7 @@ function gJoin(){
   var b=$('gGo'); b.disabled=true; b.textContent='내 칸을 만들고 있어요…';
   jsonp({ action:'memJoin', g:GKEY, name:($('gNm').value||'').trim() }, function(d){
     if(d && d.status==='ok' && d.key){ try{ localStorage.setItem('lf_mem_g_'+GKEY, d.key); }catch(e){} location.replace('/memoir/invite.html?k='+d.key+'&j=1'); return; }
-    b.disabled=false; b.textContent='내 칸 열기'; $('gEr').textContent=(d&&d.msg)||'지금은 칸을 만들 수 없어요. 잠시 뒤 다시 눌러 주세요.';
+    b.disabled=false; b.textContent='이름 적고 시작하기'; $('gEr').textContent=(d&&d.msg)||'지금은 칸을 만들 수 없어요. 잠시 뒤 다시 눌러 주세요.';
   });
 }
 boot();

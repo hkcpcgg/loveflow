@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/friends.html · v14 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/friends.html · v15 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「이 칸 담기」→「이 칸 저장」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
+<!-- (이전) memoir/friends.html · v14 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/friends.html · v13 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/friends.html · v12 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/friends.html · v11 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
@@ -253,7 +254,7 @@ function part1(){
 }
 function tagOf(x){
   if(x.state==='받음'){ return x.isNew ? '<span class="tag t-new">새로 온 글</span>' : '<span class="tag t-got">받음</span>'; }
-  if(x.state==='거둠'){ return '<span class="tag t-drop">거두심</span>'; }
+  if(x.state==='거둠'){ return '<span class="tag t-drop">지우심</span>'; }
   return '<span class="tag t-wait">기다리는 중</span>';
 }
 function invRow(x){
@@ -267,7 +268,7 @@ function invRow(x){
     for(var a=0;a<7;a++){ var t=String((x.ans||[])[a]||'').trim(); if(!t){ continue; } var q=qs[a]||{}; h+='<div class="qa"><b>'+esc(a===0?'우리 인연':(q.name||q.q||''))+'</b><p>'+esc(t)+'</p></div>'; }
     if(!signed()){ h+='<label class="pick"><input type="checkbox" '+(x.pick?'checked':'')+' onchange="pick(\''+x.key+'\',this.checked,this)"><span>이 글을 결과물에 싣기</span></label>'; }
   }
-  if(x.state==='거둠'){ h+='<div class="note">쓰신 분이 글을 거두셨어요'+(x.dropped?' · '+fmtDay(x.dropped):'')+'</div>'; }
+  if(x.state==='거둠'){ h+='<div class="note">쓰신 분이 글을 지우셨어요'+(x.dropped?' · '+fmtDay(x.dropped):'')+'</div>'; }
   return h+'</div></div>';
 }
 function inviteUrl(k){ return SITE+'/memoir/invite.html?k='+k; }
@@ -373,7 +374,7 @@ function secCard(s, S){
     h+='<div class="qq'+(fr?' free':'')+'">'+(fr?'<span class="ii"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg></span>':'')+esc(Q.q)+'</div><textarea id="ta'+s+'_'+q2+'" '+(signed()?'disabled ':'')+'oninput="ANS[\''+s+'_'+q2+'\']=this.value;keep()" placeholder="'+esc(Q.ex||'')+'">'+esc(ANS[s+'_'+q2]||'')+'</textarea>'
       +(signed()?'':'<button type="button" class="scb" onclick="scanInto(\''+s+'_'+q2+'\')">'+'<span class="ii"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l2-3h4l2 3"/></svg></span>'+'종이 불러오기</button>');   /* ★v2 */
   }
-  if(!signed()){ h+='<button class="btn" onclick="saveSec('+s+',this)">이 칸 담기</button><div class="okm" id="ok'+s+'"></div>'; }
+  if(!signed()){ h+='<button class="btn" onclick="saveSec('+s+',this)">이 칸 저장</button><div class="okm" id="ok'+s+'"></div>'; }
   return h+'</div></div>';
 }
 function togSec(s){ OPEN.sec=(OPEN.sec===s)?-1:s; var y=window.scrollY; draw(); window.scrollTo(0,y); }
