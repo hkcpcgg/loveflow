@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ p/index.html · v2 · 261105 · [534 대표 OK 14:01] 받는 곳 = 우리 이야기 방 · 사무국 = 그 방 관리자 — ?k=관리자 열쇠(제안서는 읽기 · 관리는 그 카카오로 관리 확인한 담당자만 · 처음 한 번 카카오 로그인 안내) · 「공유 허락」 → 「확인 완료」 · 관리 화면 이름 · 신청 숫자 맨 위 · 연 이야기방 수 저절로 · 본부 보고자료 ?hq=1&rep=방 번호 -->
+<!-- ★ 현재 버전 ▶ p/index.html · v3 · 261105 · [534 대표 14:27 「본부에서 바로 보는 링크」] 본부 목록 「사무국 화면 보기」(/p/?hq=1&view=방 번호 — 사무국 관리 화면 그대로 · 「로그인 전 화면」 · 단추는 눌리지 않음) · 「공간 화면 보기」(&pv=회차) — 본부 로그인만으로 봄 -->
+<!-- (이전) p/index.html · v2 · 261105 · [534 대표 OK 14:01] 받는 곳 = 우리 이야기 방 · 사무국 = 그 방 관리자 — ?k=관리자 열쇠(제안서는 읽기 · 관리는 그 카카오로 관리 확인한 담당자만 · 처음 한 번 카카오 로그인 안내) · 「공유 허락」 → 「확인 완료」 · 관리 화면 이름 · 신청 숫자 맨 위 · 연 이야기방 수 저절로 · 본부 보고자료 ?hq=1&rep=방 번호 -->
 <!-- (이전) p/index.html · v1 · 261105 · [534 견본 · 임시 가지 try/534-proposal · ★우리 이야기 서버 ①Code v50 · ③본부 v38 · ⑥시험 v59와 짝] 제안 · 설문 한 화면 — 주소에 따라 넷: ?o=사무국 열쇠(사무국 화면 — 회차 · 다음 할 일 · 공유 도우미 · 신청 현황 · 제안서 · 수정 요청 · 고친 기록) · ?o=…&r=1(임원회의 · 총회 보고자료 · 인쇄 · PDF) · ?o=…&pv=회차(공간 화면 미리보기) · ?a=참가 열쇠(교육 참가 화면 — 상호만) · ?hq=1(본부 「제안 · 설문」 · 대표만). 글은 p/t/<틀>.json. 개별 연락처는 받지 않음. -->
 <html lang="ko">
 <head>
@@ -136,8 +137,8 @@ table.tb td.c,table.tb th.c{text-align:center}
 <script>
 (function(){
 'use strict';
-var Q=new URLSearchParams(location.search), MODE=Q.get('hq')==='1'?(Q.get('rep')?'hqrep':'hq'):(Q.get('a')?'guest':(Q.get('k')?(Q.get('r')==='1'?'rep':(Q.get('pv')?'pv':'office')):'none'));
-try{ document.body.setAttribute('data-lf-title',{hq:'제안 · 교육생 모집 (본부)',hqrep:'교육 결과 보고자료',guest:'우리 이야기 교육',office:'사무국 관리 화면',rep:'교육 결과 보고자료',pv:'공간 화면 미리보기',none:'우리 이야기 교육'}[MODE]); }catch(e){}
+var Q=new URLSearchParams(location.search), MODE=Q.get('hq')==='1'?(Q.get('rep')?'hqrep':(Q.get('view')?(Q.get('pv')?'hqpv':'hqview'):'hq')):(Q.get('a')?'guest':(Q.get('k')?(Q.get('r')==='1'?'rep':(Q.get('pv')?'pv':'office')):'none'));
+try{ document.body.setAttribute('data-lf-title',{hqview:'사무국 화면 보기 (본부)',hqpv:'공간 화면 보기 (본부)',hq:'제안 · 교육생 모집 (본부)',hqrep:'교육 결과 보고자료',guest:'우리 이야기 교육',office:'사무국 관리 화면',rep:'교육 결과 보고자료',pv:'공간 화면 미리보기',none:'우리 이야기 교육'}[MODE]); }catch(e){}
 var API=window.LF_P_API||((window.LF_CONFIG&&LF_CONFIG.gas&&LF_CONFIG.gas.rec)||'');
 var $=function(id){ return document.getElementById(id); };
 var PP=$('pp'), T=null, D=null, CUR=0;
@@ -192,7 +193,7 @@ function guest(){
   call(p,function(d){ if(d.status!=='ok'){ fail(d.msg||'링크가 맞지 않습니다.'); return; } tpl(d.tpl,function(t){ drawGuest(d,t); }); });
 }
 function drawGuest(d,t){
-  var g=t.guest||{}, pv=MODE==='pv', h='';
+  var g=t.guest||{}, pv=MODE==='pv'||MODE==='hqpv', h='';
   if(pv){ h+='<div class="pv noprint"><span>미리보기 — 공간 사장님이 보시는 화면입니다. 신청 단추는 눌리지 않습니다.</span><button type="button" class="btn sm line" id="pvBk">사무국 화면</button></div>'; }
   if(t.draft){ h+='<div class="draft noprint">(견본 글) 워드 제안서 · 붙임 내용으로 바꿀 자리입니다.</div>'; }
   if(d.wait){ PP.innerHTML=h+'<div class="hero"><div class="brand">사랑흐름 · 우리 이야기</div><h1>'+esc(fill(g.title,d))+'</h1><p>'+esc(d.name)+'에서 안내를 준비하고 있습니다. 준비가 끝나면 사무국에서 다시 알려 드립니다.</p></div>'; return; }
@@ -217,7 +218,7 @@ function drawGuest(d,t){
   }
   if(g.after){ h+='<p class="note" style="margin-top:12px;text-align:center">'+esc(g.after)+'</p>'; }
   PP.innerHTML=h;
-  if($('pvBk')){ $('pvBk').onclick=function(){ location.href='/p/?k='+encodeURIComponent(Q.get('k')); }; }
+  if($('pvBk')){ $('pvBk').onclick=function(){ location.href=MODE==='hqpv'?'/p/?hq=1&view='+encodeURIComponent(Q.get('view')):'/p/?k='+encodeURIComponent(Q.get('k')); }; }
   if($('goF')){ $('goF').onclick=function(){ var f=$('fTop'); if(f){ f.scrollIntoView({behavior:'smooth'}); } }; }
   each(PP,'.opts',function(box){ each(box,'.chip',function(b){ b.onclick=function(){ if(box.getAttribute('data-t')==='one'){ each(box,'.chip',function(x){ x.classList.remove('on'); }); b.classList.add('on'); } else { b.classList.toggle('on'); } }; }); });
   if($('fGo')&&!pv){ $('fGo').onclick=function(){
@@ -246,7 +247,7 @@ function drawOffice(){
   var t=T, o=t.office||{}, r=rnd(), st=r.st, h='', info={name:D.name,n:r.n,date:r.date,time:r.time,place:r.place,due:r.due,link:r.link||''};
   var stepNo={'사무국 확인 중':r.date&&r.place?2:1,'고칠 것 있음':0,'고침 · 확인 기다림':r.date&&r.place?2:1,'확인 완료':3,'교육 마침':5}[st]||0;
   if(st===ST.open&&r.apps.length){ stepNo=3; }
-  h+='<div class="top"><span class="tag j">'+ic('check',14)+' '+esc(D.me||'담당자')+' 님 · '+esc(D.name)+' 관리자</span><span class="tag">사랑흐름</span></div>';
+  h+='<div class="top"><span class="tag j">'+ic('check',14)+' '+(D._hq?'본부에서 보는 중 · '+esc(D.name)+' 관리 화면':esc(D.me||'담당자')+' 님 · '+esc(D.name)+' 관리자')+'</span><span class="tag">사랑흐름</span></div>';
   if(t.draft){ h+='<div class="draft noprint">(견본 글) 워드 제안서 · 붙임 내용으로 바꿀 자리입니다.</div>'; }
   h+='<h1>'+esc(D.name)+' 관리 화면</h1><p class="note">'+esc(rndName(r.n))+' 현황 · 우리 이야기 「'+esc(D.room||'')+'」</p>';
   if(st===ST.open||st===ST.done){ var tl0=tally(r); h+='<div class="big" style="margin-top:10px"><div><b>'+tl0.all+'</b><span>신청한 공간</span></div><div><b>'+tl0.go+'</b><span>참석</span></div><div><b>'+(r.rooms===''?0:esc(r.rooms))+'</b><span>연 이야기방</span></div></div>'; }
@@ -282,7 +283,7 @@ function drawOffice(){
     (r.asks.length?'<h3>보낸 요청</h3>'+r.asks.slice().reverse().map(function(a){ return '<div class="ask"><b>'+esc(a.who)+'</b> <span class="note">'+esc(a.at)+'</span><br>'+esc(a.text)+'</div>'; }).join(''):'')+'</div>';
   h+='<h2>고친 기록</h2><div class="card">'+(r.fixes.length?r.fixes.slice().reverse().map(function(f){ return '<div class="fx"><time>'+esc(f.at)+'</time><b>'+esc(f.by)+'</b> · '+esc(f.what)+'</div>'; }).join(''):'<p class="note">아직 없습니다.</p>')+'</div>';
   PP.innerHTML=h;
-  each(PP,'[data-rn]',function(b){ b.onclick=function(){ CUR=+b.getAttribute('data-rn'); drawOffice(); }; });
+  each(PP,'[data-rn]',function(b){ b.onclick=function(){ CUR=+b.getAttribute('data-rn'); (D._hq?hqDecor:drawOffice)(); }; });
   if($('oPv')){ $('oPv').onclick=function(){ location.href='/p/?k='+encodeURIComponent(Q.get('k'))+'&pv='+r.n; }; }
   if($('oOk')){ $('oOk').onclick=function(){ call({action:'prOk',k:Q.get('k'),at:atGet(),n:r.n},function(x){ if(x.status!=='ok'){ $('oMsg').textContent=x.msg||'잠시 후 다시 눌러 주십시오.'; return; } toast('확인 완료 — 공간 사장님께 보낼 링크가 나왔습니다'); office(); },'확인 완료를 적는 중입니다'); }; }
   if($('cMsg')){ $('cMsg').onclick=function(){ copy(D._ms,'안내글과 링크를 복사했습니다 — 단체방에 붙여 넣으십시오'); }; $('cRm').onclick=function(){ copy(D._rm,'다시 알림 글을 복사했습니다'); }; $('cKk').onclick=function(){ kk(info,r.link); }; }
@@ -354,12 +355,12 @@ function drawHq(){
   HQ.orgs.forEach(function(o){
     h+='<div class="org"><div class="top"><b style="font-size:17px">'+esc(o.to)+'</b><span class="tag g">'+esc(o.com)+' · '+esc(o.room)+'</span></div>';
     h+='<h3 style="margin-top:8px">담당자</h3>'+o.mgrs.map(function(m){ return '<div class="top" style="border-bottom:1px dashed var(--line);padding:4px 0"><span>'+esc(m.name)+' '+(m.kakao?'<span class="tag j">카카오 등록</span>':'<span class="tag a">링크 보냄 · 등록 전</span>')+'</span><button type="button" class="btn sm line" data-cp="'+esc(m.link)+'">'+ic('copy')+' 담당자 링크</button></div>'; }).join('');
-    h+='<div class="acts"><button type="button" class="btn sm line" data-f="mg_'+esc(o.com)+'">담당자 더하기</button><a class="btn sm line" href="/p/?hq=1&rep='+encodeURIComponent(o.com)+'">보고자료</a><button type="button" class="btn sm line" data-nx="'+esc(o.com)+'">다음 회차 만들기</button></div>';
+    h+='<div class="acts"><a class="btn sm" href="/p/?hq=1&view='+encodeURIComponent(o.com)+'">'+ic('eye')+' 사무국 화면 보기</a><button type="button" class="btn sm line" data-f="mg_'+esc(o.com)+'">담당자 더하기</button><a class="btn sm line" href="/p/?hq=1&rep='+encodeURIComponent(o.com)+'">보고자료</a><button type="button" class="btn sm line" data-nx="'+esc(o.com)+'">다음 회차 만들기</button></div>';
     h+='<div class="form" id="mg_'+esc(o.com)+'" hidden><label class="f">담당자 이름</label><input class="t" data-k="who" maxlength="30"><button type="button" class="btn sm" data-do="prMgrAdd" data-o="'+esc(o.com)+'" data-n="0" style="margin-top:8px">담당자 링크 만들기</button></div>';
     o.rounds.slice().reverse().forEach(function(r){ var tl=tally(r), id=o.com+'_'+r.n;
       h+='<div class="rnd"><div class="top"><b>'+r.n+'차 교육생 모집</b>'+stTag(r.st)+'</div><p class="note">'+esc([r.date,r.time,r.place].filter(function(x){ return x; }).join(' · ')||'날짜 · 장소 아직')+' · 신청 '+tl.all+'곳(참석 '+tl.go+') · 연 이야기방 '+esc(r.rooms)+(r.att!==''?' · 교육 참석 '+esc(r.att):'')+'</p>';
       r.asks.slice().reverse().forEach(function(a){ h+='<div class="ask"><b>수정 요청</b> · '+esc(a.who)+' · <span class="note">'+esc(a.at)+'</span><br>'+esc(a.text)+'</div>'; });
-      h+='<div class="acts">'+(r.link?'<button type="button" class="btn sm line" data-cp="'+esc(r.link)+'">참가 링크 복사</button>':'')+'<button type="button" class="btn sm'+(r.st===ST.ask?'':' line')+'" data-f="fx_'+id+'">고친 것 알림</button><button type="button" class="btn sm line" data-f="rs_'+id+'">교육 결과</button><button type="button" class="btn sm line" data-f="px_'+id+'">대신 입력</button></div>';
+      h+='<div class="acts"><a class="btn sm line" href="/p/?hq=1&view='+encodeURIComponent(o.com)+'&pv='+r.n+'">공간 화면 보기</a>'+(r.link?'<button type="button" class="btn sm line" data-cp="'+esc(r.link)+'">참가 링크 복사</button>':'')+'<button type="button" class="btn sm'+(r.st===ST.ask?'':' line')+'" data-f="fx_'+id+'">고친 것 알림</button><button type="button" class="btn sm line" data-f="rs_'+id+'">교육 결과</button><button type="button" class="btn sm line" data-f="px_'+id+'">대신 입력</button></div>';
       h+='<div class="form" id="fx_'+id+'" hidden><label class="f">무엇을 고쳤나 (사무국 화면 「고친 기록」에 그대로 보임)</label><input class="t" data-k="what" maxlength="200"><button type="button" class="btn sm" data-do="prFix" data-o="'+esc(o.com)+'" data-n="'+r.n+'" style="margin-top:8px">알림 올리기</button></div>';
       h+='<div class="form" id="rs_'+id+'" hidden><label class="f">교육 참석 공간 수</label><input class="t" data-k="att" inputmode="numeric" value="'+esc(r.att)+'"><label class="f">연 이야기방 수 (비우면 저절로 셈 · 지금 '+esc(r.rooms)+')</label><input class="t" data-k="rooms" inputmode="numeric" value="'+esc(r.roomsSet)+'"><label class="f">결과 메모 (보고자료에 들어감)</label><input class="t" data-k="memo" maxlength="300" value="'+esc(r.memo)+'"><button type="button" class="btn sm" data-do="prResult" data-o="'+esc(o.com)+'" data-n="'+r.n+'" style="margin-top:8px">교육 마침으로 적기</button></div>';
       h+='<div class="form" id="px_'+id+'" hidden><label class="f">상호 (종이로 받은 신청)</label><input class="t" data-k="shop" maxlength="40"><label class="f">참석</label><select class="t" data-k="q1"><option>참석합니다</option><option>이번에는 어렵습니다 · 다음 회차 안내를 받겠습니다</option></select><button type="button" class="btn sm" data-do="prProxy" data-o="'+esc(o.com)+'" data-n="'+r.n+'" style="margin-top:8px">대신 입력</button></div>';
@@ -378,10 +379,20 @@ function drawHq(){
     hqAct(p,{prFix:'고친 것을 사무국 화면에 올렸습니다',prResult:'교육 결과를 적었습니다',prProxy:'대신 입력했습니다',prMgrAdd:'담당자 링크를 만들었습니다'}[p.act]); }; });
 }
 
+/* ══ 본부에서 바로 보기 — 사무국 관리 화면 그대로(단추는 눌리지 않음) · 로그인 전 화면 · 공간 화면 ══ */
+function hqOrg(cb){ call({action:'recHq',ht:htGet(),act:'prList'},function(d){ var o=null; (d.orgs||[]).forEach(function(x){ if(x.com===Q.get('view')){ o=x; } }); if(d.status!=='ok'||!o){ fail(d.msg||'본부로 들어온 뒤에 열 수 있습니다.'); return; } cb(o); },'불러오는 중입니다'); }
+function hqBanner(read){ return '<div class="pv noprint"><span>본부 보기 — 사무국 '+(read?'담당자가 처음 링크를 열었을 때':'담당자 관리 화면')+' 그대로입니다. 단추는 눌리지 않습니다.</span></div><div class="row2 noprint" style="margin:6px 0 4px"><button type="button" class="btn sm line" id="hvL">'+(read?'관리 화면 보기':'로그인 전 화면 보기')+'</button><a class="btn sm line" href="/p/?hq=1">본부 목록</a></div>'; }
+function hqLock(){ each(PP,'input,textarea,select',function(el){ el.readOnly=true; el.disabled=true; }); ['oOk','aGo','kLg'].forEach(function(id){ if($(id)){ $(id).disabled=true; $(id).onclick=null; } }); each(PP,'[data-sv]',function(b){ b.disabled=true; b.onclick=null; }); }
+function hqDecor(){ drawOffice(); PP.insertAdjacentHTML('afterbegin',hqBanner(false)); hqLock(); var r=rnd();
+  if($('oPv')){ $('oPv').onclick=function(){ location.href='/p/?hq=1&view='+encodeURIComponent(D.com)+'&pv='+r.n; }; }
+  $('oRep').onclick=function(){ location.href='/p/?hq=1&rep='+encodeURIComponent(D.com); };
+  $('hvL').onclick=function(){ drawRead(); PP.insertAdjacentHTML('afterbegin',hqBanner(true)); hqLock(); $('hvL').onclick=hqDecor; }; }
+function hqView(){ hqOrg(function(o){ D=o; D.name=o.to; D.me='(본부 보기)'; D._hq=1; D.bound=o.mgrs.some(function(m){ return m.kakao; })?1:0; tpl(o.tpl,function(){ if(!CUR){ var r=o.rounds, pick=r[r.length-1]; for(var i=0;i<r.length;i++){ if(r[i].st!==ST.done){ pick=r[i]; break; } } CUR=pick?pick.n:1; } hqDecor(); }); }); }
+function hqPv(){ hqOrg(function(o){ var n=parseInt(Q.get('pv'),10)||1, r=null; o.rounds.forEach(function(x){ if(x.n===n){ r=x; } }); if(!r){ fail('그 회차를 찾지 못했습니다.'); return; } tpl(o.tpl,function(t){ drawGuest({name:o.to,tpl:o.tpl,n:r.n,date:r.date,time:r.time,place:r.place,due:r.due,open:1,pv:1},t); }); }); }
 /* ← ⌂ → */
 $('wB').onclick=function(){ history.back(); }; $('wF').onclick=function(){ history.forward(); };
 $('wH').onclick=function(){ location.href=MODE==='hq'?'/rec/?hq=1':'/'; };
-if(MODE==='guest'||MODE==='pv'){ guest(); } else if(MODE==='office'){ office(); } else if(MODE==='rep'){ report(); } else if(MODE==='hq'){ hq(); } else if(MODE==='hqrep'){ hqReport(); } else { fail('받으신 링크를 다시 눌러 주십시오.'); }
+if(MODE==='guest'||MODE==='pv'){ guest(); } else if(MODE==='office'){ office(); } else if(MODE==='rep'){ report(); } else if(MODE==='hq'){ hq(); } else if(MODE==='hqrep'){ hqReport(); } else if(MODE==='hqview'){ hqView(); } else if(MODE==='hqpv'){ hqPv(); } else { fail('받으신 링크를 다시 눌러 주십시오.'); }
 })();
 </script>
 <script src="/lf/frame.js?v=18"></script>
