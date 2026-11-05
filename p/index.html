@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ p/index.html · v3 · 261105 · [534 대표 14:27 「본부에서 바로 보는 링크」] 본부 목록 「사무국 화면 보기」(/p/?hq=1&view=방 번호 — 사무국 관리 화면 그대로 · 「로그인 전 화면」 · 단추는 눌리지 않음) · 「공간 화면 보기」(&pv=회차) — 본부 로그인만으로 봄 -->
+<!-- ★ 현재 버전 ▶ p/index.html · v4 · 261105 · [534 대표 14:32] 수정 요청 칸에 「수정할 내용 없음」 단추(요청 보내기와 나란히 · 누르면 확인 완료와 같음 · 날짜 · 장소가 없으면 먼저 적으라고 알림) -->
+<!-- (이전) p/index.html · v3 · 261105 · [534 대표 14:27 「본부에서 바로 보는 링크」] 본부 목록 「사무국 화면 보기」(/p/?hq=1&view=방 번호 — 사무국 관리 화면 그대로 · 「로그인 전 화면」 · 단추는 눌리지 않음) · 「공간 화면 보기」(&pv=회차) — 본부 로그인만으로 봄 -->
 <!-- (이전) p/index.html · v2 · 261105 · [534 대표 OK 14:01] 받는 곳 = 우리 이야기 방 · 사무국 = 그 방 관리자 — ?k=관리자 열쇠(제안서는 읽기 · 관리는 그 카카오로 관리 확인한 담당자만 · 처음 한 번 카카오 로그인 안내) · 「공유 허락」 → 「확인 완료」 · 관리 화면 이름 · 신청 숫자 맨 위 · 연 이야기방 수 저절로 · 본부 보고자료 ?hq=1&rep=방 번호 -->
 <!-- (이전) p/index.html · v1 · 261105 · [534 견본 · 임시 가지 try/534-proposal · ★우리 이야기 서버 ①Code v50 · ③본부 v38 · ⑥시험 v59와 짝] 제안 · 설문 한 화면 — 주소에 따라 넷: ?o=사무국 열쇠(사무국 화면 — 회차 · 다음 할 일 · 공유 도우미 · 신청 현황 · 제안서 · 수정 요청 · 고친 기록) · ?o=…&r=1(임원회의 · 총회 보고자료 · 인쇄 · PDF) · ?o=…&pv=회차(공간 화면 미리보기) · ?a=참가 열쇠(교육 참가 화면 — 상호만) · ?hq=1(본부 「제안 · 설문」 · 대표만). 글은 p/t/<틀>.json. 개별 연락처는 받지 않음. -->
 <html lang="ko">
@@ -279,7 +280,7 @@ function drawOffice(){
   h+='<h2>제안서</h2><div class="card doc"><p class="note">차례 — '+esc((o.toc||[]).join(' · '))+'</p>'+(o.sections||[]).map(function(s){ return '<div class="sec"><h3>'+esc(s.h)+'</h3>'+(s.p||[]).map(function(x){ return '<p>'+esc(fill(x,info))+'</p>'; }).join('')+(s.list?'<ul class="d">'+s.list.map(function(x){ return '<li>'+esc(fill(x,info))+'</li>'; }).join('')+'</ul>':'')+'</div>'; }).join('')+'<button type="button" class="btn line noprint" id="oPr">'+ic('print')+' 제안서 인쇄 · PDF 저장</button></div>';
   /* 교육 정보 · 수정 요청 · 고친 기록 */
   if(r.date&&r.place&&st!==ST.done){ h+='<h2>교육 정보 고치기</h2><div class="card">'+infoForm(r)+'</div>'; }
-  h+='<h2>수정 요청</h2><div class="card"><p class="note">제안서나 공간 안내에서 고칠 곳을 적어 주십시오. 사랑흐름 대표에게 바로 전해지고, 고치면 아래 「고친 기록」에 올립니다.</p><label class="f" for="aWho">보내는 분</label><input class="t" id="aWho" maxlength="30" placeholder="예) 사무국 ○○○" value="'+esc(r.who||'')+'"><label class="f" for="aTx">고칠 곳</label><textarea class="t" id="aTx" maxlength="800" placeholder="예) 공간 안내 첫 줄을 이렇게 바꿔 주세요"></textarea><button type="button" class="btn" id="aGo" style="margin-top:10px">요청 보내기</button><div class="msg" id="aMsg"></div>'+
+  h+='<h2>수정 요청</h2><div class="card"><p class="note">제안서나 공간 안내에서 고칠 곳을 적어 주십시오. 사랑흐름 대표에게 바로 전해지고, 고치면 아래 「고친 기록」에 올립니다.</p><label class="f" for="aWho">보내는 분</label><input class="t" id="aWho" maxlength="30" placeholder="예) 사무국 ○○○" value="'+esc(r.who||'')+'"><label class="f" for="aTx">고칠 곳</label><textarea class="t" id="aTx" maxlength="800" placeholder="예) 공간 안내 첫 줄을 이렇게 바꿔 주세요"></textarea>'+((st===ST.open||st===ST.done)?'<button type="button" class="btn" id="aGo" style="margin-top:10px">요청 보내기</button>':'<div class="row2" style="margin-top:10px"><button type="button" class="btn line" id="aNo">'+ic('check')+' 수정할 내용 없음</button><button type="button" class="btn" id="aGo">요청 보내기</button></div>')+'<div class="msg" id="aMsg"></div>'+
     (r.asks.length?'<h3>보낸 요청</h3>'+r.asks.slice().reverse().map(function(a){ return '<div class="ask"><b>'+esc(a.who)+'</b> <span class="note">'+esc(a.at)+'</span><br>'+esc(a.text)+'</div>'; }).join(''):'')+'</div>';
   h+='<h2>고친 기록</h2><div class="card">'+(r.fixes.length?r.fixes.slice().reverse().map(function(f){ return '<div class="fx"><time>'+esc(f.at)+'</time><b>'+esc(f.by)+'</b> · '+esc(f.what)+'</div>'; }).join(''):'<p class="note">아직 없습니다.</p>')+'</div>';
   PP.innerHTML=h;
@@ -291,6 +292,7 @@ function drawOffice(){
   if($('oPr')){ $('oPr').onclick=function(){ window.print(); }; }
   each(PP,'[data-sv]',function(b){ b.onclick=function(){ var f=b.parentNode, v=function(k){ var el=f.querySelector('[data-k="'+k+'"]'); return el?el.value.trim():''; };
     call({action:'prSet',k:Q.get('k'),at:atGet(),n:r.n,date:v('date'),time:v('time'),place:v('place'),due:v('due'),who:v('who')},function(x){ if(x.status!=='ok'){ toast(x.msg||'잠시 후 다시 눌러 주십시오.'); return; } toast('교육 정보를 적었습니다'); office(); },'교육 정보를 적는 중입니다'); }; });
+  if($('aNo')){ $('aNo').onclick=function(){ call({action:'prOk',k:Q.get('k'),at:atGet(),n:r.n},function(x){ if(x.status!=='ok'){ $('aMsg').textContent=x.msg||'잠시 후 다시 눌러 주십시오.'; return; } toast('확인 완료 — 공간 사장님께 보낼 링크가 나왔습니다'); office(); window.scrollTo(0,0); },'확인 완료를 적는 중입니다'); }; }
   $('aGo').onclick=function(){ var tx=$('aTx').value.trim(); if(tx.length<2){ $('aMsg').textContent='고칠 곳을 적어 주십시오.'; return; }
     call({action:'prAsk',k:Q.get('k'),at:atGet(),n:r.n,who:$('aWho').value.trim(),text:tx},function(x){ if(x.status!=='ok'){ $('aMsg').textContent=x.msg||'잠시 후 다시 눌러 주십시오.'; return; } toast('요청을 보냈습니다'); office(); },'요청을 보내는 중입니다'); };
 }
@@ -382,7 +384,7 @@ function drawHq(){
 /* ══ 본부에서 바로 보기 — 사무국 관리 화면 그대로(단추는 눌리지 않음) · 로그인 전 화면 · 공간 화면 ══ */
 function hqOrg(cb){ call({action:'recHq',ht:htGet(),act:'prList'},function(d){ var o=null; (d.orgs||[]).forEach(function(x){ if(x.com===Q.get('view')){ o=x; } }); if(d.status!=='ok'||!o){ fail(d.msg||'본부로 들어온 뒤에 열 수 있습니다.'); return; } cb(o); },'불러오는 중입니다'); }
 function hqBanner(read){ return '<div class="pv noprint"><span>본부 보기 — 사무국 '+(read?'담당자가 처음 링크를 열었을 때':'담당자 관리 화면')+' 그대로입니다. 단추는 눌리지 않습니다.</span></div><div class="row2 noprint" style="margin:6px 0 4px"><button type="button" class="btn sm line" id="hvL">'+(read?'관리 화면 보기':'로그인 전 화면 보기')+'</button><a class="btn sm line" href="/p/?hq=1">본부 목록</a></div>'; }
-function hqLock(){ each(PP,'input,textarea,select',function(el){ el.readOnly=true; el.disabled=true; }); ['oOk','aGo','kLg'].forEach(function(id){ if($(id)){ $(id).disabled=true; $(id).onclick=null; } }); each(PP,'[data-sv]',function(b){ b.disabled=true; b.onclick=null; }); }
+function hqLock(){ each(PP,'input,textarea,select',function(el){ el.readOnly=true; el.disabled=true; }); ['oOk','aGo','aNo','kLg'].forEach(function(id){ if($(id)){ $(id).disabled=true; $(id).onclick=null; } }); each(PP,'[data-sv]',function(b){ b.disabled=true; b.onclick=null; }); }
 function hqDecor(){ drawOffice(); PP.insertAdjacentHTML('afterbegin',hqBanner(false)); hqLock(); var r=rnd();
   if($('oPv')){ $('oPv').onclick=function(){ location.href='/p/?hq=1&view='+encodeURIComponent(D.com)+'&pv='+r.n; }; }
   $('oRep').onclick=function(){ location.href='/p/?hq=1&rep='+encodeURIComponent(D.com); };
