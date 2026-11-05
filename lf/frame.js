@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v17 · 261026 · [칸 4-나 458 · 대표 「진행」 11:16] ① 상품 설명 화면(/item/) 방문 · 누름 · 나감을 방문 통계 「상품 진열」 칸으로 셈(옛 진열장 자리 · 서버 이름표 그대로라 서버는 안 고침) ② /item/ · /travel/ 에서 아래 띠 「사랑흐름 여행」에 불 ③ 쓰이지 않던 옛 ☰(menuHtml) 지움. [무손] 새 ☰ · 방문 통계 장치 · 그 밖 v16 전부.
+   현재 버전 ▶ lf/frame.js · v18 · 261105 · [533 · 대표 OK 261105 11:28 · 송암 가계도 방식] ① 카톡 안에서 열면 바로 바깥 브라우저(크롬 · 사파리)로 넘김(kakaotalk://web/openExternal · 한 창에 한 번 · ?kk=0 이면 안 넘김) ② 휴대폰 화면 위 띠 「사랑흐름을 바탕화면에 두고 바로 여세요 · 홈 화면에 추가 · ✕」(✕ 누른 분 · 아이콘으로 연 분 · 컴퓨터 · 관리 화면은 안 뜸) ③ 우리 이야기(/rec/) 밖 화면에 설치 신분증(/manifest.webmanifest) · 일꾼(/sw.js) · /rec/ 는 원래 「바탕화면에 두기」(pwaGo)로. [무손] 그 밖 v17 전부.
+   (이전) lf/frame.js · v17 · 261026 · [칸 4-나 458 · 대표 「진행」 11:16] ① 상품 설명 화면(/item/) 방문 · 누름 · 나감을 방문 통계 「상품 진열」 칸으로 셈(옛 진열장 자리 · 서버 이름표 그대로라 서버는 안 고침) ② /item/ · /travel/ 에서 아래 띠 「사랑흐름 여행」에 불 ③ 쓰이지 않던 옛 ☰(menuHtml) 지움. [무손] 새 ☰ · 방문 통계 장치 · 그 밖 v16 전부.
    (이전) lf/frame.js · v16 · 261024 · [칸 4 · 454 · 대표 OK 261024 21:16] 아래 묶음 띠 · ☰ 큰 카드 「예매하기」 → 「사랑흐름 여행」(첫 화면 보라 띠 · 새 ☰ 묶음과 같은 이름 · 73차 결정 6). [무손] 그 밖 v15 전부.
    (이전) lf/frame.js · v15 · 261024 · [칸 3 435 · 대표 20:49 「바로 반영」] 새 ☰(우리 이야기 · 기록관 → 마음 전하기 (무료) → 사랑흐름 여행 · 구매한 여행 이어가기 → 함께하기)를 모든 화면에 · 아래 묶음 「맛보기」 → 「마음 전하기 · 무료」 모든 화면 · 「내 여행」 묶음 「여권 입장」 → 「구매한 여행 이어가기」. [무손] 그 밖 v14 전부
    (이전) lf/frame.js · v14 · 261024 · [칸 3 435 · 73차 결정 5 · 9] ☰ 메뉴 새 차례(시험판) — body 에 data-lf-menu="2" 를 단 화면(첫 화면 시험판 home-new v6)에서만 새 ☰: 우리 이야기 · 기록관(마당 · 이야기방 만들기 · 기록관 만들기 · 기관 · 단체 제안) → 마음 전하기 (무료) → 사랑흐름 여행(사랑흐름 여행 · 구매한 여행 이어가기 · 여권 찾기 · 휴대폰 관리 · 여행의 기록) → 함께하기 · 그 화면의 아래 묶음 「맛보기」 이름 = 「마음 전하기 (무료)」. 다른 화면은 v13 그대로(대표 휴대폰 OK 뒤 v15 에서 모든 화면에). [무손] 그 밖 v13 전부
@@ -31,6 +32,16 @@
    [색] 딥네이비 = 틀 · 누르는 곳 / 골드 = 소중한 것 / 오렌지(살구) = 지금 여기 · 새것
    [원칙] 백틱 금지 · 문자열 연결(+)만 · 아이콘은 모두 동그라미 · 이모지 대신 선 아이콘
    ═══════════════════════════════════════════════════════════════════ */
+/* ★v18 533 카톡 안에서 열리면 바로 바깥 브라우저로 — 한 창에 한 번 · ?kk=0 이면 안 넘김 */
+(function () {
+  try {
+    var ua = navigator.userAgent || '';
+    if (!/KAKAOTALK/i.test(ua) || /[?&]kk=0/.test(location.search)) { return; }
+    if (sessionStorage.getItem('lf_kk_out') === '1') { return; }
+    sessionStorage.setItem('lf_kk_out', '1');
+    location.replace('kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href.split('#')[0]));
+  } catch (e) {}
+})();
 (function () {
   /* ★v7 안내자 주소 줍기 · 90일 기억 (틀이 그려지기 전에 먼저) */
   try {
@@ -425,4 +436,84 @@
   function start() { add('방문', FIRST); }
   if (gas()) { start(); return; }
   var s = document.createElement('script'); s.src = '/lf/config.js?v=5'; s.onload = start; s.onerror = function () { }; document.head.appendChild(s);
+})();
+
+/* ★v18 533 바탕화면 바로가기 — 휴대폰 첫 화면 위 띠 + 홈 화면에 추가(송암 가계도 방식) */
+(function () {
+  if (window.LF_HOME_BAND) { return; } window.LF_HOME_BAND = 1;
+  var ua = navigator.userAgent || '';
+  var inKakao = /KAKAOTALK/i.test(ua);
+  var inApp = inKakao || /NAVER\(inapp|Instagram|FBAN|FBAV|Line\//i.test(ua);
+  var isIos = /iPhone|iPad|iPod/i.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  var isPhone = isIos || /Android/i.test(ua);
+  var inRec = location.pathname.indexOf('/rec/') === 0;
+  function standalone() { try { return window.matchMedia('(display-mode: standalone)').matches || navigator.standalone === true; } catch (e) { return false; } }
+  var EV = null;
+  /* 우리 이야기 밖 화면: 설치 신분증 · 아이폰 아이콘 · 일꾼 */
+  if (!inRec) {
+    try {
+      var hd = document.head || document.documentElement;
+      if (!document.querySelector('link[rel="manifest"]')) { var m = document.createElement('link'); m.rel = 'manifest'; m.href = '/manifest.webmanifest'; hd.appendChild(m); }
+      if (!document.querySelector('link[rel="apple-touch-icon"]')) { var a = document.createElement('link'); a.rel = 'apple-touch-icon'; a.href = '/rec/apple-icon-180.png'; hd.appendChild(a); }
+      if (!document.querySelector('meta[name="apple-mobile-web-app-title"]')) { var t = document.createElement('meta'); t.name = 'apple-mobile-web-app-title'; t.content = '사랑흐름'; hd.appendChild(t); }
+      if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js', { scope: '/' })['catch'](function () {}); }
+    } catch (e) {}
+    window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); EV = e; });
+  }
+  var KEY = inRec ? 'lf_home_x_rec' : 'lf_home_x';
+  function closed() { try { return localStorage.getItem(KEY) === '1'; } catch (e) { return false; } }
+  var CSS = '.lfh-band{display:flex;align-items:center;gap:10px;margin:0;padding:9px 12px;background:#F4EEE4;border-bottom:1px solid #E6DCCB;font:14px/1.35 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#1E4A76}'
+    + '.lfh-band img{width:30px;height:30px;border-radius:7px;flex:none}'
+    + '.lfh-band .tx{flex:1;min-width:0;font-weight:600}'
+    + '.lfh-band .go{flex:none;border:0;border-radius:18px;padding:8px 13px;background:#1E4A76;color:#fff;font:600 13px/1 inherit;font-family:inherit}'
+    + '.lfh-band .x{flex:none;border:0;background:none;color:#7A8796;font-size:17px;padding:4px 2px}'
+    + '.lfh-dim{position:fixed;inset:0;z-index:2147483000;background:rgba(20,30,45,.45);display:flex;align-items:flex-end;justify-content:center}'
+    + '.lfh-sheet{width:100%;max-width:460px;background:#FFFCF7;border-radius:18px 18px 0 0;padding:22px 20px calc(18px + env(safe-area-inset-bottom));font:15px/1.5 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#22303F;text-align:center}'
+    + '.lfh-sheet h2{margin:0 0 6px;font-size:18px;color:#1E4A76}'
+    + '.lfh-step{display:flex;align-items:center;justify-content:center;gap:8px;margin:8px auto;padding:10px;border:1px solid #E6DCCB;border-radius:12px;background:#fff;max-width:300px}'
+    + '.lfh-step b{display:inline-block;min-width:34px;padding:3px 6px;border-radius:8px;background:#F4EEE4;color:#1E4A76}'
+    + '.lfh-arw{color:#9AA3AD;font-size:14px}'
+    + '.lfh-sheet .close{margin-top:14px;width:100%;border:1px solid #1E4A76;background:#fff;color:#1E4A76;border-radius:12px;padding:12px;font:600 15px/1 inherit;font-family:inherit}';
+  function css() { if (document.getElementById('lfhCss')) { return; } var s = document.createElement('style'); s.id = 'lfhCss'; s.appendChild(document.createTextNode(CSS)); (document.head || document.documentElement).appendChild(s); }
+  function sheet(html) {
+    css();
+    var d = document.createElement('div'); d.className = 'lfh-dim'; d.id = 'lfhDim';
+    d.innerHTML = '<div class="lfh-sheet" role="dialog" aria-modal="true">' + html + '<button type="button" class="close">닫기</button></div>';
+    d.onclick = function (e) { if (e.target === d || e.target.className === 'close') { d.parentNode.removeChild(d); } };
+    document.body.appendChild(d);
+  }
+  var A = '<div class="lfh-arw">↓</div>';
+  function guide() {
+    if (isIos) {
+      sheet('<h2>📲 홈 화면에 추가</h2><p>아래 순서대로 한 번만 눌러 주세요.</p>'
+        + '<div class="lfh-step"><b>□↑</b>공유 단추(화면 아래)</div>' + A + '<div class="lfh-step"><b>＋</b>홈 화면에 추가</div>' + A + '<div class="lfh-step"><b>추가</b>오른쪽 위</div>');
+    } else {
+      sheet('<h2>📲 홈 화면에 추가</h2><p>아래 순서대로 한 번만 눌러 주세요.</p>'
+        + '<div class="lfh-step"><b>⋮</b>브라우저 메뉴(오른쪽 위)</div>' + A + '<div class="lfh-step"><b>＋</b>홈 화면에 추가</div>' + A + '<div class="lfh-step"><b>추가</b>확인</div>'
+        + '<p style="font-size:13px;color:#6B7785;margin:10px 0 0">삼성 인터넷은 ≡ 메뉴 → 현재 페이지 추가 → 홈 화면</p>');
+    }
+  }
+  function add() {
+    if (inRec && typeof window.pwaGo === 'function') { window.pwaGo(); return; }
+    if (standalone()) { sheet('<h2>바탕화면에 있습니다</h2><p>이미 아이콘으로 열고 계십니다.</p>'); return; }
+    if (inKakao) { location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href.split('#')[0]); return; }
+    if (EV) { var ev = EV; EV = null; try { ev.prompt(); ev.userChoice.then(function (c) { if (c && c.outcome !== 'accepted') { EV = ev; } })['catch'](function () {}); } catch (e) { guide(); } return; }
+    guide();
+  }
+  window.LFHomeAdd = add;
+  function band() {
+    if (!isPhone || inApp || standalone() || closed() || document.getElementById('lfhBand')) { return; }
+    if (document.documentElement.classList.contains('admm') || document.body.classList.contains('admm') || document.body.classList.contains('desk')) { return; }
+    css();
+    var b = document.createElement('div'); b.className = 'lfh-band'; b.id = 'lfhBand';
+    b.innerHTML = '<img src="/rec/icon-192.png" alt=""><div class="tx">' + (inRec ? '우리 이야기를' : '사랑흐름을') + ' 바탕화면에 두고 바로 여세요</div>'
+      + '<button type="button" class="go">홈 화면에 추가</button><button type="button" class="x" aria-label="닫기">✕</button>';
+    var top = document.getElementById('lfxTop');
+    if (top && top.parentNode) { top.parentNode.insertBefore(b, top.nextSibling); } else { document.body.insertBefore(b, document.body.firstChild); }
+    b.querySelector('.go').onclick = add;
+    b.querySelector('.x').onclick = function () { try { localStorage.setItem(KEY, '1'); } catch (e) {} b.parentNode.removeChild(b); };
+  }
+  window.addEventListener('appinstalled', function () { EV = null; var b = document.getElementById('lfhBand'); if (b) { b.parentNode.removeChild(b); } });
+  function start() { setTimeout(band, 300); }
+  if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', start); } else { start(); }
 })();
