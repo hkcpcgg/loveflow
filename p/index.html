@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ p/index.html · v1 · 261105 · [534 견본 · 임시 가지 try/534-proposal · ★우리 이야기 서버 ①Code v50 · ③본부 v38 · ⑥시험 v59와 짝] 제안 · 설문 한 화면 — 주소에 따라 넷: ?o=사무국 열쇠(사무국 화면 — 회차 · 다음 할 일 · 공유 도우미 · 신청 현황 · 제안서 · 수정 요청 · 고친 기록) · ?o=…&r=1(임원회의 · 총회 보고자료 · 인쇄 · PDF) · ?o=…&pv=회차(공간 화면 미리보기) · ?a=참가 열쇠(교육 참가 화면 — 상호만) · ?hq=1(본부 「제안 · 설문」 · 대표만). 글은 p/t/<틀>.json. 개별 연락처는 받지 않음. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<title>사랑흐름 · 우리 이야기 교육</title>
+<style>
+:root{--ink:#1F2233;--sub:#5E6275;--mute:#8A8EA0;--line:#E3E1EE;--bg:#F6F5FA;--paper:#fff;--ind:#2F2A78;--ind2:#4B43B5;--ind0:#ECEBFA;--jade:#127A72;--jade0:#E3F4F1;--rose:#A33A55;--rose0:#FBEAF0;--amb:#8A5A0B;--amb0:#FBF1DE}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:16px;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
+#pp{max-width:760px;margin:0 auto;padding:12px 14px 8px}
+.ld{padding:60px 0;text-align:center;color:var(--sub)}
+.ld i{display:block;width:34px;height:34px;margin:0 auto 12px;border-radius:50%;border:3px solid var(--ind0);border-top-color:var(--ind2);animation:sp 1s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+h1{font-size:23px;line-height:1.35;margin:0 0 6px;font-weight:800;letter-spacing:-.3px}
+h2{font-size:18px;margin:26px 0 10px;font-weight:800;color:var(--ind)}
+h3{font-size:16px;margin:18px 0 8px;font-weight:800}
+p{margin:0 0 8px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;margin:12px 0}
+.card.main{border:2px solid var(--ind2);box-shadow:0 6px 20px rgba(47,42,120,.08)}
+.tag{display:inline-block;font-size:12.5px;font-weight:800;padding:2px 10px;border-radius:999px;background:var(--ind0);color:var(--ind)}
+.tag.j{background:var(--jade0);color:var(--jade)}.tag.r{background:var(--rose0);color:var(--rose)}.tag.a{background:var(--amb0);color:var(--amb)}.tag.g{background:#EEEEF2;color:var(--sub)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;border-radius:14px;padding:15px 16px;font-size:17px;font-weight:800;background:var(--ind);color:#fff;cursor:pointer;font-family:inherit;text-decoration:none}
+.btn.line{background:#fff;color:var(--ind);border:1.5px solid var(--ind2)}
+.btn.jade{background:var(--jade)}
+.btn.kk{background:#FEE500;color:#191600}
+.btn.sm{width:auto;display:inline-flex;padding:9px 14px;font-size:14.5px;border-radius:11px}
+.btn:disabled{opacity:.45;cursor:default}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.note{font-size:14px;color:var(--sub)}
+.msg{margin:8px 0 0;font-size:14.5px;font-weight:700;color:var(--rose)}
+.msg.ok{color:var(--jade)}
+label.f{display:block;font-size:14px;font-weight:800;color:var(--sub);margin:12px 0 4px}
+input.t,textarea.t,select.t{width:100%;border:1.5px solid #D6D3E6;border-radius:12px;padding:12px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+textarea.t{min-height:96px;resize:vertical}
+input.t:focus,textarea.t:focus{outline:2px solid var(--ind2);border-color:transparent}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1.5px solid #D6D3E6;background:#fff;border-radius:999px;padding:8px 14px;font-size:14.5px;font-weight:700;color:var(--ink);cursor:pointer;font-family:inherit;white-space:nowrap}
+.chip.on{background:var(--ind);border-color:var(--ind);color:#fff}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts .chip{white-space:normal;text-align:left}
+.steps5{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin:4px 0 2px}
+.steps5 div{text-align:center;font-size:12px;font-weight:700;color:var(--mute);padding-top:24px;position:relative}
+.steps5 div:before{content:"";position:absolute;top:6px;left:50%;width:14px;height:14px;margin-left:-7px;border-radius:50%;background:#DCDAE8}
+.steps5 div.done{color:var(--jade)}.steps5 div.done:before{background:var(--jade)}
+.steps5 div.now{color:var(--ind)}.steps5 div.now:before{background:var(--ind2);box-shadow:0 0 0 4px var(--ind0)}
+.info{display:grid;gap:8px}
+.info div{display:flex;gap:10px;align-items:flex-start}
+.info svg{flex:none;margin-top:3px}
+.info b{display:block;font-size:13px;color:var(--mute);font-weight:700}
+.info span{font-size:17px;font-weight:800}
+.empty{color:var(--mute);font-weight:600}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.hero{background:var(--ind);color:#fff;border-radius:20px;padding:22px 18px 18px;margin:6px 0 12px;position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(25,163,160,.55),rgba(25,163,160,0) 70%)}
+.hero .brand{font-size:13px;font-weight:800;letter-spacing:.5px;opacity:.85;position:relative;z-index:1}
+.hero h1{color:#fff;font-size:25px;margin:8px 0 8px;position:relative;z-index:1}
+.hero p{opacity:.92;position:relative;z-index:1}
+.hero .info{background:rgba(255,255,255,.1);border-radius:14px;padding:12px;margin-top:12px;position:relative;z-index:1}
+.hero .info b{color:rgba(255,255,255,.7)}
+.hero .btn{background:#fff;color:var(--ind);margin-top:14px;position:relative;z-index:1}
+.gains{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gain{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px}
+.gain .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;background:var(--jade0);color:var(--jade);margin-bottom:8px}
+.gain .ic svg{width:24px;height:24px}
+.gain b{display:block;font-size:15.5px;line-height:1.4;margin-bottom:4px}
+.gain span{font-size:14px;color:var(--sub);line-height:1.5}
+ol.n{margin:0;padding:0;list-style:none;counter-reset:n}
+ol.n li{counter-increment:n;position:relative;padding:6px 0 6px 36px;border-bottom:1px dashed var(--line)}
+ol.n li:last-child{border-bottom:0}
+ol.n li:before{content:counter(n);position:absolute;left:0;top:7px;width:24px;height:24px;border-radius:50%;background:var(--ind0);color:var(--ind);font-size:13px;font-weight:800;display:grid;place-items:center}
+ul.d{margin:0;padding:0 0 0 18px}ul.d li{margin:3px 0}
+.pv{background:var(--amb0);color:var(--amb);border-radius:12px;padding:10px 12px;font-weight:700;font-size:14.5px;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.draft{background:#FFF7E0;border:1px dashed #E2B54C;color:#7A5A12;border-radius:10px;padding:8px 10px;font-size:13px;margin:6px 0}
+.linkbox{display:flex;gap:6px;align-items:center;background:var(--ind0);border-radius:12px;padding:10px 12px;font-size:14px;font-weight:700;color:var(--ind);word-break:break-all}
+pre.sh{white-space:pre-wrap;background:#FAFAFD;border:1px solid var(--line);border-radius:12px;padding:12px;font-family:inherit;font-size:14.5px;margin:8px 0}
+table.tb{width:100%;border-collapse:collapse;font-size:14.5px}
+table.tb th,table.tb td{border:1px solid #CFCDE0;padding:7px 8px;text-align:left;vertical-align:top}
+table.tb th{background:#F0EFF8;font-weight:800;color:var(--ind);white-space:nowrap}
+.rep,.rep *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+table.tb td.c,table.tb th.c{text-align:center}
+.big{display:flex;gap:10px}
+.big div{flex:1;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.big b{display:block;font-size:26px;color:var(--ind);line-height:1.2}
+.big span{font-size:13px;color:var(--sub);font-weight:700}
+.fx{font-size:14px;border-left:3px solid var(--line);padding:2px 0 2px 10px;margin:6px 0}
+.fx time{color:var(--mute);font-size:12.5px;margin-right:6px}
+.ask{background:var(--rose0);border-radius:12px;padding:10px 12px;margin:8px 0;font-size:14.5px}
+.doc .sec{margin:0 0 14px}
+.doc h3{color:var(--ind);border-bottom:2px solid var(--ind0);padding-bottom:4px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:2px 0 8px}
+.to{font-size:14px;font-weight:800;color:var(--sub)}
+.way3{display:flex;justify-content:center;gap:18px;margin:26px 0 6px}
+.way3 button{width:44px;height:44px;border-radius:50%;border:1.5px solid #D6D3E6;background:#fff;color:var(--ind);font-size:19px;font-weight:800;cursor:pointer}
+.busy{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--ind);color:#fff;border-radius:999px;padding:10px 18px;font-size:14.5px;font-weight:700;z-index:99;box-shadow:0 6px 18px rgba(0,0,0,.18)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--jade);color:#fff;border-radius:999px;padding:10px 18px;font-size:14.5px;font-weight:700;z-index:99}
+.hq .org{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin:12px 0}
+.hq .rnd{border-top:1px dashed var(--line);padding:10px 0 4px;margin-top:10px}
+.hq .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.hq .form{background:#FAFAFD;border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-top:8px}
+/* 보고자료 — 인쇄(12pt 기준 · 표 테두리 본문 폭 끝까지 · 차분한 색) */
+.rep{background:#fff;border:1px solid var(--line);border-radius:6px;padding:28px 26px;color:#1d1f2b}
+.rep .hd{text-align:center;border-bottom:2px solid #2F3550;padding-bottom:12px;margin-bottom:16px}
+.rep .hd small{display:block;color:#555a6e;font-size:13px}
+.rep h1{font-size:22px;color:#1d1f2b;margin:6px 0 2px}
+.rep h2{color:#2F3550;font-size:16px;margin:20px 0 8px}
+.rep table.tb th{background:#EEF0F4;color:#2F3550}
+.rep .foot{margin-top:24px;border-top:1px solid #C9CCD6;padding-top:8px;font-size:12.5px;color:#555a6e;display:flex;justify-content:space-between}
+.bar{height:10px;background:#E8E9EF;border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:#4F5A86}
+@media print{
+  @page{size:A4;margin:16mm 15mm}
+  body{background:#fff;font-size:12pt}
+  body>*:not(#pp){display:none!important}
+  #pp{max-width:none;padding:0}
+  .noprint{display:none!important}
+  .rep{border:0;padding:0}
+  .rep h1{font-size:18pt}.rep h2{font-size:13pt}
+  .rep table.tb{font-size:11pt;page-break-inside:auto}
+  .rep tr{page-break-inside:avoid}
+  .doc{font-size:12pt}
+  .card{border:0;padding:0;box-shadow:none}
+}
+@media (max-width:420px){.gains{grid-template-columns:1fr}.steps5 div{font-size:11px}}
+</style>
+</head>
+<body data-lf-title="우리 이야기 교육">
+<div id="pp"><div class="ld"><i></i>불러오는 중입니다</div></div>
+<nav class="way3 noprint" aria-label="화면 이동"><button type="button" id="wB" aria-label="뒤로">←</button><button type="button" id="wH" aria-label="홈">⌂</button><button type="button" id="wF" aria-label="앞으로">→</button></nav>
+<div id="lfFoot" class="noprint"></div>
+<script src="/lf/config.js?v=5"></script>
+<script>
+(function(){
+'use strict';
+var Q=new URLSearchParams(location.search), MODE=Q.get('hq')==='1'?'hq':(Q.get('a')?'guest':(Q.get('o')?(Q.get('r')==='1'?'rep':(Q.get('pv')?'pv':'office')):'none'));
+try{ document.body.setAttribute('data-lf-title',{hq:'제안 · 설문 (본부)',guest:'우리 이야기 교육',office:'제안 · 교육생 모집',rep:'교육 결과 보고자료',pv:'공간 화면 미리보기',none:'우리 이야기 교육'}[MODE]); }catch(e){}
+var API=window.LF_P_API||((window.LF_CONFIG&&LF_CONFIG.gas&&LF_CONFIG.gas.rec)||'');
+var $=function(id){ return document.getElementById(id); };
+var PP=$('pp'), T=null, D=null, CUR=0;
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+function each(el,sel,fn){ Array.prototype.forEach.call((el||document).querySelectorAll(sel),fn); }
+var IC={
+  qr:'<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14v.01M14 20h.01M17 20h4v-3"/>',
+  phone:'<rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/>',
+  map:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  free:'<path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/>',
+  cal:'<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+  pin:'<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>',
+  clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  print:'<path d="M6 9V3h12v6M6 18H4a1 1 0 0 1-1-1v-6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v6a1 1 0 0 1-1 1h-2"/><rect x="6" y="14" width="12" height="7"/>',
+  copy:'<rect x="8" y="8" width="13" height="13" rx="2"/><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"/>',
+  chat:'<path d="M12 4C7 4 3 7.1 3 11c0 2.5 1.7 4.7 4.2 6L6.5 21l4.2-2.9c.4 0 .9.1 1.3.1 5 0 9-3.1 9-7s-4-7-9-7z"/>',
+  eye:'<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+  check:'<path d="M5 12l5 5 9-10"/>',
+  edit:'<path d="M4 20h4L19 9l-4-4L4 16v4z"/>',
+  doc:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5M9 13h7M9 17h7"/>'
+};
+function ic(n,sz){ return '<svg class="i" viewBox="0 0 24 24"'+(sz?' style="width:'+sz+'px;height:'+sz+'px"':'')+' aria-hidden="true">'+(IC[n]||'')+'</svg>'; }
+var BZ=null; function busy(t){ if(!BZ){ BZ=document.createElement('div'); BZ.className='busy'; document.body.appendChild(BZ); } BZ.textContent=t; BZ.style.display='block'; }
+function unbusy(){ if(BZ){ BZ.style.display='none'; } }
+function toast(t){ var d=document.createElement('div'); d.className='toast'; d.textContent=t; document.body.appendChild(d); setTimeout(function(){ d.parentNode&&d.parentNode.removeChild(d); },2200); }
+/* 서버 — 우리 이야기 서버(같은 주소 · 요청 이름 pr…) · 짧은 요청이라 모두 JSONP */
+function call(p,cb,bz){
+  if(!API){ cb({status:'err',msg:'서버 주소를 읽지 못했습니다. 잠시 후 다시 열어 주십시오.'}); return; }
+  if(bz){ busy(bz); }
+  var n='pcb'+Date.now()+Math.floor(Math.random()*1e5), s=document.createElement('script'), done=false;
+  function fin(d){ if(done){ return; } done=true; unbusy(); try{ delete window[n]; }catch(e){ window[n]=undefined; } if(s.parentNode){ s.parentNode.removeChild(s); } cb(d||{status:'err',msg:'잠시 후 다시 눌러 주십시오.'}); }
+  window[n]=function(d){ fin(d); };
+  var qs=[]; for(var k in p){ if(p[k]!==undefined&&p[k]!==null){ qs.push(encodeURIComponent(k)+'='+encodeURIComponent(typeof p[k]==='object'?JSON.stringify(p[k]):p[k])); } }
+  s.src=API+(API.indexOf('?')>-1?'&':'?')+qs.join('&')+'&callback='+n; s.onerror=function(){ fin({status:'err',msg:'연결이 끊겼습니다. 잠시 후 다시 눌러 주십시오.'}); };
+  setTimeout(function(){ fin({status:'err',msg:'서버 답이 늦습니다. 잠시 후 다시 눌러 주십시오.'}); },30000);
+  document.head.appendChild(s);
+}
+function tpl(name,cb){ if(T&&T._n===name){ cb(T); return; } fetch('/p/t/'+encodeURIComponent(name||'heyri')+'.json?t='+Date.now(),{cache:'no-store'}).then(function(r){ return r.json(); }).then(function(j){ j._n=name; T=j; cb(j); })['catch'](function(){ fail('안내 내용을 불러오지 못했습니다. 잠시 후 다시 열어 주십시오.'); }); }
+function fail(m){ PP.innerHTML='<div class="card" style="text-align:center;padding:30px 16px"><p style="font-weight:800;font-size:17px">'+esc(m)+'</p></div>'; }
+function fill(s,d,blank){ return String(s||'').replace(/\{(name|n|date|time|place|due|link)\}/g,function(m,k){ var v=d[k]; if(v===undefined||v===null||v===''){ return blank===undefined?'':blank; } return v; }); }
+function copy(t,ok){ function done(){ toast(ok||'복사했습니다'); } try{ navigator.clipboard.writeText(t).then(done,old); }catch(e){ old(); } function old(){ var a=document.createElement('textarea'); a.value=t; a.style.position='fixed'; a.style.opacity='0'; document.body.appendChild(a); a.select(); try{ document.execCommand('copy'); done(); }catch(e2){ toast('길게 눌러 복사해 주십시오'); } document.body.removeChild(a); } }
+function rndName(n){ return n+'차 교육생 모집'; }
+var ST={wait:'사무국 확인 중',ask:'고칠 것 있음',fixed:'고침 · 확인 기다림',open:'공유함',done:'교육 마침'};
+function stTag(st){ var c={'사무국 확인 중':'','고칠 것 있음':'r','고침 · 확인 기다림':'a','공유함':'j','교육 마침':'g'}[st]; return '<span class="tag '+(c||'')+'">'+esc(st||'')+'</span>'; }
+
+/* ══ 교육 참가 화면 · 사무국 미리보기 ══ */
+function guest(){
+  var p=MODE==='pv'?{action:'prGuest',o:Q.get('o'),n:Q.get('pv')}:{action:'prGuest',a:Q.get('a')};
+  call(p,function(d){ if(d.status!=='ok'){ fail(d.msg||'링크가 맞지 않습니다.'); return; } tpl(d.tpl,function(t){ drawGuest(d,t); }); });
+}
+function drawGuest(d,t){
+  var g=t.guest||{}, pv=MODE==='pv', h='';
+  if(pv){ h+='<div class="pv noprint"><span>미리보기 — 공간 사장님이 보시는 화면입니다. 신청 단추는 눌리지 않습니다.</span><button type="button" class="btn sm line" id="pvBk">사무국 화면</button></div>'; }
+  if(t.draft){ h+='<div class="draft noprint">(견본 글) 워드 제안서 · 붙임 내용으로 바꿀 자리입니다.</div>'; }
+  if(d.wait){ PP.innerHTML=h+'<div class="hero"><div class="brand">사랑흐름 · 우리 이야기</div><h1>'+esc(fill(g.title,d))+'</h1><p>'+esc(d.name)+'에서 안내를 준비하고 있습니다. 준비가 끝나면 사무국에서 다시 알려 드립니다.</p></div>'; return; }
+  var blank='<span class="empty">사무국에서 정해 알려 드립니다</span>';
+  function iv(k){ return d[k]?esc(d[k]):blank; }
+  h+='<div class="hero"><div class="brand">사랑흐름 · 우리 이야기</div><h1>'+esc(fill(g.title,d))+'</h1><p>'+esc(g.lead||'')+'</p>'+
+    '<div class="info"><div>'+ic('cal')+'<p><b>교육 날짜</b><span>'+iv('date')+(d.time?' · '+esc(d.time):'')+'</span></p></div><div>'+ic('pin')+'<p><b>장소</b><span>'+iv('place')+'</span></p></div><div>'+ic('clock')+'<p><b>신청 마감</b><span>'+iv('due')+'</span></p></div></div>'+
+    (d.done?'<p style="margin-top:12px;font-weight:800">이번 회차 교육은 마쳤습니다. 다음 회차 안내를 기다려 주십시오.</p>':'<button type="button" class="btn" id="goF">'+ic('check')+' 참가 신청하기</button>')+'</div>';
+  h+='<h2>무엇이 좋아지나요</h2><div class="gains">'+(g.gains||[]).map(function(x){ return '<div class="gain"><div class="ic">'+ic(x.i,24)+'</div><b>'+esc(x.t)+'</b><span>'+esc(x.d)+'</span></div>'; }).join('')+'</div>';
+  if(g.sample){ h+='<a class="btn line" style="margin-top:12px" href="'+esc(g.sample.u)+'">'+ic('eye')+' '+esc(g.sample.t)+'</a>'; }
+  h+='<h2>90분 동안 따라 하는 것</h2><div class="card"><ol class="n">'+(g.steps||[]).map(function(s){ return '<li>'+esc(s)+'</li>'; }).join('')+'</ol></div>';
+  h+='<h2>준비물</h2><div class="card"><ul class="d">'+(g.bring||[]).map(function(s){ return '<li>'+esc(s)+'</li>'; }).join('')+'</ul></div>';
+  if(!d.done){
+    var mine={}; try{ mine=JSON.parse(localStorage.getItem('lf_p_'+(Q.get('a')||''))||'{}'); }catch(e){}
+    h+='<h2 id="fTop">참가 신청</h2><div class="card main"><label class="f" for="fShop">상호</label><input class="t" id="fShop" maxlength="40" placeholder="예) 헤이리 ○○갤러리" value="'+esc(mine.shop||'')+'">';
+    (t.questions||[]).forEach(function(q){
+      h+='<label class="f">'+esc(q.q)+'</label>';
+      if(q.type==='text'){ h+='<textarea class="t" data-q="'+esc(q.id)+'" maxlength="300" placeholder="'+esc(q.hint||'')+'">'+esc((mine.ans||{})[q.id]||'')+'</textarea>'; }
+      else{ var cur=(mine.ans||{})[q.id]; h+='<div class="opts" data-q="'+esc(q.id)+'" data-t="'+q.type+'">'+q.opts.map(function(o){ var on=q.type==='many'?(cur&&cur.indexOf&&cur.indexOf(o)>-1):(cur===o); return '<button type="button" class="chip'+(on?' on':'')+'" data-o="'+esc(o)+'">'+esc(o)+'</button>'; }).join('')+'</div>'; }
+    });
+    h+='<p class="note" style="margin-top:12px">상호만 받습니다. 연락처는 받지 않습니다.</p><button type="button" class="btn" id="fGo" style="margin-top:8px"'+(pv?' disabled':'')+'>'+(mine.shop?'신청 내용 고치기':'신청하기')+'</button><div class="msg" id="fMsg"></div></div>';
+  }
+  if(g.after){ h+='<p class="note" style="margin-top:12px;text-align:center">'+esc(g.after)+'</p>'; }
+  PP.innerHTML=h;
+  if($('pvBk')){ $('pvBk').onclick=function(){ location.href='/p/?o='+encodeURIComponent(Q.get('o')); }; }
+  if($('goF')){ $('goF').onclick=function(){ var f=$('fTop'); if(f){ f.scrollIntoView({behavior:'smooth'}); } }; }
+  each(PP,'.opts',function(box){ each(box,'.chip',function(b){ b.onclick=function(){ if(box.getAttribute('data-t')==='one'){ each(box,'.chip',function(x){ x.classList.remove('on'); }); b.classList.add('on'); } else { b.classList.toggle('on'); } }; }); });
+  if($('fGo')&&!pv){ $('fGo').onclick=function(){
+    var shop=$('fShop').value.trim(), ans={}, miss='';
+    if(!shop){ $('fMsg').textContent='상호를 적어 주십시오.'; $('fShop').focus(); return; }
+    (t.questions||[]).forEach(function(q){ var el=PP.querySelector('[data-q="'+q.id+'"]'); if(!el){ return; }
+      if(q.type==='text'){ if(el.value.trim()){ ans[q.id]=el.value.trim(); } }
+      else{ var on=[]; each(el,'.chip.on',function(b){ on.push(b.getAttribute('data-o')); }); if(on.length){ ans[q.id]=q.type==='many'?on:on[0]; } }
+      if(q.need&&!ans[q.id]&&!miss){ miss=q.q; } });
+    if(miss){ $('fMsg').textContent='「'+miss+'」을 골라 주십시오.'; return; }
+    call({action:'prApply',a:Q.get('a'),shop:shop,ans:JSON.stringify(ans)},function(r){
+      if(r.status!=='ok'){ $('fMsg').className='msg'; $('fMsg').textContent=r.msg||'잠시 후 다시 눌러 주십시오.'; return; }
+      try{ localStorage.setItem('lf_p_'+Q.get('a'),JSON.stringify({shop:shop,ans:ans})); }catch(e){}
+      var go=ans.q1&&ans.q1.indexOf('참석합니다')===0;
+      $('fMsg').className='msg ok'; $('fMsg').innerHTML=(r.again?'신청 내용을 고쳤습니다.':'신청되었습니다.')+(go&&d.date?'<br>'+esc(d.date)+(d.time?' '+esc(d.time):'')+(d.place?' · '+esc(d.place):'')+'에서 뵙겠습니다.':'');
+      $('fGo').textContent='신청 내용 고치기';
+    },'신청을 보내는 중입니다');
+  }; }
+}
+
+/* ══ 사무국 화면 ══ */
+function office(){ call({action:'prOrg',o:Q.get('o')},function(d){ if(d.status!=='ok'){ fail(d.msg||'링크가 맞지 않습니다.'); return; } D=d; tpl(d.tpl,function(){ if(!CUR){ var r=d.rounds, pick=r[r.length-1]; for(var i=0;i<r.length;i++){ if(r[i].st!==ST.done){ pick=r[i]; break; } } CUR=pick?pick.n:1; var qn=parseInt(Q.get('n'),10); if(qn){ CUR=qn; } } drawOffice(); }); }); }
+function rnd(){ for(var i=0;i<D.rounds.length;i++){ if(D.rounds[i].n===CUR){ return D.rounds[i]; } } return D.rounds[0]; }
+function tally(r){ var go=0,no=0; r.apps.forEach(function(a){ var v=a.ans&&a.ans.q1||''; if(v.indexOf('참석합니다')===0){ go++; } else if(v){ no++; } }); return {all:r.apps.length,go:go,no:no}; }
+function drawOffice(){
+  var t=T, o=t.office||{}, r=rnd(), st=r.st, h='', info={name:D.name,n:r.n,date:r.date,time:r.time,place:r.place,due:r.due,link:r.link||''};
+  var stepNo={'사무국 확인 중':r.date&&r.place?2:1,'고칠 것 있음':0,'고침 · 확인 기다림':r.date&&r.place?2:1,'공유함':3,'교육 마침':5}[st]||0;
+  if(st===ST.open&&r.apps.length){ stepNo=3; }
+  h+='<div class="top"><span class="to">'+esc(D.name)+' 귀중</span><span class="tag">사랑흐름</span></div>';
+  if(t.draft){ h+='<div class="draft noprint">(견본 글) 워드 제안서 · 붙임 내용으로 바꿀 자리입니다.</div>'; }
+  h+='<h1>'+esc(fill(o.title,info))+'</h1><p class="note">'+esc(o.sub||'')+'</p>';
+  h+='<div class="chips noprint" style="margin-top:10px">'+D.rounds.map(function(x){ return '<button type="button" class="chip'+(x.n===r.n?' on':'')+'" data-rn="'+x.n+'">'+esc(rndName(x.n))+'</button>'; }).join('')+'</div>';
+  h+='<div class="card main"><div class="top"><b style="font-size:17px">'+esc(rndName(r.n))+'</b>'+stTag(st)+'</div>';
+  h+='<div class="steps5">'+['내용 확인','날짜 · 장소','공유 허락','신청 받기','교육 · 보고'].map(function(s,i){ var c=i<stepNo?'done':(i===stepNo?'now':''); return '<div class="'+c+'">'+s+'</div>'; }).join('')+'</div>';
+  /* 다음 할 일 — 상태에 따라 하나 */
+  if(st===ST.ask){ h+='<p style="margin-top:12px;font-weight:800">요청하신 수정을 반영하고 있습니다.</p><p class="note">고치면 이 화면 아래 「고친 기록」에 무엇을 고쳤는지 올리고, 그 뒤에 공유를 허락하실 수 있습니다.</p>'; }
+  else if(st===ST.wait||st===ST.fixed){
+    if(!(r.date&&r.place)){ h+='<p style="margin-top:12px;font-weight:800">교육 날짜와 장소를 적어 주십시오.</p><p class="note">적으신 내용이 공간 안내 화면과 안내글에 그대로 들어갑니다.</p>'+infoForm(r); }
+    else{ h+='<div class="info" style="margin-top:12px">'+infoLines(r)+'</div><p style="margin-top:12px;font-weight:800">내용을 보시고 괜찮으면 공유를 허락해 주십시오.</p><p class="note">허락하시면 공간 사장님들께 보낼 링크와 안내글이 바로 나옵니다. 고칠 곳이 있으면 아래 「수정 요청」에 적어 주십시오.</p><button type="button" class="btn line" id="oPv" style="margin-top:10px">'+ic('eye')+' 공간 사장님이 보실 화면 미리보기</button><button type="button" class="btn" id="oOk" style="margin-top:8px">'+ic('check')+' 공유 허락</button><div class="msg" id="oMsg"></div>'; }
+  }
+  else if(st===ST.open){
+    var ms=fill(t.share.msg,info), rm=fill(t.share.remind,info), tl=tally(r);
+    h+='<div class="big" style="margin-top:12px"><div><b>'+tl.all+'</b><span>신청한 공간</span></div><div><b>'+tl.go+'</b><span>참석</span></div><div><b>'+tl.no+'</b><span>다음 회차로</span></div></div>';
+    h+='<h3>공간 사장님께 보내기</h3><div class="linkbox">'+ic('chat')+'<span>'+esc(r.link)+'</span></div>';
+    h+='<div class="row2"><button type="button" class="btn" id="cMsg">'+ic('copy')+' 안내글 복사</button><button type="button" class="btn kk" id="cKk">'+ic('chat')+' 카카오톡으로 보내기</button></div>';
+    h+='<pre class="sh">'+esc(ms)+'</pre>';
+    h+='<h3>공유하는 법</h3><ol class="n">'+t.share.howto.map(function(s){ return '<li>'+esc(s)+'</li>'; }).join('')+'</ol>';
+    h+='<button type="button" class="btn line" id="cRm" style="margin-top:10px">'+ic('copy')+' 다시 알림 글 복사</button>';
+    h+='<p class="note" style="margin-top:8px">이 사무국 화면 링크는 사무국에서만 쓰십시오. 공간 사장님께는 위 링크만 보내시면 됩니다.</p>';
+    D._ms=ms; D._rm=rm;
+  }
+  else if(st===ST.done){ var tl2=tally(r); h+='<div class="big" style="margin-top:12px"><div><b>'+tl2.go+'</b><span>참석 신청</span></div><div><b>'+(r.att===''?'—':esc(r.att))+'</b><span>교육 참석</span></div><div><b>'+(r.rooms===''?'—':esc(r.rooms))+'</b><span>연 이야기방</span></div></div>'+(r.memo?'<p class="note" style="margin-top:8px">'+esc(r.memo)+'</p>':''); }
+  h+='</div>';
+  h+='<button type="button" class="btn line noprint" id="oRep">'+ic('doc')+' 임원회의 · 총회 보고자료</button>';
+  /* 신청 현황 */
+  if(st===ST.open||st===ST.done){ h+='<h2>신청 현황 <small class="note">'+r.apps.length+'곳</small></h2>'+(r.apps.length?'<div style="overflow-x:auto"><table class="tb"><tr><th>상호</th><th class="c">참석</th><th>공간</th><th>듣고 싶은 것</th></tr>'+r.apps.map(function(a){ var v=a.ans||{}; return '<tr><td>'+esc(a.shop)+(a.proxy?' <span class="tag g">종이</span>':'')+'</td><td class="c">'+(String(v.q1||'').indexOf('참석합니다')===0?'○':(v.q1?'다음':''))+'</td><td>'+esc(v.q2||'')+'</td><td>'+esc(v.q4||'')+'</td></tr>'; }).join('')+'</table></div>':'<p class="note">아직 신청이 없습니다.</p>'); }
+  /* 제안서 */
+  h+='<h2>제안서</h2><div class="card doc"><p class="note">차례 — '+esc((o.toc||[]).join(' · '))+'</p>'+(o.sections||[]).map(function(s){ return '<div class="sec"><h3>'+esc(s.h)+'</h3>'+(s.p||[]).map(function(x){ return '<p>'+esc(fill(x,info))+'</p>'; }).join('')+(s.list?'<ul class="d">'+s.list.map(function(x){ return '<li>'+esc(fill(x,info))+'</li>'; }).join('')+'</ul>':'')+'</div>'; }).join('')+'<button type="button" class="btn line noprint" id="oPr">'+ic('print')+' 제안서 인쇄 · PDF 저장</button></div>';
+  /* 교육 정보 · 수정 요청 · 고친 기록 */
+  if(r.date&&r.place&&st!==ST.done){ h+='<h2>교육 정보 고치기</h2><div class="card">'+infoForm(r)+'</div>'; }
+  h+='<h2>수정 요청</h2><div class="card"><p class="note">제안서나 공간 안내에서 고칠 곳을 적어 주십시오. 사랑흐름 대표에게 바로 전해지고, 고치면 아래 「고친 기록」에 올립니다.</p><label class="f" for="aWho">보내는 분</label><input class="t" id="aWho" maxlength="30" placeholder="예) 사무국 ○○○" value="'+esc(r.who||'')+'"><label class="f" for="aTx">고칠 곳</label><textarea class="t" id="aTx" maxlength="800" placeholder="예) 공간 안내 첫 줄을 이렇게 바꿔 주세요"></textarea><button type="button" class="btn" id="aGo" style="margin-top:10px">요청 보내기</button><div class="msg" id="aMsg"></div>'+
+    (r.asks.length?'<h3>보낸 요청</h3>'+r.asks.slice().reverse().map(function(a){ return '<div class="ask"><b>'+esc(a.who)+'</b> <span class="note">'+esc(a.at)+'</span><br>'+esc(a.text)+'</div>'; }).join(''):'')+'</div>';
+  h+='<h2>고친 기록</h2><div class="card">'+(r.fixes.length?r.fixes.slice().reverse().map(function(f){ return '<div class="fx"><time>'+esc(f.at)+'</time><b>'+esc(f.by)+'</b> · '+esc(f.what)+'</div>'; }).join(''):'<p class="note">아직 없습니다.</p>')+'</div>';
+  PP.innerHTML=h;
+  each(PP,'[data-rn]',function(b){ b.onclick=function(){ CUR=+b.getAttribute('data-rn'); drawOffice(); }; });
+  if($('oPv')){ $('oPv').onclick=function(){ location.href='/p/?o='+encodeURIComponent(Q.get('o'))+'&pv='+r.n; }; }
+  if($('oOk')){ $('oOk').onclick=function(){ call({action:'prOk',o:Q.get('o'),n:r.n},function(x){ if(x.status!=='ok'){ $('oMsg').textContent=x.msg||'잠시 후 다시 눌러 주십시오.'; return; } toast('공유를 허락했습니다'); office(); },'공유를 여는 중입니다'); }; }
+  if($('cMsg')){ $('cMsg').onclick=function(){ copy(D._ms,'안내글과 링크를 복사했습니다 — 단체방에 붙여 넣으십시오'); }; $('cRm').onclick=function(){ copy(D._rm,'다시 알림 글을 복사했습니다'); }; $('cKk').onclick=function(){ kk(info,r.link); }; }
+  $('oRep').onclick=function(){ location.href='/p/?o='+encodeURIComponent(Q.get('o'))+'&r=1'; };
+  if($('oPr')){ $('oPr').onclick=function(){ window.print(); }; }
+  each(PP,'[data-sv]',function(b){ b.onclick=function(){ var f=b.parentNode, v=function(k){ var el=f.querySelector('[data-k="'+k+'"]'); return el?el.value.trim():''; };
+    call({action:'prSet',o:Q.get('o'),n:r.n,date:v('date'),time:v('time'),place:v('place'),due:v('due'),who:v('who')},function(x){ if(x.status!=='ok'){ toast(x.msg||'잠시 후 다시 눌러 주십시오.'); return; } toast('교육 정보를 적었습니다'); office(); },'교육 정보를 적는 중입니다'); }; });
+  $('aGo').onclick=function(){ var tx=$('aTx').value.trim(); if(tx.length<2){ $('aMsg').textContent='고칠 곳을 적어 주십시오.'; return; }
+    call({action:'prAsk',o:Q.get('o'),n:r.n,who:$('aWho').value.trim(),text:tx},function(x){ if(x.status!=='ok'){ $('aMsg').textContent=x.msg||'잠시 후 다시 눌러 주십시오.'; return; } toast('요청을 보냈습니다'); office(); },'요청을 보내는 중입니다'); };
+}
+function infoLines(r){ return '<div>'+ic('cal')+'<p><b>교육 날짜</b><span>'+esc(r.date)+(r.time?' · '+esc(r.time):'')+'</span></p></div><div>'+ic('pin')+'<p><b>장소</b><span>'+esc(r.place)+'</span></p></div><div>'+ic('clock')+'<p><b>신청 마감</b><span>'+(r.due?esc(r.due):'<span class="empty">적지 않음</span>')+'</span></p></div>'; }
+function infoForm(r){ return '<div><label class="f">교육 날짜</label><input class="t" data-k="date" maxlength="30" placeholder="예) 11월 20일 (목)" value="'+esc(r.date)+'"><label class="f">교육 시간</label><input class="t" data-k="time" maxlength="30" placeholder="예) 오후 2시 ~ 3시 30분" value="'+esc(r.time)+'"><label class="f">장소</label><input class="t" data-k="place" maxlength="60" placeholder="예) 헤이리 ○○홀" value="'+esc(r.place)+'"><label class="f">신청 마감</label><input class="t" data-k="due" maxlength="30" placeholder="예) 11월 17일 (월)" value="'+esc(r.due)+'"><label class="f">사무국 담당</label><input class="t" data-k="who" maxlength="30" placeholder="예) 사무국 ○○○" value="'+esc(r.who)+'"><button type="button" class="btn" data-sv="1" style="margin-top:12px">교육 정보 저장</button></div>'; }
+function kk(info,link){
+  var tx=fill('[{name}] {n}차 우리 이야기 교육생 모집 · {date} · {place} · 비용 없음 · 상호만 적고 신청해 주십시오.',info).slice(0,190);
+  function go(){ try{ if(!Kakao.isInitialized()){ Kakao.init(LF_CONFIG.kakaoJs); } Kakao.Share.sendDefault({objectType:'text',text:tx,link:{mobileWebUrl:link,webUrl:link},buttonTitle:'신청하러 가기'}); }catch(e){ copy(D._ms,'카카오톡 창이 열리지 않아 안내글을 복사했습니다'); } }
+  if(window.Kakao){ go(); return; }
+  var s=document.createElement('script'); s.src='https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js'; s.onload=go; s.onerror=function(){ copy(D._ms,'카카오톡 창이 열리지 않아 안내글을 복사했습니다'); }; document.head.appendChild(s);
+}
+
+/* ══ 보고자료 (임원회의 · 총회) ══ */
+function report(){ call({action:'prOrg',o:Q.get('o')},function(d){ if(d.status!=='ok'){ fail(d.msg||'링크가 맞지 않습니다.'); return; } D=d; tpl(d.tpl,drawReport); }); }
+function drawReport(t){
+  var today=new Date(), ds=today.getFullYear()+'년 '+(today.getMonth()+1)+'월 '+today.getDate()+'일', rs=D.rounds, sum={apps:0,go:0,att:0,rooms:0};
+  var h='<div class="noprint" style="display:flex;gap:8px;margin-bottom:10px"><button type="button" class="btn sm line" id="rBk">사무국 화면</button><button type="button" class="btn sm" id="rPr">'+ic('print')+' 인쇄 · PDF 저장</button></div>';
+  h+='<div class="rep"><div class="hd"><small>'+esc(D.name)+'</small><h1>우리 이야기 교육 결과 보고</h1><small>'+ds+' 기준</small></div>';
+  h+='<h2>1. 회차별 결과</h2><table class="tb"><tr><th class="c">회차</th><th>교육 날짜</th><th>장소</th><th class="c">안내 공유</th><th class="c">신청 공간</th><th class="c">참석 신청</th><th class="c">교육 참석</th><th class="c">연 이야기방</th></tr>';
+  rs.forEach(function(r){ var tl=tally(r); sum.apps+=tl.all; sum.go+=tl.go; sum.att+=parseInt(r.att,10)||0; sum.rooms+=parseInt(r.rooms,10)||0;
+    h+='<tr><td class="c" style="white-space:nowrap">'+r.n+'차</td><td>'+esc(r.date||'—')+'</td><td>'+esc(r.place||'—')+'</td><td class="c">'+esc(r.okAt?r.okAt.slice(5,10).replace('-','.'):'—')+'</td><td class="c">'+tl.all+'</td><td class="c">'+tl.go+'</td><td class="c">'+(r.att===''?'—':esc(r.att))+'</td><td class="c">'+(r.rooms===''?'—':esc(r.rooms))+'</td></tr>'; });
+  h+='<tr><th class="c">합계</th><th colspan="3"></th><th class="c">'+sum.apps+'</th><th class="c">'+sum.go+'</th><th class="c">'+sum.att+'</th><th class="c">'+sum.rooms+'</th></tr></table>';
+  var k=2;
+  rs.forEach(function(r){ if(!r.apps.length&&r.st!==ST.done){ return; }
+    h+='<h2>'+(k++)+'. '+r.n+'차 교육생 모집 — 자세히</h2>';
+    h+='<table class="tb"><tr><th style="width:28%">교육</th><td>'+esc([r.date,r.time,r.place].filter(function(x){ return x; }).join(' · ')||'—')+'</td></tr><tr><th>사무국 담당</th><td>'+esc(r.who||'—')+'</td></tr><tr><th>안내 공유</th><td>'+esc(r.okAt||'—')+'</td></tr>'+(r.memo?'<tr><th>결과 메모</th><td>'+esc(r.memo)+'</td></tr>':'')+'</table>';
+    (t.questions||[]).forEach(function(q){ if(q.type==='text'){ var tx=r.apps.map(function(a){ return a.ans&&a.ans[q.id]; }).filter(function(x){ return x; }); if(tx.length){ h+='<h3>'+esc(q.q)+'</h3><ul class="d">'+tx.map(function(x){ return '<li>'+esc(x)+'</li>'; }).join('')+'</ul>'; } return; }
+      var c={}, n=0; q.opts.forEach(function(o){ c[o]=0; }); r.apps.forEach(function(a){ var v=a.ans&&a.ans[q.id]; if(!v){ return; } n++; (Array.isArray(v)?v:[v]).forEach(function(x){ c[x]=(c[x]||0)+1; }); });
+      if(!n){ return; }
+      h+='<h3>'+esc(q.q)+' <small class="note">답 '+n+'곳</small></h3><table class="tb">'+Object.keys(c).map(function(o){ var pc=n?Math.round(c[o]*100/n):0; return '<tr><td style="width:46%">'+esc(o)+'</td><td class="c" style="width:12%">'+c[o]+'</td><td><div class="bar"><i style="width:'+pc+'%"></i></div></td></tr>'; }).join('')+'</table>'; });
+    if(r.apps.length){ h+='<h3>신청 공간 ('+r.apps.length+'곳)</h3><p>'+r.apps.map(function(a){ return esc(a.shop); }).join(', ')+'</p>'; }
+  });
+  h+='<h2>'+k+'. 다음 계획</h2><table class="tb"><tr><td style="height:70px"></td></tr></table>';
+  h+='<div class="foot"><span>작성 · '+esc(D.name)+'</span><span>교육 · 도구 지원 · 사랑흐름</span></div></div>';
+  PP.innerHTML=h;
+  $('rBk').onclick=function(){ location.href='/p/?o='+encodeURIComponent(Q.get('o')); }; $('rPr').onclick=function(){ window.print(); };
+}
+
+/* ══ 본부 「제안 · 설문」 (대표만 · 본부 로그인 그대로) ══ */
+function htGet(){ var raw=''; try{ raw=sessionStorage.getItem('lf_rec_ht')||localStorage.getItem('lf_rec_ht')||''; }catch(e){} try{ var o=JSON.parse(raw||'null'); if(o&&o.v&&(!o.e||o.e>Date.now())){ return o.v; } }catch(e2){} return window.LF_P_HT||''; }
+var HQ={orgs:[],tpls:[],open:''};
+function hq(){ var ht=htGet(); if(!ht){ PP.innerHTML='<div class="card" style="text-align:center"><p style="font-weight:800">본부로 들어온 뒤에 열 수 있습니다.</p><a class="btn" href="/rec/?hq=1" style="margin-top:10px">본부로</a></div>'; return; }
+  call({action:'recHq',ht:ht,act:'prList'},function(d){ if(d.status!=='ok'){ PP.innerHTML='<div class="card"><p style="font-weight:800">'+esc(d.msg||'불러오지 못했습니다.')+'</p><a class="btn" href="/rec/?hq=1" style="margin-top:10px">본부로</a></div>'; return; } HQ.orgs=d.orgs; HQ.tpls=d.tpls; drawHq(); },'목록을 불러오는 중입니다'); }
+function hqAct(p,ok){ p.action='recHq'; p.ht=htGet(); call(p,function(d){ if(d.status!=='ok'){ toast(d.msg||'잠시 후 다시 눌러 주십시오.'); return; } if(ok){ toast(ok); } hq(); },'처리하는 중입니다'); }
+function drawHq(){
+  var h='<div class="hq"><div class="top"><h1 style="margin:0">제안 · 설문</h1><a class="btn sm line" href="/rec/?hq=1">⌂ 본부로</a></div><p class="note">받는 곳마다 사무국 링크 하나 · 회차마다 교육 참가 링크 하나. 사무국이 날짜 · 장소를 적고 공유를 허락하면 참가 링크가 열립니다.</p>';
+  h+='<div class="card"><b>새 받는 곳</b><label class="f">받는 곳 이름</label><input class="t" id="nNm" maxlength="60" placeholder="예) 헤이리예술마을 사무국"><label class="f">틀</label><select class="t" id="nTp">'+HQ.tpls.map(function(x){ return '<option>'+esc(x)+'</option>'; }).join('')+'</select><button type="button" class="btn" id="nGo" style="margin-top:10px">만들기 · 1차 교육생 모집</button></div>';
+  HQ.orgs.forEach(function(o){
+    h+='<div class="org"><div class="top"><b style="font-size:17px">'+esc(o.name)+'</b><span class="tag g">'+esc(o.no)+' · '+esc(o.tpl)+'</span></div>';
+    h+='<div class="acts"><button type="button" class="btn sm" data-cp="'+esc(o.office)+'">'+ic('copy')+' 사무국 링크 복사</button><a class="btn sm line" href="'+esc(o.office.replace('https://www.loveflow.ai.kr',''))+'">사무국 화면 열기</a><a class="btn sm line" href="'+esc(o.office.replace('https://www.loveflow.ai.kr',''))+'&r=1">보고자료</a><button type="button" class="btn sm line" data-nx="'+esc(o.no)+'">다음 회차 만들기</button></div>';
+    o.rounds.slice().reverse().forEach(function(r){ var tl=tally(r), id=o.no+'_'+r.n;
+      h+='<div class="rnd"><div class="top"><b>'+r.n+'차 교육생 모집</b>'+stTag(r.st)+'</div><p class="note">'+esc([r.date,r.time,r.place].filter(function(x){ return x; }).join(' · ')||'날짜 · 장소 아직')+' · 신청 '+tl.all+'곳(참석 '+tl.go+')'+(r.att!==''?' · 교육 참석 '+esc(r.att)+' · 이야기방 '+esc(r.rooms):'')+'</p>';
+      r.asks.slice().reverse().forEach(function(a){ h+='<div class="ask"><b>수정 요청</b> · '+esc(a.who)+' · <span class="note">'+esc(a.at)+'</span><br>'+esc(a.text)+'</div>'; });
+      h+='<div class="acts">'+(r.link?'<button type="button" class="btn sm line" data-cp="'+esc(r.link)+'">참가 링크 복사</button>':'')+'<button type="button" class="btn sm'+(r.st===ST.ask?'':' line')+'" data-f="fx_'+id+'">고친 것 알림</button><button type="button" class="btn sm line" data-f="rs_'+id+'">교육 결과</button><button type="button" class="btn sm line" data-f="px_'+id+'">대신 입력</button></div>';
+      h+='<div class="form" id="fx_'+id+'" hidden><label class="f">무엇을 고쳤나 (사무국 화면 「고친 기록」에 그대로 보임)</label><input class="t" data-k="what" maxlength="200"><button type="button" class="btn sm" data-do="prFix" data-o="'+esc(o.no)+'" data-n="'+r.n+'" style="margin-top:8px">알림 올리기</button></div>';
+      h+='<div class="form" id="rs_'+id+'" hidden><div class="row2"><div><label class="f">교육 참석 공간 수</label><input class="t" data-k="att" inputmode="numeric" value="'+esc(r.att)+'"></div><div><label class="f">연 이야기방 수</label><input class="t" data-k="rooms" inputmode="numeric" value="'+esc(r.rooms)+'"></div></div><label class="f">결과 메모 (보고자료에 들어감)</label><input class="t" data-k="memo" maxlength="300" value="'+esc(r.memo)+'"><button type="button" class="btn sm" data-do="prResult" data-o="'+esc(o.no)+'" data-n="'+r.n+'" style="margin-top:8px">교육 마침으로 적기</button></div>';
+      h+='<div class="form" id="px_'+id+'" hidden><label class="f">상호 (종이로 받은 신청)</label><input class="t" data-k="shop" maxlength="40"><label class="f">참석</label><select class="t" data-k="q1"><option>참석합니다</option><option>이번에는 어렵습니다 · 다음 회차 안내를 받겠습니다</option></select><button type="button" class="btn sm" data-do="prProxy" data-o="'+esc(o.no)+'" data-n="'+r.n+'" style="margin-top:8px">대신 입력</button></div>';
+      h+='</div>'; });
+    h+='</div>'; });
+  if(!HQ.orgs.length){ h+='<p class="note">아직 만든 받는 곳이 없습니다.</p>'; }
+  h+='</div>'; PP.innerHTML=h;
+  $('nGo').onclick=function(){ var nm=$('nNm').value.trim(); if(nm.length<2){ toast('받는 곳 이름을 적어 주십시오'); return; } hqAct({act:'prNew',name:nm,tpl:$('nTp').value},'만들었습니다 — 사무국 링크를 복사해 보내십시오'); };
+  each(PP,'[data-cp]',function(b){ b.onclick=function(){ copy(b.getAttribute('data-cp'),'링크를 복사했습니다'); }; });
+  each(PP,'[data-nx]',function(b){ b.onclick=function(){ hqAct({act:'prNext',org:b.getAttribute('data-nx')},'다음 회차를 만들었습니다'); }; });
+  each(PP,'[data-f]',function(b){ b.onclick=function(){ var f=$(b.getAttribute('data-f')); f.hidden=!f.hidden; }; });
+  each(PP,'[data-do]',function(b){ b.onclick=function(){ var f=b.parentNode, p={act:b.getAttribute('data-do'),org:b.getAttribute('data-o'),n:b.getAttribute('data-n')};
+    each(f,'[data-k]',function(el){ p[el.getAttribute('data-k')]=el.value.trim(); });
+    if(p.act==='prProxy'){ p.ans=JSON.stringify({q1:p.q1}); delete p.q1; if(!p.shop){ toast('상호를 적어 주십시오'); return; } }
+    if(p.act==='prFix'&&(p.what||'').length<2){ toast('무엇을 고쳤는지 적어 주십시오'); return; }
+    hqAct(p,{prFix:'고친 것을 사무국 화면에 올렸습니다',prResult:'교육 결과를 적었습니다',prProxy:'대신 입력했습니다'}[p.act]); }; });
+}
+
+/* ← ⌂ → */
+$('wB').onclick=function(){ history.back(); }; $('wF').onclick=function(){ history.forward(); };
+$('wH').onclick=function(){ location.href=MODE==='hq'?'/rec/?hq=1':'/'; };
+if(MODE==='guest'||MODE==='pv'){ guest(); } else if(MODE==='office'){ office(); } else if(MODE==='rep'){ report(); } else if(MODE==='hq'){ hq(); } else { fail('받으신 링크를 다시 눌러 주십시오.'); }
+})();
+</script>
+<script src="/lf/frame.js?v=18"></script>
+<script src="/lf-foot.js" defer></script>
+</body>
+</html>
