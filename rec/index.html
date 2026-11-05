@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v102 · 261031 · [510 · 대표 OK 14:49 · ★서버 ④살핌 v35 · ⑥시험 v58과 짝(509)] 전체 보기 첫 장(24칸)을 휴대폰에 남겨 둠(방 · 손님/들어온 분 · 고른 칸마다 · 최근 4개 · 7일) — 다시 열면 남겨 둔 칸을 바로 그리고 서버 답이 오면 뒤에서 바꿔 끼움 · 잠깐 쓰는 기기(tmp)는 남기지 않음 · REC_VER 102 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v103 · 261105 · [534 · 대표 OK 14:01 · ★서버 ①Code v50 · ③본부 v38 · ⑥시험 v59와 짝 · p/index.html v2] ① 사무국 관리 화면(/p/?k=)에서 누른 카카오 로그인(관리 확인 · next=pr)이 끝나면 그 화면으로 돌아감 ② 본부 ④ 서비스에 「제안 · 교육생 모집」(/p/?hq=1 · 같은 창) · REC_VER 103 · 그 밖 무손 -->
+<!-- (이전) ★ 현재 버전 ▶ rec/index.html · v102 · 261031 · [510 · 대표 OK 14:49 · ★서버 ④살핌 v35 · ⑥시험 v58과 짝(509)] 전체 보기 첫 장(24칸)을 휴대폰에 남겨 둠(방 · 손님/들어온 분 · 고른 칸마다 · 최근 4개 · 7일) — 다시 열면 남겨 둔 칸을 바로 그리고 서버 답이 오면 뒤에서 바꿔 끼움 · 잠깐 쓰는 기기(tmp)는 남기지 않음 · REC_VER 102 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v101 · 261028 · [495~497 · 대표 OK 14:41 · ★서버 ①Code v48 · ⑥시험 v56과 짝] ① 497 크게 보기에서 사진이 아직 안 왔으면 가운데 기다림 하트 + 「사진을 불러오는 중입니다」(못 받으면 「사진을 불러오지 못했습니다」) · 전체 보기 「더 불러오는 중」도 하트로 ② 495 크게 보기 — 바로 주소 사진은 작은 사진(480)을 먼저 깔고 큰 사진으로 바꿈 · 다음 두 장을 미리 받음 ③ 496 「새로 올라온」 바둑판(방 첫 화면 「우리 이야기」 · 전체 보기 새로 올라온 · 내가 올린 것)에서 영상이 붙어 몰리지 않게 사진 사이로 흩음(네 칸에 하나 · 연도순 · 지난 이야기는 그대로) · REC_VER 101 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v100 · 261028 · [이슈 485 후보 · 다른 창 인계] 화면 기록(lfFlush)이 보내는 버전 표시가 「v87」로 고정되어 있던 것 → REC_VER 를 그대로 보냄 · ★서버 ①Code v47(사진 날짜 읽기 고침)과 같은 날 · REC_VER 100 · 그 밖 무손 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v99 · 261028 · [74차 묶음 1-나 · 대표 OK 12:17 · ★서버 ①Code v46 · ⑥시험 v54와 짝] ① 지난 이야기 — 찍은 때가 1년 넘게 앞선 사진은 첫 화면 아래 「지난 이야기」(해마다) · 칸 귀퉁이 해 · ⋯ 「지난 이야기로 옮기기 · 빼기」(올린 분 · 관리자) ② 「우리 이야기」 옆 「전체 보기」 — 새로 올라온 · 연도순 · 지난 이야기 · 내가 올린 것 · 아래로 이어 불러옴 · ＋ 단추 ③ 크게 보기 — 묶음 사진이 한 장씩 이어짐(사진 2 / 9) · 오른쪽 「＋ 올리기」 · 컴퓨터는 ↑ ↓ 단추 · 키보드 화살표 · 넘김 안내는 창마다 처음 한 번 3초 ④ 기록 하나 아래 「나도 사진 올리기」 ⑤ 올리기 「사진에 아이가 나오나요? 아니요 · 예」 ⑥ 둘러보기 갈래 — 손님 첫 화면 「둘러보기」(같은 방 아래로 내려가기만 함) → 「다복 전체 보기」(전체 보기 화면) · 「우리 이야기 만들기」 띠 위에 「이야기방 둘러보기」(마당) · REC_VER 99 · 그 밖 무손 -->
@@ -3970,6 +3971,7 @@ function adminBack(code,kerr,next){
   if(kerr||!code){ loadMe(); return; }
   wait($('main'),'관리 확인을 하는 중입니다');
   api({action:'recAdminTicket',code:code,redirect:KREDIR},function(d){
+    if(d.status==='ok'&&String(next)==='pr'){ tkSet(ATK,d.at,d.hours||6); location.replace('/p/?k='+K); return; }   /* ★v103 534 사무국 관리 화면(/p/)에서 온 카카오 로그인 → 그 화면으로 */
     if(d.status==='ok'){ tkSet(ATK,d.at,d.hours||6); PEND_ADM=String(next||'adm').replace(/[^a-z]/g,'').slice(0,6)||'adm'; toast('관리 확인을 마쳤습니다',(d.hours||6)+'시간 동안 관리 기능을 쓰실 수 있습니다'); }
     else { toast(d.msg||'관리 확인을 하지 못했습니다'); }
     loadMe();
@@ -4833,7 +4835,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=102;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=103;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
@@ -5383,7 +5385,7 @@ function slsPaint(){
     hqConfirm(rf?'환불됨 표시':'환불됨 표시 풀기',(rf?'<b>'+esc(x.no)+'</b> · '+esc(slsItem(x))+(x.pp?' · '+esc(x.pp):'')+'<br>이 주문의 사랑흐름 여권을 막습니다. 판매처에서 환불을 마친 뒤에 누르십시오.':'<b>'+esc(x.no)+'</b> 의 환불됨 표시를 풀고 원래 상태로 돌립니다. 여권이 다시 열립니다.')+'<br>휴대폰 카카오톡으로 재확인을 받습니다.',rf?'표시하기':'풀기',rf,function(fail){
       dkAsk(rf?'환불됨 표시':'환불됨 표시 풀기',function(){ slsCall({action:'hqMark',orderNo:x.no,mode:md},function(r){ if(r.status!=='ok'){ fail(r.msg); return; } closeSheet(); toast(rf?'환불됨으로 표시했습니다':'표시를 풀었습니다',x.no); dkSales(); }); }); }); }; });
 }
-function dkSvc(){ dkLinks('서비스','자서전 · 편지 · 추억록 · 마음 한마디 · 게시판',[['화면 목록','사이트 화면 전부 · 링크 복사 · QR',hqScreens]]); }
+function dkSvc(){ dkLinks('서비스','자서전 · 편지 · 추억록 · 마음 한마디 · 게시판',[['화면 목록','사이트 화면 전부 · 링크 복사 · QR',hqScreens],['제안 · 교육생 모집','기관 제안서 · 사무국 담당자 링크 · 회차 · 신청 현황 · 보고자료','/p/?hq=1']]); }   /* ★v103 534 */
 /* ⑤ 사람 · 권한 — 역할 틀 → 범위 → 기한 · 「누가 무엇을 언제까지」 한 화면 */
 var PPL={tab:'hq'};   /* ★v95 칸 3-나 — ⑤ 칩 「본부 명단 · 안내자 대장」 */
 function pplChips(){ return '<div class="chipline" style="margin-bottom:8px">'+[['hq','본부 명단 · 권한'],['guide','안내자 대장']].map(function(c){ return '<button type="button" class="chip s'+(c[0]===PPL.tab?' on':'')+'" data-pt="'+c[0]+'">'+esc(c[1])+'</button>'; }).join('')+'</div>'; }
