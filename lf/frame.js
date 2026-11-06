@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v18 · 261105 · [533 · 대표 OK 261105 11:28 · 송암 가계도 방식] ① 카톡 안에서 열면 바로 바깥 브라우저(크롬 · 사파리)로 넘김(kakaotalk://web/openExternal · 한 창에 한 번 · ?kk=0 이면 안 넘김) ② 휴대폰 화면 위 띠 「사랑흐름을 바탕화면에 두고 바로 여세요 · 홈 화면에 추가 · ✕」(✕ 누른 분 · 아이콘으로 연 분 · 컴퓨터 · 관리 화면은 안 뜸) ③ 우리 이야기(/rec/) 밖 화면에 설치 신분증(/manifest.webmanifest) · 일꾼(/sw.js) · /rec/ 는 원래 「바탕화면에 두기」(pwaGo)로. [무손] 그 밖 v17 전부.
+   현재 버전 ▶ lf/frame.js · v19 · 261106 · [500 소통 · 대표 261106 09:10 「카톡에서 열면 반드시 되는 브라우저로」 · 견본] 카톡 안에서 바깥 브라우저로 넘길 때 여권번호를 주소(?id=)에 실어 보냄 — 바깥 브라우저에서 번호를 다시 넣지 않고 그 자리 그대로. [무손] v18 전부.
+   (이전) lf/frame.js · v18 · 261105 · [533 · 대표 OK 261105 11:28 · 송암 가계도 방식] ① 카톡 안에서 열면 바로 바깥 브라우저(크롬 · 사파리)로 넘김(kakaotalk://web/openExternal · 한 창에 한 번 · ?kk=0 이면 안 넘김) ② 휴대폰 화면 위 띠 「사랑흐름을 바탕화면에 두고 바로 여세요 · 홈 화면에 추가 · ✕」(✕ 누른 분 · 아이콘으로 연 분 · 컴퓨터 · 관리 화면은 안 뜸) ③ 우리 이야기(/rec/) 밖 화면에 설치 신분증(/manifest.webmanifest) · 일꾼(/sw.js) · /rec/ 는 원래 「바탕화면에 두기」(pwaGo)로. [무손] 그 밖 v17 전부.
    (이전) lf/frame.js · v17 · 261026 · [칸 4-나 458 · 대표 「진행」 11:16] ① 상품 설명 화면(/item/) 방문 · 누름 · 나감을 방문 통계 「상품 진열」 칸으로 셈(옛 진열장 자리 · 서버 이름표 그대로라 서버는 안 고침) ② /item/ · /travel/ 에서 아래 띠 「사랑흐름 여행」에 불 ③ 쓰이지 않던 옛 ☰(menuHtml) 지움. [무손] 새 ☰ · 방문 통계 장치 · 그 밖 v16 전부.
    (이전) lf/frame.js · v16 · 261024 · [칸 4 · 454 · 대표 OK 261024 21:16] 아래 묶음 띠 · ☰ 큰 카드 「예매하기」 → 「사랑흐름 여행」(첫 화면 보라 띠 · 새 ☰ 묶음과 같은 이름 · 73차 결정 6). [무손] 그 밖 v15 전부.
    (이전) lf/frame.js · v15 · 261024 · [칸 3 435 · 대표 20:49 「바로 반영」] 새 ☰(우리 이야기 · 기록관 → 마음 전하기 (무료) → 사랑흐름 여행 · 구매한 여행 이어가기 → 함께하기)를 모든 화면에 · 아래 묶음 「맛보기」 → 「마음 전하기 · 무료」 모든 화면 · 「내 여행」 묶음 「여권 입장」 → 「구매한 여행 이어가기」. [무손] 그 밖 v14 전부
@@ -39,7 +40,14 @@
     if (!/KAKAOTALK/i.test(ua) || /[?&]kk=0/.test(location.search)) { return; }
     if (sessionStorage.getItem('lf_kk_out') === '1') { return; }
     sessionStorage.setItem('lf_kk_out', '1');
-    location.replace('kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href.split('#')[0]));
+    var u = location.href.split('#')[0];
+    /* ★v19 여권번호를 주소에 실어 보냄 — 바깥 브라우저에는 카톡 안 기억이 없으므로(자서전 · 편지 등 ?id= 로 이어 씀) */
+    try {
+      var pp = (window.LFPass && LFPass.no && LFPass.no()) || sessionStorage.getItem('lf_passport') || localStorage.getItem('lf_passport') || '';
+      if (pp && /^\/(memoir|letter|l|journey|m|draw|hanmadi)\//.test(location.pathname) && !/[?&]id=/.test(u)) { u += (u.indexOf('?') > -1 ? '&' : '?') + 'id=' + encodeURIComponent(String(pp).trim().toUpperCase()); }
+    } catch (e2) {}
+    window.__lfOut = u;
+    location.replace('kakaotalk://web/openExternal?url=' + encodeURIComponent(u));
   } catch (e) {}
 })();
 (function () {
