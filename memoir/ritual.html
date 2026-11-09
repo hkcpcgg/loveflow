@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ritual.html · v54 · 261109 · [545 · 대표 지적 261109] 읽어 주는 목소리 — 차분한 목소리 먼저(ask v94 와 같은 고르기) · 높이 0.8 → 0.85 · 빠르기 0.9 → 0.85(두 화면 같은 소리). [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ritual.html · v55 · 261109 · [547 칸 3 · 79차 · 대표 OK 261109 23:02] 서버 getMemoir 가 qNew = A-02 라고 답한 번호만 — 이야기 고르기의 아직 안 연 여덟 단추 자리에 큰 단추 「✨ 새 이야기 열기」(작은 줄 = 79차 큰 문 넷) · 앞서 연 이야기 단추 · 아홉째 · 열째는 그대로. 누르면 남은 편 확인 창(지금 말) → 서버 openPlace place=new 로 편 번호 → ask.html?id=…&trip=N. 쓰시던 새 이야기(마치지 않은 A-02 편)가 있으면 「쓰시던 새 이야기 이어 쓰기」 · 편을 또 쓰지 않음. 안전망 — 여덟 단추를 눌러도(답이 늦을 때 · ?open= · 번호를 뒤에 넣을 때) qNew = A-02 이고 안 연 이야기면 같은 길. 「쓰시던 이야기 이어 쓰기」가 「새 이야기」 편도 찾음(쓰는 중 → 이어 쓰기 · 이름 안 남김 → 쓴 글 보기). 번호를 넣는 칸에서 들어오면 곧장 질문 화면으로 가던 것 → 고른 이야기의 확인 창을 거침. [무손] A-01 · 청소년 · 기관 맞춤 번호의 화면 · 그 밖 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/ritual.html · v54 · 261109 · [545 · 대표 지적 261109] 읽어 주는 목소리 — 차분한 목소리 먼저(ask v94 와 같은 고르기) · 높이 0.8 → 0.85 · 빠르기 0.9 → 0.85(두 화면 같은 소리). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ritual.html · v53 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ritual.html · v52 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ritual.html · v51 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -67,6 +68,9 @@
   .rt-back-t{font-size:13px;color:#D4AF37;letter-spacing:.5px;margin-bottom:8px;text-align:center}
   .rt-back .season{margin-bottom:8px}
   .rt-other{display:block;text-align:center;margin-top:6px;font-size:14px;color:#1E4A76;text-decoration:underline;cursor:pointer}
+  .rt-peek{text-align:center;font-size:14px;color:var(--muted);margin:16px 0 4px}   /* ★v55 */
+  .rt-a2{width:100%;box-sizing:border-box;margin:12px 0 0;background:linear-gradient(135deg,#2A2F6B,#5B3E8E)!important;color:#fff!important;border:none!important;font-weight:700;font-size:19px;padding:18px 16px;box-shadow:0 6px 18px rgba(42,47,107,.25);word-break:keep-all;position:relative;z-index:2}   /* ★v55 */
+  .rt-a2 .em{color:#DCD4F2!important}
   .seasons{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;position:relative;z-index:2}
   .season{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 16px;font-family:'Noto Serif KR',serif;font-size:17px;color:var(--navy);cursor:pointer;text-align:center;display:flex;flex-direction:column;gap:4px}
   .season:hover{border-color:var(--gold);background:#fffdf6}
@@ -240,15 +244,17 @@ body{background:#E7E1D6 !important}
     <div class="big serif">어느 이야기부터<br>남겨 볼까요</div>
     <div class="body serif" id="b2" style="margin-bottom:6px">그대의 이야기는 그곳에서부터 다시 숨을 쉬기 시작할 것입니다.</div>
     <button class="listen" id="l2" onclick="speak('b2','l2')"><span class="ic">&#128266;</span> 들려드릴게요</button>
-    <div class="seasons">
-      <button class="season" onclick="begin(0)">그때 내가 살던 곳<span class="em">살던 집 · 골목과 길 · 그 시절의 맛</span></button>
-      <button class="season" onclick="begin(1)">나를 만든 사람들<span class="em">나를 키워 준 분 · 친구 · 기억에 남는 어른</span></button>
-      <button class="season" onclick="begin(2)">배우고 익힌 것들<span class="em">처음 배운 것 · 손으로 익힌 것 · 그때 품었던 꿈</span></button>
-      <button class="season" onclick="begin(3)">내가 걸어온 일의 길<span class="em">처음 맡은 일 · 일터의 하루 · 일터의 사람</span></button>
-      <button class="season" onclick="begin(4)">함께 살아온 사람들<span class="em">함께 밥 먹던 자리 · 살림 · 아이와 함께한 날</span></button>
-      <button class="season" onclick="begin(5)">버티고 일어서던 시간<span class="em">멈춰 섰던 때 · 곁에 있던 사람 · 다시 움직인 순간</span></button>
-      <button class="season" onclick="begin(6)">내 삶에서 빛났던 것들<span class="em">환했던 하루 · 뜻밖의 기쁨 · 용기를 낸 일</span></button>
-      <button class="season" onclick="begin(7)">지금의 나, 그리고 남기고 싶은 말<span class="em">요즘의 하루 · 곁에 있는 사람 · 전할 말</span></button>
+    <div class="rt-peek" id="rtPeek" style="display:none">이야기를 살펴보고 있어요…</div>   <!-- ★v55 547 -->
+    <button class="season rt-a2" id="rtA2" style="display:none" onclick="rtNew()"><span id="rtA2T">✨ 새 이야기 열기</span><span class="em">몸이 기억하는 것 · 정든 곳, 따뜻한 밥상 · 마음을 나눈 사람들 · 나다운 모습</span></button>   <!-- ★v55 547 -->
+    <div class="seasons" id="rtSeasons">
+      <button class="season" data-p="0" onclick="begin(0)">그때 내가 살던 곳<span class="em">살던 집 · 골목과 길 · 그 시절의 맛</span></button>
+      <button class="season" data-p="1" onclick="begin(1)">나를 만든 사람들<span class="em">나를 키워 준 분 · 친구 · 기억에 남는 어른</span></button>
+      <button class="season" data-p="2" onclick="begin(2)">배우고 익힌 것들<span class="em">처음 배운 것 · 손으로 익힌 것 · 그때 품었던 꿈</span></button>
+      <button class="season" data-p="3" onclick="begin(3)">내가 걸어온 일의 길<span class="em">처음 맡은 일 · 일터의 하루 · 일터의 사람</span></button>
+      <button class="season" data-p="4" onclick="begin(4)">함께 살아온 사람들<span class="em">함께 밥 먹던 자리 · 살림 · 아이와 함께한 날</span></button>
+      <button class="season" data-p="5" onclick="begin(5)">버티고 일어서던 시간<span class="em">멈춰 섰던 때 · 곁에 있던 사람 · 다시 움직인 순간</span></button>
+      <button class="season" data-p="6" onclick="begin(6)">내 삶에서 빛났던 것들<span class="em">환했던 하루 · 뜻밖의 기쁨 · 용기를 낸 일</span></button>
+      <button class="season" data-p="7" onclick="begin(7)">지금의 나, 그리고 남기고 싶은 말<span class="em">요즘의 하루 · 곁에 있는 사람 · 전할 말</span></button>
       <button class="season" onclick="begin(8)">내가 더 하고 싶은 이야기<span class="em">한 사람 · 한 장소 · 아직 하지 못한 말</span></button>   <!-- ★v43 아홉째 -->
       <button class="season" onclick="begin(9)">나를 기억하는 사람들<span class="em">사람들이 기억하는 나 · 내가 기억하는 한 분 · 받은 기억에 답하며</span></button>   <!-- ★v45 열째 -->
     </div>
@@ -297,6 +303,7 @@ function show(){
   var rb=document.getElementById('rtBack');
   if(rb){ rb.style.display = (i===2 && rtPass()) ? 'block' : 'none'; }
   var rbt=document.getElementById('rtBackT'); if(rbt && rtPass()){ rbt.textContent = rtPass() + ' 로 들어오셨습니다'; }   /* ★v41 어느 번호인지 보이게 */
+  if(i===2 && rtPass()){ try{ rtPeek_(); }catch(eP){} }   /* ★v55 547 새 이야기 열기 */
   for(var k=0;k<N;k++){
     document.getElementById('s'+k).classList.toggle('on',k===i);
     document.getElementById('dots').children[k].classList.toggle('on',k===i);
@@ -385,6 +392,7 @@ function begin(place){
       /* 답이 안 올 때(끊김)만 막지 않습니다 — 정당한 손님을 세우지 않기 위해 */
       goAsk(pp, place); return;
     }
+    if(rtIsA2_(d) && place < 8 && !rtOpened_(d, place)){ rtNewGate_(pp, d); return; }   /* ★v55 547 안전망 — 안 연 여덟 이야기는 「새 이야기」로 */
     var left = (typeof d.left === 'number') ? d.left : 0;
     var visited = d.visited || [];
     var here = (d.places && d.places[place]) ? d.places[place] : '';
@@ -419,6 +427,116 @@ function begin(place){
     }
   }); });
 }
+/* ══ ★v55 547 칸 3 — 「새 이야기 열기」(서버 qNew = A-02 인 번호만) ══ */
+var RT_A2_PLACE = '새 이야기';
+var RT_PEEKED = '';
+function rtIsA2_(d){ return !!(d && d.status === 'ok' && d.qNew === 'A-02'); }
+function rtOpened_(d, place){   /* 그 이야기(A-01)를 앞서 연 적이 있는가 */
+  var here = (d && d.places && d.places[place]) ? d.places[place] : '', tr = (d && d.trips) || [];
+  for(var k=0;k<tr.length;k++){ if(samePlace_(tr[k].place, here)){ return true; } }
+  return false;
+}
+function rtA2Open_(d){   /* 쓰시던 새 이야기(마치지 않은 편) */
+  var tr = (d && d.trips) || [], o = null;
+  for(var k=0;k<tr.length;k++){ if(tr[k].place === RT_A2_PLACE && tr[k].state !== '마침' && (!o || tr[k].trip > o.trip)){ o = tr[k]; } }
+  return o;
+}
+function rtPaint_(d){
+  var a2 = rtIsA2_(d), b = document.getElementById('rtA2'), bt = document.getElementById('rtA2T');
+  var bs = document.querySelectorAll('#rtSeasons .season[data-p]');
+  for(var k=0;k<bs.length;k++){ var p = parseInt(bs[k].getAttribute('data-p'), 10); bs[k].style.display = (a2 && !rtOpened_(d, p)) ? 'none' : ''; }
+  if(b){ b.style.display = a2 ? '' : 'none'; }
+  if(bt){ bt.textContent = (a2 && rtA2Open_(d)) ? '✨ 쓰시던 새 이야기 이어 쓰기' : '✨ 새 이야기 열기'; }
+}
+function rtPeek_(){   /* 고르는 화면에 오면 조용히 한 번 — 여덟이 하나로 깜빡 바뀌지 않게 그동안 단추 칸을 접어 둠 */
+  var pp = rtPass(); if(!pp || RT_PEEKED === pp){ return; }
+  RT_PEEKED = pp;
+  var pk = document.getElementById('rtPeek'), ss = document.getElementById('rtSeasons'), once = false;
+  if(pk){ pk.style.display = 'block'; } if(ss){ ss.style.visibility = 'hidden'; }
+  rtAsk(pp, function(d){
+    if(once){ return; } once = true;
+    if(pk){ pk.style.display = 'none'; } if(ss){ ss.style.visibility = ''; }
+    if(d && d.status === 'ok'){ RT_INFO = d; }
+    rtPaint_(d);
+  });
+}
+function rtNote2_(html, act, label){
+  var box = document.getElementById('rtGate'); if(!box){ return; }
+  box.innerHTML = html + (act ? '<button class="season" onclick="' + act + '">' + label + ' &rarr;</button>' : '')
+    + (!act && !LFM.YOUTH ? '<button class="season" onclick="location.href=\'/showcase.html\'">한 편의 기록 구매하기 &rarr;</button>' : '')
+    + '<button class="season" onclick="rtClose()">다시 고르기</button>';
+  box.style.display = 'block';
+}
+function rtNew(){
+  PLACE_PICK = 'new';
+  var pp = rtPass();
+  if(!pp){ i=3; show(); return; }
+  rtWait_();
+  var once = false;
+  LFM.consent(pp, function(){ rtStep_(1); rtAsk(pp, function(d){
+    if(once){ return; } once = true;
+    rtDone_();
+    if(d && d.status === 'ok'){ RT_INFO = d; }
+    rtNewGate_(pp, d);
+  }); });
+}
+function rtNewGate_(pp, d){
+  var nm = RT_A2_PLACE;
+  if(d && d.status === 'locked'){
+    rtNote2_('<div class="rt-g-t">이 번호로 열 수 있는 이야기가 없어요</div>'
+      + '<div class="rt-g-b">사랑흐름 여권번호 <b>' + pp + '</b>에는 아직 한 편의 기록이 없어요.<br>'
+      + '번호를 다시 확인하시거나, 한 편의 기록을 구매해 주세요.</div>');
+    return;
+  }
+  if(!d || d.status !== 'ok'){ rtOpenNew_(pp); return; }   /* 답이 안 올 때만 막지 않음 — 서버 openPlace 가 최종 확인 */
+  var op = rtA2Open_(d);
+  if(op){
+    rtNote2_('<div class="rt-g-t">쓰시던 이야기가 있어요</div>'
+      + '<div class="rt-g-b">「' + nm + '」' + rtJo(nm, '을', '를') + ' 이어서 쓰실 수 있어요.' + (LFM.YOUTH ? '' : ' 남은 편 수는 그대로예요.') + '</div>',
+      'goAsk(\'' + pp + '\',null,' + op.trip + ')', '이어서 쓰기');
+    return;
+  }
+  var left = (typeof d.left === 'number') ? d.left : 0;
+  if(left > 0 && LFM.YOUTH){
+    rtNote2_('<div class="rt-g-t">이야기를 열어요 🌱</div>'
+      + '<div class="rt-g-b">「' + nm + '」' + rtJo(nm, '을', '를') + ' 열어요.<br>떠오르는 대로 편하게 들려주세요.</div>', 'rtOpenNew_(\'' + pp + '\')', '이 이야기 시작하기');
+  }else if(left > 0){
+    rtNote2_('<div class="rt-g-t">이야기를 여실 수 있어요</div>'
+      + '<div class="rt-g-b">남은 이야기는 <b>' + left + '편</b>입니다.<br>'
+      + '「' + nm + '」' + rtJo(nm, '을', '를') + ' 여시면 ' + ((left-1) > 0 ? ('<b>' + (left-1) + '편</b>이 남아요.') : '남은 이야기가 없어요.') + '<br>'
+      + '<span style="display:block;margin-top:8px;font-size:.92em;opacity:.85">이 이야기를 여시면 이 이야기는 청약철회가 제한될 수 있어요.</span></div>', 'rtOpenNew_(\'' + pp + '\')', '이 이야기 시작하기');
+  }else if(LFM.YOUTH){
+    rtNote2_('<div class="rt-g-t">아직 열 수 없는 이야기예요</div>'
+      + '<div class="rt-g-b">더 쓰고 싶으면 학교(기관) 선생님께 말씀해 주세요.</div>');
+  }else{
+    rtNote2_('<div class="rt-g-t">남은 이야기가 없어요</div>'
+      + '<div class="rt-g-b">지금까지 <b>' + (d.used||0) + '편</b>을 여셨어요.<br>'
+      + '이야기를 더 남기시려면 한 편을 더 구매해 주세요.</div>');
+  }
+}
+function rtOpenNew_(pp){   /* 서버에서 새 편 번호를 받아 질문 화면으로 — 같은 편이 열려 있으면 서버가 그 편을 줌 */
+  rtClose();
+  try{ LFM.wait.show({ title:'새 이야기를 열고 있어요', sub:'잠시만 기다려 주세요', steps:['새 이야기 자리 마련'] }); }catch(e){}
+  var name = 'rtop_' + Date.now(), done = false;
+  var fin = function(r){
+    if(done){ return; } done = true;
+    try{ delete window[name]; }catch(e){}
+    try{ LFM.wait.done(); }catch(e){}
+    if(r && r.status === 'ok' && r.trip){ goAsk(pp, null, r.trip); return; }
+    if(r && r.status === 'locked'){
+      rtNote2_('<div class="rt-g-t">남은 이야기가 없어요</div><div class="rt-g-b">이야기를 더 남기시려면 한 편을 더 구매해 주세요.</div>');
+      return;
+    }
+    rtNote2_('<div class="rt-g-t">지금은 이야기를 열지 못했어요</div><div class="rt-g-b">잠시 뒤 다시 눌러 주세요.</div>', 'rtOpenNew_(\'' + pp + '\')', '다시 열기');
+  };
+  window[name] = fin;
+  var s = document.createElement('script');
+  s.src = RT_GAS + '?action=openPlace&passport=' + encodeURIComponent(pp) + '&place=new'
+        + '&inputMethod=' + encodeURIComponent('본인입력') + '&callback=' + name + '&t=' + Date.now();
+  s.onerror = function(){ fin(null); };
+  document.body.appendChild(s);
+  setTimeout(function(){ fin(null); }, 15000);
+}
 function goAsk(pp, place, trip){
   var u = '/memoir/ask.html?id=' + encodeURIComponent(pp);
   if(place !== undefined && place !== null && place >= 0){ u += '&place=' + place; }
@@ -436,10 +554,13 @@ function rtContinue(){
     var t = (d && d.openTrip) ? d.openTrip : 0, pl = -1;
     var tr = (d && d.trips) || [], places = (d && d.places) || [];
     for(var k=0;k<tr.length;k++){ if(tr[k].trip === t){ for(var k2=0;k2<places.length;k2++){ if(samePlace_(places[k2], tr[k].place)){ pl = k2; } } } }
+    for(var k3=0;k3<tr.length;k3++){ if(t && tr[k3].trip === t && tr[k3].place === RT_A2_PLACE){ goAsk(pp, null, t); return; } }   /* ★v55 쓰는 중인 새 이야기 */
     if(t && pl >= 0){ goAsk(pp, pl, t); return; }
     /* ★v42 다 썼지만 이름을 안 남긴 이야기 → 쓴 글 목록으로 */
     var un=null, upl=-1;
     for(var u=0;u<tr.length;u++){ if(tr[u].signed){ continue; } for(var u2=0;u2<places.length;u2++){ if(samePlace_(places[u2], tr[u].place) && (!un || tr[u].trip>un.trip)){ un=tr[u]; upl=u2; } } }
+    for(var u3=0;u3<tr.length;u3++){ if(!tr[u3].signed && tr[u3].place === RT_A2_PLACE && (!un || tr[u3].trip>un.trip)){ un=tr[u3]; upl=-1; } }   /* ★v55 이름 안 남긴 새 이야기 */
+    if(un && upl < 0){ location.href='/memoir/ask.html?id='+encodeURIComponent(pp)+'&trip='+un.trip+'&review=1'; return; }
     if(un){ location.href='/memoir/ask.html?id='+encodeURIComponent(pp)+'&place='+upl+'&trip='+un.trip+'&review=1'; return; }
     var rb = document.getElementById('rtBack'); if(rb){ rb.style.display = 'none'; }
     i = 2; try{ show(); }catch(e){}
@@ -448,7 +569,11 @@ function rtContinue(){
 function openMemoir(){                /* reenter goWith 방식 — 여권 형식 확인 후 자서전 문 열기 */
   var v=(document.getElementById('ppInput').value||'').trim().toUpperCase();
   if(!/^LF[ML]?-[A-Z0-9]+$/.test(v)){ document.getElementById('errMsg').style.display='block'; return; }
-  goAsk(v, PLACE_PICK);
+  /* ★v55 번호를 넣은 뒤 — 곧장 질문 화면으로 가지 않고 고른 이야기의 확인 창을 거칩니다(새 이야기 열기 번호를 가리려고) */
+  try{ sessionStorage.setItem('lf_passport', v); localStorage.setItem('lf_passport', v); }catch(e){}
+  if(PLACE_PICK === 'new'){ rtNew(); return; }
+  if(PLACE_PICK >= 0){ begin(PLACE_PICK); return; }
+  i = 2; show();
 }
 function clearMemoirErr(){ var e=document.getElementById('errMsg'); if(e) e.style.display='none'; }
 var _voice=null;
@@ -479,7 +604,7 @@ function speak(bid,lid){
 }
 show();
 /* ★v44 「내 이야기」의 「열기」 — ?open=차례 */
-(function(){ try{ var o=parseInt(new URLSearchParams(location.search).get('open'),10); if(!isNaN(o) && o>=0 && o<10){ i=1; show(); begin(o); } }catch(e){} })();
+(function(){ try{ var o0=new URLSearchParams(location.search).get('open'); if(o0==='new'){ i=1; show(); rtNew(); return; } var o=parseInt(o0,10); if(!isNaN(o) && o>=0 && o<10){ i=1; show(); begin(o); } }catch(e){} })();   /* ★v55 ?open=new = 새 이야기 열기 */
 
 /* 꽃비 — 우리가 만든 '결혼식 입장 꽃잎'(SVG 꽃잎·회전) 그대로. 원형(circle) 아님 */
 var PETAL_COLORS=['#FFD6E3','#F7BDD0','#FFE4EC','#F3B8CC','#FBC9D8'];

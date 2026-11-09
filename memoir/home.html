@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/home.html · v10 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/home.html · v11 · 261109 · [547 칸 3 · 556 · 대표 OK 261109 23:02] 「내 이야기 목록」에 「새 이야기」(A-02) 편 줄 — 편마다 한 줄(✨ · 쓰는 중 이어 쓰기 · 다 쓰셨어요 이름 남기기 · 완성 기록 보기 · 수정 · 편 번호로 감) · 아홉째 앞. 서버 qNew = A-02 번호면 아직 안 연 여덟 줄 대신 「새 이야기 · 아직 열지 않은 이야기 · 열기」 한 줄(→ ritual ?open=new). [무손] A-01 · 청소년 번호의 목록 · 그 밖 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/home.html · v10 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/home.html · v9 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/home.html · v8 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/home.html · v7 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
@@ -159,11 +160,32 @@ function hmLoad(pp){
   };
   try{ hmW('step',1); LFM.consent(pp, go); }catch(e){ go(); }
 }
+/* ★v11 547 칸 3 · 556 「새 이야기」(A-02) 편 줄 — 지금 줄과 같은 틀 · 편 번호(trip)로 감 */
+function hmA2Rows_(tr, enc, a2, a2Open, left, okFn){
+  var out='', n=0;
+  for(var k=0;k<tr.length;k++){
+    var t=tr[k]; if(t.place!=='새 이야기'){ continue; }
+    n++; var cls, sub, acts, au='/memoir/ask.html?id='+enc+'&trip='+t.trip;
+    if(t.signed){ cls='ok'; sub='완성 ✓'; okFn(); acts='<button class="go" onclick="location.href=\'/memoir/book.html?id='+enc+'&trip='+t.trip+'\'">기록 보기</button><button class="sub" onclick="location.href=\''+au+'&review=1\'">수정</button>'; }
+    else if(t.state==='마침'){ cls='wait'; sub='다 쓰셨어요 · 이름을 남겨 주세요'; acts='<button class="go" onclick="location.href=\''+au+'&review=1\'">이름 남기기</button>'; }
+    else { cls='ing'; sub='쓰는 중'; acts='<button class="go" onclick="location.href=\''+au+'\'">이어 쓰기</button>'; }
+    out+='<div class="st '+cls+'"><div class="no">✨</div><div class="mid"><b>새 이야기</b><small>'+sub+'</small></div><div class="acts">'+acts+'</div></div>';
+  }
+  if(a2 && !a2Open){
+    var ac= left>0 ? '<button onclick="location.href=\'/memoir/ritual.html?id='+enc+'&open=new\'">열기</button>' : ('<span class="none">'+(LFM.YOUTH?'아직 열 수 없어요':'남은 편이 없어요')+'</span>');
+    out+='<div class="st new"><div class="no">✨</div><div class="mid"><b>새 이야기</b><small>아직 열지 않은 이야기</small></div><div class="acts">'+ac+'</div></div>';
+  }
+  return out;
+}
 function hmDraw(d){
   var pp=HM_PP, pl=d.places||[], tr=d.trips||[], left=(typeof d.left==='number')?d.left:0, rows='', done=[], nOk=0, next=-1;
   var enc=encodeURIComponent(pp);
+  var a2=(d.qNew==='A-02'), a2Open=false;   /* ★v11 547 칸 3 · 556 — 「새 이야기」 편 */
+  for(var k0=0;k0<tr.length;k0++){ if(tr[k0].place==='새 이야기' && tr[k0].state!=='마침'){ a2Open=true; } }
   for(var j=0;j<pl.length;j++){
+    if(j===8){ rows+=hmA2Rows_(tr, enc, a2, a2Open, left, function(){ nOk++; }); }
     var t=null; for(var k=0;k<tr.length;k++){ if(hmSame(tr[k].place, pl[j]) && (!t || tr[k].trip>t.trip)){ t=tr[k]; } }
+    if(a2 && j<8 && !t){ continue; }   /* ★v11 새 이야기 번호 — 안 연 여덟 줄 대신 「새 이야기」 한 줄 */
     var cls, sub, acts;
     if(j===9){   /* ★v2 열째 — 작성자 화면 */
       var fu='/memoir/friends.html?id='+enc+(t?'&trip='+t.trip:'');
@@ -188,6 +210,7 @@ function hmDraw(d){
     }
     rows+='<div class="st '+cls+'"><div class="no">'+(j+1)+'</div><div class="mid"><b>'+hmEsc(hmName(pl[j]))+'</b><small>'+sub+'</small></div><div class="acts">'+acts+'</div></div>';
   }
+  if(pl.length<=8){ rows+=hmA2Rows_(tr, enc, a2, a2Open, left, function(){ nOk++; }); }
   var nm=d.name ? hmEsc(d.name)+' '+(LFM.HONOR||'선생님')+'의 이야기' : '내 이야기';
   var h='<div class="hd"><h1>'+nm+'</h1><div class="pp">'+hmEsc(pp)+'<a onclick="hmOther()">다른 번호로</a></div></div>'
    +'<div class="grape" id="hmGrape"></div>'

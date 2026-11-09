@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/book.html · v61 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/book.html · v62 · 261109 · [547 칸 3 · 대표 OK 261109 23:02] 「새 이야기」(A-02) 편 — 표지에 자리 이름 「새 이야기」를 내지 않음(제목을 적으셨으면 그 제목 · 아니면 「한 편의 기록」 · 아래 줄 비움) · 차례 = 여덟 이야기 이름(서버 v53 이 쓴 것만 · 표시 줄 빼고 · 그대로) · 「쓴 글 고치기 · 내용 수정」이 첫째 이야기(A-01)로 가던 것 → 편 번호로 A-02 쓴 글 보기(ask.html?id=…&trip=N&review=1). [무손] A-01 · 아홉째 · 열째 · 인쇄 · 그 밖 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/book.html · v61 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/book.html · v60 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/book.html · v59 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/book.html · v58 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
@@ -489,7 +490,7 @@ function bkDate(v){
   return d.getFullYear() + '년 ' + (d.getMonth()+1) + '월 ' + d.getDate() + '일';
 }
 
-var BK_TRIP = 0, BK_PLACE = -1;   /* ★[v36] 「이어 쓰기」에 실을 이야기 번호 · 차례 */
+var BK_TRIP = 0, BK_PLACE = -1, BK_A2 = false;   /* ★[v36] 「이어 쓰기」에 실을 이야기 번호 · 차례 */
 var BK_NTH = {'첫':0,'둘':1,'셋':2,'넷':3,'다섯':4,'여섯':5,'일곱':6,'여덟':7,'아홉':8,'열':9};   /* ★v45 */
 function bkPlaceIdx(p){ var m = String(p||'').match(/^(첫|둘|셋|넷|다섯|여섯|일곱|여덟|아홉|열)째/); return m ? BK_NTH[m[1]] : -1; }
 
@@ -504,9 +505,11 @@ function bkRender(d){
   var who  = T.whoHtml;
   var series = T.pre ? T.pre : ((stories.length === 1) ? LFM.story(d.title || (d.place || '한 편의 기록')) : '한 편의 기록');
   var subLine = T.sub || (stories.length === 1 ? LFM.story(d.place || '') : '');
+  if(stories.length === 1 && d.place === '새 이야기'){ if(!T.pre){ series = d.title || '한 편의 기록'; } subLine = T.sub || ''; }   /* ★v62 547 칸 3 — 자리 이름 「새 이야기」를 표지에 내지 않음 */
   var org = String(d.orgTitle || '').replace(/^\s+|\s+$/g, '');
   BK_TRIP = parseInt(d.trip, 10) || parseInt(bkParam('trip'), 10) || 0;
   BK_PLACE = bkPlaceIdx(d.place);
+  BK_A2 = (d.place === '새 이야기' || !!d.a2);   /* ★v62 */
   var H = [];
 
   /* ── 표지 ── */
@@ -714,7 +717,8 @@ function bkGo(where){
   var u = '/memoir/' + (where === 'ritual' ? 'ritual.html' : 'ask.html') + '?id=' + encodeURIComponent(pp);
   /* ★[v36] 「쓰던 이야기 이어 쓰기」 — 보고 계신 이야기의 차례와 번호를 실어 보냅니다 */
   if(where === 'review'){ where = 'ask'; }
-  if(where === 'ask' && BK_PLACE >= 0){ u += '&place=' + BK_PLACE + (BK_TRIP ? '&trip=' + BK_TRIP : '') + '&review=1'; }   /* ★v41 고치기 판을 바로 엶 */
+  if(where === 'ask' && BK_A2 && BK_TRIP){ u += '&trip=' + BK_TRIP + '&review=1'; }   /* ★v62 547 칸 3 — 새 이야기 편은 편 번호로 쓴 글 보기 */
+  else if(where === 'ask' && BK_PLACE >= 0){ u += '&place=' + BK_PLACE + (BK_TRIP ? '&trip=' + BK_TRIP : '') + '&review=1'; }   /* ★v41 고치기 판을 바로 엶 */
   location.href = u;
 }
 function bkNotice(msg){
