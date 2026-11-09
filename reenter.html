@@ -1,5 +1,6 @@
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
-<!-- ★ 현재 버전 ▶ reenter.html · v2-26 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(조회 답 expired)을 넣으면 아무것도 안 가진 빈 상자가 뜨던 것 → 안내 판(/lf/canceled.js · 닫기 있음). [무손] 그 밖 v2-25 전부. -->
+<!-- ★ 현재 버전 ▶ reenter.html · v2-27 · 261109 · [540 · 대표 지적 261109 16:03] 번호 칸 밑에 「사랑흐름 여권 확인하기」 단추 · 누르거나 번호를 다 치면 「사랑흐름 여권번호를 확인하고 있습니다」 + 움직이는 점 · 8초 넘으면 「조금 더 걸리고 있어요」 · 28초 넘거나 실패하면 「다시 확인하기」(아무 말 없이 끝나던 것) · 답이 오면 고르는 상자로 화면이 내려감. [무손] 그 밖 v2-26 전부. -->
+<!-- (이전) reenter.html · v2-26 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(조회 답 expired)을 넣으면 아무것도 안 가진 빈 상자가 뜨던 것 → 안내 판(/lf/canceled.js · 닫기 있음). [무손] 그 밖 v2-25 전부. -->
 <!-- (이전) reenter.html · v2-25 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) reenter.html · v2-24 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
 <!-- ★ (이전) reenter.html · v2-23 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
@@ -244,10 +245,13 @@ body{font-family:'Noto Sans KR',sans-serif;background:#eef1f4;display:flex;justi
       <div class="cert-en">LOVE FLOW · MIND JOURNEY PASSPORT</div>
       <div class="cert-divider"></div>
       <div class="cert-label">사랑흐름 여권번호</div>
-      <textarea id="ppInput" class="pp-in" rows="1" wrap="off" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done" oninput="this.value=this.value.replace(/[\r\n]+/g,'');checkResume()" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();}"></textarea>
+      <textarea id="ppInput" class="pp-in" rows="1" wrap="off" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done" oninput="this.value=this.value.replace(/[\r\n]+/g,'');checkResume()" onkeydown="if(event.key==='Enter'){event.preventDefault();this.blur();lfHaveCheck();}"></textarea>
       <div class="cert-note"><span class="cert-note-en">Use the number you received</span></div>
     </div>
     <div id="errMsg" class="err">사랑흐름 여권번호를 다시 확인해 주세요 (예: LF-XXXXX)</div>
+    <!-- ★[v2-27 · 540] 눈에 보이는 확인 단추 · 확인하는 동안 글로 알림 · 늦거나 실패하면 다시 확인 -->
+    <button type="button" class="lfhave-ok" id="lfHaveOk" onclick="lfHaveCheck()">사랑흐름 여권 확인하기</button>
+    <div class="lfhave-wait" id="lfHaveWait" aria-live="polite"></div>
 
     <!-- [v2-3] 지난 여행 안내 — 번호를 넣으면 그 번호로 담아둔 여행이 있는지 보고 먼저 안내합니다 -->
     <div class="resume" id="resumeBox">
@@ -869,6 +873,14 @@ if (document.readyState === 'loading') {
   -webkit-appearance:none;appearance:none;
   background-image:url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%237A8794' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E");
   background-repeat:no-repeat;background-position:right 16px center}
+.lfhave-ok{display:block;width:100%;max-width:344px;margin:14px auto 0;min-height:52px;border:0;border-radius:14px;background:#1E4A76;color:#fff;font-family:inherit;font-size:15.5px;font-weight:800;cursor:pointer;box-shadow:0 2px 8px rgba(30,74,118,.18)}
+.lfhave-ok:active{opacity:.7}
+.lfhave-ok[disabled]{background:#7B95B0;cursor:default}
+.lfhave-wait{max-width:344px;margin:10px auto 0;font-size:14px;line-height:1.6;color:#1E4A76;text-align:center;min-height:1px}
+.lfhave-wait .dot{display:inline-block;width:8px;height:8px;margin:0 2px;border-radius:50%;background:#C9A24A;animation:lfhw 1s infinite ease-in-out}
+.lfhave-wait .dot:nth-child(2){animation-delay:.15s}.lfhave-wait .dot:nth-child(3){animation-delay:.3s}
+@keyframes lfhw{0%,80%,100%{opacity:.25;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+.lfhave-wait .again{display:inline-block;margin-top:8px;padding:9px 18px;border-radius:12px;border:1.5px solid #1E4A76;background:#fff;color:#1E4A76;font-family:inherit;font-size:14px;font-weight:700;cursor:pointer}
 .lfhave-btns{display:flex;flex-direction:column;gap:9px;margin-top:10px}
 .lfhave-b{width:100%;min-height:50px;padding:12px 14px;border-radius:14px;border:none;cursor:pointer;
   font-family:inherit;font-size:15px;font-weight:800;letter-spacing:-.3px;line-height:1.4;
@@ -970,12 +982,42 @@ function lfHavePick(){
   return 'map';
 }
 
+/* ★[v2-27 · 540] 확인하는 동안 · 끝남 · 늦음 */
+var LFHAVE_T=null;
+function lfHaveState(st){
+  var w=document.getElementById('lfHaveWait'), b=document.getElementById('lfHaveOk');
+  if(LFHAVE_T){ clearTimeout(LFHAVE_T); LFHAVE_T=null; }
+  if(!w||!b){ return; }
+  if(st==='wait'){
+    b.disabled=true; b.textContent='확인하고 있습니다';
+    w.innerHTML='<span class="dot"></span><span class="dot"></span><span class="dot"></span><br>사랑흐름 여권번호를 확인하고 있습니다';
+    LFHAVE_T=setTimeout(function(){ w.innerHTML='조금 더 걸리고 있어요. 잠시만 기다려 주세요<br><span class="dot"></span><span class="dot"></span><span class="dot"></span>'; LFHAVE_T=setTimeout(function(){ lfHaveState('fail'); },20000); },8000);
+  } else if(st==='fail'){
+    b.disabled=false; b.textContent='사랑흐름 여권 확인하기';
+    w.innerHTML='확인이 되지 않았어요. 인터넷 연결을 확인하시고 다시 눌러 주세요.<br><button type="button" class="again" onclick="lfHaveCheck(true)">다시 확인하기</button>';
+  } else {
+    b.disabled=false; b.textContent='사랑흐름 여권 확인하기'; w.innerHTML='';
+  }
+}
+function lfHaveCheck(force){
+  var el=document.getElementById('ppInput'); if(!el){ return; }
+  var v=(el.value||'').trim().toUpperCase(), err=document.getElementById('errMsg');
+  if(!/^LF[ML]?-[A-Z0-9]{4,}$/.test(v)){ if(err){ err.classList.add('on'); } return; }
+  if(err){ err.classList.remove('on'); }
+  el.value=v;
+  if(!force && v===LFHAVE_PP && LFHAVE_DATA){ var bx=document.getElementById('lfHave'); if(bx){ bx.style.display='block'; bx.scrollIntoView({behavior:'smooth',block:'center'}); } return; }
+  if(LFHAVE_TIMER){ clearTimeout(LFHAVE_TIMER); }
+  lfHaveLookup(v);
+}
 function lfHaveLookup(pp){
-  LFHAVE_PP=pp;
+  LFHAVE_PP=pp; LFHAVE_DATA=null;
+  lfHaveState('wait');
   var cb='lfhavecb_'+Date.now();
   window[cb]=function(res){
     try{ delete window[cb]; }catch(e){ window[cb]=undefined; }
-    if(!res||!res.ok){ return; }
+    if(pp!==LFHAVE_PP){ return; }
+    if(!res||!res.ok){ lfHaveState('fail'); return; }
+    lfHaveState('done');
     if(res.expired){                                   /* ★[v2-26] 결제가 취소된 여권 */
       LFHAVE_DATA=null; lfHavePaint();
       var go=function(){ if(window.lfCanceled){ window.lfCanceled(pp,{closable:true}); } };
@@ -989,10 +1031,11 @@ function lfHaveLookup(pp){
     var box=document.getElementById('lfHave');
     if(box){ box.style.display='block'; }
     lfHavePaint();
+    try{ if(box){ box.scrollIntoView({behavior:'smooth',block:'center'}); } }catch(e){}
   };
   var sc=document.createElement('script');
   sc.src=LFHAVE_GAS+'?action=have&id='+encodeURIComponent(pp)+'&callback='+cb;
-  sc.onerror=function(){ try{ delete window[cb]; }catch(e){} };
+  sc.onerror=function(){ try{ delete window[cb]; }catch(e){} if(pp===LFHAVE_PP){ lfHaveState('fail'); } };
   document.body.appendChild(sc);
 }
 
@@ -1000,7 +1043,7 @@ function lfHaveLookup(pp){
 function lfHaveWatch(){
   var el=document.getElementById('ppInput'); if(!el){ return; }
   var v=(el.value||'').trim().toUpperCase();
-  if(!/^LF[ML]?-[A-Z0-9]{4,}$/.test(v)){ LFHAVE_DATA=null; lfHavePaint(); return; }
+  if(!/^LF[ML]?-[A-Z0-9]{4,}$/.test(v)){ LFHAVE_DATA=null; LFHAVE_PP=''; lfHaveState('done'); lfHavePaint(); return; }
   if(v===LFHAVE_PP && LFHAVE_DATA){ return; }
   if(LFHAVE_TIMER){ clearTimeout(LFHAVE_TIMER); }
   LFHAVE_TIMER=setTimeout(function(){ lfHaveLookup(v); }, 450);

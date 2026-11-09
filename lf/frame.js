@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v19 · 261106 · [500 소통 · 대표 261106 09:10 「카톡에서 열면 반드시 되는 브라우저로」 · 견본] 카톡 안에서 바깥 브라우저로 넘길 때 여권번호를 주소(?id=)에 실어 보냄 — 바깥 브라우저에서 번호를 다시 넣지 않고 그 자리 그대로. [무손] v18 전부.
+   현재 버전 ▶ lf/frame.js · v20 · 261109 · [543 · 대표 지적 261109 16:12 「앞으로 · 뒤로 · 홈 단추가 왜 없어졌냐」] ★v1(261004)부터 옛 길 셋(.lfway)을 감추기만 하고 261015 기준 「← ⌂ →」 을 되살리지 않았던 것 — 모든 화면 푸터 바로 위에 동그라미 셋을 둠(화면이 자기 것을 가졌으면 그것) · 화면이 window.LF_WAY 로 뜻을 정할 수 있음 · 자서전 화면 ⌂ = 내 이야기 목록. [무손] 그 밖 v19 전부.
+   (이전) lf/frame.js · v19 · 261106 · [500 소통 · 대표 261106 09:10 「카톡에서 열면 반드시 되는 브라우저로」 · 견본] 카톡 안에서 바깥 브라우저로 넘길 때 여권번호를 주소(?id=)에 실어 보냄 — 바깥 브라우저에서 번호를 다시 넣지 않고 그 자리 그대로. [무손] v18 전부.
    (이전) lf/frame.js · v18 · 261105 · [533 · 대표 OK 261105 11:28 · 송암 가계도 방식] ① 카톡 안에서 열면 바로 바깥 브라우저(크롬 · 사파리)로 넘김(kakaotalk://web/openExternal · 한 창에 한 번 · ?kk=0 이면 안 넘김) ② 휴대폰 화면 위 띠 「사랑흐름을 바탕화면에 두고 바로 여세요 · 홈 화면에 추가 · ✕」(✕ 누른 분 · 아이콘으로 연 분 · 컴퓨터 · 관리 화면은 안 뜸) ③ 우리 이야기(/rec/) 밖 화면에 설치 신분증(/manifest.webmanifest) · 일꾼(/sw.js) · /rec/ 는 원래 「바탕화면에 두기」(pwaGo)로. [무손] 그 밖 v17 전부.
    (이전) lf/frame.js · v17 · 261026 · [칸 4-나 458 · 대표 「진행」 11:16] ① 상품 설명 화면(/item/) 방문 · 누름 · 나감을 방문 통계 「상품 진열」 칸으로 셈(옛 진열장 자리 · 서버 이름표 그대로라 서버는 안 고침) ② /item/ · /travel/ 에서 아래 띠 「사랑흐름 여행」에 불 ③ 쓰이지 않던 옛 ☰(menuHtml) 지움. [무손] 새 ☰ · 방문 통계 장치 · 그 밖 v16 전부.
    (이전) lf/frame.js · v16 · 261024 · [칸 4 · 454 · 대표 OK 261024 21:16] 아래 묶음 띠 · ☰ 큰 카드 「예매하기」 → 「사랑흐름 여행」(첫 화면 보라 띠 · 새 ☰ 묶음과 같은 이름 · 73차 결정 6). [무손] 그 밖 v15 전부.
@@ -398,7 +399,48 @@
     document.addEventListener('focusin', function (e) { if (typing(e)) { tab.classList.add('hide'); } });
     document.addEventListener('focusout', function (e) { if (typing(e)) { setTimeout(function () { tab.classList.remove('hide'); }, 120); } });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeAll(); } });
+    way3();
   }
+
+  /* ★v20 543 — 「← ⌂ →」 동그라미 셋을 모든 화면 푸터 바로 위에(대표 기준 261015 · 지적 261109)
+     · 화면이 자기 것(.way3 · 본부 #lfHqWay · body data-lf-way="own")을 가졌으면 그것을 씀
+     · 화면이 window.LF_WAY = { back, home, fwd } 를 주면 그 뜻으로(자서전 물음 = 앞 물음 · 자서전 홈 · 다음 물음)
+     · 글 쓰는 칸을 눌러도 숨지 않음(화면 안에 놓임) */
+  function wayHome() {
+    var p = location.pathname || '/';
+    if (p.indexOf('/memoir/') === 0) {
+      var pp = ''; try { pp = sessionStorage.getItem('lf_passport') || localStorage.getItem('lf_passport') || ''; } catch (e) {}
+      return '/memoir/home.html' + (pp ? '?id=' + encodeURIComponent(pp) : '');
+    }
+    return '/';
+  }
+  function wayBack() {
+    var W = window.LF_WAY; if (W && W.back && W.back() === true) { return; }
+    var r = document.referrer || '';
+    if (r.indexOf(location.origin) === 0 && history.length > 1) { history.back(); } else { location.href = wayHome(); }
+  }
+  function wayFwd() { var W = window.LF_WAY; if (W && W.fwd && W.fwd() === true) { return; } history.forward(); }
+  function wayGoHome() { var W = window.LF_WAY; if (W && W.home && W.home() === true) { return; } location.href = wayHome(); }
+  function way3() {
+    if (document.getElementById('lfxWay')) { return; }
+    var b = document.body;
+    if (b.getAttribute('data-lf-way') === 'own' || document.getElementById('lfHqWay') || document.querySelector('.way3')) { return; }
+    if (!document.getElementById('lfxWayCss')) {
+      var c = document.createElement('style'); c.id = 'lfxWayCss';
+      c.appendChild(document.createTextNode('.lfx-way{display:flex;justify-content:center;gap:26px;margin:22px 0 10px;clear:both}'
+        + '.lfx-way button{width:44px;height:44px;border-radius:50%;border:0;background:#1E4A76;color:#fff;font-size:20px;line-height:1;display:grid;place-items:center;cursor:pointer;font-family:inherit;padding:0}'
+        + '.lfx-way button:active{opacity:.6}@media print{.lfx-way{display:none!important}}'));
+      (document.head || document.documentElement).appendChild(c);
+    }
+    var w = document.createElement('div'); w.className = 'lfx-way'; w.id = 'lfxWay';
+    w.innerHTML = '<button type="button" aria-label="앞 화면">&#8592;</button><button type="button" aria-label="홈">&#8962;</button><button type="button" aria-label="앞으로">&#8594;</button>';
+    var bs = w.getElementsByTagName('button'); bs[0].onclick = wayBack; bs[1].onclick = wayGoHome; bs[2].onclick = wayFwd;
+    var f = document.getElementById('lfFoot'), at = null;
+    if (f) { at = f; while (at.parentNode && at.parentNode !== b && !/(^| )(legal|glegal|lf-foot|foot)( |$)/.test(at.parentNode.className || '')) { at = at.parentNode; } if (at.parentNode && at.parentNode !== b && /(legal|glegal|lf-foot|foot)/.test(at.parentNode.className || '')) { at = at.parentNode; } }
+    if (!at) { at = document.querySelector('.glegal') || document.querySelector('.legal') || document.querySelector('.lf-foot') || document.querySelector('footer'); }
+    if (at && at.parentNode) { at.parentNode.insertBefore(w, at); } else { b.insertBefore(w, document.getElementById('lfxTab') || null); }
+  }
+  window.LFWay = { back: wayBack, home: wayGoHome, fwd: wayFwd };
 
   window.LFFrame = { open: openSheet, menu: openMenu, close: closeAll, groups: GROUPS, version: 'v3' };
 

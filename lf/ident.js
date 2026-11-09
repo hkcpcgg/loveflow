@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/ident.js · v3 · 261005 — ★[약관 확정 · 대표 ok 261005] 동의 기록 버전 draft-261001 → v2-261012 · 「문구 초안」 표시 걷음.
+   현재 버전 ▶ lf/ident.js · v4 · 261109 — ★[541 · 대표 지적 261109 16:03] 연락처 「010 ▾ + 뒷번호」 → 한 칸(예시 010-1234-5678 · 숫자만 쳐도 「-」 자동) · 서버로 가는 값(contact · phone4)은 그대로. [무손] 성명 · 동의 · 그 밖 전부.
+   ── 이전 ── v3 · 261005 — ★[약관 확정 · 대표 ok 261005] 동의 기록 버전 draft-261001 → v2-261012 · 「문구 초안」 표시 걷음.
    ── 이전 ── v2 · 261002 — ★문구를 사랑흐름 말로(대표 지적 261002): 「성함」→「성명」, 「여권」을 앞말 없이 쓰던 자리 → 「사랑흐름 여권번호」, 연락처 앞자리는 번호만(02 · 031 … 070), 연락처 밑 안내 글 삭제, 알림 문구를 한 틀로(성명을 적어 주세요 · 연락처를 적어 주세요 · 연락처를 다시 확인해 주세요 · 개인정보 수집·이용 동의에 체크해 주세요). 칸 모양은 그 화면에 원래 있는 칸 클래스를 넘겨받아 같게(labelClass · inputClass · selectClass). — v1 · 261001 — ★새 부품 (자서전 공사 칸 11)
    성명 + 연락처(앞자리 고르기 + 뒷번호) + 개인정보 필수 동의 — 한 곳에서 그립니다.
    쓰는 화면: gate.html · apply.html · consent.html
@@ -56,6 +57,14 @@
     document.head.appendChild(s);
   }
   function digits(v){ return String(v == null ? '' : v).replace(/[^0-9]/g, ''); }
+  /* ★v4 541 — 010-1234-5678 · 02-123-4567 꼴로 「-」를 넣음 */
+  function dash(d){
+    var a = (d.indexOf('02') === 0) ? 2 : 3;
+    if (d.length <= a) { return d; }
+    var rest = d.slice(a);
+    if (rest.length <= 4) { return d.slice(0, a) + '-' + rest; }
+    return d.slice(0, a) + '-' + rest.slice(0, rest.length - 4) + '-' + rest.slice(rest.length - 4);
+  }
 
   /* 서버와 같은 규칙 — 맞으면 숫자열, 아니면 '' */
   function norm(v){
@@ -79,18 +88,11 @@
     var cL = OPT.labelClass  || 'lfi-l';
     var cI = OPT.inputClass  || 'lfi-in';
     var cS = OPT.selectClass || 'lfi-in';
-    var sel = '<select class="' + cS + ' lfi-sel" id="lfiPre" aria-label="연락처 앞자리">';
-    for (var i = 0; i < PREFIX.length; i++) {
-      sel += '<option value="' + PREFIX[i][0] + '">' + PREFIX[i][1] + '</option>';
-    }
-    sel += '</select>';
     var h = '<div class="lfi">'
       + '<div class="' + cL + '">성명</div>'
       + '<input class="' + cI + ' lfi-name" id="lfiName" maxlength="20" autocomplete="name" placeholder="성명을 적어 주세요">'
       + '<div class="' + cL + '">연락처</div>'
-      + '<div class="lfi-row">' + sel
-      + '<input class="' + cI + ' lfi-num" id="lfiNum" inputmode="numeric" maxlength="9" autocomplete="off" placeholder="뒷번호">'
-      + '</div>';
+      + '<input class="' + cI + ' lfi-num" id="lfiNum" type="tel" inputmode="numeric" maxlength="13" autocomplete="tel" placeholder="010-1234-5678">';   /* ★v4 541 한 칸 */
     if (OPT.consent !== false) {
       h += '<div class="lfi-agree">'
         + '<label class="lfi-chk"><input type="checkbox" id="lfiAgree"' + (OPT.checked ? ' checked' : '') + '>'
@@ -109,7 +111,7 @@
     h += '</div>';
     el.innerHTML = h;
     var num = document.getElementById('lfiNum');
-    num.addEventListener('input', function(){ this.value = digits(this.value).slice(0, 9); });
+    num.addEventListener('input', function(){ this.value = dash(digits(this.value).slice(0, 11)); });   /* ★v4 숫자만 쳐도 「-」 */
     if (OPT.onEnter) {
       num.addEventListener('keydown', function(e){ if (e.key === 'Enter') { OPT.onEnter(); } });
     }
@@ -118,9 +120,8 @@
   function read(){
     var name = (document.getElementById('lfiName') || {}).value || '';
     name = String(name).trim();
-    var pre = (document.getElementById('lfiPre') || {}).value || '';
-    var back = digits((document.getElementById('lfiNum') || {}).value || '');
-    var contact = norm(pre + back);
+    var back = digits((document.getElementById('lfiNum') || {}).value || '');   /* ★v4 앞자리 고르기 없음 — 번호 전체 */
+    var contact = norm(back);
     var ag = document.getElementById('lfiAgree');
     var agree = ag ? !!ag.checked : true;
     if (!name)    { return { ok:false, msg:'성명을 적어 주세요.', field:'lfiName' }; }

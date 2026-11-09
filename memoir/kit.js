@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v15 · 261028 — ★[481 · 대표 OK 261028 10:15 · 자서전 서버 v49 와 짝] ④ LFM.consent 가 자서전 서버 keepInfo(지울 날만)를 함께 부름 — 지운 여권이면 「보관 기간이 지나 기록을 지웠습니다」 안내 판(닫기 없음 · go 를 부르지 않음) · 지울 날 30일 안이면 화면 위에 「○월 ○일까지 다시 보고 내려받으실 수 있어요」 띠(「내려받기」 → 결과물 화면 · ✕ 닫으면 이 창에서는 다시 안 뜸). 답이 늦거나 실패하면 아무것도 안 띄움(손님을 막지 않음). [무손] 그 밖 전부.
+   현재 버전 ▶ memoir/kit.js · v16 · 261109 — ★[542 · 대표 지적 261109 16:03 「닫는 창 버튼도 없고」] 이 부품이 띄우는 창(종이 불러오기 · 맞춤법 등 #lfScan) 오른쪽 위에 늘 「✕ 닫기」 — 어느 걸음에서든 빠져나감. (맞춤법 보기 단추는 자서전 물음 화면 ask v93 에서 걷음 · 이 부품 안 LFM.aifix 는 남겨 둠 — 504 AI 도움 때 다시 씀.) [무손] 그 밖 v15 전부.
+   ── 이전 ── memoir/kit.js · v15 · 261028 — ★[481 · 대표 OK 261028 10:15 · 자서전 서버 v49 와 짝] ④ LFM.consent 가 자서전 서버 keepInfo(지울 날만)를 함께 부름 — 지운 여권이면 「보관 기간이 지나 기록을 지웠습니다」 안내 판(닫기 없음 · go 를 부르지 않음) · 지울 날 30일 안이면 화면 위에 「○월 ○일까지 다시 보고 내려받으실 수 있어요」 띠(「내려받기」 → 결과물 화면 · ✕ 닫으면 이 창에서는 다시 안 뜸). 답이 늦거나 실패하면 아무것도 안 띄움(손님을 막지 않음). [무손] 그 밖 전부.
    ── 이전 ── v14 · 261027 — ★[본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] ④ LFM.consent — 여권조회(ZJ9X)가 「만료」(결제가 취소된 여권 · expired)로 답하면 동의 화면만 건너뛰고 그냥 들여보내던 것 → 결제취소 안내 판(/lf/canceled.js · 닫기 없음)을 띄우고 멈춤(go 를 부르지 않음). 자서전 서버 v48 도 같은 여권을 CANCELED 로 막음. [무손] 그 밖 전부.
    ── 이전 ── v13 · 261006 — ★[대표 위임 261006 17:08 · 홍보 자료실 → 화면] ⑤ LFM.wait 기다리는 물결 — 흐르는 글을 「관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름」으로(사랑흐름은 주황 굵게) · 물결 줄을 초록 → 주황 번짐 띠로. ⑥ LFM.grapes 새로 찬 알 — 차오름 1.6초 → 3.2초 · 둘레 빛 2.4초 → 4.2초(대표 「너무 빨라 · 여운 있게」). [무손] 그 밖 전부.
    ── 이전 ── v12 · 261004 — ★[자서전 공사 칸 27-3 화면 알맹이] 종이 불러오기 · 내 AI로 맞춤법 창 — 이모지(📷📄📋🤖📥🔍🌿✨⚠) → 선 아이콘 동그라미(kIc) · 단추 색 살구 → 네이비(살구는 단추 바탕에 안 씀) · 무게 순서(PDF 고르기 위 테두리 · 사진 찍기 아래 네이비 / 처음 글 그대로 두기 위 · 이대로 바꾸기 아래) · 단추 안 화살표 걷음(되돌아가기 줄은 「‹」) · 「부탁 글」→「살펴볼 글」(금지어). [무손] 글자 인식 · 서버 · 맞춤법 비교 · 관계 판(이모지 갈래는 대표 결정 대기).
@@ -451,6 +452,7 @@
     var c = document.createElement('style'); c.id = 'lfScanCss';
     c.textContent = '#lfScan{position:fixed;inset:0;z-index:2500;background:rgba(74,59,46,.45);display:flex;align-items:flex-start;justify-content:center;overflow:auto;padding:14px 10px 30px;font-family:"Noto Sans KR",system-ui,sans-serif}'
       + '#lfScan .sc{width:100%;max-width:560px;background:#FFFAF4;border-radius:22px;padding:20px 16px 18px;color:#4a3b2e;box-shadow:0 10px 40px rgba(0,0,0,.18)}'
+      + '#lfScan .sc{position:relative}#lfScan .scx{position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:1px solid #E6DCCD;background:#fff;color:#5a3e2b;font-size:16px;line-height:1;cursor:pointer;z-index:2}'
       + '#lfScan h3{font-family:"Noto Serif KR",serif;font-size:19px;color:#5a3e2b;margin:0 0 6px;text-align:center}'
       + '#lfScan .s{font-size:14px;color:#8a7a68;text-align:center;word-break:keep-all;margin:2px 0}'
       + '#lfScan .who{background:#FBF1E6;border-radius:12px;padding:9px 12px;margin:12px 0 4px;font-size:14px;text-align:center}'
@@ -485,7 +487,7 @@
   function scBox(h){
     var o = document.getElementById('lfScan');
     if (!o) { o = document.createElement('div'); o.id = 'lfScan'; document.body.appendChild(o); }
-    o.innerHTML = '<div class="sc">' + h + '</div>';
+    o.innerHTML = '<div class="sc"><button type="button" class="scx" aria-label="닫기" onclick="LFM.scan.close()">&#10005;</button>' + h + '</div>';   /* ★v16 542 어느 창이든 오른쪽 위 닫기 */
     o.scrollTop = 0;
     return o;
   }
