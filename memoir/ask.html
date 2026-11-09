@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v93 · 261109 · [542 · 543 · 대표 지적 261109 16:03 · 16:12] ① 542 「맞춤법 보기」(바깥 AI로 넘기는 창) 단추 걷음 — 도움 단추 셋 한 줄(말로 하기 · 가족이 적기 · 종이 불러오기) ② 543 화면 틀 「← ⌂ →」 = ← 앞 물음 · ⌂ 내 이야기 목록 · → 다음 물음 · 「말로 해 보기」 화면(안내 · 말씀 · 남은 글)에도 「‹ 이전 · 다음 ›」 · 「쓴 글 고치기」로 들어와도 「이전」 보임 ③ kit.js ?v=16 · frame.js ?v=20. [무손] 저장 · 녹음 · 그 밖 v92 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v94 · 261109 · [545 · 대표 지적 261109 16:56 「목소리 찢어져 · 짜증」] 물음을 읽어 주는 휴대폰 기계 목소리 — 날카로운 여자 목소리(Yuna · SunHi · Heami 등)를 먼저 고르던 것을 차분한 목소리 먼저(남자 목소리 → 그 밖)로 · 높이 1.05 → 0.85 · 빠르기 0.9 → 0.85(「들려드릴게요」 · 말로 해 보기 안내 둘 다). [무손] 그 밖 전부. -->
+<!-- (이전) memoir/ask.html · v93 · 261109 · [542 · 543 · 대표 지적 261109 16:03 · 16:12] ① 542 「맞춤법 보기」(바깥 AI로 넘기는 창) 단추 걷음 — 도움 단추 셋 한 줄(말로 하기 · 가족이 적기 · 종이 불러오기) ② 543 화면 틀 「← ⌂ →」 = ← 앞 물음 · ⌂ 내 이야기 목록 · → 다음 물음 · 「말로 해 보기」 화면(안내 · 말씀 · 남은 글)에도 「‹ 이전 · 다음 ›」 · 「쓴 글 고치기」로 들어와도 「이전」 보임 ③ kit.js ?v=16 · frame.js ?v=20. [무손] 저장 · 녹음 · 그 밖 v92 전부. -->
 <!-- (이전) memoir/ask.html · v92 · 261106 · [500 + 대표 261106 09:10 소통 · 견본] ① 500 녹음 서버 저장(v91 그대로) + 536 화면 말(v90-1) 합침 ② 고르기 화면 = 「글로 쓰기」 큰 카드가 기본 · 「🎙 말로 해 보기 (도움 기능)」 작은 줄 · 화면 안 「‹ 이전 · 다음 ›」 ③ 말로 해 보기 처음 누르면 「먼저 알려 드려요」(틀릴 수 있음 · 꼭 읽고 고치기 · 휴대폰 회사 받아쓰기 · 90일) 한 번 ④ 받아쓰기가 없는 화면(카톡 안 등)에서도 단추는 보이고, 누르면 「크롬 · 사파리로 열기」(여권번호를 주소에 실어 그대로 이어 씀). [무손] 저장 길 · 서버 · 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v91 · 261031 · [500 · 75차 칸 2 · 대표 OK 21:28 · 자서전 서버 v50] 말로 쓰기 녹음을 서버에 남김 — 「다음 물음」 때 그 물음 녹음을 talkSave 로 보냄(못 보내면 이 휴대폰에 쌓았다가 다시) · 멈춘 자리를 서버에(talkMark) → 다른 휴대폰에서도 「이어서 하기」 · 「쓴 글 보기」에 물음마다 「▶ 내 목소리」 · 「QR로 남기기」(3분까지) · 지울 날 표시 · 고르기 판에 「말씀하신 목소리는 90일 동안 다시 들을 수 있어요」 · 녹음 음질 64 → 32kbps(말소리 · 용량 절반). 서버가 v50 이 아니면 지금(v90)처럼 휴대폰 안 다시 듣기만. [무손] 글로 쓰기 화면 · 저장 길 그대로. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v90 · 261031 · [499 · 75차 · 대표 OK 17:39 「선택형」] 「말로 쓰기」 길을 더함 — 이야기를 열면 「말로 쓰기 · 글로 쓰기」 고르기(기기에 기억 · 언제든 바꿈) · 말로 쓰기 = 안내 듣기 → 큰 녹음 단추 → 글로 바뀐 것 → 다음 물음 → 「여기까지 했어요」 · 「이어서 하기」 · 답은 지금 답 칸 · 저장 길(onType · nextQ · markNA) 그대로 · 휴대폰 받아쓰기가 되는 화면에서만(501 뒤 어디서나) · 녹음은 기기 안 다시 듣기만(500). [무손] 글로 쓰기 화면 · 저장 · 서버 · 그 밖 전부. -->
@@ -821,8 +822,11 @@ function pickVoice(){
   var vs=speechSynthesis.getVoices();
   var ko=vs.filter(function(v){return /ko/i.test(v.lang);});
   if(!ko.length){ _voice=null; return; }
-  var pref=["Yuna","Google 한국의","Google Korean","Microsoft SunHi","SunHi","Heami","Microsoft Heami","나라","여성"];
-  for(var p=0;p<pref.length;p++){ for(var k=0;k<ko.length;k++){ if(ko[k].name.indexOf(pref[p])>=0){ _voice=ko[k]; return; } } }
+  /* ★v94 · 261109 대표 지적 — 날카로운 여자 목소리 대신 차분한 목소리부터(남자 목소리 → 그 밖). 고를 수 없는 휴대폰은 높이를 낮춰 읽음 */
+  var pref=["InJoon","Minsu","Jinho","ko-kr-x-kod","ko-kr-x-koc","남성","male","Male"];
+  var avoid=/Yuna|SunHi|Heami|Sora|ism|kob|여성|female/i;
+  for(var p=0;p<pref.length;p++){ for(var k=0;k<ko.length;k++){ if((ko[k].name+' '+(ko[k].voiceURI||'')).indexOf(pref[p])>=0){ _voice=ko[k]; return; } } }
+  for(var j=0;j<ko.length;j++){ if(!avoid.test(ko[j].name+' '+(ko[j].voiceURI||''))){ _voice=ko[j]; return; } }
   _voice=ko[0];
 }
 if(window.speechSynthesis){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
@@ -834,7 +838,7 @@ function speak(){
   var Q=cur();
   var text=Q.open+" "+document.getElementById("recall").textContent+" "+Q.q;
   var u=new SpeechSynthesisUtterance(text);
-  u.lang="ko-KR"; u.rate=0.9; u.pitch=1.05;
+  u.lang="ko-KR"; u.rate=0.85; u.pitch=0.85;
   if(_voice) u.voice=_voice;
   u.onend=function(){ lb.classList.remove("playing"); };
   lb.classList.add("playing");
@@ -2160,7 +2164,7 @@ function say_(){
   if(speechSynthesis.speaking){ hush_(); return; }
   try{ if(!_voice){ pickVoice(); } }catch(e){}
   var Q=cur(); if(!Q){ return; }
-  var u=new SpeechSynthesisUtterance(((Q.recall||'')+' '+Q.q).trim()); u.lang='ko-KR'; u.rate=.9; u.pitch=1.05;
+  var u=new SpeechSynthesisUtterance(((Q.recall||'')+' '+Q.q).trim()); u.lang='ko-KR'; u.rate=.85; u.pitch=.85;
   try{ if(_voice){ u.voice=_voice; } }catch(e){}
   u.onend=function(){ var x=$('tkVo'); if(x){ x.classList.remove('playing'); var t=$('tkVoT'); if(t){ t.textContent='다시 듣기'; } } };
   if(b){ b.classList.add('playing'); var t=$('tkVoT'); if(t){ t.textContent='안내를 들려드리고 있어요'; } }

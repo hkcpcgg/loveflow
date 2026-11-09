@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ritual.html · v53 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ritual.html · v54 · 261109 · [545 · 대표 지적 261109] 읽어 주는 목소리 — 차분한 목소리 먼저(ask v94 와 같은 고르기) · 높이 0.8 → 0.85 · 빠르기 0.9 → 0.85(두 화면 같은 소리). [무손] 그 밖 전부. -->
+<!-- (이전) memoir/ritual.html · v53 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ritual.html · v52 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ritual.html · v51 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ritual.html · v50 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
@@ -455,7 +456,11 @@ function pickVoice(){
   if(!window.speechSynthesis) return;
   var ko=speechSynthesis.getVoices().filter(function(v){return /ko/i.test(v.lang);});
   if(!ko.length){_voice=null;return;}
-  for(var k=0;k<ko.length;k++)if(ko[k].name.indexOf("Microsoft")>=0){_voice=ko[k];return;}
+  /* ★v54 · 261109 — ask v94 와 같은 고르기: 차분한 목소리 먼저 */
+  var pref=["InJoon","Minsu","Jinho","ko-kr-x-kod","ko-kr-x-koc","남성","male","Male"];
+  var avoid=/Yuna|SunHi|Heami|Sora|ism|kob|여성|female/i;
+  for(var p=0;p<pref.length;p++){ for(var k=0;k<ko.length;k++){ if((ko[k].name+' '+(ko[k].voiceURI||'')).indexOf(pref[p])>=0){ _voice=ko[k]; return; } } }
+  for(var j=0;j<ko.length;j++){ if(!avoid.test(ko[j].name+' '+(ko[j].voiceURI||''))){ _voice=ko[j]; return; } }
   _voice=ko[0];
 }
 if(window.speechSynthesis){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
@@ -468,7 +473,7 @@ function speak(bid,lid){
   var titleEl=stage?stage.querySelector(".big"):null;
   var title=titleEl?titleEl.textContent.replace(/\s+/g," ").trim():"";
   var u=new SpeechSynthesisUtterance((title?title+". ":"")+document.getElementById(bid).textContent);
-  u.lang="ko-KR";u.rate=0.9;u.pitch=0.8; if(_voice)u.voice=_voice;
+  u.lang="ko-KR";u.rate=0.85;u.pitch=0.85; if(_voice)u.voice=_voice;
   u.onend=function(){lb.classList.remove('playing');};
   lb.classList.add('playing'); speechSynthesis.speak(u);
 }
