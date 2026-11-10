@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ index.html · v53 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ index.html · v54 · 261110 · [우리 이야기 전면 검토 칸 1 · 562 · 563] 마당 사진 9칸 — 누르면 마당이 아니라 그 방 안 그 사진 화면으로 바로(그 화면의 「뒤로」 = 이 첫 화면) · 사진 위 방 이름 「🏠 이름 ›」(누르는 길로 보이게). [무손] 그 밖 v53 전부. -->
+<!-- (이전) index.html · v53 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) index.html · v52 · 261024 · [칸 3 · 73차 결정 3 · 4 · 5 · 9 + 대표 소통 20:07~20:49 「바로 반영」] 첫 화면 새 차례 — 「우리 이야기가 쌓이는 곳」 → 마당 사진 9(들어올 때마다 무작위 · 한 방 3장까지 · 모자라면 사랑흐름 방) → ＋ 우리 이야기 만들기 → 💌 마음 전하기 (무료) 아이콘 셋 → 🧭 사랑흐름 여행 보라 띠(마음 여행지도 · 마음여행 · 한 편의 기록 그림 · 값 없음 · 자세히 보기) → ← ⌂ → · 푸터. 흐름 띠 · 큰 문 둘 · 여권 입장 줄 뺌(☰ 「구매한 여행 이어가기」) · 새 ☰(frame v15). 옛 메인 v51 은 index_v51.html. -->
 <!-- (이전) index.html · v51 · 261023 · [대표 OK 15:32 · 411 · 칸 5] 우리 이야기 문 아래 말 「가족 · 친구 · 우리 가게까지」 → 「우리 모두의 이야기까지」 · 검색 바로잡기(네이버 확인 표 · og:image). [무손] 그 밖 v50 전부. -->
 <!-- (이전) index.html · v50 · 261023 · [대표 OK 261023 15:18] 메인 시험판 home-new v4 를 실제 메인으로 바꿔 끼움 · 검색 막기(noindex) 뺌 · og:url 넣음 · ⌂ 돌아갈 곳 「/」(시험판 표시 지움). 옛 메인 v49 는 index_v49.html 로 남김. [무손] 그 밖 home-new v4 그대로. -->
@@ -75,6 +76,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .pt.wait{background:linear-gradient(100deg,#EEE8DE 30%,#F7F2EA 50%,#EEE8DE 70%);background-size:300% 100%;animation:sh 1.3s linear infinite}
 @keyframes sh{to{background-position:-150% 0}}
 .pt i{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 6px;font-style:normal;font-size:11.5px;font-weight:700;color:#fff;text-align:left;background:linear-gradient(transparent,rgba(0,0,0,.55));white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pt i.go{display:flex;align-items:center;gap:3px}.pt i.go span{overflow:hidden;text-overflow:ellipsis;min-width:0}.pt i.go b{flex:0 0 auto;font-weight:800}   /* ★v54 563 */
 .pt .pl{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;background:rgba(0,0,0,.45);color:#fff;font-size:10px;display:grid;place-items:center}
 .pzw{font-size:12.5px;color:var(--sub);margin:6px 2px 0}
 /* ← ⌂ → */
@@ -189,7 +191,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     pick=mix(pick);
     for(var m=0;m<pick.length&&n<9;m++){
       var x=pick[m].x, r=pick[m].r, bg=pick[m].bg;
-      cells.push('<button type="button" class="pt wait" data-bg="'+esc(bg)+'" aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i>'+esc(r.name||'')+'</i></button>');
+      cells.push('<button type="button" class="pt wait" data-bg="'+esc(bg)+'"'+(r.g?' data-pk="'+esc('/rec/?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.id))+'"':'')+'" aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i class="go"><span>🏠 '+esc(r.name||'')+'</span><b>›</b></i></button>');
       n++;
     }
     n=n-(n%3); if(n<3){ hide(); return; } h=cells.slice(0,n).join('');
@@ -199,7 +201,7 @@ button{font:inherit;color:inherit;cursor:pointer}
       var u=t.getAttribute('data-bg'), im=new Image();
       im.onload=function(){ if(im.naturalWidth>1){ t.style.backgroundImage='url("'+u+'")'; t.classList.remove('wait'); } else { t.classList.remove('wait'); } };
       im.onerror=function(){ t.classList.remove('wait'); };   /* 못 불러온 칸도 자리는 지킴 — 바둑판이 깨지지 않게 */
-      im.src=u; t.onclick=function(){ go(PLAZA); };
+      im.src=u; var pk=t.getAttribute('data-pk'); t.onclick=function(){ if(pk){ try{ sessionStorage.setItem('lf_from_pz','home'); }catch(e){} go(pk); } else { go(PLAZA); } };   /* ★v54 562 그 방 안 그 사진 */
     })(ts[j]); }
   }
   if(!GAS){ hide(); return; }
