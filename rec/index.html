@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v119 · 261110 · [489 · 대표 OK 19:19] 「QR 받기 · QR 내려받기」(방 이름 옆 QR · 방이 열렸습니다 창 · 관리 ☰ 설정) → 새 화면 QR 인쇄물 만들기(/rec/print.html?c=방번호&n=방이름 · 크기 여섯 · 틀 여섯 · 문구 · 아래 사랑흐름 띠)로 감 · 메뉴 이름 「QR 인쇄물 만들기」 · REC_VER 119. [무손] 옛 qrSheet 그리기(qrCard)는 남겨 둠 · 그 밖 v118 전부. -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v120 · 261110 · [575 사진 화면 여는 시간 — 실서버에서 잰 값: 사진 화면 서버 답 3~6초 다음에야 큰 사진 3.5초를 받아 합 6~10초] 큰 사진을 서버 답과 동시에 받기 시작(itBig · 받는 중인 사진은 한 번만 부름) · 받은 사진 화면 1분 담아 둠(itGet · 쓰기가 있으면 버림) · 다음 사진 화면 미리 받기(서버 부름 한 번 · 큰 사진은 바로 주소일 때만 · itAhead) · 목록에 작은 사진이 있으면 서버가 다시 싣지 않게 nopv=1(①Code v57) · [무손] 그 밖 v119 전부. -->
+<!-- ── 이전 ▶ rec/index.html · v119 · 261110 · [489 · 대표 OK 19:19] 「QR 받기 · QR 내려받기」(방 이름 옆 QR · 방이 열렸습니다 창 · 관리 ☰ 설정) → 새 화면 QR 인쇄물 만들기(/rec/print.html?c=방번호&n=방이름 · 크기 여섯 · 틀 여섯 · 문구 · 아래 사랑흐름 띠)로 감 · 메뉴 이름 「QR 인쇄물 만들기」 · REC_VER 119. [무손] 옛 qrSheet 그리기(qrCard)는 남겨 둠 · 그 밖 v118 전부. -->
 <!-- (이전) rec/index.html · v118 · 261110 · [대표 17:58 「판단해서 하라」 다음 할 일 1] 공개 방으로 바꾸는 자리에서 바로 묻기 — 「지금까지 올린 사진 ○장도 마당에 낼까요?」(아이 표시 사진은 처음부터 뺌) → 「예, 고르기」 = 고르기 창(pubAsk → pubBulk · 받은 목록 그대로 · 서버 한 번) · 「나중에」 = 닫기 · 낼 사진 없으면 묻지 않음 · REC_VER 118 · [무손] 그 밖 v117 전부 -->
 <!-- (이전) rec/index.html · v117 · 261110 · [대표 16:48 「사진 마당에 내기 버튼이 안 눌려 · 방 관리가 어딨냐 · 둘러보기 너무 작아」] ① 관리 화면 「사진 마당에 내기」가 아무 일도 안 하던 것(admTap 에 없었음) → 맨 위 큰 단추로 ② 이름 맞춤 — 단추 「⚙ 방 관리」 = 화면 제목 「방 관리」 · 위 띠 「○○ · 방 관리」 · 맨 밑 「⚙ 방 관리」 ③ 방 아래 「🍇 우리 이야기 마당」 크게 — 다른 방 사진 12장 옆으로 밀어 보기 + 「마당 둘러보기 ›」 큰 단추 · 「우리 이야기 만들기」 위 · REC_VER 117 · [무손] 그 밖 v116 전부 -->
 <!-- (이전) rec/index.html · v116 · 261110 · [다음 할 일 1 「사진 화면 여는 시간 10초」] 서버 ①Code v56 시트 담아 두기(서버 5초 → 0.3~0.7초) · 사진 화면을 기다리는 동안 목록의 작은 사진을 큰 칸에 먼저(itPre) · REC_VER 116 · [무손] 그 밖 v115 전부 -->
@@ -1374,10 +1375,12 @@ function busyOn(msg){ BUSY_N++; if(BUSY_T||$('busy')){ busyText(msg); return; } 
 function busyOff(){ BUSY_N=Math.max(0,BUSY_N-1); if(BUSY_N){ return; } if(BUSY_T){ clearTimeout(BUSY_T); BUSY_T=null; } var d=$('busy'); if(d&&d.parentNode){ d.parentNode.removeChild(d); } }
 function busyText(msg){ var d=$('busy'); if(d&&d.firstChild){ d.firstChild.textContent=msg; } }
 /* ★v36 240 — 읽기 요청이 깨져 오면(많은 분이 한꺼번에 열 때 구글이 오류 페이지를 줌) 1.5초 뒤 한 번 더 */
+var ITREAD={recPhoto:1,recPhotos:1,recSpeed:1,recLog:1,recVisit:1,recMe:1,recMyRooms:1,recSnap:1};   /* ★v120 읽기만 하는 요청 */
 var API_AGAIN={recPlaza:1,recHome:1,recList:1,recPvs:1,recGet:1,recCats:1,recQueue:1,recPeople:1,recReport:1,recBundle:1};
 function api(p,cb,again){
   if(!GAS){ cb({status:'err',msg:'서버 주소를 읽지 못했습니다. 잠시 후 다시 열어 주십시오.'}); return; }
   var p0=again?null:JSON.parse(JSON.stringify(p));
+  if(!API_AGAIN[p.action]&&!ITREAD[p.action]&&typeof ITC==='object'){ ITC={}; }   /* ★v120 쓰기가 있으면 담아 둔 사진 화면을 버림 */
   if(p._hq){ delete p._hq; } else if(K&&!p.k){ p.k=K; } else if(!K&&G&&!p.g){ p.g=G; }
   if(ASU&&ADM_ACTS[p.action]){ cb({status:'err',msg:'일반인으로 보는 중에는 관리 기능을 쓰지 않습니다.'}); return; }   /* ★v38 */
   if(ADM_ACTS[p.action]&&!p.at){ var at0=tkGet(ATK); if(at0){ p.at=at0.v; } }   /* ★v37 216 관리 확인 표 */
@@ -2782,9 +2785,10 @@ function bindUD(el,cur){
   }; });
 }
 /* 사진 — 첫 화면 큰 칸은 원본(1600px) · 3×3 칸은 작은 그림을 한 번에 */
-var PHC={}, NEEDPV={};
+var PHC={}, NEEDPV={}, PHW={};
 function photo(id,small,cb,noDu){
   var k=(small?'s:':'')+id; if(PHC[k]){ cb(PHC[k]); return; }
+  if(!noDu){ if(PHW[k]){ PHW[k].push(cb); return; } PHW[k]=[cb]; var cb0=cb; cb=function(u){ var w=PHW[k]||[cb0]; delete PHW[k]; w.forEach(function(f){ try{ f(u); }catch(e){} }); }; }   /* ★v120 받는 중인 사진은 기다렸다 같이 받음 */
   if(DU[id]&&!noDu){ duLoad(id,small?480:1600,function(u){ if(u){ PHC[k]=u; cb(u); } else { photo(id,small,cb,1); } }); return; }   /* ★v53 333 서버를 거치지 않고 */
   api({action:'recPhoto',id:id,small:small?'1':''},function(d){ if(d.status==='ok'){ PHC[k]='data:'+d.type+';base64,'+d.data; pvHeal(id,PHC[k]); cb(PHC[k]); } else { cb(''); } });
 }
@@ -2814,14 +2818,35 @@ var CUR=null;
 function itemView(id,fresh,doneMsg){
   $('main').innerHTML='<div class="sub"><button class="back" id="bk" type="button">'+ic('back')+'뒤로</button><span class="grow"></span>'+helpBtn()+'</div>'+
     (ME&&ME.comName?'<button type="button" class="itrm" id="itRm"><span>🏠 '+esc(ME.comName)+'</span><b>전체 보기 ›</b></button>':'')+'<div id="body"></div>';   /* ★v106 562 이 방으로 가는 길을 맨 위에 */
-  $('bk').onclick=doBack; if($('itRm')){ $('itRm').onclick=function(){ FROMPZ=''; STACK=[{v:'feed'}]; FWD=[]; holdHistory(); render(); window.scrollTo(0,0); }; } each($('main'),'[data-help]',function(b){ b.onclick=function(){ helpSheet(); }; }); itPre($('body'),id);
-  api({action:'recGet',id:id},function(d){
+  $('bk').onclick=doBack; if($('itRm')){ $('itRm').onclick=function(){ FROMPZ=''; STACK=[{v:'feed'}]; FWD=[]; holdHistory(); render(); window.scrollTo(0,0); }; } each($('main'),'[data-help]',function(b){ b.onclick=function(){ helpSheet(); }; }); var hit=!fresh&&itGot(id);
+  if(hit){ CUR=hit; drawItem(hit,fresh); itAhead(hit); if(doneMsg){ memDone(doneMsg); } return; }   /* ★v120 미리 받아 둔 사진 화면은 바로 */
+  itPre($('body'),id); itBig(findL(id));   /* ★v120 큰 사진을 서버 답과 동시에 받기 시작 */
+  itGet(id,function(d){
     if(VIEW!=='item'||STACK[STACK.length-1].id!==id){ return; }
     if(d.status!=='ok'){ $('body').innerHTML='<div class="msg">'+esc(d.msg||'볼 수 있는 기록이 아닙니다.')+'</div>'; return; }
-    var it=d.item; CUR=it; drawItem(it,fresh);
+    var it=d.item; CUR=it; drawItem(it,fresh); itAhead(it);
     if(doneMsg){ memDone(doneMsg); }
+  },fresh);
+}
+/* ★v120 사진 화면 빨리 — 서버를 부를 때마다 2~3초가 드는 것은 줄일 수 없으므로 기다림을 겹치거나 미리 받음
+   itGet: 받은 것 1분 담아 둠 · 받는 중이면 기다렸다 같이 · 화면이 이미 가진 작은 사진은 서버가 다시 싣지 않음(nopv)
+   itBig: 큰 사진을 서버 답을 기다리지 않고 바로 받기 시작 · itAhead: 다음 사진 화면을 미리 받음(서버 부름 한 번 · 큰 사진은 바로 주소일 때만 · 동시 실행 한도를 아낌) */
+var ITC={}, ITW={};
+function itPv(id){ var L=findL(id); return (L&&L.pv)||PVC[id]||''; }
+function itGot(id){ var c=ITC[id]; return (c&&Date.now()-c.t<60000)?c.it:null; }
+function itGet(id,cb,fresh){
+  if(!fresh){ var g=itGot(id); if(g){ cb({status:'ok',item:g}); return; } if(ITW[id]){ ITW[id].push(cb); return; } }
+  ITW[id]=[cb]; var pv0=itPv(id), q={action:'recGet',id:id}; if(pv0){ q.nopv='1'; }
+  api(q,function(d){
+    if(d&&d.status==='ok'&&d.item){ if(!d.item.pv&&pv0){ d.item.pv=pv0; } ITC[id]={t:Date.now(),it:d.item}; }
+    var w=ITW[id]||[]; delete ITW[id]; w.forEach(function(f){ f(d); });
   });
 }
+function itBig(L){ if(L&&L.kind==='사진'&&L.photo&&!(L.photos&&L.photos.length>1)){ photo(L.id,false,function(){}); } }
+function itAhead(it){
+  try{ var nr=itNear(it.id); if(nr.n){ itGet(nr.n.id,function(){}); if(DU[nr.n.id]){ itBig(nr.n); } } }catch(e){}   /* 서버 부름은 한 번만 더 — 큰 사진은 바로 주소(드라이브)일 때만 미리 */
+}
+function itDrop(id){ if(id){ delete ITC[id]; } else { ITC={}; } }
 /* ★v116 사진 화면 기다리는 동안 — 목록에 이미 있던 작은 사진을 큰 칸에 먼저 보여 줌(빈 화면 · 「펼치는 중」만 보이지 않게) */
 function itPre(el,id){
   var L=findL(id), th=itThumb(L)||(CUR&&CUR.id===id?itThumb(CUR):'');
@@ -5024,7 +5049,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=119;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=120;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
