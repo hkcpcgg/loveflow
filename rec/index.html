@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v116 · 261110 · [다음 할 일 1 「사진 화면 여는 시간 10초」] 서버 ①Code v56 시트 담아 두기(서버 5초 → 0.3~0.7초) · 사진 화면을 기다리는 동안 목록의 작은 사진을 큰 칸에 먼저(itPre) · REC_VER 116 · [무손] 그 밖 v115 전부 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v117 · 261110 · [대표 16:48 「사진 마당에 내기 버튼이 안 눌려 · 방 관리가 어딨냐 · 둘러보기 너무 작아」] ① 관리 화면 「사진 마당에 내기」가 아무 일도 안 하던 것(admTap 에 없었음) → 맨 위 큰 단추로 ② 이름 맞춤 — 단추 「⚙ 방 관리」 = 화면 제목 「방 관리」 · 위 띠 「○○ · 방 관리」 · 맨 밑 「⚙ 방 관리」 ③ 방 아래 「🍇 우리 이야기 마당」 크게 — 다른 방 사진 12장 옆으로 밀어 보기 + 「마당 둘러보기 ›」 큰 단추 · 「우리 이야기 만들기」 위 · REC_VER 117 · [무손] 그 밖 v116 전부 -->
+<!-- (이전) rec/index.html · v116 · 261110 · [다음 할 일 1 「사진 화면 여는 시간 10초」] 서버 ①Code v56 시트 담아 두기(서버 5초 → 0.3~0.7초) · 사진 화면을 기다리는 동안 목록의 작은 사진을 큰 칸에 먼저(itPre) · REC_VER 116 · [무손] 그 밖 v115 전부 -->
 <!-- (이전) rec/index.html · v115 · 261110 · [대표 16:20 「내가 올린 사진도 못 찾아」] 방 첫 화면 위쪽 「📷 내가 올린 사진」 단추(전체 보기 「내가 올린 것」으로 바로) · REC_VER 115 · [무손] 그 밖 v114 전부 -->
 <!-- (이전) rec/index.html · v114 · 261110 · [대표 16:07 「공개로 해도 사진이 안 보여 · 관리 단추가 왜 밑에 없냐 · 꽁꽁 싸매 놨냐」 · ★서버 ①Code v55 · ②관리 v36 · ⑥시험 v66 과 짝] ① 방 첫 화면 이름 · 단추 바로 아래 「⚙ 방 관리」 큰 단추(관리자 · 확인자) ② 「사진 마당에 내기」 — 내가 올린 사진을 펼쳐 놓고 뺄 것만 눌러 빼고 한꺼번에 누구나 보기로(관리 차림표 · 공개 방을 켜면 바로 뜸) · REC_VER 114 · [무손] 그 밖 v113 전부 -->
 <!-- (이전) rec/index.html · v113 · 261110 · [대표 15:47 「이 페이지는 용어가 달라」] 방 관리 말 맞춤 — 「공개 모임」(함께하는 분) · 「누구나 둘러봄 / 초대받은 분만」(관리 차림표) · QR 안내를 모두 「공개 방 / 비공개 방」 하나로 · 공개 방 설명에 「마당 · 첫 화면에 나옴 · 마당에는 누구나 보기 사진만」을 적음 · REC_VER 113 · [무손] 그 밖 v112 전부 -->
@@ -639,6 +640,13 @@ body.lfgo{cursor:progress}body.lfgo::after{content:'이동 중입니다…';posi
 .wab input{flex:0 0 24px;width:24px;height:24px;margin:0;accent-color:var(--orange)}
 .wab.top{align-items:flex-start}.wab.top input{margin-top:1px}
 .pzgo{margin-top:20px}   /* ★v99 */
+.pzbig{margin:22px 0 14px;padding:16px 14px;border-radius:16px;background:#f3f0fa;border:1.5px solid #cfc3ea}   /* ★v117 둘러보기 크게 */
+.pzbig .pzh b{display:block;font-size:19px;color:var(--navy2)}.pzbig .pzh small{display:block;font-size:14px;color:#666;margin-top:2px}
+.pzs{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x proximity;padding:12px 0 4px;-webkit-overflow-scrolling:touch}
+.pzt{flex:0 0 150px;height:150px;border-radius:12px;border:0;background:#ddd center/cover;position:relative;cursor:pointer;scroll-snap-align:start}
+.pzt i{position:absolute;left:6px;bottom:6px;right:6px;font-style:normal;font-size:12px;color:#fff;background:rgba(0,0,0,.45);border-radius:6px;padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
+.pzw{font-size:14px;color:#888;padding:20px 4px}
+.pzbig .pzgo{margin-top:10px;width:100%;font-size:17px;padding:14px}
 .opband{margin:12px 0 6px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 50%,#EEF3F8 100%);border:1px solid var(--line);text-align:center}
 .opband .free{display:inline-block;vertical-align:middle;margin-left:4px;padding:1px 8px;border:1.5px solid var(--orange);border-radius:999px;color:var(--orange);font-family:var(--f-body);font-size:12px;font-style:normal;font-weight:700}
 .opband b{display:block;font-family:var(--f-disp);font-size:18px;color:var(--navy2)}.opband small{display:block;font-size:13px;color:var(--sub);margin:4px 0 10px}
@@ -1782,7 +1790,7 @@ function render(){
   else if(VIEW==='deco'){ subPage('첫 화면 꾸미기','바로가기 · 대표 사진 · 문구를 고칩니다. 저장하면 첫 화면에 바로 실립니다.'); decoView(); }
   else if(VIEW==='ppl'){ subPage('함께하는 분','함께하는 분 · 초대 링크 · 공개 방식을 관리합니다.'); pplView(); }
   else if(VIEW==='rep'){ subPage('결과 보고','이 모임에 올라온 것과 함께하는 분을 숫자로 봅니다.'); repView('month'); }
-  else if(VIEW==='adm'){ subPage('관리','이 모임을 관리합니다. 관리 기능은 카카오로 확인한 이 기기에서만 열립니다.'); admView(); }
+  else if(VIEW==='adm'){ subPage('방 관리','이 방을 관리합니다. 관리 기능은 카카오로 확인한 이 기기에서만 열립니다.'); admView(); }
   else if(VIEW==='plug'){ subPage('모임 연결','두 모임을 위 · 아래로 연결합니다. 위 모임 관리자 · 확인자는 아래 모임의 공개 기록을 모아 볼 수 있습니다(보기만).'); plugView(); }
   else if(VIEW==='bund'){ subPage('아래 모임 모아 보기','이어진 아래 모임의 공개 기록입니다. 보기만 할 수 있습니다.'); bundView(''); }
   else if(VIEW==='plc'){ subPage('내가 관리하는 곳','카카오 한 번으로 맡은 모임을 오갑니다. 오늘 할 일이 맨 위에 옵니다.'); plcView(); }   /* ★v38 */
@@ -1993,6 +2001,23 @@ function pzCv(c){ return !c?'':c.yt?'https://i.ytimg.com/vi/'+encodeURIComponent
 function pzTile(x,room){ var yt=x.yt?'https://i.ytimg.com/vi/'+encodeURIComponent(x.yt)+'/mqdefault.jpg':'', bg=yt||PVC[x.id]||'', mv=!x.yt&&MV[x.id];
   return '<button type="button" class="tl'+(bg?'':' wait')+'" data-pz="'+esc(x.id)+'" data-pg="'+esc(room.g)+'"'+(!bg&&x.u?' data-pu="'+esc(x.id)+'"':'')+(bg?' style="background-image:url('+esc(bg)+')"':'')+' aria-label="'+esc((x.t||'사진')+' · '+room.name)+'">'+
     (mv?'<video class="tv" muted loop playsinline preload="none" data-mv="'+esc(mv)+'"></video>':'')+(x.yt?'<span class="pl"></span>':'')+'<i class="rt">'+esc(room.name)+'</i></button>'; }
+/* ★v117 방 아래 「우리 이야기 마당」 — 다른 방 공개 사진 12장을 옆으로 밀어 보기 · 누르면 마당 */
+var PZS=null;
+function pzStrip(){
+  var el=$('pzS'); if(!el){ return; }
+  function th(x){ return x.yt?'https://i.ytimg.com/vi/'+encodeURIComponent(x.yt)+'/mqdefault.jpg':(x.u&&/^[A-Za-z0-9_-]{10,80}$/.test(x.u)?'https://drive.google.com/thumbnail?id='+encodeURIComponent(x.u)+'&sz=w400':''); }
+  function draw(d){
+    var el2=$('pzS'); if(!el2){ return; }
+    var rs=d.rooms||[];   /* x.c = rooms 의 몇 번째 방 */
+    var it=pzMix(d.items).filter(function(x){ var r=rs[x.c]; return th(x)&&r&&(!ME||r.com!==ME.com); }).slice(0,12);
+    if(!it.length){ el2.style.display='none'; return; }
+    el2.innerHTML=it.map(function(x){ return '<button type="button" class="pzt" style="background-image:url('+esc(th(x))+')"><i>'+esc(rs[x.c].name||'')+'</i></button>'; }).join('');
+    each(el2,'.pzt',function(b){ b.onclick=function(){ location.href=location.pathname+'?plaza=1'; }; });
+  }
+  if(PZS){ draw(PZS); return; }
+  el.innerHTML='<span class="pzw">마당 사진을 불러오는 중입니다</span>';
+  api({action:'recPlaza',n:'24',rnd:PZRND,_hq:1},function(d){ if(d&&d.status==='ok'){ PZS=d; draw(d); } else if($('pzS')){ $('pzS').style.display='none'; } });
+}
 function pzTileOf(x){ var r=PLZ.rooms[x.c]; return r?pzTile(x,r):''; }
 function pzPics(el){ each(el,'[data-pu]',function(t){ var id=t.getAttribute('data-pu'); t.removeAttribute('data-pu'); spdPend(1);
   duLoad(id,480,function(u){ if(u){ spdPic(); PVC[id]=u; pvKeep(id,u); t.style.backgroundImage='url('+u+')'; t.classList.remove('wait'); } else if(t.classList.contains('tl')){ t.hidden=true; } spdPend(-1); }); }); spdPend(0); }
@@ -2556,10 +2581,10 @@ function gridDraw(){
   if(!b.length&&!nw.length&&!st.length){ h+='<div class="card" style="text-align:center"><h2>아직 기록이 없습니다</h2><p class="lead">'+(canAdd()?'오른쪽 아래 ＋ 에서 첫 사진 한 장을 남겨 주세요.':'곧 첫 기록이 올라옵니다.')+'</p></div>'; }
   h+='<div class="lo"><h3>찾아보기</h3><div class="row1">'+findList().map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div></div>';   /* ★v59 */
   h+='<div class="lo lo3">'+subsRow()+'<div id="shBox">'+showBox()+'</div>';   /* ★v45 ③ 바깥 — 다른 이야기방 · 만들기 띠 */
-  h+='<button class="btn line pzgo" id="pzGo" type="button">'+ic('grape')+'이야기방 둘러보기</button>';   /* ★v99 사 — 남의 방 보러 가는 곳 = 둘러보기(마당) */
+  h+='<div class="pzbig"><div class="pzh"><b>🍇 우리 이야기 마당</b><small>다른 방 이야기를 둘러보세요</small></div><div class="pzs" id="pzS"></div><button class="btn pzgo" id="pzGo" type="button">'+ic('grape')+'마당 둘러보기 ›</button></div>';   /* ★v117 대표 16:48 「둘러보기 버튼이 너무 작아 · 옆으로 밀어 보게 · 만들기 위에」 */   /* ★v99 사 — 남의 방 보러 가는 곳 = 둘러보기(마당) */
   { h+='<div class="opband" id="opBand"><b>나의 일상부터 우리 모두의 이야기까지</b><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기 만들기</button><div id="opMine"></div></div>'; }
   h+='</div><div class="lo lo4">';   /* ★v59 필요할 때만 쓰는 것 — 맨 밑 */
-  if(isBoss()&&!OPN){ h+='<button class="btn upb adb" id="admB" type="button">⚙ 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':'')+'</button>'; }   /* ★v58 364 · ★v59 맨 밑 */
+  if(isBoss()&&!OPN){ h+='<button class="btn upb adb" id="admB" type="button">⚙ 방 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':'')+'</button>'; }   /* ★v58 364 · ★v59 맨 밑 */
   h+=guideFold()+(OPN||pwaIn()?'':'<button class="btn line pwab" id="pwaGo" type="button">📲 휴대폰 바탕화면에 두기</button>');
   h+='<div class="brand">🍇 사랑흐름 · 우리 이야기</div></div>';
   el.innerHTML=h; introWire();   /* ★v106 565 */
@@ -2581,7 +2606,7 @@ function gridDraw(){
   showWire(); lazyBottom();   /* ★v44 진열 · 내 신청은 맨 아래 가까이 왔을 때만 서버에 물음(사진 먼저) */
   if($('hJoin')){ $('hJoin').onclick=function(){ if(b[0]){ go('item',b[0].id); setTimeout(joinGate,400); } else { joinGate(); } }; }
   if($('hLook')){ $('hLook').onclick=function(){ ALLF='new'; go('all'); }; }   /* ★v99 사 — 이 방 전체 보기 */
-  if($('pzGo')){ $('pzGo').onclick=function(){ location.href=location.pathname+'?plaza=1'; }; }   /* ★v99 사 — 다른 이야기방 둘러보기(마당) */
+  if($('pzGo')){ $('pzGo').onclick=function(){ location.href=location.pathname+'?plaza=1'; }; } pzStrip();   /* ★v99 사 — 다른 이야기방 둘러보기(마당) */
   if($('hGo')){ $('hGo').onclick=function(){ if(b[0]){ go('item',b[0].id); } }; }
   if($('hShare')){ $('hShare').onclick=function(){ shareRec(null); }; }
   if($('cnQr')){ $('cnQr').onclick=function(e){ e.stopPropagation(); qrSheet(); }; }   /* ★v98 */
@@ -4410,7 +4435,7 @@ var ADMV={adm:1,chk:1,ppl:1,rep:1,deco:1,plug:1,bund:1,plan:1,alog:1,ahelp:1,plc
 var AQ=null, AQ_AT=0, APPL=null, AHQ='';
 function admMode(on){
   document.body.classList.toggle('admm',!!on);
-  try{ var t=document.querySelector('.lfx-title'); if(t&&ME&&ME.comName){ t.textContent=ME.comName+(ME.certOk?' ✓':'')+(on?' 관리':''); } }catch(e){}
+  try{ var t=document.querySelector('.lfx-title'); if(t&&ME&&ME.comName){ t.textContent=ME.comName+(ME.certOk?' ✓':'')+(on?' · 방 관리':''); } }catch(e){}
 }
 function admStrip(){ return '<div class="admb"><span>⚙ 관리 중 · '+esc((ME&&ME.name)||'')+' 님 · '+esc(roleName(ME.role))+'</span><button type="button" id="admX">관리 나가기</button></div>'; }
 function admExit(){ STACK=[{v:'feed'}]; render(); toast('관리에서 나왔습니다'); }
@@ -4451,6 +4476,7 @@ function admView(){
   var h=planBars()+'<div class="card"><h2>✅ 오늘 할 일 <span id="tdN"></span></h2><div id="tdL"></div></div>';   /* ★v68 70차 — 오늘 할 일 맨 위 · 🚨는 자리 띠 */
   var ct=ME.cert||null;   /* ★v80 422 학교 · 기관 이름 방 — 인증 전엔 마당에 안 나옴 */
   if(boss&&ct&&!ct.ok&&(ct.hold||ct.no)){ h+='<div class="card cthold"><h2>🏛 '+(ct.ask?'인증 확인 중입니다':ct.no?'인증을 받지 못했습니다':'인증을 받으면 마당에 보입니다')+'</h2><p class="lead" style="margin:0 0 10px">'+(ct.ask?'확인되면 방 이름 옆에 ✓ 표시가 붙고 우리 이야기 마당에 보입니다.':ct.no?esc(ct.no):'학교 · 기관 이름이 들어간 방은 인증을 받은 뒤에 우리 이야기 마당에 보입니다. 링크로는 지금도 들어올 수 있습니다.')+'</p>'+(ct.ask?'':'<button class="btn" id="ctB0" type="button" style="background:#534AB7">인증 신청</button>')+'</div>'; }
+  if(boss&&ME.room==='열린 모임'){ h+='<button type="button" class="hob" id="pbT" style="background:#fff6e5;border-color:#e8b04a"><span class="ic">📷</span><span>사진 마당에 내기<small>내가 올린 사진을 골라 마당에 냅니다 · 아이 사진은 빼고</small></span></button>'; }   /* ★v117 맨 위 */
   if(boss){ h+='<button type="button" class="hob" id="hoB"><span class="ic">🤝</span><span>관리자 넘기기<small>이 방을 맡으실 분께 카카오톡으로 넘깁니다</small></span></button>'; }
   if(boss){ h+='<button type="button" class="hob inv" id="ivB"><span class="ic">✉</span><span>초대하기<small>카카오톡으로 이 방 링크 보내기</small></span></button>'; }
   h+='<div class="card"><h2>'+ic('ppl','sm')+' 맡은 대상</h2>'+
@@ -4470,7 +4496,6 @@ function admView(){
     row('cert','check','c-violet','인증',ct&&ct.ok?'✓ 인증된 방 · '+esc(ct.at||''):ct&&ct.ask?'확인 중 · '+esc(ct.askDoc||''):'학교 · 기관 · 단체 · 회사 방 — 서류로 인증'); }   /* ★v80 422 */
   if(p){ h+=row('plan','clock','c-green','이용 · 요금',esc(planLine(p))); }
   if(boss){ h+=row('ppl','look','c-peach','공개 방식',ME.room==='열린 모임'?'공개 방 · 마당에 나옴':'비공개 방 · 초대받은 분만'); }
-  if(boss&&ME.room==='열린 모임'){ h+=row('pubb','photo','c-gold','사진 마당에 내기','내가 올린 사진을 골라 한꺼번에 「누구나 보기」로'); }   /* ★v114 */
   h+='</div>';
   h+='<form class="asrch" id="asf" role="search"><input id="aq" type="search" enterkeyhint="search" placeholder="찾기 — 사람 · 기록 · 설정 · 이럴 땐" autocomplete="off"><button type="submit">찾기</button></form>';
   h+='<div class="card"><h2>💡 이럴 땐</h2>'+AHELP.filter(ahOk).map(function(x){ return '<button type="button" class="mrow" data-ah="'+x.id+'"><span class="ci c-gold" style="font-size:20px">'+x.ic+'</span><span><b>'+esc(x.t)+'</b></span></button>'; }).join('')+'</div>';
@@ -4479,7 +4504,7 @@ function admView(){
   $('body').innerHTML=h; planBind();
   each($('body'),'[data-am]',function(b){ b.onclick=function(){ admTap(b.getAttribute('data-am')); }; });
   each($('body'),'[data-ah]',function(b){ b.onclick=function(){ go('ahelp',b.getAttribute('data-ah')); }; });
-  if($('hoB')){ $('hoB').onclick=hoSheet; } if($('ivB')){ $('ivB').onclick=invQuick; }   /* ★v68 */
+  if($('pbT')){ $('pbT').onclick=pubBulk; } if($('hoB')){ $('hoB').onclick=hoSheet; } if($('ivB')){ $('ivB').onclick=invQuick; }   /* ★v68 */
   if($('ctB0')){ $('ctB0').onclick=certSheet; }   /* ★v80 422 */
   if(boss&&ME.cert===undefined&&!CERTQ[ME.com]){ CERTQ[ME.com]=1; api({action:'recCert',act:'info'},function(d){ if(d&&d.status==='ok'){ ME.cert=d.cert; if(VIEW==='adm'&&(d.cert.hold||d.cert.no||d.cert.ok||d.cert.ask)){ admView(); } } }); }   /* 가벼운 첫 화면 길에는 인증 상태가 없어 관리 화면을 열 때 한 번 받음 */
   $('alAll').onclick=function(){ go('alog'); };
@@ -4510,6 +4535,7 @@ function pubBulk(){
   });
 }
 function admTap(m){
+  if(m==='pubb'){ pubBulk(); return; }   /* ★v117 대표 16:48 「사진 마당에 내기 버튼이 안 눌려」 — 관리 화면 단추가 pubBulk 로 안 가고 없는 화면으로 가던 것 */
   if(m==='cert'){ certSheet(); return; }   /* ★v80 422 */
   if(m==='invq'){ invQuick(); return; } if(m==='qr'){ qrSheet(); return; } if(m==='name'){ nameBuild(); return; } if(m==='make'){ makeSheet(); return; }
   if((m==='plug'||m==='deco')&&ME.role!=='관리자'){ toast('관리자만 할 수 있습니다'); return; }
@@ -4977,7 +5003,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=116;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=117;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
