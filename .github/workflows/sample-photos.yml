@@ -1,4 +1,4 @@
-# ★ 현재 버전 ▶ .github/workflows/sample-photos.yml · v1 · 261110 · 견본 방 사진 받기 — tools/sample/list.txt 의 Unsplash 사진을 받아 rec/seed/sample/ 에 1600px(본) · 320px(_t 미리보기)로 올림 · 우리 이야기 서버 ⑤편집기가 www.loveflow.ai.kr/rec/seed/sample/ 에서 받아 감
+# ★ 현재 버전 ▶ .github/workflows/sample-photos.yml · v2 · 261110 · (v2 사진 쪽에서 그림 주소를 읽어 받음) 견본 방 사진 받기 — tools/sample/list.txt 의 Unsplash 사진을 받아 rec/seed/sample/ 에 1600px(본) · 320px(_t 미리보기)로 올림 · 우리 이야기 서버 ⑤편집기가 www.loveflow.ai.kr/rec/seed/sample/ 에서 받아 감
 name: 견본 방 사진 받기
 on:
   workflow_dispatch:
@@ -20,7 +20,12 @@ jobs:
           while read -r name id; do
             case "$name" in ''|'#'*) continue;; esac
             mkdir -p "rec/seed/sample/$(dirname "$name")"
-            if curl -sSL --max-time 60 -o /tmp/p.jpg "https://unsplash.com/photos/$id/download?force=true&w=2000" && file /tmp/p.jpg | grep -qi 'image'; then
+            rm -f /tmp/p.jpg; UA='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0 Safari/537.36'
+            c1=$(curl -sSL -A "$UA" --max-time 60 -o /tmp/p.html -w '%{http_code}' "https://unsplash.com/photos/$id" || echo 000)
+            img=$(grep -o 'https://images.unsplash.com/photo-[A-Za-z0-9_-]*' /tmp/p.html 2>/dev/null | head -1)
+            [ -n "$img" ] && curl -sSL -A "$UA" --max-time 60 -o /tmp/p.jpg "$img?w=2000&q=85&fm=jpg&fit=max" || true
+            if [ ! -s /tmp/p.jpg ] || ! file /tmp/p.jpg | grep -qi 'image'; then c2=$(curl -sSL -A "$UA" --max-time 60 -o /tmp/p.jpg -w '%{http_code}' "https://unsplash.com/photos/$id/download?force=true" || echo 000); echo "  (쪽 $c1 · 그림주소 ${img:-없음} · 내려받기 $c2)"; fi
+            if [ -s /tmp/p.jpg ] && file /tmp/p.jpg | grep -qi 'image'; then
               convert /tmp/p.jpg -auto-orient -resize '1600x1600>' -strip -quality 80 "rec/seed/sample/$name.jpg"
               convert /tmp/p.jpg -auto-orient -resize '320x320>' -strip -quality 55 "rec/seed/sample/${name}_t.jpg"
               ok=$((ok+1)); echo "받음 $name $id $(stat -c%s rec/seed/sample/$name.jpg)"
