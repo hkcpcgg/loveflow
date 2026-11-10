@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v4 · 261024 · [칸 7-나 428 · 443] 공통 위 띠(lf/frame.js)가 없는 화면(kit · 표지 등)을 본부에서 같은 창으로 열었을 때 맨 위 「⌂ 본부로」 띠 · 푸터 무손
+   현재 버전 ▶ lf-foot.js · v5 · 261110 · [대표 261110 09:25 「저작권은 늘 주장해야 한다 · 빠졌다」] 맨 아래 저작권 줄 밑에 무단 이용 경고 국문 · 영문 두 줄을 다시 붙임(v2 에서 약관 안으로만 옮겼던 것 — 약관 제5조는 그대로) · 문구는 자서전 결과물(memoir/book) · 약관과 같은 말. [무손] 그 밖 v4 전부.
+   (이전) lf-foot.js · v4 · 261024 · [칸 7-나 428 · 443] 공통 위 띠(lf/frame.js)가 없는 화면(kit · 표지 등)을 본부에서 같은 창으로 열었을 때 맨 위 「⌂ 본부로」 띠 · 푸터 무손
    (이전) lf-foot.js · v3 · 261023 · [할일 395 · 토스 카드사 심사 「하단 사업자 정보」]
    ★사업자 정보 두 줄을 글자로 넣음(그림 아님 · 결제 화면 showcase · pay 와 공용 푸터를 쓰는 모든 화면)
      상호 · 대표자 · 사업자등록번호 · 통신판매업신고번호 · 사업장 주소 · 유선번호 · 이메일 · 개인정보보호책임자
@@ -31,6 +32,7 @@
     + ".lfft-links a{color:#9d8f80;text-decoration:none;cursor:pointer;margin:0 5px;white-space:nowrap}"
     + ".lfft-links a:hover{text-decoration:underline}"
     + ".lfft-c{font-size:10px;line-height:1.7;letter-spacing:.01em}"
+    + ".lfft-w{font-size:9.5px;line-height:1.6;margin-top:2px;word-break:keep-all}"
     + ".lfft-biz{font-size:10.5px;line-height:1.75;margin:6px 0 4px;word-break:keep-all}"
     + ".lfft-biz span{white-space:nowrap}"
     + ".lfft-biz a{color:#9d8f80;text-decoration:none}";
@@ -50,6 +52,7 @@
     +     '<span>' + BIZ.addr + '</span><br><span>전화 <a href="tel:' + BIZ.tel.replace(/-/g, '') + '">' + BIZ.tel + '</a></span> &middot; <span><a href="mailto:' + BIZ.mail + '">' + BIZ.mail + '</a></span>'
     +   '</div>'
     +   '<div class="lfft-c">&copy; 2026 LoveFlow 사랑흐름 &middot; LFRI&trade; All rights reserved.</div>'
+    +   '<div class="lfft-w">무단 복제 &middot; 배포 &middot; 상업적 이용을 금합니다.<br>Unauthorized use strictly prohibited. Violators subject to civil and criminal penalties.</div>'
     + '</div>';
 
   function css() {
