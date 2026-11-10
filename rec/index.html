@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v112 · 261110 · [대표 14:45 「PC는 사진이 꽉 차 내용을 볼 수 없어 · 해상도도 떨어지고」 · 대표 PC에서 확인: 세로 넘김 화면 사진이 1745×2617로 그려져 화면(835) 밖으로 잘림] 세로 넘김 화면 사진 · 영상을 칸에 꼭 맞춤(잘리지 않고 통째로) · REC_VER 112 · [무손] 그 밖 v111 전부 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v113 · 261110 · [대표 15:47 「이 페이지는 용어가 달라」] 방 관리 말 맞춤 — 「공개 모임」(함께하는 분) · 「누구나 둘러봄 / 초대받은 분만」(관리 차림표) · QR 안내를 모두 「공개 방 / 비공개 방」 하나로 · 공개 방 설명에 「마당 · 첫 화면에 나옴 · 마당에는 누구나 보기 사진만」을 적음 · REC_VER 113 · [무손] 그 밖 v112 전부 -->
+<!-- (이전) rec/index.html · v112 · 261110 · [대표 14:45 「PC는 사진이 꽉 차 내용을 볼 수 없어 · 해상도도 떨어지고」 · 대표 PC에서 확인: 세로 넘김 화면 사진이 1745×2617로 그려져 화면(835) 밖으로 잘림] 세로 넘김 화면 사진 · 영상을 칸에 꼭 맞춤(잘리지 않고 통째로) · REC_VER 112 · [무손] 그 밖 v111 전부 -->
 <!-- (이전) rec/index.html · v111 · 261110 · [대표 15:31 「9장씩 올린 것을 한 폴더에 꽁꽁 숨겨 놓으니 대표 사진 6장을 고르려 해도 폴더 3개뿐 · 펼쳐지질 않아」] ① 방 꾸미기 「대표 사진」 고르기 — 한 번에 올린 묶음도 한 장씩 펼쳐 놓고 한 장씩 고름(묶음 안 사진 기록번호로 걺) ② 방 첫 화면 대표 사진 6칸은 한 칸에 한 장 · 그 묶음의 나머지 사진은 「우리 이야기」 맨 앞에 한 장씩 · REC_VER 111 · [무손] 그 밖 v110 전부 -->
 <!-- (이전) rec/index.html · v110 · 261110 · [이사회 11.10 검증(GPT · 그록 · 제미나이 · 퍼플렉시티) Q1 · Q5 · ★서버 ①Code v54 와 짝] ① 열린 모임에서 올리기 기본값 「누구나 보기」(닫힌 방 · 아이 사진 막음 · 처음 공개 안내는 그대로) · 올리기 화면 제목 밑에 「🌏 누구나 보기 · 마당과 첫 화면에도 나옵니다」 한 줄 크게 ② 둘러보기 제목 더 크게 · 사진 몇 장인지 · 사진이 없으면 빈 칸 대신 안내 · REC_VER 110 · [무손] 그 밖 v109 전부 -->
 <!-- (이전) rec/index.html · v109 · 261110 · [대표 14:43 · 14:45 「사진 한 장만 딸랑 · 그 밑으로 방 둘러보기를 크게 쭉 · PC는 사진이 꽉 차 안 보임」] ① 사진 한 장 화면 — 사진 · 단추 바로 아래 「🏠 ○○ 둘러보기」 큰 제목 + 이 방 사진 24칸 · 「사진 더 보기」 · 첫 화면에서 바로 들어와도 서버에서 받아 채움 ② 맨 아래 「이 방의 다른 사진」 · 「함께 보면 좋은 기록」 칸이 .sd 이름 겹침으로 7px로 쪼그라들던 것 고침 ③ PC(900px 이상) 사진 한 장 화면은 폭 900 · 사진 틀 높이 62vh(첫 화면에 둘러보기 제목이 보이게) · 둘러보기 5칸 · REC_VER 109 · [무손] 그 밖 v108 전부 -->
@@ -3860,7 +3861,7 @@ function pplView(){
     if(d.status!=='ok'){ $('pq').innerHTML='<div class="msg">'+esc(d.msg||'')+'</div>'; return; }
     var sp=d.spread||{}, open=d.room==='열린 모임';
     var h='<div class="card"><h2>공개 설정</h2>'+
-      swRow('tgRoom',open,'공개 모임','켜면 링크를 받은 누구나 가입 없이 모든 기록을 봅니다. 기억을 남기려면 카카오로 한 번 로그인합니다. 끄면 참여자만 봅니다.',!boss)+
+      swRow('tgRoom',open,'공개 방','켜면 이 방이 마당 · 첫 화면에 나오고, 링크를 받은 누구나 가입 없이 기록을 봅니다(「나만 보기」는 빼고). 마당에는 「누구나 보기」로 올린 사진만 나옵니다. 기억을 남기려면 카카오로 한 번 들어옵니다. 끄면 비공개 방 — 참여한 분만 봅니다.',!boss)+
       swRow('tgTake',d.take==='받기','등록 신청 승인제','켜면 참여자가 공유한 링크로 온 분은 관리자 · 확인자의 「승인」 뒤 작성할 수 있습니다. 관리자 초대 링크로 온 분은 바로 참여합니다. 메인 화면에서 온 분은 늘 승인 뒤 작성합니다.',!boss)+
       swRow('tgChk',d.check!=='아니오','첫 게시물 승인','켜면 신규 참여자의 첫 사진 · 링크 · 영상 3건은 승인 뒤 공개됩니다. 광고 · 스팸을 막습니다.',!boss)+
       swRow('tgc',!!d.autoCom,'승인 없이 바로 공개','켜면 모든 분이 올린 기록이 바로 공개됩니다. 가족처럼 믿는 모임에 맞습니다.',!boss)+
@@ -4171,7 +4172,7 @@ function newRoomSheet(){
   });
 }
 function qrSheet(){
-  if(!ME||!ME.com||ME.room!=='열린 모임'){ toast('누구나 둘러봄으로 바꾸면 QR을 쓸 수 있습니다'); return; }
+  if(!ME||!ME.com||ME.room!=='열린 모임'){ toast('공개 방으로 바꾸면 QR을 쓸 수 있습니다'); return; }
   var url='https://www.loveflow.ai.kr/rec/?c='+ME.com, fn='우리이야기_QR_'+ME.com+'.png', cv=null;
   sheet('<h2>'+ic('qr','sm')+' QR 내려받기</h2><p class="lead" style="margin-top:4px">이 방 주소가 담긴 QR입니다. 초대 링크를 새로 만들어도 QR은 그대로입니다.</p>'+
     '<div id="qrB" class="qrb"><div class="waitbox">'+LFH+'<b>QR을 그리는 중입니다</b></div></div>'+
@@ -4446,12 +4447,12 @@ function admView(){
   if(boss){ h+=row('deco','star','c-gold','첫 화면 꾸미기','바로가기 · 대표 사진 · 문구')+
     row('invq','share','c-violet','초대 링크 꺼내기','복사 · 카톡으로 보내기')+
     row('name','pen','c-navy','모임 이름 짓기','지금 이름 · '+esc(ME.comName||''))+
-    (ME.room==='열린 모임'&&ME.com?row('qr','qr','c-gold','QR 내려받기','이 방 주소 QR · 인쇄용 그림'):'<div class="mrow off"><span class="ci c-gray">'+ic('qr')+'</span><span><b>QR 내려받기</b><small>누구나 둘러봄으로 바꾸면 QR을 쓸 수 있습니다</small></span></div>')+
+    (ME.room==='열린 모임'&&ME.com?row('qr','qr','c-gold','QR 내려받기','이 방 주소 QR · 인쇄용 그림'):'<div class="mrow off"><span class="ci c-gray">'+ic('qr')+'</span><span><b>QR 내려받기</b><small>공개 방으로 바꾸면 QR을 쓸 수 있습니다</small></span></div>')+
     row('plug','link','c-navy','모임 연결','위 모임 · 아래 모임 · 연결 끊기 · 아래 모임 관리자')+
     row('make','plus','c-green','아래 모임 열기','우리 모임 아래에 새 모임을 엽니다 · 관리자를 세웁니다')+
     row('cert','check','c-violet','인증',ct&&ct.ok?'✓ 인증된 방 · '+esc(ct.at||''):ct&&ct.ask?'확인 중 · '+esc(ct.askDoc||''):'학교 · 기관 · 단체 · 회사 방 — 서류로 인증'); }   /* ★v80 422 */
   if(p){ h+=row('plan','clock','c-green','이용 · 요금',esc(planLine(p))); }
-  if(boss){ h+=row('ppl','look','c-peach','공개 방식',ME.room==='열린 모임'?'누구나 둘러봄':'초대받은 분만'); }
+  if(boss){ h+=row('ppl','look','c-peach','공개 방식',ME.room==='열린 모임'?'공개 방 · 마당에 나옴':'비공개 방 · 초대받은 분만'); }
   h+='</div>';
   h+='<form class="asrch" id="asf" role="search"><input id="aq" type="search" enterkeyhint="search" placeholder="찾기 — 사람 · 기록 · 설정 · 이럴 땐" autocomplete="off"><button type="submit">찾기</button></form>';
   h+='<div class="card"><h2>💡 이럴 땐</h2>'+AHELP.filter(ahOk).map(function(x){ return '<button type="button" class="mrow" data-ah="'+x.id+'"><span class="ci c-gold" style="font-size:20px">'+x.ic+'</span><span><b>'+esc(x.t)+'</b></span></button>'; }).join('')+'</div>';
@@ -4935,7 +4936,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=112;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=113;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
