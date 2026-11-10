@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v117 · 261110 · [대표 16:48 「사진 마당에 내기 버튼이 안 눌려 · 방 관리가 어딨냐 · 둘러보기 너무 작아」] ① 관리 화면 「사진 마당에 내기」가 아무 일도 안 하던 것(admTap 에 없었음) → 맨 위 큰 단추로 ② 이름 맞춤 — 단추 「⚙ 방 관리」 = 화면 제목 「방 관리」 · 위 띠 「○○ · 방 관리」 · 맨 밑 「⚙ 방 관리」 ③ 방 아래 「🍇 우리 이야기 마당」 크게 — 다른 방 사진 12장 옆으로 밀어 보기 + 「마당 둘러보기 ›」 큰 단추 · 「우리 이야기 만들기」 위 · REC_VER 117 · [무손] 그 밖 v116 전부 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v118 · 261110 · [대표 17:58 「판단해서 하라」 다음 할 일 1] 공개 방으로 바꾸는 자리에서 바로 묻기 — 「지금까지 올린 사진 ○장도 마당에 낼까요?」(아이 표시 사진은 처음부터 뺌) → 「예, 고르기」 = 고르기 창(pubAsk → pubBulk · 받은 목록 그대로 · 서버 한 번) · 「나중에」 = 닫기 · 낼 사진 없으면 묻지 않음 · REC_VER 118 · [무손] 그 밖 v117 전부 -->
+<!-- (이전) rec/index.html · v117 · 261110 · [대표 16:48 「사진 마당에 내기 버튼이 안 눌려 · 방 관리가 어딨냐 · 둘러보기 너무 작아」] ① 관리 화면 「사진 마당에 내기」가 아무 일도 안 하던 것(admTap 에 없었음) → 맨 위 큰 단추로 ② 이름 맞춤 — 단추 「⚙ 방 관리」 = 화면 제목 「방 관리」 · 위 띠 「○○ · 방 관리」 · 맨 밑 「⚙ 방 관리」 ③ 방 아래 「🍇 우리 이야기 마당」 크게 — 다른 방 사진 12장 옆으로 밀어 보기 + 「마당 둘러보기 ›」 큰 단추 · 「우리 이야기 만들기」 위 · REC_VER 117 · [무손] 그 밖 v116 전부 -->
 <!-- (이전) rec/index.html · v116 · 261110 · [다음 할 일 1 「사진 화면 여는 시간 10초」] 서버 ①Code v56 시트 담아 두기(서버 5초 → 0.3~0.7초) · 사진 화면을 기다리는 동안 목록의 작은 사진을 큰 칸에 먼저(itPre) · REC_VER 116 · [무손] 그 밖 v115 전부 -->
 <!-- (이전) rec/index.html · v115 · 261110 · [대표 16:20 「내가 올린 사진도 못 찾아」] 방 첫 화면 위쪽 「📷 내가 올린 사진」 단추(전체 보기 「내가 올린 것」으로 바로) · REC_VER 115 · [무손] 그 밖 v114 전부 -->
 <!-- (이전) rec/index.html · v114 · 261110 · [대표 16:07 「공개로 해도 사진이 안 보여 · 관리 단추가 왜 밑에 없냐 · 꽁꽁 싸매 놨냐」 · ★서버 ①Code v55 · ②관리 v36 · ⑥시험 v66 과 짝] ① 방 첫 화면 이름 · 단추 바로 아래 「⚙ 방 관리」 큰 단추(관리자 · 확인자) ② 「사진 마당에 내기」 — 내가 올린 사진을 펼쳐 놓고 뺄 것만 눌러 빼고 한꺼번에 누구나 보기로(관리 차림표 · 공개 방을 켜면 바로 뜸) · REC_VER 114 · [무손] 그 밖 v113 전부 -->
@@ -3924,7 +3925,7 @@ function pplView(){
     each($('pq'),'[data-ok]',function(b){ b.onclick=function(){ b.disabled=true; var act=b.getAttribute('data-act'); api({action:'recPersonOk',no:b.getAttribute('data-ok'),act:act},function(r){ if(r.status==='ok'){ toast(act==='받기'?'등록을 승인했습니다':'작성 제한을 해제했습니다'); pplView(); } else { b.disabled=false; toast(r.msg||'처리하지 못했습니다'); } }); }; });
     if(!boss){ return; }
     var setSw=function(id,key,onV,offV,msgOn,msgOff){ $(id).onclick=function(){ var b=this, on=!b.classList.contains('on'), p={action:'recComSet'}; p[key]=on?onV:offV; b.disabled=true;
-      api(p,function(r){ b.disabled=false; if(r.status==='ok'){ var v=r[key]; b.classList.toggle('on',v===onV||(key==='check'&&v!=='아니오'&&onV==='예')); if(key==='room'){ ME.room=v; } toast(on?msgOn:msgOff); if(key==='room'&&v==='열린 모임'){ setTimeout(pubBulk,700); } } else { toast(r.msg||'바꾸지 못했습니다'); } }); }; };
+      api(p,function(r){ b.disabled=false; if(r.status==='ok'){ var v=r[key]; b.classList.toggle('on',v===onV||(key==='check'&&v!=='아니오'&&onV==='예')); if(key==='room'){ ME.room=v; } toast(on?msgOn:msgOff); if(key==='room'&&v==='열린 모임'){ setTimeout(pubAsk,700); }   /* ★v118 */ } else { toast(r.msg||'바꾸지 못했습니다'); } }); }; };
     setSw('tgRoom','room','열린 모임','닫힌 방','공개 방으로 바꿨습니다','비공개 방으로 바꿨습니다 — 참여한 분만 봅니다');
     setSw('tgTake','take','받기','바로','등록 신청은 승인 뒤 작성합니다','링크로 온 분이 바로 참여합니다');
     setSw('tgChk','check','예','아니오','첫 게시물은 승인 뒤 공개합니다','첫 게시물도 바로 공개합니다');
@@ -4513,9 +4514,27 @@ function admView(){
 }
 /* ★v114 대표 261110 16:07 「공개로 했는데 사진이 안 보여」 — 내가 올린 사진을 펼쳐 놓고 뺄 것만 눌러 빼고 한꺼번에 「누구나 보기」로
  *   남이 올린 사진은 그분 몫이라 목록에 없음 · 「아이」 표시 사진은 서버가 건너뜀 · 처음이면 누구나 보기 안내에 동의 */
-function pubBulk(){
+/* ★v118 대표 261110 「판단해서 하라」 — 공개 방으로 바꾼 자리에서 바로 묻기
+ *   「지금까지 올린 사진 ○장도 마당에 낼까요?」 → 예 = 고르기 창(같은 목록 그대로 · 서버 한 번만) · 나중에 = 닫기
+ *   낼 사진이 없으면 묻지 않음 */
+function pubAsk(){
+  if(!isBoss()||!ME||ME.room!=='열린 모임'){ return; }
+  api({action:'recPubList'},function(d){
+    if(d.status!=='ok'){ return; }
+    var its=d.items||[], n=its.filter(function(x){ return !x.pub&&!x.kid; }).length, kid=its.filter(function(x){ return !x.pub&&x.kid; }).length;
+    if(!n){ return; }
+    sheet('<h2>지금까지 올린 사진 '+n+'장도 마당에 낼까요?</h2><p class="lead" style="margin-top:6px">공개 방이 되어도 지금까지 올린 사진은 아직 「우리 모임 모두」라서 마당에 나오지 않습니다.<br><b>「예, 고르기」를 누르면 아이가 나온 사진 등 뺄 것을 고릅니다.</b>'+(kid?'<br><small style="color:var(--sub)">아이 사진으로 표시한 '+kid+'장은 처음부터 뺐습니다.</small>':'')+'</p>'+
+      '<div class="pair" style="margin-top:14px"><button class="btn line" id="paNo" type="button">나중에</button><button class="btn warm" id="paGo" type="button">예, 고르기</button></div>'+
+      '<p class="note" style="margin-top:10px">나중에 하려면 「⚙ 방 관리 → 📷 사진 마당에 내기」.</p>',function(){
+      $('paNo').onclick=closeSheet;
+      $('paGo').onclick=function(){ closeSheet(); setTimeout(function(){ pubBulk(d); },250); };
+    });
+  });
+}
+function pubBulk(pre){
   if(!isBoss()||!ME||ME.room!=='열린 모임'){ toast('먼저 「공개 방」을 켜 주십시오'); return; }
-  api({action:'recPubList',_busy:'사진을 모으는 중입니다'},function(d){
+  var pl=function(cb){ if(pre&&pre.status==='ok'){ cb(pre); } else { api({action:'recPubList',_busy:'사진을 모으는 중입니다'},cb); } };   /* ★v118 묻기 창에서 받은 목록이면 다시 안 부름 */
+  pl(function(d){
     if(d.status!=='ok'){ toast(d.msg||'사진을 모으지 못했습니다'); return; }
     var its=d.items||[], off={}, todo=its.filter(function(x){ return !x.pub&&!x.kid; });
     if(!todo.length){ toast(its.length?'내가 올린 사진은 모두 이미 누구나 보기입니다':'내가 올린 사진이 아직 없습니다'); return; }
@@ -5003,7 +5022,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=117;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=118;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
