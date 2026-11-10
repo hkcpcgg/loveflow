@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v115 · 261110 · [대표 16:20 「내가 올린 사진도 못 찾아」] 방 첫 화면 위쪽 「📷 내가 올린 사진」 단추(전체 보기 「내가 올린 것」으로 바로) · REC_VER 115 · [무손] 그 밖 v114 전부 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v116 · 261110 · [다음 할 일 1 「사진 화면 여는 시간 10초」] 서버 ①Code v56 시트 담아 두기(서버 5초 → 0.3~0.7초) · 사진 화면을 기다리는 동안 목록의 작은 사진을 큰 칸에 먼저(itPre) · REC_VER 116 · [무손] 그 밖 v115 전부 -->
+<!-- (이전) rec/index.html · v115 · 261110 · [대표 16:20 「내가 올린 사진도 못 찾아」] 방 첫 화면 위쪽 「📷 내가 올린 사진」 단추(전체 보기 「내가 올린 것」으로 바로) · REC_VER 115 · [무손] 그 밖 v114 전부 -->
 <!-- (이전) rec/index.html · v114 · 261110 · [대표 16:07 「공개로 해도 사진이 안 보여 · 관리 단추가 왜 밑에 없냐 · 꽁꽁 싸매 놨냐」 · ★서버 ①Code v55 · ②관리 v36 · ⑥시험 v66 과 짝] ① 방 첫 화면 이름 · 단추 바로 아래 「⚙ 방 관리」 큰 단추(관리자 · 확인자) ② 「사진 마당에 내기」 — 내가 올린 사진을 펼쳐 놓고 뺄 것만 눌러 빼고 한꺼번에 누구나 보기로(관리 차림표 · 공개 방을 켜면 바로 뜸) · REC_VER 114 · [무손] 그 밖 v113 전부 -->
 <!-- (이전) rec/index.html · v113 · 261110 · [대표 15:47 「이 페이지는 용어가 달라」] 방 관리 말 맞춤 — 「공개 모임」(함께하는 분) · 「누구나 둘러봄 / 초대받은 분만」(관리 차림표) · QR 안내를 모두 「공개 방 / 비공개 방」 하나로 · 공개 방 설명에 「마당 · 첫 화면에 나옴 · 마당에는 누구나 보기 사진만」을 적음 · REC_VER 113 · [무손] 그 밖 v112 전부 -->
 <!-- (이전) rec/index.html · v112 · 261110 · [대표 14:45 「PC는 사진이 꽉 차 내용을 볼 수 없어 · 해상도도 떨어지고」 · 대표 PC에서 확인: 세로 넘김 화면 사진이 1745×2617로 그려져 화면(835) 밖으로 잘림] 세로 넘김 화면 사진 · 영상을 칸에 꼭 맞춤(잘리지 않고 통째로) · REC_VER 112 · [무손] 그 밖 v111 전부 -->
@@ -2786,13 +2787,20 @@ var CUR=null;
 function itemView(id,fresh,doneMsg){
   $('main').innerHTML='<div class="sub"><button class="back" id="bk" type="button">'+ic('back')+'뒤로</button><span class="grow"></span>'+helpBtn()+'</div>'+
     (ME&&ME.comName?'<button type="button" class="itrm" id="itRm"><span>🏠 '+esc(ME.comName)+'</span><b>전체 보기 ›</b></button>':'')+'<div id="body"></div>';   /* ★v106 562 이 방으로 가는 길을 맨 위에 */
-  $('bk').onclick=doBack; if($('itRm')){ $('itRm').onclick=function(){ FROMPZ=''; STACK=[{v:'feed'}]; FWD=[]; holdHistory(); render(); window.scrollTo(0,0); }; } each($('main'),'[data-help]',function(b){ b.onclick=function(){ helpSheet(); }; }); wait($('body'),'기록을 펼치는 중입니다');
+  $('bk').onclick=doBack; if($('itRm')){ $('itRm').onclick=function(){ FROMPZ=''; STACK=[{v:'feed'}]; FWD=[]; holdHistory(); render(); window.scrollTo(0,0); }; } each($('main'),'[data-help]',function(b){ b.onclick=function(){ helpSheet(); }; }); itPre($('body'),id);
   api({action:'recGet',id:id},function(d){
     if(VIEW!=='item'||STACK[STACK.length-1].id!==id){ return; }
     if(d.status!=='ok'){ $('body').innerHTML='<div class="msg">'+esc(d.msg||'볼 수 있는 기록이 아닙니다.')+'</div>'; return; }
     var it=d.item; CUR=it; drawItem(it,fresh);
     if(doneMsg){ memDone(doneMsg); }
   });
+}
+/* ★v116 사진 화면 기다리는 동안 — 목록에 이미 있던 작은 사진을 큰 칸에 먼저 보여 줌(빈 화면 · 「펼치는 중」만 보이지 않게) */
+function itPre(el,id){
+  var L=findL(id), th=itThumb(L)||(CUR&&CUR.id===id?itThumb(CUR):'');
+  if(!th){ wait(el,'기록을 펼치는 중입니다'); return; }
+  el.innerHTML='<div class="card big"><div class="mw"><div class="pf"><i class="pfb" style="background-image:url('+esc(th)+')"></i><img class="media" alt="사진" src="'+esc(th)+'"></div></div>'+
+    '<div class="waitbox" style="padding:12px 6px"><b>'+(L&&L.title?esc(L.title)+' · ':'')+'펼치는 중입니다</b></div></div>';
 }
 function drawItem(it,fresh){
   spdItem(it);   /* ★v50 330 */
@@ -4969,7 +4977,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=115;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=116;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
