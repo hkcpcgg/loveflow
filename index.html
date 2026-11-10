@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ index.html · v54 · 261110 · [우리 이야기 전면 검토 칸 1 · 562 · 563] 마당 사진 9칸 — 누르면 마당이 아니라 그 방 안 그 사진 화면으로 바로(그 화면의 「뒤로」 = 이 첫 화면) · 사진 위 방 이름 「🏠 이름 ›」(누르는 길로 보이게). [무손] 그 밖 v53 전부. -->
+<!-- ★ 현재 버전 ▶ index.html · v55 · 261110 · [대표 12:30 「랜덤으로 돌려가면서 · 빨리」 · ★서버 ①Code v52 와 짝] 마당 사진 9칸 — 공개 사진 전체에서 무작위(rnd · 지난 사진 · 한 번에 올린 여러 장도 한 장씩) · 4초마다 한 칸씩 다른 사진으로 사르르 바뀜(화면이 보일 때만) · 누르면 그 사진(묶음이면 그 묶음). [무손] 그 밖 v54 전부. -->
+<!-- (이전) index.html · v54 · 261110 · [우리 이야기 전면 검토 칸 1 · 562 · 563] 마당 사진 9칸 — 누르면 마당이 아니라 그 방 안 그 사진 화면으로 바로(그 화면의 「뒤로」 = 이 첫 화면) · 사진 위 방 이름 「🏠 이름 ›」(누르는 길로 보이게). [무손] 그 밖 v53 전부. -->
 <!-- (이전) index.html · v53 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) index.html · v52 · 261024 · [칸 3 · 73차 결정 3 · 4 · 5 · 9 + 대표 소통 20:07~20:49 「바로 반영」] 첫 화면 새 차례 — 「우리 이야기가 쌓이는 곳」 → 마당 사진 9(들어올 때마다 무작위 · 한 방 3장까지 · 모자라면 사랑흐름 방) → ＋ 우리 이야기 만들기 → 💌 마음 전하기 (무료) 아이콘 셋 → 🧭 사랑흐름 여행 보라 띠(마음 여행지도 · 마음여행 · 한 편의 기록 그림 · 값 없음 · 자세히 보기) → ← ⌂ → · 푸터. 흐름 띠 · 큰 문 둘 · 여권 입장 줄 뺌(☰ 「구매한 여행 이어가기」) · 새 ☰(frame v15). 옛 메인 v51 은 index_v51.html. -->
 <!-- (이전) index.html · v51 · 261023 · [대표 OK 15:32 · 411 · 칸 5] 우리 이야기 문 아래 말 「가족 · 친구 · 우리 가게까지」 → 「우리 모두의 이야기까지」 · 검색 바로잡기(네이버 확인 표 · og:image). [무손] 그 밖 v50 전부. -->
@@ -177,6 +178,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   /* 우리 이야기 마당 사진 한 줄 — 우리 이야기 서버 recPlaza(마당과 같은 사진) · 못 받으면 줄을 감춤(꾸민 사진은 넣지 않음) */
   var C=window.LF_CONFIG||{}, GAS=(C.gas&&C.gas.rec)||'';
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  var RND=Math.random().toString(36).slice(2,10);   /* ★v55 들어올 때마다 다른 차례 */
   function hide(){ $('pz').hidden=true; }
   function draw(d){
     /* ★v7 들어올 때마다 무작위 · 한 방 3장까지 · 모자라면 사랑흐름 방(main)으로 채움 */
@@ -191,7 +193,7 @@ button{font:inherit;color:inherit;cursor:pointer}
     pick=mix(pick);
     for(var m=0;m<pick.length&&n<9;m++){
       var x=pick[m].x, r=pick[m].r, bg=pick[m].bg;
-      cells.push('<button type="button" class="pt wait" data-bg="'+esc(bg)+'"'+(r.g?' data-pk="'+esc('/rec/?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.id))+'"':'')+'" aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i class="go"><span>🏠 '+esc(r.name||'')+'</span><b>›</b></i></button>');
+      cells.push('<button type="button" class="pt wait" data-cur="'+esc(x.id)+'" data-bg="'+esc(bg)+'"'+(r.g?' data-pk="'+esc('/rec/?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.b||x.id))+'"':'')+'" aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i class="go"><span>🏠 '+esc(r.name||'')+'</span><b>›</b></i></button>');
       n++;
     }
     n=n-(n%3); if(n<3){ hide(); return; } h=cells.slice(0,n).join('');
@@ -201,8 +203,16 @@ button{font:inherit;color:inherit;cursor:pointer}
       var u=t.getAttribute('data-bg'), im=new Image();
       im.onload=function(){ if(im.naturalWidth>1){ t.style.backgroundImage='url("'+u+'")'; t.classList.remove('wait'); } else { t.classList.remove('wait'); } };
       im.onerror=function(){ t.classList.remove('wait'); };   /* 못 불러온 칸도 자리는 지킴 — 바둑판이 깨지지 않게 */
-      im.src=u; var pk=t.getAttribute('data-pk'); t.onclick=function(){ if(pk){ try{ sessionStorage.setItem('lf_from_pz','home'); }catch(e){} go(pk); } else { go(PLAZA); } };   /* ★v54 562 그 방 안 그 사진 */
+      im.src=u; t.onclick=function(){ var pk=t.getAttribute('data-pk'); if(pk){ try{ sessionStorage.setItem('lf_from_pz','home'); }catch(e){} go(pk); } else { go(PLAZA); } };   /* ★v54 562 그 방 안 그 사진 · ★v55 바뀐 사진 따라감 */
     })(ts[j]); }
+    /* ★v55 4초마다 한 칸 — 고르지 않은 사진(rest)과 맞바꿈 · 화면이 보일 때만 */
+    var used={}; pick.forEach(function(o){ used[o.x.id]=1; }); var rest=src.filter(function(o){ return !used[o.x.id]; });
+    if(rest.length){ setInterval(function(){ if(document.hidden){ return; } var ts2=$('pzs').querySelectorAll('.pt'); if(!ts2.length){ return; }
+      var t=ts2[Math.floor(Math.random()*ts2.length)], o=rest.shift(), im2=new Image();
+      im2.onload=function(){ t.style.transition='opacity .45s'; t.style.opacity='.1'; setTimeout(function(){ t.style.backgroundImage='url("'+o.bg+'")'; var sp=t.querySelector('i span'); if(sp){ sp.textContent='🏠 '+(o.r.name||''); }
+        if(o.r.g){ t.setAttribute('data-pk','/rec/?g='+encodeURIComponent(o.r.g)+'&r='+encodeURIComponent(o.x.b||o.x.id)); } t.setAttribute('aria-label',(o.x.t||'사진')+' · '+(o.r.name||'')); t.style.opacity='1';
+        var old=t.getAttribute('data-cur'); t.setAttribute('data-cur',o.x.id); if(old){ var back=src.filter(function(z){ return z.x.id===old; })[0]; if(back){ rest.push(back); } } },450); };
+      im2.onerror=function(){ }; im2.src=o.bg; },4000); }
   }
   if(!GAS){ hide(); return; }
   var done=false; function fin(d){ if(done){ return; } done=true; if(d&&d.status==='ok'){ draw(d); } else { hide(); } }
@@ -210,10 +220,10 @@ button{font:inherit;color:inherit;cursor:pointer}
     var nm='hz_'+Date.now(), sc=document.createElement('script');
     window[nm]=function(d){ try{ delete window[nm]; }catch(e){} fin(d); };
     sc.onerror=function(){ fin(null); };
-    sc.src=GAS+'?action=recPlaza&n=48&callback='+nm+'&t='+Date.now(); document.body.appendChild(sc);
+    sc.src=GAS+'?action=recPlaza&n=48&rnd='+RND+'&callback='+nm+'&t='+Date.now(); document.body.appendChild(sc);
   }
   try{
-    fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recPlaza',n:'48'})})
+    fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recPlaza',n:'48',rnd:RND})})
       .then(function(r){ return r.text(); }).then(function(t){ fin(JSON.parse(t)); })
       .catch(function(){ jsonp(); });
   }catch(e){ jsonp(); }
