@@ -1,0 +1,37 @@
+# ★ 현재 버전 ▶ .github/workflows/sample-photos.yml · v1 · 261110 · 견본 방 사진 받기 — tools/sample/list.txt 의 Unsplash 사진을 받아 rec/seed/sample/ 에 1600px(본) · 320px(_t 미리보기)로 올림 · 우리 이야기 서버 ⑤편집기가 www.loveflow.ai.kr/rec/seed/sample/ 에서 받아 감
+name: 견본 방 사진 받기
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['tools/sample/list.txt']
+permissions:
+  contents: write
+jobs:
+  get:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: 받기 · 줄이기
+        run: |
+          sudo apt-get -qq install -y imagemagick >/dev/null 2>&1 || true
+          ok=0; bad=0
+          while read -r name id; do
+            case "$name" in ''|'#'*) continue;; esac
+            mkdir -p "rec/seed/sample/$(dirname "$name")"
+            if curl -sSL --max-time 60 -o /tmp/p.jpg "https://unsplash.com/photos/$id/download?force=true&w=2000" && file /tmp/p.jpg | grep -qi 'image'; then
+              convert /tmp/p.jpg -auto-orient -resize '1600x1600>' -strip -quality 80 "rec/seed/sample/$name.jpg"
+              convert /tmp/p.jpg -auto-orient -resize '320x320>' -strip -quality 55 "rec/seed/sample/${name}_t.jpg"
+              ok=$((ok+1)); echo "받음 $name $id $(stat -c%s rec/seed/sample/$name.jpg)"
+            else bad=$((bad+1)); echo "★못 받음 $name $id"; fi
+          done < tools/sample/list.txt
+          echo "받음 $ok · 못 받음 $bad"
+      - name: 올리기
+        run: |
+          git add rec/seed/sample
+          if git diff --cached --quiet; then echo "바뀐 것 없음"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -qm "견본 방 사진 받기 — rec/seed/sample [skip ci]"
+          git pull -q --rebase origin main && git push -q origin HEAD:main
