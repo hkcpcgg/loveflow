@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v118 · 261110 · [대표 17:58 「판단해서 하라」 다음 할 일 1] 공개 방으로 바꾸는 자리에서 바로 묻기 — 「지금까지 올린 사진 ○장도 마당에 낼까요?」(아이 표시 사진은 처음부터 뺌) → 「예, 고르기」 = 고르기 창(pubAsk → pubBulk · 받은 목록 그대로 · 서버 한 번) · 「나중에」 = 닫기 · 낼 사진 없으면 묻지 않음 · REC_VER 118 · [무손] 그 밖 v117 전부 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v119 · 261110 · [489 · 대표 OK 19:19] 「QR 받기 · QR 내려받기」(방 이름 옆 QR · 방이 열렸습니다 창 · 관리 ☰ 설정) → 새 화면 QR 인쇄물 만들기(/rec/print.html?c=방번호&n=방이름 · 크기 여섯 · 틀 여섯 · 문구 · 아래 사랑흐름 띠)로 감 · 메뉴 이름 「QR 인쇄물 만들기」 · REC_VER 119. [무손] 옛 qrSheet 그리기(qrCard)는 남겨 둠 · 그 밖 v118 전부. -->
+<!-- (이전) rec/index.html · v118 · 261110 · [대표 17:58 「판단해서 하라」 다음 할 일 1] 공개 방으로 바꾸는 자리에서 바로 묻기 — 「지금까지 올린 사진 ○장도 마당에 낼까요?」(아이 표시 사진은 처음부터 뺌) → 「예, 고르기」 = 고르기 창(pubAsk → pubBulk · 받은 목록 그대로 · 서버 한 번) · 「나중에」 = 닫기 · 낼 사진 없으면 묻지 않음 · REC_VER 118 · [무손] 그 밖 v117 전부 -->
 <!-- (이전) rec/index.html · v117 · 261110 · [대표 16:48 「사진 마당에 내기 버튼이 안 눌려 · 방 관리가 어딨냐 · 둘러보기 너무 작아」] ① 관리 화면 「사진 마당에 내기」가 아무 일도 안 하던 것(admTap 에 없었음) → 맨 위 큰 단추로 ② 이름 맞춤 — 단추 「⚙ 방 관리」 = 화면 제목 「방 관리」 · 위 띠 「○○ · 방 관리」 · 맨 밑 「⚙ 방 관리」 ③ 방 아래 「🍇 우리 이야기 마당」 크게 — 다른 방 사진 12장 옆으로 밀어 보기 + 「마당 둘러보기 ›」 큰 단추 · 「우리 이야기 만들기」 위 · REC_VER 117 · [무손] 그 밖 v116 전부 -->
 <!-- (이전) rec/index.html · v116 · 261110 · [다음 할 일 1 「사진 화면 여는 시간 10초」] 서버 ①Code v56 시트 담아 두기(서버 5초 → 0.3~0.7초) · 사진 화면을 기다리는 동안 목록의 작은 사진을 큰 칸에 먼저(itPre) · REC_VER 116 · [무손] 그 밖 v115 전부 -->
 <!-- (이전) rec/index.html · v115 · 261110 · [대표 16:20 「내가 올린 사진도 못 찾아」] 방 첫 화면 위쪽 「📷 내가 올린 사진」 단추(전체 보기 「내가 올린 것」으로 바로) · REC_VER 115 · [무손] 그 밖 v114 전부 -->
@@ -4216,6 +4217,7 @@ function newRoomSheet(){
 }
 function qrSheet(){
   if(!ME||!ME.com||ME.room!=='열린 모임'){ toast('공개 방으로 바꾸면 QR을 쓸 수 있습니다'); return; }
+  location.href='/rec/print.html?c='+encodeURIComponent(ME.com)+'&n='+encodeURIComponent(ME.comName||''); return;   /* ★v119 489 QR 인쇄물 만들기 */
   var url='https://www.loveflow.ai.kr/rec/?c='+ME.com, fn='우리이야기_QR_'+ME.com+'.png', cv=null;
   sheet('<h2>'+ic('qr','sm')+' QR 내려받기</h2><p class="lead" style="margin-top:4px">이 방 주소가 담긴 QR입니다. 초대 링크를 새로 만들어도 QR은 그대로입니다.</p>'+
     '<div id="qrB" class="qrb"><div class="waitbox">'+LFH+'<b>QR을 그리는 중입니다</b></div></div>'+
@@ -4491,7 +4493,7 @@ function admView(){
   if(boss){ h+=row('deco','star','c-gold','첫 화면 꾸미기','바로가기 · 대표 사진 · 문구')+
     row('invq','share','c-violet','초대 링크 꺼내기','복사 · 카톡으로 보내기')+
     row('name','pen','c-navy','모임 이름 짓기','지금 이름 · '+esc(ME.comName||''))+
-    (ME.room==='열린 모임'&&ME.com?row('qr','qr','c-gold','QR 내려받기','이 방 주소 QR · 인쇄용 그림'):'<div class="mrow off"><span class="ci c-gray">'+ic('qr')+'</span><span><b>QR 내려받기</b><small>공개 방으로 바꾸면 QR을 쓸 수 있습니다</small></span></div>')+
+    (ME.room==='열린 모임'&&ME.com?row('qr','qr','c-gold','QR 인쇄물 만들기','크기 · 틀 · 문구를 골라 인쇄용 그림'):'<div class="mrow off"><span class="ci c-gray">'+ic('qr')+'</span><span><b>QR 인쇄물 만들기</b><small>공개 방으로 바꾸면 QR을 쓸 수 있습니다</small></span></div>')+
     row('plug','link','c-navy','모임 연결','위 모임 · 아래 모임 · 연결 끊기 · 아래 모임 관리자')+
     row('make','plus','c-green','아래 모임 열기','우리 모임 아래에 새 모임을 엽니다 · 관리자를 세웁니다')+
     row('cert','check','c-violet','인증',ct&&ct.ok?'✓ 인증된 방 · '+esc(ct.at||''):ct&&ct.ask?'확인 중 · '+esc(ct.askDoc||''):'학교 · 기관 · 단체 · 회사 방 — 서류로 인증'); }   /* ★v80 422 */
@@ -4584,7 +4586,7 @@ function admToday(){
 
 /* 찾기 — 관리 화면 줄 · 이럴 땐 · 함께하는 분 이름 */
 var AFIND=[['ppl','함께하는 분','역할 · 관리자 넘기기 · 내보내기 · 초대 링크 · 쓰기 멈춤 풀기'],['chk','승인 관리','승인 대기 · 삭제 요청 · 가린 기록 · 비공개'],['rep','결과 보고','숫자 · 반응 · 초대 링크'],['deco','첫 화면 꾸미기','바로가기 · 대표 사진 · 문구'],
-  ['invq','초대 링크 꺼내기','초대 · 카톡 · 복사'],['name','모임 이름 짓기','이름'],['qr','QR 내려받기','QR · 인쇄'],['plug','모임 연결','위 모임 · 아래 모임 · 연결 끊기 · 관리자 지정'],['make','아래 모임 열기','새 모임 · 아래 모임'],
+  ['invq','초대 링크 꺼내기','초대 · 카톡 · 복사'],['name','모임 이름 짓기','이름'],['qr','QR 인쇄물 만들기','QR · 인쇄 · 포스터 · 스티커'],['plug','모임 연결','위 모임 · 아래 모임 · 연결 끊기 · 관리자 지정'],['make','아래 모임 열기','새 모임 · 아래 모임'],
   ['plan','이용 · 요금','사진 용량 · 이용 기간 · 요금'],['bund','아래 모임 모아 보기','아래 모임 · 모아 보기'],['alog','관리 기록','기록 · 되돌리기'],['emg','긴급 조치','가리기 · 쓰기 멈춤 · 새 분 받기 멈춤']];
 function admFind(q){
   var R=AFIND.filter(function(x){ return (x[1]+' '+x[2]).indexOf(q)>-1; }).map(function(x){ return {t:x[1],s:x[2],a:'am:'+x[0]}; });
@@ -5022,7 +5024,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=118;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=119;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
