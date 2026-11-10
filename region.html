@@ -1,0 +1,2210 @@
+<!-- ★ 현재 버전 ▶ region.html · v1 · 261110 · [대표 OK 261110 09:12 「이사님 판단해서 작업」] 다른 친구(제미나이)가 지은 「지역 협력 제안」 화면을 홈에 올림 — ①공용 틀(/lf/frame.js · 위 띠 ⌂ · ☰ · ← ⌂ → · 아래 띠) · 공용 푸터(/lf-foot.js) 붙임, 친구 화면의 「홈으로」 줄 · 아래 띠 「홈」 단추 뺌 ②협력 문의 → 게시판 서버 partnerApply(게시판DB 「파트너신청」 탭 · 문의 글 맨 앞 [지역 협력 문의]) · 서버 무손 ③「책」 표현 → 기록 · 한 편 / LD 영문 풀이름 뺌 / 지어낸 후기 · 결과를 약속하는 말(24시간 개요서 · 예산 부담 제로 · 출자금 이탈 방지 · 표창 등) 뺌 · 계산기 「방 N개소」 → 기관 방 1곳 ④회사 상자 안 사업자번호 줄 뺌(공용 푸터와 겹침) ⑤QR 둘을 외부 서비스 → 파일 안 그림 ⑥제미나이 찌꺼기 코드(api-shim · notebookAppApi) 걷어냄. [무손] 디자인 · 색 · 구성 -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>사랑흐름 · 지역 협력 제안 | 사람의 이야기를 지역의 자산으로</title>
+  <meta name="description" content="사람의 이야기를 잇고, 지역의 역할을 만듭니다 — 사랑흐름 지역 협력 제안">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.loveflow.ai.kr/region.html">
+  <meta property="og:title" content="사랑흐름 · 지역 협력 제안">
+  <meta property="og:description" content="사람의 이야기를 잇고, 지역의 역할을 만듭니다">
+  <meta property="og:image" content="https://www.loveflow.ai.kr/og-image.png">
+
+  <!-- Google Fonts: Charter pairing with Noto Serif KR / Noto Sans KR -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       1. Charter Style Token Architecture & Foundations
+       ========================================================================== */
+    :root {
+      color-scheme: light;
+
+      /* Page & Surface Layers */
+      --background: #f5f7f3;               /* cream with a whisper of mint */
+      --surface-container-low: #fbfdfb;    /* bright leaf + air */
+      --surface-container: #e8eee8;        /* soft mint-cream */
+      --surface-container-high: #dce8df;   /* light mint hover */
+
+      /* Ink & Typography */
+      --on-surface: #1c1f26;               /* near-black ink */
+      --on-surface-variant: #4f5360;       /* graphite: captions, secondary text */
+
+      /* Rules & Borders (Charter hallmark) */
+      --outline: #b08d57;                  /* burnished brass: rules and borders */
+      --outline-variant: #d0d8d0;          /* soft mint-brass hairline */
+
+      /* Accent & Brand Voices */
+      --primary: #14213d;                  /* deep institutional navy: title band, primary CTA */
+      --on-primary: #f7f4ec;               /* cream on navy */
+      --primary-container: #e3e6ee;        /* pale navy wash: active selection */
+      --on-primary-container: #14213d;
+      --secondary: #3d7a62;                /* fresher mint-green accent */
+      --on-secondary: #f7f4ec;
+      --tertiary: #8a6a35;                 /* dark brass: small accent text on cream/leaf */
+      --error: #9b2c2c;
+      --on-error: #f7f4ec;
+
+      /* Semantic UI Tokens */
+      --positive: #2d5a4a;
+      --warning: #8a6a35;
+      --focus: #14213d;
+      --brand-accent: #f7e02a;
+
+      /* Typography Scale (Mobile-Optimized Narrative) */
+      --font-headline: 'Noto Serif KR', 'Libre Caslon Text', serif;
+      --font-body: 'Noto Sans KR', 'Inter', sans-serif;
+      --font-label: 'Noto Sans KR', 'Inter', sans-serif;
+
+      --display-size: clamp(1.625rem, 1.35rem + 1.4vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.8vw, 1.625rem);
+      --subhead-size: clamp(1.05rem, 0.98rem + 0.35vw, 1.25rem);
+      --body-size: clamp(0.95rem, 0.92rem + 0.15vw, 1.05rem);
+      --label-size: 0.75rem;
+
+      /* Spacing Scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.25rem;
+      --space-2xl: 3.5rem;
+      --space-3xl: 5rem;
+
+      /* Squared Shapes (Charter strict adherence: no pills) */
+      --rounded: 0.125rem;
+      --rounded-lg: 0.125rem;
+      --rounded-full: 0.125rem;
+
+      /* Style Effects */
+      --brass-rule: 2px solid var(--outline);
+      --hairline: 1px solid var(--outline-variant);
+      --leaf-underline: 0 1px 0 var(--outline-variant);
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 380ms;
+    }
+
+    /* Base Reset & Mobile Containerization */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.65;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+      -webkit-font-smoothing: antialiased;
+    }
+    header {
+      position: static !important;
+    }
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+    }
+
+    /* Outer wrapper ensuring comfortable viewing on both mobile screens and desktop preview */
+    .mobile-app-shell {
+      max-width: 580px;
+      margin: 0 auto;
+      background-color: var(--background);
+      min-height: 100vh;
+      border-left: var(--hairline);
+      border-right: var(--hairline);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      padding-bottom: 90px; /* room for sticky mobile action bar */
+    }
+
+    /* Top Identity Bar */
+    .top-meta-bar {
+      background-color: var(--surface-container);
+      border-bottom: var(--hairline);
+      padding: var(--space-xs) var(--space-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      font-weight: 500;
+      letter-spacing: 0;
+    }
+    .top-meta-bar .brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      color: var(--primary);
+      font-weight: 700;
+    }
+
+    /* 1. Navy Title Band (Defining Charter Treatment) */
+    .title-band {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      padding: var(--space-xl) var(--space-md) var(--space-lg);
+      border-bottom: 3px solid var(--outline);
+    }
+    .title-band .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: color-mix(in srgb, var(--outline) 75%, var(--on-primary));
+      margin-bottom: var(--space-sm);
+      text-transform: none;
+    }
+    .title-band h1 {
+      font-family: var(--font-headline);
+      font-weight: 400;
+      font-size: var(--display-size);
+      line-height: 1.25;
+      margin: 0 0 var(--space-md) 0;
+      color: var(--on-primary);
+      letter-spacing: -0.01em;
+    }
+    .title-band h1 .brass-emphasis {
+      color: color-mix(in srgb, var(--outline) 80%, var(--on-primary));
+      font-weight: 600;
+    }
+    .title-band .lede {
+      font-size: 0.98rem;
+      line-height: 1.68;
+      color: color-mix(in srgb, var(--on-primary) 82%, var(--primary));
+      margin: 0 0 var(--space-lg) 0;
+    }
+    .title-band-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+    }
+    .charter-tag {
+      background-color: rgba(255, 255, 255, 0.08);
+      border: 1px solid color-mix(in srgb, var(--outline) 50%, transparent);
+      color: var(--on-primary);
+      font-size: var(--label-size);
+      padding: 3px var(--space-sm);
+      border-radius: var(--rounded);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Stat Quick Strip */
+    .quick-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-xs);
+      margin-top: var(--space-md);
+      padding-top: var(--space-md);
+      border-top: 1px solid rgba(176, 141, 87, 0.35);
+    }
+    .quick-stat-item {
+      text-align: left;
+    }
+    .quick-stat-val {
+      font-family: var(--font-headline);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--on-primary);
+      line-height: 1.1;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .quick-stat-lbl {
+      font-size: 0.72rem;
+      color: color-mix(in srgb, var(--on-primary) 70%, var(--primary));
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+
+    /* Section Openings (Charter Treatment 5: Brass Section Rule) */
+    .section-head {
+      border-top: var(--brass-rule);
+      padding-top: var(--space-md);
+      border-bottom: var(--hairline);
+      padding-bottom: var(--space-sm);
+      margin: var(--space-xl) var(--space-md) var(--space-md);
+    }
+    .section-kicker {
+      font-size: var(--label-size);
+      color: var(--tertiary);
+      font-weight: 700;
+      margin-bottom: 2px;
+      display: block;
+    }
+    .section-head h2 {
+      font-family: var(--font-headline);
+      font-weight: 700;
+      font-size: var(--headline-size);
+      margin: 0;
+      color: var(--on-surface);
+      line-height: 1.35;
+    }
+    .section-desc {
+      font-size: 0.92rem;
+      color: var(--on-surface-variant);
+      margin-top: var(--space-xs);
+      line-height: 1.55;
+    }
+
+    /* Content Containers */
+    .content-body {
+      padding: 0 var(--space-md);
+    }
+
+    /* 3. Brass Top Rule Figure Cards (Charter Treatment 3) */
+    .figure-card {
+      background-color: var(--surface-container-low);
+      border-top: var(--brass-rule);
+      border-left: var(--hairline);
+      border-right: var(--hairline);
+      border-bottom: var(--hairline);
+      box-shadow: var(--leaf-underline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+
+    /* Role Selector Strip (Interactive Pills/Tabs) */
+    .role-nav-wrap {
+      padding: var(--space-md) var(--space-md) 0;
+    }
+    .role-nav-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-xs);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .role-nav-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: var(--space-xs);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .role-nav-scroll::-webkit-scrollbar {
+      display: none;
+    }
+    .role-tab-btn {
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 8px 12px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+      flex-shrink: 0;
+      min-height: 44px;
+    }
+    .role-tab-btn:hover {
+      background-color: var(--surface-container-high);
+      color: var(--on-surface);
+    }
+    .role-tab-btn.active {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .role-tab-btn:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Dynamic Stakeholder Highlight Box */
+    .stakeholder-spotlight {
+      background-color: var(--surface-container-low);
+      border-top: var(--brass-rule);
+      border: var(--hairline);
+      border-top: 3px solid var(--outline);
+      padding: var(--space-md);
+      margin: var(--space-sm) var(--space-md) var(--space-md);
+      border-radius: var(--rounded);
+    }
+    .spotlight-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-xs);
+    }
+    .spotlight-badge {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--tertiary);
+      letter-spacing: 0;
+    }
+    .spotlight-title {
+      font-family: var(--font-headline);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .spotlight-quote {
+      font-size: 0.92rem;
+      color: var(--on-surface-variant);
+      font-style: italic;
+      margin-bottom: var(--space-md);
+      padding-left: var(--space-sm);
+      border-left: 2px solid var(--outline);
+      line-height: 1.5;
+    }
+    .spotlight-points {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .spotlight-point-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .spotlight-point-item svg {
+      flex-shrink: 0;
+      margin-top: 3px;
+      color: var(--secondary);
+    }
+
+    /* Accordion Components for 4 Core Content */
+    .accordion-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+      margin-top: var(--space-sm);
+    }
+    .accordion-item {
+      background-color: var(--surface-container-low);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      overflow: hidden;
+      transition: border-color var(--dur-micro) var(--ease-out);
+    }
+    .accordion-item.active {
+      border-color: var(--outline);
+    }
+    .accordion-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      text-align: left;
+      padding: var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      min-height: 52px;
+      gap: var(--space-sm);
+    }
+    .accordion-trigger:focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: -2px;
+    }
+    .accordion-trigger-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .accordion-num {
+      font-family: var(--font-headline);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--tertiary);
+      min-width: 24px;
+    }
+    .accordion-heading-wrap {
+      display: flex;
+      flex-direction: column;
+    }
+    .accordion-sublabel {
+      font-size: 0.72rem;
+      color: var(--tertiary);
+      font-weight: 600;
+    }
+    .accordion-maintitle {
+      font-family: var(--font-headline);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin-top: 1px;
+    }
+    .accordion-chevron {
+      color: var(--on-surface-variant);
+      transition: transform var(--dur-short) var(--ease-out);
+      flex-shrink: 0;
+    }
+    .accordion-item.active .accordion-chevron {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+    .accordion-content {
+      display: none;
+      padding: 0 var(--space-md) var(--space-md);
+      border-top: 1px dashed var(--outline-variant);
+      font-size: 0.92rem;
+      line-height: 1.65;
+      color: var(--on-surface);
+    }
+    .accordion-item.active .accordion-content {
+      display: block;
+    }
+    .accordion-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin: var(--space-sm) 0 var(--space-xs);
+    }
+    .mini-badge {
+      background-color: var(--surface-container);
+      color: var(--on-surface-variant);
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: var(--rounded);
+    }
+    .mini-badge.green {
+      background-color: color-mix(in srgb, var(--secondary) 15%, transparent);
+      color: var(--secondary);
+    }
+
+    /* Core Content Key Takeaway Grid */
+    .core-value-box {
+      background-color: var(--surface-container);
+      border-left: 3px solid var(--primary);
+      padding: var(--space-sm) var(--space-md);
+      margin: var(--space-sm) 0;
+      font-size: 0.88rem;
+    }
+
+    /* Pilot Blueprint (4 Steps Component) */
+    .pilot-card {
+      background-color: var(--surface-container-low);
+      border: var(--hairline);
+      border-top: var(--brass-rule);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+    }
+    .step-navigator {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      margin: var(--space-md) 0 var(--space-sm);
+    }
+    .step-btn {
+      background-color: var(--surface-container);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 8px 4px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--on-surface-variant);
+      transition: all var(--dur-micro) var(--ease-out);
+      min-height: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .step-btn span.step-no {
+      font-family: var(--font-headline);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--tertiary);
+    }
+    .step-btn.active {
+      background-color: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .step-btn.active span.step-no {
+      color: color-mix(in srgb, var(--outline) 80%, var(--on-primary));
+    }
+    .step-detail-card {
+      background-color: var(--background);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      margin-top: var(--space-xs);
+    }
+    .step-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--tertiary);
+      margin-bottom: 4px;
+    }
+    .step-title {
+      font-family: var(--font-headline);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .step-meta-row {
+      display: flex;
+      gap: var(--space-sm);
+      font-size: 0.8rem;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-sm);
+      padding-bottom: var(--space-xs);
+      border-bottom: 1px dashed var(--outline-variant);
+    }
+    .step-desc-list {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 0.88rem;
+      color: var(--on-surface);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    /* Comparison / Target-Specific Cards Grid */
+    .scenario-card-grid {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-md);
+      margin-top: var(--space-sm);
+    }
+    .scenario-card {
+      background-color: var(--surface-container-low);
+      border: var(--hairline);
+      border-top: var(--brass-rule);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      position: relative;
+    }
+    .scenario-card.highlighted {
+      border-color: var(--outline);
+      box-shadow: 0 0 0 1px var(--outline);
+    }
+    .scenario-target-tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--tertiary);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .scenario-title {
+      font-family: var(--font-headline);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0 0 var(--space-xs) 0;
+    }
+    .scenario-desc {
+      font-size: 0.9rem;
+      color: var(--on-surface-variant);
+      margin-bottom: var(--space-md);
+      line-height: 1.55;
+    }
+    .scenario-duty-box {
+      background-color: var(--surface-container);
+      padding: var(--space-sm);
+      border-radius: var(--rounded);
+      font-size: 0.85rem;
+      margin-bottom: var(--space-sm);
+    }
+    .scenario-duty-label {
+      font-weight: 700;
+      color: var(--primary);
+      display: block;
+      margin-bottom: 2px;
+    }
+    .benefit-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 0.85rem;
+      margin-bottom: 4px;
+    }
+    .benefit-item svg {
+      color: var(--secondary);
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    /* Interactive Simulator */
+    .calc-card {
+      background-color: var(--surface-container-low);
+      border-top: var(--brass-rule);
+      border-left: var(--hairline);
+      border-right: var(--hairline);
+      border-bottom: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      margin: var(--space-sm) 0 var(--space-md);
+    }
+    .calc-input-group {
+      margin-bottom: var(--space-md);
+    }
+    .calc-label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin-bottom: var(--space-xs);
+    }
+    .calc-select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--outline-variant);
+      background-color: var(--background);
+      border-radius: var(--rounded);
+      font-size: 0.92rem;
+      color: var(--on-surface);
+    }
+    .calc-select:focus {
+      outline: 2px solid var(--focus);
+    }
+    .range-wrap {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+    }
+    .calc-range {
+      flex: 1;
+      height: 6px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+    .range-val-badge {
+      font-family: var(--font-headline);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--primary);
+      min-width: 54px;
+      text-align: right;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .calc-result-panel {
+      background-color: var(--surface-container);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      border-top: 2px solid var(--outline);
+    }
+    .calc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-sm);
+    }
+    .calc-res-item {
+      background-color: var(--surface-container-low);
+      padding: var(--space-sm);
+      border-radius: var(--rounded);
+      border: var(--hairline);
+    }
+    .calc-res-title {
+      font-size: 0.72rem;
+      color: var(--on-surface-variant);
+      font-weight: 600;
+      display: block;
+    }
+    .calc-res-num {
+      font-family: var(--font-headline);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-top: 2px;
+      line-height: 1.2;
+      font-variant-numeric: tabular-nums lining-nums;
+    }
+    .calc-res-sub {
+      font-size: 0.72rem;
+      color: var(--tertiary);
+      margin-top: 2px;
+    }
+    .calc-funding-note {
+      margin-top: var(--space-sm);
+      font-size: 0.82rem;
+      line-height: 1.45;
+      padding: var(--space-xs) var(--space-sm);
+      background-color: var(--surface-container-high);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+    }
+
+    /* Privacy & Safety Callout */
+    .safety-callout {
+      background-color: var(--surface-container-low);
+      border-left: 3px solid var(--secondary);
+      border-top: var(--hairline);
+      border-right: var(--hairline);
+      border-bottom: var(--hairline);
+      padding: var(--space-md);
+      margin: var(--space-md) 0;
+      font-size: 0.88rem;
+    }
+    .safety-title {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      color: var(--secondary);
+      margin-bottom: var(--space-xs);
+    }
+
+    /* FAQ List */
+    .faq-item {
+      background-color: var(--surface-container-low);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      margin-bottom: var(--space-xs);
+      overflow: hidden;
+    }
+    .faq-q {
+      padding: var(--space-sm) var(--space-md);
+      font-weight: 700;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: none;
+      border: none;
+      width: 100%;
+      text-align: left;
+      color: var(--on-surface);
+      min-height: 48px;
+    }
+    .faq-q:focus-visible {
+      outline: 2px solid var(--focus);
+    }
+    .faq-a {
+      display: none;
+      padding: 0 var(--space-md) var(--space-md);
+      font-size: 0.88rem;
+      color: var(--on-surface-variant);
+      line-height: 1.6;
+      border-top: 1px dashed var(--outline-variant);
+    }
+    .faq-item.open .faq-a {
+      display: block;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(180deg);
+    }
+
+    /* Closing / Footer Section */
+    .closing-wrap {
+      padding: var(--space-lg) var(--space-md);
+      text-align: center;
+      background-color: var(--surface-container);
+      border-top: var(--brass-rule);
+      margin-top: var(--space-xl);
+    }
+    .closing-title {
+      font-family: var(--font-headline);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: var(--space-xs);
+    }
+    .closing-desc {
+      font-size: 0.9rem;
+      color: var(--on-surface-variant);
+      max-width: 440px;
+      margin: 0 auto var(--space-md);
+      line-height: 1.55;
+    }
+
+    /* Sticky Mobile Action Bar */
+    .sticky-bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(20, 33, 61, 0.96);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-top: 2px solid var(--outline);
+      padding: 10px var(--space-md);
+      display: flex;
+      justify-content: center;
+      z-index: 100;
+    }
+    .sticky-inner {
+      max-width: 580px;
+      width: 100%;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .btn-action-primary {
+      flex: 1.2;
+      background-color: var(--outline);
+      color: var(--primary);
+      border: none;
+      padding: 11px var(--space-sm);
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn-action-primary:hover {
+      background-color: color-mix(in srgb, var(--outline) 88%, white);
+    }
+    .btn-action-primary:focus-visible {
+      outline: 2px solid var(--on-primary);
+    }
+    .kakao-icon-accent {
+      color: var(--brand-accent);
+    }
+    .btn-action-secondary {
+      flex: 1;
+      background-color: rgba(255, 255, 255, 0.12);
+      color: var(--on-primary);
+      border: 1px solid color-mix(in srgb, var(--outline) 60%, transparent);
+      padding: 11px var(--space-sm);
+      font-size: 0.84rem;
+      font-weight: 600;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn-action-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Modal / Drawer for Inquiry */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 200;
+      backdrop-filter: blur(2px);
+    }
+    .modal-overlay.open {
+      display: flex;
+    }
+    .modal-sheet {
+      background-color: var(--background);
+      border-top: var(--brass-rule);
+      border-radius: var(--rounded) var(--rounded) 0 0;
+      max-width: 580px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      padding: var(--space-lg) var(--space-md) var(--space-xl);
+      animation: slideUp var(--dur-short) var(--ease-out);
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: var(--space-md);
+      padding-bottom: var(--space-xs);
+      border-bottom: var(--hairline);
+    }
+    .modal-title {
+      font-family: var(--font-headline);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 0;
+    }
+    .modal-close-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--on-surface-variant);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .form-group {
+      margin-bottom: var(--space-sm);
+    }
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--on-surface);
+      margin-bottom: 4px;
+    }
+    .form-input, .form-textarea {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      background-color: var(--surface-container-low);
+      color: var(--on-surface);
+      font-size: 0.92rem;
+    }
+    .form-input:focus, .form-textarea:focus {
+      outline: 2px solid var(--focus);
+    }
+
+    /* Toast Notification */
+    .toast-popup {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background-color: var(--primary);
+      color: var(--on-primary);
+      padding: 10px 18px;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      font-size: 0.88rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all var(--dur-short) var(--ease-out);
+      z-index: 150;
+      white-space: nowrap;
+    }
+    .toast-popup.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Accessibility: Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  
+    /* Whisper of mint — light freshness only */
+    .charter-tag {
+      /* keep on navy band; slight cooler edge handled by tokens */
+    }
+    .accordion-num {
+      color: #3d7a62 !important;
+    }
+    /* mint only outside sticky navy bar */
+    .mobile-app-shell .btn-action-secondary {
+      border-color: color-mix(in srgb, #7cbc9a 45%, var(--outline-variant));
+      background-color: #f3faf6;
+      color: var(--primary);
+    }
+    .mobile-app-shell .btn-action-secondary:hover {
+      background-color: #e5f3eb;
+    }
+    .sticky-bottom-bar .btn-action-secondary,
+    .sticky-bottom-bar a.btn-action-secondary {
+      background-color: rgba(255, 255, 255, 0.14) !important;
+      color: #f7f4ec !important;
+      border: 1px solid rgba(255, 255, 255, 0.28) !important;
+    }
+    .sticky-bottom-bar .btn-action-home {
+      flex: 1.15;
+      background-color: rgba(124, 188, 154, 0.25);
+      color: #f7f4ec;
+      border: 1px solid rgba(124, 188, 154, 0.55);
+      padding: 11px var(--space-sm);
+      font-size: 0.88rem;
+      font-weight: 700;
+      border-radius: var(--rounded);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 44px;
+      text-decoration: none;
+    }
+    .sticky-bottom-bar .btn-action-home:hover {
+      background-color: rgba(124, 188, 154, 0.38);
+    }
+    .qr-pair > div {
+      border-top-color: #7cbc9a !important;
+      background-color: #f7fbf8 !important;
+    }
+    .official-footer {
+      border-top-color: #7cbc9a !important;
+      background-color: #f7fbf8 !important;
+    }
+    .section-kicker {
+      color: #3d7a62 !important;
+    }
+    .mini-badge.green {
+      background-color: color-mix(in srgb, #3d7a62 12%, transparent) !important;
+      color: #2f6b54 !important;
+    }
+
+    /* ★공용 틀(frame.js)과 함께 — 아래 고정 띠를 길목 띠 위로, 문의 창을 틀보다 위로 */
+    html.lfx .sticky-bottom-bar{bottom:calc(64px + env(safe-area-inset-bottom))!important}
+    html.lfx body{padding-bottom:150px!important}
+    .modal-overlay{z-index:2000!important}
+    .toast-popup{z-index:2100;white-space:normal!important;max-width:88vw;text-align:center}
+    html.lfx .toast-popup{bottom:150px}
+    .form-check{display:flex;gap:8px;align-items:flex-start;font-size:0.8rem;color:var(--on-surface-variant);margin:var(--space-sm) 0 0}
+    .form-check input{margin-top:3px;width:18px;height:18px;flex:0 0 18px}
+    .form-err{display:none;color:var(--error);font-size:0.82rem;margin-top:var(--space-xs)}
+  </style>
+</head>
+<body data-lf-title="지역 협력 제안">
+
+  <!-- App Shell for Clean Smartphone Reading Experience -->
+  <div class="mobile-app-shell">
+
+    <!-- 1. The Signature Charter Navy Title Band -->
+    <header class="title-band">
+      <div class="kicker">
+        <i data-lucide="bookmark" style="width: 14px; height: 14px;"></i>
+        <span>지역의 삶과 기억을 미래의 자산으로</span>
+      </div>
+      <h1>
+        사람의 이야기를 잇고,<br>
+        <span class="brass-emphasis">지역의 역할</span>을 만듭니다
+      </h1>
+      <p class="lede">
+        어르신의 삶은 한 편의 기록이 되고, 청소년의 꿈은 자서전이 되며, 이야기를 듣고 기록하는 주민에게는 새로운 일자리가 생깁니다.
+        5~10명 규모의 작은 시범으로 지역 현장과 함께 시작합니다.
+      </p>
+
+      <div class="title-band-badges">
+        <span class="charter-tag"><i data-lucide="smartphone" style="width: 12px; height: 12px;"></i> 모바일 간편 열람본</span>
+        <span class="charter-tag"><i data-lucide="check-circle-2" style="width: 12px; height: 12px;"></i> 소규모 실증 제안</span>
+        <span class="charter-tag"><i data-lucide="shield-check" style="width: 12px; height: 12px;"></i> 개인정보 철저 보호</span>
+      </div>
+
+      <!-- Quick Metrics Strip -->
+      <div class="quick-stat-grid">
+        <div class="quick-stat-item">
+          <div class="quick-stat-val">4대</div>
+          <div class="quick-stat-lbl">핵심 기록 콘텐츠</div>
+        </div>
+        <div class="quick-stat-item">
+          <div class="quick-stat-val">5~10명</div>
+          <div class="quick-stat-lbl">무부담 첫 실증 규모</div>
+        </div>
+        <div class="quick-stat-item">
+          <div class="quick-stat-val">기존예산</div>
+          <div class="quick-stat-lbl">사회공헌·바우처 연계</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- 2. Interactive Stakeholder Filter (수신자 맞춤 네비게이터) -->
+    <div class="role-nav-wrap">
+      <div class="role-nav-title">
+        <i data-lucide="layers" style="width: 14px; height: 14px; color: var(--tertiary);"></i>
+        <span>수신자 직무별 맞춤 시나리오 바로보기</span>
+      </div>
+      <div class="role-nav-scroll" id="role-tab-bar">
+        <button type="button" class="role-tab-btn active" onclick="switchRole('all', this)">
+          <i data-lucide="grid" style="width: 14px; height: 14px;"></i> 전체 개요
+        </button>
+        <button type="button" class="role-tab-btn" onclick="switchRole('public', this)">
+          <i data-lucide="landmark" style="width: 14px; height: 14px;"></i> 지자체·의회·복지·문화
+        </button>
+        <button type="button" class="role-tab-btn" onclick="switchRole('coop', this)">
+          <i data-lucide="sprout" style="width: 14px; height: 14px;"></i> 농·축·산림조합
+        </button>
+        <button type="button" class="role-tab-btn" onclick="switchRole('finance', this)">
+          <i data-lucide="shield" style="width: 14px; height: 14px;"></i> 보험 GA·금융
+        </button>
+        <button type="button" class="role-tab-btn" onclick="switchRole('media', this)">
+          <i data-lucide="newspaper" style="width: 14px; height: 14px;"></i> 지역 언론·미디어
+        </button>
+      </div>
+    </div>
+
+    <!-- Stakeholder Spotlight Card (Changes Dynamically) -->
+    <div class="stakeholder-spotlight" id="stakeholder-spotlight-card">
+      <div class="spotlight-header">
+        <span class="spotlight-badge" id="spotlight-badge">모든 협력 파트너를 위한 핵심 가치</span>
+        <i data-lucide="sparkles" style="width: 16px; height: 16px; color: var(--tertiary);"></i>
+      </div>
+      <h3 class="spotlight-title" id="spotlight-title">“기록은 팔기 위한 상품이 아닌, 지역을 살리는 사회적 자산입니다”</h3>
+      <div class="spotlight-quote" id="spotlight-quote">
+        “사랑흐름은 결과물을 단순히 납품하는 데 그치지 않고, 지역 주민에게 기록의 주인공이 되는 자긍심을 드리고, 기록하는 이웃에게 정당한 일자리를 만듭니다.”
+      </div>
+      <ul class="spotlight-points" id="spotlight-points">
+        <li class="spotlight-point-item">
+          <i data-lucide="check" style="width: 15px; height: 15px;"></i>
+          <span><strong>기존 사업과 연계:</strong> 지자체 바우처, 노인일자리, 조합원 교육비, 기업 사회공헌 연계</span>
+        </li>
+        <li class="spotlight-point-item">
+          <i data-lucide="check" style="width: 15px; height: 15px;"></i>
+          <span><strong>실무자 행정 부담 최소화:</strong> 사랑흐름이 인터뷰 질문 틀, 디지털 시스템, 활동가 교육 전담</span>
+        </li>
+        <li class="spotlight-point-item">
+          <i data-lucide="check" style="width: 15px; height: 15px;"></i>
+          <span><strong>5~10명 소규모 출발:</strong> 현장 반응과 효용을 확인한 뒤 단계적 확대</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- 3. Section: '사랑흐름' 4대 핵심 콘텐츠 (Interactive Accordions) -->
+    <div class="section-head">
+      <span class="section-kicker">CORE ASSETS</span>
+      <h2>사랑흐름 4대 핵심 콘텐츠</h2>
+      <div class="section-desc">한 권의 판매를 넘어 사람, 일자리, 지역 공동체를 연결하는 실행 포트폴리오</div>
+    </div>
+
+    <div class="content-body">
+      <div class="accordion-group" id="content-accordion-group">
+
+        <!-- Accordion 1: 우리 이야기 -->
+        <div class="accordion-item active" id="acc-item-0">
+          <button type="button" class="accordion-trigger" onclick="toggleAccordion(0)">
+            <div class="accordion-trigger-left">
+              <span class="accordion-num">01</span>
+              <div class="accordion-heading-wrap">
+                <span class="accordion-sublabel">공동체 디지털 아카이브</span>
+                <span class="accordion-maintitle">우리 이야기 (Our Story)</span>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="accordion-content">
+            <p>
+              가족·친구·학교·가게·단체의 사진, 글, 행사 소식과 생활 유산을 함께 모아보는 참여형 온라인 이야기 공간이자 영구 기록관입니다.
+            </p>
+            <div class="accordion-pill-row">
+              <span class="mini-badge green">기존 SNS 보완</span>
+              <span class="mini-badge">공간별 방 개설</span>
+              <span class="mini-badge">상위 지역방 연결</span>
+              <span class="mini-badge">QR 코드 즉시 공유</span>
+            </div>
+            <div class="core-value-box">
+              <strong>현장 적용 가치:</strong> 포털이나 SNS의 일회성 타임라인과 달리, 개별 상점·복지관·마을의 기록이 흩어지지 않고 지역 전체의 역사로 누적되어 검색과 재발견이 가능합니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 2: 생애기록 -->
+        <div class="accordion-item" id="acc-item-1">
+          <button type="button" class="accordion-trigger" onclick="toggleAccordion(1)">
+            <div class="accordion-trigger-left">
+              <span class="accordion-num">02</span>
+              <div class="accordion-heading-wrap">
+                <span class="accordion-sublabel">어르신·주민 구술 기록</span>
+                <span class="accordion-maintitle">생애기록 (한 편의 기록)</span>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="accordion-content">
+            <p>
+              한 사람의 살아온 삶과 기억을 따뜻한 경청과 전문 질문으로 듣고 정리해, 본인과 가족이 오래 간직할 품격 있는 디지털 기록으로 남겨 드립니다.
+            </p>
+            <div class="accordion-pill-row">
+              <span class="mini-badge green">정서적 돌봄 효과</span>
+              <span class="mini-badge">세대 간 소통</span>
+              <span class="mini-badge">고독감 해소</span>
+              <span class="mini-badge">생애 기록 헌정</span>
+            </div>
+            <div class="core-value-box">
+              <strong>현장 적용 가치:</strong> 단순한 생계 구호 중심 복지를 넘어, 어르신이 ‘내 인생도 가치 있었다’는 존엄과 삶의 의미를 되찾는 심리·정서 지원 프로그램입니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 3: 미리 써 보는 나의 자서전 -->
+        <div class="accordion-item" id="acc-item-2">
+          <button type="button" class="accordion-trigger" onclick="toggleAccordion(2)">
+            <div class="accordion-trigger-left">
+              <span class="accordion-num">03</span>
+              <div class="accordion-heading-wrap">
+                <span class="accordion-sublabel">청소년 자기표현·진로 탐색</span>
+                <span class="accordion-maintitle">미리 써 보는 나의 자서전</span>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="accordion-content">
+            <p>
+              청소년과 청년이 지난 발자취를 돌아보고 앞으로 펼쳐질 30~50년의 삶을 스스로 설계하여 글로 완성하는 미래 지향적 교육형 콘텐츠입니다.
+            </p>
+            <div class="accordion-pill-row">
+              <span class="mini-badge green">진로 탐색 연계</span>
+              <span class="mini-badge">학교·청소년기관</span>
+              <span class="mini-badge">세대 공감 대화</span>
+              <span class="mini-badge">자기효능감 증진</span>
+            </div>
+            <div class="core-value-box">
+              <strong>현장 적용 가치:</strong> 진로 및 인성 교육 현장에서 부모 세대의 경험과 자신의 미래를 연결하는 입체적인 글쓰기·소통 프로그램으로 운영됩니다.
+            </div>
+          </div>
+        </div>
+
+        <!-- Accordion 4: 사랑흐름 안내자 LD -->
+        <div class="accordion-item" id="acc-item-3">
+          <button type="button" class="accordion-trigger" onclick="toggleAccordion(3)">
+            <div class="accordion-trigger-left">
+              <span class="accordion-num">04</span>
+              <div class="accordion-heading-wrap">
+                <span class="accordion-sublabel">지역 기록 활동가 양성 & 일자리</span>
+                <span class="accordion-maintitle">사랑흐름 안내자 (LD)</span>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="accordion-content">
+            <p>
+              이웃의 이야기를 편안하게 경청하고 질문하며, 그 구술을 소중한 기록으로 다듬는 전문 지역 활동가를 교육하고 현장 활동 기회와 연결합니다.
+            </p>
+            <div class="accordion-pill-row">
+              <span class="mini-badge green">신노년·경력보유여성 일자리</span>
+              <span class="mini-badge">인터뷰어 양성</span>
+              <span class="mini-badge">사회참여 기회</span>
+              <span class="mini-badge">활동비 지급</span>
+            </div>
+            <div class="core-value-box">
+              <strong>현장 적용 가치:</strong> 일방적인 자원봉사가 아니라, 지역의 중장년·시니어가 이웃의 구술을 채록하며 정당한 사회서비스형 활동비와 보람을 얻는 지속 가능한 선순환 모델입니다.
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 4. Section: 소규모 시범사업 제안 「지역 사람 이야기 기록단」 -->
+    <div class="section-head">
+      <span class="section-kicker">PILOT PROJECT</span>
+      <h2>시범사업: 「지역 사람 이야기 기록단」</h2>
+      <div class="section-desc">처음부터 무리하게 넓히지 않고, 5~10명 규모로 안전하고 확실하게 검증합니다</div>
+    </div>
+
+    <div class="content-body">
+      <div class="pilot-card">
+        <div style="font-size: 0.92rem; line-height: 1.6; margin-bottom: var(--space-sm);">
+          기관의 행정 부담을 최소화하기 위해 <strong>역할을 명확히 분담</strong>하고, 단계별로 운영 결과를 점검한 후 정규 사업 확대 여부를 결정합니다.
+        </div>
+
+        <!-- Role Division Leaf -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); margin-bottom: var(--space-md);">
+          <div style="background-color: var(--surface-container); padding: var(--space-sm); border-radius: var(--rounded);">
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 4px;">
+              <i data-lucide="building" style="width: 12px; height: 12px;"></i> 협력기관 역할
+            </div>
+            <div style="font-size: 0.8rem; margin-top: 4px; color: var(--on-surface-variant);">
+              • 참여자 5~10명 추천<br>
+              • 인터뷰 공간 제공<br>
+              • 현장 운영 및 일정 협조
+            </div>
+          </div>
+          <div style="background-color: var(--surface-container); padding: var(--space-sm); border-radius: var(--rounded);">
+            <div style="font-size: 0.75rem; font-weight: 700; color: var(--secondary); display: flex; align-items: center; gap: 4px;">
+              <i data-lucide="feather" style="width: 12px; height: 12px;"></i> 사랑흐름 역할
+            </div>
+            <div style="font-size: 0.8rem; margin-top: 4px; color: var(--on-surface-variant);">
+              • 질문 체계 & 도구 제공<br>
+              • LD 활동가 교육 & 코칭<br>
+              • 결과물 감수 및 디지털 기록 정리
+            </div>
+          </div>
+        </div>
+
+        <!-- 4-Step Interactive Process -->
+        <div style="font-size: 0.82rem; font-weight: 700; color: var(--on-surface); margin-bottom: var(--space-xs);">
+          실행 4단계 로드맵 (탭하여 상세 보기)
+        </div>
+        <div class="step-navigator">
+          <button type="button" class="step-btn active" id="step-btn-0" onclick="switchStep(0)">
+            <span class="step-no">01</span>
+            <span>사전 기획</span>
+          </button>
+          <button type="button" class="step-btn" id="step-btn-1" onclick="switchStep(1)">
+            <span class="step-no">02</span>
+            <span>LD 매칭</span>
+          </button>
+          <button type="button" class="step-btn" id="step-btn-2" onclick="switchStep(2)">
+            <span class="step-no">03</span>
+            <span>경청·기록</span>
+          </button>
+          <button type="button" class="step-btn" id="step-btn-3" onclick="switchStep(3)">
+            <span class="step-no">04</span>
+            <span>헌정·평가</span>
+          </button>
+        </div>
+
+        <div class="step-detail-card" id="step-detail-box">
+          <span class="step-badge" id="step-card-badge">STEP 01 · 1~2주 소요</span>
+          <h4 class="step-title" id="step-card-title">현장 협의 및 대상자 5~10명 선정</h4>
+          <div class="step-meta-row" id="step-card-meta">
+            <span>참여 단위: 협력기관 + 사랑흐름</span>
+            <span>주요 산출물: 대상자 현황 카드 및 사전 동의서</span>
+          </div>
+          <ul class="step-desc-list" id="step-card-list">
+            <li>협력기관과 함께 사업 목적에 맞는 대상자(원로 어르신, 소상공인, 장인 등)를 안전하게 추천받습니다.</li>
+            <li>개인정보 및 초상권 활용 사전 동의를 확인하고, 기록의 비공개 희망 범위를 사전에 설정합니다.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Privacy & Protection Notice -->
+      <div class="safety-callout">
+        <div class="safety-title">
+          <i data-lucide="lock" style="width: 16px; height: 16px;"></i>
+          <span>철저한 개인정보 보호 및 본인 동의 원칙</span>
+        </div>
+        <div style="line-height: 1.55; color: var(--on-surface);">
+          기록은 <strong>100% 참여자 본인의 사전 검토와 서면 활용 동의</strong>를 거친 내용만 결과물 및 지역 자료로 보존됩니다. 동의하지 않은 개인 이야기나 비공개 요청 사진은 외부에 절대 공개되지 않습니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. Section: 직무 맞춤형 협력 시나리오 및 혜택 (Detail View) -->
+    <div class="section-head">
+      <span class="section-kicker">COLLABORATION SCENARIOS</span>
+      <h2>대상별 맞춤 협력 시나리오</h2>
+      <div class="section-desc">기관의 고유한 직무와 기존 예산 항목에 부드럽게 연결되는 구체적 실행 모델</div>
+    </div>
+
+    <div class="content-body">
+      <div class="scenario-card-grid">
+
+        <!-- Scenario 1: 지자체 행정·의회 / 복지·문화 -->
+        <div class="scenario-card" id="scenario-public">
+          <div class="scenario-target-tag">
+            <i data-lucide="landmark" style="width: 14px; height: 14px;"></i>
+            <span>지자체 행정 · 의원 · 공무원 · 복지관 · 문화원 · 평생학습관</span>
+          </div>
+          <h3 class="scenario-title">주민 존엄 회복형 ‘생애사 돌봄’ 및 신노년 사회서비스 일자리</h3>
+          <p class="scenario-desc">
+            단순 물품 전달에 그치던 노인 복지 사업을 ‘생애기록 경청 돌봄’으로 고도화하고, 양성된 시니어 LD를 노인일자리 사업과 직접 연계합니다.
+          </p>
+
+          <div class="scenario-duty-box">
+            <span class="scenario-duty-label">직무 연결 지점</span>
+            복지정책과(고독사 예방·정서 돌봄), 일자리경제과(사회서비스형 노인일자리), 문화예술과/문화원(향토 생활사 구술 아카이빙), 평생학습원
+          </div>
+
+          <div style="font-weight: 700; font-size: 0.85rem; color: var(--on-surface); margin-bottom: 6px;">기관 및 공무원 관점의 핵심 혜택:</div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>기존 예산 항목 연계:</strong> 노인일자리 사업비, 평생학습 공모, 주민참여예산 항목과 연계 검토</span>
+          </div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>주민 체감형 복지 모델:</strong> 참여 어르신과 가족이 직접 느끼는 사업으로 지역 우수 사례 발굴에 활용</span>
+          </div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>지역 디지털 자산화:</strong> 사라져가는 지역 원로들의 삶이 고스란히 지역 디지털 향토사로 보존</span>
+          </div>
+        </div>
+
+        <!-- Scenario 2: 농협·축협·산림조합 -->
+        <div class="scenario-card" id="scenario-coop">
+          <div class="scenario-target-tag">
+            <i data-lucide="sprout" style="width: 14px; height: 14px;"></i>
+            <span>농협 · 축협 · 산림조합 · 조합장 · 상무 · 복지/지도 담당자</span>
+          </div>
+          <h3 class="scenario-title">원로 조합원 영농 개척사 헌정 및 세대 잇기 프로젝트</h3>
+          <p class="scenario-desc">
+            오늘날 조합의 초석을 다진 원로 조합원의 피땀 어린 개척기를 생애 기록으로 헌정하고, 청년 조합원에게 영농 노하우를 전수하는 가교를 놓습니다.
+          </p>
+
+          <div class="scenario-duty-box">
+            <span class="scenario-duty-label">직무 연결 지점</span>
+            지도복지과, 여성복지팀, 조합원 교육지원사업, 조합 50년사 편찬 및 홍보 담당
+          </div>
+
+          <div style="font-weight: 700; font-size: 0.85rem; color: var(--on-surface); margin-bottom: 6px;">조합 경영 및 실무진 관점의 핵심 혜택:</div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>조합원 자긍심과 유대:</strong> 자녀와 손주 세대까지 조합에 대한 감사와 자긍심을 함께 나눔</span>
+          </div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>교육지원사업비 정당한 집행:</strong> 조합원 복지 및 환원 사업 항목에서 투명하고 명분 있는 예산 집행</span>
+          </div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>ESG 실천 사례:</strong> 농업 문화 보존과 고령 조합원 복지를 결합한 지역 사례</span>
+          </div>
+        </div>
+
+        <!-- Scenario 3: 보험 GA / 금융 파이낸셜 -->
+        <div class="scenario-card" id="scenario-finance">
+          <div class="scenario-target-tag">
+            <i data-lucide="shield" style="width: 14px; height: 14px;"></i>
+            <span>보험 대리점(GA) · 금융 본부장 · 지점장 · 자산승계 전문 FP</span>
+          </div>
+          <h3 class="scenario-title">VIP 고객 부모님 ‘생애기록 헌정’ 및 패밀리 헤리티지 마케팅</h3>
+          <p class="scenario-desc">
+            일회성 선물세트나 식사 대접을 뛰어넘어, 고객의 부모님 인생을 기록으로 남겨 드리는 감동 서비스로 2세대와의 대화를 엽니다.
+          </p>
+
+          <div class="scenario-duty-box">
+            <span class="scenario-duty-label">직무 연결 지점</span>
+            VIP 고객 마케팅, 패밀리오피스, 상속·증여 자산관리 컨설팅, 우수 FP 리크루팅
+          </div>
+
+          <div style="font-weight: 700; font-size: 0.85rem; color: var(--on-surface); margin-bottom: 6px;">GA 본부 및 FP 관점의 핵심 혜택:</div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>깊은 신뢰 형성:</strong> 돈으로 살 수 없는 부모님의 삶을 기록해 드려 오래 기억되는 관계로</span>
+          </div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>상속·증여 2세대 상담의 자연스러운 진입:</strong> 자서전 인터뷰 과정에서 가족력과 자산 철학이 자연스럽게 공유</span>
+          </div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>차별화된 고객 관리:</strong> 수수료 경쟁이 아닌 품격 있는 고객 케어 솔루션</span>
+          </div>
+        </div>
+
+        <!-- Scenario 4: 지역 언론 / 미디어 -->
+        <div class="scenario-card" id="scenario-media">
+          <div class="scenario-target-tag">
+            <i data-lucide="newspaper" style="width: 14px; height: 14px;"></i>
+            <span>지역 언론사 · 데스크 · 취재기자 · 로컬 콘텐츠 크리에이터</span>
+          </div>
+          <h3 class="scenario-title">‘우리 동네 숨은 영웅들’ 휴먼 다큐 기획 보도 및 로컬 아카이브</h3>
+          <p class="scenario-desc">
+            보도자료 베끼기를 벗어나, 골목 상인·숨은 봉사자·장인의 삶을 심층 발굴하여 독자들의 공감을 이끄는 고품질 기획 기사를 공동 제작합니다.
+          </p>
+
+          <div class="scenario-duty-box">
+            <span class="scenario-duty-label">직무 연결 지점</span>
+            편집국 기획취재부, 사회부, 지역사회 공헌 사업팀, 뉴미디어 디지털 뉴스랩
+          </div>
+
+          <div style="font-weight: 700; font-size: 0.85rem; color: var(--on-surface); margin-bottom: 6px;">언론사 및 기자 관점의 핵심 혜택:</div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>독점 취재원 확보:</strong> 사랑흐름 현장 네트워크를 통해 지역의 진짜 숨은 인물들을 손쉽게 발굴·연결</span>
+          </div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>공공 공모 및 기업 후원 연계:</strong> 한국언론진흥재단 기획취재 지원이나 지역 기업의 캠페인 협찬과 연계</span>
+          </div>
+          <div class="benefit-item">
+            <i data-lucide="check-circle" style="width: 14px; height: 14px;"></i>
+            <span><strong>지면-온라인 결합:</strong> 신문 기사와 ‘우리 이야기’ 모바일 아카이브를 결합하여 독자가 더 오래 머무는 지면</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 6. Section: 맞춤 협력 시뮬레이터 (Interactive ROI Calculator) -->
+    <div class="section-head">
+      <span class="section-kicker">SIMULATOR</span>
+      <h2>협력 규모별 기대 성과 계산기</h2>
+      <div class="section-desc">기관의 유형과 예상 참여 인원을 선택하여 기대 성과와 적합한 예산 경로를 확인하세요</div>
+    </div>
+
+    <div class="content-body">
+      <div class="calc-card">
+        <div class="calc-input-group">
+          <label class="calc-label" for="sim-org-type">1. 협력 기관 유형 선택</label>
+          <select class="calc-select" id="sim-org-type" onchange="calculateResults()">
+            <option value="public" selected>지자체 복지·문화·평생학습 부서 및 복지관</option>
+            <option value="coop">농협·축협·산림조합 (조합원 지도복지)</option>
+            <option value="finance">보험 GA / 금융 지점 (VIP 고객 케어)</option>
+            <option value="media">지역 언론사 / 로컬 미디어 조직</option>
+          </select>
+        </div>
+
+        <div class="calc-input-group">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 4px;">
+            <label class="calc-label" for="sim-participants" style="margin-bottom: 0;">2. 시범사업 참여 인원 (파일럿 권장: 5~10명)</label>
+            <span class="range-val-badge" id="sim-participants-val">10명</span>
+          </div>
+          <div class="range-wrap">
+            <input type="range" class="calc-range" id="sim-participants" min="5" max="30" step="5" value="10" oninput="syncSliderVal(this.value)">
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 0.72rem; color: var(--on-surface-variant); margin-top: 4px;">
+            <span>5명 (최소 시범)</span>
+            <span>10명 (권장 표준)</span>
+            <span>20명 (거점 확대)</span>
+            <span>30명 (기관 전면)</span>
+          </div>
+        </div>
+
+        <!-- Calculated Results Panel -->
+        <div class="calc-result-panel">
+          <div style="font-size: 0.75rem; font-weight: 700; color: var(--tertiary); margin-bottom: var(--space-xs);">
+            선택 조건에 따른 예상 성과 및 실행 구조
+          </div>
+
+          <div class="calc-grid">
+            <div class="calc-res-item">
+              <span class="calc-res-title">생애 기록 헌정</span>
+              <div class="calc-res-num" id="calc-books">10편</div>
+              <div class="calc-res-sub">1:1 개인별 맞춤본</div>
+            </div>
+            <div class="calc-res-item">
+              <span class="calc-res-title">양성·파견 LD 활동가</span>
+              <div class="calc-res-num" id="calc-lds">3~4명</div>
+              <div class="calc-res-sub">지역 중장년 일자리</div>
+            </div>
+            <div class="calc-res-item">
+              <span class="calc-res-title">예상 총 소요 기간</span>
+              <div class="calc-res-num" id="calc-weeks">6~8주</div>
+              <div class="calc-res-sub">경청 인터뷰 2~3회</div>
+            </div>
+            <div class="calc-res-item">
+              <span class="calc-res-title">디지털 아카이브</span>
+              <div class="calc-res-num" id="calc-rooms">1곳</div>
+              <div class="calc-res-sub">‘우리 이야기’ 기관 방</div>
+            </div>
+          </div>
+
+          <div class="calc-funding-note" id="calc-funding-path">
+            <strong>추천 재원 경로:</strong> 지자체 노인일자리 사회서비스형 사업비, 복지관 특성화 프로그램비, 평생학습 공모사업비 연계
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7. Section: 자주 묻는 질문 (FAQ) -->
+    <div class="section-head">
+      <span class="section-kicker">QUESTIONS & ANSWERS</span>
+      <h2>자주 묻는 질문</h2>
+      <div class="section-desc">의사결정권자와 실무자가 가장 궁금해하시는 핵심 사항</div>
+    </div>
+
+    <div class="content-body">
+      <div class="faq-item" id="faq-0">
+        <button type="button" class="faq-q" onclick="toggleFaq(0)">
+          <span>Q1. 새 대형 예산을 정식으로 편성해야 하나요?</span>
+          <i data-lucide="chevron-down" class="faq-icon" style="width: 16px; height: 16px;"></i>
+        </button>
+        <div class="faq-a">
+          <strong>아닙니다.</strong> 새로운 대규모 본예산을 수립하기보다, 기관에서 이미 운영 중인 주민 교육·문화·참여 프로그램 예산, 노인일자리 지원금, 기업의 사회공헌(CSR) 펀드, 또는 마케팅비 내에서 5~10명 규모로 소규모 집행하는 것이 가장 현실적이고 빠릅니다.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq-1">
+        <button type="button" class="faq-q" onclick="toggleFaq(1)">
+          <span>Q2. 담당 공무원이나 기관 실무자의 업무가 늘어나지 않나요?</span>
+          <i data-lucide="chevron-down" class="faq-icon" style="width: 16px; height: 16px;"></i>
+        </button>
+        <div class="faq-a">
+          <strong>부담을 주지 않는 것이 원칙입니다.</strong> 사랑흐름이 인터뷰 질문 틀, 녹취 및 기록 정리 가이드라인, 디지털 아카이브 시스템, 결과물 편집·감수를 맡습니다. 기관은 참여자 5~10명의 연결과 인터뷰 장소만 제공해 주시면 됩니다.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq-2">
+        <button type="button" class="faq-q" onclick="toggleFaq(2)">
+          <span>Q3. 어르신이나 참여자가 인터뷰를 부담스러워하지 않나요?</span>
+          <i data-lucide="chevron-down" class="faq-icon" style="width: 16px; height: 16px;"></i>
+        </button>
+        <div class="faq-a">
+          <strong>어려운 심문이 아니라 ‘따뜻한 차 한 잔의 경청’입니다.</strong> 전문 교육을 받은 LD 안내자가 참여자의 어린 시절, 가족의 추억, 삶의 보람을 자연스럽게 묻고 공감합니다. 말로 편하게 이야기하시면 안내자가 함께 정리합니다.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq-3">
+        <button type="button" class="faq-q" onclick="toggleFaq(3)">
+          <span>Q4. 시범사업 후 정규 사업 확대는 어떻게 결정하나요?</span>
+          <i data-lucide="chevron-down" class="faq-icon" style="width: 16px; height: 16px;"></i>
+        </button>
+        <div class="faq-a">
+          <strong>시범사업 종료 후 객관적인 전후 성과보고서를 제공합니다.</strong> 참여자 만족도, 참여 가족들의 반응, 기술 안정성 및 실제 투입 예산 대비 체감 효용을 분석한 리포트를 토대로 다음 연도 본 사업 반영 여부를 기관이 자율적으로 판단하실 수 있습니다.
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. Closing Section -->
+    <div class="closing-wrap">
+      <div class="closing-title">“작은 경청 한 번이, 지역의 큰 자산이 됩니다”</div>
+      <p class="closing-desc">
+        오늘 모든 결정을 내리실 필요는 없습니다. 기관의 상황과 계획에 맞는 가장 편안한 방식의 작은 만남부터 시작해 주십시오. 5~10명 규모의 소규모 실증으로 충분히 확인할 수 있습니다.
+      </p>
+      <button type="button" class="btn-action-primary" onclick="openModal()" style="margin: 0 auto; max-width: 280px; width: 100%;">
+        <i data-lucide="mail" style="width: 16px; height: 16px;"></i>
+        <span>소규모 실증 협력 문의하기</span>
+      </button>
+    </div>
+
+  </div> <!-- End App Shell -->
+
+
+
+    <!-- QR: 홈페이지 / 카카오 채널 (따로) -->
+    <div class="qr-pair" style="margin: 1.25rem 1rem 0; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+      <div style="text-align:center; background:var(--surface-container-low); border:1px solid var(--outline-variant); border-top:2px solid var(--outline); border-radius:0.125rem; padding:0.75rem 1rem;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKUAAAClAQAAAAAVUAB3AAABVUlEQVR42t1XMY6EMBAzR5EyT8hP4GORiMTH4Cc8gTLFilnP5MrtTr5iUyzZUFjx2J4B9mF1fMnpASDZXfn+3ox/UPoPPq2/n8JOgqbTXiU5WjLulGg3SjowX9xV31U52pNfSA/wT2jYzI68mxzN6/YEk9aKum6hySiZ/6g1GeshicHk8IUOzUkMJkmio92zSVVS0adwOiF5IlXJk1vBZA199eKJ70ZjG4EiRmJpNUltYDW6+6DFiSvOSV5mcvGvVAkWtbt3dzdGcnWwjNrkQl+yeWihkNimzZLtSr8RudEG3EndTYwl4j+zgq5OKZPhaWJM3lIDXJmTzbPE+1tuiOJps8SfM1MZFZhu8d24SKdFX9VrMqy2XZGY6RT3gJi53HSeytHA9XNJDTQMdaonvLxfQeJoCfJ5Mq5VS9Cpn5Xb6AbJQ1qtSQ7lF62G0XbUfvvKL6o3WOvt/Et2rWAAAAAASUVORK5CYII=" width="120" height="120" alt="홈페이지 QR" style="display:block; margin:0 auto 0.4rem;">
+        <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">홈페이지</div>
+        <a href="https://www.loveflow.ai.kr/" target="_blank" rel="noopener" style="font-size:0.7rem; color:var(--on-surface-variant); text-decoration:none;">loveflow.ai.kr</a>
+      </div>
+      <div style="text-align:center; background:var(--surface-container-low); border:1px solid var(--outline-variant); border-top:2px solid var(--outline); border-radius:0.125rem; padding:0.75rem 1rem;">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKUAAAClAQAAAAAVUAB3AAABSklEQVR42t1XMY6EMBAzR5EyT8hP4GNItxIfCz/hCSlTIGY9A9dtdzLFphiJNJbH9kyAfTgdX3JbASSWkk6Mxg+U/oNP5/+3sI2gaWu/e7I2WjI7pGiNtLz0uS2FLJcH0MiNxR5CWy6CcjTXzciNndTrFp68uS1F7ck4FdSt5qNcudChnRQKMzt59bQ+wM28iUNbCJ6lup15NY4RuGS045RfUjRvHWmV2y+2mjoBThATm4hZ7BICdWSLqIFo0k5aDGRihEvoTq0n27h3MG8kSJZibidNSMle4Pgit4DUcqMxyc1dQkjxNg1uqwU3ed7yAarFMsFHszYBnPwIT1qleBi06b53AFdb7IBN68m/ebWHQWLJ6Xd3DOTgpn9zVXoyFFTnLdB8pfaBxjR/eMm5XR8j5/MDby634wU5aTsZnoxhCZYkTsD3/lG9AYKT6N/Mc8NCAAAAAElFTkSuQmCC" width="120" height="120" alt="카카오 채널 QR" style="display:block; margin:0 auto 0.4rem;">
+        <div style="font-size:0.75rem; font-weight:700; color:var(--primary);">카카오 채널</div>
+        <a href="https://pf.kakao.com/_ExndxfX" target="_blank" rel="noopener" style="font-size:0.7rem; color:var(--on-surface-variant); text-decoration:none;">문의·상담</a>
+      </div>
+    </div>
+
+    <!-- 9. Official Footer (사업자·연락·함께하는 곳) -->
+    <div class="official-footer" style="margin: 2rem 1rem 1.5rem; padding: 1.25rem 1rem 1.5rem; background: var(--surface-container-low); border-top: 2px solid var(--outline); border-left: 1px solid var(--outline-variant); border-right: 1px solid var(--outline-variant); border-bottom: 1px solid var(--outline-variant); border-radius: 0.125rem;">
+      <div style="display:flex; align-items:center; gap:0.5rem; margin-bottom:0.75rem;">
+        <div style="font-family: var(--font-headline); font-weight:700; font-size:1.05rem; color: var(--primary);">사랑흐름 · LOVE FLOW</div>
+      </div>
+      <div style="font-size:0.82rem; color: var(--on-surface-variant); line-height:1.7;">
+        <div><strong style="color:var(--on-surface);">대표</strong> 황규찬</div>
+        <div><strong style="color:var(--on-surface);">M</strong> 010-2355-3565 &nbsp;·&nbsp; <strong style="color:var(--on-surface);">T</strong> 070-4158-7786</div>
+        <div><strong style="color:var(--on-surface);">E</strong> <a href="mailto:hkcpcgg@gmail.com" style="color:var(--primary); text-decoration:none;">hkcpcgg@gmail.com</a></div>
+        <div><strong style="color:var(--on-surface);">W</strong> <a href="https://www.loveflow.ai.kr/" target="_blank" rel="noopener" style="color:var(--primary); text-decoration:none;">www.loveflow.ai.kr</a></div>
+        <div><strong style="color:var(--on-surface);">A</strong> 경기도 파주시 매봉길 17-13</div>
+      </div>
+      <div style="margin-top:0.9rem; padding-top:0.75rem; border-top:1px dashed var(--outline-variant); font-size:0.78rem; color: var(--on-surface-variant); line-height:1.65;">
+        <div style="font-weight:700; color:var(--tertiary); margin-bottom:0.25rem;">하는 일</div>
+        맞춤형 기록 콘텐츠 · 온라인 콘텐츠(질문지·안내 영상·교육 자료) · 소프트웨어 개발·운영<br>
+        사랑흐름 안내자(LD) 양성 · 관계 기록 서비스(마음여행 · 한 편의 기록 · 미리 써 보는 나의 자서전)
+      </div>
+      <div style="margin-top:0.75rem; font-size:0.78rem; color: var(--on-surface-variant); line-height:1.65;">
+        <div style="font-weight:700; color:var(--tertiary); margin-bottom:0.25rem;">함께하는 곳</div>
+        공공기관 · 기업 · 군부대 · 교육기관 · 복지기관 · 지역 협동조합(농협·축협·산림조합) · 금융·보험 · 지역 언론
+      </div>
+      <div style="margin-top:0.55rem; font-size:0.72rem; color:#8a867c; line-height:1.5;">
+        ※ 사랑흐름은 실물 종이책을 직접 인쇄·판매하는 서비스가 아닙니다. 디지털 문서(기록물) 생성·아카이빙이 본 서비스의 중심입니다.
+      </div>
+    </div>
+
+
+  <div id="lfFoot"></div>
+
+  <!-- Sticky Bottom Mobile Action Bar -->
+  <div class="sticky-bottom-bar">
+    <div class="sticky-inner">
+      <button type="button" class="btn-action-secondary" onclick="copyProposalLink()" aria-label="링크 복사">
+        <i data-lucide="link" style="width: 16px; height: 16px;"></i>
+        <span>링크 복사</span>
+      </button>
+      <button type="button" class="btn-action-primary" onclick="openModal()" aria-label="협력 문의">
+        <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+        <span>협력 문의</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Inquiry Modal Sheet -->
+  <div class="modal-overlay" id="inquiry-modal" onclick="handleOverlayClick(event)">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 class="modal-title">소규모 협력 파일럿 문의</h3>
+        <button type="button" class="modal-close-btn" onclick="closeModal()" aria-label="닫기">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+
+      <p style="font-size: 0.88rem; color: var(--on-surface-variant); margin-top: 0; margin-bottom: var(--space-md); line-height: 1.5;">
+        소속 기관과 관심 분야를 남겨 주시면 사랑흐름이 확인하고 연락드립니다.
+      </p>
+
+      <form id="inquiry-form" onsubmit="submitInquiry(event)" oninput="inqErr('')" onchange="inqErr('')">
+        <div class="form-group">
+          <label class="form-label" for="inq-org">기관명 및 부서</label>
+          <input type="text" class="form-input" id="inq-org" placeholder="예: 파주시청 복지정책과 / OO농협 지도복지팀">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inq-name">담당자 성명</label>
+          <input type="text" class="form-input" id="inq-name" placeholder="예: 홍길동" autocomplete="name">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inq-title">직위</label>
+          <input type="text" class="form-input" id="inq-title" placeholder="예: 주무관 / 팀장">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inq-tel">연락처</label>
+          <input type="tel" class="form-input" id="inq-tel" placeholder="010-0000-0000" inputmode="tel" autocomplete="tel">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inq-mail">이메일 (자료를 메일로 받으실 때)</label>
+          <input type="email" class="form-input" id="inq-mail" placeholder="email@example.com" autocomplete="email">
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inq-type">관심 분야</label>
+          <select class="form-input" id="inq-type">
+            <option value="public_welfare">어르신 생애기록 & 노인일자리 (행정·복지)</option>
+            <option value="coop_honor">원로 조합원 영농기록 헌정 (지역 협동조합)</option>
+            <option value="finance_vip">VIP 패밀리 헤리티지 마케팅 (보험 GA)</option>
+            <option value="media_docu">동네 숨은 영웅 기획 취재 (지역 언론)</option>
+            <option value="youth_book">청소년 디지털 자서전·진로 프로그램</option>
+            <option value="other">기타 소규모 자문 및 제휴</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="inq-memo">문의 사항</label>
+          <textarea class="form-textarea" id="inq-memo" rows="3" placeholder="예: 2026년 하반기 5~10명 규모 시범사업 가능 여부 및 디지털 기록 견본 열람 요청"></textarea>
+        </div>
+
+        <label class="form-check"><input type="checkbox" id="inq-agree"><span>개인정보 수집 · 이용에 동의합니다 — 성명 · 연락처 · 이메일은 이 문의에 답변하는 데에만 씁니다.</span></label>
+        <div class="form-err" id="inq-err"></div>
+
+        <button type="submit" class="btn-action-primary" id="inq-send" style="width: 100%; margin-top: var(--space-sm);">
+          <i data-lucide="send" style="width: 16px; height: 16px;"></i>
+          <span>문의 보내기</span>
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+  <!-- Toast Element -->
+  <div class="toast-popup" id="toast-bar">
+    <i data-lucide="check-circle" style="width: 16px; height: 16px; color: var(--secondary);"></i>
+    <span id="toast-text">복사되었습니다.</span>
+  </div>
+
+  <!-- Interactive JavaScript -->
+  <script>
+    // State management
+    let state = {
+      role: 'all',
+      participantCount: 10,
+      openAccordion: 0,
+      activeStep: 0,
+      faqOpen: null
+    };
+
+    // Role-specific definitions
+    const roleData = {
+      all: {
+        badge: '모든 협력 파트너를 위한 핵심 가치',
+        title: '“기록은 팔기 위한 상품이 아닌, 지역을 살리는 사회적 자산입니다”',
+        quote: '“사랑흐름은 결과물을 단순히 납품하는 데 그치지 않고, 지역 주민에게 기록의 주인공이 되는 자긍심을 드리고, 기록하는 이웃에게 정당한 일자리를 만듭니다.”',
+        points: [
+          '<strong>기존 사업과 연계:</strong> 지자체 바우처, 노인일자리, 조합원 교육비, 기업 사회공헌 연계',
+          '<strong>실무자 행정 부담 최소화:</strong> 사랑흐름이 질문 체계, 디지털 시스템, 활동가 교육 전담',
+          '<strong>5~10명 소규모 출발:</strong> 현장 반응과 효용을 확인한 뒤 단계적 확대'
+        ]
+      },
+      public: {
+        badge: '지자체 의원 · 공무원 · 복지관 · 문화원 맞춤',
+        title: '“복지 예산의 품격을 높이고, 신노년 일자리를 만듭니다”',
+        quote: '“기존 노인일자리와 복지 프로그램에 생애기록을 접목하면, 단순 수당 지급을 넘어 어르신의 외로움을 덜고 지역의 소중한 생활사를 디지털로 보존할 수 있습니다.”',
+        points: [
+          '<strong>기존 복지·일자리 예산 결합:</strong> 사회서비스형 일자리 항목과 연계',
+          '<strong>체감도 높은 의정·행정 성과:</strong> 수혜 어르신과 가족들의 감동이 가장 즉각적인 우수 행정 모델',
+          '<strong>향토 생활사 디지털 아카이브:</strong> 개별 복지관의 기록이 지역 전체의 역사 자산으로 전환'
+        ]
+      },
+      coop: {
+        badge: '농협 · 축협 · 산림조합 조합장 및 실무진 맞춤',
+        title: '“원로 조합원에겐 최고의 예우를, 조합엔 3대의 신뢰를”',
+        quote: '“조합의 오늘을 만든 원로 조합원의 영농 개척기를 한 편의 기록으로 헌정하고, 그 지혜를 청년 농업인에게 잇는 일은 뜻깊은 환원 사업입니다.”',
+        points: [
+          '<strong>조합원 교육지원사업비의 가치 집행:</strong> 명분과 감동이 확실한 조합원 복지 예산 활용',
+          '<strong>세대를 잇는 유대:</strong> 어르신 헌정식에 자녀와 손주 세대가 함께함',
+          '<strong>농업 문화 유산 기록:</strong> 지역 농업의 역사를 디지털로 남김'
+        ]
+      },
+      finance: {
+        badge: '보험 GA 본부장 · 지점장 · 자산승계 FP 맞춤',
+        title: '“명절 선물세트 대신 부모님 생애 기록, 2세대와의 대화가 열립니다”',
+        quote: '“VIP 고객의 가장 소중한 부모님 삶을 인터뷰해 헌정하면, 자녀 세대와의 상속·증여·종신 플랜 상담이 자연스럽고 깊이 있게 이루어집니다.”',
+        points: [
+          '<strong>비교 불가능한 VIP 고객 감동:</strong> 판촉물과 다른 가족 헤리티지 헌정',
+          '<strong>자녀 세대와의 신뢰 형성:</strong> 자서전 제작 과정에서 자연스럽게 가업 승계와 자산 분배 대화 개시',
+          '<strong>GA 경쟁력과 FP 리크루팅 강화:</strong> 품격 있는 고객 솔루션을 보유한 전문가 그룹 위상 확보'
+        ]
+      },
+      media: {
+        badge: '지역 언론사 데스크 · 취재기자 · 로컬 크리에이터 맞춤',
+        title: '“보도자료를 넘어선 독점 휴먼스토리, 지역민과 호흡하는 기획”',
+        quote: '“사랑흐름 현장 네트워크를 통해 지역 골목 장인과 숨은 영웅들을 공동 발굴하고, 지면 기사와 모바일 아카이브를 연동해 독자가 더 오래 머물게 합니다.”',
+        points: [
+          '<strong>심층 기획 취재원 즉시 확보:</strong> 본인 동의를 거친 구술 기록과 사진을 언론사 공동 기획으로 연계',
+          '<strong>공공 공모 및 기업 후원 연계:</strong> 언론진흥재단 기획취재 지원금 및 지자체 협찬 연계',
+          '<strong>종이 신문과 온라인의 시너지:</strong> 지면 기사의 QR 코드로 ‘우리 이야기’ 모바일 아카이브 확장'
+        ]
+      }
+    };
+
+    // Step roadmap data
+    const stepData = [
+      {
+        badge: 'STEP 01 · 1~2주 소요',
+        title: '현장 협의 및 대상자 5~10명 선정',
+        meta: '참여 단위: 협력기관 + 사랑흐름 | 산출물: 대상자 현황 카드 및 사전 동의서',
+        desc: [
+          '협력기관과 함께 사업 목적에 맞는 대상자(원로 어르신, 소상공인, 장인 등)를 안전하게 추천받습니다.',
+          '개인정보 및 초상권 활용 사전 동의를 확인하고, 기록의 비공개 희망 범위를 사전에 설정합니다.'
+        ]
+      },
+      {
+        badge: 'STEP 02 · 2주 소요',
+        title: '사랑흐름 안내자(LD) 인터뷰어 교육 & 매칭',
+        meta: '참여 단위: 지역 활동가(시니어/경력보유여성) | 산출물: 인터뷰 가이드북',
+        desc: [
+          '지역의 은퇴자, 경력보유여성 중 인터뷰 활동가를 선발해 따뜻한 경청 질문법과 안전 수칙을 교육합니다.',
+          '참여자의 성향과 배경에 맞춰 최적의 인터뷰어 LD를 1:1로 매칭합니다.'
+        ]
+      },
+      {
+        badge: 'STEP 03 · 3~4주 소요',
+        title: '경청 대화 2~3회 & ‘우리 이야기’ 디지털 기록',
+        meta: '참여 단위: 참여자 + LD 활동가 | 산출물: 구술 채록본 & 옛 사진 디지털화',
+        desc: [
+          '편안한 공간에서 60~90분간 2~3회에 걸쳐 살아온 궤적, 잊지 못할 추억, 가족에게 전할 말을 녹취·정리합니다.',
+          '소장하고 계신 흑백사진이나 옛 자료를 스캔하여 디지털 ‘우리 이야기’ 공간에 보존합니다.'
+        ]
+      },
+      {
+        badge: 'STEP 04 · 2주 소요',
+        title: '가족 초대 헌정회 & 성과분석 보고서',
+        meta: '참여 단위: 기관 + 참여 가족 전원 | 산출물: 생애 기록 헌정 & 실증 결과보고서',
+        desc: [
+          '완성된 한 편의 기록을 참여자와 가족을 모시고 따뜻하게 증정하는 헌정식을 개최합니다.',
+          '참여자 만족도, 운영 비용, 행정 부담, 향후 본 사업 확대 가능성을 분석한 최종 결과보고서를 기관에 납품합니다.'
+        ]
+      }
+    ];
+
+    // Funding recommendation by organization type
+    const fundingPaths = {
+      public: '<strong>추천 재원 경로:</strong> 지자체 노인일자리 사회서비스형 사업비, 복지관 특성화 프로그램비, 평생학습도시 공모사업비, 주민참여예산 연계',
+      coop: '<strong>추천 재원 경로:</strong> 농협·축협 조합원 교육지원사업비, 영농지도 환원사업비, 조합 50년사 편찬 및 홍보 예산 연계',
+      finance: '<strong>추천 재원 경로:</strong> GA 지점/본부 VIP 고객 관리비, 자산승계 프로모션 예산, FC/FP 지원 및 마케팅 펀드',
+      media: '<strong>추천 재원 경로:</strong> 한국언론진흥재단 지역신문 기획취재 지원사업, 지자체 공익 캠페인 협찬, 지역 우수기업 CSR 공동 후원'
+    };
+
+    // Role Switcher
+    function switchRole(roleKey, btnEl) {
+      state.role = roleKey;
+
+      // Update Tab Styles
+      const tabBar = document.getElementById('role-tab-bar');
+      if (tabBar) {
+        const btns = tabBar.querySelectorAll('.role-tab-btn');
+        btns.forEach(btn => btn.classList.remove('active'));
+      }
+      const activeBtn = btnEl || null;
+      if (activeBtn) activeBtn.classList.add('active');
+
+      // Update Spotlight
+      const data = roleData[roleKey] || roleData.all;
+      const badgeEl = document.getElementById('spotlight-badge');
+      const titleEl = document.getElementById('spotlight-title');
+      const quoteEl = document.getElementById('spotlight-quote');
+      const pointsEl = document.getElementById('spotlight-points');
+
+      if (badgeEl) badgeEl.textContent = data.badge;
+      if (titleEl) titleEl.innerHTML = data.title;
+      if (quoteEl) quoteEl.innerHTML = data.quote;
+
+      if (pointsEl) {
+        pointsEl.innerHTML = data.points.map(pt => `
+          <li class="spotlight-point-item">
+            <i data-lucide="check" style="width: 15px; height: 15px;"></i>
+            <span>${pt}</span>
+          </li>
+        `).join('');
+      }
+
+      // Highlight Scenario Card if specific role chosen
+      const scenarios = ['public', 'coop', 'finance', 'media'];
+      scenarios.forEach(s => {
+        const el = document.getElementById(`scenario-${s}`);
+        if (el) {
+          if (roleKey === 'all' || roleKey === s) {
+            el.style.display = 'block';
+            if (roleKey === s) {
+              el.classList.add('highlighted');
+              el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            } else {
+              el.classList.remove('highlighted');
+            }
+          } else {
+            el.classList.remove('highlighted');
+          }
+        }
+      });
+
+      // Update Simulator Select Dropdown to match
+      const simSelect = document.getElementById('sim-org-type');
+      if (simSelect && roleKey !== 'all') {
+        simSelect.value = roleKey;
+        calculateResults();
+      }
+
+      refreshIcons();
+      persistState();
+    }
+
+    // Accordion Toggle
+    function toggleAccordion(idx) {
+      const items = document.querySelectorAll('.accordion-item');
+      items.forEach((item, i) => {
+        if (i === idx) {
+          item.classList.toggle('active');
+          state.openAccordion = item.classList.contains('active') ? idx : -1;
+        } else {
+          item.classList.remove('active');
+        }
+      });
+      refreshIcons();
+      persistState();
+    }
+
+    // Step Switcher
+    function switchStep(idx) {
+      state.activeStep = idx;
+      for (let i = 0; i < 4; i++) {
+        const btn = document.getElementById(`step-btn-${i}`);
+        if (btn) {
+          if (i === idx) btn.classList.add('active');
+          else btn.classList.remove('active');
+        }
+      }
+
+      const s = stepData[idx];
+      const badge = document.getElementById('step-card-badge');
+      const title = document.getElementById('step-card-title');
+      const meta = document.getElementById('step-card-meta');
+      const list = document.getElementById('step-card-list');
+
+      if (badge) badge.textContent = s.badge;
+      if (title) title.textContent = s.title;
+      if (meta) meta.textContent = s.meta;
+      if (list) {
+        list.innerHTML = s.desc.map(d => `<li>${d}</li>`).join('');
+      }
+      persistState();
+    }
+
+    // FAQ Toggle
+    function toggleFaq(idx) {
+      const el = document.getElementById(`faq-${idx}`);
+      if (!el) return;
+      el.classList.toggle('open');
+      state.faqOpen = el.classList.contains('open') ? idx : null;
+      refreshIcons();
+    }
+
+    // Slider Sync & Calculation
+    function syncSliderVal(val) {
+      const badge = document.getElementById('sim-participants-val');
+      if (badge) badge.textContent = `${val}명`;
+      state.participantCount = parseInt(val, 10);
+      calculateResults();
+    }
+
+    function calculateResults() {
+      const selectEl = document.getElementById('sim-org-type');
+      const countInput = document.getElementById('sim-participants');
+      if (!selectEl || !countInput) return;
+
+      const orgType = selectEl.value;
+      const count = parseInt(countInput.value, 10);
+
+      // Calculations
+      const books = count;
+      const lds = Math.max(2, Math.ceil(count / 3));
+      const weeks = count <= 10 ? '6~8주' : (count <= 20 ? '8~10주' : '10~12주');
+      const rooms = count;
+
+      const booksEl = document.getElementById('calc-books');
+      const ldsEl = document.getElementById('calc-lds');
+      const weeksEl = document.getElementById('calc-weeks');
+      const roomsEl = document.getElementById('calc-rooms');
+      const fundPathEl = document.getElementById('calc-funding-path');
+
+      if (booksEl) booksEl.textContent = `${books}편`;
+      if (ldsEl) ldsEl.textContent = `${lds}명`;
+      if (weeksEl) weeksEl.textContent = weeks;
+      if (roomsEl) roomsEl.textContent = '1곳';
+      if (fundPathEl) fundPathEl.innerHTML = fundingPaths[orgType] || fundingPaths.public;
+
+      persistState();
+    }
+
+    // Copy Kakao summary text to clipboard
+    function copyKakaoSummary() {
+      const text = `[사랑흐름 · LOVE FLOW 제안서]\n\n"사람의 이야기를 잇고, 지역의 역할을 만듭니다"\n\n어르신의 삶은 디지털 기록으로 남고, 청소년의 꿈은 자서전으로 정리되며, 기록하는 주민에겐 새로운 역할이 생깁니다.\n\n• 핵심: 우리 이야기(디지털 아카이브) · 한 편의 기록(생애기록) · 미리 써 보는 나의 자서전 · 사랑흐름 안내자(LD)\n• 실증: 신규 본예산 없이 5~10명 소규모 「지역 사람 이야기 기록단」\n• 함께하는 곳: 공공기관·복지·교육·지역 협동조합·금융·보험·군부대·지역 언론\n\n※ 실물 책 판매가 아닌 디지털 문서 생성·아카이빙 솔루션입니다.\n\n상세 제안서:\n` + location.origin + location.pathname;
+
+      copyTextToClipboard(text, '카카오톡 전달용 요약문이 복사되었습니다.');
+    }
+
+    // Copy Link
+    function copyProposalLink() {
+      const url = location.origin + location.pathname;
+      copyTextToClipboard(url, '제안서 링크가 클립보드에 복사되었습니다.');
+    }
+
+    function copyTextToClipboard(text, successMsg) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast(successMsg);
+        }).catch(() => {
+          fallbackCopy(text, successMsg);
+        });
+      } else {
+        fallbackCopy(text, successMsg);
+      }
+    }
+
+    function fallbackCopy(text, successMsg) {
+      const tempArea = document.createElement('textarea');
+      tempArea.value = text;
+      tempArea.style.position = 'fixed';
+      tempArea.style.left = '-9999px';
+      document.body.appendChild(tempArea);
+      tempArea.focus();
+      tempArea.select();
+      try {
+        document.execCommand('copy');
+        showToast(successMsg);
+      } catch (err) {
+        showToast('클립보드 복사를 지원하지 않는 브라우저입니다.');
+      }
+      document.body.removeChild(tempArea);
+    }
+
+    // Toast Notification Helper
+    function showToast(msg, ms) {
+      const bar = document.getElementById('toast-bar');
+      const text = document.getElementById('toast-text');
+      if (!bar || !text) return;
+      text.textContent = msg;
+      bar.classList.add('show');
+      setTimeout(() => {
+        bar.classList.remove('show');
+      }, ms || 2500);
+    }
+
+    // Modal Control
+    function openModal() {
+      const modal = document.getElementById('inquiry-modal');
+      if (modal) modal.classList.add('open');
+      refreshIcons();
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('inquiry-modal');
+      if (modal) modal.classList.remove('open');
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target && e.target.id === 'inquiry-modal') {
+        closeModal();
+      }
+    }
+
+    /* ★게시판 서버(개인 계정 · 게시판DB 「파트너신청」 탭) — partner.html 과 같은 창구 · 서버 무손 */
+    var PARTNER_GAS = "https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec";
+
+    function inqErr(msg) {
+      var el = document.getElementById('inq-err');
+      if (!el) return;
+      el.textContent = msg || '';
+      el.style.display = msg ? 'block' : 'none';
+    }
+
+    function submitInquiry(e) {
+      e.preventDefault();
+      var v = function (id) { var el = document.getElementById(id); return el ? el.value.trim() : ''; };
+      var org = v('inq-org'), name = v('inq-name'), title = v('inq-title');
+      var tel = v('inq-tel'), mail = v('inq-mail'), memo = v('inq-memo');
+      var typeEl = document.getElementById('inq-type');
+      var typeTxt = typeEl ? typeEl.options[typeEl.selectedIndex].text : '';
+
+      if (!org) { inqErr('기관명 및 부서를 적어 주십시오.'); return; }
+      if (!name) { inqErr('담당자 성명을 적어 주십시오.'); return; }
+      if (tel.replace(/[^0-9]/g, '').length < 9) { inqErr('연락처를 다시 확인해 주십시오.'); return; }
+      if (!document.getElementById('inq-agree').checked) { inqErr('개인정보 수집 · 이용에 동의해 주십시오.'); return; }
+      inqErr('');
+
+      var btn = document.getElementById('inq-send');
+      var label = btn.querySelector('span');
+      btn.disabled = true; if (label) label.textContent = '보내는 중입니다';
+
+      var data = { action: 'partnerApply', name: name, tel: tel, mail: mail,
+                   from: '기관·단체', org: org, title: title,
+                   items: typeTxt, memo: '[지역 협력 문의] ' + memo };
+
+      fetch(PARTNER_GAS, { method: 'POST', body: JSON.stringify(data) })
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          if (!(j && j.ok)) { throw new Error('fail'); }
+          closeModal();
+          document.getElementById('inquiry-form').reset();
+          showToast('문의가 접수되었습니다. 접수번호 ' + (j.no || '') + ' · 곧 연락드리겠습니다.', 5000);
+        })
+        .catch(function () {
+          inqErr('보내지 못했습니다. 잠시 뒤 다시 보내 주시거나 카카오톡 채널로 남겨 주십시오.');
+        })
+        .then(function () {
+          btn.disabled = false; if (label) label.textContent = '문의 보내기';
+        });
+    }
+
+    // Lucide Icons Helper
+    function refreshIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    function persistState() {}
+
+    // App Initialization
+    window.addEventListener('DOMContentLoaded', () => {
+      refreshIcons();
+      calculateResults();
+    });
+  </script>
+<script src="/lf-foot.js" defer></script>
+<script src="/lf/frame.js?v=20"></script>
+</body>
+</html>
