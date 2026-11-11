@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v120 · 261110 · [575 사진 화면 여는 시간 — 실서버에서 잰 값: 사진 화면 서버 답 3~6초 다음에야 큰 사진 3.5초를 받아 합 6~10초] 큰 사진을 서버 답과 동시에 받기 시작(itBig · 받는 중인 사진은 한 번만 부름) · 받은 사진 화면 1분 담아 둠(itGet · 쓰기가 있으면 버림) · 다음 사진 화면 미리 받기(서버 부름 한 번 · 큰 사진은 바로 주소일 때만 · itAhead) · 목록에 작은 사진이 있으면 서버가 다시 싣지 않게 nopv=1(①Code v57) · [무손] 그 밖 v119 전부. -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v121 · 261111 · [공사 칸 ⑥ 입구 · 600 · 대표 OK 18:36] ①방 화면 아래 「마당 둘러보기」(마당 사진 줄 아래) · 「우리 이야기 만들기」(따로 띠)가 위아래 · 높이가 달랐던 것 → 마당 사진 줄 바로 아래 한 줄 · 양쪽 같은 높이(그림 글자 위 · 글은 한 줄 · 글자 크기 그대로) · 「나의 일상부터…」 띠는 내가 만든 방 목록(opMine) 자리만 남김 ②본부 판매 · 발급 칩에 「🎁 선물 발급」(admin v22 tab=gift · 대표만). [무손] 서버 · 그 밖 v120 전부. -->
+<!-- (이전) rec/index.html · v120 · 261110 · [575 사진 화면 여는 시간 — 실서버에서 잰 값: 사진 화면 서버 답 3~6초 다음에야 큰 사진 3.5초를 받아 합 6~10초] 큰 사진을 서버 답과 동시에 받기 시작(itBig · 받는 중인 사진은 한 번만 부름) · 받은 사진 화면 1분 담아 둠(itGet · 쓰기가 있으면 버림) · 다음 사진 화면 미리 받기(서버 부름 한 번 · 큰 사진은 바로 주소일 때만 · itAhead) · 목록에 작은 사진이 있으면 서버가 다시 싣지 않게 nopv=1(①Code v57) · [무손] 그 밖 v119 전부. -->
 <!-- ── 이전 ▶ rec/index.html · v119 · 261110 · [489 · 대표 OK 19:19] 「QR 받기 · QR 내려받기」(방 이름 옆 QR · 방이 열렸습니다 창 · 관리 ☰ 설정) → 새 화면 QR 인쇄물 만들기(/rec/print.html?c=방번호&n=방이름 · 크기 여섯 · 틀 여섯 · 문구 · 아래 사랑흐름 띠)로 감 · 메뉴 이름 「QR 인쇄물 만들기」 · REC_VER 119. [무손] 옛 qrSheet 그리기(qrCard)는 남겨 둠 · 그 밖 v118 전부. -->
 <!-- (이전) rec/index.html · v118 · 261110 · [대표 17:58 「판단해서 하라」 다음 할 일 1] 공개 방으로 바꾸는 자리에서 바로 묻기 — 「지금까지 올린 사진 ○장도 마당에 낼까요?」(아이 표시 사진은 처음부터 뺌) → 「예, 고르기」 = 고르기 창(pubAsk → pubBulk · 받은 목록 그대로 · 서버 한 번) · 「나중에」 = 닫기 · 낼 사진 없으면 묻지 않음 · REC_VER 118 · [무손] 그 밖 v117 전부 -->
 <!-- (이전) rec/index.html · v117 · 261110 · [대표 16:48 「사진 마당에 내기 버튼이 안 눌려 · 방 관리가 어딨냐 · 둘러보기 너무 작아」] ① 관리 화면 「사진 마당에 내기」가 아무 일도 안 하던 것(admTap 에 없었음) → 맨 위 큰 단추로 ② 이름 맞춤 — 단추 「⚙ 방 관리」 = 화면 제목 「방 관리」 · 위 띠 「○○ · 방 관리」 · 맨 밑 「⚙ 방 관리」 ③ 방 아래 「🍇 우리 이야기 마당」 크게 — 다른 방 사진 12장 옆으로 밀어 보기 + 「마당 둘러보기 ›」 큰 단추 · 「우리 이야기 만들기」 위 · REC_VER 117 · [무손] 그 밖 v116 전부 -->
@@ -650,6 +651,9 @@ body.lfgo{cursor:progress}body.lfgo::after{content:'이동 중입니다…';posi
 .pzt i{position:absolute;left:6px;bottom:6px;right:6px;font-style:normal;font-size:12px;color:#fff;background:rgba(0,0,0,.45);border-radius:6px;padding:2px 6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-align:left}
 .pzw{font-size:14px;color:#888;padding:20px 4px}
 .pzbig .pzgo{margin-top:10px;width:100%;font-size:17px;padding:14px}
+.pair2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}   /* ★v121 600 한 줄 · 같은 높이 */
+.pair2 .btn{margin:0;width:100%;min-height:76px;flex-direction:column;gap:5px;font-size:16.5px;padding:12px 4px;white-space:nowrap}
+.pair2 .btn svg{width:22px;height:22px}
 .opband{margin:12px 0 6px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#FFF6EA 0%,#FDF1E7 50%,#EEF3F8 100%);border:1px solid var(--line);text-align:center}
 .opband .free{display:inline-block;vertical-align:middle;margin-left:4px;padding:1px 8px;border:1.5px solid var(--orange);border-radius:999px;color:var(--orange);font-family:var(--f-body);font-size:12px;font-style:normal;font-weight:700}
 .opband b{display:block;font-family:var(--f-disp);font-size:18px;color:var(--navy2)}.opband small{display:block;font-size:13px;color:var(--sub);margin:4px 0 10px}
@@ -2586,8 +2590,8 @@ function gridDraw(){
   if(!b.length&&!nw.length&&!st.length){ h+='<div class="card" style="text-align:center"><h2>아직 기록이 없습니다</h2><p class="lead">'+(canAdd()?'오른쪽 아래 ＋ 에서 첫 사진 한 장을 남겨 주세요.':'곧 첫 기록이 올라옵니다.')+'</p></div>'; }
   h+='<div class="lo"><h3>찾아보기</h3><div class="row1">'+findList().map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div></div>';   /* ★v59 */
   h+='<div class="lo lo3">'+subsRow()+'<div id="shBox">'+showBox()+'</div>';   /* ★v45 ③ 바깥 — 다른 이야기방 · 만들기 띠 */
-  h+='<div class="pzbig"><div class="pzh"><b>🍇 우리 이야기 마당</b><small>다른 방 이야기를 둘러보세요</small></div><div class="pzs" id="pzS"></div><button class="btn pzgo" id="pzGo" type="button">'+ic('grape')+'마당 둘러보기 ›</button></div>';   /* ★v117 대표 16:48 「둘러보기 버튼이 너무 작아 · 옆으로 밀어 보게 · 만들기 위에」 */   /* ★v99 사 — 남의 방 보러 가는 곳 = 둘러보기(마당) */
-  { h+='<div class="opband" id="opBand"><b>나의 일상부터 우리 모두의 이야기까지</b><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기 만들기</button><div id="opMine"></div></div>'; }
+  h+='<div class="pzbig"><div class="pzh"><b>🍇 우리 이야기 마당</b><small>다른 방 이야기를 둘러보세요</small></div><div class="pzs" id="pzS"></div><div class="pair2"><button class="btn" id="pzGo" type="button">'+ic('grape')+'마당 둘러보기</button><button class="btn warm" id="opnGo" type="button">'+ic('pen')+'우리 이야기 만들기</button></div></div>';   /* ★v121 600 */   /* ★v117 대표 16:48 「둘러보기 버튼이 너무 작아 · 옆으로 밀어 보게 · 만들기 위에」 */   /* ★v99 사 — 남의 방 보러 가는 곳 = 둘러보기(마당) */
+  { h+='<div id="opBand"><div id="opMine"></div></div>'; }   /* ★v121 만들기 단추는 위 한 줄로 */
   h+='</div><div class="lo lo4">';   /* ★v59 필요할 때만 쓰는 것 — 맨 밑 */
   if(isBoss()&&!OPN){ h+='<button class="btn upb adb" id="admB" type="button">⚙ 방 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':'')+'</button>'; }   /* ★v58 364 · ★v59 맨 밑 */
   h+=guideFold()+(OPN||pwaIn()?'':'<button class="btn line pwab" id="pwaGo" type="button">📲 휴대폰 바탕화면에 두기</button>');
@@ -5049,7 +5053,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=120;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=121;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
@@ -5544,7 +5548,7 @@ function dkLinks(t,sub,a){ $('dkB').innerHTML=dkHead(t,sub)+'<div class="dk-lk">
   each($('dkB'),'[data-li]',function(b){ var x=a[+b.getAttribute('data-li')]; b.onclick=function(){ if(typeof x[2]==='function'){ x[2](); } else { hqOutGo(x[2]); } }; }); }
 /* ══ ★v94 본부 ③ 칸 3-가 — 판매 · 발급 목록(게시판 서버 v5-23 hqSales · hqMark · 본부 표로 엶) ══ */
 var SLS={pass:'',at:0,d:null,tab:'card'};
-var SLS_FR={pay:'입금 · 발급',bulk:'대량 발급',issued:'발급 목록'};   /* ★v95 */
+var SLS_FR={pay:'입금 · 발급',bulk:'대량 발급',issued:'발급 목록',gift:'🎁 선물 발급'};   /* ★v121 gift */   /* ★v95 */
 function slsGas(){ try{ if(window.LF_CONFIG&&LF_CONFIG.gas&&LF_CONFIG.gas.board){ return LF_CONFIG.gas.board; } }catch(e){} return 'https://script.google.com/macros/s/AKfycbxaUOkw181xKRNJj4kxVd31PXL8cEQW4e0B6D2alEw-s_jTrPQhNku2jUeGY-TjuXZNzw/exec'; }   /* 게시판 서버(…ZNzw) */
 var SLS_NM={map:'마음 여행지도',set:'마음여행',memoir:'한 편의 기록',life:'두 분의 여정'};
 function slsItem(x){ var n=SLS_NM[x.it]; if(!n){ return x.item||'—'; } return n+(x.it==='memoir'&&x.pc>1?' '+x.pc+'편':''); }
@@ -5570,14 +5574,14 @@ function dkSales(){
   slsCall({action:'hqSales'},function(d){ if(d.status!=='ok'){ dkErr(d); return; } SLS.d=d; slsPaint(); });
 }
 function slsPaint(){
-  var d=SLS.d, N=d.nums||{}, tab=SLS.tab||'card'; if(['card','order','pay','bulk','issued','sum'].indexOf(tab)<0){ tab='card'; }
+  var d=SLS.d, N=d.nums||{}, tab=SLS.tab||'card'; if(['card','order','pay','bulk','issued','gift','sum'].indexOf(tab)<0){ tab='card'; }
   var mm=String(d.month||'').slice(5).replace(/^0/,'');
   var h=dkHead('판매 · 발급',mm+'월 · 카드 결제 · 주문 · 환불됨 표시 · 입금 · 발급 — 연락처는 싣지 않습니다 · 입금자명 · 성명은 「입금 · 발급」에서 입금 확인용으로만');
   var CN=[['card',N.card,'카드 결제 · '+mm+'월',slsWon(N.cardSum),0],['card',N.cancel,'결제취소 · '+mm+'월','토스에서 취소 → 30분 안에 막힘',0],['card',N.miss,'여권 안 받음','결제했는데 발급 전에 나감',1],['wait',N.wait,'발급 기다림','오픈마켓 · 계좌이체 확인',1]];
   h+='<div class="dk-cards">'+CN.map(function(c){ return '<button type="button" class="dk-n'+(c[4]&&c[1]?' hot':(c[1]?'':' zero'))+'" data-sn="'+c[0]+'"><b>'+(c[1]||0)+'</b><span>'+esc(c[2])+'</span><span style="font-size:11.5px">'+esc(c[3])+'</span></button>'; }).join('')+'</div>';
-  h+='<div class="chipline" style="margin-bottom:8px">'+[['card','카드 결제'],['order','주문 · 환불됨 표시'],['pay','입금 · 발급'],['bulk','대량 발급'],['issued','발급 목록'],['sum','갈래별 합계']].map(function(c){ return '<button type="button" class="chip s'+(c[0]===tab?' on':'')+'" data-st="'+c[0]+'">'+esc(c[1])+'</button>'; }).join('')+'</div>';
+  h+='<div class="chipline" style="margin-bottom:8px">'+[['card','카드 결제'],['order','주문 · 환불됨 표시'],['pay','입금 · 발급'],['bulk','대량 발급'],['issued','발급 목록'],['gift','🎁 선물 발급'],['sum','갈래별 합계']].map(function(c){ return '<button type="button" class="chip s'+(c[0]===tab?' on':'')+'" data-st="'+c[0]+'">'+esc(c[1])+'</button>'; }).join('')+'</div>';
   if(SLS_FR[tab]){   /* ★v95 칸 3-나 — 예전 관리 화면(admin)을 본부 틀 안에 · 같은 본부 로그인 */
-    h+='<iframe class="dk-fr" src="/admin.html?in=hq&tab='+tab+'&v=20" title="'+esc(SLS_FR[tab])+'"></iframe>';
+    h+='<iframe class="dk-fr" src="/admin.html?in=hq&tab='+tab+'&v=22" title="'+esc(SLS_FR[tab])+'"></iframe>';
   } else if(tab==='card'){
     var C=d.cards||[];
     h+='<div class="dk-grp"><h2>카드 결제 <em>'+C.length+'</em> <small>토스 · 최근 것부터 · 실패 · 금액 다름은 돈이 안 나가 뺌</small></h2>';

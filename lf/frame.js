@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v23 · 261111 · [공사 칸 ⑤ 견본에서 찾음 · 595] ← ⌂ → 를 붙인 543 공사(261109 16:31 · 355a013)부터 window.LFWay 를 통째로 덮어써 lf/way.js 의 LFWay.get 이 사라짐 → apply.html(계좌이체 접수) · gate.html(네이버 · 오픈마켓 발권 신청) 신청 단추에서 오류로 멈춤 → 있는 LFWay 에 back · home · fwd 만 덧붙임. [무손] 그 밖 v22 전부.
+   현재 버전 ▶ lf/frame.js · v24 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] ☰ 「사랑흐름 여행」 큰 칸 바로 아래 「🎁 선물하기」 한 줄(→ /pay.html?mode=gift · 자수정 보라) · 아래 묶음 「사랑흐름 여행」에도 「선물하기」 · 그 묶음 상품 넷 색을 lf/thumb.js 상품 색으로(마음 여행지도 청록 · 마음여행 남색 · 한 편의 기록 가죽 갈색 · 두 분의 여정 와인). [무손] 그 밖 v23 전부.
+   (이전) lf/frame.js · v23 · 261111 · [공사 칸 ⑤ 견본에서 찾음 · 595] ← ⌂ → 를 붙인 543 공사(261109 16:31 · 355a013)부터 window.LFWay 를 통째로 덮어써 lf/way.js 의 LFWay.get 이 사라짐 → apply.html(계좌이체 접수) · gate.html(네이버 · 오픈마켓 발권 신청) 신청 단추에서 오류로 멈춤 → 있는 LFWay 에 back · home · fwd 만 덧붙임. [무손] 그 밖 v22 전부.
    (이전) lf/frame.js · v22 · 261111 · [공사 칸 ④ 견본에서 찾음 · 594] 휴대폰 「홈 화면에 추가」 위 띠(v18)가 몸이 가로 줄(flex row)인 화면 12곳(gate · pay · apply · enter · reenter · showroom · journey · journey/result · letter · memoir · hanmadi · hq)에서 본문 옆 칸이 되어 카드를 좁은 세로 줄로 짓누르던 것 → 그런 화면에서는 위 띠 바로 아래에 떠 있게. [무손] 그 밖 v21 전부.
    (이전) lf/frame.js · v21 · 261110 · [558 · 대표 OK 19:19] ☰ 「사랑흐름 여행」 상품 넷이 설명 없이 바로 결제(/pay.html)로 가던 것 → 상품 설명(/item/?k=set · memoir · life · map)으로 · 구매하기는 설명 화면 안에서. [무손] 그 밖 v20 전부.
    (이전) lf/frame.js · v20 · 261109 · [543 · 대표 지적 261109 16:12 「앞으로 · 뒤로 · 홈 단추가 왜 없어졌냐」] ★v1(261004)부터 옛 길 셋(.lfway)을 감추기만 하고 261015 기준 「← ⌂ →」 을 되살리지 않았던 것 — 모든 화면 푸터 바로 위에 동그라미 셋을 둠(화면이 자기 것을 가졌으면 그것) · 화면이 window.LF_WAY 로 뜻을 정할 수 있음 · 자서전 화면 ⌂ = 내 이야기 목록. [무손] 그 밖 v19 전부.
@@ -93,6 +94,7 @@
     build:  '<path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/>',
     menu:   '<path d="M4 7h16M4 12h16M4 17h16"/>',
     phone:  '<rect x="7" y="2.5" width="10" height="19" rx="2.2"/><path d="M11 18h2"/>',
+    gift:   '<rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M2.5 9h19v-3h-19z"/><path d="M12 6v14"/><path d="M12 6c-1.5-3-5-3-5-1s3 1 5 1c2 0 5 1 5-1s-3.5-2-5 1z"/>',   /* ★v24 */
     x:      '<path d="M6 6l12 12M18 6L6 18"/>'
   };
   function svg(k, s) {
@@ -114,10 +116,11 @@
       { t: '관계 나침반', s: '무료로 먼저 해 보기', ic: 'compass', c: '#1D9E75', u: '/compass.html' }
     ] },
     { k: 'buy', t: '사랑흐름 여행', ic: 'ticket', c: '#E58A5F', items: [
-      { t: '마음여행', s: '여행지도와 편지', ic: 'letter', c: '#1E4A76', u: '/item/?k=set' },
-      { t: '한 편의 기록', s: '나의 이야기를 한 편씩', ic: 'mem', c: '#C0872E', u: '/item/?k=memoir' },
-      { t: '두 분의 여정', s: '지도 · 편지 · 기록까지', ic: 'two', c: '#C25B7C', u: '/item/?k=life' },
-      { t: '마음 여행지도', s: '나를 먼저 돌아보기', ic: 'map', c: '#1D9E75', u: '/item/?k=map' },
+      { t: '마음여행', s: '여행지도와 편지', ic: 'letter', c: '#24508A', u: '/item/?k=set' },
+      { t: '한 편의 기록', s: '나의 이야기를 한 편씩', ic: 'mem', c: '#9A6334', u: '/item/?k=memoir' },
+      { t: '두 분의 여정', s: '지도 · 편지 · 기록까지', ic: 'two', c: '#8E3B62', u: '/item/?k=life' },
+      { t: '마음 여행지도', s: '나를 먼저 돌아보기', ic: 'map', c: '#1E8C76', u: '/item/?k=map' },
+      { t: '선물하기', s: '소중한 분께 마음을 담아', ic: 'gift', c: '#4B33B0', u: '/pay.html?mode=gift' },   /* ★v24 579 */
       { t: '단체 · 기관', s: '여럿이 함께 떠나기', ic: 'group', c: '#5C7FA6', u: '/proposal.html' }
     ] },
     { k: 'look', t: '둘러보기', ic: 'show', c: '#C25B7C', items: [
@@ -295,6 +298,7 @@
       + mi('관계 나침반', 'compass', '#1D9E75', '/compass.html')
       + '<div class="lfx-grp">사랑흐름 여행</div>'
       + '<button class="lfx-big lfx-b5" data-u="/travel/"><i>' + svg('map', 20) + '</i><span><b>사랑흐름 여행</b><small>여행지도 · 편지 · 자서전</small></span></button>'
+      + mi('선물하기', 'gift', '#4B33B0', '/pay.html?mode=gift')   /* ★v24 579 */
       + mi('구매한 여행 이어가기', 'pass', '#C9A96E', '/reenter.html', 'gold')
       + mi('사랑흐름 여권 찾기', 'find', '#7F97B2', '/find/')
       + mi('휴대폰 관리', 'phone', '#5C7FA6', '/lf/device.html')

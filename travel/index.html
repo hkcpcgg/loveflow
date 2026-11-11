@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ travel/index.html · v8 · 261026 · [461 · 대표 OK 261026 19:57] 카드 「미리보기」 → 「자세히 보기」 — 올라오는 판(카드 글 되풀이 · 옆으로 미는 자서전 견본) 없앰 · 누르면 바로 상품 설명 /item/?k=map · set · memoir · life(한 편의 기록도 같은 틀). 마음 전하기(무료) 셋의 올라오는 판은 그대로. [무손] 그 밖 v7 전부. -->
+<!-- ★ 현재 버전 ▶ travel/index.html · v9 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] 카드 넷 — 그림 칸 보라 선 아이콘 → 그 상품의 결과물 견본(lf/thumb.js · 두 분의 여정은 셋을 한 칸에) · 이름 · 값 · 「자세히 보기 ›」(값 옆 · 그 상품 색) · 아래 [구매하기] [🎁 선물하기] 같은 크기 · 목록 위에 작은 제목 한 줄 「소중한 분께 마음을 담아 선물하세요」(카드마다 되풀이하지 않음) · 카드 그림 · 이름을 눌러도 상품 설명 · frame.js ?v=24. [무손] 그 밖 v8 전부. -->
+<!-- (이전) travel/index.html · v8 · 261026 · [461 · 대표 OK 261026 19:57] 카드 「미리보기」 → 「자세히 보기」 — 올라오는 판(카드 글 되풀이 · 옆으로 미는 자서전 견본) 없앰 · 누르면 바로 상품 설명 /item/?k=map · set · memoir · life(한 편의 기록도 같은 틀). 마음 전하기(무료) 셋의 올라오는 판은 그대로. [무손] 그 밖 v7 전부. -->
 <!-- (이전) travel/index.html · v7 · 261026 · [칸 4-나 ② · 대표 OK 261026 11:10] 미리보기 판 「여행 자세히 보기」 → 상품 설명 화면 /item/?k=map · set · life(한 편의 기록은 자서전 소개 그대로). [무손] 그 밖 v6 전부. -->
 <!-- (이전) travel/index.html · v6 · 261026 · [칸 4-나 ① · 대표 OK 261026 10:58] 미리보기 판 「여행 자세히 보기」 → 값표(showcase) 대신 결과물 견본이 있는 여행의 기록(showroom)으로 — 상품별 설명 화면이 생기면 다시 그리로. 한 편의 기록은 자서전 소개 그대로. [무손] 그 밖 v5 전부. -->
 <!-- (이전) travel/index.html · v5 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -28,19 +29,21 @@ button{font:inherit;color:inherit;cursor:pointer}
 .lab small{font-weight:700;color:#2F7F76;font-size:13px}
 /* 유료 여행 카드 */
 .pc{display:flex;gap:13px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:12px;box-shadow:0 2px 10px rgba(40,30,80,.05)}
-.pv{flex:0 0 104px;height:138px;border-radius:14px;background:linear-gradient(160deg,var(--p1),var(--p2));display:grid;place-items:center;overflow:hidden;position:relative}
+.pv{flex:0 0 104px;height:138px;border-radius:14px;display:block;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 3px 10px rgba(40,30,20,.10)}   /* ★v9 결과물 견본 */
 .pv img{width:100%;height:100%;object-fit:cover;display:block}
 .pv svg{width:70px;height:70px;fill:none;stroke:#fff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
-.pv::after{content:'';position:absolute;width:90px;height:90px;border-radius:50%;top:-40px;right:-40px;background:#B07FE0;filter:blur(22px);opacity:.5;pointer-events:none}
+.pv::after{display:none}
 .pb{flex:1;min-width:0;display:flex;flex-direction:column}
-.pb b{font-size:17px;color:var(--navy);font-weight:800;line-height:1.3}
-.pb .ps{font-size:12.5px;color:#7A5BB8;font-weight:700;margin-top:1px}
+.pb b{font-size:17px;color:var(--pc,var(--navy));font-weight:800;line-height:1.3;cursor:pointer}
+.pc.k-map{--pc:#0C4F45}.pc.k-set{--pc:#10274A}.pc.k-memoir{--pc:#4F2F14}.pc.k-life{--pc:#45172F}
+.pb .ps{font-size:12.5px;color:var(--sub);font-weight:700;margin-top:1px}
 .pb p{font-size:13px;line-height:1.55;color:var(--ink);margin:6px 0 8px}
-.pr{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.pr .won{grid-column:1 / -1;font-size:15.5px;font-weight:800;color:var(--ink);margin-bottom:2px}
-.pr button{border-radius:10px;padding:8px 4px;font-size:13.5px;font-weight:800;white-space:nowrap}
-.pr .peek{background:#fff;border:1.5px solid #CFC4EA;color:#4A3B8C}
-.pr .buy{background:linear-gradient(160deg,var(--p1),var(--p2));border:1.5px solid var(--p2);color:#fff}
+.pr{margin-top:auto}
+.pr .wl{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px}
+.pr .won{font-size:15.5px;font-weight:800;color:var(--ink)}
+.pr .peek{border:0;background:none;padding:4px 0 4px 8px;font-size:13.5px;font-weight:800;color:var(--pc,var(--navy));white-space:nowrap;cursor:pointer}
+.pr .lfbg{gap:6px}.pr .lfbg a{min-height:42px;font-size:14.5px;border-radius:11px;padding:8px 2px}
+.gtl{text-align:center;font-size:13.5px;font-weight:700;color:#4B3A9C;margin:2px 0 -4px}
 /* 여권 */
 .pass{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border:1.5px solid var(--gold);background:linear-gradient(135deg,#FFFBF2,#FBF1DD);border-radius:16px;transition:transform .12s}
 .pass:active{transform:scale(.98)}
@@ -76,26 +79,27 @@ button{font:inherit;color:inherit;cursor:pointer}
 <body data-lf-title="사랑흐름 여행">
 <main class="home">
   <section class="lead"><h1>나를 알고,<br>그 사람을 알아 가는 여행</h1></section>
+  <div class="gtl">소중한 분께 마음을 담아 선물하세요</div>
 
-  <article class="pc">
-    <div class="pv" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 4L3 6.5v13L9 17l6 2.5 6-2.5v-13L15 6.5 9 4z"/><path d="M9 4v13M15 6.5v13"/></svg></div>
-    <div class="pb"><b>마음 여행지도</b><span class="ps">나를 먼저 돌아보기</span><p>물음을 따라 걸으며 나와 그 사람 사이를 돌아보는 여행입니다. 여행이 끝나면 나의 마음 여행지도가 남습니다.</p>
-      <div class="pr"><span class="won" data-lf-price="LF-M001"></span><button class="peek" type="button" data-u="/item/?k=map">자세히 보기</button><button class="buy" type="button" data-u="/pay.html?item=map">구매하기</button></div></div>
+  <article class="pc k-map">
+    <div class="pv" data-lf-thumb="map" data-u2="/item/?k=map"></div>
+    <div class="pb"><b data-u2="/item/?k=map">마음 여행지도</b><span class="ps">나를 먼저 돌아보기</span><p>물음을 따라 걸으며 나와 그 사람 사이를 돌아보는 여행입니다. 여행이 끝나면 나의 마음 여행지도가 남습니다.</p>
+      <div class="pr"><div class="wl"><span class="won" data-lf-price="LF-M001"></span><button class="peek" type="button" data-u2="/item/?k=map">자세히 보기 ›</button></div><div data-lf-pair="map"></div></div></div>
   </article>
-  <article class="pc">
-    <div class="pv" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></div>
-    <div class="pb"><b>마음여행</b><span class="ps">여행지도와 편지</span><p>마음 여행지도를 그리고, 그 사람에게 전하지 못한 마음을 편지로 남기는 여행입니다.</p>
-      <div class="pr"><span class="won" data-lf-price="LF-S001"></span><button class="peek" type="button" data-u="/item/?k=set">자세히 보기</button><button class="buy" type="button" data-u="/pay.html?item=set">구매하기</button></div></div>
+  <article class="pc k-set">
+    <div class="pv" data-lf-thumb="set" data-u2="/item/?k=set"></div>
+    <div class="pb"><b data-u2="/item/?k=set">마음여행</b><span class="ps">여행지도와 편지</span><p>마음 여행지도를 그리고, 그 사람에게 전하지 못한 마음을 편지로 남기는 여행입니다.</p>
+      <div class="pr"><div class="wl"><span class="won" data-lf-price="LF-S001"></span><button class="peek" type="button" data-u2="/item/?k=set">자세히 보기 ›</button></div><div data-lf-pair="set"></div></div></div>
   </article>
-  <article class="pc">
-    <div class="pv"><img src="/memoir/samples/cover.png" alt="한 편의 기록 견본 표지"></div>
-    <div class="pb"><b>한 편의 기록</b><span class="ps">나의 이야기를 한 편씩</span><p>물음에 답하며 내 삶의 이야기 하나를 남깁니다. 열 편이 모이면 한 사람의 삶이 담긴 자서전이 됩니다.</p>
-      <div class="pr"><span class="won" data-lf-price="LF-R001"></span><button class="peek" type="button" data-u="/item/?k=memoir">자세히 보기</button><button class="buy" type="button" data-u="/pay.html?item=memoir">구매하기</button></div></div>
+  <article class="pc k-memoir">
+    <div class="pv" data-lf-thumb="memoir" data-u2="/item/?k=memoir"></div>
+    <div class="pb"><b data-u2="/item/?k=memoir">한 편의 기록</b><span class="ps">나의 이야기를 한 편씩</span><p>물음에 답하며 내 삶의 이야기 하나를 남깁니다. 열 편이 모이면 한 사람의 삶이 담긴 자서전이 됩니다.</p>
+      <div class="pr"><div class="wl"><span class="won" data-lf-price="LF-R001"></span><button class="peek" type="button" data-u2="/item/?k=memoir">자세히 보기 ›</button></div><div data-lf-pair="memoir"></div></div></div>
   </article>
-  <article class="pc">
-    <div class="pv" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="8.5" cy="8" r="2.6"/><circle cx="16" cy="8" r="2.6"/><path d="M3.5 19c0-2.5 2.2-4.2 5-4.2s5 1.7 5 4.2"/><path d="M14.6 15.1c2.4.2 4.4 1.8 4.4 3.9"/></svg></div>
-    <div class="pb"><b>두 분의 여정</b><span class="ps">지도 · 편지 · 기록까지</span><p>마음 여행지도와 편지에 한 편의 기록까지, 두 분의 이야기를 함께 남기는 여정입니다.</p>
-      <div class="pr"><span class="won" data-lf-price="LF-A001"></span><button class="peek" type="button" data-u="/item/?k=life">자세히 보기</button><button class="buy" type="button" data-u="/pay.html?item=life">구매하기</button></div></div>
+  <article class="pc k-life">
+    <div class="pv" data-lf-thumb="life" data-u2="/item/?k=life"></div>
+    <div class="pb"><b data-u2="/item/?k=life">두 분의 여정</b><span class="ps">지도 · 편지 · 기록까지</span><p>마음 여행지도와 편지에 한 편의 기록까지, 두 분의 이야기를 함께 남기는 여정입니다.</p>
+      <div class="pr"><div class="wl"><span class="won" data-lf-price="LF-A001"></span><button class="peek" type="button" data-u2="/item/?k=life">자세히 보기 ›</button></div><div data-lf-pair="life"></div></div></div>
   </article>
 
   <button class="pass" type="button" data-u="/reenter.html"><span class="ci" style="background:#C9A96E"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="3" width="14" height="18" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M9 16h6"/></svg></span><span><b>사랑흐름 여권으로 입장하기</b><small>쓰던 곳으로 바로 이어집니다</small></span></button>
@@ -154,6 +158,8 @@ document.getElementById('hDim').onclick=hClose;
 <script src="/lf/prices.js" defer></script>
 <script src="/lf/guide-ask.js?v=3"></script>
 <script src="/lf-foot.js" defer></script>
-<script src="/lf/frame.js?v=17"></script>
+<script src="/lf/thumb.js?v=1"></script>
+<script>(function(){ var e=document.querySelectorAll('[data-lf-pair]'); for(var i=0;i<e.length;i++){ try{ e[i].innerHTML=LFThumb.pair(e[i].getAttribute('data-lf-pair'),false); }catch(x){} } var u=document.querySelectorAll('[data-u2]'); for(var j=0;j<u.length;j++){ u[j].onclick=function(){ location.href=this.getAttribute('data-u2'); }; } })();</script>
+<script src="/lf/frame.js?v=24"></script>
 </body>
 </html>

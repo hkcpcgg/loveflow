@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ my/index.html · v3 · 261111 · [대표 15:46 「카드로 직접 샀는데 왜 ○○ 외 한 분이 선물하신이 나와」 → OK 15:50] ①「외 1분」 대신 이름 그대로 — 「박서윤 님이 선물하신」 · 「박서윤 · 이민정 님이 함께 선물하신」(넷 이상만 「… 님 외 n분」) · 탑승권 그림 「선물 · GIFT FROM」 칸도 같은 줄 ②선물로만 받은 사랑흐름 여권일 때만 맨 위 선물 상자 · 직접 산 사랑흐름 여권(서버 gift v5 own)에 선물이 더해졌으면 맨 위는 「○○ 님의 사랑흐름 여권」 그대로 + 아래 「🎁 박서윤 님이 보낸 선물 · 마음여행 3편」 줄 · 안내 글도 「○○ 님의 사랑흐름 여권으로 여행하시려면」. [무손] 그 밖 v2 전부. -->
+<!-- ★ 현재 버전 ▶ my/index.html · v4 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] ①상품 단추 앞 그림 — 🗺 ✉️ ✍️ → 그 상품의 결과물 견본(lf/thumb.js · 만든 사람만 알아보는 그림 대신) ②본부 발급 그림 — /my/#cards=(본부 「발급 목록」이 만든 목록) 이면 서버를 부르지 않고 탑승권 그림만 차례로 그려 「이미지 저장」(QR 은 /reenter.html?id= · 열쇠 없이) ③남은 편 0(다 씀)인 상품 바로 아래에만 「○○을 더 쓰시려면」 + [구매하기] [🎁 선물하기] 같은 크기(마음 여행편지는 마음여행으로) — 옛 셈(source old)이면 두지 않음 · 막지 않음(보기 단추는 그대로) ④frame.js ?v=24. [무손] 그 밖 v3 전부. -->
+<!-- (이전) my/index.html · v3 · 261111 · [대표 15:46 「카드로 직접 샀는데 왜 ○○ 외 한 분이 선물하신이 나와」 → OK 15:50] ①「외 1분」 대신 이름 그대로 — 「박서윤 님이 선물하신」 · 「박서윤 · 이민정 님이 함께 선물하신」(넷 이상만 「… 님 외 n분」) · 탑승권 그림 「선물 · GIFT FROM」 칸도 같은 줄 ②선물로만 받은 사랑흐름 여권일 때만 맨 위 선물 상자 · 직접 산 사랑흐름 여권(서버 gift v5 own)에 선물이 더해졌으면 맨 위는 「○○ 님의 사랑흐름 여권」 그대로 + 아래 「🎁 박서윤 님이 보낸 선물 · 마음여행 3편」 줄 · 안내 글도 「○○ 님의 사랑흐름 여권으로 여행하시려면」. [무손] 그 밖 v2 전부. -->
 <!-- (이전) my/index.html · v2 · 261111 · [대표 15:35~15:39 「뭔지도 모르는데 맨 위에 단추 · QR 은 사람들이 몰라 · 번호를 물고 입장 · 구구절절 안내」] 차례를 바꿈 — ① 「○○ 님이 선물하신 사랑흐름 여권입니다」(선물일 때 맨 위) ② 탑승권 그림 ③ 지난 마음 여행편지 ④ 다 본 자리에 「○○ 님이 선물하신 사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요 · 누르시면 사랑흐름 여권번호가 자동으로 입력되어 바로 들어갑니다」 + 「마음 여행지도로 입장하기 ›」 · 「마음 여행편지로 입장하기 ›」 · 「한 편의 기록으로 입장하기 ›」 ⑤ 이 휴대폰에 두기. QR 은 그림 안에만(안내에 쓰지 않음). [무손] 서버 · 열쇠 · 그림 · 그 밖 v1 전부. -->
 <!-- (이전) my/index.html · v1 · 261111 · [공사 칸 ④ · 577 · 587 · 590 · 591 · 592 · 대표 「나머지 작업 진행해」 261111 15:02] 새 화면 — 사랑흐름 여권 화면.
      · /my/?k=열쇠(열 글자) 로 엶 — 사랑흐름 여권번호를 주소에 드러내지 않음(581). 열면 이 휴대폰이 열쇠를 기억(lf_my_k) → 홈 화면 아이콘(/my/?app=1)은 기억한 열쇠로.
@@ -45,7 +46,10 @@ button{font-family:inherit;cursor:pointer}
 .passWrap.rise .shine{animation:shine 1.6s .5s ease}
 @keyframes shine{from{background-position:150% 0}to{background-position:-60% 0}}
 .main{margin-top:16px;display:flex;flex-direction:column;gap:10px}
-.partBtn{width:100%;border-radius:16px;padding:15px 14px;font-size:17px;font-weight:800;text-align:center;line-height:1.35}
+.partBtn{width:100%;border-radius:16px;padding:12px 14px 12px 12px;font-size:17px;font-weight:800;text-align:left;line-height:1.35;display:flex;align-items:center;gap:12px}   /* ★v4 그림 + 글 */
+.partBtn .pth{flex:0 0 40px;width:40px;height:54px;border-radius:7px;overflow:hidden;display:block;box-shadow:0 2px 6px rgba(0,0,0,.18)}
+.partBtn .ptx{flex:1;min-width:0}
+.more1{margin:-2px 0 6px}.more1 .lfbg-t{margin:4px 0 7px}
 .partBtn .left{display:block;font-size:12.5px;font-weight:500;margin-top:3px;opacity:.9}
 .bigBtn{border:0;color:#fff;background:linear-gradient(135deg,#2A2370,#1E4A76 55%,#2C6E8F);box-shadow:0 8px 20px rgba(30,74,118,.32)}
 .subBtn{border:1.5px solid #CFC6E8;color:#3B2F72;background:#fff}
@@ -96,6 +100,7 @@ button{font-family:inherit;cursor:pointer}
 <div class="ov" id="ov"><p>이미지를 꾹 눌러 저장하세요</p><img id="ovImg" alt="사랑흐름 여권"><div class="row"><a id="ovDown" download="사랑흐름여권.png">내려받기</a><button type="button" id="ovX">닫기</button></div></div>
 
 <script src="/my/qrcode.js?v=1"></script>
+<script src="/lf/thumb.js?v=1"></script>
 <script>
 (function () {
   'use strict';
@@ -110,6 +115,7 @@ button{font-family:inherit;cursor:pointer}
     memoir: ['한 편의 기록 시작하기', '한 편의 기록 이어 쓰기', '쓴 글 보기']
   };
   var ORDER = ['map', 'letter', 'memoir'];
+  var MORE = { map: '마음 여행지도를 한 번 더 하시려면', letter: '마음 여행편지를 더 쓰시려면', memoir: '한 편의 기록을 더 쓰시려면' };   /* ★v4 */
   var $ = function (id) { return document.getElementById(id); };
   var D = null, K = '';
 
@@ -152,7 +158,28 @@ button{font-family:inherit;cursor:pointer}
     $('my').innerHTML = '<div class="state"><i>' + icon + '</i><b>' + title + '</b>' + text + (extra || '') + '</div>';
   }
 
+  /* ★v4 본부 발급 그림 — #cards=[{p,it,y,d,n}] (admin 발급 목록) · 서버를 부르지 않음 */
+  function cards() {
+    var m = /^#cards=(.+)$/.exec(location.hash || ''); if (!m) { return false; }
+    var L = []; try { L = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { L = []; }
+    if (!L.length) { stateBox('🖼', '그림을 만들지 못했습니다', '본부 발급 목록에서 다시 눌러 주세요.'); return true; }
+    var PT = { map: ['map'], set: ['map', 'letter'], memoir: ['memoir'], life: ['map', 'letter', 'memoir'] };
+    var h = '<div class="zone">🖼 사랑흐름 여권 그림 ' + L.length + '장 · 그림을 꾹 누르거나 「이미지 저장」</div>';
+    L.forEach(function (x, i) { h += '<div class="passWrap" style="margin-bottom:10px"><canvas id="cv' + i + '" width="1080" height="1880" role="img" aria-label="사랑흐름 여권 ' + esc(x.p) + '"></canvas></div><a class="again" id="sv' + i + '" download="사랑흐름여권_' + esc(x.p) + '.png" style="display:block;text-align:center;margin:0 0 22px">이미지 저장 · ' + esc(x.p) + '</a>'; });
+    $('my').innerHTML = h;
+    function drawAll() {
+      L.forEach(function (x, i) {
+        var parts = {}; (PT[x.it] || []).forEach(function (k) { parts[k] = Math.max(1, Number(x.y) || 1); });
+        D = { card: true, passport: String(x.p || ''), name: String(x.n || ''), issued: String(x.d || ''), parts: parts, used: {}, left: {}, from: [] };
+        var cv = $('cv' + i); drawPass(cv);
+        try { $('sv' + i).href = cv.toDataURL('image/png'); } catch (e) { }
+      });
+    }
+    try { if (document.fonts && document.fonts.load) { Promise.all([document.fonts.load("800 70px 'Nanum Myeongjo'"), document.fonts.load("800 40px 'Noto Sans KR'")]).then(drawAll, drawAll); } else { drawAll(); } } catch (e) { drawAll(); }
+    return true;
+  }
   function open() {
+    if (cards()) { return; }   /* ★v4 */
     K = keyOf();
     if (!K) {
       stateBox('🔑', '사랑흐름 여권 화면', '이 휴대폰에서 연 적이 없는 사랑흐름 여권입니다.<br>사랑흐름 여권번호로 찾으시면 바로 열립니다.',
@@ -243,7 +270,8 @@ button{font-family:inherit;cursor:pointer}
       var line = (st === 2) ? D.parts[k] + '편 다 씀' : left + '편 남음' + (st === 1 ? ' · 쓰던 곳부터' : '');
       var cls = (st === 2) ? 'doneBtn' : (first ? 'bigBtn' : 'subBtn');
       if (st !== 2) { first = false; }
-      h += '<button type="button" class="partBtn ' + cls + '" data-k="' + k + '" data-st="' + st + '">' + ICON[k] + ' ' + label + ' ›<span class="left">' + line + '</span></button>';
+      h += '<button type="button" class="partBtn ' + cls + '" data-k="' + k + '" data-st="' + st + '"><span class="pth" data-lf-thumb="' + k + '"></span><span class="ptx">' + label + ' ›<span class="left">' + line + '</span></span></button>';   /* ★v4 */
+      if (st === 2 && D.source !== 'old' && window.LFThumb) { h += '<div class="more1">' + LFThumb.pair(k, MORE[k]) + '</div>'; }   /* ★v4 579 남은 편 0 */
     });
     if (!any) { h += '<div class="memo">이 사랑흐름 여권에 담긴 여행을 아직 찾지 못했습니다. 아래 카카오톡 문의로 알려 주시면 바로 확인해 드립니다.</div>'; }
     h += '</div></div>';
@@ -257,6 +285,7 @@ button{font-family:inherit;cursor:pointer}
       + '</div>';
     h += '<div class="memo">사랑흐름 여권번호를 외우지 않으셔도 됩니다.<br>「홈 화면에 추가」를 누르시면 휴대폰 첫 화면에 사랑흐름 아이콘이 생깁니다.</div>';
     $('my').innerHTML = h;
+    try { LFThumb.fill($('my')); } catch (e) { }   /* ★v4 */
 
     var drawNow = function () { drawPass($('cv')); };
     try { if (document.fonts && document.fonts.load) { Promise.all([document.fonts.load("800 70px 'Nanum Myeongjo'"), document.fonts.load("800 40px 'Noto Sans KR'"), document.fonts.load("500 22px 'Noto Sans KR'")]).then(drawNow, drawNow); setTimeout(drawNow, 2500); } else { drawNow(); } } catch (e) { drawNow(); }
@@ -279,7 +308,7 @@ button{font-family:inherit;cursor:pointer}
   }
 
   /* ── ③ 부가 ── */
-  function myUrl() { return location.origin + '/my/?k=' + K; }
+  function myUrl() { return (D && D.card) ? location.origin + '/reenter.html?id=' + encodeURIComponent(D.passport) : location.origin + '/my/?k=' + K; }   /* ★v4 본부 그림은 번호로 */
   function homeAdd() {
     if (typeof window.LFHomeAdd === 'function') { window.LFHomeAdd(); return; }
     toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요');
@@ -365,6 +394,6 @@ button{font-family:inherit;cursor:pointer}
 })();
 </script>
 <script src="/lf-foot.js" defer></script>
-<script src="/lf/frame.js?v=22"></script>
+<script src="/lf/frame.js?v=24"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ gift/index.html · v1 · 261111 · [공사 칸 ⑤ · 대표 OK 261111 17:07 「개인 간 소통에 간섭하지 말 것 · 복잡한 것 빼기」] 새 화면 — 선물함(보내는 분만 · 받는 분께 링크를 보내는 곳 하나).
+<!-- ★ 현재 버전 ▶ gift/index.html · v2 · 261111 · [공사 칸 ⑥ · 대표 19:34 → OK 19:38 「1분 · 2분은 시간 같아」] 「한 편의 기록 · 3편 · 5분께」 → 「한 편의 기록 · 3편씩 · 5명」 · 내 선물함 줄 「n분께」 → 「n명」 · frame.js ?v=24. [무손] 그 밖 v1 전부. -->
+<!-- (이전) gift/index.html · v1 · 261111 · [공사 칸 ⑤ · 대표 OK 261111 17:07 「개인 간 소통에 간섭하지 말 것 · 복잡한 것 빼기」] 새 화면 — 선물함(보내는 분만 · 받는 분께 링크를 보내는 곳 하나).
      · 여는 길: 결제 화면이 결제 뒤 /gift/?no=G-0000&k=열쇠 로 보냄 → 이 휴대폰이 기억(lf_gift_boxes) → 다시 열면 그대로.
        다른 기기 · 기억이 없으면 「카카오 로그인 · 내 선물함」(588 리다이렉트 URI https://www.loveflow.ai.kr/gift/ · https://loveflow.ai.kr/gift/).
      · 보이는 것: 상품 · 편 · 몇 분께 한 줄 → [1번 선물 보내기] … (카카오톡으로 보내기 · 보낼 글 복사). 누른 단추는 이 휴대폰에서만 「보냄」.
@@ -148,7 +149,7 @@ button{font-family:inherit;cursor:pointer}
     }
     var h = '<div class="head"><i>🗂</i><b>내 선물함</b><span>보내신 선물 ' + list.length + '건</span></div><div class="zone">🎁 보내신 선물</div><div class="mine">';
     list.forEach(function (x, i) {
-      h += '<button type="button" data-i="' + i + '"><span>' + esc(x.itemName) + ' · ' + x.count + '분께<small>' + esc(x.made) + (x.state === '결제 전' ? ' · 입금 확인 중' : '') + '</small></span><em style="font-style:normal;color:#A39DB8">›</em></button>';
+      h += '<button type="button" data-i="' + i + '"><span>' + esc(x.itemName) + ' · ' + x.count + '명<small>' + esc(x.made) + (x.state === '결제 전' ? ' · 입금 확인 중' : '') + '</small></span><em style="font-style:normal;color:#A39DB8">›</em></button>';
     });
     h += '</div>';
     $('box').innerHTML = h;
@@ -181,7 +182,7 @@ button{font-family:inherit;cursor:pointer}
   }
   function giftWord() { var ns = [B.giver].concat(B.tog || []).filter(function (x) { return String(x || '').trim(); }); return ns.length > 1 ? '이 함께 선물하신' : '이 선물하신'; }
   function paint() {
-    var h = '<div class="head"><i>🎁</i><b>' + esc(B.itemName) + ' · ' + B.pyeon + '편 · ' + B.count + '분께</b>'
+    var h = '<div class="head"><i>🎁</i><b>' + esc(B.itemName) + ' · ' + B.pyeon + '편씩 · ' + B.count + '명</b>'
       + '<span>선물 번호 ' + esc(B.no) + ' · ' + esc(B.made) + '</span>'
       + (B.state === '견본' ? '<span class="sample">견본</span>' : '') + '</div>';
     var open = (B.state === '확정' || B.state === '견본');
@@ -275,6 +276,6 @@ button{font-family:inherit;cursor:pointer}
 })();
 </script>
 <script src="/lf-foot.js" defer></script>
-<script src="/lf/frame.js?v=22"></script>
+<script src="/lf/frame.js?v=24"></script>
 </body>
 </html>

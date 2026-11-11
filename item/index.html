@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ item/index.html · v5 · 261110 · [대표 지적 261110 09:36 「발견하면 즉각 전부」] 공용 푸터 부품(lf-foot.js)은 불러오는데 앉을 자리(<div id="lfFoot">)가 없어 사업자 정보 · 저작권이 화면에 안 나오던 것 — 자리 한 줄 넣음. [무손] 그 밖 v4 전부. -->
+<!-- ★ 현재 버전 ▶ item/index.html · v6 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 598 · 599] 아래 값 상자 — 「구매하기」 하나 → 값(상품 색) + 작은 제목 「소중한 분께 마음을 담아 선물하세요」 + [구매하기] [🎁 선물하기] 같은 크기(lf/thumb.js · 선물하기 = /pay.html?item=○○&mode=gift) · 상자 테두리 · 값은 그 상품 색 · frame.js ?v=24. [무손] 그 밖 v5 전부. -->
+<!-- (이전) item/index.html · v5 · 261110 · [대표 지적 261110 09:36 「발견하면 즉각 전부」] 공용 푸터 부품(lf-foot.js)은 불러오는데 앉을 자리(<div id="lfFoot">)가 없어 사업자 정보 · 저작권이 화면에 안 나오던 것 — 자리 한 줄 넣음. [무손] 그 밖 v4 전부. -->
 <!-- (이전) item/index.html · v4 · 261026 · [456 · 467 · 대표 OK 261026 20:02] 검색 막음(noindex) 풂 — 상품 설명 네 화면이 검색에 나오게. ★v3 머리 줄의 「461」은 467의 잘못(461 = 카드 결제). [무손] 그 밖 v3 전부. -->
 <!-- (이전) item/index.html · v3 · 261026 · [461 · 대표 OK 261026 19:57] 한 편의 기록도 같은 틀(?k=memoir — 옛 자서전 소개로 넘기지 않음 · 견본 넷은 두 줄 바둑판 · 옆으로 밀지 않음 · 말은 자서전 소개 · 결제 화면 문구 그대로) · 네 화면 맨 아래 「다른 여행도 보기」 줄 없앰(← 뒤로가 카드 넷으로) · 두 분의 여정 견본 큰 카드 셋 → 지도 · 편지 · 기록 작은 그림 셋 한 줄. [무손] 그 밖 v2 전부. -->
 <!-- (이전) item/index.html · v2 · 261026 · [칸 4-나 ② · 대표 OK 261026 11:10] 같은 꼴로 마음여행(?k=set) · 두 분의 여정(?k=life) 더함 · ?k=memoir 는 자서전 소개(/memoir/)로 넘김 · k 없거나 모르는 값은 map. 편지 견본 = 여행의 기록 편지 봉투 글 · 자서전 견본 = memoir/samples 그림. 1년 이용 · 디지털 = pay(상품 공통 한 줄) · 두 분의 여정 환불 = trust ⑤ · 기록 90일 = 자서전 소개. 편지를 그 사람에게 어떻게 보내는지는 [확인 안 됨]이라 「편지 한 통이 남아요」까지만. [무손] 마음 여행지도 v1 글 그대로. -->
@@ -49,10 +50,10 @@ button{font:inherit;color:inherit;cursor:pointer}
 .left li:last-child{border-bottom:0}
 .left b{color:var(--navy)}
 .note{font-size:14px;color:#5E5A52;line-height:1.8;background:#F6F1E8;border-radius:14px;padding:14px 16px}
-.buy{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:28px 0 0;padding:16px 18px;background:#fff;border:1.5px solid var(--navy);border-radius:18px}
-.buy .won{font-size:21px;font-weight:800;color:var(--navy)}
-.buy .won small{display:block;font-size:12px;font-weight:500;color:var(--sub)}
-.buy button{border:0;background:var(--navy);color:#fff;font-weight:800;font-size:16px;border-radius:14px;padding:13px 26px}
+.buy{margin:28px 0 0;padding:16px 16px 14px;background:#fff;border:1.5px solid var(--pc,var(--navy));border-radius:18px}   /* ★v6 */
+.buy .won{display:block;text-align:center;font-size:21px;font-weight:800;color:var(--pc,var(--navy))}
+.buy .won small{font-size:13px;font-weight:600;color:var(--sub);margin-left:6px}
+.buy.k-map{--pc:#0C4F45}.buy.k-set{--pc:#10274A}.buy.k-memoir{--pc:#4F2F14}.buy.k-life{--pc:#45172F}
 .letter{background:linear-gradient(160deg,#3A2E22,#241B12);border:none;text-align:center}
 .letter .clb{color:#D9B43A}
 .letter .lz1{font-family:var(--serif);font-size:15px;color:#F0E6D2;line-height:1.8;margin:8px 0 14px}
@@ -148,9 +149,9 @@ body.k-set .p-set,body.k-life .p-life,body.k-memoir .p-memoir{display:block}
     <div class="note">받은 날부터 1년 동안 이용하실 수 있어요.<br>휴대폰에서 보는 디지털 결과물이에요.<br>결과를 열어 보기 전이면 전액 환불돼요.</div>
   </div>
 
-  <div class="buy">
-    <span class="won"><span data-lf-price="LF-M001">19,900원</span><small>마음 여행지도</small></span>
-    <button type="button" onclick="location.href='/pay.html?item=map'">구매하기</button>
+  <div class="buy k-map">
+    <span class="won"><span data-lf-price="LF-M001">19,900원</span><small>· 마음 여행지도</small></span>
+    <div data-lf-pair="map"></div>
   </div>
 
 
@@ -214,9 +215,9 @@ body.k-set .p-set,body.k-life .p-life,body.k-memoir .p-memoir{display:block}
     <div class="note">받은 날부터 1년 동안 이용하실 수 있어요.<br>휴대폰에서 보는 디지털 결과물이에요.<br>결과를 열어 보기 전이면 전액 환불돼요.</div>
   </div>
 
-  <div class="buy">
-    <span class="won"><span data-lf-price="LF-S001">48,900원</span><small>마음여행</small></span>
-    <button type="button" onclick="location.href='/pay.html?item=set'">구매하기</button>
+  <div class="buy k-set">
+    <span class="won"><span data-lf-price="LF-S001">48,900원</span><small>· 마음여행</small></span>
+    <div data-lf-pair="set"></div>
   </div>
 
 </div>
@@ -267,9 +268,9 @@ body.k-set .p-set,body.k-life .p-life,body.k-memoir .p-memoir{display:block}
     <div class="note">받은 날부터 1년 동안 이용하실 수 있어요.<br>마지막 이야기를 마치신 날부터 90일 동안 화면에서 다시 보고 내려받으실 수 있어요. 그 사이 파일로 저장해 두세요.<br>이야기를 여시면 그 이야기는 환불되지 않아요.</div>
   </div>
 
-  <div class="buy">
-    <span class="won"><span data-lf-price="LF-R001">79,000원</span><small>한 편의 기록</small></span>
-    <button type="button" onclick="location.href='/pay.html?item=memoir'">구매하기</button>
+  <div class="buy k-memoir">
+    <span class="won"><span data-lf-price="LF-R001">79,000원</span><small>· 한 편의 기록</small></span>
+    <div data-lf-pair="memoir"></div>
   </div>
 </div>
 
@@ -322,9 +323,9 @@ body.k-set .p-set,body.k-life .p-life,body.k-memoir .p-memoir{display:block}
     <div class="note">받은 날부터 1년 동안 이용하실 수 있어요.<br>한 편의 기록은 마지막 이야기를 마치신 날부터 90일 동안 화면에서 다시 보실 수 있어요. 그 사이 파일로 저장해 두세요.<br>지도 · 편지 · 기록 가운데 하나도 열기 전이면 전액 환불돼요.</div>
   </div>
 
-  <div class="buy">
-    <span class="won"><span data-lf-price="LF-A001">110,000원</span><small>두 분의 여정</small></span>
-    <button type="button" onclick="location.href='/pay.html?item=life'">구매하기</button>
+  <div class="buy k-life">
+    <span class="won"><span data-lf-price="LF-A001">110,000원</span><small>· 두 분의 여정</small></span>
+    <div data-lf-pair="life"></div>
   </div>
 
 </div>
@@ -343,6 +344,8 @@ body.k-set .p-set,body.k-life .p-life,body.k-memoir .p-memoir{display:block}
 <script src="/lf/prices.js" defer></script>
 <div id="lfFoot"></div>
 <script src="/lf-foot.js" defer></script>
-<script src="/lf/frame.js?v=17"></script>
+<script src="/lf/thumb.js?v=1"></script>
+<script>(function(){ var e=document.querySelectorAll('[data-lf-pair]'); for(var i=0;i<e.length;i++){ try{ e[i].innerHTML=LFThumb.pair(e[i].getAttribute('data-lf-pair')); }catch(x){} } })();</script>
+<script src="/lf/frame.js?v=24"></script>
 </body>
 </html>

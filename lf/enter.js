@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/enter.js · v17 · 261027 — ★[본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(조회 답 expired)을 「번호를 찾지 못했어요」로 보내던 것 →
+   현재 버전 ▶ lf/enter.js · v18 · 261111 — ★[공사 칸 ⑥ 입구 · 579 · 대표 OK 18:36] 한 편의 기록을 다 쓰신 분(마친 편 있음 · 남은 편 0 · 쓰는 중 없음) — 「n편을 마치셨어요.」 아래에 「한 편의 기록을 더 쓰시려면」 + [구매하기] [🎁 선물하기](lf/thumb.js 를 그 자리에서 불러 씀). 막지 않음. [무손] 그 밖 v17 전부.
+   (이전) lf/enter.js · v17 · 261027 — ★[본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(조회 답 expired)을 「번호를 찾지 못했어요」로 보내던 것 →
      안내 판(/lf/canceled.js · 닫기 있음)을 띄우고 칸에 「결제가 취소된 사랑흐름 여권입니다」. 기억해 둔 번호면 기억을 지웁니다. [무손] 그 밖 v16 전부.
    ── 이전 ── v16 · 261005 — ★[칸 27-4 · 대표 실폰 확인] 첫 주소(/)가 안내 홈이 되어 번호 칸을 그리지 않습니다(홈 맨 아래 「사랑흐름 여권번호로 문을 엽니다」가 한 벌 더 붙던 것). 편지 입구 · 발권은 그대로.
    ── 이전 ── v15 · 261003 — ★[자서전 공사 칸 25-2 · 이슈 31] 자서전 소개 화면(/memoir/)에서는 이 번호 칸을 그리지 않습니다.
@@ -283,7 +284,7 @@
       else if (s.left > 0 && s.writing === 0) { h += btn('sub', '다음 이야기 쓰러 가기', "lfeGo('/memoir/ritual.html')"); }   /* ★v14 새 이야기도 여는 의식부터 */
 
       if (s.done > 0 && s.left > 0) { n = '<b>' + s.done + '편</b>을 마치셨어요. <b>' + s.left + '편</b> 더 쓰실 수 있어요.'; }
-      else if (s.done > 0)          { n = '<b>' + s.done + '편</b>을 마치셨어요.'; }
+      else if (s.done > 0)          { n = '<b>' + s.done + '편</b>을 마치셨어요.'; if (s.writing === 0) { lfeMore(note); } }   /* ★v18 579 */
       else if (s.writing > 0)       { n = '쓰시던 이야기가 있어요. 이어서 쓰실 수 있어요.'; }
       else if (s.left > 0)          { n = '<b>' + s.left + '편</b>을 쓰실 수 있어요.'; }
     } else if (s.done) {
@@ -296,6 +297,14 @@
     }
 
     btns.innerHTML = h; note.innerHTML = n;
+    if (note.getAttribute('data-more')) { note.removeAttribute('data-more'); lfeMoreDraw(note); }
+  }
+  /* ★v18 남은 편 0 → [구매하기] [🎁 선물하기] — lf/thumb.js 가 없으면 불러 옴 */
+  function lfeMore(note) { note.setAttribute('data-more', '1'); }
+  function lfeMoreDraw(note) {
+    function put() { try { var d = document.createElement('div'); d.innerHTML = window.LFThumb.pair('memoir', '한 편의 기록을 더 쓰시려면'); note.appendChild(d); } catch (e) { } }
+    if (window.LFThumb) { put(); return; }
+    var sc = document.createElement('script'); sc.src = '/lf/thumb.js?v=1'; sc.onload = put; document.head.appendChild(sc);
   }
 
   /* 하다 만 것이 있으면 그것을, 없으면 이 화면 상품을 먼저 고릅니다 */
