@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v24 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] ☰ 「사랑흐름 여행」 큰 칸 바로 아래 「🎁 선물하기」 한 줄(→ /pay.html?mode=gift · 자수정 보라) · 아래 묶음 「사랑흐름 여행」에도 「선물하기」 · 그 묶음 상품 넷 색을 lf/thumb.js 상품 색으로(마음 여행지도 청록 · 마음여행 남색 · 한 편의 기록 가죽 갈색 · 두 분의 여정 와인). [무손] 그 밖 v23 전부.
+   현재 버전 ▶ lf/frame.js · v25 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로
+   (이전) lf/frame.js · v24 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] ☰ 「사랑흐름 여행」 큰 칸 바로 아래 「🎁 선물하기」 한 줄(→ /pay.html?mode=gift · 자수정 보라) · 아래 묶음 「사랑흐름 여행」에도 「선물하기」 · 그 묶음 상품 넷 색을 lf/thumb.js 상품 색으로(마음 여행지도 청록 · 마음여행 남색 · 한 편의 기록 가죽 갈색 · 두 분의 여정 와인). [무손] 그 밖 v23 전부.
    (이전) lf/frame.js · v23 · 261111 · [공사 칸 ⑤ 견본에서 찾음 · 595] ← ⌂ → 를 붙인 543 공사(261109 16:31 · 355a013)부터 window.LFWay 를 통째로 덮어써 lf/way.js 의 LFWay.get 이 사라짐 → apply.html(계좌이체 접수) · gate.html(네이버 · 오픈마켓 발권 신청) 신청 단추에서 오류로 멈춤 → 있는 LFWay 에 back · home · fwd 만 덧붙임. [무손] 그 밖 v22 전부.
    (이전) lf/frame.js · v22 · 261111 · [공사 칸 ④ 견본에서 찾음 · 594] 휴대폰 「홈 화면에 추가」 위 띠(v18)가 몸이 가로 줄(flex row)인 화면 12곳(gate · pay · apply · enter · reenter · showroom · journey · journey/result · letter · memoir · hanmadi · hq)에서 본문 옆 칸이 되어 카드를 좁은 세로 줄로 짓누르던 것 → 그런 화면에서는 위 띠 바로 아래에 떠 있게. [무손] 그 밖 v21 전부.
    (이전) lf/frame.js · v21 · 261110 · [558 · 대표 OK 19:19] ☰ 「사랑흐름 여행」 상품 넷이 설명 없이 바로 결제(/pay.html)로 가던 것 → 상품 설명(/item/?k=set · memoir · life · map)으로 · 구매하기는 설명 화면 안에서. [무손] 그 밖 v20 전부.
@@ -553,7 +554,7 @@
   }
   function add() {
     if (inRec && typeof window.pwaGo === 'function') { window.pwaGo(); return; }
-    if (standalone()) { sheet('<h2>바탕화면에 있습니다</h2><p>이미 아이콘으로 열고 계십니다.</p>'); return; }
+    if (standalone()) { sheet('<h2>이미 홈 화면에 있습니다</h2><p>이미 아이콘으로 열고 계십니다.</p>'); return; }
     if (inKakao) { location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href.split('#')[0]); return; }
     if (EV) { var ev = EV; EV = null; try { ev.prompt(); ev.userChoice.then(function (c) { if (c && c.outcome !== 'accepted') { EV = ev; } })['catch'](function () {}); } catch (e) { guide(); } return; }
     guide();
@@ -564,7 +565,7 @@
     if (document.documentElement.classList.contains('admm') || document.body.classList.contains('admm') || document.body.classList.contains('desk')) { return; }
     css();
     var b = document.createElement('div'); b.className = 'lfh-band'; b.id = 'lfhBand';
-    b.innerHTML = '<img src="/rec/icon-192.png" alt=""><div class="tx">' + (inRec ? '우리 이야기를' : '사랑흐름을') + ' 바탕화면에 두고 바로 여세요</div>'
+    b.innerHTML = '<img src="/rec/icon-192.png" alt=""><div class="tx">' + (inRec ? '우리 이야기를' : '사랑흐름을') + ' 홈 화면에 추가하고 바로 여세요</div>'
       + '<button type="button" class="go">홈 화면에 추가</button><button type="button" class="x" aria-label="닫기">✕</button>';
     var top = document.getElementById('lfxTop');
     /* ★v22 몸이 가로 줄(flex row)인 화면(gate · pay · apply · journey · letter · memoir 등 12곳)에서는 띠가 옆 칸이 되어

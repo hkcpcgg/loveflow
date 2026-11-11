@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ journey/index.html · v8-26 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권으로 주소를 바로 치고 들어오면 여행을 끝까지 하고 결과에서야 막히던 것 → 시작할 때 서버에 물어 「만료」면 안내 판(/lf/canceled.js · 닫기 없음). 쓰던 임시저장이 있어도 묻습니다(전에는 임시저장이 있으면 묻지 않았음). 서버가 늦거나 죽으면 지금처럼 막지 않음. [무손] 그 밖 v8-25 전부. -->
+<!-- ★ 현재 버전 ▶ journey/index.html · v8-27 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- (이전) journey/index.html · v8-26 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권으로 주소를 바로 치고 들어오면 여행을 끝까지 하고 결과에서야 막히던 것 → 시작할 때 서버에 물어 「만료」면 안내 판(/lf/canceled.js · 닫기 없음). 쓰던 임시저장이 있어도 묻습니다(전에는 임시저장이 있으면 묻지 않았음). 서버가 늦거나 죽으면 지금처럼 막지 않음. [무손] 그 밖 v8-25 전부. -->
 <!-- (이전) journey/index.html · v8-25 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) journey/index.html · v8-24 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
 <!-- ★ (이전) journey/index.html · v8-23 · 261005 · [작업 v8-23 · 자서전 공사 칸 27-4 · 둘째 묶음 틀] 공용 틀 /lf/frame.js?v=5 붙임(위 띠 · ☰ · 아래 길목 다섯 · 옛 상단바 · 드로어 · 길 셋 감춤). 옛 위 띠(.top) 감춤 · 소리 단추는 새 위 띠 ☰ 왼쪽으로. [무손] 본문 · 배관 · 서버. -->
@@ -271,7 +272,7 @@
     <!-- [v20] 표준 6항목 (gate v9-22 · enter 라이브 기준)
          · "마음 여행지도" → "여행지도 보기" (표준 명칭)
          · "마음 여행편지 → /pay.html" → "편지 → /l/" (편지 통로. pay는 결제화면이라 목적지가 아님) -->
-    <a onclick="lfGo('home')">홈</a><a onclick="lfGo('hanmadi')">마음 한마디</a><a onclick="lfGo('draw')">삐뚤빼뚤 마음 도화지</a><a onclick="lfGo('journey')">여행지도 보기</a><a onclick="lfGo('letter')">편지</a><a onclick="lfGo('memoir')">자서전</a><a onclick="lfGo('reenter')">마음 여행여권으로 입장</a><a onclick="lfGo('find')">사랑흐름 여권 찾기</a><a onclick="lfGo('showroom')">여행의 기록</a><a onclick="lfGo('showcase')">사랑흐름 여행 자세히 보기</a><a onclick="restartJourney()">다시 시작</a>
+    <a onclick="lfGo('home')">홈</a><a onclick="lfGo('hanmadi')">마음 한마디</a><a onclick="lfGo('draw')">삐뚤빼뚤 마음 도화지</a><a onclick="lfGo('journey')">여행지도 보기</a><a onclick="lfGo('letter')">편지</a><a onclick="lfGo('memoir')">자서전</a><a onclick="lfGo('reenter')">사랑흐름 여권으로 입장</a><a onclick="lfGo('find')">사랑흐름 여권 찾기</a><a onclick="lfGo('showroom')">여행의 기록</a><a onclick="lfGo('showcase')">사랑흐름 여행 자세히 보기</a><a onclick="restartJourney()">다시 시작</a>
   </div>
   <div class="prog"><i id="bar"></i></div>
   <div class="pcount" id="pcount">1 / 29</div>
@@ -935,10 +936,10 @@ var LF_NAME = {
   '/journey/':'여행지도', '/journey/index.html':'여행지도',
   '/journey/result.html':'여행일지',
   '/l/':'편지', '/letter/':'편지', '/letter/index.html':'편지',
-  '/gate.html':'여권 발급', '/enter.html':'여권 발급',
+  '/gate.html':'사랑흐름 여권 발급', '/enter.html':'사랑흐름 여권 발급',
   '/pay.html':'결제', '/apply.html':'계좌이체',
   '/showcase.html':'여행 고르기', '/showroom.html':'여행의 기록',
-  '/reenter.html':'마음 여행여권으로 입장', '/find/':'여권 찾기', '/m/':'마음 한마디'
+  '/reenter.html':'사랑흐름 여권으로 입장', '/find/':'사랑흐름 여권 찾기', '/m/':'마음 한마디'
 };
 
 /* 화면마다 "앞으로 갈 곳" — 다음 상품으로 미는 문 */
@@ -954,7 +955,7 @@ var LF_NEXT = {
   '/reenter.html':        { k:'showroom', t:'여행의 기록 보러 가기' },
   '/find/':               { k:'showroom', t:'여행의 기록 보러 가기' },
   '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
-  '/pay.html':            { k:'gate',     t:'여권 발급받기' },
+  '/pay.html':            { k:'gate',     t:'사랑흐름 여권 발급받기' },
   '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
   '/gate.html':           { k:'journey',  t:'함께 떠나기' }
 };
@@ -1164,7 +1165,7 @@ function lfPaintResume(){
   var sheet = '<div class="lfsheet" id="lfsheet" onclick="if(event.target===this)lfResClose()">'
     + '<div class="pan">'
     + '<div class="ttl">지난 여행 이어가기</div>'
-    + '<div class="sub">여권번호를 넣어주세요</div>'
+    + '<div class="sub">사랑흐름 여권번호를 넣어 주세요</div>'
     + '<input id="lfResIn" placeholder="LF-XXXXX" autocomplete="off" oninput="lfResCheck()">'
     + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
     + '<p id="lfResMsg"></p>'
@@ -1228,7 +1229,7 @@ function lfResCheck(){
     document.getElementById('lfResMsg').innerHTML =
       '이 기기엔 담아둔 게 없어요.<br>'
     + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
-    + '이 여권으로 여행지도를 새로 펼쳐볼까요?';
+    + '이 사랑흐름 여권으로 여행지도를 새로 펼쳐볼까요?';
     document.getElementById('lfResGo').textContent = '여행지도 펼치기';
     f.classList.add('on');
     return;

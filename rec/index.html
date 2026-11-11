@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v121 · 261111 · [공사 칸 ⑥ 입구 · 600 · 대표 OK 18:36] ①방 화면 아래 「마당 둘러보기」(마당 사진 줄 아래) · 「우리 이야기 만들기」(따로 띠)가 위아래 · 높이가 달랐던 것 → 마당 사진 줄 바로 아래 한 줄 · 양쪽 같은 높이(그림 글자 위 · 글은 한 줄 · 글자 크기 그대로) · 「나의 일상부터…」 띠는 내가 만든 방 목록(opMine) 자리만 남김 ②본부 판매 · 발급 칩에 「🎁 선물 발급」(admin v22 tab=gift · 대표만). [무손] 서버 · 그 밖 v120 전부. -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v122 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- (이전) rec/index.html · v121 · 261111 · [공사 칸 ⑥ 입구 · 600 · 대표 OK 18:36] ①방 화면 아래 「마당 둘러보기」(마당 사진 줄 아래) · 「우리 이야기 만들기」(따로 띠)가 위아래 · 높이가 달랐던 것 → 마당 사진 줄 바로 아래 한 줄 · 양쪽 같은 높이(그림 글자 위 · 글은 한 줄 · 글자 크기 그대로) · 「나의 일상부터…」 띠는 내가 만든 방 목록(opMine) 자리만 남김 ②본부 판매 · 발급 칩에 「🎁 선물 발급」(admin v22 tab=gift · 대표만). [무손] 서버 · 그 밖 v120 전부. -->
 <!-- (이전) rec/index.html · v120 · 261110 · [575 사진 화면 여는 시간 — 실서버에서 잰 값: 사진 화면 서버 답 3~6초 다음에야 큰 사진 3.5초를 받아 합 6~10초] 큰 사진을 서버 답과 동시에 받기 시작(itBig · 받는 중인 사진은 한 번만 부름) · 받은 사진 화면 1분 담아 둠(itGet · 쓰기가 있으면 버림) · 다음 사진 화면 미리 받기(서버 부름 한 번 · 큰 사진은 바로 주소일 때만 · itAhead) · 목록에 작은 사진이 있으면 서버가 다시 싣지 않게 nopv=1(①Code v57) · [무손] 그 밖 v119 전부. -->
 <!-- ── 이전 ▶ rec/index.html · v119 · 261110 · [489 · 대표 OK 19:19] 「QR 받기 · QR 내려받기」(방 이름 옆 QR · 방이 열렸습니다 창 · 관리 ☰ 설정) → 새 화면 QR 인쇄물 만들기(/rec/print.html?c=방번호&n=방이름 · 크기 여섯 · 틀 여섯 · 문구 · 아래 사랑흐름 띠)로 감 · 메뉴 이름 「QR 인쇄물 만들기」 · REC_VER 119. [무손] 옛 qrSheet 그리기(qrCard)는 남겨 둠 · 그 밖 v118 전부. -->
 <!-- (이전) rec/index.html · v118 · 261110 · [대표 17:58 「판단해서 하라」 다음 할 일 1] 공개 방으로 바꾸는 자리에서 바로 묻기 — 「지금까지 올린 사진 ○장도 마당에 낼까요?」(아이 표시 사진은 처음부터 뺌) → 「예, 고르기」 = 고르기 창(pubAsk → pubBulk · 받은 목록 그대로 · 서버 한 번) · 「나중에」 = 닫기 · 낼 사진 없으면 묻지 않음 · REC_VER 118 · [무손] 그 밖 v117 전부 -->
@@ -2594,7 +2595,7 @@ function gridDraw(){
   { h+='<div id="opBand"><div id="opMine"></div></div>'; }   /* ★v121 만들기 단추는 위 한 줄로 */
   h+='</div><div class="lo lo4">';   /* ★v59 필요할 때만 쓰는 것 — 맨 밑 */
   if(isBoss()&&!OPN){ h+='<button class="btn upb adb" id="admB" type="button">⚙ 방 관리'+(QN?' <span class="tag t-wait">'+QN+'</span>':'')+'</button>'; }   /* ★v58 364 · ★v59 맨 밑 */
-  h+=guideFold()+(OPN||pwaIn()?'':'<button class="btn line pwab" id="pwaGo" type="button">📲 휴대폰 바탕화면에 두기</button>');
+  h+=guideFold()+(OPN||pwaIn()?'':'<button class="btn line pwab" id="pwaGo" type="button">📲 홈 화면에 추가</button>');
   h+='<div class="brand">🍇 사랑흐름 · 우리 이야기</div></div>';
   el.innerHTML=h; introWire();   /* ★v106 565 */
   each(el,'[data-tid]',function(t){ t.onclick=function(){ var id=t.getAttribute('data-tid'), it=findL(id); if(t.classList.contains('tl')&&it&&(it.photo||it.video)){ vwRoom(id,t.getAttribute('data-pid')); } else { go('item',id); } }; });   /* ★v65 383 사진 · 영상 = 세로 넘김 */
@@ -3798,7 +3799,7 @@ function meRows(){
   if(ME.room==='열린 모임'||ME.role==='관리자'){ R.splice(1,0,['post','share','c-peach','단톡방에 올릴 글','사진 제목 · 질문 · 링크를 한 번에 복사']); }
   R.push(['guide','look','c-navy','이용 안내','처음 오신 분 · 함께하는 분 · 확인자 · 관리자']);
   R.push(['shr','share','c-green','공유하기','우리 이야기 마당 · 우리 이야기 만들기 링크']); R.push(['open','plus','c-gold','우리 이야기 만들기','📔 이야기방 · 🏛 기록관']);   /* ★v42 308 */
-  if(!pwaIn()){ R.push(['pwa','home','c-green','휴대폰 바탕화면에 두기','주소 찾지 않고 아이콘으로 바로 들어옵니다']); }   /* ★v42 309 */
+  if(!pwaIn()){ R.push(['pwa','home','c-green','홈 화면에 추가','주소 찾지 않고 아이콘으로 바로 들어옵니다']); }   /* ★v42 309 */
   R.push(['out','out','c-gray','나가기','카카오톡으로 돌아갑니다']);
   if(ME.role!=='관리자'){ R.push(['leave','out','c-gray','이 모임에서 나가기','남기신 기록은 그대로 남습니다']); }
   R.push(['logout','key','c-gray','이 기기에서 나가기',ME.kakao?'카카오로 다시 들어오실 수 있습니다':'카카오 연결 전에는 초대 링크가 있어야 다시 들어옵니다']);
@@ -4338,7 +4339,7 @@ function recMenu(){
   h+='<div class="rsl">도움</div>';
   if(ME&&!isGuest()){ h+=row('guide',ic('look'),'c-navy','이용 안내','처음 오신 분 · 함께하는 분 · 관리자'); }
   h+=row('shr',ic('share'),'c-green','공유하기','우리 이야기 마당 · 우리 이야기 만들기 링크');
-  if(!pwaIn()){ h+=row('pwa',ic('home'),'c-green','휴대폰 바탕화면에 두기','아이콘으로 바로 들어옵니다'); }
+  if(!pwaIn()){ h+=row('pwa',ic('home'),'c-green','홈 화면에 추가','아이콘으로 바로 들어옵니다'); }
   if(ME&&!isGuest()){ h+=row('menu',ic('star'),'c-gray','이 방 설정 · 메뉴','보일 이름 · 카카오 연결 · 이 방에서 나가기'); }
   if(mode==='room'&&ME&&!isBoss()&&(K||G)){ h+=row('flag','🚩','c-gray','신고','사칭 · 부적절한 내용'); }   /* ★v80 422 */
   h+='<div class="rlf">'+row('lf',ic('home'),'c-navy','사랑흐름 홈','사랑흐름 전체 메뉴는 여기에서')+'</div>';
@@ -5049,11 +5050,11 @@ function openHome(msg){ if(msg){ toast(msg); } location.href=location.pathname+'
 /* ★v42 309 휴대폰 바탕화면에 두기 */
 var PWA_EV=null;
 window.addEventListener('beforeinstallprompt',function(e){ e.preventDefault(); PWA_EV=e; });
-window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo'); if(b){ b.hidden=true; } toast('바탕화면에 두었습니다','이제 아이콘을 누르면 바로 들어옵니다'); });
+window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo'); if(b){ b.hidden=true; } toast('홈 화면에 추가했습니다','이제 아이콘을 누르면 바로 들어옵니다'); });
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=121;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=122;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
@@ -5070,25 +5071,25 @@ function pwaGo(){
   if(PWA_EV&&!inapp){ var ev=PWA_EV; PWA_EV=null; ev.prompt(); try{ ev.userChoice.then(function(c){ if(c&&c.outcome!=='accepted'){ PWA_EV=ev; } }); }catch(e){} return; }
   var here=location.href.split('#')[0];
   if(inapp){
-    sheet('<h2>📲 바탕화면에 두기</h2><p class="lead" style="margin-top:6px">카카오톡 안에서는 바탕화면에 둘 수 없습니다. 인터넷으로 연 뒤 이 단추를 한 번 더 눌러 주십시오.</p>'+
+    sheet('<h2>📲 홈 화면에 추가</h2><p class="lead" style="margin-top:6px">카카오톡 안에서는 홈 화면에 추가할 수 없습니다. 인터넷으로 연 뒤 이 단추를 한 번 더 눌러 주십시오.</p>'+
       (kk?'<button class="btn warm" id="pwOut" type="button">인터넷으로 열기</button>':'<div class="pwaimg"><span>⋮</span>→<span>다른 브라우저로 열기</span></div>')+'<button class="btn line" id="pwX" type="button">닫기</button>',
       function(){ $('pwX').onclick=closeSheet; if($('pwOut')){ $('pwOut').onclick=function(){ location.href='kakaotalk://web/openExternal?url='+encodeURIComponent(here+(here.indexOf('?')>-1?'&':'?')+'pwa=1'); }; } });
     return;
   }
   if(ios){
-    sheet('<h2>📲 바탕화면에 두기</h2><p class="lead" style="margin-top:6px">아래 순서대로 한 번만 눌러 주십시오.</p>'+
+    sheet('<h2>📲 홈 화면에 추가</h2><p class="lead" style="margin-top:6px">아래 순서대로 한 번만 눌러 주십시오.</p>'+
       '<div class="pwaimg"><span>□↑</span>공유 단추(화면 아래)</div><div class="pwaimg">↓</div><div class="pwaimg"><span>＋</span>홈 화면에 추가</div><div class="pwaimg">↓</div><div class="pwaimg"><span>추가</span>오른쪽 위</div>'+
       '<p class="note" style="text-align:center;margin-top:8px">바탕 아이콘으로 처음 여실 때 카카오로 한 번 들어와 주십시오.</p><button class="btn line" id="pwX" type="button">닫기</button>',
       function(){ $('pwX').onclick=closeSheet; });
     return;
   }
-  sheet('<h2>📲 바탕화면에 두기</h2><p class="lead" style="margin-top:6px">아래 순서대로 한 번만 눌러 주십시오.</p>'+
+  sheet('<h2>📲 홈 화면에 추가</h2><p class="lead" style="margin-top:6px">아래 순서대로 한 번만 눌러 주십시오.</p>'+
     '<div class="pwaimg"><span>⋮</span>브라우저 메뉴(오른쪽 위 · 아래)</div><div class="pwaimg">↓</div><div class="pwaimg"><span>＋</span>홈 화면에 추가</div><button class="btn line" id="pwX" type="button">닫기</button>',
     function(){ $('pwX').onclick=closeSheet; });
 }
 /* ★v45 카카오톡에서 「인터넷으로 열기」로 넘어오면 — 한 번 더 누르게 큰 창 */
 function pwaAsk(){ if(pwaIn()){ return; }
-  sheet('<h2>📲 바탕화면에 두기</h2><p class="lead" style="margin-top:6px">인터넷으로 넘어왔습니다. 아래 단추를 한 번 더 누르면 바탕화면에 생깁니다.</p><button class="btn warm" id="pwY" type="button">📲 바탕화면에 두기</button><button class="btn line" id="pwX" type="button">닫기</button>',
+  sheet('<h2>📲 홈 화면에 추가</h2><p class="lead" style="margin-top:6px">인터넷으로 넘어왔습니다. 아래 단추를 한 번 더 누르면 홈 화면에 아이콘이 생깁니다.</p><button class="btn warm" id="pwY" type="button">📲 홈 화면에 추가</button><button class="btn line" id="pwX" type="button">닫기</button>',
     function(){ $('pwX').onclick=closeSheet; $('pwY').onclick=function(){ closeSheet(); setTimeout(pwaGo,200); }; }); }
 function opnStart(){
   lfLog('만들기','1 카드 화면');   /* ★v75 410-6 */
@@ -5588,7 +5589,7 @@ function slsPaint(){
     h+=C.length?'<div class="dk-tw"><table class="dk-t"><thead><tr><th>승인</th><th>주문번호</th><th>상품</th><th class="n">금액</th><th>결제</th><th>사랑흐름 여권</th></tr></thead><tbody>'+C.map(function(x){
       var pg=x.ppState==='안 받음'?'<i class="dkg r">안 받음</i>':(x.ppState==='막힘'?'<i class="dkg r">막힘</i> ':'')+(x.ppState==='기다림'?(x.state==='승인'?'<i class="dkg w">발급 전</i>':'—'):esc(x.pp||''));
       return '<tr><td>'+esc(x.at)+'</td><td>'+esc(x.no)+'</td><td>'+esc(slsItem(x))+'</td><td class="n">'+slsWon(x.amount)+'</td><td>'+(x.state==='승인'?'<i class="dkg m">승인</i>':'<i class="dkg r">결제취소</i>')+'</td><td>'+pg+'</td></tr>'; }).join('')+'</tbody></table></div>':'<p class="note">아직 카드 결제가 없습니다.</p>';
-    h+='<p class="note">결제취소는 토스 상점관리자에서 합니다 — 30분 안에 결제 지킴이가 주문대장을 「만료 · 결제취소」로 바꾸고 여권을 막습니다. 「안 받음」 손님은 결제 화면 → 사랑흐름 · 카드결제 + 주문번호로 다시 받을 수 있습니다.</p></div>';
+    h+='<p class="note">결제취소는 토스 상점관리자에서 합니다 — 30분 안에 결제 지킴이가 주문대장을 「만료 · 결제취소」로 바꾸고 사랑흐름 여권을 막습니다. 「안 받음」 손님은 결제 화면 → 사랑흐름 · 카드결제 + 주문번호로 다시 받을 수 있습니다.</p></div>';
   } else if(tab==='order'){
     var O=d.orders||[];
     h+='<div class="dk-grp"><h2>주문 <em>'+O.length+'</em> <small>오픈마켓 · 계좌이체 · 최근 것부터 · 카드 · 기관 계약은 뺌</small></h2>';
@@ -5596,7 +5597,7 @@ function slsPaint(){
       var st=x.refunded?'<i class="dkg r">환불됨</i>':(x.gone?'<i class="dkg r">만료</i>':esc(x.state||'—'));
       var bt=x.refunded?'<button type="button" class="sbtn" data-sr="'+i+'" data-sm="undo">표시 풀기</button>':(x.gone?'':'<button type="button" class="sbtn red" data-sr="'+i+'" data-sm="refund">환불됨 표시</button>');
       return '<tr><td>'+esc(x.at)+'</td><td>'+esc(slsCh(x.ch))+'</td><td>'+esc(x.no)+'</td><td>'+esc(slsItem(x))+'</td><td>'+esc(x.pp||'')+'</td><td>'+st+'</td><td>'+bt+'</td></tr>'; }).join('')+'</tbody></table></div>':'<p class="note">주문이 없습니다.</p>';
-    h+='<p class="note">판매자센터(네이버 · G마켓 · 옥션)나 계좌로 돈을 돌려드린 <b>뒤에</b> 「환불됨 표시」를 누릅니다. 그 여권은 바로 막히고, 손님이 열면 「결제가 취소된 사랑흐름 여권입니다」 안내가 뜹니다. 잘못 눌렀으면 「표시 풀기」.</p></div>';
+    h+='<p class="note">판매자센터(네이버 · G마켓 · 옥션)나 계좌로 돈을 돌려드린 <b>뒤에</b> 「환불됨 표시」를 누릅니다. 그 사랑흐름 여권은 바로 막히고, 손님이 열면 「결제가 취소된 사랑흐름 여권입니다」 안내가 뜹니다. 잘못 눌렀으면 「표시 풀기」.</p></div>';
   } else {
     function tb(t,a){ return '<div class="dk-grp"><h2>'+esc(t)+'</h2>'+(a.length?a.map(function(x){ return '<div class="dk-row sm" style="cursor:default"><b>'+esc(slsCh(x.name))+'</b><small></small><span style="font-size:15px;font-variant-numeric:tabular-nums">'+x.n+'건</span></div>'; }).join(''):'<p class="note">'+mm+'월 발급이 없습니다.</p>')+'</div>'; }
     h+='<p class="note" style="margin:0 2px 8px">'+mm+'월 발급(주문대장) 건수입니다. 금액은 카드 결제만 실제 값이라 위 숫자 칸에만 둡니다.</p>';
@@ -5608,7 +5609,7 @@ function slsPaint(){
   each($('dkB'),'[data-sn]',function(b){ b.onclick=function(){ var t=b.getAttribute('data-sn'); if(t==='wait'){ t='pay'; } SLS.tab=t; slsPaint(); }; });
   each($('dkB'),'[data-so]',function(b){ b.onclick=function(){ hqPlansView(); }; });
   each($('dkB'),'[data-sr]',function(b){ b.onclick=function(){ var x=(SLS.d.orders||[])[+b.getAttribute('data-sr')], md=b.getAttribute('data-sm'), rf=md==='refund';
-    hqConfirm(rf?'환불됨 표시':'환불됨 표시 풀기',(rf?'<b>'+esc(x.no)+'</b> · '+esc(slsItem(x))+(x.pp?' · '+esc(x.pp):'')+'<br>이 주문의 사랑흐름 여권을 막습니다. 판매처에서 환불을 마친 뒤에 누르십시오.':'<b>'+esc(x.no)+'</b> 의 환불됨 표시를 풀고 원래 상태로 돌립니다. 여권이 다시 열립니다.')+'<br>휴대폰 카카오톡으로 재확인을 받습니다.',rf?'표시하기':'풀기',rf,function(fail){
+    hqConfirm(rf?'환불됨 표시':'환불됨 표시 풀기',(rf?'<b>'+esc(x.no)+'</b> · '+esc(slsItem(x))+(x.pp?' · '+esc(x.pp):'')+'<br>이 주문의 사랑흐름 여권을 막습니다. 판매처에서 환불을 마친 뒤에 누르십시오.':'<b>'+esc(x.no)+'</b> 의 환불됨 표시를 풀고 원래 상태로 돌립니다. 사랑흐름 여권이 다시 열립니다.')+'<br>휴대폰 카카오톡으로 재확인을 받습니다.',rf?'표시하기':'풀기',rf,function(fail){
       dkAsk(rf?'환불됨 표시':'환불됨 표시 풀기',function(){ slsCall({action:'hqMark',orderNo:x.no,mode:md},function(r){ if(r.status!=='ok'){ fail(r.msg); return; } closeSheet(); toast(rf?'환불됨으로 표시했습니다':'표시를 풀었습니다',x.no); dkSales(); }); }); }); }; });
 }
 function dkSvc(){ dkLinks('서비스','자서전 · 편지 · 추억록 · 마음 한마디 · 게시판',[['화면 목록','사이트 화면 전부 · 링크 복사 · QR',hqScreens],['제안 · 교육생 모집','기관 제안서 · 사무국 담당자 링크 · 회차 · 신청 현황 · 보고자료','/p/?hq=1']]); }   /* ★v103 534 */
@@ -5780,7 +5781,7 @@ function bsDraw(items,max){ var M=$('dkB'); if(!M){ return; }
           '<td><span class="tag '+(x.state==='만료'?'t-hide':'t-on')+'">'+esc(x.state||'쓰는 중')+'</span></td><td>'+esc(x.memo||'')+'</td>'+
           '<td style="white-space:nowrap"><button type="button" class="sbtn" data-bv="'+i+'">'+(sh?'가리기':'보기')+'</button> <button type="button" class="sbtn" data-be="'+i+'">고치기</button></td></tr>'; }).join('')+'</tbody></table></div>';
   }
-  h+='<p class="note" style="margin:6px 2px 12px">「보기」를 누를 때마다 감사 기록에 남고, 1분 뒤 저절로 가려집니다. 상태는 이 표의 표시이고, 여권 자체를 막는 일은 주문 · 발급 쪽에서 합니다. '+items.length+' / '+max+'줄</p>';
+  h+='<p class="note" style="margin:6px 2px 12px">「보기」를 누를 때마다 감사 기록에 남고, 1분 뒤 저절로 가려집니다. 상태는 이 표의 표시이고, 사랑흐름 여권 자체를 막는 일은 주문 · 발급 쪽에서 합니다. '+items.length+' / '+max+'줄</p>';
   h+='<div class="dk-grp" id="bsPay"><h2>요금 적용</h2><p class="note">불러오는 중입니다</p></div>';
   M.innerHTML=h; dkSubWire();
   $('bsNew').onclick=function(){ bsEdit(null,function(r){ bsDraw(r.items||[],r.max||max); }); };

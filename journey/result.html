@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ journey/result.html · v1-19 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(서버 답 denied · expired)을 「아직 여행 기록을 불러오지 못했어요 · 새로고침」으로 보내던 것 → 안내 판(/lf/canceled.js · 닫기 없음)을 바로 띄움. 다시 부르기도 하지 않음. [무손] 그 밖 v1-18 전부. -->
+<!-- ★ 현재 버전 ▶ journey/result.html · v1-20 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- (이전) journey/result.html · v1-19 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(서버 답 denied · expired)을 「아직 여행 기록을 불러오지 못했어요 · 새로고침」으로 보내던 것 → 안내 판(/lf/canceled.js · 닫기 없음)을 바로 띄움. 다시 부르기도 하지 않음. [무손] 그 밖 v1-18 전부. -->
 <!-- (이전) journey/result.html · v1-18 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) journey/result.html · v1-17 · 261010 · [기기 열쇠 · 자서전 서버 v47 · 63차] /lf/dk.js 한 줄 더함(맨 앞) — 사랑흐름 여권번호로 부르는 서버 요청에 이 휴대폰의 기기 열쇠를 저절로 실음 · 처음 여는 휴대폰은 본인 기기로 등록 · 꼬리표 frame.js?v=9(☰ 「휴대폰 관리」). [무손] 화면 알맹이 · 배관 · 서버 호출 전부. -->
 <!-- ★ (이전) journey/result.html · v1-16 · 261005 · [작업 v1-16 · 자서전 공사 칸 27-4 · 셋째 묶음 틀] 공용 틀 /lf/frame.js?v=5 붙임(위 띠 · ☰ · 아래 길목 다섯 · 옛 상단바 · 드로어 · 길 셋 감춤). 옛 위 띠(.top) 감춤 · 소리 단추는 새 위 띠 ☰ 왼쪽으로. [무손] 본문 · 배관 · 서버. -->
@@ -243,7 +244,7 @@
     <button class="menu" onclick="toggleMenu(event)" title="메뉴">&#9776;</button>
   </div>
   <div class="drawer" id="drawer">
-    <a onclick="lfGo('home')">홈</a><a onclick="lfGo('hanmadi')">마음 한마디</a><a onclick="lfGo('journey')">여행지도 보기</a><a onclick="lfGo('letter')">편지</a><a onclick="lfGo('reenter')">마음 여행여권으로 입장</a><a onclick="lfGo('find')">사랑흐름 여권 찾기</a><a onclick="lfGo('showroom')">여행의 기록</a><a onclick="lfGo('showcase')">사랑흐름 여행 자세히 보기</a><a onclick="location.reload()">다시 시작</a>
+    <a onclick="lfGo('home')">홈</a><a onclick="lfGo('hanmadi')">마음 한마디</a><a onclick="lfGo('journey')">여행지도 보기</a><a onclick="lfGo('letter')">편지</a><a onclick="lfGo('reenter')">사랑흐름 여권으로 입장</a><a onclick="lfGo('find')">사랑흐름 여권 찾기</a><a onclick="lfGo('showroom')">여행의 기록</a><a onclick="lfGo('showcase')">사랑흐름 여행 자세히 보기</a><a onclick="location.reload()">다시 시작</a>
   </div>
   <div class="body" id="stage"></div>
   <!-- ═ 공용 부품(인라인): 공유 + 방향버튼 · 260716 (★몰입 구간이라 발자취 티커는 넣지 않음) ═ -->
@@ -501,7 +502,7 @@ function render(D){
   /* [v1-8 · 260804] ★돌아오는 문 — 결과물 문 표준 LF-P45 4층.
      밖으로 보내는 것(저장·보내기) 바로 아래에 안으로 들이는 문을 둡니다.
      260804 외부 이사 만장일치: 나가는 성취감이 다시 들어오게 만듭니다. */
-  h+='<div class="backin"><button class="bi-b" onclick="goMine()">📂 내가 남긴 것 보기<span class="bi-s">이 여권으로 남긴 지도 · 편지 · 기록</span></button></div>';
+  h+='<div class="backin"><button class="bi-b" onclick="goMine()">📂 내가 남긴 것 보기<span class="bi-s">이 사랑흐름 여권으로 남긴 지도 · 편지 · 기록</span></button></div>';
   /* [v3-1] 여행 도장 — 결과를 받아본 시각을 남깁니다 */
   h+='<div class="stampbox" id="stampBox">'
     +'<div class="sb-t">오늘의 여행 기록을 잘 받으셨나요?</div>'
@@ -511,14 +512,14 @@ function render(D){
   /* 11 관계우주 미리보기 (빈자리) */
   h+='<div class="universe-mini"><div class="ttl">당신의 관계우주</div>';
   h+='<div class="grapes">'+grapesHtml(D.target)+'</div>';
-  h+='<p>지금은 '+esc(who)+'과(와)의 여행이 여권에 새겨졌어요.<br>아직 함께 걸어보지 못한 분들이<br>당신의 우주에서 기다리고 있어요.</p>';
+  h+='<p>지금은 '+esc(who)+'과(와)의 여행이 사랑흐름 여권에 새겨졌어요.<br>아직 함께 걸어보지 못한 분들이<br>당신의 우주에서 기다리고 있어요.</p>';
   /* [v3] ★제가 도장을 새로 만들었다가 뺐습니다 — 바로 위 "당신의 관계우주"(grapesHtml)가
      이미 같은 것이었습니다(260707 확정). 중복이라 삭제하고, 원래 것에 반짝임만 넣었습니다. */
   /* [v1-1 · 260713] 버튼 아래 한 줄 — 손님이 "결제로 간다"는 걸 알고 누르게.
      260707 확정 세계관 문구는 위에 그대로 둡니다("아직 함께 걸어보지 못한 분들이…").
      여기서 파는 말투를 쓰면 세계관이 깨집니다. 사실만 담담히. */
   h+='<button class="go" onclick="goUniverse()">+ 다른 분과 여행하기</button>'
-    +'<div class="go-note">한 분과의 여행마다, 새로운 여권이 발급됩니다</div>'
+    +'<div class="go-note">한 분과의 여행마다, 새로운 사랑흐름 여권이 발급됩니다</div>'
     +'</div>';
   /* 13 더보기 */
   /* [v3] 삭제: "또 여행"(뜻을 모르겠는 말·다른 분과 여행하기와 겹침)
@@ -755,10 +756,10 @@ function showLocked(pt){
   var href, body, btn;
   if (isLetter) {
     href = '/l/' + (pp ? ('?id=' + encodeURIComponent(pp)) : '');
-    body = '이 여권은 <b>마음 여행편지</b>를 위한 여행이에요.<br>여행지도 결과물 대신, 마음을 담은 <b>편지</b>로 안내해 드릴게요.';
+    body = '이 사랑흐름 여권은 <b>마음 여행편지</b>를 위한 여행이에요.<br>여행지도 결과물 대신, 마음을 담은 <b>편지</b>로 안내해 드릴게요.';
     btn  = '<a href="' + href + '" style="' + navy + '">편지 보러 가기</a>';
   } else {
-    body = '이 여권은 여행지도가 포함된 상품이 아니에요.<br>구입하신 여행으로 안내해 드릴게요.';
+    body = '이 사랑흐름 여권은 여행지도가 포함된 상품이 아니에요.<br>구입하신 여행으로 안내해 드릴게요.';
     btn  = '<a href="/" style="' + navy + '">홈으로</a>';
   }
   var st = document.getElementById('stage');
@@ -856,10 +857,10 @@ var LF_NAME = {
   '/journey/':'여행지도', '/journey/index.html':'여행지도',
   '/journey/result.html':'여행일지',
   '/l/':'편지', '/letter/':'편지', '/letter/index.html':'편지',
-  '/gate.html':'여권 발급', '/enter.html':'여권 발급',
+  '/gate.html':'사랑흐름 여권 발급', '/enter.html':'사랑흐름 여권 발급',
   '/pay.html':'결제', '/apply.html':'계좌이체',
   '/showcase.html':'여행 고르기', '/showroom.html':'여행의 기록',
-  '/reenter.html':'마음 여행여권으로 입장', '/find/':'여권 찾기', '/m/':'마음 한마디'
+  '/reenter.html':'사랑흐름 여권으로 입장', '/find/':'사랑흐름 여권 찾기', '/m/':'마음 한마디'
 };
 
 /* 화면마다 "앞으로 갈 곳" — 다음 상품으로 미는 문 */
@@ -875,7 +876,7 @@ var LF_NEXT = {
   '/reenter.html':        { k:'showroom', t:'여행의 기록 보러 가기' },
   '/find/':               { k:'showroom', t:'여행의 기록 보러 가기' },
   '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
-  '/pay.html':            { k:'gate',     t:'여권 발급받기' },
+  '/pay.html':            { k:'gate',     t:'사랑흐름 여권 발급받기' },
   '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
   '/gate.html':           { k:'journey',  t:'함께 떠나기' }
 };

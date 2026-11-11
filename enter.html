@@ -1,5 +1,6 @@
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
-<!-- ★ 현재 버전 ▶ enter.html · v5-22 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ enter.html · v5-23 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- (이전) enter.html · v5-22 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) enter.html · v5-21 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
 <!-- ★ (이전) enter.html · v5-20 · 261005 · [작업 v5-20 · 한 바퀴 점검] 「나의 여권번호」 → 「나의 사랑흐름 여권번호」. [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ enter.html · v5-19 · 261005 · [작업 v5-19 · 칸 27-4 화면 안 「‹ 이전」] body data-lf-back="/gate.html" — 틀(frame v6)이 위 띠 아래에 「‹ 이전」 줄을 깜. [무손] 그 밖 전부. -->
@@ -254,7 +255,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
         <a onclick="lfGo('draw')">삐뚤빼뚤 마음 도화지</a>        <a onclick="lfGo('journey')">여행지도 보기</a>
         <a onclick="lfGo('letter')">편지</a>
         <a onclick="lfGo('memoir')">자서전</a>
-        <a onclick="lfGo('reenter')">마음 여행여권으로 입장</a>
+        <a onclick="lfGo('reenter')">사랑흐름 여권으로 입장</a>
         <a onclick="lfGo('find')">사랑흐름 여권 찾기</a>
         <a onclick="lfGo('showroom')">여행의 기록</a>
         <a onclick="lfGo('showcase')">사랑흐름 여행 자세히 보기</a>
@@ -277,7 +278,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <div class="cert">
       <div class="cert-corner tl"></div><div class="cert-corner tr"></div>
       <div class="cert-corner bl"></div><div class="cert-corner br"></div>
-      <div class="cert-title">사랑흐름<br>마음 여행여권</div>
+      <div class="cert-title">사랑흐름<br>여권</div>
       <div class="cert-en">LOVE FLOW · MIND JOURNEY PASSPORT</div>
       <div class="cert-desc">이제, 당신의 마음 여행을 시작할 수 있습니다<br><span class="cert-desc-en">Your mind journey now begins</span></div>
       <div class="cert-divider"></div>
@@ -288,10 +289,10 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
       <div class="cert-divider2"></div>
       <div class="cert-issuer-c">
         <div class="ci-ko-wrap">
-          <div class="ci-ko">사랑흐름 마음관리청<span class="tm">™</span></div>
+          <div class="ci-ko">사랑흐름 여권</div>
           <div class="cert-stamp-sq">
             <span class="sq-l1">사랑흐름</span>
-            <span class="sq-l2">마음관리청</span>
+            <span class="sq-l2">여권</span>
             <span class="sq-l3">認證</span>
           </div>
         </div>
@@ -356,16 +357,16 @@ function closeMenu(){ document.getElementById('drawer').classList.remove('on'); 
 /* ===== 여권번호 복사 ===== */
 function copyPass(){
   var num = (typeof PASS !== 'undefined' && PASS) ? PASS : '';
-  if(!num){ showToast('여권번호를 불러오지 못했어요'); return; }   /* [260810] ★견본 번호를 복사해 가시던 것 막음 */
+  if(!num){ showToast('사랑흐름 여권번호를 불러오지 못했어요'); return; }   /* [260810] ★견본 번호를 복사해 가시던 것 막음 */
   if(navigator.clipboard && navigator.clipboard.writeText){
-    navigator.clipboard.writeText(num).then(function(){ showToast('여권번호가 복사되었어요'); },
+    navigator.clipboard.writeText(num).then(function(){ showToast('사랑흐름 여권번호가 복사되었어요'); },
       function(){ fbCopy(num); });
   } else { fbCopy(num); }
 }
 function fbCopy(t){
   var el = document.createElement('textarea'); el.value = t;
   el.style.position='fixed'; el.style.opacity='0'; document.body.appendChild(el);
-  el.select(); try{ document.execCommand('copy'); showToast('여권번호가 복사되었어요'); }catch(e){}
+  el.select(); try{ document.execCommand('copy'); showToast('사랑흐름 여권번호가 복사되었어요'); }catch(e){}
   document.body.removeChild(el);
 }
 
@@ -455,10 +456,10 @@ var LF_NAME = {
   '/journey/':'여행지도', '/journey/index.html':'여행지도',
   '/journey/result.html':'여행일지',
   '/l/':'편지', '/letter/':'편지', '/letter/index.html':'편지',
-  '/gate.html':'여권 발급', '/enter.html':'여권 발급',
+  '/gate.html':'사랑흐름 여권 발급', '/enter.html':'사랑흐름 여권 발급',
   '/pay.html':'결제', '/apply.html':'계좌이체',
   '/showcase.html':'여행 고르기', '/showroom.html':'여행의 기록',
-  '/reenter.html':'마음 여행여권으로 입장', '/find/':'여권 찾기', '/m/':'마음 한마디'
+  '/reenter.html':'사랑흐름 여권으로 입장', '/find/':'사랑흐름 여권 찾기', '/m/':'마음 한마디'
 };
 
 /* 화면마다 "앞으로 갈 곳" — 다음 상품으로 미는 문 */
@@ -474,7 +475,7 @@ var LF_NEXT = {
   '/reenter.html':        { k:'showroom', t:'여행의 기록 보러 가기' },
   '/find/':               { k:'showroom', t:'여행의 기록 보러 가기' },
   '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
-  '/pay.html':            { k:'gate',     t:'여권 발급받기' },
+  '/pay.html':            { k:'gate',     t:'사랑흐름 여권 발급받기' },
   '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
   '/gate.html':           { k:'journey',  t:'여행 시작하기' }
 };
@@ -685,7 +686,7 @@ function lfPaintResume(){
   var sheet = '<div class="lfsheet" id="lfsheet" onclick="if(event.target===this)lfResClose()">'
     + '<div class="pan">'
     + '<div class="ttl">지난 여행 이어가기</div>'
-    + '<div class="sub">여권번호를 넣어주세요</div>'
+    + '<div class="sub">사랑흐름 여권번호를 넣어 주세요</div>'
     + '<textarea id="lfResIn" rows="1" wrap="off" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" spellcheck="false" enterkeyhint="done" oninput="this.value=this.value.replace(/[\\r\\n]+/g,\'\');lfResCheck()" onkeydown="if(event.key===\'Enter\'){event.preventDefault();this.blur();}"></textarea>'
     + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
     + '<p id="lfResMsg"></p>'
@@ -749,7 +750,7 @@ function lfResCheck(){
     document.getElementById('lfResMsg').innerHTML =
       '이 기기엔 담아둔 게 없어요.<br>'
     + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
-    + '이 여권으로 여행지도를 새로 펼쳐볼까요?';
+    + '이 사랑흐름 여권으로 여행지도를 새로 펼쳐볼까요?';
     document.getElementById('lfResGo').textContent = '여행지도 펼치기';
     f.classList.add('on');
     return;

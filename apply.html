@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ apply.html · v35 · 261109 · [541 · 대표 지적 261109 16:03] /lf/ident.js 꼬리표 ?v=4 — 연락처 칸 「010 ▾ + 뒷번호」 → 한 칸(예시 010-1234-5678 · 숫자만 쳐도 「-」). [무손] 그 밖 v34 전부. -->
+<!-- ★ 현재 버전 ▶ apply.html · v36 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- (이전) apply.html · v35 · 261109 · [541 · 대표 지적 261109 16:03] /lf/ident.js 꼬리표 ?v=4 — 연락처 칸 「010 ▾ + 뒷번호」 → 한 칸(예시 010-1234-5678 · 숫자만 쳐도 「-」). [무손] 그 밖 v34 전부. -->
 <!-- ★ (이전) apply.html · v34 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) apply.html · v33 · 261006 · [대표 ok 261006 17:15] 「접수 중입니다…」 아래 ★기다림 물결(/lf/flow.js v2). [무손] 그 밖 전부. -->
 <!-- ★ (이전) apply.html · v32 · 261005 · [작업 v32 · 한 바퀴 점검] 이메일 설명 「완성 소식을 보내 드려요」 걷음(그런 메일은 보내지 않음). [무손] 그 밖 전부. -->
@@ -162,7 +163,7 @@
 <script src="/lf/way.js?v=1"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>마음 여행여권 발급 · 사랑흐름</title>
+<title>사랑흐름 여권 발급</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap" rel="stylesheet">
 <style>
@@ -259,7 +260,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
   <div class="gnav">
     <div class="home" onclick="goHome()"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름 홈"><span class="brand">사랑흐름</span></div>
     <button class="back" onclick="onBack()" aria-label="뒤로">&#8249;</button><div style="flex:1"></div>
-    <div class="loc">마음 여행여권</div>
+    <div class="loc">사랑흐름 여권</div>
     <button class="ham" onclick="openMenu()" aria-label="메뉴">&#9776;</button>
   </div>
 
@@ -271,7 +272,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
       <a onclick="lfGo('draw')">삐뚤빼뚤 마음 도화지</a>      <a onclick="lfGo('journey')">여행지도 보기</a>
       <a onclick="lfGo('letter')">편지</a>
       <a onclick="lfGo('memoir')">자서전</a>
-      <a onclick="lfGo('reenter')">마음 여행여권으로 입장</a>
+      <a onclick="lfGo('reenter')">사랑흐름 여권으로 입장</a>
       <a onclick="lfGo('find')">사랑흐름 여권 찾기</a>
       <a onclick="lfGo('showroom')">여행의 기록</a>
       <a onclick="lfGo('showcase')">사랑흐름 여행 자세히 보기</a>
@@ -284,7 +285,7 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
 
   <!-- 신청 화면 -->
   <div class="wrap" id="applyView">
-    <div class="atitle">마음 여행여권 발급 신청</div>
+    <div class="atitle">사랑흐름 여권 발급 신청</div>
     <div class="aen">LOVE FLOW · MIND JOURNEY PASSPORT</div>
 
     <div class="acct">
@@ -420,12 +421,12 @@ select.inp{appearance:none;-webkit-appearance:none;background-image:url("data:im
   <div class="pmodal" id="pmodal" onclick="if(event.target===this)closePp()">
     <div class="psheet">
       <div id="ppWait">
-        <div class="pt">여권을 준비하고 있습니다</div>
+        <div class="pt">사랑흐름 여권을 준비하고 있습니다</div>
         <div class="ps">이 결제번호로 다시 오시면 됩니다.</div>
       </div>
 
       <div id="ppDone" class="hide">
-        <div class="pl">마음 여행여권</div>
+        <div class="pl">사랑흐름 여권</div>
         <div class="pno" id="ppNoOut">LF-XXXXX</div>
         <button class="sub" onclick="goJourneyWithPp()">여행 시작하기</button>
       </div>
@@ -603,7 +604,7 @@ function askStatus(no, p4, onMsg, onIssued){
       return;
     }
     if(res && res.status==='waiting'){
-      onMsg('아직 입금 확인 전이에요. 확인되면 여권이 발급됩니다.', false);
+      onMsg('아직 입금 확인 전이에요. 확인되면 사랑흐름 여권이 발급됩니다.', false);
       return;
     }
     /* notfound — 접수가 없거나 뒤 4자리가 다릅니다. 둘을 구분해 알려주지 않습니다. */
@@ -655,10 +656,10 @@ function openPp(pp, errMsg){
     wait.classList.remove('hide');
     ask.classList.remove('hide');
     if(errMsg){
-      wait.querySelector('.pt').textContent = '여권을 찾지 못했어요';
+      wait.querySelector('.pt').textContent = '사랑흐름 여권을 찾지 못했어요';
       wait.querySelector('.ps').textContent = '결제번호와 연락처 뒤 4자리를 다시 확인해 주세요.';
     }else{
-      wait.querySelector('.pt').textContent = '여권을 준비하고 있습니다';
+      wait.querySelector('.pt').textContent = '사랑흐름 여권을 준비하고 있습니다';
       wait.querySelector('.ps').textContent = '이 결제번호로 다시 오시면 됩니다.';
     }
   }
@@ -800,10 +801,10 @@ var LF_NAME = {
   '/journey/':'여행지도', '/journey/index.html':'여행지도',
   '/journey/result.html':'여행일지',
   '/l/':'편지', '/letter/':'편지', '/letter/index.html':'편지',
-  '/gate.html':'여권 발급', '/enter.html':'여권 발급',
+  '/gate.html':'사랑흐름 여권 발급', '/enter.html':'사랑흐름 여권 발급',
   '/pay.html':'결제', '/apply.html':'계좌이체',
   '/showcase.html':'여행 고르기', '/showroom.html':'여행의 기록',
-  '/reenter.html':'마음 여행여권으로 입장', '/find/':'여권 찾기', '/m/':'마음 한마디'
+  '/reenter.html':'사랑흐름 여권으로 입장', '/find/':'사랑흐름 여권 찾기', '/m/':'마음 한마디'
 };
 
 /* 화면마다 "앞으로 갈 곳" — 다음 상품으로 미는 문 */
@@ -819,7 +820,7 @@ var LF_NEXT = {
   '/reenter.html':        { k:'showroom', t:'여행의 기록 보러 가기' },
   '/find/':               { k:'showroom', t:'여행의 기록 보러 가기' },
   '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
-  '/pay.html':            { k:'gate',     t:'여권 발급받기' },
+  '/pay.html':            { k:'gate',     t:'사랑흐름 여권 발급받기' },
   '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
   '/gate.html':           { k:'journey',  t:'함께 떠나기' }
 };
@@ -1029,7 +1030,7 @@ function lfPaintResume(){
   var sheet = '<div class="lfsheet" id="lfsheet" onclick="if(event.target===this)lfResClose()">'
     + '<div class="pan">'
     + '<div class="ttl">지난 여행 이어가기</div>'
-    + '<div class="sub">여권번호를 넣어주세요</div>'
+    + '<div class="sub">사랑흐름 여권번호를 넣어 주세요</div>'
     + '<input id="lfResIn" placeholder="LF-XXXXX" autocomplete="off" oninput="lfResCheck()">'
     + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
     + '<p id="lfResMsg"></p>'
@@ -1093,7 +1094,7 @@ function lfResCheck(){
     document.getElementById('lfResMsg').innerHTML =
       '이 기기엔 담아둔 게 없어요.<br>'
     + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
-    + '이 여권으로 여행지도를 새로 펼쳐볼까요?';
+    + '이 사랑흐름 여권으로 여행지도를 새로 펼쳐볼까요?';
     document.getElementById('lfResGo').textContent = '여행지도 펼치기';
     f.classList.add('on');
     return;
