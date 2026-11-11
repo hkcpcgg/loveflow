@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ gate.html · v45 · 261109 · [541 · 대표 지적 261109 16:03] /lf/ident.js 꼬리표 ?v=4 — 연락처 칸 「010 ▾ + 뒷번호」 → 한 칸(예시 010-1234-5678 · 숫자만 쳐도 「-」). [무손] 그 밖 v44 전부. -->
+<!-- ★ 현재 버전 ▶ gate.html · v46 · 261111 · [공사 칸 ④ · 577 · 592 · 439 · 대표 「나머지 작업 진행해」 261111 15:02] ①발급 끝 화면 — 옛 증서 그림(마음 여행여권 · 사랑흐름 마음관리청 · 직인 · /passport_bg.jpg 배경 이미지 저장)을 걷고 「사랑흐름 여권이 나왔습니다」 + 사랑흐름 여권번호 + 큰 단추 「사랑흐름 여권 화면 열기」(→ /my/?k=열쇠 · 발권 서버 v5-13 이 돌려주는 key) · 탑승권 그림 · 이미지 저장 · 홈 화면에 추가는 /my/ 에서. 열쇠가 없는 답(네이버 · 오픈마켓 신청 뒤 다시 오신 분 등)은 「사랑흐름 여행 시작하기」(지금 길 /enter.html?id=) ②화면 말 18곳 — 마음 여행여권 → 사랑흐름 여권 · 여행지도 → 마음 여행지도 · 편지 → 마음 여행편지(정식 이름 · 592 · 말 사전 v1) ③주석 속 실제 꼴 번호 → 가짜 꼴(439). [무손] issue() · GAS_B64 · JSONP · issuePassport 호출 주소 · 형식 확인 정규식 · lf_unlock · lf_passport · goJourney · 신청 길 · ITEMS · 드로어 · GA4 · 그 밖 v45 전부. -->
+<!-- ★ (이전) gate.html · v45 · 261109 · [541 · 대표 지적 261109 16:03] /lf/ident.js 꼬리표 ?v=4 — 연락처 칸 「010 ▾ + 뒷번호」 → 한 칸(예시 010-1234-5678 · 숫자만 쳐도 「-」). [무손] 그 밖 v44 전부. -->
 <!-- ★ (이전) gate.html · v44 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「여행지도로 이동 · Enter →」→「여행지도로 가기 →」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
 <!-- (이전) gate.html · v43 · 261026 · [토스 카드 결제 · 대표 OK 261026 19:31] 구입처에 「사랑흐름 · 카드결제」(저장값 사랑흐름(카드결제)) — 결제 화면에서 카드 결제를 마치고 넘어오면 구입처 · 주문번호가 미리 채워지고, 계좌이체처럼 상품을 묻지 않고 바로 받기(발권 서버 issuePassport v5-12 가 「토스결제」 탭에 승인된 주문만 냄). [무손] 그 밖 전부. -->
 <!-- ★ 현재 버전 ▶ gate.html · v42 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -62,7 +63,7 @@
                상품구분은 주문대장 J열(MAP / MAP+LETTER)이 원본. issuePassport v4가 이미 LF- 만 발급 중.
                GPT 이사: "식별자(PK)에 비즈니스 의미를 넣은 설계가 화근."
         [사고 경위] 260710에 LFM-/LFL- 로 바꿨다가 읽는 코드 8곳이 죽었음.
-               'LFL-GAKU5'.indexOf('LF-') → -1   (LF 다음이 L이라 "LF-" 라는 글자 자체가 없음)
+               'LFL-XXXXX'.indexOf('LF-') → -1   (LF 다음이 L이라 "LF-" 라는 글자 자체가 없음)
                → 진단완료·도장·이메일·관계·별명이 7/10~13 사흘간 하나도 안 찍힘. 여권 찾기도 죽었음.
         [고침] 손님이 보는 입력칸 예시 "LFM-XXXXX" → "LF-XXXXX". 손님은 LF- 번호를 받는데 예시가 LFM- 이었음.
         ★★[절대 손대지 말 것] 잠금·형식확인 정규식 /LF[ML]?-/ 는 그대로 둡니다.
@@ -220,6 +221,17 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
 .cert-legal{font-size:8.5px;color:rgba(255,255,255,0.4);letter-spacing:0.02em;line-height:1.6;text-align:center}
 .go-btn{width:100%;padding:16px;background:linear-gradient(135deg,var(--gold),var(--gold-soft));color:#fff;border:none;border-radius:13px;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer;box-shadow:0 6px 18px rgba(212,175,55,0.35);transition:filter 0.15s}
 .go-btn:hover{filter:brightness(1.05)}
+/* ★[v46] 발급 끝 */
+.isd{position:relative;text-align:center;border-radius:20px;padding:26px 18px 22px;margin-bottom:14px;color:#fff;background:linear-gradient(150deg,#0E1736,#1E4A76 60%,#3B3170);box-shadow:0 14px 34px rgba(14,23,54,.32);overflow:hidden}
+.isd:before{content:'';position:absolute;left:0;right:0;top:0;height:5px;background:linear-gradient(90deg,#7FE3D6,#8A6FC9,#E6A9C8,#F3E3B5)}
+.isd-ic{font-size:38px;animation:isdPop .9s cubic-bezier(.2,.8,.2,1)}
+@keyframes isdPop{0%{transform:scale(.3) rotate(-12deg);opacity:0}60%{transform:scale(1.12) rotate(4deg);opacity:1}100%{transform:none}}
+.isd-t{font-family:'Nanum Myeongjo',serif;font-size:22px;font-weight:800;color:#F3E3B5;margin:6px 0 14px}
+.isd-l{font-size:12px;color:#B9B3D6;letter-spacing:.08em}
+.isd .pp-no{font-family:'Nanum Myeongjo',serif;font-size:clamp(32px,10vw,42px);font-weight:800;color:#E9D29A;letter-spacing:.1em;margin:6px 0 6px}
+.isd-d{font-size:12px;color:rgba(255,255,255,.65)}
+.isd-memo{font-size:12.5px;color:#6B6680;text-align:center;line-height:1.6;margin:10px 4px 0}
+.go-sub{width:100%;margin-top:10px;padding:14px;background:#fff;color:#1E4A76;border:1.5px solid #C9D2E8;border-radius:13px;font-size:15px;font-weight:700;font-family:inherit;cursor:pointer}
   /* ── 통일 길잡이 (lf-nav) — 전 페이지 공통 ── */
   .lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;background:#1E4A76;border-bottom:1px solid #163A5C;padding:11px 12px}
   .lf-nav{position:relative}
@@ -283,10 +295,10 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     <a href="/">홈</a>
     <a href="/">마음 한마디</a>
     <a href="/draw/">삐뚤빼뚤 마음 도화지</a>
-    <a href="/journey/">여행지도 보기</a>
-    <a href="/l/">편지</a>
+    <a href="/journey/">마음 여행지도 보기</a>
+    <a href="/l/">마음 여행편지</a>
     <a href="/memoir/">자서전</a>
-    <a href="/reenter.html">마음 여행여권으로 입장</a>
+    <a href="/reenter.html">사랑흐름 여권으로 입장</a>
     <a href="/find/">사랑흐름 여권 찾기</a>
     <a href="/showroom.html">여행의 기록</a>
     <a href="/showcase.html" class="lf-buy">사랑흐름 여행 자세히 보기</a>
@@ -299,7 +311,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
   <div class="lf-nav">
     <a class="home" href="/" aria-label="사랑흐름 홈"><img src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt="사랑흐름"><span class="brand">사랑흐름</span></a>
     <button class="back" onclick="history.back()" aria-label="뒤로">&#8249;</button><div style="flex:1"></div>
-    <div class="loc">마음 여행여권</div>
+    <div class="loc">사랑흐름 여권</div>
     <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
   </div>
 
@@ -313,8 +325,8 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     <div class="gate-card">
       <div class="gate-head">
         <div class="gate-head-txt" style="text-align:center">
-          <div class="gate-title">마음 여행여권 발급</div>
-          <div class="gate-label">LOVE FLOW · MIND JOURNEY PASSPORT</div>
+          <div class="gate-title">사랑흐름 여권 발급</div>
+          <div class="gate-label">LOVE FLOW · PASSPORT</div>
         </div>
       </div>
 
@@ -425,45 +437,21 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
         <div class="ap-s">결제번호 <span class="ap-no" id="apNo"></span><br>같은 결제번호와 연락처로 다시 오시면, 확인된 뒤에는 이 화면에서 바로 받으실 수 있어요.</div>
       </div>
 
-      <!-- 발급완료 상태 (여권/입국 비자 컨셉 · 한영병기 글로벌대응 · 발행청 하단 · 자동이동 삭제→버튼) -->
+      <!-- ★[v46] 발급 끝 — 「사랑흐름 여권이 나왔습니다」 + 사랑흐름 여권 화면 열기(/my/?k=) · 옛 증서 그림 걷음 -->
       <div class="issued" id="issuedView">
-        <div class="cert">
-          <div class="cert-corner tl"></div><div class="cert-corner tr"></div>
-          <div class="cert-corner bl"></div><div class="cert-corner br"></div>
-
-          <div class="cert-title">사랑흐름<br>마음 여행여권</div>
-          <div class="cert-en">LOVE FLOW · MIND JOURNEY PASSPORT</div>
-          <div class="cert-desc">이제, 그 사람과의 여행을 시작할 수 있습니다<br><span class="cert-desc-en">Your mind journey now begins</span></div>
-
-          <div class="cert-divider"></div>
-
-          <div class="cert-label">MY NUMBER · 나의 번호</div>
+        <div class="isd">
+          <div class="isd-ic">🎫</div>
+          <div class="isd-t">사랑흐름 여권이 나왔습니다</div>
+          <div class="isd-l">사랑흐름 여권번호</div>
           <div class="pp-no" id="ppNo">LF-—</div>
-          <div class="cert-date" id="ppDate">— 발급 / Issued</div>
-
-          <div class="cert-note">이 번호로 나의 마음 여행을 다시 펼쳐볼 수 있습니다<br><span class="cert-note-en">Keep this number to revisit your journey</span></div>
-
-          <div class="cert-divider2"></div>
-
-          <div class="cert-issuer-c">
-            <div class="ci-ko-wrap">
-              <div class="ci-ko">사랑흐름 마음관리청<span class="tm">™</span></div>
-              <div class="cert-stamp-sq">
-                <span class="sq-l1">사랑흐름</span>
-                <span class="sq-l2">마음관리청</span>
-                <span class="sq-l3">認證</span>
-              </div>
-            </div>
-            <div class="ci-en">MINISTRY OF LOVE FLOW</div>
-          </div>
-
-          <div class="cert-legal">© 2026 사랑흐름 · LFRI™ · 무단복제 및 상업적 이용 금지<br>Unauthorized use strictly prohibited. All rights reserved.</div>
+          <div class="isd-d" id="ppDate">— 발급</div>
         </div>
+        <button class="go-btn" id="btnMy" onclick="goMy()">사랑흐름 여권 화면 열기 →</button>
+        <div class="isd-memo" id="isdMemo">사랑흐름 여권 화면에서 바로 여행을 시작하고, 홈 화면에 추가해 두실 수 있습니다.</div>
         <div class="cert-actions">
-          <button type="button" class="cert-act-btn" id="btnCopyPp" onclick="copyPassportNumber()">📋 번호 복사</button>
-          <button type="button" class="cert-act-btn" id="btnSavePp" onclick="savePassportImage(event)">🖼️ 여권 이미지 저장</button>
+          <button type="button" class="cert-act-btn" id="btnCopyPp" onclick="copyPassportNumber()">📋 사랑흐름 여권번호 복사</button>
         </div>
-        <button class="go-btn" id="btnGo" onclick="goJourney()">여행지도로 가기 →</button>
+        <button class="go-sub" id="btnGo" onclick="goJourney()" style="display:none">사랑흐름 여행 시작하기 →</button>
       </div>
 
     </div>
@@ -518,7 +506,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     /* ★[v34] 계좌이체는 바로 받기 · 그 밖은 발권 신청 */
     var bankNow = lfDirect(sel);
     var ew = document.getElementById('emailWrap'); if(ew) ew.style.display = bankNow ? 'none' : 'block';
-    var bi = document.getElementById('btnIssue'); if(bi) bi.textContent = bankNow ? '마음 여행여권 발급받기' : '발권 신청하기';
+    var bi = document.getElementById('btnIssue'); if(bi) bi.textContent = bankNow ? '사랑흐름 여권 발급받기' : '발권 신청하기';
     try{ onItem(); }catch(e){}
 
     var h = NO_HINT[sel] || NO_HINT_DEFAULT;
@@ -664,7 +652,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
       clearTimeout(timer);
       try{ delete window[cb]; }catch(e){}
       if(res && res.status==='ok' && res.passport){
-        showIssued(res.passport, channel);
+        showIssued(res.passport, channel, res.key);
       } else {
         btn.disabled=false;
         setMsg((res && res.msg) ? res.msg : '결제번호를 확인할 수 없어요. 다시 확인해 주세요.', true);
@@ -697,7 +685,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
   }
 
   /* ★[v34] 발급완료 화면 — 바로 받기 · 신청 뒤 다시 오신 분 둘 다 */
-  function showIssued(pp, channel){
+  function showIssued(pp, channel, key){
     try{ setMsg('', false); }catch(e){}
     try{ sessionStorage.setItem('lf_unlock','1'); }catch(e){}
     try{ sessionStorage.setItem('lf_passport', pp); }catch(e){}
@@ -709,6 +697,12 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     document.getElementById('inputWrap').classList.add('hide');
     document.getElementById('appliedView').classList.remove('show');
     document.getElementById('issuedView').classList.add('show');
+    /* ★[v46] 열쇠가 있으면 사랑흐름 여권 화면으로 · 없으면 지금 길(여행 시작하기) */
+    window.lfIssuedKey = (/^[A-Za-z0-9]{10}$/.test(String(key || ''))) ? String(key) : '';
+    try{ if(window.lfIssuedKey){ localStorage.setItem('lf_my_k', window.lfIssuedKey); } }catch(e){}
+    document.getElementById('btnMy').style.display = window.lfIssuedKey ? '' : 'none';
+    document.getElementById('isdMemo').style.display = window.lfIssuedKey ? '' : 'none';
+    document.getElementById('btnGo').style.display = window.lfIssuedKey ? 'none' : '';
     // 자동이동 삭제 — 사용자가 번호 확인 후 "여행지도로 이동" 버튼으로 직접 이동
   }
 
@@ -730,7 +724,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
       if(done) return; done=true;
       clearTimeout(timer);
       try{ delete window[cb]; }catch(e){}
-      if(res && res.status==='ok' && res.issued && res.passport){ showIssued(res.passport, channel); return; }
+      if(res && res.status==='ok' && res.issued && res.passport){ showIssued(res.passport, channel, res.key); return; }
       if(res && res.status==='ok' && res.waiting){
         setMsg('', false);
         document.getElementById('apNo').textContent = res.receiptNo || no;
@@ -770,6 +764,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     document.body.appendChild(s);
   }
 
+  function goMy(){ if(window.lfIssuedKey){ location.href='/my/?k='+encodeURIComponent(window.lfIssuedKey); } else { goJourney(); } }   /* ★[v46] */
   function goJourney(){ var p = window.lfIssuedPassport; if(!p){ try{ p=(window.LFPass ? LFPass.no() : sessionStorage.getItem('lf_passport')); }catch(e){} } if(p){ location.href='/enter.html?id='+encodeURIComponent(p); } }
 
   function copyPassportNumber(){
@@ -785,62 +780,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     try{ var ta=document.createElement('textarea'); ta.value=text; ta.setAttribute('readonly',''); ta.style.cssText='position:fixed;left:-9999px;top:-9999px;'; document.body.appendChild(ta); ta.select(); var ok=document.execCommand('copy'); ta.remove(); done(!!ok); }
     catch(e){ done(false); }
   }
-  /* 여권 이미지 저장 (v9-14) — 같은출처 배경 JPG에 번호·발급일을 canvas로 얹음. taint 없음 → 인앱 저장 가능. (html2canvas 폐기) */
-  var lfBg=new Image(); var lfBgOk=false; var lfBgErr=false;
-  lfBg.onload=function(){ lfBgOk=true; };
-  lfBg.onerror=function(){ lfBgErr=true; };
-  lfBg.src='/passport_bg.jpg';
-  function lfPpDate(){ var d=new Date(); var mm=('0'+(d.getMonth()+1)).slice(-2); var dd=('0'+d.getDate()).slice(-2); return d.getFullYear()+'년 '+mm+'월 '+dd+'일 발급'; }
-  function savePassportImage(ev){
-    var btn=(ev && ev.currentTarget) ? ev.currentTarget : document.getElementById('btnSavePp');
-    var orig=btn?btn.textContent:'';
-    function restore(){ if(btn){ btn.textContent=orig; btn.disabled=false; } }
-    if(lfBgErr){ alert('여권 배경 이미지를 불러오지 못했어요. 잠시 후 다시 시도해주세요.'); return; }
-    if(btn){ btn.disabled=true; btn.textContent='⏳ 만드는 중...'; }
-    if(!lfBgOk){
-      var n=0, t=setInterval(function(){ n++;
-        if(lfBgOk){ clearInterval(t); lfDrawPp(restore); }
-        else if(lfBgErr || n>40){ clearInterval(t); restore(); alert('이미지 준비 중입니다. 잠시 후 다시 눌러주세요.'); }
-      },150);
-    } else { lfDrawPp(restore); }
-  }
-  function lfDrawPp(restore){
-    function go(){
-      try{
-        var W=lfBg.naturalWidth||1122, H=lfBg.naturalHeight||1402;
-        var cv=document.createElement('canvas'); cv.width=W; cv.height=H;
-        var ctx=cv.getContext('2d'); ctx.drawImage(lfBg,0,0,W,H);
-        var ppEl=document.getElementById('ppNo');
-        var num=ppEl ? (ppEl.textContent||'').trim() : ''; if(!num) num='LF-—';
-        ctx.textAlign='center'; ctx.textBaseline='middle';
-        try{ ctx.letterSpacing='8px'; }catch(e){}
-        ctx.fillStyle='#C9A24B'; ctx.font="800 96px 'Nanum Myeongjo', serif";
-        ctx.fillText(num, W/2, 675);
-        try{ ctx.letterSpacing='2px'; }catch(e){}
-        ctx.fillStyle='#C8C8CD'; ctx.font="700 38px 'Nanum Myeongjo', serif";
-        ctx.fillText(lfPpDate(), W/2, 840);
-        var data=cv.toDataURL('image/png');
-        lfShowPp(data); restore();
-      }catch(e){ restore(); alert('여권 이미지 생성 실패: '+(e&&e.message?e.message:e)); }
-    }
-    if(document.fonts && document.fonts.ready){ document.fonts.ready.then(go); } else { go(); }
-  }
-  function lfShowPp(dataUrl){
-    var ov=document.getElementById('lfPpOverlay');
-    if(!ov){
-      ov=document.createElement('div'); ov.id='lfPpOverlay';
-      ov.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,0.88);z-index:99999;overflow:auto;padding:18px;text-align:center';
-      var g=document.createElement('div'); g.style.cssText='color:#fff;font-size:15px;font-weight:700;margin:8px 0 12px'; g.textContent='📌 이미지를 꾹 눌러 저장하세요';
-      var im=document.createElement('img'); im.id='lfPpImg'; im.alt='마음 여행여권'; im.style.cssText='max-width:92%;height:auto;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,0.5)';
-      var cw=document.createElement('div'); var cb=document.createElement('button');
-      cb.textContent='✕ 닫기'; cb.style.cssText='margin-top:16px;padding:12px 30px;font-size:15px;border:none;border-radius:22px;background:#fff;color:#1E2A3A;font-weight:700;cursor:pointer;font-family:inherit';
-      cb.onclick=function(){ ov.style.display='none'; }; cw.appendChild(cb);
-      ov.appendChild(g); ov.appendChild(im); ov.appendChild(cw);
-      document.body.appendChild(ov);
-    }
-    document.getElementById('lfPpImg').src=dataUrl;
-    ov.style.display='block';
-  }
+  /* ★[v46] 옛 여권 이미지 저장(/passport_bg.jpg 배경 · v9-14) 걷음 — 탑승권 그림 · 이미지 저장은 사랑흐름 여권 화면(/my/)에서 */
 
   /* ★[v33] 성명·연락처 칸을 그립니다 — 뒷번호 칸에서 Enter 면 발급 */
   try{ LFIdent.mount('lfIdent', { labelClass:'field-label', inputClass:'code-input', selectClass:'sel', consent:true, checked:/[?&]agree=1(&|$)/.test(location.search), onEnter:issue }); }catch(e){}
@@ -873,13 +813,13 @@ function lfMenuClose(){document.getElementById("lfMenu").classList.remove("open"
    ═══════════════════════════════════════════════════════════════════ */
 var LF_NAME = {
   '/':'홈', '/index.html':'홈',
-  '/journey/':'여행지도', '/journey/index.html':'여행지도',
+  '/journey/':'마음 여행지도', '/journey/index.html':'마음 여행지도',
   '/journey/result.html':'여행일지',
-  '/l/':'편지', '/letter/':'편지', '/letter/index.html':'편지',
-  '/gate.html':'여권 발급', '/enter.html':'여권 발급',
+  '/l/':'마음 여행편지', '/letter/':'마음 여행편지', '/letter/index.html':'마음 여행편지',
+  '/gate.html':'사랑흐름 여권 발급', '/enter.html':'사랑흐름 여권 발급',
   '/pay.html':'결제', '/apply.html':'계좌이체',
   '/showcase.html':'여행 고르기', '/showroom.html':'여행의 기록',
-  '/reenter.html':'마음 여행여권으로 입장', '/find/':'여권 찾기', '/m/':'마음 한마디'
+  '/reenter.html':'사랑흐름 여권으로 입장', '/find/':'사랑흐름 여권 찾기', '/m/':'마음 한마디'
 };
 
 /* 화면마다 "앞으로 갈 곳" — 다음 상품으로 미는 문 */
@@ -889,14 +829,14 @@ var LF_NEXT = {
   '/showroom.html':       { k:'showcase', t:'사랑흐름 여행 자세히 보기' },
   '/showcase.html':       { k:'pay',      t:'결제하기' },
   '/enter.html':          { k:'journey',  t:'함께 떠나기' },
-  '/journey/result.html': { k:'letter',   t:'이 여행을 편지로 이어가기' },
+  '/journey/result.html': { k:'letter',   t:'이 여행을 마음 여행편지로 이어가기' },
   /* 편지·여행지도는 길을 안 깝니다(위 lfPaintWay 참조).
      편지 완성 화면의 "다른 분과 여행하기"는 그 화면 안에 이미 있습니다. */
   '/reenter.html':        { k:'showroom', t:'여행의 기록 보러 가기' },
   '/find/':               { k:'showroom', t:'여행의 기록 보러 가기' },
   '/apply.html':          { k:'showroom', t:'여행의 기록 보러 가기' },
-  '/pay.html':            { k:'gate',     t:'여권 발급받기' },
-  '/l/':                  { k:'letter',   t:'편지 쓰러 가기' },
+  '/pay.html':            { k:'gate',     t:'사랑흐름 여권 발급받기' },
+  '/l/':                  { k:'letter',   t:'마음 여행편지 쓰기' },
   '/gate.html':           { k:'journey',  t:'함께 떠나기' }
 };
 
@@ -1149,7 +1089,7 @@ function lfPaintResume(){
   var sheet = '<div class="lfsheet" id="lfsheet" onclick="if(event.target===this)lfResClose()">'
     + '<div class="pan">'
     + '<div class="ttl">지난 여행 이어가기</div>'
-    + '<div class="sub">여권번호를 넣어주세요</div>'
+    + '<div class="sub">사랑흐름 여권번호를 넣어 주세요</div>'
     + '<input id="lfResIn" placeholder="LF-XXXXX" autocomplete="off" oninput="lfResCheck()">'
     + '<div class="found" id="lfResFound"><div class="ft" id="lfResTag"></div>'
     + '<p id="lfResMsg"></p>'
@@ -1218,8 +1158,8 @@ function lfResCheck(){
     document.getElementById('lfResMsg').innerHTML =
       '이 기기엔 담아둔 게 없어요.<br>'
     + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
-    + '이 여권으로 여행지도를 새로 펼쳐볼까요?';
-    document.getElementById('lfResGo').textContent = '여행지도 펼치기';
+    + '이 사랑흐름 여권으로 마음 여행지도를 새로 펼쳐 볼까요?';
+    document.getElementById('lfResGo').textContent = '마음 여행지도 펼치기';
     f.classList.add('on');
     return;
   }
@@ -1227,7 +1167,7 @@ function lfResCheck(){
   var b = j || l;
   var who = '';
   try{ who = (b.data && (b.data.nick || b.data.target)) || ''; }catch(e){}
-  var what = (kind === 'journey') ? '여행지도' : '편지';
+  var what = (kind === 'journey') ? '마음 여행지도' : '마음 여행편지';
 
   LF_RES = { kind:kind, pp:v, empty:0 };
   document.getElementById('lfResTag').textContent = '담아둔 여행이 있어요';
@@ -1303,7 +1243,7 @@ try{ lfOrg(); }catch(e){}
 .gsplit,.gsplit+.ways{display:none!important}
 html.lfx #lfEnterSlot{display:none!important}   /* ★v38 신청 화면 아래 번호 넣는 칸 감춤 — 이미 번호가 있는 분은 아래 띠 「내 여행」으로 */
 </style>
-<script src="/lf/frame.js?v=17"></script>
+<script src="/lf/frame.js?v=22"></script>
 <script src="/lf/flow.js?v=2"></script>
 </body>
 </html>

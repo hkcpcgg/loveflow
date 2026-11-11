@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v21 · 261110 · [558 · 대표 OK 19:19] ☰ 「사랑흐름 여행」 상품 넷이 설명 없이 바로 결제(/pay.html)로 가던 것 → 상품 설명(/item/?k=set · memoir · life · map)으로 · 구매하기는 설명 화면 안에서. [무손] 그 밖 v20 전부.
+   현재 버전 ▶ lf/frame.js · v22 · 261111 · [공사 칸 ④ 견본에서 찾음 · 594] 휴대폰 「홈 화면에 추가」 위 띠(v18)가 몸이 가로 줄(flex row)인 화면 12곳(gate · pay · apply · enter · reenter · showroom · journey · journey/result · letter · memoir · hanmadi · hq)에서 본문 옆 칸이 되어 카드를 좁은 세로 줄로 짓누르던 것 → 그런 화면에서는 위 띠 바로 아래에 떠 있게. [무손] 그 밖 v21 전부.
+   (이전) lf/frame.js · v21 · 261110 · [558 · 대표 OK 19:19] ☰ 「사랑흐름 여행」 상품 넷이 설명 없이 바로 결제(/pay.html)로 가던 것 → 상품 설명(/item/?k=set · memoir · life · map)으로 · 구매하기는 설명 화면 안에서. [무손] 그 밖 v20 전부.
    (이전) lf/frame.js · v20 · 261109 · [543 · 대표 지적 261109 16:12 「앞으로 · 뒤로 · 홈 단추가 왜 없어졌냐」] ★v1(261004)부터 옛 길 셋(.lfway)을 감추기만 하고 261015 기준 「← ⌂ →」 을 되살리지 않았던 것 — 모든 화면 푸터 바로 위에 동그라미 셋을 둠(화면이 자기 것을 가졌으면 그것) · 화면이 window.LF_WAY 로 뜻을 정할 수 있음 · 자서전 화면 ⌂ = 내 이야기 목록. [무손] 그 밖 v19 전부.
    (이전) lf/frame.js · v19 · 261106 · [500 소통 · 대표 261106 09:10 「카톡에서 열면 반드시 되는 브라우저로」 · 견본] 카톡 안에서 바깥 브라우저로 넘길 때 여권번호를 주소(?id=)에 실어 보냄 — 바깥 브라우저에서 번호를 다시 넣지 않고 그 자리 그대로. [무손] v18 전부.
    (이전) lf/frame.js · v18 · 261105 · [533 · 대표 OK 261105 11:28 · 송암 가계도 방식] ① 카톡 안에서 열면 바로 바깥 브라우저(크롬 · 사파리)로 넘김(kakaotalk://web/openExternal · 한 창에 한 번 · ?kk=0 이면 안 넘김) ② 휴대폰 화면 위 띠 「사랑흐름을 바탕화면에 두고 바로 여세요 · 홈 화면에 추가 · ✕」(✕ 누른 분 · 아이콘으로 연 분 · 컴퓨터 · 관리 화면은 안 뜸) ③ 우리 이야기(/rec/) 밖 화면에 설치 신분증(/manifest.webmanifest) · 일꾼(/sw.js) · /rec/ 는 원래 「바탕화면에 두기」(pwaGo)로. [무손] 그 밖 v17 전부.
@@ -560,7 +561,16 @@
     b.innerHTML = '<img src="/rec/icon-192.png" alt=""><div class="tx">' + (inRec ? '우리 이야기를' : '사랑흐름을') + ' 바탕화면에 두고 바로 여세요</div>'
       + '<button type="button" class="go">홈 화면에 추가</button><button type="button" class="x" aria-label="닫기">✕</button>';
     var top = document.getElementById('lfxTop');
-    if (top && top.parentNode) { top.parentNode.insertBefore(b, top.nextSibling); } else { document.body.insertBefore(b, document.body.firstChild); }
+    /* ★v22 몸이 가로 줄(flex row)인 화면(gate · pay · apply · journey · letter · memoir 등 12곳)에서는 띠가 옆 칸이 되어
+       본문 카드를 좁은 세로 줄로 짓눌렀음 → 그런 화면에서는 띠를 위 띠 바로 아래에 떠 있게(본문 줄에 끼지 않음) */
+    var bs = null; try { bs = getComputedStyle(document.body); } catch (e) {}
+    var rowBody = bs && /flex/.test(bs.display) && !/column/.test(bs.flexDirection || '');
+    var topIn = top && top.parentNode && !(top.parentNode === document.body && rowBody);
+    if (rowBody) {
+      var tb = 0; try { if (top) { var tr = top.getBoundingClientRect(); var tp = getComputedStyle(top).position; if (tp === 'fixed' || tp === 'sticky') { tb = Math.max(0, tr.bottom); } } } catch (e) {}
+      b.style.cssText = 'position:fixed;left:0;right:0;top:' + tb + 'px;z-index:2147482000;box-shadow:0 4px 12px rgba(14,23,54,.15)';
+      document.body.appendChild(b);
+    } else if (topIn) { top.parentNode.insertBefore(b, top.nextSibling); } else { document.body.insertBefore(b, document.body.firstChild); }
     b.querySelector('.go').onclick = add;
     b.querySelector('.x').onclick = function () { try { localStorage.setItem(KEY, '1'); } catch (e) {} b.parentNode.removeChild(b); };
   }
