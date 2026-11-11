@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/sign.html · v29 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- ★ 현재 버전 ▶ memoir/sign.html · v30 · 261112 · [612 · 대표 08:49 「확인한 대로 작업해」] 상품 · 결과물 이름 역할을 하던 「삶의 여정」 → 「자서전」 · 셈 기준 여덟 → 열(「열 이야기 가운데 ○ 이야기까지」 · 열 편을 마치면 「○○○ 선생님의 자서전」). 설명 문장 속 「삶의 여정」(초대장 · 친구 화면 · about)은 그대로. kit.js 꼬리표 ?v=17. [무손] 값 · 서버 · 그 밖 전부. -->
+<!-- (이전) memoir/sign.html · v29 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) memoir/sign.html · v28 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/sign.html · v27 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/sign.html · v26 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -72,7 +73,7 @@
      형제 화면(입구·의식·질문)은 상단바와 ☰ 메뉴가 있는데 이 화면만 없어
      들어오신 손님이 다른 데로 못 가고 갇혀 있었습니다. 형제 화면 것을 그대로 옷깁니다. -->
 <script src="/lf/pass.js"></script>
-<script src="/memoir/kit.js?v=15"></script>
+<script src="/memoir/kit.js?v=17"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>사랑흐름 · 이름 남기기</title>
@@ -497,12 +498,12 @@ var SIGN_OK = false;   /* ★v12 「이렇게 실립니다」 확인을 받았�
 var DONE_N = 1, JOURNEY = false;
 function ttl_(nm){ return LFM.title(nm, DONE_N, JOURNEY); }
 function paintTitleWords_(){
-  var w = ttl_('').journey ? (LFM.YOUTH ? '자서전' : '삶의 여정') : '기록';   /* ★v21 */
+  var w = ttl_('').journey ? '자서전' : '기록';   /* ★v21 */
   var els = document.querySelectorAll('.ttl-word');
   for(var i=0;i<els.length;i++){ els[i].textContent = w; }
 }
 function whoHtml_(nm){
-  var t = ttl_(''), tail = t.journey ? '삶의 여정' : '기록';
+  var t = ttl_(''), tail = t.journey ? '자서전' : '기록';
   if(LFM.YOUTH){   /* ★v21 청소년 — 32차 (나) */
     return t.journey ? ('미리 써 보는 ' + (nm ? '<b>'+nm+'</b>의' : '나의') + ' 자서전') : ((nm ? '<b>'+nm+'</b> 님의' : '나의') + ' 기록');
   }
@@ -562,7 +563,7 @@ nameIn.addEventListener('blur',  function(){ nameTouched=true; gate_(); });
       /* ★[v10] 제목 두 갈래 — 이 이야기를 아직 안 남기셨으면 남기는 순간 하나가 더해집니다 */
       var dc = parseInt(d.doneCount,10); if(isNaN(dc)){ dc = 0; }
       DONE_N = dc + (String(d.sign||'') ? 0 : 1);
-      JOURNEY = !!d.isJourney || DONE_N >= 8;
+      JOURNEY = DONE_N >= 10;
       try{ LFM.youth(pp, !!d.youth); }catch(eY){}   /* ★v21 */
     }
     if(d && d.status==='ok' && d.found && d.name && !safe_(nameIn.value)){
