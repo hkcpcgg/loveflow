@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v22 · 261111 · [공사 칸 ④ 견본에서 찾음 · 594] 휴대폰 「홈 화면에 추가」 위 띠(v18)가 몸이 가로 줄(flex row)인 화면 12곳(gate · pay · apply · enter · reenter · showroom · journey · journey/result · letter · memoir · hanmadi · hq)에서 본문 옆 칸이 되어 카드를 좁은 세로 줄로 짓누르던 것 → 그런 화면에서는 위 띠 바로 아래에 떠 있게. [무손] 그 밖 v21 전부.
+   현재 버전 ▶ lf/frame.js · v23 · 261111 · [공사 칸 ⑤ 견본에서 찾음 · 595] ← ⌂ → 를 붙인 543 공사(261109 16:31 · 355a013)부터 window.LFWay 를 통째로 덮어써 lf/way.js 의 LFWay.get 이 사라짐 → apply.html(계좌이체 접수) · gate.html(네이버 · 오픈마켓 발권 신청) 신청 단추에서 오류로 멈춤 → 있는 LFWay 에 back · home · fwd 만 덧붙임. [무손] 그 밖 v22 전부.
+   (이전) lf/frame.js · v22 · 261111 · [공사 칸 ④ 견본에서 찾음 · 594] 휴대폰 「홈 화면에 추가」 위 띠(v18)가 몸이 가로 줄(flex row)인 화면 12곳(gate · pay · apply · enter · reenter · showroom · journey · journey/result · letter · memoir · hanmadi · hq)에서 본문 옆 칸이 되어 카드를 좁은 세로 줄로 짓누르던 것 → 그런 화면에서는 위 띠 바로 아래에 떠 있게. [무손] 그 밖 v21 전부.
    (이전) lf/frame.js · v21 · 261110 · [558 · 대표 OK 19:19] ☰ 「사랑흐름 여행」 상품 넷이 설명 없이 바로 결제(/pay.html)로 가던 것 → 상품 설명(/item/?k=set · memoir · life · map)으로 · 구매하기는 설명 화면 안에서. [무손] 그 밖 v20 전부.
    (이전) lf/frame.js · v20 · 261109 · [543 · 대표 지적 261109 16:12 「앞으로 · 뒤로 · 홈 단추가 왜 없어졌냐」] ★v1(261004)부터 옛 길 셋(.lfway)을 감추기만 하고 261015 기준 「← ⌂ →」 을 되살리지 않았던 것 — 모든 화면 푸터 바로 위에 동그라미 셋을 둠(화면이 자기 것을 가졌으면 그것) · 화면이 window.LF_WAY 로 뜻을 정할 수 있음 · 자서전 화면 ⌂ = 내 이야기 목록. [무손] 그 밖 v19 전부.
    (이전) lf/frame.js · v19 · 261106 · [500 소통 · 대표 261106 09:10 「카톡에서 열면 반드시 되는 브라우저로」 · 견본] 카톡 안에서 바깥 브라우저로 넘길 때 여권번호를 주소(?id=)에 실어 보냄 — 바깥 브라우저에서 번호를 다시 넣지 않고 그 자리 그대로. [무손] v18 전부.
@@ -442,7 +443,8 @@
     if (!at) { at = document.querySelector('.glegal') || document.querySelector('.legal') || document.querySelector('.lf-foot') || document.querySelector('footer'); }
     if (at && at.parentNode) { at.parentNode.insertBefore(w, at); } else { b.insertBefore(w, document.getElementById('lfxTab') || null); }
   }
-  window.LFWay = { back: wayBack, home: wayGoHome, fwd: wayFwd };
+  /* ★v23 — 들어온 길 부품(lf/way.js)의 LFWay.get 을 지우지 않게 덧붙이기만(v22까지 통째로 덮어써 apply · gate 신청이 멈췄음) */
+  var _lfw = window.LFWay || {}; _lfw.back = wayBack; _lfw.home = wayGoHome; _lfw.fwd = wayFwd; window.LFWay = _lfw;
 
   window.LFFrame = { open: openSheet, menu: openMenu, close: closeAll, groups: GROUPS, version: 'v3' };
 
