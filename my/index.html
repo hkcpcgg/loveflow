@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ my/index.html · v2 · 261111 · [대표 15:35~15:39 「뭔지도 모르는데 맨 위에 단추 · QR 은 사람들이 몰라 · 번호를 물고 입장 · 구구절절 안내」] 차례를 바꿈 — ① 「○○ 님이 선물하신 사랑흐름 여권입니다」(선물일 때 맨 위) ② 탑승권 그림 ③ 지난 마음 여행편지 ④ 다 본 자리에 「○○ 님이 선물하신 사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요 · 누르시면 사랑흐름 여권번호가 자동으로 입력되어 바로 들어갑니다」 + 「마음 여행지도로 입장하기 ›」 · 「마음 여행편지로 입장하기 ›」 · 「한 편의 기록으로 입장하기 ›」 ⑤ 이 휴대폰에 두기. QR 은 그림 안에만(안내에 쓰지 않음). [무손] 서버 · 열쇠 · 그림 · 그 밖 v1 전부. -->
+<!-- ★ 현재 버전 ▶ my/index.html · v3 · 261111 · [대표 15:46 「카드로 직접 샀는데 왜 ○○ 외 한 분이 선물하신이 나와」 → OK 15:50] ①「외 1분」 대신 이름 그대로 — 「박서윤 님이 선물하신」 · 「박서윤 · 이민정 님이 함께 선물하신」(넷 이상만 「… 님 외 n분」) · 탑승권 그림 「선물 · GIFT FROM」 칸도 같은 줄 ②선물로만 받은 사랑흐름 여권일 때만 맨 위 선물 상자 · 직접 산 사랑흐름 여권(서버 gift v5 own)에 선물이 더해졌으면 맨 위는 「○○ 님의 사랑흐름 여권」 그대로 + 아래 「🎁 박서윤 님이 보낸 선물 · 마음여행 3편」 줄 · 안내 글도 「○○ 님의 사랑흐름 여권으로 여행하시려면」. [무손] 그 밖 v2 전부. -->
+<!-- (이전) my/index.html · v2 · 261111 · [대표 15:35~15:39 「뭔지도 모르는데 맨 위에 단추 · QR 은 사람들이 몰라 · 번호를 물고 입장 · 구구절절 안내」] 차례를 바꿈 — ① 「○○ 님이 선물하신 사랑흐름 여권입니다」(선물일 때 맨 위) ② 탑승권 그림 ③ 지난 마음 여행편지 ④ 다 본 자리에 「○○ 님이 선물하신 사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요 · 누르시면 사랑흐름 여권번호가 자동으로 입력되어 바로 들어갑니다」 + 「마음 여행지도로 입장하기 ›」 · 「마음 여행편지로 입장하기 ›」 · 「한 편의 기록으로 입장하기 ›」 ⑤ 이 휴대폰에 두기. QR 은 그림 안에만(안내에 쓰지 않음). [무손] 서버 · 열쇠 · 그림 · 그 밖 v1 전부. -->
 <!-- (이전) my/index.html · v1 · 261111 · [공사 칸 ④ · 577 · 587 · 590 · 591 · 592 · 대표 「나머지 작업 진행해」 261111 15:02] 새 화면 — 사랑흐름 여권 화면.
      · /my/?k=열쇠(열 글자) 로 엶 — 사랑흐름 여권번호를 주소에 드러내지 않음(581). 열면 이 휴대폰이 열쇠를 기억(lf_my_k) → 홈 화면 아이콘(/my/?app=1)은 기억한 열쇠로.
      · 서버 = 개인 계정 「사랑흐름 유료여행지도」(…xBZM1A) ⑦ gift.gs v4 passOpen — 받은 · 쓴 · 남은 편(칸 ③) · 받은 선물 · 지난 마음 여행편지 · 발급일.
@@ -61,7 +62,7 @@ button{font-family:inherit;cursor:pointer}
 .goS{font-size:13px;color:var(--sub);line-height:1.55;text-align:center;margin-top:6px;word-break:keep-all}
 .goS b{color:var(--navy)}
 .goBox .main{margin-top:12px}
-.fromGift{background:#F7F4FF;border:1px solid #E2DAF7;border-radius:14px;padding:11px 13px;font-size:14px;color:#4A3F78;margin-top:8px}
+.fromGift{background:#F7F4FF;border:1px solid #E2DAF7;border-radius:14px;padding:11px 13px;font-size:14px;color:#4A3F78;margin-top:8px;text-align:center}
 .letters{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .lt{border-bottom:1px solid #F0ECF5}
 .lt:last-child{border-bottom:0}
@@ -197,17 +198,26 @@ button{font-family:inherit;cursor:pointer}
     if (l && !m && !r) { return '마음 여행편지'; }
     return '사랑흐름 여행';
   }
-  function giftLine() {
-    if (!D.from || !D.from.length) { return ''; }
-    var f = D.from[0], n = (f.tog && f.tog.length) ? ' 외 ' + f.tog.length + '분' : '';
-    return f.giver ? f.giver + ' 님' + n : '';
+  /* ★v3 보낸 분 이름 — 「박서윤 님」 · 「박서윤 · 이민정 님」 · 넷 이상이면 「… 님 외 n분」 */
+  function namesOf(f) {
+    var ns = [f.giver].concat(f.tog || []).filter(function (x) { return String(x || '').trim(); });
+    if (!ns.length) { return ''; }
+    return ns.length <= 3 ? ns.join(' · ') + ' 님' : ns.slice(0, 3).join(' · ') + ' 님 외 ' + (ns.length - 3) + '분';
   }
+  function giftWord(f) { var ns = [f.giver].concat(f.tog || []).filter(function (x) { return String(x || '').trim(); }); return ns.length > 1 ? '이 함께 선물하신' : '이 선물하신'; }
+  function giftLine() { return (D.from && D.from.length) ? namesOf(D.from[0]) : ''; }
+  /* ★v3 선물로만 받은 사랑흐름 여권인지 — 직접 산 줄(own)이 있으면 아님(서버 v5 · 옛 서버는 own 이 없어 선물만으로 봄) */
+  function giftOnly() { return !!giftLine() && D.own !== true; }
 
   function paint() {
-    var h = '', gl = giftLine(), lts = D.letters || [], nm = D.name ? D.name + ' 님' : '';
+    var h = '', gl = giftLine(), go1 = giftOnly(), gw = gl ? giftWord(D.from[0]) : '', lts = D.letters || [], nm = D.name ? D.name + ' 님' : '';
     /* ★v2 ① 누가 보낸 선물인지 먼저 */
-    if (gl) { h += '<div class="giftTop"><i>🎁</i><b>' + esc(gl) + '이 선물하신</b><span>사랑흐름 여권입니다</span></div>'; }
-    else { h += '<div class="ownTop"><b>' + esc(nm ? nm + '의 사랑흐름 여권' : '사랑흐름 여권') + '</b></div>'; }
+    if (go1) { h += '<div class="giftTop"><i>🎁</i><b>' + esc(gl + gw) + '</b><span>사랑흐름 여권입니다</span></div>'; }
+    else {
+      h += '<div class="ownTop"><b>' + esc(nm ? nm + '의 사랑흐름 여권' : '사랑흐름 여권') + '</b></div>';
+      (D.from || []).forEach(function (f) { var n = namesOf(f); if (n) { h += '<div class="fromGift">🎁 ' + esc(n) + '이 보낸 선물' + (f.what ? ' · ' + esc(f.what) : '') + '</div>'; } });
+      if (D.from && D.from.length) { h += '<div style="height:12px"></div>'; }
+    }
     /* ② 탑승권 그림 — 내용 확인 */
     h += '<div class="passWrap rise" id="pw"><canvas id="cv" width="1080" height="1880" role="img" aria-label="사랑흐름 여권"></canvas><div class="shine"></div></div>';
     /* ③ 지난 마음 여행편지 — 누구에게 보냈는지 */
@@ -221,7 +231,7 @@ button{font-family:inherit;cursor:pointer}
     }
     /* ④ 다 본 뒤 — 여행하기(입장) */
     h += '<div class="goBox" id="goBox">';
-    h += '<div class="goT">' + (gl ? '🎁 ' + esc(gl) + '이 선물하신 사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요.' : '✈️ ' + esc(nm ? nm + '의 ' : '') + '사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요.') + '</div>';
+    h += '<div class="goT">' + (go1 ? '🎁 ' + esc(gl + gw) + ' 사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요.' : '✈️ ' + esc(nm ? nm + '의 ' : '') + '사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요.') + '</div>';
     h += '<div class="goS">누르시면 사랑흐름 여권번호 <b>' + esc(D.passport) + '</b> 가 자동으로 입력되어 바로 들어갑니다.</div>';
     h += '<div class="main" id="mainBtns">';
     var first = true, any = false;
