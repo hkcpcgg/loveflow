@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ region.html · v4 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- ★ 현재 버전 ▶ region.html · v5 · 261112 · [604 · 81차 결과 · 대표 OK 22:51 · 도식 OK 23:31 · 시험판 OK 261112 01:02] 제안서 골격 — 받는 곳 설정은 본부 「제안서 서랍」(p/ v5 · 우리 이야기 서버 ③본부 v39 탭 「제안서」) · 주소 ?to=열쇠 → prDoc 으로 읽어 ① 표지 · 차례 ⑤ 맞춤 1장 ② 대상 포장(마을 · 단체 · 사회적경제 · 협동조합 더함) ③ 제안 메뉴(주력 · 보조 · 고르는 기준 셋 · 마음여행 · 마음 한마디 더함 · 한 편의 기록 상세는 proposal 글) · 역할 세 자리 · 함께 지키는 원칙 다섯 · 0~5단계(단계마다 확인) · 예산 네 칸(금액 없음) · 질문 Q5 · 한 장 요약. TO 가 없으면 지금처럼 일반 제안 화면 -->
+<!-- (이전) region.html · v4 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) region.html · v3 · 261110 · [대표 OK 261110 09:45] 맨 아래 마무리 칸 「협력 문의」 아래에 무료 마음 여행여권(개인 · 「한 편의 기록」 한 편) 한 줄 + 「카카오톡으로 연락하기」(같은 크기 · 카카오 채널 채팅) — 많아지면 .free-pass 덩어리만 빼면 닫힘 · 발급은 관리 화면 「여권 발급」으로 한 장씩. [무손] 그 밖 v2 전부. -->
 <!-- (이전) region.html · v2 · 261110 · [대표 지적 09:27] 「종이책을 직접 인쇄 · 판매하지 않음 · 디지털이 중심」 문구 두 곳(회사 상자 · 카톡 요약 복사 글) 뺌 — 종이책은 계약 때 고르는 옵션이라 단정하지 않음. 저작권 경고는 공용 푸터(lf-foot v5)가 붙임. [무손] 그 밖 v1 전부. -->
 <!-- (이전) region.html · v1 · 261110 · [대표 OK 261110 09:12 「이사님 판단해서 작업」] 다른 친구(제미나이)가 지은 「지역 협력 제안」 화면을 홈에 올림 — ①공용 틀(/lf/frame.js · 위 띠 ⌂ · ☰ · ← ⌂ → · 아래 띠) · 공용 푸터(/lf-foot.js) 붙임, 친구 화면의 「홈으로」 줄 · 아래 띠 「홈」 단추 뺌 ②협력 문의 → 게시판 서버 partnerApply(게시판DB 「파트너신청」 탭 · 문의 글 맨 앞 [지역 협력 문의]) · 서버 무손 ③「책」 표현 → 기록 · 한 편 / LD 영문 풀이름 뺌 / 지어낸 후기 · 결과를 약속하는 말(24시간 개요서 · 예산 부담 제로 · 출자금 이탈 방지 · 표창 등) 뺌 · 계산기 「방 N개소」 → 기관 방 1곳 ④회사 상자 안 사업자번호 줄 뺌(공용 푸터와 겹침) ⑤QR 둘을 외부 서비스 → 파일 안 그림 ⑥제미나이 찌꺼기 코드(api-shim · notebookAppApi) 걷어냄. [무손] 디자인 · 색 · 구성 -->
@@ -1102,15 +1103,125 @@
     .free-pass-txt strong{color:var(--primary)}
     .btn-kakao{margin:0 auto;max-width:280px;width:100%;min-height:44px;display:flex;align-items:center;justify-content:center;gap:6px;background:#FEE500;color:#191919;border-radius:var(--rounded);font-size:0.88rem;font-weight:700;text-decoration:none;padding:11px var(--space-sm)}
     .btn-kakao:hover{background:#f5dc00}
+
+    /* ===== v5 제안서 골격 ===== */
+    .cover{display:none;min-height:calc(100vh - 190px);min-height:calc(100svh - 190px);background:var(--primary);color:var(--on-primary);flex-direction:column;align-items:center;text-align:center;padding:var(--space-xl) var(--space-lg);border-bottom:3px solid var(--outline);position:relative}
+    .cover.on{display:flex}
+    .cover-to{font-family:var(--font-headline);font-size:1.15rem;font-weight:700;letter-spacing:.02em;padding-bottom:var(--space-sm);border-bottom:1px solid color-mix(in srgb,var(--outline) 70%,transparent)}
+    .cover-mid{flex:1;display:flex;flex-direction:column;justify-content:center;gap:var(--space-md);width:100%}
+    .cover-kicker{font-size:.8rem;color:color-mix(in srgb,var(--outline) 85%,var(--on-primary))}
+    .cover-title{font-family:var(--font-headline);font-size:var(--display-size);line-height:1.35;margin:0;font-weight:700}
+    .cover-title .org{color:#e9d3a6}
+    .cover-round{display:inline-block;margin:0 auto;font-size:.78rem;border:1px solid var(--outline);padding:3px 12px}
+    .cover-date{position:absolute;left:0;right:0;bottom:20%;font-size:.9rem;opacity:.9}
+    .cover-from{font-family:var(--font-headline);font-weight:700;font-size:1.05rem;letter-spacing:.06em;margin-top:auto}
+    .cover-from small{display:block;font-family:var(--font-body);font-weight:400;font-size:.72rem;opacity:.75;letter-spacing:0;margin-top:2px}
+    .cover-down{font-size:.75rem;opacity:.7;margin-top:var(--space-sm)}
+    .toc-card,.letter-card{display:none;margin:var(--space-md);background:var(--surface-container-low);border:var(--hairline);border-top:var(--brass-rule);padding:var(--space-md)}
+    .toc-card.on,.letter-card.on{display:block}
+    .toc-card h2,.letter-card h2{font-family:var(--font-headline);font-size:var(--subhead-size);margin:0 0 var(--space-sm);color:var(--primary)}
+    .toc-list{margin:0;padding:0;list-style:none;counter-reset:toc}
+    .toc-list li{counter-increment:toc;border-bottom:1px dashed var(--outline-variant)}
+    .toc-list a{display:flex;gap:10px;padding:9px 2px;color:var(--on-surface);text-decoration:none;font-size:.9rem}
+    .toc-list a::before{content:counter(toc,decimal-leading-zero);font-family:var(--font-headline);color:var(--tertiary);font-weight:700}
+    .toc-list a::after{content:'›';margin-left:auto;color:var(--tertiary)}
+    .letter-meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:.78rem;color:var(--on-surface-variant);margin-bottom:var(--space-sm)}
+    .letter-body{font-size:.95rem;line-height:1.75;margin:0;white-space:pre-line}
+    .sample-mark{display:inline-block;font-size:.7rem;font-weight:700;color:var(--error);border:1px solid var(--error);padding:0 6px;margin-left:6px;vertical-align:2px}
+    .pick-box{background:var(--background);border:1px solid var(--outline-variant);padding:var(--space-sm) var(--space-md);margin:0 0 var(--space-md);font-size:.85rem;line-height:1.6}
+    .pick-box strong{color:var(--primary)}
+    .pick-box ol{margin:4px 0 0;padding-left:1.2rem}
+    .pick-tag{display:none;font-size:.68rem;font-weight:700;padding:1px 7px;margin-left:6px;vertical-align:2px;color:var(--on-primary);background:var(--primary)}
+    .pick-tag.sub{background:var(--secondary)}
+    .accordion-item.picked .pick-tag{display:inline-block}
+    .accordion-item.picked{border-color:var(--primary)!important;box-shadow:inset 3px 0 0 var(--primary)}
+    .detail-list{margin:var(--space-sm) 0 0;padding:0;list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+    .detail-list li{font-size:.78rem;background:var(--surface-container);padding:5px 8px}
+    .detail-list li b{color:var(--tertiary);margin-right:4px}
+    .detail-sub{font-size:.8rem;font-weight:700;color:var(--primary);margin:var(--space-md) 0 4px}
+    .detail-steps{margin:0;padding-left:1.1rem;font-size:.82rem;line-height:1.6;color:var(--on-surface-variant)}
+    .roles3{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-xs);margin-bottom:var(--space-md)}
+    .role3{background:var(--surface-container);padding:var(--space-sm);border:1px solid transparent;position:relative}
+    .role3 h4{margin:0;font-size:.78rem;font-weight:700;color:var(--primary);display:flex;align-items:center;gap:4px}
+    .role3 ul{margin:4px 0 0;padding:0;list-style:none;font-size:.76rem;color:var(--on-surface-variant);line-height:1.5}
+    .role3 ul li::before{content:'· '}
+    .role3.mine{background:var(--primary-container);border-color:var(--primary)}
+    .role3 .mine-tag{display:none;position:absolute;top:-9px;right:6px;font-size:.62rem;font-weight:700;background:var(--primary);color:var(--on-primary);padding:1px 6px}
+    .role3.mine .mine-tag{display:block}
+    .principles{background:var(--surface-container-low);border:var(--hairline);border-top:var(--brass-rule);padding:var(--space-md);margin-top:var(--space-md)}
+    .principles h3{margin:0 0 var(--space-sm);font-family:var(--font-headline);font-size:1rem;color:var(--primary)}
+    .principles ol{margin:0;padding-left:1.2rem;font-size:.86rem;line-height:1.7}
+    .principles p{margin:var(--space-sm) 0 0;font-size:.82rem;color:var(--on-surface-variant);border-top:1px dashed var(--outline-variant);padding-top:var(--space-sm)}
+    .step-navigator.six{grid-template-columns:repeat(6,1fr)}
+    .step-navigator.six .step-btn{font-size:.66rem;padding:6px 2px}
+    .step-check{display:flex;gap:6px;align-items:flex-start;margin-top:var(--space-sm);font-size:.8rem;background:color-mix(in srgb,var(--outline) 12%,var(--surface-container-low));border-left:3px solid var(--outline);padding:6px 8px}
+    .step-check b{color:var(--tertiary);white-space:nowrap}
+    .budget4{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-xs)}
+    .budget-cell{background:var(--surface-container-low);border:var(--hairline);border-top:3px solid var(--primary);padding:var(--space-sm)}
+    .budget-cell.deal{border-top-color:var(--outline)}
+    .budget-cell .who{font-size:.68rem;font-weight:700;color:var(--on-primary);background:var(--primary);display:inline-block;padding:1px 6px}
+    .budget-cell.deal .who{background:var(--tertiary)}
+    .budget-cell h4{margin:6px 0 2px;font-size:.86rem}
+    .budget-cell p{margin:0;font-size:.76rem;color:var(--on-surface-variant);line-height:1.5}
+    .budget-note{font-size:.8rem;color:var(--on-surface-variant);margin-top:var(--space-sm);line-height:1.6}
+    @media(max-width:440px){.roles3{grid-template-columns:1fr}.role3 ul{display:flex;flex-wrap:wrap;gap:0 10px}}
+    body.to-wait .mobile-app-shell{visibility:hidden}
+    body.to-wait::after{content:"제안서를 불러오는 중입니다";position:fixed;top:45%;left:0;right:0;text-align:center;font-size:.95rem;color:var(--on-surface-variant)}
+    .sheet-one{position:fixed;inset:0;background:rgba(20,33,61,.55);display:none;z-index:200;overflow:auto;padding:16px}
+    .sheet-one.open{display:block}
+    .sheet-page{max-width:560px;margin:0 auto;background:#fff;padding:22px 20px;border-top:4px solid var(--primary)}
+    .sheet-page h3{font-family:var(--font-headline);margin:0 0 4px;color:var(--primary);font-size:1.15rem}
+    .sheet-page .s-to{font-size:.85rem;color:var(--tertiary);font-weight:700}
+    .sheet-page table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.8rem}
+    .sheet-page th,.sheet-page td{border:1px solid var(--outline-variant);padding:6px;vertical-align:top;text-align:left}
+    .sheet-page th{background:var(--surface-container);width:26%;font-weight:700}
+    .sheet-close{display:block;margin:12px auto 0;max-width:560px;width:100%;padding:12px;border:0;background:var(--primary);color:var(--on-primary);font-weight:700;font-family:inherit;cursor:pointer}
+    @media print{.sheet-one{position:static;background:#fff;padding:0}.sheet-close,.mobile-app-shell,.sticky-bottom-bar,.qr-pair,.official-footer,#lfFoot{display:none!important}}
   </style>
 </head>
 <body data-lf-title="지역 협력 제안">
+<script src="/lf/config.js?v=5"></script>
 
   <!-- App Shell for Clean Smartphone Reading Experience -->
   <div class="mobile-app-shell">
 
+
+    <!-- ★v5 ① 표지 — 받는 곳 설정(TO)이 있을 때만 -->
+    <section class="cover" id="cover">
+      <div class="cover-to" id="cover-to"></div>
+      <div class="cover-mid">
+        <div class="cover-kicker">사람의 이야기를 지역의 자산으로</div>
+        <h1 class="cover-title" id="cover-title"></h1>
+        <span class="cover-round" id="cover-round"></span>
+      </div>
+      <div class="cover-date" id="cover-date"></div>
+      <div class="cover-from">사랑흐름 · LOVE FLOW<small>www.loveflow.ai.kr</small></div>
+      <div class="cover-down">아래로 넘겨 보십시오 ↓</div>
+    </section>
+
+    <!-- ★v5 전체 구성(차례) -->
+    <div class="toc-card" id="toc-card">
+      <h2>전체 구성</h2>
+      <ol class="toc-list">
+        <li><a href="#letter-card">이번 제안</a></li>
+        <li><a href="#about-band">사랑흐름이 하는 일</a></li>
+        <li><a href="#sec-menu">제안 메뉴</a></li>
+        <li><a href="#sec-pilot">역할 · 원칙 · 단계별 진행</a></li>
+        <li><a href="#sec-budget">예산 구성</a></li>
+        <li><a href="#sec-scenario">맞춤 협력 시나리오</a></li>
+        <li><a href="#sec-faq">자주 묻는 질문</a></li>
+      </ol>
+    </div>
+
+    <!-- ★v5 ⑤ 맞춤 1장 — 받는 곳마다 이 칸만 새로 씀 -->
+    <div class="letter-card" id="letter-card">
+      <h2 id="letter-title">이번 제안</h2>
+      <div class="letter-meta" id="letter-meta"></div>
+      <p class="letter-body" id="letter-body"></p>
+    </div>
+
     <!-- 1. The Signature Charter Navy Title Band -->
-    <header class="title-band">
+    <header class="title-band" id="about-band">
       <div class="kicker">
         <i data-lucide="bookmark" style="width: 14px; height: 14px;"></i>
         <span>지역의 삶과 기억을 미래의 자산으로</span>
@@ -1133,8 +1244,8 @@
       <!-- Quick Metrics Strip -->
       <div class="quick-stat-grid">
         <div class="quick-stat-item">
-          <div class="quick-stat-val">4대</div>
-          <div class="quick-stat-lbl">핵심 기록 콘텐츠</div>
+          <div class="quick-stat-val">6가지</div>
+          <div class="quick-stat-lbl">기록 콘텐츠</div>
         </div>
         <div class="quick-stat-item">
           <div class="quick-stat-val">5~10명</div>
@@ -1154,20 +1265,26 @@
         <span>수신자 직무별 맞춤 시나리오 바로보기</span>
       </div>
       <div class="role-nav-scroll" id="role-tab-bar">
-        <button type="button" class="role-tab-btn active" onclick="switchRole('all', this)">
+        <button type="button" class="role-tab-btn active" data-role="all" onclick="switchRole('all', this)">
           <i data-lucide="grid" style="width: 14px; height: 14px;"></i> 전체 개요
         </button>
-        <button type="button" class="role-tab-btn" onclick="switchRole('public', this)">
+        <button type="button" class="role-tab-btn" data-role="public" onclick="switchRole('public', this)">
           <i data-lucide="landmark" style="width: 14px; height: 14px;"></i> 지자체·의회·복지·문화
         </button>
-        <button type="button" class="role-tab-btn" onclick="switchRole('coop', this)">
+        <button type="button" class="role-tab-btn" data-role="coop" onclick="switchRole('coop', this)">
           <i data-lucide="sprout" style="width: 14px; height: 14px;"></i> 농·축·산림조합
         </button>
-        <button type="button" class="role-tab-btn" onclick="switchRole('finance', this)">
+        <button type="button" class="role-tab-btn" data-role="finance" onclick="switchRole('finance', this)">
           <i data-lucide="shield" style="width: 14px; height: 14px;"></i> 보험 GA·금융
         </button>
-        <button type="button" class="role-tab-btn" onclick="switchRole('media', this)">
+        <button type="button" class="role-tab-btn" data-role="media" onclick="switchRole('media', this)">
           <i data-lucide="newspaper" style="width: 14px; height: 14px;"></i> 지역 언론·미디어
+        </button>
+        <button type="button" class="role-tab-btn" data-role="village" onclick="switchRole('village', this)">
+          <i data-lucide="home" style="width: 14px; height: 14px;"></i> 마을·단체
+        </button>
+        <button type="button" class="role-tab-btn" data-role="social" onclick="switchRole('social', this)">
+          <i data-lucide="handshake" style="width: 14px; height: 14px;"></i> 사회적경제·협동조합
         </button>
       </div>
     </div>
@@ -1199,13 +1316,22 @@
     </div>
 
     <!-- 3. Section: '사랑흐름' 4대 핵심 콘텐츠 (Interactive Accordions) -->
-    <div class="section-head">
-      <span class="section-kicker">CORE ASSETS</span>
-      <h2>사랑흐름 4대 핵심 콘텐츠</h2>
-      <div class="section-desc">한 권의 판매를 넘어 사람, 일자리, 지역 공동체를 연결하는 실행 포트폴리오</div>
+    <div class="section-head" id="sec-menu">
+      <span class="section-kicker">PROGRAM MENU</span>
+      <h2>사랑흐름 기록 콘텐츠</h2>
+      <div class="section-desc">전체를 보시고, 이번 사업에 맞는 주력 하나 · 보조 하나를 고릅니다</div>
     </div>
 
     <div class="content-body">
+      <div class="pick-box">
+        <strong>고르는 기준 셋</strong>
+        <ol>
+          <li>누구와 함께하는 사업인가</li>
+          <li>무엇을 남기려는 사업인가</li>
+          <li>현장에서 어떤 방식으로 진행하는가 (집합 교육 · 개별 진행)</li>
+        </ol>
+        <div id="pick-line" style="margin-top:6px;color:var(--on-surface-variant)"></div>
+      </div>
       <div class="accordion-group" id="content-accordion-group">
 
         <!-- Accordion 1: 우리 이야기 -->
@@ -1215,7 +1341,7 @@
               <span class="accordion-num">01</span>
               <div class="accordion-heading-wrap">
                 <span class="accordion-sublabel">공동체 디지털 아카이브</span>
-                <span class="accordion-maintitle">우리 이야기 (Our Story)</span>
+                <span class="accordion-maintitle">우리 이야기 (Our Story)<span class="pick-tag"></span></span>
               </div>
             </div>
             <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
@@ -1243,7 +1369,7 @@
               <span class="accordion-num">02</span>
               <div class="accordion-heading-wrap">
                 <span class="accordion-sublabel">어르신·주민 구술 기록</span>
-                <span class="accordion-maintitle">생애기록 (한 편의 기록)</span>
+                <span class="accordion-maintitle">생애기록 (한 편의 기록)<span class="pick-tag"></span></span>
               </div>
             </div>
             <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
@@ -1261,6 +1387,22 @@
             <div class="core-value-box">
               <strong>현장 적용 가치:</strong> 단순한 생계 구호 중심 복지를 넘어, 어르신이 ‘내 인생도 가치 있었다’는 존엄과 삶의 의미를 되찾는 심리·정서 지원 프로그램입니다.
             </div>
+            <div class="detail-sub">살아온 삶을 여덟 구간으로 — 한 구간이 한 편</div>
+            <ul class="detail-list">
+              <li><b>1</b>어린 날 그 집과 골목</li><li><b>2</b>나를 키워주신 분들</li>
+              <li><b>3</b>배우고 꿈꾸던 날들</li><li><b>4</b>일터에서 걸어온 길</li>
+              <li><b>5</b>가정을 이루다</li><li><b>6</b>버티고 일어서던 시간</li>
+              <li><b>7</b>가장 빛나던 날</li><li><b>8</b>지금, 남기고 싶은 마음</li>
+            </ul>
+            <div class="detail-sub">진행 순서</div>
+            <ol class="detail-steps">
+              <li>사랑흐름 여권으로 입장 — 마음이 먼저 가는 자리부터 엽니다</li>
+              <li>물음에 답하며 작성 — 말씀만 하셔도 글이 됩니다</li>
+              <li>사진 더하기 — 한 편에 세 장까지</li>
+              <li>본인 확인과 서명 — 완성본을 먼저 확인하시고 손글씨 서명으로 확정</li>
+              <li>완성본 전달 — 참여하신 분마다 결과물이 나옵니다</li>
+            </ol>
+            <div class="budget-note">한 회차에 한 편씩 진행하고, 같은 사랑흐름 여권으로 다시 들어오면 쓰던 자리에서 이어집니다.</div>
           </div>
         </div>
 
@@ -1271,7 +1413,7 @@
               <span class="accordion-num">03</span>
               <div class="accordion-heading-wrap">
                 <span class="accordion-sublabel">청소년 자기표현·진로 탐색</span>
-                <span class="accordion-maintitle">미리 써 보는 나의 자서전</span>
+                <span class="accordion-maintitle">미리 써 보는 나의 자서전<span class="pick-tag"></span></span>
               </div>
             </div>
             <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
@@ -1299,7 +1441,7 @@
               <span class="accordion-num">04</span>
               <div class="accordion-heading-wrap">
                 <span class="accordion-sublabel">지역 기록 활동가 양성 & 일자리</span>
-                <span class="accordion-maintitle">사랑흐름 안내자 (LD)</span>
+                <span class="accordion-maintitle">사랑흐름 안내자 (LD)<span class="pick-tag"></span></span>
               </div>
             </div>
             <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
@@ -1320,14 +1462,58 @@
           </div>
         </div>
 
+        <!-- ★v5 05 마음여행 -->
+        <div class="accordion-item" id="acc-item-4">
+          <button type="button" class="accordion-trigger" onclick="toggleAccordion(4)">
+            <div class="accordion-trigger-left">
+              <span class="accordion-num">05</span>
+              <div class="accordion-heading-wrap">
+                <span class="accordion-sublabel">관계 이해 · 관계 소통</span>
+                <span class="accordion-maintitle">마음여행 (마음 여행지도 · 마음 여행편지)<span class="pick-tag"></span></span>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="accordion-content">
+            <p>삶에서 가장 먼저 떠오르는 한 사람과의 관계를 다섯 축 — 관심 · 연결 · 온기 · 표현 · 회복 — 으로 읽고(마음 여행지도), 다섯 물음을 따라 답한 마음을 그 사람에게 건네는 편지로 옮깁니다(마음 여행편지).</p>
+            <div class="accordion-pill-row">
+              <span class="mini-badge green">가족 관계 프로그램</span>
+              <span class="mini-badge">관계 이해 워크숍</span>
+              <span class="mini-badge">관계 소통 프로그램</span>
+            </div>
+            <div class="core-value-box"><strong>현장 적용 가치:</strong> 그 관계가 지금 어디쯤인지 알게 되고, 서로 다르게 듣던 말이 풀리며, 그 마음이 실제로 그 사람에게 건네집니다.</div>
+          </div>
+        </div>
+
+        <!-- ★v5 06 마음 한마디 -->
+        <div class="accordion-item" id="acc-item-5">
+          <button type="button" class="accordion-trigger" onclick="toggleAccordion(5)">
+            <div class="accordion-trigger-left">
+              <span class="accordion-num">06</span>
+              <div class="accordion-heading-wrap">
+                <span class="accordion-sublabel">누구나 바로 여는 입구</span>
+                <span class="accordion-maintitle">마음 한마디<span class="pick-tag"></span></span>
+              </div>
+            </div>
+            <i data-lucide="chevron-down" class="accordion-chevron" style="width: 18px; height: 18px;"></i>
+          </button>
+          <div class="accordion-content">
+            <p>그 사람과 나 사이에 전하고 싶은 한마디를 바로 남기고 건넵니다. 행사 · 교육 첫 시간에 모두가 함께 여는 자리로 씁니다.</p>
+            <div class="accordion-pill-row">
+              <span class="mini-badge green">세대 간 교류</span>
+              <span class="mini-badge">행사 · 교육 첫 시간</span>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
     <!-- 4. Section: 소규모 시범사업 제안 「지역 사람 이야기 기록단」 -->
-    <div class="section-head">
-      <span class="section-kicker">PILOT PROJECT</span>
-      <h2>시범사업: 「지역 사람 이야기 기록단」</h2>
-      <div class="section-desc">처음부터 무리하게 넓히지 않고, 5~10명 규모로 안전하고 확실하게 검증합니다</div>
+    <div class="section-head" id="sec-pilot">
+      <span class="section-kicker">ROLES &amp; STEPS</span>
+      <h2>역할 · 원칙 · 단계별 진행</h2>
+      <div class="section-desc">5~10명 규모로 시작해, 단계마다 결과를 확인한 뒤 다음으로 넘어갑니다</div>
     </div>
 
     <div class="content-body">
@@ -1336,50 +1522,47 @@
           기관의 행정 부담을 최소화하기 위해 <strong>역할을 명확히 분담</strong>하고, 단계별로 운영 결과를 점검한 후 정규 사업 확대 여부를 결정합니다.
         </div>
 
-        <!-- Role Division Leaf -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); margin-bottom: var(--space-md);">
-          <div style="background-color: var(--surface-container); padding: var(--space-sm); border-radius: var(--rounded);">
-            <div style="font-size: 0.75rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 4px;">
-              <i data-lucide="building" style="width: 12px; height: 12px;"></i> 협력기관 역할
-            </div>
-            <div style="font-size: 0.8rem; margin-top: 4px; color: var(--on-surface-variant);">
-              • 참여자 5~10명 추천<br>
-              • 인터뷰 공간 제공<br>
-              • 현장 운영 및 일정 협조
-            </div>
-          </div>
-          <div style="background-color: var(--surface-container); padding: var(--space-sm); border-radius: var(--rounded);">
-            <div style="font-size: 0.75rem; font-weight: 700; color: var(--secondary); display: flex; align-items: center; gap: 4px;">
-              <i data-lucide="feather" style="width: 12px; height: 12px;"></i> 사랑흐름 역할
-            </div>
-            <div style="font-size: 0.8rem; margin-top: 4px; color: var(--on-surface-variant);">
-              • 질문 체계 & 도구 제공<br>
-              • LD 활동가 교육 & 코칭<br>
-              • 결과물 감수 및 디지털 기록 정리
-            </div>
-          </div>
+        <!-- ★v5 역할 세 자리 -->
+        <div class="roles3">
+          <div class="role3" id="role3-lf"><span class="mine-tag">귀 기관의 자리</span>
+            <h4><i data-lucide="feather" style="width:12px;height:12px;"></i> 사랑흐름</h4>
+            <ul><li>기록 프로그램 · 콘텐츠 기획 · 제공</li><li>시스템 운영 · 이용 환경</li><li>사랑흐름 안내자(LD) 교육 기준 · 교재</li><li>운영 품질 · 결과물 기준</li></ul></div>
+          <div class="role3" id="role3-perform"><span class="mine-tag">귀 기관의 자리</span>
+            <h4><i data-lucide="users" style="width:12px;height:12px;"></i> 수행기관</h4>
+            <ul><li>강사 · 사랑흐름 안내자(LD) 배치</li><li>현장 운영 · 일정</li><li>참여자 안내 · 동행</li></ul></div>
+          <div class="role3" id="role3-use"><span class="mine-tag">귀 기관의 자리</span>
+            <h4><i data-lucide="building" style="width:12px;height:12px;"></i> 발주 · 연계기관</h4>
+            <ul><li>참여자 5~10명 추천</li><li>공간 제공</li><li>사업 목적 · 예산 경로</li></ul></div>
         </div>
 
         <!-- 4-Step Interactive Process -->
         <div style="font-size: 0.82rem; font-weight: 700; color: var(--on-surface); margin-bottom: var(--space-xs);">
-          실행 4단계 로드맵 (탭하여 상세 보기)
+          단계별 진행 (눌러서 보기) — 단계마다 확인한 뒤 다음으로
         </div>
-        <div class="step-navigator">
+        <div class="step-navigator six">
           <button type="button" class="step-btn active" id="step-btn-0" onclick="switchStep(0)">
-            <span class="step-no">01</span>
-            <span>사전 기획</span>
+            <span class="step-no">0</span>
+            <span>협의</span>
           </button>
           <button type="button" class="step-btn" id="step-btn-1" onclick="switchStep(1)">
-            <span class="step-no">02</span>
-            <span>LD 매칭</span>
+            <span class="step-no">1</span>
+            <span>역량</span>
           </button>
           <button type="button" class="step-btn" id="step-btn-2" onclick="switchStep(2)">
-            <span class="step-no">03</span>
-            <span>경청·기록</span>
+            <span class="step-no">2</span>
+            <span>범위</span>
           </button>
           <button type="button" class="step-btn" id="step-btn-3" onclick="switchStep(3)">
-            <span class="step-no">04</span>
-            <span>헌정·평가</span>
+            <span class="step-no">3</span>
+            <span>LD 교육</span>
+          </button>
+          <button type="button" class="step-btn" id="step-btn-4" onclick="switchStep(4)">
+            <span class="step-no">4</span>
+            <span>운영</span>
+          </button>
+          <button type="button" class="step-btn" id="step-btn-5" onclick="switchStep(5)">
+            <span class="step-no">5</span>
+            <span>확대</span>
           </button>
         </div>
 
@@ -1390,11 +1573,22 @@
             <span>참여 단위: 협력기관 + 사랑흐름</span>
             <span>주요 산출물: 대상자 현황 카드 및 사전 동의서</span>
           </div>
-          <ul class="step-desc-list" id="step-card-list">
-            <li>협력기관과 함께 사업 목적에 맞는 대상자(원로 어르신, 소상공인, 장인 등)를 안전하게 추천받습니다.</li>
-            <li>개인정보 및 초상권 활용 사전 동의를 확인하고, 기록의 비공개 희망 범위를 사전에 설정합니다.</li>
-          </ul>
+          <ul class="step-desc-list" id="step-card-list"></ul>
+          <div class="step-check" id="step-card-check"></div>
         </div>
+      </div>
+
+      <!-- ★v5 함께 지키는 원칙 다섯 -->
+      <div class="principles">
+        <h3>함께 지키는 원칙</h3>
+        <ol>
+          <li>어느 기관이든 같은 기본 구조로 함께합니다.</li>
+          <li>대상과 콘텐츠는 현장 사정에 맞게 고릅니다.</li>
+          <li>기록 체계와 개인정보 보호 기준은 공통으로 지킵니다.</li>
+          <li>사업비와 역할은 미리 나누어 합의합니다.</li>
+          <li>시범 결과를 확인한 뒤 확대 여부를 정합니다.</li>
+        </ol>
+        <p>기록 체계 · 콘텐츠 · 개인정보 기준은 사랑흐름 기준을 함께 지킵니다. 일정 · 진행 방식 같은 현장 운영은 수행기관이 정합니다.</p>
       </div>
 
       <!-- Privacy & Protection Notice -->
@@ -1409,8 +1603,24 @@
       </div>
     </div>
 
+    <!-- ★v5 예산 네 칸 — 금액은 넣지 않음 -->
+    <div class="section-head" id="sec-budget">
+      <span class="section-kicker">BUDGET STRUCTURE</span>
+      <h2>예산 구성</h2>
+      <div class="section-desc">무엇에 쓰이는지 네 칸으로 나누어 보시면 정산이 간단합니다</div>
+    </div>
+    <div class="content-body">
+      <div class="budget4">
+        <div class="budget-cell"><span class="who">사랑흐름</span><h4>프로그램 · 도구 · 설계</h4><p>기록 프로그램 · 콘텐츠 · 시스템 이용 · 교육 설계</p></div>
+        <div class="budget-cell"><span class="who">수행기관</span><h4>현장 수행 인력</h4><p>강사 · 사랑흐름 안내자(LD)의 현장 안내 · 교육 수행</p></div>
+        <div class="budget-cell deal"><span class="who">협의</span><h4>참여자별 이용 · 기록물</h4><p>참여하신 분마다 쓰는 사랑흐름 여권과 결과물</p></div>
+        <div class="budget-cell deal"><span class="who">협의</span><h4>부대 운영</h4><p>장소 · 모집 · 행정 · 결과 정리</p></div>
+      </div>
+      <div class="budget-note">회차와 인원이 정해지면 견적서를 보내 드립니다. 「협의」 두 칸은 기관과 함께 정합니다.</div>
+    </div>
+
     <!-- 5. Section: 직무 맞춤형 협력 시나리오 및 혜택 (Detail View) -->
-    <div class="section-head">
+    <div class="section-head" id="sec-scenario">
       <span class="section-kicker">COLLABORATION SCENARIOS</span>
       <h2>대상별 맞춤 협력 시나리오</h2>
       <div class="section-desc">기관의 고유한 직무와 기존 예산 항목에 부드럽게 연결되는 구체적 실행 모델</div>
@@ -1543,6 +1753,46 @@
           </div>
         </div>
 
+        <!-- ★v5 Scenario 5: 마을 · 단체 -->
+        <div class="scenario-card" id="scenario-village">
+          <div class="scenario-target-tag">
+            <i data-lucide="home" style="width: 14px; height: 14px;"></i>
+            <span>마을 · 상인회 · 동호회 · 단체 사무국</span>
+          </div>
+          <h3 class="scenario-title">‘우리 이야기’ 기록관으로 모으는 마을 · 단체의 이야기</h3>
+          <p class="scenario-desc">
+            회원 · 상인 · 주민이 사진과 글을 함께 올려 쌓고, 사무국은 그 기록을 한곳에서 모아 봅니다. 흩어지던 행사 사진과 이야기가 단체의 역사로 남습니다.
+          </p>
+          <div class="scenario-duty-box">
+            <span class="scenario-duty-label">직무 연결 지점</span>
+            사무국 홍보 · 행사 운영 · 회원 소통 · 임원회 · 총회 보고
+          </div>
+          <div style="font-weight: 700; font-size: 0.85rem; color: var(--on-surface); margin-bottom: 6px;">사무국 관점의 핵심 혜택:</div>
+          <div class="benefit-item"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i><span><strong>QR 한 장으로 참여:</strong> 회원이 휴대폰으로 바로 사진 · 글을 올림</span></div>
+          <div class="benefit-item"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i><span><strong>행사 기록이 쌓임:</strong> 해마다의 행사와 사람이 한 기록관에 이어짐</span></div>
+          <div class="benefit-item"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i><span><strong>보고자료:</strong> 임원회 · 총회에 낼 참여 현황을 그대로 활용</span></div>
+        </div>
+
+        <!-- ★v5 Scenario 6: 사회적경제 · 협동조합 (수행기관) -->
+        <div class="scenario-card" id="scenario-social">
+          <div class="scenario-target-tag">
+            <i data-lucide="handshake" style="width: 14px; height: 14px;"></i>
+            <span>사회적협동조합 · 협동조합 · 사회적기업 · 마을기업</span>
+          </div>
+          <h3 class="scenario-title">사랑흐름 안내자(LD)로 함께 수행하는 지역 기록 사업</h3>
+          <p class="scenario-desc">
+            조합의 강사와 활동가가 사랑흐름 안내자(LD) 교육을 거쳐 지역 기관의 기록 사업을 현장에서 수행합니다. 사랑흐름은 기록 체계 · 교재 · 시스템 · 품질 기준을 맡습니다.
+          </p>
+          <div class="scenario-duty-box">
+            <span class="scenario-duty-label">직무 연결 지점</span>
+            조합 교육 · 일자리 사업, 강사 활동 연계, 지역 기관 위탁 프로그램 수행
+          </div>
+          <div style="font-weight: 700; font-size: 0.85rem; color: var(--on-surface); margin-bottom: 6px;">수행기관 관점의 핵심 혜택:</div>
+          <div class="benefit-item"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i><span><strong>새 활동 분야:</strong> 조합원 · 강사가 지역 기록 활동으로 일의 폭을 넓힘</span></div>
+          <div class="benefit-item"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i><span><strong>갖춰진 체계로 시작:</strong> 질문 체계 · 교재 · 시스템을 새로 만들 필요 없음</span></div>
+          <div class="benefit-item"><i data-lucide="check-circle" style="width: 14px; height: 14px;"></i><span><strong>함께 넓혀 가는 길:</strong> 같은 기준으로 다른 기관 · 다른 지역의 사업도 수행</span></div>
+        </div>
+
       </div>
     </div>
 
@@ -1562,6 +1812,8 @@
             <option value="coop">농협·축협·산림조합 (조합원 지도복지)</option>
             <option value="finance">보험 GA / 금융 지점 (VIP 고객 케어)</option>
             <option value="media">지역 언론사 / 로컬 미디어 조직</option>
+            <option value="village">마을 · 상인회 · 단체 사무국</option>
+            <option value="social">사회적경제 · 협동조합 (수행기관)</option>
           </select>
         </div>
 
@@ -1618,7 +1870,7 @@
     </div>
 
     <!-- 7. Section: 자주 묻는 질문 (FAQ) -->
-    <div class="section-head">
+    <div class="section-head" id="sec-faq">
       <span class="section-kicker">QUESTIONS & ANSWERS</span>
       <h2>자주 묻는 질문</h2>
       <div class="section-desc">의사결정권자와 실무자가 가장 궁금해하시는 핵심 사항</div>
@@ -1662,6 +1914,16 @@
         </button>
         <div class="faq-a">
           <strong>시범사업 종료 후 객관적인 전후 성과보고서를 제공합니다.</strong> 참여자 만족도, 참여 가족들의 반응, 기술 안정성 및 실제 투입 예산 대비 체감 효용을 분석한 리포트를 토대로 다음 연도 본 사업 반영 여부를 기관이 자율적으로 판단하실 수 있습니다.
+        </div>
+      </div>
+
+      <div class="faq-item" id="faq-4">
+        <button type="button" class="faq-q" onclick="toggleFaq(4)">
+          <span>Q5. 수행기관은 무엇을 맡나요?</span>
+          <i data-lucide="chevron-down" class="faq-icon" style="width: 16px; height: 16px;"></i>
+        </button>
+        <div class="faq-a">
+          <strong>현장을 맡습니다.</strong> 강사와 사랑흐름 안내자(LD)를 배치하고, 일정과 진행 방식을 정해 참여자를 안내합니다. 사랑흐름은 기록 체계 · 콘텐츠 · 시스템 · 교육 기준 · 결과물 품질을 맡습니다. 수행기관이 따로 없으면 사랑흐름이 함께 정해 드립니다.
         </div>
       </div>
     </div>
@@ -1738,6 +2000,10 @@
         <i data-lucide="link" style="width: 16px; height: 16px;"></i>
         <span>링크 복사</span>
       </button>
+      <button type="button" class="btn-action-secondary" onclick="openSheet()" aria-label="한 장 요약">
+        <i data-lucide="file-text" style="width: 16px; height: 16px;"></i>
+        <span>한 장 요약</span>
+      </button>
       <button type="button" class="btn-action-primary" onclick="openModal()" aria-label="협력 문의">
         <i data-lucide="send" style="width: 16px; height: 16px;"></i>
         <span>협력 문의</span>
@@ -1793,6 +2059,8 @@
             <option value="finance_vip">VIP 패밀리 헤리티지 마케팅 (보험 GA)</option>
             <option value="media_docu">동네 숨은 영웅 기획 취재 (지역 언론)</option>
             <option value="youth_book">청소년 디지털 자서전·진로 프로그램</option>
+            <option value="village_story">마을 · 단체 기록관 (우리 이야기)</option>
+            <option value="social_perform">사랑흐름 안내자(LD)로 함께 수행 (사회적경제 · 협동조합)</option>
             <option value="other">기타 소규모 자문 및 제휴</option>
           </select>
         </div>
@@ -1812,6 +2080,12 @@
       </form>
 
     </div>
+  </div>
+
+  <!-- ★v5 인쇄용 한 장 -->
+  <div class="sheet-one" id="sheet-one">
+    <div class="sheet-page" id="sheet-page"></div>
+    <button type="button" class="sheet-close" onclick="closeSheet()">닫기</button>
   </div>
 
   <!-- Toast Element -->
@@ -1873,6 +2147,26 @@
           '<strong>GA 경쟁력과 FP 리크루팅 강화:</strong> 품격 있는 고객 솔루션을 보유한 전문가 그룹 위상 확보'
         ]
       },
+      village: {
+        badge: '마을 · 상인회 · 단체 사무국 맞춤',
+        title: '“흩어지던 사진과 이야기가 우리 단체의 역사로 남습니다”',
+        quote: '“회원과 주민이 휴대폰으로 함께 올린 사진과 글이 ‘우리 이야기’ 기록관에 쌓이고, 사무국은 그 기록을 한곳에서 모아 봅니다.”',
+        points: [
+          '<strong>참여는 QR 한 장으로:</strong> 가입 절차 없이 휴대폰으로 바로 올림',
+          '<strong>행사와 사람이 이어짐:</strong> 해마다의 기록이 한 기록관에 쌓임',
+          '<strong>사무국 보고자료:</strong> 임원회 · 총회에 참여 현황을 그대로 보고'
+        ]
+      },
+      social: {
+        badge: '사회적협동조합 · 협동조합 · 사회적기업 맞춤',
+        title: '“갖춰진 기록 체계 위에서, 지역의 기록 사업을 함께 수행합니다”',
+        quote: '“사랑흐름이 기록 체계 · 교재 · 시스템 · 품질 기준을 맡고, 조합은 강사와 사랑흐름 안내자(LD)로 현장을 맡습니다. 같은 기준으로 다른 기관 · 다른 지역의 사업까지 함께 넓혀 갑니다.”',
+        points: [
+          '<strong>역할이 분명함:</strong> 체계는 사랑흐름, 현장 인력은 수행기관',
+          '<strong>사랑흐름 안내자(LD) 교육:</strong> 강의 수료가 아니라 실습으로 안내할 수 있는 사람으로',
+          '<strong>시범에서 확대까지:</strong> 단계마다 결과를 확인한 뒤 다음으로'
+        ]
+      },
       media: {
         badge: '지역 언론사 데스크 · 취재기자 · 로컬 크리에이터 맞춤',
         title: '“보도자료를 넘어선 독점 휴먼스토리, 지역민과 호흡하는 기획”',
@@ -1885,8 +2179,70 @@
       }
     };
 
-    // Step roadmap data
+    // ★v5 Step roadmap data — 0~5 단계 · 단계마다 확인
     const stepData = [
+      {
+        badge: 'STEP 0 · 협의',
+        title: '첫 만남 · 사업 목적과 범위 함께 보기',
+        meta: '참여 단위: 기관 + 사랑흐름 | 산출물: 맞춤 제안',
+        desc: [
+          '제안서와 실제 화면을 함께 보며 사업 목적, 대상, 고를 콘텐츠를 이야기합니다.',
+          '기관의 자리(이용 · 함께 수행 · 둘 다)를 정합니다.'
+        ],
+        check: '함께할지, 어느 자리로 할지'
+      },
+      {
+        badge: 'STEP 1 · 수행 역량',
+        title: '수행기관의 인력 · 교육 · 사업 수행 역량 확인',
+        meta: '참여 단위: 수행기관 + 사랑흐름 | 산출물: 수행 인력 명단',
+        desc: [
+          '현장을 맡을 강사 · 사랑흐름 안내자(LD) 후보와 운영 경험을 함께 살핍니다.',
+          '수행기관이 따로 없으면 사랑흐름이 함께 정합니다.'
+        ],
+        check: '현장을 맡을 수 있는 인원과 범위'
+      },
+      {
+        badge: 'STEP 2 · 1~2주',
+        title: '대상과 프로그램 범위 확정 · 대상자 5~10명',
+        meta: '참여 단위: 발주 · 연계기관 + 수행기관 + 사랑흐름 | 산출물: 대상자 현황 카드 및 사전 동의서',
+        desc: [
+          '사업 목적에 맞는 대상자(원로 어르신, 소상공인, 장인 등)를 안전하게 추천받습니다.',
+          '개인정보 및 초상권 활용 사전 동의를 확인하고, 기록의 비공개 희망 범위를 사전에 설정합니다.'
+        ],
+        check: '대상 · 콘텐츠(주력 · 보조) · 일정 합의'
+      },
+      {
+        badge: 'STEP 3 · 2주',
+        title: '사랑흐름 안내자(LD) 교육 · 실습',
+        meta: '참여 단위: 수행기관 강사 · 활동가 | 산출물: 안내 가이드북 · 실습 결과',
+        desc: [
+          '강의를 듣는 데서 그치지 않고, 사랑흐름의 도구로 참여자의 기록을 안내할 수 있도록 직접 실습합니다.',
+          '참여자의 성향과 배경에 맞춰 안내자를 1:1로 매칭합니다.'
+        ],
+        check: '실습 결과로 안내할 수 있는지'
+      },
+      {
+        badge: 'STEP 4 · 3~4주',
+        title: '실제 운영 · 현장 피드백',
+        meta: '참여 단위: 참여자 + 사랑흐름 안내자(LD) | 산출물: 기록 · 옛 사진 디지털화',
+        desc: [
+          '편안한 공간에서 살아온 궤적, 잊지 못할 추억, 가족에게 전할 말을 기록합니다.',
+          '소장하고 계신 옛 사진을 함께 담고, 현장의 반응을 단계마다 모읍니다.'
+        ],
+        check: '참여자 · 현장 반응'
+      },
+      {
+        badge: 'STEP 5 · 2주',
+        title: '헌정 · 결과보고 · 표준 운영안',
+        meta: '참여 단위: 기관 + 참여 가족 | 산출물: 기록 헌정 · 결과보고서 · 표준 운영안',
+        desc: [
+          '완성된 기록을 참여자와 가족을 모시고 따뜻하게 증정합니다.',
+          '만족도 · 운영 · 행정 부담을 정리한 결과보고서와 다른 기관 · 다른 지역에 쓸 표준 운영안을 드립니다.'
+        ],
+        check: '확대 여부 — 기관이 정합니다'
+      }
+    ];
+    const stepDataOld = [
       {
         badge: 'STEP 01 · 1~2주 소요',
         title: '현장 협의 및 대상자 5~10명 선정',
@@ -1930,11 +2286,13 @@
       public: '<strong>추천 재원 경로:</strong> 지자체 노인일자리 사회서비스형 사업비, 복지관 특성화 프로그램비, 평생학습도시 공모사업비, 주민참여예산 연계',
       coop: '<strong>추천 재원 경로:</strong> 농협·축협 조합원 교육지원사업비, 영농지도 환원사업비, 조합 50년사 편찬 및 홍보 예산 연계',
       finance: '<strong>추천 재원 경로:</strong> GA 지점/본부 VIP 고객 관리비, 자산승계 프로모션 예산, FC/FP 지원 및 마케팅 펀드',
-      media: '<strong>추천 재원 경로:</strong> 한국언론진흥재단 지역신문 기획취재 지원사업, 지자체 공익 캠페인 협찬, 지역 우수기업 CSR 공동 후원'
+      media: '<strong>추천 재원 경로:</strong> 한국언론진흥재단 지역신문 기획취재 지원사업, 지자체 공익 캠페인 협찬, 지역 우수기업 CSR 공동 후원',
+      village: '<strong>추천 재원 경로:</strong> 단체 홍보 · 행사 운영 예산, 회원 소통 · 기념사업 예산, 지역 공동체 지원사업 연계 검토',
+      social: '<strong>추천 재원 경로:</strong> 발주 · 연계기관의 사업비 안에서 수행 인력비로 편성 · 조합 교육 · 일자리 사업 연계 검토'
     };
 
     // Role Switcher
-    function switchRole(roleKey, btnEl) {
+    function switchRole(roleKey, btnEl, noScroll) {
       state.role = roleKey;
 
       // Update Tab Styles
@@ -1944,7 +2302,7 @@
         btns.forEach(btn => btn.classList.remove('active'));
       }
       const activeBtn = btnEl || null;
-      if (activeBtn) activeBtn.classList.add('active');
+      if (activeBtn) { activeBtn.classList.add('active'); if (tabBar) tabBar.scrollLeft = activeBtn.offsetLeft - 16; }
 
       // Update Spotlight
       const data = roleData[roleKey] || roleData.all;
@@ -1967,7 +2325,7 @@
       }
 
       // Highlight Scenario Card if specific role chosen
-      const scenarios = ['public', 'coop', 'finance', 'media'];
+      const scenarios = ['public', 'coop', 'finance', 'media', 'village', 'social'];
       scenarios.forEach(s => {
         const el = document.getElementById(`scenario-${s}`);
         if (el) {
@@ -1975,12 +2333,13 @@
             el.style.display = 'block';
             if (roleKey === s) {
               el.classList.add('highlighted');
-              el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              if (!noScroll) el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             } else {
               el.classList.remove('highlighted');
             }
           } else {
             el.classList.remove('highlighted');
+            el.style.display = 'none';
           }
         }
       });
@@ -2014,7 +2373,7 @@
     // Step Switcher
     function switchStep(idx) {
       state.activeStep = idx;
-      for (let i = 0; i < 4; i++) {
+      for (let i = 0; i < stepData.length; i++) {
         const btn = document.getElementById(`step-btn-${i}`);
         if (btn) {
           if (i === idx) btn.classList.add('active');
@@ -2034,6 +2393,8 @@
       if (list) {
         list.innerHTML = s.desc.map(d => `<li>${d}</li>`).join('');
       }
+      const chk = document.getElementById('step-card-check');
+      if (chk) chk.innerHTML = '<b>확인</b><span>' + s.check + (idx < stepData.length - 1 ? ' → 다음 단계로' : '') + '</span>';
       persistState();
     }
 
@@ -2092,7 +2453,7 @@
 
     // Copy Link
     function copyProposalLink() {
-      const url = location.origin + location.pathname;
+      const url = location.origin + location.pathname + location.search;
       copyTextToClipboard(url, '제안서 링크가 클립보드에 복사되었습니다.');
     }
 
@@ -2212,10 +2573,98 @@
 
     function persistState() {}
 
+    /* ★v5 받는 곳 설정 — 본부 「제안서 서랍」(605)이 ?to= 로 넘기는 값과 같은 꼴.
+       시험판에는 마음담기 (견본) 하나를 박아 둠. TO 가 없으면 지금처럼 일반 제안 화면. */
+    let TO = null;   /* 본부 제안서 서랍에서 받은 설정 — 없으면 일반 제안 화면 */
+    const TO_KEY = (new URLSearchParams(location.search).get('to') || '').trim();
+    function loadTO(cb) {
+      if (!/^[a-f0-9]{32}$/.test(TO_KEY)) { cb(null); return; }
+      const api = (window.LF_CONFIG && LF_CONFIG.gas && LF_CONFIG.gas.rec) || '';
+      if (!api) { cb(null); return; }
+      const n = 'rgcb' + Date.now(), s = document.createElement('script'); let done = false;
+      function fin(d) { if (done) { return; } done = true; try { delete window[n]; } catch (e) { window[n] = undefined; } if (s.parentNode) { s.parentNode.removeChild(s); } cb(d && d.status === 'ok' ? d : null); }
+      window[n] = fin; s.onerror = function () { fin(null); };
+      s.src = api + (api.indexOf('?') > -1 ? '&' : '?') + 'action=prDoc&to=' + encodeURIComponent(TO_KEY) + '&callback=' + n;
+      setTimeout(function () { fin(null); }, 20000);
+      document.head.appendChild(s);
+    }
+    const MENU_NAMES = ['우리 이야기', '한 편의 기록', '미리 써 보는 나의 자서전', '사랑흐름 안내자(LD)', '마음여행', '마음 한마디'];
+    const SEAT_NAMES = { use: '이용 (발주 · 연계기관)', perform: '함께 수행 (수행기관)', both: '이용 · 함께 수행' };
+
+    function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c])); }
+
+    function applyTO() {
+      if (!TO) return;
+      const mark = /견본/.test((TO.org || '') + (TO.contact || '') + (TO.purpose || '')) ? '<span class="sample-mark">견본</span>' : '';
+      document.getElementById('cover').classList.add('on');
+      document.getElementById('cover-to').innerHTML = esc(TO.org) + ' 귀중';
+      const tt = TO.title || (TO.org + ' 지역 기록 협력 제안'); let th = esc(tt).replace(/\n/g, '<br>'); const eo = esc(TO.org); if (eo && th.indexOf(eo) === 0) { th = '<span class="org">' + eo + '</span>' + th.slice(eo.length); } document.getElementById('cover-title').innerHTML = th;
+      document.getElementById('cover-round').textContent = TO.round || '';
+      document.getElementById('cover-date').textContent = TO.date || '';
+      document.getElementById('toc-card').classList.add('on');
+      document.getElementById('letter-card').classList.add('on');
+      document.getElementById('letter-title').innerHTML = '이번 제안' + mark;
+      document.getElementById('letter-meta').innerHTML =
+        '<span>받는 곳 · ' + esc(TO.org) + '</span>' + (TO.contact ? '<span>' + esc(TO.contact) + '</span>' : '') + '<span><span>' + esc(TO.round || '') + '</span><span>자리 · ' + esc(SEAT_NAMES[TO.seat] || '') + '</span>';
+      document.getElementById('letter-body').textContent = TO.purpose || '';
+      document.title = TO.org + ' 귀중 · 사랑흐름 지역 협력 제안';
+
+      // ③ 주력 · 보조
+      document.querySelectorAll('.accordion-item').forEach((item, i) => {
+        const tag = item.querySelector('.pick-tag');
+        item.classList.remove('picked');
+        if (i === TO.main) { item.classList.add('picked'); tag.textContent = '주력'; tag.classList.remove('sub'); }
+        else if (i === TO.sub) { item.classList.add('picked'); tag.textContent = '보조'; tag.classList.add('sub'); }
+      });
+      if (typeof TO.main === 'number') toggleAccordionOpen(TO.main);
+      const line = document.getElementById('pick-line');
+      if (line) line.innerHTML = '이번 제안 · 주력 <strong>' + esc(MENU_NAMES[TO.main] || '') + '</strong>' +
+        (TO.sub != null ? ' · 보조 <strong>' + esc(MENU_NAMES[TO.sub]) + '</strong>' : ' · 보조 하나는 위 기준 셋으로 함께 고릅니다');
+
+      // ④ 자리
+      const seatIds = { use: ['role3-use'], perform: ['role3-perform'], both: ['role3-use', 'role3-perform'] }[TO.seat] || [];
+      seatIds.forEach(id => { const el = document.getElementById(id); if (el) el.classList.add('mine'); });
+
+      // ② 대상
+      const btn = document.querySelector('.role-tab-btn[data-role="' + TO.role + '"]');
+      if (btn) switchRole(TO.role, btn, true);
+    }
+
+    function toggleAccordionOpen(idx) {
+      document.querySelectorAll('.accordion-item').forEach((item, i) => item.classList.toggle('active', i === idx));
+      state.openAccordion = idx;
+    }
+
+    // ★v5 한 장 요약
+    function openSheet() {
+      const org = TO ? TO.org : '';
+      const seat = TO ? (SEAT_NAMES[TO.seat] || '') : '이용 · 함께 수행 가운데 협의';
+      const menu = TO ? (MENU_NAMES[TO.main] + (TO.sub != null ? ' · ' + MENU_NAMES[TO.sub] : ' (보조는 협의)')) : '협의';
+      document.getElementById('sheet-page').innerHTML =
+        (org ? '<div class="s-to">' + esc(org) + ' 귀중</div>' : '') +
+        '<h3>사랑흐름 지역 협력 제안 · 한 장 요약</h3>' +
+        '<table>' +
+        '<tr><th>이번 제안</th><td>' + esc(TO ? TO.purpose : '사람의 이야기를 지역의 자산으로 — 5~10명 규모 시범부터') + '</td></tr>' +
+        '<tr><th>콘텐츠</th><td>' + esc(menu) + '</td></tr>' +
+        '<tr><th>귀 기관의 자리</th><td>' + esc(seat) + '</td></tr>' +
+        '<tr><th>역할</th><td>사랑흐름 — 기록 프로그램 · 콘텐츠 · 시스템 · 사랑흐름 안내자(LD) 교육 기준 · 품질<br>수행기관 — 강사 · 사랑흐름 안내자(LD) 배치 · 현장 운영<br>발주 · 연계기관 — 참여자 추천 · 공간 · 사업 목적 · 예산 경로</td></tr>' +
+        '<tr><th>진행</th><td>0 협의 → 1 수행 역량 → 2 대상 · 범위 → 3 LD 교육 · 실습 → 4 실제 운영 → 5 결과보고 · 표준 운영안 (단계마다 확인)</td></tr>' +
+        '<tr><th>예산 구성</th><td>프로그램 · 도구 · 설계(사랑흐름) · 현장 수행 인력(수행기관) · 참여자별 이용 · 기록물(협의) · 부대 운영(협의) — 견적서는 회차 · 인원이 정해지면</td></tr>' +
+        '<tr><th>함께 지키는 원칙</th><td>같은 기본 구조 · 현장에 맞게 고름 · 기록 체계 · 개인정보 기준은 공통 · 사업비 · 역할은 미리 합의 · 시범 결과를 보고 확대</td></tr>' +
+        '<tr><th>사랑흐름</th><td>대표 황규찬 · T 070-4158-7786 · www.loveflow.ai.kr</td></tr>' +
+        '</table>' +
+        '<div style="margin-top:10px;font-size:.7rem;color:#888">© 2026 사랑흐름 · LFRI™. 무단 복제 · 배포 · 상업적 이용 금지. Unauthorized copying, distribution or commercial use is strictly prohibited.</div>';
+      document.getElementById('sheet-one').classList.add('open');
+    }
+    function closeSheet() { document.getElementById('sheet-one').classList.remove('open'); }
+
     // App Initialization
     window.addEventListener('DOMContentLoaded', () => {
       refreshIcons();
       calculateResults();
+      switchStep(0);
+      if (TO_KEY) { document.body.classList.add('to-wait'); }
+      loadTO(function (d) { document.body.classList.remove('to-wait'); if (d) { TO = d; applyTO(); } refreshIcons(); });
     });
   </script>
 <script src="/lf-foot.js" defer></script>

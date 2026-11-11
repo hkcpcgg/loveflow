@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ p/index.html · v4 · 261105 · [534 대표 14:32] 수정 요청 칸에 「수정할 내용 없음」 단추(요청 보내기와 나란히 · 누르면 확인 완료와 같음 · 날짜 · 장소가 없으면 먼저 적으라고 알림) -->
+<!-- ★ 현재 버전 ▶ p/index.html · v5 · 261112 · [604 · 605 · 81차 · 대표 OK 261112 01:02] 본부 맨 위 「제안서 서랍」 — 제안 화면 모음(region · proposal · kit 넷 · 열기 · 링크) · 받는 곳별 제안(＋ 새 제안 · 대상 · 자리 · 주력 · 보조 단추 · 회차 · 날짜 · 담당 · 표지 제목 · 이번 제안 → region.html?to=열쇠 · 받는 쪽 화면 보기 · 링크 복사 · QR · 고치기 · 내리기) · ★우리 이야기 서버 ③본부 v39 · ⑥시험 v69 와 짝 · 아래 교육생 모집은 그대로 -->
+<!-- (이전) p/index.html · v4 · 261105 · [534 대표 14:32] 수정 요청 칸에 「수정할 내용 없음」 단추(요청 보내기와 나란히 · 누르면 확인 완료와 같음 · 날짜 · 장소가 없으면 먼저 적으라고 알림) -->
 <!-- (이전) p/index.html · v3 · 261105 · [534 대표 14:27 「본부에서 바로 보는 링크」] 본부 목록 「사무국 화면 보기」(/p/?hq=1&view=방 번호 — 사무국 관리 화면 그대로 · 「로그인 전 화면」 · 단추는 눌리지 않음) · 「공간 화면 보기」(&pv=회차) — 본부 로그인만으로 봄 -->
 <!-- (이전) p/index.html · v2 · 261105 · [534 대표 OK 14:01] 받는 곳 = 우리 이야기 방 · 사무국 = 그 방 관리자 — ?k=관리자 열쇠(제안서는 읽기 · 관리는 그 카카오로 관리 확인한 담당자만 · 처음 한 번 카카오 로그인 안내) · 「공유 허락」 → 「확인 완료」 · 관리 화면 이름 · 신청 숫자 맨 위 · 연 이야기방 수 저절로 · 본부 보고자료 ?hq=1&rep=방 번호 -->
 <!-- (이전) p/index.html · v1 · 261105 · [534 견본 · 임시 가지 try/534-proposal · ★우리 이야기 서버 ①Code v50 · ③본부 v38 · ⑥시험 v59와 짝] 제안 · 설문 한 화면 — 주소에 따라 넷: ?o=사무국 열쇠(사무국 화면 — 회차 · 다음 할 일 · 공유 도우미 · 신청 현황 · 제안서 · 수정 요청 · 고친 기록) · ?o=…&r=1(임원회의 · 총회 보고자료 · 인쇄 · PDF) · ?o=…&pv=회차(공간 화면 미리보기) · ?a=참가 열쇠(교육 참가 화면 — 상호만) · ?hq=1(본부 「제안 · 설문」 · 대표만). 글은 p/t/<틀>.json. 개별 연락처는 받지 않음. -->
@@ -345,14 +346,75 @@ function drawReport(t){
   $('rBk').onclick=function(){ location.href=D._hq?'/p/?hq=1':'/p/?k='+encodeURIComponent(Q.get('k')); }; $('rPr').onclick=function(){ window.print(); };
 }
 
+
+/* ══ ★v5 604 · 605 제안서 서랍 — 받는 곳마다 설정 한 줄(우리 이야기 서버 ③본부 v39 · 탭 「제안서」) → region.html?to=열쇠 ══ */
+var PS={items:[],edit:null,open:false};
+var PS_ROLES=[['public','지자체 · 의회 · 복지 · 문화'],['coop','농 · 축 · 산림조합'],['finance','보험 GA · 금융'],['media','지역 언론 · 미디어'],['village','마을 · 단체'],['social','사회적경제 · 협동조합']];
+var PS_SEATS=[['use','이용'],['perform','함께 수행'],['both','둘 다']];
+var PS_MENU=['우리 이야기','한 편의 기록','미리 써 보는 나의 자서전','사랑흐름 안내자(LD)','마음여행','마음 한마디'];
+var PS_SCREENS=[['지역 협력 제안','/region.html'],['기관 제안서','/proposal.html'],['프로그램 제안 (네 쪽)','/kit/brief.html'],['프로그램 안내 (한 장)','/kit/onepager.html'],['기관 단가표','/kit/price.html'],['안내자 자료실','/kit/']];
+function psName(list,k){ for(var i=0;i<list.length;i++){ if(list[i][0]===k){ return list[i][1]; } } return ''; }
+function psJosa(s){ var c=String(s||'').trim().slice(-1).charCodeAt(0); if(c>=0xAC00&&c<=0xD7A3){ return (c-0xAC00)%28?'과':'와'; } return '와'; }
+function psTitle(org){ return org?org+psJosa(org)+' 함께 여는\n지역 기록 협력 제안':''; }
+function psToday(){ var d=new Date(); return d.getFullYear()+'. '+(d.getMonth()+1)+'.'; }
+function psChips(id,list,cur,none){ var h='<div class="chips" data-ps="'+id+'">'; if(none){ h+='<button type="button" class="chip'+(cur===''||cur===null||cur===undefined?' on':'')+'" data-v="">'+esc(none)+'</button>'; }
+  list.forEach(function(x,i){ var v=Array.isArray(x)?x[0]:String(i), t=Array.isArray(x)?x[1]:x; h+='<button type="button" class="chip'+(String(cur)===v?' on':'')+'" data-v="'+esc(v)+'">'+esc(t)+'</button>'; }); return h+'</div>'; }
+function psForm(it){ it=it||{}; var nw=!it.no;
+  return '<div class="form" id="psForm"><b>'+(nw?'새 제안':esc(it.org)+' · 고치기')+'</b>'
+  +'<label class="f">받는 곳 (표지 「○○ 귀중」)</label><input class="t" id="psOrg" maxlength="60" value="'+esc(it.org||'')+'" placeholder="예) 사회적협동조합 마음담기">'
+  +'<label class="f">대상</label>'+psChips('role',PS_ROLES,it.role||'')
+  +'<label class="f">귀 기관의 자리</label>'+psChips('seat',PS_SEATS,it.seat||'')
+  +'<label class="f">주력 콘텐츠</label>'+psChips('main',PS_MENU,it.main==null?'':it.main)
+  +'<label class="f">보조 콘텐츠</label>'+psChips('sub',PS_MENU,it.sub==null?'':it.sub,'만나서 고름')
+  +'<div class="row2"><div><label class="f">회차</label><input class="t" id="psRound" maxlength="20" value="'+esc(it.round||'1차 제안')+'"></div><div><label class="f">날짜 (표지)</label><input class="t" id="psDate" maxlength="20" value="'+esc(it.date||psToday())+'"></div></div>'
+  +'<label class="f">담당 (이번 제안 칸에 보임 · 비워도 됨)</label><input class="t" id="psWho" maxlength="40" value="'+esc(it.contact||'')+'" placeholder="예) 사무국장 ○○○ 님">'
+  +'<label class="f">표지 제목</label><textarea class="t" id="psTitle" maxlength="80" style="min-height:64px">'+esc(it.title||'')+'</textarea>'
+  +'<label class="f">이번 제안 (그곳만의 목적 한 단락)</label><textarea class="t" id="psPur" maxlength="800">'+esc(it.purpose||'')+'</textarea>'
+  +'<div class="row2"><button type="button" class="btn sm line" id="psCancel">닫기</button><button type="button" class="btn sm" id="psSave">'+(nw?'만들기':'고친 것 저장')+'</button></div></div>'; }
+function psHtml(){
+  var h='<h2>제안서 서랍</h2><p class="note">받는 곳마다 대상 · 자리 · 콘텐츠를 고르고 「이번 제안」만 적으면, 그곳 표지부터 열리는 지역 협력 제안 링크가 나옵니다. 고치면 이미 보낸 링크에 바로 반영됩니다.</p>';
+  h+='<div class="card"><b>제안 화면 모음</b>'+PS_SCREENS.map(function(s){ var u='https://www.loveflow.ai.kr'+s[1]; return '<div class="top" style="border-bottom:1px dashed var(--line);padding:6px 0"><span>'+esc(s[0])+'</span><span style="display:flex;gap:6px"><a class="btn sm line" href="'+esc(s[1])+'" target="_blank" rel="noopener">열기</a><button type="button" class="btn sm line" data-cp="'+esc(u)+'">'+ic('copy')+' 링크</button></span></div>'; }).join('')+'</div>';
+  h+='<div class="card"><div class="top"><b>받는 곳별 제안</b><button type="button" class="btn sm" id="psNew">＋ 새 제안</button></div>';
+  if(PS.open&&!PS.edit){ h+=psForm(null); }
+  if(!PS.items.length){ h+='<p class="note">아직 만든 제안이 없습니다.</p>'; }
+  PS.items.forEach(function(it){ var off=it.st==='내림';
+    h+='<div class="rnd"><div class="top"><b>'+esc(it.org)+'</b><span class="tag'+(off?' g':' j')+'">'+esc(it.no)+' · '+(off?'내림':esc(it.round))+'</span></div>';
+    h+='<p class="note">'+esc(psName(PS_ROLES,it.role))+' · '+esc(psName(PS_SEATS,it.seat))+' · 주력 '+esc(PS_MENU[it.main]||'')+(it.sub!=null?' · 보조 '+esc(PS_MENU[it.sub]||''):'')+(it.fixed?' · 고친 날 '+esc(it.fixed):' · 만든 날 '+esc(it.made))+'</p>';
+    h+='<div class="acts"><a class="btn sm" href="'+esc(it.link)+'" target="_blank" rel="noopener">'+ic('eye')+' 받는 쪽 화면 보기</a><button type="button" class="btn sm line" data-cp="'+esc(it.link)+'">'+ic('copy')+' 링크 복사</button><button type="button" class="btn sm line" data-psqr="'+esc(it.no)+'">'+ic('qr')+' QR</button><button type="button" class="btn sm line" data-psed="'+esc(it.no)+'">'+ic('edit')+' 고치기</button><button type="button" class="btn sm line" data-psoff="'+esc(it.no)+'">'+(off?'다시 열기':'내리기')+'</button></div>';
+    h+='<div id="psQr_'+esc(it.no)+'" hidden style="text-align:center;padding:10px 0"></div>';
+    if(PS.edit===it.no){ h+=psForm(it); }
+    h+='</div>'; });
+  return h+'</div><h2>교육생 모집</h2>';
+}
+function psBind(){
+  if($('psNew')){ $('psNew').onclick=function(){ PS.open=!(PS.open&&!PS.edit); PS.edit=null; drawHq(); if($('psOrg')){ $('psOrg').focus(); } }; }
+  each(PP,'[data-psed]',function(b){ b.onclick=function(){ var n=b.getAttribute('data-psed'); PS.edit=PS.edit===n?null:n; PS.open=!!PS.edit; drawHq(); }; });
+  each(PP,'[data-psoff]',function(b){ b.onclick=function(){ var n=b.getAttribute('data-psoff'), it=PS.items.filter(function(x){ return x.no===n; })[0]||{}; psAct({act:'psOff',no:n},it.st==='내림'?'다시 열었습니다 — 같은 링크가 다시 열립니다':'내렸습니다 — 그 링크는 일반 제안 화면으로 열립니다'); }; });
+  each(PP,'[data-psqr]',function(b){ b.onclick=function(){ var n=b.getAttribute('data-psqr'), box=$('psQr_'+n), it=PS.items.filter(function(x){ return x.no===n; })[0]; if(!box||!it){ return; } box.hidden=!box.hidden; if(box.hidden||box.firstChild){ return; }
+    psQrLib(function(okq){ if(!okq){ box.textContent='QR 을 그리지 못했습니다. 링크 복사를 써 주십시오.'; return; } new QRCode(box,{text:it.link,width:200,height:200,correctLevel:QRCode.CorrectLevel.M}); var p=document.createElement('p'); p.className='note'; p.textContent='길게 눌러 저장하거나 화면을 캡처해 쓰십시오.'; box.appendChild(p); }); }; });
+  var f=$('psForm'); if(!f){ return; }
+  each(f,'.chips',function(g){ var on=g.querySelector('.chip.on'); if(on){ g.scrollLeft=Math.max(0,on.offsetLeft-g.offsetLeft-16); } });
+  each(f,'[data-ps]',function(g){ each(g,'.chip',function(c){ c.onclick=function(){ each(g,'.chip',function(x){ x.classList.remove('on'); }); c.classList.add('on'); }; }); });
+  var tEdited=!!$('psTitle').value; $('psTitle').oninput=function(){ tEdited=true; };
+  $('psOrg').oninput=function(){ if(!tEdited){ $('psTitle').value=psTitle($('psOrg').value.trim()); } };
+  if(!tEdited&&$('psOrg').value){ $('psTitle').value=psTitle($('psOrg').value.trim()); }
+  $('psCancel').onclick=function(){ PS.open=false; PS.edit=null; drawHq(); };
+  $('psSave').onclick=function(){ var pick=function(id){ var c=f.querySelector('[data-ps="'+id+'"] .chip.on'); return c?c.getAttribute('data-v'):''; };
+    var p={act:'psSave',no:PS.edit||'',org:$('psOrg').value.trim(),role:pick('role'),seat:pick('seat'),main:pick('main'),sub:pick('sub'),round:$('psRound').value.trim(),date:$('psDate').value.trim(),contact:$('psWho').value.trim(),title:$('psTitle').value.trim(),purpose:$('psPur').value.trim()};
+    if(p.org.length<2){ toast('받는 곳 이름을 적어 주십시오'); return; } if(!p.role){ toast('대상을 골라 주십시오'); return; } if(!p.seat){ toast('자리를 골라 주십시오'); return; } if(p.main===''){ toast('주력 콘텐츠를 골라 주십시오'); return; } if(p.sub!==''&&p.sub===p.main){ toast('보조는 주력과 다른 것으로 골라 주십시오'); return; } if(p.purpose.length<10){ toast('「이번 제안」 글을 적어 주십시오'); return; }
+    psAct(p,PS.edit?'저장했습니다 — 보낸 링크에 바로 반영됩니다':'만들었습니다 — 「링크 복사」로 보내십시오'); };
+}
+function psAct(p,ok){ p.action='recHq'; p.ht=htGet(); call(p,function(d){ if(d.status!=='ok'){ toast(d.msg||'잠시 후 다시 눌러 주십시오.'); return; } toast(ok); PS.open=false; PS.edit=null; hq(); },'처리하는 중입니다'); }
+function psQrLib(cb){ if(window.QRCode){ cb(true); return; } var s=document.createElement('script'); s.src='/rec/qr.js?v=1'; s.onload=function(){ cb(!!window.QRCode); }; s.onerror=function(){ cb(false); }; document.head.appendChild(s); }
+
 /* ══ 본부 「제안 · 설문」 (대표만 · 본부 로그인 그대로) ══ */
 function htGet(){ var raw=''; try{ raw=sessionStorage.getItem('lf_rec_ht')||localStorage.getItem('lf_rec_ht')||''; }catch(e){} try{ var o=JSON.parse(raw||'null'); if(o&&o.v&&(!o.e||o.e>Date.now())){ return o.v; } }catch(e2){} return window.LF_P_HT||''; }
 var HQ={orgs:[],tpls:[],open:''};
 function hq(){ var ht=htGet(); if(!ht){ PP.innerHTML='<div class="card" style="text-align:center"><p style="font-weight:800">본부로 들어온 뒤에 열 수 있습니다.</p><a class="btn" href="/rec/?hq=1" style="margin-top:10px">본부로</a></div>'; return; }
-  call({action:'recHq',ht:ht,act:'prList'},function(d){ if(d.status!=='ok'){ PP.innerHTML='<div class="card"><p style="font-weight:800">'+esc(d.msg||'불러오지 못했습니다.')+'</p><a class="btn" href="/rec/?hq=1" style="margin-top:10px">본부로</a></div>'; return; } HQ.orgs=d.orgs; HQ.tpls=d.tpls; drawHq(); },'목록을 불러오는 중입니다'); }
+  call({action:'recHq',ht:ht,act:'prList'},function(d){ if(d.status!=='ok'){ PP.innerHTML='<div class="card"><p style="font-weight:800">'+esc(d.msg||'불러오지 못했습니다.')+'</p><a class="btn" href="/rec/?hq=1" style="margin-top:10px">본부로</a></div>'; return; } HQ.orgs=d.orgs; HQ.tpls=d.tpls; call({action:'recHq',ht:ht,act:'psList'},function(e){ PS.items=e.status==='ok'?(e.items||[]):[]; drawHq(); }); },'목록을 불러오는 중입니다'); }
 function hqAct(p,ok){ p.action='recHq'; p.ht=htGet(); call(p,function(d){ if(d.status!=='ok'){ toast(d.msg||'잠시 후 다시 눌러 주십시오.'); return; } if(ok){ toast(ok); } hq(); },'처리하는 중입니다'); }
 function drawHq(){
-  var h='<div class="hq"><div class="top"><h1 style="margin:0">제안 · 교육생 모집</h1><a class="btn sm line" href="/rec/?hq=1">⌂ 본부로</a></div><p class="note">받는 곳마다 우리 이야기 방 하나(닫힌 방) · 사무국 담당 = 그 방 관리자. 담당자 링크를 보내면 처음 한 번 카카오 로그인으로 등록됩니다. 회차마다 교육 참가 링크는 사무국이 「확인 완료」를 누르면 열립니다.</p>';
+  var h='<div class="hq"><div class="top"><h1 style="margin:0">제안 · 교육생 모집</h1><a class="btn sm line" href="/rec/?hq=1">⌂ 본부로</a></div>'+psHtml()+'<p class="note">받는 곳마다 우리 이야기 방 하나(닫힌 방) · 사무국 담당 = 그 방 관리자. 담당자 링크를 보내면 처음 한 번 카카오 로그인으로 등록됩니다. 회차마다 교육 참가 링크는 사무국이 「확인 완료」를 누르면 열립니다.</p>';
   h+='<div class="card"><b>새 받는 곳</b><label class="f">받는 곳 (제안서 「○○ 귀중」)</label><input class="t" id="nNm" maxlength="60" placeholder="예) 헤이리예술마을 사무국"><label class="f">우리 이야기 방 이름</label><input class="t" id="nRm" maxlength="40" placeholder="예) 헤이리 기록관"><label class="f">담당자 이름 (모르면 비워 둠)</label><input class="t" id="nWh" maxlength="30" placeholder="예) 사무국 담당"><label class="f">틀</label><select class="t" id="nTp">'+HQ.tpls.map(function(x){ return '<option>'+esc(x)+'</option>'; }).join('')+'</select><button type="button" class="btn" id="nGo" style="margin-top:10px">만들기 · 1차 교육생 모집</button></div>';
   HQ.orgs.forEach(function(o){
     h+='<div class="org"><div class="top"><b style="font-size:17px">'+esc(o.to)+'</b><span class="tag g">'+esc(o.com)+' · '+esc(o.room)+'</span></div>';
@@ -369,7 +431,7 @@ function drawHq(){
       h+='</div>'; });
     h+='</div>'; });
   if(!HQ.orgs.length){ h+='<p class="note">아직 만든 받는 곳이 없습니다.</p>'; }
-  h+='</div>'; PP.innerHTML=h;
+  h+='</div>'; PP.innerHTML=h; psBind();
   $('nGo').onclick=function(){ var nm=$('nNm').value.trim(); if(nm.length<2){ toast('받는 곳 이름을 적어 주십시오'); return; } hqAct({act:'prNew',name:nm,room:$('nRm').value.trim(),who:$('nWh').value.trim(),tpl:$('nTp').value},'만들었습니다 — 담당자 링크를 복사해 보내십시오'); };
   each(PP,'[data-cp]',function(b){ b.onclick=function(){ copy(b.getAttribute('data-cp'),'링크를 복사했습니다'); }; });
   each(PP,'[data-nx]',function(b){ b.onclick=function(){ hqAct({act:'prNext',com:b.getAttribute('data-nx')},'다음 회차를 만들었습니다'); }; });
