@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v25 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로
+   현재 버전 ▶ lf/frame.js · v26 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] ☰ 「사랑흐름 여행」 상품 넷 링크 → 상품별 새 주소(/item/○○/) · 방문 통계 「상품 진열」 칸에 새 주소 넷 더함 · 옛 주소에서 넘어온 손님의 들어온 곳(lf_xref)을 이어 받음
+   (이전) lf/frame.js · v25 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로
    (이전) lf/frame.js · v24 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] ☰ 「사랑흐름 여행」 큰 칸 바로 아래 「🎁 선물하기」 한 줄(→ /pay.html?mode=gift · 자수정 보라) · 아래 묶음 「사랑흐름 여행」에도 「선물하기」 · 그 묶음 상품 넷 색을 lf/thumb.js 상품 색으로(마음 여행지도 청록 · 마음여행 남색 · 한 편의 기록 가죽 갈색 · 두 분의 여정 와인). [무손] 그 밖 v23 전부.
    (이전) lf/frame.js · v23 · 261111 · [공사 칸 ⑤ 견본에서 찾음 · 595] ← ⌂ → 를 붙인 543 공사(261109 16:31 · 355a013)부터 window.LFWay 를 통째로 덮어써 lf/way.js 의 LFWay.get 이 사라짐 → apply.html(계좌이체 접수) · gate.html(네이버 · 오픈마켓 발권 신청) 신청 단추에서 오류로 멈춤 → 있는 LFWay 에 back · home · fwd 만 덧붙임. [무손] 그 밖 v22 전부.
    (이전) lf/frame.js · v22 · 261111 · [공사 칸 ④ 견본에서 찾음 · 594] 휴대폰 「홈 화면에 추가」 위 띠(v18)가 몸이 가로 줄(flex row)인 화면 12곳(gate · pay · apply · enter · reenter · showroom · journey · journey/result · letter · memoir · hanmadi · hq)에서 본문 옆 칸이 되어 카드를 좁은 세로 줄로 짓누르던 것 → 그런 화면에서는 위 띠 바로 아래에 떠 있게. [무손] 그 밖 v21 전부.
@@ -117,10 +118,10 @@
       { t: '관계 나침반', s: '무료로 먼저 해 보기', ic: 'compass', c: '#1D9E75', u: '/compass.html' }
     ] },
     { k: 'buy', t: '사랑흐름 여행', ic: 'ticket', c: '#E58A5F', items: [
-      { t: '마음여행', s: '여행지도와 편지', ic: 'letter', c: '#24508A', u: '/item/?k=set' },
-      { t: '한 편의 기록', s: '나의 이야기를 한 편씩', ic: 'mem', c: '#9A6334', u: '/item/?k=memoir' },
-      { t: '두 분의 여정', s: '지도 · 편지 · 기록까지', ic: 'two', c: '#8E3B62', u: '/item/?k=life' },
-      { t: '마음 여행지도', s: '나를 먼저 돌아보기', ic: 'map', c: '#1E8C76', u: '/item/?k=map' },
+      { t: '마음여행', s: '여행지도와 편지', ic: 'letter', c: '#24508A', u: '/item/set/' },
+      { t: '한 편의 기록', s: '나의 이야기를 한 편씩', ic: 'mem', c: '#9A6334', u: '/item/memoir/' },
+      { t: '두 분의 여정', s: '지도 · 편지 · 기록까지', ic: 'two', c: '#8E3B62', u: '/item/life/' },
+      { t: '마음 여행지도', s: '나를 먼저 돌아보기', ic: 'map', c: '#1E8C76', u: '/item/map/' },
       { t: '선물하기', s: '소중한 분께 마음을 담아', ic: 'gift', c: '#4B33B0', u: '/pay.html?mode=gift' },   /* ★v24 579 */
       { t: '단체 · 기관', s: '여럿이 함께 떠나기', ic: 'group', c: '#5C7FA6', u: '/proposal.html' }
     ] },
@@ -458,13 +459,14 @@
 
 /* ★v13 칸 2 434 방문 통계 — 개인정보 없이 · 서버 주소는 lf/config.js 한 곳에서 읽음 */
 (function () {
-  var P = location.pathname, SCR = { '/': '첫 화면', '/index.html': '첫 화면', '/travel/': '사랑흐름 여행', '/travel/index.html': '사랑흐름 여행', '/showcase.html': '상품 진열', '/item/': '상품 진열', '/item/index.html': '상품 진열', '/pay.html': '결제 화면' }[P];   /* ★v17 458 — 상품 설명 화면은 서버 표의 「상품 진열」 칸으로 셈(서버 VIS_SCREENS 그대로) */
+  var P = location.pathname, SCR = { '/': '첫 화면', '/index.html': '첫 화면', '/travel/': '사랑흐름 여행', '/travel/index.html': '사랑흐름 여행', '/showcase.html': '상품 진열', '/item/': '상품 진열', '/item/index.html': '상품 진열', '/item/map/': '상품 진열', '/item/set/': '상품 진열', '/item/memoir/': '상품 진열', '/item/life/': '상품 진열', '/pay.html': '결제 화면' }[P];   /* ★v17 458 — 상품 설명 화면은 서버 표의 「상품 진열」 칸으로 셈(서버 VIS_SCREENS 그대로) */
   if (!SCR) { return; }
   try { if (sessionStorage.getItem('lf_from_hq')) { return; } } catch (e0) { }
   var Q = [], T = null, N = 0, CLK = 0, T0 = Date.now(), SID = '', FIRST = '처음', DEV = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent || '') ? '폰' : '컴', REF = '';
   try { SID = sessionStorage.getItem('lf_vsid') || ''; if (!SID) { SID = Math.random().toString(36).slice(2, 10); sessionStorage.setItem('lf_vsid', SID); } } catch (e1) { SID = Math.random().toString(36).slice(2, 10); }
   try { if (localStorage.getItem('lf_vseen')) { FIRST = '다시'; } localStorage.setItem('lf_vseen', '1'); } catch (e2) { }
   try { var rh = document.referrer ? new URL(document.referrer).hostname : ''; if (rh && rh.indexOf('loveflow.ai.kr') < 0) { REF = rh; } } catch (e3) { }
+  try { var xr = sessionStorage.getItem('lf_xref'); if (xr) { sessionStorage.removeItem('lf_xref'); if (!REF) { REF = new URL(xr).hostname; } } } catch (e4) { }   /* ★v26 710 옛 상품 주소에서 넘어온 경우 들어온 곳 이어 받음 */
   function gas() { var C = window.LF_CONFIG; return (C && C.gas && C.gas.rec) || ''; }
   function flush() {
     T = null; if (!Q.length) { return; } var u = gas(); if (!u) { return; }
