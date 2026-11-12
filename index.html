@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ index.html · v62 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] 상품 넷 링크 → 상품별 새 주소(/item/map/ · set/ · memoir/ · life/) · 화면 모양 그대로 -->
+<!-- ★ 현재 버전 ▶ index.html · v63 · 261112 · [569 · 대표 21:37 「첫 장은 최근 올라온 것을 시간에 관계없이 랜덤으로 · 최근 사진이 많으면 견본은 뒤로 · 탄력적으로」 · ★서버 ①Code v61 과 짝] 마당 사진 첫 9칸 = 최근 30일 실제 사진을 무작위로 → 모자라면 그 밖 실제 사진 · 사랑흐름 방 → 그래도 모자라면 견본 방(서버 tier=1 차례 그대로) · 4초마다 한 칸 바뀜도 같은 차례로 이어감 · 뒤로 가기로 메인에 돌아오면 새로 섞음 · 한 방 3장까지 그대로. [무손] 그 밖 v62 전부 -->
+<!-- (이전) ★ 현재 버전 ▶ index.html · v62 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] 상품 넷 링크 → 상품별 새 주소(/item/map/ · set/ · memoir/ · life/) · 화면 모양 그대로 -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v61 · 261112 · [포털 검색 ④ · 702 · 714 · 대표 OK 19:32] 마음 전하기 셋 · 여행 셋 · 「자세히 보기」를 단추(button)에서 진짜 링크(a href)로 — 검색 로봇이 따라갈 수 있게 · 모양 · 동작 그대로 · 구조화 데이터에 연관 채널(카카오톡 채널) sameAs -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v60 · 261112 · [포털 검색 ① · 700 · 703 · 대표 OK 261112 11:13] 화면은 그대로 · 머리말만 — 대표 주소(canonical) · 설명 · og · 사이트 이름 「사랑흐름」 · 아이콘(favicon) 붙임 · 사이트 이름 구조화 데이터(JSON-LD) -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v59 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36] ①600 「🍇 이야기 둘러보기」 · 「＋ 우리 이야기 만들기」 위아래 두 줄 → 한 줄 양쪽 같은 높이(그림 글자 위 · 글은 한 줄 · 글자 크기 그대로) ②599 🧭 사랑흐름 여행 — 보라 상자 → 밝은 상자 · 세 칸 선 아이콘 → 그 상품의 결과물 견본(lf/thumb.js) · 이름은 상품 색 ③598 · 579 「자세히 보기 →」 아래 작은 제목 「소중한 분께 마음을 담아 선물하세요」 + [구매하기](→ /travel/) [🎁 선물하기](→ /pay.html?mode=gift) 같은 크기. [무손] 그 밖 v58 전부. -->
@@ -205,7 +206,7 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
   /* 우리 이야기 마당 사진 한 줄 — 우리 이야기 서버 recPlaza(마당과 같은 사진) · 못 받으면 줄을 감춤(꾸민 사진은 넣지 않음) */
   var C=window.LF_CONFIG||{}, GAS=(C.gas&&C.gas.rec)||'';
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-  var RND=Math.random().toString(36).slice(2,10);   /* ★v55 들어올 때마다 다른 차례 */
+  var RND=Math.random().toString(36).slice(2,10), PZT=null;   /* ★v55 들어올 때마다 다른 차례 */
   function hide(){ $('pz').hidden=true; }
   function draw(d){
     /* ★v7 들어올 때마다 무작위 · 한 방 3장까지 · 모자라면 사랑흐름 방(main)으로 채움 */
@@ -214,10 +215,17 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
     function put(x,r){ if(!x||!r||seen[x.id]){ return; } var bg=bgOf(x); if(!bg){ return; } seen[x.id]=1; (r.main?promo:real).push({x:x,r:r,bg:bg}); }
     function mix(a){ for(var q=a.length-1;q>0;q--){ var w=Math.floor(Math.random()*(q+1)), t=a[q]; a[q]=a[w]; a[w]=t; } return a; }
     for(var i=0;i<items.length;i++){ put(items[i],rooms[items[i].c]); }
-    for(var k=0;k<rooms.length;k++){ put(rooms[k].cover,rooms[k]); }
-    var per={}, pick=[], src=mix(real).concat(mix(promo));
+    if(!d.tier){ for(var k=0;k<rooms.length;k++){ put(rooms[k].cover,rooms[k]); } }   /* ★v63 층 차례에는 방 첫 장이 이미 들어 있음 */
+    var per={}, pick=[], src=d.tier?real.concat(promo):mix(real).concat(mix(promo));   /* ★v63 569 서버가 층 차례로 줌(최근 실제 → 그 밖 → 견본) — 섞지 않고 그대로 */
+    if(d.tier){ real=[]; promo=[]; seen={}; for(var i3=0;i3<items.length;i3++){ var x3=items[i3], r3=rooms[x3.c]; if(!x3||!r3||seen[x3.id]){ continue; } var bg3=bgOf(x3); if(!bg3){ continue; } seen[x3.id]=1; real.push({x:x3,r:r3,bg:bg3}); } src=real; }
     for(var s2=0;s2<src.length&&pick.length<9;s2++){ var ck=src[s2].r.com||src[s2].r.name; if(!src[s2].r.main&&(per[ck]||0)>=3){ continue; } per[ck]=(per[ck]||0)+1; pick.push(src[s2]); }
-    pick=mix(pick);
+    if(d.tier){   /* ★v63 한 방 3장 규칙은 같은 층 안에서만 — 최근 사진이 남았으면 견본보다 먼저 채움(탄력적으로) */
+      pick=[]; per={}; var tk=[1,2,3];
+      for(var tq=0;tq<tk.length&&pick.length<9;tq++){ var lay=src.filter(function(o){ return (o.x.k||2)===tk[tq]; }), skip=[];
+        for(var s4=0;s4<lay.length&&pick.length<9;s4++){ var ck4=lay[s4].r.com||lay[s4].r.name; if(!lay[s4].r.main&&(per[ck4]||0)>=3){ skip.push(lay[s4]); continue; } per[ck4]=(per[ck4]||0)+1; pick.push(lay[s4]); }
+        for(var s5=0;s5<skip.length&&pick.length<9;s5++){ pick.push(skip[s5]); } }
+    }
+    pick=mix(pick);   /* 고른 9장은 자리만 섞음 */
     /* ★v57 대표 18:20 「옆으로 밀어 더 보게」 — 첫 9칸 뒤로 남은 사진을 붙여 최대 36칸 */
     var pk0={}; pick.forEach(function(o){ pk0[o.x.id]=1; }); src.forEach(function(o){ if(pick.length<36&&!pk0[o.x.id]){ pick.push(o); } });
     for(var m=0;m<pick.length&&n<36;m++){
@@ -241,7 +249,8 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
     })(ts[j]); }
     /* ★v55 4초마다 한 칸 — 고르지 않은 사진(rest)과 맞바꿈 · 화면이 보일 때만 */
     var used={}; pick.forEach(function(o){ used[o.x.id]=1; }); var rest=src.filter(function(o){ return !used[o.x.id]; });
-    if(rest.length){ setInterval(function(){ if(document.hidden){ return; } var ts2=$('pzs').querySelectorAll('.pt'); if(!ts2.length){ return; }
+    if(PZT){ clearInterval(PZT); PZT=null; }
+    if(rest.length){ PZT=setInterval(function(){ if(document.hidden){ return; } var ts2=$('pzs').querySelectorAll('.pt'); if(!ts2.length){ return; }
       var t=ts2[Math.floor(Math.random()*ts2.length)], o=rest.shift(), im2=new Image();
       im2.onload=function(){ t.style.transition='opacity .45s'; t.style.opacity='.1'; setTimeout(function(){ t.style.backgroundImage='url("'+o.bg+'")'; var sp=t.querySelector('i span'); if(sp){ sp.textContent='🏠 '+(o.r.name||''); }
         if(o.r.g){ t.setAttribute('data-pk','/rec/?g='+encodeURIComponent(o.r.g)+'&r='+encodeURIComponent(o.x.b||o.x.id)); } t.setAttribute('aria-label',(o.x.t||'사진')+' · '+(o.r.name||'')); t.style.opacity='1';
@@ -250,18 +259,24 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
   }
   if(!GAS){ hide(); return; }
   var done=false; function fin(d){ if(done){ return; } done=true; if(d&&d.status==='ok'){ draw(d); } else { hide(); } }
+  var PZK=0;
+  function pzLoad(){ var my=++PZK;
   function jsonp(){
     var nm='hz_'+Date.now(), sc=document.createElement('script');
     window[nm]=function(d){ try{ delete window[nm]; }catch(e){} fin(d); };
     sc.onerror=function(){ fin(null); };
-    sc.src=GAS+'?action=recPlaza&n=48&rnd='+RND+'&callback='+nm+'&t='+Date.now(); document.body.appendChild(sc);
+    sc.src=GAS+'?action=recPlaza&n=48&tier=1&rnd='+RND+'&callback='+nm+'&t='+Date.now(); document.body.appendChild(sc);
   }
   try{
-    fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recPlaza',n:'48',rnd:RND})})
+    fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recPlaza',n:'48',tier:'1',rnd:RND})})
       .then(function(r){ return r.text(); }).then(function(t){ fin(JSON.parse(t)); })
       .catch(function(){ jsonp(); });
   }catch(e){ jsonp(); }
-  setTimeout(function(){ fin(null); },20000);
+  setTimeout(function(){ if(my===PZK){ fin(null); } },20000);
+  }
+  pzLoad();
+  /* ★v63 뒤로 가기로 돌아온 메인(저장해 둔 화면)도 새로 섞음 */
+  window.addEventListener('pageshow',function(e){ if(!e.persisted){ return; } RND=Math.random().toString(36).slice(2,10); done=false; pzLoad(); });
 })();
 </script>
 <script src="/lf/guide-ask.js?v=3"></script>
