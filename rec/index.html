@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v126 · 261113 · [613 마무리] 질문 칸(「사진 2 / 3 · 이때가 언제였어요?」)을 사진 · 세 단추 바로 아래로 올림 — 전에는 「○○ 둘러보기」 · 「나도 사진 올리기」가 사진과 질문 사이에 끼어 질문이 사진에서 떨어져 보였음 · 서버는 그대로(①Code v62) -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v127 · 261113 · [626 올리다 끊기면 이어 보내기 · 서버는 그대로(①Code v63)] 사진 「올리기」 뒤 올릴 사진 · 글 · 공개 범위 · 어디까지 갔는지를 이 휴대폰(IndexedDB lf_rec · kv 「upq」 · 「upqp:」)에 담아 둠 — 다 가기 전에 창이 닫혀도(카카오톡 안 화면 뒤로 등) 다음에 열면 맨 위 띠 「지난번에 올리던 사진을 이어 올립니다」로 남은 장만 보냄 · 이미 간 장은 다시 안 보냄 · 같은 묶음으로 이어 붙임 · 보내던 그 한 장은 담아 둔 표(1시간)가 쓰였으면 간 것으로 봄 · 못 간 채 닫힌 것은 「다시 올리기 · 닫기」로 · 7일 지나면 지움 · 올릴 때 고른 방 · 공개 범위 그대로(다른 방을 보고 있어도) · REC_VER 127 -->
+<!-- (이전) rec/index.html · v126 · 261113 · [613 마무리] 질문 칸(「사진 2 / 3 · 이때가 언제였어요?」)을 사진 · 세 단추 바로 아래로 올림 — 전에는 「○○ 둘러보기」 · 「나도 사진 올리기」가 사진과 질문 사이에 끼어 질문이 사진에서 떨어져 보였음 · 서버는 그대로(①Code v62) -->
 <!-- (이전) rec/index.html · v125 · 261112 · [613 질문은 사진 한 장마다 · ★서버 ①Code v62 와 짝] 여러 장 묶음 아래 「이때가 언제였어요?」가 어느 사진인지 없던 것(72차 A-6 「묶음에 하나」)을 고침 — 지금 크게 보이는 그 사진(「사진 3 / 9」)에 묻고 ‹ › 로 넘기면 질문도 그 사진 것으로 바뀜 · 답은 그 사진에만(one=1) · 그 사진에 채워진 때 · 곳 · 누구와 · 무슨 일을 질문 위에 한 줄 · 한 장짜리는 예전 그대로 · REC_VER 125 -->
 <!-- (이전) rec/index.html · v124 · 261112 · [571 기다리지 않는 올리기 · ★서버 ①Code v60 과 짝] 사진 「올리기」를 누르면 그 자리에서 방 첫 화면으로 돌아가고 맨 위 띠에 내 사진 · 「올리는 중입니다」만 보임 — 담기 · 기록 적기는 뒤에서(전에는 다 끝날 때까지 「올리는 중」 화면에 붙잡힘 · 실측 한 장 약 12~20초) · 다 가면 「✓ 올렸습니다」 뒤 첫 화면 새로 · 안 간 장은 「다시 올리기」 · 살핌이 아이 · 노출을 알려 주면 그때 「이 사진을 올려도 될까요?」 · 올리는 동안 창을 닫으면 물음 · 「내가 남긴 것」은 미리보기 없이 받음(5.1MB → 수십 KB) · REC_VER 124 -->
 <!-- (이전) rec/index.html · v123 · 261112 · [칸 A 안전 · 613~624 · ★서버 ①Code v58 · ④살핌 v39 · ⑥시험 v70 과 짝] ① 사진을 고르는 순간 뒤에서 올리기 시작(recStage · 3장씩) — 「올리기」는 확인만 · 사진 칸에 ◌ 올리는 중 · ✓ 다 감 ② 살핌이 아이 · 몸이 많이 드러남을 알려 주면 그 사진 아래 「이 사진을 올려도 될까요?」 — 올리기 / 이 사진 빼기(막지 않음) · 묻지 못한 채 「올리기」면 한 번에 물음 · 아이가 보이는 사진은 이 방 분들만(마당 안 나감) ③ 「아이가 나오나요?」를 이야기 칸 위로 · 「(비워도 됩니다)」 뺌 ④ 승인 관리 → 「손볼 사진 · 글」 — 갈래 다섯(비공개 요청 · 빼 주세요 · 공개 기다림 · 자동 살핌이 가린 것 · 내린 사진) · 사진 · 올린 분 · 요청한 분 · 때 · 사유 · 지금 상태 · 단추 「비공개 유지 · 다시 공개 · 공개하기 · 비공개로 두기 · 삭제」 · 숫자는 손볼 것만 · REC_VER 123 -->
@@ -1640,6 +1641,7 @@ function meShow(d,g,want,m){   /* ★v51 내 첫 화면 그리기(loadMe · room
     render(); if(y){ window.scrollTo(0,y); }
     if(m===1){ return; }
     post();   /* ★v37 */
+    upqResume();   /* ★v127 626 */
 }
 /* ★v48 방 고르기 · 이 기기가 들어가 본 방 열쇠(방 이름별) · 메인 방 */
 var RKS='lf_rec_keys', MAINC=null;
@@ -3512,7 +3514,7 @@ function prePump(){
     PRE_RUN++; ph.st='go';
     (function(ph){ api({action:'recStage',photo:ph.u,pv:ph.pv||''},function(r){
       PRE_RUN--;
-      if(r&&r.status==='ok'&&r.stg){ ph.stg=r.stg; ph.st='ok'; if(r.kid){ ph.kid=1; } if(r.skin){ ph.skin=1; } }
+      if(r&&r.status==='ok'&&r.stg){ ph.stg=r.stg; ph.sat=Date.now(); ph.st='ok'; if(r.kid){ ph.kid=1; } if(r.skin){ ph.skin=1; } }
       else { ph.st='no'; }   /* 담기가 안 되면 「올리기」 때 예전처럼 사진째 보냄 */
       upgPaint(); prePump();
     }); })(ph);
@@ -3698,61 +3700,124 @@ function publish(){ if(A.type==='사진'&&A.photos.length){ takeVoice(ADD_V,func
 /* ★v124 571 기다리지 않는 올리기 — 「올리기」를 누르면 바로 방 첫 화면으로 · 맨 위 띠(upq)에 내 사진과 「올리는 중입니다」
  *   뒤에서: 고를 때 시작한 담기(recStage)가 끝나기를 기다림 → 살핌이 아이 · 노출을 알려 준 사진은 그때 묻기 → 기록 적기(recAdd) → 첫 화면 새로
  *   여러 번 올리면 차례로(UQ) · 안 간 장은 「다시 올리기」 · 올리는 동안 창을 닫으려 하면 물음 */
-var UQ=[], UQR=null;
-function upqBusy(){ return !!UQR||UQ.length>0; }
+var UQ=[], UQR=null, UQ_RES=0;
+function upqBusy(){ return !!(UQR&&UQR.st!=='err'&&UQR.st!=='ok')||UQ.length>0; }
 window.addEventListener('beforeunload',function(e){ if(upqBusy()){ e.preventDefault(); e.returnValue='사진을 올리는 중입니다'; return '사진을 올리는 중입니다'; } });
 function upqStart(voice){
-  var job={a:A,voice:voice,st:'wait',n:A.photos.length};
+  var job={id:'u'+Date.now().toString(36)+Math.random().toString(36).slice(2,6),at:Date.now(),k:K,room:(ME&&ME.comName)||'',a:A,voice:voice,base:base(),st:'wait',n:A.photos.length,many:A.photos.length>1,bid:''};   /* ★v127 626 바탕(방 · 공개 범위)은 지금 잡아 둠 */
+  job.a.photos.forEach(function(p){ p.pid=job.id+'-'+Math.random().toString(36).slice(2,8); });
+  job.pids=job.a.photos.map(function(p){ return p.pid; });
   clearVoice(ADD_V); visUp('끝'); if((A.text||'').trim()){ visUp('한마디'); }
   A=newA(); STACK=[{v:'feed'}]; F={sort:'new',kind:'',cat:'',q:''}; LKEY='';
-  UQ.push(job); upqPaint(); render(); window.scrollTo(0,0); upqNext();
+  if(!UQ_RES){ upqResume(); } UQ.push(job); upqKeep(job); upqPaint(); render(); window.scrollTo(0,0); upqNext();
 }
-function upqThumbs(a){ return '<span class="uqt">'+a.photos.slice(0,3).map(function(p){ return '<i style="background-image:url('+(p.pv||p.u)+')"></i>'; }).join('')+'</span>'; }
+/* ★v127 626 올리다 끊기면 이어 보내기 — 이 휴대폰(IndexedDB lf_rec · kv)에 담아 둠
+ *   「upq」 = 올리는 일 목록(사진 글자 없이 · 작음) · 「upqp:사진표」 = 사진 { u, pv }(처음 한 번만 씀)
+ *   사진마다 sent = 이미 감 · going = 보내던 중(창이 닫히면 다음에 확인) · 다 가면 · 「닫기」면 지움 · 7일 지나면 지움 */
+var UQ_DAYS=7;
+function uqKv(fn){ odb(function(db){ if(!db){ fn(null); return; } try{ fn(db.transaction('kv','readwrite').objectStore('kv')); }catch(e){ fn(null); } }); }
+function upqKeep(j){   /* 사진은 한 번만 담고 목록을 씀 */
+  uqKv(function(st){ if(!st){ return; } try{ j.a.photos.forEach(function(p){ if(!p.kept){ st.put({u:p.u,pv:p.pv||''},'upqp:'+p.pid); p.kept=1; } }); }catch(e){} upqSave(); });
+}
+function upqMeta(j){
+  return {id:j.id,at:j.at,k:j.k,room:j.room,voice:j.voice||'',base:j.base,many:j.many,bid:j.bid||'',pids:j.pids,st:j.st==='err'?'err':'go',msg:j.st==='err'?(j.msg||''):'',
+    a:{scope:j.a.scope,agreePub:j.a.agreePub,photos:j.a.photos.map(function(p){ return {pid:p.pid,stg:p.stg||'',sat:p.sat||0,kid:p.kid||0,skin:p.skin||0,ans:p.ans||0,pd:p.pd||'',src:p.src||'',sent:p.sent||0,going:p.going||0}; })}};
+}
+function upqSave(){
+  if(UQ_RES!==1){ return; }   /* 지난번 것을 다 읽기 전에는 쓰지 않음(덮어쓰지 않게) · 다 읽으면 그때 한꺼번에 씀 */
+  var all=(UQR&&UQR.st!=='ok'?[UQR]:[]).concat(UQ).filter(function(j){ return j.a.photos.some(function(p){ return !p.sent; }); });
+  uqKv(function(st){ if(!st){ return; } try{ if(all.length){ st.put(all.map(upqMeta),'upq'); } else { st['delete']('upq'); } }catch(e){} });
+}
+function upqDrop(j){ uqKv(function(st){ if(!st){ return; } try{ (j.pids||[]).forEach(function(pid){ st['delete']('upqp:'+pid); }); }catch(e){} }); upqSave(); }
+function upqResume(){
+  if(UQ_RES){ return; } UQ_RES=-1;
+  odb(function(db){
+    function fin(list){ UQ_RES=1; if(list&&list.length){ list.forEach(function(j){ UQ.push(j); }); upqPaint(); upqNext(); } upqSave(); }
+    if(!db){ fin(null); return; }
+    try{
+      var st=db.transaction('kv','readonly').objectStore('kv'), r=st.get('upq');
+      r.onerror=function(){ fin(null); };
+      r.onsuccess=function(){
+        var raw=Array.isArray(r.result)?r.result:[], keep=raw.filter(function(m){ return m&&m.id&&Date.now()-m.at<UQ_DAYS*86400000; }), out=[], left=0, used={};
+        keep.forEach(function(m){ (m.pids||[]).forEach(function(pid){ used['upqp:'+pid]=1; }); });
+        if(typeof st.getAllKeys==='function'){ var gk=st.getAllKeys(); gk.onsuccess=function(){ var dead=(gk.result||[]).filter(function(x){ return /^upqp:/.test(x)&&!used[x]; }); if(dead.length){ uqKv(function(w){ if(w){ dead.forEach(function(x){ w['delete'](x); }); } }); } }; }   /* 남은 사진 치우기 */
+        if(!keep.length){ fin(null); return; }
+        keep.forEach(function(m){
+          var phs=m.a.photos.filter(function(p){ return !p.sent; }); left+=phs.length;
+          var j={id:m.id,at:m.at,k:m.k,room:m.room,voice:m.voice,base:m.base,many:m.many,bid:m.bid,pids:m.pids,re:1,st:'wait',msg:m.msg,was0:m.st==='err',
+            a:{scope:m.a.scope,agreePub:m.a.agreePub,photos:m.a.photos}};
+          j.n=phs.length; out.push(j);
+          phs.forEach(function(p){
+            p.kept=1; if(p.stg&&!(Date.now()-p.sat<55*60000)){ p.stg=''; }   /* 서버가 담아 둔 표는 1시간 */
+            p.st=p.stg?'ok':'no';
+            var g=st.get('upqp:'+p.pid); g.onsuccess=function(){ var v=g.result; if(v&&v.u){ p.u=v.u; p.pv=v.pv||''; } else { p.lost=1; } if(--left===0){ done(); } }; g.onerror=function(){ p.lost=1; if(--left===0){ done(); } };
+          });
+        });
+        if(!left){ done(); }
+        function done(){
+          out.forEach(function(j){ j.a.photos=j.a.photos.filter(function(p){ return !p.lost; }); j.n=j.a.photos.filter(function(p){ return !p.sent; }).length; });
+          fin(out.filter(function(j){ return j.n>0; }));
+        }
+      };
+    }catch(e){ fin(null); }
+  });
+}
+function upqThumbs(a){ var l=a.photos.filter(function(p){ return !p.sent; }); if(!l.length){ l=a.photos; } return '<span class="uqt">'+l.slice(0,3).map(function(p){ return '<i style="background-image:url('+(p.pv||p.u)+')"></i>'; }).join('')+'</span>'; }
+function upqWhere(j){ return j.k&&j.k!==K&&j.room?'「'+esc(j.room)+'」 · ':''; }
 function upqPaint(){
   var b=$('upq'); if(!b){ return; } var j=UQR||UQ[0];
   if(!j){ b.hidden=true; b.innerHTML=''; return; }
   var more=UQ.length&&UQR?' · 다음 '+UQ.length+'건 기다림':'', h=upqThumbs(j.a);
   if(j.st==='ok'){ h+='<span class="uqx">올렸습니다<small>'+esc(j.msg||'맨 위에 보입니다')+'</small></span><i class="uqok">✓</i>'; }
-  else if(j.st==='err'){ h+='<span class="uqx">'+(j.bad.length>1?'사진 '+j.bad.length+'장을':'사진을')+' 올리지 못했습니다<small>'+esc(j.msg||'연결을 확인해 주십시오')+'</small></span><button type="button" class="on" id="uqRe">다시 올리기</button><button type="button" id="uqX">닫기</button>'; }
-  else if(j.st==='ask'){ h+='<span class="uqx">확인할 사진이 있습니다<small>올려도 되는지 골라 주십시오</small></span><button type="button" class="on" id="uqAsk">확인하기</button>'; }
-  else { h+='<span class="uqx">'+(j.n>1?'사진 '+Math.min(j.i||1,j.n)+'/'+j.n+' 올리는 중입니다':'사진을 올리는 중입니다')+'<small>다른 화면을 보셔도 됩니다'+more+'</small></span><span class="uqs" aria-hidden="true"></span>'; }
+  else if(j.st==='err'){ h+='<span class="uqx">'+(j.bad.length>1?'사진 '+j.bad.length+'장을':'사진을')+' 올리지 못했습니다<small>'+upqWhere(j)+esc(j.msg||'연결을 확인해 주십시오')+'</small></span><button type="button" class="on" id="uqRe">다시 올리기</button><button type="button" id="uqX">닫기</button>'; }
+  else if(j.st==='ask'){ h+='<span class="uqx">확인할 사진이 있습니다<small>'+upqWhere(j)+'올려도 되는지 골라 주십시오</small></span><button type="button" class="on" id="uqAsk">확인하기</button>'; }
+  else { h+='<span class="uqx">'+(j.n>1?'사진 '+Math.min(j.i||1,j.n)+'/'+j.n+' 올리는 중입니다':'사진을 올리는 중입니다')+'<small>'+upqWhere(j)+(j.re?'지난번에 올리던 사진을 이어 올립니다':'다른 화면을 보셔도 됩니다')+more+'</small></span><span class="uqs" aria-hidden="true"></span>'; }
   b.innerHTML=h; b.hidden=false;
-  if($('uqRe')){ $('uqRe').onclick=function(){ var jj=UQR; if(!jj){ return; } jj.list=jj.bad; jj.bad=[]; jj.st='go'; jj.i=1; jj.n=jj.list.length; upqPaint(); upqSend(jj); }; }
-  if($('uqX')){ $('uqX').onclick=function(){ UQR=null; upqPaint(); upqNext(); }; }
+  if($('uqRe')){ $('uqRe').onclick=function(){ var jj=UQR; if(!jj){ return; } if(jj.list){ jj.lp=jj.bad.map(function(q){ return jj.lp[jj.list.indexOf(q)]; }); jj.list=jj.bad; } jj.bad=[]; jj.st='go'; jj.i=1; jj.n=jj.list?jj.list.length:jj.n; upqPaint(); if(jj.list){ upqSend(jj); } else { upqGo(jj); } }; }
+  if($('uqX')){ $('uqX').onclick=function(){ var jj=UQR; UQR=null; if(jj){ upqDrop(jj); } upqPaint(); upqNext(); }; }
   if($('uqAsk')){ $('uqAsk').onclick=function(){ if(UQR){ upqAsk(UQR); } }; }
 }
-function upqNext(){ if(UQR||!UQ.length){ return; } UQR=UQ.shift(); UQR.st='wait'; upqPaint(); upqWait(UQR); }
+function upqNext(){ if(UQR||!UQ.length){ return; } UQR=UQ.shift(); if(UQR.was0){ UQR.was0=0; UQR.st='err'; UQR.bad=UQR.a.photos.filter(function(p){ return !p.sent; }); upqPaint(); return; } UQR.st='wait'; upqPaint(); upqWait(UQR); }   /* 지난번에 못 간 채 닫힌 것은 「다시 올리기」로 */
 function upqWait(j){
   if(j.a.photos.some(function(p){ return p.st==='wait'||p.st==='go'; })){ setTimeout(function(){ upqWait(j); },400); return; }
-  if(j.a.photos.some(function(p){ return (p.kid||p.skin)&&!p.ans; })){ j.st='ask'; upqPaint(); upqAsk(j); return; }
+  if(j.a.photos.some(function(p){ return !p.sent&&(p.kid||p.skin)&&!p.ans; })){ j.st='ask'; upqPaint(); upqAsk(j); return; }
   upqGo(j);
 }
 function upqAsk(j){
   var L=j.a.photos;
-  function list(){ return L.filter(function(p){ return (p.kid||p.skin)&&!p.ans; }); }
+  function list(){ return L.filter(function(p){ return !p.sent&&(p.kid||p.skin)&&!p.ans; }); }
   function html(){ return list().map(function(p){ var i=L.indexOf(p);
     return '<div class="askp"><div class="askth" style="background-image:url('+(p.pv||p.u)+')"></div><div class="askx"><b>'+askWhat(p)+'</b><small>이 사진을 올려도 될까요?'+(p.kid?' 아이가 보이는 사진은 이 방 분들만 보고, 마당에는 나가지 않습니다.':'')+'</small>'+
       '<div class="kidb"><button type="button" class="on" data-qok="'+i+'">올리기</button><button type="button" data-qno="'+i+'">이 사진 빼기</button></div></div></div>'; }).join(''); }
-  function again(){ var el=$('askQ'); if(!el){ return; } if(!list().length){ closeSheet(); if(L.length){ upqGo(j); } else { UQR=null; upqPaint(); toast('올릴 사진이 없습니다'); upqNext(); } return; } el.innerHTML=html(); bind(el); }
+  function again(){ var el=$('askQ'); if(!el){ return; } upqSave(); if(!list().length){ closeSheet(); if(L.some(function(p){ return !p.sent; })){ upqGo(j); } else { UQR=null; upqDrop(j); upqPaint(); toast('올릴 사진이 없습니다'); upqNext(); } return; } el.innerHTML=html(); bind(el); }
   function bind(el){ each(el,'[data-qok]',function(b){ b.onclick=function(){ var p=L[+b.getAttribute('data-qok')]; if(p){ p.ans=1; } again(); }; });
     each(el,'[data-qno]',function(b){ b.onclick=function(){ L.splice(+b.getAttribute('data-qno'),1); again(); }; }); }
   sheet('<h2>이 사진을 올려도 될까요?</h2><div id="askQ" style="margin-top:8px">'+html()+'</div>',function(){ bind($('askQ')); });
 }
 function upqGo(j){
-  var A0=A; A=j.a; var list=publishList(j.voice); A=A0;   /* base() · 공개 범위는 그 사진을 고를 때의 것 */
-  j.list=list; j.bad=[]; j.st='go'; j.i=1; j.n=list.length; j.bundle=list.length>1; upqPaint(); upqSend(j);
+  var phs=j.a.photos.filter(function(p){ return !p.sent; });
+  var list=publishList(j.voice&&!j.bid&&!j.a.photos.some(function(p){ return p.sent; })?j.voice:'',j.base,phs);   /* ★v127 바탕 · 공개 범위는 「올리기」를 누를 때의 것 · 방 열쇠도 그때 것 */
+  list.forEach(function(q){ if(j.k){ q.k=j.k; } });
+  j.lp=phs.map(function(p){ return p.pid; }); j.was=phs.map(function(p){ return !!(p.going&&p.stg); });   /* 보내던 중 닫힌 장 */
+  j.list=list; j.bad=[]; j.st='go'; j.i=1; j.n=list.length; j.bundle=j.many; upqPaint(); upqSend(j);
 }
+function upqPh(j,i){ var pid=j.lp&&j.lp[i]; for(var x=0;x<j.a.photos.length;x++){ if(j.a.photos[x].pid===pid){ return j.a.photos[x]; } } return null; }
 function upqSend(j){
-  sendAll(j.list,j.bundle&&j.list.length>1,function(okN,pub,errs,bad){
-    if(okN){ ME.agreed=1; if(j.a.scope==='공개'&&j.a.agreePub){ ME.agreedPub=1; } if(isBoss()&&pub<okN){ QN+=okN-pub; } homeDirty(); if(VIEW==='feed'){ var y=window.scrollY; render(); window.scrollTo(0,y); } }
-    if(bad.length){ j.st='err'; j.bad=bad; j.msg=errs[0]||''; upqPaint(); return; }
-    j.st='ok'; j.msg=(okN>1?'사진 '+okN+'장을 한 칸으로 묶어 올렸습니다 · ':'')+(CHK_N?'확인되면 공개됩니다':(pub===okN?'맨 위에 보입니다':'승인 후 공개됩니다')); upqPaint();
+  var was=j.was||[]; j.was=null;
+  sendAll(j.list,j.bundle&&(j.list.length>1||!!j.bid),function(okN,pub,errs,bad){
+    j.a.photos.forEach(function(p){ p.going=0; });
+    if(okN){ ME.agreed=1; if(j.a.scope==='공개'&&j.a.agreePub){ ME.agreedPub=1; } if(isBoss()&&pub<okN&&(!j.k||j.k===K)){ QN+=okN-pub; } homeDirty(); if(VIEW==='feed'){ var y=window.scrollY; render(); window.scrollTo(0,y); } }
+    if(bad.length){ j.st='err'; j.bad=bad; j.msg=errs[0]||''; upqSave(); upqPaint(); return; }
+    j.st='ok'; j.msg=(okN>1?'사진 '+okN+'장을 한 칸으로 묶어 올렸습니다 · ':'')+(CHK_N?'확인되면 공개됩니다':(pub===okN?'맨 위에 보입니다':'승인 후 공개됩니다')); upqDrop(j); upqPaint();
     setTimeout(function(){ if(UQR===j){ UQR=null; upqPaint(); upqNext(); } },2600);
-  },{step:function(k,n){ j.i=Math.min(k+1,n); upqPaint(); }});
+  },{bid:j.bid,was:was,
+    pre:function(i){ var p=upqPh(j,i); if(p){ p.going=1; upqSave(); } },
+    ok:function(i,r){ var p=upqPh(j,i); if(p){ p.sent=1; p.going=0; } if(r.bundle&&!j.bid){ j.bid=r.bundle; } upqSave(); },
+    step:function(k,n){ j.i=Math.min(k+1,n); upqPaint(); }});
 }
-function publishList(voice){
-  var p=base(), list=[]; if(voice){ p.voice=voice; }
-  A.photos.forEach(function(ph,i){ var q={}; for(var k in p){ q[k]=p[k]; } if(i>0){ delete q.voice; } q.kind='사진'; q.pv=ph.pv||''; q.src=ph.src||''; if(ph.pd){ q.pdate=ph.pd; }
+function publishList(voice,b0,phs){   /* ★v127 626 b0 = 「올리기」를 누를 때의 바탕 · phs = 보낼 사진 */
+  var p=b0?JSON.parse(JSON.stringify(b0)):base(), list=[]; if(voice){ p.voice=voice; }
+  (phs||A.photos).forEach(function(ph,i){ var q={}; for(var k in p){ q[k]=p[k]; } if(i>0){ delete q.voice; } q.kind='사진'; q.pv=ph.pv||''; q.src=ph.src||''; if(ph.pd){ q.pdate=ph.pd; }
     if(ph.stg){ q.stg=ph.stg; q._ph=ph.u; } else { q.photo=ph.u; } if(ph.kid){ q.kid='1'; delete q.up; } list.push(q); });
   return list;
 }
@@ -3783,31 +3848,32 @@ function sendAll(list,bundle,done,quiet){
   if(!quiet){ $('nNext').disabled=true; }
   sendPipe(list,bundle,function(r,i){
     if(quiet&&quiet.step){ quiet.step(i+1,list.length); }
-    if(r.status==='ok'){ okN++; if(r.state==='실림'){ pub++; } if(r.check){ CHK_N++; } return; }
+    if(r.status==='ok'){ okN++; if(r.state==='실림'){ pub++; } if(r.check){ CHK_N++; } if(quiet&&quiet.ok){ quiet.ok(i,r); } return; }   /* ★v127 626 */
     errs.push(r.msg||'등록하지 못했습니다.'); bad.push(list[i]); if(r.reason==='DAY_MAX'||r.reason==='AGREE'||r.reason==='AGREE_PUB'||r.reason==='NO_KEY'||r.reason==='FULL'){ return 'stop'; }   /* ★v57 FULL */
-  },function(){ if(!quiet&&$('nNext')){ $('nNext').disabled=false; } done(okN,pub,errs,bad); },!!quiet);
+  },function(){ if(!quiet&&$('nNext')){ $('nNext').disabled=false; } done(okN,pub,errs,bad); },quiet);
 }
 /* ★v108 칸 2 사진 올리기 속도 — 예전: 한 장씩 「보냄 → 살핌 → 담기 → 적기」를 다 기다린 뒤 다음 장
  *   지금: 사진은 먼저 3장씩 한꺼번에 서버에 담고(recStage · 살핌 · 드라이브) · 기록은 차례로 적음(recAdd · 담아 둔 표 stg) → 묶음 차례 · 하루 상한은 예전 그대로
  *   담기가 안 되면(옛 서버 · 끊김) 그 장은 예전처럼 사진째 보냄 · 표가 사라졌으면(STG) 사진째 한 번 더 */
 var STG_PAR=3;
 function sendPipe(list,bundle,each,done,quiet){
-  var n=list.length, ready=[], ph=[], next=0, run=0, cur=0, busy=false, end=false, bid='', many=n>1;
+  var n=list.length, ready=[], ph=[], next=0, run=0, cur=0, busy=false, end=false, bid=(quiet&&quiet.bid)||'', many=n>1;   /* ★v127 626 이어 보낼 때는 그 묶음에 이어 붙임 */
   function txt(){ return many?'사진 '+Math.min(cur+1,n)+'/'+n+' 올리는 중입니다':'올리는 중입니다'; }
   function finish(){ if(end){ return; } end=true; if(!quiet){ busyOff(); } done(); }
   function pump(){ while(!end&&run<STG_PAR&&next<n){ stage(next++); } }
   function stage(i){
     var q=list[i]; if(q.stg){ ph[i]=q._ph||null; delete q._ph; ready[i]=1; kick(); return; }   /* ★v123 고를 때 미리 담아 둠 — 표가 사라졌으면 사진째 한 번 더 */
     if(!q.photo||n<2){ ready[i]=1; kick(); return; }   /* 한 장은 예전 길 그대로(두 번 부를 까닭 없음) */
-    run++; var sq={action:'recStage',photo:q.photo,pv:q.pv||'',_busy:txt()}; if(q.to){ sq.to=q.to; } if(quiet){ sq._quiet=1; }
+    run++; var sq={action:'recStage',photo:q.photo,pv:q.pv||'',_busy:txt()}; if(q.to){ sq.to=q.to; } if(q.k){ sq.k=q.k; } if(quiet){ sq._quiet=1; }   /* ★v127 그 방 열쇠로 담음 */
     api(sq,function(r){ run--; if(r&&r.status==='ok'&&r.stg){ ph[i]=q.photo; delete q.photo; q.stg=r.stg; } ready[i]=1; pump(); kick(); });
   }
   function kick(){
     if(end||busy){ return; } if(cur>=n){ finish(); return; } if(!ready[cur]){ return; }
-    var i=cur, q=list[i]; busy=true; if(bundle){ q.bundle=i===0?'new':bid; } q._busy=txt(); if(quiet){ q._quiet=1; }
+    var i=cur, q=list[i]; busy=true; if(bundle){ q.bundle=(i===0&&!bid)?'new':bid; } q._busy=txt(); if(quiet){ q._quiet=1; } if(quiet&&quiet.pre){ quiet.pre(i); }
     api(q,function(r){
+      if(r.status!=='ok'&&r.reason==='STG'&&quiet&&quiet.was&&quiet.was[i]){ r={status:'ok',state:'',skip:1}; }   /* ★v127 626 지난번 창이 닫힐 때 보내던 장 — 담아 둔 표가 이미 쓰였음 = 간 것 */
       if(r.status!=='ok'&&r.reason==='STG'&&ph[i]){ delete q.stg; q.photo=ph[i]; ph[i]=null; busy=false; kick(); return; }   /* 표가 사라짐 → 사진째 한 번 더 */
-      if(r.status==='ok'&&i===0&&r.bundle){ bid=r.bundle; }
+      if(r.status==='ok'&&!bid&&r.bundle){ bid=r.bundle; }
       var stop=each(r,i)==='stop'; busy=false; cur++;
       if(stop){ finish(); return; } kick();
     });
@@ -5200,7 +5266,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=126;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=127;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
