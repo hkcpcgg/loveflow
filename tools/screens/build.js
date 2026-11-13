@@ -1,4 +1,5 @@
-/* ★ 현재 버전 ▶ tools/screens/build.js · v1 · 261024 · [칸 7-나 428] 화면 목록 자동 짓기
+/* ★ 현재 버전 ▶ tools/screens/build.js · v2 · 261113 · [572 ⑤] r/ (방 미리보기 카드) 는 화면 목록에서 뺌
+   (이전) tools/screens/build.js · v1 · 261024 · [칸 7-나 428] 화면 목록 자동 짓기
    저장소의 .html 파일을 모두 훑어 lf/screens.json 을 만든다 — 본부 ⑥ 「화면 목록」이 읽음.
    설명(이름 · 묶음)은 lf/screens-notes.json 에서 덧붙이고, 거기 없는 새 파일은 「새로 생긴 화면」으로 저절로 나옴.
    GitHub 자동 실행(.github/workflows/screens.yml)이 화면을 올릴 때마다 돌림. 손으로: node tools/screens/build.js */
@@ -6,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '..', '..');
-const SKIP = /^(\.git|\.github|backup|node_modules)(\/|$)/;
+const SKIP = /^(\.git|\.github|backup|node_modules|r)(\/|$)/;   /* ★v2 261113 572 ⑤ r/방번호/ 미리보기 카드는 화면이 아님(tools/rooms.py 가 1시간마다 지음) */
 const TEST = /(^|\/)(pptest|share|home-new)\.html$|_old\.html$|_v\d+\.html$|(^|\/)lab\/|(^|\/)tools\/|gatecheck\.html$/;
 
 function walk(dir, out) {
