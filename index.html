@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ index.html · v65 · 261113 · [572 보기는 서버에 묻지 않게 · ★서버 ①Code v65 와 짝] 메인 「우리 이야기」 사진 줄(recPlaza 48장)을 서버(3~4초) 대신 공개 목록 시트(lf/pub.js · 0.3초)에서 먼저 받음 · 섞기는 서버와 같은 규칙(방 먼저) · 못 받으면 예전처럼 서버 -->
+<!-- ★ 현재 버전 ▶ index.html · v66 · 261113 · [566 어디서든 ＋ · 대표 OK 18:20] 오른쪽 아래 작은 ＋(우리 이야기 방 ＋와 같은 모양 · 첫 화면 단추를 가리지 않게 600px 아래로 내려온 뒤부터 · 내리는 동안 숨고 멈추면 보임) → /rec/?plaza=1&plus=1(마당 + 「어디에 올릴까요?」 — 지금 보던 방 · 내 방 · 새 이야기방 만들기 · rec v133). [무손] 그 밖 v65 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ index.html · v65 · 261113 · [572 보기는 서버에 묻지 않게 · ★서버 ①Code v65 와 짝] 메인 「우리 이야기」 사진 줄(recPlaza 48장)을 서버(3~4초) 대신 공개 목록 시트(lf/pub.js · 0.3초)에서 먼저 받음 · 섞기는 서버와 같은 규칙(방 먼저) · 못 받으면 예전처럼 서버 -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v64 · 261112 · [포털 검색 ⑥ · 704] 대표 그림(og-image.png)을 같은 그림 · 같은 이름으로 가볍게(1672×941 · 2.1MB → 1200×675 · 452KB) — 크기 줄 두 칸만 고침. [무손] 그 밖 v63 전부 -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v63 · 261112 · [569 · 대표 21:37 「첫 장은 최근 올라온 것을 시간에 관계없이 랜덤으로 · 최근 사진이 많으면 견본은 뒤로 · 탄력적으로」 · ★서버 ①Code v61 과 짝] 마당 사진 첫 9칸 = 최근 30일 실제 사진을 무작위로 → 모자라면 그 밖 실제 사진 · 사랑흐름 방 → 그래도 모자라면 견본 방(서버 tier=1 차례 그대로) · 4초마다 한 칸 바뀜도 같은 차례로 이어감 · 뒤로 가기로 메인에 돌아오면 새로 섞음 · 한 방 3장까지 그대로. [무손] 그 밖 v62 전부 -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v62 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] 상품 넷 링크 → 상품별 새 주소(/item/map/ · set/ · memoir/ · life/) · 화면 모양 그대로 -->
@@ -136,6 +137,9 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
 @media (prefers-reduced-motion:reduce){.fb .ic{animation:none}}
 @media (max-width:350px){.door{min-height:196px;padding:18px 8px 14px}.door b{font-size:17px}.door small{font-size:12px}}
 @media (prefers-reduced-motion:reduce){.pt.wait{animation:none}}
+/* ★v66 566 어디서든 ＋ */
+.hplus{position:fixed;right:max(16px,calc(50vw - 264px));bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:30;width:56px;height:56px;border-radius:50%;border:none;background:#E8771E;color:#fff;font-size:30px;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 22px rgba(232,119,30,.38);opacity:.92;cursor:pointer;transition:transform .25s,opacity .25s}
+.hplus.hid{transform:translateY(90px);opacity:0;pointer-events:none}
 </style>
 <!-- 포털 검색 ① 700 · 703 (261112) — 검색 · 공유용 머리말 -->
 <meta property="og:site_name" content="사랑흐름">
@@ -286,5 +290,8 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
 <script src="/lf/guide-ask.js?v=3"></script>
 <script src="/lf-foot.js" defer></script>
 <script src="/lf/frame.js?v=17"></script>
+<button class="hplus hid" id="hPlus" type="button" aria-label="사진 · 영상 · 글 올리기">＋</button>
+<script>(function(){ var b=document.getElementById('hPlus'), y0=0, t=null; if(!b){ return; } b.onclick=function(){ location.href='/rec/?plaza=1&plus=1'; };   /* ★v66 566 */
+  window.addEventListener('scroll',function(){ var y=window.scrollY||0; if(y<600||(y>y0+6)){ b.classList.add('hid'); } else if(y<y0-6){ b.classList.remove('hid'); } y0=y; clearTimeout(t); if(y>=600){ t=setTimeout(function(){ b.classList.remove('hid'); },700); } },{passive:true}); })();</script>
 </body>
 </html>
