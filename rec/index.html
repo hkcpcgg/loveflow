@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v129 · 261113 · [616 · 622 관리 화면 썸네일 · 서버는 그대로(①Code v63)] 대표 261112 09:30 「관리 화면은 썸네일 없이 숫자만」 — ① 공개 방으로 바꾼 자리의 「지금까지 올린 사진 ○장도 마당에 낼까요?」 창에 그 사진 한 줄(12장 + 「+n」 · 옆으로 밀어 봄) ② 관리 화면 「오늘 할 일」 「삭제 요청 ○」 · 「승인 대기 ○」 줄에 그 사진 한 줄(6장 + 「+n」) · 공용 thStrip. -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v130 · 261113 · [572 보기는 서버에 묻지 않게 · ★서버 ①Code v65 와 짝] 마당 · 메인 방 사진 목록(recPlaza)과 열쇠 없는 손님이 여는 열린 방 첫 화면(recHome lite)을 서버(3~5초) 대신 공개 목록 시트(lf/pub.js · 0.3초)에서 먼저 받음 — 없거나 3.5초 안에 못 받으면 예전처럼 서버 · 로그인한 분(열쇠가 있는 분) · 올리기 · 반응 · 관리는 그대로 서버 · 마당 섞기는 서버와 같은 규칙(방 먼저) · 주소에 ?pub=0 이면 시트를 쓰지 않음(비교용) · REC_VER 130 -->
+<!-- (이전) rec/index.html · v129 · 261113 · [616 · 622 관리 화면 썸네일 · 서버는 그대로(①Code v63)] 대표 261112 09:30 「관리 화면은 썸네일 없이 숫자만」 — ① 공개 방으로 바꾼 자리의 「지금까지 올린 사진 ○장도 마당에 낼까요?」 창에 그 사진 한 줄(12장 + 「+n」 · 옆으로 밀어 봄) ② 관리 화면 「오늘 할 일」 「삭제 요청 ○」 · 「승인 대기 ○」 줄에 그 사진 한 줄(6장 + 「+n」) · 공용 thStrip. -->
 <!-- (이전) rec/index.html · v128 · 261113 · [618 · 620 넘김 끝에서 처음으로 · 서버는 그대로(①Code v63)] 사진 크게 보기(세로 넘김)에서 마지막 사진에 닿으면 멈추지 않고 — 아직 안 불러온 사진이 있으면 먼저 불러와 이어 붙이고(방 = 「사진 · 영상 더 보기」와 같은 길 gridMore · 마당 = plazaMore) · 정말 끝이면 첫 사진부터 다시 이어 붙임(맨 위 번호는 한 바퀴 안 차례 · 처음 한 번 「처음 사진부터 다시 이어집니다」) / 사진 한 장 화면 ‹ › 도 끝 사진에서 › = 그 방 첫 사진(안 불러온 것이 있으면 먼저 불러옴 · 「처음 사진으로 돌아갑니다」). 619 확인: 9장 · 4장 묶음은 칸 · 넘김 모두 빠짐없이 펼쳐짐(실사이트 · 261113). -->
 <!-- (이전) rec/index.html · v127 · 261113 · [626 올리다 끊기면 이어 보내기 · 서버는 그대로(①Code v63)] 사진 「올리기」 뒤 올릴 사진 · 글 · 공개 범위 · 어디까지 갔는지를 이 휴대폰(IndexedDB lf_rec · kv 「upq」 · 「upqp:」)에 담아 둠 — 다 가기 전에 창이 닫혀도(카카오톡 안 화면 뒤로 등) 다음에 열면 맨 위 띠 「지난번에 올리던 사진을 이어 올립니다」로 남은 장만 보냄 · 이미 간 장은 다시 안 보냄 · 같은 묶음으로 이어 붙임 · 보내던 그 한 장은 담아 둔 표(1시간)가 쓰였으면 간 것으로 봄 · 못 간 채 닫힌 것은 「다시 올리기 · 닫기」로 · 7일 지나면 지움 · 올릴 때 고른 방 · 공개 범위 그대로(다른 방을 보고 있어도) · REC_VER 127 -->
 <!-- (이전) rec/index.html · v126 · 261113 · [613 마무리] 질문 칸(「사진 2 / 3 · 이때가 언제였어요?」)을 사진 · 세 단추 바로 아래로 올림 — 전에는 「○○ 둘러보기」 · 「나도 사진 올리기」가 사진과 질문 사이에 끼어 질문이 사진에서 떨어져 보였음 · 서버는 그대로(①Code v62) -->
@@ -1326,6 +1327,7 @@ body.desk .app{max-width:1360px}
 <button class="fab round" id="fab" type="button" aria-label="새 사진 · 영상 · 글 올리기" hidden><svg class="i" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></button>
 <div class="navbar" id="navbar" hidden><div class="in"><button class="btn warm" id="nNext" type="button">올리기</button></div><p class="nvnote" id="nvNote"></p></div>
 <script src="/lf/config.js?v=4"></script>
+<script src="/lf/pub.js?v=1"></script>
 <script>
 (function(){
 /* ── 서버 주소 — /lf/config.js 한 곳에서(이슈 178) ── */
@@ -1402,6 +1404,7 @@ function api(p,cb,again){
   if(p._hq){ delete p._hq; } else if(K&&!p.k){ p.k=K; } else if(!K&&G&&!p.g){ p.g=G; }
   if(ASU&&ADM_ACTS[p.action]){ cb({status:'err',msg:'일반인으로 보는 중에는 관리 기능을 쓰지 않습니다.'}); return; }   /* ★v38 */
   if(ADM_ACTS[p.action]&&!p.at){ var at0=tkGet(ATK); if(at0){ p.at=at0.v; } }   /* ★v37 216 관리 확인 표 */
+  if(!again&&!p._srv&&window.LFPub&&(p.action==='recPlaza'||p.action==='recHome')){ var pp=p; (p.action==='recPlaza'?LFPub.plaza:LFPub.home)(pp,function(d){ if(d){ try{ duScan(d); }catch(e0){} cb(d); return; } pp._srv=1; api(pp,cb); }); return; }   /* ★v130 572 보기는 서버에 묻지 않게 — 마당 · 메인 목록 · 열쇠 없는 손님 방 첫 화면은 공개 목록 시트(0.3초) · 없거나 늦으면 서버 */
   var bm=p._quiet?'':(p._busy||BUSY_MSG[p.action]); delete p._busy; delete p._quiet; if(bm){ busyOn(bm); }   /* ★v124 571 뒤에서 보내는 것은 「올리는 중」 화면을 띄우지 않음 */
   var t0s=spdNow(), szs=0, act0=p.action;   /* ★v49 330 */
   var done=false; function fin(d){ if(done){ return; } done=true; if(bm){ busyOff(); } spdStep(act0,t0s,d,szs); if(d){ try{ duScan(d); }catch(e0){} }   /* ★v53 333 · 339 */
@@ -5289,7 +5292,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=129;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=130;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
