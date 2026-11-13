@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v130 · 261113 · [572 보기는 서버에 묻지 않게 · ★서버 ①Code v65 와 짝] 마당 · 메인 방 사진 목록(recPlaza)과 열쇠 없는 손님이 여는 열린 방 첫 화면(recHome lite)을 서버(3~5초) 대신 공개 목록 시트(lf/pub.js · 0.3초)에서 먼저 받음 — 없거나 3.5초 안에 못 받으면 예전처럼 서버 · 로그인한 분(열쇠가 있는 분) · 올리기 · 반응 · 관리는 그대로 서버 · 마당 섞기는 서버와 같은 규칙(방 먼저) · 주소에 ?pub=0 이면 시트를 쓰지 않음(비교용) · REC_VER 130 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v131 · 261113 · [572 ④ 510 위층 권한 · ★서버 ①Code v66 · ②관리 v38 과 짝] 77차 「위 방은 자기 방에서 빼기만」 — ① 모임 연결 아래 모임 관리자 줄의 「관리자 해제」 없앰(임명 대기 「지정 취소」는 그대로 · 서버도 막음) ② 모임 연결에 「우리 방에 보이는 사진」(4칸 바둑판 · 뺀 것은 흐리게 「뺌」) → 누르면 「우리 방에서 빼기」(사유 셋 + 직접 적기) · 뺀 것은 「다시 보이기」 ③ 위 방 첫 화면 「아래 모임 이야기」 제목 옆 관리자만 「고르기 ›」(같은 창) ④ 아래 방 관리 「오늘 할 일」에 「위 모임에서 뺀 우리 사진 n」(썸네일 · 누르면 위 방 이름 · 사유 · 날짜 · 보기만) · REC_VER 131 -->
+<!-- (이전) rec/index.html · v130 · 261113 · [572 보기는 서버에 묻지 않게 · ★서버 ①Code v65 와 짝] 마당 · 메인 방 사진 목록(recPlaza)과 열쇠 없는 손님이 여는 열린 방 첫 화면(recHome lite)을 서버(3~5초) 대신 공개 목록 시트(lf/pub.js · 0.3초)에서 먼저 받음 — 없거나 3.5초 안에 못 받으면 예전처럼 서버 · 로그인한 분(열쇠가 있는 분) · 올리기 · 반응 · 관리는 그대로 서버 · 마당 섞기는 서버와 같은 규칙(방 먼저) · 주소에 ?pub=0 이면 시트를 쓰지 않음(비교용) · REC_VER 130 -->
 <!-- (이전) rec/index.html · v129 · 261113 · [616 · 622 관리 화면 썸네일 · 서버는 그대로(①Code v63)] 대표 261112 09:30 「관리 화면은 썸네일 없이 숫자만」 — ① 공개 방으로 바꾼 자리의 「지금까지 올린 사진 ○장도 마당에 낼까요?」 창에 그 사진 한 줄(12장 + 「+n」 · 옆으로 밀어 봄) ② 관리 화면 「오늘 할 일」 「삭제 요청 ○」 · 「승인 대기 ○」 줄에 그 사진 한 줄(6장 + 「+n」) · 공용 thStrip. -->
 <!-- (이전) rec/index.html · v128 · 261113 · [618 · 620 넘김 끝에서 처음으로 · 서버는 그대로(①Code v63)] 사진 크게 보기(세로 넘김)에서 마지막 사진에 닿으면 멈추지 않고 — 아직 안 불러온 사진이 있으면 먼저 불러와 이어 붙이고(방 = 「사진 · 영상 더 보기」와 같은 길 gridMore · 마당 = plazaMore) · 정말 끝이면 첫 사진부터 다시 이어 붙임(맨 위 번호는 한 바퀴 안 차례 · 처음 한 번 「처음 사진부터 다시 이어집니다」) / 사진 한 장 화면 ‹ › 도 끝 사진에서 › = 그 방 첫 사진(안 불러온 것이 있으면 먼저 불러옴 · 「처음 사진으로 돌아갑니다」). 619 확인: 9장 · 4장 묶음은 칸 · 넘김 모두 빠짐없이 펼쳐짐(실사이트 · 261113). -->
 <!-- (이전) rec/index.html · v127 · 261113 · [626 올리다 끊기면 이어 보내기 · 서버는 그대로(①Code v63)] 사진 「올리기」 뒤 올릴 사진 · 글 · 공개 범위 · 어디까지 갔는지를 이 휴대폰(IndexedDB lf_rec · kv 「upq」 · 「upqp:」)에 담아 둠 — 다 가기 전에 창이 닫혀도(카카오톡 안 화면 뒤로 등) 다음에 열면 맨 위 띠 「지난번에 올리던 사진을 이어 올립니다」로 남은 장만 보냄 · 이미 간 장은 다시 안 보냄 · 같은 묶음으로 이어 붙임 · 보내던 그 한 장은 담아 둔 표(1시간)가 쓰였으면 간 것으로 봄 · 못 간 채 닫힌 것은 「다시 올리기 · 닫기」로 · 7일 지나면 지움 · 올릴 때 고른 방 · 공개 범위 그대로(다른 방을 보고 있어도) · REC_VER 127 -->
@@ -571,6 +572,7 @@ input.t:focus,textarea:focus{outline:none;border-color:var(--navy)}
 .navbar{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,252,247,.97);border-top:1px solid var(--line);padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px))}
 .navbar .in{max-width:528px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:10px}
 .nvnote{max-width:528px;margin:6px auto 0;text-align:center;font-size:12.5px;color:var(--sub)}   /* ★v92 A-2 「올리기」 바로 아래 한 줄 */
+.upg{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.upt{position:relative;aspect-ratio:1;border:0;border-radius:10px;background:var(--sand) center/cover no-repeat;padding:0;cursor:pointer}.upt.off{box-shadow:inset 0 0 0 300px rgba(255,255,255,.65);outline:2px dashed #c0392b;outline-offset:-2px}.upt b{position:absolute;left:4px;bottom:4px;font-size:11px;background:#c0392b;color:#fff;border-radius:6px;padding:0 5px}.upt.sm{display:block;width:48px;height:48px;flex:none;aspect-ratio:auto}.upbig{width:100%;max-width:320px;aspect-ratio:4/3;border-radius:12px;background:var(--sand) center/cover no-repeat;margin:8px auto 0}.row1.wrap{flex-wrap:wrap}
 .tstrip{display:flex;gap:4px;overflow-x:auto;margin-top:8px;padding-bottom:2px;scrollbar-width:none}.tstrip::-webkit-scrollbar{display:none}.tstrip i{flex:0 0 54px;height:54px;border-radius:8px;background:var(--sand) center/cover no-repeat;font-style:normal}.tstrip i.mr{display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--sub);background:var(--sand)}.mrow .tstrip{margin-top:6px}.mrow>span.ci{flex-shrink:0}.mrow>span:last-child{min-width:0;flex:1 1 auto}
 .pbg{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;margin-top:10px;max-height:52vh;overflow-y:auto}.pbt{position:relative;aspect-ratio:1/1;border:0;padding:0;border-radius:8px;background:var(--sand) center/cover no-repeat;cursor:pointer}.pbt i{position:absolute;right:5px;top:5px;width:22px;height:22px;border-radius:50%;background:var(--orange);color:#fff;font-style:normal;font-size:13px;font-weight:800;display:grid;place-items:center}.pbt.off{opacity:.3;filter:grayscale(1)}.pbt.off i{background:#888}.pbt.off i:before{content:''}
 .adtop{display:flex;align-items:center;gap:8px;width:100%;margin-top:10px;padding:12px 14px;border:1.5px solid var(--navy);border-radius:14px;background:#F2F5FA;color:var(--navy2);font:inherit;font-size:16px;font-weight:800;cursor:pointer;text-align:left}.adtop.mine{border-color:var(--orange);background:#FFF6EC;color:#8A4A12}.adtop small{font-weight:500;font-size:13px;color:var(--sub);flex:1}
@@ -2612,7 +2614,7 @@ function gridDraw(){
   var pst=(F.sort!=='time'&&GRID.past&&GRID.past.items)||[];   /* ★v99 지난 이야기 — 찍은 때가 1년 넘게 앞선 사진 · 해마다 */
   if(pst.length){ h+='<div class="sl">'+ic('clock','sm')+' 지난 이야기'+(GRID.past.more?'<button type="button" class="slm" id="pastGo">모두 보기 ›</button>':'')+'</div>'+pastGrid(pst); }
   if(!OPN&&!(ME&&ME.paused)&&(canAdd()||isGuest())){ h+='<button class="btn warm upb" id="upGo" type="button">'+ic('plus')+(isGuest()?'참여하기':'새 사진 · 영상 · 글 올리기')+'</button>'; }   /* ★v45 「나도 추억 남기기」와 하나로 · 바둑판 바로 아래 */
-  var dn=(ME&&ME.downs)||[]; if(dn.length){ h+='<div class="sl">'+ic('grape','sm')+' 아래 모임 이야기</div><div class="tgrid">'+dn.map(function(x){ return pzTile(x,{g:x.g,name:x.room}); }).join('')+'</div>'; }   /* ★v55 338 ③ */
+  var dn=(ME&&ME.downs)||[]; if(dn.length){ h+='<div class="sl">'+ic('grape','sm')+' 아래 모임 이야기'+(isBoss()&&ME.role==='관리자'?'<button type="button" class="slm" id="dnPick">고르기 ›</button>':'')+'</div><div class="tgrid">'+dn.map(function(x){ return pzTile(x,{g:x.g,name:x.room}); }).join('')+'</div>'; }   /* ★v55 338 ③ */
   if(TXT&&TXT.items.length){ h+='<div class="sl txh">'+ic('text','sm')+' '+esc((ME&&ME.comName)||'이 방')+'의 글 · 링크</div><div class="txw" id="txRow">'+TXT.items.map(txCard).join('')+'</div>'; }   /* ★v60 가로 한 줄 */
   if(!b.length&&!nw.length&&!st.length){ h+='<div class="card" style="text-align:center"><h2>아직 기록이 없습니다</h2><p class="lead">'+(canAdd()?'오른쪽 아래 ＋ 에서 첫 사진 한 장을 남겨 주세요.':'곧 첫 기록이 올라옵니다.')+'</p></div>'; }
   h+='<div class="lo"><h3>찾아보기</h3><div class="row1">'+findList().map(function(x){ return '<button type="button" class="chip s" data-qx="'+x+'">'+ic('look','sm')+x+'</button>'; }).join('')+'</div></div>';   /* ★v59 */
@@ -2648,6 +2650,7 @@ function gridDraw(){
   if($('cnQr')){ $('cnQr').onclick=function(e){ e.stopPropagation(); qrSheet(); }; }   /* ★v98 */
   if($('allGo')){ $('allGo').onclick=function(){ ALLF=F.sort==='time'?'time':'new'; go('all'); }; }   /* ★v99 */
   if($('pastGo')){ $('pastGo').onclick=function(){ ALLF='past'; go('all'); }; }
+  if($('dnPick')){ $('dnPick').onclick=function(){ sheet('<h2>우리 방에 보이는 아래 모임 사진</h2><p class="lead" style="margin-top:2px">누르면 우리 방에서 뺍니다(원본은 그 모임에 그대로).</p><div id="upP2"></div><button class="btn line" id="upPX" type="button" style="margin-top:12px">닫기</button>',function(){ $('upPX').onclick=closeSheet; upPics($('upP2'),function(){ homeDirty(); if(VIEW==='feed'){ render(); } }); }); }; }   /* ★v131 510 */
   if($('gdok')){ $('gdok').onclick=function(){ window.scrollTo({top:0,behavior:'smooth'}); }; }
   if($('gdMore')){ $('gdMore').onclick=function(){ helpSheet(); }; }
   if($('gdT')){ $('gdT').onclick=function(){ var bx=$('gdB'), op=bx.hidden; bx.hidden=!op; this.setAttribute('aria-expanded',op?'true':'false'); this.lastChild.textContent=op?'▴':'▾'; }; }
@@ -4842,10 +4845,11 @@ function admToday(){
     if(wt){ R.push(['chk','check','c-green','승인 대기 '+wt,'새 분 첫 기록 · 분류 · 이어 보기','t-wait',it.filter(function(x){ return !x.takeDown; })]); }   /* ★v129 616 숫자 옆에 그 사진 */
     if(pw){ R.push(['ppl','ppl','c-peach','함께하기 신청 '+pw,'받기 · 받지 않기','t-wait']); }
     if(ps){ R.push(['ppl','key','c-gray','쓰기 멈춘 분 '+ps,'확인 뒤 「쓰기 멈춤 풀기」','t-wait']); }
+    var uh=(q&&q.upHid)||[]; if(uh.length){ R.push(['uph','grape','c-violet','위 모임에서 뺀 우리 사진 '+uh.length,uh[0].upName+' · 사유 '+uh[0].why+(uh.length>1?' 외':''),'t-wait',uh.map(function(x){ return {id:x.id,pv:upPicUrl(x)}; })]); }   /* ★v131 510 보기만 */
     $('tdN').innerHTML=R.length?'<span class="tag t-wait">'+R.length+'</span>':'';
     el.innerHTML=R.length?R.map(function(r){ return '<button type="button" class="mrow" data-td="'+r[0]+'"><span class="ci '+r[2]+'">'+ic(r[1])+'</span><span><b>'+esc(r[3])+'</b><small>'+esc(r[4])+'</small>'+thStrip(r[6],6)+'</span></button>'; }).join(''):'<p class="note">지금 처리할 일이 없습니다.</p>';
     lazyPhotos(el);   /* ★v129 616 */
-    each(el,'[data-td]',function(b){ b.onclick=function(){ admTap(b.getAttribute('data-td')); }; });
+    each(el,'[data-td]',function(b){ b.onclick=function(){ var k=b.getAttribute('data-td'); if(k==='uph'){ upHidSheet((q&&q.upHid)||[]); return; } admTap(k); }; });
   }
   if(AQ&&Date.now()-AQ_AT<20000){ draw(AQ); return; }
   wait(el,'오늘 할 일을 모으는 중입니다');
@@ -5026,15 +5030,17 @@ function plugList(){
     var h='<div class="card"><h2>'+ic('aup','sm')+' 위 모임 '+ups.length+'</h2>'+(ups.length?ups.map(function(o){ return '<div class="sw"><span><b>'+nm(o.upName,o.up)+'</b><small>'+esc(o.up)+'</small></span><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.upName,o.up)+'">연결 끊기</button>'+qh('plug')+'</div>'; }).join(''):'<p class="note">연결된 위 모임이 없습니다.</p>')+'</div>'+
       '<div class="card"><h2>'+ic('adn','sm')+' 아래 모임 '+downs.length+'</h2>'+(downs.length?downs.map(function(o){ var ad=o.admins||[];   /* ★v38 관리자 · 임명 대기 · 빼기 */
           return '<div class="sw"><span><b>'+nm(o.lowName,o.low)+'</b><small>'+esc(o.low)+'</small></span><span style="display:flex;gap:6px;flex:none">'+(ad.length?'':'<button type="button" class="sbtn" data-sa="'+esc(o.low)+'" data-nm="'+nm(o.lowName,o.low)+'">관리자 지정</button>')+'<button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="'+nm(o.lowName,o.low)+'">연결 끊기</button>'+qh('plug')+'</span></div>'+
-            (ad.length?ad.map(function(a){ return '<div class="sw adl"><span><b>'+esc(a.name||'(이름 없음)')+(a.pend?' <span class="tag t-wait">임명 대기</span>':'')+'</b><small>관리자'+(a.pend?' · 임명 링크를 아직 받지 않음':'')+'</small></span><button type="button" class="sbtn red" data-so="'+esc(o.low)+'" data-sn="'+esc(a.no)+'" data-nm="'+esc(a.name||'')+'" data-pd="'+(a.pend?1:'')+'">'+(a.pend?'지정 취소':'관리자 해제')+'</button></div>'; }).join(''):'<p class="err" style="margin:0 0 6px">관리자가 없습니다</p>'); }).join('')+
+            (ad.length?ad.map(function(a){ return '<div class="sw adl"><span><b>'+esc(a.name||'(이름 없음)')+(a.pend?' <span class="tag t-wait">임명 대기</span>':'')+'</b><small>관리자'+(a.pend?' · 임명 링크를 아직 받지 않음':' · 이 모임 관리자는 그 모임 · 본부만 바꿀 수 있습니다')+'</small></span>'+(a.pend?'<button type="button" class="sbtn red" data-so="'+esc(o.low)+'" data-sn="'+esc(a.no)+'" data-nm="'+esc(a.name||'')+'" data-pd="1">지정 취소</button>':'')+'</div>'; }).join(''):'<p class="err" style="margin:0 0 6px">관리자가 없습니다</p>'); }).join('')+
         (deep.length?'<p class="note" style="margin-top:10px">더 아래 모임</p>'+deep.map(function(x){ return '<div class="sw"><span><b>'+'└ '.repeat(Math.min(4,x.depth-1))+nm(x.name,x.com)+'</b><small>'+esc(x.com)+'</small></span></div>'; }).join(''):'')+
-        '<p class="note">「관리자 지정」은 관리자가 없는 바로 아래 모임에만 됩니다.</p>':'<p class="note">연결된 아래 모임이 없습니다.</p>')+'</div>';
+        '<p class="note">「관리자 지정」은 관리자가 없는 바로 아래 모임에만 됩니다.</p>':'<p class="note">연결된 아래 모임이 없습니다.</p>')+'</div>'+
+      (downs.length?'<div class="card"><h2>'+ic('grape','sm')+' 우리 방에 보이는 사진</h2><p class="lead" style="margin-top:2px">아래 모임 사진 가운데 우리 방 첫 화면 · 모아 보기에 보이는 것입니다. 누르면 우리 방에서 뺍니다(원본은 그 모임에 그대로).</p><div id="upP"></div></div>':'');   /* ★v131 510 */
     if(wt.length){ h+='<div class="card"><h2>'+ic('clock','sm')+' 아직 받지 않은 링크 '+wt.length+'</h2>'+wt.map(function(o){ var up=!!o.low; return '<div class="sw"><span><b>'+(up?'위 모임 연결 링크':'아래 모임 연결 링크')+'</b><small>'+esc(o.no)+'</small></span><span style="display:flex;gap:6px;flex:none"><button type="button" class="sbtn" data-lk="'+esc(o.link||'')+'">복사</button><button type="button" class="sbtn red" data-off="'+esc(o.no)+'" data-nm="" data-wt="1">링크 취소</button></span></div>'; }).join('')+'</div>'; }
     el.innerHTML=h;
     each(el,'[data-lk]',function(b){ b.onclick=function(){ copyLink(b.getAttribute('data-lk'),'복사했습니다','상대 모임 관리자께 보내 주십시오'); }; });
     each(el,'[data-off]',function(b){ b.onclick=function(){ plugOff(b.getAttribute('data-off'),b.getAttribute('data-nm'),!!b.getAttribute('data-wt')); }; });
     each(el,'[data-sa]',function(b){ b.onclick=function(){ subAdmin(b.getAttribute('data-sa'),b.getAttribute('data-nm')); }; });
     each(el,'[data-so]',function(b){ b.onclick=function(){ subOut(b.getAttribute('data-so'),b.getAttribute('data-sn'),b.getAttribute('data-nm'),!!b.getAttribute('data-pd')); }; });   /* ★v38 */
+    if($('upP')){ upPics($('upP')); }   /* ★v131 510 */
   });
 }
 function plugOff(no,nm,wt){
@@ -5215,12 +5221,50 @@ function makeSheet(){
   });
 }
 /* 아래 모임 관리자 빼기 · 임명 링크 거두기 */
-function subOut(com,no,nm,pend){
+function subOut(com,no,nm,pend){   /* ★v131 510 받은 관리자 해제는 서버가 막음 — 임명 대기 거두기만 */
   sheet('<h2>'+(pend?'지정 취소':'관리자 해제')+'</h2><p class="lead" style="margin-top:6px">'+(pend?'<b>'+esc(nm)+'</b> 님께 보낸 임명 링크를 더 이상 쓰지 못하게 합니다.':'<b>'+esc(nm)+'</b> 님을 이 아래 모임 관리자에서 뺍니다. 그분은 일반 참여자로 남습니다. 새 관리자는 「관리자 지정」으로 세웁니다.')+'</p>'+
     '<div class="pair" style="margin-top:16px"><button class="btn line" id="soNo" type="button">취소</button><button class="btn red" id="soGo" type="button">'+(pend?'지정 취소':'해제')+'</button></div>',function(){
     $('soNo').onclick=closeSheet;
     $('soGo').onclick=function(){ this.disabled=true; api({action:'recPlug',act:'subOut',com:com,no:no,_busy:'처리하는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'){ toast(pend?'임명 링크를 취소했습니다':'관리자에서 뺐습니다',nm); plugList(); } else { toast(r.msg||'처리하지 못했습니다'); } }); };
   });
+}
+/* ★v131 572 ④ 510 — 위 방은 아래 모임 사진을 「우리 방에서 빼기」만(원본 · 그 모임 · 마당 · 다른 위 모임은 그대로) */
+function upPicUrl(x,w){ return x.yt?'https://i.ytimg.com/vi/'+encodeURIComponent(x.yt)+'/mqdefault.jpg':(x.u?'https://drive.google.com/thumbnail?id='+encodeURIComponent(x.u)+'&sz=w'+(w||200):''); }
+function upPics(el,after){
+  wait(el,'사진을 모으는 중입니다');
+  api({action:'recPlug',act:'upPics'},function(d){
+    if(d.status!=='ok'){ el.innerHTML='<p class="err">'+esc(d.msg||'불러오지 못했습니다')+'</p>'; return; }
+    var it=d.items||[];
+    if(!it.length){ el.innerHTML='<p class="note">아래 모임에서 「위 모임에도 보이기」로 올린 사진이 아직 없습니다.</p>'; return; }
+    el.innerHTML='<div class="upg">'+it.map(function(x,i){ return '<button type="button" class="upt'+(x.hid?' off':'')+'" data-up="'+i+'" aria-label="'+esc((x.t||'사진')+' · '+(x.room||''))+'" style="background-image:url(\''+esc(upPicUrl(x))+'\')">'+(x.hid?'<b>뺌</b>':'')+'</button>'; }).join('')+'</div><p class="note">흐린 것 = 우리 방에서 뺀 사진 · 누르면 다시 보이게 할 수 있습니다.</p>';
+    each(el,'[data-up]',function(b){ b.onclick=function(){ upHideSheet(it[+b.getAttribute('data-up')],d.why||[],function(){ upPics(el,after); if(after){ after(); } }); }; });
+  });
+}
+function upHideSheet(x,why,done){
+  var img='<div class="upbig" style="background-image:url(\''+esc(upPicUrl(x,480))+'\')"></div>';
+  if(x.hid){
+    sheet('<h2>우리 방에서 뺀 사진</h2>'+img+'<p class="lead" style="margin-top:8px">'+ic('grape','sm')+' '+esc(x.room||'')+'<br>사유: <b>'+esc(x.why||'')+'</b></p><div class="pair" style="margin-top:14px"><button class="btn line" id="uhX" type="button">닫기</button><button class="btn warm" id="uhGo" type="button">다시 보이기</button></div>',function(){
+      $('uhX').onclick=closeSheet;
+      $('uhGo').onclick=function(){ this.disabled=true; api({action:'recPlug',act:'upHide',id:x.id,on:'0',_busy:'다시 보이게 하는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'){ toast('우리 방에 다시 보입니다'); done(); } else { toast(r.msg||'처리하지 못했습니다'); } }); };
+    });
+    return;
+  }
+  var pick='';
+  sheet('<h2>우리 방에서 빼기</h2>'+img+'<p class="lead" style="margin-top:8px">'+ic('grape','sm')+' '+esc(x.room||'')+' · 원본은 그 모임에 그대로 있습니다. 우리 방 첫 화면 · 아래 모임 모아 보기에서만 빠집니다.</p>'+
+    '<div style="font-weight:700;margin:10px 0 6px">사유</div><div class="row1 wrap" id="uhW">'+why.map(function(w,i){ return '<button type="button" class="chip s" data-uw="'+i+'">'+esc(w)+'</button>'; }).join('')+'<button type="button" class="chip s" data-uw="-1">직접 적기</button></div>'+
+    '<input id="uhT" maxlength="30" placeholder="사유를 적어 주십시오(30자)" style="display:none;margin-top:8px;width:100%">'+
+    '<div class="pair" style="margin-top:14px"><button class="btn line" id="uhX" type="button">취소</button><button class="btn red" id="uhGo" type="button" disabled>빼기</button></div>',function(dd){
+    $('uhX').onclick=closeSheet;
+    each(dd,'[data-uw]',function(b){ b.onclick=function(){ each(dd,'[data-uw]',function(c){ c.classList.remove('on'); }); b.classList.add('on'); var k=+b.getAttribute('data-uw'); if(k<0){ $('uhT').style.display='block'; $('uhT').focus(); pick=''; } else { $('uhT').style.display='none'; pick=why[k]; } $('uhGo').disabled=!pick&&k>=0; if(k<0){ $('uhGo').disabled=false; } }; });
+    $('uhGo').onclick=function(){ var w=pick||($('uhT').value||'').trim(); if(!w){ toast('사유를 골라 주십시오'); return; } this.disabled=true;
+      api({action:'recPlug',act:'upHide',id:x.id,on:'1',why:w,_busy:'우리 방에서 빼는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'){ toast('우리 방에서 뺐습니다','그 모임 관리자께 알림이 갑니다'); done(); } else { toast(r.msg||'처리하지 못했습니다'); } }); };
+  });
+}
+/* 아래 모임이 받는 알림 — 위 모임이 우리 사진을 자기 방에서 뺐을 때(보기만) */
+function upHidSheet(list){
+  sheet('<h2>위 모임에서 뺀 우리 사진</h2><p class="lead" style="margin-top:2px">위 모임이 자기 방 첫 화면에서만 뺀 것입니다. 우리 방 · 마당에는 그대로 보입니다.</p>'+
+    list.map(function(x){ return '<div class="sw"><span style="display:flex;gap:10px;align-items:center"><i class="upt sm" style="background-image:url(\''+esc(upPicUrl(x))+'\')"></i><span><b>'+esc(x.upName||'')+'</b><small>사유: '+esc(x.why||'')+' · '+esc(x.at||'')+'</small></span></span></div>'; }).join('')+
+    '<button class="btn line" id="uhsX" type="button" style="margin-top:12px">닫기</button>',function(){ $('uhsX').onclick=closeSheet; });
 }
 function hqOut(x,no,nm,pend){
   hqConfirm(pend?'지정 취소':'관리자 해제',pend?'<b>'+esc(nm)+'</b> 님께 보낸 임명 링크를 취소합니다.':'<b>'+esc(nm)+'</b> 님을 「'+esc(x.name)+'」 관리자에서 뺍니다. 그분은 일반 참여자로 남습니다.',pend?'지정 취소':'해제',true,function(fail){
@@ -5292,7 +5336,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=130;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=131;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
