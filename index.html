@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ index.html · v67 · 261114 · [대표 23:25 「마당 사진이 내 방으로 도배 · 랜덤으로 · 견본 · 다복 · 사랑흐름도」] 메인 마당 사진 36칸(9칸 × 4판) — 공개 목록 전체(방 · 사진)를 받아 방마다 줄을 세우고 판마다 방 차례를 새로 섞어 한 판에 한 방 2장까지(방이 모자랄 때만 더) · 견본 방 · 사랑흐름 방도 같은 한 방(261112 v63 「최근 사진 먼저 · 견본은 뒤로」를 바꿈) · 4초 바꿈은 남은 사진으로 · 서버로 받을 때는 섞인 48장(tier 없음). [무손] 그 밖 v66 전부. -->
+<!-- ★ 현재 버전 ▶ index.html · v68 · 261115 · [대표 23:58 「다복을 눌렀는데 소개가 아니라 바로 사진」 · 일반 앱(인스타 탐색)대로] 마당 사진 칸 — 사진 = 그 방 안 그 게시물 · 아래 「🏠 방 이름 ›」 = 그 방 첫 화면(뒤로 = 메인) · 4초 바꿈도 따라감. [무손] 그 밖 v67 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ index.html · v67 · 261114 · [대표 23:25 「마당 사진이 내 방으로 도배 · 랜덤으로 · 견본 · 다복 · 사랑흐름도」] 메인 마당 사진 36칸(9칸 × 4판) — 공개 목록 전체(방 · 사진)를 받아 방마다 줄을 세우고 판마다 방 차례를 새로 섞어 한 판에 한 방 2장까지(방이 모자랄 때만 더) · 견본 방 · 사랑흐름 방도 같은 한 방(261112 v63 「최근 사진 먼저 · 견본은 뒤로」를 바꿈) · 4초 바꿈은 남은 사진으로 · 서버로 받을 때는 섞인 48장(tier 없음). [무손] 그 밖 v66 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v66 · 261113 · [566 어디서든 ＋ · 대표 OK 18:20] 오른쪽 아래 작은 ＋(우리 이야기 방 ＋와 같은 모양 · 첫 화면 단추를 가리지 않게 600px 아래로 내려온 뒤부터 · 내리는 동안 숨고 멈추면 보임) → /rec/?plaza=1&plus=1(마당 + 「어디에 올릴까요?」 — 지금 보던 방 · 내 방 · 새 이야기방 만들기 · rec v133). [무손] 그 밖 v65 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v65 · 261113 · [572 보기는 서버에 묻지 않게 · ★서버 ①Code v65 와 짝] 메인 「우리 이야기」 사진 줄(recPlaza 48장)을 서버(3~4초) 대신 공개 목록 시트(lf/pub.js · 0.3초)에서 먼저 받음 · 섞기는 서버와 같은 규칙(방 먼저) · 못 받으면 예전처럼 서버 -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v64 · 261112 · [포털 검색 ⑥ · 704] 대표 그림(og-image.png)을 같은 그림 · 같은 이름으로 가볍게(1672×941 · 2.1MB → 1200×675 · 452KB) — 크기 줄 두 칸만 고침. [무손] 그 밖 v63 전부 -->
@@ -239,7 +240,7 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
     ks.forEach(function(c){ src=src.concat(by[c]); }); src=pick.concat(mix(src));   /* 4초 바꿈에 쓸 나머지 */
     for(var m=0;m<pick.length&&n<36;m++){
       var x=pick[m].x, r=pick[m].r, bg=pick[m].bg;
-      cells.push('<button type="button" class="pt wait" data-cur="'+esc(x.id)+'" data-bg="'+esc(bg)+'"'+(r.g?' data-pk="'+esc('/rec/?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.b||x.id))+'"':'')+'" aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i class="go"><span>🏠 '+esc(r.name||'')+'</span><b>›</b></i></button>');
+      cells.push('<button type="button" class="pt wait" data-cur="'+esc(x.id)+'" data-bg="'+esc(bg)+'"'+(r.g?' data-pk="'+esc('/rec/?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.b||x.id))+'"':'')+'"'+(r.g?' data-rg="'+esc(r.g)+'"':'')+' aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i class="go"><span>🏠 '+esc(r.name||'')+'</span><b>›</b></i></button>');
       n++;
     }
     n=n-(n%3); if(n<3){ hide(); return; } h=cells.slice(0,n).join('');
@@ -254,7 +255,7 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
       var u=t.getAttribute('data-bg'), im=new Image();
       im.onload=function(){ if(im.naturalWidth>1){ t.style.backgroundImage='url("'+u+'")'; t.classList.remove('wait'); } else { t.classList.remove('wait'); } };
       im.onerror=function(){ t.classList.remove('wait'); };   /* 못 불러온 칸도 자리는 지킴 — 바둑판이 깨지지 않게 */
-      im.src=u; t.onclick=function(){ var pk=t.getAttribute('data-pk'); if(pk){ try{ sessionStorage.setItem('lf_from_pz','home'); }catch(e){} go(pk); } else { go(PLAZA); } };   /* ★v54 562 그 방 안 그 사진 · ★v55 바뀐 사진 따라감 */
+      im.src=u; t.onclick=function(ev){ var pk=t.getAttribute('data-pk'), rg=t.getAttribute('data-rg'); if(rg&&ev&&ev.target&&ev.target.closest&&ev.target.closest('.go')){ pk='/rec/?g='+encodeURIComponent(rg); }   /* ★v68 대표 261115 0시 — 「🏠 방 이름 ›」 = 방 첫 화면 · 사진 = 그 게시물(인스타 탐색처럼) */ if(pk){ try{ sessionStorage.setItem('lf_from_pz','home'); }catch(e){} go(pk); } else { go(PLAZA); } };   /* ★v54 562 그 방 안 그 사진 · ★v55 바뀐 사진 따라감 */
     })(ts[j]); }
     /* ★v55 4초마다 한 칸 — 고르지 않은 사진(rest)과 맞바꿈 · 화면이 보일 때만 */
     var used={}; pick.forEach(function(o){ used[o.x.id]=1; }); var rest=src.filter(function(o){ return !used[o.x.id]; });
@@ -262,7 +263,7 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
     if(rest.length){ PZT=setInterval(function(){ if(document.hidden){ return; } var ts2=$('pzs').querySelectorAll('.pt'); if(!ts2.length){ return; }
       var t=ts2[Math.floor(Math.random()*ts2.length)], o=rest.shift(), im2=new Image();
       im2.onload=function(){ t.style.transition='opacity .45s'; t.style.opacity='.1'; setTimeout(function(){ t.style.backgroundImage='url("'+o.bg+'")'; var sp=t.querySelector('i span'); if(sp){ sp.textContent='🏠 '+(o.r.name||''); }
-        if(o.r.g){ t.setAttribute('data-pk','/rec/?g='+encodeURIComponent(o.r.g)+'&r='+encodeURIComponent(o.x.b||o.x.id)); } t.setAttribute('aria-label',(o.x.t||'사진')+' · '+(o.r.name||'')); t.style.opacity='1';
+        if(o.r.g){ t.setAttribute('data-pk','/rec/?g='+encodeURIComponent(o.r.g)+'&r='+encodeURIComponent(o.x.b||o.x.id)); t.setAttribute('data-rg',o.r.g); } t.setAttribute('aria-label',(o.x.t||'사진')+' · '+(o.r.name||'')); t.style.opacity='1';
         var old=t.getAttribute('data-cur'); t.setAttribute('data-cur',o.x.id); if(old){ var back=src.filter(function(z){ return z.x.id===old; })[0]; if(back){ rest.push(back); } } },450); };
       im2.onerror=function(){ }; im2.src=o.bg; },4000); }
   }

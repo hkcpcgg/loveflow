@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v155 · 261114 · [653 남은 것 일부 · 서버 변경 없음] 멤버 관리 — 관리자에게 멤버 줄마다 「승인 권한 주기」(확인자로) · 「승인 권한 빼기」(86차 ❓9 (가) · 따로 자리 이름 없이) / 관리자 위임 확인에 두 줄 「○○ 님 : 멤버 → 관리자 · 나 : 관리자 → 멤버 · 승인」(86차 ③) · REC_VER 155 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v156 · 261115 · [대표 0:02 「방 이름 보기 글이 다복이라 잘못 들어온 줄 앎」 · 대표 23:58 메인 · 마당 사진 · 서버 변경 없음] ① 방 만들기 · 방 이름 짓기 · 맡으실 분 · 만든 곳 보기 글에서 실제 방 · 사람 이름(다복 · 문산초 · 황규찬 · 창원황씨 · 파주)을 걷음 — 방 이름 칸 「방 이름을 입력하세요」(밴드 · 카톡 오픈채팅과 같은 꼴) · 미리보기 이름 「방 이름」 ② 마당 사진 칸 — 사진 = 그 게시물 · 아래 「🏠 방 이름 ›」 = 그 방 첫 화면(인스타 탐색: 사진 = 게시물 · 이름 = 프로필). [무손] 그 밖 v155 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ rec/index.html · v155 · 261114 · [653 남은 것 일부 · 서버 변경 없음] 멤버 관리 — 관리자에게 멤버 줄마다 「승인 권한 주기」(확인자로) · 「승인 권한 빼기」(86차 ❓9 (가) · 따로 자리 이름 없이) / 관리자 위임 확인에 두 줄 「○○ 님 : 멤버 → 관리자 · 나 : 관리자 → 멤버 · 승인」(86차 ③) · REC_VER 155 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v154 · 261114 · [657 나머지 ② 「어떤 방인가요?」 틀 고르기 하나 · 서버 변경 없음] 방 만들기 — 이야기방 / 기록관 큰 카드 둘을 먼저 고르던 것을 걷고 「어떤 방인가요?」 종류 칩 한 줄(나 · 가족 · 친구 · 모임 · 우리 가게 · 학교 · 기관 · 마을 · 단체 · 회사 · 기타)로 한 번에 · 고른 종류가 갈래를 정함(서버 틀 번호 그대로) · 이름 칸 「방 이름」 · 단추 「방 만들기」(83차 화면 이름 「방」) · REC_VER 154 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v153 · 261114 · [657 나머지 ① 링크 탭 미리보기 카드 · 서버 ①Code v71 recLinkPv 그대로] 새 게시물 「링크」 — 주소를 넣으면 0.7초 뒤 미리보기(그림 · 사이트 이름 · 제목 — 카카오톡 · 밴드처럼) · 제목 칸이 비어 있으면 그 제목을 채움 · ✕ = 그림 빼기 · 못 만들면 「제목은 직접 적어 주십시오」 · 올릴 때 limg · lsite 를 함께 보냄 → 게시물 링크 카드 위에 큰 그림 · 사이트 이름 · REC_VER 153 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v152 · 261114 · [674 대표 22:57 「사진첩 공유하기에 사랑흐름」 · 23:42 「묻지 말고 진행」 · 서버 변경 없음 · rec/sw.js v5 · rec/manifest share_target] 홈 화면에 추가한 우리 이야기 앱이 사진첩 · 캡처 「공유」 목록에 뜸(안드로이드 크롬 · 아이폰 사파리는 지원 안 함) → 사진을 담은 채 「어디에 올릴까요?」(＋ 와 같은 길 · 지금 방 하나면 바로) → 새 게시물에 사진이 담김(20장 넘으면 지금 안내 그대로) · 손님은 카카오 로그인 뒤 · 취소 = 받은 사진 지움 · 30분 지나면 버림 · REC_VER 152 -->
@@ -2365,7 +2366,7 @@ function plazaDraw(){
   each(el,'.mkGo',function(b){ b.onclick=opnStart; }); if($('stMk')){ $('stMk').onclick=opnStart; }
   var myL=myRoomsL(); each(el,'[data-mk]',function(b){ b.onclick=function(){ roomGo(myL[+b.getAttribute('data-mk')]); }; });   /* ★v140 위 「나」 → 하단 내 방 */   /* ★v66 */
   if(!PLZ.myr){ PLZ.myr=1; myrLoad(function(ch){ if(ch){ pzRingRedo(); } }); }   /* ★v67 396 새 기억 빛 */
-  each(el,'[data-vz]',function(b){ b.onclick=function(){ pzToRoom(+b.getAttribute('data-vz')); }; });   /* ★v106 562 사진 → 그 방 안 그 사진 */
+  each(el,'[data-vz]',function(b){ b.onclick=function(ev){ pzToRoom(+b.getAttribute('data-vz'),!!(ev&&ev.target&&ev.target.closest&&ev.target.closest('.go'))); }; });   /* ★v156 대표 261115 0시 — 사진 = 게시물 · 「🏠 방 이름 ›」 = 방 첫 화면(인스타 탐색처럼) */   /* ★v106 562 사진 → 그 방 안 그 사진 */
   each(el,'[data-pb]',function(t){ var id=t.getAttribute('data-pb'); duLoad(id,800,function(u){ if(u){ t.style.backgroundImage='url('+u+')'; t.classList.remove('wait'); } }); });   /* 큰 칸은 큰 그림으로 */
   spdFirst(el); SPD.room='우리 이야기 마당'; pzBackY(); pzSpin();   /* ★v107 */   /* ★v106 562 방에서 돌아오면 보던 자리 */
   if(PZO){ try{ PZO.disconnect(); }catch(e){} PZO=null; }
@@ -3043,9 +3044,9 @@ document.addEventListener('keydown',function(ev){ if(!FS.on){ return; } if(ev.ke
 /* ★v99 묶음(여러 장)은 크게 보기에서 사진마다 한 장씩 이어짐 · 반응 · 한마디는 묶음(표지) 기록에 */
 function vwExpand(its){ var out=[]; its.forEach(function(it){ var e=vwFromIt(it); if(it.kind==='사진'&&it.photos&&it.photos.length>1&&!it.video){ it.photos.forEach(function(p,k){ var c={}; for(var x in e){ c[x]=e[x]; } c.id=p.id; c.tid=it.id; c.n=0; c.sub=(k+1)+' / '+it.photos.length; c.th=p.pv||PVC[p.id]||PHC['s:'+p.id]||duUrl(p.id,480)||(k?'':e.th);   /* ★v101 495 */ c.mv=''; c.full=0; out.push(c); }); } else { e.tid=it.id; out.push(e); } }); return out; }
 /* ★v106 562 마당 사진 → 그 방 안 그 사진 화면 · 보던 자리 기억 */
-function pzToRoom(i){ var c=PZL.cells[i], x=c&&c.x, r=x&&PLZ.rooms[x.c]; if(!x||!r||!r.g){ vwPlaza(i); return; }
+function pzToRoom(i,only){ var c=PZL.cells[i], x=c&&c.x, r=x&&PLZ.rooms[x.c]; if(!x||!r||!r.g){ vwPlaza(i); return; }
   try{ sessionStorage.setItem('lf_pz_y',String(window.scrollY||0)); sessionStorage.setItem('lf_from_pz','1'); }catch(e){}
-  location.href=location.pathname+'?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.b||x.id); }   /* ★v107 묶음 안 사진은 그 묶음으로 */
+  location.href=location.pathname+'?g='+encodeURIComponent(r.g)+(only?'':'&r='+encodeURIComponent(x.b||x.id)); }   /* ★v156 only = 「🏠 방 이름 ›」 → 방 첫 화면 */   /* ★v107 묶음 안 사진은 그 묶음으로 */
 function pzBackY(){ var y=0; try{ y=parseInt(sessionStorage.getItem('lf_pz_y'),10)||0; sessionStorage.removeItem('lf_pz_y'); }catch(e){} if(y){ setTimeout(function(){ window.scrollTo(0,y); },60); } }
 /* ★v107 마당이 살아 있게 — 5초마다 화면 안 사진 한 칸을 화면 밖(아래) 다른 사진과 사르르 맞바꿈 · 보고 있을 때만 */
 var PZSPIN=0;
@@ -4458,7 +4459,7 @@ function exifTiff(v,t){
 /* ★v23 지역기록 연결(183) — 이 자료를 만든 곳 · 이용 조건 */
 var TERMS=[['누구나 볼 수 있게 공개된 자료','공개된 자료'],['기관 · 단체 허락 받음','허락 받음'],['확인 전','잘 모름']];
 function orgHtml(L){
-  return '<label class="f">만든 곳 <small>기관 · 학교 · 단체 · 사람 이름 · 원본이 있는 곳</small></label><div class="mf"><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="lkO" maxlength="40" placeholder="예: 파주시청 · 문산초등학교 · 파주문화원" autocomplete="off">'+esc(L.org||'')+'</textarea>'+'</div><div class="hear" id="hear_lkO"></div>'+
+  return '<label class="f">만든 곳 <small>기관 · 학교 · 단체 · 사람 이름 · 원본이 있는 곳</small></label><div class="mf"><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="lkO" maxlength="40" placeholder="예: ○○시청 · ○○초등학교 · ○○문화원" autocomplete="off">'+esc(L.org||'')+'</textarea>'+'</div><div class="hear" id="hear_lkO"></div>'+
     '<label class="f">이용 조건</label><div style="display:flex;flex-wrap:wrap;gap:7px" id="lkTm">'+TERMS.map(function(t){ return '<button type="button" class="chip s'+(L.terms===t[0]?' on':'')+'" data-tm="'+t[0]+'">'+t[1]+'</button>'; }).join('')+'</div>'+
     '<p class="note">원본은 그 기관 사이트에 그대로 있고, 우리 이야기에는 카드로만 이어 줍니다.</p>';
 }
@@ -4944,7 +4945,7 @@ var HELP={
   '보는 분':['링크만 누르면 이 방의 사진과 기억을 모두 볼 수 있습니다. 가입하지 않아도 됩니다.','사진을 눌러 크게 보세요.','기억을 남기거나 「나도 기억해요」를 누르려면 카카오로 한 번만 로그인하시면 됩니다. 전화번호는 받지 않습니다.'],
   '작성자':['사진을 열고 「이 사진에 기억 남기기」를 누르세요. 말로 쓰시려면 글 칸을 누른 뒤 자판의 🎤를 누르고 말씀하세요.','그 사진을 보면 떠오르는 분이 있으면 「떠오르는 분께 · 카톡으로 보내기」를 누르세요. 카톡 친구 · 채팅방 선택 창이 바로 열립니다.','다시 오시면 맨 위 「새 소식」에서 내 기억에 달린 답을 봅니다.','갖고 계신 사진은 오른쪽 아래 ＋ 「새 기록 올리기」 — 한 번에 9장까지.','원하지 않는 사진은 사진 오른쪽 위 ⋯ → 「삭제 요청」 — 누르는 즉시 비공개로 바뀝니다.'],
   '확인자':['방 첫 화면의 「⚙ 관리」(카카오로 한 번 확인) → 「처리할 일」에 뜬 것부터 처리합니다. 승인 대기는 「승인」 또는 「비공개」.','급할 때는 맨 위 「🚨 긴급 조치」 — 기록 가리기 · 쓰기 멈춤. 잘못했으면 「활동 기록」에서 되돌립니다.','새 멤버의 첫 게시물 3건과 등록 신청이 여기로 옵니다.','삭제 요청이 2건 쌓인 분은 자동으로 작성이 제한됩니다. 확인 뒤 「제한 해제」를 누르세요.'],
-  '관리자':['방 첫 화면의 「⚙ 관리」(☰ 「관리」도 같음)는 카카오로 한 번 확인한 뒤 6시간 동안 열립니다. 관리 중에는 위 띠가 초록으로 바뀝니다.','맨 위 📍 줄을 누르면 「내 자리」 — 관리하는 방 · 함께하는 방을 오갑니다.','다른 방과 위 · 아래로 묶으려면 「설정 → 연결된 방」에서 연결 링크를 만들어 상대 관리자께 보냅니다.','「관리 → 방 이름 짓기」로 「문산초 59회 우리 친구들 이야기」처럼 이 방의 이름을 지으세요.','처음에 「저기 내가 있나?」 싶은 사진 9장을 먼저 올려 두세요.','「멤버 → 초대 링크」에서 보낼 곳마다 링크를 따로 만들어(예: 동창 단톡방 · 등산 밴드) 보내면, 어디서 몇 분이 열어 보고 참여했는지 보입니다.','「공개 설정」에서 공개 방 · 등록 신청 승인제 · 첫 게시물 승인을 고릅니다.','엉뚱한 사람이 오면 「내보내기」(게시물도 모두 비공개) · 링크가 엉뚱한 곳에 퍼졌으면 그 링크를 지우세요.']
+  '관리자':['방 첫 화면의 「⚙ 관리」(☰ 「관리」도 같음)는 카카오로 한 번 확인한 뒤 6시간 동안 열립니다. 관리 중에는 위 띠가 초록으로 바뀝니다.','맨 위 📍 줄을 누르면 「내 자리」 — 관리하는 방 · 함께하는 방을 오갑니다.','다른 방과 위 · 아래로 묶으려면 「설정 → 연결된 방」에서 연결 링크를 만들어 상대 관리자께 보냅니다.','「관리 → 방 이름 짓기」로 「○○초 59회 우리 친구들 이야기」처럼 이 방의 이름을 지으세요.','처음에 「저기 내가 있나?」 싶은 사진 9장을 먼저 올려 두세요.','「멤버 → 초대 링크」에서 보낼 곳마다 링크를 따로 만들어(예: 동창 단톡방 · 등산 밴드) 보내면, 어디서 몇 분이 열어 보고 참여했는지 보입니다.','「공개 설정」에서 공개 방 · 등록 신청 승인제 · 첫 게시물 승인을 고릅니다.','엉뚱한 사람이 오면 「내보내기」(게시물도 모두 비공개) · 링크가 엉뚱한 곳에 퍼졌으면 그 링크를 지우세요.']
 };
 function helpSheet(key){
   var ks=Object.keys(HELP), cur=key||(isGuest()?'보는 분':ME.role==='관리자'?'관리자':ME.role==='확인자'?'확인자':'작성자');
@@ -4966,9 +4967,9 @@ function nameBuild(){
   function full(){ var w=NB_WHO[st.who], mid=w[1]==='네 가족'?(st.ne?st.ne+'네 가족':''):(w[1]||st.own); return [st.front.trim(),mid.trim()].filter(function(x){ return x; }).join(' ')+(mid.trim()?' 이야기':''); }
   sheet('<h2>방 이름 짓기</h2><p class="lead" style="margin-top:4px">「우리 이야기」를 가운데 두고 앞뒤를 붙여 이 방만의 이름을 짓습니다. 맨 위 띠 · 카톡으로 보낸 카드에 이 이름이 보입니다.</p>'+
     '<div class="nbv" id="nbV"></div>'+
-    '<label class="f">① 어디 · 어느 방 <small>지역 · 학교 · 기수 · 단체 이름</small></label><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="nbF" maxlength="20" placeholder="예: 문산초 59회 · 파주 성동리 · 창원황씨" autocomplete="off">'+esc(st.front)+'</textarea>'+
+    '<label class="f">① 어디 · 어느 방 <small>지역 · 학교 · 기수 · 단체 이름</small></label><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="nbF" maxlength="20" placeholder="지역 · 학교 · 단체 이름을 입력하세요" autocomplete="off">'+esc(st.front)+'</textarea>'+
     '<label class="f">② 누구의</label><div class="nbw">'+NB_WHO.map(function(w,i){ return '<button type="button" class="chip s'+(i===st.who?' on':'')+'" data-nw="'+i+'">'+w[0]+'</button>'; }).join('')+'</div>'+
-    '<div id="nbNe" style="display:none"><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="nbNeV" maxlength="10" placeholder="예: 황규찬" autocomplete="off">'+esc(st.ne)+'</textarea><small class="note">「○○네 가족 이야기」의 ○○</small></div>'+
+    '<div id="nbNe" style="display:none"><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="nbNeV" maxlength="10" placeholder="예: 홍길동" autocomplete="off">'+esc(st.ne)+'</textarea><small class="note">「○○네 가족 이야기」의 ○○</small></div>'+
     '<div id="nbOwn" style="display:none"><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="nbOwnV" maxlength="20" placeholder="예: 그때 그 시절" autocomplete="off">'+esc(st.own)+'</textarea><small class="note">뒤에 「이야기」가 붙습니다</small></div>'+
     '<label class="f">③ 이야기</label><div class="nbe">이야기 <small>— 모든 방에 같게 붙습니다</small></div>'+
     '<div id="nbM"></div><div class="pair" style="margin-top:14px"><button class="btn line" id="nbNo" type="button">취소</button><button class="btn" id="nbOk" type="button">이 이름으로</button></div>',function(){
@@ -5595,7 +5596,7 @@ function hoDraw(d){
   h+='<p class="sl2">관리하는 분</p>'+(d.admins||[]).map(function(x){ return '<div class="sw"><span><b>'+esc(x.name||'')+(x.me?' <span class="tag t-on">나</span>':'')+'</b><small>관리자'+(x.kakao?' · 카카오 확인':'')+'</small></span></div>'; }).join('');
   pend.forEach(function(x){ h+='<div class="sw"><span><b>'+esc(x.name||'')+' <span class="tag t-wait">받기 기다림</span></b><small>'+esc(x.until||'')+'까지 · 한 번</small></span><span style="display:flex;gap:6px;flex:none"><button type="button" class="sbtn" data-hre="'+esc(x.no)+'">다시 보내기</button><button type="button" class="sbtn red" data-hno="'+esc(x.no)+'">링크 취소</button>'+qh('hand')+'</span></div>'; });
   if(d.canLeave){ h+='<button class="btn" id="hoOut" type="button" style="background:#0F6E56">관리자에서 빠지기</button><p class="note">빠지시면 이 방에는 멤버로 남습니다. '+qh('hand')+'</p>'; }
-  else { h+='<label class="f" style="margin-top:12px">맡으실 분 성명</label><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="hoN" maxlength="20" placeholder="예: 다복 사장님" autocomplete="off"></textarea><div id="hoE"></div><button class="btn kakao" id="hoGo" type="button">'+KICON+'카카오톡으로 보내기</button><button class="btn line" id="hoCp" type="button">링크 만들어 복사</button>'; }
+  else { h+='<label class="f" style="margin-top:12px">맡으실 분 성명</label><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="hoN" maxlength="20" placeholder="예: 홍길동" autocomplete="off"></textarea><div id="hoE"></div><button class="btn kakao" id="hoGo" type="button">'+KICON+'카카오톡으로 보내기</button><button class="btn line" id="hoCp" type="button">링크 만들어 복사</button>'; }
   h+='<button class="btn line lv" id="hoX" type="button">닫기</button>';
   el.innerHTML=h; $('hoX').onclick=closeSheet;
   function make(cb){ var v=($('hoN').value||'').trim(); if(!v){ $('hoE').innerHTML='<div class="err">맡으실 분 성명을 넣어 주십시오.</div>'; $('hoN').focus(); return; }
@@ -6277,7 +6278,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=155;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=156;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
@@ -6343,9 +6344,9 @@ function odSave(){ if(!OP){ return; } try{ sessionStorage.setItem(ODR,JSON.strin
 /* ★v69 71차 — 만들기 두 갈래: 카드(이야기방 · 기록관) → 종류 다섯 → 이름 · 대표 사진 · 공개 범위 → 만들기(카카오 로그인) */
 var MK_KIND={
   story:{t:'이야기방',ic:'📔',s:'나와 가까운 사람들<br>누구나',room:'닫힌 방',go:'방 만들기',   /* ★v72 411 목록식 말 → 열린 말 · 끝에 「기타」 · [3] 분류(서버 틀과 같음 · 미리보기용) */
-    types:[['나','F-10','예: 홍길동의 하루','오늘 · 가족 · 사람 · 여행 · 마음'],['가족','F-06','예: 우리 가족 이야기','옛 사진 · 명절 · 사람 · 오늘'],['친구','F-11','예: 문산초 59회 친구들','추억 · 여행 · 방 · 오늘'],['모임','F-12','예: 파주 자전거 동호회','방 날 · 활동 · 사람 · 소식'],['우리 가게','F-01','예: 프로방스 복요리 다복','가게 이야기 · 손님 · 메뉴 · 오늘'],['기타','F-13','예: 우리 집 강아지 이야기','오늘 · 사람 · 추억 · 소식']]},
+    types:[['나','F-10','방 이름을 입력하세요','오늘 · 가족 · 사람 · 여행 · 마음'],['가족','F-06','방 이름을 입력하세요','옛 사진 · 명절 · 사람 · 오늘'],['친구','F-11','방 이름을 입력하세요','추억 · 여행 · 방 · 오늘'],['모임','F-12','방 이름을 입력하세요','방 날 · 활동 · 사람 · 소식'],['우리 가게','F-01','방 이름을 입력하세요','가게 이야기 · 손님 · 메뉴 · 오늘'],['기타','F-13','방 이름을 입력하세요','오늘 · 사람 · 추억 · 소식']]},
   hall:{t:'기록관',ic:'🏛',s:'학교 · 기관 · 단체 · 회사<br>어디든',room:'열린 모임',go:'기록관 만들기',
-    types:[['학교','F-04','예: ○○초등학교 기록관','학창 시절 · 방 · 사람 · 소식'],['기관','F-09','예: ○○복지관 기록관','옛 모습 · 행사 · 사람 · 소식'],['마을','F-05','예: ○○면 기록관','옛 모습 · 행사 · 사람 · 오늘'],['단체','F-03','예: ○○협회 기록관','하는 일 · 함께한 기록 · 사람 · 소식'],['회사','F-08','예: ○○주식회사 기록관','연혁 · 일터 · 사람 · 소식'],['기타','F-14','예: ○○ 기록관','하는 일 · 함께한 기록 · 사람 · 소식']]}};
+    types:[['학교','F-04','방 이름을 입력하세요','학창 시절 · 방 · 사람 · 소식'],['기관','F-09','방 이름을 입력하세요','옛 모습 · 행사 · 사람 · 소식'],['마을','F-05','방 이름을 입력하세요','옛 모습 · 행사 · 사람 · 오늘'],['단체','F-03','방 이름을 입력하세요','하는 일 · 함께한 기록 · 사람 · 소식'],['회사','F-08','방 이름을 입력하세요','연혁 · 일터 · 사람 · 소식'],['기타','F-14','방 이름을 입력하세요','하는 일 · 함께한 기록 · 사람 · 소식']]}};
 var MK_INTRO={   /* ★v106 565 방 소개 흐린 예시(종류마다) */
   'F-10':'예: 하루하루 남기고 싶은 사진과 이야기를 모아 두는 곳입니다.','F-06':'예: 우리 가족의 옛 사진과 오늘의 모습을 함께 모으는 방입니다. 명절 · 생일 사진을 올려 주세요.',
   'F-11':'예: 함께 웃고 떠들던 그때의 사진을 모읍니다. 기억나는 이야기를 기억씩 남겨 주세요.','F-12':'예: 우리 방의 활동 사진과 소식을 함께 나누는 방입니다.',
@@ -6413,7 +6414,7 @@ function openForm(dr,msg){
     var el=$('ofPv'), K=MK_KIND[OP.kind], T=K&&OP.frame?K.types.filter(function(x){ return x[1]===OP.frame; })[0]:null; if(!el||!T){ return; }
     var p=OP.photos[0], bg=p?(p.yt?'https://i.ytimg.com/vi/'+p.yt+'/hqdefault.jpg':(p.pv||p.ph)):'';
     var cs=T[3].split(' · '); if(!(PVC>=0&&PVC<cs.length)){ PVC=0; }   /* ★v73 412 칸 누르면 반응 */
-    el.innerHTML='<div class="cv"'+(bg?' style="background-image:url('+esc(bg)+')"':'')+'>'+(bg?'':'<span>'+K.ic+'</span>')+'<em class="pvl" id="ofPvL"></em></div><div class="nm">'+esc(OP.name||T[2].replace(/^예:\s*/,''))+'</div><div class="tb">'+cs.map(function(c,i){ return '<button type="button" data-pc="'+i+'"'+(i===PVC?' class="on"':'')+'>'+esc(c)+'</button>'; }).join('')+'</div>';
+    el.innerHTML='<div class="cv"'+(bg?' style="background-image:url('+esc(bg)+')"':'')+'>'+(bg?'':'<span>'+K.ic+'</span>')+'<em class="pvl" id="ofPvL"></em></div><div class="nm">'+esc(OP.name||'방 이름')+'</div><div class="tb">'+cs.map(function(c,i){ return '<button type="button" data-pc="'+i+'"'+(i===PVC?' class="on"':'')+'>'+esc(c)+'</button>'; }).join('')+'</div>';
     function lab(){ var l=$('ofPvL'); if(l){ l.textContent='「'+cs[PVC]+'」 칸 — 방에 들어가면 이렇게 나눠 모입니다'; } }
     each(el,'[data-pc]',function(b){ b.onclick=function(){ PVC=+b.getAttribute('data-pc'); each(el,'[data-pc]',function(o){ o.classList.toggle('on',o===b); }); lab(); var l=$('ofPvL'); if(l){ l.classList.remove('pop'); void l.offsetWidth; l.classList.add('pop'); } }; });
     lab();
