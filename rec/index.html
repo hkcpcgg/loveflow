@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v157 · 261115 · [대표 0:13 「사진 위 규 동그라미 · 이름을 눌러도 안 감」 · 서버 변경 없음] 게시물 머리의 동그라미 · 이름을 누르면 그 방 첫 화면(맨 위 「‹ 방 이름」과 같음 · 인스타 게시물 머리처럼). 마당에서 연 게시물은 그대로. [무손] 그 밖 v156 전부. -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v158 · 261115 · [653 남은 것 — 86차 도식 4 2판 ③ · 82차 4-3 · ★서버 ①Code v73 · ②관리 v41 · ⑥시험 v84 와 짝] ① 관리자 위임 = 「위임 요청」 → 받는 분 멤버 줄 「위임 대기」 · 관리자 「위임 취소」 → 받는 분이 방에 들어오면 「관리자 위임」 창(나 : 멤버 → 관리자 / ○○ 님 : 관리자 → 멤버 · 승인) 「거절 · 수락」 · 링크로 위임도 「위임 대기 · 위임 취소」 ② 활동 기록 = 문장(「○○ 님이 게시물을 숨김 처리했습니다」 · 아래 줄 때 · 까닭) · 승인 / 다시 보이기는 서버 pv 로 가름 · 문장이 없는 것은 앞 말 그대로. [무손] 그 밖 v157 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ rec/index.html · v157 · 261115 · [대표 0:13 「사진 위 규 동그라미 · 이름을 눌러도 안 감」 · 서버 변경 없음] 게시물 머리의 동그라미 · 이름을 누르면 그 방 첫 화면(맨 위 「‹ 방 이름」과 같음 · 인스타 게시물 머리처럼). 마당에서 연 게시물은 그대로. [무손] 그 밖 v156 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v156 · 261115 · [대표 0:02 「방 이름 보기 글이 다복이라 잘못 들어온 줄 앎」 · 대표 23:58 메인 · 마당 사진 · 서버 변경 없음] ① 방 만들기 · 방 이름 짓기 · 맡으실 분 · 만든 곳 보기 글에서 실제 방 · 사람 이름(다복 · 문산초 · 황규찬 · 창원황씨 · 파주)을 걷음 — 방 이름 칸 「방 이름을 입력하세요」(밴드 · 카톡 오픈채팅과 같은 꼴) · 미리보기 이름 「방 이름」 ② 마당 사진 칸 — 사진 = 그 게시물 · 아래 「🏠 방 이름 ›」 = 그 방 첫 화면(인스타 탐색: 사진 = 게시물 · 이름 = 프로필). [무손] 그 밖 v155 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v155 · 261114 · [653 남은 것 일부 · 서버 변경 없음] 멤버 관리 — 관리자에게 멤버 줄마다 「승인 권한 주기」(확인자로) · 「승인 권한 빼기」(86차 ❓9 (가) · 따로 자리 이름 없이) / 관리자 위임 확인에 두 줄 「○○ 님 : 멤버 → 관리자 · 나 : 관리자 → 멤버 · 승인」(86차 ③) · REC_VER 155 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v154 · 261114 · [657 나머지 ② 「어떤 방인가요?」 틀 고르기 하나 · 서버 변경 없음] 방 만들기 — 이야기방 / 기록관 큰 카드 둘을 먼저 고르던 것을 걷고 「어떤 방인가요?」 종류 칩 한 줄(나 · 가족 · 친구 · 모임 · 우리 가게 · 학교 · 기관 · 마을 · 단체 · 회사 · 기타)로 한 번에 · 고른 종류가 갈래를 정함(서버 틀 번호 그대로) · 이름 칸 「방 이름」 · 단추 「방 만들기」(83차 화면 이름 「방」) · REC_VER 154 -->
@@ -1849,7 +1850,7 @@ function loadMe(g,want){
 function meShow(d,g,want,m){   /* ★v51 내 첫 화면 그리기(loadMe · roomPick 같이 씀) · ★v52 m = 1 남겨 둔 것 · 2 새 답 · 4 같음 */
     m=m||0;
     function post(){ if(PEND_ADD&&canAdd()&&PEND_ADD.plus&&shareFlag()){ PEND_ADD=null; plusClear(); shareTake(); } else if(PEND_ADD&&canAdd()){ var pa=PEND_ADD; PEND_ADD=null; plusClear(); A=newA(); A.type=pa.type; A.title=pa.title; A.text=pa.text; go('add'); if(!pa.plus){ toast('작성 중이던 내용을 가져왔습니다'); } } else if(PEND_ADD&&PEND_ADD.plus){ PEND_ADD=null; plusClear(); } else if(PEND_NEW&&canAdd()){ PEND_NEW=0; setTimeout(newRoomSheet,400); } else if(shareFlag()){ shareKick(); }   /* ★v152 674 · ★v98 74차 묶음 1 — 막 연 방은 QR 받기부터 */
-      if(ME.wait){ toast('등록 신청이 접수되어 있습니다','관리자 승인 후 작성하실 수 있습니다'); } afterMe(); }
+      if(ME.wait){ toast('등록 신청이 접수되어 있습니다','관리자 승인 후 작성하실 수 있습니다'); } afterMe(); handAskShow(); }
     if(m===4){ post(); return; }
     rksPut(d.comName,K); if(d.main){ mainSet(d.g||'',d.comName); }
     if(want&&d.comName!==want){ roomMiss(g,want); return; }   /* ★v48 이 열쇠는 다른 방 */
@@ -5006,7 +5007,7 @@ function meView(){
 /* ══ 함께하는 분 — 모임 문 · 받기 방식 · 퍼짐 · 사람(v26) ══ */
 function swRow(id,on,t,sub,dis){ return '<div class="sw"><span><b>'+t+'</b><small>'+sub+'</small></span><button type="button" class="tg'+(on?' on':'')+'" id="'+id+'"'+(dis?' disabled':'')+' aria-label="'+t+'"></button></div>'; }
 function pplView(){
-  $('body').innerHTML='<div id="inv"></div><div id="pq"></div>'; wait($('pq'),'멤버을 모으는 중입니다');
+  $('body').innerHTML='<div id="inv"></div><div id="pq"></div>'; wait($('pq'),'멤버를 모으는 중입니다');
   var boss=ME.role==='관리자';
   if(boss){ invDraw(); }
   api({action:'recPeople'},function(d){
@@ -5023,16 +5024,17 @@ function pplView(){
       '<div class="card"><h2>멤버 '+d.items.length+'</h2><p class="lead">「바로 공개」를 켠 분이 올린 기록은 승인 없이 공개됩니다.</p>'+
       d.items.map(function(x){ var fixed=(x.role==='관리자'||x.role==='확인자');
         var sub=esc(roleName(x.role))+(x.rel?' · '+esc(x.rel):'')+(x.by?' · '+esc(byTxt(x.by)):'')+(x.brought?' · '+x.brought+'분 초대':'');
-        return '<div class="sw"><span><b>'+esc(x.name||'(이름 없음)')+(x.me?' (나)':'')+(x.stop?' <span class="tag t-hide">작성 제한</span>':'')+(x.role==='신청 중'?' <span class="tag t-wait">등록 신청</span>':'')+'</b><small>'+sub+'</small></span>'+
+        return '<div class="sw"><span><b>'+esc(x.name||'(이름 없음)')+(x.me?' (나)':'')+(x.stop?' <span class="tag t-hide">작성 제한</span>':'')+(x.role==='신청 중'?' <span class="tag t-wait">등록 신청</span>':'')+(x.hand?' <span class="tag t-wait">위임 대기</span>':'')+'</b><small>'+sub+'</small></span>'+
           '<span style="display:flex;gap:6px;align-items:center;flex:none;flex-wrap:wrap;justify-content:flex-end">'+
           (x.role==='신청 중'?'<button type="button" class="sbtn" style="background:var(--navy);color:#fff" data-ok="'+esc(x.no)+'" data-act="받기">승인</button>':'')+
           (x.stop?'<button type="button" class="sbtn" data-ok="'+esc(x.no)+'" data-act="풀기">제한 해제</button>':'')+
           (fixed||x.role==='신청 중'?'':'<button type="button" class="tg'+(x.auto?' on':'')+'" data-no="'+esc(x.no)+'"'+(boss?'':' disabled')+' aria-label="바로 공개"></button>')+
-          (ME.role==='관리자'&&!x.me&&(x.role==='올리는 사람'||x.role==='참여자')?'<button type="button" class="sbtn" data-ap="'+esc(x.no)+'" data-to="확인자">승인 권한 주기</button>':'')+(ME.role==='관리자'&&!x.me&&x.role==='확인자'?'<button type="button" class="sbtn" data-ap="'+esc(x.no)+'" data-to="올리는 사람">승인 권한 빼기</button>':'')+   /* ★v155 653 86차 ❓9 (가) */
+          (ME.role==='관리자'&&x.hand?'<button type="button" class="sbtn red" data-hc="'+esc(x.no)+'" data-nm="'+esc(x.name||'')+'">위임 취소</button>':'')+(ME.role==='관리자'&&!x.me&&(x.role==='올리는 사람'||x.role==='참여자')?'<button type="button" class="sbtn" data-ap="'+esc(x.no)+'" data-to="확인자">승인 권한 주기</button>':'')+(ME.role==='관리자'&&!x.me&&x.role==='확인자'?'<button type="button" class="sbtn" data-ap="'+esc(x.no)+'" data-to="올리는 사람">승인 권한 빼기</button>':'')+   /* ★v155 653 86차 ❓9 (가) */
           (canRole(x)?'<button type="button" class="sbtn" data-rl="'+esc(x.no)+'">역할 변경</button>':'')+(boss&&!x.me&&x.role!=='관리자'?'<button type="button" class="sbtn red" data-out="'+esc(x.no)+'" data-nm="'+esc(x.name||'')+'">내보내기</button>':'')+qh('ppl')+'</span></div>'; }).join('')+
       (boss?'<p class="note">「역할 변경」은 나보다 아래 역할만 고를 수 있습니다. 관리자 위임도 「역할 변경」 안에 있습니다.</p>':'<p class="note">공개 설정 · 내보내기는 관리자만 바꿉니다. 「승인」 · 「제한 해제」 · 멤버 「역할 변경」은 승인 권한이 있는 멤버도 합니다.</p>')+'</div>';
     $('pq').innerHTML=h;
     each($('pq'),'[data-ap]',function(b){ b.onclick=function(){ var no=b.getAttribute('data-ap'), to=b.getAttribute('data-to'); b.disabled=true; api({action:'recRoleSet',no:no,role:to},function(r){ if(r.status==='ok'){ toast(to==='확인자'?'승인 권한을 드렸습니다':'승인 권한을 뺐습니다',to==='확인자'?'게시물 승인 · 가입 신청을 함께 처리합니다':''); pplView(); } else { b.disabled=false; toast(r.msg||'바꾸지 못했습니다'); } }); }; });   /* ★v155 653 */
+    each($('pq'),'[data-hc]',function(b){ b.onclick=function(){ b.disabled=true; api({action:'recRoleSet',no:b.getAttribute('data-hc'),act:'handCancel',_busy:'관리자 위임을 취소하는 중입니다'},function(r){ if(r.status==='ok'){ toast('관리자 위임을 취소했습니다',b.getAttribute('data-nm')||''); } else { toast(r.msg||'취소하지 못했습니다'); } pplView(); }); }; });   /* ★v158 653 */
     each($('pq'),'[data-rl]',function(b){ b.onclick=function(){ var no=b.getAttribute('data-rl'); for(var i=0;i<d.items.length;i++){ if(d.items[i].no===no){ roleSheet(d.items[i]); return; } } }; });   /* ★v37 역할 변경 */
     each($('pq'),'[data-ok]',function(b){ b.onclick=function(){ b.disabled=true; var act=b.getAttribute('data-act'); api({action:'recPersonOk',no:b.getAttribute('data-ok'),act:act},function(r){ if(r.status==='ok'){ toast(act==='받기'?'등록을 승인했습니다':'작성 제한을 해제했습니다'); pplView(); } else { b.disabled=false; toast(r.msg||'처리하지 못했습니다'); } }); }; });
     if(!boss){ return; }
@@ -5596,7 +5598,7 @@ function hoDraw(d){
   var h='<div class="hsteps"><span class="on"></span><span'+(st>=2?' class="on"':'')+'></span><span'+(st>=3?' class="on"':'')+'></span></div>';
   h+='<p class="lead" style="margin:0 0 10px">'+(st===1?'「'+esc(d.comName||'')+'」'+esc(eulOf(d.comName||'').slice(-1))+' 맡으실 분께 카카오톡으로 링크를 보냅니다. 그분이 누르고 카카오로 확인하시면 관리자가 됩니다.':st===2?'링크를 보냈습니다. 받는 분이 누르고 카카오로 확인하시면 다음으로 넘어갑니다.':'새 관리자가 받으셨습니다. 이제 관리자에서 빠지실 수 있습니다.')+'</p>';
   h+='<p class="sl2">관리하는 분</p>'+(d.admins||[]).map(function(x){ return '<div class="sw"><span><b>'+esc(x.name||'')+(x.me?' <span class="tag t-on">나</span>':'')+'</b><small>관리자'+(x.kakao?' · 카카오 확인':'')+'</small></span></div>'; }).join('');
-  pend.forEach(function(x){ h+='<div class="sw"><span><b>'+esc(x.name||'')+' <span class="tag t-wait">받기 기다림</span></b><small>'+esc(x.until||'')+'까지 · 한 번</small></span><span style="display:flex;gap:6px;flex:none"><button type="button" class="sbtn" data-hre="'+esc(x.no)+'">다시 보내기</button><button type="button" class="sbtn red" data-hno="'+esc(x.no)+'">링크 취소</button>'+qh('hand')+'</span></div>'; });
+  pend.forEach(function(x){ h+='<div class="sw"><span><b>'+esc(x.name||'')+' <span class="tag t-wait">위임 대기</span></b><small>'+esc(x.until||'')+'까지 · 한 번</small></span><span style="display:flex;gap:6px;flex:none"><button type="button" class="sbtn" data-hre="'+esc(x.no)+'">다시 보내기</button><button type="button" class="sbtn red" data-hno="'+esc(x.no)+'">위임 취소</button>'+qh('hand')+'</span></div>'; });
   if(d.canLeave){ h+='<button class="btn" id="hoOut" type="button" style="background:#0F6E56">관리자에서 빠지기</button><p class="note">빠지시면 이 방에는 멤버로 남습니다. '+qh('hand')+'</p>'; }
   else { h+='<label class="f" style="margin-top:12px">맡으실 분 성명</label><textarea class="t one" rows="1" wrap="off" enterkeyhint="done" id="hoN" maxlength="20" placeholder="예: 홍길동" autocomplete="off"></textarea><div id="hoE"></div><button class="btn kakao" id="hoGo" type="button">'+KICON+'카카오톡으로 보내기</button><button class="btn line" id="hoCp" type="button">링크 만들어 복사</button>'; }
   h+='<button class="btn line lv" id="hoX" type="button">닫기</button>';
@@ -5612,6 +5614,17 @@ function hoDraw(d){
     if(r.status!=='ok'){ toast(r.msg||'빠지지 못했습니다'); return; }
     closeSheet(); ME.role='올리는 사람'; tkSet(ATK,''); toast('넘기기를 마쳤습니다','이 방에는 멤버로 남습니다'); MYR_ONCE=0; myrOnce(); STACK=[{v:'feed'}]; render(); }); }; }
 }
+/* ★v158 653 관리자 위임 대기 — 받는 분이 방에 들어오면 수락 · 거절(카카오 오픈채팅 「방장 위임」 · 밴드 「리더 위임」처럼 받는 분이 수락해야 넘어감 · 서버 ①Code v73 · ②관리 v41) */
+var HAND_SEEN='';
+function handAskShow(){ var h=ME&&ME.handAsk; if(!h||DOOR||HAND_SEEN===(ME.com||'')+(h.at||'')){ return; } HAND_SEEN=(ME.com||'')+(h.at||''); var by=nimOf(h.by)||'관리자';
+  setTimeout(function(){ if($('dimTop')){ HAND_SEEN=''; return; }
+    sheet('<h2>관리자 위임</h2><p class="lead" style="margin-top:6px"><b>'+esc(by)+'</b>이 「'+esc(ME.comName||'')+'」 관리자 위임을 요청했습니다.</p><div class="card" style="margin-top:10px;padding:10px 12px;font-size:15px;line-height:1.8"><div><b>나</b> : '+esc(roleName(ME.role))+' → <b>관리자</b></div><div><b>'+esc(by)+'</b> : 관리자 → <b>멤버 · 승인</b></div></div><div id="haM"></div>'+
+      '<div class="pair" style="margin-top:16px"><button class="btn line" id="haNo" type="button">거절</button><button class="btn" id="haOk" type="button">수락</button></div>',function(){
+      function ans(a,b){ b.disabled=true; api({action:'recRoleAsk',act:'hand',ans:a,_busy:a==='ok'?'관리자 위임을 수락하는 중입니다':'관리자 위임을 거절하는 중입니다'},function(r){ b.disabled=false;
+        if(r.status!=='ok'){ $('haM').innerHTML='<div class="err">'+esc(r.msg||'처리하지 못했습니다.')+'</div>'; return; }
+        closeSheet(); ME.handAsk=null; if(a==='ok'){ ME.role='관리자'; sset('lf_rec_mgr','1'); toast('관리자가 되었습니다','방 첫 화면 「⚙ 관리」에서 관리합니다'); render(); } else { toast('관리자 위임을 거절했습니다'); } }); }
+      $('haOk').onclick=function(){ ans('ok',this); }; $('haNo').onclick=function(){ ans('no',this); };
+    }); },400); }
 function nimOf(n){ n=String(n||'').trim(); return !n?'':/님$/.test(n)?n:n+' 님'; }
 function eulOf(w){ var c=String(w||'').trim(), ch=c.charCodeAt(c.length-1); if(ch>=0xAC00&&ch<=0xD7A3){ return c+((ch-0xAC00)%28?'을':'를'); } return c+'을(를)'; }
 function hoSend(name,room,url,until){
@@ -5895,6 +5908,23 @@ function ahelpView(id){
 
 /* 관리 기록 · 되돌리기 (서버 v24) */
 var ALOG_W={'꽂힘':'연결된 방','꽂힘 풂':'방 연결 끊음','꽂힘 표 만듦':'방 연결 링크 만듦','지움':'삭제','가림':'숨김','실음':'공개','삭제 되돌림':'삭제 되돌림','올리기 권한 요청':'참여 신청','올리기 요청 거절':'참여 신청 거절','공개 범위 · 공개':'전체 공개로','공개 범위 · 공동체':'이 방만 보기로','내가 삭제':'올린 분이 삭제'};   /* ★v146 */
+/* ★v158 653 활동 기록 문장 — 82차 4-3 「황규찬 님이 게시물을 숨김 처리했습니다 · 11월 14일 11:42」(밴드 「활동 기록」 꼴) · 문장이 없는 것은 앞 말 그대로 */
+var ALOG_S={'가림':'게시물을 숨김 처리했습니다','지움':'게시물을 삭제했습니다','삭제 되돌림':'삭제한 게시물을 되돌렸습니다','내가 삭제':'올린 게시물을 삭제했습니다','모두 승인':'게시물을 모두 승인했습니다','숨김 풂':'게시물을 다시 보이게 했습니다',
+  '관리자 위임 요청':'관리자 위임을 요청했습니다','관리자 위임 취소':'관리자 위임을 취소했습니다','관리자 위임 받음':'관리자 위임을 수락했습니다','관리자 위임 거절':'관리자 위임을 거절했습니다','관리자 넘김':'관리자를 위임했습니다','관리자에서 빠짐':'관리자에서 빠졌습니다','관리자 임명 링크':'관리자 위임 링크를 만들었습니다','임명 링크 거둠':'관리자 위임 링크를 취소했습니다','관리자 임명 받음':'관리자가 되었습니다',
+  '함께하기 받음':'가입 신청을 승인했습니다','사람 내보냄':'멤버를 내보냈습니다','내보냄 되돌림':'내보낸 멤버를 되돌렸습니다','쓰기 멈춤':'멤버의 작성을 제한했습니다','쓰기 멈춤 풂':'작성 제한을 해제했습니다','올리기 권한 요청':'참여 신청을 보냈습니다','올리기 요청 거절':'참여 신청을 거절했습니다','역할 바꿈':'멤버 역할을 바꿨습니다',
+  '꽂힘':'방을 연결했습니다','꽂힘 풂':'방 연결을 끊었습니다','꽂힘 표 만듦':'방 연결 링크를 만들었습니다','아래 모임 엶':'아래 방을 만들었습니다','초대 링크 만듦':'초대 링크를 만들었습니다','초대 링크 새로 만듦':'초대 링크를 새로 만들었습니다','초대 링크 지움':'초대 링크를 지웠습니다','열쇠 다시 만듦':'들어오는 링크를 새로 만들었습니다',
+  '새 분 받기 멈춤':'새 멤버 받기를 멈췄습니다','새 분 받기 다시':'새 멤버 받기를 다시 열었습니다','대표 사진 걸기':'대표 사진을 바꿨습니다','대표 사진 풀기':'대표 사진을 뺐습니다','열기 방식 · 열린 모임':'공개 방으로 바꿨습니다','열기 방식 · 닫힌 방':'비공개 방으로 바꿨습니다',
+  '받기 방식 · 바로':'「로그인한 누구나 바로 올리기」를 켰습니다','받기 방식 · 받기':'「로그인한 누구나 바로 올리기」를 껐습니다','새 분 확인 · 예':'「첫 게시물 승인」을 켰습니다','새 분 확인 · 아니오':'「첫 게시물 승인」을 껐습니다','공동체 바로 공개 켬':'「게시물 승인」을 껐습니다','공동체 바로 공개 끔':'「게시물 승인」을 켰습니다','바로 공개 지정':'멤버의 바로 공개를 켰습니다','바로 공개 풀기':'멤버의 바로 공개를 껐습니다',
+  '빼 주세요 요청':'사진에서 빼 달라는 요청을 보냈습니다','빼 주세요 요청 닫음':'사진에서 빼 달라는 요청을 처리했습니다','아이 사진 표시':'아이 사진으로 표시했습니다','아이 사진 표시 풂':'아이 사진 표시를 풀었습니다','우리 방에서 빼기':'아래 방 게시물을 우리 방에서 뺐습니다','우리 방에 다시 보이기':'아래 방 게시물을 우리 방에 다시 보이게 했습니다',
+  '운영 멈춤':'방 운영을 멈췄습니다','운영 다시':'방 운영을 다시 열었습니다'};
+function alogLine(x){ var w=String(x.what||''), why=String(x.why||''), t=ALOG_S[w], m;
+  if(w==='실음'){ t=x.pv==='기다림'?'게시물을 승인했습니다':'게시물을 다시 보이게 했습니다'; }
+  else if((m=/^공개 범위 · (공개|공동체)$/.exec(w))){ var n=/^(\d+)장$/.exec(why); t=(n?'사진 '+n[1]+'장을 ':'게시물을 ')+(m[1]==='공개'?'전체 공개로':'이 방만 보기로')+' 바꿨습니다'; if(n){ why=''; } }
+  else if(w==='역할 바꿈'){ why=why.split(' → ').map(roleName).join(' → '); }
+  else if(w==='쓰기 멈춤(저절로)'){ return { s:(x.who?x.who+' 님의 ':'')+'작성이 삭제 요청 2건으로 자동 제한되었습니다', why:why }; }
+  else if(/^되돌림/.test(w)){ t='되돌렸습니다'; }
+  if(!t){ return null; }
+  var who=String(x.who||''); return { s:(who?(/^본부/.test(who)?'본부에서 ':who+' 님이 '):'')+t, why:why }; }
 function alogWhat(w){ return ALOG_W[w]||String(w||'').replace(/꽂힘/g,'연결된 방'); }
 function alogLoad(el,n){
   if(!el){ return; } wait(el,'활동 기록을 모으는 중입니다');
@@ -5902,7 +5932,7 @@ function alogLoad(el,n){
     if(!el.isConnected){ return; }
     if(d.status!=='ok'){ el.innerHTML='<div class="msg">'+esc(d.msg||'불러오지 못했습니다.')+'</div>'; return; }
     var it=(d.items||[]).slice(0,n||30);
-    el.innerHTML=it.length?it.map(function(x,i){ return '<div class="sw alr"><span><b>'+esc(alogWhat(x.what))+(x.back?' <span class="tag t-out">되돌림</span>':'')+'</b><small>'+esc(x.who||'')+' · '+esc(x.at||'')+(x.why?' · '+esc(x.why):'')+'</small></span>'+(x.undo?'<button type="button" class="sbtn" data-un="'+i+'">되돌리기</button>':'')+'</div>'; }).join(''):'<p class="note">아직 활동 기록이 없습니다.</p>';
+    el.innerHTML=it.length?it.map(function(x,i){ var L=alogLine(x); return '<div class="sw alr"><span>'+(L?'<b style="font-weight:600">'+esc(L.s)+(x.back?' <span class="tag t-out">되돌림</span>':'')+'</b><small>'+esc(x.at||'')+(L.why?' · '+esc(L.why):'')+'</small>':'<b>'+esc(alogWhat(x.what))+(x.back?' <span class="tag t-out">되돌림</span>':'')+'</b><small>'+esc(x.who||'')+' · '+esc(x.at||'')+(x.why?' · '+esc(x.why):'')+'</small>')+'</span>'+(x.undo?'<button type="button" class="sbtn" data-un="'+i+'">되돌리기</button>':'')+'</div>'; }).join(''):'<p class="note">아직 활동 기록이 없습니다.</p>';
     each(el,'[data-un]',function(b){ b.onclick=function(){ undoSheet(it[+b.getAttribute('data-un')],function(){ alogLoad(el,n); }); }; });
   });
 }
@@ -5933,10 +5963,10 @@ function roleSheet(x){
   });
 }
 function handSheet(x){
-  sheet('<h2 style="color:#6E2A22">관리자 위임</h2><p class="lead" style="margin-top:6px"><b>'+esc(x.name||'')+'</b> 님이 이 방의 관리자가 됩니다. 다시 관리자가 되려면 새 관리자가 넘겨 주어야 합니다.</p><div class="card" style="margin-top:10px;padding:10px 12px;font-size:15px;line-height:1.8"><div><b>'+esc(x.name||'')+' 님</b> : '+esc(roleName(x.role))+' → <b>관리자</b></div><div><b>나</b> : 관리자 → <b>멤버 · 승인</b></div></div>'+   /* ★v155 653 86차 도식 4 2판 ③ 두 줄 */
-    '<div class="pair" style="margin-top:16px"><button class="btn line" id="hdNo" type="button">취소</button><button class="btn red" id="hdGo" type="button">관리자 위임</button></div>',function(){
+  sheet('<h2 style="color:#6E2A22">관리자 위임</h2><p class="lead" style="margin-top:6px"><b>'+esc(x.name||'')+'</b> 님께 관리자 위임을 요청합니다. 그분이 방에 들어와 수락하면 넘어갑니다(7일 안). 다시 관리자가 되려면 새 관리자가 넘겨 주어야 합니다.</p><div class="card" style="margin-top:10px;padding:10px 12px;font-size:15px;line-height:1.8"><div><b>'+esc(x.name||'')+' 님</b> : '+esc(roleName(x.role))+' → <b>관리자</b></div><div><b>나</b> : 관리자 → <b>멤버 · 승인</b></div></div>'+   /* ★v155 653 86차 도식 4 2판 ③ 두 줄 */
+    '<div class="pair" style="margin-top:16px"><button class="btn line" id="hdNo" type="button">취소</button><button class="btn red" id="hdGo" type="button">위임 요청</button></div>',function(){
     $('hdNo').onclick=closeSheet;
-    $('hdGo').onclick=function(){ this.disabled=true; api({action:'recRoleSet',no:x.no,act:'handover',_busy:'관리자를 넘기는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'){ ME.role=r.me||'확인자'; toast('관리자를 넘겼습니다','이제 승인 권한이 있는 멤버로 함께합니다'); STACK=[{v:'feed'},{v:'adm'},{v:'ppl'}]; render(); } else { toast(r.msg||'넘기지 못했습니다'); } }); };
+    $('hdGo').onclick=function(){ this.disabled=true; api({action:'recRoleSet',no:x.no,act:'handover',_busy:'관리자 위임을 요청하는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'&&r.wait){ toast('관리자 위임을 요청했습니다',(x.name||'')+' 님이 수락하면 넘어갑니다'); pplView(); } else if(r.status==='ok'){ ME.role=r.me||'확인자'; toast('관리자를 넘겼습니다','이제 승인 권한이 있는 멤버로 함께합니다'); STACK=[{v:'feed'},{v:'adm'},{v:'ppl'}]; render(); } else { toast(r.msg||'요청하지 못했습니다'); } });   /* ★v158 r.wait = 서버 ②관리 v41 위임 대기 */ };
   });
 }
 
@@ -6280,7 +6310,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=157;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=158;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
