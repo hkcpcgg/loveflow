@@ -449,6 +449,7 @@ svg.i.lg{width:30px;height:30px;stroke-width:1.6}
 .rnd{width:42px;height:42px;border-radius:50%;border:none;display:grid;place-items:center;cursor:pointer;position:relative}
 .rnd.home{background:#FFF3DE;color:var(--gold2);box-shadow:inset 0 0 0 1.5px #EBD7AE}
 .rnd.home .rl{position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);font-size:10.5px;font-weight:800;color:var(--gold2);white-space:nowrap}   /* ★v138 638 */
+.kic{display:inline-flex;width:20px;height:20px;margin-right:8px;flex:none}.kic svg{width:20px!important;height:20px!important}
 .sugg{display:flex;gap:6px;overflow-x:auto;align-items:center;padding:6px 12px 2px;scrollbar-width:none}.sugg[hidden]{display:none}.sugg small{flex:none;color:var(--sub);font-size:12px;margin-right:2px}.sugg .chip{flex:none}   /* ★v138 636 */
 .rnd.me{background:var(--navy);color:#fff;font-size:17px;font-weight:800}
 .ttl{text-align:center;font-family:var(--f-disp);font-weight:700;color:var(--navy2);font-size:17px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -3233,7 +3234,7 @@ function linkCopy(it){
 function shareMenu(it){
   if(!it||!it.id){ shareRec(it); return; }
   var shc=(it.kind==='사진'||it.kind==='영상')&&!it.from&&!isGuest()&&it.same!==0&&!it.kid;
-  sheet('<h2>공유</h2><div class="mlist"><button type="button" id="sfK">'+KICON+'카카오톡으로 보내기</button><button type="button" id="sfL">'+ic('link')+'링크 복사</button>'+(shc?'<button type="button" id="sfS">'+ic('share')+'사진 속 분께 보여 드리기</button>':'')+'</div><button class="btn line lv" id="sfX" type="button">공유 창 닫기</button>',function(){
+  sheet('<h2>공유</h2><div class="mlist"><button type="button" id="sfK"><span class="kic">'+KICON+'</span>카카오톡으로 보내기</button><button type="button" id="sfL">'+ic('link')+'링크 복사</button>'+(shc?'<button type="button" id="sfS">'+ic('share')+'사진 속 분께 보여 드리기</button>':'')+'</div><button class="btn line lv" id="sfX" type="button">공유 창 닫기</button>',function(){
     $('sfX').onclick=closeSheet;
     $('sfK').onclick=function(){ closeSheet(); shareRec(it); };
     $('sfL').onclick=function(){ closeSheet(); linkCopy(it); };
