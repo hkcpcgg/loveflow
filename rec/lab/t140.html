@@ -2824,7 +2824,7 @@ function pfMem(i,fresh){ var p=pfCur(i), box=document.querySelector('#pfIn [data
     PF.st[p.id]={like:isGuest()?lkN(p.id,x.like||0):(x.like||0),myUp:upOf(x),react:x.react||0,mineReact:!!x.mineReact,mems:ms,item:x}; pfAct(i);
     var h=ms.length?'<div class="pfkh">💬 '+(ps.length>1?(k+1)+'번째 사진의 ':'')+'기억 '+ms.length+'</div>'+ms.slice(-2).map(function(m){ return '<p><b>'+esc(m.by||'')+'</b>'+esc(m.text||'')+'</p>'; }).join('')+(ms.length>2?'<button type="button" class="pfall" data-pa="all">기억 '+ms.length+'개 모두 보기</button>':''):'';
     b2.innerHTML=h; },fresh); }
-function pfImg(id,cb){ if(PHC['m:'+id]){ cb(PHC['m:'+id]); return; } var cb0=cb; cb=function(u){ if(u&&/^https/.test(u)){ PHC['m:'+id]=u; } cb0(u); }; if(DU[id]){ duLoad(id,800,function(u){ if(u){ cb(u); } else { photo(id,false,cb); } }); return; } photo(id,false,cb); }   /* 게시물은 800 · 원본은 전체 화면에서만(⑤ 속도) */
+function pfImg(id,cb){ if(PHC['m:'+id]){ cb(PHC['m:'+id]); return; } var cb0=cb; cb=function(u){ if(u&&/^https/.test(u)){ PHC['m:'+id]=u; } cb0(u); }; photo(id,false,cb); }   /* ★v142 ⑤ 실측(261114) — 구글 드라이브 작은 사진은 크기마다 따로 만들어 처음 받는 800 이 이미 만들어 둔 1600 보다 늦음(2.5~3.4초 : 1.2~1.8초) → 게시물도 1600 하나로 · 전체 화면은 같은 사진을 바로 씀 */
 function pfLoad(i){ var art=document.querySelector('#pfIn [data-pi="'+i+'"]'); if(!art||art.getAttribute('data-ld')){ return; } art.setAttribute('data-ld','1');
   var k=PF.ci[i]||0; each(art,'img[data-fid]',function(im,j){ if(Math.abs(j-k)>1){ return; } pfImgOne(im); }); }
 function pfImgOne(im){ if(!im||im.getAttribute('data-ok')){ return; } im.setAttribute('data-ok','1'); var id=im.getAttribute('data-fid');
