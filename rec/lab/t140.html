@@ -1394,6 +1394,48 @@ body.desk .app{max-width:1360px}
 @media(max-width:899px){ .dk-side{display:none} }
 .dk-fr{display:block;width:100%;height:calc(100vh - 240px);min-height:560px;border:1px solid #E4E0EE;border-radius:12px;background:#fff}
 .chipline{display:flex;gap:7px;overflow-x:auto;padding:2px 0 6px;scrollbar-width:none}.chipline::-webkit-scrollbar{display:none}.chipline .chip{flex:none}
+/* ★v141 시공 ④ 게시물 · 사진 전체 화면(도식 2 2판) — 휴대폰 */
+.pf{position:fixed;inset:0;z-index:1500;background:var(--bg,#FFFDF8);overflow-y:auto;-webkit-overflow-scrolling:touch;display:none}
+.pf.on{display:block}
+.pf .pftop{position:sticky;top:0;z-index:3;display:flex;align-items:center;gap:4px;background:rgba(255,253,248,.97);border-bottom:1px solid var(--line);padding:6px 4px;padding-top:calc(6px + env(safe-area-inset-top))}
+.pf .pftop button{border:0;background:none;font-size:16px;font-weight:700;padding:8px 10px;color:var(--ink);cursor:pointer;font-family:inherit;max-width:70%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pf .pfin{max-width:560px;margin:0 auto;padding-bottom:40px}
+.pfp{border-bottom:8px solid #F2EFE8;padding-bottom:12px}
+.pfh{display:flex;align-items:center;gap:8px;padding:10px 12px}
+.pfh .pfav{width:32px;height:32px;border-radius:50%;background:#E3DED3;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;flex:none}
+.pfh .pfnm{flex:1;min-width:0;line-height:1.25}.pfh .pfnm b{display:block;font-size:14.5px}.pfh .pfnm small{color:var(--sub);font-size:12.5px}
+.pfh .pfrm{border:0;background:none;color:var(--sub);font-size:12.5px;padding:0;cursor:pointer;font-family:inherit}
+.pfh .pfmo{border:0;background:none;font-size:20px;padding:4px 8px;cursor:pointer;color:var(--ink)}
+.pfm{position:relative;background:#EDEAE3}
+.pfs{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch}.pfs::-webkit-scrollbar{display:none}
+.pfi{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:4/5;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.pfi img{width:100%;height:100%;object-fit:contain;display:block}
+.pfi .pfw8{position:absolute;inset:auto 0 10px 0;text-align:center;font-size:12.5px;color:#555}
+.pfi .pfw8 button{border:1px solid #bbb;background:#fff;border-radius:99px;padding:4px 10px;font-size:12.5px;margin-left:6px;cursor:pointer}
+.pfi.vid{aspect-ratio:16/9;background:#000}.pfi.vid.sh{aspect-ratio:9/16;max-height:80vh}
+.pfi.vid img{object-fit:cover;opacity:.9}.pfi.vid iframe,.pfi.vid video{position:absolute;inset:0;width:100%;height:100%;border:0;background:#000}
+.pfi .pfpl{position:absolute;inset:0;margin:auto;width:64px;height:64px;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font-size:26px;border:0;cursor:pointer}
+.pfc{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.55);color:#fff;border-radius:99px;font-size:12px;padding:2px 9px;font-weight:700}
+.pfd{display:flex;justify-content:center;gap:5px;padding:8px 0 0}.pfd i{width:6px;height:6px;border-radius:50%;background:#CFCAC0;display:block}.pfd i.on{background:#2F80ED}
+.pfa{display:flex;gap:6px;padding:8px 10px 0}
+.pfa button{display:flex;align-items:center;gap:4px;border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 11px;font-size:13.5px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.pfa button.on{color:#D93025;border-color:#F3B8B2;background:#FFF4F2}.pfa button.on2{color:#6B3FA0;border-color:#D4C2EA;background:#F7F2FC}
+.pfwr{display:block;width:calc(100% - 20px);margin:14px 10px 0;text-align:left;border:1.5px solid #E8771E;border-radius:12px;background:#FFF7F0;color:#A0521C;font-weight:700;font-size:14.5px;padding:11px 12px;cursor:pointer;font-family:inherit}
+.pft{padding:10px 12px 0;font-size:14.5px;line-height:1.55;word-break:keep-all;white-space:pre-wrap}.pft b{margin-right:6px}
+.pfk{padding:6px 12px 0;font-size:14px}.pfk .pfkh{color:var(--sub);font-size:12.5px;margin:6px 0 2px}.pfk p{margin:3px 0;line-height:1.5}.pfk p b{margin-right:6px}
+.pfk .pfall{border:0;background:none;color:var(--sub);padding:4px 0;font-size:13.5px;cursor:pointer;font-family:inherit}
+.pfend{text-align:center;color:var(--sub);font-size:13px;padding:22px 0}
+.fsv{position:fixed;inset:0;z-index:1560;background:#000;display:none;touch-action:none}
+.fsv.on{display:block}
+.fsv .fst{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;align-items:center;gap:8px;padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top));color:#fff;background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,0))}
+.fsv .fst .fsn{font-weight:700;font-size:14px}.fsv .fst .fsr{flex:1;min-width:0;font-size:13px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fsv .fst button{border:0;background:rgba(255,255,255,.18);color:#fff;width:40px;height:40px;border-radius:50%;font-size:20px;cursor:pointer}
+.fsv .fss{position:absolute;inset:0;display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}.fsv .fss::-webkit-scrollbar{display:none}
+.fsv .fss.lock{overflow:hidden}
+.fsv .fsi{flex:0 0 100%;height:100%;scroll-snap-align:center;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.fsv .fsi img{max-width:100%;max-height:100%;transform-origin:center center;transition:transform .15s;user-select:none;-webkit-user-drag:none}
+.fsv .fsd{position:absolute;bottom:calc(16px + env(safe-area-inset-bottom));left:0;right:0;display:flex;justify-content:center;gap:5px;z-index:3}.fsv .fsd i{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.4);display:block}.fsv .fsd i.on{background:#fff}
+body.pfon{overflow:hidden}
 /* ★v140 시공 ② 하단 탭 · 방 첫 화면(도식 1) */
 .btab{position:fixed;left:0;right:0;bottom:0;z-index:70;background:#fff;border-top:1px solid var(--line);padding:5px 0 calc(6px + env(safe-area-inset-bottom))}
 .btab .bin{max-width:640px;margin:0 auto;display:flex}
@@ -1664,7 +1706,7 @@ function guestShow(d,m){   /* ★v51 손님 첫 화면 그리기(guestIn · room
     gridSet(d.grid);
     if(m===2&&!homeSafe()){ return; }
     var y=m===2?(window.scrollY||0):0;
-    STACK=[{v:'feed'}]; if(OPEN_R){ var r=OPEN_R; OPEN_R=''; STACK.push({v:'item',id:r}); holdHistory(); }
+    STACK=[{v:'feed'}]; if(OPEN_R){ var r=OPEN_R; OPEN_R=''; if(!DK&&!DRAFT_T&&!PEND_ADD){ PFR=r; } else { STACK.push({v:'item',id:r}); holdHistory(); } }   /* ★v141 ④ 휴대폰 = 게시물 */
     render(); if(y){ window.scrollTo(0,y); }
     if(PEND_ADD&&PEND_ADD.plus&&!OPEN_R){ PEND_ADD=null; setTimeout(plusJoin,400); }   /* ★v133 566 ＋ 로 고른 방 — 손님이면 카카오 로그인 뒤 올리기 */
 }
@@ -1982,7 +2024,7 @@ function feedView(){
   $('hm').onclick=homeGo;   /* ★v48 🏠 = 우리 이야기 홈(메인 방) · ★v51 따로 묻지 않음 */
   $('sf').onsubmit=function(e){ e.preventDefault(); F.q=$('fq').value.trim(); LKEY=''; $('fq').blur(); feedView(); };
   $('mc').onclick=isGuest()?joinGate:meOpen;   /* ★v66 390 내 동그라미 = 「나」 화면 */
-  $('rBk').onclick=roomBack; $('rSh').onclick=shareMenu; if($('rAd')){ $('rAd').onclick=function(){ admGo('adm'); }; }
+  $('rBk').onclick=roomBack; $('rSh').onclick=roomShare; if($('rAd')){ $('rAd').onclick=function(){ admGo('adm'); }; }
   feedLoad(); btabDraw();
 }
 /* ★v26 확 당기는 첫 머리 — 「이 안에 혹시 당신이 있나요?」 · 모임 숫자 · 대표 사진 · 새 소식 */
@@ -2619,7 +2661,7 @@ function vwCount(){ var c=$('vC'), n=VW.n||VW.list.length; if(c){ c.textContent=
 var PFINE=false; try{ PFINE=window.matchMedia('(hover:hover) and (pointer:fine)').matches; }catch(e){}
 /* ★v134 568 컴퓨터 화면 — 넓이 1000px 이상 · 마우스 · 휴대폰 · 태블릿(손가락)은 지금 그대로 */
 var DK=false, DKQ=null; function dkSet(){ var was=DK; try{ DK=!!(DKQ&&DKQ.matches); }catch(e){ DK=false; } document.body.classList.toggle('pcw',DK); return was!==DK; }
-try{ DKQ=window.matchMedia('(min-width:1000px) and (hover:hover) and (pointer:fine)'); }catch(e){}
+try{ if(!/[?&]m=1/.test(location.search)) DKQ=window.matchMedia('(min-width:1000px) and (hover:hover) and (pointer:fine)'); }catch(e){}
 function dkMark(){ try{ document.body.classList.toggle('fdw',VIEW==='feed'||VIEW==='plaza'||VIEW==='all'); }catch(e){} }
 dkSet(); if(DKQ){ var dkCh=function(){ if(dkSet()&&VWON){ vwFill(VW.list,VW.i,VW.src); vwNavTxt(); } if(VIEW==='item'&&CUR&&$('body')){ try{ drawItem(CUR); }catch(e){} } }; if(DKQ.addEventListener){ DKQ.addEventListener('change',dkCh); } else if(DKQ.addListener){ DKQ.addListener(dkCh); } }
 function vwNavTxt(){ var u=$('vUp'), d=$('vDn'); if(u){ u.textContent=DK?'‹':'↑'; } if(d){ d.textContent=DK?'›':'↓'; } }
@@ -2749,7 +2791,115 @@ function vwTap(ev){
 }
 /* 방 첫 화면 바둑판 → 세로 넘김(사진 · 영상만 · 지금 보이는 차례대로) */
 function vwRoomList(){ var seen={}, out=[]; each($('feed')||document,'.tl[data-tid]',function(t){ var id=t.getAttribute('data-tid'); if(seen[id]){ return; } var it=findL(id); if(it&&(it.photo||it.video)){ seen[id]=1; out.push(it); } }); return out; }
-function vwRoom(id,pid){ var its=vwRoomList(); if(!its.length){ go('item',id); return; } var L=vwExpand(its), k=0; for(var i=0;i<L.length;i++){ if(L[i].tid===id&&(!pid||L[i].id===pid)){ k=i; break; } } vwOpen(L,k,'room'); }   /* ★v107 누른 그 사진부터 */
+function vwRoom(id,pid){ var its=vwRoomList(); if(!its.length){ go('item',id); return; } if(!DK){ var pk=0; for(var q=0;q<its.length;q++){ if(its[q].id===id){ pk=q; } } pfOpen(its,pk,pid); return; }   /* ★v141 ④ 휴대폰 = 게시물(위아래 · 여러 장은 옆으로) · 컴퓨터는 568 그대로 */ var L=vwExpand(its), k=0; for(var i=0;i<L.length;i++){ if(L[i].tid===id&&(!pid||L[i].id===pid)){ k=i; break; } } vwOpen(L,k,'room'); }   /* ★v107 누른 그 사진부터 */
+/* ══ ★v141 시공 ④ 게시물(도식 2 2판) — 게시물 사이는 위아래 · 여러 장은 옆으로(점 · 1/9) · 기억 · ♥ · 🍇 는 지금 보는 사진에 · 사진을 누르면 전체 화면 ══ */
+var PF={on:false,list:[],ci:{},st:{},fromPz:0}, PFO=null, PFR='';
+function pfPhotos(it){ if(it.video){ return [{id:it.id,vid:1}]; } if(it.photos&&it.photos.length){ return it.photos; } return [{id:it.id,pv:it.pv}]; }
+function pfTh(p,it){ return p.pv||PVC[p.id]||PHC['s:'+p.id]||duUrl(p.id,480)||(it&&p.id===it.id?(it.pv||''):''); }
+function pfBox(){ var b=$('pf'); if(b){ return b; } b=document.createElement('div'); b.id='pf'; b.className='pf'; b.setAttribute('role','dialog'); b.setAttribute('aria-label','게시물');
+  b.innerHTML='<div class="pftop"><button type="button" id="pfBk" aria-label="뒤로">‹ </button></div><div class="pfin" id="pfIn"></div>'; document.body.appendChild(b);
+  $('pfBk').onclick=pfClose; b.addEventListener('click',pfTap); return b; }
+function pfLabel(){ return '‹ '+(PF.fromPz?'마당':((ME&&ME.comName)||'우리 이야기')); }
+function pfPost(it,i){
+  var ps=pfPhotos(it), by=it.by||'', vid=it.kind==='영상'&&it.video, yt=vid?ytId(it.video.url):'', sh=vid&&/\/shorts\//.test(String(it.video.url||'')), mv=!vid&&(it.mv||MV[it.id]);
+  var sl=vid?'<div class="pfi vid'+(sh?' sh':'')+'" data-pv="'+i+'">'+(it.video.thumb?'<img alt="" src="'+esc(it.video.thumb)+'">':'')+'<button type="button" class="pfpl" data-pa="play" aria-label="재생">▶</button></div>'
+    :ps.map(function(p,k){ var th=pfTh(p,it); return '<div class="pfi" data-pk="'+k+'"><img alt="'+esc((it.title||'사진')+' '+(k+1))+'"'+(th?' src="'+esc(th)+'"':'')+' data-fid="'+esc(p.id)+'">'+(th?'':'<div class="pfw8">사진을 불러오는 중입니다</div>')+'</div>'; }).join('');
+  var n=vid?1:ps.length, txt=(it.text&&it.kind!=='글'&&it.kind!=='링크')?it.text:'', tt=it.title&&!(txt&&String(txt).indexOf(it.title)===0)?it.title:'';
+  return '<article class="pfp" data-pi="'+i+'"><header class="pfh"><span class="pfav">'+esc((by||(ME&&ME.comName)||'?').charAt(0))+'</span><div class="pfnm"><b>'+esc(by||(ME&&ME.comName)||'')+'</b><small>'+esc(it.when||'')+'</small></div><button type="button" class="pfmo" data-pa="more" aria-label="더 보기">⋯</button></header>'+
+    '<div class="pfm"><div class="pfs" data-ps="'+i+'">'+sl+'</div>'+(n>1?'<span class="pfc" data-pc="'+i+'">1/'+n+'</span>':'')+'</div>'+(n>1?'<div class="pfd" data-pd="'+i+'">'+ps.map(function(p,k){ return '<i'+(k?'':' class="on"')+'></i>'; }).join('')+'</div>':'')+
+    '<div class="pfa" data-pa0="'+i+'"></div><button type="button" class="pfwr" data-pa="write">💬 '+(vid?'이 영상의':'이 사진의')+' 기억을 남겨 주세요</button>'+
+    (tt||txt?'<div class="pft">'+(by?'<b>'+esc(by)+'</b>':'')+esc([tt,txt].filter(Boolean).join('\n'))+'</div>':'')+'<div class="pfk" data-pkk="'+i+'"></div></article>';
+}
+function pfCur(i){ var it=PF.list[i]; if(!it){ return null; } var ps=pfPhotos(it), k=PF.ci[i]||0; return ps[Math.min(k,ps.length-1)]; }
+function pfAct(i){ var it=PF.list[i], box=document.querySelector('#pfIn [data-pa0="'+i+'"]'); if(!it||!box){ return; } var p=pfCur(i), st=PF.st[p.id]||{}, base=p.id===it.id?it:{};
+  var lk=st.like!=null?st.like:(base.like||0), up=st.myUp!=null?st.myUp:upOf(base.id?base:{id:p.id}), rc=st.react!=null?st.react:(base.react||0), mr=st.mineReact!=null?st.mineReact:!!base.mineReact;
+  if(isGuest()&&st.like==null){ lk=lkN(p.id,lk); }
+  box.innerHTML='<button type="button" data-pa="like"'+(up?' class="on"':'')+'>♥ '+(lk?'좋아요 '+lk:'좋아요')+'</button><button type="button" data-pa="mem"'+(mr?' class="on2"':'')+'>🍇 나도 기억해요'+(rc?' '+rc:'')+'</button><button type="button" data-pa="send">↗ 공유</button>'; }
+function pfMem(i,fresh){ var p=pfCur(i), box=document.querySelector('#pfIn [data-pkk="'+i+'"]'); if(!p||!box){ return; } var it=PF.list[i], ps=pfPhotos(it), k=PF.ci[i]||0;
+  itGet(p.id,function(d){ if(!PF.on){ return; } var b2=document.querySelector('#pfIn [data-pkk="'+i+'"]'); if(!b2||pfCur(i)!==p){ return; }
+    if(!d||d.status!=='ok'||!d.item){ b2.innerHTML=''; return; } var x=d.item, ms=(x.linked||[]).filter(function(m){ return m.kind==='기억'; }).map(function(m){ return {by:m.by,text:m.text}; }).concat((x.talks||[]).map(function(t){ return {by:t.by,text:t.text}; }));
+    PF.st[p.id]={like:isGuest()?lkN(p.id,x.like||0):(x.like||0),myUp:upOf(x),react:x.react||0,mineReact:!!x.mineReact,mems:ms,item:x}; pfAct(i);
+    var h=ms.length?'<div class="pfkh">💬 '+(ps.length>1?(k+1)+'번째 사진의 ':'')+'기억 '+ms.length+'</div>'+ms.slice(-2).map(function(m){ return '<p><b>'+esc(m.by||'')+'</b>'+esc(m.text||'')+'</p>'; }).join('')+(ms.length>2?'<button type="button" class="pfall" data-pa="all">기억 '+ms.length+'개 모두 보기</button>':''):'';
+    b2.innerHTML=h; },fresh); }
+function pfImg(id,cb){ if(DU[id]){ duLoad(id,800,function(u){ if(u){ cb(u); } else { photo(id,false,cb); } }); return; } photo(id,false,cb); }   /* 게시물은 800 · 원본은 전체 화면에서만(⑤ 속도) */
+function pfLoad(i){ var art=document.querySelector('#pfIn [data-pi="'+i+'"]'); if(!art||art.getAttribute('data-ld')){ return; } art.setAttribute('data-ld','1');
+  var k=PF.ci[i]||0; each(art,'img[data-fid]',function(im,j){ if(Math.abs(j-k)>1){ return; } pfImgOne(im); }); }
+function pfImgOne(im){ if(!im||im.getAttribute('data-ok')){ return; } im.setAttribute('data-ok','1'); var id=im.getAttribute('data-fid');
+  pfImg(id,function(u){ var w=im.parentNode&&im.parentNode.querySelector('.pfw8'); if(u){ im.src=u; if(w){ w.remove(); } } else if(!im.getAttribute('src')&&w){ w.innerHTML='사진을 불러오지 못했습니다<button type="button" data-pa="retry">다시 시도</button>'; im.removeAttribute('data-ok'); } }); }
+function pfSlide(sc){ var i=+sc.getAttribute('data-ps'), w=sc.clientWidth||1, k=Math.round(sc.scrollLeft/w); if((PF.ci[i]||0)===k){ return; } PF.ci[i]=k;
+  var c=document.querySelector('#pfIn [data-pc="'+i+'"]'), n=sc.children.length; if(c){ c.textContent=(k+1)+'/'+n; } var d=document.querySelector('#pfIn [data-pd="'+i+'"]'); if(d){ each(d,'i',function(x,j){ x.classList.toggle('on',j===k); }); }
+  each(sc,'img[data-fid]',function(im,j){ if(Math.abs(j-k)<=1){ pfImgOne(im); } }); pfAct(i); pfMem(i); }
+function pfWire(from){ var inn=$('pfIn');
+  each(inn,'.pfs',function(sc){ if(sc.getAttribute('data-w')){ return; } sc.setAttribute('data-w','1'); var t=0; sc.addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(function(){ pfSlide(sc); },90); },{passive:true}); });
+  if(PFO){ try{ PFO.disconnect(); }catch(e){} } if(!window.IntersectionObserver){ PF.list.forEach(function(x,i){ pfLoad(i); pfAct(i); pfMem(i); }); return; }
+  PFO=new IntersectionObserver(function(es){ es.forEach(function(en){ if(!en.isIntersecting){ var v=en.target.querySelector('iframe,video'); if(v&&v.tagName==='VIDEO'){ try{ v.pause(); }catch(x){} } return; } var i=+en.target.getAttribute('data-pi'); pfLoad(i); pfLoad(i+1); pfLoad(i+2); pfAct(i); pfMem(i);
+    if(i>=PF.list.length-2&&!PF.fromPz&&VIEW==='feed'&&RG.more&&!RG.busy){ rgMore(); } }); },{root:$('pf'),rootMargin:'300px 0px',threshold:0.01});
+  each(inn,'.pfp',function(a){ PFO.observe(a); }); }
+function pfOpen(list,i,pid,pz){
+  if(!list.length){ return; } pfBox(); PF.list=list.slice(); PF.ci={}; PF.on=true; PF.fromPz=pz?1:0;
+  $('pfBk').textContent=pfLabel(); $('pfIn').innerHTML=PF.list.map(pfPost).join('')+'<div class="pfend" id="pfEnd"></div>';
+  $('pf').style.zIndex=String(1500+LAYS.length*2); $('pf').classList.add('on'); document.body.classList.add('pfon'); btabDraw();
+  var art=document.querySelector('#pfIn [data-pi="'+i+'"]'); $('pf').scrollTop=art?art.offsetTop-$('pf').querySelector('.pftop').offsetHeight:0;
+  if(pid){ var ps=pfPhotos(PF.list[i]); for(var k=0;k<ps.length;k++){ if(ps[k].id===pid){ PF.ci[i]=k; var sc=art&&art.querySelector('.pfs'); if(sc){ (function(sc,k){ setTimeout(function(){ sc.scrollLeft=k*sc.clientWidth; },0); })(sc,k); } } } }
+  pfWire(); pfLoad(i); pfAct(i); pfMem(i);
+  lyPush(pfHide);
+}
+function pfSync(){ if(!PF.on||PF.fromPz){ return; } var have={}; PF.list.forEach(function(x){ have[x.id]=1; }); var add=vwRoomList().filter(function(x){ return !have[x.id]; }); if(!add.length){ return; }
+  var n=PF.list.length; PF.list=PF.list.concat(add); var e=$('pfEnd'); e.insertAdjacentHTML('beforebegin',add.map(function(x,k){ return pfPost(x,n+k); }).join('')); pfWire(); }
+function pfHide(){ if(!PF.on){ return; } PF.on=false; if(PFO){ try{ PFO.disconnect(); }catch(e){} PFO=null; } var b=$('pf'); b.classList.remove('on'); document.body.classList.remove('pfon');
+  var top=null, y=b.scrollTop+60; each($('pfIn'),'.pfp',function(a){ if(a.offsetTop<=y){ top=a; } }); var it=top&&PF.list[+top.getAttribute('data-pi')]; $('pfIn').innerHTML='';
+  if(PF.fromPz&&VIEW==='feed'&&STACK.length===1){ location.href=FROMPZ==='home'?'/':location.pathname+'?plaza=1'; return; }   /* 마당에서 연 게시물 = 마당 보던 자리로 */
+  btabDraw(); if(it){ var t=document.querySelector('#feed [data-tid="'+it.id+'"]'); if(t&&t.scrollIntoView){ try{ t.scrollIntoView({block:'center'}); }catch(x){} } } }
+function pfClose(){ lyBack(); }
+function pfOpenId(id){ itGet(id,function(d){ if(!d||d.status!=='ok'||!d.item){ STACK.push({v:'item',id:id}); holdHistory(); render(); return; } var x=d.item, L=vwRoomList().filter(function(y){ return y.id!==x.id; }); pfOpen([x].concat(L),0,'',FROMPZ?1:0); }); }
+function pfAll(i){ var p=pfCur(i), st=p&&PF.st[p.id]; if(!st){ return; } var ms=st.mems||[];
+  sheet('<h2>💬 기억 '+ms.length+'</h2><div class="pfk" style="padding:6px 0;max-height:60vh;overflow:auto">'+ms.map(function(m){ return '<p><b>'+esc(m.by||'')+'</b>'+esc(m.text||'')+'</p>'; }).join('')+'</div><button class="btn warm" id="paW" type="button">💬 기억 남기기</button><button class="btn line" id="paX" type="button">닫기</button>',function(){ $('paX').onclick=closeSheet; $('paW').onclick=function(){ closeSheet(); pfWrite(i); }; }); }
+function pfWrite(i){ var p=pfCur(i); if(!p){ return; } if(isGuest()){ joinGate(); return; } if(!canTell()){ toast('지금은 기억을 남길 수 없습니다'); return; }
+  itGet(p.id,function(d){ if(!d||d.status!=='ok'||!d.item){ toast('사진을 불러오지 못했습니다'); return; } memSheet(d.item,'m'); var tm=setInterval(function(){ if(!$('dimTop')){ clearInterval(tm); if(PF.on){ pfMem(i,true); } } },700); }); }
+function pfLike(i,b){ var p=pfCur(i), it=PF.list[i]; if(!p){ return; } var st=PF.st[p.id]||(PF.st[p.id]={}); var cur=st.like!=null?st.like:0, on=!!st.myUp;
+  if(isGuest()){ var g=G; if(!g){ return; } var n=Math.max(0,cur+(on?-1:1)); st.like=n; st.myUp=!on; lkSet(p.id,!on); if(LKN){ LKN[p.id]=n; } pfAct(i);
+    anonLike(g,p.id,function(r){ if(r.status!=='ok'){ st.like=cur; st.myUp=on; pfAct(i); toast(r.msg||'처리하지 못했습니다'); return; } st.like=r.like; st.myUp=!!r.myUp; pfAct(i); }); return; }
+  if(b){ b.disabled=true; } api({action:'recReact',id:p.id,type:'좋아요',d:devId()},function(r){ if(b){ b.disabled=false; } if(r.status!=='ok'){ toast(r.msg||'처리하지 못했습니다'); return; } st.like=r.like; st.myUp=!!r.myUp; if(p.id===it.id){ it.like=r.like; it.myUp=r.myUp; } pfAct(i); }); }
+function pfGrape(i,b){ var p=pfCur(i); if(!p){ return; } if(isGuest()){ joinGate(); return; } if(!canTell()){ toast('지금은 누를 수 없습니다'); return; } var st=PF.st[p.id]||(PF.st[p.id]={});
+  if(b){ b.disabled=true; } api({action:'recReact',id:p.id},function(r){ if(b){ b.disabled=false; } if(r.status!=='ok'){ toast(r.msg||'처리하지 못했습니다'); return; } st.react=r.react; st.mineReact=!!r.on; pfAct(i); if(r.on){ memTip(); } }); }
+function pfPlay(i,box){ var it=PF.list[i]; if(!it||!it.video){ return; } var id=ytId(it.video.url); if(!id){ vwYt({yu:it.video.url}); return; }
+  box.innerHTML='<iframe src="https://www.youtube.com/embed/'+encodeURIComponent(id)+'?autoplay=1&playsinline=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="유튜브 영상"></iframe>'; }
+function pfTap(ev){ var t=ev.target, art=t.closest&&t.closest('.pfp'); if(!art){ return; } var i=+art.getAttribute('data-pi'), it=PF.list[i]; var b=t.closest('[data-pa]');
+  if(b){ var a=b.getAttribute('data-pa');
+    if(a==='like'){ pfLike(i,b); return; } if(a==='mem'){ pfGrape(i,b); return; } if(a==='write'){ pfWrite(i); return; } if(a==='all'){ pfAll(i); return; }
+    if(a==='send'){ var p=pfCur(i), st=p&&PF.st[p.id]; shareMenu((st&&st.item)||it); return; }
+    if(a==='more'){ var p2=pfCur(i), st2=p2&&PF.st[p2.id]; moreSheet((st2&&st2.item)||it,true); return; }
+    if(a==='play'){ pfPlay(i,b.parentNode); return; }
+    if(a==='retry'){ var im=b.closest('.pfi').querySelector('img'); b.parentNode.innerHTML='사진을 불러오는 중입니다'; pfImgOne(im); return; }
+    return; }
+  var fi=t.closest('.pfi'); if(fi&&!fi.classList.contains('vid')){ fsOpen(i,PF.ci[i]||0); } }
+/* ── 사진 전체 화면 — ✕ · 1/9 · 방 이름 늘 보임 · 옆으로 넘김 · 두 번 누르기 · 두 손가락 확대(확대 중에는 넘김 · 끌어 닫기 멈춤) · 아래로 끌면 닫힘 · 원본은 여기서만 ── */
+var FS={on:false,i:0,k:0,z:1,x:0,y:0};
+function fsBox(){ var b=$('fsv'); if(b){ return b; } b=document.createElement('div'); b.id='fsv'; b.className='fsv'; b.setAttribute('role','dialog'); b.setAttribute('aria-label','사진 전체 화면');
+  b.innerHTML='<div class="fst"><span class="fsn" id="fsN"></span><span class="fsr" id="fsR"></span><button type="button" id="fsX" aria-label="닫기">✕</button></div><div class="fss" id="fsS"></div><div class="fsd" id="fsD"></div>'; document.body.appendChild(b);
+  $('fsX').onclick=function(){ lyBack(); }; fsTouch(b); return b; }
+function fsOpen(i,k){ var it=PF.list[i]; if(!it){ return; } fsBox(); var ps=pfPhotos(it); FS={on:true,i:i,k:k,z:1,x:0,y:0,n:ps.length};
+  $('fsR').textContent=(ME&&ME.comName)||''; $('fsS').innerHTML=ps.map(function(p,j){ return '<div class="fsi"><img alt="" src="'+esc(pfTh(p,it))+'" data-fz="'+esc(p.id)+'"></div>'; }).join('');
+  $('fsD').innerHTML=ps.length>1?ps.map(function(p,j){ return '<i'+(j===k?' class="on"':'')+'></i>'; }).join(''):'';
+  var b=$('fsv'); b.style.zIndex=String(1560+LAYS.length*2); b.classList.add('on'); var sc=$('fsS'); sc.scrollLeft=k*(sc.clientWidth||window.innerWidth); fsNum(); fsBig(k); fsBig(k+1); fsBig(k-1);
+  sc.onscroll=function(){ clearTimeout(FS.st); FS.st=setTimeout(function(){ var kk=Math.round(sc.scrollLeft/(sc.clientWidth||1)); if(kk!==FS.k){ FS.k=kk; fsNum(); fsBig(kk); fsBig(kk+1); fsBig(kk-1); } },80); };
+  lyPush(fsHide); }
+function fsNum(){ $('fsN').textContent=FS.n>1?(FS.k+1)+'/'+FS.n:''; each($('fsD'),'i',function(x,j){ x.classList.toggle('on',j===FS.k); }); }
+function fsBig(k){ var im=$('fsS')&&$('fsS').querySelectorAll('img')[k]; if(!im||im.getAttribute('data-ok')){ return; } im.setAttribute('data-ok','1'); photo(im.getAttribute('data-fz'),false,function(u){ if(u){ im.src=u; } }); }
+function fsZoom(z,x,y){ FS.z=Math.max(1,Math.min(4,z)); if(FS.z===1){ FS.x=0; FS.y=0; } else { FS.x=x||0; FS.y=y||0; } var im=$('fsS').querySelectorAll('img')[FS.k]; if(im){ im.style.transform=FS.z===1?'':'translate('+FS.x+'px,'+FS.y+'px) scale('+FS.z+')'; } $('fsS').classList.toggle('lock',FS.z>1); }
+function fsHide(){ if(!FS.on){ return; } var k=FS.k, i=FS.i; FS.on=false; fsZoom(1); var b=$('fsv'); b.classList.remove('on'); b.style.transform=''; $('fsS').innerHTML='';
+  var art=document.querySelector('#pfIn [data-pi="'+i+'"]'), sc=art&&art.querySelector('.pfs'); if(sc&&(PF.ci[i]||0)!==k){ sc.scrollLeft=k*sc.clientWidth; } }
+function fsTouch(b){ var t0=0, sx=0, sy=0, d0=0, z0=1, px=0, py=0, mode='', lastTap=0;
+  function dist(e){ var a=e.touches[0], c=e.touches[1]; return Math.hypot(a.clientX-c.clientX,a.clientY-c.clientY); }
+  b.addEventListener('touchstart',function(e){ if(e.touches.length===2){ mode='pinch'; d0=dist(e); z0=FS.z; return; } var p=e.touches[0]; sx=p.clientX; sy=p.clientY; px=FS.x; py=FS.y; mode=FS.z>1?'pan':'';
+    var now=Date.now(); if(now-lastTap<300&&e.target.tagName==='IMG'){ lastTap=0; e.preventDefault(); fsZoom(FS.z>1?1:2.5); return; } lastTap=now; },{passive:false});
+  b.addEventListener('touchmove',function(e){ if(mode==='pinch'&&e.touches.length===2){ e.preventDefault(); fsZoom(z0*dist(e)/d0,FS.x,FS.y); return; } var p=e.touches[0], dx=p.clientX-sx, dy=p.clientY-sy;
+    if(mode==='pan'){ e.preventDefault(); fsZoom(FS.z,px+dx,py+dy); return; }
+    if(FS.z===1&&(mode==='down'||(dy>12&&Math.abs(dy)>Math.abs(dx)*1.4))){ mode='down'; e.preventDefault(); b.style.transform='translateY('+Math.max(0,dy)+'px)'; b.style.opacity=String(Math.max(.4,1-dy/600)); } },{passive:false});
+  b.addEventListener('touchend',function(e){ if(mode==='down'){ var dy=(e.changedTouches[0].clientY-sy); b.style.transform=''; b.style.opacity=''; if(dy>120){ lyBack(); } } if(mode==='pinch'&&FS.z<1.05){ fsZoom(1); } mode=''; });
+  b.addEventListener('dblclick',function(e){ if(e.target.tagName==='IMG'){ fsZoom(FS.z>1?1:2.5); } });
+}
+document.addEventListener('keydown',function(ev){ if(!FS.on){ return; } if(ev.key==='Escape'){ lyBack(); } else if(ev.key==='ArrowRight'||ev.key==='ArrowLeft'){ var sc=$('fsS'); if(FS.z===1){ sc.scrollTo({left:(FS.k+(ev.key==='ArrowRight'?1:-1))*sc.clientWidth,behavior:'smooth'}); } } });
 /* ★v99 묶음(여러 장)은 크게 보기에서 사진마다 한 장씩 이어짐 · 반응 · 한마디는 묶음(표지) 기록에 */
 function vwExpand(its){ var out=[]; its.forEach(function(it){ var e=vwFromIt(it); if(it.kind==='사진'&&it.photos&&it.photos.length>1&&!it.video){ it.photos.forEach(function(p,k){ var c={}; for(var x in e){ c[x]=e[x]; } c.id=p.id; c.tid=it.id; c.n=0; c.sub=(k+1)+' / '+it.photos.length; c.th=p.pv||PVC[p.id]||PHC['s:'+p.id]||duUrl(p.id,480)||(k?'':e.th);   /* ★v101 495 */ c.mv=''; c.full=0; out.push(c); }); } else { e.tid=it.id; out.push(e); } }); return out; }
 /* ★v106 562 마당 사진 → 그 방 안 그 사진 화면 · 보던 자리 기억 */
@@ -2845,7 +2995,8 @@ function rgDraw(){
   else { g.innerHTML=RG.sort==='time'?rgYear(its):'<div class="tgrid">'+its.map(function(it){ return tile(it,false,'',1); }).join('')+'</div>';
     each(g,'[data-tid]',function(t){ t.onclick=function(){ var id=t.getAttribute('data-tid'), it=findL(id); if(it&&(it.photo||it.video||(it.photos&&it.photos.length))){ vwRoom(id,t.getAttribute('data-pid')); } else { go('item',id); } }; });
     pvLoad(g); mvWire(g); }
-  if(RG.t==='사진'&&its.length<12&&RG.more&&!RG.busy){ setTimeout(rgMore,0); }   /* 글 · 영상이 섞여 사진이 적으면 한 장 더 받음 */
+  if(RG.t==='사진'&&its.length<12&&RG.more&&!RG.busy){ setTimeout(rgMore,0); }
+  if(PF.on){ setTimeout(pfSync,0); }   /* 글 · 영상이 섞여 사진이 적으면 한 장 더 받음 */
 }
 function rgWire(){
   if(RGO){ try{ RGO.disconnect(); }catch(e){} RGO=null; }
@@ -2881,12 +3032,13 @@ function gridDraw(){
   if($('gdT')){ $('gdT').onclick=function(){ var bx=$('gdB'), op=bx.hidden; bx.hidden=!op; this.setAttribute('aria-expanded',op?'true':'false'); this.lastChild.textContent=op?'▴':'▾'; }; }
   rgDraw(); rgWire(); if(!RG.items.length||RG.stale){ rgMore(); }
   lazyBottom2();
+  if(PFR){ var r0=PFR; PFR=''; setTimeout(function(){ pfOpenId(r0); },0); }
 }
 function lazyBottom2(){ var t=$('opBand'); if(!t||!window.IntersectionObserver){ return; } var o=new IntersectionObserver(function(es){ if(es[0]&&es[0].isIntersecting){ o.disconnect(); if($('opMine')){ openMine(); } } },{rootMargin:'250px'}); o.observe(t); }
 /* ★v140 ❓7 맨 위 ← — 이 방 안에서 한 걸음 · 첫 화면이면 마당으로(마당에서 한 번 더 누를 때만 나가기 물음) */
 function roomBack(){ if($('dimTop')){ closeSheet(); return; } if(STACK.length>1){ doBack(); return; } if(DOOR){ doorBack(); return; } homeGo(); }
 /* ★v140 ↗ 공유 — 카카오톡으로 보내기 · 링크 복사 · QR 받기(관리자 · 공개 방) */
-function shareMenu(){
+function roomShare(){
   sheet('<h2>공유</h2><p class="lead" style="margin-top:4px">'+esc((ME&&ME.comName)||'우리 이야기')+'</p><button class="btn kakao" id="smK" type="button">'+KICON+'카카오톡으로 보내기</button><button class="btn line" id="smL" type="button">링크 복사</button>'+(qrOk()?'<button class="btn line" id="smQ" type="button">QR 받기</button>':'')+'<button class="btn line" id="smX" type="button">닫기</button>',function(){
     $('smX').onclick=closeSheet; $('smK').onclick=function(){ closeSheet(); shareRec(null); };
     if($('smQ')){ $('smQ').onclick=function(){ closeSheet(); qrSheet(); }; }
@@ -2896,7 +3048,7 @@ function shareMenu(){
   });
 }
 /* ★v140 하단 탭 — 마당 · 검색 · 내 방 · ＋ 올리기(맨 오른쪽 · 대표 261114 15:14) · 방 첫 화면과 마당에서만(게시물 · 올리기 · 관리 화면은 숨김) */
-function btabOn(){ return !!((VIEW==='feed'||VIEW==='plaza')&&!OPN&&!HQON&&!(VIEW==='feed'&&!ME)); }
+function btabOn(){ return !!((VIEW==='feed'||VIEW==='plaza')&&!OPN&&!HQON&&!(VIEW==='feed'&&!ME)&&!PF.on); }
 function btabDraw(){
   var b=$('btab'); if(!b){ b=document.createElement('nav'); b.id='btab'; b.className='btab'; b.setAttribute('aria-label','아래 탭'); document.body.appendChild(b); }
   var on=btabOn(); b.hidden=!on; document.body.classList.toggle('btabon',on); if(!on){ var t0=$('btip'); if(t0){ t0.remove(); } return; }
