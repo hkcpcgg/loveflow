@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v154 · 261114 · [657 나머지 ② 「어떤 방인가요?」 틀 고르기 하나 · 서버 변경 없음] 방 만들기 — 이야기방 / 기록관 큰 카드 둘을 먼저 고르던 것을 걷고 「어떤 방인가요?」 종류 칩 한 줄(나 · 가족 · 친구 · 모임 · 우리 가게 · 학교 · 기관 · 마을 · 단체 · 회사 · 기타)로 한 번에 · 고른 종류가 갈래를 정함(서버 틀 번호 그대로) · 이름 칸 「방 이름」 · 단추 「방 만들기」(83차 화면 이름 「방」) · REC_VER 154 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v155 · 261114 · [653 남은 것 일부 · 서버 변경 없음] 멤버 관리 — 관리자에게 멤버 줄마다 「승인 권한 주기」(확인자로) · 「승인 권한 빼기」(86차 ❓9 (가) · 따로 자리 이름 없이) / 관리자 위임 확인에 두 줄 「○○ 님 : 멤버 → 관리자 · 나 : 관리자 → 멤버 · 승인」(86차 ③) · REC_VER 155 -->
+<!-- (이전) ★ 현재 버전 ▶ rec/index.html · v154 · 261114 · [657 나머지 ② 「어떤 방인가요?」 틀 고르기 하나 · 서버 변경 없음] 방 만들기 — 이야기방 / 기록관 큰 카드 둘을 먼저 고르던 것을 걷고 「어떤 방인가요?」 종류 칩 한 줄(나 · 가족 · 친구 · 모임 · 우리 가게 · 학교 · 기관 · 마을 · 단체 · 회사 · 기타)로 한 번에 · 고른 종류가 갈래를 정함(서버 틀 번호 그대로) · 이름 칸 「방 이름」 · 단추 「방 만들기」(83차 화면 이름 「방」) · REC_VER 154 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v153 · 261114 · [657 나머지 ① 링크 탭 미리보기 카드 · 서버 ①Code v71 recLinkPv 그대로] 새 게시물 「링크」 — 주소를 넣으면 0.7초 뒤 미리보기(그림 · 사이트 이름 · 제목 — 카카오톡 · 밴드처럼) · 제목 칸이 비어 있으면 그 제목을 채움 · ✕ = 그림 빼기 · 못 만들면 「제목은 직접 적어 주십시오」 · 올릴 때 limg · lsite 를 함께 보냄 → 게시물 링크 카드 위에 큰 그림 · 사이트 이름 · REC_VER 153 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v152 · 261114 · [674 대표 22:57 「사진첩 공유하기에 사랑흐름」 · 23:42 「묻지 말고 진행」 · 서버 변경 없음 · rec/sw.js v5 · rec/manifest share_target] 홈 화면에 추가한 우리 이야기 앱이 사진첩 · 캡처 「공유」 목록에 뜸(안드로이드 크롬 · 아이폰 사파리는 지원 안 함) → 사진을 담은 채 「어디에 올릴까요?」(＋ 와 같은 길 · 지금 방 하나면 바로) → 새 게시물에 사진이 담김(20장 넘으면 지금 안내 그대로) · 손님은 카카오 로그인 뒤 · 취소 = 받은 사진 지움 · 30분 지나면 버림 · REC_VER 152 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v151 · 261114 · [대표 23:25 · 23:26 · 서버 변경 없음] ① 메인 · 마당 사진으로 방에 들어오면 방 첫 화면(소개)을 몇 초 보이다 게시물로 확 바뀌던 것 → 바로 게시물 자리(「사진을 여는 중입니다」)를 덮고 게시물을 엶 ② 그 게시물에서 뒤로 = 그 방 첫 화면(전에는 메인 · 마당으로 바로 = v106 562 걷음) · 게시물 위 말도 「‹ 방 이름」 · 아래로 그 방 게시물이 이어짐 ③ 메인 사진으로 들어온 방 첫 화면에서 뒤로 = 메인(마당 사진이면 마당) — 한 걸음씩 · REC_VER 151 -->
@@ -5024,9 +5025,11 @@ function pplView(){
           (x.role==='신청 중'?'<button type="button" class="sbtn" style="background:var(--navy);color:#fff" data-ok="'+esc(x.no)+'" data-act="받기">승인</button>':'')+
           (x.stop?'<button type="button" class="sbtn" data-ok="'+esc(x.no)+'" data-act="풀기">제한 해제</button>':'')+
           (fixed||x.role==='신청 중'?'':'<button type="button" class="tg'+(x.auto?' on':'')+'" data-no="'+esc(x.no)+'"'+(boss?'':' disabled')+' aria-label="바로 공개"></button>')+
+          (ME.role==='관리자'&&!x.me&&(x.role==='올리는 사람'||x.role==='참여자')?'<button type="button" class="sbtn" data-ap="'+esc(x.no)+'" data-to="확인자">승인 권한 주기</button>':'')+(ME.role==='관리자'&&!x.me&&x.role==='확인자'?'<button type="button" class="sbtn" data-ap="'+esc(x.no)+'" data-to="올리는 사람">승인 권한 빼기</button>':'')+   /* ★v155 653 86차 ❓9 (가) */
           (canRole(x)?'<button type="button" class="sbtn" data-rl="'+esc(x.no)+'">역할 변경</button>':'')+(boss&&!x.me&&x.role!=='관리자'?'<button type="button" class="sbtn red" data-out="'+esc(x.no)+'" data-nm="'+esc(x.name||'')+'">내보내기</button>':'')+qh('ppl')+'</span></div>'; }).join('')+
       (boss?'<p class="note">「역할 변경」은 나보다 아래 역할만 고를 수 있습니다. 관리자 위임도 「역할 변경」 안에 있습니다.</p>':'<p class="note">공개 설정 · 내보내기는 관리자만 바꿉니다. 「승인」 · 「제한 해제」 · 멤버 「역할 변경」은 승인 권한이 있는 멤버도 합니다.</p>')+'</div>';
     $('pq').innerHTML=h;
+    each($('pq'),'[data-ap]',function(b){ b.onclick=function(){ var no=b.getAttribute('data-ap'), to=b.getAttribute('data-to'); b.disabled=true; api({action:'recRoleSet',no:no,role:to},function(r){ if(r.status==='ok'){ toast(to==='확인자'?'승인 권한을 드렸습니다':'승인 권한을 뺐습니다',to==='확인자'?'게시물 승인 · 가입 신청을 함께 처리합니다':''); pplView(); } else { b.disabled=false; toast(r.msg||'바꾸지 못했습니다'); } }); }; });   /* ★v155 653 */
     each($('pq'),'[data-rl]',function(b){ b.onclick=function(){ var no=b.getAttribute('data-rl'); for(var i=0;i<d.items.length;i++){ if(d.items[i].no===no){ roleSheet(d.items[i]); return; } } }; });   /* ★v37 역할 변경 */
     each($('pq'),'[data-ok]',function(b){ b.onclick=function(){ b.disabled=true; var act=b.getAttribute('data-act'); api({action:'recPersonOk',no:b.getAttribute('data-ok'),act:act},function(r){ if(r.status==='ok'){ toast(act==='받기'?'등록을 승인했습니다':'작성 제한을 해제했습니다'); pplView(); } else { b.disabled=false; toast(r.msg||'처리하지 못했습니다'); } }); }; });
     if(!boss){ return; }
@@ -5927,7 +5930,7 @@ function roleSheet(x){
   });
 }
 function handSheet(x){
-  sheet('<h2 style="color:#6E2A22">관리자 위임</h2><p class="lead" style="margin-top:6px"><b>'+esc(x.name||'')+'</b> 님이 이 방의 관리자가 됩니다. 넘기시면 나는 <b>승인 권한이 있는 멤버</b>가 됩니다. 다시 관리자가 되려면 새 관리자가 넘겨 주어야 합니다.</p>'+
+  sheet('<h2 style="color:#6E2A22">관리자 위임</h2><p class="lead" style="margin-top:6px"><b>'+esc(x.name||'')+'</b> 님이 이 방의 관리자가 됩니다. 다시 관리자가 되려면 새 관리자가 넘겨 주어야 합니다.</p><div class="card" style="margin-top:10px;padding:10px 12px;font-size:15px;line-height:1.8"><div><b>'+esc(x.name||'')+' 님</b> : '+esc(roleName(x.role))+' → <b>관리자</b></div><div><b>나</b> : 관리자 → <b>멤버 · 승인</b></div></div>'+   /* ★v155 653 86차 도식 4 2판 ③ 두 줄 */
     '<div class="pair" style="margin-top:16px"><button class="btn line" id="hdNo" type="button">취소</button><button class="btn red" id="hdGo" type="button">관리자 위임</button></div>',function(){
     $('hdNo').onclick=closeSheet;
     $('hdGo').onclick=function(){ this.disabled=true; api({action:'recRoleSet',no:x.no,act:'handover',_busy:'관리자를 넘기는 중입니다'},function(r){ closeSheet(); if(r.status==='ok'){ ME.role=r.me||'확인자'; toast('관리자를 넘겼습니다','이제 승인 권한이 있는 멤버로 함께합니다'); STACK=[{v:'feed'},{v:'adm'},{v:'ppl'}]; render(); } else { toast(r.msg||'넘기지 못했습니다'); } }); };
@@ -6274,7 +6277,7 @@ window.addEventListener('appinstalled',function(){ PWA_EV=null; var b=$('pwaGo')
 try{ if('serviceWorker' in navigator){ navigator.serviceWorker.register('/rec/sw.js',{scope:'/rec/'})['catch'](function(){});
   /* ★v62 375 새 화면 파일을 받아 오면 한 번 바꿔 엶 — 첫 화면 · 광장에서만(쓰는 중에는 기다렸다가 첫 화면으로 돌아올 때) */
   navigator.serviceWorker.addEventListener('message',function(ev){ if(!ev.data||ev.data.t!=='lf-new'){ return; } NEWV=1; newGo(); }); } }catch(e){}
-var NEWV=0, REC_VER=154;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
+var NEWV=0, REC_VER=155;   /* ★v83 이 화면 버전 — 남겨 둔 화면이 이보다 새로우면 바꿔 엶 */
 function newChk(){ try{ if(!window.caches){ return; } caches.open('lf-rec-shell-v2').then(function(c){ return c.match('/rec/'); }).then(function(r){ return r?r.text():''; }).then(function(t){ var m=/rec\/index\.html · v(\d+)/.exec(String(t).slice(0,600)); if(m&&parseInt(m[1],10)>REC_VER){ NEWV=1; newGo(); } })['catch'](function(){}); }catch(e){} }   /* ★v62 375 알림을 놓쳐도 남겨 둔 파일 버전을 직접 봄 */
 setTimeout(newChk,5000); setTimeout(newChk,15000);
 document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='visible'){ setTimeout(newChk,1500); } });
