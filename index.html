@@ -240,7 +240,7 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
     ks.forEach(function(c){ src=src.concat(by[c]); }); src=pick.concat(mix(src));   /* 4초 바꿈에 쓸 나머지 */
     for(var m=0;m<pick.length&&n<36;m++){
       var x=pick[m].x, r=pick[m].r, bg=pick[m].bg;
-      cells.push('<button type="button" class="pt wait" data-cur="'+esc(x.id)+'" data-bg="'+esc(bg)+'"'+(r.g?' data-pk="'+esc('/rec/?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.b||x.id))+'"':'')+'"'+(r.g?' data-rg="'+esc(r.g)+'"':'')+' aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i class="go"><span>🏠 '+esc(r.name||'')+'</span><b>›</b></i></button>');
+      cells.push('<button type="button" class="pt wait" data-cur="'+esc(x.id)+'" data-bg="'+esc(bg)+'"'+(r.g?' data-pk="'+esc('/rec/?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.b||x.id))+'"':'')+(r.g?' data-rg="'+esc(r.g)+'"':'')+' aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i class="go"><span>🏠 '+esc(r.name||'')+'</span><b>›</b></i></button>');
       n++;
     }
     n=n-(n%3); if(n<3){ hide(); return; } h=cells.slice(0,n).join('');
