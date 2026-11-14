@@ -2093,7 +2093,7 @@ function gridSet(g){ TXT=null; GRID=g||null; GKEY=GRID?F.sort:''; if(GRID){ LIST
 function gridLoad(){
   var el=$('feed'); if(!el){ return; }
   if(GRID&&GKEY===F.sort){ gridDraw(); return; }
-  if(!GRID){ gridDraw(); api({action:'recHome',mode:F.sort,n:'20',lite:'1'},function(d){ if(VIEW!=='feed'||d.status!=='ok'){ return; } var g0=!!(ME.gos&&ME.gos.length); gridSet(d.grid); if(d.gos){ ME.gos=d.gos; } if(!g0&&d.gos&&d.gos.length){ gridDraw(); } else { rgAvatar(); } }); return; }   /* ★v140 ② 머리 · 바둑판은 바로 · 대표 사진(동그라미)만 뒤에 */
+  if(!GRID){ gridDraw(); setTimeout(function(){ if(VIEW!=='feed'){ return; } api({action:'recHome',mode:F.sort,n:'20',lite:'1'},function(d){ if(VIEW!=='feed'||d.status!=='ok'){ return; } var g0=!!(ME.gos&&ME.gos.length); gridSet(d.grid); if(d.gos){ ME.gos=d.gos; } if(!g0&&d.gos&&d.gos.length){ gridDraw(); } else { rgAvatar(); } }); },RG.items.length?300:1800); return; }   /* ★v140 ② 머리 · 바둑판은 바로 · 대표 사진(동그라미)만 뒤에 */
   wait(el,F.sort==='time'?'사진을 날짜 차례로 펼치는 중입니다':'최근 사진을 모으는 중입니다');
   var ex=GRID.best.concat(GRID.news).map(function(x){ return x.id; }).join(','), key=F.sort;
   var pq={action:'recList',grid:'1',lite:'1',mode:F.sort,n:'9',from:'0',ex:ex}; if(F.sort!=='time'){ pq.past='0'; }   /* ★v99 새로 올라온 = 지난 이야기 빼고 · 연도순 = 모두 */
@@ -2984,9 +2984,10 @@ function rgMore(){
   if(!RG.items.length&&$('rgG')){ wait($('rgG'),RG.t==='글'?'글을 모으는 중입니다':'사진을 모으는 중입니다'); }
   api(q,function(d){ RG.busy=0; if(k!==RG.k||VIEW!=='feed'){ return; }
     if(!d||d.status!=='ok'){ if(st){ RG.stale=0; rgDraw(); return; } RG.more=0; if(!RG.items.length&&$('rgG')){ $('rgG').innerHTML='<div class="msg">'+esc((d&&d.msg)||'불러오지 못했습니다.')+'</div>'; } return; }
-    if(q.from==='0'){ allSnapPut(rgSnap(),d); }
-    var its=d.items||[]; if(st){ RG.stale=0; RG.items=its.slice(); } else { RG.items=RG.items.concat(its); } RG.more=d.more?1:0; RG.next=d.next||RG.items.length; rgDraw(); });
+    var its=d.items||[]; if(q.from==='0'){ rgKeep(its,d); }   /* ★v142 ⑤ 첫 장은 휴대폰에 남겨 다음에 바로 그림(작은 사진은 따로 · 목록은 가볍게) */ if(st){ RG.stale=0; RG.items=its.slice(); } else { RG.items=RG.items.concat(its); } RG.more=d.more?1:0; RG.next=d.next||RG.items.length; rgDraw(); });
 }
+function rgKeep(its,d){ function lean(x){ var o={}; for(var k in x){ if(k!=='pv'&&k!=='text'){ o[k]=x[k]; } } if(x.pv){ pvKeep(x.id,x.pv); } if(x.photos){ o.photos=x.photos.map(function(p,j){ if(p.pv&&j<1){ pvKeep(p.id,p.pv); } var c={}; for(var k in p){ if(k!=='pv'){ c[k]=p[k]; } } return c; }); } if(x.text){ o.text=String(x.text).slice(0,300); } return o; }
+  try{ allSnapPut(rgSnap(),{items:its.slice(0,24).map(lean),more:d.more,next:d.next}); }catch(e){} }
 function rgYear(st){ var h='', last=null, open=false; st.forEach(function(it){ var y=yearHead(it); if(y!==last){ if(open){ h+='</div>'; } h+='<div class="yearh"><span>'+esc(y)+'</span></div><div class="tgrid">'; last=y; open=true; } h+=tile(it,false,'',1); }); if(open){ h+='</div>'; } return h; }
 function rgDraw(){
   var g=$('rgG'); if(!g){ return; }
