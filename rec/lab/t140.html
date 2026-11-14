@@ -2161,11 +2161,11 @@ function tile(it,big,cap,one){
     return head+it.photos.map(function(p,k){ if(head&&!k){ return ''; } var bg=p.pv||PVC[p.id]||PHC['s:'+p.id]||duUrl(p.id,480)||(k?'':(it.pv||PVC[it.id]||''));
       return '<button type="button" class="tl'+(bg?'':' wait')+'" data-tid="'+esc(it.id)+'" data-pid="'+esc(p.id)+'"'+(bg?'':' data-tpv="'+esc(p.id)+'"')+(bg?' style="background-image:url('+esc(bg)+')"':'')+' aria-label="'+esc(it.title||'사진')+' '+(k+1)+'"></button>'; }).join('');
   }
-  var bg='', cls='tl'+(big?' big':''), vid=it.kind==='영상'&&it.video;
-  if(vid){ bg=it.video.thumb; } else if(it.pv||PVC[it.id]){ bg=it.pv||PVC[it.id]; } else if(it.photo){ cls+=' wait'; }
+  var bg='', cls='tl'+(big?' big':''), vid=it.kind==='영상'&&it.video, p0=(!vid&&it.photos&&it.photos.length)?it.photos[0]:null, tpv=it.id;   /* ★v142 ⑤ 여러 장 한 칸 = 첫 장의 작은 사진을 바로 */
+  if(vid){ bg=it.video.thumb; } else if(it.pv||PVC[it.id]){ bg=it.pv||PVC[it.id]; } else if(p0&&(p0.pv||PVC[p0.id]||PHC['s:'+p0.id])){ bg=p0.pv||PVC[p0.id]||PHC['s:'+p0.id]; } else if(it.photo||p0){ cls+=' wait'; if(p0&&!it.photo){ tpv=p0.id; } }
   var n=it.photos&&it.photos.length>1?it.photos.length:0;
   var mv=!vid&&(it.mv||MV[it.id]);   /* ★v53 339 */
-  return '<button type="button" class="'+cls+'" data-tid="'+esc(it.id)+'"'+(it.photo&&!vid?' data-tpv="'+esc(it.id)+'"':'')+(bg?' style="background-image:url('+esc(bg)+')"':'')+' aria-label="'+esc(it.title||'사진')+'">'+
+  return '<button type="button" class="'+cls+'" data-tid="'+esc(it.id)+'"'+((it.photo||p0)&&!vid&&!bg?' data-tpv="'+esc(tpv)+'"':'')+(bg?' style="background-image:url('+esc(bg)+')"':'')+' aria-label="'+esc(it.title||'사진')+'">'+
     (mv?'<video class="tv" muted loop playsinline preload="none" data-mv="'+esc(mv)+'"></video>':'')+(vid?'<span class="pl"></span>':'')+(n?'<span class="cnt mul" aria-label="'+n+'장">⧉</span>':'')+(it.old?'<span class="yr">'+(it.old>1?it.old:'지난')+'</span>':'')+nwTag(it.nw)+(cap?'<span class="bq">'+esc(cap)+'</span>':'')+'</button>';
 }
 function pvLoad(el){
