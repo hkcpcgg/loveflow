@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ index.html · v66 · 261113 · [566 어디서든 ＋ · 대표 OK 18:20] 오른쪽 아래 작은 ＋(우리 이야기 방 ＋와 같은 모양 · 첫 화면 단추를 가리지 않게 600px 아래로 내려온 뒤부터 · 내리는 동안 숨고 멈추면 보임) → /rec/?plaza=1&plus=1(마당 + 「어디에 올릴까요?」 — 지금 보던 방 · 내 방 · 새 이야기방 만들기 · rec v133). [무손] 그 밖 v65 전부. -->
+<!-- ★ 현재 버전 ▶ index.html · v67 · 261114 · [대표 23:25 「마당 사진이 내 방으로 도배 · 랜덤으로 · 견본 · 다복 · 사랑흐름도」] 메인 마당 사진 36칸(9칸 × 4판) — 공개 목록 전체(방 · 사진)를 받아 방마다 줄을 세우고 판마다 방 차례를 새로 섞어 한 판에 한 방 2장까지(방이 모자랄 때만 더) · 견본 방 · 사랑흐름 방도 같은 한 방(261112 v63 「최근 사진 먼저 · 견본은 뒤로」를 바꿈) · 4초 바꿈은 남은 사진으로 · 서버로 받을 때는 섞인 48장(tier 없음). [무손] 그 밖 v66 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ index.html · v66 · 261113 · [566 어디서든 ＋ · 대표 OK 18:20] 오른쪽 아래 작은 ＋(우리 이야기 방 ＋와 같은 모양 · 첫 화면 단추를 가리지 않게 600px 아래로 내려온 뒤부터 · 내리는 동안 숨고 멈추면 보임) → /rec/?plaza=1&plus=1(마당 + 「어디에 올릴까요?」 — 지금 보던 방 · 내 방 · 새 이야기방 만들기 · rec v133). [무손] 그 밖 v65 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v65 · 261113 · [572 보기는 서버에 묻지 않게 · ★서버 ①Code v65 와 짝] 메인 「우리 이야기」 사진 줄(recPlaza 48장)을 서버(3~4초) 대신 공개 목록 시트(lf/pub.js · 0.3초)에서 먼저 받음 · 섞기는 서버와 같은 규칙(방 먼저) · 못 받으면 예전처럼 서버 -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v64 · 261112 · [포털 검색 ⑥ · 704] 대표 그림(og-image.png)을 같은 그림 · 같은 이름으로 가볍게(1672×941 · 2.1MB → 1200×675 · 452KB) — 크기 줄 두 칸만 고침. [무손] 그 밖 v63 전부 -->
 <!-- (이전) ★ 현재 버전 ▶ index.html · v63 · 261112 · [569 · 대표 21:37 「첫 장은 최근 올라온 것을 시간에 관계없이 랜덤으로 · 최근 사진이 많으면 견본은 뒤로 · 탄력적으로」 · ★서버 ①Code v61 과 짝] 마당 사진 첫 9칸 = 최근 30일 실제 사진을 무작위로 → 모자라면 그 밖 실제 사진 · 사랑흐름 방 → 그래도 모자라면 견본 방(서버 tier=1 차례 그대로) · 4초마다 한 칸 바뀜도 같은 차례로 이어감 · 뒤로 가기로 메인에 돌아오면 새로 섞음 · 한 방 3장까지 그대로. [무손] 그 밖 v62 전부 -->
@@ -223,18 +224,19 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
     function mix(a){ for(var q=a.length-1;q>0;q--){ var w=Math.floor(Math.random()*(q+1)), t=a[q]; a[q]=a[w]; a[w]=t; } return a; }
     for(var i=0;i<items.length;i++){ put(items[i],rooms[items[i].c]); }
     if(!d.tier){ for(var k=0;k<rooms.length;k++){ put(rooms[k].cover,rooms[k]); } }   /* ★v63 층 차례에는 방 첫 장이 이미 들어 있음 */
-    var per={}, pick=[], src=d.tier?real.concat(promo):mix(real).concat(mix(promo));   /* ★v63 569 서버가 층 차례로 줌(최근 실제 → 그 밖 → 견본) — 섞지 않고 그대로 */
-    if(d.tier){ real=[]; promo=[]; seen={}; for(var i3=0;i3<items.length;i3++){ var x3=items[i3], r3=rooms[x3.c]; if(!x3||!r3||seen[x3.id]){ continue; } var bg3=bgOf(x3); if(!bg3){ continue; } seen[x3.id]=1; real.push({x:x3,r:r3,bg:bg3}); } src=real; }
-    for(var s2=0;s2<src.length&&pick.length<9;s2++){ var ck=src[s2].r.com||src[s2].r.name; if(!src[s2].r.main&&(per[ck]||0)>=3){ continue; } per[ck]=(per[ck]||0)+1; pick.push(src[s2]); }
-    if(d.tier){   /* ★v63 한 방 3장 규칙은 같은 층 안에서만 — 최근 사진이 남았으면 견본보다 먼저 채움(탄력적으로) */
-      pick=[]; per={}; var tk=[1,2,3];
-      for(var tq=0;tq<tk.length&&pick.length<9;tq++){ var lay=src.filter(function(o){ return (o.x.k||2)===tk[tq]; }), skip=[];
-        for(var s4=0;s4<lay.length&&pick.length<9;s4++){ var ck4=lay[s4].r.com||lay[s4].r.name; if(!lay[s4].r.main&&(per[ck4]||0)>=3){ skip.push(lay[s4]); continue; } per[ck4]=(per[ck4]||0)+1; pick.push(lay[s4]); }
-        for(var s5=0;s5<skip.length&&pick.length<9;s5++){ pick.push(skip[s5]); } }
-    }
-    pick=mix(pick);   /* 고른 9장은 자리만 섞음 */
-    /* ★v57 대표 18:20 「옆으로 밀어 더 보게」 — 첫 9칸 뒤로 남은 사진을 붙여 최대 36칸 */
-    var pk0={}; pick.forEach(function(o){ pk0[o.x.id]=1; }); src.forEach(function(o){ if(pick.length<36&&!pk0[o.x.id]){ pick.push(o); } });
+    /* ★v67 대표 261114 23:25 「랜덤으로 · 다른 방들도 소개 · 견본도」 — 방마다 줄을 세워 고르게: 한 판(9칸)에 한 방 2장까지 · 판마다 방 차례를 새로 섞음 · 견본 방 · 사랑흐름 방도 같은 한 방 · 방이 모자라면 그때만 더 넣음 */
+    var by={}, ks=[];
+    function addQ(x,r,c){ if(!x||!r||seen[x.id]){ return; } var bg=bgOf(x); if(!bg){ return; } seen[x.id]=1; if(!by[c]){ by[c]=[]; ks.push(c); } by[c].push({x:x,r:r,bg:bg}); }
+    seen={}; for(var k0=0;k0<rooms.length;k0++){ addQ(rooms[k0].cover,rooms[k0],String(k0)); }
+    for(var i0=0;i0<items.length;i0++){ var it0=items[i0]; if(it0){ addQ(it0,rooms[it0.c],String(it0.c)); } }
+    ks.forEach(function(c){ var l=by[c], cv=l.shift(); mix(l); if(cv){ l.unshift(cv); } });   /* 방 첫 장(대표 사진)은 먼저 · 나머지는 섞음 */
+    var pick=[], src=[];
+    for(var pg=0;pg<4;pg++){ var page=[], per={}, cap=2;
+      while(page.length<9){ var live=mix(ks.filter(function(c){ return by[c].length&&(per[c]||0)<cap; }));
+        if(!live.length){ if(ks.some(function(c){ return by[c].length; })){ cap++; continue; } break; }
+        for(var q=0;q<live.length&&page.length<9;q++){ var c=live[q]; per[c]=(per[c]||0)+1; page.push(by[c].shift()); } }
+      if(!page.length){ break; } pick=pick.concat(pg?mix(page):page); }
+    ks.forEach(function(c){ src=src.concat(by[c]); }); src=pick.concat(mix(src));   /* 4초 바꿈에 쓸 나머지 */
     for(var m=0;m<pick.length&&n<36;m++){
       var x=pick[m].x, r=pick[m].r, bg=pick[m].bg;
       cells.push('<button type="button" class="pt wait" data-cur="'+esc(x.id)+'" data-bg="'+esc(bg)+'"'+(r.g?' data-pk="'+esc('/rec/?g='+encodeURIComponent(r.g)+'&r='+encodeURIComponent(x.b||x.id))+'"':'')+'" aria-label="'+esc((x.t||'사진')+' · '+(r.name||''))+'">'+(x.yt?'<span class="pl">▶</span>':'')+'<i class="go"><span>🏠 '+esc(r.name||'')+'</span><b>›</b></i></button>');
@@ -268,15 +270,15 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
   var done=false; function fin(d){ if(done){ return; } done=true; if(d&&d.status==='ok'){ draw(d); } else { hide(); } }
   var PZK=0;
   function pzLoad(){ var my=++PZK;
-  if(window.LFPub&&!pzLoad.srv){ LFPub.plaza({n:'48',tier:'1',rnd:RND},function(d){ if(my!==PZK){ return; } if(d){ fin(d); } else { pzLoad.srv=1; PZK--; pzLoad(); } }); return; }   /* ★v65 572 공개 목록 시트(0.3초) 먼저 · 못 받으면 서버 */
+  if(window.LFPub&&!pzLoad.srv){ LFPub.get('plaza',function(d){ if(my!==PZK){ return; } if(d&&d.items){ done=false; fin(d); } else { pzLoad.srv=1; PZK--; pzLoad(); } }); return; }   /* ★v67 섞기 전 전체(방 · 사진 300)를 받아 이 화면에서 고르게 고름 */   /* ★v65 572 공개 목록 시트(0.3초) 먼저 · 못 받으면 서버 */
   function jsonp(){
     var nm='hz_'+Date.now(), sc=document.createElement('script');
     window[nm]=function(d){ try{ delete window[nm]; }catch(e){} fin(d); };
     sc.onerror=function(){ fin(null); };
-    sc.src=GAS+'?action=recPlaza&n=48&tier=1&rnd='+RND+'&callback='+nm+'&t='+Date.now(); document.body.appendChild(sc);
+    sc.src=GAS+'?action=recPlaza&n=48&rnd='+RND+'&callback='+nm+'&t='+Date.now(); document.body.appendChild(sc);
   }
   try{
-    fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recPlaza',n:'48',tier:'1',rnd:RND})})
+    fetch(GAS,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({action:'recPlaza',n:'48',rnd:RND})})
       .then(function(r){ return r.text(); }).then(function(t){ fin(JSON.parse(t)); })
       .catch(function(){ jsonp(); });
   }catch(e){ jsonp(); }
