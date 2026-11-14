@@ -1,4 +1,5 @@
-/* 사랑흐름 우리 이야기 · sw.js · v4 · 261114 · ★v4 남겨 둔 화면이 없을 때(처음 · 지운 뒤) 휴대폰 신호가 잠깐 끊기면 실패를 그대로 넘겨 「사이트에 연결할 수 없음 · ERR_FAILED」가 뜨던 것 → 1.5초 뒤 한 번 더 받고, 그래도 안 되면 「연결이 잠시 고르지 않습니다」(3초마다 다시 엶)
+/* 사랑흐름 우리 이야기 · sw.js · v5 · 261114 · ★v5 674 사진첩 · 캡처 「공유」 → 「우리 이야기」 — 공유로 받은 사진(POST /rec/?share=1 · media)을 이 기기 담음칸 lf-rec-share 에 잠깐 담고 /rec/?share=1 로 넘김(화면이 꺼내 새 게시물로 · 서버는 그대로)
+   (이전) v4 · 261114 · ★v4 남겨 둔 화면이 없을 때(처음 · 지운 뒤) 휴대폰 신호가 잠깐 끊기면 실패를 그대로 넘겨 「사이트에 연결할 수 없음 · ERR_FAILED」가 뜨던 것 → 1.5초 뒤 한 번 더 받고, 그래도 안 되면 「연결이 잠시 고르지 않습니다」(3초마다 다시 엶)
    (이전) v3 · 261015 · [대표 OK 261015 22:35 · 375 · 화면 rec v62 와 짝]
    다시 오는 분은 화면 파일(우리 이야기 화면 · 설정 · 꾸밈)을 이 기기에 남겨 둔 것으로 바로 열고, 뒤에서 새것을 받아 둠.
    ★v3 받아 온 우리 이야기 화면(/rec/)이 남겨 둔 것과 다르면 열린 화면에 「새 화면」을 알림 → 화면이 첫 화면 · 광장에서 한 번 바꿔 엶.
@@ -24,8 +25,19 @@ self.addEventListener('install', function () { self.skipWaiting(); });
 self.addEventListener('activate', function (e) {
   e.waitUntil(caches.keys().then(function (ks) { return Promise.all(ks.filter(function (k) { return /^lf-rec-shell-/.test(k) && k !== SHELL; }).map(function (k) { return caches.delete(k); })); }).then(function () { return self.clients.claim(); }));
 });
+var SHARE = 'lf-rec-share';
+function shareIn(r) {
+  return r.formData().then(function (fd) {
+    var fs = fd.getAll('media').filter(function (f) { return f && f.size && /^image\//.test(f.type || 'image/'); });
+    return caches.delete(SHARE).then(function () { return caches.open(SHARE); }).then(function (c) {
+      return Promise.all(fs.slice(0, 60).map(function (f, i) { return c.put('/rec/__share/' + i, new Response(f, { headers: { 'Content-Type': f.type || 'image/jpeg', 'X-Name': encodeURIComponent(f.name || ('photo' + i + '.jpg')) } })); }));
+    }).then(function () { return Response.redirect('/rec/?share=1&n=' + fs.length, 303); });
+  }).catch(function () { return Response.redirect('/rec/?share=1&n=0', 303); });
+}
 self.addEventListener('fetch', function (e) {
-  var r = e.request; if (r.method !== 'GET') { return; }
+  var r = e.request;
+  if (r.method === 'POST') { try { var pu = new URL(r.url); if (pu.origin === self.location.origin && pu.pathname === '/rec/' && pu.searchParams.get('share') === '1') { e.respondWith(shareIn(r)); } } catch (x) { } return; }   /* ★v5 674 */
+  if (r.method !== 'GET') { return; }
   var u; try { u = new URL(r.url); } catch (x) { return; }
   if (!isShell(u)) { return; }
   var k = keyOf(u), page = (k === '/rec/');
