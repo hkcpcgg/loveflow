@@ -1812,7 +1812,7 @@ function meShow(d,g,want,m){   /* ★v51 내 첫 화면 그리기(loadMe · room
     STACK=[{v:'feed'}];
     var dr=null; try{ dr=JSON.parse(sget(DRAFT)||'null'); }catch(e){} sset(DRAFT,'');
     if(dr&&dr.r&&!DRAFT_T){ OPEN_R=dr.r; DRAFT_T=dr.t||''; }
-    if(OPEN_R){ var r=OPEN_R; OPEN_R=''; STACK.push({v:'item',id:r}); holdHistory(); }
+    if(OPEN_R){ var r=OPEN_R; OPEN_R=''; if(!DK&&!DRAFT_T&&!PEND_ADD){ PFR=r; } else { STACK.push({v:'item',id:r}); holdHistory(); } }   /* ★v141 ④ 휴대폰 = 게시물 */
     render(); if(y){ window.scrollTo(0,y); }
     if(m===1){ return; }
     post();   /* ★v37 */
@@ -2974,7 +2974,8 @@ function introWire(){ var b=$('rInt'); if(!b){ return; } var p=b.querySelector('
 var RG={t:'사진',sort:'new',cat:'',items:[],next:0,more:1,busy:0,k:'',stale:0}, RGO=null;
 function rgKey(){ return ((ME&&ME.com)||G||'')+'|'+RG.t+'|'+RG.sort+'|'+RG.cat; }
 function rgSnap(){ return 'rg:'+RG.t+':'+RG.sort+':'+RG.cat; }
-function rgReset(){ RG.items=[]; RG.next=0; RG.more=1; RG.busy=0; RG.stale=0; RG.k=rgKey(); var sn=allSnapGet(rgSnap()); if(sn){ RG.items=sn.items.slice(); RG.more=sn.more; RG.next=sn.next; RG.stale=1; } }
+function rgReset(){ RG.items=[]; RG.next=0; RG.more=1; RG.busy=0; RG.stale=0; RG.k=rgKey(); var sn=allSnapGet(rgSnap()); if(sn){ RG.items=sn.items.slice(); RG.more=sn.more; RG.next=sn.next; RG.stale=1; return; }
+  if(GRID&&RG.t==='사진'&&RG.sort==='new'&&!RG.cat){ var seen={}, a=[]; [].concat(GRID.news||[],(GRID.story&&GRID.story.items)||[],GRID.best||[]).forEach(function(x){ if(x&&!seen[x.id]){ seen[x.id]=1; a.push(x); } }); if(a.length){ RG.items=a; RG.stale=1; } } }   /* ★v142 ⑤ 첫 화면 답(recHome)에 실려 온 사진으로 먼저 그림 · 뒤에서 새 목록으로 바꿔 끼움 */
 function rgOk(it){ if(RG.t==='사진'){ return !(it.kind==='영상'&&it.video)&&!!(it.photo||(it.photos&&it.photos.length)||it.pv); } return true; }
 function rgAvatar(){ var a=$('rAv'); if(!a){ return; } var b=(GRID&&GRID.best&&GRID.best[0])||null, u=b?(b.pv||PVC[b.id]||(b.photos&&b.photos[0]&&(b.photos[0].pv||PVC[b.photos[0].id]))||duUrl((b.photos&&b.photos[0]&&b.photos[0].id)||b.id,480)):''; if(b&&b.video&&b.video.thumb){ u=b.video.thumb; } if(u){ a.style.backgroundImage='url('+u+')'; } }
 function rgMore(){
