@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/book.html · v64 · 261112 · [612 · 대표 08:49 「확인한 대로 작업해」] 상품 · 결과물 이름 역할을 하던 「삶의 여정」 → 「자서전」 · 셈 기준 여덟 → 열(「열 이야기 가운데 ○ 이야기까지」 · 열 편을 마치면 「○○○ 선생님의 자서전」). 설명 문장 속 「삶의 여정」(초대장 · 친구 화면 · about)은 그대로. kit.js 꼬리표 ?v=17. [무손] 값 · 서버 · 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/book.html · v65 · 261115 · [549 · 79차 · 대표 OK 261115 21:00] 「새 이야기」(A-02) 편만 — 표지 다음 · 차례 앞에 「쓰신 순서」 쪽(제목 「이야기를 여신 차례」 · 안내 한 줄 · 입구 → 담긴 이야기 · 같은 입구 잇달아는 한 줄 · 표시만 누른 물음 뺌 · 숫자 없음 · 한 쪽 여덟 줄 · 넘치면 다음 쪽) · 서버 v53 a2order 그대로 · 차례 · 본문 쪽 번호 그만큼 밀림. [무손] A-01 편 · 표지 · 차례 · 본문 · 인쇄 · 서버. -->
+<!-- (이전) memoir/book.html · v64 · 261112 · [612 · 대표 08:49 「확인한 대로 작업해」] 상품 · 결과물 이름 역할을 하던 「삶의 여정」 → 「자서전」 · 셈 기준 여덟 → 열(「열 이야기 가운데 ○ 이야기까지」 · 열 편을 마치면 「○○○ 선생님의 자서전」). 설명 문장 속 「삶의 여정」(초대장 · 친구 화면 · about)은 그대로. kit.js 꼬리표 ?v=17. [무손] 값 · 서버 · 그 밖 전부. -->
 <!-- (이전) memoir/book.html · v63 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) memoir/book.html · v62 · 261109 · [547 칸 3 · 대표 OK 261109 23:02] 「새 이야기」(A-02) 편 — 표지에 자리 이름 「새 이야기」를 내지 않음(제목을 적으셨으면 그 제목 · 아니면 「한 편의 기록」 · 아래 줄 비움) · 차례 = 여덟 이야기 이름(서버 v53 이 쓴 것만 · 표시 줄 빼고 · 그대로) · 「쓴 글 고치기 · 내용 수정」이 첫째 이야기(A-01)로 가던 것 → 편 번호로 A-02 쓴 글 보기(ask.html?id=…&trip=N&review=1). [무손] A-01 · 아홉째 · 열째 · 인쇄 · 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/book.html · v61 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
@@ -110,6 +111,11 @@
    큰 화면·작은 화면 가릴 것 없이 한 글자만 튀어 보였습니다(260810 실측). 본문 드롭캡은 그대로입니다. */
 .ch-body .text.toclist p:first-child::first-letter{font-size:inherit;color:inherit;font-weight:inherit;line-height:inherit}
 .ch-body .text.toclist p{text-indent:0}
+.ch-body .text.ordlist .ord-lead{color:#6B6458;font-size:.92em;margin-bottom:5mm;line-height:1.75}
+.ch-body .text.ordlist .ord-row{margin:0 0 2.6mm}
+.ch-body .text.ordlist .ord-no{color:var(--gold-deep);font-weight:700}
+.ch-body .text.ordlist .ord-door{font-weight:700;color:var(--navy-deep)}
+.ch-body .text.ordlist .ord-to{display:block;padding-left:6mm;color:#6B6458;font-size:.88em}
   .quote{margin:0 6mm;padding:6mm 7mm;background:rgba(217,139,166,.06);border-left:0.6mm solid var(--petal-deep);font-size:4.8mm;line-height:1.9;color:var(--navy-deep);font-style:italic;text-align:center}
   /* [260715 v5] 견본 자리표시 — 지어낸 본문 대신 "이야기가 담기는 자리"를 보여줍니다(이사회 「예시 본문 금지」). 조판·프레임은 그대로 유지. */
   .ph{margin:9mm 3mm 0;padding:15mm 9mm;border:0.5mm dashed var(--gold-deep);border-radius:2mm;text-align:center;color:var(--muted);line-height:2;font-size:4.6mm}
@@ -496,6 +502,36 @@ var BK_TRIP = 0, BK_PLACE = -1, BK_A2 = false;   /* ★[v36] 「이어 쓰기」
 var BK_NTH = {'첫':0,'둘':1,'셋':2,'넷':3,'다섯':4,'여섯':5,'일곱':6,'여덟':7,'아홉':8,'열':9};   /* ★v45 */
 function bkPlaceIdx(p){ var m = String(p||'').match(/^(첫|둘|셋|넷|다섯|여섯|일곱|여덟|아홉|열)째/); return m ? BK_NTH[m[1]] : -1; }
 
+/* ★v65 549 · 79차 — 「새 이야기」 편 쓰신 순서 한 장. 서버 v53 a2order = [{id, door, s, mark}] (처음 저장한 차례).
+   답 없이 표시만 누른 줄은 뺌 · 같은 입구를 잇달아 쓰면 한 줄 · 숫자(물음 수) 안 냄 · 줄이 많으면 다음 장. 돌려주는 값 = 다음 쪽 번호 */
+var BK_ORDER_PER = 8;
+function bkDoorName_(v){ return String(v||'').replace(/^\s*\d+\s*·\s*/, '').replace(/\s*★.*$/, '').replace(/\s*\([^)]*\)\s*$/, '').replace(/^\s+|\s+$/g, ''); }
+function bkOrderPages_(d, H, pg){
+  var od = d.a2order || [], rows = [], titles = d.secTitles || [];
+  for(var i=0; i<od.length; i++){
+    var o = od[i] || {};
+    if(o.mark){ continue; }
+    var door = bkDoorName_(o.door), st = (o.s>=1 && o.s<=8) ? String(titles[o.s-1]||'') : '';
+    if(!door){ continue; }
+    var last = rows[rows.length-1];
+    if(last && last.door === door){ if(st && last.st.indexOf(st) < 0){ last.st.push(st); } continue; }
+    rows.push({ door: door, st: st ? [st] : [] });
+  }
+  if(!rows.length){ return pg; }
+  for(var a=0; a<rows.length; a+=BK_ORDER_PER){
+    var h = '<div class="sheet"><div class="z ch-hd"><div class="ch-no">쓰 신 순 서</div>'
+      + '<div class="ch-title">이야기를 여신 차례</div></div>'
+      + '<div class="z ch-body"><div class="text toclist ordlist">';
+    if(a === 0){ h += '<p class="ord-lead">' + bkEsc(BK_WHO || '작성자') + ' 님은 이 차례로 이야기를 여셨습니다. 쓰신 글은 뒤에 이어지는 여덟 이야기에 나누어 담았습니다.</p>'; }
+    for(var r=a; r<Math.min(a+BK_ORDER_PER, rows.length); r++){
+      h += '<p class="ord-row"><span class="ord-no">' + (r+1) + '.</span> <span class="ord-door">' + bkEsc(rows[r].door) + '</span>'
+        + (rows[r].st.length ? '<span class="ord-to">&rarr; ' + bkEsc(rows[r].st.join(' · ')) + '</span>' : '') + '</p>';
+    }
+    h += '</div></div>' + bkFoot(pg) + '</div>';
+    H.push(h); pg++;
+  }
+  return pg;
+}
 function bkRender(d){
   var name = d.name || '';
   BK_WHO = name;
@@ -560,6 +596,10 @@ function bkRender(d){
   }
   var many = groups.length > 1;
 
+  /* ── ★v65 549 · 79차 — 쓰신 순서(「새 이야기」 편만) — 표지 다음 · 차례 앞 ── */
+  var pgAt = 1;
+  if(BK_A2){ pgAt = bkOrderPages_(d, H, pgAt); }
+
   /* ── 차례 ── */
   var toc = '<div class="sheet"><div class="z ch-hd"><div class="ch-no">차 례</div>'
     + '<div class="ch-title">' + bkEsc(series) + '</div></div>'
@@ -572,13 +612,13 @@ function bkRender(d){
       toc += '<p>' + chapNo + '. &nbsp; ' + bkEsc(groups[g1].live[i].title) + '</p>';
     }
   }
-  toc += '</div></div>' + bkFoot(1) + '</div>';
+  toc += '</div></div>' + bkFoot(pgAt) + '</div>';
   H.push(toc);
 
   /* ── 꼭지 ── */
   /* ★[v22] 사진은 ★한 장이 한 쪽입니다. 잘리지 않게 원본 비율 그대로 크게 앉힙니다.
      ★[v36] 이야기가 여럿이면 이야기마다 그 이야기의 사진을 그 이야기 안에 앉힙니다. */
-  var pageNo = 2; chapNo = 0;
+  var pageNo = pgAt + 1; chapNo = 0;
   for(var g2=0; g2<groups.length; g2++){
     var live2 = groups[g2].live, st2 = groups[g2].st;
     var photos = (st2.photos || []).filter(function(x){ return x; });
