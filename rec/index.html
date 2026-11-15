@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v160 · 261115 · [653 게시물 ⋯ 관리 칸 — 86차 도식 4 권한표 · 서버 변경 없음(recReview · recScope · recPlug upHide)] 남의 게시물 ⋯ 에서 관리자 · 승인 멤버 = 「관리」 아래 「이 사진 숨김 / 다시 보이기」 · 「🔒 이 사진 이 방만 보기로」 또는 「🌏 이 사진 전체 공개로」 / 관리자 = 「이 사진 삭제」(30일 되돌리기 물음) · 위 방 관리자 = 아래 방 사진 「우리 방에서 빼기」 · 이 칸이 있으면 「삭제 요청」은 안 보임 · 처리 뒤 보던 자리 그대로. [무손] 그 밖 v159 전부. -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v161 · 261115 · [대표 261115 10:16 「사진을 눌렀는데 다른 사진이 펼쳐져 한참 찾아야 함」 · 서버 변경 없음] 메인 · 마당에서 누른 사진이 여러 장 묶음 안의 몇 번째이든 게시물을 그 사진으로 엶(전에는 묶음 첫 장) — 주소에 &p=사진 번호 · pfOpenId(id,pid) · 그 사진으로 열 때 「1/9」 숫자 · 점도 맞춤(전에는 1/9 로 남음). [무손] 그 밖 v160 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ rec/index.html · v160 · 261115 · [653 게시물 ⋯ 관리 칸 — 86차 도식 4 권한표 · 서버 변경 없음(recReview · recScope · recPlug upHide)] 남의 게시물 ⋯ 에서 관리자 · 승인 멤버 = 「관리」 아래 「이 사진 숨김 / 다시 보이기」 · 「🔒 이 사진 이 방만 보기로」 또는 「🌏 이 사진 전체 공개로」 / 관리자 = 「이 사진 삭제」(30일 되돌리기 물음) · 위 방 관리자 = 아래 방 사진 「우리 방에서 빼기」 · 이 칸이 있으면 「삭제 요청」은 안 보임 · 처리 뒤 보던 자리 그대로. [무손] 그 밖 v159 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v159 · 261115 · [653 위 방 관리자 카드 — 82차 4-3 · ★서버 ②관리 v42 · ⑥시험 v85 와 짝] 관리 → 연결된 방 → 아래 방 줄마다 최근 사진 1장(우리 방에 보이는 것 · 없으면 빈 칸) · 「처리할 일 n」(승인 대기 + 가입 신청 · 그 방 관리자가 처리 · 보기만) · 방 번호 줄 걷음. [무손] 그 밖 v158 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v158 · 261115 · [653 남은 것 — 86차 도식 4 2판 ③ · 82차 4-3 · ★서버 ①Code v73 · ②관리 v41 · ⑥시험 v84 와 짝] ① 관리자 위임 = 「위임 요청」 → 받는 분 멤버 줄 「위임 대기」 · 관리자 「위임 취소」 → 받는 분이 방에 들어오면 「관리자 위임」 창(나 : 멤버 → 관리자 / ○○ 님 : 관리자 → 멤버 · 승인) 「거절 · 수락」 · 링크로 위임도 「위임 대기 · 위임 취소」 ② 활동 기록 = 문장(「○○ 님이 게시물을 숨김 처리했습니다」 · 아래 줄 때 · 까닭) · 승인 / 다시 보이기는 서버 pv 로 가름 · 문장이 없는 것은 앞 말 그대로. [무손] 그 밖 v157 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v157 · 261115 · [대표 0:13 「사진 위 규 동그라미 · 이름을 눌러도 안 감」 · 서버 변경 없음] 게시물 머리의 동그라미 · 이름을 누르면 그 방 첫 화면(맨 위 「‹ 방 이름」과 같음 · 인스타 게시물 머리처럼). 마당에서 연 게시물은 그대로. [무손] 그 밖 v156 전부. -->
@@ -1678,7 +1679,7 @@ function stTag(it){
 }
 
 /* ══ 들어오기 (v21 그대로) — ?g=초대 · ?k=열쇠 · ?r=기록번호 ══ */
-var OPEN_R='';
+var OPEN_R='', OPEN_P='';
 /* ★v49 330 재기 — 걸음 · 첫 글자 · 첫 사진 · 사진 다 → 서버 「속도」 탭 한 줄 · ?speed=1 기기는 숫자 상자 */
 var SPD={steps:[],t1:0,p1:0,pa:0,pend:0,pn:0,sent:0,room:'',tm:null};
 function spdNow(){ try{ return Math.round(performance.now()); }catch(e){ return Date.now(); } }
@@ -1708,7 +1709,7 @@ function boot(){
   var sp=new URLSearchParams(location.search);
   if(sp.get('pwa')==='1'){ sp.delete('pwa'); try{ history.replaceState(null,'',location.pathname+(sp.toString()?'?'+sp.toString():'')); }catch(e){} if(!pwaIn()){ setTimeout(pwaAsk,1800); } }   /* ★v45 */
   var g=(sp.get('g')||'').trim(), k=(sp.get('k')||'').trim();
-  OPEN_R=(sp.get('r')||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,20);
+  OPEN_R=(sp.get('r')||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,20); OPEN_P=(sp.get('p')||'').replace(/[^A-Za-z0-9-]/g,'').slice(0,20);   /* ★v161 누른 사진(묶음 안 몇 번째) */
   var code=(sp.get('code')||'').trim(), kerr=(sp.get('error')||'').trim();
   if(code||kerr){ kakaoBack(code,kerr,sp.get('state')||''); return; }
   var ss=(sp.get('s')||'').replace(/[^a-f0-9]/gi,'').slice(0,20).toLowerCase(); if(ss.length===20){ rcvBoot(ss); return; }   /* ★v67 388 받는 분 화면 */
@@ -1759,7 +1760,7 @@ function guestShow(d,m){   /* ★v51 손님 첫 화면 그리기(guestIn · room
     gridSet(d.grid);
     if(m===2&&!homeSafe()){ return; }
     var y=m===2?(window.scrollY||0):0;
-    STACK=[{v:'feed'}]; if(OPEN_R){ var r=OPEN_R; OPEN_R=''; if(!DK&&!DRAFT_T&&!PEND_ADD){ PFR=r; } else { STACK.push({v:'item',id:r}); holdHistory(); } }   /* ★v141 ④ 휴대폰 = 게시물 */
+    STACK=[{v:'feed'}]; if(OPEN_R){ var r=OPEN_R; OPEN_R=''; if(!DK&&!DRAFT_T&&!PEND_ADD){ PFR=r; PFP=OPEN_P; OPEN_P=''; } else { STACK.push({v:'item',id:r}); holdHistory(); } }   /* ★v141 ④ 휴대폰 = 게시물 */
     render(); if(y){ window.scrollTo(0,y); }
     if(PEND_ADD&&PEND_ADD.plus&&!OPEN_R){ PEND_ADD=null; setTimeout(plusJoin,400); } else if(shareFlag()&&!OPEN_R){ shareKick(); }   /* ★v152 674 · ★v133 566 ＋ 로 고른 방 — 손님이면 카카오 로그인 뒤 올리기 */
 }
@@ -1864,7 +1865,7 @@ function meShow(d,g,want,m){   /* ★v51 내 첫 화면 그리기(loadMe · room
     STACK=[{v:'feed'}];
     var dr=null; try{ dr=JSON.parse(sget(DRAFT)||'null'); }catch(e){} sset(DRAFT,'');
     if(dr&&dr.r&&!DRAFT_T){ OPEN_R=dr.r; DRAFT_T=dr.t||''; }
-    if(OPEN_R){ var r=OPEN_R; OPEN_R=''; if(!DK&&!DRAFT_T&&!PEND_ADD){ PFR=r; } else { STACK.push({v:'item',id:r}); holdHistory(); } }   /* ★v141 ④ 휴대폰 = 게시물 */
+    if(OPEN_R){ var r=OPEN_R; OPEN_R=''; if(!DK&&!DRAFT_T&&!PEND_ADD){ PFR=r; PFP=OPEN_P; OPEN_P=''; } else { STACK.push({v:'item',id:r}); holdHistory(); } }   /* ★v141 ④ 휴대폰 = 게시물 */
     render(); if(y){ window.scrollTo(0,y); }
     if(m===1){ return; }
     post();   /* ★v37 */
@@ -2916,7 +2917,7 @@ function vwTap(ev){
 function vwRoomList(){ var seen={}, out=[]; each($('feed')||document,'.tl[data-tid]',function(t){ var id=t.getAttribute('data-tid'); if(seen[id]){ return; } var it=findL(id); if(it&&(it.photo||it.video)){ seen[id]=1; out.push(it); } }); return out; }
 function vwRoom(id,pid){ var its=vwRoomList(); if(!its.length){ go('item',id); return; } if(!DK){ var pk=0; for(var q=0;q<its.length;q++){ if(its[q].id===id){ pk=q; } } pfOpen(its,pk,pid); return; }   /* ★v141 ④ 휴대폰 = 게시물(위아래 · 여러 장은 옆으로) · 컴퓨터는 568 그대로 */ var L=vwExpand(its), k=0; for(var i=0;i<L.length;i++){ if(L[i].tid===id&&(!pid||L[i].id===pid)){ k=i; break; } } vwOpen(L,k,'room'); }   /* ★v107 누른 그 사진부터 */
 /* ══ ★v141 시공 ④ 게시물(도식 2 2판) — 게시물 사이는 위아래 · 여러 장은 옆으로(점 · 1/9) · 기억 · ♥ · 🍇 는 지금 보는 사진에 · 사진을 누르면 전체 화면 ══ */
-var PF={on:false,list:[],ci:{},st:{},fromPz:0}, PFO=null, PFR='';
+var PF={on:false,list:[],ci:{},st:{},fromPz:0}, PFO=null, PFR='', PFP='';
 function pfPhotos(it){ if(it.video){ return [{id:it.id,vid:1}]; } if(it.photos&&it.photos.length){ return it.photos; } return [{id:it.id,pv:it.pv}]; }
 function pfTh(p,it){ return p.pv||PVC[p.id]||PHC['s:'+p.id]||duUrl(p.id,480)||(it&&p.id===it.id?(it.pv||''):''); }
 function pfBox(){ var b=$('pf'); if(b){ return b; } b=document.createElement('div'); b.id='pf'; b.className='pf'; b.setAttribute('role','dialog'); b.setAttribute('aria-label','게시물');
@@ -2975,7 +2976,7 @@ function pfOpen(list,i,pid,pz){
   $('pfBk').textContent=pfLabel(); $('pfIn').innerHTML=PF.list.map(pfPost).join('')+'<div class="pfend" id="pfEnd"></div>';
   $('pf').style.zIndex=String(1500+LAYS.length*2); $('pf').classList.add('on'); document.body.classList.add('pfon'); btabDraw();
   var art=document.querySelector('#pfIn [data-pi="'+i+'"]'); $('pf').scrollTop=art?art.offsetTop-$('pf').querySelector('.pftop').offsetHeight:0;
-  if(pid){ var ps=pfPhotos(PF.list[i]); for(var k=0;k<ps.length;k++){ if(ps[k].id===pid){ PF.ci[i]=k; var sc=art&&art.querySelector('.pfs'); if(sc){ (function(sc,k){ setTimeout(function(){ sc.scrollLeft=k*sc.clientWidth; },0); })(sc,k); } } } }
+  if(pid){ var ps=pfPhotos(PF.list[i]); for(var k=0;k<ps.length;k++){ if(ps[k].id===pid){ PF.ci[i]=k; var sc=art&&art.querySelector('.pfs'); if(sc){ (function(sc,k){ setTimeout(function(){ sc.scrollLeft=k*sc.clientWidth; var c=document.querySelector('#pfIn [data-pc="'+i+'"]'); if(c){ c.textContent=(k+1)+'/'+sc.children.length; } var dd=document.querySelector('#pfIn [data-pd="'+i+'"]'); if(dd){ each(dd,'i',function(x,j){ x.classList.toggle('on',j===k); }); } },0); })(sc,k); }   /* ★v161 숫자 · 점도 그 사진에 맞춤 */ } } }
   pfWire(); pfLoad(i); pfAct(i); pfMem(i);
   lyPush(pfHide);
 }
@@ -2986,8 +2987,8 @@ function pfHide(){ if(!PF.on){ return; } PF.on=false; if(PFO){ try{ PFO.disconne
   /* ★v151 마당 · 메인에서 연 게시물도 닫으면 그 방 첫 화면(한 걸음) */
   btabDraw(); if(it){ var t=document.querySelector('#feed [data-tid="'+it.id+'"]'); if(t&&t.scrollIntoView){ try{ t.scrollIntoView({block:'center'}); }catch(x){} } } }
 function pfClose(){ lyBack(); }
-function pfOpenId(id){ var b=pfBox(), cov=!PF.on; if(cov){ $('pfBk').textContent='‹ '+((ME&&ME.comName)||'우리 이야기'); $('pfBk').onclick=function(){}; $('pfIn').innerHTML='<div class="msg" style="color:#bbb;padding:40vh 0 0;text-align:center">사진을 여는 중입니다</div>'; b.style.zIndex=String(1500+LAYS.length*2); b.classList.add('on'); document.body.classList.add('pfon'); }   /* ★v151 대표 23:25 「방 소개가 몇 초 보이다 확 바뀜」 — 사진으로 들어오면 방 첫 화면을 먼저 보이지 않고 바로 게시물 자리를 덮어 둠 */
-  itGet(id,function(d){ if(cov){ $('pfBk').onclick=pfClose; if(!PF.on){ b.classList.remove('on'); document.body.classList.remove('pfon'); } } if(!d||d.status!=='ok'||!d.item){ STACK.push({v:'item',id:id}); holdHistory(); render(); return; } var x=d.item, L=vwRoomList().filter(function(y){ return y.id!==x.id; }); pfOpen([x].concat(L),0,'',0); }); }
+function pfOpenId(id,pid){ var b=pfBox(), cov=!PF.on; if(cov){ $('pfBk').textContent='‹ '+((ME&&ME.comName)||'우리 이야기'); $('pfBk').onclick=function(){}; $('pfIn').innerHTML='<div class="msg" style="color:#bbb;padding:40vh 0 0;text-align:center">사진을 여는 중입니다</div>'; b.style.zIndex=String(1500+LAYS.length*2); b.classList.add('on'); document.body.classList.add('pfon'); }   /* ★v151 대표 23:25 「방 소개가 몇 초 보이다 확 바뀜」 — 사진으로 들어오면 방 첫 화면을 먼저 보이지 않고 바로 게시물 자리를 덮어 둠 */
+  itGet(id,function(d){ if(cov){ $('pfBk').onclick=pfClose; if(!PF.on){ b.classList.remove('on'); document.body.classList.remove('pfon'); } } if(!d||d.status!=='ok'||!d.item){ STACK.push({v:'item',id:id}); holdHistory(); render(); return; } var x=d.item, L=vwRoomList().filter(function(y){ return y.id!==x.id; }), want=pid||id, hit=pfPhotos(x).some(function(q){ return q.id===want; })?want:''; pfOpen([x].concat(L),0,hit,0); }); }   /* ★v161 대표 261115 「눌렀는데 다른 사진이 펼쳐짐」 — 메인 · 마당에서 누른 그 사진으로(묶음 첫 장 아님) */
 function pfAll(i){ var p=pfCur(i), st=p&&PF.st[p.id]; if(!st){ return; } var ms=st.mems||[];
   sheet('<h2>💬 기억 '+ms.length+'</h2><div class="pfk" style="padding:6px 0;max-height:60vh;overflow:auto">'+ms.map(function(m){ return '<p><b>'+esc(m.by||'')+'</b>'+esc(m.text||'')+'</p>'; }).join('')+'</div><button class="btn warm" id="paW" type="button">💬 기억 남기기</button><button class="btn line" id="paX" type="button">닫기</button>',function(){ $('paX').onclick=closeSheet; $('paW').onclick=function(){ closeSheet(); pfWrite(i); }; }); }
 function pfWrite(i){ var p=pfCur(i); if(!p){ return; } if(isGuest()){ joinGate(); return; } if(!canTell()){ toast('지금은 기억을 남길 수 없습니다'); return; }
@@ -3181,7 +3182,7 @@ function gridDraw(){
   if($('gdT')){ $('gdT').onclick=function(){ var bx=$('gdB'), op=bx.hidden; bx.hidden=!op; this.setAttribute('aria-expanded',op?'true':'false'); this.lastChild.textContent=op?'▴':'▾'; }; }
   rgDraw(); rgWire(); if(!RG.items.length||RG.stale){ rgMore(); }
   lazyBottom2();
-  if(PFR){ var r0=PFR; PFR=''; setTimeout(function(){ pfOpenId(r0); },0); }
+  if(PFR){ var r0=PFR, p0=PFP; PFR=''; PFP=''; setTimeout(function(){ pfOpenId(r0,p0); },0); }
 }
 function lazyBottom2(){ var t=$('opBand'); if(!t||!window.IntersectionObserver){ return; } var o=new IntersectionObserver(function(es){ if(es[0]&&es[0].isIntersecting){ o.disconnect(); if($('opMine')){ openMine(); } } },{rootMargin:'250px'}); o.observe(t); }
 /* ★v140 ❓7 맨 위 ← — 이 방 안에서 한 걸음 · 첫 화면이면 마당으로(마당에서 한 번 더 누를 때만 나가기 물음) */
