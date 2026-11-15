@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/dk.js · v2 · 261010 · ★편지 서버(…LjdA · v38)도 지켜봄 · 몸통 없는 fetch(주소에 번호)에도 열쇠를 실음(편지 getLetter)
+   현재 버전 ▶ lf/dk.js · v3 · 261115 · [553 · 대표 OK 22:05] ★카톡 안에서 열린 화면이 곧 바깥 브라우저로 넘어가는데(frame.js) 그 사이 카톡 안 화면이 먼저 「본인 기기」로 등록돼 버려, 정작 쓰는 크롬 · 사파리는 열쇠가 없던 것(접근 기록 261109 · LF-5YHF9 · LF-WJ7ZV) — 카톡 안에서는 화면이 다 열린 뒤 넘어가는지 보고, 넘어가는 화면이면 등록하지 않음. [무손] 그 밖 전부.
+   (이전) lf/dk.js · v2 · 261010 · ★편지 서버(…LjdA · v38)도 지켜봄 · 몸통 없는 fetch(주소에 번호)에도 열쇠를 실음(편지 getLetter)
    이전 ▶ lf/dk.js · v1 · 261010 · ★기기 열쇠(자서전 서버 v47 · 유료여행지도 v13-3 · 63차)
    · 사랑흐름 여권번호로 부르는 자서전 · 여행지도 서버 요청에 이 휴대폰의 기기 열쇠(dk)를 저절로 실음.
      화면마다 고치지 않음 — script src · fetch 를 이 파일이 지켜봄. 화면 파일은 이 줄 하나만 더함.
@@ -15,6 +16,7 @@
     'https://script.google.com/macros/s/AKfycbxmIVu6EWwIHK8pmaQnrzZMg_r2XiytvrkohHMJDR2lBscC3OPUAZr6qmEOn6DTLjdA'];   /* ★v2 편지 서버 */
   var RE = /^LF[ML]?-[A-Z0-9]{4,8}$/;
   var pend = {}, waits = {};
+  var KK = /KAKAOTALK/i.test(navigator.userAgent || '');   /* ★v3 */
 
   function clean(v) { v = String(v == null ? '' : v).trim().toUpperCase(); return RE.test(v) ? v : ''; }
   function ls(k, v) { try { if (v === undefined) { return localStorage.getItem(k); } if (v === null) { localStorage.removeItem(k); } else { localStorage.setItem(k, v); } } catch (e) { } return null; }
@@ -42,6 +44,9 @@
   function claim(pp, cb) {
     if (!pp) { cb && cb(); return; }
     if (key(pp)) { cb && cb(); return; }
+    /* ★v3 카톡 안 — 화면이 다 열린 뒤(frame.js 가 바깥으로 넘길지 정한 뒤) 다시 봄 · 넘어가는 화면이면 등록하지 않음 */
+    if (KK && document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', function () { claim(pp, cb); }); return; }
+    if (window.__lfOut) { cb && cb(); return; }
     (waits[pp] = waits[pp] || []).push(cb || function () { });
     if (pend[pp]) { return; }
     pend[pp] = 1;
