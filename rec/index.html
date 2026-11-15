@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ rec/index.html · v167 · 261115 · [우리이야기-소통-006 · 사랑흐름-006 수락 · ★서버 ①Code v76 · ⑥시험 v88 과 짝] ① 초대 링크(멤버가 보낸 공유 표 포함)로 온 분 = 받기 방식이어도 바로 멤버 · 「신청 중」은 메인에서 링크 없이 온 분만 — 카카오 요청에 f=home 이 hex 거르기로 「e」가 되어 서버에 닿지 않던 것도 고침 ② 관리 「초대하기」 보낼 곳별 링크 만들 때 기한 없음 · 7일 · 30일(기본 없음) · 목록에 「○월 ○일까지」 · 「기한 지남」 · 기한 지난 링크로 카카오 로그인 → 「기한이 지난 초대 링크입니다…」 ③ 초대하기 안내 말 「관리자 초대 링크로 온 분은」 → 「초대 링크로 온 분은」 -->
+<!-- ★ 현재 버전 ▶ rec/index.html · v168 · 261115 · [87차 87-1 · ★서버 ①Code v77 · ⑥시험 v89 과 짝] 사진 보기 양 재기 — 이 화면에서 실제로 받은 사진 수(작은 480 · 큰 1600 · 담아 둔 것은 세지 않음)와 서버로 받은 크기(KB)를 모아 화면을 떠날 때 방문 통계 「사진」 한 줄로 보냄(첫 화면 요청 늘지 않음 · 사람 번호 안 적음) · 바둑판 미리보기(첫 화면 답에 들어 있는 것)는 세지 않음 -->
+<!-- (이전) ★ 현재 버전 ▶ rec/index.html · v167 · 261115 · [우리이야기-소통-006 · 사랑흐름-006 수락 · ★서버 ①Code v76 · ⑥시험 v88 과 짝] ① 초대 링크(멤버가 보낸 공유 표 포함)로 온 분 = 받기 방식이어도 바로 멤버 · 「신청 중」은 메인에서 링크 없이 온 분만 — 카카오 요청에 f=home 이 hex 거르기로 「e」가 되어 서버에 닿지 않던 것도 고침 ② 관리 「초대하기」 보낼 곳별 링크 만들 때 기한 없음 · 7일 · 30일(기본 없음) · 목록에 「○월 ○일까지」 · 「기한 지남」 · 기한 지난 링크로 카카오 로그인 → 「기한이 지난 초대 링크입니다…」 ③ 초대하기 안내 말 「관리자 초대 링크로 온 분은」 → 「초대 링크로 온 분은」 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v166 · 261115 · [대표 14:48 「카카오 처리방침 작업」 · 화면만] 처리방침 trust v18 제8조 (우리 이야기)로 가는 작은 글자 링크 — 카카오로 들어오기 창의 「전화번호 · 연락처는 받지 않습니다.」 뒤 · 내 방 ⚙ 설정 창 맨 아래. 사진 밑 · 방 첫 화면에는 더하지 않음 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v165 · 261115 · [알림 1단계 · 우리이야기-소통-005 · 사랑흐름-소통-005 조정대로 · ★서버 ①Code v75 · ⑥시험 v87 과 짝] 「카톡으로 알리기」 — ① 방 만든 분의 첫 사진 직후 크게 한 번 ② 내 방 「받은 기억」에서 그 사진을 열면 크게(사진마다 한 번) ③ 올린 직후 성공 띠 옆 작게 · ↗ 공유 창 「카카오톡으로 보내기」도 같은 문구 · 사진 밑에는 아무것도 더하지 않음(대표 12:36) / 공유 문구 SHTXT / 링크마다 무작위 공유 번호(sn) → 방문 통계 「알리기」 누름 · 열림 · 입장 · 남김(사람 번호 안 적음 · 열림은 3초 뒤) / 내 방 방 줄 「새 사진 n」(전에는 「새 기억 n」으로 잘못 적힘) · 「받은 기억」 탭 「새 기억 n」 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v164 · 261115 · [대표 261115 12:36 「사진 밑에 질문이 주렁주렁 — 어제 손본 것을 왜 또」] v163 의 게시물 물음 한 줄(613)을 걷어 냄 — 사진 밑은 아이콘 줄 · 글 · 기억 · 「기억 남기기…」만(어제 모양). 613 은 하지 않음으로 닫음. 처음 「옆으로 살짝 밀어 보이기」가 넘긴 사진을 되돌리던 고장 고침은 그대로. [무손] 그 밖 v162 전부. -->
@@ -3490,11 +3491,15 @@ function bindUD(el,cur){
 }
 /* 사진 — 첫 화면 큰 칸은 원본(1600px) · 3×3 칸은 작은 그림을 한 번에 */
 var PHC={}, NEEDPV={}, PHW={};
+/* ★v168 87-1 사진 보기 양 재기 — 받은 사진 수(작은 480 · 큰 1600)와 서버로 받은 크기만 셈 · 화면을 떠날 때 한 번 방문 통계로 */
+var PHN={s:0,b:0,kb:0};
+function phnSend(){ if(!(PHN.s||PHN.b||PHN.kb)){ return; } var m='작은 '+PHN.s+' · 큰 '+PHN.b+' · 서버 '+Math.round(PHN.kb)+'KB'; PHN={s:0,b:0,kb:0}; visSend('사진',m); }
+window.addEventListener('pagehide',phnSend); document.addEventListener('visibilitychange',function(){ if(document.visibilityState==='hidden'){ phnSend(); } });
 function photo(id,small,cb,noDu){
   var k=(small?'s:':'')+id; if(PHC[k]){ cb(PHC[k]); return; }
   if(!noDu){ if(PHW[k]){ PHW[k].push(cb); return; } PHW[k]=[cb]; var cb0=cb; cb=function(u){ var w=PHW[k]||[cb0]; delete PHW[k]; w.forEach(function(f){ try{ f(u); }catch(e){} }); }; }   /* ★v120 받는 중인 사진은 기다렸다 같이 받음 */
-  if(DU[id]&&!noDu){ duLoad(id,small?480:1600,function(u){ if(u){ PHC[k]=u; cb(u); } else { photo(id,small,cb,1); } }); return; }   /* ★v53 333 서버를 거치지 않고 */
-  api({action:'recPhoto',id:id,small:small?'1':''},function(d){ if(d.status==='ok'){ PHC[k]='data:'+d.type+';base64,'+d.data; pvHeal(id,PHC[k]); cb(PHC[k]); } else { cb(''); } });
+  if(DU[id]&&!noDu){ duLoad(id,small?480:1600,function(u){ if(u){ PHC[k]=u; if(small){ PHN.s++; } else { PHN.b++; } cb(u); } else { photo(id,small,cb,1); } }); return; }   /* ★v53 333 서버를 거치지 않고 */
+  api({action:'recPhoto',id:id,small:small?'1':''},function(d){ if(d.status==='ok'){ if(small){ PHN.s++; } else { PHN.b++; } PHN.kb+=String(d.data||'').length*0.75/1024; PHC[k]='data:'+d.type+';base64,'+d.data; pvHeal(id,PHC[k]); cb(PHC[k]); } else { cb(''); } });
 }
 /* ★v25 스스로 채우기 — 미리보기 없는 옛 사진을 이 폰이 처음 열면 작은 사진을 만들어 서버에 남김(다음부터 모두 빨리) */
 function pvHeal(id,url){
