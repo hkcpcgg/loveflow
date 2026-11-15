@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v99 · 261115 · [552 · 79차 · 대표 OK 261115 21:05] 「새 이야기」 쓴 글 보기 — 글이 하나라도 있으면 아직 글이 없는 이야기를 맨 아래 점선 상자에 흐리게(「아직 담긴 글이 없는 이야기」 · 이름들 · 「쓰지 않으셔도 괜찮습니다. 쓰신 이야기만 결과물에 실립니다.」) · 단추 없음. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v100 · 261115 · [554 · 79차 · 대표 261115 21:38 「일반적으로 쓰는 단추 말로」] 단추 말 — 질문 듣기 · 답을 입력하세요 · 음성 입력 · 도움말 · 문서 스캔 · 녹음하기 · 녹음 시작 · 녹음 중 · 녹음 완료 · 직접 입력 · 녹음 전 안내(A-01 녹음 화면 함께) · 새 이야기는 녹음이 되면 음성 입력 감춤(마이크 하나) · 「새 이야기」 물음 화면에 「말로 쓰기」 단추 → 큰 녹음 화면(받아쓰기 + 목소리 녹음) → 다 말했어요 → 물음 화면에 글로 들어감 · 목소리는 서버 talkSave(v50) 자리 100 · 물음 번호 입구×100+물음. 받아쓰기 막힌 화면엔 단추 없음. [무손] 그 밖 전부. -->
+<!-- (이전) memoir/ask.html · v99 · 261115 · [552 · 79차 · 대표 OK 261115 21:05] 「새 이야기」 쓴 글 보기 — 글이 하나라도 있으면 아직 글이 없는 이야기를 맨 아래 점선 상자에 흐리게(「아직 담긴 글이 없는 이야기」 · 이름들 · 「쓰지 않으셔도 괜찮습니다. 쓰신 이야기만 결과물에 실립니다.」) · 단추 없음. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v98 · 261115 · [530 · 대표 OK 261115 20:28] 사진 제목 칸 흐린 글씨 「첫 월급 타던 날」 → 「처음 번 돈을 받던 날」(형편 전제 말 걷기). [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v97 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) memoir/ask.html · v96 · 261109 · [547 칸 3 · 555 · 대표 OK 261109 23:02] ① 주소 다시 적기 — 자리 번호 없이 편 번호만 온 편은 주소에 place=0 을 붙이지 않음(다시 열면 첫째 이야기로 읽히던 것) ② 기다림 화면 둘째 줄 — 주소에 자리 번호(place) 없이 편 번호(trip)만 오면(ritual 「새 이야기 열기」 · 「내 이야기 목록」 · 결과물에서 연 A-02 편) 「첫째 이야기 자리 마련」 → 「새 이야기 자리 마련」. [무손] 그 밖 전부. -->
@@ -78,7 +79,7 @@
 <script src="/lf/dk.js?v=1"></script><!-- ★[기기 열쇠 · 261010] 다른 스크립트보다 먼저 -->
 <!-- ★[260810] 문지기 — 번호 찾기·심기·링크에 번호 붙이기·부품 불러오기. -->
 <script src="/lf/pass.js"></script>
-<script src="/memoir/kit.js?v=16"></script>
+<script src="/memoir/kit.js?v=18"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>사랑흐름 · 자서전 「한 편의 기록」</title>
@@ -335,7 +336,7 @@ body{background:#E7E1D6 !important}
     <div class="recall" id="recall"></div>
     <p class="q serif" id="q"></p>
     <div class="tools">
-      <button class="tool listen" id="listen" onclick="speak()" aria-label="질문 들려드리기"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9a4 4 0 010 6"/></svg></span>들려드릴게요</button>
+      <button class="tool listen" id="listen" onclick="speak()" aria-label="질문 들려드리기"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9a4 4 0 010 6"/></svg></span>질문 듣기</button>
       <button class="tool save" id="savebtn" onclick="manualSave()" aria-label="임시 저장"><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 4v10M7.5 9.5L12 14l4.5-4.5M5 19h14"/></svg></span>임시 저장</button>
     </div>
     <div class="picks" id="picks" style="display:none">
@@ -345,11 +346,11 @@ body{background:#E7E1D6 !important}
       </div>
       <p class="pickhint" id="pickhint">해당하는 것을 눌러 주세요</p>
     </div>
-    <textarea id="ans" placeholder="말씀하신 내용이 여기 담깁니다…" oninput="onType()"></textarea>
+    <textarea id="ans" placeholder="답을 입력하세요" oninput="onType()"></textarea>
     <div class="aids">
-      <button type="button" class="aid voice" id="voiceBtn" onclick="voiceToggle()"><span class="ic c1"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg></span><span id="voiceTxt">말로 하기</span></button>
-      <button type="button" class="aid family" onclick="familyTip()"><span class="ic c2"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9.5" r="2.3"/><path d="M3.5 19.5c0-3.3 2.4-5.5 5.5-5.5s5.5 2.2 5.5 5.5M15.5 14.3c2.8.2 5 2.2 5 5.2"/></svg></span>가족이 적기</button>
-      <button type="button" class="aid scan" id="scanBtn" onclick="askScan_()"><span class="ic c3"><svg viewBox="0 0 24 24"><path d="M6 3h8.5L19 7.5V21H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg></span>종이 불러오기</button>
+      <button type="button" class="aid voice" id="voiceBtn" onclick="voiceToggle()"><span class="ic c1"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg></span><span id="voiceTxt">음성 입력</span></button>
+      <button type="button" class="aid family" onclick="familyTip()"><span class="ic c2"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9.5" r="2.3"/><path d="M3.5 19.5c0-3.3 2.4-5.5 5.5-5.5s5.5 2.2 5.5 5.5M15.5 14.3c2.8.2 5 2.2 5 5.2"/></svg></span>도움말</button>
+      <button type="button" class="aid scan" id="scanBtn" onclick="askScan_()"><span class="ic c3"><svg viewBox="0 0 24 24"><path d="M6 3h8.5L19 7.5V21H6z"/><path d="M14 3v5h5M9 13h7M9 17h5"/></svg></span>문서 스캔</button>
     </div>
     <div class="aidnote" id="aidnote" style="display:none"></div>
     <div class="photobox" id="photobox">
@@ -488,7 +489,7 @@ function paint(){
   document.getElementById("picks").style.display=isPick?"block":"none";
   var _ans=document.getElementById("ans");
   _ans.style.display=(isPick && !Q.follow)?"none":"block";                 /* ★v54 고르기+한마디는 한마디 칸도 */
-  _ans.placeholder=(isPick && Q.follow) ? T.follow : "말씀하신 내용이 여기 담깁니다…";
+  _ans.placeholder=(isPick && Q.follow) ? T.follow : "답을 입력하세요";
   freeTitle_(Q);
   var aids=document.querySelector(".aids"); if(aids) aids.style.display=isPick?"none":"flex";
   var pb=document.getElementById("photobox"); if(pb) pb.style.display=isPick?"none":"block";
@@ -1858,7 +1859,7 @@ function voiceTxt(s){ var el = document.getElementById('voiceTxt'); if (el) { el
 
 function voiceOff_(){
   LFSRon = false;
-  voiceTxt('말로 하기');
+  voiceTxt('음성 입력');
   var b = document.getElementById('voiceBtn');
   if (b) { b.classList.remove('on'); }
 }
@@ -1883,7 +1884,7 @@ function voiceToggle(){
 
     LFSR.onstart = function(){
       LFSRon = true;
-      voiceTxt('듣는 중 · 멈춤');
+      voiceTxt('입력 중 · 멈춤');
       var b = document.getElementById('voiceBtn');
       if (b) { b.classList.add('on'); }
       aidNote('편하게 말씀하세요. 말씀하신 대로 아래 칸에 담깁니다.');
@@ -2063,7 +2064,7 @@ function askAi_(){
 <!-- ══ ★v90 · 499 · 75차 · 대표 OK 261031 17:39 — 「말로 쓰기」 길 (고르는 길 · 지금 「글로 쓰기」 화면은 그대로) ══
      이야기를 열면 「말로 쓰기 · 글로 쓰기」 둘 중 고름(고른 것은 이 기기에 기억 · 언제든 바꿈).
      말로 쓰기 = 같은 물음 · 같은 소재 · 같은 저장(answers · nextQ · markNA · 소재를 마칠 때 서버) — 답 칸에 들어갈 글만 말로 받음.
-     한 소재 = 안내 듣기 → 큰 녹음 단추 → 글로 바뀐 것 → 다음 물음 … → 「여기까지 했어요」 · 다시 오면 「이어서 하기」.
+     한 소재 = 질문 듣기 → 큰 녹음 단추 → 글로 바뀐 것 → 다음 물음 … → 「여기까지 했어요」 · 다시 오면 「이어서 하기」.
      ★지금은 휴대폰 받아쓰기가 되는 화면에서만 고르기 판이 뜸(카카오톡 안 화면 등은 지금 화면 그대로) — 501 국내 음성 인식이 붙으면 어디서나.
      ★목소리 녹음은 이 휴대폰 안에서 다시 듣기만(서버 저장 · 90일은 500). 안내 목소리는 기계 목소리(대표님 녹음 오면 바꿈).
      말로 쓰기에 들어가지 않는 물음: 고르기 · 자유(제목) 물음 · 아홉째(이야기 주머니) · 쓴 글 고치기 — 그 물음은 지금 화면으로. -->
@@ -2200,8 +2201,8 @@ function pick_(){
   pkCss_();
   on_('<div class="tk-k">'+esc_(lfStory_(BOOK[ci].title))+'</div>'
    +'<div class="tk-t">'+esc_(secName_())+'</div>'
-   +'<button type="button" class="pk-w" onclick="tkWrite_()"><span class="ic">'+PEN+'</span><span><b>글로 쓰기</b><span class="s">물음을 읽고 직접 씁니다</span></span></button>'
-   +'<button type="button" class="pk-t" onclick="tkTalk_()">'+MIC+'말로 해 보기 <em>도움 기능</em></button>'
+   +'<button type="button" class="pk-w" onclick="tkWrite_()"><span class="ic">'+PEN+'</span><span><b>직접 입력</b><span class="s">물음을 읽고 직접 씁니다</span></span></button>'
+   +'<button type="button" class="pk-t" onclick="tkTalk_()">'+MIC+'녹음하기</button>'
    +'<div class="tk-k" style="font-size:12.5px">어느 쪽으로 쓰셔도 한 권의 기록에 함께 담깁니다.<br>쓰는 중에도 언제든 바꾸실 수 있어요.</div>'
    +'<div class="tk-sp"></div>'
    +'<div class="pk-nav"><button type="button" onclick="history.back()">‹ 이전</button><button type="button" onclick="tkWrite_()">다음 ›</button></div>','pick');
@@ -2211,7 +2212,7 @@ var TN='lf_talk_notice';
 function notice_(go){
   pkCss_();
   TK.nGo=go;
-  on_('<div class="tk-t">말로 해 보기 전에<br>먼저 알려 드려요</div>'
+  on_('<div class="tk-t">녹음 전 안내</div>'
    +'<div class="nt"><ul>'
    +'<li>말씀하신 것을 휴대폰 받아쓰기가 글로 바꿔 드려요.</li>'
    +'<li>사투리, 작은 목소리, 주변 소리 때문에 틀리게 바뀔 수 있어요. <b>바뀐 글은 꼭 읽어 보시고 고쳐 주세요.</b></li>'
@@ -2219,8 +2220,8 @@ function notice_(go){
    +'<li>목소리는 90일 동안 다시 들으실 수 있고, 그 뒤에는 지워집니다.</li>'
    +'</ul></div>'
    +'<div class="tk-sp"></div>'
-   +'<button type="button" class="pk-b s" onclick="tkWrite_()">글로 쓸게요</button>'
-   +'<button type="button" class="pk-b m" onclick="tkNoticeOk_()">알겠어요, 말로 해 볼게요</button>','notice');
+   +'<button type="button" class="pk-b s" onclick="tkWrite_()">직접 입력</button>'
+   +'<button type="button" class="pk-b m" onclick="tkNoticeOk_()">녹음 시작</button>','notice');
 }
 window.tkNoticeOk_=function(){ try{ localStorage.setItem(TN,'1'); }catch(e){} var g=TK.nGo; TK.nGo=null; if(g){ g(); } };
 /* 받아쓰기가 없는 화면(카톡 안 · 일부 앱 안 화면) → 되는 브라우저로 */
@@ -2233,11 +2234,11 @@ function out_(){
   pkCss_();
   var ua=navigator.userAgent||'', and=/Android/i.test(ua), kk=/KAKAOTALK/i.test(ua);
   var nm=and?'크롬':'사파리';
-  on_('<div class="tk-t">말로 해 보기는<br>'+nm+'에서 됩니다</div>'
+  on_('<div class="tk-t">녹음은<br>'+nm+'에서 됩니다</div>'
    +'<div class="nt"><ul><li>지금 보시는 화면'+(kk?'(카카오톡 안)':'')+'에서는 휴대폰 받아쓰기가 막혀 있어요.</li>'
    +'<li>아래 단추를 누르시면 '+nm+'에서 <b>이 자리 그대로</b> 열려요. 쓰시던 글도 그대로 있어요.</li></ul></div>'
    +'<div class="tk-sp"></div>'
-   +'<button type="button" class="pk-b s" onclick="tkWrite_()">글로 쓸게요</button>'
+   +'<button type="button" class="pk-b s" onclick="tkWrite_()">직접 입력</button>'
    +'<button type="button" class="pk-b m" onclick="tkOut_()">'+nm+(and?'으로':'로')+' 열기</button>','out');
 }
 window.tkOut_=function(){
@@ -2277,7 +2278,7 @@ function home_(){
    +'<button type="button" class="tk-gh" onclick="openReview_()">쓴 글 보기</button>'
    +'<div class="tk-sp"></div>'+grapes_(-1).replace(/<i class="">/g,'<i>')
    +'<div class="tk-k">'+esc_(secName_())+' · 소재 '+(cur().sec+1)+' / '+((BOOK[ci].secs||[]).length||1)+'</div>'
-   +'<button type="button" class="tk-l mut" onclick="tkToWrite_()">글로 쓰기로 바꾸기</button>','home');
+   +'<button type="button" class="tk-l mut" onclick="tkToWrite_()">직접 입력으로 바꾸기</button>','home');
   /* 지나온 소재 포도알 */
   try{ var gi=document.querySelectorAll('#tk .tk-gr i'); for(var i=0;i<gi.length && i<cur().sec;i++){ gi[i].className='f'; } }catch(e){}
 }
@@ -2290,11 +2291,11 @@ function intro_(){
   if(!qOk_()){ off_(); return; }
   var Q=cur(), seen=''; try{ seen=localStorage.getItem(HINTK)||''; }catch(e){}
   on_('<div class="tk-k">오늘의 이야기 · '+esc_(secName_())+'</div>'
-   +'<button type="button" class="tk-vo" id="tkVo" onclick="tkSay_()"><span class="pl">'+PLAY+'</span><span id="tkVoT">안내 듣기</span></button>'
+   +'<button type="button" class="tk-vo" id="tkVo" onclick="tkSay_()"><span class="pl">'+PLAY+'</span><span id="tkVoT">질문 듣기</span></button>'
    +(Q.recall?'<div class="tk-r">'+esc_(Q.recall)+'</div>':'')
    +'<div class="tk-q">'+esc_(Q.q)+'</div>'
    +(seen?'':'<div class="tk-hint">남기고 싶은 것만 남기셔도 됩니다.<br>나중에 빼거나 가릴 수 있습니다.</div>')
-   +'<div class="tk-sp"></div><button type="button" class="tk-big xl" onclick="tkStartRec_()">말씀 시작하기</button>'
+   +'<div class="tk-sp"></div><button type="button" class="tk-big xl" onclick="tkStartRec_()">녹음 시작</button>'
    +'<button type="button" class="tk-l mut" onclick="tkNA_()">저에게는 해당하지 않아요</button>','intro');
   try{ localStorage.setItem(HINTK,'1'); }catch(e){}
   say_();
@@ -2306,20 +2307,20 @@ window.tkStartRec_=function(){ hush_(); rec_(); recGo_(); };
 function rec_(){
   if(!qOk_()){ off_(); return; }
   on_(dots_()+'<div class="tk-k" style="margin-top:-6px">'+stepTxt_()+'</div>'
-   +'<button type="button" class="tk-vo" id="tkVo" onclick="tkSay_()" style="padding:6px 10px"><span class="pl" style="width:28px;height:28px">'+PLAY+'</span><span id="tkVoT">안내 듣기</span></button>'
+   +'<button type="button" class="tk-vo" id="tkVo" onclick="tkSay_()" style="padding:6px 10px"><span class="pl" style="width:28px;height:28px">'+PLAY+'</span><span id="tkVoT">질문 듣기</span></button>'
    +'<div class="tk-q sm">'+esc_(cur().q)+'</div>'
-   +'<div class="tk-mw"><button type="button" class="tk-mic" id="tkMic" onclick="tkMic_()">'+MIC+'<span id="tkMicT">누르고 말씀</span></button>'
+   +'<div class="tk-mw"><button type="button" class="tk-mic" id="tkMic" onclick="tkMic_()">'+MIC+'<span id="tkMicT">녹음 시작</span></button>'
    +'<div class="tk-wave" id="tkWave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>'
    +'<div class="tk-tm idle" id="tkTm">말씀이 잠깐 끊겨도 저절로 멈추지 않아요</div><div class="tk-msg" id="tkMsg"></div></div>'
-   +'<button type="button" class="tk-big" id="tkDone" onclick="tkStop_()" style="display:none">다 말했어요</button>'
-   +'<button type="button" class="tk-l" onclick="tkHere_()">글로 쓰기</button>'
+   +'<button type="button" class="tk-big" id="tkDone" onclick="tkStop_()" style="display:none">녹음 완료</button>'
+   +'<button type="button" class="tk-l" onclick="tkHere_()">직접 입력</button>'
    +'<button type="button" class="tk-l mut" onclick="tkNA_()">저에게는 해당하지 않아요</button>','rec');
 }
 window.tkMic_=function(){ if(TK.R.st==='rec'){ tkStop_(); } else { hush_(); recGo_(); } };
 function mime_(){ var c=['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus']; for(var i=0;i<c.length;i++){ try{ if(MediaRecorder.isTypeSupported(c[i])){ return c[i]; } }catch(e){} } return ''; }
 function recGo_(){
   var R=TK.R; R.text=''; R.part=''; R.chunks=[]; R.t0=Date.now(); R.st='rec'; R.key=ci+'_'+qi;
-  var m=$('tkMic'); if(m){ m.classList.add('on'); } var mt=$('tkMicT'); if(mt){ mt.textContent='듣고 있어요'; }
+  var m=$('tkMic'); if(m){ m.classList.add('on'); } var mt=$('tkMicT'); if(mt){ mt.textContent='녹음 중'; }
   var d=$('tkDone'); if(d){ d.style.display='block'; }
   var tm=$('tkTm'); if(tm){ tm.className='tk-tm'; tm.textContent='● 00:00'; }
   R.timer=setInterval(function(){ var t=$('tkTm'); if(t){ t.textContent='● '+mmss_((Date.now()-R.t0)/1000); } },500);
@@ -2344,7 +2345,7 @@ function srOn_(){
     sr.onerror=function(ev){
       var e=(ev&&ev.error)||'';
       if(e==='audio-capture' && R.rec){ recDrop_(); return; }   /* 마이크가 부딪힘 → 녹음을 내려놓고 받아쓰기를 다시 */
-      if(e==='not-allowed'||e==='service-not-allowed'){ sr.keep=false; var m=$('tkMsg'); if(m){ m.textContent='마이크를 쓸 수 있게 허락해 주세요. 어려우시면 아래 「글로 쓰기」로 남기실 수 있어요.'; } }
+      if(e==='not-allowed'||e==='service-not-allowed'){ sr.keep=false; var m=$('tkMsg'); if(m){ m.textContent='마이크를 쓸 수 있게 허락해 주세요. 어려우시면 아래 「직접 입력」으로 남기실 수 있어요.'; } }
     };
     sr.onend=function(){ if(sr.keep && R.st==='rec'){ try{ sr.start(); }catch(e){} } };   /* 말씀이 끊겨도 다시 들음 */
     sr.start();
@@ -2466,7 +2467,7 @@ function pill_(){
   var p=$('tkPill');
   if(!ui_() || !qOk_()){ if(p){ p.style.display='none'; } return; }
   if(!p){ p=document.createElement('button'); p.type='button'; p.id='tkPill'; p.className='tk-pill'; p.onclick=function(){ talkGo_(function(){ setHow_('talk'); TK.secs=0; TK.cnt=0; var a=secQs_(); if(a.indexOf(qi)===0){ intro_(); } else { rec_(); say_(); } }); }; f.appendChild(p); }
-  p.textContent='🎙 말로 해 보기'; p.style.display='block';
+  p.textContent='🎙 녹음하기'; p.style.display='block';
 }
 
 /* ── 지금 화면과 잇기 ── */
@@ -2622,6 +2623,13 @@ openReview_=function(){ var r=_orv91.apply(this, arguments); try{ rvVoice_(); if
 #a2v{max-width:440px;margin:0 auto;padding:6px 18px 4px;font-family:inherit;color:#2A3542}
 #a2v .t{font-family:'Noto Serif KR',serif;color:#173A5A;font-size:21px;text-align:center;margin:8px 0 4px;font-weight:700;line-height:1.5}
 #a2v .emp{margin:18px 0 4px;padding:12px 14px;border:1px dashed #E2D8C4;border-radius:12px;background:#FBF8F1}#a2v .emp-l{font-size:13px;color:#A39C90;margin-bottom:6px}#a2v .emp-n{font-family:'Noto Serif KR',serif;font-size:15px;color:#B9B2A6;line-height:1.8}#a2v .emp-l2{font-size:13px;color:#A39C90;margin-top:6px;line-height:1.6}
+.aids{grid-template-columns:none !important;grid-auto-flow:column;grid-auto-columns:1fr}
+#a2qf .b.tkgo{display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;border:1.5px solid #D64545;color:#C23B3B;font-weight:700;margin-bottom:2px}#a2qf .b.tkgo .tkm{display:inline-flex;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8080,#D64545);align-items:center;justify-content:center}#a2qf .b.tkgo svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+#a2v .tkv{text-align:center}#a2v .tkdoor{font-size:14px;color:#8A8580;margin:6px 0 10px}#a2v .tkq{font-family:'Noto Serif KR',serif;font-size:19px;line-height:1.65;color:#173A5A;margin:0 0 22px;word-break:keep-all}
+#a2v .tkmic{width:150px;height:150px;border-radius:50%;border:none;background:radial-gradient(circle at 35% 30%,#ff8080,#D64545);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;margin:0 auto;box-shadow:0 8px 22px rgba(214,69,69,.32)}
+#a2v .tkmic svg{width:48px;height:48px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}#a2v .tkmic.on{animation:a2ring 1.6s infinite}@keyframes a2ring{0%{box-shadow:0 0 0 0 rgba(214,69,69,.45)}100%{box-shadow:0 0 0 22px rgba(214,69,69,0)}}
+#a2v .tktm{font-size:13.5px;color:#8A8580;margin:14px 0 8px}#a2v .tklive{background:#fff;border:1px solid #E7DCC9;border-radius:12px;padding:12px 14px;text-align:left;font-size:16px;line-height:1.7;min-height:52px;color:#2A3542;margin-bottom:6px}#a2v .tkmsg{color:#b5372a;font-size:14px;margin:6px 0}
+#a2v .tknt{text-align:left;background:#fff;border:1px solid #E7DCC9;border-radius:14px;padding:6px 14px;margin:10px 0 6px}#a2v .tknt li{font-size:15px;line-height:1.7;margin:8px 0}
 #a2v .t2{text-align:center;color:#8A8580;font-size:13.5px;margin:0 0 16px;line-height:1.6}
 #a2v .b{display:block;width:100%;border:0;border-radius:13px;padding:14px;font-size:16px;font-family:inherit;cursor:pointer;margin-top:9px}
 #a2v .b.pri{background:#1E4A76;color:#fff}#a2v .b.pri:disabled{background:#B7C3D0}
@@ -2816,16 +2824,90 @@ function ask(id){
   var ta=$('ans'); ta.value=o.a||''; ta.readOnly=signed();
   try{ aidNote(''); }catch(e){}
   var pb=$('photobox'); if(pb){ pb.style.display=(it.door===PHOTO_DOOR)?'':'none'; if(it.door===PHOTO_DOOR){ try{ renderPhoto(); }catch(e){} } }
+  var vb=$('voiceBtn'); if(vb){ vb.style.display=tkCan()?'none':''; }   /* ★v100 마이크 하나 — 녹음이 되면 음성 입력 감춤 */
   var f=$('a2qf'); f.style.display='block';
   if(signed()){
     f.innerHTML='<p class="t2" style="margin:12px 0 0">이름을 남기신 이야기입니다. 수정하시려면 쓴 글 보기에서 서명을 풀어 주십시오.</p><button class="lk" onclick="A2_.go(\'review\')">쓴 글 보기</button>';
   } else {
-    f.innerHTML='<button class="b" id="a2nx" onclick="A2_.next()"'+(answered(id)?'':' disabled')+'>다음</button>'
+    f.innerHTML=(tkCan()?'<button class="b tkgo" onclick="A2_.talk()"><span class="tkm">'+TMIC+'</span>녹음하기</button>':'')   /* ★v100 554 */
+      +'<button class="b" id="a2nx" onclick="A2_.next()"'+(answered(id)?'':' disabled')+'>다음</button>'
       +'<div class="ex"><button onclick="A2_.exit(\'na\')">해당 없음</button><button onclick="A2_.exit(\'nm\')">기억 안 남</button><button onclick="A2_.exit(\'later\')">나중에 하기</button><button onclick="A2_.other()">다른 물음 고르기</button></div>'
       +'<button class="lk sm" onclick="A2_.back()">‹ 이전 물음</button><button class="lk" onclick="A2_.go(\'review\')">쓴 글 보기</button>';
   }
   window.scrollTo(0,0);
 }
+/* ⓒ-2 ★v100 554 · 79차 — 「새 이야기」 말로 쓰기 큰 녹음 화면
+   녹음 시작 → 휴대폰 받아쓰기가 글로 · 같은 때 목소리 녹음 → 「녹음 완료」 → 그 물음 화면으로 돌아와 글을 읽고 고침.
+   목소리는 지금 자서전 서버 talkSave(v50) 그대로 — 자리 100 = 새 이야기 · 물음 번호 = 입구×100+물음(7-3 → 703) · 90일 지움 같은 길.
+   받아쓰기가 막힌 화면(카톡 안 등)에는 단추를 내지 않음(물음 칸의 작은 「말로 하기」는 그대로). */
+var TA={st:'idle'}, TN2='lf_talk_notice', TPLACE=100;
+var TMIC='<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0013 0M12 17.5V21"/></svg>';
+function tkCan(){ var ua=navigator.userAgent||''; if(/KAKAOTALK|NAVER\(inapp|Instagram|FBAN|FBAV|Line\/|; wv\)/i.test(ua)){ return false; } return !!(window.SpeechRecognition||window.webkitSpeechRecognition); }
+function tkQi(id){ var m=String(id||'').match(/^(\d+)-(\d+)$/); return m ? (parseInt(m[1],10)*100+parseInt(m[2],10)) : -1; }
+function talk(){
+  var id=A2.cur; if(!id || signed()){ return; }
+  var seen=''; try{ seen=localStorage.getItem(TN2)||''; }catch(e){}
+  if(seen){ talkView(id); return; }
+  view('<div class="tkv"><h1 class="t">녹음 전 안내</h1><div class="tknt"><ul>'
+    +'<li>말씀하신 것을 휴대폰 받아쓰기가 글로 바꿔 드려요.</li>'
+    +'<li>사투리, 작은 목소리, 주변 소리 때문에 틀리게 바뀔 수 있어요. <b>바뀐 글은 꼭 읽어 보시고 고쳐 주세요.</b></li>'
+    +'<li>글로 바꾸는 일은 휴대폰 회사(구글 · 애플)의 받아쓰기를 거칩니다.</li>'
+    +'<li>목소리는 90일 동안 다시 들으실 수 있고, 그 뒤에는 지워집니다.</li></ul></div>'
+    +'<button class="b pri" onclick="A2_.talkOk()">녹음 시작</button><button class="b sec" onclick="A2_.go(\'ask\',\''+id+'\')">직접 입력</button></div>');
+}
+function talkOk(){ try{ localStorage.setItem(TN2,'1'); }catch(e){} talkView(A2.cur); }
+function talkView(id){
+  var it=item(id); if(!it){ return; }
+  view('<div class="tkv"><div class="tkdoor">'+(ICON[it.door]||'')+' '+esc(dName(it.door))+'</div>'
+    +'<div class="tkq">'+esc(it.q)+'</div>'
+    +'<button type="button" class="tkmic" id="tkMic2" onclick="A2_.talkMic()">'+TMIC+'<span id="tkMicT2">녹음 시작</span></button>'
+    +'<div class="tktm" id="tkTm2">말씀이 잠깐 끊겨도 저절로 멈추지 않아요</div>'
+    +'<div class="tklive" id="tkLive2" style="display:none"></div><div class="tkmsg" id="tkMsg2"></div>'
+    +'<button class="b pri" id="tkDone2" style="display:none" onclick="A2_.talkStop()">녹음 완료</button>'
+    +'<button class="lk" onclick="A2_.talkBack()">직접 입력</button></div>');
+}
+function talkMic(){ if(TA.st==='rec'){ talkStop(); } else { talkGo(); } }
+function talkGo(){
+  var R=TA={st:'rec', id:A2.cur, text:'', part:'', chunks:[], t0:Date.now()};
+  var m=$('tkMic2'); if(m){ m.classList.add('on'); } var mt=$('tkMicT2'); if(mt){ mt.textContent='녹음 중'; }
+  var d=$('tkDone2'); if(d){ d.style.display='block'; } var lv=$('tkLive2'); if(lv){ lv.style.display='block'; lv.textContent='…'; }
+  R.timer=setInterval(function(){ var t=$('tkTm2'), s=Math.floor((Date.now()-R.t0)/1000); if(t){ t.textContent='● '+('0'+Math.floor(s/60)).slice(-2)+':'+('0'+(s%60)).slice(-2); } },500);
+  var C=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(C){ try{ var sr=new C(); R.sr=sr; sr.lang='ko-KR'; sr.continuous=true; sr.interimResults=true; sr.keep=true;
+    sr.onresult=function(ev){ var p=''; for(var i=ev.resultIndex;i<ev.results.length;i++){ if(ev.results[i].isFinal){ R.text+=' '+ev.results[i][0].transcript; } else { p+=ev.results[i][0].transcript; } } R.part=p; var l=$('tkLive2'); if(l){ l.textContent=(R.text+' '+p).replace(/^\s+/,'')||'…'; } };
+    sr.onerror=function(ev){ var e=(ev&&ev.error)||''; if(e==='not-allowed'||e==='service-not-allowed'){ sr.keep=false; var g=$('tkMsg2'); if(g){ g.textContent='마이크를 쓸 수 있게 허락해 주세요. 어려우시면 아래 「직접 입력」으로 남기실 수 있어요.'; } } };
+    sr.onend=function(){ if(sr.keep && R.st==='rec'){ try{ sr.start(); }catch(e){} } };
+    sr.start(); }catch(e){ R.sr=null; } }
+  if(window.MediaRecorder && navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}).then(function(stm){
+      if(R.st!=='rec'){ stm.getTracks().forEach(function(t){ t.stop(); }); return; }
+      R.stream=stm; var mm='', c=['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus'];
+      for(var i=0;i<c.length && !mm;i++){ try{ if(MediaRecorder.isTypeSupported(c[i])){ mm=c[i]; } }catch(e){} }
+      try{ R.rec=mm?new MediaRecorder(stm,{mimeType:mm,audioBitsPerSecond:32000}):new MediaRecorder(stm); }catch(e){ R.rec=null; }
+      if(R.rec){ R.rec.ondataavailable=function(e){ if(e.data&&e.data.size){ R.chunks.push(e.data); } }; try{ R.rec.start(1000); }catch(e){ R.rec=null; } }
+    }).catch(function(){});
+  }
+}
+function talkHalt(R){ R.st='idle'; clearInterval(R.timer); try{ if(R.sr){ R.sr.keep=false; R.sr.stop(); } }catch(e){} try{ if(R.stream){ R.stream.getTracks().forEach(function(t){ t.stop(); }); } }catch(e){} }
+function talkStop(){
+  var R=TA; if(R.st!=='rec'){ return; }
+  var secs=Math.max(1,Math.round((Date.now()-R.t0)/1000)), id=R.id, it=item(id);
+  var fin=function(){
+    talkHalt(R);
+    var said=(R.text+' '+(R.part||'')).replace(/\s+/g,' ').replace(/^\s+|\s+$/g,'');
+    var o=st(id); if(said){ o.a=String(o.a||'').replace(/\s+$/,''); o.a=(o.a?o.a+'\n':'')+said; o.mark=''; draftKeep(); save(id); }
+    if(R.chunks.length && it && tkQi(id)>0){
+      var b=new Blob(R.chunks,{type:(R.rec&&R.rec.mimeType)||'audio/webm'}), fr=new FileReader();
+      fr.onload=function(){ try{ fetch(MEMOIR_GAS,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},
+        body:JSON.stringify({action:'talkSave',passport:pp(),trip:TRIPNO,place:TPLACE,sec:it.door,qi:tkQi(id),q:it.q,mime:b.type,secs:secs,data:String(fr.result||'')})}).catch(function(){}); }catch(e){} };
+      fr.readAsDataURL(b);
+    }
+    ask(id);
+    toast(said?'내용을 확인하고 수정하세요':'입력된 내용이 없습니다. 다시 녹음하거나 직접 입력하세요');
+  };
+  if(R.rec && R.rec.state!=='inactive'){ R.rec.onstop=fin; try{ R.rec.stop(); }catch(e){ fin(); } } else { fin(); }
+}
+function talkBack(){ if(TA.st==='rec'){ talkHalt(TA); } ask(A2.cur); }
 function hintToggle(){ var it=item(A2.cur), b=$('a2hint'); if(!it){ return; } var on=!b.classList.contains('open'); b.classList.toggle('open', on); b.textContent=on?('💡 '+it.hint):'💡 실마리 보기 ⌄'; }
 function onType2(){
   var id=A2.cur; if(!id){ return; } var o=st(id), v=$('ans').value;
@@ -2861,7 +2943,7 @@ function follow(id, fq){
   var o=st(id), it=item(id), rc=esc(o.a||'');
   if(fq.w){ rc=rc.replace(esc(fq.w), '<em>'+esc(fq.w)+'</em>'); }
   view('<div class="toast">✓ 담았습니다</div><div class="rc">'+rc+'</div>'
-    +'<div class="fu"><div class="lab">한 걸음 더</div><p class="fq">'+esc(fq.q)+'</p><textarea id="a2fa" placeholder="말씀하신 내용이 여기 담깁니다…" oninput="A2_.fuType()">'+esc(o.more||'')+'</textarea></div>'
+    +'<div class="fu"><div class="lab">한 걸음 더</div><p class="fq">'+esc(fq.q)+'</p><textarea id="a2fa" placeholder="답을 입력하세요" oninput="A2_.fuType()">'+esc(o.more||'')+'</textarea></div>'
     +'<button class="b pri" id="a2fx" onclick="A2_.fuSave()"'+(String(o.more||'').trim()?'':' disabled')+'>저장하고 다음</button>'
     +'<button class="lk" onclick="A2_.goNext()">다음 물음으로 ›</button>');
   $('a2top').innerHTML='<span>'+(ICON[it.door]||'')+' '+esc(dName(it.door))+'</span>';
@@ -3005,6 +3087,7 @@ function go(what, x){
 window.A2_={ start:start, go:go, home:home, back:function(){ if(!back()){ home(); } }, hard:hard, cont:cont, next:next, fuType:fuType, fuSave:fuSave, goNext:function(){ goNext(); },
   exit:exit, other:other, moveOpen:moveOpen, move:move, popOff:popOff, sign:sign, place:place, unsign:unsign,
   wayBack:function(){ return back(); }, wayFwd:function(){ var nb=$('a2nx'); if(nb && nb.offsetParent!==null && !nb.disabled){ next(); return true; } return false; },
+  talk:talk, talkOk:talkOk, talkMic:talkMic, talkStop:talkStop, talkBack:talkBack,   /* ★v100 554 */
   _t:{ frame:frame, pickWord:pickWord, A2:A2 } };
 })();
 </script>
