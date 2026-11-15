@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v26 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] ☰ 「사랑흐름 여행」 상품 넷 링크 → 상품별 새 주소(/item/○○/) · 방문 통계 「상품 진열」 칸에 새 주소 넷 더함 · 옛 주소에서 넘어온 손님의 들어온 곳(lf_xref)을 이어 받음
+   현재 버전 ▶ lf/frame.js · v27 · 261115 · [전체 검토 B · 대표 OK 17:26] 홈 화면 띠 글 「○○를 홈 화면에 추가하고 바로 여세요」(휴대폰에서 네 줄로 접힘) → 「홈 화면에 두고 바로 여세요」 · 그 밖 무손
+   (이전) lf/frame.js · v26 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] ☰ 「사랑흐름 여행」 상품 넷 링크 → 상품별 새 주소(/item/○○/) · 방문 통계 「상품 진열」 칸에 새 주소 넷 더함 · 옛 주소에서 넘어온 손님의 들어온 곳(lf_xref)을 이어 받음
    (이전) lf/frame.js · v25 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로
    (이전) lf/frame.js · v24 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] ☰ 「사랑흐름 여행」 큰 칸 바로 아래 「🎁 선물하기」 한 줄(→ /pay.html?mode=gift · 자수정 보라) · 아래 묶음 「사랑흐름 여행」에도 「선물하기」 · 그 묶음 상품 넷 색을 lf/thumb.js 상품 색으로(마음 여행지도 청록 · 마음여행 남색 · 한 편의 기록 가죽 갈색 · 두 분의 여정 와인). [무손] 그 밖 v23 전부.
    (이전) lf/frame.js · v23 · 261111 · [공사 칸 ⑤ 견본에서 찾음 · 595] ← ⌂ → 를 붙인 543 공사(261109 16:31 · 355a013)부터 window.LFWay 를 통째로 덮어써 lf/way.js 의 LFWay.get 이 사라짐 → apply.html(계좌이체 접수) · gate.html(네이버 · 오픈마켓 발권 신청) 신청 단추에서 오류로 멈춤 → 있는 LFWay 에 back · home · fwd 만 덧붙임. [무손] 그 밖 v22 전부.
@@ -567,7 +568,7 @@
     if (document.documentElement.classList.contains('admm') || document.body.classList.contains('admm') || document.body.classList.contains('desk')) { return; }
     css();
     var b = document.createElement('div'); b.className = 'lfh-band'; b.id = 'lfhBand';
-    b.innerHTML = '<img src="/rec/icon-192.png" alt=""><div class="tx">' + (inRec ? '우리 이야기를' : '사랑흐름을') + ' 홈 화면에 추가하고 바로 여세요</div>'
+    b.innerHTML = '<img src="/rec/icon-192.png" alt=""><div class="tx">' + '홈 화면에 두고 바로 여세요</div>'
       + '<button type="button" class="go">홈 화면에 추가</button><button type="button" class="x" aria-label="닫기">✕</button>';
     var top = document.getElementById('lfxTop');
     /* ★v22 몸이 가로 줄(flex row)인 화면(gate · pay · apply · journey · letter · memoir 등 12곳)에서는 띠가 옆 칸이 되어
