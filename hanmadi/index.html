@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ hanmadi/index.html · v6 · 261112 · [포털 검색 ① · 700 · 703 · 대표 OK 261112 11:13] 화면은 그대로 · 머리말만 — 대표 주소(canonical) · 설명 · og · 사이트 이름 「사랑흐름」 · 아이콘(favicon) 붙임 -->
+<!-- ★ 현재 버전 ▶ hanmadi/index.html · v7 · 261116 · [688 · 대표 OK 261116 12:11] 메인 새 버전에서 사람을 골라 들어오면(?to=어머니 등) 그 사람이 고른 채로 「지금 심정」 단계에서 바로 시작. [무손] 그 밖 v6 전부. -->
+<!-- (이전) hanmadi/index.html · v6 · 261112 · [포털 검색 ① · 700 · 703 · 대표 OK 261112 11:13] 화면은 그대로 · 머리말만 — 대표 주소(canonical) · 설명 · og · 사이트 이름 「사랑흐름」 · 아이콘(favicon) 붙임 -->
 <!-- (이전) ★ 현재 버전 ▶ hanmadi/index.html · v5 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) hanmadi/index.html · v4 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「STEP 2 ·」→「2단계 ·」 · 「STEP 3 ·」→「3단계 ·」 · 「STEP 4 · 마음 담기」→「4단계 · 하고 싶은 말 쓰기」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
 <!-- (이전) hanmadi/index.html · v3 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -810,6 +811,14 @@ function pickPianoTarget(t,btn){
   if(cta){cta.classList.add('on');}
 }
 function kctaGo(){ if(state.pianoNm){go(2);} }
+/* [v7 · 688] 메인에서 사람을 골라 들어온 손님 — ?to=어머니 → 고른 채로 2단계(지금 심정)부터 */
+window.addEventListener('load',function(){
+  try{
+    var to=new URLSearchParams(location.search).get('to'); if(!to){return;}
+    for(var i=0;i<TARGETS.length;i++){ if(TARGETS[i].nm===to){
+      var ks=document.querySelectorAll('#keys .key'); pickPianoTarget(TARGETS[i],ks[i]||null); go(2); break; } }
+  }catch(e){}
+});
 
 /* ===== 피아노 사운드 (보존) ===== */
 var actx=null,soundOn=true;
