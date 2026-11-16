@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ admin.html · v25 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 「⌂ 본부로」 · 본부 로그인 · 본부로 돌아가기 → /hq/?hq=1. [무손] 그 밖 v24 전부. -->
+<!-- ★ 현재 버전 ▶ admin.html · v26 · 261117 · [551 · 79차 · 대표 OK 261116 20:29] 「자서전 진행」 탭 맨 위 「오늘의 입구」 — 입구를 골라 정하기 · 풀기(게시판 서버 v5-29 adminTodayDoor). 대표 = 받는 곳을 골라 · 기관 담당자 = 자기 소속만. 그날만 참여자 첫 화면에 「📌 오늘의 주제」(자서전 서버 v54 · ask v101). [무손] 그 밖 v25 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ admin.html · v25 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 「⌂ 본부로」 · 본부 로그인 · 본부로 돌아가기 → /hq/?hq=1. [무손] 그 밖 v24 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ admin.html · v24 · 261116 · [550 · 79차 · 대표 OK 261116 09:39] 새 탭 「자서전 진행」 — 사람 · 편마다 이야기별 쓴 수 · 빈 이야기 · 안내자 실명(번호) · 글은 보이지 않음(수만) · 대표 = 전체 검색 · 기관 담당자 = 자기 소속만. 짝꿍 — 게시판 Code.gs v5-28(adminMemoirProgress). [무손] 그 밖 v23 전부. -->
 <!-- (이전) admin.html · v23 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) admin.html · v22 · 261111 · [공사 칸 ⑥ 입구 · 578 · 577 · 대표 OK 18:36 · 19:38] ①새 탭 「🎁 선물 발급」(기관 계약 · 무료 · 대표만 — 게시판 v5-27 adminGift) — 길 · 계약번호 · 상품 · 한 분께 몇 편씩 · 몇 명에게 · 보내는 분 · 보내는 글 → 발급되면 선물함 주소(/gift/?no=&k=) · 「선물함 주소 복사」 — 기관 담당자께 이 주소 하나만 ②입금 · 발급 접수 목록 — 선물 줄은 🎁 · 연보라 바탕 · 「n분께」 → 「n명」 · 입금 확인 뒤 선물이면 「🎁 선물을 확정했습니다」 ③발급 목록 줄마다 「🖼 그림」 · 「🖼 그림 모두 보기」(/my/#cards= · 탑승권 그림 · 이미지 저장) ④본부 안 탭 gift(rec v121 「🎁 선물 발급」 칩). [무손] 그 밖 v21 전부. -->
@@ -435,6 +436,12 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
 .isg{display:inline-block;margin-left:8px;font-size:11.5px;border:1px solid var(--line);border-radius:12px;padding:2px 9px;background:#fff;color:var(--navy);cursor:pointer}
 /* ★v24 550 자서전 진행 */
 .mp-find{display:flex;gap:8px;margin:2px 0 12px}
+.td-box{border:1.5px solid #2F7D5B;background:#F1FAF5;border-radius:14px;padding:12px;margin:2px 0 12px}
+.td-box .td-h{font-size:13.5px;font-weight:700;color:#2F7D5B;margin-bottom:8px}
+.td-box select{width:100%;height:42px;border:1.5px solid var(--line);border-radius:10px;padding:0 10px;font-size:14px;font-family:inherit;margin-bottom:8px;background:#fff}
+.td-box .td-b{display:flex;gap:8px}.td-box .td-b button{flex:1;height:42px;border-radius:10px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;border:0;background:var(--navy);color:#fff}
+.td-box .td-b button.x{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.td-box .td-now{font-size:13px;color:#2A3542;margin-top:8px;line-height:1.6}.td-box .td-s{font-size:12px;color:#7a7368;margin-top:4px}
 .mp-find input{flex:1;min-width:0;height:44px;border:1.5px solid var(--line);border-radius:12px;padding:0 12px;font-size:13.5px;font-family:inherit}
 .mp-find button{height:44px;padding:0 18px;border:0;border-radius:12px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer}
 .mp-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:6px}
@@ -656,6 +663,7 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
     <!-- ④ 안내자 대장 (v12) -->
     <!-- ★v24 550 자서전 진행 — 이야기별 쓴 수 · 빈 이야기(글은 보이지 않음 · 79차) -->
     <div id="mprogView" style="display:none">
+      <div class="td-box" id="tdBox" style="display:none"></div>
       <div class="mp-find" id="mpFind"><input id="mpQ" placeholder="받는 곳 · 계약번호 · 안내자 · 여권번호" onkeydown="if(event.key==='Enter')mpLoad()"><button onclick="mpLoad()">검색</button></div>
       <div class="state" id="mpState" style="display:none"></div>
       <div id="mpBody"></div>
@@ -1700,8 +1708,38 @@ function mpLoad(){
   st.style.display = 'block'; st.textContent = '불러오는 중입니다…'; document.getElementById('mpBody').innerHTML = '';
   jsonp({ action:'adminMemoirProgress', key:KEY, q:q }, function(r){
     if(!r || r.status !== 'ok'){ st.textContent = (r && r.msg) || '불러오지 못했습니다.'; return; }
-    MP.d = r; st.style.display = 'none'; mpPaint();
+    MP.d = r; st.style.display = 'none'; mpPaint(); tdLoad();
   }, function(m){ st.textContent = m; }, 40000);
+}
+/* ══ ★v26 551 오늘의 입구 — 게시판 서버 v5-29 adminTodayDoor ══ */
+var TD = { d:null };
+function tdLoad(){ jsonp({ action:'adminTodayDoor', key:KEY }, function(r){ if(r && r.status==='ok'){ TD.d=r; tdPaint(); } }, function(){}, 30000); }
+function tdOrgs(){
+  if(TD.d && TD.d.mine){ return [TD.d.mine]; }
+  var seen={}, a=[]; ((MP.d && MP.d.people) || []).forEach(function(p){ var o=String(p.org||'').trim(); if(o && !seen[o]){ seen[o]=1; a.push(o); } });
+  (TD.d && TD.d.set || []).forEach(function(x){ if(!seen[x.org]){ seen[x.org]=1; a.push(x.org); } });
+  return a;
+}
+function tdPaint(){
+  var b=document.getElementById('tdBox'), d=TD.d; if(!d || !(d.doors||[]).length){ b.style.display='none'; return; }
+  var orgs=tdOrgs(), h='<div class="td-h">📌 오늘의 입구'+(d.mine?' · '+mpEsc(MP.d && MP.d.org || d.mine):'')+'</div>';
+  if(!d.mine){ h+='<select id="tdOrg">'+(orgs.length?'':'<option value="">받는 곳이 없습니다</option>')+orgs.map(function(o){ return '<option>'+mpEsc(o)+'</option>'; }).join('')+'</select>'; }
+  h+='<select id="tdDoor">'+d.doors.filter(function(x){ return x.no!==16; }).map(function(x){ return '<option value="'+x.no+'">'+x.no+' · '+mpEsc(x.name)+'</option>'; }).join('')+'</select>';
+  h+='<div class="td-b"><button onclick="tdSet(1)">정하기</button><button class="x" onclick="tdSet(0)">풀기</button></div>';
+  var nm={}; d.doors.forEach(function(x){ nm[x.no]=x.name; });
+  var on=(d.set||[]).filter(function(x){ return x.door; });
+  h+='<div class="td-now">'+(on.length ? on.map(function(x){ return '오늘 '+(d.mine?'':mpEsc(x.org)+' — ')+'<b>'+x.door+' · '+mpEsc(nm[x.door]||'')+'</b>'; }).join('<br>') : '오늘 정한 입구가 없습니다.')+'</div>';
+  h+='<div class="td-s">'+mpEsc(d.today)+' 하루만 참여자 첫 화면에 「📌 오늘의 주제」로 보입니다 · 참여자는 언제든 다른 곳으로 옮길 수 있습니다</div>';
+  b.innerHTML=h; b.style.display='block';
+  if(d.mine && on.length){ document.getElementById('tdDoor').value=String(on[0].door); }
+}
+function tdSet(on){
+  var o=document.getElementById('tdOrg'), org=o?o.value:'', door=on?document.getElementById('tdDoor').value:'0';
+  if(o && !org){ return; }
+  var b=document.getElementById('tdBox'), nowEl=b.querySelector('.td-now'); if(nowEl){ nowEl.textContent='저장하는 중입니다…'; }
+  jsonp({ action:'adminTodayDoor', key:KEY, set:'1', door:door, org:org }, function(r){
+    if(r && r.status==='ok'){ TD.d=r; tdPaint(); } else if(nowEl){ nowEl.textContent=(r && r.msg) || '저장하지 못했습니다.'; }
+  }, function(m){ if(nowEl){ nowEl.textContent=m; } }, 30000);
 }
 function mpPaint(){
   var d = MP.d, ps = d.people || [], s = d.sum || {}, h = '';
