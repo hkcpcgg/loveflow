@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v7 · 261116 · [우리이야기-소통-015 요청 2] 부르는 자리(#lfFoot · .lf-foot)에 data-refund="0" 을 주면 메뉴 줄 「환불정책」만 뺌 — 값을 주지 않는 사랑흐름 화면은 v6 그대로. [무손] 그 밖 v6 전부.
+   현재 버전 ▶ lf-foot.js · v8 · 261116 · [우리이야기-소통-020 요청 2] 다른 도메인(uriyagi.kr 등)에서 부르면 메뉴 줄 링크(소개 · 이용약관 · 개인정보처리방침 · 환불정책) 앞에 https://www.loveflow.ai.kr 를 붙임 · 사랑흐름 화면(loveflow.ai.kr · 시험 환경)은 그대로. [무손] 그 밖 v7 전부.
+   (이전) lf-foot.js · v7 · 261116 · [우리이야기-소통-015 요청 2] 부르는 자리(#lfFoot · .lf-foot)에 data-refund="0" 을 주면 메뉴 줄 「환불정책」만 뺌 — 값을 주지 않는 사랑흐름 화면은 v6 그대로. [무손] 그 밖 v6 전부.
    (이전) lf-foot.js · v6 · 261116 · [대표 261116 10:08 · OK 10:16] 푸터 네 줄 — ①소개 · 이용약관 · 개인정보처리방침(굵게) · 환불정책 · 문의 = 가운데 ②③사업자 정보 = 이어 쓰기 · 양쪽 꽉 채움 두 줄(첫 줄은 「통신판매 제2025-경기파주-1747호」까지) · 글자는 푸터 폭에 맞춰 두 줄에 드는 가장 큰 크기(7~11px) ④© · 국문 · 영문 경고 한 줄. 상호 · 대표자 꼬리말 줄임. [무손] 링크 · 본부 띠 · 그 밖 전부.
    (이전) lf-foot.js · v5 · 261110 · [대표 261110 09:25 「저작권은 늘 주장해야 한다 · 빠졌다」] 맨 아래 저작권 줄 밑에 무단 이용 경고 국문 · 영문 두 줄을 다시 붙임(v2 에서 약관 안으로만 옮겼던 것 — 약관 제5조는 그대로) · 문구는 자서전 결과물(memoir/book) · 약관과 같은 말. [무손] 그 밖 v4 전부.
    (이전) lf-foot.js · v4 · 261024 · [칸 7-나 428 · 443] 공통 위 띠(lf/frame.js)가 없는 화면(kit · 표지 등)을 본부에서 같은 창으로 열었을 때 맨 위 「⌂ 본부로」 띠 · 푸터 무손
@@ -21,6 +22,9 @@
 (function () {
 
   var KAKAO = "http://pf.kakao.com/_ExndxfX/chat";
+  /* ★v8 다른 도메인에서 부를 때는 사랑흐름 주소를 앞에 붙임 */
+  var O = "";
+  try { var hn = location.hostname || ""; if (hn && !/(^|\.)loveflow\.ai\.kr$/.test(hn) && hn !== "localhost" && hn !== "127.0.0.1") { O = "https://www.loveflow.ai.kr"; } } catch (e) {}
 
   /* ★v3 사업자 정보 — 사업자등록증과 똑같이 */
   var BIZ = {
@@ -49,10 +53,10 @@
   var HTML = ""
     + '<div class="lfft">'
     +   '<div class="lfft-links">'
-    +     '<a href="/about.html">소개</a>'
-    +     '<a href="/trust.html#terms">이용약관</a>'
-    +     '<a class="pv" href="/trust.html#privacy">개인정보처리방침</a>'
-    +     '<a href="/trust.html#refund">환불정책</a>'
+    +     '<a href="' + O + '/about.html">소개</a>'
+    +     '<a href="' + O + '/trust.html#terms">이용약관</a>'
+    +     '<a class="pv" href="' + O + '/trust.html#privacy">개인정보처리방침</a>'
+    +     '<a href="' + O + '/trust.html#refund">환불정책</a>'
     +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">문의</a>'
     +   '</div>'
     +   '<div class="lfft-biz"><span>' + BIZ_ITEMS.join('</span> &middot; <span>') + '</span></div>'
@@ -86,7 +90,7 @@
       if (hosts[i].getAttribute("data-lfft") === "1") { continue; }
       hosts[i].innerHTML = HTML;
       /* ★v7 부르는 쪽이 data-refund="0" 이면 메뉴 줄의 「환불정책」을 뺌(파는 것이 없는 화면 · 우리 이야기) */
-      if (hosts[i].getAttribute("data-refund") === "0") { var rf = hosts[i].querySelector('a[href="/trust.html#refund"]'); if (rf) { rf.parentNode.removeChild(rf); } }
+      if (hosts[i].getAttribute("data-refund") === "0") { var rf = hosts[i].querySelector('a[href$="/trust.html#refund"]'); if (rf) { rf.parentNode.removeChild(rf); } }
       hosts[i].setAttribute("data-lfft", "1");
     }
     fit();
