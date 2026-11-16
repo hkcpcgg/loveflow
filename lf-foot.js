@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v5 · 261110 · [대표 261110 09:25 「저작권은 늘 주장해야 한다 · 빠졌다」] 맨 아래 저작권 줄 밑에 무단 이용 경고 국문 · 영문 두 줄을 다시 붙임(v2 에서 약관 안으로만 옮겼던 것 — 약관 제5조는 그대로) · 문구는 자서전 결과물(memoir/book) · 약관과 같은 말. [무손] 그 밖 v4 전부.
+   현재 버전 ▶ lf-foot.js · v6 · 261116 · [대표 261116 10:08 · OK 10:16] 푸터 네 줄 — ①소개 · 이용약관 · 개인정보처리방침(굵게) · 환불정책 · 문의 = 가운데 ②③사업자 정보 = 이어 쓰기 · 양쪽 꽉 채움 두 줄(첫 줄은 「통신판매 제2025-경기파주-1747호」까지) · 글자는 푸터 폭에 맞춰 두 줄에 드는 가장 큰 크기(7~11px) ④© · 국문 · 영문 경고 한 줄. 상호 · 대표자 꼬리말 줄임. [무손] 링크 · 본부 띠 · 그 밖 전부.
+   (이전) lf-foot.js · v5 · 261110 · [대표 261110 09:25 「저작권은 늘 주장해야 한다 · 빠졌다」] 맨 아래 저작권 줄 밑에 무단 이용 경고 국문 · 영문 두 줄을 다시 붙임(v2 에서 약관 안으로만 옮겼던 것 — 약관 제5조는 그대로) · 문구는 자서전 결과물(memoir/book) · 약관과 같은 말. [무손] 그 밖 v4 전부.
    (이전) lf-foot.js · v4 · 261024 · [칸 7-나 428 · 443] 공통 위 띠(lf/frame.js)가 없는 화면(kit · 표지 등)을 본부에서 같은 창으로 열었을 때 맨 위 「⌂ 본부로」 띠 · 푸터 무손
    (이전) lf-foot.js · v3 · 261023 · [할일 395 · 토스 카드사 심사 「하단 사업자 정보」]
    ★사업자 정보 두 줄을 글자로 넣음(그림 아님 · 결제 화면 showcase · pay 와 공용 푸터를 쓰는 모든 화면)
@@ -27,33 +28,47 @@
   };
 
   var CSS = ""
-    + ".lfft{text-align:center;padding:12px 8px 14px;margin:18px 0 0;border-top:1px solid #EFE7DA;font-family:inherit;color:#9d8f80}"
-    + ".lfft-links{font-size:10.5px;line-height:1.8}"
+    + ".lfft{padding:12px 16px 14px;margin:18px 0 0;border-top:1px solid #EFE7DA;font-family:inherit;color:#9d8f80}"
+    + ".lfft-links{font-size:11px;line-height:1.8;text-align:center}"
     + ".lfft-links a{color:#9d8f80;text-decoration:none;cursor:pointer;margin:0 5px;white-space:nowrap}"
+    + ".lfft-links a.pv{font-weight:700;color:#7d6f60}"
     + ".lfft-links a:hover{text-decoration:underline}"
-    + ".lfft-c{font-size:10px;line-height:1.7;letter-spacing:.01em}"
-    + ".lfft-w{font-size:9.5px;line-height:1.6;margin-top:2px;word-break:keep-all}"
-    + ".lfft-biz{font-size:10.5px;line-height:1.75;margin:6px 0 4px;word-break:keep-all}"
+    + ".lfft-biz{font-size:8.6px;line-height:1.75;margin-top:4px;text-align:justify;text-align-last:justify;word-break:keep-all}"
     + ".lfft-biz span{white-space:nowrap}"
-    + ".lfft-biz a{color:#9d8f80;text-decoration:none}";
+    + ".lfft-biz a{color:#9d8f80;text-decoration:none}"
+    + ".lfft-c{font-size:8.6px;line-height:1.75;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:clip}";
 
+  /* ★v6 사업자 정보 = 두 줄 꽉 채움 · 글자 크기는 푸터 폭에 맞춰(412px 폭 = 8.6px · 넓은 화면은 11px 까지) */
+  var BIZ_ITEMS = [
+    "사랑흐름", "대표 " + BIZ.ceo, "사업자 " + BIZ.no, "통신판매 " + BIZ.sale,
+    "개인정보책임 " + BIZ.privacy, BIZ.addr,
+    '<a href="tel:' + BIZ.tel.replace(/-/g, "") + '">' + BIZ.tel + '</a>',
+    '<a href="mailto:' + BIZ.mail + '">' + BIZ.mail + '</a>'
+  ];
   var HTML = ""
     + '<div class="lfft">'
     +   '<div class="lfft-links">'
     +     '<a href="/about.html">소개</a>'
     +     '<a href="/trust.html#terms">이용약관</a>'
-    +     '<a href="/trust.html#privacy">개인정보</a>'
+    +     '<a class="pv" href="/trust.html#privacy">개인정보처리방침</a>'
     +     '<a href="/trust.html#refund">환불정책</a>'
     +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">문의</a>'
     +   '</div>'
-    +   '<div class="lfft-biz">'
-    +     '<span>상호 ' + BIZ.name + '</span> &middot; <span>대표자 ' + BIZ.ceo + '</span> &middot; <span>사업자등록번호 ' + BIZ.no + '</span><br>'
-    +     '<span>통신판매업신고 ' + BIZ.sale + '</span> &middot; <span>개인정보보호책임자 ' + BIZ.privacy + '</span><br>'
-    +     '<span>' + BIZ.addr + '</span><br><span>전화 <a href="tel:' + BIZ.tel.replace(/-/g, '') + '">' + BIZ.tel + '</a></span> &middot; <span><a href="mailto:' + BIZ.mail + '">' + BIZ.mail + '</a></span>'
-    +   '</div>'
-    +   '<div class="lfft-c">&copy; 2026 LoveFlow 사랑흐름 &middot; LFRI&trade; All rights reserved.</div>'
-    +   '<div class="lfft-w">무단 복제 &middot; 배포 &middot; 상업적 이용을 금합니다.<br>Unauthorized use strictly prohibited. Violators subject to civil and criminal penalties.</div>'
+    +   '<div class="lfft-biz"><span>' + BIZ_ITEMS.join('</span> &middot; <span>') + '</span></div>'
+    +   '<div class="lfft-c">&copy; 2026 사랑흐름 &middot; LFRI&trade; &middot; 무단 복제 &middot; 상업적 이용 금지 &middot; Unauthorized use prohibited.</div>'
     + '</div>';
+
+  /* 폭에 맞춘 글자 크기 — 사업자 정보가 두 줄에 드는 가장 큰 글자(7~11px) · © 줄은 한 줄에 들게 */
+  function fit() {
+    var els = document.querySelectorAll(".lfft");
+    for (var i = 0; i < els.length; i++) {
+      var b = els[i].querySelector(".lfft-biz"), c = els[i].querySelector(".lfft-c");
+      if (!b || !els[i].clientWidth) { continue; }
+      var fz = 11;
+      for (; fz > 7; fz -= 0.1) { b.style.fontSize = fz.toFixed(1) + "px"; if (b.getBoundingClientRect().height <= fz * 1.75 * 2 + 1) { break; } }
+      if (c) { var cz = fz; c.style.fontSize = cz.toFixed(1) + "px"; while (cz > 7 && c.scrollWidth > c.clientWidth) { cz -= 0.1; c.style.fontSize = cz.toFixed(1) + "px"; } }
+    }
+  }
 
   function css() {
     if (document.getElementById("lfftCss")) { return; }
@@ -71,6 +86,7 @@
       hosts[i].innerHTML = HTML;
       hosts[i].setAttribute("data-lfft", "1");
     }
+    fit();
   }
 
   function hqBack() {   /* ★v4 본부에서 연 화면 · 공통 위 띠가 없을 때만 */
@@ -84,7 +100,7 @@
       var bp = parseFloat(getComputedStyle(document.body).paddingTop) || 0; document.body.style.paddingTop = (bp + 52) + "px";
     } catch (e) {}
   }
-  function start() { paint(); setTimeout(hqBack, 400); }
+  function start() { paint(); setTimeout(hqBack, 400); setTimeout(fit, 300); window.addEventListener("resize", fit); }
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", start);
