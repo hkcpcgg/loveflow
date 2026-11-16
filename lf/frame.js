@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v27 · 261115 · [전체 검토 B · 대표 OK 17:26] 홈 화면 띠 글 「○○를 홈 화면에 추가하고 바로 여세요」(휴대폰에서 네 줄로 접힘) → 「홈 화면에 두고 바로 여세요」 · 그 밖 무손
+   현재 버전 ▶ lf/frame.js · v28 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] ☰ 우리 이야기 줄(마당 · 이야기방 만들기 · 기록관 만들기) → https://uriyagi.kr/… (뒤 꼬리 같음) · 본부 알약 「⌂ 본부로」 → /hq/?hq=1. [무손] 그 밖 v27 전부.
+   (이전) lf/frame.js · v27 · 261115 · [전체 검토 B · 대표 OK 17:26] 홈 화면 띠 글 「○○를 홈 화면에 추가하고 바로 여세요」(휴대폰에서 네 줄로 접힘) → 「홈 화면에 두고 바로 여세요」 · 그 밖 무손
    (이전) lf/frame.js · v26 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] ☰ 「사랑흐름 여행」 상품 넷 링크 → 상품별 새 주소(/item/○○/) · 방문 통계 「상품 진열」 칸에 새 주소 넷 더함 · 옛 주소에서 넘어온 손님의 들어온 곳(lf_xref)을 이어 받음
    (이전) lf/frame.js · v25 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로
    (이전) lf/frame.js · v24 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] ☰ 「사랑흐름 여행」 큰 칸 바로 아래 「🎁 선물하기」 한 줄(→ /pay.html?mode=gift · 자수정 보라) · 아래 묶음 「사랑흐름 여행」에도 「선물하기」 · 그 묶음 상품 넷 색을 lf/thumb.js 상품 색으로(마음 여행지도 청록 · 마음여행 남색 · 한 편의 기록 가죽 갈색 · 두 분의 여정 와인). [무손] 그 밖 v23 전부.
@@ -134,9 +135,9 @@
       { t: '기관 · 단체', s: '복지 · 교육 · 공공 프로그램 제안', ic: 'build', c: '#1E4A76', u: '/proposal.html' }
     ] },
     { k: 'story', t: '우리 이야기', ic: 'group', c: '#2E7D6B', sub: '나의 일상부터 우리 모두의 이야기까지', items: [   /* ★v11 415 */
-      { t: '우리 이야기 마당', s: '여러 이야기방 · 기록관의 사진', ic: 'show', c: '#2E7D6B', u: '/rec/?plaza=1' },
-      { t: '이야기방 만들기', s: '나 · 가족 · 친구 · 모임 · 우리 가게', ic: 'spark', c: '#1E4A76', u: '/rec/?open=form&kind=story' },
-      { t: '기록관 만들기', s: '학교 · 기관 · 단체 · 회사', ic: 'build', c: '#3B2F72', u: '/rec/?open=form&kind=hall' }
+      { t: '우리 이야기 마당', s: '여러 이야기방 · 기록관의 사진', ic: 'show', c: '#2E7D6B', u: 'https://uriyagi.kr/?plaza=1' },
+      { t: '이야기방 만들기', s: '나 · 가족 · 친구 · 모임 · 우리 가게', ic: 'spark', c: '#1E4A76', u: 'https://uriyagi.kr/?open=form&kind=story' },
+      { t: '기록관 만들기', s: '학교 · 기관 · 단체 · 회사', ic: 'build', c: '#3B2F72', u: 'https://uriyagi.kr/?open=form&kind=hall' }
     ] }
   ];
 
@@ -289,10 +290,10 @@
     return ''
       + '<div class="lfx-mh"><span>사랑흐름</span><button data-x="1" aria-label="닫기">' + svg('x', 16) + '</button></div>'
       + '<div class="lfx-grp">우리 이야기 · 기록관</div>'
-      + '<button class="lfx-big lfx-b4" data-u="/rec/?plaza=1"><i>🍇</i><span><b>우리 이야기 마당</b><small>이야기방 · 기록관의 사진과 이야기</small></span></button>'
+      + '<button class="lfx-big lfx-b4" data-u="https://uriyagi.kr/?plaza=1"><i>🍇</i><span><b>우리 이야기 마당</b><small>이야기방 · 기록관의 사진과 이야기</small></span></button>'
       + '<div class="lfx-two">'
-      +   mi('이야기방 만들기', 'spark', '#1E4A76', '/rec/?open=form&kind=story')
-      +   mi('기록관 만들기', 'build', '#3B2F72', '/rec/?open=form&kind=hall')
+      +   mi('이야기방 만들기', 'spark', '#1E4A76', 'https://uriyagi.kr/?open=form&kind=story')
+      +   mi('기록관 만들기', 'build', '#3B2F72', 'https://uriyagi.kr/?open=form&kind=hall')
       + '</div>'
       + mi('기관 · 단체 제안', 'group', '#5C7FA6', '/proposal.html')
       + '<div class="lfx-grp">마음 전하기 (무료)</div>'
@@ -372,7 +373,7 @@
     top.querySelector('.lfx-logo').onclick = function () { if (window.LF_LEAVE) { return; } window.LF_LEAVE = 1; this.style.opacity = '.5'; try { document.body.classList.add('lfgo'); } catch (e) {} location.href = '/'; };   /* ★v10 누르는 즉시 표시 · 두 번 눌림 막음 · 늦게 온 대답이 이동을 가로채지 않게 */
     top.querySelector('.lfx-burger').onclick = openMenu;
     /* ★v12 본부에서 같은 창으로 연 화면 — 로고 자리에 「⌂ 본부로」 */
-    try { if (sessionStorage.getItem('lf_from_hq') === '1' && !/[?&](hq|door)=1/.test(location.search)) { var lg = top.querySelector('.lfx-logo'), hp = document.createElement('a'); hp.id = 'lfHqPill'; hp.className = 'lfx-hq'; hp.href = '/rec/?hq=1'; hp.textContent = '⌂ 본부로'; lg.parentNode.replaceChild(hp, lg); } } catch (e) {}
+    try { if (sessionStorage.getItem('lf_from_hq') === '1' && !/[?&](hq|door)=1/.test(location.search)) { var lg = top.querySelector('.lfx-logo'), hp = document.createElement('a'); hp.id = 'lfHqPill'; hp.className = 'lfx-hq'; hp.href = '/hq/?hq=1'; hp.textContent = '⌂ 본부로'; lg.parentNode.replaceChild(hp, lg); } } catch (e) {}
     /* ★v4 위 띠 오른쪽 자리 — <button data-lfx-top> 를 ☰ 왼쪽으로 옮김 */
     var slots = document.querySelectorAll('[data-lfx-top]');
     if (slots.length) {

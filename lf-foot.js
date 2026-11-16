@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v8 · 261116 · [우리이야기-소통-020 요청 2] 다른 도메인(uriyagi.kr 등)에서 부르면 메뉴 줄 링크(소개 · 이용약관 · 개인정보처리방침 · 환불정책) 앞에 https://www.loveflow.ai.kr 를 붙임 · 사랑흐름 화면(loveflow.ai.kr · 시험 환경)은 그대로. [무손] 그 밖 v7 전부.
+   현재 버전 ▶ lf-foot.js · v9 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 본부 바로가기 → /hq/?hq=1. [무손] 그 밖 v8 전부.
+   (이전) lf-foot.js · v8 · 261116 · [우리이야기-소통-020 요청 2] 다른 도메인(uriyagi.kr 등)에서 부르면 메뉴 줄 링크(소개 · 이용약관 · 개인정보처리방침 · 환불정책) 앞에 https://www.loveflow.ai.kr 를 붙임 · 사랑흐름 화면(loveflow.ai.kr · 시험 환경)은 그대로. [무손] 그 밖 v7 전부.
    (이전) lf-foot.js · v7 · 261116 · [우리이야기-소통-015 요청 2] 부르는 자리(#lfFoot · .lf-foot)에 data-refund="0" 을 주면 메뉴 줄 「환불정책」만 뺌 — 값을 주지 않는 사랑흐름 화면은 v6 그대로. [무손] 그 밖 v6 전부.
    (이전) lf-foot.js · v6 · 261116 · [대표 261116 10:08 · OK 10:16] 푸터 네 줄 — ①소개 · 이용약관 · 개인정보처리방침(굵게) · 환불정책 · 문의 = 가운데 ②③사업자 정보 = 이어 쓰기 · 양쪽 꽉 채움 두 줄(첫 줄은 「통신판매 제2025-경기파주-1747호」까지) · 글자는 푸터 폭에 맞춰 두 줄에 드는 가장 큰 크기(7~11px) ④© · 국문 · 영문 경고 한 줄. 상호 · 대표자 꼬리말 줄임. [무손] 링크 · 본부 띠 · 그 밖 전부.
    (이전) lf-foot.js · v5 · 261110 · [대표 261110 09:25 「저작권은 늘 주장해야 한다 · 빠졌다」] 맨 아래 저작권 줄 밑에 무단 이용 경고 국문 · 영문 두 줄을 다시 붙임(v2 에서 약관 안으로만 옮겼던 것 — 약관 제5조는 그대로) · 문구는 자서전 결과물(memoir/book) · 약관과 같은 말. [무손] 그 밖 v4 전부.
@@ -102,7 +103,7 @@
       if (document.getElementById("lfHqPill") || document.getElementById("lfHqBack") || document.getElementById("lfxTop")) { return; }
       var b = document.createElement("div"); b.id = "lfHqBack";
       b.style.cssText = "position:fixed;top:0;left:0;right:0;z-index:9999;display:flex;justify-content:center;padding:8px 12px;background:#26215C";
-      b.innerHTML = '<a href="/rec/?hq=1" style="display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font:700 14px/1.2 \'Noto Sans KR\',sans-serif;border:1.5px solid #AFA9EC;border-radius:999px;padding:7px 18px">⌂ 본부로</a>';
+      b.innerHTML = '<a href="/hq/?hq=1" style="display:inline-flex;align-items:center;gap:6px;color:#fff;text-decoration:none;font:700 14px/1.2 \'Noto Sans KR\',sans-serif;border:1.5px solid #AFA9EC;border-radius:999px;padding:7px 18px">⌂ 본부로</a>';
       document.body.insertBefore(b, document.body.firstChild);
       var bp = parseFloat(getComputedStyle(document.body).paddingTop) || 0; document.body.style.paddingTop = (bp + 52) + "px";
     } catch (e) {}
