@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v30 · 261117 · [699 · 701 · 대표 OK 261117 07:36 「노란 거 빼고 요거 · 통일 · 한 번에 다」] ① 아래 띠 판 제목 — 단추와 같은 색 아이콘을 떼고 작은 회색 글 + 오른쪽 「✕」 닫기 · 누르는 줄에 「›」(제목을 눌러 헛손질하던 것) ② 「← ⌂ →」 늘 푸터 바로 위(여행의 기록 반쪽 깨짐 · 소개 · 약관 · 도화지 맨 위에 뜨던 것 · 686) ③ 오른쪽 아래 공유하기 · 위로 올리기 작은 흰 동그라미 둘(전 화면 하나 · body data-lf-fab="off" 면 안 냄) · 화면마다 따로 달린 공유 단추(.lff-share · .lffsw · .lff-sb · .way-share · 메인 노란 단추)는 감춤 · 글 쓰는 칸을 누르면 아래 띠와 함께 숨음 ④ 카톡 공유 그림 og-image 2400×1260 선명본 ?v=261117. [무손] 그 밖 v29 전부.
+   현재 버전 ▶ lf/frame.js · v31 · 261117 · [우리이야기-소통-025 · 대표 「노란 거 빼고 · 통일」] ☰ 맨 아래 노란 「💬 공유하기」 → 흰 바탕 + 같은 공유 그림(□↗) · 오른쪽 아래 동그라미를 우리 이야기와 같은 치수로(44px · 선 1.8 · 그림자 옅게). [무손] 그 밖 v30 전부.
+   (이전) lf/frame.js · v30 · 261117 · [699 · 701 · 대표 OK 261117 07:36 「노란 거 빼고 요거 · 통일 · 한 번에 다」] ① 아래 띠 판 제목 — 단추와 같은 색 아이콘을 떼고 작은 회색 글 + 오른쪽 「✕」 닫기 · 누르는 줄에 「›」(제목을 눌러 헛손질하던 것) ② 「← ⌂ →」 늘 푸터 바로 위(여행의 기록 반쪽 깨짐 · 소개 · 약관 · 도화지 맨 위에 뜨던 것 · 686) ③ 오른쪽 아래 공유하기 · 위로 올리기 작은 흰 동그라미 둘(전 화면 하나 · body data-lf-fab="off" 면 안 냄) · 화면마다 따로 달린 공유 단추(.lff-share · .lffsw · .lff-sb · .way-share · 메인 노란 단추)는 감춤 · 글 쓰는 칸을 누르면 아래 띠와 함께 숨음 ④ 카톡 공유 그림 og-image 2400×1260 선명본 ?v=261117. [무손] 그 밖 v29 전부.
    (이전) lf/frame.js · v29 · 261116 · [696 공유하기 · 홈 화면에 추가 표준 · 대표 OK 261116 19:22] ① 공유하기 = 카카오톡 공유 카드(그림 og-image · 제목 「사랑흐름」 · 설명 「마음을 잇고, 이야기를 남기다」 · 단추 「자세히 보기」) — 카카오를 못 부르면 휴대폰 공유 창 → 주소 복사 · window.LFShare 로 어느 화면에서나 부름 ② ☰ 맨 아래 회색 작은 「공유하기」 → 같은 크기 단추 둘 「💬 공유하기」(카카오 노랑) · 「📲 홈 화면에 추가」 · 「다시 시작」은 그 아래 작게 ③ 홈 화면 아이콘 · 위 띠 그림을 사랑흐름 자기 파일(/apple-touch-icon.png · /icon-192.png)로 — 우리 이야기 폴더(/rec/) 그림을 쓰지 않음. [무손] 그 밖 v28 전부.
    (이전) lf/frame.js · v28 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] ☰ 우리 이야기 줄(마당 · 이야기방 만들기 · 기록관 만들기) → https://uriyagi.kr/… (뒤 꼬리 같음) · 본부 알약 「⌂ 본부로」 → /hq/?hq=1. [무손] 그 밖 v27 전부.
    (이전) lf/frame.js · v27 · 261115 · [전체 검토 B · 대표 OK 17:26] 홈 화면 띠 글 「○○를 홈 화면에 추가하고 바로 여세요」(휴대폰에서 네 줄로 접힘) → 「홈 화면에 두고 바로 여세요」 · 그 밖 무손
@@ -214,7 +215,7 @@
     + '.lfx-b3{background:linear-gradient(135deg,#1E4A76,#2C6399);box-shadow:inset 0 0 0 1.5px #C9A96E,0 4px 12px rgba(30,74,118,.2)}'
     + '.lfx-b3 i{background:#C9A96E;color:#1E4A76}'
     + '.lfx-b4{background:linear-gradient(160deg,#0F5A68,#08303D);margin:4px 0 4px}.lfx-b5{background:linear-gradient(160deg,#3B2F72,#1F1840);margin:4px 0 4px}.lfx-b4 i{font-size:19px}'   /* ★v14 */
-    + '.lfx-sh{display:flex;gap:8px;margin-top:14px}.lfx-sh button{flex:1 1 0;min-width:0;border:0;border-radius:12px;padding:12px 6px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}.lfx-sh .kk{background:#FEE500;color:#191919}.lfx-sh .hm{background:#F4EEE4;color:#1E4A76;box-shadow:inset 0 0 0 1px #E6DCCB}'   /* ★v29 696 */
+    + '.lfx-sh{display:flex;gap:8px;margin-top:14px}.lfx-sh button{flex:1 1 0;min-width:0;border:0;border-radius:12px;padding:12px 6px;font:inherit;font-size:14px;font-weight:700;cursor:pointer}.lfx-sh .kk{background:#fff;border:1px solid #DDD6CB;color:#3A3F47;display:flex;align-items:center;justify-content:center;gap:6px}.lfx-sh .kk svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.lfx-sh .hm{background:#F4EEE4;color:#1E4A76;box-shadow:inset 0 0 0 1px #E6DCCB}'   /* ★v29 696 */
     + '.lfx-restart{display:block;margin:10px 4px 0 auto;border:0;background:none;color:#8a7a68;font:inherit;font-size:12px;cursor:pointer}'
     + 'html.lfx #lfgBub,html.lfx .lff-share,html.lfx .lffsw,html.lfx .lff-sb{display:none!important}'
     + 'html.lfx .lff-tick{display:none!important}'   /* ★v8 「여행자들의 발자취」 띠 감춤 — 번호가 모두 시험 번호(대표 확인 261005). 실제 발급이 쌓이면 여권대장에서 읽어 다시 */
@@ -224,8 +225,8 @@
     /* ★v30 701 공유하기 · 위로 올리기 — 오른쪽 아래 작은 흰 동그라미 둘(전 화면 하나로 · 화면마다 따로 달았던 공유 단추는 감춤) */
     + '.lfx-fab{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:1400;display:flex;flex-direction:column;gap:10px;transition:transform .2s,opacity .2s}'
     + '.lfx-fab.hide{transform:translateY(160%);opacity:0;pointer-events:none}'
-    + '.lfx-fab button{width:42px;height:42px;border-radius:50%;border:1px solid #DDD6CB;background:rgba(255,255,255,.96);box-shadow:0 2px 8px rgba(0,0,0,.14);display:grid;place-items:center;cursor:pointer;padding:0;color:#3A3F47}'
-    + '.lfx-fab button:active{transform:scale(.92)}.lfx-fab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+    + '.lfx-fab button{width:44px;height:44px;border-radius:50%;border:1px solid #E4DED4;background:rgba(255,255,255,.97);box-shadow:0 1px 5px rgba(0,0,0,.10);display:grid;place-items:center;cursor:pointer;padding:0;color:#3A3F47}'
+    + '.lfx-fab button:active{transform:scale(.92)}.lfx-fab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}'
     + '.lfx-fab .up{transition:opacity .2s}.lfx-fab .up.off{opacity:0;pointer-events:none}'
     + '.lff-share,.lffsw,.lff-sb,.way-share,#lfShareMain{display:none!important}'
     + '@media print{.lfx-back,.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu,.lfx-fab{display:none!important}html.lfx body{padding-bottom:0}}';
@@ -322,7 +323,7 @@
       + '<div class="lfx-grp">함께하기</div>'
       + mi('안내자 · 제휴 신청', 'hand', '#1E4A76', '/partner.html')
       + mi('안내 받기', 'chat', '#1D9E75', '/guide/?ask=1')
-      + '<div class="lfx-sh"><button type="button" class="kk" data-share="1">💬 공유하기</button><button type="button" class="hm" data-home="1">📲 홈 화면에 추가</button></div>'   /* ★v29 696 */
+      + '<div class="lfx-sh"><button type="button" class="kk" data-share="1"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>공유하기</button><button type="button" class="hm" data-home="1">📲 홈 화면에 추가</button></div>'   /* ★v29 696 */
       + '<button class="lfx-restart" data-restart="1">다시 시작</button>';
   }
 
