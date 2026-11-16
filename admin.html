@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ admin.html · v23 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- ★ 현재 버전 ▶ admin.html · v24 · 261116 · [550 · 79차 · 대표 OK 261116 09:39] 새 탭 「자서전 진행」 — 사람 · 편마다 이야기별 쓴 수 · 빈 이야기 · 안내자 실명(번호) · 글은 보이지 않음(수만) · 대표 = 전체 검색 · 기관 담당자 = 자기 소속만. 짝꿍 — 게시판 Code.gs v5-28(adminMemoirProgress). [무손] 그 밖 v23 전부. -->
+<!-- (이전) admin.html · v23 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) admin.html · v22 · 261111 · [공사 칸 ⑥ 입구 · 578 · 577 · 대표 OK 18:36 · 19:38] ①새 탭 「🎁 선물 발급」(기관 계약 · 무료 · 대표만 — 게시판 v5-27 adminGift) — 길 · 계약번호 · 상품 · 한 분께 몇 편씩 · 몇 명에게 · 보내는 분 · 보내는 글 → 발급되면 선물함 주소(/gift/?no=&k=) · 「선물함 주소 복사」 — 기관 담당자께 이 주소 하나만 ②입금 · 발급 접수 목록 — 선물 줄은 🎁 · 연보라 바탕 · 「n분께」 → 「n명」 · 입금 확인 뒤 선물이면 「🎁 선물을 확정했습니다」 ③발급 목록 줄마다 「🖼 그림」 · 「🖼 그림 모두 보기」(/my/#cards= · 탑승권 그림 · 이미지 저장) ④본부 안 탭 gift(rec v121 「🎁 선물 발급」 칩). [무손] 그 밖 v21 전부. -->
 <!-- (이전) admin.html · v21 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「여권 뽑기」→「여권 발급」 · 「자서전 편 더하기」→「자서전 편 수 늘리기」 · 「편 더하기」→「편 수 늘리기」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
 <!-- ═══════════════════════════════════════════════════════════════════
@@ -431,6 +432,31 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
 .gw{display:flex;gap:8px;flex-wrap:wrap}.gw button{flex:1;min-width:120px;height:42px;border-radius:21px;border:1.5px solid var(--navy);background:#fff;color:var(--navy);font-weight:800;font-family:inherit;cursor:pointer}.gw button.on{background:var(--navy);color:#fff}
 .bk .run.gift{background:linear-gradient(135deg,#6A4BD6,#2C1F78)}
 .isg{display:inline-block;margin-left:8px;font-size:11.5px;border:1px solid var(--line);border-radius:12px;padding:2px 9px;background:#fff;color:var(--navy);cursor:pointer}
+/* ★v24 550 자서전 진행 */
+.mp-find{display:flex;gap:8px;margin:2px 0 12px}
+.mp-find input{flex:1;min-width:0;height:44px;border:1.5px solid var(--line);border-radius:12px;padding:0 12px;font-size:13.5px;font-family:inherit}
+.mp-find button{height:44px;padding:0 18px;border:0;border-radius:12px;background:var(--navy);color:#fff;font-weight:700;font-size:14px;font-family:inherit;cursor:pointer}
+.mp-sum{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:6px}
+.mp-sum div{background:#fff;border:1px solid var(--line);border-radius:12px;padding:9px 4px;text-align:center}
+.mp-sum b{display:block;font-size:19px;color:var(--navy)}
+.mp-sum small{font-size:11.5px;color:#8a8070}
+.mp-note{font-size:11.5px;color:#8a8070;text-align:center;margin:4px 0 12px}
+.mp-p{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 13px;margin-bottom:10px}
+.mp-ph{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.mp-ph b{font-size:14.5px;color:var(--navy)}
+.mp-ph span{font-size:11.5px;color:#8a8070}
+.mp-sub{font-size:12px;color:#6b6358;margin-top:2px}
+.mp-t{margin-top:10px;border-top:1px dashed #e6dccb;padding-top:9px}
+.mp-th{display:flex;justify-content:space-between;align-items:center;font-size:12.5px;font-weight:700;color:#3b3530;margin-bottom:6px}
+.mp-th .st{flex:none;white-space:nowrap;font-weight:700;font-size:11.5px;padding:1px 8px;border-radius:9px;background:#EEF3F9;color:var(--navy)}
+.mp-th .st.fin{background:#E8F5EC;color:#2E7D4F}
+.mp-r{display:grid;grid-template-columns:1fr 80px 62px;align-items:center;gap:8px;font-size:12.5px;padding:3px 0}
+.mp-bar{height:8px;border-radius:4px;background:#F1ECE3;overflow:hidden}
+.mp-bar i{display:block;height:100%;background:#5B7DB1;border-radius:4px}
+.mp-r .n{text-align:right;white-space:nowrap;font-weight:700;color:var(--navy)}
+.mp-r.empty{color:#b4ab9d}
+.mp-r.empty .n{color:#C0392B;font-weight:700;font-size:11.5px}
+.mp-idle{font-size:12px;color:#8a8070;margin-top:8px}
 </style>
 </head>
 <body>
@@ -456,6 +482,7 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
     <button class="tab" id="tab3" onclick="go('bulk')">대량 발급</button>
     <button class="tab" id="tab5" onclick="go('gift')">🎁 선물 발급</button>
     <button class="tab" id="tab4" onclick="go('guide')">안내자</button>
+    <button class="tab" id="tab6" onclick="go('mprog')">자서전 진행</button>
     <button class="tab lock" onclick="lockMsg()">문의<small>준비 중</small></button>
   </div>
 
@@ -626,6 +653,13 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
 
     <!-- 잠긴 탭 -->
     <!-- ④ 안내자 대장 (v12) -->
+    <!-- ★v24 550 자서전 진행 — 이야기별 쓴 수 · 빈 이야기(글은 보이지 않음 · 79차) -->
+    <div id="mprogView" style="display:none">
+      <div class="mp-find" id="mpFind"><input id="mpQ" placeholder="받는 곳 · 계약번호 · 안내자 · 여권번호" onkeydown="if(event.key==='Enter')mpLoad()"><button onclick="mpLoad()">검색</button></div>
+      <div class="state" id="mpState" style="display:none"></div>
+      <div id="mpBody"></div>
+    </div>
+
     <div id="guideView" style="display:none">
       <div class="state" id="gState">불러오는 중입니다…</div>
       <div id="gBody"></div>
@@ -783,13 +817,16 @@ function go(which){
   document.getElementById('lockView').style.display = (which === 'lock') ? 'block' : 'none';
   document.getElementById('guideView').style.display = (which === 'guide') ? 'block' : 'none';   /* ★v12 */
   document.getElementById('giftView').style.display = (which === 'gift') ? 'block' : 'none';   /* ★v22 */
+  document.getElementById('mprogView').style.display = (which === 'mprog') ? 'block' : 'none';   /* ★v24 550 */
+  document.getElementById('tab6').classList.toggle('sel', which === 'mprog');
   document.getElementById('tab5').classList.toggle('sel', which === 'gift');
   document.getElementById('tab4').classList.toggle('sel', which === 'guide');
   document.getElementById('barTtl').textContent =
-      (which === 'pay') ? '입금 · 발급' : (which === 'bulk') ? '대량 발급' : (which === 'guide') ? '안내자 대장' : (which === 'gift') ? '🎁 선물 발급' : '관리';
+      (which === 'pay') ? '입금 · 발급' : (which === 'bulk') ? '대량 발급' : (which === 'guide') ? '안내자 대장' : (which === 'gift') ? '🎁 선물 발급' : (which === 'mprog') ? '자서전 진행' : '관리';
   document.getElementById('btnRefresh').style.display = (which === 'pay') ? 'flex' : 'none';
   if(which === 'guide'){ gLoad(); }
   if(which === 'gift'){ gfInit(); }   /* ★v22 */
+  if(which === 'mprog'){ mpInit(); }   /* ★v24 550 */
   document.getElementById('tab2').classList.toggle('sel', which === 'pay');
   document.getElementById('tab3').classList.toggle('sel', which === 'bulk');                   /* ★v7 */
   if(which === 'pay'){ load(); }
@@ -1653,6 +1690,49 @@ function cardAll(){ if(ISSUED.length){ cardsOpen(ISSUED.slice(0, 30)); } }
 /* ═════ ★v12 안내자 대장 — 번호는 외우지 않습니다(서버가 다음 번호를 띄우고 꽂아 줍니다) ═════ */
 var G = { d:null, form:null };
 function gEsc(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+/* ══ ★v24 550 자서전 진행 — 게시판 서버 adminMemoirProgress · 글은 받지 않음(수만) ══ */
+var MP = { d:null, init:false };
+function mpEsc(x){ return String(x==null?'':x).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function mpInit(){ if(!MP.init){ MP.init = true; mpLoad(); } }
+function mpLoad(){
+  var st = document.getElementById('mpState'), q = (document.getElementById('mpQ').value || '').trim();
+  st.style.display = 'block'; st.textContent = '불러오는 중입니다…'; document.getElementById('mpBody').innerHTML = '';
+  jsonp({ action:'adminMemoirProgress', key:KEY, q:q }, function(r){
+    if(!r || r.status !== 'ok'){ st.textContent = (r && r.msg) || '불러오지 못했습니다.'; return; }
+    MP.d = r; st.style.display = 'none'; mpPaint();
+  }, function(m){ st.textContent = m; }, 40000);
+}
+function mpPaint(){
+  var d = MP.d, ps = d.people || [], s = d.sum || {}, h = '';
+  document.getElementById('cnt').textContent = ps.length + '명';
+  if(d.org){ document.getElementById('mpFind').querySelector('input').placeholder = '여권번호 · 안내자 번호'; }
+  h += '<div class="mp-sum"><div><b>' + (s.people||0) + '</b><small>사람</small></div><div><b>' + (s.writing||0) + '</b><small>쓰는 중</small></div><div><b>' + (s.done||0) + '</b><small>완성</small></div><div><b>' + (s.idle||0) + '</b><small>열지 않은 편</small></div></div>';
+  h += '<div class="mp-note">' + (d.org ? mpEsc(d.org) + ' · ' : '') + '쓴 글 수만 보입니다 · 글 내용은 보이지 않습니다</div>';
+  if(!ps.length){ h += '<div class="state">찾은 분이 없습니다.</div>'; }
+  ps.forEach(function(p){
+    h += '<div class="mp-p"><div class="mp-ph"><b>' + mpEsc(p.pp) + (p.name ? ' · ' + mpEsc(p.name) : '') + '</b><span>' + mpEsc(p.last || '') + '</span></div>'
+       + '<div class="mp-sub">' + mpEsc(p.org || '') + (p.guide ? ' · 안내자 ' + (p.guideName ? mpEsc(p.guideName) + ' (' + mpEsc(p.guide) + ')' : mpEsc(p.guide)) : '') + ' · 자서전 ' + (p.pieces||0) + '편</div>';
+    (p.trips || []).forEach(function(t){
+      var ok = (t.state === '완성');
+      h += '<div class="mp-t"><div class="mp-th"><span>' + mpEsc(t.title) + (t.count != null ? ' · 쓴 글 ' + t.count : '') + '</span><span class="st' + (ok ? ' fin' : '') + '">' + mpEsc(t.state) + '</span></div>';
+      if(t.counts){
+        var mx = Math.max.apply(null, t.counts.concat([1]));
+        for(var i = 0; i < 8; i++){
+          var n = t.counts[i] || 0;
+          h += '<div class="mp-r' + (n ? '' : ' empty') + '"><span>' + mpEsc((d.names||[])[i] || ('이야기 ' + (i+1))) + '</span><div class="mp-bar"><i style="width:' + Math.round(n / mx * 100) + '%"></i></div><span class="n">' + (n ? n : '빈 이야기') + '</span></div>';
+        }
+      } else {
+        var dn = t.done || 0;
+        h += '<div class="mp-r' + (dn ? '' : ' empty') + '"><span>소재 8개 중</span><div class="mp-bar"><i style="width:' + Math.round(dn / 8 * 100) + '%"></i></div><span class="n">' + (dn ? dn + '개' : '빈 이야기') + '</span></div>';
+      }
+      h += '</div>';
+    });
+    if(p.idle){ h += '<div class="mp-idle">아직 열지 않은 편 ' + p.idle + '</div>'; }
+    h += '</div>';
+  });
+  document.getElementById('mpBody').innerHTML = h;
+}
+
 function gLoad(){
   var st=document.getElementById('gState'); st.style.display='block'; st.textContent='불러오는 중입니다…';
   jsonp({ action:'adminGuides', key:KEY }, function(r){
