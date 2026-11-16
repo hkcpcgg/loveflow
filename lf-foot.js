@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v9 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 본부 바로가기 → /hq/?hq=1. [무손] 그 밖 v8 전부.
+   현재 버전 ▶ lf-foot.js · v10 · 261117 · [700 · 대표 OK 261117 07:36] 사업자 정보 양쪽 맞춤(줄이 넘치면 글자 사이가 벌어짐) → 왼쪽부터 이어 쓰기 · 글꼴이 온 뒤 · 화면을 다 연 뒤 · 2.5초 뒤 글자 크기를 다시 맞춤(실폰 결제 화면 세 줄 · © 줄 잘림). [무손] 그 밖 v9 전부.
+   (이전) lf-foot.js · v9 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 본부 바로가기 → /hq/?hq=1. [무손] 그 밖 v8 전부.
    (이전) lf-foot.js · v8 · 261116 · [우리이야기-소통-020 요청 2] 다른 도메인(uriyagi.kr 등)에서 부르면 메뉴 줄 링크(소개 · 이용약관 · 개인정보처리방침 · 환불정책) 앞에 https://www.loveflow.ai.kr 를 붙임 · 사랑흐름 화면(loveflow.ai.kr · 시험 환경)은 그대로. [무손] 그 밖 v7 전부.
    (이전) lf-foot.js · v7 · 261116 · [우리이야기-소통-015 요청 2] 부르는 자리(#lfFoot · .lf-foot)에 data-refund="0" 을 주면 메뉴 줄 「환불정책」만 뺌 — 값을 주지 않는 사랑흐름 화면은 v6 그대로. [무손] 그 밖 v6 전부.
    (이전) lf-foot.js · v6 · 261116 · [대표 261116 10:08 · OK 10:16] 푸터 네 줄 — ①소개 · 이용약관 · 개인정보처리방침(굵게) · 환불정책 · 문의 = 가운데 ②③사업자 정보 = 이어 쓰기 · 양쪽 꽉 채움 두 줄(첫 줄은 「통신판매 제2025-경기파주-1747호」까지) · 글자는 푸터 폭에 맞춰 두 줄에 드는 가장 큰 크기(7~11px) ④© · 국문 · 영문 경고 한 줄. 상호 · 대표자 꼬리말 줄임. [무손] 링크 · 본부 띠 · 그 밖 전부.
@@ -39,10 +40,10 @@
     + ".lfft-links a{color:#9d8f80;text-decoration:none;cursor:pointer;margin:0 5px;white-space:nowrap}"
     + ".lfft-links a.pv{font-weight:700;color:#7d6f60}"
     + ".lfft-links a:hover{text-decoration:underline}"
-    + ".lfft-biz{font-size:8.6px;line-height:1.75;margin-top:4px;text-align:justify;text-align-last:justify;word-break:keep-all}"
+    + ".lfft-biz{font-size:8.6px;line-height:1.75;margin-top:4px;text-align:left;word-break:keep-all}"
     + ".lfft-biz span{white-space:nowrap}"
     + ".lfft-biz a{color:#9d8f80;text-decoration:none}"
-    + ".lfft-c{font-size:8.6px;line-height:1.75;margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:clip}";
+    + ".lfft-c{font-size:8.6px;line-height:1.75;margin-top:1px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:clip}";
 
   /* ★v6 사업자 정보 = 두 줄 꽉 채움 · 글자 크기는 푸터 폭에 맞춰(412px 폭 = 8.6px · 넓은 화면은 11px 까지) */
   var BIZ_ITEMS = [
@@ -108,7 +109,7 @@
       var bp = parseFloat(getComputedStyle(document.body).paddingTop) || 0; document.body.style.paddingTop = (bp + 52) + "px";
     } catch (e) {}
   }
-  function start() { paint(); setTimeout(hqBack, 400); setTimeout(fit, 300); window.addEventListener("resize", fit); }
+  function start() { paint(); setTimeout(hqBack, 400); setTimeout(fit, 300); window.addEventListener("resize", fit); window.addEventListener("load", fit); try { if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fit); } } catch (e) {} setTimeout(fit, 2500); }   /* ★v10 글꼴이 늦게 와도 다시 맞춤(실폰 3줄 · © 줄 잘림) */
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", start);

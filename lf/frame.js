@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v29 · 261116 · [696 공유하기 · 홈 화면에 추가 표준 · 대표 OK 261116 19:22] ① 공유하기 = 카카오톡 공유 카드(그림 og-image · 제목 「사랑흐름」 · 설명 「마음을 잇고, 이야기를 남기다」 · 단추 「자세히 보기」) — 카카오를 못 부르면 휴대폰 공유 창 → 주소 복사 · window.LFShare 로 어느 화면에서나 부름 ② ☰ 맨 아래 회색 작은 「공유하기」 → 같은 크기 단추 둘 「💬 공유하기」(카카오 노랑) · 「📲 홈 화면에 추가」 · 「다시 시작」은 그 아래 작게 ③ 홈 화면 아이콘 · 위 띠 그림을 사랑흐름 자기 파일(/apple-touch-icon.png · /icon-192.png)로 — 우리 이야기 폴더(/rec/) 그림을 쓰지 않음. [무손] 그 밖 v28 전부.
+   현재 버전 ▶ lf/frame.js · v30 · 261117 · [699 · 701 · 대표 OK 261117 07:36 「노란 거 빼고 요거 · 통일 · 한 번에 다」] ① 아래 띠 판 제목 — 단추와 같은 색 아이콘을 떼고 작은 회색 글 + 오른쪽 「✕」 닫기 · 누르는 줄에 「›」(제목을 눌러 헛손질하던 것) ② 「← ⌂ →」 늘 푸터 바로 위(여행의 기록 반쪽 깨짐 · 소개 · 약관 · 도화지 맨 위에 뜨던 것 · 686) ③ 오른쪽 아래 공유하기 · 위로 올리기 작은 흰 동그라미 둘(전 화면 하나 · body data-lf-fab="off" 면 안 냄) · 화면마다 따로 달린 공유 단추(.lff-share · .lffsw · .lff-sb · .way-share · 메인 노란 단추)는 감춤 · 글 쓰는 칸을 누르면 아래 띠와 함께 숨음 ④ 카톡 공유 그림 og-image 2400×1260 선명본 ?v=261117. [무손] 그 밖 v29 전부.
+   (이전) lf/frame.js · v29 · 261116 · [696 공유하기 · 홈 화면에 추가 표준 · 대표 OK 261116 19:22] ① 공유하기 = 카카오톡 공유 카드(그림 og-image · 제목 「사랑흐름」 · 설명 「마음을 잇고, 이야기를 남기다」 · 단추 「자세히 보기」) — 카카오를 못 부르면 휴대폰 공유 창 → 주소 복사 · window.LFShare 로 어느 화면에서나 부름 ② ☰ 맨 아래 회색 작은 「공유하기」 → 같은 크기 단추 둘 「💬 공유하기」(카카오 노랑) · 「📲 홈 화면에 추가」 · 「다시 시작」은 그 아래 작게 ③ 홈 화면 아이콘 · 위 띠 그림을 사랑흐름 자기 파일(/apple-touch-icon.png · /icon-192.png)로 — 우리 이야기 폴더(/rec/) 그림을 쓰지 않음. [무손] 그 밖 v28 전부.
    (이전) lf/frame.js · v28 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] ☰ 우리 이야기 줄(마당 · 이야기방 만들기 · 기록관 만들기) → https://uriyagi.kr/… (뒤 꼬리 같음) · 본부 알약 「⌂ 본부로」 → /hq/?hq=1. [무손] 그 밖 v27 전부.
    (이전) lf/frame.js · v27 · 261115 · [전체 검토 B · 대표 OK 17:26] 홈 화면 띠 글 「○○를 홈 화면에 추가하고 바로 여세요」(휴대폰에서 네 줄로 접힘) → 「홈 화면에 두고 바로 여세요」 · 그 밖 무손
    (이전) lf/frame.js · v26 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] ☰ 「사랑흐름 여행」 상품 넷 링크 → 상품별 새 주소(/item/○○/) · 방문 통계 「상품 진열」 칸에 새 주소 넷 더함 · 옛 주소에서 넘어온 손님의 들어온 곳(lf_xref)을 이어 받음
@@ -184,8 +185,10 @@
     +   'padding:10px 16px calc(14px + env(safe-area-inset-bottom));box-shadow:0 -8px 24px rgba(0,0,0,.18);transform:translateY(105%);transition:transform .22s;font-family:inherit;box-sizing:border-box}'
     + '.lfx-sheet.on{transform:none}'
     + '.lfx-grab{width:40px;height:4px;border-radius:2px;background:#DDD6CB;margin:0 auto 10px}'
-    + '.lfx-sh-t{display:flex;align-items:center;gap:10px;font-weight:900;font-size:16px;color:var(--lf-navy);margin-bottom:6px}'
-    + '.lfx-sh-t small{font-weight:500;font-size:12px;color:#8a7a68}'
+    + '.lfx-sh-t{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 2px 8px;padding-bottom:8px;border-bottom:2px solid #F3EADF}'
+    + '.lfx-sh-n{font-weight:800;font-size:13.5px;color:#8a7a68;letter-spacing:.02em}.lfx-sh-n small{font-weight:500;font-size:12px;color:#a8998a;margin-left:6px}'
+    + '.lfx-sh-x{width:32px;height:32px;border-radius:50%;border:0;background:#F4EEE4;color:#6b5d4f;font-size:14px;cursor:pointer;flex:none}'
+    + '.lfx-it-m{flex:1}.lfx-it-a{font-size:22px;color:#B8AC9C;line-height:1}'
     + '.lfx-it{display:flex;align-items:center;gap:12px;width:100%;padding:11px 4px;border:0;border-top:1px solid #F3EADF;background:none;text-align:left;cursor:pointer;font:inherit;color:#2E3A46}'
     + '.lfx-it b{display:block;font-size:15px}.lfx-it small{display:block;font-size:12px;color:#8a7a68}'
     + '.lfx-ci{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;color:#fff;flex:0 0 34px}'
@@ -218,7 +221,14 @@
     + '.lfx-back{position:fixed;top:52px;left:0;right:0;z-index:1400;height:34px;display:flex;align-items:center;padding:0 12px;box-sizing:border-box;background:rgba(255,252,247,.94);border-bottom:1px solid rgba(234,223,207,.8)}'
     + 'html.lfx-hasback body{padding-top:86px!important}'
     + '.lfx-back button{border:0;background:none;color:var(--lf-navy);font:inherit;font-size:14.5px;font-weight:700;padding:4px 2px;cursor:pointer}'
-    + '@media print{.lfx-back,.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu{display:none!important}html.lfx body{padding-bottom:0}}';
+    /* ★v30 701 공유하기 · 위로 올리기 — 오른쪽 아래 작은 흰 동그라미 둘(전 화면 하나로 · 화면마다 따로 달았던 공유 단추는 감춤) */
+    + '.lfx-fab{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:1400;display:flex;flex-direction:column;gap:10px;transition:transform .2s,opacity .2s}'
+    + '.lfx-fab.hide{transform:translateY(160%);opacity:0;pointer-events:none}'
+    + '.lfx-fab button{width:42px;height:42px;border-radius:50%;border:1px solid #DDD6CB;background:rgba(255,255,255,.96);box-shadow:0 2px 8px rgba(0,0,0,.14);display:grid;place-items:center;cursor:pointer;padding:0;color:#3A3F47}'
+    + '.lfx-fab button:active{transform:scale(.92)}.lfx-fab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}'
+    + '.lfx-fab .up{transition:opacity .2s}.lfx-fab .up.off{opacity:0;pointer-events:none}'
+    + '.lff-share,.lffsw,.lff-sb,.way-share,#lfShareMain{display:none!important}'
+    + '@media print{.lfx-back,.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu,.lfx-fab{display:none!important}html.lfx body{padding-bottom:0}}';
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
@@ -255,17 +265,17 @@
     if (!g) { return; }
     var here = location.pathname + location.search;
     var h = '<div class="lfx-grab"></div>'
-      + '<div class="lfx-sh-t"><span class="lfx-ci" style="background:' + g.c + '">' + svg(g.ic, 17) + '</span>'
-      + esc(g.t) + (g.sub ? ' <small>' + esc(g.sub) + '</small>' : '') + '</div>';
+      + '<div class="lfx-sh-t"><span class="lfx-sh-n">' + esc(g.t) + (g.sub ? ' <small>' + esc(g.sub) + '</small>' : '') + '</span><button type="button" class="lfx-sh-x" aria-label="닫기">&#10005;</button></div>';
     for (var j = 0; j < g.items.length; j++) {
       var it = g.items[j];
       var now = (it.u.split('?')[0] === location.pathname) && (!/\?/.test(it.u) || here.indexOf(it.u) >= 0);
       h += '<button class="lfx-it' + (now ? ' now' : '') + '" data-u="' + esc(it.u) + '"' + (it.ask ? ' data-ask="1"' : '') + '>'
         + '<span class="lfx-ci" style="background:' + it.c + '">' + svg(it.ic, 17) + '</span>'
-        + '<span><b>' + esc(it.t) + '</b><small>' + esc(it.s) + '</small></span></button>';
+        + '<span class="lfx-it-m"><b>' + esc(it.t) + '</b><small>' + esc(it.s) + '</small></span><span class="lfx-it-a">&#8250;</span></button>';
     }
     var sh = document.getElementById('lfxSheet');
     sh.innerHTML = h;
+    var sx = sh.querySelector('.lfx-sh-x'); if (sx) { sx.onclick = closeAll; }
     var bs = sh.querySelectorAll('.lfx-it');
     for (var b = 0; b < bs.length; b++) {
       bs[b].onclick = function () { go(this.getAttribute('data-u'), this.getAttribute('data-ask') === '1'); };
@@ -330,7 +340,7 @@
       try {
         if (!Kakao.isInitialized()) { Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); }
         Kakao.Share.sendDefault({ objectType: 'feed',
-          content: { title: '사랑흐름', description: '마음을 잇고, 이야기를 남기다', imageUrl: H + 'og-image.png?v=261116', imageWidth: 1200, imageHeight: 630, link: { mobileWebUrl: H, webUrl: H } },
+          content: { title: '사랑흐름', description: '마음을 잇고, 이야기를 남기다', imageUrl: H + 'og-image.png?v=261117', imageWidth: 2400, imageHeight: 1260, link: { mobileWebUrl: H, webUrl: H } },
           buttons: [{ title: '자세히 보기', link: { mobileWebUrl: H, webUrl: H } }] });
       } catch (e) { shareFallback(H); }
     }
@@ -429,8 +439,18 @@
       if (n === 'input') { return !/^(button|submit|checkbox|radio|file|range|color|reset|image)$/i.test(t.type || ''); }
       return !!t.isContentEditable;
     }
-    document.addEventListener('focusin', function (e) { if (typing(e)) { tab.classList.add('hide'); } });
-    document.addEventListener('focusout', function (e) { if (typing(e)) { setTimeout(function () { tab.classList.remove('hide'); }, 120); } });
+    /* ★v30 701 공유하기 · 위로 올리기 */
+    var b0 = document.body;
+    var fab = document.createElement('div'); fab.className = 'lfx-fab'; fab.id = 'lfxFab';
+    fab.innerHTML = '<button type="button" class="sh" aria-label="공유하기"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg></button>'
+      + '<button type="button" class="up off" aria-label="맨 위로"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>';
+    fab.querySelector('.sh').onclick = function () { share(); };
+    var upb = fab.querySelector('.up'); upb.onclick = function () { try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); } };
+    function upShow() { upb.classList.toggle('off', (window.scrollY || document.documentElement.scrollTop || 0) < 400); }
+    window.addEventListener('scroll', upShow, { passive: true }); upShow();
+    if (b0.getAttribute('data-lf-fab') !== 'off') { document.body.appendChild(fab); }
+    document.addEventListener('focusin', function (e) { if (typing(e)) { tab.classList.add('hide'); fab.classList.add('hide'); } });
+    document.addEventListener('focusout', function (e) { if (typing(e)) { setTimeout(function () { tab.classList.remove('hide'); fab.classList.remove('hide'); }, 120); } });
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeAll(); } });
     way3();
   }
@@ -471,6 +491,7 @@
     var f = document.getElementById('lfFoot'), at = null;
     if (f) { at = f; while (at.parentNode && at.parentNode !== b && !/(^| )(legal|glegal|lf-foot|foot)( |$)/.test(at.parentNode.className || '')) { at = at.parentNode; } if (at.parentNode && at.parentNode !== b && /(legal|glegal|lf-foot|foot)/.test(at.parentNode.className || '')) { at = at.parentNode; } }
     if (!at) { at = document.querySelector('.glegal') || document.querySelector('.legal') || document.querySelector('.lf-foot') || document.querySelector('footer'); }
+    if (f && at && at.parentNode === b && at !== f && !/(^| )(legal|glegal|lf-foot|foot)( |$)/.test(at.className || '')) { at = f; }   /* 쇼룸처럼 body 가 가로 줄(flex)이면 맨 바깥 틀 앞이 아니라 푸터 바로 앞에 */
     if (at && at.parentNode) { at.parentNode.insertBefore(w, at); } else { b.insertBefore(w, document.getElementById('lfxTab') || null); }
   }
   /* ★v23 — 들어온 길 부품(lf/way.js)의 LFWay.get 을 지우지 않게 덧붙이기만(v22까지 통째로 덮어써 apply · gate 신청이 멈췄음) */
