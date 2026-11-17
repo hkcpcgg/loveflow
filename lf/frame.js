@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v31 · 261117 · [우리이야기-소통-025 · 대표 「노란 거 빼고 · 통일」] ☰ 맨 아래 노란 「💬 공유하기」 → 흰 바탕 + 같은 공유 그림(□↗) · 오른쪽 아래 동그라미를 우리 이야기와 같은 치수로(44px · 선 1.8 · 그림자 옅게). [무손] 그 밖 v30 전부.
+   현재 버전 ▶ lf/frame.js · v32 · 261117 · [우리 이야기 흔적 걷기 · 대표 OK 261117 13:24 「우리 이야기는 잘라냈다 · 소통 없이 진행」] 아래 띠 다섯째 「우리 이야기」 칸 걷음(네 칸: 내 여행 · 마음 전하기 · 사랑흐름 여행 · 둘러보기) · ☰ 「우리 이야기 · 기록관」 묶음(마당 · 이야기방 만들기 · 기록관 만들기) 걷음 · 그 묶음 아래 있던 「기관 · 단체 제안」은 ☰ 「함께하기」로 · /rec/ 화면 불 켜기 줄 뺌. 우리 이야기로 가는 길은 푸터 「패밀리 사이트」 한 줄(lf-foot v11).
+   (이전) lf/frame.js · v31 · 261117 · [우리이야기-소통-025 · 대표 「노란 거 빼고 · 통일」] ☰ 맨 아래 노란 「💬 공유하기」 → 흰 바탕 + 같은 공유 그림(□↗) · 오른쪽 아래 동그라미를 우리 이야기와 같은 치수로(44px · 선 1.8 · 그림자 옅게). [무손] 그 밖 v30 전부.
    (이전) lf/frame.js · v30 · 261117 · [699 · 701 · 대표 OK 261117 07:36 「노란 거 빼고 요거 · 통일 · 한 번에 다」] ① 아래 띠 판 제목 — 단추와 같은 색 아이콘을 떼고 작은 회색 글 + 오른쪽 「✕」 닫기 · 누르는 줄에 「›」(제목을 눌러 헛손질하던 것) ② 「← ⌂ →」 늘 푸터 바로 위(여행의 기록 반쪽 깨짐 · 소개 · 약관 · 도화지 맨 위에 뜨던 것 · 686) ③ 오른쪽 아래 공유하기 · 위로 올리기 작은 흰 동그라미 둘(전 화면 하나 · body data-lf-fab="off" 면 안 냄) · 화면마다 따로 달린 공유 단추(.lff-share · .lffsw · .lff-sb · .way-share · 메인 노란 단추)는 감춤 · 글 쓰는 칸을 누르면 아래 띠와 함께 숨음 ④ 카톡 공유 그림 og-image 2400×1260 선명본 ?v=261117. [무손] 그 밖 v29 전부.
    (이전) lf/frame.js · v29 · 261116 · [696 공유하기 · 홈 화면에 추가 표준 · 대표 OK 261116 19:22] ① 공유하기 = 카카오톡 공유 카드(그림 og-image · 제목 「사랑흐름」 · 설명 「마음을 잇고, 이야기를 남기다」 · 단추 「자세히 보기」) — 카카오를 못 부르면 휴대폰 공유 창 → 주소 복사 · window.LFShare 로 어느 화면에서나 부름 ② ☰ 맨 아래 회색 작은 「공유하기」 → 같은 크기 단추 둘 「💬 공유하기」(카카오 노랑) · 「📲 홈 화면에 추가」 · 「다시 시작」은 그 아래 작게 ③ 홈 화면 아이콘 · 위 띠 그림을 사랑흐름 자기 파일(/apple-touch-icon.png · /icon-192.png)로 — 우리 이야기 폴더(/rec/) 그림을 쓰지 않음. [무손] 그 밖 v28 전부.
    (이전) lf/frame.js · v28 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] ☰ 우리 이야기 줄(마당 · 이야기방 만들기 · 기록관 만들기) → https://uriyagi.kr/… (뒤 꼬리 같음) · 본부 알약 「⌂ 본부로」 → /hq/?hq=1. [무손] 그 밖 v27 전부.
@@ -136,11 +137,6 @@
       { t: '안내 받기', s: '전화로 차근차근 안내해 드려요', ic: 'chat', c: '#1D9E75', u: '/guide/?ask=1', ask: 1 },
       { t: '안내자 · 제휴 신청', s: '안내자로 함께하기 · 사업으로 제휴하기', ic: 'hand', c: '#5C7FA6', u: '/partner.html' },
       { t: '기관 · 단체', s: '복지 · 교육 · 공공 프로그램 제안', ic: 'build', c: '#1E4A76', u: '/proposal.html' }
-    ] },
-    { k: 'story', t: '우리 이야기', ic: 'group', c: '#2E7D6B', sub: '나의 일상부터 우리 모두의 이야기까지', items: [   /* ★v11 415 */
-      { t: '우리 이야기 마당', s: '여러 이야기방 · 기록관의 사진', ic: 'show', c: '#2E7D6B', u: 'https://uriyagi.kr/?plaza=1' },
-      { t: '이야기방 만들기', s: '나 · 가족 · 친구 · 모임 · 우리 가게', ic: 'spark', c: '#1E4A76', u: 'https://uriyagi.kr/?open=form&kind=story' },
-      { t: '기록관 만들기', s: '학교 · 기관 · 단체 · 회사', ic: 'build', c: '#3B2F72', u: 'https://uriyagi.kr/?open=form&kind=hall' }
     ] }
   ];
 
@@ -152,7 +148,6 @@
     if (/^\/(pay|showcase|item\/|travel\/)/.test(p)) { return 'buy'; }   /* ★v17 458 상품 설명 · 사랑흐름 여행 */
     if (/^\/(showroom|memoir\/?$|memoir\/index|guide)/.test(p)) { return 'look'; }
     if (/^\/(partner|proposal)/.test(p)) { return 'look'; }
-    if (/^\/rec\//.test(p)) { return 'story'; }
     return '';
   }
 
@@ -302,13 +297,6 @@
     }
     return ''
       + '<div class="lfx-mh"><span>사랑흐름</span><button data-x="1" aria-label="닫기">' + svg('x', 16) + '</button></div>'
-      + '<div class="lfx-grp">우리 이야기 · 기록관</div>'
-      + '<button class="lfx-big lfx-b4" data-u="https://uriyagi.kr/?plaza=1"><i>🍇</i><span><b>우리 이야기 마당</b><small>이야기방 · 기록관의 사진과 이야기</small></span></button>'
-      + '<div class="lfx-two">'
-      +   mi('이야기방 만들기', 'spark', '#1E4A76', 'https://uriyagi.kr/?open=form&kind=story')
-      +   mi('기록관 만들기', 'build', '#3B2F72', 'https://uriyagi.kr/?open=form&kind=hall')
-      + '</div>'
-      + mi('기관 · 단체 제안', 'group', '#5C7FA6', '/proposal.html')
       + '<div class="lfx-grp">마음 전하기 (무료)</div>'
       + mi('마음 한마디', 'word', '#E59273', '/hanmadi/')
       + mi('삐뚤빼뚤 마음 도화지', 'draw', '#8A6FC9', '/draw/')
@@ -323,6 +311,7 @@
       + '<div class="lfx-grp">함께하기</div>'
       + mi('안내자 · 제휴 신청', 'hand', '#1E4A76', '/partner.html')
       + mi('안내 받기', 'chat', '#1D9E75', '/guide/?ask=1')
+      + mi('기관 · 단체 제안', 'group', '#5C7FA6', '/proposal.html')   /* ★v32 우리 이야기 묶음을 걷으며 여기로 */
       + '<div class="lfx-sh"><button type="button" class="kk" data-share="1"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/></svg>공유하기</button><button type="button" class="hm" data-home="1">📲 홈 화면에 추가</button></div>'   /* ★v29 696 */
       + '<button class="lfx-restart" data-restart="1">다시 시작</button>';
   }

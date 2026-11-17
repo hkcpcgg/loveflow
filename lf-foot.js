@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v10 · 261117 · [700 · 대표 OK 261117 07:36] 사업자 정보 양쪽 맞춤(줄이 넘치면 글자 사이가 벌어짐) → 왼쪽부터 이어 쓰기 · 글꼴이 온 뒤 · 화면을 다 연 뒤 · 2.5초 뒤 글자 크기를 다시 맞춤(실폰 결제 화면 세 줄 · © 줄 잘림). [무손] 그 밖 v9 전부.
+   현재 버전 ▶ lf-foot.js · v11 · 261117 · [우리 이야기 흔적 걷기 · 대표 OK 261117 13:24] 사랑흐름 화면(O 가 빈 때)에서만 메뉴 줄 맨 끝에 「패밀리 사이트 ↗」(uriyagi.kr · 새 창) — 아래 띠 · ☰ · 메인의 우리 이야기 길을 걷고 남긴 하나뿐인 길. uriyagi.kr 에서 부를 때는 안 붙음. [무손] 그 밖 v10.
+   (이전) lf-foot.js · v10 · 261117 · [700 · 대표 OK 261117 07:36] 사업자 정보 양쪽 맞춤(줄이 넘치면 글자 사이가 벌어짐) → 왼쪽부터 이어 쓰기 · 글꼴이 온 뒤 · 화면을 다 연 뒤 · 2.5초 뒤 글자 크기를 다시 맞춤(실폰 결제 화면 세 줄 · © 줄 잘림). [무손] 그 밖 v9 전부.
    (이전) lf-foot.js · v9 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 본부 바로가기 → /hq/?hq=1. [무손] 그 밖 v8 전부.
    (이전) lf-foot.js · v8 · 261116 · [우리이야기-소통-020 요청 2] 다른 도메인(uriyagi.kr 등)에서 부르면 메뉴 줄 링크(소개 · 이용약관 · 개인정보처리방침 · 환불정책) 앞에 https://www.loveflow.ai.kr 를 붙임 · 사랑흐름 화면(loveflow.ai.kr · 시험 환경)은 그대로. [무손] 그 밖 v7 전부.
    (이전) lf-foot.js · v7 · 261116 · [우리이야기-소통-015 요청 2] 부르는 자리(#lfFoot · .lf-foot)에 data-refund="0" 을 주면 메뉴 줄 「환불정책」만 뺌 — 값을 주지 않는 사랑흐름 화면은 v6 그대로. [무손] 그 밖 v6 전부.
@@ -60,6 +61,7 @@
     +     '<a class="pv" href="' + O + '/trust.html#privacy">개인정보처리방침</a>'
     +     '<a href="' + O + '/trust.html#refund">환불정책</a>'
     +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">문의</a>'
+    +   (O ? '' : '<a class="fam" href="https://uriyagi.kr/" target="_blank" rel="noopener">패밀리 사이트 ↗</a>')   /* ★v11 */
     +   '</div>'
     +   '<div class="lfft-biz"><span>' + BIZ_ITEMS.join('</span> &middot; <span>') + '</span></div>'
     +   '<div class="lfft-c">&copy; 2026 사랑흐름 &middot; LFRI&trade; &middot; 무단 복제 &middot; 상업적 이용 금지 &middot; Unauthorized use prohibited.</div>'
