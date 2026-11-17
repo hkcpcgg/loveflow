@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/friends.html · v16 · 261110 · [대표 지적 261110 09:36 「발견하면 즉각 전부」] 공용 푸터 부품(lf-foot.js)은 불러오는데 앉을 자리(<div id="lfFoot">)가 없어 사업자 정보 · 저작권이 화면에 안 나오던 것 — 자리 한 줄 넣음. [무손] 그 밖 v15 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/friends.html · v17 · 261117 · [683 가-2 · 대표 OK 261117 12:50 「손글씨 받아들이기는 생략」] 「종이 불러오기」(물음지 사진 → 글자) 단추 둘 걷음 · 종이 칸 안내 「받으신 물음지를 보며 옮겨 적어 주세요.」 · 옮겨 적기 · 서버(scanImage)는 그대로. [무손] 그 밖 v16 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/friends.html · v16 · 261110 · [대표 지적 261110 09:36 「발견하면 즉각 전부」] 공용 푸터 부품(lf-foot.js)은 불러오는데 앉을 자리(<div id="lfFoot">)가 없어 사업자 정보 · 저작권이 화면에 안 나오던 것 — 자리 한 줄 넣음. [무손] 그 밖 v15 전부. -->
 <!-- (이전) memoir/friends.html · v15 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「이 칸 담기」→「이 칸 저장」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
 <!-- (이전) memoir/friends.html · v14 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/friends.html · v13 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
@@ -373,7 +374,7 @@ function secCard(s, S){
   for(var q2=0;q2<S.qs.length;q2++){
     var Q=S.qs[q2], fr=(Q.type==='자유칸');
     h+='<div class="qq'+(fr?' free':'')+'">'+(fr?'<span class="ii"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.6-7 10-7 10z"/></svg></span>':'')+esc(Q.q)+'</div><textarea id="ta'+s+'_'+q2+'" '+(signed()?'disabled ':'')+'oninput="ANS[\''+s+'_'+q2+'\']=this.value;keep()" placeholder="'+esc(Q.ex||'')+'">'+esc(ANS[s+'_'+q2]||'')+'</textarea>'
-      +(signed()?'':'<button type="button" class="scb" onclick="scanInto(\''+s+'_'+q2+'\')">'+'<span class="ii"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l2-3h4l2 3"/></svg></span>'+'종이 불러오기</button>');   /* ★v2 */
+      ;   /* ★v17 683 종이 불러오기 걷음 */
   }
   if(!signed()){ h+='<button class="btn" onclick="saveSec('+s+',this)">이 칸 저장</button><div class="okm" id="ok'+s+'"></div>'; }
   return h+'</div></div>';
@@ -437,7 +438,7 @@ function printPaper(){
 }
 function paperBox(){
   var qs=memQs(), q0=qs[0]||{opts:[]}, f=fromName();
-  var h='<div class="paper"><b style="color:#5a3e2b">종이로 받은 글 올리기</b><div class="note">받으신 물음지를 보며 옮겨 적거나, 물음마다 「종이 불러오기」로 사진에서 불러오세요.</div>'
+  var h='<div class="paper"><b style="color:#5a3e2b">종이로 받은 글 올리기</b><div class="note">받으신 물음지를 보며 옮겨 적어 주세요.</div>'
    +'<label class="f">쓰신 분 성명</label><input class="t" maxlength="20" value="'+esc(PAPER.name)+'" oninput="PAPER.name=this.value">'
    +'<label class="f">'+esc(f)+' 님과의 관계</label><div class="lay" style="margin-top:0">';
   for(var i=0;i<(q0.opts||[]).length;i++){ h+='<button type="button" class="'+(PAPER.rel===q0.opts[i]?'on':'')+'" onclick="PAPER.rel=\''+esc(q0.opts[i])+'\';draw()">'+esc(q0.opts[i])+'</button>'; }
@@ -448,7 +449,7 @@ function paperBox(){
   for(var k=0;k<qs.length;k++){
     h+='<div class="qq'+(qs[k].type==='자유칸'?' free':'')+'" style="margin-top:10px;font-size:14.5px">'+(k+1)+'. '+esc(k===0?'우리 인연':String(qs[k].q||'').split('○○○').join(f))+'</div>'
       +'<textarea id="pa'+k+'" style="min-height:70px" oninput="PAPER.ans['+k+']=this.value">'+esc(PAPER.ans[k])+'</textarea>'
-      +'<button type="button" class="scb" onclick="scanPaper('+k+')">'+'<span class="ii"><svg viewBox="0 0 24 24"><rect x="3" y="7" width="18" height="13" rx="2"/><circle cx="12" cy="13.5" r="3.5"/><path d="M8 7l2-3h4l2 3"/></svg></span>'+'종이 불러오기</button>';
+      ;   /* ★v17 683 걷음 */
   }
   h+='<label class="pick"><input type="checkbox" id="pOk"><span>받은 물음지(원본)를 보며 확인했습니다</span></label><div class="err" id="erP"></div>'
    +'<button class="btn" id="pBtn" onclick="paperSend()">받은 글 목록에 올리기</button></div>';
