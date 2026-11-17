@@ -1,0 +1,132 @@
+<!-- ★ 현재 버전 ▶ memoir/voice.html · v1 · 261117 · [대표 261117 10:28 「질문하는 목소리 샘플을 고를 수 있게 · 녹음이 안 돼」] 시험 화면(검색 안 잡힘) — ①「질문 목소리 고르기」 이 휴대폰에 있는 한국어 목소리 × 빠르기 · 높이 견본을 듣고 「이 목소리로」 → 기기에 기억(lf_tts) → 자서전 「질문 듣기」가 그 목소리로(ask v105) ②「받아쓰기 시험」 시험 1 받아쓰기만 · 시험 2 받아쓰기 + 녹음 함께 — 무엇이 일어났는지 줄로 보여 줌(대표 화면 사진으로 원인 확정 · 708). 서버에 아무것도 보내지 않음. -->
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>질문 목소리 · 받아쓰기 시험 | 사랑흐름</title>
+<style>
+body{margin:0;background:#FFFCF7;color:#2E3A46;font-family:-apple-system,"Noto Sans KR",sans-serif;line-height:1.6}
+.w{max-width:440px;margin:0 auto;padding:14px 16px 140px}
+h1{font-size:20px;color:#1E4A76;margin:6px 0 2px}h2{font-size:17px;color:#1E4A76;margin:22px 0 6px}
+.s{font-size:13.5px;color:#7d7465;margin:0 0 10px}
+.v{background:#fff;border:1px solid #EADFCF;border-radius:14px;padding:12px;margin:0 0 10px}
+.v .n{font-weight:800;color:#1E4A76;font-size:15px}.v .u{font-size:11.5px;color:#a59c8e;word-break:break-all}
+.ps{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.ps button{border:1.4px solid #1E4A76;background:#fff;color:#1E4A76;border-radius:12px;padding:9px 10px;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer}
+.ps button.on{background:#1E4A76;color:#fff}
+.pick{display:block;width:100%;margin-top:8px;border:0;border-radius:12px;padding:12px;background:#C9A96E;color:#fff;font-size:15px;font-weight:800;font-family:inherit;cursor:pointer}
+.v.sel{border:2px solid #C9A96E;background:#FFFBF2}
+.ok{background:#DDF0E6;color:#1f5a40;border-radius:12px;padding:10px 12px;font-size:14px;margin:8px 0;display:none}
+.t{display:block;width:100%;border:0;border-radius:14px;padding:15px;font-size:16px;font-weight:800;font-family:inherit;margin:0 0 8px;cursor:pointer;color:#fff;background:#1E4A76}
+.t.b{background:#D64545}.t:disabled{opacity:.5}
+.log{background:#fff;border:1px solid #EADFCF;border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.55;min-height:60px;white-space:pre-wrap;word-break:break-all}
+.res{font-size:16px;font-weight:700;color:#173A5A;margin:8px 0}
+.back{display:inline-block;margin-top:18px;color:#1E4A76;font-weight:700}
+</style></head>
+<body data-lf-title="질문 목소리 · 받아쓰기 시험" data-lf-fab="off">
+<div class="w">
+  <h1>질문 목소리 고르기</h1>
+  <p class="s">이 휴대폰에 있는 목소리입니다. 듣고 마음에 드는 것에서 「이 목소리로」를 누르세요. 자서전 「질문 듣기」가 그 목소리로 읽어 드립니다.</p>
+  <div class="ok" id="ok"></div>
+  <div id="vs"><div class="v">목소리를 찾는 중이에요…</div></div>
+  <p class="s" id="few" style="display:none"></p>
+
+  <h2>받아쓰기 시험</h2>
+  <p class="s">녹음이 글로 바뀌지 않는 까닭을 찾는 시험입니다. 두 시험을 차례로 해 보시고, 끝난 화면을 사진으로 보내 주세요. 서버에는 아무것도 보내지 않습니다.</p>
+  <button type="button" class="t" id="t1">시험 1 · 받아쓰기만</button>
+  <button type="button" class="t b" id="t2">시험 2 · 받아쓰기 + 녹음 함께</button>
+  <div class="res" id="res"></div>
+  <div class="log" id="log">시험을 누르고 「하나 둘 셋, 오늘 날씨가 좋습니다」라고 말씀해 보세요. 5초 뒤 저절로 멈춥니다.</div>
+  <a class="back" href="/memoir/ask.html">‹ 자서전으로 돌아가기</a>
+</div>
+<script>
+(function(){
+  var SAMPLE='어린 시절, 가장 오래 머물렀던 집은 어떤 모습이었나요?';
+  var PRE=[{t:'보통',r:0.9,p:1},{t:'천천히 · 낮게',r:0.8,p:0.8},{t:'더 낮게',r:0.85,p:0.65}];
+  var KEY='lf_tts';
+  function $(i){ return document.getElementById(i); }
+  function saved(){ try{ return JSON.parse(localStorage.getItem(KEY)||'null'); }catch(e){ return null; } }
+  function esc(s){ return String(s||'').replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  var VOICES=[], cur={i:-1,k:0};
+  function say(v,pr){
+    if(!window.speechSynthesis){ return; }
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(SAMPLE); u.lang='ko-KR'; u.rate=pr.r; u.pitch=pr.p; try{ if(v){ u.voice=v; } }catch(e){}
+    speechSynthesis.speak(u);
+  }
+  function draw(){
+    if(!window.speechSynthesis){ $('vs').innerHTML='<div class="v">이 브라우저는 질문 듣기를 지원하지 않아요.</div>'; return; }
+    VOICES=speechSynthesis.getVoices().filter(function(v){ return /ko/i.test(v.lang); });
+    if(!VOICES.length){ $('vs').innerHTML='<div class="v">이 휴대폰에서 한국어 목소리를 찾지 못했어요.</div>'; return; }
+    var sv=saved(), h='';
+    VOICES.forEach(function(v,i){
+      var me=sv && sv.uri===(v.voiceURI||v.name);
+      h+='<div class="v'+(me?' sel':'')+'" data-i="'+i+'"><div class="n">목소리 '+(i+1)+(me?' · 지금 쓰는 목소리':'')+'</div><div class="u">'+esc(v.name)+'</div><div class="ps">';
+      PRE.forEach(function(p,k){ h+='<button type="button" data-i="'+i+'" data-k="'+k+'"'+(me&&sv.r===p.r&&sv.p===p.p?' class="on"':'')+'>▶ '+p.t+'</button>'; });
+      h+='</div><button type="button" class="pick" data-i="'+i+'">이 목소리로</button></div>';
+    });
+    $('vs').innerHTML=h;
+    var f=$('few'); if(VOICES.length<2){ f.style.display='block'; f.textContent='이 휴대폰에는 한국어 목소리가 하나뿐이에요. 빠르기 · 높이만 고르실 수 있어요. 다른 목소리는 휴대폰 설정 → 텍스트 음성 변환(TTS)에서 받으시면 여기에 나타납니다.'; } else { f.style.display='none'; }
+    Array.prototype.forEach.call(document.querySelectorAll('.ps button'),function(b){ b.onclick=function(){
+      var i=+b.getAttribute('data-i'), k=+b.getAttribute('data-k'); cur={i:i,k:k};
+      Array.prototype.forEach.call(document.querySelectorAll('.ps button[data-i="'+i+'"]'),function(x){ x.classList.remove('on'); }); b.classList.add('on');
+      say(VOICES[i],PRE[k]);
+    }; });
+    Array.prototype.forEach.call(document.querySelectorAll('.pick'),function(b){ b.onclick=function(){
+      var i=+b.getAttribute('data-i'), k=(cur.i===i)?cur.k:1, v=VOICES[i], pr=PRE[k];
+      try{ localStorage.setItem(KEY, JSON.stringify({uri:v.voiceURI||v.name, name:v.name, r:pr.r, p:pr.p})); }catch(e){}
+      var o=$('ok'); o.style.display='block'; o.textContent='저장했어요 — 목소리 '+(i+1)+' · '+pr.t+'. 자서전 「질문 듣기」가 이 목소리로 읽어 드립니다.';
+      draw(); window.scrollTo(0,0);
+    }; });
+  }
+  if(window.speechSynthesis){ draw(); speechSynthesis.onvoiceschanged=draw; setTimeout(draw,800); } else { draw(); }
+
+  /* ── 받아쓰기 시험 ── */
+  var busy=false;
+  function test(withRec){
+    if(busy){ return; } busy=true;
+    var L=$('log'), R=$('res'), t0=Date.now(), text='', part='', lines=[];
+    function log(s){ lines.push(((Date.now()-t0)/1000).toFixed(1)+'초 '+s); L.textContent=lines.join('\n'); }
+    R.textContent=''; L.textContent='';
+    $('t1').disabled=$('t2').disabled=true;
+    var ua=navigator.userAgent||''; log((withRec?'시험 2':'시험 1')+' · '+(/KAKAOTALK/i.test(ua)?'카톡 안':/SamsungBrowser/i.test(ua)?'삼성 인터넷':/Chrome/i.test(ua)?'크롬':'브라우저')+(/Android/i.test(ua)?' · 안드로이드':/iPhone|iPad/i.test(ua)?' · 아이폰':''));
+    var C=window.SpeechRecognition||window.webkitSpeechRecognition, sr=null, stm=null, rec=null, bytes=0;
+    if(!C){ log('받아쓰기 없음(이 브라우저는 지원 안 함)'); }
+    else {
+      try{
+        sr=new C(); sr.lang='ko-KR'; sr.continuous=true; sr.interimResults=true;
+        sr.onstart=function(){ log('받아쓰기 시작'); };
+        sr.onaudiostart=function(){ log('받아쓰기 · 소리 받음 시작'); };
+        sr.onspeechstart=function(){ log('받아쓰기 · 말소리 알아챔'); };
+        sr.onresult=function(ev){ var p=''; for(var i=ev.resultIndex;i<ev.results.length;i++){ if(ev.results[i].isFinal){ text+=' '+ev.results[i][0].transcript; } else { p+=ev.results[i][0].transcript; } } part=p; R.textContent=(text+' '+part).trim(); };
+        sr.onerror=function(ev){ log('받아쓰기 오류: '+((ev&&ev.error)||'?')); };
+        sr.onend=function(){ log('받아쓰기 끝'); };
+        sr.start();
+      }catch(e){ log('받아쓰기 못 엶: '+e.message); }
+    }
+    if(withRec){
+      if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.MediaRecorder){
+        navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true,noiseSuppression:true}}).then(function(s){
+          stm=s; log('녹음 마이크 열림');
+          try{ rec=new MediaRecorder(s); rec.ondataavailable=function(e){ if(e.data){ bytes+=e.data.size; } }; rec.start(1000); log('녹음 시작'); }catch(e){ log('녹음 못 함: '+e.message); }
+        }).catch(function(e){ log('녹음 마이크 못 엶: '+(e&&e.name)); });
+      } else { log('녹음 기능 없음'); }
+    }
+    setTimeout(function(){
+      try{ if(sr){ sr.stop(); } }catch(e){}
+      try{ if(rec && rec.state!=='inactive'){ rec.stop(); } }catch(e){}
+      setTimeout(function(){
+        try{ if(stm){ stm.getTracks().forEach(function(t){ t.stop(); }); } }catch(e){}
+        var got=(text+' '+part).trim();
+        if(withRec){ log('녹음 크기: '+Math.round(bytes/1024)+'KB'); }
+        log(got?('결과: 글로 바뀜 ✓ 「'+got+'」'):'결과: 글로 바뀌지 않음 ✗');
+        R.textContent=got?('✓ '+got):'✗ 글로 바뀌지 않았어요';
+        $('t1').disabled=$('t2').disabled=false; busy=false;
+      },1200);
+    },5000);
+  }
+  $('t1').onclick=function(){ test(false); };
+  $('t2').onclick=function(){ test(true); };
+})();
+</script>
+<script src="/lf/frame.js?v=31"></script>
+</body></html>
