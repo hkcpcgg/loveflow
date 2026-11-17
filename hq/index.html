@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ hq/index.html · 본부 · 261116 · [우리이야기] S6 분리 — 우리 이야기 화면(rec v178)을 본부(?hq=1) 전용으로 www.loveflow.ai.kr/hq/ 에 그대로 둠 · 손님 화면은 uriyagi.kr · 카카오 돌아올 주소는 /rec/(등록된 주소 · 넘기는 문이 본부 로그인만 이리로 보냄) · 서비스워커 등록 뺌 · 사랑흐름이 받아 맡음(사랑흐름-017 ②-2) · 본부 표 형식 그대로 -->
+<!-- ★ 현재 버전 ▶ hq/index.html · 본부 · 261117 · [695 · 우리이야기-023 ②] 로그인이 끝난 뒤 「⌂ 본부로」를 누르면 로그인 뒤 처음 칸(오늘)으로 열리던 것 — 돌아갈 자리(lf_rec_hqback)를 로그인 확인 전에 지우지 않고 로그인 성공(카카오 · 휴대폰 승인) 뒤 hqHome 이 그 자리로 엶. [무손] 그 밖 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ hq/index.html · 본부 · 261116 · [우리이야기] S6 분리 — 우리 이야기 화면(rec v178)을 본부(?hq=1) 전용으로 www.loveflow.ai.kr/hq/ 에 그대로 둠 · 손님 화면은 uriyagi.kr · 카카오 돌아올 주소는 /rec/(등록된 주소 · 넘기는 문이 본부 로그인만 이리로 보냄) · 서비스워커 등록 뺌 · 사랑흐름이 받아 맡음(사랑흐름-017 ②-2) · 본부 표 형식 그대로 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v178 · 261116 · [우리이야기] 내 방 맨 아래 「사랑흐름 가기 ›」 — 사랑흐름 메인 v70 의 「우리 이야기 가기 ›」 한 줄(.ur · 같은 CSS · 같은 꼴)을 그대로 옮겨 씀(대표 261116 13:07 「사랑흐름에서 만든 것 갖다 써라」) · 사랑흐름 로고 · 「사랑흐름」 · 「마음 여행지도 · 마음여행 · 한 편의 기록(자서전)」(사랑흐름-012) → https://www.loveflow.ai.kr/ · REC_VER 178 · [무손] 그 밖 전부 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v177 · 261116 · [우리이야기] S4 미리보기 · 링크(14회차 ③ ⑥ · 시안 v5 A3 · C2 · 서버 ①Code v83 과 짝) — ① 닫힌 방 초대 화면(joinForm) 맨 위에 방 이름 · 초대한 분 · 「멤버만 보는 방입니다.」 · 소개 한 줄 · 관리자가 고른 사진 1~3장 · 「사진 N · 멤버 N」 · 그 밑 로그인(한 화면 그대로) ② 관리자 · 닫힌 방 · 사진 ⋯ 관리 칸 「로그인 전 미리보기에 넣기 / 미리보기에서 빼기」(3장까지 · 넣을 때 「로그인 전에도 보입니다」 · 아이 사진이면 그 말을 함께 · 막지 않음) ③ 보낼 곳별 초대 링크 기한 칩 1년 · 30일 · 7일 · 없음 · 처음 고른 것 1년 · QR 은 그대로(방 고정 주소) · REC_VER 177 · [무손] 그 밖 전부 -->
 <!-- (이전) ★ 현재 버전 ▶ rec/index.html · v176 · 261116 · [우리이야기] S3 숫자(14회차 ① ⑦ · 시안 v5 C1 · 서버 ①Code v82 · ②관리 v43 과 짝) — ① 받은 분 걸음을 방문 통계 「들어옴」으로 보냄(링크 · QR 열림 · 방 화면 · 로그인 화면 · 이 기기에 열쇠 없는 분만 · 창마다 한 번 · 초대 열쇠 또는 방 번호만 · 사람 정보 없음) ② 관리 › 통계 기간 칩 「오늘 · 이번 주」 더함(처음 열면 이번 주) · 오늘 · 이번 주엔 맨 위 새 멤버 · 새 게시물 · ♥ 세 칸 + 「이번 주 어디까지 왔나」 막대(열림 → 방 → 로그인 화면 → 로그인 완료 → 첫 게시물) · REC_VER 176 · [무손] 그 밖 전부 · 첫 화면 요청 그대로 -->
@@ -6443,9 +6444,12 @@ function openDone(r,dr,okN,all,m){
 var HQ=null;
 function hqApi(p,cb){ p._hq=1; var h=tkGet(HTK); if(h){ p.ht=h.v; } api(p,function(d){ if(d&&d.reason==='NO_HQ'){ tkSet(HTK,''); hqLogin('본부 확인이 끝났습니다. 다시 들어와 주십시오.'); return; } cb(d); }); }
 function hqMode(){ document.body.classList.add('hqm'); document.body.classList.remove('desk'); $('fab').hidden=true; function tt(){ try{ document.title='본부 · 사랑흐름'; var t=document.querySelector('.lfx-title'); if(t){ t.textContent='본부'; } }catch(e){} } tt(); setTimeout(tt,300); setTimeout(tt,1200); }
-function hqBoot(){ hqMode(); var bk=null; try{ bk=JSON.parse(sessionStorage.getItem('lf_rec_hqback')||'null'); sessionStorage.removeItem('lf_rec_hqback'); sessionStorage.removeItem('lf_rec_door'); sessionStorage.removeItem('lf_from_hq'); }catch(e){}
-  if(bk&&tkGet(HTK)){ ['sec','sub','sq','stest','q','f','sort','dir','all','sel'].forEach(function(n){ if(bk[n]!==undefined){ HQD[n]=bk[n]; } }); HQD.reopen=bk.sel||''; hqDesk(); return; }   /* ★v82 429 「본부로」 — 찾던 조건 · 고른 방 그대로 */
-  if(tkGet(HTK)){ hqList(); } else { hqLogin(); } }
+function hqBoot(){ hqMode(); try{ sessionStorage.removeItem('lf_rec_door'); sessionStorage.removeItem('lf_from_hq'); }catch(e){}
+  if(tkGet(HTK)){ hqHome(); } else { hqLogin(); } }   /* ★695 로그인이 끝나 있어도 「본부로」 자리를 지우지 않고 로그인 뒤 hqHome 이 씀 */
+/* ★v82 429 「본부로」 — 찾던 조건 · 고른 방 그대로 · ★695 로그인 뒤에도 같은 자리로(그때까지 lf_rec_hqback 을 남겨 둠) */
+function hqHome(){ var bk=null; try{ bk=JSON.parse(sessionStorage.getItem('lf_rec_hqback')||'null'); sessionStorage.removeItem('lf_rec_hqback'); }catch(e){}
+  if(bk){ ['sec','sub','sq','stest','q','f','sort','dir','all','sel'].forEach(function(n){ if(bk[n]!==undefined){ HQD[n]=bk[n]; } }); HQD.reopen=bk.sel||''; hqDesk(); return; }
+  hqList(); }
 /* ══ ★v82 429 방 관리 열기 — 본부(보라) → 그 방 관리(초록) → 「본부로」. 열쇠는 서버가 6시간짜리로 주고, 부를 때마다 본부 명단 · 권한을 다시 봄 ══ */
 function doorOpen(com,name){
   hqApi({action:'recHq',act:'door',com:com,_busy:'「'+(name||com)+'」 관리 화면을 여는 중입니다'},function(d){
@@ -6476,7 +6480,7 @@ function hqBack(code,kerr,s){
   wait($('main'),'본부로 들어가는 중입니다');
   api({action:'recHqLogin',code:code,redirect:KREDIR,setup:String(s||'').replace(/[^a-f0-9]/gi,'').slice(0,8),dev:hqDev(),ua:hqUa(),_hq:1},function(d){
     if(d.status==='ok'&&d.wait&&d.id){ hqWaitView(d.id,d.mins||15,!!s); return; }   /* ★v63 365 처음 보는 기기 */
-    if(d.status==='ok'){ tkSet(HTK,d.ht,d.hours||6); sset('lf_rec_hq','1'); if(s){ toast('본부로 등록했습니다','이 카카오 계정으로 본부에 들어옵니다'); } hqList(); return; }
+    if(d.status==='ok'){ tkSet(HTK,d.ht,d.hours||6); sset('lf_rec_hq','1'); if(s){ toast('본부로 등록했습니다','이 카카오 계정으로 본부에 들어옵니다'); } hqHome(); return; }
     if(d.reason==='NEED_TALK'){ hqLogin(d.msg||'「카카오톡 메시지 전송」에 동의해 주십시오.',1); return; }
     hqLogin(d.msg||'들어오지 못했습니다.');
   });
@@ -6504,7 +6508,7 @@ function hqWaitView(id,mins,reg){
       if(!$('hqWt')){ stop(); return; }
       if(d.status==='ok'&&d.wait){ return; }
       stop();
-      if(d.status==='ok'&&d.ht){ tkSet(HTK,d.ht,d.hours||6); sset('lf_rec_hq','1'); toast('승인되었습니다',reg?'본부로 등록했습니다 · 이 기기는 다음부터 카카오만으로 들어옵니다':'이 기기는 다음부터 카카오만으로 들어옵니다'); hqList(); return; }
+      if(d.status==='ok'&&d.ht){ tkSet(HTK,d.ht,d.hours||6); sset('lf_rec_hq','1'); toast('승인되었습니다',reg?'본부로 등록했습니다 · 이 기기는 다음부터 카카오만으로 들어옵니다':'이 기기는 다음부터 카카오만으로 들어옵니다'); hqHome(); return; }
       if(d.status==='err'&&d.msg&&d.reason!=='DENIED'&&d.reason!=='NONE'&&d.reason!=='NOT_HQ'){ busy=false; HQW=setInterval(tick,3000); return; }   /* 연결이 잠깐 끊긴 것은 다시 물음 */
       hqLogin(d.msg||'들어오지 못했습니다.');
     });
