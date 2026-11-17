@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v101 · 261116 · [551 · 79차 · 대표 OK 261116 20:29] 「새 이야기」 첫 화면 제목 아래 「📌 오늘의 주제」 칸 — 자서전 서버 v54 getQuestions 답에 today(기관 진행자가 관리 화면에서 오늘 정한 입구)가 있을 때만 · 누르면 그 입구 첫 물음으로 · 큰 문 넷 · 이어 쓰기 · 🕊 · 쓴 글 보기 그대로(손님은 언제든 다른 곳으로). [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v102 · 261117 · [705 · 대표 실폰 지적 261117 09:06 · OK 09:11] 녹음 — ①「새 이야기」 「녹음하기」를 질문 듣기 바로 밑 · 답 칸 위로(#a2tk) ②누르면 큰 녹음 화면이 열리며 곧바로 녹음 시작(「녹음 전 안내」 따로 화면 없앰 → 처음 한 번만 녹음 화면 아래 같은 네 줄 작게) · 마이크 허락 전에는 「마이크를 쓸 수 있게 허락해 주세요.」 ③녹음 화면에서 아래 띠 · 공유 동그라미 숨김(body.tk-on) · 「녹음 완료」 빨간 큰 단추를 화면 맨 아래에 고정(A-01 녹음 화면 #tkDone 함께) ④받아쓴 글 상자 네 줄 높이 · 늘 마지막 말 · 마이크 150 → 112px. [무손] 서버 · 목소리 저장 talkSave · 90일 · 그 밖 v101 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v101 · 261116 · [551 · 79차 · 대표 OK 261116 20:29] 「새 이야기」 첫 화면 제목 아래 「📌 오늘의 주제」 칸 — 자서전 서버 v54 getQuestions 답에 today(기관 진행자가 관리 화면에서 오늘 정한 입구)가 있을 때만 · 누르면 그 입구 첫 물음으로 · 큰 문 넷 · 이어 쓰기 · 🕊 · 쓴 글 보기 그대로(손님은 언제든 다른 곳으로). [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v100 · 261115 · [554 · 79차 · 대표 261115 21:38 「일반적으로 쓰는 단추 말로」] 단추 말 — 질문 듣기 · 답을 입력하세요 · 음성 입력 · 도움말 · 문서 스캔 · 녹음하기 · 녹음 시작 · 녹음 중 · 녹음 완료 · 직접 입력 · 녹음 전 안내(A-01 녹음 화면 함께) · 새 이야기는 녹음이 되면 음성 입력 감춤(마이크 하나) · 「새 이야기」 물음 화면에 「말로 쓰기」 단추 → 큰 녹음 화면(받아쓰기 + 목소리 녹음) → 다 말했어요 → 물음 화면에 글로 들어감 · 목소리는 서버 talkSave(v50) 자리 100 · 물음 번호 입구×100+물음. 받아쓰기 막힌 화면엔 단추 없음. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v99 · 261115 · [552 · 79차 · 대표 OK 261115 21:05] 「새 이야기」 쓴 글 보기 — 글이 하나라도 있으면 아직 글이 없는 이야기를 맨 아래 점선 상자에 흐리게(「아직 담긴 글이 없는 이야기」 · 이름들 · 「쓰지 않으셔도 괜찮습니다. 쓰신 이야기만 결과물에 실립니다.」) · 단추 없음. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v98 · 261115 · [530 · 대표 OK 261115 20:28] 사진 제목 칸 흐린 글씨 「첫 월급 타던 날」 → 「처음 번 돈을 받던 날」(형편 전제 말 걷기). [무손] 그 밖 전부. -->
@@ -2151,12 +2152,12 @@ function normal_(show){
 }
 function on_(html, view){
   if(view==='intro'||view==='rec'||view==='res'){ html+='<div class="pk-nav tk-way"><button type="button" onclick="tkPrevQ_()">‹ 이전</button><button type="button" onclick="tkFwdQ_()">다음 ›</button></div><div class="tk-msg" id="tkWayMsg"></div>'; }   /* ★v93 543 말로 해 보기 화면에도 이전 · 다음 */
-  var b=box_(); b.innerHTML=html; b.classList.add('on'); TK.on=true; TK.view=view; normal_(false);
+  var b=box_(); b.innerHTML=html; b.classList.add('on'); TK.on=true; TK.view=view; normal_(false); document.body.classList.toggle('tk-on', view==='rec');   /* ★v102 705 */
   try{ var d=$('done'); if(d){ d.classList.remove('on'); } }catch(e){}
   if(cur()){ TK.ci=ci; TK.qi=qi; TK.sec=cur().sec; }
   window.scrollTo(0,0);
 }
-function off_(){ hush_(); recKill_(); var b=$('tk'); if(b){ b.classList.remove('on'); b.innerHTML=''; } TK.on=false; TK.view=''; normal_(true); pill_(); }
+function off_(){ document.body.classList.remove('tk-on'); hush_(); recKill_(); var b=$('tk'); if(b){ b.classList.remove('on'); b.innerHTML=''; } TK.on=false; TK.view=''; normal_(true); pill_(); }
 
 /* ── 소재 안의 물음 차례 ── */
 function secQs_(){ var Q=cur(), a=[]; if(!Q){ return a; } var qs=BOOK[ci].qs; for(var i=0;i<qs.length;i++){ if(qs[i].sec===Q.sec){ a.push(i); } } return a; }
@@ -2259,8 +2260,9 @@ function talkGo_(go){
   go();
 }
 window.tkTalk_=function(){ talkGo_(function(){ setHow_('talk'); TK.secs=0; TK.cnt=0; sync_(function(){ start_(); }); }); };
-window.tkWrite_=function(){ setHow_('write'); var b=$('tk'); if(b){ b.classList.remove('on'); b.innerHTML=''; } TK.on=false; normal_(true); ORIG_BOOT(); pill_(); };
+window.tkWrite_=function(){ document.body.classList.remove('tk-on'); setHow_('write'); var b=$('tk'); if(b){ b.classList.remove('on'); b.innerHTML=''; } TK.on=false; normal_(true); ORIG_BOOT(); pill_(); };
 function start_(){
+  document.body.classList.remove('tk-on');
   var b=$('tk'); if(b){ b.classList.remove('on'); } TK.on=false; normal_(true);
   var o=_rsSaved();
   TK.lock=true; try{ if(o){ resumeYes(); } else { paint(); } }finally{ TK.lock=false; }
@@ -2626,7 +2628,7 @@ openReview_=function(){ var r=_orv91.apply(this, arguments); try{ rvVoice_(); if
 #a2v .emp{margin:18px 0 4px;padding:12px 14px;border:1px dashed #E2D8C4;border-radius:12px;background:#FBF8F1}#a2v .emp-l{font-size:13px;color:#A39C90;margin-bottom:6px}#a2v .emp-n{font-family:'Noto Serif KR',serif;font-size:15px;color:#B9B2A6;line-height:1.8}#a2v .emp-l2{font-size:13px;color:#A39C90;margin-top:6px;line-height:1.6}
 .aids{grid-template-columns:none !important;grid-auto-flow:column;grid-auto-columns:1fr}
 #a2qf .b.tkgo{display:flex;align-items:center;justify-content:center;gap:8px;background:#fff;border:1.5px solid #D64545;color:#C23B3B;font-weight:700;margin-bottom:2px}#a2qf .b.tkgo .tkm{display:inline-flex;width:30px;height:30px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8080,#D64545);align-items:center;justify-content:center}#a2qf .b.tkgo svg{width:17px;height:17px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
-#a2v .tkv{text-align:center}#a2v .tkdoor{font-size:14px;color:#8A8580;margin:6px 0 10px}#a2v .tkq{font-family:'Noto Serif KR',serif;font-size:19px;line-height:1.65;color:#173A5A;margin:0 0 22px;word-break:keep-all}
+body.tk-on .lfx-tab,body.tk-on #lfxFab{display:none!important}body.tk-on #tkDone,body.tk-on #tkDone2{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:1600;width:auto;max-width:420px;margin:0 auto;border:0;border-radius:16px;padding:18px 0;background:#D64545!important;color:#fff!important;font-size:19px;font-weight:800;box-shadow:0 6px 20px rgba(214,69,69,.35)}body.tk-on #tk,body.tk-on #a2v{padding-bottom:110px}#a2v .tkv .tkmic{width:112px!important;height:112px!important;font-size:14px!important}#a2v .tkv .tkmic svg{width:38px!important;height:38px!important}#a2v .tkv .tkq{font-size:17px!important;margin:0 0 14px!important}#a2v .tkv .tklive{max-height:7.4em;overflow-y:auto}#a2v .tkv .tknt2{text-align:left;font-size:13px;line-height:1.6;color:#7d7465;margin:14px 0 0;padding-left:18px}#a2tk{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:2px 0 12px;padding:13px;border-radius:13px;background:#fff;border:1.5px solid #D64545;color:#C23B3B;font-weight:800;font-size:17px;font-family:inherit;cursor:pointer}#a2tk .tkm{display:inline-flex;width:32px;height:32px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff8080,#D64545);align-items:center;justify-content:center}#a2tk svg{width:18px;height:18px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}#a2v .tkv{text-align:center}#a2v .tkdoor{font-size:14px;color:#8A8580;margin:6px 0 10px}#a2v .tkq{font-family:'Noto Serif KR',serif;font-size:19px;line-height:1.65;color:#173A5A;margin:0 0 22px;word-break:keep-all}
 #a2v .tkmic{width:150px;height:150px;border-radius:50%;border:none;background:radial-gradient(circle at 35% 30%,#ff8080,#D64545);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;font-family:inherit;font-weight:700;font-size:15px;cursor:pointer;margin:0 auto;box-shadow:0 8px 22px rgba(214,69,69,.32)}
 #a2v .tkmic svg{width:48px;height:48px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}#a2v .tkmic.on{animation:a2ring 1.6s infinite}@keyframes a2ring{0%{box-shadow:0 0 0 0 rgba(214,69,69,.45)}100%{box-shadow:0 0 0 22px rgba(214,69,69,0)}}
 #a2v .tktm{font-size:13.5px;color:#8A8580;margin:14px 0 8px}#a2v .tklive{background:#fff;border:1px solid #E7DCC9;border-radius:12px;padding:12px 14px;text-align:left;font-size:16px;line-height:1.7;min-height:52px;color:#2A3542;margin-bottom:6px}#a2v .tkmsg{color:#b5372a;font-size:14px;margin:6px 0}
@@ -2773,7 +2775,7 @@ function shell(){
   if(!$('a2tst')){ var ts=document.createElement('div'); ts.id='a2tst'; document.body.appendChild(ts); }
   var sv=$('saved'); if(sv){ sv.innerHTML='&#10003; 쓰시는 대로 저장돼요. 창을 닫으셔도 이어서 쓰실 수 있어요.'; }
 }
-function view(h){ var c=$('card'); if(c){ c.style.display='none'; } $('a2top').innerHTML=''; $('a2qf').innerHTML=''; $('a2qf').style.display='none'; var v=$('a2v'); v.style.display='block'; v.innerHTML=h; window.scrollTo(0,0); }
+function view(h){ document.body.classList.remove('tk-on'); var c=$('card'); if(c){ c.style.display='none'; } $('a2top').innerHTML=''; $('a2qf').innerHTML=''; $('a2qf').style.display='none'; var v=$('a2v'); v.style.display='block'; v.innerHTML=h; window.scrollTo(0,0); }
 function nav(fn){ A2.hist.push(fn); fn(); }
 function back(){ if(A2.hist.length>1){ A2.hist.pop(); A2.hist[A2.hist.length-1](); return true; } return false; }
 function home(){ A2.hist=[]; nav(gate); }
@@ -2816,6 +2818,7 @@ function enterId(no){ var l=plain(no), r=null, i; for(i=0;i<l.length && !r;i++){
 /* ⓒ 물음 */
 function isHealth(it){ return /몸이 (편치|아프|아팠)/.test(it.q||''); }
 function ask(id){
+  document.body.classList.remove('tk-on');   /* ★v102 705 */
   var it=item(id); if(!it){ home(); return; }
   if(isHealth(it)){ var ok=''; try{ ok=localStorage.getItem(hcKey_())||''; }catch(e){} if(ok!=='1'){ A2.hcId=id; var hn=$('hcname'); if(hn){ hn.textContent='몸이 편치 않으셨던 때'; } var m=$('hcmask'); if(m){ m.style.display='flex'; } return; } healthSend_(); }
   A2.cur=id; if(!it.flag || it.door===HARD){ lput('l', id); }
@@ -2829,12 +2832,13 @@ function ask(id){
   try{ aidNote(''); }catch(e){}
   var pb=$('photobox'); if(pb){ pb.style.display=(it.door===PHOTO_DOOR)?'':'none'; if(it.door===PHOTO_DOOR){ try{ renderPhoto(); }catch(e){} } }
   var vb=$('voiceBtn'); if(vb){ vb.style.display=tkCan()?'none':''; }   /* ★v100 마이크 하나 — 녹음이 되면 음성 입력 감춤 */
+  var tg=$('a2tk'); if(!tg){ tg=document.createElement('button'); tg.type='button'; tg.id='a2tk'; tg.onclick=function(){ talk(); }; tg.innerHTML='<span class="tkm">'+TMIC+'</span>녹음하기'; var hb2=$('a2hint'); hb2.parentNode.insertBefore(tg, hb2); }   /* ★v102 705 질문 듣기 바로 밑 */
+  tg.style.display=(tkCan() && !signed())?'':'none';
   var f=$('a2qf'); f.style.display='block';
   if(signed()){
     f.innerHTML='<p class="t2" style="margin:12px 0 0">이름을 남기신 이야기입니다. 수정하시려면 쓴 글 보기에서 서명을 풀어 주십시오.</p><button class="lk" onclick="A2_.go(\'review\')">쓴 글 보기</button>';
   } else {
-    f.innerHTML=(tkCan()?'<button class="b tkgo" onclick="A2_.talk()"><span class="tkm">'+TMIC+'</span>녹음하기</button>':'')   /* ★v100 554 */
-      +'<button class="b" id="a2nx" onclick="A2_.next()"'+(answered(id)?'':' disabled')+'>다음</button>'
+    f.innerHTML='<button class="b" id="a2nx" onclick="A2_.next()"'+(answered(id)?'':' disabled')+'>다음</button>'
       +'<div class="ex"><button onclick="A2_.exit(\'na\')">해당 없음</button><button onclick="A2_.exit(\'nm\')">기억 안 남</button><button onclick="A2_.exit(\'later\')">나중에 하기</button><button onclick="A2_.other()">다른 물음 고르기</button></div>'
       +'<button class="lk sm" onclick="A2_.back()">‹ 이전 물음</button><button class="lk" onclick="A2_.go(\'review\')">쓴 글 보기</button>';
   }
@@ -2851,16 +2855,11 @@ function tkQi(id){ var m=String(id||'').match(/^(\d+)-(\d+)$/); return m ? (pars
 function talk(){
   var id=A2.cur; if(!id || signed()){ return; }
   var seen=''; try{ seen=localStorage.getItem(TN2)||''; }catch(e){}
-  if(seen){ talkView(id); return; }
-  view('<div class="tkv"><h1 class="t">녹음 전 안내</h1><div class="tknt"><ul>'
-    +'<li>말씀하신 것을 휴대폰 받아쓰기가 글로 바꿔 드려요.</li>'
-    +'<li>사투리, 작은 목소리, 주변 소리 때문에 틀리게 바뀔 수 있어요. <b>바뀐 글은 꼭 읽어 보시고 고쳐 주세요.</b></li>'
-    +'<li>글로 바꾸는 일은 휴대폰 회사(구글 · 애플)의 받아쓰기를 거칩니다.</li>'
-    +'<li>목소리는 90일 동안 다시 들으실 수 있고, 그 뒤에는 지워집니다.</li></ul></div>'
-    +'<button class="b pri" onclick="A2_.talkOk()">녹음 시작</button><button class="b sec" onclick="A2_.go(\'ask\',\''+id+'\')">직접 입력</button></div>');
+  talkView(id, !seen); try{ localStorage.setItem(TN2,'1'); }catch(e){}
+  talkGo();   /* ★v102 705 누르면 곧바로 녹음 · 안내 화면 따로 없음 */
 }
-function talkOk(){ try{ localStorage.setItem(TN2,'1'); }catch(e){} talkView(A2.cur); }
-function talkView(id){
+function talkOk(){ try{ localStorage.setItem(TN2,'1'); }catch(e){} talkView(A2.cur); talkGo(); }
+function talkView(id, first){
   var it=item(id); if(!it){ return; }
   view('<div class="tkv"><div class="tkdoor">'+(ICON[it.door]||'')+' '+esc(dName(it.door))+'</div>'
     +'<div class="tkq">'+esc(it.q)+'</div>'
@@ -2868,17 +2867,20 @@ function talkView(id){
     +'<div class="tktm" id="tkTm2">말씀이 잠깐 끊겨도 저절로 멈추지 않아요</div>'
     +'<div class="tklive" id="tkLive2" style="display:none"></div><div class="tkmsg" id="tkMsg2"></div>'
     +'<button class="b pri" id="tkDone2" style="display:none" onclick="A2_.talkStop()">녹음 완료</button>'
-    +'<button class="lk" onclick="A2_.talkBack()">직접 입력</button></div>');
+    +'<button class="lk" onclick="A2_.talkBack()">직접 입력</button>'
+    +(first?'<ul class="tknt2"><li>말씀하신 것을 휴대폰 받아쓰기가 글로 바꿔 드려요.</li><li>사투리, 작은 목소리, 주변 소리 때문에 틀리게 바뀔 수 있어요. <b>바뀐 글은 꼭 읽어 보시고 고쳐 주세요.</b></li><li>글로 바꾸는 일은 휴대폰 회사(구글 · 애플)의 받아쓰기를 거칩니다.</li><li>목소리는 90일 동안 다시 들으실 수 있고, 그 뒤에는 지워집니다.</li></ul>':'')
+    +'</div>'); document.body.classList.add('tk-on');   /* ★v102 705 */
 }
 function talkMic(){ if(TA.st==='rec'){ talkStop(); } else { talkGo(); } }
 function talkGo(){
   var R=TA={st:'rec', id:A2.cur, text:'', part:'', chunks:[], t0:Date.now()};
   var m=$('tkMic2'); if(m){ m.classList.add('on'); } var mt=$('tkMicT2'); if(mt){ mt.textContent='녹음 중'; }
   var d=$('tkDone2'); if(d){ d.style.display='block'; } var lv=$('tkLive2'); if(lv){ lv.style.display='block'; lv.textContent='…'; }
+  try{ if(navigator.permissions && navigator.permissions.query){ navigator.permissions.query({name:'microphone'}).then(function(ps){ if(ps.state!=='granted'){ var g=$('tkMsg2'); if(g && !g.textContent){ g.textContent='마이크를 쓸 수 있게 허락해 주세요.'; g.setAttribute('data-ask','1'); } } }).catch(function(){}); } }catch(e){}   /* ★v102 705 */
   R.timer=setInterval(function(){ var t=$('tkTm2'), s=Math.floor((Date.now()-R.t0)/1000); if(t){ t.textContent='● '+('0'+Math.floor(s/60)).slice(-2)+':'+('0'+(s%60)).slice(-2); } },500);
   var C=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(C){ try{ var sr=new C(); R.sr=sr; sr.lang='ko-KR'; sr.continuous=true; sr.interimResults=true; sr.keep=true;
-    sr.onresult=function(ev){ var p=''; for(var i=ev.resultIndex;i<ev.results.length;i++){ if(ev.results[i].isFinal){ R.text+=' '+ev.results[i][0].transcript; } else { p+=ev.results[i][0].transcript; } } R.part=p; var l=$('tkLive2'); if(l){ l.textContent=(R.text+' '+p).replace(/^\s+/,'')||'…'; } };
+    sr.onresult=function(ev){ var p=''; for(var i=ev.resultIndex;i<ev.results.length;i++){ if(ev.results[i].isFinal){ R.text+=' '+ev.results[i][0].transcript; } else { p+=ev.results[i][0].transcript; } } R.part=p; var l=$('tkLive2'); if(l){ l.textContent=(R.text+' '+p).replace(/^\s+/,'')||'…'; l.scrollTop=l.scrollHeight; } var g0=$('tkMsg2'); if(g0 && g0.getAttribute('data-ask')){ g0.textContent=''; g0.removeAttribute('data-ask'); } };
     sr.onerror=function(ev){ var e=(ev&&ev.error)||''; if(e==='not-allowed'||e==='service-not-allowed'){ sr.keep=false; var g=$('tkMsg2'); if(g){ g.textContent='마이크를 쓸 수 있게 허락해 주세요. 어려우시면 아래 「직접 입력」으로 남기실 수 있어요.'; } } };
     sr.onend=function(){ if(sr.keep && R.st==='rec'){ try{ sr.start(); }catch(e){} } };
     sr.start(); }catch(e){ R.sr=null; } }
@@ -2892,7 +2894,7 @@ function talkGo(){
     }).catch(function(){});
   }
 }
-function talkHalt(R){ R.st='idle'; clearInterval(R.timer); try{ if(R.sr){ R.sr.keep=false; R.sr.stop(); } }catch(e){} try{ if(R.stream){ R.stream.getTracks().forEach(function(t){ t.stop(); }); } }catch(e){} }
+function talkHalt(R){ document.body.classList.remove('tk-on'); R.st='idle'; clearInterval(R.timer); try{ if(R.sr){ R.sr.keep=false; R.sr.stop(); } }catch(e){} try{ if(R.stream){ R.stream.getTracks().forEach(function(t){ t.stop(); }); } }catch(e){} }
 function talkStop(){
   var R=TA; if(R.st!=='rec'){ return; }
   var secs=Math.max(1,Math.round((Date.now()-R.t0)/1000)), id=R.id, it=item(id);
