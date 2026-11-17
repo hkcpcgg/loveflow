@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v103 · 261117 · [대표 실폰 261117 09:28 「이전 · 다음이 옹색하게 달라붙어」] 녹음 화면 아래 「‹ 이전 · 다음 ›」 모양(pkCss_)이 「이어서 하기」로 바로 들어온 화면에는 안 붙어 맨 단추로 보이던 것 → on_ 이 늘 붙임. [무손] 그 밖 v102 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v104 · 261117 · [대표 OK 261117 10:19] ①「QR로 남기기」 — 남긴 뒤 그 자리에 카드: 「QR이 생성되었습니다」 · 「결과물의 이 이야기 끝에 이 QR이 들어갑니다. 휴대폰 카메라로 비추면 이 목소리가 나옵니다.」 · QR 그림(/v/?k=열쇠 · qrcodejs 1.0.0 · 결과물과 같은 것) · QR 저장(그림 파일) · 공유하기(듣는 주소) · 결과물에서 보기 › — 이미 남긴 이야기는 「🔖 QR 목소리」를 누르면 같은 카드(voiceMine 열쇠) ②말로 쓰기 — 받아쓴 글이 비어도 목소리가 담겼으면 「다음 물음」을 엶(목소리는 서버로 · 글은 빈 채) · 「직접 입력」 단추 + 「어려우시면 아래 「직접 입력」으로 남기실 수 있어요.」 · 받아쓰기 실패 까닭 작은 회색 글(시험용 · 원인을 찾으면 걷음). [무손] 서버 · 그 밖 v103 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v103 · 261117 · [대표 실폰 261117 09:28 「이전 · 다음이 옹색하게 달라붙어」] 녹음 화면 아래 「‹ 이전 · 다음 ›」 모양(pkCss_)이 「이어서 하기」로 바로 들어온 화면에는 안 붙어 맨 단추로 보이던 것 → on_ 이 늘 붙임. [무손] 그 밖 v102 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v102 · 261117 · [705 · 대표 실폰 지적 261117 09:06 · OK 09:11] 녹음 — ①「새 이야기」 「녹음하기」를 질문 듣기 바로 밑 · 답 칸 위로(#a2tk) ②누르면 큰 녹음 화면이 열리며 곧바로 녹음 시작(「녹음 전 안내」 따로 화면 없앰 → 처음 한 번만 녹음 화면 아래 같은 네 줄 작게) · 마이크 허락 전에는 「마이크를 쓸 수 있게 허락해 주세요.」 ③녹음 화면에서 아래 띠 · 공유 동그라미 숨김(body.tk-on) · 「녹음 완료」 빨간 큰 단추를 화면 맨 아래에 고정(A-01 녹음 화면 #tkDone 함께) ④받아쓴 글 상자 네 줄 높이 · 늘 마지막 말 · 마이크 150 → 112px. [무손] 서버 · 목소리 저장 talkSave · 90일 · 그 밖 v101 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v101 · 261116 · [551 · 79차 · 대표 OK 261116 20:29] 「새 이야기」 첫 화면 제목 아래 「📌 오늘의 주제」 칸 — 자서전 서버 v54 getQuestions 답에 today(기관 진행자가 관리 화면에서 오늘 정한 입구)가 있을 때만 · 누르면 그 입구 첫 물음으로 · 큰 문 넷 · 이어 쓰기 · 🕊 · 쓴 글 보기 그대로(손님은 언제든 다른 곳으로). [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v100 · 261115 · [554 · 79차 · 대표 261115 21:38 「일반적으로 쓰는 단추 말로」] 단추 말 — 질문 듣기 · 답을 입력하세요 · 음성 입력 · 도움말 · 문서 스캔 · 녹음하기 · 녹음 시작 · 녹음 중 · 녹음 완료 · 직접 입력 · 녹음 전 안내(A-01 녹음 화면 함께) · 새 이야기는 녹음이 되면 음성 입력 감춤(마이크 하나) · 「새 이야기」 물음 화면에 「말로 쓰기」 단추 → 큰 녹음 화면(받아쓰기 + 목소리 녹음) → 다 말했어요 → 물음 화면에 글로 들어감 · 목소리는 서버 talkSave(v50) 자리 100 · 물음 번호 입구×100+물음. 받아쓰기 막힌 화면엔 단추 없음. [무손] 그 밖 전부. -->
@@ -2324,7 +2325,7 @@ function rec_(){
 window.tkMic_=function(){ if(TK.R.st==='rec'){ tkStop_(); } else { hush_(); recGo_(); } };
 function mime_(){ var c=['audio/mp4','audio/webm;codecs=opus','audio/webm','audio/ogg;codecs=opus']; for(var i=0;i<c.length;i++){ try{ if(MediaRecorder.isTypeSupported(c[i])){ return c[i]; } }catch(e){} } return ''; }
 function recGo_(){
-  var R=TK.R; R.text=''; R.part=''; R.chunks=[]; R.t0=Date.now(); R.st='rec'; R.key=ci+'_'+qi;
+  var R=TK.R; R.text=''; R.part=''; R.chunks=[]; R.t0=Date.now(); R.st='rec'; R.key=ci+'_'+qi; TK.srErr='';
   var m=$('tkMic'); if(m){ m.classList.add('on'); } var mt=$('tkMicT'); if(mt){ mt.textContent='녹음 중'; }
   var d=$('tkDone'); if(d){ d.style.display='block'; }
   var tm=$('tkTm'); if(tm){ tm.className='tk-tm'; tm.textContent='● 00:00'; }
@@ -2350,6 +2351,7 @@ function srOn_(){
     sr.onerror=function(ev){
       var e=(ev&&ev.error)||'';
       if(e==='audio-capture' && R.rec){ recDrop_(); return; }   /* 마이크가 부딪힘 → 녹음을 내려놓고 받아쓰기를 다시 */
+      TK.srErr=e;   /* ★v104 받아쓰기 실패 까닭(시험용) */
       if(e==='not-allowed'||e==='service-not-allowed'){ sr.keep=false; var m=$('tkMsg'); if(m){ m.textContent='마이크를 쓸 수 있게 허락해 주세요. 어려우시면 아래 「직접 입력」으로 남기실 수 있어요.'; } }
     };
     sr.onend=function(){ if(sr.keep && R.st==='rec'){ try{ sr.start(); }catch(e){} } };   /* 말씀이 끊겨도 다시 들음 */
@@ -2389,11 +2391,13 @@ function res_(t){
   TK.text=t;
   var key=ci+'_'+qi, last=(function(){ var a=secQs_(); return a.indexOf(qi)===a.length-1; })();
   on_(dots_()+'<div class="tk-k">'+(t?'말씀하신 것이 이렇게 남았어요':'말씀이 글로 잡히지 않았어요')+'</div>'
-   +(t?'<div class="tk-txt">'+esc_(t)+'</div>':'<div class="tk-txt wait">조금 더 가까이에서, 천천히<br>한 번 더 말씀해 주세요.</div>')
+   +(t?'<div class="tk-txt">'+esc_(t)+'</div>':'<div class="tk-txt wait">조금 더 가까이에서, 천천히<br>한 번 더 말씀해 주세요.</div>'
+       +'<div class="tk-k" style="font-size:13.5px">어려우시면 아래 「직접 입력」으로 남기실 수 있어요.'+(TK.srErr?'<br><span style="font-size:11px;color:#a59c8e">받아쓰기: '+esc_(TK.srErr)+'</span>':'')+'</div>')
    +(TK.url[key]?'<button type="button" class="tk-vo mine" onclick="tkPlay_()"><span class="pl">'+PLAY+'</span><span>내 목소리 다시 듣기 · '+mmss_(TK.R.secs)+'</span></button><audio id="tkAu" style="display:none"></audio>':'')
    +'<div class="tk-sp"></div>'
-   +'<button type="button" class="tk-big" onclick="tkNext_()"'+(t?'':' disabled')+'>'+(last?'이 이야기 남기기':'다음 물음')+'</button>'
-   +'<button type="button" class="tk-gh" onclick="tkAgain_()">다시 말하기</button>','res');
+   +'<button type="button" class="tk-big" onclick="tkNext_()"'+((t||TK.blob[key])?'':' disabled')+'>'+(last?'이 이야기 남기기':'다음 물음')+'</button>'   /* ★v104 목소리만 담겨도 엶 */
+   +'<button type="button" class="tk-gh" onclick="tkAgain_()">다시 말하기</button>'
+   +(t?'':'<button type="button" class="tk-gh" onclick="tkHere_()">직접 입력</button>'),'res');
 }
 window.tkPlay_=function(){ var au=$('tkAu'), u=TK.url[ci+'_'+qi]; if(!au||!u){ return; } if(!au.paused){ au.pause(); return; } au.src=u; au.play().catch(function(){}); };
 window.tkAgain_=function(){ var au=$('tkAu'); if(au){ au.pause(); } rec_(); };
@@ -2412,8 +2416,8 @@ function moved_(pc, ps){
 }
 window.tkNext_=function(){
   var au=$('tkAu'); if(au){ au.pause(); }
-  if(!TK.text){ return; }
-  keep_(TK.text);
+  if(!TK.text && !TK.blob[ci+'_'+qi]){ return; }
+  if(TK.text){ keep_(TK.text); }   /* ★v104 글이 비면 목소리만 */
   try{ up_(ci, qi); }catch(e){}   /* ★v91 500 그 물음 녹음 → 서버 */
   var pc=ci, ps=cur().sec, pname=secName_();
   TK.lock=true; try{ nextQ(); }finally{ TK.lock=false; }
@@ -2565,7 +2569,7 @@ function rvCss91_(){
    +'.tkv .p{display:inline-flex;align-items:center;gap:6px;background:#E3F4F3;color:#0F8B8D;border:none;border-radius:16px;padding:6px 12px;font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer}'
    +'.tkv .p.on{background:#0F8B8D;color:#fff}.tkv .d{font-size:11.5px;color:#8A8580}'
    +'.tkv .k{background:#fff;border:1.2px solid #7B5EA7;color:#7B5EA7;border-radius:16px;padding:5px 11px;font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}'
-   +'.tkv .k.qd{border-color:#D4AF37;color:#9a7b16;cursor:default}'
+   +'.tkv .k.qd{border-color:#D4AF37;color:#9a7b16}'+'.tkqc{width:100%;margin-top:8px;background:#FFFBF2;border:1.5px solid #C9A96E;border-radius:14px;padding:14px;text-align:center}'+'.tkqc h4{margin:0 0 4px;color:#1E4A76;font-size:16px}.tkqc p{margin:0 0 10px;font-size:13px;color:#6b5f4b;line-height:1.55}'+'.tkqc .qi{width:150px;height:150px;margin:0 auto;background:#fff;padding:6px;border-radius:8px}.tkqc .qi img,.tkqc .qi canvas{width:138px!important;height:138px!important}'+'.tkqc .rw{display:flex;gap:8px;margin-top:12px}.tkqc .rw button{flex:1;border:1.5px solid #1E4A76;border-radius:12px;padding:12px 0;font-size:15px;font-weight:700;background:#fff;color:#1E4A76;font-family:inherit;cursor:pointer}'+'.tkqc .rw .b1{background:#1E4A76;color:#fff}.tkqc .lk{display:inline-block;margin-top:10px;font-size:13.5px;color:#5f6f82;text-decoration:underline}.tkqc .m{font-size:12.5px;color:#1f5a40;margin-top:6px;min-height:1em}'
    +'.tkv-ok{width:100%;background:#F4F0FA;border-radius:10px;padding:8px 10px;font-size:12.5px;color:#4b3d6e;line-height:1.5}'
    +'.tkv-ok button{margin-top:6px;background:#7B5EA7;color:#fff;border:none;border-radius:10px;padding:7px 14px;font-family:inherit;font-weight:700;font-size:13px;cursor:pointer}';
   document.head.appendChild(s);
@@ -2581,7 +2585,7 @@ function rvVoice_(){
     var d=document.createElement('div'); d.className='tkv';
     var secs=sv?sv.secs:((TK.blob[ci+'_'+i]||{}).secs||0);
     d.innerHTML='<button type="button" class="p" onclick="tkRvPlay_(this,'+i+')">▶ 내 목소리 · '+mmss_(secs)+'</button>'
-      +(sv?('<button type="button" class="k'+(sv.qr?' qd':'')+'" onclick="tkRvKeep_(this,'+i+')">'+(sv.qr?'🔖 QR 목소리':'🔖 QR로 남기기')+'</button>'
+      +(sv?('<button type="button" class="k'+(sv.qr?' qd':'')+'" onclick="'+(sv.qr?'tkRvCard_(this)':'tkRvKeep_(this,'+i+')')+'">'+(sv.qr?'🔖 QR 목소리':'🔖 QR로 남기기')+'</button>'
           +'<span class="d">'+(sv.qr?'QR 목소리는 지우실 때까지 남아요':(dueTxt_(sv.due)+'까지 들을 수 있어요'))+'</span>'):'');
     rows[i].appendChild(d);
   }
@@ -2609,12 +2613,48 @@ window.tkRvKeep_=function(btn,i){
   ok.querySelector('button').onclick=function(){
     this.disabled=true; this.textContent='남기는 중이에요…';
     jp_('action=talkKeep&agree=1&no='+encodeURIComponent(sv.no), function(d){
-      if(d && d.status==='ok'){ (TK.srv.list||[]).forEach(function(x){ x.qr=(x.no===sv.no); }); rvVoice_(); return; }
+      if(d && d.status==='ok'){ (TK.srv.list||[]).forEach(function(x){ x.qr=(x.no===sv.no); }); rvVoice_(); try{ var nb=document.querySelectorAll('.rv-qa')[i]; var kb=nb&&nb.querySelector('.tkv .k'); if(kb){ qrCard_(kb.parentNode, d.key||''); } }catch(e){} return; }   /* ★v104 */
       ok.textContent=(d&&d.msg)||'지금은 남기지 못했어요. 잠시 뒤 다시 해 주세요.';
     }, 20000);
   };
   box.appendChild(ok);
 };
+/* ★v104 QR 카드 — 남긴 뒤 · 「🔖 QR 목소리」를 누르면 */
+function qrLib_(cb){ if(window.QRCode){ cb(); return; } var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js'; s.onload=function(){ cb(); }; s.onerror=function(){ cb(); }; document.head.appendChild(s); }
+function qrCard_(box, key){
+  rvCss91_();   /* 모양은 카드가 스스로 붙임(이전 · 다음 고장과 같은 꼴 막기) */
+  var old=box.querySelector('.tkqc'); if(old){ old.remove(); }
+  var c=document.createElement('div'); c.className='tkqc';
+  c.innerHTML='<h4>QR이 생성되었습니다</h4><p>결과물의 이 이야기 끝에 이 QR이 들어갑니다.<br>휴대폰 카메라로 비추면 이 목소리가 나옵니다.</p><div class="qi"></div>'
+    +'<div class="rw"><button type="button" class="b1">QR 저장</button><button type="button" class="b2">공유하기</button></div><div class="m"></div>'
+    +'<a class="lk" href="/memoir/book.html?id='+encodeURIComponent(pp_())+'&trip='+TRIPNO+'">결과물에서 보기 ›</a>';
+  box.appendChild(c);
+  var m=c.querySelector('.m'), qi=c.querySelector('.qi');
+  var draw=function(k){
+    if(!k){ m.textContent='지금은 QR을 불러오지 못했어요. 잠시 뒤 다시 해 주세요.'; return; }
+    var url='https://www.loveflow.ai.kr/v/?k='+encodeURIComponent(k);
+    qrLib_(function(){
+      if(!window.QRCode){ m.textContent='지금은 QR을 불러오지 못했어요. 잠시 뒤 다시 해 주세요.'; return; }
+      try{ new QRCode(qi, { text:url, width:300, height:300, correctLevel:QRCode.CorrectLevel.M }); }catch(e){}
+    });
+    c.querySelector('.b1').onclick=function(){
+      var cv=qi.querySelector('canvas'), im=qi.querySelector('img'), src='';
+      try{ src=cv?cv.toDataURL('image/png'):(im?im.src:''); }catch(e){}
+      if(!src){ return; }
+      var a=document.createElement('a'); a.href=src; a.download='사랑흐름_QR목소리.png'; document.body.appendChild(a); a.click(); a.remove();
+      m.textContent='QR 그림을 저장했어요. 휴대폰 사진첩이나 다운로드에서 보실 수 있어요.';
+    };
+    c.querySelector('.b2').onclick=function(){
+      var t='그때, '+(window.LFM&&LFM.YOUTH?'나의':'선생님의')+' 목소리';
+      if(navigator.share){ navigator.share({ title:t, url:url }).catch(function(){}); return; }
+      try{ navigator.clipboard.writeText(url); m.textContent='주소를 복사했어요'; }catch(e){ m.textContent=url; }
+    };
+  };
+  if(key){ draw(key); return; }
+  m.textContent='불러오는 중이에요…';
+  jp_('action=voiceMine', function(d){ m.textContent=''; draw(d && d.status==='ok' && d.has ? d.key : ''); }, 15000);
+}
+window.tkRvCard_=function(btn){ var box=btn.parentNode, o=box.querySelector('.tkqc'); if(o){ o.remove(); return; } qrCard_(box, ''); };
 var _orv91=openReview_;
 openReview_=function(){ var r=_orv91.apply(this, arguments); try{ rvVoice_(); if(pp_()){ jp_('action=talkList', function(d){ if(srvOk_(d)){ TK.srv=d; rvVoice_(); } }); } }catch(e){} return r; };
 })();
