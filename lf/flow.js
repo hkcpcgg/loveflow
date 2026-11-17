@@ -1,12 +1,13 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/flow.js · v6 · 261117 · [우리 이야기 흔적 걷기 · 대표 OK 261117 13:24 「우리 이야기는 잘라냈다」] 흐름 띠 「… 우리 → 마을 → 사랑흐름」 → 「나 → 그 사람 → 더 깊은 나 → 추억록 → 사랑흐름」(마을 = 우리 이야기 · 걷음 · 다섯 마디 자리 고르게) · 열 가지 덩굴의 「공동체 변천사」 → 「선물하기」(/pay.html?mode=gift).
+   현재 버전 ▶ lf/flow.js · v7 · 261117 · [대표 261117 19:57 OK 「사랑흐름 · 우리 이야기는 상호 연계 · 협업 관계」] v6 에서 바꿨던 것 되돌림 — 흐름 띠 「나 → 그 사람 → 더 깊은 나 → 우리 → 마을 → 사랑흐름」 · 덩굴 열째 「공동체 변천사」(→ /proposal.html). 내용은 v5 그대로. [무손] 그 밖 전부.
+   (이전) lf/flow.js · v6 · 261117 · [우리 이야기 흔적 걷기] 마을 → 추억록 · 공동체 변천사 → 선물하기 — v7 에서 되돌림.
    (이전) lf/flow.js · v5 · 261112 · [포털 검색 ⑤ · 706 · 710 · 대표 OK 20:54] 열 가지 덩굴의 유료 상품 넷 링크 → 상품별 새 주소(/item/○○/)
    (이전) lf/flow.js · v4 · 261110 · [558 같은 문제 · 대표 OK 19:19] 열 가지 덩굴의 유료 상품 넷(마음 여행지도 · 마음여행 · 한 편의 기록 · 두 분의 여정)이 설명 없이 바로 결제(/pay.html)로 가던 것 → 상품 설명(/item/?k=…)으로. [무손] 그 밖 v3 전부.
    (이전) lf/flow.js · v3 · 261012 · [대표 261012 16:20 · ok 16:27 「여행 고르기 안정적으로」] 그림 칸에 data-still="1" 이면 움직이지 않고 다 핀 모습으로 멈춤(움직임 줄이기와 같음). [무손] 그 밖 v2 전부.
    (이전) lf/flow.js · v2 · 261006 · [대표 ok 261006 17:15] ★LFFlow.wave(el) · LFFlow.after(단추) — 작은 기다림 물결(관심 · 연결 · 온기 · 표현 · 회복 · 사랑흐름). class="lf-wave" 칸은 저절로 붙음. 결제 · 발권 · 접수 · 그림 · 결과 불러오기 기다림에.
    (이전) v1 · 261006 · [홍보 자료실 → 화면 · 대표 위임 261006 17:08]
    사랑흐름 흐름 그림을 화면에 심는 부품 둘.
-     LFFlow.strip(el)  — 홈 맨 위 띠: 나 → 그 사람 → 더 깊은 나 → 추억록 → 사랑흐름 (물결이 지나가며 마디가 피어남)
+     LFFlow.strip(el)  — 홈 맨 위 띠: 나 → 그 사람 → 더 깊은 나 → 우리 → 마을 → 사랑흐름 (물결이 지나가며 마디가 피어남)
      LFFlow.vine(el)   — 둘러보기 · 예매하기: 열 가지가 한 덩굴에 · 어디서 시작해도 불이 옆으로 번짐 · 알을 누르면 그 곳으로
    원본 그림: /promo/flow.html (「흐르는 길」 · 「어디서 시작해도」)
    보일 때만 움직임 · 움직임 줄이기 설정이면 다 핀 모습으로 멈춤 · 바깥 글꼴 · 라이브러리 없음.
@@ -51,16 +52,16 @@
   /* ── 홈 맨 위 띠 ── */
   function strip(host){
     if (!host) { return; }
-    var svg = el('svg', { viewBox:'0 0 600 150', role:'img', 'aria-label':'나, 그 사람, 더 깊은 나, 추억록이 물결을 따라 이어져 사랑흐름이 됩니다', style:'width:100%;height:100%;display:block;overflow:visible' }, null);
+    var svg = el('svg', { viewBox:'0 0 600 150', role:'img', 'aria-label':'나, 그 사람, 더 깊은 나, 우리, 마을이 물결을 따라 이어져 사랑흐름이 됩니다', style:'width:100%;height:100%;display:block;overflow:visible' }, null);
     host.appendChild(svg);
     var bd = band(svg), base = waveD(20, 580, 66, 22, 280, 0.5);
     el('path', { d:base, fill:'none', stroke:C.line, 'stroke-width':6, 'stroke-linecap':'round' }, svg);
     var flow = el('path', { d:base, fill:'none', stroke:bd, 'stroke-width':6, 'stroke-linecap':'round' }, svg);
     var L = flow.getTotalLength ? flow.getTotalLength() : 600; flow.setAttribute('stroke-dasharray', L);
-    var S = ['나', '그 사람', '더 깊은 나', '추억록', '사랑흐름'], xs = [52, 176, 300, 424, 547];
-    var col = [C.green, C.leaf, C.mustard, C.orange, '#B8471A'], N = [];
+    var S = ['나', '그 사람', '더 깊은 나', '우리', '마을', '사랑흐름'], xs = [52, 151, 250, 349, 448, 547];
+    var col = [C.green, C.leaf, C.mustard, '#D9952C', C.orange, '#B8471A'], N = [];
     S.forEach(function(nm, i){
-      var x = xs[i], y = 66 + 22*Math.sin((x/280)*Math.PI*2 + 0.5), last = i === 4, r = last ? 29 : 23;
+      var x = xs[i], y = 66 + 22*Math.sin((x/280)*Math.PI*2 + 0.5), last = i === 5, r = last ? 29 : 23;
       var c = el('circle', { cx:x, cy:y, r:r, fill:C.bg, stroke:C.empty, 'stroke-width':1.6 }, svg);
       var lab = el('text', { x:x, y:y + r + 24, 'text-anchor':'middle', 'font-size':last ? 21 : 19, 'font-weight':last ? 800 : 700, fill:last ? C.orange : C.sub, 'font-family':'"Noto Sans KR",sans-serif' }, svg);
       lab.textContent = nm;
@@ -82,7 +83,7 @@
   /* ── 열 가지 한 덩굴 ── */
   var ITEMS = [
     ['마음', '한마디', '/hanmadi/'], ['마음', '도화지', '/draw/'], ['관계', '나침반', '/compass.html'], ['마음', '여행지도', '/item/map/'], ['마음여행', '', '/item/set/'],
-    ['한 편의', '기록', '/item/memoir/'], ['두 분의', '여정', '/item/life/'], ['미리 써 보는', '나의 자서전', '/youth/'], ['추억록', '', '/memoir/'], ['선물하기', '', '/pay.html?mode=gift']
+    ['한 편의', '기록', '/item/memoir/'], ['두 분의', '여정', '/item/life/'], ['미리 써 보는', '나의 자서전', '/youth/'], ['추억록', '', '/memoir/'], ['공동체', '변천사', '/proposal.html']
   ];
   var HUES = ['#2E8B57', '#3F975A', '#5FA14A', '#8FA840', '#B5AE3B', '#C9B43A', '#D8A033', '#E08A28', '#E8771E', '#7A45B5'];
   function vine(host, o){
