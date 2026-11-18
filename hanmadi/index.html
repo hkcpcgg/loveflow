@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ hanmadi/index.html · v10 · 261117 · [692 · 693 · 대표 261117 13:03 「다음 작업 진행」 · 말 사전] 알림 둘 「성함」 → 「성명」. [무손] 그 밖 v9 전부. -->
+<!-- ★ 현재 버전 ▶ hanmadi/index.html · v11 · 261118 · [743 다] 마음 한마디 칩 「톡」 소리를 또렷하게 — 공용 lf/fx.js v1 의 LFFx.tick(세모파 + 한 옥타브 위 겹침 · 잠든 소리 깨움 · 🔇 이면 내지 않음). [무손] 그 밖 전부. -->
+<!-- (이전) hanmadi/index.html · v10 · 261117 · [692 · 693 · 대표 261117 13:03 「다음 작업 진행」 · 말 사전] 알림 둘 「성함」 → 「성명」. [무손] 그 밖 v9 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ hanmadi/index.html · v9 · 261117 · [699~703 · 대표 OK 261117 07:36] 「그 사람의 마음에는,」 → 「그 사람의 마음에,」(첫 화면 · 검색 설명) · 따로 단 공유 단추는 frame v30 공유하기 아이콘 하나로. [무손] 그 밖 v8 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ hanmadi/index.html · v8 · 261116 · [카톡 첫인상 그림 교체 · 대표 OK 261116 17:39 「B로 가자」] og-image.png 새 그림(1200×630 · 나를 가운데 둔 관계망 · 「서로의 언어를 알면, 사랑은 더욱 깊어집니다」 · 「MBTI와 사랑흐름 LFRI™로 두 사람 사이를 이어갑니다」) — 그림 주소에 ?v=261116 붙임(카카오 · 네이버가 새 그림을 받게). [무손] 그 밖 v7 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ hanmadi/index.html · v7 · 261116 · [688 · 대표 OK 261116 12:11] 메인 새 버전에서 사람을 골라 들어오면(?to=어머니 등) 그 사람이 고른 채로 「지금 심정」 단계에서 바로 시작. [무손] 그 밖 v6 전부. -->
@@ -930,20 +931,10 @@ function pickEmo2(el, e){
   emoTick();
 }
 
-/* 톡 — 짧고 가벼운 소리 (피아노 도) */
-var _emoAC = null;
+/* 톡 — ★[v11 · 743 다] 또렷하게: 공용 lf/fx.js 「톡」(두 겹 소리 · 잠든 소리 깨움) · 🔇 이면 내지 않음 */
 function emoTick(){
-  try{
-    if (!_emoAC) { _emoAC = new (window.AudioContext || window.webkitAudioContext)(); }
-    var c = _emoAC, t = c.currentTime;
-    var o = c.createOscillator(), g = c.createGain();
-    o.type = 'sine'; o.frequency.value = 880;
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.18, t + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.18);
-    o.connect(g); g.connect(c.destination);
-    o.start(t); o.stop(t + 0.2);
-  }catch(e){}
+  if (typeof soundOn !== 'undefined' && !soundOn) { return; }
+  try{ if (window.LFFx) { LFFx.tick(); } }catch(e){}
 }
 function fromName(){ var f=document.getElementById('fromIn');
   var v=((f&&f.value)||'').trim();
@@ -1596,4 +1587,5 @@ if (document.readyState === 'loading') {
 .lfx-slot #soundBtn.on{background:#C9A96E!important}
 </style>
 <script src="/lf/frame.js?v=17"></script>
+<script src="/lf/fx.js?v=1"></script>
 </body></html>
