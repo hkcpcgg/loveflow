@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
-<!-- ★ 현재 버전 ▶ letter/index.html · v261110-2 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- ★ 현재 버전 ▶ letter/index.html · v261118-1 · 261118 · [691] 손님 화면 말 — 「엮다」 · 「끝」 걷음: 「기억을 꺼내는 여행이 끝났어요 → 꺼내 주신 기억, 잘 받았어요」 · 「엮는 편집자 → 차례대로 정리해 드릴게요」 · 「편지로 엮어볼게요 → 편지로 정리하고 있어요」 · 단추 「편지 엮기 → 편지 만들기」 · 「이렇게 엮어 보았어요 → 이렇게 편지로 담아 보았어요」 · 저장 중 「편지로 엮고 있어요 → 편지를 저장하고 있어요」 · 「손질하기 · 손질 끝 → 수정하기 · 수정 완료」. [무손] 서버 · 흐름 · 배치 · 그 밖 v261110-2 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ letter/index.html · v261110-2 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) letter/index.html · v261110-1 · 261110 · [대표 지적 261110 09:25 · 09:36 「저작권은 늘 주장 · 발견하면 즉각 전부」] 맨 아래 저작권 줄에 무단 이용 경고 국문 · 영문을 공용 푸터(lf-foot v5)와 같은 말로 맞춤. [무손] 그 밖 v261105-1 전부. -->
 <!-- (이전) letter/index.html · v261105-1 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「천천히, 첫 문장을 열게요」→「편지 쓰기 시작」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
 <!-- (이전) letter/index.html · v261027-1 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] 결제가 취소된 여권이면 편지 서버 v39 가 reason CANCELED 로 답함 → 「편지가 없는 여행」 대신 결제취소 안내 판(/lf/canceled.js · 닫기 없음). [무손] 그 밖 전부. -->
@@ -607,9 +608,9 @@ function paint(){
   if(s.t==="rite"){
     var who = D.nick || D.target || "그분";
     h+='<div class="rite"><div class="aura"></div>';
-    h+='<div class="spell">기억을 꺼내는 여행이 끝났어요.<br>이제, 그 기억에 말을 붙일 시간이에요.</div>';
+    h+='<div class="spell">꺼내 주신 기억, 잘 받았어요.<br>이제 그 기억을 편지에 담아 볼까요?</div>';
     h+='<div class="halo">✉️</div>';
-    h+='<div class="q">당신은 오늘의 작가예요.<br>저는, 당신의 마음을 아름다운<br>순서로 엮는 편집자가 될게요.</div>';
+    h+='<div class="q">당신은 오늘의 작가예요.<br>저는 당신의 마음이 잘 전해지도록<br>차례대로 정리해 드릴게요.</div>';
     h+='<div class="to">이 편지는 <b>'+esc(who)+'</b>께 닿을 거예요.</div>';
     h+='<div class="door"><button onclick="enterRite()">편지 쓰기 시작</button></div></div>';
     breathe();
@@ -621,7 +622,7 @@ function paint(){
     h+='<div class="echo" id="echoLine">'+s.echo+'</div>';
     if(s.philo){ h+='<div class="philo">'+s.philo+'</div>'; }
   } else if(s.t==="weave"){
-    h+='<div class="waiting"><div class="halo">✍️</div><p>이제, 당신이 들려준 마음을<br>한 통의 편지로 엮어볼게요.<br>잠시만요…</p></div>';
+    h+='<div class="waiting"><div class="halo">✍️</div><p>이제, 당신이 들려준 마음을<br>한 통의 편지로 정리하고 있어요.<br>잠시만요…</p></div>';
     weaveSound();
     setTimeout(function(){ toApprove(); }, 2600);
   }
@@ -638,7 +639,7 @@ function paint(){
   if (s.t==="rite") { offerResume(); }
   // 내비
   nav.classList.toggle("hide", s.t==="rite" || s.t==="weave");
-  document.getElementById("nextbtn").innerHTML = (i>=steps.length-2)?"편지 엮기 &#8250;":"다음 &#8250;";
+  document.getElementById("nextbtn").innerHTML = (i>=steps.length-2)?"편지 만들기 &#8250;":"다음 &#8250;";
   refreshNext();
 }
 function refreshNext(){ document.getElementById("nextbtn").classList.toggle("off", !answered()); }
@@ -719,14 +720,14 @@ function toApprove(){
   var ans = { express:sel[1], reason:sel[2], change:sel[3], deliver:sel[4], future:sel[5] };
   letterParas = buildLetterAI(ans, who) || buildLetterTemplate(ans, who);
   var h='<div class="draft-wrap"><div class="draft-head"><div class="em">💌</div>';
-  h+='<h2>당신의 마음을,<br>이렇게 엮어 보았어요.</h2>';
+  h+='<h2>당신의 마음을,<br>이렇게 편지로 담아 보았어요.</h2>';
   h+='<p>이 문장들은, 당신이 꺼낸 마음 그대로예요.<br>마음에 안 드는 곳은 가볍게 고치셔도 돼요.</p></div>';
   h+='<div class="letter-paper" id="letterView">';
   for(var k=0;k<letterParas.length;k++){ h+='<div class="lp">'+esc(letterParas[k])+'</div>'; }
   h+='<div class="frm">From. 당신의 마음을 담아</div></div>';
   h+='<textarea class="draft-edit" id="letterEdit">'+letterParas.join('\n\n')+'</textarea>';
-  h+='<div class="draft-note">✍️ 이대로 마음을 전하시거나, 직접 손질하실 수 있어요.</div>';
-  h+='<div class="draft-btns"><button class="btn-edit" onclick="toggleEdit()">✏️ 손질하기</button>';
+  h+='<div class="draft-note">✍️ 이대로 마음을 전하시거나, 직접 수정하실 수 있어요.</div>';
+  h+='<div class="draft-btns"><button class="btn-edit" onclick="toggleEdit()">✏️ 수정하기</button>';
   h+='<button class="btn-approve" onclick="approveLetter()">이 편지로 마음을 전할게요</button></div></div>';
   var st=document.getElementById('stage'); st.innerHTML=h;
   document.querySelector('.nav').classList.add('hide');
@@ -738,8 +739,8 @@ function toggleEdit(){
   document.getElementById('letterView').style.display=editing?'none':'block';
   document.getElementById('letterEdit').style.display=editing?'block':'none';
   var b=document.querySelector('.btn-edit');
-  if(editing){ b.textContent='✓ 손질 끝'; }
-  else { b.textContent='✏️ 손질하기'; var v=document.getElementById('letterEdit').value; letterParas=v.split(/\n\n+/); var lv=document.getElementById('letterView'); lv.innerHTML=''; for(var k=0;k<letterParas.length;k++){ var d=document.createElement('div'); d.className='lp'; d.textContent=letterParas[k]; lv.appendChild(d); } var f=document.createElement('div'); f.className='frm'; f.textContent='From. 당신의 마음을 담아'; lv.appendChild(f); }
+  if(editing){ b.textContent='✓ 수정 완료'; }
+  else { b.textContent='✏️ 수정하기'; var v=document.getElementById('letterEdit').value; letterParas=v.split(/\n\n+/); var lv=document.getElementById('letterView'); lv.innerHTML=''; for(var k=0;k<letterParas.length;k++){ var d=document.createElement('div'); d.className='lp'; d.textContent=letterParas[k]; lv.appendChild(d); } var f=document.createElement('div'); f.className='frm'; f.textContent='From. 당신의 마음을 담아'; lv.appendChild(f); }
 }
 var LINK={home:'/',certificate:'/certificate.html'};
 /* [v2] 편지 완성 — 저장하고 마무리 화면으로.
@@ -752,7 +753,7 @@ function approveLetter(){
   var who  = D.nick || D.target || '그분';
 
   document.getElementById('stage').innerHTML =
-    '<div class="waiting"><div class="halo">💌</div><p>당신의 마음을<br>편지로 엮고 있어요…</p></div>';
+    '<div class="waiting"><div class="halo">💌</div><p>당신의 마음을<br>편지를 저장하고 있어요…</p></div>';
 
   try{
     fetch(LETTER_GAS, { method:'POST', mode:'no-cors', body: JSON.stringify({
