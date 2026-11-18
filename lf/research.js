@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/research.js · v1 · 261118 · [734 · 대표 OK 261118 15:33 「나머지 작업은 오케이」 · 시안 research_preview 261118]
+   현재 버전 ▶ lf/research.js · v2 · 261118 · [735 · 대표 261118 16:51 「타이틀 · 내용에 맞게 · 알아서」] 상품 칸 머리글 영어(WHY A MAP 등) → 「관련 연구 · 학술 근거」(상품 다섯 · youth 포함). 그 밖 v1 그대로.
+   (이전) lf/research.js · v1 · 261118 · [734 · 대표 OK 261118 15:33 「나머지 작업은 오케이」 · 시안 research_preview 261118]
    과학적 근거 한 부품 — 화면에 <div data-lf-research="main|memoir|set|map|life|youth"></div> 를 두고 이 파일을 부르면 그 자리에 그려짐.
      · main  = 메인 「과학적 근거」 칸 — 6월 홈 v14 모양 그대로(네이비 띠 · 누르면 다섯 축 카드 펼침 · 아이콘 다섯이 차례로 피어남).
                고친 것 둘 — 표현 축: 근거를 못 찾은 「Pennebaker 1997 · 34%」 → Slatcher & Pennebaker 2006(77% · 52%) /
@@ -103,13 +104,13 @@
         + '<div class="lfr-bd"><div class="lfr-bi">' + axItems() + '</div></div></div>';
     },
     memoir: function () {
-      return '<div class="lfr-pk k-memoir">' + head('WHY A LIFE STORY', '왜 내 이야기를<br>남겨야 할까요', '삶을 돌아보고 이야기로 남기는 일이<br>마음에 무엇을 남기는지, 연구가 말해 줍니다')
+      return '<div class="lfr-pk k-memoir">' + head('관련 연구 · 학술 근거', '왜 내 이야기를<br>남겨야 할까요', '삶을 돌아보고 이야기로 남기는 일이<br>마음에 무엇을 남기는지, 연구가 말해 줍니다')
         + '<div class="lfr-hero">' + ring(91, '만족') + '<p>자기 삶의 이야기를 나누고, 그 기록을<br>가족에게 남긴 분들이 답했습니다</p></div>'
         + C_91 + C_128 + C_EAR + C_1963
         + foot('한 편의 기록', '치료가 아니라, 당신의 이야기를 오래 기억되는 형태로 옮기는 일입니다.') + '</div>';
     },
     set: function () {
-      return '<div class="lfr-pk k-set">' + head('WHY A LETTER', '왜 마음을<br>글로 전할까요', '하고 싶었던 말을 글로 옮기는 일이<br>두 사람 사이에 무엇을 남기는지, 연구가 말해 줍니다')
+      return '<div class="lfr-pk k-set">' + head('관련 연구 · 학술 근거', '왜 마음을<br>글로 전할까요', '하고 싶었던 말을 글로 옮기는 일이<br>두 사람 사이에 무엇을 남기는지, 연구가 말해 줍니다')
         + '<div class="lfr-hero">' + ring(77, '석 달 뒤에도 함께') + '<p>관계에 대한 속마음을 사흘 동안<br>글로 쓴 쪽이 답했습니다</p></div>'
         + '<div class="lfr-g c2"><div><b>' + cnt(77) + '%</b><span class="lb">속마음을<br>글로 쓴 쪽</span></div><div class="dim"><b>' + cnt(52) + '%</b><span class="lb">일상만<br>쓴 쪽</span></div></div>'
         + '<div class="lfr-src">Slatcher &amp; Pennebaker (2006) · Psychological Science · 연인 86쌍</div>'
@@ -118,7 +119,7 @@
         + foot('마음여행') + '</div>';
     },
     map: function () {
-      return '<div class="lfr-pk k-map">' + head('WHY A MAP', '왜 두 사람 사이를<br>지도로 그릴까요', '사랑흐름 LFRI&trade;의 다섯 축은<br>관계 심리 연구에서 가져왔습니다')
+      return '<div class="lfr-pk k-map">' + head('관련 연구 · 학술 근거', '왜 두 사람 사이를<br>지도로 그릴까요', '사랑흐름 LFRI&trade;의 다섯 축은<br>관계 심리 연구에서 가져왔습니다')
         + '<div class="lfr-hero"><div class="lfr-ring"><svg width="170" height="170"><circle cx="85" cy="85" r="74" stroke="rgba(255,255,255,.12)" stroke-width="12" fill="none"/><circle class="lfr-rg" data-p="83" cx="85" cy="85" r="74" stroke="#F3D58A" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/></svg>'
         + '<div class="n"><b>' + cnt(5) + ':1</b><small>관심 : 부정</small></div></div><p>긍정적 관심이 부정적 반응보다<br>다섯 배 많을 때 관계는 안정됩니다</p></div>'
         + '<div class="lfr-src">Gottman (1994)</div>'
@@ -126,14 +127,14 @@
         + foot('마음 여행지도') + '</div>';
     },
     life: function () {
-      return '<div class="lfr-pk k-life">' + head('WHY TOGETHER', '왜 지도 · 편지 · 기록을<br>함께 남길까요', '알고, 전하고, 남기는 세 걸음 —<br>걸음마다 연구가 있습니다')
+      return '<div class="lfr-pk k-life">' + head('관련 연구 · 학술 근거', '왜 지도 · 편지 · 기록을<br>함께 남길까요', '알고, 전하고, 남기는 세 걸음 —<br>걸음마다 연구가 있습니다')
         + '<div class="lfr-g c3" style="margin-top:20px"><div><b>' + cnt(5) + ':1</b><span class="lb">지도<br>관심의 비율</span></div><div><b>' + cnt(77) + '%</b><span class="lb">편지<br>석 달 뒤에도 함께</span></div><div><b>' + cnt(91) + '%</b><span class="lb">기록<br>남긴 분들의 만족</span></div></div>'
         + '<div class="lfr-src">Gottman (1994) · Slatcher &amp; Pennebaker (2006) · Chochinov 외 (2005)</div>'
         + C_128 + C_EAR
         + foot('두 분의 여정') + '</div>';
     },
     youth: function () {
-      return '<div class="lfr-pk k-youth">' + head('WHY WRITE AHEAD', '왜 미리<br>자서전을 써 볼까요', '미래의 나를 글로 그려 보는 일이<br>오늘의 나를 어떻게 바꾸는지, 연구가 말해 줍니다')
+      return '<div class="lfr-pk k-youth">' + head('관련 연구 · 학술 근거', '왜 미리<br>자서전을 써 볼까요', '미래의 나를 글로 그려 보는 일이<br>오늘의 나를 어떻게 바꾸는지, 연구가 말해 줍니다')
         + card('linear-gradient(135deg,#1F5C7A,#123A5C)', '2001', '미래의 나', '가장 잘 풀린 미래의 나를 써 보면', '「모든 것이 잘 풀린 미래의 나」를 글로 써 본 사람들은 기분이 나아지고 건강 지표가 좋아졌습니다.', 'King (2001) · Personality and Social Psychology Bulletin')
         + card('linear-gradient(135deg,#1F7A72,#165C56)', '2006', '될 수 있는 나', '길과 걸림돌까지 그려 보면', '중학생이 「될 수 있는 나」와 그리로 가는 길 · 걸림돌을 그려 보니 성적과 출석이 나아졌습니다.', 'Oyserman, Bybee &amp; Terry (2006) · Journal of Personality and Social Psychology')
         + card('linear-gradient(135deg,#B8923E,#D4AF37)', '2011', '하면 · 하겠다', '「이런 일이 생기면, 나는 이렇게」', '고등학생이 원하는 미래와 걸림돌, 「그런 일이 생기면 나는 ○○ 하겠다」를 함께 쓰니 공부에 들인 노력이 늘었습니다.', 'Duckworth 외 (2011) · Educational Psychology')
