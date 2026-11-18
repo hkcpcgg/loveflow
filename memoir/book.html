@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/book.html · v66 · 261116 · [685 · 대표 261116 10:04 「실명 아니고 홍길동으로」] 견본(번호 없이 열 때 보이는 표지 · 맨 끝 장) 이름 황인용 → 홍길동 · 맨 끝 장 손글씨 서명 그림 걷음(이름과 안 맞음 · 활자 이름만) · 표지 그림 samples/cover.png 다시 찍음. [무손] 실제 결과물 · 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/book.html · v67 · 261118 · [746 · 755 · 대표 OK 261118 20:11] ①746 「새 이야기」 편 묶음 이름 = 손님이 남긴 편 이름(없으면 묶음 이름 없음 · 「새 이야기」라는 자리 이름을 차례 · 장 머리에 내지 않음) · 새 이야기 편이 여럿이면 한 묶음으로 모으고 같은 이야기 이름(예: 그때 내가 살던 곳)은 한 장으로 합침(편 사이 구분) ②755 새 이야기 장 안 — 답과 답 사이에 작은 구분 「· · ·」. [무손] 기본 여덟 이야기 · 아홉째 · 열째 · 사진 · 서명 · 그 밖 v66 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/book.html · v66 · 261116 · [685 · 대표 261116 10:04 「실명 아니고 홍길동으로」] 견본(번호 없이 열 때 보이는 표지 · 맨 끝 장) 이름 황인용 → 홍길동 · 맨 끝 장 손글씨 서명 그림 걷음(이름과 안 맞음 · 활자 이름만) · 표지 그림 samples/cover.png 다시 찍음. [무손] 실제 결과물 · 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/book.html · v65 · 261115 · [549 · 79차 · 대표 OK 261115 21:00] 「새 이야기」(A-02) 편만 — 표지 다음 · 차례 앞에 「쓰신 순서」 쪽(제목 「이야기를 여신 차례」 · 안내 한 줄 · 입구 → 담긴 이야기 · 같은 입구 잇달아는 한 줄 · 표시만 누른 물음 뺌 · 숫자 없음 · 한 쪽 여덟 줄 · 넘치면 다음 쪽) · 서버 v53 a2order 그대로 · 차례 · 본문 쪽 번호 그만큼 밀림. [무손] A-01 편 · 표지 · 차례 · 본문 · 인쇄 · 서버. -->
 <!-- (이전) memoir/book.html · v64 · 261112 · [612 · 대표 08:49 「확인한 대로 작업해」] 상품 · 결과물 이름 역할을 하던 「삶의 여정」 → 「자서전」 · 셈 기준 여덟 → 열(「열 이야기 가운데 ○ 이야기까지」 · 열 편을 마치면 「○○○ 선생님의 자서전」). 설명 문장 속 「삶의 여정」(초대장 · 친구 화면 · about)은 그대로. kit.js 꼬리표 ?v=17. [무손] 값 · 서버 · 그 밖 전부. -->
 <!-- (이전) memoir/book.html · v63 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
@@ -446,11 +447,11 @@ function bkEsc(s){
   return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 /* Q▸물음 / A▸답 로 담긴 것에서 ★답만 뽑아 문단으로. 손님 말은 한 글자도 안 자릅니다. */
-function bkParas(raw){
+function bkParas(raw, sep){   /* ★v67 755 sep = 새 이야기 — 답과 답 사이에 작은 구분 */
   var out=[], lines=String(raw||'').split(/\r?\n/);
   for(var i=0;i<lines.length;i++){
     var s=lines[i];
-    if(s.indexOf('Q\u25B8')===0){ continue; }
+    if(s.indexOf('Q\u25B8')===0){ if(sep && out.length && !(out[out.length-1] && out[out.length-1].sep)){ out.push({ sep:1 }); } continue; }
     if(s.indexOf('A\u25B8')===0){ s=s.substring(2); }
     s=s.replace(/^\s+|\s+$/g,'');
     if(s){ out.push(s); }
@@ -573,7 +574,7 @@ function bkRender(d){
     var nb = Math.max(8, (st.bodies && st.bodies.length) || 0);   /* ★v45 */
     for(var s=0; s<nb; s++){
       var raw = (st.bodies && st.bodies[s]) ? st.bodies[s] : '';
-      var ps  = bkParas(raw);
+      var ps  = bkParas(raw, st.place === '새 이야기');
       if(!ps.length){ continue; }
       if(ps.length===1 && ps[0].indexOf('해당 없음')>=0){ continue; }
       live.push({ title:(st.secTitles && st.secTitles[s]) ? st.secTitles[s] : '', paras:ps });
@@ -593,8 +594,32 @@ function bkRender(d){
       }
       live = ml.concat(live);
     }
-    groups.push({ name: LFM.story(st.place || ''), live: live, st: st });
+    groups.push({ name: (st.place === '새 이야기') ? String(st.title || '') : LFM.story(st.place || ''), live: live, st: st });
   }
+  /* ★v67 746 — 「새 이야기」 편이 여럿이면 한 묶음으로 · 같은 이야기 이름은 한 장으로(편 사이에 구분) · 묶음 이름 = 손님이 남긴 편 이름 */
+  (function(){
+    var a2 = [], at = -1;
+    for(var x=0;x<groups.length;x++){ if(groups[x].st && groups[x].st.place === '새 이야기'){ if(at<0){ at=x; } a2.push(groups[x]); } }
+    if(a2.length < 2){ return; }
+    var order = [], byT = {}, names = [], ph = [], pt = [], pd = [], voice = '';
+    a2.forEach(function(g){
+      if(g.name && names.indexOf(g.name) < 0){ names.push(g.name); }
+      var sx = g.st || {}; (sx.photos||[]).forEach(function(u, i){ if(u){ ph.push(u); pt.push((sx.photoTitles||[])[i]||''); pd.push((sx.photoDescs||[])[i]||''); } });
+      if(!voice && sx.voice){ voice = sx.voice; }
+      g.live.forEach(function(c){
+        if(!byT[c.title]){ byT[c.title] = { title:c.title, paras:[] }; order.push(c.title); }
+        else { byT[c.title].paras.push({ sep:1 }); }
+        byT[c.title].paras = byT[c.title].paras.concat(c.paras);
+      });
+    });
+    var N = (a2[0].st && a2[0].st.secTitles) || [];
+    order.sort(function(p, q){ var i1 = N.indexOf(p), i2 = N.indexOf(q); return (i1<0?99:i1) - (i2<0?99:i2); });
+    var live = order.map(function(t){ return byT[t]; });
+    var m = { name: names.join(' · '), live: live, st: { place:'새 이야기', photos:ph, photoTitles:pt, photoDescs:pd, voice:voice } };
+    var keep = [];
+    for(var y=0;y<groups.length;y++){ if(y === at){ keep.push(m); } else if(!(groups[y].st && groups[y].st.place === '새 이야기')){ keep.push(groups[y]); } }
+    groups = keep;
+  })();
   var many = groups.length > 1;
 
   /* ── ★v65 549 · 79차 — 쓰신 순서(「새 이야기」 편만) — 표지 다음 · 차례 앞 ── */
@@ -633,6 +658,7 @@ function bkRender(d){
       for(var j=0;j<live2[k].paras.length;j++){
         var pj = live2[k].paras[j];
         if(pj && typeof pj === 'object'){
+          if(pj.sep){ body += '<p style="text-align:center;color:#C9B98F;letter-spacing:.4em;margin:4mm 0">· · ·</p>'; continue; }   /* ★v67 755 */
           if(pj.who){ body += '<p style="text-align:right;color:#6B6458;font-size:.95em;margin-bottom:4mm">' + bkEsc(pj.t) + '</p>'; }
           else { body += '<p style="font-weight:700;color:#163a5e;margin-top:3mm">' + bkEsc(pj.t) + '</p>'; }
           continue;
