@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v33 · 261117 · [대표 261117 19:41 「우리 이야기 가는 링크 · ☰ 안내 메뉴 왜 다 없어졌어 · 상호 연계가 돼야」] v32 에서 걷었던 것 되돌림 — 아래 띠 다섯째 「우리 이야기」 칸 · ☰ 맨 위 「우리 이야기 · 기록관」 묶음(마당 · 이야기방 만들기 · 기록관 만들기 → uriyagi.kr) · 그 아래 「기관 · 단체 제안」 자리 · /rec/ 불 켜기 줄. 내용은 v31 그대로. [무손] 그 밖 전부.
+   현재 버전 ▶ lf/frame.js · v34 · 261118 · [740 · 742 · 대표 OK 261118 17:4x 「권고안대로」] 떠 있는 공유 · 위로 동그라미 — ① 44 → 36 · 오른쪽 끝(6px) · 반투명 ② 내려 보는 동안 숨고 손을 멈추면(0.7초) 다시 나타남 ③ 아래 고정 띠(.dock · [data-lf-dock])가 있는 화면은 띠 위로 올림. [무손] 그 밖 전부.
+   (이전) lf/frame.js · v33 · 261117 · [대표 261117 19:41 「우리 이야기 가는 링크 · ☰ 안내 메뉴 왜 다 없어졌어 · 상호 연계가 돼야」] v32 에서 걷었던 것 되돌림 — 아래 띠 다섯째 「우리 이야기」 칸 · ☰ 맨 위 「우리 이야기 · 기록관」 묶음(마당 · 이야기방 만들기 · 기록관 만들기 → uriyagi.kr) · 그 아래 「기관 · 단체 제안」 자리 · /rec/ 불 켜기 줄. 내용은 v31 그대로. [무손] 그 밖 전부.
    (이전) lf/frame.js · v32 · 261117 · [우리 이야기 흔적 걷기] 아래 띠 · ☰ 우리 이야기 걷음 — v33 에서 되돌림.
    (이전) lf/frame.js · v31 · 261117 · [우리이야기-소통-025 · 대표 「노란 거 빼고 · 통일」] ☰ 맨 아래 노란 「💬 공유하기」 → 흰 바탕 + 같은 공유 그림(□↗) · 오른쪽 아래 동그라미를 우리 이야기와 같은 치수로(44px · 선 1.8 · 그림자 옅게). [무손] 그 밖 v30 전부.
    (이전) lf/frame.js · v30 · 261117 · [699 · 701 · 대표 OK 261117 07:36 「노란 거 빼고 요거 · 통일 · 한 번에 다」] ① 아래 띠 판 제목 — 단추와 같은 색 아이콘을 떼고 작은 회색 글 + 오른쪽 「✕」 닫기 · 누르는 줄에 「›」(제목을 눌러 헛손질하던 것) ② 「← ⌂ →」 늘 푸터 바로 위(여행의 기록 반쪽 깨짐 · 소개 · 약관 · 도화지 맨 위에 뜨던 것 · 686) ③ 오른쪽 아래 공유하기 · 위로 올리기 작은 흰 동그라미 둘(전 화면 하나 · body data-lf-fab="off" 면 안 냄) · 화면마다 따로 달린 공유 단추(.lff-share · .lffsw · .lff-sb · .way-share · 메인 노란 단추)는 감춤 · 글 쓰는 칸을 누르면 아래 띠와 함께 숨음 ④ 카톡 공유 그림 og-image 2400×1260 선명본 ?v=261117. [무손] 그 밖 v29 전부.
@@ -225,10 +226,11 @@
     + 'html.lfx-hasback body{padding-top:86px!important}'
     + '.lfx-back button{border:0;background:none;color:var(--lf-navy);font:inherit;font-size:14.5px;font-weight:700;padding:4px 2px;cursor:pointer}'
     /* ★v30 701 공유하기 · 위로 올리기 — 오른쪽 아래 작은 흰 동그라미 둘(전 화면 하나로 · 화면마다 따로 달았던 공유 단추는 감춤) */
-    + '.lfx-fab{position:fixed;right:12px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:1400;display:flex;flex-direction:column;gap:10px;transition:transform .2s,opacity .2s}'
+    + '.lfx-fab{position:fixed;right:6px;bottom:calc(84px + env(safe-area-inset-bottom));z-index:1400;display:flex;flex-direction:column;gap:8px;transition:transform .2s,opacity .25s}'
+    + '.lfx-fab.scr{opacity:0;pointer-events:none}'   /* ★v34 740 내려 보는 동안 숨김 */
     + '.lfx-fab.hide{transform:translateY(160%);opacity:0;pointer-events:none}'
-    + '.lfx-fab button{width:44px;height:44px;border-radius:50%;border:1px solid #E4DED4;background:rgba(255,255,255,.97);box-shadow:0 1px 5px rgba(0,0,0,.10);display:grid;place-items:center;cursor:pointer;padding:0;color:#3A3F47}'
-    + '.lfx-fab button:active{transform:scale(.92)}.lfx-fab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}'
+    + '.lfx-fab button{width:36px;height:36px;border-radius:50%;border:1px solid #E4DED4;background:rgba(255,255,255,.82);box-shadow:0 1px 5px rgba(0,0,0,.10);display:grid;place-items:center;cursor:pointer;padding:0;color:#3A3F47}'
+    + '.lfx-fab button:active{transform:scale(.92)}.lfx-fab svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}'
     + '.lfx-fab .up{transition:opacity .2s}.lfx-fab .up.off{opacity:0;pointer-events:none}'
     + '.lff-share,.lffsw,.lff-sb,.way-share,#lfShareMain{display:none!important}'
     + '@media print{.lfx-back,.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu,.lfx-fab{display:none!important}html.lfx body{padding-bottom:0}}';
@@ -451,6 +453,19 @@
     var upb = fab.querySelector('.up'); upb.onclick = function () { try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) { window.scrollTo(0, 0); } };
     function upShow() { upb.classList.toggle('off', (window.scrollY || document.documentElement.scrollTop || 0) < 400); }
     window.addEventListener('scroll', upShow, { passive: true }); upShow();
+    /* ★v34 740 — 내려 보는 동안 숨고, 손을 멈추면 다시 나타남 */
+    var scrT = null;
+    window.addEventListener('scroll', function () { fab.classList.add('scr'); clearTimeout(scrT); scrT = setTimeout(function () { fab.classList.remove('scr'); }, 700); }, { passive: true });
+    /* ★v34 742 — 아래 고정 띠(.dock · [data-lf-dock])가 있으면 그 위로 */
+    function fabLift() {
+      try {
+        var d = document.querySelector('.dock, [data-lf-dock]'); if (!d) { return; }
+        var cs = getComputedStyle(d); if (cs.position !== 'fixed' || cs.display === 'none') { return; }
+        var top = d.getBoundingClientRect().top; if (top <= 0) { return; }
+        fab.style.bottom = Math.round(window.innerHeight - top + 10) + 'px';
+      } catch (e) { }
+    }
+    window.addEventListener('load', fabLift); window.addEventListener('resize', fabLift); setTimeout(fabLift, 600);
     if (b0.getAttribute('data-lf-fab') !== 'off') { document.body.appendChild(fab); }
     document.addEventListener('focusin', function (e) { if (typing(e)) { tab.classList.add('hide'); fab.classList.add('hide'); } });
     document.addEventListener('focusout', function (e) { if (typing(e)) { setTimeout(function () { tab.classList.remove('hide'); fab.classList.remove('hide'); }, 120); } });
