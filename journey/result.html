@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ journey/result.html · v1-21 · 261118 · [736 · 738 · 739 · 741 · 261118 사용자 둘러보기] 738 같은 말 찾아 고침 — 「이 여행을 끝까지 함께해 주셨다는 것」 → 「이 여행을 함께해 주셨다는 것」. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ journey/result.html · v1-22 · 261119 · [견본 운전 · 박성호] 관계가 어머니가 아니면 결과가 견본 글(「엄마 · 우산 · 자랑스러웠어요」)로 남던 고장 — 서버가 관계를 순번(1 = 아버지)으로 돌려주어 그리다 멈춤 → 순번을 이름으로 바꿈 · 견본을 먼저 그리지 않고 「여행 기록을 불러오는 중입니다」 · 그리다 막히면 안내. [무손] 그 밖 v1-21 전부. -->
+<!-- (이전) journey/result.html · v1-21 · 261118 · [736 · 738 · 739 · 741 · 261118 사용자 둘러보기] 738 같은 말 찾아 고침 — 「이 여행을 끝까지 함께해 주셨다는 것」 → 「이 여행을 함께해 주셨다는 것」. [무손] 그 밖 전부. -->
 <!-- (이전) journey/result.html · v1-20 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) journey/result.html · v1-19 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(서버 답 denied · expired)을 「아직 여행 기록을 불러오지 못했어요 · 새로고침」으로 보내던 것 → 안내 판(/lf/canceled.js · 닫기 없음)을 바로 띄움. 다시 부르기도 하지 않음. [무손] 그 밖 v1-18 전부. -->
 <!-- (이전) journey/result.html · v1-18 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -401,7 +402,7 @@ function grapesHtml(done){
      기존엔 어머니든 친구든 전부 🌸 하나로 고정이었습니다. */
   var ic='🌸';
   for(var k=0;k<REL_ORDER.length;k++){ if(REL_ORDER[k].nm===done){ ic=REL_ORDER[k].ic; break; } }
-  out+='<span class="dot done"><span class="ic">'+ic+'</span><span class="nm">'+esc((done||'이번 여행').slice(0,4))+'</span></span>'; shown++;
+  out+='<span class="dot done"><span class="ic">'+ic+'</span><span class="nm">'+esc(String(done||'이번 여행').slice(0,4))+'</span></span>'; shown++;
   for(var i=0;i<REL_ORDER.length && shown<5;i++){
     if(REL_ORDER[i].nm===done) continue;   // 이번 관계는 이미 핌
     out+='<span class="dot empty"><span class="ic" style="font-size:15px;opacity:.5">'+REL_ORDER[i].ic+'</span><span class="nm">'+esc(REL_ORDER[i].nm)+'</span></span>';
@@ -690,6 +691,14 @@ function myPassport(){
 }
 
 /* GAS 응답 → 화면이 쓰는 D 모양으로 옮깁니다 */
+function relName(v){
+  /* [v1-22 · 261119 견본 운전] 서버가 관계를 이름이 아니라 순번(0 어머니 · 1 아버지 …)으로 돌려줌.
+     순번이 오면 이름으로 바꿉니다(여행지도 화면 TARGETS 와 같은 차례). */
+  if (v === null || v === undefined) { return ''; }
+  var t = String(v).trim();
+  if (/^\d+$/.test(t)) { return (REL_ORDER[Number(t)] && REL_ORDER[Number(t)].nm) || ''; }
+  return t;
+}
 function toD(r){
   var code = (r.lfriCode || '').toUpperCase();
   var t = (typeof LFRI_TYPE !== 'undefined' && LFRI_TYPE[code]) ? LFRI_TYPE[code] : null;
@@ -699,8 +708,8 @@ function toD(r){
     typeName: r.typeName || (t ? t.short : ''),
     icon:     t ? t.icon : '🌊',
     tag:      t ? t.desc : '',
-    target:   r.relType || '',
-    nick:     r.relNick || r.relType || '',
+    target:   relName(r.relType),
+    nick:     r.relNick || relName(r.relType),
     sc: {
       C: Number(r.scC)||0, D: Number(r.scD)||0,
       W: Number(r.scW)||0, G: Number(r.scG)||0,
@@ -726,7 +735,8 @@ function loadResult(){
     if (res && res.status === 'ok') {
       var pt = String(res.productType || '');   /* [v1-5] 상품구분(주문대장 J열) */
       if (pt && pt.indexOf('MAP') < 0) { showLocked(pt); return; }   /* MAP 없음(편지 단품·자서전) = 지도 잠금 */
-      render(toD(res));
+      try { render(toD(res)); }
+      catch(e) { showNotFound(); }     /* [v1-22] 그리다 막혀도 견본 글이 손님 기록처럼 남지 않게 */
       return;
     }
     /* ★[v1-19] 결제가 취소된 여권 — 다시 부르지 않고 안내 판 */
@@ -771,6 +781,7 @@ function showLocked(pt){
 }
 
 function showNotFound(){
+  try{ var st0=document.getElementById('stage'); if(st0 && st0.textContent.indexOf('불러오는 중')>-1){ st0.innerHTML=''; } }catch(e){}
   var host = document.querySelector('.wrap') || document.body;
   var box = document.createElement('div');
   box.style.cssText = 'margin:16px 20px;padding:16px;background:#FFF7FA;border:1px solid #F3B8CC;border-radius:14px;font-size:13.5px;line-height:1.75;color:#2A3542';
@@ -779,7 +790,10 @@ function showNotFound(){
   host.insertBefore(box, host.firstChild);
 }
 
-render(D);        /* 일단 뼈대를 그려둡니다 (GAS가 늦어도 빈 화면을 안 보게) */
+/* [v1-22 · 261119] 견본(D)을 먼저 그리던 것을 뺌 — 서버가 늦거나 막히면
+   다른 사람의 견본 글(「엄마 · 우산 · 자랑스러웠어요」)이 손님 기록처럼 보였음.
+   기다리는 동안은 지금 하는 일을 글로 보입니다. */
+document.getElementById('stage').innerHTML = '<div class="opening"><div class="pin">🌸</div><h1>여행 기록을 불러오는 중입니다</h1></div>';
 loadResult();     /* 그다음 실제 여행 기록으로 덮어씁니다 */
 setTimeout(function(){ try{arriveChord();}catch(e){} }, 350);
 </script>
