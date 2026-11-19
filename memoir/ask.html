@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v108 · 261118 · [750 · 대표 OK 261118 20:11] 열째 단추 아래 「벗」 → 「친구」(750 · 같은 결). [무손] 그 밖 v107 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v109 · 261119 · [829 짧5 · 97차 모인 것 10] 새 이야기 「모아 보았습니다」 — 남은 편이 0 이면 아홉째 · 열째(「이야기를 더 남기실 수도 있습니다」)를 권하지 않고 「한 편 더 구매하기」 하나(청소년은 없음) · 남은 편을 모르면 지금처럼. [무손] 그 밖 v108 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v108 · 261118 · [750 · 대표 OK 261118 20:11] 열째 단추 아래 「벗」 → 「친구」(750 · 같은 결). [무손] 그 밖 v107 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v107 · 261118 · [745 · 747 · 748 · 750 · 대표 OK 261118 20:11 「이사님 의견대로」] ①745 새 이야기 둘째 편부터 — 앞 편(다른 「새 이야기」)에서 쓴 질문은 입구 안 뒤로 보내고 질문 위에 「앞 이야기에서 쓰신 질문입니다. 다른 이야기를 들려주셔도 좋습니다.」(서버 a2Gather 를 편 번호마다 불러 읽음 · 서버 손질 없음) ②747 되묻기 — 받침 보고 「이라고 · 라고」 · 낱말은 사람 → 토씨 붙은 낱말 → 마지막 낱말 · 「적으셨습니다 → 말씀하셨습니다」 · 짧은 답 「조금만 더 들려주시겠습니까? 그때 어디에 계셨습니까?」 · 「까닭 → 이유」 ③748 입구를 다 쓰면 「들려주셔서 고맙습니다. / ○○ 이야기가 담겼습니다.」 · 입구 이름 괄호 뗌 ④손님 말 「물음 → 질문」 22곳 · 「실마리 보기 → 예시 보기」 · 「질문 하나 더 보기」 · 「다른 질문으로 옮겨 가 보시겠습니까?」. [무손] 서버 · 저장 · 그 밖 v106 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v106 · 261117 · [683 가-3 · 대표 OK 261117 12:50] 첫째~아홉째(A-01) 녹음도 「녹음 전 안내」 화면 없이 곧바로 녹음 화면 — 같은 네 줄은 처음 한 번 녹음 화면 아래 작게(새 이야기 705와 같음). notice_ 함수는 남김(부르는 곳 없음). [무손] 그 밖 v105 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v105 · 261117 · [대표 261117 10:28 「질문하는 목소리 샘플을 고를 수 있게」] 「질문 듣기」 목소리 — 시험 화면 /memoir/voice.html 에서 고른 목소리 · 빠르기 · 높이(기기 lf_tts)가 있으면 그것으로 읽음 · 없으면 지금처럼(차분한 목소리부터 · 0.85). [무손] 그 밖 v104 전부. -->
@@ -3076,10 +3077,16 @@ function gather(){
   var h='<div class="a2dn"><div class="halo">❀</div><h1 class="t">지금까지 쓰신 글을<br>모아 보았습니다</h1><p class="t2">이름을 남기시면 한 편의 기록이 완성됩니다.</p></div>'
     +'<button class="b sec" onclick="A2_.go(\'review\')">쓴 글 보기</button>'
     +'<button class="b pri" onclick="A2_.sign()">이름 남기기</button>'
-    +'<button class="lk" onclick="A2_.home()">이야기 더 쓰기</button>'
-    +'<div class="more2"><p>이야기를 더 남기실 수도 있습니다</p>'
+    +'<button class="lk" onclick="A2_.home()">이야기 더 쓰기</button>';
+  var left=null; try{ if(MEMO_D && typeof MEMO_D.left==='number'){ left=MEMO_D.left; } }catch(e){}   /* ★v109 829 짧5 — 남은 편이 없으면 아홉째 · 열째를 권하지 않음 */
+  if(left===null || left>0){
+    h+='<div class="more2"><p>이야기를 더 남기실 수도 있습니다</p>'
     +'<button class="ent" onclick="A2_.place(8)"><span class="ic">🎒</span><span><b>내가 더 하고 싶은 이야기</b><small>이야기 주머니에서 골라 쓰기</small></span></button>'
     +'<button class="ent" onclick="A2_.place(9)"><span class="ic">💐</span><span><b>나를 기억하는 사람들</b><small>가족 · 친구의 기억 모으기</small></span></button></div>';
+  } else if(!(window.LFM && LFM.YOUTH)){
+    h+='<div class="more2"><p>이야기를 더 남기시려면 한 편을 더 마련하실 수 있습니다</p>'
+    +'<button class="b sec" onclick="location.href=\'/showcase.html\'">한 편 더 구매하기</button></div>';
+  }
   view(h);
 }
 function sign(){ clearTimeout(A2.timer); var ids=Object.keys(lget('q',{})); if(ids.length){ toast('저장하는 중입니다…'); flush(); setTimeout(goSign_, 2500); return; } goSign_(); }

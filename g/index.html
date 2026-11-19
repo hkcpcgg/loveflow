@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ g/index.html · v2 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- ★ 현재 버전 ▶ g/index.html · v3 · 261119 · [829 운5 · 97차 모인 것 10] 선물을 가지고 계신 사랑흐름 여권에 더한 뒤 「사랑흐름 여권 화면 열기」가 이 기기에 마지막으로 쓴 여권(다른 분 것일 수 있음)을 열던 것 — 방금 넣으신 성명 · 연락처로 사랑흐름 여권 찾기와 같은 길(findPassport → giftPassKey)을 밟아 더한 여권번호를 보이고 그 여권을 엶 · 하나로 안 찾아지면 「사랑흐름 여권 찾기」로. 서버 그대로. [무손] 그 밖 v2 전부. -->
+<!-- (이전) g/index.html · v2 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) g/index.html · v1 · 261111 · [공사 칸 ⑤ · 대표 OK 261111 17:07 「개인 간 소통에 간섭하지 말 것 · 복잡한 것 빼기」] 새 화면 — 선물 받는 분 화면(/g/?t=열쇠 일곱 글자).
      · 차례(대표 261111 15:37 · /my/ 와 같은 원칙): ① 누가 보낸 선물인지 ② 보내는 글 ③ 담긴 여행(구성) ④ 받기(성명 · 연락처 · [필수] 동의) → 받으면 사랑흐름 여권 화면(/my/?k=)으로 — 그 화면이 안내 글 + 「○○로 입장하기 ›」 + 이 휴대폰에 두기를 이미 그 차례로 보임.
      · 맨 위에 행동 단추 없음 · QR 안내 없음 · 값 · 판매 말 · 광고 없음(80차 1-3) · 받는 분 카카오 로그인 안 시킴(80차 C).
@@ -198,15 +199,15 @@ button{font-family:inherit;cursor:pointer}
           var ab = $('addBtn'); ab.disabled = true; ab.textContent = '더하는 중입니다…';
           jsonp({ action: 'giftTake', t: T, name: r.name, contact: r.contact, agree: r.agree, termsVer: r.termsVer, add: '1' }, function (r2) {
             ab.disabled = false; ab.textContent = '가지고 계신 사랑흐름 여권에 더하기';
-            done(r2);
+            done(r2, r);
           }, 30000);
         };
         return;
       }
-      done(res);
+      done(res, r);
     }, 30000);
   }
-  function done(res) {
+  function done(res, who) {
     if (!res) { $('err').textContent = '연결이 늦어지고 있습니다. 다시 눌러 주세요. 두 번 받아지지 않습니다.'; return; }
     if (res.status !== 'ok') { $('err').textContent = res.msg || '잠시 후 다시 시도해 주세요.'; return; }
     ding();
@@ -216,7 +217,26 @@ button{font-family:inherit;cursor:pointer}
       location.href = '/my/?k=' + res.key;
       return;
     }
-    state('🎁', '가지고 계신 사랑흐름 여권에 더했습니다', esc(res.gus || D.gus || '') + '<br>늘 쓰시던 사랑흐름 여권으로 들어가시면 바로 쓰실 수 있습니다.', myBtn());
+    /* ★v3 829 운5 — 이 기기에 마지막으로 쓴 사랑흐름 여권(남의 것일 수 있음)을 열지 않음.
+       방금 넣으신 성명 · 연락처로 「사랑흐름 여권 찾기」와 같은 길(findPassport → giftPassKey)을 밟아 더한 그 여권을 보이고 엶. */
+    state('🎁', '가지고 계신 사랑흐름 여권에 더했습니다', esc(res.gus || D.gus || '') + '<div id="addPp" style="margin-top:10px;color:#6B6458;font-size:14px">더한 사랑흐름 여권을 찾고 있습니다…</div>', '<div id="addGo"></div>');
+    var toFind = '<br><a class="again" href="/find/">사랑흐름 여권 찾기</a>';
+    if (!who || !who.name || !who.contact) { $('addPp').innerHTML = ''; $('addGo').innerHTML = toFind; return; }
+    var p4 = String(who.contact).replace(/\D/g, '').slice(-4);
+    jsonp({ action: 'findPassport', name: who.name, contact: who.contact }, function (f) {
+      var c = (f && f.candidates) || [];
+      if (c.length !== 1 || !c[0].passport) { $('addPp').innerHTML = '늘 쓰시던 사랑흐름 여권으로 들어가시면 바로 쓰실 수 있습니다.'; $('addGo').innerHTML = toFind; return; }
+      var pp = String(c[0].passport);
+      $('addPp').innerHTML = '사랑흐름 여권번호 <b style="color:#163a5e">' + esc(pp) + '</b>';
+      $('addGo').innerHTML = '<br><a class="again" href="#" id="addOpen">이 사랑흐름 여권 화면 열기</a>';
+      $('addOpen').onclick = function (ev) {
+        ev.preventDefault(); var a = this; a.textContent = '사랑흐름 여권 화면을 여는 중입니다';
+        jsonp({ action: 'giftPassKey', no: pp, p4: p4 }, function (k) {
+          if (k && k.status === 'ok' && k.k) { ls(MEM_K, k.k); try { sessionStorage.setItem('lf_passport', pp); localStorage.setItem('lf_passport', pp); } catch (e) { } location.href = '/my/?k=' + encodeURIComponent(k.k); return; }
+          a.textContent = '이 사랑흐름 여권 화면 열기'; $('addGo').innerHTML += toFind;
+        }, 15000);
+      };
+    }, 15000);
   }
 
   window.LF_G = { open: open, data: function () { return D; } };   /* 견본 시험용 */
