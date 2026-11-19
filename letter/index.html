@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
-<!-- ★ 현재 버전 ▶ letter/index.html · v261118-1 · 261118 · [691] 손님 화면 말 — 「엮다」 · 「끝」 걷음: 「기억을 꺼내는 여행이 끝났어요 → 꺼내 주신 기억, 잘 받았어요」 · 「엮는 편집자 → 차례대로 정리해 드릴게요」 · 「편지로 엮어볼게요 → 편지로 정리하고 있어요」 · 단추 「편지 엮기 → 편지 만들기」 · 「이렇게 엮어 보았어요 → 이렇게 편지로 담아 보았어요」 · 저장 중 「편지로 엮고 있어요 → 편지를 저장하고 있어요」 · 「손질하기 · 손질 끝 → 수정하기 · 수정 완료」. [무손] 서버 · 흐름 · 배치 · 그 밖 v261110-2 전부. -->
+<!-- ★ 현재 버전 ▶ letter/index.html · v261119-1 · 261119 · [829 · 97차 모인 것 8] 편지 완성 화면 — ①축 막대 옆 숫자(%) 걷음 · 막대는 그대로(가장 짧게 8) ②「그 마음을, 사랑흐름이 증명합니다」 걷음 ③붉은 「認證 사랑흐름」 도장 걷음. [무손] 카드 제목 · 그 밖 v261118-1 전부.
+<!-- (이전) ★ 현재 버전 ▶ letter/index.html · v261118-1 · 261118 · [691] 손님 화면 말 — 「엮다」 · 「끝」 걷음: 「기억을 꺼내는 여행이 끝났어요 → 꺼내 주신 기억, 잘 받았어요」 · 「엮는 편집자 → 차례대로 정리해 드릴게요」 · 「편지로 엮어볼게요 → 편지로 정리하고 있어요」 · 단추 「편지 엮기 → 편지 만들기」 · 「이렇게 엮어 보았어요 → 이렇게 편지로 담아 보았어요」 · 저장 중 「편지로 엮고 있어요 → 편지를 저장하고 있어요」 · 「손질하기 · 손질 끝 → 수정하기 · 수정 완료」. [무손] 서버 · 흐름 · 배치 · 그 밖 v261110-2 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ letter/index.html · v261110-2 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) letter/index.html · v261110-1 · 261110 · [대표 지적 261110 09:25 · 09:36 「저작권은 늘 주장 · 발견하면 즉각 전부」] 맨 아래 저작권 줄에 무단 이용 경고 국문 · 영문을 공용 푸터(lf-foot v5)와 같은 말로 맞춤. [무손] 그 밖 v261105-1 전부. -->
 <!-- (이전) letter/index.html · v261105-1 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「천천히, 첫 문장을 열게요」→「편지 쓰기 시작」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
@@ -840,8 +841,8 @@ function showDone(body, who){
       if (ax.v === null) { continue; }
       h += '<div class="axrow"><div class="ax-top">'
          + '<span class="ax-n">' + ax.n + ' <small>' + ax.s + '</small></span>'
-         + '<span class="ax-v" style="color:' + ax.c + '">' + ax.v + '%</span></div>'
-         + '<div class="ax-bar"><i style="width:' + ax.v + '%;background:' + ax.c + '"></i></div></div>';
+         + '</div>'
+         + '<div class="ax-bar"><i style="width:' + Math.max(8, ax.v) + '%;background:' + ax.c + '"></i></div></div>';
     }
     h += '</div>';
   }
@@ -866,7 +867,7 @@ function showDone(body, who){
      +   '<div style="font-size:25px;font-weight:800;color:#fff;letter-spacing:.08em">관계흐름증명서</div>'
      +   (TRIP2.passport ? '<div style="font-size:11px;color:rgba(255,255,255,.5);margin-top:5px">' + esc(TRIP2.passport) + '</div>' : '')
      + '</div>'
-     + '<div style="text-align:center;font-size:13px;color:rgba(255,255,255,.85);line-height:1.8;margin-bottom:16px">당신은 이 관계를 포기하지 않았습니다.<br><span style="color:rgba(212,175,55,.95)">그 마음을, 사랑흐름이 증명합니다.</span></div>';
+     + '<div style="text-align:center;font-size:13px;color:rgba(255,255,255,.85);line-height:1.8;margin-bottom:16px">당신은 이 관계를 포기하지 않았습니다.</div>';
   if (has) {
     h += '<div style="background:rgba(255,255,255,.05);border-radius:16px;padding:14px 10px 6px;margin-bottom:14px">'
        + '<svg viewBox="0 0 200 200" style="width:100%;max-width:210px;display:block;margin:0 auto">'
@@ -893,7 +894,6 @@ function showDone(body, who){
      + '<div style="text-align:center;padding:12px;background:rgba(212,175,55,.1);border-radius:12px;border:1px solid rgba(212,175,55,.3)">'
      +   '<div style="font-size:12px;color:rgba(255,255,255,.66);line-height:1.75">관계는 완성이 아니라 — 함께 자라나는 것입니다<br><span style="color:rgba(212,175,55,.72);font-size:10.5px">사랑흐름 발급 · LFRI™ 기반</span></div>'
      + '</div>'
-     + '<div style="position:absolute;bottom:12px;right:14px;width:46px;height:46px;border-radius:50%;border:1.5px solid rgba(255,120,120,.55);color:rgba(255,120,120,.78);font-size:8.5px;font-weight:700;display:flex;align-items:center;justify-content:center;text-align:center;line-height:1.15;transform:rotate(-12deg)">認證<br>사랑흐름</div>'
      + '</div>';
 
   /* ── ⑥ 도장 ── */
