@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v34 · 261118 · [740 · 742 · 대표 OK 261118 17:4x 「권고안대로」] 떠 있는 공유 · 위로 동그라미 — ① 44 → 36 · 오른쪽 끝(6px) · 반투명 ② 내려 보는 동안 숨고 손을 멈추면(0.7초) 다시 나타남 ③ 아래 고정 띠(.dock · [data-lf-dock])가 있는 화면은 띠 위로 올림. [무손] 그 밖 전부.
+   현재 버전 ▶ lf/frame.js · v35 · 261119 · [827 · 829] 인쇄 · PDF — 화면 위 · 아래 띠 자리(padding 52px · 72px)를 인쇄에서 0 으로(앞 규칙은 !important 가 없어 안 먹혔음) → 책 · 지도 결과 · 편지 등 인쇄할 때 첫 장이 밀려 빈 쪽이 끼던 것. [무손] 화면 모습 · 그 밖 v34 전부.
+   (이전) lf/frame.js · v34 · 261118 · [740 · 742 · 대표 OK 261118 17:4x 「권고안대로」] 떠 있는 공유 · 위로 동그라미 — ① 44 → 36 · 오른쪽 끝(6px) · 반투명 ② 내려 보는 동안 숨고 손을 멈추면(0.7초) 다시 나타남 ③ 아래 고정 띠(.dock · [data-lf-dock])가 있는 화면은 띠 위로 올림. [무손] 그 밖 전부.
    (이전) lf/frame.js · v33 · 261117 · [대표 261117 19:41 「우리 이야기 가는 링크 · ☰ 안내 메뉴 왜 다 없어졌어 · 상호 연계가 돼야」] v32 에서 걷었던 것 되돌림 — 아래 띠 다섯째 「우리 이야기」 칸 · ☰ 맨 위 「우리 이야기 · 기록관」 묶음(마당 · 이야기방 만들기 · 기록관 만들기 → uriyagi.kr) · 그 아래 「기관 · 단체 제안」 자리 · /rec/ 불 켜기 줄. 내용은 v31 그대로. [무손] 그 밖 전부.
    (이전) lf/frame.js · v32 · 261117 · [우리 이야기 흔적 걷기] 아래 띠 · ☰ 우리 이야기 걷음 — v33 에서 되돌림.
    (이전) lf/frame.js · v31 · 261117 · [우리이야기-소통-025 · 대표 「노란 거 빼고 · 통일」] ☰ 맨 아래 노란 「💬 공유하기」 → 흰 바탕 + 같은 공유 그림(□↗) · 오른쪽 아래 동그라미를 우리 이야기와 같은 치수로(44px · 선 1.8 · 그림자 옅게). [무손] 그 밖 v30 전부.
@@ -233,7 +234,7 @@
     + '.lfx-fab button:active{transform:scale(.92)}.lfx-fab svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}'
     + '.lfx-fab .up{transition:opacity .2s}.lfx-fab .up.off{opacity:0;pointer-events:none}'
     + '.lff-share,.lffsw,.lff-sb,.way-share,#lfShareMain{display:none!important}'
-    + '@media print{.lfx-back,.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu,.lfx-fab{display:none!important}html.lfx body{padding-bottom:0}}';
+    + '@media print{.lfx-back,.lfx-top,.lfx-tab,.lfx-sheet,.lfx-dim,.lfx-menu,.lfx-fab{display:none!important}html.lfx body,html.lfx.lfx-hasback body{padding-top:0!important;padding-bottom:0!important}}';   /* ★v35 827 인쇄 · PDF 에서 위 52px · 아래 72px 띠 자리가 남아 첫 장이 다음 쪽으로 밀리고 빈 쪽이 생기던 것 */
 
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
