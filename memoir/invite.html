@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/invite.html · v14 · 261117 · [692 · 693 · 대표 261117 13:03 「다음 작업 진행」 · 말 사전] 초대 칸 이름 「성함」 → 「성명」. [무손] 그 밖 v13 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/invite.html · v15 · 261120 · [출구 점검 ① · 대표 OK 22:51] 「초대장을 찾지 못했어요」에 갈 곳이 없던 것 — 「사랑흐름 둘러보기 ›」 단추(세 자리 모두). [무손] 그 밖 v14 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/invite.html · v14 · 261117 · [692 · 693 · 대표 261117 13:03 「다음 작업 진행」 · 말 사전] 초대 칸 이름 「성함」 → 「성명」. [무손] 그 밖 v13 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/invite.html · v13 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「쓴 글 거두기」→「쓴 글 지우기」 · 「쓴 글을 거둘까요?」→「쓴 글을 지울까요?」 · 「거두시면 들려주신 글이」→「지우시면 들려주신 글이」 · 「기록은 거둘 수 없어요」→「기록은 지울 수 없어요」 · 「">거두기</button」→「">지우기</button」 · 「글을 거두었어요」→「글을 지웠어요」 외. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
 <!-- (이전) memoir/invite.html · v12 · 261028 · [481 · 대표 OK 10:15] kit.js 꼬리표 ?v=15(지울 날 30일 안 띠 · 지운 기록 안내 판) · [무손] 그 밖 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/invite.html · v11 · 261027 · [본부 ③ 칸 4 · 470 · 대표 OK 261027 21:06] kit.js 꼬리표 ?v=13 → ?v=14(결제가 취소된 여권이면 안내 판을 띄우고 멈춤). [무손] 그 밖 전부. -->
@@ -144,10 +145,10 @@ function whoBox(){
 }
 function boot(){
   if(!KEY && /^[a-f0-9]{32}$/.test(GKEY)){ groupBoot(); return; }   /* ★v2 */
-  if(!/^[a-f0-9]{32}$/.test(KEY)){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p></div>'+linksHtml()); return; }
+  if(!/^[a-f0-9]{32}$/.test(KEY)){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p><a href="/" style="display:inline-block;margin-top:14px;padding:12px 22px;border-radius:12px;background:#1E4A76;color:#fff;text-decoration:none;font-weight:700">사랑흐름 둘러보기 ›</a></div>'+linksHtml()); return; }
   jsonp({ action:'memGet', key:KEY }, function(d){
     if(!d){ draw('<div class="msg">지금은 초대장을 펼칠 수 없어요. 잠시 뒤 다시 열어 주세요.<br><br><button class="btn line" style="max-width:240px;margin:0 auto" onclick="location.reload()">다시 열기</button></div>'); return; }
-    if(d.status!=='ok'){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p></div>'+linksHtml()); return; }
+    if(d.status!=='ok'){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p><a href="/" style="display:inline-block;margin-top:14px;padding:12px 22px;border-radius:12px;background:#1E4A76;color:#fff;text-decoration:none;font-weight:700">사랑흐름 둘러보기 ›</a></div>'+linksHtml()); return; }
     D=d; try{ LFM.youth('', !!d.youth); }catch(e){}   /* ★v3 청소년이면 어른만 고르는 판 */
     var had=loadDraft();
     if(!had && d.state==='받음'){
@@ -333,7 +334,7 @@ function groupBoot(){
   if(/^[a-f0-9]{32}$/.test(mine)){ location.replace('/memoir/invite.html?k='+mine); return; }   /* 같은 기기 — 그분 칸으로 */
   jsonp({ action:'memGroupGet', g:GKEY }, function(d){
     if(!d){ draw('<div class="msg">지금은 초대장을 펼칠 수 없어요. 잠시 뒤 다시 열어 주세요.<br><br><button class="btn line" style="max-width:240px;margin:0 auto" onclick="location.reload()">다시 열기</button></div>'); return; }
-    if(d.status!=='ok'){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p></div>'+linksHtml()); return; }
+    if(d.status!=='ok'){ draw('<div class="card" style="text-align:center"><h2>초대장을 찾지 못했어요</h2><p class="small">받으신 링크를 처음부터 다시 눌러 주세요.</p><a href="/" style="display:inline-block;margin-top:14px;padding:12px 22px;border-radius:12px;background:#1E4A76;color:#fff;text-decoration:none;font-weight:700">사랑흐름 둘러보기 ›</a></div>'+linksHtml()); return; }
     GD=d; D={ from:d.from, to:'', deadline:d.deadline, closed:d.closed, qs:d.qs }; groupFirst();
   });
 }
