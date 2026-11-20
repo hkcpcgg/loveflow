@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v111 · 261120 · [시대 기억 · 설계서 6장 B · D · 대표 OK 261120 19:21 · 19:44] 「새 이야기」 ①첫 화면 맨 위 「몇 년생이세요?」(태어난 해 · 어린 시절 곳 · 저장 · 나중에 하기 — 처음 한 번 · 여권번호마다 기기에 기억 + 서버 eraSet) ②물음 화면 「예시 보기」 밑 「🕰 그 시절 떠올려 보기 ⌄」 접힘 칸 — 누르면 서버 eraCues(입구 · 물음)로 풍경 한 줄 + 낱말 여덟 · 낱말을 누르면 답 칸 끝에 더하고 eraPick 으로 적음 · 태어난 해가 없으면 그 자리에서 여쭘 · 입구 14 · 16 · 이름 남긴 편에는 안 띄움 · 서버에 era 길이 없으면(Era.gs 붙이기 전) 아무것도 안 보임. [무손] 저장 · 녹음 · 질문 듣기 · 예시 보기 · 이어 쓰기 · 그 밖 v110 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v112 · 261120 · [대표 261120 20:37 「목소리 1번으로 고정」] 질문 듣기 목소리 = 휴대폰의 첫째 한국어 목소리(시험 화면 「목소리 1」)로 고정 · 남자 목소리 먼저 고르던 것(v94) · 기기에 저장된 다른 목소리 걷음 · 빠르기 · 높이 0.85(시험 화면에서 목소리 1 로 고른 값이 있으면 그 값). [무손] 그 밖 v111 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v111 · 261120 · [시대 기억 · 설계서 6장 B · D · 대표 OK 261120 19:21 · 19:44] 「새 이야기」 ①첫 화면 맨 위 「몇 년생이세요?」(태어난 해 · 어린 시절 곳 · 저장 · 나중에 하기 — 처음 한 번 · 여권번호마다 기기에 기억 + 서버 eraSet) ②물음 화면 「예시 보기」 밑 「🕰 그 시절 떠올려 보기 ⌄」 접힘 칸 — 누르면 서버 eraCues(입구 · 물음)로 풍경 한 줄 + 낱말 여덟 · 낱말을 누르면 답 칸 끝에 더하고 eraPick 으로 적음 · 태어난 해가 없으면 그 자리에서 여쭘 · 입구 14 · 16 · 이름 남긴 편에는 안 띄움 · 서버에 era 길이 없으면(Era.gs 붙이기 전) 아무것도 안 보임. [무손] 저장 · 녹음 · 질문 듣기 · 예시 보기 · 이어 쓰기 · 그 밖 v110 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v110 · 261119 · [830 · 97차 모인 것 4 · 운전 새2 · 새3 · 새7 · 새8 · 새11 ~ 15] 「한 걸음 더」(되묻기) 줄임 — ①낱말을 잘라 넣던 틀(548 · 747 「「막내한테」라고 말씀하셨습니다 …」 · 짧은 답 「조금만 더 …」) 끔 ②질문지 시트에 「이어 묻기」가 있는 질문에만 ③한 입구에 한 번 ④⚑ · 입구 16 · 아픈 답(병원 · 수술 · 돌아가심 · 장례 · 눈물 · 사고 · 이혼 · 빚 등)에는 띄우지 않음. 틀 함수는 남겨 둠(안 부름). [무손] 저장 · 화면 · 그 밖 v109 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v109 · 261119 · [829 짧5 · 97차 모인 것 10] 새 이야기 「모아 보았습니다」 — 남은 편이 0 이면 아홉째 · 열째(「이야기를 더 남기실 수도 있습니다」)를 권하지 않고 「한 편 더 구매하기」 하나(청소년은 없음) · 남은 편을 모르면 지금처럼. [무손] 그 밖 v108 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v108 · 261118 · [750 · 대표 OK 261118 20:11] 열째 단추 아래 「벗」 → 「친구」(750 · 같은 결). [무손] 그 밖 v107 전부. -->
@@ -839,13 +840,9 @@ function pickVoice(){
   var vs=speechSynthesis.getVoices();
   var ko=vs.filter(function(v){return /ko/i.test(v.lang);});
   if(!ko.length){ _voice=null; return; }
-  try{ var tt=JSON.parse(localStorage.getItem('lf_tts')||'null'); if(tt){ for(var q=0;q<ko.length;q++){ if((ko[q].voiceURI||ko[q].name)===tt.uri){ _voice=ko[q]; _ttsR=+tt.r||0.85; _ttsP=+tt.p||0.85; return; } } } }catch(e){}   /* ★v105 */
-  /* ★v94 · 261109 대표 지적 — 날카로운 여자 목소리 대신 차분한 목소리부터(남자 목소리 → 그 밖). 고를 수 없는 휴대폰은 높이를 낮춰 읽음 */
-  var pref=["InJoon","Minsu","Jinho","ko-kr-x-kod","ko-kr-x-koc","남성","male","Male"];
-  var avoid=/Yuna|SunHi|Heami|Sora|ism|kob|여성|female/i;
-  for(var p=0;p<pref.length;p++){ for(var k=0;k<ko.length;k++){ if((ko[k].name+' '+(ko[k].voiceURI||'')).indexOf(pref[p])>=0){ _voice=ko[k]; return; } } }
-  for(var j=0;j<ko.length;j++){ if(!avoid.test(ko[j].name+' '+(ko[j].voiceURI||''))){ _voice=ko[j]; return; } }
-  _voice=ko[0];
+  /* ★v112 · 대표 261120 20:37 「목소리 1번으로 고정 · 2번은 찢어져서 안 됨」 — 휴대폰의 첫째 한국어 목소리(시험 화면 「목소리 1」)만 씀 · 빠르기 · 높이는 시험 화면에서 고른 값(같은 목소리일 때) */
+  _voice=ko[0]; _ttsR=0.85; _ttsP=0.85;
+  try{ var tt=JSON.parse(localStorage.getItem('lf_tts')||'null'); if(tt && (ko[0].voiceURI||ko[0].name)===tt.uri){ _ttsR=+tt.r||0.85; _ttsP=+tt.p||0.85; } }catch(e){}
 }
 if(window.speechSynthesis){ pickVoice(); speechSynthesis.onvoiceschanged=pickVoice; }
 function speak(){

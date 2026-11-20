@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/voice.html · v2 · 261118 · [750 · 대표 OK 261118 20:11] 「까닭」 → 「이유」(750). [무손] 그 밖 v1 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/voice.html · v3 · 261120 · [대표 261120 20:37] 「목소리 1」만 보임(2번 이하 걷음) — 자서전 질문 듣기가 목소리 1 로 고정됨(ask v112 · ritual v59) · 빠르기 · 높이만 고름. [무손] 그 밖 v2 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/voice.html · v2 · 261118 · [750 · 대표 OK 261118 20:11] 「까닭」 → 「이유」(750). [무손] 그 밖 v1 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/voice.html · v1 · 261117 · [대표 261117 10:28 「질문하는 목소리 샘플을 고를 수 있게 · 녹음이 안 돼」] 시험 화면(검색 안 잡힘) — ①「질문 목소리 고르기」 이 휴대폰에 있는 한국어 목소리 × 빠르기 · 높이 견본을 듣고 「이 목소리로」 → 기기에 기억(lf_tts) → 자서전 「질문 듣기」가 그 목소리로(ask v105) ②「받아쓰기 시험」 시험 1 받아쓰기만 · 시험 2 받아쓰기 + 녹음 함께 — 무엇이 일어났는지 줄로 보여 줌(대표 화면 사진으로 원인 확정 · 708). 서버에 아무것도 보내지 않음. -->
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -57,6 +58,7 @@ h1{font-size:20px;color:#1E4A76;margin:6px 0 2px}h2{font-size:17px;color:#1E4A76
   function draw(){
     if(!window.speechSynthesis){ $('vs').innerHTML='<div class="v">이 브라우저는 질문 듣기를 지원하지 않아요.</div>'; return; }
     VOICES=speechSynthesis.getVoices().filter(function(v){ return /ko/i.test(v.lang); });
+    VOICES=VOICES.slice(0,1);   /* ★v3 대표 261120 「1번으로 고정 · 2번 삭제」 */
     if(!VOICES.length){ $('vs').innerHTML='<div class="v">이 휴대폰에서 한국어 목소리를 찾지 못했어요.</div>'; return; }
     var sv=saved(), h='';
     VOICES.forEach(function(v,i){
