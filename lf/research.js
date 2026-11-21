@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/research.js · v3 · 261121 · [대표 261121 16:33 「3:1 · 5:1 숫자가 다르게 보임」] 5:1(Gottman) 비율은 0에서 세어 올라가지 않고 처음부터 5:1 로 — 세어 올라가는 동안 3:1 처럼 다른 숫자로 읽히던 것 · 고리 움직임 · % 숫자 세기는 그대로.
+   현재 버전 ▶ lf/research.js · v4 · 261121 · [대표 261121 16:33 같은 뜻] % 숫자도 세어 올라가지 않고 처음부터 그 숫자로(세는 도중 91% 가 54% 로 읽힘) · 고리 움직임은 그대로.
+   (이전) lf/research.js · v3 · 261121 · [대표 261121 16:33 「3:1 · 5:1 숫자가 다르게 보임」] 5:1(Gottman) 비율은 0에서 세어 올라가지 않고 처음부터 5:1 로 — 세어 올라가는 동안 3:1 처럼 다른 숫자로 읽히던 것 · 고리 움직임 · % 숫자 세기는 그대로.
    (이전) lf/research.js · v2 · 261118 · [735 · 대표 261118 16:51 「타이틀 · 내용에 맞게 · 알아서」] 상품 칸 머리글 영어(WHY A MAP 등) → 「관련 연구 · 학술 근거」(상품 다섯 · youth 포함). 그 밖 v1 그대로.
    (이전) lf/research.js · v1 · 261118 · [734 · 대표 OK 261118 15:33 「나머지 작업은 오케이」 · 시안 research_preview 261118]
    과학적 근거 한 부품 — 화면에 <div data-lf-research="main|memoir|set|map|life|youth"></div> 를 두고 이 파일을 부르면 그 자리에 그려짐.
@@ -78,7 +79,7 @@
       return '<div class="lfr-it"><span class="lfr-ax">' + a[1] + '</span><div class="lfr-au">' + a[2] + '</div><div class="lfr-fd">' + a[3] + '</div><div class="lfr-ap">&rarr; ' + a[4] + '</div></div>';
     }).join('');
   }
-  function cnt(n) { return '<span class="lfr-c" data-to="' + n + '">0</span>'; }
+  function cnt(n) { return '<span class="lfr-c">' + n + '</span>'; }   /* ★v4 세어 올라가지 않고 처음부터 그 숫자 */
   function ring(n, lab) {
     return '<div class="lfr-ring"><svg width="170" height="170"><circle cx="85" cy="85" r="74" stroke="rgba(255,255,255,.12)" stroke-width="12" fill="none"/>'
       + '<circle class="lfr-rg" data-p="' + n + '" cx="85" cy="85" r="74" stroke="#F3D58A" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/></svg>'
@@ -154,6 +155,7 @@
     var cs = root.querySelectorAll('.lfr-c');
     for (var i = 0; i < cs.length; i++) {
       (function (el) {
+        if (!el.hasAttribute('data-to')) { return; }   /* ★v4 숫자는 처음부터 그대로 */
         var to = +el.getAttribute('data-to'), t0 = null;
         if (still || !window.requestAnimationFrame) { el.textContent = to; return; }
         function step(t) { if (!t0) { t0 = t; } var p = Math.min(1, (t - t0) / 1400), e = 1 - Math.pow(1 - p, 3); el.textContent = Math.round(to * e); if (p < 1) { requestAnimationFrame(step); } }
