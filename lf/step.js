@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/step.js · v2 · 261121 · [대표 261121 16:56 「재밌게 살짝살짝 · 띵동 · 창의적으로」] 소리 포인트 더함(사랑흐름이 지은 소리 lf/fx.js v2 · 음원 아님) — 고를 때 「톡」 · 그 시절 이야기가 펼쳐질 때 「반짝」 · 세 길 · 다음 단계 「톡톡」 · 써 보기 카드가 열릴 때 「띵동」 · 말이 글로 처음 나타날 때 「반짝」 · 나침반 결과 「띵동」 · 관계 나침반에도 붙임(compass · compass_result).
+   현재 버전 ▶ lf/step.js · v3 · 261121 · [883 · 110차 GPT 6-5] 방문 통계에 주소 꼬리(?id=여권번호 · 주문번호 · 결제 키 · 선물 열쇠)가 가던 것 — page_location · page_referrer 를 경로만으로. 그 밖 무손.
+   (이전) lf/step.js · v2 · 261121 · [대표 261121 16:56 「재밌게 살짝살짝 · 띵동 · 창의적으로」] 소리 포인트 더함(사랑흐름이 지은 소리 lf/fx.js v2 · 음원 아님) — 고를 때 「톡」 · 그 시절 이야기가 펼쳐질 때 「반짝」 · 세 길 · 다음 단계 「톡톡」 · 써 보기 카드가 열릴 때 「띵동」 · 말이 글로 처음 나타날 때 「반짝」 · 나침반 결과 「띵동」 · 관계 나침반에도 붙임(compass · compass_result).
    (이전) lf/step.js · v1 · 261121 · [855 · 이사회 108차 · 대표 「진도 쭉쭉」 261121 16:47]
    단계별 익명 숫자 — 손님이 어느 단계까지 왔다가 어디서 멈추는지만 셉니다.
    + 누가 · 무엇을 썼는지는 보내지 않음(이름 · 연락처 · 적은 글 · 여권번호 없음).
@@ -14,7 +15,7 @@
   if (!window.gtag) {
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () { window.dataLayer.push(arguments); };
-    window.gtag('js', new Date()); window.gtag('config', ID);
+    window.gtag('js', new Date()); window.gtag('config', ID, { page_location: location.origin + location.pathname, page_referrer: String(document.referrer || '').split('?')[0] });   /* ★v3 883 주소 꼬리 안 보냄 */
     var s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + ID;
     (document.head || document.documentElement).appendChild(s);
   }
