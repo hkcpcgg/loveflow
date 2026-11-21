@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ g/index.html · v3 · 261119 · [829 운5 · 97차 모인 것 10] 선물을 가지고 계신 사랑흐름 여권에 더한 뒤 「사랑흐름 여권 화면 열기」가 이 기기에 마지막으로 쓴 여권(다른 분 것일 수 있음)을 열던 것 — 방금 넣으신 성명 · 연락처로 사랑흐름 여권 찾기와 같은 길(findPassport → giftPassKey)을 밟아 더한 여권번호를 보이고 그 여권을 엶 · 하나로 안 찾아지면 「사랑흐름 여권 찾기」로. 서버 그대로. [무손] 그 밖 v2 전부. -->
+<!-- ★ 현재 버전 ▶ g/index.html · v4 · 261121 · [860 · 108차] 보내신 분이 그 시절 이야기를 골라 보냈으면(giftOpen 의 era — gift.gs v7 짝) 「💌 보내는 글」 아래 「🕰 함께 보낸 그 시절 이야기」 한 편(메인과 같은 eraOne) · 그 곳 · 때를 받는 분 기기에 남김(lf_era_pick → 한 편의 기록 첫 화면에서 바로 그 시절). era 가 없으면 지금 그대로. ★편지 모양(대표 17:43 · 17:45) — 보내는 분이 적은 그대로(「사랑하는 딸 민지가 보낸 선물입니다」 · 끝 서명 「— 사랑하는 딸 민지가」 · 이름만이면 「○○ 님이」) · 받기 칸 「성명」 → 「받는 분」 · 안내 「받는 분과 연락처를 넣고」 · 연락처 아래 「사랑흐름 여권번호를 잊으셨을 때 이 번호로 찾아 드려요」. [무손] 그 밖 v3 전부. -->
+<!-- (이전) g/index.html · v3 · 261119 · [829 운5 · 97차 모인 것 10] 선물을 가지고 계신 사랑흐름 여권에 더한 뒤 「사랑흐름 여권 화면 열기」가 이 기기에 마지막으로 쓴 여권(다른 분 것일 수 있음)을 열던 것 — 방금 넣으신 성명 · 연락처로 사랑흐름 여권 찾기와 같은 길(findPassport → giftPassKey)을 밟아 더한 여권번호를 보이고 그 여권을 엶 · 하나로 안 찾아지면 「사랑흐름 여권 찾기」로. 서버 그대로. [무손] 그 밖 v2 전부. -->
 <!-- (이전) g/index.html · v2 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) g/index.html · v1 · 261111 · [공사 칸 ⑤ · 대표 OK 261111 17:07 「개인 간 소통에 간섭하지 말 것 · 복잡한 것 빼기」] 새 화면 — 선물 받는 분 화면(/g/?t=열쇠 일곱 글자).
      · 차례(대표 261111 15:37 · /my/ 와 같은 원칙): ① 누가 보낸 선물인지 ② 보내는 글 ③ 담긴 여행(구성) ④ 받기(성명 · 연락처 · [필수] 동의) → 받으면 사랑흐름 여권 화면(/my/?k=)으로 — 그 화면이 안내 글 + 「○○로 입장하기 ›」 + 이 휴대폰에 두기를 이미 그 차례로 보임.
@@ -106,8 +107,12 @@ button{font-family:inherit;cursor:pointer}
     if (!ns.length) { return ''; }
     return ns.length <= 3 ? ns.join(' · ') + ' 님' : ns.slice(0, 3).join(' · ') + ' 님 외 ' + (ns.length - 3) + '분';
   }
+  /* ★v4 보내는 분이 적은 그대로 — 「사랑하는 딸 민지가」처럼 조사로 끝나면 그대로, 이름만이면 「○○ 님이」 */
+  function soloG() { return !(D.tog && D.tog.filter(function (x) { return String(x || '').trim(); }).length) && String(D.giver || '').trim(); }
+  function fromSubj() { var g = String(D.giver || '').trim(); return /(가|이|께서|로부터|으로부터)$/.test(g) ? g : g + ' 님이'; }
+  function fromSign() { var g = soloG(); return g ? g : names(); }
   function giftWord() { var ns = [D.giver].concat(D.tog || []).filter(function (x) { return String(x || '').trim(); }); return ns.length > 1 ? '이 함께 선물하신' : '이 선물하신'; }
-  function fromLine() { var n = names(); return n ? n + giftWord() + ' 사랑흐름 여권입니다' : '마음을 담은 사랑흐름 여권입니다'; }
+  function fromLine() { if (soloG()) { var f = fromSubj(); return f + (/로부터$/.test(f) ? ' 온' : ' 보낸') + ' 선물입니다'; } var n = names(); return n ? n + giftWord() + ' 사랑흐름 여권입니다' : '마음을 담은 사랑흐름 여권입니다'; }
   function md(d) { var p = String(d || '').split('-'); return p.length === 3 ? (+p[1]) + '월 ' + (+p[2]) + '일' : d; }
 
   function state(icon, title, text, extra) {
@@ -118,6 +123,20 @@ button{font-family:inherit;cursor:pointer}
     return /^[A-Za-z0-9]{10}$/.test(k) ? '<br><a class="again" href="/my/?k=' + k + '">' + (label || '사랑흐름 여권 화면 열기') + '</a>' : '<br><a class="again" href="/find/">사랑흐름 여권 찾기</a>';
   }
 
+  /* ★v4 860 보내신 분이 고른 그 시절 이야기 — 메인과 같은 eraOne · 받는 분 기기에 곳 · 때를 남겨 첫 이야기 화면에서 바로(lf_era_pick) */
+  var ERA_PL = { field: '🌾 들과 산', sea: '🌊 바다와 섬', alley: '🏘️ 골목과 장터' };
+  function eraShow() {
+    var a = String(D.era || '').split('|'), g = a[0], d = parseInt(a[1], 10), i = parseInt(a[2], 10) || 0, box = $('gEraBox');
+    if (!ERA_PL[g] || !(d >= 1940 && d <= 2010)) { if (box) { box.parentNode.removeChild(box.previousSibling); box.parentNode.removeChild(box); } return; }
+    try { localStorage.setItem('lf_era_pick', JSON.stringify({ g: g, p: ERA_PL[g], d: d })); } catch (e) { }
+    var MG = 'https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
+    var cb = 'gera' + Date.now(), sc = document.createElement('script'), fin = false;
+    window[cb] = function (r) { if (fin) { return; } fin = true; try { delete window[cb]; } catch (e) { }
+      if (!(r && r.status === 'ok' && r.t)) { box.innerHTML = '<span style="color:#9a8f7c;font-size:14px">' + esc(ERA_PL[g]) + ' · ' + d + '년대 무렵</span>'; return; }
+      box.innerHTML = '<span style="display:block;color:#9a8f7c;font-size:13px;font-family:inherit">' + esc(ERA_PL[g]) + ' · ' + d + '년대 무렵</span><b style="display:block;margin:2px 0 6px;color:#163a5e">' + esc(r.t) + '</b>' + esc(r.scene);
+    };
+    sc.src = MG + '?action=eraOne&g=' + g + '&dec=' + d + '&i=' + i + '&callback=' + cb; document.body.appendChild(sc);
+  }
   function open() {
     var q = new URLSearchParams(location.search);
     T = String(q.get('t') || '').trim();
@@ -149,8 +168,9 @@ button{font-family:inherit;cursor:pointer}
     }
     /* ② 보내는 글 · 붙인 그림 · 함께하신 분들 한마디 */
     if (D.msg) {
-      h += '<div class="zone">💌 보내는 글</div><div class="letter">' + esc(D.msg) + (names() ? '<span class="from">— ' + esc(names()) + '</span>' : '') + '</div>';
+      h += '<div class="zone">💌 보내는 글</div><div class="letter">' + esc(D.msg) + (fromSign() ? '<span class="from">— ' + esc(fromSign()) + '</span>' : '') + '</div>';
     }
+    if (D.era) { h += '<div class="zone">🕰 함께 보낸 그 시절 이야기</div><div class="letter era" id="gEraBox" style="white-space:normal"><span style="color:#9a8f7c;font-size:14px">그 시절 이야기를 꺼내 오고 있어요…</span></div>'; }   /* ★v4 860 */
     if (D.img) { h += '<div class="pic" id="pic" style="display:none"><img id="picImg" alt="함께 보낸 그림"></div>'; }
     if (D.maeum && D.maeum.length) {
       h += '<div class="words">';
@@ -161,15 +181,22 @@ button{font-family:inherit;cursor:pointer}
     h += '<div class="zone">🧳 구성</div><div class="inc"><div class="t">사랑흐름 여권</div><div class="g">' + esc(D.gus || '') + '</div></div>';
     /* ④ 받기 */
     h += '<div class="take" id="takeBox">'
-      + '<div class="h">' + esc(names() ? names() + giftWord() + ' 사랑흐름 여권을 받으시려면 아래에 성명과 연락처를 넣고 「선물 받기」를 누르세요.' : '선물을 받으시려면 아래에 성명과 연락처를 넣고 「선물 받기」를 누르세요.') + '</div>'
+      + '<div class="h">선물을 받으시려면 받는 분과 연락처를 넣고 「선물 받기」를 누르세요.</div>'
       + '<div class="s">받으시면 사랑흐름 여권이 바로 열리고, 그 화면에서 여행을 시작하실 수 있습니다.</div>'
       + '<div id="lfIdent"></div>'
       + '<div class="err" id="err"></div>'
       + '<button type="button" class="bigBtn" id="takeBtn">🎁 선물 받기</button>'
       + '</div>';
     $('g').innerHTML = h;
+    if (D.era) { eraShow(); }
     try { LFIdent.mount('lfIdent', { consent: true, checked: false, onEnter: take }); } catch (e) { }
     if (D.name && $('lfiName')) { $('lfiName').value = D.name; }
+    /* ★v4 칸 이름 — 「성명」 → 「받는 분」 · 연락처 아래 쓰임 한 줄 (공용 부품 ident.js 는 그대로) */
+    try {
+      Array.prototype.forEach.call($('lfIdent').querySelectorAll('div'), function (d) { if (d.children.length === 0 && d.textContent === '성명') { d.textContent = '받는 분'; } });
+      if ($('lfiName')) { $('lfiName').placeholder = '이름을 적어 주세요'; }
+      var nm = $('lfiNum'); if (nm && !$('numUse')) { var u = document.createElement('div'); u.id = 'numUse'; u.style.cssText = 'font-size:12.5px;color:#8a7e6e;margin:5px 2px 0'; u.textContent = '사랑흐름 여권번호를 잊으셨을 때 이 번호로 찾아 드려요'; nm.parentNode.insertBefore(u, nm.nextSibling); }
+    } catch (e) { }
     $('takeBtn').onclick = function () { take(); };
     ding();
     if (D.img) {
@@ -183,7 +210,7 @@ button{font-family:inherit;cursor:pointer}
   function take(add) {
     if (busy) { return; }
     var r = LFIdent.read();
-    if (!r.ok) { $('err').textContent = r.msg; LFIdent.focus(r.field); return; }
+    if (!r.ok) { $('err').textContent = String(r.msg || '').replace('성명을 적어 주세요', '받는 분을 적어 주세요'); LFIdent.focus(r.field); return; }
     $('err').textContent = '';
     busy = true;
     var b = $('takeBtn'); b.disabled = true; b.textContent = '사랑흐름 여권을 만드는 중입니다…';
