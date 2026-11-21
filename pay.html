@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ pay.html · v14-66 · 261121 · [883 · 이사회 110차 GPT 6-5] 방문 통계(GA4)에 주소 뒤 꼬리(?id=사랑흐름 여권번호 · ?no=주문번호 · paymentKey · ?t=선물 열쇠 · ?k= 등)가 함께 가던 것 — 주소는 앞부분(경로)만 보내게. lf/step.js ?v=3. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ pay.html · v14-67 · 261121 · [884 · 이사회 110차 D10] 결제 끝 방문 통계(purchase)에 주문번호(transaction_id)를 보내지 않음 — 금액 · 상품만(일반 결제 · 선물 두 곳). [무손] 그 밖 전부. -->
+<!-- (이전)  pay.html · v14-66 · 261121 · [883 · 이사회 110차 GPT 6-5] 방문 통계(GA4)에 주소 뒤 꼬리(?id=사랑흐름 여권번호 · ?no=주문번호 · paymentKey · ?t=선물 열쇠 · ?k= 등)가 함께 가던 것 — 주소는 앞부분(경로)만 보내게. lf/step.js ?v=3. [무손] 그 밖 전부. -->
 <!-- (이전)  pay.html · v14-65 · 261121 · [860 · 108차] 선물하기 「보내는 글」 아래 「함께 보낼 그 시절 이야기」 — 「🕰 그 시절 이야기 한 편 고르기 ›」 → 메인과 같은 물음 · 단추(곳 셋 → 때) → 이야기 한 편(eraOne · 다른 이야기 › · 보내지 않기) → 선물 원장에 era=곳|때|번호(gift.gs v7 짝). 고르지 않아도 그대로 결제. [무손] 결제창 · tossConfirm · 그 밖 전부. -->
 <!-- (이전) pay.html · v14-64 · 261121 · /lf/step.js?v=1 → ?v=2(소리 포인트 · 대표 16:56). [무손] 그 밖 전부. -->
 <!-- (이전) pay.html · v14-63 · 261121 · [861 · 108차 결제 앞 안심 한 줄] 카드로 결제하기 아래 말 「결제를 마치시면 바로 …」 → 「카드 결제 창에서 결제를 마치시면 이 화면으로 돌아와 바로 …」(선물도 같은 꼴) — 카드 앱으로 넘어갈 때 멈칫하지 않게. 연락처 쓰임 한 줄(여권번호 찾기 · 이어 쓰기에만)은 이미 있음 · 문의는 공용 푸터 「문의」에 늘 있음 · 다른 상품 권유 없음(결제 화면 원칙). [무손] 그 밖 전부. -->
@@ -964,12 +965,12 @@ function lfPayDone(res){
         try { delete window[cb]; } catch (e) { }
         if (res && res.status === 'ok' && res.orderId && /^G-\d{4,}$/.test(_q.get('gno') || '') && /^[A-Za-z0-9]{12}$/.test(_q.get('gk') || '')) {
           /* ★[v14-56] 선물 — 승인되면 tossConfirm v4 가 선물함 「확정」 → 선물함으로 */
-          try { gtag('event', 'purchase', { transaction_id: res.orderId, value: Number(res.amount), currency: 'KRW', items: [{ item_id: res.item }] }); } catch (e) { }
+          try { gtag('event', 'purchase', { value: Number(res.amount), currency: 'KRW', items: [{ item_id: res.item }] }); } catch (e) { }
           location.replace('/gift/?no=' + encodeURIComponent(_q.get('gno')) + '&k=' + encodeURIComponent(_q.get('gk')));
           return;
         }
         if (res && res.status === 'ok' && res.orderId) {
-          try { gtag('event', 'purchase', { transaction_id: res.orderId, value: Number(res.amount), currency: 'KRW', items: [{ item_id: res.item }] }); } catch (e) { }
+          try { gtag('event', 'purchase', { value: Number(res.amount), currency: 'KRW', items: [{ item_id: res.item }] }); } catch (e) { }
           lfPayDone(res);
         } else {
           lfPayFail(res && res.msg);
