@@ -1,4 +1,5 @@
-/* ★ 현재 버전 ▶ lf/fx.js · v1 · 261118 · [743 다 · 마 · 결제 완료] 손님 화면 공용 소리 · 움직임
+/* ★ 현재 버전 ▶ lf/fx.js · v2 · 261121 · [대표 261121 16:56 「재밌게 살짝살짝 · 띵동 · 창의적으로」] LFFx.twinkle()(반짝 — 도미솔도) · LFFx.hop()(톡톡) 더함 — 모두 사랑흐름이 직접 지은 소리(음원 아님).
+   (이전) lf/fx.js · v1 · 261118 · [743 다 · 마 · 결제 완료] 손님 화면 공용 소리 · 움직임
    LFFx.tick()          — 칩을 누를 때 「톡」(또렷하게 · 두 겹 소리)
    LFFx.ding()          — 「띵동」(높은 음 → 낮은 음)
    LFFx.stamp(el, a, b, opt) — el 위에 도장을 「쾅」 찍고 띵동 · a = 윗줄(예: 결제 완료) · b = 아랫줄(예: 날짜)
@@ -46,6 +47,10 @@
   }
   function tick() { note(1046.5, 0, 0.2, 0.22); }
   function ding(at) { note(1318.5, at || 0, 0.55, 0.2); note(1046.5, (at || 0) + 0.2, 0.8, 0.2); }
+  /* ★v2 「반짝」 — 도 · 미 · 솔 · 높은 도를 가볍게 올려 침(사랑흐름이 지은 소리 · 저작권 걱정 없음) */
+  function twinkle() { note(1046.5, 0, 0.35, 0.13); note(1318.5, 0.08, 0.35, 0.13); note(1568, 0.16, 0.35, 0.13); note(2093, 0.24, 0.7, 0.12); }
+  /* ★v2 「톡톡」 — 같은 음 두 번 · 하나씩 넘어갈 때 */
+  function hop() { note(880, 0, 0.12, 0.16); note(1174.7, 0.09, 0.2, 0.16); }
 
   var css = false;
   function addCss() {
@@ -86,5 +91,5 @@
       }, 350);
     } catch (e) { }
   }
-  window.LFFx = { tick: tick, ding: function () { ding(0); }, stamp: stamp };
+  window.LFFx = { tick: tick, ding: function () { ding(0); }, stamp: stamp, twinkle: twinkle, hop: hop };
 })();

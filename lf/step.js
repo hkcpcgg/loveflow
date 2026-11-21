@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/step.js · v1 · 261121 · [855 · 이사회 108차 · 대표 「진도 쭉쭉」 261121 16:47]
+   현재 버전 ▶ lf/step.js · v2 · 261121 · [대표 261121 16:56 「재밌게 살짝살짝 · 띵동 · 창의적으로」] 소리 포인트 더함(사랑흐름이 지은 소리 lf/fx.js v2 · 음원 아님) — 고를 때 「톡」 · 그 시절 이야기가 펼쳐질 때 「반짝」 · 세 길 · 다음 단계 「톡톡」 · 써 보기 카드가 열릴 때 「띵동」 · 말이 글로 처음 나타날 때 「반짝」 · 나침반 결과 「띵동」 · 관계 나침반에도 붙임(compass · compass_result).
+   (이전) lf/step.js · v1 · 261121 · [855 · 이사회 108차 · 대표 「진도 쭉쭉」 261121 16:47]
    단계별 익명 숫자 — 손님이 어느 단계까지 왔다가 어디서 멈추는지만 셉니다.
    + 누가 · 무엇을 썼는지는 보내지 않음(이름 · 연락처 · 적은 글 · 여권번호 없음).
    + 이미 메인 · 결제 화면에 있는 구글 애널리틱스(G-DWCSSE71NS)에 「lf_step」 이벤트로 남김 — 서버 파일 · 시트 없음.
@@ -47,5 +48,37 @@
     }
     var ks = document.getElementById('ks'); if (ks) { ks.addEventListener('click', function () { setTimeout(function () { if (document.querySelector('#ks .sel')) { step('person'); } }, 60); }); }
     [].forEach.call(document.querySelectorAll('#nways .way'), function (b) { b.addEventListener('click', function () { step('way_' + b.getAttribute('data-w')); }); });
+    /* 관계 나침반 — 결과가 열리면 한 번 */
+    var sr = document.getElementById('s_result');
+    if (sr && 'MutationObserver' in window) {
+      new MutationObserver(function () { if (sr.classList.contains('active')) { step('compass_result'); fx('ding'); } }).observe(sr, { attributes: true, attributeFilter: ['class'] });
+    }
+    if (/^\/compass(\.html)?$/.test(p)) { step('compass'); }
+
+    /* ── ★v2 소리 포인트(대표 261121 16:56 「재밌게 살짝살짝 · 띵동」) — 사랑흐름이 지은 소리만(lf/fx.js) · 손님이 한 번 누른 뒤에만 남 ── */
+    function on(sel, ev, f) { [].forEach.call(document.querySelectorAll(sel), function (el) { el.addEventListener(ev, f); }); }
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest ? e.target.closest('#pls .pl, #decs .chip, #tWho button, .chips button, .opt, .rel-btn') : null;
+      if (t) { fx('tick'); }
+    }, true);
+    on('#nways .way, #tA2', 'click', function () { fx('hop'); });
+    on('#tB2', 'click', function () { setTimeout(function () { fx('ding'); }, 120); });
+    on('#vGo', 'click', function () { fx('tick'); });
+    if (card && 'MutationObserver' in window) {
+      var last = '';
+      new MutationObserver(function () { var h = card.querySelector('h3'); if (h && h.textContent !== last) { last = h.textContent; fx('twinkle'); } }).observe(card, { childList: true, subtree: true });
+    }
+    var vo = document.getElementById('vOut');
+    if (vo && 'MutationObserver' in window) {
+      var said = false;
+      new MutationObserver(function () { if (!said && vo.textContent.trim()) { said = true; fx('twinkle'); } }).observe(vo, { childList: true, characterData: true, subtree: true });
+    }
   });
+
+  /* 소리 부품이 없으면 불러 둠 · 🔇(lf_mute) 이면 내지 않음 */
+  function fx(k) {
+    try { if (localStorage.getItem('lf_mute') === '1') { return; } } catch (e) {}
+    if (window.LFFx && window.LFFx[k]) { try { window.LFFx[k](); } catch (e) {} return; }
+  }
+  if (!window.LFFx) { var f = document.createElement('script'); f.src = '/lf/fx.js?v=2'; f.defer = true; (document.head || document.documentElement).appendChild(f); }
 })();
