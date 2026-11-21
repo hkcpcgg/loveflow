@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ pay.html · v14-62 · 261121 · [855 · 108차] 단계별 익명 숫자 부품 /lf/step.js 붙임(결제 화면에 왔다 「pay」 한 번 · 화면 · 결제 흐름은 그대로 · 누가 · 무엇을 썼는지는 안 보냄). [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ pay.html · v14-63 · 261121 · [861 · 108차 결제 앞 안심 한 줄] 카드로 결제하기 아래 말 「결제를 마치시면 바로 …」 → 「카드 결제 창에서 결제를 마치시면 이 화면으로 돌아와 바로 …」(선물도 같은 꼴) — 카드 앱으로 넘어갈 때 멈칫하지 않게. 연락처 쓰임 한 줄(여권번호 찾기 · 이어 쓰기에만)은 이미 있음 · 문의는 공용 푸터 「문의」에 늘 있음 · 다른 상품 권유 없음(결제 화면 원칙). [무손] 그 밖 전부. -->
+<!-- (이전) pay.html · v14-62 · 261121 · [855 · 108차] 단계별 익명 숫자 부품 /lf/step.js 붙임(결제 화면에 왔다 「pay」 한 번 · 화면 · 결제 흐름은 그대로 · 누가 · 무엇을 썼는지는 안 보냄). [무손] 그 밖 전부. -->
 <!-- (이전) pay.html · v14-61 · 261118 · [736 · 738 · 739 · 741 · 261118 사용자 둘러보기] 738 같은 말 찾아 고침 — 「마지막까지 다듬고 있어요」 → 「정성껏 다듬고 있어요」. [무손] 결제 흐름 · 그 밖 전부. -->
 <!-- (이전) pay.html · v14-60 · 261118 · [743 마] 결제가 완료되었습니다 상자 오른쪽 위에 「♥ 결제 완료 · 날짜」 도장이 쾅 찍히고 띵동. 공용 lf/fx.js v1. [무손] 결제창 · tossConfirm 호출 · 선물 넘김 · 그 밖 전부 — 결제 흐름은 건드리지 않음. -->
 <!-- (이전) pay.html · v14-59 · 261116 · [대표 지시 261116 15:26 「당장 빼」] 상품을 고른 뒤(구매하기 · 선물하기로 들어와 고른 화면) 맨 아래 「다른 여행으로 바꾸기」 목록을 걷음 — 계좌이체 · 카드 결제 아래에 다른 상품이 다시 나오지 않음. [무손] 그 밖 v14-58 전부. -->
@@ -511,7 +512,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
     <p class="g" id="tossLead">카드·간편결제로 지금 바로 결제하실 수 있어요.</p>
     <div class="gsure hidden" id="giftSure">아래 결제하기를 누르시면 선물이 확정됩니다.</div>
     <button class="btn btn-navy" id="tossPayBtn" onclick="payWithToss()">카드로 결제하기</button>
-    <p class="g" style="margin-top:10px" id="tossAfter">결제를 마치시면 바로 사랑흐름 여권번호를 받으실 수 있어요.</p>
+    <p class="g" style="margin-top:10px" id="tossAfter">카드 결제 창에서 결제를 마치시면 이 화면으로 돌아와 바로 사랑흐름 여권번호를 받으실 수 있어요.</p>
     <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
       <p class="g">다른 방법으로 결제하시려면</p>
       <button class="btn btn-naver" id="tossNaver" onclick="choosePath('online')"><span class="n">N</span> 오픈마켓(네이버)으로 결제하기</button>
@@ -1531,7 +1532,7 @@ function lfGiftPaint(){
   var sure = lfGiftEl('giftSure'); if (sure) { sure.classList.toggle('hidden', !GIFT); }
   var tb = lfGiftEl('tossPayBtn'); if (tb && !tb.disabled) { tb.textContent = GIFT ? '결제하기' : '카드로 결제하기'; }
   var tl = lfGiftEl('tossLead'); if (tl) { tl.textContent = GIFT ? '카드 · 간편결제로 선물을 결제하실 수 있어요.' : '카드·간편결제로 지금 바로 결제하실 수 있어요.'; }
-  var ta = lfGiftEl('tossAfter'); if (ta) { ta.textContent = GIFT ? '결제를 마치시면 바로 선물함이 열리고, 받는 분께 카카오톡으로 보내실 수 있어요.' : '결제를 마치시면 바로 사랑흐름 여권번호를 받으실 수 있어요.'; }
+  var ta = lfGiftEl('tossAfter'); if (ta) { ta.textContent = GIFT ? '카드 결제 창에서 결제를 마치시면 이 화면으로 돌아와 바로 선물함이 열리고, 받는 분께 카카오톡으로 보내실 수 있어요.' : '카드 결제 창에서 결제를 마치시면 이 화면으로 돌아와 바로 사랑흐름 여권번호를 받으실 수 있어요.'; }
   var tn = lfGiftEl('tossNaver'); if (tn) { tn.style.display = GIFT ? 'none' : ''; }
   var ab = lfGiftEl('acctBuy'); if (ab) { ab.style.display = GIFT ? 'none' : ''; }
   var ag = lfGiftEl('acctGift'); if (ag) { ag.classList.toggle('hidden', !GIFT); }
