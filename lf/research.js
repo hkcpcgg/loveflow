@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/research.js · v2 · 261118 · [735 · 대표 261118 16:51 「타이틀 · 내용에 맞게 · 알아서」] 상품 칸 머리글 영어(WHY A MAP 등) → 「관련 연구 · 학술 근거」(상품 다섯 · youth 포함). 그 밖 v1 그대로.
+   현재 버전 ▶ lf/research.js · v3 · 261121 · [대표 261121 16:33 「3:1 · 5:1 숫자가 다르게 보임」] 5:1(Gottman) 비율은 0에서 세어 올라가지 않고 처음부터 5:1 로 — 세어 올라가는 동안 3:1 처럼 다른 숫자로 읽히던 것 · 고리 움직임 · % 숫자 세기는 그대로.
+   (이전) lf/research.js · v2 · 261118 · [735 · 대표 261118 16:51 「타이틀 · 내용에 맞게 · 알아서」] 상품 칸 머리글 영어(WHY A MAP 등) → 「관련 연구 · 학술 근거」(상품 다섯 · youth 포함). 그 밖 v1 그대로.
    (이전) lf/research.js · v1 · 261118 · [734 · 대표 OK 261118 15:33 「나머지 작업은 오케이」 · 시안 research_preview 261118]
    과학적 근거 한 부품 — 화면에 <div data-lf-research="main|memoir|set|map|life|youth"></div> 를 두고 이 파일을 부르면 그 자리에 그려짐.
      · main  = 메인 「과학적 근거」 칸 — 6월 홈 v14 모양 그대로(네이비 띠 · 누르면 다섯 축 카드 펼침 · 아이콘 다섯이 차례로 피어남).
@@ -121,14 +122,14 @@
     map: function () {
       return '<div class="lfr-pk k-map">' + head('관련 연구 · 학술 근거', '왜 두 사람 사이를<br>지도로 그릴까요', '사랑흐름 LFRI&trade;의 다섯 축은<br>관계 심리 연구에서 가져왔습니다')
         + '<div class="lfr-hero"><div class="lfr-ring"><svg width="170" height="170"><circle cx="85" cy="85" r="74" stroke="rgba(255,255,255,.12)" stroke-width="12" fill="none"/><circle class="lfr-rg" data-p="83" cx="85" cy="85" r="74" stroke="#F3D58A" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="465" stroke-dashoffset="465"/></svg>'
-        + '<div class="n"><b>' + cnt(5) + ':1</b><small>관심 : 부정</small></div></div><p>긍정적 관심이 부정적 반응보다<br>다섯 배 많을 때 관계는 안정됩니다</p></div>'
+        + '<div class="n"><b>5:1</b><small>관심 : 부정</small></div></div><p>긍정적 관심이 부정적 반응보다<br>다섯 배 많을 때 관계는 안정됩니다</p></div>'
         + '<div class="lfr-src">Gottman (1994)</div>'
         + '<div class="lfr-bi" style="margin-top:14px">' + axItems() + '</div>'
         + foot('마음 여행지도') + '</div>';
     },
     life: function () {
       return '<div class="lfr-pk k-life">' + head('관련 연구 · 학술 근거', '왜 지도 · 편지 · 기록을<br>함께 남길까요', '알고, 전하고, 남기는 세 걸음 —<br>걸음마다 연구가 있습니다')
-        + '<div class="lfr-g c3" style="margin-top:20px"><div><b>' + cnt(5) + ':1</b><span class="lb">지도<br>관심의 비율</span></div><div><b>' + cnt(77) + '%</b><span class="lb">편지<br>석 달 뒤에도 함께</span></div><div><b>' + cnt(91) + '%</b><span class="lb">기록<br>남긴 분들의 만족</span></div></div>'
+        + '<div class="lfr-g c3" style="margin-top:20px"><div><b>5:1</b><span class="lb">지도<br>관심의 비율</span></div><div><b>' + cnt(77) + '%</b><span class="lb">편지<br>석 달 뒤에도 함께</span></div><div><b>' + cnt(91) + '%</b><span class="lb">기록<br>남긴 분들의 만족</span></div></div>'
         + '<div class="lfr-src">Gottman (1994) · Slatcher &amp; Pennebaker (2006) · Chochinov 외 (2005)</div>'
         + C_128 + C_EAR
         + foot('두 분의 여정') + '</div>';
