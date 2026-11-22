@@ -120,60 +120,192 @@ html,body{margin:0;height:100%;background:#E9E3D6;font-family:"Noto Sans KR",sys
 .rps button{border:0;border-radius:16px;background:#E4EBFB;min-height:62px;font-size:34px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}.rps button small{font-size:12px;font-weight:800;color:var(--blu)}.rps button:active{background:var(--blu)}
 .duel{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-around;font-size:78px}
 .duel small{display:block;font-size:13px;font-weight:800;text-align:center}
-</style></head><body>
-<div class="phone">
- <div class="top" id="ttl">벌칙 맛보기</div>
- <div class="tabs" id="tabs">
-  <button data-v="pen" class="on">벌칙 맛보기</button><button data-v="rps">가위바위보 + 벌칙</button><button data-v="mj">묵찌빠</button><button data-v="arm">팔씨름</button><button data-v="yeot">엿치기</button>
- </div>
- <div class="opts" id="opts"><button data-o="sfx" class="on">🔈 효과음</button><button data-o="voice">🗣 사장님 목소리</button><button data-o="mic">🎤 말로 하기</button></div>
- <div class="main">
-  <div class="col l" id="colL"><span class="nm">나</span><b class="sc"></b><span class="un"></span><div class="bat"><i></i></div><span class="bl">힘</span></div>
-  <div class="col r" id="colR"><span class="nm">다복 사장님</span><b class="sc"></b><span class="un"></span><div class="bat"><i></i></div><span class="bl">힘</span></div>
 
-  <section class="view on" id="v-pen">
-   <div class="chips" id="betChips"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
-   <div class="who2" id="who2"><button data-w="me">내가 졌어요</button><button data-w="cpu" class="on">사장님이 졌어요</button></div>
-   <div class="stage" id="penStage"></div>
-  </section>
+/* ══ v5 디자인 (261122 22시) — 밝게 · 검정 줄임 · 설정은 오른쪽 위 하나 · 벌칙은 시작 전 · 힘 기둥은 놀이판 높이만큼 ══ */
+body.A{--bg:#FFF8E6;--tb:#FFF8E6;--tbt:#1C1D21;--chip:#F2EBDB;--sub:#7A6E55;--ink:#1C1D21;--card:#fff;--btn:#F6F1E6;--lt:#E6EDFC;--rt:#FCE8E8;--lc:#2F64E0;--rc:#E04848;--acc:#FFC21A;--acct:#1C1D21;--acc2:#2F64E0;--hintbg:#FFF1C7;--hintc:#6A4D00;--bb:#fff;--bbt:#7A6E55;--homebg:#FFC21A;--homet:#1C1D21;--sel:#2F64E0;--selt:#fff;--hand:rgba(60,56,48,.30)}
+body.B{--bg:#F3F6FB;--tb:#fff;--tbt:#1C2340;--chip:#EEF2FA;--sub:#68708A;--ink:#1C2340;--card:#fff;--btn:#EEF2FA;--lt:#E3ECFF;--rt:#FFE6E6;--lc:#3366FF;--rc:#FF4D5E;--acc:#3366FF;--acct:#fff;--acc2:#3366FF;--hintbg:#E3ECFF;--hintc:#2347B8;--bb:#fff;--bbt:#68708A;--homebg:#3366FF;--homet:#fff;--sel:#3366FF;--selt:#fff;--hand:rgba(40,50,80,.28)}
+body.C{--bg:#F4EEE2;--tb:#F4EEE2;--tbt:#3A3226;--chip:#EAE1CF;--sub:#7B6D55;--ink:#3A3226;--card:#FFFCF6;--btn:#EFE7D8;--lt:#E1E9F0;--rt:#F6E3DA;--lc:#2E5E8C;--rc:#B5533C;--acc:#C9853B;--acct:#fff;--acc2:#2E5E8C;--hintbg:#EFE7D8;--hintc:#7B5A2A;--bb:#FFFCF6;--bbt:#7B6D55;--homebg:#2E5E8C;--homet:#fff;--sel:#2E5E8C;--selt:#fff;--hand:rgba(70,58,40,.30)}
+body{background:#E6E1D7}
+.themebar{max-width:420px;margin:0 auto;display:flex;gap:6px;align-items:center;justify-content:center;padding:6px 8px;font-size:12px;font-weight:800;color:#6B6457}
+.themebar button{border:0;border-radius:999px;padding:5px 10px;font:800 12px "Noto Sans KR";background:#fff;color:#3A3A3A;cursor:pointer}.themebar button.on{background:#3A3A3A;color:#fff}
+.phone{height:calc(100% - 38px);background:var(--bg);color:var(--ink)}
+.top{position:relative;background:var(--tb);color:var(--tbt);height:48px;font-size:20px}
+.sndbtn{position:absolute;right:8px;top:7px;height:34px;border:0;border-radius:999px;background:var(--chip);color:var(--tbt);display:flex;align-items:center;gap:3px;padding:0 10px 0 8px;cursor:pointer}
+.sndbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.sndbtn small{font:700 11.5px "Noto Sans KR";opacity:.6}
+/* 첫 화면 */
+.home{flex:1;overflow:auto;padding:4px 14px 14px}
+.lure{text-align:center;margin:8px 0 6px;font-size:15px;font-weight:700}.lure em{font-style:normal;color:var(--rc)}
+.home h4{margin:14px 2px 8px;font-size:15px;font-weight:800}.home h4 small{font-size:11.5px;color:var(--sub);margin-left:4px;font-weight:700}
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tile{border:0;border-radius:16px;background:var(--card);min-height:92px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font:800 13px "Noto Sans KR";color:var(--ink);cursor:pointer}
+.tile i{font-style:normal;font-size:26px;line-height:1;letter-spacing:-2px}.tile.off{opacity:.45}
+.yeoti{display:flex;gap:4px}.yeoti u{display:block;width:9px;height:30px;border-radius:5px;background:linear-gradient(90deg,#D9A75E,#F0CB8A,#D9A75E)}
+.home .note{font-size:11.5px;color:var(--sub);text-align:center;margin:14px 0 0}
+/* 놀이 화면 */
+.main{padding:6px 40px 8px}
+.strip{display:flex;justify-content:center;gap:6px;margin:0 -30px 6px;flex-wrap:wrap}
+.strip span{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--chip);color:var(--sub)}
+.view{gap:8px;height:calc(100% - 30px)}
+.say{background:transparent;padding:2px 4px 0;font-size:13.5px;color:var(--sub)}.say b{color:var(--lc)}.say em{color:var(--rc)}
+.stage{background:var(--card)}
+.col{width:26px;border-radius:13px;padding:7px 0 7px;bottom:auto}
+.col.l{background:var(--lt);color:var(--lc);left:7px}.col.r{background:var(--rt);color:var(--rc);right:7px}
+.col.on.l{background:var(--lc);color:#fff}.col.on.r{background:var(--rc);color:#fff}
+.col .nm{font-size:10.5px}.col .sc{font-size:16px}.col .bat{width:10px;flex:0 0 44%;border-radius:6px;background:rgba(255,255,255,.8)}
+.col.l .bat i{background:var(--lc)}.col.r .bat i{background:var(--rc)}.col.on .bat i{background:var(--acc)}
+.col .bl{display:none}
+.hint{background:var(--hintbg);color:var(--hintc);font-size:12px;padding:6px 12px}
+.cnt{background:var(--chip);color:var(--sub)}
+.rps button{background:var(--btn);color:var(--ink)}.rps button small{color:var(--sub)}.rps button:active{background:var(--lt)}
+.big{background:var(--acc2);color:#fff;font-size:15px;min-height:46px}.big.blu{background:var(--acc2)}.big:disabled{background:var(--chip);color:var(--sub)}
+.tap .a{background:var(--lc)}.tap .b{background:var(--rc)}.tap button:disabled{background:var(--chip);color:var(--sub)}
+.bend{background:var(--chip)}.bend i{background:var(--acc)}
+.toast{background:rgba(28,29,33,.88)}
+/* 아래 막대: 밝게 */
+.bar{background:var(--bb);grid-template-columns:1fr 1.15fr 1fr;padding:6px 8px calc(8px + env(safe-area-inset-bottom,0px))}
+.bar button{background:transparent;color:var(--bbt);font:800 11.5px "Noto Sans KR";display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:48px}
+.bar button svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bar .home{background:var(--homebg);color:var(--homet);font-family:"Noto Sans KR";font-size:12px}
+/* 투명 손가락: 선 없이 반투명 */
+.ptr .f svg .fh{fill:var(--hand);stroke:none}
+.ptr .rip{border:2px solid var(--hand)}
+.ptr b{background:var(--hintbg);color:var(--hintc);font-weight:800}
+/* 시트 */
+.dim{position:absolute;inset:0;background:rgba(28,29,33,.3);display:none;z-index:30}.dim.on{display:block}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:24px 24px 0 0;padding:16px 14px calc(14px + env(safe-area-inset-bottom,0px));z-index:31;transform:translateY(105%);transition:transform .22s ease}
+.sheet.on{transform:none}
+.sheet h3{margin:0 0 2px;text-align:center;font-size:17px}.sheet .sub{text-align:center;font-size:12px;color:var(--sub);margin:0 0 12px}
+.bets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bets button{border:0;border-radius:14px;background:var(--btn);padding:10px 8px;text-align:center;font:800 13px "Noto Sans KR";color:var(--ink);cursor:pointer}
+.bets button i{display:block;font-style:normal;font-size:26px;line-height:1.2}.bets button small{display:block;font-size:10.5px;color:var(--sub);font-weight:700}
+.bets button.on{background:var(--sel);color:var(--selt)}.bets button.on small{color:var(--selt);opacity:.85}
+.bets .real{grid-column:1/-1;background:#FFE9A6;display:flex;align-items:center;justify-content:center;gap:8px;animation:wob 2.4s ease-in-out infinite}.bets .real i{display:inline;font-size:22px;animation:boom 1.2s ease-in-out infinite}.bets .real small{display:inline}
+.bets .real.nope{animation:nope .5s ease}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.who button{border:0;border-radius:12px;background:var(--btn);padding:10px;font:800 12.5px "Noto Sans KR";color:var(--ink);cursor:pointer}.who button.on{background:var(--sel);color:var(--selt)}
+.go{display:flex;align-items:center;justify-content:center;border:0;width:100%;border-radius:14px;min-height:48px;background:var(--acc);color:var(--acct);font:900 16px "Noto Sans KR";cursor:pointer}
+.go.soft{background:var(--btn);color:var(--ink);font-size:14px}
+#opts{display:flex;flex-direction:column;gap:6px}
+.set{display:flex;align-items:center;gap:10px;padding:9px 10px;border:0;border-radius:14px;background:var(--btn);text-align:left;font-family:"Noto Sans KR";color:var(--ink);cursor:pointer}
+.set .em{width:34px;height:34px;border-radius:11px;background:var(--card);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+.set .tx b{display:block;font-size:14px}.set .tx small{display:block;font-size:11.5px;color:var(--sub);line-height:1.4}
+.sw{margin-left:auto;width:44px;height:26px;border-radius:13px;background:#D9D4CA;position:relative;flex:none;transition:background .2s}.sw::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s}
+.set.on .sw{background:var(--acc2)}.set.on .sw::after{left:21px}
+#setOk{margin-top:10px}
+/* 결과 카드 */
+.cardv{position:absolute;left:0;right:0;top:48px;bottom:62px;background:var(--bg);padding:10px 14px;overflow:auto;display:none;z-index:25}.cardv.on{display:block}
+.rc{background:var(--card);border-radius:18px;padding:12px}
+.rh{display:flex;justify-content:space-between;font-size:11.5px;color:var(--sub);font-weight:700}.rh b{color:var(--ink);font-size:14px}
+.rg{font-size:12.5px;font-weight:800;color:var(--sub);margin-top:2px}
+.rph{margin:10px 0;height:150px;border-radius:14px;background:var(--btn);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:28px;color:var(--sub)}.rph b{font-size:14px}.rph small{font-size:11px}
+.rsc{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;text-align:center}.rsc em{display:block;font-style:normal;font-size:34px;font-weight:900;line-height:1}.rsc .a{color:var(--lc)}.rsc .b{color:var(--rc)}.rsc small{font-size:12px;font-weight:800}.rsc>span{font-size:24px;color:var(--sub);padding-bottom:18px}
+.rres{text-align:center;font-size:19px;font-weight:900;margin:6px 0}
+.rmemo{border-radius:10px;background:var(--btn);padding:9px;font-size:13px;color:var(--sub)}
+.rft{display:flex;justify-content:space-between;font-size:11px;color:var(--sub);margin-top:8px}.rft b{color:var(--ink);letter-spacing:.08em}
+.cardv>.go{margin-top:10px}.cardv .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+</style></head><body class="A">
+<div class="themebar" id="themebar"><span>디자인</span><button data-t="A" class="on">A 밝은 크림</button><button data-t="B">B 하양 청홍</button><button data-t="C">C 한지 차분</button></div>
+<div class="phone">
+ <div class="top"><span id="ttl">그때 그 놀이</span><button class="sndbtn" id="sndBtn" type="button" aria-label="소리 설정"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg><small>소리</small></button></div>
+
+ <!-- 첫 화면 -->
+ <div class="home" id="home">
+  <p class="lure"><b>다복</b>에서 준비한 <em>푸짐한 선물</em> 받아가세요</p>
+  <h4>혼자서 바로 <small>사장님과 한 판</small></h4>
+  <div class="tiles">
+   <button class="tile" data-g="rps"><i>✌️✊✋</i>가위바위보</button>
+   <button class="tile" data-g="mj"><i>✊✌️✋</i>묵찌빠</button>
+   <button class="tile" data-g="arm"><i>💪</i>팔씨름</button>
+   <button class="tile" data-g="yeot"><i class="yeoti"><u></u><u></u><u></u></i>엿치기</button>
+   <button class="tile off"><i>🤲</i>구슬 홀짝</button><button class="tile off"><i>🤲👊</i>쌀보리</button>
+   <button class="tile off"><i>🎯</i>원판 다트</button><button class="tile off"><i>🏺</i>투호</button>
+   <button class="tile off"><i>⛳</i>골프</button><button class="tile off"><i>🏹</i>활쏘기</button>
+  </div>
+  <h4>둘이서 겨루기 <small>폰 하나로 번갈아</small></h4>
+  <div class="tiles">
+   <button class="tile off"><i>🟫</i>딱지치기</button><button class="tile off"><i>🔵</i>구슬치기</button>
+   <button class="tile off"><i>⚫</i>오목</button><button class="tile off"><i>⚪</i>알까기</button>
+   <button class="tile off"><i>🟡</i>동그란 딱지</button>
+  </div>
+  <p class="note">시안에서는 위 네 가지만 눌러집니다 · 나머지는 지금 손님 화면(/nori/)에 있는 놀이</p>
+ </div>
+
+ <div class="main" id="game" style="display:none">
+  <div class="col l" id="colL"><span class="nm">나</span><b class="sc"></b><span class="un"></span><div class="bat"><i></i></div></div>
+  <div class="col r" id="colR"><span class="nm">다복 사장님</span><b class="sc"></b><span class="un"></span><div class="bat"><i></i></div></div>
+  <div class="strip" id="strip"><span id="stBet">걸린 것 · 👉 딱밤 3대</span><span id="stRule">두 번 먼저 이기면 끝</span></div>
 
   <section class="view" id="v-rps">
    <div class="say" id="rpsSay"></div>
-   <div class="chips" id="rpsBet"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="none">안 걸기</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
    <div class="stage" id="rpsStage"></div>
    <div class="rps" id="rpsBtns"><button data-h="0">✌️<small>가위</small></button><button data-h="1">✊<small>바위</small></button><button data-h="2">✋<small>보</small></button></div>
    <button class="big blu" id="rpsMic" style="display:none">🎤 말로 내기 (「가위! 바위!」 → 외치기)</button>
   </section>
-
   <section class="view" id="v-mj">
-   <div class="chips" id="mjBet"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="none">안 걸기</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
    <div class="say" id="mjSay"></div>
    <div class="stage" id="mjStage"></div>
    <div class="rps" id="mjBtns"><button data-h="0">✊<small>묵</small></button><button data-h="1">✌️<small>찌</small></button><button data-h="2">✋<small>빠</small></button></div>
    <button class="big blu" id="mjMic" style="display:none">🎤 말로 내기 (「묵! 찌!」 → 외치기)</button>
   </section>
-
   <section class="view" id="v-arm">
-   <div class="chips" id="armBet"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="none">안 걸기</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
    <div class="say" id="armSay"></div>
    <div class="stage" id="armStage"></div>
    <div class="tap"><button class="a" id="armA">나 · 힘!</button><button class="b" id="armB" disabled>사장님</button></div>
-   <div class="who2" id="armMode"><button data-m="cpu" class="on">사장님과 한 판</button><button data-m="two">친구와 폰 하나로</button></div>
   </section>
-
   <section class="view" id="v-yeot">
-   <div class="chips" id="yeotBet"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="none">안 걸기</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
    <div class="say" id="yeotSay"></div>
-   <div class="stage" id="yeotStage">
-    <div class="yeots" id="yeots"><div class="yeot" data-i="0"><b>①</b></div><div class="yeot" data-i="1"><b>②</b></div><div class="yeot" data-i="2"><b>③</b></div></div>
-    <div class="cuts" id="cuts"><div class="cut"><canvas id="cutA" width="248" height="248"></canvas><span style="color:var(--blu)">내 엿</span></div><div class="cut"><canvas id="cutB" width="248" height="248"></canvas><span style="color:var(--red)">사장님 엿</span></div></div>
-   </div>
+   <div class="stage" id="yeotStage"></div>
    <div class="bend" id="bend"><i></i></div>
    <button class="big blu" id="yeotGo" disabled>엿을 골라 주세요</button>
   </section>
  </div>
- <div class="ptr" id="ptr"><span class="f"><svg viewBox="0 0 40 52" width="40" height="52"><path d="M14 8A3.5 3.5 0 0 1 21 8V21A3.5 3.5 0 0 1 28 21V24A3.5 3.5 0 0 1 35 24V33C35 42 29 49 21 49H19C14 49 11 47 8 43L3 35A3.3 3.3 0 0 1 8 31L14 35Z" fill="rgba(255,255,255,.65)" stroke="#16181D" stroke-width="2.2" stroke-linejoin="round"/><path d="M21 21V28M28 24V29" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round"/></svg><i class="rip"></i></span><b id="ptrT">여길 누르세요</b></div>
- <div class="bar"><button id="bHelp">놀이 방법</button><button class="home">그때 그 놀이</button><button id="bNew">새 판</button></div>
+
+ <!-- 시작 전: 무엇을 걸까요? -->
+ <div class="dim" id="preDim"></div>
+ <div class="sheet" id="pre">
+  <h3>무엇을 걸까요?</h3><p class="sub">진 쪽이 맞아요 · 이기면 선물도!</p>
+  <div class="bets" id="preBets">
+   <button data-b="ttak" class="on"><i>👉</i>딱밤 3대<small>이마에 딱!</small></button>
+   <button data-b="kkul"><i>✊</i>꿀밤 3대<small>머리에 콩!</small></button>
+   <button data-b="indian"><i>🙌</i>인디언밥<small>등짝 따다닥 밥!</small></button>
+   <button data-b="none"><i>🎁</i>선물만<small>벌칙 없이</small></button>
+   <button data-b="real" class="real"><i>💥</i>진짜 때리기<small>매장에서 직접!</small></button>
+  </div>
+  <div class="who" id="preWho"><button data-w="cpu" class="on">다복 사장님과</button><button data-w="two">친구와 폰 하나로</button></div>
+  <button class="go" id="preGo">시작!</button>
+ </div>
+
+ <!-- 소리 설정 -->
+ <div class="dim" id="setDim"></div>
+ <div class="sheet" id="setSheet">
+  <h3>소리</h3><p class="sub">식사 중이면 「모두 끄기」를 켜 주세요</p>
+  <div id="opts">
+   <button class="set" data-o="sfx"><span class="em">🔔</span><span class="tx"><b>효과음</b><small>딱! 짝! 콩! 소리</small></span><span class="sw"></span></button>
+   <button class="set" data-o="voice"><span class="em">📢</span><span class="tx"><b>구령 소리</b><small>폰이 「가위! 바위! 보!」를 외쳐요</small></span><span class="sw"></span></button>
+   <button class="set" data-o="mic"><span class="em">🎤</span><span class="tx"><b>말로 내기</b><small>「보!」 하고 외쳐서 내요 (마이크)</small></span><span class="sw"></span></button>
+   <button class="set" data-o="mute"><span class="em">🤫</span><span class="tx"><b>모두 끄기</b><small>소리도 마이크도 모두 꺼요</small></span><span class="sw"></span></button>
+  </div>
+  <button class="go soft" id="setOk">닫기</button>
+ </div>
+
+ <!-- 결과 카드 -->
+ <div class="cardv" id="cardv">
+  <div class="rc"><div class="rh"><b>그때 그 놀이 · 다복</b><span id="cdDate"></span></div><div class="rg" id="cdGame"></div>
+   <div class="rph">📷<b>눌러서 현장 사진 넣기</b><small>사진은 이 폰 안에서만 카드에 합쳐요</small></div>
+   <div class="rsc"><div class="a"><em id="cdA">0</em><small>나</small></div><span>:</span><div class="b"><em id="cdB">0</em><small>다복 사장님</small></div></div>
+   <div class="rres" id="cdRes"></div><div class="rmemo">✏ 추억 한 줄</div><div class="rft"><span>확인 번호</span><b>KQSJEP</b></div></div>
+  <button class="go">선물 받기</button><div class="row2"><button class="go soft">카드 저장 · 보내기</button><button class="go soft">이야기방에 올리기</button></div>
+ </div>
+
+ <!-- 시험용 숨은 칸 (옛 코드 연결용) -->
+ <div hidden><div id="betChips"></div><div id="who2"></div><div id="penStage"></div><div id="rpsBet"></div><div id="mjBet"></div><div id="armBet"></div><div id="armMode"></div><div id="yeotBet"></div></div>
+
+ <div class="ptr" id="ptr"><span class="f"><svg viewBox="0 0 40 52" width="40" height="52"><path d="M14 8A3.5 3.5 0 0 1 21 8V21A3.5 3.5 0 0 1 28 21V24A3.5 3.5 0 0 1 35 24V33C35 42 29 49 21 49H19C14 49 11 47 8 43L3 35A3.3 3.3 0 0 1 8 31L14 35Z" class="fh"/></svg><i class="rip"></i></span><b id="ptrT">여길 누르세요</b></div>
+ <div class="bar" id="bar">
+  <button id="bHelp"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg><span id="bHelpT">내 선물함</span></button>
+  <button class="home" id="bHome"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5M10 20v-6h4v6"/></svg><span>홈</span></button>
+  <button id="bNew"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg><span id="bNewT">공유하기</span></button>
+ </div>
 </div>
 <script>
 (function(){
@@ -185,7 +317,7 @@ function snd(f,dur,noise,vol){ if(!OPT.sfx) return; var c=ac(); if(!c) return; v
 /* 설정: 효과음 · 사장님 목소리 · 말로 하기 (식사 중엔 끄기) */
 var OPT={sfx:true,voice:false,mic:false}; try{ var o=JSON.parse(localStorage.getItem('nori-opt')||'null'); if(o) OPT=o; }catch(e){}
 var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-function optPaint(){ [].forEach.call($('opts').children,function(b){ b.classList.toggle('on',!!OPT[b.dataset.o]); }); }
+function optPaint(){ [].forEach.call($('opts').children,function(b){ var k=b.dataset.o; b.classList.toggle('on', k==='mute' ? (!OPT.sfx&&!OPT.voice&&!OPT.mic) : !!OPT[k]); }); }
 function speak(t){ if(!OPT.voice||!window.speechSynthesis) return; try{ var u=new SpeechSynthesisUtterance(t.replace('!','')); u.lang='ko-KR'; u.pitch=.2; u.rate=1.15; var v=speechSynthesis.getVoices().filter(function(x){ return /ko/i.test(x.lang); }); if(v.length) u.voice=v[0]; speechSynthesis.speak(u); }catch(e){} }
 function lowG(){ snd(196,.2); snd(98,.22); }
 function chant(words,each,done){ var i=0; (function nx(){ if(i>=words.length){ setTimeout(done,250); return; } each&&each(i,words[i]); lowG(); speak(words[i]); i++; setTimeout(nx,480); })(); }
@@ -288,16 +420,44 @@ function chips(el,stage,cb){ el.addEventListener('click',function(e){ var b=e.ta
   if(b.dataset.b==='real'){ b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); SFX.kong(); toast(stage(),'💥 진짜 때리기는 화면에선 안 돼요 😆<br>매장에서 사장님께 직접 여쭤보세요!'); return; }
   [].forEach.call(el.children,function(x){ x.classList.toggle('on',x===b); }); cb&&cb(b.dataset.b); }); }
 
-var CUR='pen', TT={pen:'벌칙 맛보기',rps:'가위바위보',mj:'묵찌빠',arm:'팔씨름',yeot:'엿치기'};
-$('opts').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var k=b.dataset.o; OPT[k]=!OPT[k];
-  if(k==='mic'&&OPT.mic&&!SR){ OPT.mic=false; toast(document.querySelector('.view.on .stage'),'이 브라우저는 「말로 하기」를 못 해요<br>크롬이나 사파리에서 열어 주세요'); }
-  if(k==='voice'&&OPT.voice) speak('다복 사장님입니다'); if(k==='sfx'&&OPT.sfx){ ac(); snd(900,.06); }
+var CUR='', TT={pen:'벌칙 맛보기',rps:'가위바위보',mj:'묵찌빠',arm:'팔씨름',yeot:'엿치기'};
+$('opts').addEventListener('click',function(e){ var b=e.target.closest('button[data-o]'); if(!b) return; var k=b.dataset.o;
+  if(k==='mute'){ var muted=!OPT.sfx&&!OPT.voice&&!OPT.mic; if(muted){ OPT.sfx=true; } else { OPT.sfx=false; OPT.voice=false; OPT.mic=false; try{ speechSynthesis.cancel(); }catch(x){} } }
+  else { OPT[k]=!OPT[k]; }
+  if(k==='mic'&&OPT.mic&&!SR){ OPT.mic=false; toast(document.querySelector('.view.on .stage')||$('home'),'이 브라우저는 「말로 내기」를 못 해요<br>크롬이나 사파리에서 열어 주세요'); }
+  if(k==='sfx'&&OPT.sfx){ ac(); snd(900,.06); } if(k==='voice'&&OPT.voice){ ac(); lowG(); }
   try{ localStorage.setItem('nori-opt',JSON.stringify(OPT)); }catch(x){} optPaint(); if(CUR==='rps'){ rpsMicBtn(); } if(CUR==='mj'){ mjMicBtn(); } });
 optPaint();
-$('tabs').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; ac(); CUR=b.dataset.v; [].forEach.call(this.children,function(x){ x.classList.toggle('on',x===b); });
-  [].forEach.call(document.querySelectorAll('.view'),function(v){ v.classList.toggle('on',v.id==='v-'+CUR); }); $('ttl').textContent=TT[CUR]; start(); });
-$('bNew').addEventListener('click',function(){ ac(); start(); });
-$('bHelp').addEventListener('click',function(){ var st=document.querySelector('.view.on .stage'); toast(st,{pen:'벌칙과 누가 졌는지 고르면 바로 맛볼 수 있어요',rps:'벌칙을 걸고 가위바위보 · 두 번 먼저 이기면 끝 · 진 쪽이 벌칙 · 🎤 말로 하기를 켜면 「보!」 하고 외쳐서 낼 수 있어요',mj:'가위바위보로 공격을 정하고 · 공격하는 쪽이 같은 손을 내게 하면 한 판 · 다르면 이긴 손이 공격',arm:'「힘!」을 빨리빨리 눌러 내 힘(왼쪽 기둥)을 채워요 · 사장님 힘(오른쪽)보다 세면 팔이 넘어가요',yeot:'엿을 골라 꾹 눌러 휘었다가 놓으면 「뚝!」 · 단면 구멍이 큰 쪽이 이겨요'}[CUR]); });
+/* ── 화면 오가기: 첫 화면 → 시작 전(무엇을 걸까요?) → 놀이 → 벌칙 → 결과 카드 ── */
+var BET='ttak', WHO='cpu', BETNAME={ttak:'👉 딱밤 3대',kkul:'✊ 꿀밤 3대',indian:'🙌 인디언밥',none:'🎁 선물만'}, RULE={rps:'두 번 먼저 이기면 끝',mj:'두 판 먼저 이기면 끝',arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝'};
+var ICON={gift:'<rect x="3" y="9" width="18" height="12" rx="2"/><path d="M3 13h18M12 9v12M12 9C10 5 6 5 6 8s6 1 6 1 6 2 6-1-4-3-6 1z"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/>',share:'<circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="6" r="2.5"/><circle cx="18" cy="18" r="2.5"/><path d="M8.2 10.8l7.6-3.6M8.2 13.2l7.6 3.6"/>',again:'<path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/>'};
+function setBar(home){ $('bHelp').querySelector('svg').innerHTML=home?ICON.gift:ICON.help; $('bHelpT').textContent=home?'내 선물함':'게임 방법'; $('bNew').querySelector('svg').innerHTML=home?ICON.share:ICON.again; $('bNewT').textContent=home?'공유하기':'다시'; }
+function show(id,on){ $(id).classList.toggle('on',on); }
+function goHome(){ PEN.stop(); cancelAnimationFrame(A.raf); A.on=false; unpoint(); show('cardv',false); show('pre',false); show('preDim',false); $('game').style.display='none'; $('home').style.display=''; $('ttl').textContent='그때 그 놀이'; CUR=''; setBar(true); }
+function openPre(k){ CUR=k; $('ttl').textContent=TT[k]; $('preWho').style.display=k==='arm'?'':'none'; show('preDim',true); show('pre',true); }
+function begin(){ show('pre',false); show('preDim',false); show('cardv',false); $('home').style.display='none'; $('game').style.display=''; setBar(false);
+  [].forEach.call(document.querySelectorAll('.view'),function(v){ v.classList.toggle('on',v.id==='v-'+CUR); });
+  RB=MB=YB=BET; A.bet=BET; A.two=(CUR==='arm'&&WHO==='two'); $('stBet').textContent='걸린 것 · '+BETNAME[BET]; $('stRule').textContent=RULE[CUR]; start(); setTimeout(alignCols,30); }
+function alignCols(){ var st=document.querySelector('.view.on .stage'); if(!st) return; var m=$('game').getBoundingClientRect(), r=st.getBoundingClientRect(); ['colL','colR'].forEach(function(id){ var c=$(id); c.style.top=(r.top-m.top)+'px'; c.style.height=r.height+'px'; }); }
+window.addEventListener('resize',alignCols); setInterval(function(){ if(CUR) alignCols(); },400);
+function endCard(meWin,a,b,u){ $('cdDate').textContent=(function(d){ function p(n){ return (n<10?'0':'')+n; } return d.getFullYear()+'.'+p(d.getMonth()+1)+'.'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()); })(new Date());
+  $('cdGame').textContent=TT[CUR]+(BET!=='none'?' · '+BETNAME[BET]:''); $('cdA').innerHTML=a+'<u style="text-decoration:none;font-size:14px">'+u+'</u>'; $('cdB').innerHTML=b+'<u style="text-decoration:none;font-size:14px">'+u+'</u>'; $('cdRes').textContent=meWin?'이겼어요!':'아쉽게 졌어요'; $('cdRes').style.color=meWin?'var(--rc)':'var(--sub)';
+  setTimeout(function(){ unpoint(); show('cardv',true); },700); }
+document.querySelectorAll('.tile').forEach(function(t){ t.addEventListener('click',function(){ ac(); if(t.classList.contains('off')){ toast($('home'),'시안에서는 위 네 가지만 눌러져요<br>이 놀이는 지금 손님 화면(/nori/)에 있어요'); return; } openPre(t.dataset.g); }); });
+$('preBets').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; ac();
+  if(b.dataset.b==='real'){ b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); SFX.kong(); var sm=b.querySelector('small'), o=sm.textContent; sm.textContent='화면에선 안 돼요 😆 사장님께 직접!'; setTimeout(function(){ sm.textContent=o; },2000); return; }
+  [].forEach.call(this.children,function(x){ x.classList.toggle('on',x===b); }); BET=b.dataset.b; });
+$('preWho').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; [].forEach.call(this.children,function(x){ x.classList.toggle('on',x===b); }); WHO=b.dataset.w; });
+$('preGo').addEventListener('click',function(){ ac(); begin(); });
+$('preDim').addEventListener('click',function(){ show('pre',false); show('preDim',false); if(!$('game').style.display) return; goHome(); });
+$('sndBtn').addEventListener('click',function(){ show('setDim',true); show('setSheet',true); });
+$('setOk').addEventListener('click',function(){ show('setDim',false); show('setSheet',false); }); $('setDim').addEventListener('click',function(){ show('setDim',false); show('setSheet',false); });
+$('bHome').addEventListener('click',function(){ ac(); goHome(); });
+$('bNew').addEventListener('click',function(){ ac(); if(!CUR){ toast($('home'),'공유하기 (시안)'); return; } show('cardv',false); openPre(CUR); });
+$('bHelp').addEventListener('click',function(){ if(!CUR){ toast($('home'),'내 선물함 (시안)'); return; } var st=document.querySelector('.view.on .stage'); toast(st,{rps:'가위바위보 · 두 번 먼저 이기면 끝 · 진 쪽이 벌칙 · 🔈소리에서 「말로 내기」를 켜면 「보!」 하고 외쳐서 낼 수 있어요',mj:'가위바위보로 공격을 정하고 · 공격하는 쪽이 같은 손을 내게 하면 한 판 · 다르면 이긴 손이 공격',arm:'「힘!」을 꾹 누르면 힘이 차고 빨리빨리 누르면 더 세요 · 왼쪽 기둥이 내 힘',yeot:'엿을 골라 꾹 눌러 휘었다가 놓으면 「뚝!」 · 단면 구멍이 큰 쪽이 이겨요'}[CUR]); });
+document.getElementById('themebar').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; document.body.className=b.dataset.t; [].forEach.call(this.querySelectorAll('button'),function(x){ x.classList.toggle('on',x===b); }); try{ localStorage.setItem('nori-theme',b.dataset.t); }catch(x){} });
+try{ var th=localStorage.getItem('nori-theme'); if(th){ document.body.className=th; [].forEach.call(document.querySelectorAll('#themebar button'),function(x){ x.classList.toggle('on',x.dataset.t===th); }); } }catch(x){}
+setBar(true);
 function start(){ PEN.stop(); cancelAnimationFrame(A.raf); A.on=false; colReset(); if(CUR==='pen') penStart(); else if(CUR==='rps') rpsStart(); else if(CUR==='mj') mjStart(); else if(CUR==='arm') armStart(); else yeotStart(); }
 
 /* 벌칙 맛보기 */
@@ -310,7 +470,7 @@ function penStart(){ PEN.run($('penStage'),PB,PL); }
 var RB='ttak', R={}, HH=['✌️','✊','✋'], HN=['가위','바위','보'];
 chips($('rpsBet'),function(){ return $('rpsStage'); },function(k){ RB=k; });
 function rpsStart(){ R={a:0,b:0,busy:false,over:false}; col('l',{sc:0,un:'승'}); col('r',{sc:0,un:'승'}); $('rpsStage').onpointerdown=null; $('rpsStage').innerHTML='<div class="duel"><div>✊<small>나</small></div><div>✊<small>다복 사장님</small></div></div>'; $('rpsBtns').style.display=''; $('rpsBet').style.display=''; rpsMicBtn();
-  $('rpsSay').innerHTML='먼저 <b>무엇을 걸지</b> 고르고 '+(OPT.mic?'<b>🎤 말로</b> 또는 아래 단추로':'아래에서')+' 내세요 · 두 번 먼저 이기면 끝'; rpsAim(); }
+  $('rpsSay').innerHTML='<b>내 차례</b> · 무엇을 낼까요?'+(OPT.mic?' (🎤 말로 내기도 돼요)':''); rpsAim(); }
 function rpsAim(t){ setTimeout(function(){ if(CUR==='rps'&&!R.over&&!R.busy) point($('rpsBtns'),t||'셋 중 하나를 고르세요',.5,.55); },60); }
 function rpsMicBtn(){ $('rpsMic').style.display=(OPT.mic&&!R.over)?'':'none'; }
 function rpsPlay(m,c){ /* m: 내 손, c: 사장님 손(미리 정해 둠) */
@@ -320,9 +480,9 @@ function rpsPlay(m,c){ /* m: 내 손, c: 사장님 손(미리 정해 둠) */
   else { R.b++; col('r',{sc:R.b,on:true}); col('l',{on:false}); $('rpsSay').innerHTML='<em>사장님이 이겼다!</em>'; SFX.kong(); }
   R.busy=false;
   if(R.a>=2||R.b>=2){ R.over=true; rpsMicBtn(); var meWin=R.a>=2; $('rpsBtns').style.display='none';
-    if(RB==='none'){ $('rpsSay').innerHTML=meWin?'<b>이겼어요!</b> → 결과 카드 · 선물':'<em>아쉽게 졌어요</em> → 결과 카드 · 참가 선물'; return; }
+    if(RB==='none'){ endCard(meWin,R.a,R.b,'승'); return; }
     $('rpsSay').innerHTML=meWin?'<b>이겼다!</b> 이제 사장님께 '+PEN.name(RB)+'!':'<em>졌다…</em> 사장님한테 '+PEN.name(RB)+' 😣';
-    setTimeout(function(){ PEN.run($('rpsStage'),RB,meWin?'cpu':'me',function(){ $('rpsSay').innerHTML='벌칙 끝! → 실제 화면에선 여기서 <b>결과 카드 · 선물 받기</b>'; col('l',{sc:R.a,un:'승'}); col('r',{sc:R.b,un:'승'}); }); },1200); }
+    setTimeout(function(){ PEN.run($('rpsStage'),RB,meWin?'cpu':'me',function(){ endCard(meWin,R.a,R.b,'승'); col('l',{sc:R.a,un:'승'}); col('r',{sc:R.b,un:'승'}); }); },1200); }
   else setTimeout(function(){ rpsAim('또 고르세요'); },500); }
 function rpsBegin(){ R.busy=true; unpoint(); $('rpsBet').style.display='none'; var d=$('rpsStage').querySelector('.duel'); d.children[0].firstChild.textContent='✊'; d.children[1].firstChild.textContent='✊'; return Math.floor(Math.random()*3); }
 /* 단추로 내기: 「가위 · 바위 · 보!」 구령 뒤 공개 */
@@ -349,8 +509,8 @@ function mjPlay(m,c){ var d=$('mjStage').querySelector('.duel'); d.children[0].f
   if(m===c){ var meWin=M.att==='me'; if(meWin){ M.a++; col('l',{sc:M.a}); SFX.ttak(); fx($('mjStage'),'잡았다!'); } else { M.b++; col('r',{sc:M.b}); SFX.kong(); fx($('mjStage'),'잡혔다!'); }
     $('mjSay').innerHTML=(meWin?'<b>잡았다! 내가 한 판</b>':'<em>잡혔다! 사장님 한 판</em>')+' · '+M.a+' : '+M.b; M.att=null; col('l',{on:false}); col('r',{on:false});
     if(M.a>=2||M.b>=2){ M.over=true; mjMicBtn(); var w=M.a>=2; $('mjBtns').style.display='none';
-      if(MB==='none'){ $('mjSay').innerHTML=w?'<b>이겼어요!</b> → 결과 카드 · 선물':'<em>아쉽게 졌어요</em> → 결과 카드 · 참가 선물'; return; }
-      setTimeout(function(){ $('mjSay').innerHTML=w?'<b>이겼다!</b> 사장님께 '+PEN.name(MB)+'!':'<em>졌다…</em> 사장님한테 '+PEN.name(MB)+' 😣'; PEN.run($('mjStage'),MB,w?'cpu':'me',function(){ $('mjSay').innerHTML='벌칙 끝! → 실제 화면에선 여기서 <b>결과 카드 · 선물 받기</b>'; col('l',{sc:M.a,un:'판'}); col('r',{sc:M.b,un:'판'}); }); },1100); }
+      if(MB==='none'){ endCard(w,M.a,M.b,'판'); return; }
+      setTimeout(function(){ $('mjSay').innerHTML=w?'<b>이겼다!</b> 사장님께 '+PEN.name(MB)+'!':'<em>졌다…</em> 사장님한테 '+PEN.name(MB)+' 😣'; PEN.run($('mjStage'),MB,w?'cpu':'me',function(){ endCard(w,M.a,M.b,'판'); col('l',{sc:M.a,un:'판'}); col('r',{sc:M.b,un:'판'}); }); },1100); }
     else setTimeout(function(){ $('mjSay').innerHTML='<b>1 공격 정하기</b> · 다시 가위바위보'; mjAim(); },900); return; }
   /* 다른 손 → 이긴 손이 공격을 가져감 */
   var nw=beats(m,c)?'me':'cpu'; var ch=nw!==M.att; M.att=nw; col('l',{on:nw==='me'}); col('r',{on:nw==='cpu'});
@@ -383,7 +543,8 @@ function armLoop(){ var now=performance.now(), dt=Math.min(.05,(now-A.last)/1000
   A.pa=Math.max(0,A.pa-dt*.55); A.pb=Math.max(0,A.pb-dt*.55); col('l',{pw:A.pa,on:A.pa>A.pb}); col('r',{pw:A.pb,on:A.pb>A.pa});
   A.x+=(A.pb-A.pa)*dt*.9; A.x=Math.max(-1,Math.min(1,A.x)); armDraw();
   if(Math.abs(A.x)>=1){ A.on=false; var meWin=A.x<=-1; SFX.kong(); fx($('armStage'),meWin?'쾅! 이겼다':(A.two?'쾅! 친구 승':'쾅! 졌다'),40); col('l',{pw:0,on:meWin}); col('r',{pw:0,on:!meWin});
-    if(!A.two&&A.bet!=='none'){ setTimeout(function(){ if(CUR!=='arm') return; $('armSay').innerHTML=meWin?'<b>이겼다!</b> 사장님께 '+PEN.name(A.bet)+'!':'<em>졌다…</em> 내가 '+PEN.name(A.bet)+' 😣'; PEN.run($('armStage'),A.bet,meWin?'cpu':'me',function(){ armStart(); }); },1200); }
+    if(!A.two&&A.bet!=='none'){ setTimeout(function(){ if(CUR!=='arm') return; $('armSay').innerHTML=meWin?'<b>이겼다!</b> 사장님께 '+PEN.name(A.bet)+'!':'<em>졌다…</em> 내가 '+PEN.name(A.bet)+' 😣'; PEN.run($('armStage'),A.bet,meWin?'cpu':'me',function(){ endCard(meWin,meWin?1:0,meWin?0:1,'판'); }); },1200); }
+    else { endCard(meWin,meWin?1:0,meWin?0:1,'판'); }
     return; }
   A.raf=requestAnimationFrame(armLoop); }
 var HOLD={a:false,b:false};
@@ -419,14 +580,14 @@ function ysnap(){ if(!Y.hold) return; Y.hold=false; cancelAnimationFrame(yraf);
       if(!$('cutB')) return; SFX.snap(); fx($('yeotStage'),'뚝!'); drawCut($('cutB'),b); col('r',{pw:0,on:false}); var me=a.score>b.score; Y.w[me?0:1]++; col('l',{sc:Y.w[0]}); col('r',{sc:Y.w[1]});
       $('yeotSay').innerHTML='구멍 '+a.score+' : '+b.score+' · '+(me?'<b>이번 판은 내가 이겼다!</b>':'<em>이번 판은 사장님!</em>')+' · 판수 '+Y.w[0]+' : '+Y.w[1];
       if(Y.w[0]>=2||Y.w[1]>=2){ Y.over=true; var meWin=Y.w[0]>=2; setTimeout(function(){ if(CUR!=='yeot') return;
-          if(YB==='none'){ $('yeotSay').innerHTML=meWin?'<b>이겼어요!</b> → 결과 카드 · 선물':'<em>아쉽게 졌어요</em> → 결과 카드 · 참가 선물'; $('yeotGo').disabled=false; $('yeotGo').textContent='새 판'; return; }
+          if(YB==='none'){ endCard(meWin,Y.w[0],Y.w[1],'승'); $('yeotGo').disabled=false; $('yeotGo').textContent='새 판'; return; }
           $('yeotSay').innerHTML=meWin?'<b>이겼다!</b> 사장님께 '+PEN.name(YB)+'!':'<em>졌다…</em> 사장님한테 '+PEN.name(YB)+' 😣'; $('yeotGo').disabled=true; $('yeotGo').textContent='벌칙 중…'; $('bend').firstChild.style.width='0';
-          PEN.run($('yeotStage'),YB,meWin?'cpu':'me',function(){ $('yeotSay').innerHTML='벌칙 끝! → 실제 화면에선 여기서 <b>결과 카드 · 선물 받기</b>'; col('l',{sc:Y.w[0],un:'승'}); col('r',{sc:Y.w[1],un:'승'}); $('yeotGo').disabled=false; $('yeotGo').textContent='새 판'; }); },1300); }
+          PEN.run($('yeotStage'),YB,meWin?'cpu':'me',function(){ endCard(meWin,Y.w[0],Y.w[1],'승'); col('l',{sc:Y.w[0],un:'승'}); col('r',{sc:Y.w[1],un:'승'}); $('yeotGo').disabled=false; $('yeotGo').textContent='새 판'; }); },1300); }
       else { $('yeotGo').disabled=false; $('yeotGo').textContent='다음 판'; Y.next=true; point($('yeotGo'),'다음 판으로',.5,.75); } })(); },300); }
 $('yeotGo').addEventListener('pointerup',ysnap); $('yeotGo').addEventListener('pointercancel',ysnap); $('yeotGo').addEventListener('pointerleave',ysnap);
 $('yeotGo').addEventListener('click',function(){ if(Y.over&&this.textContent==='새 판'){ yeotStart(); return; } if(Y.next){ Y.next=false; Y.round++; unpoint(); yRound(); } });
 
-setTimeout(start,80);
+
 })();
 </script>
 </body></html>
