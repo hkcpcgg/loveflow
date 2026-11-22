@@ -140,7 +140,7 @@ html,body{background:#FFF8E6;color:#1C1D21}
   <button class="gift" type="button">선물 받기</button>
   <div class="two"><button type="button" id="again">다시 하기</button><button type="button">이야기방에 남기기</button></div>
 </div></div>
-<script>window.NORI_A=1;window.NORI_BOARD='.board';</script>
+<script>window.NORI_A=1;window.NORI_BOARD='.board';window.NORI_PEN_SELF=1;</script>
 <script>
 __SND__
 </script>
@@ -338,8 +338,9 @@ function start(){ S.gen++; try{ PEN.stop(); }catch(e){} S.over=false; S.busy=fal
   $('helpBtn').addEventListener('click',function(){ $('helpT').textContent=S.g.name+' · 놀이 방법'; $('helpB').innerHTML=rules(CUR); $('help').classList.add('on'); });
   $('help').addEventListener('click',function(e){ if(e.target.id==='help'||e.target.closest('[data-x]')){ $('help').classList.remove('on'); } });
   noriNav({here:function(){ return S.g.key; }, local:{rp:function(){ setGame('rps'); }, mj:function(){ setGame('mjb'); }, hj:function(){ setGame('holjjak'); }, br:function(){ setGame('bori'); }},
-    onNew:function(){ $('done').classList.remove('on'); setGame(CUR); }});
-  NA.sndBtn(document.querySelector('.top'));
+    onNew:function(){ $('done').classList.remove('on'); setGame(CUR); },
+    onOpen:function(){ if(S.over&&!document.querySelector('.ncard.on')&&!document.querySelector('.pn-sc')){ setGame(CUR); } }});
+
 })();
 function solo(k){ if(GAMES[k]){ setGame(k); } }
 setGame(GAMES[(location.hash||'').slice(1)]?(location.hash||'').slice(1):'rps');

@@ -10,7 +10,7 @@ python3 mkall.py && python3 mknori.py          # → loveflow/nori/index.html
 cp loveflow/nori/index.html ../nori/index.html
 ```
 261122 확인: 이 폴더만으로 다시 만든 결과가 운영 중인 nori/index.html 과 바이트까지 같음.
-**261122 23시 이후: 원본은 디자인 A 1차(첫 화면 + 손놀이 넷)까지 들어가 있어 운영 /nori/(v1.3.1)보다 앞섭니다.** 대표 승인 전에는 `nori/index.html` 을 덮지 말고 시험판만 만듭니다:
+**261123 이후: 원본은 디자인 A 1차(첫 화면 + 손놀이 넷) + 2차(나머지 아홉 놀이 틀 · 벌칙 — build017.py 의 askin 이 pre.js · pen.js 를 넣고 nav.js 가 덧씌움)까지 들어가 있어 운영 /nori/(v1.3.1)보다 앞섭니다.** 대표 승인 전에는 `nori/index.html` 을 덮지 말고 시험판만 만듭니다:
 ```
 python3 mkall.py && python3 mknori.py && python3 mklab.py   # → loveflow/nori/lab/index.html (기록 서버로 안 보냄) · lab/v5/ = 시안 v5.1
 cp loveflow/nori/lab/index.html ../nori/lab/index.html
@@ -21,6 +21,6 @@ cp loveflow/nori/lab/index.html ../nori/lab/index.html
 - 첫 화면: `home_layout.py` · `build017.py`(016을 바탕으로 017 손님 입구를 만듦) · `mknori.py`(/nori/ 머리 · 아이콘)
 - 놀이 틀: `t024.html`(손놀이 넷) · `t022.html`+`g4.js`+`mk022.py`(딱지 · 투호 · 구슬 · 다트) · `t020.html`(골프 · 활쏘기) · `그때그놀이-015*`(오목 · 알까기) · `그때그놀이-013*`(동그란 딱지)
 - 시안: `proto/v5.1.html`(= nori/lab, 디자인 A 확정) · `proto/v4.html` · `design/abc.html`
-- 시험: `test/flow.py 놀이 벌칙 [크기] [cpu|two]`(한 판 끝까지 · 사진) · `test/shot.py` · `test/play_all.py`(13종 끝까지) · `test/fitchk.py`(한 화면) · `test/cardchk.py`(결과 카드) · `test/protochk5.py`(시안) — 로컬 서버 `python3 -m http.server 8765` (loveflow 폴더에서)
+- 시험: `test/flow.py 놀이 벌칙 [크기] [cpu|two]`(한 판 끝까지 · 사진) · `test/shot.py` · `test/penshot.py 놀이 벌칙`(벌칙 → 카드) · `test/reopen.py`(취소 → 다시 열기 · 다시 → 시작 전 창) · `test/play_all.py`(13종 끝까지) · `test/fitchk.py`(한 화면) · `test/cardchk.py`(결과 카드) · `test/protochk5.py`(시안) — 로컬 서버 `python3 -m http.server 8765` (loveflow 폴더에서)
 
 다음 할 일은 프로젝트 문서 그때그놀이-029 를 보세요.

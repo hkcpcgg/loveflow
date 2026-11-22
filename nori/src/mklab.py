@@ -6,7 +6,7 @@ SRC='loveflow/nori/index.html'; OUT='loveflow/nori/lab'
 h=open(SRC,encoding='utf-8').read()
 n=len(re.findall(r'window\.NORI_API="[^"]*"',h)); assert n==1,n
 h=re.sub(r'window\.NORI_API="[^"]*"','window.NORI_API=""',h)
-h=h.replace('<!-- ★ 현재 버전 ▶ nori/index.html','<!-- ★ 시험판 ▶ nori/lab/index.html · 디자인 A 1차(첫 화면 + 손놀이 넷) · 기록 서버로 보내지 않음 · 원본 = nori/src (mkall → mknori → mklab) ◀ 손님 화면 nori/index.html',1)
+h=h.replace('<!-- ★ 현재 버전 ▶ nori/index.html','<!-- ★ 시험판 ▶ nori/lab/index.html · 디자인 A 1차(첫 화면 + 손놀이 넷) + 2차(나머지 아홉 놀이 틀 · 벌칙) · 기록 서버로 보내지 않음 · 원본 = nori/src (mkall → mknori → mklab) ◀ 손님 화면 nori/index.html',1)
 h=h.replace('<head>','<head>\n<meta name="robots" content="noindex">',1)
 os.makedirs(OUT+'/v5',exist_ok=True)
 open(OUT+'/index.html','w',encoding='utf-8').write(h)

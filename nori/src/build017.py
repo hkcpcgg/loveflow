@@ -42,8 +42,14 @@ a.room{color:inherit;text-decoration:none}
 .ov .back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 '''
 css+=HOME_CSS
+# 디자인 A 2차 (261122): 손놀이(024, 이미 A) 말고 모든 놀이에 A 공통(pre.js · pen.js)을 아래 막대 스크립트 앞에 넣음 → nav.js 가 A 틀 · 시작 전 창 · 벌칙을 덧씌움
+A_HEAD=('<script>window.NORI_A=1;window.NORI_BOARD=".brd,#oB,.board";</script>\n<script>\n'+open('pre.js',encoding='utf-8').read()+'\n</script>\n<script>\n'+open('pen.js',encoding='utf-8').read()+'\n</script>\n')
+def askin(h):
+    if 'window.NORI_A=1' in h: return h
+    i=h.index('/* 그때 그 놀이 · 아래 막대'); j=h.rfind('<script>',0,i); assert j>0
+    return h[:j]+A_HEAD+h[j:]
 def guest(path, extra_css, extra_js=''):
-    h=open(path,encoding='utf-8').read()
+    h=askin(open(path,encoding='utf-8').read())
     h=h.replace('</style>',extra_css+'\n</style>',1)
     h=h.replace('</body>','<script>'+extra_js+'</script>\n</body>',1)
     return base64.b64encode(h.encode('utf-8')).decode()
@@ -82,7 +88,7 @@ html='''<!DOCTYPE html>
     var key= k==='rd'?'rd':(k==='pt'||k==='bw'?'pt':((k==='tk'||k==='th'||k==='mb'||k==='dt')?'g4':((k==='rp'||k==='hj'||k==='mj'||k==='br')?'hd':'om'))), doc=dec(T[key]);
     var solo={om:'omok',ak:'alkkagi',pt:'putt',bw:'bow',tk:'ttak',th:'tuho',mb:'marble',dt:'dart',rp:'rps',hj:'holjjak',mj:'mjb',br:'bori'}[k]; if(solo){ doc=doc.replace('</body>','<script>solo("'+solo+'");<\\/script></body>'); }
     
-    if(cur!==k){ fr.srcdoc=doc; cur=k; }
+    if(cur!==k){ fr.srcdoc=doc; cur=k; } else { try{ fr.contentWindow.postMessage('nori-open','*'); }catch(e){} }
     ov.classList.add('on'); document.body.style.overflow='hidden';
     try{ history.pushState({nori:k},''); }catch(e){}
   }

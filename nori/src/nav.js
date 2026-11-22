@@ -31,7 +31,8 @@
     window.addEventListener('resize',paint); window.addEventListener('resize',align);
     return st; }
   /* A: 기둥은 놀이판 높이만큼만 · 놀이판 양옆에 붙임 (모든 놀이 같은 너비) */
-  function align(){ if(!st||!window.NORI_A) return; var b=d.querySelector(window.NORI_BOARD||'.board'), r=b&&b.getBoundingClientRect();
+  function board(){ var L=[].slice.call(d.querySelectorAll('.na-penl .na-pens')).concat([].slice.call(d.querySelectorAll(window.NORI_BOARD||'.board'))); for(var i=0;i<L.length;i++){ var rr=L[i].getBoundingClientRect(); if(rr.height>20&&rr.width>20) return L[i]; } return null; }
+  function align(){ if(!st||!window.NORI_A) return; var b=board(), r=b&&b.getBoundingClientRect();
     if(!r||!r.height){ st.l.classList.add('na-gone'); st.r.classList.add('na-gone'); return; } st.l.classList.remove('na-gone'); st.r.classList.remove('na-gone');
     [st.l,st.r].forEach(function(c){ c.style.top=r.top+'px'; c.style.height=r.height+'px'; });
     st.l.style.left=Math.max(2,r.left-26-6)+'px'; st.r.style.right='auto'; st.r.style.left=Math.min(innerWidth-28,r.right+6)+'px'; }
@@ -200,7 +201,58 @@ window.noriNav=function(o){
   cd.addEventListener('click',function(e){ var b=e.target.closest('button[data-c]'); if(!b) return; var c=b.getAttribute('data-c'); if(c==='save') save(); else if(c==='story') story(); });
   function againOf(){ var ds=[].slice.call(document.querySelectorAll('.done.on')); for(var i=0;i<ds.length;i++){ var bs=ds[i].querySelectorAll('button'); for(var j=0;j<bs.length;j++){ if(/다시/.test(bs[j].textContent)) return bs[j]; } } return null; }
   /* 옛 끝 화면이 열리면(.done.on) 결과 카드를 엶 */
-  var dmo=new MutationObserver(function(){ var on=!!document.querySelector('.done.on'); if(on&&!cd.classList.contains('on')){ againBtn=againOf(); openCard(); } else if(!on&&cd.classList.contains('on')){ closeCard(); } });
+  var penning=false;
+  var dmo=new MutationObserver(function(){ var on=!!document.querySelector('.done.on'); if(on&&!cd.classList.contains('on')){ if(penning) return; againBtn=againOf();
+      if(window.__naPen){ penning=true; window.__naPen(function(){ penning=false; if(document.querySelector('.done.on')) openCard(); }); } else { openCard(); } }
+    else if(!on){ penning=false; if(cd.classList.contains('on')) closeCard(); } });
   [].slice.call(document.querySelectorAll('.done')).forEach(function(d){ dmo.observe(d,{attributes:true,attributeFilter:['class']}); });
   bar.addEventListener('click',function(e){ var b=e.target.closest('button[data-a=new]'); if(!b||!cd.classList.contains('on')) return; var a=againOf()||againBtn; closeCard(); if(a){ a.click(); } else if(o.onNew){ o.onNew(); } },true);
+  /* ══ 디자인 A 공통 (261122 2차) ══ */
+  if(!window.NORI_A||!window.NA) return;
+  var tp=document.querySelector('.top'); if(tp&&!tp.querySelector('.na-snd')){ NA.sndBtn(tp); }
+  window.addEventListener('message',function(e){ if(e.data==='nori-open'){ if(o.onOpen){ o.onOpen(); } else if(window.__naOpen){ window.__naOpen(); } } });
+  if(window.NORI_PEN_SELF) return;
+  var ac=document.createElement('style');
+  ac.textContent='html,body{background:#FFF8E6!important}.app{background:transparent!important}body *{box-shadow:none!important;text-shadow:none!important}'
+   +'body.nside-on .app>.top{margin-left:-38px;margin-right:-38px}'
+   +'.top{background:#FFC93C!important;color:#1C1D21!important;height:48px!important}.top::after,.top::before{display:none!important}.top .ttl{font-family:"Song Myung",serif;font-size:20px;letter-spacing:0;color:#1C1D21}'
+   +'.top .snd{display:none!important}.top .na-snd{position:absolute;right:8px;top:calc(7px + env(safe-area-inset-top,0px));z-index:3}'
+   +'#pick{display:none!important}'
+   +'.na-strip{display:flex;justify-content:center;gap:6px;padding:6px 0 0;flex:none}.na-strip span{font:800 11.5px "Noto Sans KR",sans-serif;padding:4px 10px;border-radius:999px;background:#F2EBDB;color:#7A6E55;white-space:nowrap}'
+   +'.top .na-strip.in{position:absolute;left:8px;top:calc(11px + env(safe-area-inset-top,0px));padding:0}.top .na-strip.in span{background:rgba(255,255,255,.5);color:#1C1D21;padding:5px 9px;font-size:11px}'
+   +'.na-penl{position:fixed;z-index:19;left:40px;right:40px;display:flex;flex-direction:column;gap:6px;font-family:"Noto Sans KR",sans-serif}'
+   +'.na-penl .na-penh{flex:none;text-align:center;font-size:14px;font-weight:800;color:#7A6E55}.na-penl .na-penh b{color:#2F64E0}.na-penl .na-penh em{font-style:normal;color:#E04848}'
+   +'.na-penl .na-pens{flex:1;min-height:0;position:relative;background:#fff;border-radius:18px;overflow:hidden}'
+   +'.na-pdim{position:fixed;left:0;right:0;bottom:0;z-index:18;background:#FFF8E6}'
+   +'.ncard .bt2 .row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;flex-direction:row!important}.ncard .bt2 .row button{margin-top:6px}';
+  document.head.appendChild(ac);
+  var strip=null; if(tp&&tp.parentNode){ strip=document.createElement('div'); strip.className='na-strip'; tp.parentNode.insertBefore(strip,tp.nextSibling); }
+  /* 화면이 한 장을 넘으면(골프 · 활쏘기 작은 폰) 「걸린 것」을 머리 막대 왼쪽으로 올림 */
+  function fitStrip(){ if(!strip||!tp||strip.classList.contains('in')) return; if(document.documentElement.scrollHeight-innerHeight>0){ strip.classList.add('in'); tp.appendChild(strip); try{ window.dispatchEvent(new Event('resize')); }catch(e2){} } }
+  [400,1200,2500].forEach(function(ms){ setTimeout(fitStrip,ms); }); window.addEventListener('resize',function(){ setTimeout(fitStrip,50); });
+  function setBet(b){ window.__noriBet=b; window.__noriBetName=b==='none'?'':NA.betName(b); if(strip){ strip.innerHTML='<span>걸린 것 · '+NA.betName(b)+'</span>'; } }
+  setBet(NA.bet());
+  var pk=document.getElementById('pick'), asked=false;
+  function oppName(){ var e=pk&&pk.querySelector('[data-v=cpu1] b'); return e&&e.textContent.trim()?e.textContent.trim():shop()+' 사장님'; }
+  function ask(){ NA.pre({who:!!pk, opp:oppName(), onGo:function(b,w){ asked=true; setBet(b); if(pk){ var x=pk.querySelector('[data-v='+(w==='two'?'two':'cpu1')+']'); if(x) x.click(); } try{ window.dispatchEvent(new Event('resize')); }catch(e2){} },
+    onCancel:function(){ asked=false; goHome(); }}); }
+  if(pk){ new MutationObserver(function(){ if(pk.classList.contains('on')&&!cd.classList.contains('on')){ asked=false; ask(); } }).observe(pk,{attributes:true,attributeFilter:['class']}); if(pk.classList.contains('on')){ ask(); } }
+  else { setTimeout(function(){ if(!asked) ask(); },250); }
+  window.__naOpen=function(){ if(cd.classList.contains('on')||PL) return; if(pk?pk.classList.contains('on'):!asked){ ask(); } };
+  /* 벌칙: 옛 끝 화면(.done.on)이 열리면 결과 카드 전에 — 놀이판은 그대로 두고 그 위에 벌칙 무대를 띄움 */
+  var PL=null, PD=null;
+  function penOff(){ if(PL){ try{ PEN.stop(); }catch(e2){} PL.remove(); PL=null; } if(PD){ PD.remove(); PD=null; } }
+  window.__naPen=function(next){ var r=window.__noriLast, b=window.__noriBet;
+    if(!r||!b||b==='none'||!window.PEN||!PEN.has(b)||r.out==='draw'){ next(); return; }
+    var two=r.opp==='친구', won=r.out==='win', who=r.opp||(shop()+' 사장님');
+    var o2= two ? {me:true,victim:won?'친구':'나',side:won?'l':'r'} : (won?{me:true,victim:who,side:'l'}:{me:false,victim:'나',side:'r'});
+    var t0=(tp?tp.getBoundingClientRect().bottom:0)+10;
+    PD=document.createElement('div'); PD.className='na-pdim'; PD.style.top=(tp?tp.getBoundingClientRect().bottom:0)+'px'; document.body.appendChild(PD);
+    PL=document.createElement('div'); PL.className='na-penl'; PL.style.top=t0+'px'; PL.style.bottom='calc(70px + env(safe-area-inset-bottom,0px))';
+    PL.innerHTML='<div class="na-penh">'+(two?(won?'<b>나(왼쪽) 이겼다!</b> 친구에게 ':'<em>친구 이겼다!</em> 나에게 '):(won?'<b>이겼다!</b> 이제 '+esc2(who)+'께 ':'<em>졌다…</em> '+esc2(who)+'한테 '))+PEN.name(b)+(won||two?'!':' 😣')+'</div><div class="na-pens"></div>';
+    document.body.appendChild(PL); try{ window.dispatchEvent(new Event('resize')); }catch(e2){}
+    PEN.run(PL.querySelector('.na-pens'),b,o2,function(){ penOff(); next(); }); };
+  bar.addEventListener('click',function(){ penOff(); },true);
+  /* 「누구랑」 창이 없는 놀이(동그란 딱지): 다시 → 시작 전 창 */
+  if(!pk){ bar.addEventListener('click',function(e){ var b=e.target.closest('button[data-a=new]'); if(b){ setTimeout(function(){ asked=false; ask(); },250); } }); }
 };
