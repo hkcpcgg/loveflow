@@ -189,8 +189,14 @@ window.noriNav=function(o){
     c.toBlob(function(b){ cb(b,m); },'image/png'); }
   function fname(){ return 'geuttae-nori-'+(R&&R.card||Date.now())+'.png'; }
   function dl(b){ var u=URL.createObjectURL(b), a=document.createElement('a'); a.href=u; a.download=fname(); document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); },4000); }
-  function save(){ draw(function(b){ var f=null; try{ f=new File([b],fname(),{type:'image/png'}); }catch(e){}
-      if(f&&navigator.canShare&&navigator.canShare({files:[f]})){ navigator.share({files:[f],title:'그때 그 놀이 결과 카드'}).catch(function(){}); } else { dl(b); } }); }
+  function save(){ var txt=shop()+'에서 그때 그 놀이 한 판! '+(R&&R.gname?R.gname+' ':'')+(R?resText(R):'')+' · 나도 해 보기 → '+HOME;
+    draw(function(b){ var f=null; try{ f=new File([b],fname(),{type:'image/png'}); }catch(e){}
+      if(f&&navigator.canShare&&navigator.canShare({files:[f],text:txt})){ navigator.share({files:[f],title:'그때 그 놀이 결과 카드',text:txt}).catch(function(){}); return; }
+      dl(b); /* 그림을 바로 못 보내는 곳: 그림은 폰에 저장, 글과 링크는 복사 */
+      var done=function(m){ try{ (window.NA&&NA.toast)?NA.toast(m):alert(m); }catch(e2){} };
+      if(navigator.share){ navigator.share({title:'그때 그 놀이',text:txt,url:HOME}).catch(function(){}); }
+      else if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(function(){ done('카드 그림은 폰에 저장했어요<br>글과 링크는 복사했어요 — 카톡에 붙여 넣으세요'); },function(){ done('카드 그림은 폰에 저장했어요'); }); }
+      else { done('카드 그림은 폰에 저장했어요'); } }); }
   function story(){ var r=R, ttl=('그때 그 놀이 · '+(r.gname||'')+(r.sc&&r.sc[1]!=null?' '+r.sc[0]+':'+r.sc[1]:'')+' '+resText(r)).slice(0,60);
     var w=null; try{ w=window.open('about:blank','_blank'); }catch(e){}
     draw(function(b,m){ dl(b); var t=((m?m+' — ':'')+shop()+' · '+when(r.t)+' · 확인 번호 '+(r.card||'')).slice(0,3000);

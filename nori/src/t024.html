@@ -199,7 +199,7 @@ function setH(id,k){ var e=$(id); e.textContent=E[k]; e.classList.remove('pop');
 /* 고르는 단추: order = 보여 줄 차례, names = 이름 */
 function choose(lab,order,names,sub,cb){ var MIC=S.micRe&&NA.micOn()&&!two();
   $('act').innerHTML=(two()?'<div class="lab">'+lab+'</div>':'')+'<div class="row">'+order.map(function(k){ return '<button class="bt o h" type="button" data-k="'+k+'"><span class="e">'+E[k]+'</span>'+names[k]+(sub?'<small>'+sub[k]+'</small>':'')+'</button>'; }).join('')+'</div>'
-    +(MIC?'<button class="bt mic" type="button" id="micB">🎤 말로 내기 · 「'+S.micRe.w[0]+'! '+S.micRe.w[1]+'!」 다음에 외치기</button>':'');
+    +(MIC?'<button class="bt mic" type="button" id="micB">🎤 말로 내기 · '+(S.micRe.w.length?'「'+S.micRe.w.join('! ')+'!」 다음에 외치기':'갑자기 「묵!」 「찌!」 「빠!」')+'</button>':'');
   $('act').querySelectorAll('[data-k]').forEach(function(b){ b.addEventListener('click',function(){ if(S.busy) return; S.taught=true; NA.unpoint(); cb(b.getAttribute('data-k')); }); });
   if(MIC){ $('micB').addEventListener('click',function(){ if(S.busy) return; S.taught=true; NA.unpoint(); listen(S.micRe,cb); }); }
   aim($('act').querySelector('.row'),'셋 중 하나를 고르세요'); }
@@ -207,21 +207,27 @@ function choose(lab,order,names,sub,cb){ var MIC=S.micRe&&NA.micOn()&&!two();
 function aim(el,t){ if(S.taught||!el) return; var g=S.gen; setTimeout(function(){ if(g===S.gen&&!S.taught&&!S.busy&&!$('help').classList.contains('on')) NA.point(el,t,.5,.55); },120); }
 /* 말로 내기: 폰이 「가위! 바위!」 → 손님이 「보!」 */
 function listen(R,cb){ S.busy=true; lock(true); var g=S.gen; $('hA').textContent=E.rock; $('hB').textContent=E.rock; var i=0;
-  (function nx(){ if(g!==S.gen) return; if(i<2){ word(R.w[i]+'!',''); NA.beat(); NA.speak(R.w[i]); bob('hA'); bob('hB'); SND.clack(.45); i++; setTimeout(nx,420); return; }
-    word('🎤',''); bub('🎤 <b>지금 외치세요!</b> 「'+R.say.join('」 「')+'」','a');
+  (function nx(){ if(g!==S.gen) return; if(i<R.w.length){ word(R.w[i]+'!',''); bob('hA'); bob('hB'); SND.clack(.45); i++; setTimeout(nx,420); return; }
+    word('🎤',''); bub('🎤 <b>'+(R.w.length?'지금':'갑자기')+' 외치세요!</b> 「'+R.say.join('」 「')+'」','a');
     NA.mic(R.re,R.map,function(k){ if(g!==S.gen) return; S.busy=false; lock(false);
       if(k==null){ bub('못 알아들었어요 😅 단추로 내 주세요','n'); word('',''); return; }
       S.micDone=true; cb(k); }, function(t){ bub('🎤 「'+esc(t)+'」','a'); }); })(); }
 var MIC_RPS={w:['가위','바위'],say:['가위','바위','보'],re:/(보자기|보|뽀)|(바위|바이|빠위)|(가위|가이|까위)/g,map:['paper','rock','scissors']},
-    MIC_MJ={w:['묵','찌'],say:['묵','찌','빠'],re:/(묵|묶|무|뭇)|(찌|지|찍)|(빠|파|바)/g,map:['rock','scissors','paper']};
+    MIC_MJ={w:[],say:['묵','찌','빠'],re:/(묵|묶|무|뭇)|(찌|지|찍)|(빠|파|바)/g,map:['rock','scissors','paper']};
 var HIST=[];
 function cpuPick(){ if(HIST.length>=2&&Math.random()<.25){ var c={rock:0,scissors:0,paper:0}; HIST.slice(-6).forEach(function(k){ c[k]++; }); var fav=Object.keys(c).sort(function(x,y){ return c[y]-c[x]; })[0];
     return fav==='rock'?'paper':(fav==='scissors'?'rock':'scissors'); } return ['rock','scissors','paper'][rnd(3)]; }
 /* 「가위 · 바위 · 보!」(또는 「묵 · 찌 · 빠!」) 박자 — 손을 두 번 흔들고 셋째 박에 펼침 */
 async function chant(a,b,words){ S.busy=true; lock(true); $('hA').textContent=E.rock; $('hB').textContent=E.rock;
   var i0=S.micDone?2:0; S.micDone=false;
-  for(var i=i0;i<3;i++){ word(words[i],''); NA.beat(); NA.speak(words[i]); if(i<2){ bob('hA'); bob('hB'); SND.clack(.45); await wait(380); } }
+  for(var i=i0;i<3;i++){ word(words[i],''); if(i<2){ bob('hA'); bob('hB'); SND.clack(.45); await wait(380); } }
   setH('hA',a); setH('hB',b); SND.slap(.7); await wait(500); }
+/* 묵찌빠 2단계 (대표 261123): 가위바위보처럼 「묵 · 찌 · 빠」 세 박자로 세지 않음.
+   공격하는 쪽이 가만히 있다가 갑자기 한 마디(「찌!」) — 그 기합에 상대를 끌어들이는 놀이. 두 손은 그 순간 함께 나옴 */
+async function shout(a,b,att){ S.busy=true; lock(true); $('hA').textContent=E.rock; $('hB').textContent=E.rock;
+  var quick=S.micDone; S.micDone=false; word('…','');
+  if(!quick){ await wait(350+rnd(1100)); }
+  var k=att===0?a:b; word(MJN[k]+'!', att===0?'win':'lose'); setH('hA',a); setH('hB',b); SND.slap(.8); await wait(650); }
 /* 둘이서: 첫째가 몰래 고른 뒤 둘째 */
 function pickBoth(lab,order,names,sub,go){ if(!two()){ choose(lab,order,names,sub,function(k){ go(k,null); }); return; }
   choose(esc(nm(0))+' · 몰래 고르기',order,names,sub,function(k){ S.who=1; vs(); bub(esc(nm(0))+'는 화면을 보지 마세요','b'); choose(esc(nm(1))+' · 몰래 고르기',order,names,sub,function(k2){ go(k,k2); }); }); }
@@ -240,7 +246,7 @@ var RP={key:'rp',name:'가위바위보',goal:3,
 
 /* ───────── 2. 묵찌빠 — 1 공격 정하기 → 2 묵찌빠 ───────── */
 var MJ={key:'mj',name:'묵찌빠',goal:2,
-  rule:['<b>1단계 공격 정하기</b> — 먼저 가위바위보를 합니다. 이긴 사람이 <b>공격</b>합니다.','<b>2단계 묵찌빠</b> — 「묵 · 찌 · 빠!」 하며 함께 냅니다. 묵 = 주먹, 찌 = 가위, 빠 = 보.','둘이 <b>같은 걸 내면 공격한 사람이 한 판</b>을 이깁니다. 다르면 그 판을 이긴 쪽이 공격을 이어 갑니다.','<b>두 판 먼저 이기는 사람</b>이 이깁니다.'],
+  rule:['<b>1단계 공격 정하기</b> — 먼저 가위바위보를 합니다. 이긴 사람이 <b>공격</b>합니다.','<b>2단계 묵찌빠</b> — 공격하는 사람이 가만히 있다가 <b>갑자기</b> 「묵!」 「찌!」 「빠!」 중 하나를 외치며 냅니다. 상대는 그 기합에 끌려가지 않게 다른 걸 내야 해요. 묵 = 주먹, 찌 = 가위, 빠 = 보.','둘이 <b>같은 걸 내면 공격한 사람이 한 판</b>을 이깁니다. 다르면 그 판을 이긴 쪽이 공격을 이어 갑니다.','<b>두 판 먼저 이기는 사람</b>이 이깁니다.'],
   mid:function(){ return '2판 먼저 이기면 끝'; },
   start:function(){ HIST=[]; this.att=null; this.turn(); },
   steps:function(){ return '<div class="steps"><span'+(this.att==null?' class="on"':'')+'>1 공격 정하기</span><span'+(this.att!=null?' class="on"':'')+'>2 묵찌빠</span></div>'; },
@@ -251,7 +257,7 @@ var MJ={key:'mj',name:'묵찌빠',goal:2,
     if(this.att==null){ pickBoth('가위 · 바위 · 보',['scissors','rock','paper'],NM,null,function(a,b){ self.go(a,b==null?cpuPick():b); }); }
     else { pickBoth('묵 · 찌 · 빠',['rock','scissors','paper'],MJN,MJS,function(a,b){ self.go(a,b==null?self.cpu(a):b); }); } },
   cpu:function(mine){ if(this.att===1&&Math.random()<.15){ return mine; } return cpuPick(); },
-  go:async function(a,b){ HIST.push(a); var mj=this.att!=null; await chant(a,b,mj?['묵','찌','빠!']:['가위','바위','보!']);
+  go:async function(a,b){ HIST.push(a); var mj=this.att!=null; if(mj){ await shout(a,b,this.att); } else { await chant(a,b,['가위','바위','보!']); }
     if(!mj){ if(a===b){ word('비겼다! 다시','draw'); await wait(800); return this.turn(); }
       this.att=beats(a,b)?0:1; word(this.att===0?(two()?esc(nm(0))+' 공격!':'내가 공격!'):esc(nm(1))+' 공격!', this.att===0?'win':'lose'); SND.stone(.6); await wait(1000); return this.turn(); }
     if(a===b){ var w=this.att; S.sc[w]++; bump(w); vs(); word(w===0?'묵찌빠! 한 판':'잡혔다! 한 판 내줌', w===0?'win':'lose'); SND[w===0?'ding':'thud'](.7);
@@ -302,12 +308,14 @@ var BR={key:'br',name:'쌀보리',tries:5,
     else { this.scene('내가 외칠 차례 · 보리, 보리… 쌀!','a');
       $('act').innerHTML='<div class="row"><button class="bt o" type="button" data-w="b">보리</button><button class="bt red" type="button" data-w="s">쌀!</button></div>'; S.taught=false; aim($('act').querySelector('.row'),'보리… 보리… 하다가 쌀!'); this.calling(); } },
   dip:function(t){ var f=$('fist'); f.classList.remove('bob'); void f.offsetWidth; f.classList.add('bob'); word(t, t==='쌀!'?'lose':''); },
-  calls:async function(catcher){ var self=this, n=2+rnd(4), grabbed=false, phase='', t0=0;
+  /* 쌀보리 (대표 261123): 일정한 박자가 아님 — 보리 · 보리 하다가 가만히 있다가 갑자기 쌀! (빠르게 · 느리게 섞음) */
+  gap:function(){ return Math.random()<.4 ? 200+rnd(160) : 650+rnd(950); },
+  calls:async function(catcher){ var self=this, n=1+rnd(5), grabbed=false, phase='', t0=0;
     aim($('grab'),'「쌀!」 할 때 누르세요');
     $('grab').onclick=function(){ if(grabbed) return; grabbed=true; S.taught=true; NA.unpoint(); self.judge(catcher,phase,performance.now()-t0); };
     await wait(700);
     for(var i=0;i<=n&&!grabbed;i++){ phase=i<n?'b':'s'; t0=performance.now(); this.dip(phase==='b'?'보리':'쌀!'); SND[phase==='s'?'clack':'stone'](.5);
-      await wait(phase==='s'?700:500+rnd(350)); if(grabbed) return; word(''); await wait(160); }
+      await wait(phase==='s'?700:260); if(grabbed) return; word(''); if(i<n){ await wait(i===n-1?this.gap()+rnd(400):this.gap()); } }
     if(!grabbed){ grabbed=true; this.judge(catcher,'late',0); } },
   calling:function(){ var self=this, done=false;
     $('act').querySelectorAll('[data-w]').forEach(function(b){ b.onclick=function(){ if(done||S.busy) return; S.taught=true; NA.unpoint(); var w=b.getAttribute('data-w'); self.dip(w==='b'?'보리':'쌀!'); SND[w==='s'?'clack':'stone'](.5);

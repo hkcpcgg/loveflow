@@ -1,12 +1,13 @@
 /* 그때 그 놀이 · 디자인 A 공통 (261122 v1) — 첫 화면과 놀이가 같이 씀
-   NA.sndBtn(자리)  오른쪽 위 「🔈 소리」 → 소리 설정 창(효과음 · 구령 소리 · 말로 내기 · 모두 끄기)
+   NA.sndBtn(자리)  오른쪽 위 「🔈 소리」 → 소리 설정 창(효과음 · 말로 내기 · 모두 끄기 — 구령 소리는 261123 뺌)
    NA.pre({...})    시작 전 창 「무엇을 걸까요?」(벌칙 · 누구랑)
-   NA.point(el,글) 반투명 손가락(선 없음) · NA.speak · NA.beat(낮은 「솔」) · NA.mic(말 알아듣기) · NA.toast
+   NA.point(el,글) 반투명 손가락(선 없음) · NA.mic(말 알아듣기) · NA.toast · (구령 소리 NA.speak · NA.beat 는 261123 대표 결정으로 꺼 둠)
    ★첫째 원칙: 테두리 · 음영 없음 · 빨간 방사형 · 빨간 원 금지 */
 window.NA=(function(){
   var d=document, $=function(id){ return d.getElementById(id); };
   var OPT={sfx:true,voice:false,mic:false};
   try{ var o=JSON.parse(localStorage.getItem('nori-opt')||'null'); if(o){ OPT.sfx=o.sfx!==false; OPT.voice=!!o.voice; OPT.mic=!!o.mic; } else if(window.SND&&SND.isOn){ OPT.sfx=SND.isOn(); } }catch(e){}
+  OPT.voice=false; /* 구령 소리는 뺌 (대표 261123) — 효과음만 */
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   function keep(){ try{ localStorage.setItem('nori-opt',JSON.stringify(OPT)); }catch(e){} try{ if(window.SND&&SND.set&&SND.isOn()!==OPT.sfx){ SND.set(OPT.sfx); } }catch(e){} }
   keep();
@@ -61,7 +62,6 @@ window.NA=(function(){
     btns.forEach(function(b){ b.classList.toggle('off',muted()); }); }
   function soundSheet(){ if(!ss){ ss=sheet('<h3>소리</h3><p class="sub">식사 중이면 「모두 끄기」를 켜 주세요</p><div class="na-opts">'
       +'<button type="button" class="na-set" data-o="sfx"><span class="em">🔔</span><span class="tx"><b>효과음</b><small>딱! 짝! 콩! 소리</small></span><span class="sw"></span></button>'
-      +'<button type="button" class="na-set" data-o="voice"><span class="em">📢</span><span class="tx"><b>구령 소리</b><small>폰이 「가위! 바위! 보!」를 외쳐요</small></span><span class="sw"></span></button>'
       +'<button type="button" class="na-set" data-o="mic"><span class="em">🎤</span><span class="tx"><b>말로 내기</b><small>「보!」 하고 외쳐서 내요 (마이크)</small></span><span class="sw"></span></button>'
       +'<button type="button" class="na-set" data-o="mute"><span class="em">🤫</span><span class="tx"><b>모두 끄기</b><small>소리도 마이크도 모두 꺼요</small></span><span class="sw"></span></button>'
       +'</div><button type="button" class="na-go soft" data-x="1">닫기</button>');
@@ -108,7 +108,7 @@ window.NA=(function(){
   /* 구령: 기계음 · 가장 낮게 · 낮은 「솔」 박자 (나중에 사장님 녹음으로 바꿀 자리: NA.voiceFile) */
   var AC=null; function ac(){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); }catch(e){} return AC; }
   function tone(f,dur,vol){ var c=ac(); if(!c) return; var t=c.currentTime, g=c.createGain(), o=c.createOscillator(); g.gain.setValueAtTime(vol||.5,t); g.gain.exponentialRampToValueAtTime(.001,t+dur); o.type='triangle'; o.frequency.setValueAtTime(f,t); o.frequency.exponentialRampToValueAtTime(f*.6,t+dur); o.connect(g); g.connect(c.destination); o.start(t); o.stop(t+dur); }
-  function beat(){ if(!OPT.voice) return; tone(196,.2,.55); tone(98,.22,.5); }
+  function beat(){ return; if(!OPT.voice) return; tone(196,.2,.55); tone(98,.22,.5); }
   function speak(t){ if(!OPT.voice||!window.speechSynthesis) return; try{ var u=new SpeechSynthesisUtterance(String(t).replace(/[!·]/g,'')); u.lang='ko-KR'; u.pitch=.2; u.rate=1.15; var v=speechSynthesis.getVoices().filter(function(x){ return /ko/i.test(x.lang); }); if(v.length) u.voice=v[0]; speechSynthesis.speak(u); }catch(e){} }
   function vib(p){ if(!OPT.sfx) return; try{ navigator.vibrate&&navigator.vibrate(p); }catch(e){} }
   /* 말 알아듣기: re 의 몇째 묶음이 맞았는지 → map */

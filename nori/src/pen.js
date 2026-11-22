@@ -119,9 +119,9 @@ window.PEN=(function(){
     var iv=0, waitBap=null;
     function roll(manual,after){ var k=0, syl=0; [].forEach.call(sp,function(s){ s.classList.remove('on'); });
       iv=setInterval(function(){ if(!alive()){ clearInterval(iv); return; } var s=spot(); mark(s.x,s.y); SFX.pat(); col(side,{pw:.25+(k%4)/5}); k++;
-        if(k%5===0&&syl<3){ sp[syl].classList.add('on'); NA.beat(); NA.speak(['인','디','언'][syl]); syl++; }
+        if(k%5===0&&syl<3){ sp[syl].classList.add('on'); syl++; }
         if(k>=15){ clearInterval(iv); iv=0; if(manual){ H('지금 손을 떼세요 → 「밥!」',true); waitBap=after; } else setTimeout(function(){ bap(after); },240); } },70); }
-    function bap(after){ if(!alive()) return; var s=spot(); sp[3].classList.add('on'); NA.speak('밥'); mark(s.cx-36,s.cy,true); mark(s.cx+36,s.cy,true); SFX.bap(); fx(st,'밥!'); count(); col(side,{pw:0}); setTimeout(after,750); }
+    function bap(after){ if(!alive()) return; var s=spot(); sp[3].classList.add('on'); mark(s.cx-36,s.cy,true); mark(s.cx+36,s.cy,true); SFX.bap(); fx(st,'밥!'); count(); col(side,{pw:0}); setTimeout(after,750); }
     var aimB=function(){ if(alive()&&n<K.n) NA.point(bp,'여기 등을 꾹 누르고 있다가 떼세요',.5,.62); };
     if(me){ H('꾹 누르고 있으면 「인·디·언」 따다닥 → 떼면 「밥!」',true); setTimeout(aimB,60);
       st.onpointerdown=function(e){ if(!alive()||n>=K.n||iv||waitBap) return; e.preventDefault(); NA.unpoint(); H('따다다다다닥! 계속 누르고 있으세요'); roll(true,function(){ if(n>=K.n){ st.onpointerdown=null; finish(); } else { H('한 번 더! 꾹 누르세요',true); aimB(); } }); };
