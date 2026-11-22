@@ -1,0 +1,99 @@
+# 그때 그 놀이 · 첫 화면 새 배치 (표준 v1 · 261122)
+# 위: 「그때 그 놀이」 한 줄 + 「다복에서 준비한 푸짐한 선물 받아가세요」
+# 가운데: 세 묶음(혼자서 바로 · 둘이서 겨루기 · 여럿이 함께) · 한 줄 세 칸 · 「새」 표시 없음 · 칸을 누르면 바로 놀이
+# 아래: 다복 이야기방 · 우리 이야기 · 사랑흐름 바로가기 → 사랑흐름 공용 푸터(lf-foot.js, 환불정책 뺌) · 고정 아래 막대(내 선물함 · 홈 · 공유하기)
+import re
+
+SK = '#F4C9A0'; LN = '#7A4A28'
+def _svg(body):
+    return '<svg class="pic" viewBox="0 0 84 68" aria-hidden="true">' + body + '</svg>'
+NEW_PICS = {
+ 'rp': _svg('<g fill="%s" stroke="%s" stroke-width="2" stroke-linejoin="round"><rect x="6" y="26" width="30" height="30" rx="11"/><rect x="48" y="30" width="28" height="26" rx="10"/><rect x="54" y="8" width="8" height="28" rx="4" transform="rotate(10 58 22)"/><rect x="64" y="12" width="8" height="26" rx="4" transform="rotate(28 68 25)"/></g><path d="M14 40c4-3 9-3 13 0" fill="none" stroke="%s" stroke-width="2"/>' % (SK, LN, LN)),
+ 'hj': _svg('<g fill="%s" stroke="%s" stroke-width="2" stroke-linejoin="round"><rect x="10" y="22" width="34" height="34" rx="13"/></g><circle cx="56" cy="44" r="7" fill="#4E97A8" stroke="#2C5F6B" stroke-width="1.5"/><circle cx="70" cy="40" r="7" fill="#E1262D" stroke="#8E1418" stroke-width="1.5"/><circle cx="63" cy="54" r="7" fill="#2E9E4F" stroke="#1B5E2F" stroke-width="1.5"/><text x="27" y="17" text-anchor="middle" font-family="Black Han Sans,sans-serif" font-size="13" fill="#16181D">홀? 짝?</text>' % (SK, LN)),
+ 'mj': _svg('<g fill="%s" stroke="%s" stroke-width="2" stroke-linejoin="round"><rect x="8" y="24" width="30" height="30" rx="11"/><rect x="46" y="24" width="30" height="30" rx="11"/></g><text x="42" y="16" text-anchor="middle" font-family="Black Han Sans,sans-serif" font-size="13" fill="#7A3E9D">묵 찌 빠</text>' % (SK, LN)),
+ 'br': _svg('<g fill="%s" stroke="%s" stroke-width="2" stroke-linejoin="round"><path d="M8 44c0-12 10-18 22-18s22 6 22 18-10 18-22 18S8 56 8 44z"/><ellipse cx="30" cy="38" rx="13" ry="6" fill="#E8B48A"/><rect x="46" y="14" width="26" height="26" rx="10"/></g><text x="66" y="62" text-anchor="middle" font-family="Black Han Sans,sans-serif" font-size="12" fill="#C0392B">쌀!</text>' % (SK, LN)),
+ 'mg': _svg('<g stroke="#7A3E9D" stroke-width="2"><circle cx="42" cy="30" r="8" fill="#F28CB1"/><g fill="#F7B9D0"><circle cx="42" cy="16" r="8"/><circle cx="55" cy="25" r="8"/><circle cx="50" cy="41" r="8"/><circle cx="34" cy="41" r="8"/><circle cx="29" cy="25" r="8"/></g><circle cx="42" cy="30" r="5" fill="#FFC21A"/></g><path d="M42 50v14" stroke="#2E9E4F" stroke-width="3"/>'),
+ 'yn': _svg('<g fill="#E8C98E" stroke="#7A4E25" stroke-width="2"><rect x="10" y="10" width="11" height="50" rx="5"/><rect x="27" y="10" width="11" height="50" rx="5"/><rect x="46" y="10" width="11" height="50" rx="5" fill="#F4E3BE"/><rect x="63" y="10" width="11" height="50" rx="5"/></g><g stroke="#7A4E25" stroke-width="2"><path d="M13 22h5M13 35h5M13 48h5M30 22h5M30 35h5M66 22h5M66 48h5"/></g>'),
+ 'sg': _svg('<g fill="#2457D6"><circle cx="42" cy="12" r="6"/><circle cx="66" cy="30" r="6"/><circle cx="58" cy="56" r="6"/><circle cx="26" cy="56" r="6"/><circle cx="18" cy="30" r="6"/></g><circle cx="42" cy="34" r="16" fill="none" stroke="#C9B48A" stroke-width="2" stroke-dasharray="4 4"/><path d="M60 40l10 6-10 6z" fill="#E1262D"/>'),
+ 'db': _svg('<g fill="#E1262D"><circle cx="20" cy="20" r="7"/><rect x="15" y="28" width="10" height="18" rx="4"/></g><g fill="#2457D6"><circle cx="52" cy="18" r="7"/><rect x="47" y="26" width="10" height="18" rx="4"/><circle cx="68" cy="26" r="7"/><rect x="63" y="34" width="10" height="18" rx="4"/></g><path d="M6 60h72" stroke="#C9B48A" stroke-width="2"/>'),
+ 'sb': _svg('<g fill="none" stroke="#7A4E25" stroke-width="2"><rect x="28" y="4" width="28" height="14"/><rect x="28" y="18" width="14" height="14"/><rect x="42" y="18" width="14" height="14"/><rect x="28" y="32" width="28" height="14"/><rect x="28" y="46" width="28" height="18"/></g><ellipse cx="49" cy="25" rx="5" ry="3" fill="#8A8A8A"/>'),
+}
+# 261122 손놀이 칸 = 이모지 손 (대표 확정)
+def _em(t, n): return '<span class="pic em n%d" aria-hidden="true">%s</span>' % (n, t)
+NEW_PICS.update({'rp': _em('✌️✊✋',3), 'hj': _em('🤲',1), 'mj': _em('👊✌️✋',3), 'br': _em('🤲👊',2)})
+NAMES = {'rp':'가위바위보','hj':'구슬 홀짝','mj':'묵찌빠','br':'쌀보리','mg':'무궁화 꽃이 피었습니다','yn':'윷놀이','sg':'수건돌리기','db':'다방구','sb':'사방치기'}
+SHORT = {'mg':'무궁화꽃'}
+
+def restructure(scr):
+    # 지금 칸(그림) 모으기 — 「새」 표시는 뺌
+    tiles = {}
+    for m in re.finditer(r'<button class="g" type="button" data-s="(\w+)" data-go="(\w+)">(.*?)</button>', scr, re.S):
+        inner = re.sub(r'<span class="new">새</span>\s*', '', m.group(3))
+        tiles[m.group(2)] = '<button class="g" type="button" data-s="%s" data-go="%s">%s</button>' % (m.group(1), m.group(2), inner.strip())
+    def newt(k):
+        return '<button class="g" type="button" data-go="%s">%s<b>%s</b></button>' % (k, NEW_PICS[k], NAMES[k])
+    def soon(k):
+        return '<button class="g soon" type="button" data-soon="1" aria-label="%s · 준비 중">%s<b>%s</b><small>준비 중</small></button>' % (NAMES[k], NEW_PICS[k], SHORT.get(k, NAMES[k]))
+    def sec(title, sub, items):
+        return ('<section class="grp"><h2>%s<small>%s</small></h2><div class="games">' % (title, sub)) + ''.join(items) + '</div></section>'
+    body = ('<div class="body">'
+      '<p class="lure"><b class="shopN">다복</b>에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
+      + sec('혼자서 바로', '사장님과 한 판', [newt('rp'), newt('hj'), newt('mj'), newt('br'), tiles['dt'], tiles['th'], tiles['pt'], tiles['bw'], soon('mg')])
+      + sec('둘이서 겨루기', '폰 하나로 번갈아', [tiles['om'], tiles['ak'], tiles['tk'], tiles['rd'], tiles['mb'], soon('yn')])
+      + sec('여럿이 함께', '행사용 · 곧 열려요', [soon('sg'), soon('db'), soon('sb')])
+      + '@@ROOM@@'
+      + '<div class="fam-h">함께하는 곳</div>@@FAM@@'
+      + '</div><div id="lfFoot" data-refund="0"></div>'
+      + '<nav class="fbar" aria-label="아래 막대"><div>'
+        '<button type="button" id="fGift"><svg viewBox="0 0 24 24"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M2.5 9h19V6h-19zM12 6v14"/></svg>내 선물함</button>'
+        '<button type="button" id="fHome" class="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5M10 20v-6h4v6"/></svg>홈</button>'
+        '<button type="button" id="fShare"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></svg>공유하기</button>'
+        '</div></nav>')
+    room = re.search(r'<a class="room".*?</a>', scr, re.S).group(0)
+    fam = re.search(r'<div class="fam">.*?</div>', scr, re.S).group(0)
+    body = body.replace('@@ROOM@@', room).replace('@@FAM@@', fam)
+    a = scr.index('<div class="body">')
+    head = scr[:a]
+    head = head.replace('<span class="ttl">다복</span>', '<span class="ttl">그때 <i>그</i> 놀이</span>')
+    return head + body + '\n'
+
+HOME_CSS = '''
+/* ★첫째 원칙 (대표 261122): 놀이는 복고여도 화면은 산만하지 않게 — 테두리 · 음영 없음 */
+button,.btn,.bt,.pk,.pick button,.say,.vs div,.vs .p,.hb,.act .spd,.rl,.card,.room,.fam a,.tabs button,.half,.two button,.set select,.shopset input,.shopset select,.sheet,.done,.cap2,.box{box-shadow:none!important;border:0!important;text-shadow:none!important}
+.pick button,.pk,.hb,.half,.two button,.bt.o,.act .spd{background:#EFEAE0!important}
+.say,.rl{background:#fff!important}
+.vs div,.vs .p{background:#fff!important}
+button:active{filter:brightness(.93)}
+.bt.o[aria-pressed=true]{background:#FFC21A!important}
+
+/* ── 첫 화면 새 배치 (표준 v1 · 261122) ── */
+.top .ttl{font-family:var(--brand),serif;font-size:23px;letter-spacing:.05em}
+.top .ttl i{font-style:normal;color:var(--yel)}
+.body{gap:8px!important;padding:12px 12px 0!important}
+.lure{margin:2px 0 4px!important;font-size:18px!important}
+.grp{display:flex;flex-direction:column;gap:8px;margin-top:6px}
+.grp h2{margin:0 2px;display:flex;align-items:baseline;gap:8px;font-family:var(--sign),var(--body);font-weight:400;font-size:19px;letter-spacing:.03em;color:#16181D}
+.grp h2 small{font-family:var(--body);font-size:12.5px;font-weight:700;color:var(--muted);letter-spacing:0}
+.games{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:8px!important}
+.g{padding:8px 4px 9px!important;border-radius:16px!important;min-height:104px}
+.g svg.pic,.g .fan{width:72px!important;height:58px!important}
+.g .fan span{left:15px!important;top:5px!important;width:40px!important;height:40px!important}
+.g b{font-size:13.5px!important;line-height:1.2;text-align:center;word-break:keep-all}
+.g.soon{background:#F4F2EC!important;box-shadow:inset 0 0 0 1.5px #E2DDD0;border:0}
+.g.soon svg.pic{opacity:.45;filter:grayscale(.6)}
+.g .em{width:72px;height:58px;display:flex;align-items:center;justify-content:center;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}.g .em.n1{font-size:44px}.g .em.n2{font-size:32px}.g .em.n3{font-size:23px;letter-spacing:-1px}
+.g.soon b{color:#8A8272}
+.g.soon small{font-size:10.5px;font-weight:800;color:#A39A86}
+.fam-h{text-align:center;font-size:12px;font-weight:800;color:var(--muted);margin-top:6px}
+.room{margin-top:8px;border:0!important;background:#EFEAE0!important}
+.fam a{border:0!important;background:#EFEAE0!important}
+.fam .ar{display:none!important}
+#lfFoot{margin-top:10px}
+.app{padding-bottom:calc(74px + env(safe-area-inset-bottom,0px))}
+.fbar{position:fixed;left:0;right:0;bottom:0;z-index:15;display:flex;justify-content:center;background:rgba(22,24,29,.96);padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px))}
+.fbar>div{width:100%;max-width:480px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.fbar button{font:inherit;font-family:"Noto Sans KR",system-ui,sans-serif;font-size:14px;font-weight:800;color:#fff;background:rgba(255,255,255,.1);border:0;border-radius:12px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.fbar button svg{width:18px;height:18px;fill:none;stroke:#FFC21A;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.fbar button.home{background:#FFC21A;color:#16181D;font-size:16px}
+.fbar button.home svg{stroke:#16181D}
+'''

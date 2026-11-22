@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>동그란 딱지 시험판</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+/* 동그란 딱지 시험판 v3 — 뒷면 가게 광고판, 우리 가게 딱지 만들기, 앞면 노랑 테 뺌 */
+:root{
+  --ink:#1B1A1F; --red:#E1262D; --yel:#FFC21A; --blu:#2457D6; --org:#FF7A1A;
+  --paper:#F7EFD8; --line:#E2D6B4; --muted:#6B5A30;
+  --sign:"Black Han Sans"; --brand:"Song Myung";
+  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#E9DDBA;color:var(--ink);font-family:var(--body);line-height:1.5;word-break:keep-all;overflow-wrap:anywhere}
+.app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;background:radial-gradient(circle at 50% 0%,#FFF8E6 0,#F7EFD8 55%,#EFE4C6 100%)}
+.top{position:sticky;top:0;z-index:5;height:56px;display:flex;align-items:center;justify-content:center;padding:0 10px;padding-top:env(safe-area-inset-top,0px);background:#16181D;color:#fff;box-sizing:content-box}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:4px;background:linear-gradient(90deg,var(--red) 0 25%,var(--yel) 25% 50%,var(--blu) 50% 75%,var(--org) 75%)}
+.snd{position:absolute;right:8px;bottom:8px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:0;border-radius:12px;background:transparent;color:#fff;cursor:pointer}
+.snd[aria-pressed="false"]{color:#8C8C8C}
+.ttl{font-family:var(--sign),var(--body);font-size:20px;letter-spacing:.04em}
+.dk{flex:1;padding:18px max(14px,env(safe-area-inset-left,0px)) calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+h3{margin:0;text-align:center;font-family:var(--brand),serif;font-weight:400;font-size:25px;letter-spacing:.04em}
+.set{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.set label{display:flex;flex-direction:column;gap:3px;font-size:12px;font-weight:700;color:var(--muted)}
+.set select,.set input{font:inherit;font-size:15px;font-weight:700;padding:8px 10px;border-radius:12px;border:1.5px solid #CDBF9B;background:#fffdf6;color:var(--ink);width:100%;min-width:0}
+.rules{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.rules button{font:inherit;font-size:14px;font-weight:800;padding:8px 13px;border-radius:999px;border:1.5px solid #CDBF9B;background:#fffdf6;color:#5A4A22;cursor:pointer}
+.rules button[aria-pressed="true"]{background:#16181D;border-color:#16181D;color:var(--yel)}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--blu);outline-offset:2px}
+.board{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px}
+.side{display:flex;flex-direction:column;align-items:center;gap:6px}
+.side small{font-size:13px;font-weight:800;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.flip{width:min(100%,150px);aspect-ratio:1;perspective:700px}
+.flip .in{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,1.3,.5,1);transform-style:preserve-3d}
+.flip.on .in{transform:rotateY(180deg)}
+.flip .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.flip .face.f{transform:rotateY(180deg)}
+.flip.win .face.f svg{filter:drop-shadow(0 0 10px rgba(255,194,26,.95))}
+.say{min-height:56px;text-align:center;background:#fff;border-radius:14px;padding:9px 10px;font-size:14.5px;line-height:1.45;box-shadow:inset 0 0 0 1.5px var(--line)}
+.say b{color:var(--red)}
+.tally{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:13px;font-weight:800;color:#5A4A22;padding:0 4px}
+.dots{display:flex;gap:5px;flex-wrap:wrap;justify-content:center}
+.dots i{width:12px;height:12px;border-radius:50%;background:#E3D6B2;display:block}
+.dots i.w{background:var(--blu)}.dots i.l{background:var(--red)}
+.pile{display:flex;justify-content:center;flex-wrap:wrap;min-height:44px;padding-left:14px}
+.pile svg{width:40px;height:40px;margin-left:-14px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.18))}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;border-radius:16px;font-weight:800;border:0;font-family:var(--body);cursor:pointer;width:100%}
+.btn svg{width:19px;height:19px}
+.play{min-height:60px;background:var(--blu);color:#fff;font-size:19px;box-shadow:0 3px 0 rgba(18,40,110,.35)}
+.play[disabled]{opacity:.5;cursor:default}
+.gift{min-height:54px;background:var(--red);color:#fff;font-size:17px;box-shadow:0 3px 0 rgba(120,10,15,.3)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.half{min-height:48px;background:#fff;color:var(--ink);border:1.5px solid #D8D5CC;font-size:15px}
+.done{display:none;flex-direction:column;gap:10px;text-align:center}
+.done.on{display:flex}
+.big{font-family:var(--sign),sans-serif;font-size:28px;line-height:1.2}
+.big em{font-style:normal;color:var(--red)}
+.shop{margin-top:6px;background:#fffdf6;border-radius:16px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.shop>summary{list-style:none;cursor:pointer;padding:13px 14px;font-weight:900;font-size:15.5px;display:flex;align-items:center;justify-content:space-between}
+.shop>summary::-webkit-details-marker{display:none}
+.shop>summary::after{content:"";width:9px;height:9px;border-right:2.5px solid var(--ink);border-bottom:2.5px solid var(--ink);transform:rotate(45deg);margin-top:-4px}
+.shop[open]>summary::after{transform:rotate(-135deg);margin-top:4px}
+.shop .bd{padding:0 14px 14px;display:flex;flex-direction:column;gap:14px}
+.sec{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:start}
+.sec h4{grid-column:1/-1;margin:0;font-size:13.5px;font-weight:900;color:#5A4A22;border-top:1px dashed #D9CBA4;padding-top:12px}
+.sec:first-child h4{border-top:0;padding-top:0}
+.pv{width:96px;height:96px}
+.fl{display:flex;flex-direction:column;gap:7px;min-width:0}
+.fl label{display:flex;flex-direction:column;gap:2px;font-size:11.5px;font-weight:800;color:var(--muted)}
+.fl input[type=text],.fl input[type=number],.fl select{font:inherit;font-size:14.5px;font-weight:700;padding:7px 9px;border-radius:10px;border:1.5px solid #CDBF9B;background:#fff;color:var(--ink);width:100%;min-width:0}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.up{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.up label.fb{flex-direction:row;align-items:center;gap:6px;font-size:13px;font-weight:800;color:var(--ink);background:#F3EBD3;border-radius:10px;padding:7px 11px;cursor:pointer}
+.up input[type=file]{position:absolute;width:1px;height:1px;opacity:0}
+.up button,.mini{font:inherit;font-size:12.5px;font-weight:800;border:0;background:none;color:#8A7A50;text-decoration:underline;cursor:pointer;padding:6px 2px}
+.cols{display:flex;gap:7px;flex-wrap:wrap}
+.cols button{width:28px;height:28px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1.5px #CDBF9B;cursor:pointer;padding:0}
+.cols button[aria-pressed="true"]{box-shadow:0 0 0 2.5px var(--ink)}
+.add{min-height:46px;background:#16181D;color:var(--yel);font-size:15px}
+.mine{display:flex;gap:10px;flex-wrap:wrap}
+.mine div{position:relative;width:58px;height:58px}
+.mine button{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;border:0;background:#16181D;color:#fff;font-size:13px;line-height:22px;padding:0;cursor:pointer}
+.hint{font-size:11.5px;color:#8A7A50;margin:0}
+.lure{margin:0;font-size:14px;color:#5A4A22}
+.lure b{color:var(--red)}
+.done{position:fixed;left:0;right:0;bottom:0;z-index:25;background:#FFF8E6;border-radius:22px 22px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.2);padding:18px 16px calc(84px + env(safe-area-inset-bottom,0px));max-width:480px;margin:0 auto}
+.note{font-size:11.5px;color:#8A7A50;text-align:center;margin:4px 0 0}
+
+/* ★첫째 원칙 (대표 261122): 놀이는 복고여도 화면은 산만하지 않게 — 테두리 · 음영 없음 */
+button,.btn,.bt,.pk,.pick button,.say,.vs div,.vs .p,.hb,.act .spd,.rl,.card,.room,.fam a,.tabs button,.half,.two button,.set select,.shopset input,.shopset select,.sheet,.done,.cap2,.box{box-shadow:none!important;border:0!important;text-shadow:none!important}
+.pick button,.pk,.hb,.half,.two button,.bt.o,.act .spd{background:#EFEAE0!important}
+.say,.rl{background:#fff!important}
+.vs div,.vs .p{background:#fff!important}
+button:active{filter:brightness(.93)}
+.bt.o[aria-pressed=true]{background:#FFC21A!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><span class="ttl">동그란 딱지</span></div>
+  <div class="dk">
+    <h3>무엇으로 겨룰까요?</h3>
+    <div class="rules" role="group" aria-label="겨루기">
+      <button type="button" data-r="star" aria-pressed="true">★ 별 높기</button>
+      <button type="button" data-r="name" aria-pressed="false">글자 많기</button>
+      <button type="button" data-r="num" aria-pressed="false">숫자 높기</button>
+    </div>
+    <div class="set" style="display:none">
+      <label for="rounds">몇 판
+        <select id="rounds"><option>3</option><option selected>5</option><option>7</option><option>10</option></select></label>
+      <label for="opn">상대 이름
+        <input id="opn" value="다복 사장님" maxlength="10"></label>
+    </div>
+    <div class="board">
+      <div class="side"><div class="flip" id="me"><div class="in"><div class="face b"></div><div class="face f"></div></div></div><small>나</small></div>
+      <div class="side"><div class="flip" id="op"><div class="in"><div class="face b"></div><div class="face f"></div></div></div><small id="opl">다복 사장님</small></div>
+    </div>
+    <div class="say" id="say"></div>
+    <div class="tally"><span id="rl">다섯 판</span><span class="dots" id="dots"></span><span id="cnt">딴 딱지 0장</span></div>
+    <div class="pile" id="pile" aria-label="딴 딱지"></div>
+    <button class="btn play" id="go" type="button"><svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z" fill="currentColor"/></svg><span id="gol">딱지 내기</span></button>
+    <div class="done" id="done">
+      <div class="big" id="big"></div>
+      <p class="lure">다복에서 <b>푸짐한 선물</b>을 드립니다</p>
+      <button class="btn gift" type="button">선물 받기</button>
+      <div class="pair"><button class="btn half" type="button" id="again">다시 하기</button><button class="btn half" type="button">이야기방에 남기기</button></div>
+    </div>
+    <details class="shop" open>
+      <summary>매장 설정 <small style="font-weight:700;color:#8A7A50;font-size:12px">관리자 자리 · 시험</small></summary>
+      <div class="bd">
+        <div class="sec">
+          <h4>딱지 뒷면 = 우리 가게 광고판</h4>
+          <div class="pv" id="pvB"></div>
+          <div class="fl">
+            <label for="adN">가게 이름<input type="text" id="adN" value="다복" maxlength="8"></label>
+            <label for="adT">한 줄 문구<input type="text" id="adT" value="다복 사랑해요" maxlength="12"></label>
+            <div class="up"><label class="fb" for="adI">로고 · 사진 올리기<input type="file" id="adI" accept="image/*"></label><button type="button" id="adX">그림 빼기</button></div>
+          </div>
+        </div>
+        <div class="sec">
+          <h4>우리 가게 딱지 만들기</h4>
+          <div class="pv" id="pvF"></div>
+          <div class="fl">
+            <label for="cN">딱지 글자<input type="text" id="cN" value="다복 사랑해요" maxlength="8"></label>
+            <div class="row2">
+              <label for="cS">별<select id="cS"><option>1</option><option>2</option><option>3</option><option>4</option><option selected>5</option></select></label>
+              <label for="cV">숫자<input type="number" id="cV" value="999" min="1" max="999" inputmode="numeric"></label>
+            </div>
+            <div class="cols" id="cC" role="group" aria-label="테두리 색"></div>
+            <div class="up"><label class="fb" for="cI">가운데 그림 올리기<input type="file" id="cI" accept="image/*"></label><button type="button" id="cX">그림 빼기</button></div>
+          </div>
+        </div>
+        <button class="btn add" type="button" id="cAdd">이 딱지를 놀이 묶음에 넣기</button>
+        <div class="mine" id="mineList" aria-label="넣은 가게 딱지"></div>
+        <p class="hint" id="deckN"></p>
+      </div>
+    </details>
+    <p class="note">그때 그 놀이 · 동그란 딱지 시험판 v3.3 · 아래 막대 · 소리 · 매장 설정은 이 폰에만 저장 · 선물 받기 · 이야기방은 아직 연결 전</p>
+  </div>
+</div>
+<script>
+/* 놀이 결과를 손님 입구에 알리고, 「선물 받기」를 입구의 선물 창으로 넘김 */
+window.noriResult=function(r){ window.__noriLast=r; try{ if(window.parent!==window){ window.parent.postMessage({nori:'result',r:r},'*'); } }catch(e){} };
+document.addEventListener('click',function(e){ var b=e.target.closest&&e.target.closest('.gift'); if(!b) return;
+  var framed=false; try{ framed=window.parent!==window; }catch(x){ framed=true; }
+  if(framed){ try{ window.parent.postMessage({nori:'gift'},'*'); }catch(x){} return; }
+  var t=document.getElementById('noriToast'); if(!t){ t=document.createElement('div'); t.id='noriToast'; t.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#16181D;color:#fff;font:700 14px "Noto Sans KR",sans-serif;padding:11px 16px;border-radius:14px;z-index:99;max-width:88vw;text-align:center'; document.body.appendChild(t); }
+  t.textContent='선물은 손님 입구(다복 · 그때 그 놀이)에서 받아요'; t.style.display='block'; clearTimeout(t._t); t._t=setTimeout(function(){ t.style.display='none'; },2400); });
+
+/* 그때 그 놀이 · 아래 막대(모든 놀이 공통) — 「놀이 방법」 「그때 그 놀이(홈, 가운데)」 「새 판」 (261122 v5)
+   손님 입구 안에서 열렸으면 입구에게 알리고, 따로 열렸으면 그 놀이 주소로 옮김 */
+/* 좌우 점수 기둥 (261122 v5) — 나·내 편 = 왼쪽 파랑, 사장님·친구 = 오른쪽 빨강. 위 점수줄(.vs)의 이름·점수를 옮겨 보이고 그 줄은 숨김. 차례인 쪽이 진하게 */
+(function(){
+  var d=document, st=null, W=null, LAB='', RN='';
+  function opp(){ if(RN) return RN; var s=d.querySelector('.shopN'); return (s&&s.textContent.trim()?s.textContent.trim():'다복')+' 사장님'; }
+  function init(){ if(st) return st;
+    var css=d.createElement('style');
+    css.textContent='.nside{position:fixed;top:10px;bottom:calc(66px + env(safe-area-inset-bottom,0px));width:32px;z-index:20;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;pointer-events:none;font-family:"Noto Sans KR",system-ui,sans-serif;transition:background .2s,color .2s}'
+     +'.nside.l{left:2px;background:#E4EBFB;color:#2457D6}.nside.r{right:2px;background:#FBE4E5;color:#E1262D}'
+     +'.nside.l.on{background:#2457D6;color:#fff}.nside.r.on{background:#E1262D;color:#fff}'
+     +'.nside .nm{writing-mode:vertical-rl;font-weight:800;font-size:11px;letter-spacing:.06em;max-height:34%;overflow:hidden;white-space:nowrap}'
+     +'.nside .sc{font-weight:900;font-size:19px;line-height:1;font-variant-numeric:tabular-nums}.nside .sc:empty{display:none}'
+     +'.nside .un{font-weight:800;font-size:11px;line-height:1;margin-top:-3px}.nside .ex{font-weight:800;font-size:11px;line-height:1;opacity:.85}'
+     +'.nside .tn{margin-top:auto;writing-mode:vertical-rl;font-weight:900;font-size:12px;letter-spacing:.1em;opacity:0}.nside.on .tn{opacity:1}'
+     +'body.nside-on{padding-left:38px!important;padding-right:38px!important}body.ncard-on .nside{display:none}'
+     +'.act .spd>span{display:none!important}.act .spd button{white-space:nowrap}'
+     +'.nside-hide{display:none!important}.vs.nside-mid{grid-template-columns:1fr!important}.vs.nside-mid .p{display:none!important}';
+    d.head.appendChild(css);
+    function col(c){ var e=d.createElement('div'); e.className='nside '+c; e.innerHTML='<span class="nm"></span><b class="sc"></b><span class="un"></span><span class="ex"></span><span class="tn"></span>'; d.body.appendChild(e); return e; }
+    st={l:col('l'),r:col('r')}; d.body.classList.add('nside-on');
+    var mo=new MutationObserver(function(){ paint(); });
+    [].slice.call(d.querySelectorAll('.vs,#aC1,#aC2,#cnt')).forEach(function(v){ mo.observe(v,{childList:true,subtree:true,characterData:true}); });
+    window.addEventListener('resize',paint);
+    return st; }
+  function q(el,s){ return el?el.querySelector(s):null; }
+  function part(c,side,def){
+    var nm=q(side,'span'), em=q(side,'em'), t=em?em.textContent:'', main=t.split('·')[0].trim(), ex=(t.split('·')[1]||'').trim(), m=main.match(/(-?\d+)\s*([^\d\s]*)\s*$/);
+    c.querySelector('.nm').textContent=nm?nm.textContent:def;
+    var U={rp:'승',mj:'승',br:'승',hj:'알'}, hk=window.__nhere?window.__nhere():'';
+    setSc(c, m?m[1]:'', m?(m[2]||U[hk]||''):'');
+    c.querySelector('.ex').textContent=ex; }
+  function setSc(c,v,u){ var e=c.querySelector('.sc'); e.textContent=v; e.style.fontSize=(String(v).length>=3?'14px':(String(v).length===2?'17px':'19px')); c.querySelector('.un').textContent=v===''?'':u; }
+  function txt(id){ var e=d.getElementById(id); return e&&e.offsetParent!==null?e.textContent:null; }
+  function paint(){ if(!st) return;
+    var v=[].slice.call(d.querySelectorAll('.vs')).filter(function(x){ return x.offsetParent!==null||x.classList.contains('nside-hide'); });
+    var vis=null; v.forEach(function(x){ var p=x.closest('.pane,.panel,[role=tabpanel]'); if(!p||p.offsetParent!==null){ vis=vis||x; } });
+    if(vis){ var mid=q(vis,'.mid'); if(mid){ vis.classList.add('nside-mid'); } else { vis.classList.add('nside-hide'); }
+      part(st.l,q(vis,'.a'),'나'); part(st.r,q(vis,'.b'),opp()); }
+    else if(txt('aC1')!==null){ st.l.querySelector('.nm').textContent='나'; st.r.querySelector('.nm').textContent=opp(); setSc(st.l,txt('aC1'),'알'); setSc(st.r,txt('aC2')||'','알'); st.l.querySelector('.ex').textContent=''; st.r.querySelector('.ex').textContent=''; }
+    else if(txt('cnt')!==null){ var mm=(txt('cnt')||'').match(/(\d+)/); st.l.querySelector('.nm').textContent='나'; st.r.querySelector('.nm').textContent=opp(); setSc(st.l,mm?mm[1]:'','장'); setSc(st.r,'',''); st.l.querySelector('.ex').textContent=''; st.r.querySelector('.ex').textContent=''; }
+    else { st.l.querySelector('.nm').textContent='나'; st.r.querySelector('.nm').textContent=opp(); ['sc','un','ex'].forEach(function(k){ st.l.querySelector('.'+k).textContent=''; st.r.querySelector('.'+k).textContent=''; }); }
+    st.l.classList.toggle('on',W===0); st.r.classList.toggle('on',W===1);
+    st.l.querySelector('.tn').textContent=W===0?(LAB||'내 차례'):''; st.r.querySelector('.tn').textContent=W===1?(LAB||'상대 차례'):''; }
+  window.noriSide=function(w,lab){ init(); W=(w===0||w===1)?w:null; LAB=lab||''; if(W===1&&LAB&&!/^내 /.test(LAB)){ RN=LAB.replace(/\s*차례$/,''); } paint(); };
+  window.noriSideInit=function(){ init(); paint(); };
+})();
+window.noriNav=function(o){
+  /* 261122 v5 — 아래 막대 「놀이 방법 · 그때 그 놀이(홈, 가운데) · 새 판」, 「다른 놀이」 창 없앰. 끝 화면: 선물 받기 · 이야기방에 남기기 · 다시 하기 · 그때 그 놀이(홈) */
+  var HOME='https://www.loveflow.ai.kr/nori/', STORY='https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e';
+  var RULE={om:'가로·세로·대각선 어느 쪽이든 내 돌 다섯 개를 먼저 한 줄로 이으면 이깁니다. 한 수 무르기는 세 번까지 됩니다.',
+    ak:'내 알을 손가락으로 끌었다 놓아 튕깁니다. 상대 알을 판 밖으로 쳐내고, 상대 알을 먼저 다 떨어뜨리면 이깁니다.',
+    rd:'서로 딱지를 한 장씩 냅니다. 정한 기준(글자 많기 · 숫자 높기)으로 센 쪽이 딱지를 가져가고, 다섯 판 뒤 많이 딴 사람이 이깁니다.'};
+  var framed=false; try{ framed=window.parent!==window; }catch(e){ framed=true; }
+  function goHome(){ if(framed){ try{ window.parent.postMessage('nori-close','*'); return; }catch(e2){} } try{ window.open(HOME,'_top'); }catch(e3){ location.href=HOME; } }
+  function goStory(){ if(framed){ try{ window.parent.postMessage({nori:'story'},'*'); return; }catch(e){} } try{ window.open(STORY,'_blank'); }catch(e2){ location.href=STORY; } }
+  window.noriHome=goHome;
+  var css=document.createElement('style');
+  css.textContent='.nbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;background:rgba(22,24,29,.96);padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px))}'
+   +'.nbar>div{width:100%;max-width:480px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}'
+   +'.nbar button{font:inherit;font-family:"Noto Sans KR",system-ui,sans-serif;font-size:14px;font-weight:800;color:#fff;background:rgba(255,255,255,.1);border:0;border-radius:12px;min-height:44px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}'
+   +'.nbar button svg{width:18px;height:18px;fill:none;stroke:#FFC21A;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}'
+   +'.nbar button.home{background:#FFC21A;color:#16181D;font-family:"Song Myung",serif;font-weight:400;font-size:15px;letter-spacing:-.03em;white-space:nowrap;gap:4px;padding:0 4px}'
+   +'.nbar button.home svg{stroke:#16181D}'
+   +'.nrule{position:fixed;inset:0;z-index:45;background:rgba(22,24,29,.55);display:none;align-items:flex-end;justify-content:center}.nrule.on{display:flex}'
+   +'.nrule>div{width:100%;max-width:480px;background:#FFF8E6;border-radius:22px 22px 0 0;padding:20px 18px calc(84px + env(safe-area-inset-bottom,0px));font-family:"Noto Sans KR",system-ui,sans-serif}'
+   +'.nrule h3{margin:0 0 10px;text-align:center;font-family:"Song Myung",serif;font-weight:400;font-size:24px;color:#1B1A1F}.nrule p{margin:0 0 16px;font-size:16px;line-height:1.6;color:#1B1A1F;word-break:keep-all}'
+   +'.nrule button{width:100%;min-height:48px;border:0;border-radius:14px;background:#16181D;color:#fff;font:800 16px "Noto Sans KR",sans-serif}'
+   +'body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px));padding-left:16px!important;padding-right:16px!important}body.nside-on{padding-left:38px!important;padding-right:38px!important}';
+  document.head.appendChild(css);
+  var IH='<svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5M10 20v-6h4v6"/></svg>';
+  var bar=document.createElement('div'); bar.className='nbar';
+  bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg>놀이 방법</button>'
+    +'<button type="button" data-a="list" class="home">'+IH+'그때 그 놀이</button>'
+    +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>새 판</button></div>';
+  document.body.appendChild(bar);
+  var rs=document.createElement('div'); rs.className='nrule'; rs.setAttribute('role','dialog'); document.body.appendChild(rs);
+  function vis(el){ return el&&el.offsetParent!==null; }
+  function help(){
+    if(o.onHelp){ o.onHelp(); return; }
+    var c=[document.getElementById('helpBtn')].concat([].slice.call(document.querySelectorAll('.hb'))).filter(Boolean);
+    for(var i=0;i<c.length;i++){ var p=c[i].closest('.pane,[role=tabpanel]'); if(!p||p.offsetParent!==null){ c[i].click(); return; } }
+    var t=RULE[o.here&&o.here()]||'사장님 또는 친구와 번갈아 한 판씩 겨룹니다. 이기면 선물, 져도 참가 선물이 있어요.';
+    rs.innerHTML='<div><h3>놀이 방법</h3><p>'+t+'</p><button type="button">알겠어요</button></div>'; rs.classList.add('on'); }
+  rs.addEventListener('click',function(e){ if(e.target===rs||e.target.tagName==='BUTTON'){ rs.classList.remove('on'); } });
+  bar.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var a=b.getAttribute('data-a');
+    if(a==='list'){ goHome(); } else if(a==='help'){ help(); } else if(a==='new'){ if(cd.classList.contains('on')) return; if(o.onNew) o.onNew(); } });
+  if(window.noriSideInit){ noriSideInit(); }
+  window.__nhere=o.here;
+  [300,1200].forEach(function(ms){ setTimeout(function(){ try{ window.dispatchEvent(new Event('resize')); }catch(e){} },ms); });
+  /* ── 단추 한 벌 (261122 v6): 놀이 안 「? · 놀이 방법 · 새 판」과 옛 끝 화면은 숨기고 아래 막대 · 결과 카드만 ── */
+  var hide=document.createElement('style');
+  hide.textContent='#helpBtn,.hb,#pNew,#bNew,#oNew,#aNew,#pCard,#bCard,.done{display:none!important}#oRow{grid-template-columns:1fr!important}.act{grid-template-columns:1fr!important}'
+   +'.ncard{position:fixed;left:0;right:0;top:0;bottom:calc(56px + env(safe-area-inset-bottom,0px));z-index:30;background:#FFF8E6;overflow:auto;padding:12px 14px 14px;display:none;font-family:"Noto Sans KR",system-ui,sans-serif;color:#1B1A1F}.ncard.on{display:block}'
+   +'.ncard .cd{max-width:440px;margin:0 auto;background:#fff;border-radius:18px;padding:12px}'
+   +'.ncard .hd{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:12px;color:#6B5A30;font-weight:700}.ncard .hd b{color:#16181D;font-size:15px}'
+   +'.ncard .gn{margin:2px 0 0;font-size:13px;font-weight:800;color:#6B5A30}'
+   +'.ncard .ph{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;margin:10px 0;height:clamp(130px,24vh,220px);border-radius:14px;background:#EFEAE0;color:#8A7A50;font-weight:800;font-size:15px;overflow:hidden;cursor:pointer}'
+   +'.ncard .ph i{font-style:normal;font-size:36px;line-height:1}.ncard .ph small{font-size:11.5px;font-weight:700}'
+   +'.ncard .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}.ncard .ph.has img{display:block}.ncard .ph input{position:absolute;opacity:0;width:1px;height:1px}'
+   +'.ncard .ph .re{position:absolute;right:8px;bottom:8px;background:rgba(22,24,29,.75);color:#fff;font-size:12px;padding:5px 9px;border-radius:10px;display:none}.ncard .ph.has .re{display:block}'
+   +'.ncard .sc{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;text-align:center}.ncard .sc .a{color:#2457D6}.ncard .sc .b{color:#E1262D}'
+   +'.ncard .sc em{display:block;font-style:normal;font-size:34px;font-weight:900;line-height:1.05;font-variant-numeric:tabular-nums}.ncard .sc em u{text-decoration:none;font-size:15px;margin-left:2px}'
+   +'.ncard .sc small{font-size:12.5px;font-weight:800}.ncard .sc .c{font-size:26px;color:#B9A67A;font-weight:900;padding-bottom:22px}'
+   +'.ncard .big{text-align:center;font-size:30px;font-weight:900;margin:6px 0}'
+   +'.ncard .res{text-align:center;font-size:20px;font-weight:900;margin:4px 0 8px}.ncard .res.win{color:#E1262D}.ncard .res.lose{color:#4B4F58}.ncard .res.draw{color:#6B5A30}'
+   +'.ncard .memo{width:100%;border:0;border-radius:10px;background:#F6F2E8;padding:10px;font:600 14.5px "Noto Sans KR",sans-serif;color:#1B1A1F}.ncard .memo::placeholder{color:#A8996F}.ncard .memo:focus{outline:none;background:#EFE6D2}'
+   +'.ncard .ft{display:flex;justify-content:space-between;font-size:11.5px;color:#8A7A50;margin-top:8px}.ncard .ft b{color:#16181D;letter-spacing:.08em}'
+   +'.ncard .lure{max-width:440px;margin:8px auto 0;text-align:center;font-size:13.5px;color:#4B4F58}.ncard .lure b{color:#E1262D}'
+   +'.ncard .bt2{max-width:440px;margin:0 auto}.ncard .bt2 button{display:flex;align-items:center;justify-content:center;width:100%;border:0;border-radius:14px;min-height:48px;font:800 16px "Noto Sans KR",sans-serif;margin-top:8px;cursor:pointer}'
+   +'.ncard .bt2 .gift{background:#E1262D;color:#fff;font-size:17px}.ncard .bt2 .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ncard .bt2 .row button{background:#EFEAE0;color:#1B1A1F;font-size:14.5px}'
+   +'.ncard .tip{max-width:440px;margin:8px auto 0;font-size:11.5px;color:#8A7A50;text-align:center;line-height:1.5}';
+  document.head.appendChild(hide);
+  /* 결과에 카드 번호(확인 번호)를 붙여 선물 기록과 맞춰 볼 수 있게 */
+  var _nr=window.noriResult;
+  if(_nr&&!_nr.__w){ window.noriResult=function(r){ try{ if(r&&!r.card){ r.card='K'+(Date.now()%60466176).toString(36).toUpperCase().padStart(5,'0'); r.t=Date.now(); r.detail=String(r.detail||'')+' · 카드 '+r.card; } }catch(e){} return _nr.apply(this,arguments); }; window.noriResult.__w=1; }
+  function esc2(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function shop(){ var e=document.querySelector('.shopN'); return e&&e.textContent.trim()?e.textContent.trim():'다복'; }
+  function when(t){ var d=new Date(t||Date.now()), W='일월화수목금토'; function p(n){ return (n<10?'0':'')+n; } return d.getFullYear()+'.'+p(d.getMonth()+1)+'.'+p(d.getDate())+' ('+W[d.getDay()]+') '+p(d.getHours())+':'+p(d.getMinutes()); }
+  var OUT={win:'이겼어요!',lose:'아쉽게 졌어요',draw:'비겼어요'};
+  var cd=document.createElement('div'); cd.className='ncard'; cd.setAttribute('role','dialog'); cd.setAttribute('aria-label','결과 카드'); document.body.appendChild(cd);
+  var R=null, photo=null, againBtn=null;
+  function outOf(r){ if(r.out) return r.out; return r.win?'win':'lose'; }
+  function resText(r){ var o2=outOf(r); if(r.opp==='친구'){ return o2==='draw'?'비겼어요':(o2==='win'?'나(왼쪽) 이겼어요!':'친구 이겼어요!'); } return OUT[o2]; }
+  function scoreHTML(r){ var u=r.u?'<u>'+esc2(r.u)+'</u>':'';
+    if(r.sc&&r.sc[1]!=null){ return '<div class="sc"><div class="a"><em>'+esc2(r.sc[0])+u+'</em><small>나</small></div><div class="c">:</div><div class="b"><em>'+esc2(r.sc[1])+u+'</em><small>'+esc2(r.opp||'상대')+'</small></div></div>'; }
+    if(r.sc){ return '<div class="big">'+esc2(r.detail.split(' · 카드')[0])+'</div>'; }
+    return '<div class="big">'+esc2(String(r.detail||'').split(' · 카드')[0])+'</div>'; }
+  function openCard(){ var r=window.__noriLast; if(!r){ return; } R=r; photo=null;
+    cd.innerHTML='<div class="cd"><div class="hd"><b>그때 그 놀이 · '+esc2(shop())+'</b><span>'+when(r.t)+'</span></div><div class="gn">'+esc2(r.gname||'')+'</div>'
+      +'<label class="ph"><input type="file" accept="image/*"><img alt="현장 사진"><i>📷</i>눌러서 현장 사진 넣기<small>사진은 이 폰 안에서만 카드에 합쳐요 · 서버로 보내지 않아요</small><span class="re">사진 바꾸기</span></label>'
+      +scoreHTML(r)+'<div class="res '+outOf(r)+'">'+esc2(resText(r))+'</div>'
+      +'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름·전화번호는 쓰지 마세요)">'
+      +'<div class="ft"><span>확인 번호</span><b>'+esc2(r.card||'')+'</b></div></div>'
+      +'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
+      +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장 · 보내기</button><button type="button" data-c="story">이야기방에 올리기</button></div></div>'
+      +'<p class="tip">「이야기방에 올리기」를 누르면 카드가 폰에 저장되고 다복 이야기방 올리기 창이 열려요. 방금 저장된 카드 사진을 골라 올려 주세요.</p>';
+    var inp=cd.querySelector('input[type=file]'), ph=cd.querySelector('.ph'), im=ph.querySelector('img');
+    inp.addEventListener('change',function(){ var f=inp.files&&inp.files[0]; if(!f) return; var u=URL.createObjectURL(f); im.onload=function(){ photo=im; ph.classList.add('has'); }; im.src=u; });
+    cd.classList.add('on'); document.body.classList.add('ncard-on'); cd.scrollTop=0; setNew(true);
+    try{ if(window.SND&&SND.tap){} }catch(e){} }
+  function closeCard(){ cd.classList.remove('on'); document.body.classList.remove('ncard-on'); setNew(false); }
+  function setNew(on){ var b=bar.querySelector('[data-a=new]'); b.lastChild.textContent= on?'다시 하기':'새 판'; }
+  /* 카드 그림 만들기 (1080×1440) — 폰 안에서만 */
+  function rr(x,c,X,Y,W,H,R2){ x.beginPath(); x.moveTo(X+R2,Y); x.arcTo(X+W,Y,X+W,Y+H,R2); x.arcTo(X+W,Y+H,X,Y+H,R2); x.arcTo(X,Y+H,X,Y,R2); x.arcTo(X,Y,X+W,Y,R2); x.closePath(); x.fillStyle=c; x.fill(); }
+  function draw(cb){ var r=R, W=1080, H=1440, c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d'), F='"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+    x.fillStyle='#FFF8E6'; x.fillRect(0,0,W,H); rr(x,'#fff',40,40,W-80,H-80,40);
+    x.fillStyle='#16181D'; x.font='900 46px '+F; x.textBaseline='alphabetic'; x.textAlign='left'; x.fillText('그때 그 놀이 · '+shop(),84,118);
+    x.fillStyle='#6B5A30'; x.font='700 30px '+F; x.textAlign='right'; x.fillText(when(r.t),W-84,116); x.textAlign='left'; x.font='800 32px '+F; x.fillText(r.gname||'',84,166);
+    var PX=84,PY=196,PW=W-168,PH=720; x.save(); rr(x,'#EFEAE0',PX,PY,PW,PH,28); x.clip();
+    if(photo){ var iw=photo.naturalWidth, ih=photo.naturalHeight, s2=Math.max(PW/iw,PH/ih), dw=iw*s2, dh=ih*s2; x.drawImage(photo,PX+(PW-dw)/2,PY+(PH-dh)/2,dw,dh); }
+    else { x.fillStyle='#A8996F'; x.font='800 40px '+F; x.textAlign='center'; x.fillText('그때 그 놀이 한 판',W/2,PY+PH/2); }
+    x.restore(); x.textAlign='center';
+    var y=PY+PH+130;
+    if(r.sc&&r.sc[1]!=null){ x.font='900 128px '+F; x.fillStyle='#2457D6'; x.fillText(String(r.sc[0]),W*0.27,y); x.fillStyle='#E1262D'; x.fillText(String(r.sc[1]),W*0.73,y); x.fillStyle='#B9A67A'; x.font='900 80px '+F; x.fillText(':',W/2,y-14);
+      x.font='800 34px '+F; x.fillStyle='#2457D6'; x.fillText('나'+(r.u?' · '+r.u:''),W*0.27,y+52); x.fillStyle='#E1262D'; x.fillText((r.opp||'상대')+(r.u?' · '+r.u:''),W*0.73,y+52); y+=128; }
+    else { x.font='900 76px '+F; x.fillStyle='#16181D'; x.fillText(String(r.detail||'').split(' · 카드')[0],W/2,y-30); y+=60; }
+    var o2=outOf(r); x.font='900 58px '+F; x.fillStyle=o2==='win'?'#E1262D':(o2==='lose'?'#4B4F58':'#6B5A30'); x.fillText(resText(r),W/2,y); y+=70;
+    var m=(cd.querySelector('.memo')||{}).value||''; if(m){ x.font='700 36px '+F; x.fillStyle='#1B1A1F'; x.fillText('“'+m+'”',W/2,y); }
+    x.font='700 28px '+F; x.fillStyle='#8A7A50'; x.textAlign='left'; x.fillText('확인 번호 '+(r.card||''),84,H-76); x.textAlign='right'; x.fillText('loveflow.ai.kr/nori',W-84,H-76);
+    c.toBlob(function(b){ cb(b,m); },'image/png'); }
+  function fname(){ return 'geuttae-nori-'+(R&&R.card||Date.now())+'.png'; }
+  function dl(b){ var u=URL.createObjectURL(b), a=document.createElement('a'); a.href=u; a.download=fname(); document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); },4000); }
+  function save(){ draw(function(b){ var f=null; try{ f=new File([b],fname(),{type:'image/png'}); }catch(e){}
+      if(f&&navigator.canShare&&navigator.canShare({files:[f]})){ navigator.share({files:[f],title:'그때 그 놀이 결과 카드'}).catch(function(){}); } else { dl(b); } }); }
+  function story(){ var r=R, ttl=('그때 그 놀이 · '+(r.gname||'')+(r.sc&&r.sc[1]!=null?' '+r.sc[0]+':'+r.sc[1]:'')+' '+resText(r)).slice(0,60);
+    var w=null; try{ w=window.open('about:blank','_blank'); }catch(e){}
+    draw(function(b,m){ dl(b); var t=((m?m+' — ':'')+shop()+' · '+when(r.t)+' · 확인 번호 '+(r.card||'')).slice(0,3000);
+      var u=STORY+'&w='+encodeURIComponent('사진')+'&tt='+encodeURIComponent(ttl)+'&t='+encodeURIComponent(t);
+      if(w){ try{ w.location.href=u; }catch(e){ w=window.open(u,'_blank'); } } else { w=window.open(u,'_blank'); }
+      /* 우리 이야기가 받을 준비가 되면 카드 그림을 바로 넘김 (우리 이야기 쪽 받는 입구가 생기면 작동 · 없으면 아무 일 없음) */
+      try{ var fr=new FileReader(); fr.onload=function(){ var n=0, iv=setInterval(function(){ n++; try{ w&&w.postMessage({uriyagi:'card-image',name:fname(),type:'image/png',data:fr.result,title:ttl,text:t},'https://uriyagi.kr'); }catch(e){} if(n>24) clearInterval(iv); },500); }; fr.readAsDataURL(b); }catch(e){} }); }
+  cd.addEventListener('click',function(e){ var b=e.target.closest('button[data-c]'); if(!b) return; var c=b.getAttribute('data-c'); if(c==='save') save(); else if(c==='story') story(); });
+  function againOf(){ var ds=[].slice.call(document.querySelectorAll('.done.on')); for(var i=0;i<ds.length;i++){ var bs=ds[i].querySelectorAll('button'); for(var j=0;j<bs.length;j++){ if(/다시/.test(bs[j].textContent)) return bs[j]; } } return null; }
+  /* 옛 끝 화면이 열리면(.done.on) 결과 카드를 엶 */
+  var dmo=new MutationObserver(function(){ var on=!!document.querySelector('.done.on'); if(on&&!cd.classList.contains('on')){ againBtn=againOf(); openCard(); } else if(!on&&cd.classList.contains('on')){ closeCard(); } });
+  [].slice.call(document.querySelectorAll('.done')).forEach(function(d){ dmo.observe(d,{attributes:true,attributeFilter:['class']}); });
+  bar.addEventListener('click',function(e){ var b=e.target.closest('button[data-a=new]'); if(!b||!cd.classList.contains('on')) return; var a=againOf()||againBtn; closeCard(); if(a){ a.click(); } else if(o.onNew){ o.onNew(); } },true);
+};
+
+/* 그때 그 놀이 · 소리 묶음 v1 (261121) — 녹음 파일 없이 폰에서 바로 만들어 내는 소리(저작권 걱정 없음).
+   stone 바둑돌 「탁」 · clack 알끼리 「딱」 · flick 손가락 튕김 · fall 판 밖으로 · slap 딱지 「팍」 · flip 딱지 뒤집힘
+   glass 유리구슬 「팅」 · win 이김 · lose 짐. 첫 손대기 뒤에 소리가 납니다(폰 규칙). */
+var SND=(function(){
+  var ctx=null, master=null, nb=null, on=true, lastT=0;
+  try{ on=localStorage.getItem('nori-snd')!=='0'; }catch(e){}
+  function ac(){
+    if(!on){ return null; }
+    if(!ctx){ var A=window.AudioContext||window.webkitAudioContext; if(!A){ return null; }
+      ctx=new A(); master=ctx.createGain(); master.gain.value=.85; master.connect(ctx.destination);
+      nb=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate); var d=nb.getChannelData(0); for(var i=0;i<d.length;i++){ d[i]=Math.random()*2-1; } }
+    if(ctx.state==='suspended'){ ctx.resume(); }
+    return ctx;
+  }
+  function env(g,t,peak,dur,att){ g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(Math.max(.0002,peak),t+(att||.002)); g.gain.exponentialRampToValueAtTime(.0001,t+dur); }
+  function burst(t,dur,f,q,peak,type,f2){
+    var s=ctx.createBufferSource(), b=ctx.createBiquadFilter(), g=ctx.createGain();
+    s.buffer=nb; b.type=type||'bandpass'; b.frequency.setValueAtTime(f,t); if(f2){ b.frequency.exponentialRampToValueAtTime(f2,t+dur); } b.Q.value=q;
+    env(g,t,peak,dur); s.connect(b); b.connect(g); g.connect(master); s.start(t,Math.random()*.5); s.stop(t+dur+.02);
+  }
+  function tone(t,f,dur,peak,type,f2,att){
+    var o=ctx.createOscillator(), g=ctx.createGain(); o.type=type||'sine'; o.frequency.setValueAtTime(f,t);
+    if(f2){ o.frequency.exponentialRampToValueAtTime(f2,t+dur); }
+    env(g,t,peak,dur,att); o.connect(g); g.connect(master); o.start(t); o.stop(t+dur+.02);
+  }
+  function go(fn){ return function(v){ if(!ac()){ return; } var t=ctx.currentTime+.005; fn(t, v===undefined?1:Math.max(.15,Math.min(1,v))); }; }
+  var S={
+    /* 좋은 비자나무 판에 바둑돌 — 높고 맑은 「탁」 + 판 울림 */
+    stone:go(function(t,v){ burst(t,.045,3400,1.4,.9*v); tone(t,1180,.11,.32*v,'sine'); tone(t,2360,.05,.12*v,'triangle'); burst(t,.07,380,.7,.28*v,'lowpass'); }),
+    /* 알끼리 부딪힘 — 짧고 단단한 「딱」 */
+    clack:go(function(t,v){ tone(t,3700,.035,.38*v,'triangle'); tone(t,5300,.022,.18*v,'sine'); burst(t,.025,4600,3,.35*v); }),
+    /* 손가락으로 알 튕기기 */
+    flick:go(function(t,v){ burst(t,.03,2200,2,.45*v); tone(t,1700,.025,.12*v,'triangle'); }),
+    /* 판 밖으로 떨어짐 — 툭 */
+    fall:go(function(t,v){ tone(t,240,.2,.35*v,'sine',110); burst(t,.12,320,.6,.25*v,'lowpass'); }),
+    /* 딱지 내리치기 — 종이 「팍」 */
+    slap:go(function(t,v){ burst(t,.13,1700,.6,.95*v,'lowpass'); burst(t,.05,950,1.5,.5*v); tone(t,150,.09,.4*v,'sine',90); }),
+    /* 딱지 뒤집힘 — 휙 */
+    flip:go(function(t,v){ burst(t,.16,600,1.2,.22*v,'bandpass',2400); }),
+    /* 유리구슬 — 맑은 「팅」 */
+    glass:go(function(t,v){ tone(t,2900,.45,.18*v,'sine'); tone(t,4370,.28,.1*v,'sine'); tone(t,6650,.16,.06*v,'sine'); burst(t,.02,7000,2,.2*v); }),
+    win:go(function(t,v){ [784,880,1047,1175,1568].forEach(function(f,i){ tone(t+i*.09,f,.22,.2*v,'triangle'); }); }),
+    lose:go(function(t,v){ tone(t,392,.22,.2*v,'triangle'); tone(t+.2,330,.35,.2*v,'triangle',300); })
+  };
+  /* 부딪힘처럼 한꺼번에 많이 나는 소리는 잠깐 사이를 둠 */
+  S.clackT=function(v){ var n=Date.now(); if(n-lastT<35){ return; } lastT=n; S.clack(v); };
+  S.isOn=function(){ return on; };
+  S.set=function(v){ on=!!v; try{ localStorage.setItem('nori-snd',on?'1':'0'); }catch(e){} if(on){ ac(); } };
+  /* 위 막대 오른쪽 소리 단추 */
+  S.button=function(parent){
+    var b=document.createElement('button'); b.type='button'; b.className='snd';
+    function paint(){ b.setAttribute('aria-label',on?'소리 끄기':'소리 켜기'); b.setAttribute('aria-pressed',on?'true':'false');
+      b.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/>'
+        +(on?'<path d="M16 8.5c1.3 1 2 2.2 2 3.5s-.7 2.5-2 3.5M18.5 6c2 1.6 3 3.6 3 6s-1 4.4-3 6" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/>'
+            :'<path d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>')+'</svg>'; }
+    b.addEventListener('click',function(){ S.set(!on); paint(); if(on){ S.stone(.8); } });
+    paint(); parent.appendChild(b);
+    document.addEventListener('pointerdown',function(){ if(on){ ac(); } },{once:true});
+    return b;
+  };
+  return S;
+})();
+/* 그때 그 놀이 · 동그란 딱지 그림 묶음 v2 (261121) — 모두 새로 그린 주인공. 남의 캐릭터 없음.
+   딱지 한 장 = 테두리 색 · 별(★) 수 · 이름 · 숫자 · 가운데 그림. 뒷면은 가게 광고판(마분지 위에 가게 그림 · 이름 · 문구). */
+var DDAK = (function(){
+  var INK='#1B1A1F';
+  var CARDS=[
+    {n:'무쇠거인',s:5,v:880,c:'#2457D6',c2:'#FFC21A',m:'giant'},
+    {n:'번개장군',s:4,v:760,c:'#7A2E8E',c2:'#FFC21A',m:'general'},
+    {n:'우주소년',s:3,v:640,c:'#0E8C9A',c2:'#FFE07A',m:'spaceboy'},
+    {n:'황금호랑이',s:4,v:950,c:'#F07A12',c2:'#2B2B2B',m:'tiger'},
+    {n:'불꽃용',s:5,v:910,c:'#2E7D46',c2:'#FFC21A',m:'dragon'},
+    {n:'독수리호',s:2,v:540,c:'#3D5A99',c2:'#E9E2CF',m:'jet'},
+    {n:'바다잠수함',s:3,v:470,c:'#1C6E8C',c2:'#FFD24A',m:'sub'},
+    {n:'거북선',s:1,v:990,c:'#8B5A2B',c2:'#F2D49B',m:'ship'},
+    {n:'씨름왕',s:2,v:420,c:'#B5462B',c2:'#F3E2B8',m:'wrestler'},
+    {n:'꼬마기차',s:1,v:330,c:'#4B4F58',c2:'#FFC21A',m:'train'},
+    {n:'달토끼',s:2,v:480,c:'#C2378A',c2:'#FFE9F3',m:'rabbit'},
+    {n:'태풍호',s:3,v:720,c:'#0F7F78',c2:'#CFEFEA',m:'storm'}
+  ];
+  /* 가운데 그림 — 모두 120×120 판 기준, 가운데(60,58) 둘레 */
+  var MOT={
+    giant:
+      '<path d="M38 100 L42 74 L78 74 L82 100 Z" fill="#9AA6B8" stroke="'+INK+'" stroke-width="2.2"/>'+
+      '<rect x="30" y="72" width="12" height="20" rx="4" fill="#E1262D" stroke="'+INK+'" stroke-width="2"/><rect x="78" y="72" width="12" height="20" rx="4" fill="#E1262D" stroke="'+INK+'" stroke-width="2"/>'+
+      '<rect x="50" y="80" width="20" height="10" rx="2" fill="#FFC21A" stroke="'+INK+'" stroke-width="1.8"/>'+
+      '<rect x="42" y="34" width="36" height="38" rx="7" fill="#2457D6" stroke="'+INK+'" stroke-width="2.4"/>'+
+      '<path d="M42 46 L78 46" stroke="'+INK+'" stroke-width="1.6"/>'+
+      '<rect x="46" y="50" width="28" height="12" rx="3" fill="#16181D"/><circle cx="54" cy="56" r="3.6" fill="#FFE07A"/><circle cx="66" cy="56" r="3.6" fill="#FFE07A"/>'+
+      '<rect x="52" y="65" width="16" height="3" rx="1.5" fill="#9AA6B8"/>'+
+      '<path d="M46 34 L42 22 M74 34 L78 22" stroke="'+INK+'" stroke-width="2.4" stroke-linecap="round"/><circle cx="42" cy="21" r="3" fill="#E1262D" stroke="'+INK+'" stroke-width="1.4"/><circle cx="78" cy="21" r="3" fill="#E1262D" stroke="'+INK+'" stroke-width="1.4"/>',
+    general:
+      '<path d="M36 100 C38 82 82 82 84 100 Z" fill="#7A2E8E" stroke="'+INK+'" stroke-width="2.2"/>'+
+      '<circle cx="60" cy="62" r="16" fill="#F4C9A0" stroke="'+INK+'" stroke-width="2.2"/>'+
+      '<path d="M50 68 C54 73 66 73 70 68" stroke="'+INK+'" stroke-width="3" fill="none" stroke-linecap="round"/>'+
+      '<path d="M52 59 L56 58 M64 58 L68 59" stroke="'+INK+'" stroke-width="2.4" stroke-linecap="round"/>'+
+      '<path d="M40 58 C40 36 80 36 80 58 L74 58 L74 52 L46 52 L46 58 Z" fill="#B8B8C4" stroke="'+INK+'" stroke-width="2.2"/>'+
+      '<path d="M60 38 L60 22" stroke="'+INK+'" stroke-width="2.4"/><path d="M60 22 C66 24 70 30 66 34 C64 30 62 28 60 28 Z" fill="#E1262D" stroke="'+INK+'" stroke-width="1.4"/>'+
+      '<path d="M88 30 L80 46 L86 46 L78 62" fill="none" stroke="#FFC21A" stroke-width="3.2" stroke-linejoin="round"/>',
+    shop:
+      '<rect x="32" y="50" width="56" height="40" fill="#FFFDF6" stroke="'+INK+'" stroke-width="2"/>'+
+      '<path d="M28 50 L34 34 L86 34 L92 50 Z" fill="#FFE07A" stroke="'+INK+'" stroke-width="2" stroke-linejoin="round"/>'+
+      '<path d="M41 34 L38 50 M54 34 L53 50 M66 34 L67 50 M79 34 L82 50" stroke="'+INK+'" stroke-width="1.4"/>'+
+      '<path d="M28 50 Q31 56 34.5 50 Q38 56 41.5 50 Q45 56 48 50 Q51.5 56 55 50 Q58 56 61.5 50 Q65 56 68 50 Q71.5 56 75 50 Q78 56 81.5 50 Q85 56 88.5 50 Q91 54 92 50" fill="#FFE07A" stroke="'+INK+'" stroke-width="1.6"/>'+
+      '<rect x="52" y="64" width="16" height="26" fill="#C8A26A" stroke="'+INK+'" stroke-width="1.6"/><circle cx="64" cy="78" r="1.4" fill="'+INK+'"/>'+
+      '<rect x="37" y="62" width="11" height="11" fill="#CFE6F0" stroke="'+INK+'" stroke-width="1.4"/><rect x="72" y="62" width="11" height="11" fill="#CFE6F0" stroke="'+INK+'" stroke-width="1.4"/>'+
+      '<path d="M60 22 C57 18 52 21 56 26 L60 30 L64 26 C68 21 63 18 60 22 Z" fill="#E1262D" stroke="'+INK+'" stroke-width="1.2"/>',
+    spaceboy:
+      '<path d="M38 102 C40 84 80 84 82 102 Z" fill="#FFFFFF" stroke="'+INK+'" stroke-width="2.2"/><path d="M54 86 L60 96 L66 86" fill="#E1262D" stroke="'+INK+'" stroke-width="1.6" stroke-linejoin="round"/>'+
+      '<path d="M42 62 C42 44 78 44 78 62 C78 76 70 84 60 84 C50 84 42 76 42 62 Z" fill="#F4C9A0" stroke="'+INK+'" stroke-width="2.2"/>'+
+      '<path d="M40 60 C40 34 80 34 80 60 L74 58 C72 46 48 46 46 58 Z" fill="#16181D"/>'+
+      '<path d="M38 54 C38 30 82 30 82 54" fill="none" stroke="#E9E2CF" stroke-width="5" stroke-linecap="round"/><path d="M38 54 C38 30 82 30 82 54" fill="none" stroke="'+INK+'" stroke-width="1.4"/>'+
+      '<rect x="34" y="52" width="8" height="14" rx="3" fill="#0E8C9A" stroke="'+INK+'" stroke-width="1.6"/><rect x="78" y="52" width="8" height="14" rx="3" fill="#0E8C9A" stroke="'+INK+'" stroke-width="1.6"/>'+
+      '<path d="M82 56 L92 44" stroke="'+INK+'" stroke-width="2"/><path d="M92 40 L94 44 L98 45 L94 46 L92 50 L90 46 L86 45 L90 44 Z" fill="#FFE07A" stroke="'+INK+'" stroke-width="1"/>'+
+      '<path d="M52 64 L56 63 M64 63 L68 64" stroke="'+INK+'" stroke-width="2.4" stroke-linecap="round"/><path d="M55 72 C58 75 62 75 65 72" stroke="'+INK+'" stroke-width="2" fill="none" stroke-linecap="round"/>',
+    tiger:
+      '<path d="M38 40 L34 26 L50 34 Z M82 40 L86 26 L70 34 Z" fill="#F7A23A" stroke="'+INK+'" stroke-width="2.2" stroke-linejoin="round"/>'+
+      '<circle cx="60" cy="62" r="26" fill="#F7A23A" stroke="'+INK+'" stroke-width="2.4"/>'+
+      '<path d="M60 36 L60 46 M52 38 L54 46 M68 38 L66 46 M36 56 L44 58 M36 66 L44 64 M84 56 L76 58 M84 66 L76 64" stroke="'+INK+'" stroke-width="2.6" stroke-linecap="round"/>'+
+      '<ellipse cx="60" cy="74" rx="14" ry="10" fill="#FFF3D9" stroke="'+INK+'" stroke-width="1.8"/>'+
+      '<path d="M55 69 L60 73 L65 69 Z" fill="'+INK+'"/><path d="M60 73 L60 77 M60 77 C56 80 53 79 52 77 M60 77 C64 80 67 79 68 77" stroke="'+INK+'" stroke-width="1.8" fill="none" stroke-linecap="round"/>'+
+      '<path d="M48 56 L56 58 L48 61 Z M72 56 L64 58 L72 61 Z" fill="#FFE07A" stroke="'+INK+'" stroke-width="1.6"/>',
+    dragon:
+      '<path d="M30 90 C30 60 48 40 70 38 C84 37 92 46 90 56 C88 66 78 70 70 68 L64 80 L58 72 C52 82 44 90 30 90 Z" fill="#3FA35B" stroke="'+INK+'" stroke-width="2.4" stroke-linejoin="round"/>'+
+      '<path d="M70 38 L74 26 L78 38 M60 42 L60 30 L68 40" fill="#FFC21A" stroke="'+INK+'" stroke-width="1.8" stroke-linejoin="round"/>'+
+      '<circle cx="76" cy="50" r="4.4" fill="#FFE07A" stroke="'+INK+'" stroke-width="1.6"/><circle cx="77" cy="50" r="1.8" fill="'+INK+'"/>'+
+      '<path d="M90 58 C96 58 100 54 102 50 C98 60 96 66 88 64" fill="#FF7A1A" stroke="'+INK+'" stroke-width="1.6"/>'+
+      '<path d="M40 76 C46 72 52 72 56 76 M38 66 C44 62 50 62 54 66" stroke="#2A6B3B" stroke-width="2" fill="none"/>',
+    jet:
+      '<path d="M22 66 L60 56 L98 60 L104 64 L60 70 Z" fill="#E9E2CF" stroke="'+INK+'" stroke-width="2.2" stroke-linejoin="round"/>'+
+      '<path d="M58 58 L44 34 L54 34 L74 58 Z" fill="#3D5A99" stroke="'+INK+'" stroke-width="2" stroke-linejoin="round"/>'+
+      '<path d="M60 69 L48 92 L58 92 L74 68 Z" fill="#3D5A99" stroke="'+INK+'" stroke-width="2" stroke-linejoin="round"/>'+
+      '<path d="M26 64 L20 50 L28 50 L36 62 Z" fill="#E1262D" stroke="'+INK+'" stroke-width="1.8"/>'+
+      '<path d="M84 60 C88 58 94 59 96 61" stroke="#9ED3F0" stroke-width="3.4" stroke-linecap="round"/>'+
+      '<path d="M12 70 L4 70 M14 76 L6 78 M14 64 L6 62" stroke="#FFC21A" stroke-width="2.4" stroke-linecap="round"/>',
+    sub:
+      '<path d="M24 66 C24 54 40 50 60 50 C84 50 96 56 96 66 C96 76 84 80 60 80 C40 80 24 78 24 66 Z" fill="#FFD24A" stroke="'+INK+'" stroke-width="2.4"/>'+
+      '<path d="M52 50 L54 38 L72 38 L74 50 Z" fill="#FFD24A" stroke="'+INK+'" stroke-width="2.2"/><path d="M64 38 L64 28 L72 28" stroke="'+INK+'" stroke-width="2.4" fill="none" stroke-linecap="round"/>'+
+      '<circle cx="46" cy="64" r="5" fill="#9ED3F0" stroke="'+INK+'" stroke-width="1.8"/><circle cx="62" cy="64" r="5" fill="#9ED3F0" stroke="'+INK+'" stroke-width="1.8"/><circle cx="78" cy="64" r="5" fill="#9ED3F0" stroke="'+INK+'" stroke-width="1.8"/>'+
+      '<path d="M24 66 L14 58 L14 74 Z" fill="#E1262D" stroke="'+INK+'" stroke-width="1.8"/>'+
+      '<circle cx="100" cy="46" r="3" fill="none" stroke="#9ED3F0" stroke-width="1.8"/><circle cx="104" cy="36" r="2" fill="none" stroke="#9ED3F0" stroke-width="1.6"/>'+
+      '<path d="M18 92 C28 88 36 96 46 92 C56 88 64 96 74 92 C84 88 92 96 102 92" stroke="#1C6E8C" stroke-width="2.4" fill="none"/>',
+    ship:
+      '<path d="M22 72 L98 72 L88 90 L32 90 Z" fill="#8B5A2B" stroke="'+INK+'" stroke-width="2.4" stroke-linejoin="round"/>'+
+      '<path d="M30 72 C34 56 86 56 90 72 Z" fill="#5C3A1A" stroke="'+INK+'" stroke-width="2.2"/>'+
+      '<path d="M36 66 L40 66 M46 63 L50 63 M56 62 L60 62 M66 62 L70 62 M76 63 L80 63" stroke="#FFC21A" stroke-width="2.6" stroke-linecap="round"/>'+
+      '<path d="M90 70 C96 66 100 62 98 58 C94 60 92 64 88 66" fill="#5C3A1A" stroke="'+INK+'" stroke-width="1.8"/><circle cx="96" cy="60" r="1.6" fill="#FFC21A"/>'+
+      '<path d="M60 58 L60 26" stroke="'+INK+'" stroke-width="2.4"/><path d="M60 28 L84 36 L60 46 Z" fill="#F2D49B" stroke="'+INK+'" stroke-width="2"/>'+
+      '<path d="M18 96 C28 92 36 100 46 96 C56 92 64 100 74 96 C84 92 92 100 102 96" stroke="#3A7CA5" stroke-width="2.4" fill="none"/>',
+    wrestler:
+      '<path d="M30 100 C30 74 44 66 60 66 C76 66 90 74 90 100 Z" fill="#F4C9A0" stroke="'+INK+'" stroke-width="2.4"/>'+
+      '<path d="M34 90 L86 90 L86 98 L34 98 Z" fill="#E1262D" stroke="'+INK+'" stroke-width="2"/>'+
+      '<circle cx="60" cy="50" r="16" fill="#F4C9A0" stroke="'+INK+'" stroke-width="2.4"/>'+
+      '<path d="M46 46 C48 34 72 34 74 46 C66 40 54 40 46 46 Z" fill="'+INK+'"/>'+
+      '<path d="M53 52 L57 51 M63 51 L67 52" stroke="'+INK+'" stroke-width="2.2" stroke-linecap="round"/><path d="M54 58 C58 61 62 61 66 58" stroke="'+INK+'" stroke-width="2" fill="none" stroke-linecap="round"/>'+
+      '<path d="M30 78 C22 70 22 58 30 54 M90 78 C98 70 98 58 90 54" stroke="'+INK+'" stroke-width="2.4" fill="none" stroke-linecap="round"/>',
+    train:
+      '<rect x="26" y="56" width="62" height="28" rx="3" fill="#E1262D" stroke="'+INK+'" stroke-width="2.4"/>'+
+      '<rect x="64" y="40" width="26" height="18" rx="2" fill="#4B4F58" stroke="'+INK+'" stroke-width="2.2"/>'+
+      '<rect x="32" y="44" width="10" height="13" fill="#4B4F58" stroke="'+INK+'" stroke-width="2"/>'+
+      '<circle cx="38" cy="38" r="5" fill="#E9E2CF" stroke="'+INK+'" stroke-width="1.6"/><circle cx="30" cy="30" r="4" fill="#E9E2CF" stroke="'+INK+'" stroke-width="1.6"/>'+
+      '<rect x="34" y="62" width="12" height="10" fill="#FFE07A" stroke="'+INK+'" stroke-width="1.6"/><rect x="52" y="62" width="12" height="10" fill="#FFE07A" stroke="'+INK+'" stroke-width="1.6"/>'+
+      '<circle cx="38" cy="88" r="7" fill="#4B4F58" stroke="'+INK+'" stroke-width="2"/><circle cx="62" cy="88" r="7" fill="#4B4F58" stroke="'+INK+'" stroke-width="2"/><circle cx="82" cy="88" r="5" fill="#4B4F58" stroke="'+INK+'" stroke-width="2"/>'+
+      '<path d="M18 98 L102 98" stroke="'+INK+'" stroke-width="2.4"/>',
+    rabbit:
+      '<circle cx="88" cy="32" r="12" fill="#FFE07A" stroke="'+INK+'" stroke-width="2"/>'+
+      '<ellipse cx="50" cy="36" rx="6" ry="17" fill="#FFFFFF" stroke="'+INK+'" stroke-width="2.2"/><ellipse cx="66" cy="34" rx="6" ry="17" fill="#FFFFFF" stroke="'+INK+'" stroke-width="2.2"/>'+
+      '<ellipse cx="50" cy="38" rx="2.4" ry="10" fill="#F6B6CF"/><ellipse cx="66" cy="36" rx="2.4" ry="10" fill="#F6B6CF"/>'+
+      '<ellipse cx="58" cy="70" rx="22" ry="20" fill="#FFFFFF" stroke="'+INK+'" stroke-width="2.4"/>'+
+      '<circle cx="51" cy="66" r="2.4" fill="'+INK+'"/><circle cx="65" cy="66" r="2.4" fill="'+INK+'"/><path d="M56 72 L58 74 L60 72" stroke="#C2378A" stroke-width="2" fill="none"/>'+
+      '<path d="M30 96 L44 84 L48 96 Z" fill="#B88A5A" stroke="'+INK+'" stroke-width="1.6"/><path d="M38 80 L40 70" stroke="'+INK+'" stroke-width="2.4" stroke-linecap="round"/>',
+    storm:
+      '<path d="M60 58 m-26 0 a26 26 0 1 1 52 0 a20 20 0 1 1 -40 0 a14 14 0 1 1 28 0 a8 8 0 1 1 -16 0" fill="none" stroke="#0F7F78" stroke-width="5" stroke-linecap="round"/>'+
+      '<path d="M40 92 L34 104 M56 94 L52 106 M72 92 L68 104" stroke="#3A7CA5" stroke-width="2.6" stroke-linecap="round"/>'+
+      '<path d="M86 28 L80 40 L86 40 L80 52" fill="none" stroke="#FFC21A" stroke-width="3" stroke-linejoin="round"/>'
+  };
+  var uid=0;
+  function starRow(n,cx,cy,r){
+    /* 테두리 위쪽 호를 따라 별을 늘어놓음 */
+    var s='', span=Math.min(100, 22*n), a0=-90-span/2;
+    for(var i=0;i<n;i++){
+      var a=(n===1? -90 : a0+span*i/(n-1))*Math.PI/180, x=cx+r*Math.cos(a), y=cy+r*Math.sin(a);
+      s+='<text x="'+x.toFixed(1)+'" y="'+(y+4.5).toFixed(1)+'" text-anchor="middle" font-size="13" fill="#FFE07A" stroke="'+INK+'" stroke-width=".7">★</text>';
+    }
+    return s;
+  }
+  function face(k){
+    var d=(typeof k==='object')?k:CARDS[k], id='dk'+(uid++);
+    var art = d.img ? '<image href="'+d.img+'" x="19" y="19" width="82" height="82" preserveAspectRatio="xMidYMid slice"/>' : (MOT[d.m]||MOT.shop);
+    return '<svg viewBox="0 0 120 120" width="100%" height="100%" role="img" aria-label="'+esc(d.n)+' 별 '+d.s+' 숫자 '+d.v+'">'
+      +'<defs><pattern id="h'+id+'" width="4" height="4" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".85" fill="'+d.c+'" opacity=".22"/></pattern>'
+      +'<clipPath id="c'+id+'"><circle cx="60" cy="60" r="43"/></clipPath></defs>'
+      +'<circle cx="62.5" cy="62.5" r="57" fill="rgba(0,0,0,.2)"/>'
+      +'<circle cx="60" cy="60" r="57" fill="'+d.c+'" stroke="'+INK+'" stroke-width="2.2"/>'
+      +'<circle cx="60" cy="60" r="43" fill="#FFF8E8"/>'+(d.img?'':'<circle cx="60" cy="60" r="43" fill="url(#h'+id+')"/>')
+      +'<g clip-path="url(#c'+id+')">'+art+'</g>'
+      +'<circle cx="60" cy="60" r="43" fill="none" stroke="'+INK+'" stroke-width="1.8"/>'
+      +starRow(d.s,60,60,50.5)
+      +'<path d="M24 92 L96 92 L92 104 L28 104 Z" fill="'+INK+'"/>'
+      +'<text x="60" y="102" text-anchor="middle" font-size="'+(d.n.length>6?10.5:12.5)+'" font-family="Black Han Sans, sans-serif" fill="#fff" letter-spacing=".5">'+esc(d.n)+'</text>'
+      +'<circle cx="99" cy="78" r="14" fill="#FFE07A" stroke="'+INK+'" stroke-width="2"/>'
+      +'<text x="99" y="83" text-anchor="middle" font-size="12.5" font-family="Black Han Sans, sans-serif" fill="'+INK+'">'+d.v+'</text>'
+      +'</svg>';
+  }
+  function esc(t){ return String(t).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+  /* 뒷면 = 가게 광고판: 마분지 바탕에 가게 그림(있으면) · 가게 이름 · 문구. 아무것도 없으면 빈 마분지 */
+  var AD={name:'',text:'',img:''};
+  function setAd(o){ AD.name=o.name||''; AD.text=o.text||''; AD.img=o.img||''; }
+  function back(){
+    var id='bk'+(uid++), inner='';
+    if(AD.img){
+      inner+='<clipPath id="ci'+id+'"><circle cx="60" cy="48" r="24"/></clipPath><circle cx="60" cy="48" r="24" fill="#fff"/><image href="'+AD.img+'" x="36" y="24" width="48" height="48" preserveAspectRatio="xMidYMid slice" clip-path="url(#ci'+id+')"/><circle cx="60" cy="48" r="24" fill="none" stroke="#5C4320" stroke-width="1.4"/>';
+      if(AD.name){ inner+='<text x="60" y="86" text-anchor="middle" font-size="15" font-family="Song Myung, serif" fill="#3B2A12">'+esc(AD.name)+'</text>'; }
+      if(AD.text){ inner+='<text x="60" y="100" text-anchor="middle" font-size="9.5" font-family="Noto Sans KR, sans-serif" font-weight="700" fill="#5C4320">'+esc(AD.text)+'</text>'; }
+    } else {
+      if(AD.name){ inner+='<text x="60" y="'+(AD.text?58:66)+'" text-anchor="middle" font-size="'+(AD.name.length>4?18:24)+'" font-family="Song Myung, serif" fill="#3B2A12">'+esc(AD.name)+'</text>'; }
+      if(AD.text){ inner+='<text x="60" y="'+(AD.name?78:64)+'" text-anchor="middle" font-size="10.5" font-family="Noto Sans KR, sans-serif" font-weight="700" fill="#5C4320">'+esc(AD.text)+'</text>'; }
+    }
+    return '<svg viewBox="0 0 120 120" width="100%" height="100%" role="img" aria-label="딱지 뒷면'+(AD.name?' · '+esc(AD.name):'')+'">'
+      +'<defs><pattern id="p'+id+'" width="7" height="7" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="2" r=".7" fill="#7A5A2E" opacity=".3"/><circle cx="5" cy="5.5" r=".5" fill="#fff" opacity=".3"/></pattern></defs>'
+      +'<circle cx="62.5" cy="62.5" r="57" fill="rgba(0,0,0,.2)"/>'
+      +'<circle cx="60" cy="60" r="57" fill="#D9BD8C" stroke="'+INK+'" stroke-width="2.2"/>'
+      +'<circle cx="60" cy="60" r="57" fill="url(#p'+id+')"/>'
+      +inner+'</svg>';
+  }
+  return { CARDS:CARDS, face:face, back:back, setAd:setAd, esc:esc };
+})();
+
+(function(){
+  var NUMK=['','한','두','세','네','다섯','여섯','일곱','여덟','아홉','열'];
+  var COLS=['#FF7A1A','#2457D6','#2E7D46','#7A2E8E','#0E8C9A','#8B5A2B'];
+  function glen(d){ return d.n.replace(/\s/g,'').length; }
+  var RULE={star:{f:function(d){return d.s;},u:function(d){return '★'+d.s;},w:'별이 많은 쪽'},
+            name:{f:glen,u:function(d){return '「'+DDAK.esc(d.n)+'」 '+glen(d)+'글자';},w:'이름 글자가 많은 쪽'},
+            num:{f:function(d){return d.v;},u:function(d){return String(d.v);},w:'숫자가 높은 쪽'}};
+  var rule='star', total=5, round=0, won=0, busy=false, mine=[];
+  var $=function(id){return document.getElementById(id);};
+  var me=$('me'), op=$('op'), say=$('say'), go=$('go');
+  /* 매장 설정 — 이 폰에만 저장(시험). 본 서비스에서는 관리자 화면 → 시트 */
+  var ST={ad:{name:'다복',text:'다복 사랑해요',img:''}, mine:[{n:'다복 사랑해요',s:5,v:999,c:'#FF7A1A',img:''}]};
+  try{ var sv=JSON.parse(localStorage.getItem('ddak-shop')||'null'); if(sv&&sv.ad&&sv.mine){ ST=sv; } }catch(e){}
+  function save(){ try{ localStorage.setItem('ddak-shop',JSON.stringify(ST)); }catch(e){} }
+  var draft={n:'다복 사랑해요',s:5,v:999,c:COLS[0],img:''};
+  function deck(){ return DDAK.CARDS.concat(ST.mine); }
+  function opName(){ return ($('opn').value.trim()||'상대'); }
+  function intro(){ say.innerHTML='딱지를 내면 두 장이 함께 뒤집힙니다.<br><b>'+RULE[rule].w+'</b>이 두 장을 다 가져가요.'; }
+  function layout(){
+    total=parseInt($('rounds').value,10); $('rl').textContent=(NUMK[total]||total)+' 판';
+    var h=''; for(var i=0;i<total;i++){ h+='<i></i>'; } $('dots').innerHTML=h;
+  }
+  function backs(){ DDAK.setAd(ST.ad); var b=DDAK.back(); me.querySelector('.b').innerHTML=b; op.querySelector('.b').innerHTML=DDAK.back(); $('pvB').innerHTML=DDAK.back(); }
+  function reset(){
+    round=0; won=0; mine=[]; $('pile').innerHTML=''; $('cnt').textContent='딴 딱지 0장';
+    me.classList.remove('on','win'); op.classList.remove('on','win'); backs();
+    $('done').classList.remove('on'); go.style.display=''; go.disabled=false; $('gol').textContent='딱지 내기';
+    layout(); intro(); lock(false);
+  }
+  function lock(on){ $('rounds').disabled=on; var rb=document.querySelectorAll('.rules button'); for(var i=0;i<rb.length;i++){ rb[i].disabled=on; } }
+  var rb=document.querySelectorAll('.rules button');
+  for(var i=0;i<rb.length;i++){ rb[i].addEventListener('click',function(){
+    rule=this.getAttribute('data-r');
+    for(var k=0;k<rb.length;k++){ rb[k].setAttribute('aria-pressed', rb[k]===this?'true':'false'); }
+    intro();
+  }); }
+  $('rounds').addEventListener('change',function(){ if(round===0){ layout(); } });
+  $('opn').addEventListener('input',function(){ $('opl').textContent=opName(); });
+  go.addEventListener('click',function(){
+    if(busy||round>=total){ return; }
+    busy=true; go.disabled=true; lock(true);
+    me.classList.remove('on','win'); op.classList.remove('on','win');
+    setTimeout(function(){
+      var D=deck(), R=RULE[rule], a=D[Math.floor(Math.random()*D.length)], b, n=0;
+      do{ b=D[Math.floor(Math.random()*D.length)]; n++; }while((b===a || R.f(b)===R.f(a)) && n<200);
+      me.querySelector('.f').innerHTML=DDAK.face(a); op.querySelector('.f').innerHTML=DDAK.face(b);
+      me.classList.add('on'); SND.slap(); setTimeout(function(){ op.classList.add('on'); SND.slap(.75); },140);
+      setTimeout(function(){
+        var x=R.f(a), y=R.f(b), d=$('dots').children[round];
+        var line='나 '+R.u(a)+' · '+DDAK.esc(opName())+' '+R.u(b)+'<br>';
+        if(x>y){ SND.glass(.8); won+=2; mine.push(a,b); me.classList.add('win'); d.className='w'; say.innerHTML=line+'<b>탁! 두 장 땄다!</b>'; }
+        else { SND.fall(.6); op.classList.add('win'); d.className='l'; say.innerHTML=line+'<b>아이고, 뺏겼네!</b>'; }
+        round++; $('cnt').textContent='딴 딱지 '+won+'장';
+        var h=''; for(var j=0;j<mine.length;j++){ h+=DDAK.face(mine[j]); } $('pile').innerHTML=h;
+        if(round>=total){ noriResult({game:'rd',gname:'동그란 딱지',opp:opName(),lv:'',win:won>total,detail:'딱지 '+won+'장 땀',sc:[won,null],u:'장',out:won>total?'win':(won===total?'draw':'lose')}); setTimeout(won>0?SND.win:SND.lose,300); $('big').innerHTML = won>0 ? '딱지 <em>'+won+'</em>장 땄어요!' : '이번엔 <em>한 장도</em> 못 땄어요'; $('done').classList.add('on'); go.style.display='none'; }
+        else { go.disabled=false; $('gol').textContent=(round+1)+'판째 딱지 내기'; }
+        busy=false;
+      },720);
+    },60);
+  });
+  $('again').addEventListener('click',reset);
+
+  /* 그림 올리기 — 폰 사진도 가볍게: 가로세로 240 이하로 줄여 저장 */
+  function shrink(file,cb){
+    if(!file){ return; } var r=new FileReader();
+    r.onload=function(){ var im=new Image(); im.onload=function(){
+      var k=Math.min(1,240/Math.max(im.width,im.height)), cv=document.createElement('canvas');
+      cv.width=Math.round(im.width*k); cv.height=Math.round(im.height*k);
+      cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);
+      var png=cv.toDataURL('image/png'), jpg=cv.toDataURL('image/jpeg',.85);
+      cb(png.length<jpg.length*1.6?png:jpg);
+    }; im.src=r.result; }; r.readAsDataURL(file);
+  }
+  $('adN').value=ST.ad.name; $('adT').value=ST.ad.text;
+  function adChg(){ ST.ad.name=$('adN').value.trim(); ST.ad.text=$('adT').value.trim(); save(); if(!me.classList.contains('on')){ backs(); } else { DDAK.setAd(ST.ad); $('pvB').innerHTML=DDAK.back(); } }
+  $('adN').addEventListener('input',adChg); $('adT').addEventListener('input',adChg);
+  $('adI').addEventListener('change',function(){ shrink(this.files[0],function(u){ ST.ad.img=u; adChg(); }); this.value=''; });
+  $('adX').addEventListener('click',function(){ ST.ad.img=''; adChg(); });
+
+  var cc=$('cC'), ch='';
+  for(var q=0;q<COLS.length;q++){ ch+='<button type="button" style="background:'+COLS[q]+'" data-c="'+COLS[q]+'" aria-label="테두리 색 '+(q+1)+'" aria-pressed="'+(q===0)+'"></button>'; }
+  cc.innerHTML=ch;
+  function pv(){ $('pvF').innerHTML=DDAK.face(draft); }
+  function dChg(){ draft.n=$('cN').value.trim()||'우리 가게'; draft.s=parseInt($('cS').value,10);
+    var v=parseInt($('cV').value,10); draft.v=isNaN(v)?1:Math.max(1,Math.min(999,v)); pv(); }
+  ['cN','cS','cV'].forEach(function(id){ $(id).addEventListener('input',dChg); $(id).addEventListener('change',dChg); });
+  cc.addEventListener('click',function(e){ var t=e.target.closest('button'); if(!t){return;} draft.c=t.getAttribute('data-c');
+    var bs=cc.querySelectorAll('button'); for(var k=0;k<bs.length;k++){ bs[k].setAttribute('aria-pressed', bs[k]===t?'true':'false'); } pv(); });
+  $('cI').addEventListener('change',function(){ shrink(this.files[0],function(u){ draft.img=u; pv(); }); this.value=''; });
+  $('cX').addEventListener('click',function(){ draft.img=''; pv(); });
+  function list(){
+    var h=''; for(var k=0;k<ST.mine.length;k++){ h+='<div>'+DDAK.face(ST.mine[k])+'<button type="button" data-i="'+k+'" aria-label="'+DDAK.esc(ST.mine[k].n)+' 빼기">✕</button></div>'; }
+    $('mineList').innerHTML=h;
+    $('deckN').textContent='놀이 묶음: 기본 딱지 '+DDAK.CARDS.length+'장 + 우리 가게 딱지 '+ST.mine.length+'장';
+  }
+  $('mineList').addEventListener('click',function(e){ var t=e.target.closest('button'); if(!t){return;} ST.mine.splice(parseInt(t.getAttribute('data-i'),10),1); save(); list(); });
+  $('cAdd').addEventListener('click',function(){ if(ST.mine.length>=8){ $('deckN').textContent='가게 딱지는 여덟 장까지 넣을 수 있어요.'; return; }
+    ST.mine.push({n:draft.n,s:draft.s,v:draft.v,c:draft.c,img:draft.img}); save(); list(); });
+  dChg(); list(); reset();
+})();
+SND.button(document.querySelector('.top'));
+noriNav({here:function(){ return 'rd'; }, onNew:function(){ document.getElementById('again').click(); }});
+</script>
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>딱지치기 · 투호 · 구슬치기 · 원판 다트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+/* 그때그놀이-022 · 딱지치기 · 투호 · 구슬치기 · 원판 다트 (020 틀) — 한 화면 놀이판 · 상대 고르기 창(하수 · 중수 · 고수) · 아래 막대 · 캐디 · 활터 사람 · 망원경 조준 · 땡그랑 (018 바탕) — 상대는 「상호 주인장」, 소리 · 푸짐한 선물 */
+:root{
+  --ink:#1B1A1F; --red:#E1262D; --yel:#FFC21A; --blu:#2457D6; --org:#FF7A1A;
+  --line:#E2D6B4; --muted:#6B5A30;
+  --sign:"Black Han Sans"; --brand:"Song Myung";
+  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:#E9DDBA;color:var(--ink);font-family:var(--body);line-height:1.5;word-break:keep-all;overflow-wrap:anywhere}
+.app{max-width:480px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;background:radial-gradient(circle at 50% 0%,#FFF8E6 0,#F7EFD8 55%,#EFE4C6 100%)}
+.top{position:sticky;top:0;z-index:5;height:56px;display:flex;align-items:center;justify-content:center;padding:0 10px;padding-top:env(safe-area-inset-top,0px);background:#16181D;color:#fff;box-sizing:content-box}
+.top::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:4px;background:linear-gradient(90deg,var(--red) 0 25%,var(--yel) 25% 50%,var(--blu) 50% 75%,var(--org) 75%)}
+.snd{position:absolute;right:8px;bottom:8px;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:0;border-radius:12px;background:transparent;color:#fff;cursor:pointer}
+.snd[aria-pressed="false"]{color:#8C8C8C}
+.ttl{font-family:var(--sign),var(--body);font-size:20px;letter-spacing:.04em}
+.dk{flex:1;padding:18px max(14px,env(safe-area-inset-left,0px)) calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+.shopset{display:grid;grid-template-columns:1.3fr 1fr;gap:8px;background:#fffdf6;border-radius:14px;padding:10px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.shopset label,.set label{display:flex;flex-direction:column;gap:3px;font-size:12px;font-weight:700;color:var(--muted)}
+.shopset input,.shopset select{font:inherit;font-size:15px;font-weight:800;padding:7px 10px;border-radius:10px;border:1.5px solid #CDBF9B;background:#fff;color:var(--ink);width:100%;min-width:0}
+.tabs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tabs button{font:inherit;display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:16px;border:1.5px solid #CDBF9B;background:#fffdf6;cursor:pointer;color:var(--ink)}
+.tabs button svg{width:46px;height:46px;flex:none}
+.tabs button b{font-family:var(--sign),var(--body);font-weight:400;font-size:20px;letter-spacing:.03em}
+.tabs button[aria-selected="true"]{background:#16181D;border-color:#16181D;color:#fff}
+.pane{display:none;flex-direction:column;gap:12px}
+.pane.on{display:flex}
+.set{display:grid;grid-template-columns:1fr;gap:8px}
+.set select{font:inherit;font-size:15px;font-weight:700;padding:8px 10px;border-radius:12px;border:1.5px solid #CDBF9B;background:#fffdf6;color:var(--ink);width:100%}
+button:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--blu);outline-offset:2px}
+.card{display:grid;grid-template-columns:auto repeat(var(--n,3),1fr) auto;gap:0;font-size:13px;font-weight:800;background:#fff;border-radius:12px;overflow:hidden;box-shadow:inset 0 0 0 1.5px var(--line)}
+.card span{padding:5px 6px;text-align:center;border-bottom:1px solid #F0E7CF}
+.card span.h{background:#16181D;color:#fff;font-weight:700}
+.card span.nm{text-align:left;max-width:9em;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.card span.now{background:#FFF2C4}
+.card span.tot{background:#F7EFD8}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vs div{display:flex;align-items:center;gap:7px;padding:8px 10px;border-radius:12px;background:#fff;box-shadow:inset 0 0 0 1.5px var(--line);font-weight:800;font-size:14px;opacity:.5;min-width:0}
+.vs div.b{flex-direction:row-reverse}
+.vs div.on{opacity:1;box-shadow:inset 0 0 0 2.5px currentColor}
+.vs .a{color:#2457D6}.vs .b{color:#E1262D}
+.vs i{width:14px;height:14px;border-radius:50%;background:#fff;box-shadow:inset 0 0 0 3px currentColor;flex:none}
+.vs span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.vs em{font-style:normal;color:var(--ink);white-space:nowrap}
+.vs div.a em{margin-left:auto}.vs div.b em{margin-right:auto}
+.brd{width:100%;display:block;border-radius:12px;box-shadow:0 6px 14px rgba(60,40,10,.25);touch-action:none;user-select:none;-webkit-user-select:none}
+.say{min-height:50px;text-align:center;background:#fff;border-radius:14px;padding:9px 10px;font-size:14.5px;line-height:1.45;box-shadow:inset 0 0 0 1.5px var(--line)}
+.say b{color:var(--red)}
+.act{display:grid;grid-template-columns:auto 1fr;gap:8px;align-items:stretch}
+.act .hb{font:inherit;font-size:13px;font-weight:800;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:0 12px;min-height:44px;color:var(--ink);cursor:pointer}
+.act .spd{display:flex;align-items:center;gap:4px;background:#fff;border-radius:12px;padding:4px;box-shadow:inset 0 0 0 1.5px var(--line)}
+.act .spd span{font-size:12px;font-weight:800;color:#6B5A30;padding:0 4px;white-space:nowrap}
+.act .spd button{flex:1;font:inherit;font-size:13px;font-weight:800;border:0;border-radius:9px;background:transparent;min-height:36px;color:var(--ink);cursor:pointer}
+.act .spd button[aria-pressed=true]{background:#FF7A1A;color:#fff}
+.act .fire{grid-column:1/-1;font:inherit;font-family:"Black Han Sans",sans-serif;font-size:24px;letter-spacing:.08em;border:0;border-radius:16px;min-height:60px;background:#2457D6;color:#fff;box-shadow:0 4px 0 #173C9C;cursor:pointer}
+.act .fire:active{transform:translateY(3px);box-shadow:0 1px 0 #173C9C}
+.act .fire:disabled{background:#B9BEC9;box-shadow:0 4px 0 #9AA0AD;color:#eef0f4}
+.act:has(.spd[style*="none"]) {grid-template-columns:1fr}
+.rl{font-size:14px;line-height:1.55;color:var(--ink);background:#fff;border-radius:14px;padding:10px 12px 10px 4px;box-shadow:inset 0 0 0 1.5px #CDBF9B}
+.rl ol{margin:0;padding-left:24px}.rl li{margin:2px 0}.rl b{color:#C0392B}
+.pick .ok{justify-content:center;font-weight:900;background:#16181D;color:#fff;border:0}
+#pickRule{font-size:13px}
+.vs em.up{animation:up .9s ease}
+@keyframes up{0%{transform:scale(1)}30%{transform:scale(1.6);color:#E1262D}100%{transform:scale(1)}}
+.vs em{display:inline-block;font-weight:900}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;border-radius:16px;font-weight:800;border:0;font-family:var(--body);cursor:pointer;width:100%}
+.gift{min-height:54px;background:var(--red);color:#fff;font-size:17px;box-shadow:0 3px 0 rgba(120,10,15,.3)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.half{min-height:48px;background:#fff;color:var(--ink);border:1.5px solid #D8D5CC;font-size:15px}
+.ghost{min-height:44px;background:transparent;color:#5A4A22;border:1.5px dashed #CDBF9B;font-size:14px}
+.done{display:none;flex-direction:column;gap:10px;text-align:center}
+.done.on{display:flex}
+.big{font-family:var(--sign),sans-serif;font-size:28px;line-height:1.2}
+.big em{font-style:normal;color:var(--red)}
+.lure{margin:0;font-size:14px;color:#5A4A22}
+.lure b{color:var(--red)}
+.note{font-size:11.5px;color:#8A7A50;text-align:center;margin:4px 0 0}
+.shopset,.tabs,.set,.ghost{display:none!important}
+.dk{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))!important;gap:10px!important}
+.brd{margin:0 auto}
+.vs div{font-size:13px!important;padding:8px 8px!important}
+.lv{font-size:10px;font-weight:800;padding:1px 6px;border-radius:999px;background:currentColor;flex:none}
+.lv b{color:#fff;font-weight:800}
+/* 아래 막대 — 늘 떠 있음 */
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;justify-content:center;background:rgba(22,24,29,.96);padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px))}
+.bar div{width:100%;max-width:480px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.bar button{font:inherit;font-size:14px;font-weight:800;color:#fff;background:rgba(255,255,255,.1);border:0;border-radius:12px;min-height:48px;display:flex;align-items:center;justify-content:center;gap:6px;cursor:pointer}
+.bar button svg{width:18px;height:18px;fill:none;stroke:var(--yel);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+/* 상대 고르기 창 */
+.pick{position:fixed;inset:0;z-index:30;background:rgba(22,24,29,.55);display:none;align-items:flex-end;justify-content:center}
+.pick.on{display:flex}
+.pick .sheet{width:100%;max-width:480px;background:#FFF8E6;border-radius:22px 22px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
+.pick h3{margin:0 0 4px;text-align:center;font-family:var(--brand),serif;font-weight:400;font-size:24px}
+.pick button{font:inherit;display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;border:1.5px solid #CDBF9B;background:#fff;cursor:pointer;text-align:left;color:var(--ink)}
+.pick button b{font-size:16px}
+.pick button small{display:block;color:#6B5A30;font-size:12.5px;font-weight:600}
+.pick .tag{margin-left:auto;font-size:12px;font-weight:900;padding:4px 10px;border-radius:999px;color:#fff;flex:none}
+.pick .who{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-weight:900;color:#fff;flex:none}
+/* 끝난 뒤 창 — 아래에서 올라옴 */
+.done{position:fixed;left:0;right:0;bottom:0;z-index:25;background:#FFF8E6;border-radius:22px 22px 0 0;box-shadow:0 -8px 24px rgba(0,0,0,.2);padding:18px 16px calc(84px + env(safe-area-inset-bottom,0px));max-width:480px;margin:0 auto}
+
+
+/* ★첫째 원칙 (대표 261122): 놀이는 복고여도 화면은 산만하지 않게 — 테두리 · 음영 없음 */
+button,.btn,.bt,.pk,.pick button,.say,.vs div,.vs .p,.hb,.act .spd,.rl,.card,.room,.fam a,.tabs button,.half,.two button,.set select,.shopset input,.shopset select,.sheet,.done,.cap2,.box{box-shadow:none!important;border:0!important;text-shadow:none!important}
+.pick button,.pk,.hb,.half,.two button,.bt.o,.act .spd{background:#EFEAE0!important}
+.say,.rl{background:#fff!important}
+.vs div,.vs .p{background:#fff!important}
+button:active{filter:brightness(.93)}
+.bt.o[aria-pressed=true]{background:#FFC21A!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><span class="ttl">딱지치기</span></div>
+  <div class="dk">
+    <div class="vs" id="vs"></div>
+    <canvas class="brd" id="cv" aria-label="놀이판"></canvas>
+    <div class="say" id="say"></div>
+    <div class="act" id="act">
+      <button type="button" class="hb" id="helpBtn">? 놀이 방법</button>
+      <div class="spd" id="spd" role="group" aria-label="판 빠르기"><span>판 빠르기</span><button type="button" data-s="0">느리게</button><button type="button" data-s="1">보통</button><button type="button" data-s="2">빠르게</button></div>
+      <button type="button" class="fire" id="fire">던지기</button>
+    </div>
+    <div class="done" id="done">
+      <div class="big" id="big"></div>
+      <p class="lure"><span class="shopN">다복</span>에서 <b>푸짐한 선물</b>을 드립니다</p>
+      <button class="btn gift" type="button">선물 받기</button>
+      <div class="pair"><button class="btn half" type="button" id="again">다시 하기</button><button class="btn half" type="button">이야기방에 남기기</button></div>
+    </div>
+  </div>
+</div>
+<div class="pick help" id="help" role="dialog" aria-labelledby="helpT"><div class="sheet">
+  <h3 id="helpT">놀이 방법</h3><div class="rl" id="helpB"></div>
+  <button type="button" class="ok" data-x="1">알겠어요</button>
+</div></div>
+<div class="pick" id="pick" role="dialog" aria-labelledby="pickT"><div class="sheet">
+  <div class="rl" id="pickRule"></div>
+  <h3 id="pickT">누구랑 할까요?</h3>
+  <button type="button" data-v="cpu1"><span><b class="pn" data-k="cpu1">다복 사장님</b><small>이 가게 사장님과 한 판</small></span></button>
+  <button type="button" data-v="two"><span><b>친구와 같이 하기</b><small>폰 하나로 번갈아 합니다</small></span></button>
+</div></div>
+<script>
+__SND__
+__NAV__
+__EMIT__
+__G4__
+</script>
+</body>
+</html>

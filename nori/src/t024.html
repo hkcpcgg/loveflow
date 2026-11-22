@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>손놀이 · 그때 그 놀이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+/* 그때그놀이-024 · 손놀이 넷 v2 (261122 14:3x) — 그림문자 손 ✊ ✌️ ✋ · 한 화면 고정 · 말풍선으로 할 일 · 상호+사장님 · 테두리 · 음영 없음 */
+:root{--ink:#16181D;--red:#E1262D;--blu:#2457D6;--yel:#FFC21A;--paper:#F7F1E3;--muted:#6B6355;--soft:#EFEAE0;
+  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--sign:"Black Han Sans";--brand:"Song Myung"}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);-webkit-tap-highlight-color:transparent;overflow:hidden}
+.app{max-width:480px;margin:0 auto;height:calc(100vh - 60px - env(safe-area-inset-bottom,0px));height:calc(100dvh - 60px - env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
+.top{flex:none;height:48px;display:flex;align-items:center;justify-content:center;position:relative;background:var(--ink);color:#fff;font-family:var(--sign),var(--body);font-size:19px;letter-spacing:.04em;padding-top:env(safe-area-inset-top,0px);box-sizing:content-box}
+.top .q{position:absolute;left:8px;top:calc(6px + env(safe-area-inset-top,0px));width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font:900 17px/1 var(--body);cursor:pointer}
+.top .snd{position:absolute;right:8px;top:calc(5px + env(safe-area-inset-top,0px));width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.14);border:0;color:#fff;display:grid;place-items:center}
+.dk{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;padding:10px 14px 8px}
+.vs{flex:none;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:6px;background:#fff;border-radius:14px;padding:6px 12px}
+.vs .p{display:flex;align-items:baseline;gap:6px;min-width:0}
+.vs .p.b{flex-direction:row-reverse}
+.vs .p span{font-size:13px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vs .p.a span{color:var(--blu)}.vs .p.b span{color:var(--red)}
+.vs .p em{font-style:normal;font-family:var(--sign);font-size:26px;line-height:1}
+.vs .p em.up{animation:up .7s ease}
+@keyframes up{30%{transform:scale(1.5)}}
+.vs .mid{font-size:11.5px;font-weight:800;color:var(--muted);text-align:center;line-height:1.2}
+.board{flex:1;min-height:0;border-radius:18px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:8px;position:relative;overflow:hidden}
+.steps{display:flex;gap:6px}
+.steps span{font-size:12px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.steps span.on{background:var(--ink);color:#fff}
+.bub{font-size:14.5px;font-weight:800;padding:6px 12px;border-radius:999px;text-align:center;max-width:100%}
+.bub.a{background:#E4ECFB;color:var(--blu)}.bub.b{background:#FBE3E4;color:#B3121B}.bub.n{background:var(--soft);color:var(--ink)}
+.scene{display:flex;align-items:center;justify-content:center;gap:18px;width:100%}
+.hd{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.hd small{font-size:12.5px;font-weight:800}
+.hd.a small{color:var(--blu)}.hd.b small{color:var(--red)}
+.emo{display:inline-block;font-size:clamp(62px,21vw,100px);line-height:1.08;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;position:relative}
+.hd.b .emo{transform:scaleX(-1)}
+.emo.bob{animation:bob .3s ease-in-out}
+@keyframes bob{50%{transform:translateY(-14px)}}
+.hd.b .emo.bob{animation:bobB .3s ease-in-out}
+@keyframes bobB{50%{transform:scaleX(-1) translateY(-14px)}}
+.emo.pop{animation:pop .3s ease}
+@keyframes pop{0%{transform:scale(.6)}100%{transform:scale(1)}}
+.hd.b .emo.pop{animation:popB .3s ease}
+@keyframes popB{0%{transform:scaleX(-1) scale(.6)}100%{transform:scaleX(-1) scale(1)}}
+.qm{position:absolute;right:-6px;top:-4px;font:400 28px/1 var(--sign);color:var(--red);background:#fff;border-radius:50%;width:38px;height:38px;display:grid;place-items:center;transform:scaleX(1)}
+.word{font-family:var(--sign);font-size:clamp(30px,10vw,44px);letter-spacing:.04em;min-height:1.2em;text-align:center}
+.word.win{color:var(--blu)}.word.lose{color:var(--red)}.word.draw{color:var(--muted)}
+.mbs{display:flex;flex-wrap:wrap;gap:4px;justify-content:center;max-width:180px}
+.mb{width:15px;height:15px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0 18%,transparent 20%),var(--c,#4E97A8)}
+.act{flex:none;display:flex;flex-direction:column;gap:6px}
+.lab{font-size:12.5px;font-weight:800;color:var(--muted);text-align:center}
+.row{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.grid5{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.bt{font:inherit;border:0;border-radius:14px;min-height:56px;font-family:var(--sign),var(--body);font-size:20px;letter-spacing:.03em;cursor:pointer;color:#fff;background:var(--blu);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;touch-action:manipulation;line-height:1.1}
+.bt.red{background:var(--red)}
+.bt.o{background:var(--soft);color:var(--ink)}
+.bt.n{min-height:46px;font-size:19px}
+.bt .e{font-size:30px;line-height:1.1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.bt small{font-family:var(--body);font-size:11px;font-weight:700;color:var(--muted)}
+.bt:disabled{opacity:.45}
+.pick,.done{position:fixed;inset:0;z-index:30;background:rgba(22,24,29,.5);display:none;align-items:flex-end;justify-content:center}
+.pick.on,.done.on{display:flex}
+.sheet{width:100%;max-width:480px;background:#FFF8E6;border-radius:22px 22px 0 0;padding:18px 16px calc(72px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px;max-height:92vh;overflow:auto}
+.sheet h3{margin:0;text-align:center;font-family:var(--brand),serif;font-weight:400;font-size:24px}
+.pk{font:inherit;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;cursor:pointer;text-align:left;color:var(--ink)}
+.pk b{font-size:17px}.pk small{display:block;color:var(--muted);font-size:12.5px;font-weight:600}
+.rl{font-size:14px;line-height:1.55;border-radius:14px;padding:10px 12px 10px 4px}
+.rl ol{margin:0;padding-left:24px}.rl li{margin:2px 0}.rl b{color:#C0392B}
+.res{text-align:center;font-family:var(--sign);font-size:30px}
+.res em{font-style:normal;color:var(--red)}
+.lure{text-align:center;font-family:var(--brand),serif;font-size:18px;margin:0}
+.lure b{font-weight:400;color:var(--red)}
+.gift{font:inherit;min-height:56px;border:0;border-radius:14px;background:var(--red);color:#fff;font-family:var(--sign);font-size:21px;cursor:pointer}
+.ok{font:inherit;min-height:50px;border:0;border-radius:14px;background:var(--ink);color:#fff;font-weight:900;font-size:16px;cursor:pointer}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.two button{font:inherit;min-height:48px;border-radius:14px;font-weight:800;font-size:15px;cursor:pointer}
+@media (max-height:640px){ .emo{font-size:58px} .bt{min-height:48px;font-size:18px} .bt .e{font-size:24px} .word{font-size:28px} }
+/* ★첫째 원칙 (대표 261122): 놀이는 복고여도 화면은 산만하지 않게 — 테두리 · 음영 없음 */
+button,.btn,.bt,.pk,.pick button,.say,.vs div,.vs .p,.hb,.act .spd,.rl,.card,.room,.fam a,.tabs button,.half,.two button,.set select,.shopset input,.shopset select,.sheet,.done,.cap2,.box{box-shadow:none!important;border:0!important;text-shadow:none!important}
+.pick button,.pk,.hb,.half,.two button,.bt.o,.act .spd{background:#EFEAE0!important}
+.say,.rl{background:#fff!important}
+.vs div,.vs .p{background:#fff!important}
+button:active{filter:brightness(.93)}
+.bt.o[aria-pressed=true]{background:#FFC21A!important}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><button class="q" type="button" id="helpBtn" aria-label="놀이 방법">?</button><span class="ttl" id="ttl">가위바위보</span></div>
+  <div class="dk">
+    <div class="vs" id="vs"></div>
+    <div class="board" id="board"></div>
+    <div class="act" id="act"></div>
+  </div>
+</div>
+<div class="pick" id="help" role="dialog" aria-labelledby="helpT"><div class="sheet">
+  <h3 id="helpT">놀이 방법</h3><div class="rl" id="helpB"></div><button type="button" class="ok" data-x="1">알겠어요</button>
+</div></div>
+<div class="pick" id="pick" role="dialog" aria-labelledby="pickT"><div class="sheet">
+  <div class="rl" id="pickRule"></div>
+  <h3 id="pickT">누구랑 할까요?</h3>
+  <button type="button" class="pk" data-v="cpu1"><span><b class="pn" data-k="cpu1">다복 사장님</b><small>이 가게 사장님과 한 판</small></span></button>
+  <button type="button" class="pk" data-v="two"><span><b>친구와 같이 하기</b><small>폰 하나로 번갈아 합니다</small></span></button>
+</div></div>
+<div class="done" id="done"><div class="sheet">
+  <div class="res" id="res"></div>
+  <p class="lure"><span class="shopN">다복</span>에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>
+  <button class="gift" type="button">선물 받기</button>
+  <div class="two"><button type="button" id="again">다시 하기</button><button type="button">이야기방에 남기기</button></div>
+</div></div>
+<script>
+__SND__
+</script>
+<script>
+__NAV__
+</script>
+<script>
+__EMIT__
+</script>
+<script>
+/* ───────── 공통 ───────── */
+var $=function(id){return document.getElementById(id);};
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
+function shopName(){ try{ var v=JSON.parse(localStorage.getItem('nori-shop')||'null'); if(v&&v.s) return v.s; }catch(e){} return '다복'; }
+function hoName(){ return '사장님'; }
+var S={mode:'cpu1',sc:[0,0],who:0,over:true,busy:false,g:null,gen:0};
+function later(fn,ms){ var g=S.gen; return setTimeout(function(){ if(g===S.gen) fn(); },ms); }
+function wait(ms){ var g=S.gen; return new Promise(function(r){ setTimeout(function(){ if(g===S.gen) r(); },ms); }); }
+function two(){ return S.mode==='two'; }
+function nm(p){ return p===0?(two()?'첫째':'나'):(two()?'둘째':shopName()+' '+hoName()); }
+function tl(p){ return (p===0&&!two())?'내 차례':nm(p)+' 차례'; }
+function rnd(n){ return Math.floor(Math.random()*n); }
+function vs(mid){ $('vs').innerHTML='<div class="p a"><span>'+esc(nm(0))+'</span><em id="s0">'+S.sc[0]+'</em></div><div class="mid">'+(mid==null?S.g.mid():mid)+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em id="s1">'+S.sc[1]+'</em></div>';
+  if(window.noriSide){ noriSide(S.over?null:S.who, tl(S.who)); } }
+function bump(p){ var e=$('s'+p); if(e){ e.classList.remove('up'); void e.offsetWidth; e.classList.add('up'); } }
+function finish(win,detail,draw){ S.over=true; vs(); var a=S.sc[0], b=S.sc[1];
+  noriResult({game:S.g.key,gname:S.g.name,opp:two()?'친구':nm(1),lv:two()?'':'cpu1',win:!two()&&!!win,detail:detail,sc:[a,b],u:(S.g.key==='hj'?'알':'승'),out:(draw||a===b&&two())?'draw':(two()?(a>b?'win':'lose'):(win?'win':'lose'))});
+  $('res').innerHTML= two() ? (a===b?'비겼어요':esc(a>b?nm(0):nm(1))+' <em>이겼어요!</em>') : (draw?'비겼어요':(win?'<em>이겼어요!</em>':'아이고, 졌어요'));
+  if(win||two()){ SND.win(); } else { SND.lose(); }
+  later(function(){ $('done').classList.add('on'); },800); }
+var E={rock:'✊',scissors:'✌️',paper:'✋',fist:'👊',cup:'🤲',open:'✋'};
+var NM={rock:'바위',scissors:'가위',paper:'보'}, MJN={rock:'묵',scissors:'찌',paper:'빠'}, MJS={rock:'주먹',scissors:'가위',paper:'보'};
+function beats(a,b){ return (a==='rock'&&b==='scissors')||(a==='scissors'&&b==='paper')||(a==='paper'&&b==='rock'); }
+function lock(v){ $('act').querySelectorAll('button').forEach(function(b){ b.disabled=v; }); }
+/* 두 손 장면 — 왼쪽 나 · 오른쪽 상대 */
+function duel(bub,bc){ $('board').innerHTML=(bub?'<div class="bub '+(bc||'n')+'" id="bub">'+bub+'</div>':'<div class="bub n" id="bub" style="visibility:hidden">.</div>')
+  +'<div class="word" id="word"></div><div class="scene"><div class="hd a"><span class="emo" id="hA">'+E.rock+'</span><small>'+esc(nm(0))+'</small></div><div class="hd b"><span class="emo" id="hB">'+E.rock+'</span><small>'+esc(nm(1))+'</small></div></div>'; }
+function bub(t,c){ var b=$('bub'); if(b){ b.style.visibility=''; b.className='bub '+(c||'n'); b.innerHTML=t; } }
+function word(t,c){ var w=$('word'); if(w){ w.className='word '+(c||''); w.textContent=t; } }
+function bob(id){ var e=$(id); e.classList.remove('bob'); void e.offsetWidth; e.classList.add('bob'); }
+function setH(id,k){ var e=$(id); e.textContent=E[k]; e.classList.remove('pop'); void e.offsetWidth; e.classList.add('pop'); }
+/* 고르는 단추: order = 보여 줄 차례, names = 이름 */
+function choose(lab,order,names,sub,cb){ $('act').innerHTML='<div class="lab">'+lab+'</div><div class="row">'+order.map(function(k){ return '<button class="bt o" type="button" data-k="'+k+'"><span class="e">'+E[k]+'</span>'+names[k]+(sub?'<small>'+sub[k]+'</small>':'')+'</button>'; }).join('')+'</div>';
+  $('act').querySelectorAll('[data-k]').forEach(function(b){ b.addEventListener('click',function(){ if(S.busy) return; cb(b.getAttribute('data-k')); }); }); }
+var HIST=[];
+function cpuPick(){ if(HIST.length>=2&&Math.random()<.25){ var c={rock:0,scissors:0,paper:0}; HIST.slice(-6).forEach(function(k){ c[k]++; }); var fav=Object.keys(c).sort(function(x,y){ return c[y]-c[x]; })[0];
+    return fav==='rock'?'paper':(fav==='scissors'?'rock':'scissors'); } return ['rock','scissors','paper'][rnd(3)]; }
+/* 「가위 · 바위 · 보!」(또는 「묵 · 찌 · 빠!」) 박자 — 손을 두 번 흔들고 셋째 박에 펼침 */
+async function chant(a,b,words){ S.busy=true; lock(true); $('hA').textContent=E.rock; $('hB').textContent=E.rock;
+  for(var i=0;i<3;i++){ word(words[i],''); if(i<2){ bob('hA'); bob('hB'); SND.clack(.45); await wait(380); } }
+  setH('hA',a); setH('hB',b); SND.slap(.7); await wait(500); }
+/* 둘이서: 첫째가 몰래 고른 뒤 둘째 */
+function pickBoth(lab,order,names,sub,go){ if(!two()){ choose(lab,order,names,sub,function(k){ go(k,null); }); return; }
+  choose(esc(nm(0))+' · 몰래 고르기',order,names,sub,function(k){ S.who=1; vs(); bub(esc(nm(0))+'는 화면을 보지 마세요','b'); choose(esc(nm(1))+' · 몰래 고르기',order,names,sub,function(k2){ go(k,k2); }); }); }
+
+/* ───────── 1. 가위바위보 — 세 번 먼저 이기면 ───────── */
+var RP={key:'rp',name:'가위바위보',goal:3,
+  rule:['아래 <b>가위 · 바위 · 보</b> 중 하나를 누르면 「가위 · 바위 · 보!」 하고 함께 냅니다.','바위는 가위를, 가위는 보를, 보는 바위를 이깁니다. 같으면 다시.','<b>세 번 먼저 이기는 사람</b>이 이깁니다.'],
+  mid:function(){ return '3번 먼저'; },
+  start:function(){ HIST=[]; this.turn(); },
+  turn:function(){ var self=this; S.busy=false; S.who=0; duel(esc(tl(0))+' · 무엇을 낼까요?','a'); vs();
+    pickBoth('가위 · 바위 · 보',['scissors','rock','paper'],NM,null,function(a,b){ self.go(a,b==null?cpuPick():b); }); },
+  go:async function(a,b){ HIST.push(a); S.who=0; vs(); await chant(a,b,['가위','바위','보!']);
+    if(a===b){ word('비겼다! 다시','draw'); await wait(900); return this.turn(); }
+    var w=beats(a,b)?0:1; S.sc[w]++; vs(); bump(w); word(w===0?(two()?esc(nm(0))+' 이김':'이겼다!'):(two()?esc(nm(1))+' 이김':'졌다!'), w===0?'win':'lose'); SND[w===0?'ding':'thud'](.6);
+    await wait(1100); if(S.sc[w]>=this.goal){ return finish(w===0,S.sc[0]+' 대 '+S.sc[1]); } this.turn(); }};
+
+/* ───────── 2. 묵찌빠 — 1 공격 정하기 → 2 묵찌빠 ───────── */
+var MJ={key:'mj',name:'묵찌빠',goal:2,
+  rule:['<b>1단계 공격 정하기</b> — 먼저 가위바위보를 합니다. 이긴 사람이 <b>공격</b>합니다.','<b>2단계 묵찌빠</b> — 「묵 · 찌 · 빠!」 하며 함께 냅니다. 묵 = 주먹, 찌 = 가위, 빠 = 보.','둘이 <b>같은 걸 내면 공격한 사람이 한 판</b>을 이깁니다. 다르면 그 판을 이긴 쪽이 공격을 이어 갑니다.','<b>두 판 먼저 이기는 사람</b>이 이깁니다.'],
+  mid:function(){ return '2판 먼저'; },
+  start:function(){ HIST=[]; this.att=null; this.turn(); },
+  steps:function(){ return '<div class="steps"><span'+(this.att==null?' class="on"':'')+'>1 공격 정하기</span><span'+(this.att!=null?' class="on"':'')+'>2 묵찌빠</span></div>'; },
+  turn:function(){ var self=this; S.busy=false; S.who=0;
+    var t,c; if(this.att==null){ t='가위바위보로 공격할 사람을 정해요'; c='n'; } else if(this.att===0){ t=(two()?esc(nm(0))+' 공격':'내가 공격')+' · 같은 걸 내게 하면 한 판'; c='a'; } else { t=esc(nm(1))+' 공격 · 다른 걸 내야 살아요'; c='b'; }
+    duel(t,c); $('board').insertAdjacentHTML('afterbegin',this.steps()); vs();
+    if(this.att==null){ pickBoth('가위 · 바위 · 보',['scissors','rock','paper'],NM,null,function(a,b){ self.go(a,b==null?cpuPick():b); }); }
+    else { pickBoth('묵 · 찌 · 빠',['rock','scissors','paper'],MJN,MJS,function(a,b){ self.go(a,b==null?self.cpu(a):b); }); } },
+  cpu:function(mine){ if(this.att===1&&Math.random()<.15){ return mine; } return cpuPick(); },
+  go:async function(a,b){ HIST.push(a); var mj=this.att!=null; await chant(a,b,mj?['묵','찌','빠!']:['가위','바위','보!']);
+    if(!mj){ if(a===b){ word('비겼다! 다시','draw'); await wait(800); return this.turn(); }
+      this.att=beats(a,b)?0:1; word(this.att===0?(two()?esc(nm(0))+' 공격!':'내가 공격!'):esc(nm(1))+' 공격!', this.att===0?'win':'lose'); SND.stone(.6); await wait(1000); return this.turn(); }
+    if(a===b){ var w=this.att; S.sc[w]++; bump(w); vs(); word(w===0?'묵찌빠! 한 판':'잡혔다! 한 판 내줌', w===0?'win':'lose'); SND[w===0?'ding':'thud'](.7);
+      await wait(1200); this.att=null; if(S.sc[w]>=this.goal){ return finish(w===0,S.sc[0]+' 대 '+S.sc[1]); } return this.turn(); }
+    var nw=beats(a,b)?0:1; word(nw!==this.att?'공격 뺏음!':'계속 공격!', nw===0?'win':'lose'); SND.clack(.6); this.att=nw; await wait(1000); this.turn(); }};
+
+/* ───────── 3. 구슬 홀짝 ───────── */
+var MC=['#4E97A8','#E1262D','#2E9E4F','#FFC21A','#7A3E9D','#FF7A1A'];
+function mbs(n){ var h=''; for(var i=0;i<n;i++){ h+='<span class="mb" style="--c:'+MC[i%MC.length]+'"></span>'; } return '<div class="mbs">'+h+'</div>'; }
+var HJ={key:'hj',name:'구슬 홀짝',rounds:6,
+  rule:['둘 다 <b>구슬 10개</b>로 시작합니다. 위 점수 칸의 숫자가 지금 가진 구슬입니다.','한 사람이 주먹에 구슬을 몰래 쥐면, 다른 사람이 <b>몇 개 걸지</b> 정하고 <b>홀(1 · 3 · 5…) / 짝(2 · 4 · 6…)</b>을 고릅니다.','맞히면 건 만큼 받아 오고, 틀리면 건 만큼 내줍니다. 쥐는 사람은 번갈아 바뀝니다.','여섯 판 뒤 <b>구슬이 많은 사람</b>이 이깁니다.'],
+  mid:function(){ return '구슬<br>'+Math.min(this.r+1,this.rounds)+'/'+this.rounds+'판'; },
+  start:function(){ S.sc=[10,10]; this.r=0; this.bet=2; this.turn(); },
+  scene:function(hid,txt,c,showN,q){ var side=hid===0?'a':'b';
+    $('board').innerHTML='<div class="bub '+c+'" id="bub">'+txt+'</div><div class="word'+(showN?'':' lose')+'" id="word">'+(showN||hid===0&&!two()&&!showN&&this.mine?'':'?')+'</div><div class="scene"><div class="hd '+side+'"><span class="emo" id="hH">'+E.rock+'</span><small>'+esc(nm(hid))+(showN?' · '+showN+'개 쥠':'')+'</small></div></div><div id="open"></div>'; },
+  turn:function(){ var self=this, hid=this.r%2===0?1:0, gs=1-hid; S.busy=false; this.hid=hid; S.who=hid; vs();
+    var maxN=Math.min(10,S.sc[hid]), maxBet=Math.min(5,S.sc[gs],S.sc[hid]); this.maxBet=maxBet;
+    if(hid===1&&!two()){ this.n=1+rnd(maxN); S.who=0; vs(); this.scene(1,esc(nm(1))+'이 구슬을 쥐었어요 · 홀일까 짝일까?','b',0,1); this.guessUI(); return; }
+    this.scene(hid,(hid===0&&!two()?'내가':esc(nm(hid))+'가')+' 쥘 차례 · 몇 개 쥘까요?','a');
+    $('act').innerHTML='<div class="lab">주먹에 쥘 구슬 수 (누르면 바로 쥠)'+(two()?' · 상대는 보지 마세요':'')+'</div><div class="grid5">'+Array.from({length:10},function(_,i){ return '<button class="bt o n" type="button" data-n="'+(i+1)+'"'+(i+1>maxN?' disabled':'')+'>'+(i+1)+'</button>'; }).join('')+'</div>';
+    $('act').querySelectorAll('[data-n]').forEach(function(b){ b.onclick=function(){ if(S.busy) return; self.n=+b.getAttribute('data-n'); SND.stone(.5);
+      if(two()){ S.who=gs; vs(); self.scene(hid,esc(nm(hid))+'가 구슬을 쥐었어요 · '+esc(tl(gs)),'b',0,1); self.guessUI(); }
+      else { self.scene(0,'내가 '+self.n+'개 쥐었어요 · '+esc(nm(1))+'이 맞히는 중…','a',self.n); lock(true); self.cpuGuess(); } }; }); },
+  guessUI:function(){ var self=this, mb=this.maxBet; this.bet=Math.min(this.bet,mb)||1;
+    $('act').innerHTML='<div class="lab">몇 개 걸까요</div><div class="grid5">'+[1,2,3,4,5].map(function(x){ return '<button class="bt o n" type="button" data-b="'+x+'" aria-pressed="'+(x===self.bet)+'"'+(x>mb?' disabled':'')+'>'+x+'</button>'; }).join('')+'</div><div class="row"><button class="bt red" type="button" data-g="1">홀</button><button class="bt" type="button" data-g="0">짝</button></div>';
+    $('act').querySelectorAll('[data-b]').forEach(function(b){ b.onclick=function(){ self.bet=+b.getAttribute('data-b'); $('act').querySelectorAll('[data-b]').forEach(function(x){ x.setAttribute('aria-pressed',String(x===b)); }); SND.clack(.35); }; });
+    $('act').querySelectorAll('[data-g]').forEach(function(b){ b.onclick=function(){ if(S.busy) return; self.reveal(+b.getAttribute('data-g')===1,self.bet); }; }); },
+  cpuGuess:function(){ var bet=Math.max(1,Math.min(this.maxBet,2+rnd(2))), self=this; later(function(){ self.reveal(Math.random()<.5,bet); },1000); },
+  reveal:async function(odd,bet){ S.busy=true; lock(true); var hid=this.hid, gs=1-hid, n=this.n, isOdd=n%2===1, ok=odd===isOdd;
+    bub(esc(nm(gs))+' · <b>'+(odd?'홀':'짝')+'</b>에 '+bet+'개!', gs===0?'a':'b'); SND.stone(.5); await wait(700);
+    var h=$('hH'); h.textContent=E.open; h.classList.add('pop'); $('open').innerHTML=mbs(n); SND.glass(.6);
+    var w=ok?gs:hid; S.sc[w]+=bet; S.sc[1-w]-=bet; vs(); bump(w);
+    word(n+'개 · '+(isOdd?'홀':'짝')+'!', w===0?'win':'lose'); bub(esc(nm(w))+(w===0&&!two()?'가':'이')+' 구슬 '+bet+'개를 가져가요', w===0?'a':'b'); SND[w===0?'ding':'thud'](.6);
+    await wait(1600); this.r++;
+    if(this.r>=this.rounds||S.sc[0]<=0||S.sc[1]<=0){ return finish(S.sc[0]>S.sc[1],'구슬 '+S.sc[0]+'개 대 '+S.sc[1]+'개',S.sc[0]===S.sc[1]); } this.turn(); }};
+
+/* ───────── 4. 쌀보리 — 「쌀!」에만 잡기 ───────── */
+var BR={key:'br',name:'쌀보리',tries:5,
+  rule:['한 사람이 두 손을 모아 동그랗게 만들고(🤲), 다른 사람이 주먹(👊)을 넣었다 빼며 「보리 · 보리 · 쌀!」 하고 외칩니다.','<b>「쌀!」일 때만 잡기</b>를 누르면 한 번 땁니다. 「보리」에 잡으면 한 번 잃습니다.','처음 다섯 번은 내가 잡고, 다음 다섯 번은 내가 외칩니다. <b>많이 잡은 사람</b>이 이깁니다.'],
+  mid:function(){ return (this.half===0?(two()?'첫째 잡기':'내가 잡기'):(two()?'둘째 잡기':'사장님 잡기'))+'<br>'+Math.min(this.k+1,this.tries)+'/'+this.tries; },
+  start:function(){ this.half=0; this.k=0; this.turn(); },
+  scene:function(txt,c){ $('board').innerHTML='<div class="bub '+c+'" id="bub">'+txt+'</div><div class="word" id="word"></div><span class="emo" id="fist">'+E.fist+'</span><span class="emo" id="cup">'+E.cup+'</span>'; },
+  turn:function(){ var self=this, catcher=this.half; S.busy=false; S.who=catcher; vs();
+    if(catcher===0||two()){ this.scene((catcher===0&&!two()?'내가 잡을 차례':esc(nm(catcher))+' 잡을 차례')+' · 「쌀!」에만 잡기','a');
+      $('act').innerHTML='<button class="bt" type="button" id="grab" style="min-height:84px;font-size:30px">잡기!</button>'; this.calls(catcher); }
+    else { this.scene('내가 외칠 차례 · 보리, 보리… 쌀!','a');
+      $('act').innerHTML='<div class="row"><button class="bt o" type="button" data-w="b">보리</button><button class="bt red" type="button" data-w="s">쌀!</button></div>'; this.calling(); } },
+  dip:function(t){ var f=$('fist'); f.classList.remove('bob'); void f.offsetWidth; f.classList.add('bob'); word(t, t==='쌀!'?'lose':''); },
+  calls:async function(catcher){ var self=this, n=2+rnd(4), grabbed=false, phase='', t0=0;
+    $('grab').onclick=function(){ if(grabbed) return; grabbed=true; self.judge(catcher,phase,performance.now()-t0); };
+    await wait(700);
+    for(var i=0;i<=n&&!grabbed;i++){ phase=i<n?'b':'s'; t0=performance.now(); this.dip(phase==='b'?'보리':'쌀!'); SND[phase==='s'?'clack':'stone'](.5);
+      await wait(phase==='s'?700:500+rnd(350)); if(grabbed) return; word(''); await wait(160); }
+    if(!grabbed){ grabbed=true; this.judge(catcher,'late',0); } },
+  calling:function(){ var self=this, done=false;
+    $('act').querySelectorAll('[data-w]').forEach(function(b){ b.onclick=function(){ if(done||S.busy) return; var w=b.getAttribute('data-w'); self.dip(w==='b'?'보리':'쌀!'); SND[w==='s'?'clack':'stone'](.5);
+      if(w==='b'){ if(Math.random()<.09){ done=true; later(function(){ self.judge(1,'b',300); },260); } }
+      else { done=true; var miss=Math.random()<.32; later(function(){ self.judge(1,'s',miss?9999:400); },miss?720:330); } }; }); },
+  judge:async function(catcher,phase,dt){ S.busy=true; lock(true); var c=$('cup'); c.textContent='✊'; c.classList.add('pop'); SND.slap(.6);
+    if(phase==='b'){ S.sc[catcher]=Math.max(0,S.sc[catcher]-1); word('보리에 잡았다! 한 번 잃음','draw'); SND.thud(.5); }
+    else if(phase==='s'&&dt<1000){ S.sc[catcher]++; bump(catcher); word('쌀 잡았다!', catcher===0?'win':'lose'); SND.ding(.6); }
+    else { word('놓쳤다!','draw'); SND.thud(.4); }
+    vs(); await wait(1300); this.k++;
+    if(this.k>=this.tries){ if(this.half===0){ this.half=1; this.k=0; return this.turn(); } return finish(S.sc[0]>S.sc[1],'잡은 수 '+S.sc[0]+' 대 '+S.sc[1],S.sc[0]===S.sc[1]); }
+    this.turn(); }};
+
+/* ───────── 놀이 고르기 · 시작 ───────── */
+var GAMES={rps:RP,mjb:MJ,holjjak:HJ,bori:BR}, KEY2={rp:'rps',mj:'mjb',hj:'holjjak',br:'bori'}, CUR='rps', picked={};
+function rules(k){ return '<ol>'+(GAMES[k].rule||[]).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+function setGame(k){ S.gen++; CUR=k; S.g=GAMES[k]; $('ttl').textContent=S.g.name; document.title=S.g.name+' · 그때 그 놀이'; S.over=true; S.sc=k==='holjjak'?[10,10]:[0,0]; S.who=0; $('done').classList.remove('on');
+  $('board').innerHTML='<div class="scene"><div class="hd a"><span class="emo">'+(k==='bori'?E.cup:E.rock)+'</span></div><div class="hd b"><span class="emo">'+(k==='bori'?E.fist:E.rock)+'</span></div></div>'; $('act').innerHTML=''; vs('');
+  $('pickRule').innerHTML=rules(k); $('pick').classList.add('on'); }
+function start(){ S.gen++; S.over=false; S.busy=false; S.sc=[0,0]; S.who=0; $('done').classList.remove('on'); S.g.start(); }
+(function(){
+  document.querySelectorAll('#pick .pk').forEach(function(b){ b.addEventListener('click',function(){ S.mode=b.getAttribute('data-v'); picked[CUR]=true; $('pick').classList.remove('on'); SND.stone(.6); start(); }); });
+  document.querySelectorAll('.pn').forEach(function(e){ e.textContent=shopName()+' '+hoName(); });
+  document.querySelectorAll('.shopN').forEach(function(e){ e.textContent=shopName(); });
+  $('again').addEventListener('click',function(){ start(); });
+  $('helpBtn').addEventListener('click',function(){ $('helpT').textContent=S.g.name+' · 놀이 방법'; $('helpB').innerHTML=rules(CUR); $('help').classList.add('on'); });
+  $('help').addEventListener('click',function(e){ if(e.target.id==='help'||e.target.closest('[data-x]')){ $('help').classList.remove('on'); } });
+  noriNav({here:function(){ return S.g.key; }, local:{rp:function(){ setGame('rps'); }, mj:function(){ setGame('mjb'); }, hj:function(){ setGame('holjjak'); }, br:function(){ setGame('bori'); }},
+    onNew:function(){ $('done').classList.remove('on'); setGame(CUR); }});
+  SND.button(document.querySelector('.top'));
+})();
+function solo(k){ if(GAMES[k]){ setGame(k); } }
+setGame(GAMES[(location.hash||'').slice(1)]?(location.hash||'').slice(1):'rps');
+</script>
+</body>
+</html>

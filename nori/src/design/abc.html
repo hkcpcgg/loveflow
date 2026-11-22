@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>그때 그 놀이 · 놀이 화면 디자인 시안 A·B·C</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;800;900&family=Song+Myung&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#ECE8E0;font-family:"Noto Sans KR",system-ui,sans-serif;color:#1C1D21}
+.head{max-width:1100px;margin:0 auto;padding:18px 16px 6px}
+.head h1{margin:0 0 4px;font-size:20px}.head p{margin:0;color:#6B6457;font-size:13.5px;line-height:1.6}
+.seg{display:flex;gap:6px;margin:12px 0 4px;flex-wrap:wrap}
+.seg button{border:0;border-radius:999px;padding:9px 14px;font:800 14px "Noto Sans KR";background:#fff;color:#1C1D21;cursor:pointer}
+.seg button.on{background:#1C1D21;color:#fff}
+.desc{font-size:13px;color:#5C564B;margin:6px 0 0;line-height:1.6}
+.row{max-width:1100px;margin:0 auto;padding:10px 16px 30px;display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory}
+.cap{font-size:12.5px;font-weight:800;color:#6B6457;margin:0 0 6px;text-align:center}
+.shot{flex:none;scroll-snap-align:center}
+/* ── 폰 틀 ── */
+.ph{width:300px;height:620px;border-radius:30px;overflow:hidden;position:relative;display:flex;flex-direction:column;background:var(--bg);color:var(--ink)}
+.tb{flex:none;height:48px;display:flex;align-items:center;justify-content:center;position:relative;background:var(--tb);color:var(--tbt);font-family:"Song Myung",serif;font-size:19px}
+.tb .ic{position:absolute;right:10px;top:9px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--chip)}
+.tb .ic svg{width:17px;height:17px;stroke:var(--tbt);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.st{flex:none;display:flex;justify-content:center;gap:6px;padding:8px 10px 2px}
+.st span{font-size:11.5px;font-weight:800;padding:4px 9px;border-radius:999px;background:var(--chip);color:var(--sub)}
+.arena{flex:1;display:flex;gap:6px;padding:8px 8px 0;min-height:0}
+.side{flex:none;width:24px;align-self:stretch;margin-bottom:0;border-radius:12px;display:flex;flex-direction:column;align-items:center;padding:7px 0 6px;gap:3px;font-weight:800}
+.side.l{background:var(--lt)}.side.r{background:var(--rt)}
+.side .nm{writing-mode:vertical-rl;font-size:10.5px;letter-spacing:.04em}.side.l .nm,.side.l .sc{color:var(--lc)}.side.r .nm,.side.r .sc{color:var(--rc)}
+.side .sc{font-size:16px;line-height:1}
+.side .bat{margin-top:auto;width:10px;height:44%;border-radius:6px;background:rgba(255,255,255,.75);position:relative;overflow:hidden}
+.side .bat i{position:absolute;left:0;right:0;bottom:0;border-radius:6px}.side.l .bat i{background:var(--lc);height:62%}.side.r .bat i{background:var(--rc);height:35%}
+.side.turn.l{box-shadow:none;background:var(--lc)}.side.turn.l .nm,.side.turn.l .sc{color:#fff}.side.turn.l .bat i{background:var(--acc)}
+.stage{flex:1;position:relative;background:var(--card);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.say{margin:10px 10px 0;text-align:center;font-size:13px;font-weight:700;color:var(--sub);line-height:1.45}
+.say b{color:var(--lc)}
+.duel{flex:1;display:flex;align-items:center;justify-content:space-around;font-size:62px}
+.duel small{display:block;font-size:11px;font-weight:800;text-align:center;color:var(--sub)}
+.hint{position:absolute;left:50%;bottom:8px;transform:translateX(-50%);font-size:11.5px;font-weight:800;padding:5px 10px;border-radius:999px;background:var(--hintbg);color:var(--hintc);white-space:nowrap}
+.pick{flex:none;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:8px 8px 8px 38px;padding-right:38px}
+.pick button{border:0;border-radius:14px;min-height:56px;background:var(--btn);color:var(--ink);font:800 11.5px "Noto Sans KR";display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:relative}
+.pick button i{font-style:normal;font-size:24px;line-height:1.1}
+.fing{position:absolute;left:50%;top:26px;margin-left:-14px;width:28px;height:36px;pointer-events:none}
+.bb{flex:none;display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:6px;padding:6px 8px 10px;background:var(--bb)}
+.bb button{border:0;border-radius:14px;min-height:46px;background:transparent;color:var(--bbt);font:800 11.5px "Noto Sans KR";display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.bb button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.bb .home{background:var(--homebg);color:var(--homet)}
+/* 시작 전 시트 · 설정 시트 */
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--card);border-radius:24px 24px 0 0;padding:16px 14px 16px}
+.dim{position:absolute;inset:0;background:rgba(28,29,33,.28)}
+.sheet h3{margin:0 0 2px;text-align:center;font-size:17px}.sheet .sub{text-align:center;font-size:12px;color:var(--sub);margin:0 0 12px}
+.bets{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.bets div{border-radius:14px;background:var(--btn);padding:10px 8px;text-align:center;font-weight:800;font-size:13px}
+.bets div i{display:block;font-style:normal;font-size:26px;line-height:1.2}
+.bets div small{display:block;font-size:10.5px;color:var(--sub);font-weight:700}
+.bets div.on{background:var(--sel);color:var(--selt)}.bets div.on small{color:var(--selt);opacity:.8}
+.bets .real{grid-column:1/-1;background:#FFE9A6;display:flex;align-items:center;justify-content:center;gap:8px}.bets .real i{display:inline;font-size:22px}
+.who{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.who div{border-radius:12px;background:var(--btn);padding:9px;text-align:center;font-weight:800;font-size:12.5px}.who div.on{background:var(--sel);color:var(--selt)}
+.go{border:0;width:100%;border-radius:14px;min-height:48px;background:var(--acc);color:var(--acct);font:900 16px "Noto Sans KR"}
+.set{display:flex;align-items:center;gap:10px;padding:10px 4px}
+.set + .set{border-top:0}
+.set .em{width:36px;height:36px;border-radius:12px;background:var(--btn);display:flex;align-items:center;justify-content:center;font-size:18px;flex:none}
+.set b{display:block;font-size:14px}.set small{display:block;font-size:11.5px;color:var(--sub);line-height:1.4}
+.sw{margin-left:auto;width:44px;height:26px;border-radius:13px;background:#D9D4CA;position:relative;flex:none}.sw::after{content:"";position:absolute;left:3px;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .2s}
+.sw.on{background:var(--acc2)}.sw.on::after{left:21px}
+.quiet{margin-top:6px;border-radius:12px;background:var(--btn);padding:9px;text-align:center;font-size:12px;font-weight:800;color:var(--sub)}
+/* ── 테마 ── */
+.A{--bg:#FFF8E6;--tb:#FFF8E6;--tbt:#1C1D21;--chip:#F2EBDB;--sub:#7A6E55;--ink:#1C1D21;--card:#fff;--btn:#F6F1E6;--lt:#E6EDFC;--rt:#FCE8E8;--lc:#2F64E0;--rc:#E04848;--acc:#FFC21A;--acct:#1C1D21;--acc2:#2F64E0;--hintbg:rgba(255,194,26,.25);--hintc:#6A4D00;--bb:#fff;--bbt:#7A6E55;--homebg:#FFC21A;--homet:#1C1D21;--sel:#1C1D21;--selt:#fff}
+.B{--bg:#F3F6FB;--tb:#fff;--tbt:#1C2340;--chip:#EEF2FA;--sub:#68708A;--ink:#1C2340;--card:#fff;--btn:#EEF2FA;--lt:#E3ECFF;--rt:#FFE6E6;--lc:#3366FF;--rc:#FF4D5E;--acc:#3366FF;--acct:#fff;--acc2:#3366FF;--hintbg:#E3ECFF;--hintc:#2347B8;--bb:#fff;--bbt:#68708A;--homebg:#3366FF;--homet:#fff;--sel:#3366FF;--selt:#fff}
+.C{--bg:#F4EEE2;--tb:#F4EEE2;--tbt:#3A3226;--chip:#EAE1CF;--sub:#7B6D55;--ink:#3A3226;--card:#FFFCF6;--btn:#EFE7D8;--lt:#E1E9F0;--rt:#F6E3DA;--lc:#2E5E8C;--rc:#B5533C;--acc:#C9853B;--acct:#fff;--acc2:#2E5E8C;--hintbg:#EFE7D8;--hintc:#7B5A2A;--bb:#FFFCF6;--bbt:#7B6D55;--homebg:#2E5E8C;--homet:#fff;--sel:#3A3226;--selt:#fff}
+.C .tb{font-size:20px}
+</style></head><body>
+<div class="head">
+ <h1>그때 그 놀이 · 놀이 화면 디자인 시안</h1>
+ <p>같은 화면(가위바위보 · 놀이 중 / 시작 전 「무엇을 걸까요?」 / 소리 설정)을 세 가지 색과 정리 방식으로 그렸습니다. 아래 단추로 바꿔 보세요. 옆으로 밀면 화면 세 개.</p>
+ <div class="seg" id="seg"><button data-t="A" class="on">A · 밝은 크림</button><button data-t="B" class="on2">B · 하양 청홍</button><button data-t="C">C · 한지 차분</button></div>
+ <p class="desc" id="desc"></p>
+</div>
+<div class="row" id="row">
+ <!-- 1. 놀이 중 -->
+ <div class="shot"><div class="cap">① 놀이 중</div>
+  <div class="ph A">
+   <div class="tb">가위바위보<span class="ic" title="소리 설정"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg></span></div>
+   <div class="st"><span>걸린 것 · 👉 딱밤 3대</span><span>두 번 먼저 이기면 끝</span></div>
+   <div class="arena">
+    <div class="side l turn"><span class="nm">나</span><b class="sc">1</b><div class="bat"><i></i></div></div>
+    <div class="stage"><div class="say"><b>내 차례</b> · 무엇을 낼까요?</div><div class="duel"><div>✊<small>나</small></div><div>✊<small>다복 사장님</small></div></div><span class="hint">아래에서 하나 고르세요</span></div>
+    <div class="side r"><span class="nm">다복 사장님</span><b class="sc">0</b><div class="bat"><i></i></div></div>
+   </div>
+   <div class="pick"><button><i>✌️</i>가위</button><button><i>✊</i>바위<svg class="fing" viewBox="0 0 40 52"><path d="M14 8A3.5 3.5 0 0 1 21 8V21A3.5 3.5 0 0 1 28 21V24A3.5 3.5 0 0 1 35 24V33C35 42 29 49 21 49H19C14 49 11 47 8 43L3 35A3.3 3.3 0 0 1 8 31L14 35Z" fill="rgba(255,255,255,.7)" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg></button><button><i>✋</i>보</button></div>
+   <div class="bb"><button><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg>방법</button><button class="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5"/></svg>그때 그 놀이</button><button><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>다시</button></div>
+  </div></div>
+ <!-- 2. 시작 전 -->
+ <div class="shot"><div class="cap">② 시작 전 · 무엇을 걸까요?</div>
+  <div class="ph A">
+   <div class="tb">가위바위보<span class="ic"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg></span></div>
+   <div class="arena" style="padding-bottom:8px"><div class="stage"></div></div>
+   <div class="dim"></div>
+   <div class="sheet"><h3>무엇을 걸까요?</h3><p class="sub">진 쪽이 맞아요 · 이기면 선물도!</p>
+    <div class="bets"><div class="on"><i>👉</i>딱밤 3대<small>이마에 딱!</small></div><div><i>✊</i>꿀밤 3대<small>머리에 콩!</small></div><div><i>🙌</i>인디언밥<small>등짝 따다닥 밥!</small></div><div><i>🎁</i>선물만<small>벌칙 없이</small></div><div class="real"><i>💥</i>진짜 때리기 <small>(매장에서 직접!)</small></div></div>
+    <div class="who"><div class="on">다복 사장님과</div><div>친구와 폰 하나로</div></div>
+    <button class="go">시작!</button></div>
+  </div></div>
+ <!-- 3. 소리 설정 -->
+ <div class="shot"><div class="cap">③ 오른쪽 위 🔈 · 소리 설정</div>
+  <div class="ph A">
+   <div class="tb">가위바위보<span class="ic"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M17 9a4 4 0 0 1 0 6"/></svg></span></div>
+   <div class="arena" style="padding-bottom:8px"><div class="stage"></div></div>
+   <div class="dim"></div>
+   <div class="sheet"><h3>소리</h3><p class="sub">식사 중이면 모두 끄세요</p>
+    <div class="set"><span class="em">🔔</span><div><b>효과음</b><small>딱! 짝! 콩! 소리</small></div><span class="sw on"></span></div>
+    <div class="set"><span class="em">📢</span><div><b>구령 소리</b><small>폰이 「가위! 바위! 보!」를 외쳐요</small></div><span class="sw"></span></div>
+    <div class="set"><span class="em">🎤</span><div><b>말로 내기</b><small>「보!」 하고 외쳐서 내요 (마이크)</small></div><span class="sw"></span></div>
+    <div class="quiet">🤫 모두 끄기</div></div>
+  </div></div>
+</div>
+<script>
+var D={A:'A · 밝은 크림 — 지금 바탕(크림)을 살리고 검정을 거의 없앰. 위·아래 막대도 밝게, 「그때 그 놀이」(홈)만 노랑으로 강조. 안내 글은 검정 알약 대신 연한 노랑 한 줄.',
+       B:'B · 하양 청홍 — 운동회 청군·홍군 느낌. 흰 바탕에 파랑을 주 색으로, 내 편 파랑 · 사장님 빨강이 또렷. 가장 요즘 앱 같음.',
+       C:'C · 한지 차분 — 한지 바탕에 쪽빛(파랑)과 황토(주황). 빨강 대신 붉은 흙빛. 옛 느낌은 살리되 차분하고 고급스러움.'};
+function th(t){ document.querySelectorAll('.ph').forEach(function(p){ p.className='ph '+t; }); document.querySelectorAll('#seg button').forEach(function(b){ b.classList.toggle('on',b.dataset.t===t); }); document.getElementById('desc').textContent=D[t]; }
+document.getElementById('seg').addEventListener('click',function(e){ var b=e.target.closest('button'); if(b) th(b.dataset.t); });
+th('A');
+</script>
+</body></html>

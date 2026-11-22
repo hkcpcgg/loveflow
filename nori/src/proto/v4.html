@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>그때 그 놀이 · 벌칙과 맞대결 놀이 시안</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500;700;900&family=Song+Myung&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+/* 시안 v2 (261122 21시) — 표준틀 그대로: 위 검정 막대 · 좌우 기둥(나 파랑 왼쪽 · 사장님 빨강 오른쪽, 기둥 = 힘 배터리) · 아래 막대
+   ★첫째 원칙: 테두리·음영 없음 · 빨간 방사형·빨간 원 금지 */
+:root{--ink:#16181D;--cream:#FFF8E6;--soft:#EFEAE0;--muted:#6B5A30;--blu:#2457D6;--red:#E1262D;--yel:#FFC21A;--skin:#F6C99B;--skin2:#E9AE7C;--hair:#2E2A26}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:#E9E3D6;font-family:"Noto Sans KR",system-ui,sans-serif;color:var(--ink)}
+.phone{max-width:420px;height:100%;margin:0 auto;background:var(--cream);display:flex;flex-direction:column;position:relative;overflow:hidden}
+.top{height:50px;flex:none;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-family:"Song Myung",serif;font-size:21px}
+.tabs{flex:none;display:flex;gap:6px;overflow-x:auto;padding:8px 10px 2px;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:0;border-radius:999px;background:var(--soft);color:var(--ink);font:800 13.5px "Noto Sans KR";padding:8px 13px;cursor:pointer}
+.tabs button.on{background:var(--ink);color:#fff}
+.main{position:relative;flex:1;min-height:0;padding:8px 40px 8px}
+.col{position:absolute;top:8px;bottom:8px;width:32px;border-radius:12px;display:flex;flex-direction:column;align-items:center;padding:8px 0 6px;gap:4px;overflow:hidden}
+.col.l{left:4px;background:#E4EBFB;color:var(--blu)}.col.r{right:4px;background:#FBE4E5;color:var(--red)}
+.col.on.l{background:var(--blu);color:#fff}.col.on.r{background:var(--red);color:#fff}
+.col .nm{writing-mode:vertical-rl;font-weight:800;font-size:11px;letter-spacing:.06em;white-space:nowrap}
+.col .sc{font-weight:900;font-size:18px;line-height:1}.col .un{font-size:10.5px;font-weight:800}
+.col .bat{position:relative;margin-top:auto;width:18px;flex:0 0 46%;border-radius:6px;background:rgba(255,255,255,.55);overflow:hidden}
+.col .bat i{position:absolute;left:0;right:0;bottom:0;height:0;border-radius:4px;transition:height .06s linear}
+.col.l .bat i{background:var(--blu)}.col.r .bat i{background:var(--red)}.col.on .bat i{background:var(--yel)}
+.col .bl{font-size:9.5px;font-weight:800;writing-mode:vertical-rl}
+.view{display:none;height:100%;flex-direction:column;gap:8px}.view.on{display:flex}
+.say{background:#fff;border-radius:14px;padding:9px 10px;text-align:center;font-size:14.5px;line-height:1.45;font-weight:700;word-break:keep-all}
+.say b{color:var(--blu)}.say em{font-style:normal;color:var(--red)}
+.stage{position:relative;flex:1;min-height:180px;background:#fff;border-radius:18px;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.hint{position:absolute;left:50%;bottom:10px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:800;white-space:nowrap;pointer-events:none;z-index:6;max-width:94%;overflow:hidden;text-overflow:ellipsis}
+.hint.pulse{animation:pl 1s ease-in-out infinite}@keyframes pl{50%{transform:translateX(-50%) scale(1.06)}}
+.big{display:flex;align-items:center;justify-content:center;width:100%;min-height:50px;border:0;border-radius:14px;font:800 16px "Noto Sans KR";cursor:pointer;background:var(--ink);color:#fff;touch-action:manipulation;white-space:nowrap}
+.big.blu{background:var(--blu)}.big:disabled{background:#C9C3B6}
+.chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.chips button{border:0;border-radius:999px;background:#fff;padding:7px 11px;font:800 13px "Noto Sans KR";color:var(--ink);cursor:pointer}
+.chips button.on{background:var(--ink);color:#fff}
+.chips .real{background:var(--yel);color:var(--ink);font-size:14.5px;padding:8px 14px;animation:wob 2.4s ease-in-out infinite}.chips .real i{font-style:normal;font-size:20px;display:inline-block;animation:boom 1.2s ease-in-out infinite}
+@keyframes wob{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-4deg)}90%{transform:rotate(4deg)}95%{transform:rotate(-2deg)}}
+@keyframes boom{50%{transform:scale(1.3)}}
+.chips .real.nope{animation:nope .5s ease}
+@keyframes nope{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px) rotate(-3deg)}40%{transform:translateX(10px) rotate(3deg)}60%{transform:translateX(-7px)}80%{transform:translateX(4px)}}
+.ptr{position:absolute;z-index:20;pointer-events:none;display:none;flex-direction:column;align-items:center;gap:2px}.ptr.on{display:flex}.ptr.up{flex-direction:column-reverse}.ptr .f{position:relative;width:40px;height:52px;animation:tapme .9s ease-in-out infinite}.ptr .f svg{display:block}.ptr.up .f{animation:tapdn .9s ease-in-out infinite}
+@keyframes tapdn{0%,100%{transform:rotate(180deg) translateY(0)}50%{transform:rotate(180deg) translateY(-10px)}}
+.ptr .rip{position:absolute;left:8px;top:-4px;width:20px;height:20px;border-radius:50%;box-sizing:border-box;border:2px solid rgba(22,24,29,.55);animation:rip .9s ease-out infinite}
+@keyframes rip{0%{transform:scale(.3);opacity:1}100%{transform:scale(1.6);opacity:0}}
+.opts{display:flex;gap:6px;justify-content:center;padding:6px 10px 0;flex:none}.opts button{border:0;border-radius:999px;background:var(--soft);color:var(--muted);font:800 12.5px "Noto Sans KR";padding:6px 10px;cursor:pointer}.opts button.on{background:var(--ink);color:#fff}.ptr b{background:var(--ink);color:#fff;border-radius:999px;padding:4px 10px;font-size:12.5px;white-space:nowrap}
+@keyframes tapme{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.toast{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);background:var(--ink);color:#fff;border-radius:14px;padding:12px 16px;font-weight:800;font-size:14.5px;text-align:center;line-height:1.5;z-index:25;opacity:0;pointer-events:none;transition:opacity .2s;width:84%}
+.toast.on{opacity:1}
+.who2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.who2 button{border:0;border-radius:12px;min-height:38px;font:800 14px "Noto Sans KR";cursor:pointer;background:var(--soft);color:var(--ink)}
+.who2 button.on{background:var(--ink);color:#fff}
+.bar{flex:none;background:var(--ink);display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px))}
+.bar button{border:0;border-radius:12px;min-height:42px;background:rgba(255,255,255,.1);color:#fff;font:800 13.5px "Noto Sans KR";cursor:pointer}.bar .home{background:var(--yel);color:var(--ink);font-family:"Song Myung",serif;font-weight:400;font-size:15px}
+@keyframes shake{0%,100%{transform:translate(0,0)}15%{transform:translate(-9px,4px)}30%{transform:translate(8px,-5px)}45%{transform:translate(-6px,3px)}60%{transform:translate(5px,-2px)}80%{transform:translate(-2px,1px)}}
+.shake{animation:shake .36s ease}
+.pow{position:absolute;left:50%;top:30%;font-family:"Black Han Sans",sans-serif;color:var(--ink);opacity:0;pointer-events:none;white-space:nowrap;z-index:5}
+.pow.go{animation:pow .75s ease forwards}
+@keyframes pow{0%{opacity:0;transform:translate(-50%,-50%) scale(.4) rotate(-8deg)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.15) rotate(-4deg)}65%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(-4deg)}100%{opacity:0;transform:translate(-50%,-62%) scale(1) rotate(-4deg)}}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:4}.flash.go{animation:fl .22s ease}@keyframes fl{0%{opacity:.85}100%{opacity:0}}
+.cnt{position:absolute;right:10px;top:10px;font-weight:900;font-size:13px;background:var(--soft);border-radius:999px;padding:4px 10px;z-index:6}
+/* 앞 얼굴 */
+.face{position:absolute;left:50%;top:56%;width:170px;height:200px;margin:-100px 0 0 -85px}
+.face .hd{position:absolute;inset:16px 8px 0;background:var(--skin);border-radius:46% 46% 44% 44%}
+.face .hair{position:absolute;left:12px;right:12px;top:4px;height:56px;background:var(--hair);border-radius:64px 64px 20px 20px}
+.face .eye{position:absolute;top:94px;width:16px;height:9px;border-radius:0 0 11px 11px;background:var(--hair)}.face .eye.l{left:47px}.face .eye.r{right:47px}
+.face .mo{position:absolute;left:50%;top:136px;width:40px;height:11px;margin-left:-20px;border-radius:0 0 20px 20px;background:#8C3B2E}
+.face .ck{position:absolute;top:114px;width:24px;height:11px;border-radius:12px;background:#F2A98A;opacity:.55}.face .ck.l{left:26px}.face .ck.r{right:26px}
+.face .bump{position:absolute;z-index:2;width:30px;height:20px;border-radius:18px 18px 8px 8px;background:#F3B27F;transform:scale(0);transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.face .bump.on{transform:scale(1)}
+.face.hurt .eye{height:4px;border-radius:4px;top:98px}.face.hurt .mo{height:7px;width:28px;margin-left:-14px;border-radius:8px;top:140px}
+.face.ko .eye{background:none;height:16px;width:16px}.face.ko .eye::before,.face.ko .eye::after{content:"";position:absolute;left:7px;top:-2px;width:3px;height:19px;background:var(--hair);transform:rotate(45deg)}.face.ko .eye::after{transform:rotate(-45deg)}
+.face .tag{position:absolute;left:0;right:0;bottom:-24px;text-align:center;font-size:13px;font-weight:800;color:var(--muted)}
+/* 딱밤 손: 보는 사람 왼쪽 → 이마 */
+.flick{position:absolute;width:110px;height:90px;pointer-events:none;z-index:3}
+.flick .cuff{position:absolute;left:-34px;top:30px;width:38px;height:40px;border-radius:8px;background:#4E97A8}
+.flick .fist{position:absolute;left:0;top:22px;width:62px;height:56px;border-radius:24px 20px 26px 24px;background:var(--skin2)}
+.flick .mid{position:absolute;left:50px;top:30px;width:50px;height:16px;border-radius:10px;background:var(--skin2);transform-origin:5px 8px}
+.flick .thumb{position:absolute;left:42px;top:44px;width:28px;height:16px;border-radius:10px;background:#DFA06D}
+/* 꿀밤 손: 위에서 정수리로 · 가운데 손가락 마디가 튀어나온 주먹 */
+.knuck{position:absolute;width:80px;height:110px;pointer-events:none;z-index:3}
+.knuck .arm{position:absolute;left:24px;top:-50px;width:32px;height:76px;border-radius:8px;background:#4E97A8}
+.knuck .fist{position:absolute;left:6px;top:20px;width:68px;height:58px;border-radius:22px 22px 26px 26px;background:var(--skin2)}
+.knuck .kn{position:absolute;left:29px;top:68px;width:22px;height:24px;border-radius:9px 9px 12px 12px;background:#DFA06D}
+.knuck .ln{position:absolute;top:56px;width:3px;height:14px;border-radius:2px;background:#C88A5A}.knuck .ln.a{left:23px}.knuck .ln.b{left:55px}
+/* 인디언밥 — 뒷모습 */
+.backp{position:absolute;left:50%;top:56%;width:230px;height:250px;margin:-125px 0 0 -115px}
+.backp .head{position:absolute;left:76px;top:0;width:78px;height:82px;border-radius:46% 46% 44% 44%;background:var(--hair)}
+.backp .ear{position:absolute;top:34px;width:14px;height:22px;border-radius:8px;background:var(--skin)}.backp .ear.l{left:68px}.backp .ear.r{right:68px}
+.backp .neck{position:absolute;left:96px;top:72px;width:38px;height:26px;background:var(--skin)}
+.backp .sh{position:absolute;left:18px;right:18px;top:90px;height:160px;border-radius:70px 70px 20px 20px;background:var(--skin)}
+.backp .shirt{position:absolute;left:46px;right:46px;top:96px;height:154px;border-radius:30px 30px 16px 16px;background:#4E97A8}
+.backp .arm{position:absolute;top:112px;width:34px;height:136px;border-radius:18px;background:var(--skin)}.backp .arm.l{left:2px;transform:rotate(8deg)}.backp .arm.r{right:2px;transform:rotate(-8deg)}
+.slap{position:absolute;width:44px;height:52px;pointer-events:none;z-index:3;transition:opacity 1s}
+.slap::before{content:"";position:absolute;left:8px;top:16px;width:28px;height:34px;border-radius:12px;background:#F2A98A;opacity:.8}
+.slap::after{content:"";position:absolute;left:9px;top:0;width:26px;height:20px;border-radius:6px;background:repeating-linear-gradient(90deg,#F2A98A 0 4px,transparent 4px 6px);opacity:.8}
+.chant{position:absolute;left:0;right:0;top:8px;text-align:center;font-family:"Black Han Sans",sans-serif;font-size:30px;letter-spacing:.06em;color:var(--ink);pointer-events:none;z-index:5}
+.chant span{opacity:.15;transition:opacity .1s}.chant span.on{opacity:1}
+/* 팔씨름 */
+.table{position:absolute;left:10px;right:10px;bottom:16px;height:16px;border-radius:8px;background:#C9A26A}
+.fore{position:absolute;height:30px;border-radius:15px;transform-origin:0 50%}
+.fore.a{background:linear-gradient(90deg,#2457D6 0 36%,var(--skin) 36%)}.fore.b{background:linear-gradient(90deg,#E1262D 0 36%,var(--skin) 36%)}
+.grip{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;font-size:52px;line-height:64px;text-align:center}
+.elb{position:absolute;bottom:26px;width:34px;height:20px;border-radius:10px;background:#B78C56}
+.tap{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tap button{min-height:64px;border:0;border-radius:16px;font:900 19px "Noto Sans KR";color:#fff;cursor:pointer;touch-action:manipulation}
+.tap .a{background:var(--blu)}.tap .b{background:var(--red)}.tap button:disabled{background:#EBDCDC;color:#B98A8A}
+/* 엿치기 */
+.yeots{position:absolute;left:0;right:0;top:50%;display:flex;justify-content:center;gap:16px;transform:translateY(-50%)}
+.yeot{position:relative;width:50px;height:176px;border-radius:25px;background:linear-gradient(90deg,#D9A75E,#F0CB8A 45%,#D9A75E);cursor:pointer;transition:transform .15s,opacity .2s}
+.yeot.pick{transform:translateY(-10px)}.yeot.cpu{opacity:.4}
+.yeot b{position:absolute;left:0;right:0;bottom:-24px;text-align:center;font-size:13px;color:var(--muted)}
+.cuts{position:absolute;inset:0;display:none;align-items:center;justify-content:space-around;padding:0 4px}.cuts.on{display:flex}
+.cut{display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:800;font-size:13.5px}
+.cut canvas{width:124px;height:124px}
+.bend{height:20px;border-radius:10px;background:var(--soft);overflow:hidden;position:relative}.bend i{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--yel)}
+.rps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rps button{border:0;border-radius:16px;background:#E4EBFB;min-height:62px;font-size:34px;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.1}.rps button small{font-size:12px;font-weight:800;color:var(--blu)}.rps button:active{background:var(--blu)}
+.duel{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-around;font-size:78px}
+.duel small{display:block;font-size:13px;font-weight:800;text-align:center}
+</style></head><body>
+<div class="phone">
+ <div class="top" id="ttl">벌칙 맛보기</div>
+ <div class="tabs" id="tabs">
+  <button data-v="pen" class="on">벌칙 맛보기</button><button data-v="rps">가위바위보 + 벌칙</button><button data-v="mj">묵찌빠</button><button data-v="arm">팔씨름</button><button data-v="yeot">엿치기</button>
+ </div>
+ <div class="opts" id="opts"><button data-o="sfx" class="on">🔈 효과음</button><button data-o="voice">🗣 사장님 목소리</button><button data-o="mic">🎤 말로 하기</button></div>
+ <div class="main">
+  <div class="col l" id="colL"><span class="nm">나</span><b class="sc"></b><span class="un"></span><div class="bat"><i></i></div><span class="bl">힘</span></div>
+  <div class="col r" id="colR"><span class="nm">다복 사장님</span><b class="sc"></b><span class="un"></span><div class="bat"><i></i></div><span class="bl">힘</span></div>
+
+  <section class="view on" id="v-pen">
+   <div class="chips" id="betChips"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
+   <div class="who2" id="who2"><button data-w="me">내가 졌어요</button><button data-w="cpu" class="on">사장님이 졌어요</button></div>
+   <div class="stage" id="penStage"></div>
+  </section>
+
+  <section class="view" id="v-rps">
+   <div class="say" id="rpsSay"></div>
+   <div class="chips" id="rpsBet"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="none">안 걸기</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
+   <div class="stage" id="rpsStage"></div>
+   <div class="rps" id="rpsBtns"><button data-h="0">✌️<small>가위</small></button><button data-h="1">✊<small>바위</small></button><button data-h="2">✋<small>보</small></button></div>
+   <button class="big blu" id="rpsMic" style="display:none">🎤 말로 내기 (「가위! 바위!」 → 외치기)</button>
+  </section>
+
+  <section class="view" id="v-mj">
+   <div class="chips" id="mjBet"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="none">안 걸기</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
+   <div class="say" id="mjSay"></div>
+   <div class="stage" id="mjStage"></div>
+   <div class="rps" id="mjBtns"><button data-h="0">✊<small>묵</small></button><button data-h="1">✌️<small>찌</small></button><button data-h="2">✋<small>빠</small></button></div>
+   <button class="big blu" id="mjMic" style="display:none">🎤 말로 내기 (「묵! 찌!」 → 외치기)</button>
+  </section>
+
+  <section class="view" id="v-arm">
+   <div class="chips" id="armBet"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="none">안 걸기</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
+   <div class="say" id="armSay"></div>
+   <div class="stage" id="armStage"></div>
+   <div class="tap"><button class="a" id="armA">나 · 힘!</button><button class="b" id="armB" disabled>사장님</button></div>
+   <div class="who2" id="armMode"><button data-m="cpu" class="on">사장님과 한 판</button><button data-m="two">친구와 폰 하나로</button></div>
+  </section>
+
+  <section class="view" id="v-yeot">
+   <div class="chips" id="yeotBet"><button data-b="ttak" class="on">👉 딱밤 3대</button><button data-b="kkul">✊ 꿀밤 3대</button><button data-b="indian">🙌 인디언밥</button><button data-b="none">안 걸기</button><button data-b="real" class="real"><i>💥</i> 진짜 때리기</button></div>
+   <div class="say" id="yeotSay"></div>
+   <div class="stage" id="yeotStage">
+    <div class="yeots" id="yeots"><div class="yeot" data-i="0"><b>①</b></div><div class="yeot" data-i="1"><b>②</b></div><div class="yeot" data-i="2"><b>③</b></div></div>
+    <div class="cuts" id="cuts"><div class="cut"><canvas id="cutA" width="248" height="248"></canvas><span style="color:var(--blu)">내 엿</span></div><div class="cut"><canvas id="cutB" width="248" height="248"></canvas><span style="color:var(--red)">사장님 엿</span></div></div>
+   </div>
+   <div class="bend" id="bend"><i></i></div>
+   <button class="big blu" id="yeotGo" disabled>엿을 골라 주세요</button>
+  </section>
+ </div>
+ <div class="ptr" id="ptr"><span class="f"><svg viewBox="0 0 40 52" width="40" height="52"><path d="M14 8A3.5 3.5 0 0 1 21 8V21A3.5 3.5 0 0 1 28 21V24A3.5 3.5 0 0 1 35 24V33C35 42 29 49 21 49H19C14 49 11 47 8 43L3 35A3.3 3.3 0 0 1 8 31L14 35Z" fill="rgba(255,255,255,.65)" stroke="#16181D" stroke-width="2.2" stroke-linejoin="round"/><path d="M21 21V28M28 24V29" fill="none" stroke="#16181D" stroke-width="2" stroke-linecap="round"/></svg><i class="rip"></i></span><b id="ptrT">여길 누르세요</b></div>
+ <div class="bar"><button id="bHelp">놀이 방법</button><button class="home">그때 그 놀이</button><button id="bNew">새 판</button></div>
+</div>
+<script>
+(function(){
+var $=function(id){return document.getElementById(id);};
+var AC=null; function ac(){ try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); if(AC.state==='suspended') AC.resume(); }catch(e){} return AC; }
+function snd(f,dur,noise,vol){ if(!OPT.sfx) return; var c=ac(); if(!c) return; var t=c.currentTime, g=c.createGain(); g.gain.setValueAtTime(vol||.9,t); g.gain.exponentialRampToValueAtTime(.001,t+dur); g.connect(c.destination);
+  if(noise){ var b=c.createBuffer(1,Math.max(1,c.sampleRate*dur|0),c.sampleRate), d=b.getChannelData(0); for(var i=0;i<d.length;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,3); } var s=c.createBufferSource(); s.buffer=b; var bp=c.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=f; bp.Q.value=.8; s.connect(bp); bp.connect(g); s.start(t); }
+  else { var o=c.createOscillator(); o.type='triangle'; o.frequency.setValueAtTime(f,t); o.frequency.exponentialRampToValueAtTime(f*.4,t+dur); o.connect(g); o.start(t); o.stop(t+dur); } }
+/* 설정: 효과음 · 사장님 목소리 · 말로 하기 (식사 중엔 끄기) */
+var OPT={sfx:true,voice:false,mic:false}; try{ var o=JSON.parse(localStorage.getItem('nori-opt')||'null'); if(o) OPT=o; }catch(e){}
+var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function optPaint(){ [].forEach.call($('opts').children,function(b){ b.classList.toggle('on',!!OPT[b.dataset.o]); }); }
+function speak(t){ if(!OPT.voice||!window.speechSynthesis) return; try{ var u=new SpeechSynthesisUtterance(t.replace('!','')); u.lang='ko-KR'; u.pitch=.2; u.rate=1.15; var v=speechSynthesis.getVoices().filter(function(x){ return /ko/i.test(x.lang); }); if(v.length) u.voice=v[0]; speechSynthesis.speak(u); }catch(e){} }
+function lowG(){ snd(196,.2); snd(98,.22); }
+function chant(words,each,done){ var i=0; (function nx(){ if(i>=words.length){ setTimeout(done,250); return; } each&&each(i,words[i]); lowG(); speak(words[i]); i++; setTimeout(nx,480); })(); }
+function mic(re,map,cb,interim){ if(!SR){ cb(null); return; } var rec, fin=false, to=0; function end(k){ if(fin) return; fin=true; clearTimeout(to); try{ rec.abort(); }catch(e){} cb(k); }
+  try{ rec=new SR(); rec.lang='ko-KR'; rec.interimResults=true; rec.maxAlternatives=5; rec.continuous=false; }catch(e){ cb(null); return; }
+  rec.onresult=function(ev){ var txt=''; for(var i=0;i<ev.results.length;i++){ for(var j=0;j<ev.results[i].length;j++){ txt+=' '+ev.results[i][j].transcript; } } if(interim) interim(ev.results[ev.results.length-1][0].transcript);
+    re.lastIndex=0; var m, last=null; while((m=re.exec(txt))){ for(var g=1;g<m.length;g++){ if(m[g]){ last=g-1; break; } } } if(last!=null) end(map[last]); };
+  rec.onerror=function(ev){ if(ev.error==='not-allowed'||ev.error==='service-not-allowed'){ var st=document.querySelector('.view.on .stage'); if(st) toast(st,'🎤 마이크가 막혀 있어요<br>(이 시안 창에서는 안 될 수 있어요)'); } end(null); };
+  rec.onend=function(){ setTimeout(function(){ end(null); },300); };
+  to=setTimeout(function(){ end(null); },4000); try{ rec.start(); }catch(e){ end(null); } }
+function vib(p){ if(!OPT.sfx) return;  try{ navigator.vibrate&&navigator.vibrate(p); }catch(e){} }
+var SFX={ttak:function(){ snd(2600,.08,true); snd(340,.1); vib(50); }, kong:function(){ snd(220,.22); snd(700,.05,true,.5); vib(70); }, pat:function(){ snd(1600,.06,true,.45); vib(10); }, bap:function(){ snd(1300,.22,true); snd(150,.15); vib([40,30,80]); }, tick:function(){ snd(900,.05,false,.3); }, snap:function(){ snd(3000,.12,true); snd(500,.08); vib(40); }};
+function fx(stage,word,size){ stage.classList.remove('shake'); void stage.offsetWidth; stage.classList.add('shake');
+  var fl=stage.querySelector('.flash'); if(!fl){ fl=document.createElement('div'); fl.className='flash'; stage.appendChild(fl); } fl.classList.remove('go'); void fl.offsetWidth; fl.classList.add('go');
+  var pw=stage.querySelector('.pow'); if(!pw){ pw=document.createElement('div'); pw.className='pow'; stage.appendChild(pw); } pw.textContent=word; pw.style.fontSize=(size||(word.length>3?42:66))+'px'; pw.classList.remove('go'); void pw.offsetWidth; pw.classList.add('go'); }
+/* 좌우 기둥 (표준) */
+function col(side,o){ var c=side==='l'?$('colL'):$('colR'); if('name' in o) c.querySelector('.nm').textContent=o.name; if('sc' in o) c.querySelector('.sc').textContent=o.sc; if('un' in o) c.querySelector('.un').textContent=o.un;
+  if('pw' in o) c.querySelector('.bat i').style.height=Math.max(0,Math.min(1,o.pw))*100+'%'; if('on' in o) c.classList.toggle('on',!!o.on); }
+function colReset(){ col('l',{name:'나',sc:'',un:'',pw:0,on:false}); col('r',{name:'다복 사장님',sc:'',un:'',pw:0,on:false}); }
+/* 「여길 누르세요」 손가락 */
+function point(el,text,fx,fy){ var p=$('ptr'); if(!el){ p.classList.remove('on'); return; } var ph=document.querySelector('.phone').getBoundingClientRect(), r=el.getBoundingClientRect(); $('ptrT').textContent=text||'여길 누르세요';
+  var low=(r.top-ph.top)>ph.height*.58; p.classList.toggle('up',low); 
+  p.classList.add('on'); var w=p.offsetWidth, hh=p.offsetHeight; p.style.left=Math.max(4,Math.min(ph.width-w-4,r.left-ph.left+r.width*(fx==null?.5:fx)-w/2))+'px'; p.style.top=(low?(r.top-ph.top-hh+14):(r.top-ph.top+r.height*(fy==null?.6:fy)))+'px'; }
+function unpoint(){ $('ptr').classList.remove('on'); }
+function toast(stage,t){ var to=stage.querySelector('.toast'); if(!to){ to=document.createElement('div'); to.className='toast'; stage.appendChild(to); } to.innerHTML=t; to.classList.add('on'); clearTimeout(to._t); to._t=setTimeout(function(){ to.classList.remove('on'); },2300); }
+
+/* ═════ 벌칙 모듈 — 어느 놀이 끝에든 끼워 씀: PEN.run(무대, 종류, 진쪽, 끝나면) ═════ */
+var PEN=(function(){
+  var KIND={ttak:{n:3,name:'딱밤 3대'},kkul:{n:3,name:'꿀밤 3대'},indian:{n:3,name:'인디언밥'}}, live=0;
+  function faceHTML(tag){ return '<div class="face"><div class="hd"></div><div class="hair"></div><div class="eye l"></div><div class="eye r"></div><div class="ck l"></div><div class="ck r"></div><div class="mo"></div><div class="tag">'+tag+'</div></div>'; }
+  function backHTML(){ return '<div class="backp"><div class="sh"></div><div class="arm l"></div><div class="arm r"></div><div class="shirt"></div><div class="neck"></div><div class="ear l"></div><div class="ear r"></div><div class="head"></div></div>'; }
+  function run(st,kind,loser,done){
+    var my=++live, K=KIND[kind], n=0, meHit=loser==='cpu';
+    function alive(){ return my===live; }
+    st.onpointerdown=st.onpointerup=st.onpointercancel=st.onpointerleave=null; colReset();
+    st.innerHTML=(kind==='indian'?backHTML():faceHTML(meHit?'다복 사장님':'나'))+'<div class="hint" id="pHint"></div><div class="cnt" id="pCnt">0 / '+K.n+'</div>';
+    var hint=st.querySelector('#pHint'), cnt=st.querySelector('#pCnt'), face=st.querySelector('.face');
+    function H(t,p){ hint.textContent=t; hint.classList.toggle('pulse',!!p); }
+    function count(){ n++; cnt.textContent=n+' / '+K.n; col(meHit?'r':'l',{sc:n,un:'대'}); }
+    function finish(){ col('l',{on:false,pw:0}); col('r',{on:false,pw:0}); unpoint(); H(meHit?'사장님 「아이고! 다음엔 안 진다」':'나 「아야야… 다음엔 이긴다!」'); if(done) setTimeout(function(){ if(alive()) done(); },1600); }
+    col(meHit?'l':'r',{on:true});
+    if(kind!=='indian'){
+      var W=st.clientWidth, Hh=st.clientHeight, cx=W/2, cy=Hh*.56;
+      var hand=document.createElement('div'), mid=null;
+      if(kind==='ttak'){ hand.className='flick'; hand.innerHTML='<div class="cuff"></div><div class="fist"></div><div class="mid"></div><div class="thumb"></div>'; }
+      else { hand.className='knuck'; hand.innerHTML='<div class="arm"></div><div class="fist"></div><div class="ln a"></div><div class="ln b"></div><div class="kn"></div>'; }
+      st.appendChild(hand); mid=hand.querySelector('.mid');
+      /* 딱밤: 얼굴 왼쪽(보는 쪽) 이마 옆에서 → 오른쪽으로 · 꿀밤: 정수리 위에서 ↓ */
+      if(kind==='ttak'&&face){ face.style.marginLeft='-45px'; }
+      var home= kind==='ttak' ? {x:cx-129, y:cy-100+30} : {x:cx-40, y:cy-100-122};
+      function put(dx,dy){ hand.style.left=(home.x+dx)+'px'; hand.style.top=(home.y+dy)+'px'; }
+      function pose(p){ if(kind==='ttak'){ mid.style.transform='rotate('+(-160*p)+'deg)'; put(-16*p,0); } else put(0,-34*p); }
+      hand.style.transition='left .25s ease, top .25s ease'; put(0,0); pose(0);
+      function strike(p,after){ hand.style.transition='left .06s ease-in, top .06s ease-in'; if(mid){ mid.style.transition='transform .05s ease-out'; mid.style.transform='rotate(0deg)'; }
+        if(kind==='ttak') put(14,0); else put(0,44);
+        setTimeout(function(){ if(!alive()) return;
+          if(p<.25){ H('너무 약해요! 더 꾹 눌렀다 놓으세요',true); SFX.tick(); }
+          else { count(); kind==='ttak'?SFX.ttak():SFX.kong(); fx(st,kind==='ttak'?'딱!':'콩!');
+            face.classList.add('hurt'); setTimeout(function(){ if(n<K.n) face.classList.remove('hurt'); },420);
+            var b=document.createElement('div'); b.className='bump'; if(kind==='ttak'){ b.style.left=(14+n*6)+'px'; b.style.top=(52+n*7)+'px'; } else { b.style.left=(48+(n-1)*24)+'px'; b.style.top=(-6+(n%2)*6)+'px'; } face.appendChild(b); setTimeout(function(){ b.classList.add('on'); },10);
+            if(n>=K.n) face.classList.add('ko'); }
+          setTimeout(function(){ hand.style.transition='left .25s ease, top .25s ease'; if(mid) mid.style.transition='transform .25s'; pose(0); put(0,0); after&&after(); },130); },70); }
+      if(meHit){
+        H(kind==='ttak'?'꾹 누르면 손가락에 힘 → 놓으면 「딱!」':'꾹 누르면 주먹 들기 → 놓으면 「콩!」',true);
+        var aim=function(){ if(alive()&&n<K.n) point(face,kind==='ttak'?'여기 이마를 꾹 누르세요':'여기 머리를 꾹 누르세요',kind==='ttak'?.38:.5,kind==='ttak'?.42:.22); }; aim();
+        var hold=false,p=0,t0=0,raf=0;
+        st.onpointerdown=function(e){ ac(); if(n>=K.n) return; e.preventDefault(); unpoint(); hold=true; t0=performance.now(); H('힘 모으는 중… 이제 놓으세요!'); hand.style.transition='none'; if(mid) mid.style.transition='none';
+          (function lp(){ if(!hold) return; p=Math.min(1,(performance.now()-t0)/900); col('l',{pw:p}); pose(p); raf=requestAnimationFrame(lp); })(); };
+        st.onpointerup=st.onpointercancel=st.onpointerleave=function(){ if(!hold) return; hold=false; cancelAnimationFrame(raf); var q=p; col('l',{pw:0});
+          strike(q,function(){ if(n>=K.n){ st.onpointerdown=null; finish(); } else { H('한 번 더! 꾹 → 놓기',true); aim(); } }); };
+      } else {
+        H('사장님이 힘을 모으는 중… (오른쪽 기둥)');
+        (function next(){ if(!alive()) return; if(n>=K.n){ finish(); return; } var t0=performance.now(), goal=.55+Math.random()*.45;
+          (function lp(){ if(!alive()) return; var q=Math.min(goal,(performance.now()-t0)/900); col('r',{pw:q}); hand.style.transition='none'; if(mid) mid.style.transition='none'; pose(q); if(q<goal) requestAnimationFrame(lp); else { col('r',{pw:0}); strike(q,function(){ setTimeout(next,650); }); } })(); })();
+      }
+      return;
+    }
+    /* 인디언밥: 「인 · 디 · 언」 동안 따다다다닥 → 「밥!」에 두 손 쾅 */
+    var ch=document.createElement('div'); ch.className='chant'; ch.innerHTML='<span>인</span> <span>디</span> <span>언</span> <span>밥!</span>'; st.appendChild(ch);
+    var sp=ch.querySelectorAll('span'), bp=st.querySelector('.backp');
+    function mark(x,y,big){ var m=document.createElement('div'); m.className='slap'; m.style.left=(x-22)+'px'; m.style.top=(y-26)+'px'; m.style.transform='rotate('+(Math.random()*40-20)+'deg) scale('+(big?1.4:1)+')'; st.appendChild(m); setTimeout(function(){ m.style.opacity='0'; },380); setTimeout(function(){ m.remove(); },1400); }
+    function spot(){ var r=st.getBoundingClientRect(), b=bp.getBoundingClientRect(); return {x:b.left-r.left+62+Math.random()*(b.width-124), y:b.top-r.top+115+Math.random()*95, cx:b.left-r.left+b.width/2, cy:b.top-r.top+160}; }
+    var iv=0, waitBap=null;
+    function roll(manual,after){ var k=0, syl=0; sp.forEach(function(s){ s.classList.remove('on'); });
+      iv=setInterval(function(){ if(!alive()){ clearInterval(iv); return; } var s=spot(); mark(s.x,s.y); SFX.pat(); col(meHit?'l':'r',{pw:.25+(k%4)/5}); k++;
+        if(k%5===0&&syl<3){ sp[syl].classList.add('on'); speak(['인','디','언'][syl]); syl++; }
+        if(k>=15){ clearInterval(iv); iv=0; if(manual){ H('지금 손을 떼세요 → 「밥!」',true); waitBap=after; } else setTimeout(function(){ bap(after); },240); } },70); }
+    function bap(after){ if(!alive()) return; var s=spot(); sp[3].classList.add('on'); speak('밥'); mark(s.cx-36,s.cy,true); mark(s.cx+36,s.cy,true); SFX.bap(); fx(st,'밥!'); count(); col('l',{pw:0}); col('r',{pw:0}); setTimeout(after,750); }
+    var aimB=function(){ if(alive()&&n<K.n) point(bp,'여기 등을 꾹 누르고 있다가 떼세요',.5,.62); };
+    if(meHit){ H('꾹 누르고 있으면 「인·디·언」 따다닥 → 떼면 「밥!」',true); aimB();
+      st.onpointerdown=function(e){ ac(); if(n>=K.n||iv||waitBap) return; e.preventDefault(); unpoint(); H('따다다다다닥! 계속 누르고 있으세요'); roll(true,function(){ if(n>=K.n){ st.onpointerdown=null; finish(); } else { H('한 벌 더! 꾹 누르세요',true); aimB(); } }); };
+      st.onpointerup=st.onpointercancel=function(){ if(waitBap){ var a=waitBap; waitBap=null; bap(a); } };
+    } else { H('사장님이 내 등짝을! 「인디언 밥!」'); (function next(){ if(!alive()) return; if(n>=K.n){ finish(); return; } roll(false,function(){ setTimeout(next,450); }); })(); }
+  }
+  return {run:run, name:function(k){ return KIND[k]?KIND[k].name:''; }, stop:function(){ live++; unpoint(); }};
+})();
+
+/* 벌칙 고르기 — 「진짜 때리기」는 눌러도 선택 안 됨 */
+function chips(el,stage,cb){ el.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; ac();
+  if(b.dataset.b==='real'){ b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); SFX.kong(); toast(stage(),'💥 진짜 때리기는 화면에선 안 돼요 😆<br>매장에서 사장님께 직접 여쭤보세요!'); return; }
+  [].forEach.call(el.children,function(x){ x.classList.toggle('on',x===b); }); cb&&cb(b.dataset.b); }); }
+
+var CUR='pen', TT={pen:'벌칙 맛보기',rps:'가위바위보',mj:'묵찌빠',arm:'팔씨름',yeot:'엿치기'};
+$('opts').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var k=b.dataset.o; OPT[k]=!OPT[k];
+  if(k==='mic'&&OPT.mic&&!SR){ OPT.mic=false; toast(document.querySelector('.view.on .stage'),'이 브라우저는 「말로 하기」를 못 해요<br>크롬이나 사파리에서 열어 주세요'); }
+  if(k==='voice'&&OPT.voice) speak('다복 사장님입니다'); if(k==='sfx'&&OPT.sfx){ ac(); snd(900,.06); }
+  try{ localStorage.setItem('nori-opt',JSON.stringify(OPT)); }catch(x){} optPaint(); if(CUR==='rps'){ rpsMicBtn(); } if(CUR==='mj'){ mjMicBtn(); } });
+optPaint();
+$('tabs').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; ac(); CUR=b.dataset.v; [].forEach.call(this.children,function(x){ x.classList.toggle('on',x===b); });
+  [].forEach.call(document.querySelectorAll('.view'),function(v){ v.classList.toggle('on',v.id==='v-'+CUR); }); $('ttl').textContent=TT[CUR]; start(); });
+$('bNew').addEventListener('click',function(){ ac(); start(); });
+$('bHelp').addEventListener('click',function(){ var st=document.querySelector('.view.on .stage'); toast(st,{pen:'벌칙과 누가 졌는지 고르면 바로 맛볼 수 있어요',rps:'벌칙을 걸고 가위바위보 · 두 번 먼저 이기면 끝 · 진 쪽이 벌칙 · 🎤 말로 하기를 켜면 「보!」 하고 외쳐서 낼 수 있어요',mj:'가위바위보로 공격을 정하고 · 공격하는 쪽이 같은 손을 내게 하면 한 판 · 다르면 이긴 손이 공격',arm:'「힘!」을 빨리빨리 눌러 내 힘(왼쪽 기둥)을 채워요 · 사장님 힘(오른쪽)보다 세면 팔이 넘어가요',yeot:'엿을 골라 꾹 눌러 휘었다가 놓으면 「뚝!」 · 단면 구멍이 큰 쪽이 이겨요'}[CUR]); });
+function start(){ PEN.stop(); cancelAnimationFrame(A.raf); A.on=false; colReset(); if(CUR==='pen') penStart(); else if(CUR==='rps') rpsStart(); else if(CUR==='mj') mjStart(); else if(CUR==='arm') armStart(); else yeotStart(); }
+
+/* 벌칙 맛보기 */
+var PB='ttak', PL='cpu';
+chips($('betChips'),function(){ return $('penStage'); },function(k){ PB=k; penStart(); });
+$('who2').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; [].forEach.call(this.children,function(x){ x.classList.toggle('on',x===b); }); PL=b.dataset.w; penStart(); });
+function penStart(){ PEN.run($('penStage'),PB,PL); }
+
+/* 가위바위보 + 벌칙 — 누르기 또는 말로 하기 */
+var RB='ttak', R={}, HH=['✌️','✊','✋'], HN=['가위','바위','보'];
+chips($('rpsBet'),function(){ return $('rpsStage'); },function(k){ RB=k; });
+function rpsStart(){ R={a:0,b:0,busy:false,over:false}; col('l',{sc:0,un:'승'}); col('r',{sc:0,un:'승'}); $('rpsStage').onpointerdown=null; $('rpsStage').innerHTML='<div class="duel"><div>✊<small>나</small></div><div>✊<small>다복 사장님</small></div></div>'; $('rpsBtns').style.display=''; $('rpsBet').style.display=''; rpsMicBtn();
+  $('rpsSay').innerHTML='먼저 <b>무엇을 걸지</b> 고르고 '+(OPT.mic?'<b>🎤 말로</b> 또는 아래 단추로':'아래에서')+' 내세요 · 두 번 먼저 이기면 끝'; rpsAim(); }
+function rpsAim(t){ setTimeout(function(){ if(CUR==='rps'&&!R.over&&!R.busy) point($('rpsBtns'),t||'셋 중 하나를 고르세요',.5,.55); },60); }
+function rpsMicBtn(){ $('rpsMic').style.display=(OPT.mic&&!R.over)?'':'none'; }
+function rpsPlay(m,c){ /* m: 내 손, c: 사장님 손(미리 정해 둠) */
+  var d=$('rpsStage').querySelector('.duel'); d.children[0].firstChild.textContent=HH[m]; d.children[1].firstChild.textContent=HH[c]; SFX.tick(); var res=(m-c+3)%3;
+  if(res===0){ $('rpsSay').innerHTML='비겼어요! 다시'; }
+  else if(res===1){ R.a++; col('l',{sc:R.a,on:true}); col('r',{on:false}); $('rpsSay').innerHTML='<b>내가 이겼다!</b>'; SFX.ttak(); }
+  else { R.b++; col('r',{sc:R.b,on:true}); col('l',{on:false}); $('rpsSay').innerHTML='<em>사장님이 이겼다!</em>'; SFX.kong(); }
+  R.busy=false;
+  if(R.a>=2||R.b>=2){ R.over=true; rpsMicBtn(); var meWin=R.a>=2; $('rpsBtns').style.display='none';
+    if(RB==='none'){ $('rpsSay').innerHTML=meWin?'<b>이겼어요!</b> → 결과 카드 · 선물':'<em>아쉽게 졌어요</em> → 결과 카드 · 참가 선물'; return; }
+    $('rpsSay').innerHTML=meWin?'<b>이겼다!</b> 이제 사장님께 '+PEN.name(RB)+'!':'<em>졌다…</em> 사장님한테 '+PEN.name(RB)+' 😣';
+    setTimeout(function(){ PEN.run($('rpsStage'),RB,meWin?'cpu':'me',function(){ $('rpsSay').innerHTML='벌칙 끝! → 실제 화면에선 여기서 <b>결과 카드 · 선물 받기</b>'; col('l',{sc:R.a,un:'승'}); col('r',{sc:R.b,un:'승'}); }); },1200); }
+  else setTimeout(function(){ rpsAim('또 고르세요'); },500); }
+function rpsBegin(){ R.busy=true; unpoint(); $('rpsBet').style.display='none'; var d=$('rpsStage').querySelector('.duel'); d.children[0].firstChild.textContent='✊'; d.children[1].firstChild.textContent='✊'; return Math.floor(Math.random()*3); }
+/* 단추로 내기: 「가위 · 바위 · 보!」 구령 뒤 공개 */
+$('rpsBtns').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b||R.busy||R.over) return; ac(); var m=+b.dataset.h, c=rpsBegin();
+  chant(['가위','바위','보!'],function(i,w){ $('rpsSay').innerHTML='<b>'+w+'</b>'; },function(){ rpsPlay(m,c); }); });
+/* 말로 내기: 폰이 「가위! 바위!」 → 손님이 「보!」처럼 마지막 말을 외침 */
+$('rpsMic').addEventListener('click',function(){ if(R.busy||R.over) return; ac(); var c=rpsBegin();
+  chant(['가위','바위'],function(i,w){ $('rpsSay').innerHTML='<b>'+w+'!</b>'; },function(){
+    $('rpsSay').innerHTML='🎤 <b>지금 외치세요!</b> 「가위」 「바위」 「보」'; mic(/(보자기|보|뽀)|(바위|바이|빠위)|(가위|가이|까위)/g,[2,1,0],function(k){
+      if(k==null){ $('rpsSay').innerHTML='못 알아들었어요 😅 단추로 내 주세요'; R.busy=false; rpsAim('단추로 내기'); return; }
+      rpsPlay(k,c); }, function(t){ $('rpsSay').innerHTML='🎤 「'+t+'」'; }); }); });
+
+/* 묵찌빠 — 공격 정하기(가위바위보) → 공격하는 쪽이 같은 손을 맞히면 한 판 */
+var MB='ttak', M={}, MH=['✊','✌️','✋'], MN=['묵','찌','빠'];
+chips($('mjBet'),function(){ return $('mjStage'); },function(k){ MB=k; });
+function mjStart(){ M={a:0,b:0,att:null,busy:false,over:false}; col('l',{sc:0,un:'판'}); col('r',{sc:0,un:'판'}); $('mjStage').onpointerdown=null; $('mjStage').innerHTML='<div class="duel"><div>✊<small>나</small></div><div>✊<small>다복 사장님</small></div></div>'; $('mjBtns').style.display=''; $('mjBet').style.display=''; mjMicBtn();
+  $('mjSay').innerHTML='<b>1 공격 정하기</b> · 먼저 가위바위보로 공격할 사람을 정해요'; mjAim(); }
+function mjAim(t){ setTimeout(function(){ if(CUR==='mj'&&!M.over&&!M.busy) point($('mjBtns'),t||'셋 중 하나를 고르세요',.5,.55); },60); }
+function mjMicBtn(){ $('mjMic').style.display=(OPT.mic&&!M.over)?'':'none'; }
+function beats(x,y){ /* 묵(0) > 찌(1) > 빠(2) > 묵 */ return (x===0&&y===1)||(x===1&&y===2)||(x===2&&y===0); }
+function mjPlay(m,c){ var d=$('mjStage').querySelector('.duel'); d.children[0].firstChild.textContent=MH[m]; d.children[1].firstChild.textContent=MH[c]; SFX.tick(); M.busy=false;
+  if(M.att===null){ if(m===c){ $('mjSay').innerHTML='비겼어요! 다시 · <b>공격 정하기</b>'; mjAim(); return; }
+    M.att=beats(m,c)?'me':'cpu'; col('l',{on:M.att==='me'}); col('r',{on:M.att==='cpu'}); $('mjSay').innerHTML='<b>2 묵찌빠</b> · '+(M.att==='me'?'<b>내가 공격!</b> 사장님이 나랑 같은 걸 내면 내가 한 판':'<em>사장님 공격!</em> 사장님과 <b>다른 걸</b> 내야 살아요'); mjAim(M.att==='me'?'묵 · 찌 · 빠 중 하나':'다른 걸 내세요'); return; }
+  if(m===c){ var meWin=M.att==='me'; if(meWin){ M.a++; col('l',{sc:M.a}); SFX.ttak(); fx($('mjStage'),'잡았다!'); } else { M.b++; col('r',{sc:M.b}); SFX.kong(); fx($('mjStage'),'잡혔다!'); }
+    $('mjSay').innerHTML=(meWin?'<b>잡았다! 내가 한 판</b>':'<em>잡혔다! 사장님 한 판</em>')+' · '+M.a+' : '+M.b; M.att=null; col('l',{on:false}); col('r',{on:false});
+    if(M.a>=2||M.b>=2){ M.over=true; mjMicBtn(); var w=M.a>=2; $('mjBtns').style.display='none';
+      if(MB==='none'){ $('mjSay').innerHTML=w?'<b>이겼어요!</b> → 결과 카드 · 선물':'<em>아쉽게 졌어요</em> → 결과 카드 · 참가 선물'; return; }
+      setTimeout(function(){ $('mjSay').innerHTML=w?'<b>이겼다!</b> 사장님께 '+PEN.name(MB)+'!':'<em>졌다…</em> 사장님한테 '+PEN.name(MB)+' 😣'; PEN.run($('mjStage'),MB,w?'cpu':'me',function(){ $('mjSay').innerHTML='벌칙 끝! → 실제 화면에선 여기서 <b>결과 카드 · 선물 받기</b>'; col('l',{sc:M.a,un:'판'}); col('r',{sc:M.b,un:'판'}); }); },1100); }
+    else setTimeout(function(){ $('mjSay').innerHTML='<b>1 공격 정하기</b> · 다시 가위바위보'; mjAim(); },900); return; }
+  /* 다른 손 → 이긴 손이 공격을 가져감 */
+  var nw=beats(m,c)?'me':'cpu'; var ch=nw!==M.att; M.att=nw; col('l',{on:nw==='me'}); col('r',{on:nw==='cpu'});
+  $('mjSay').innerHTML=(ch?'<b>공격이 바뀌었어요!</b> ':'')+(nw==='me'?'<b>내가 공격</b> · 같은 걸 내게 하면 한 판':'<em>사장님 공격</em> · 다른 걸 내야 살아요'); mjAim(nw==='me'?'공격! 하나 고르세요':'피하기! 하나 고르세요'); }
+function mjBegin(){ M.busy=true; unpoint(); $('mjBet').style.display='none'; var d=$('mjStage').querySelector('.duel'); d.children[0].firstChild.textContent='✊'; d.children[1].firstChild.textContent='✊'; return Math.floor(Math.random()*3); }
+$('mjBtns').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b||M.busy||M.over) return; ac(); var m=+b.dataset.h, c=mjBegin();
+  var words=M.att===null?['가위','바위','보!']:['묵','찌','빠!']; chant(words,function(i,w){ $('mjSay').innerHTML='<b>'+w+'</b>'; },function(){ mjPlay(m,c); }); });
+$('mjMic').addEventListener('click',function(){ if(M.busy||M.over) return; ac(); var c=mjBegin(), first=M.att===null;
+  chant(first?['가위','바위']:['묵','찌'],function(i,w){ $('mjSay').innerHTML='<b>'+w+'!</b>'; },function(){
+    $('mjSay').innerHTML='🎤 <b>지금 외치세요!</b> '+(first?'「가위」 「바위」 「보」':'「묵」 「찌」 「빠」');
+    var re= first ? /(바위|바이|빠위)|(가위|가이|까위)|(보자기|보|뽀)/g : /(묵|묶|무|뭇)|(찌|지|찍)|(빠|파|바)/g;
+    mic(re,[0,1,2],function(k){ if(k==null){ $('mjSay').innerHTML='못 알아들었어요 😅 단추로 내 주세요'; M.busy=false; mjAim('단추로 내기'); return; }
+      /* 첫 판(가위바위보)의 말을 묵찌빠 손으로: 바위=묵, 가위=찌, 보=빠 */ mjPlay(k,c); }, function(t){ $('mjSay').innerHTML='🎤 「'+t+'」'; }); }); });
+
+/* 팔씨름 — 두 팔이 맞잡고 · 양쪽 기둥 = 힘 배터리 */
+var A={on:false,two:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,bet:'ttak'};
+chips($('armBet'),function(){ return $('armStage'); },function(k){ A.bet=k; });
+$('armMode').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; [].forEach.call(this.children,function(x){ x.classList.toggle('on',x===b); }); A.two=b.dataset.m==='two'; start(); });
+function armDraw(){ var st=$('armStage'), w=st.clientWidth, h=st.clientHeight, ey=h-36, lift=A.x*A.x*h*.22, gx=w/2+A.x*(w*.30), gy=h*.40+lift;
+  var ea={x:w*.17,y:ey}, eb={x:w*.83,y:ey}; $('elbA').style.left=(ea.x-17)+'px'; $('elbB').style.left=(eb.x-17)+'px';
+  function fore(el,e){ var dx=gx-e.x, dy=gy-e.y, L=Math.hypot(dx,dy); el.style.left=e.x+'px'; el.style.top=(e.y-15)+'px'; el.style.width=L+'px'; el.style.transform='rotate('+Math.atan2(dy,dx)+'rad)'; }
+  fore($('foreA'),ea); fore($('foreB'),eb); var g=$('grip'); g.style.left=gx+'px'; g.style.top=gy+'px'; g.style.transform='rotate('+(A.x*60)+'deg)'; }
+function armStart(){ A.on=false; A.x=0; A.pa=0; A.pb=0; colReset(); col('r',{name:A.two?'친구':'다복 사장님'}); $('armB').disabled=!A.two; $('armB').textContent=A.two?'친구 · 힘!':'사장님 (자동)'; $('armBet').style.display=A.two?'none':'';
+  $('armStage').onpointerdown=null; $('armStage').innerHTML='<div class="table"></div><div class="elb" id="elbA"></div><div class="elb" id="elbB"></div><div class="fore a" id="foreA"></div><div class="fore b" id="foreB"></div><div class="grip" id="grip">🤝</div>';
+  $('armSay').innerHTML=A.two?'<b>둘이 동시에 「힘!」</b> · 꾹 누르면 힘이 차고 · 빨리빨리 누르면 더 세요':'<b>「힘!」 꾹 누르면 힘이 차고</b> · 빨리빨리 누르면 더 세요 · 왼쪽 기둥이 내 힘';
+  requestAnimationFrame(armDraw); setTimeout(function(){ if(CUR==='arm') point($('armA'),'꾹 누르고 · 빨리빨리 또 누르기',.5,.7); },80); }
+function armLoop(){ var now=performance.now(), dt=Math.min(.05,(now-A.last)/1000); A.last=now;
+  if(!A.two){ A.cpuT+=dt; if(A.cpuT>.12+Math.random()*.08){ A.cpuT=0; A.pb=Math.min(1,A.pb+.105); } }
+  if(HOLD.a) A.pa=Math.min(1,A.pa+dt*.75); if(HOLD.b) A.pb=Math.min(1,A.pb+dt*.75);
+  A.pa=Math.max(0,A.pa-dt*.55); A.pb=Math.max(0,A.pb-dt*.55); col('l',{pw:A.pa,on:A.pa>A.pb}); col('r',{pw:A.pb,on:A.pb>A.pa});
+  A.x+=(A.pb-A.pa)*dt*.9; A.x=Math.max(-1,Math.min(1,A.x)); armDraw();
+  if(Math.abs(A.x)>=1){ A.on=false; var meWin=A.x<=-1; SFX.kong(); fx($('armStage'),meWin?'쾅! 이겼다':(A.two?'쾅! 친구 승':'쾅! 졌다'),40); col('l',{pw:0,on:meWin}); col('r',{pw:0,on:!meWin});
+    if(!A.two&&A.bet!=='none'){ setTimeout(function(){ if(CUR!=='arm') return; $('armSay').innerHTML=meWin?'<b>이겼다!</b> 사장님께 '+PEN.name(A.bet)+'!':'<em>졌다…</em> 내가 '+PEN.name(A.bet)+' 😣'; PEN.run($('armStage'),A.bet,meWin?'cpu':'me',function(){ armStart(); }); },1200); }
+    return; }
+  A.raf=requestAnimationFrame(armLoop); }
+var HOLD={a:false,b:false};
+function armPush(side){ ac(); if(!$('grip')) return; if(!A.on){ A.on=true; A.last=performance.now(); A.raf=requestAnimationFrame(armLoop); } if(side==='a') A.pa=Math.min(1,A.pa+.09); else A.pb=Math.min(1,A.pb+.09); SFX.tick(); }
+$('armA').addEventListener('pointerdown',function(e){ e.preventDefault(); unpoint(); HOLD.a=true; armPush('a'); });
+['pointerup','pointercancel','pointerleave'].forEach(function(t){ $('armA').addEventListener(t,function(){ HOLD.a=false; }); $('armB').addEventListener(t,function(){ HOLD.b=false; }); });
+$('armB').addEventListener('pointerdown',function(e){ e.preventDefault(); if(A.two){ HOLD.b=true; armPush('b'); } });
+window.addEventListener('resize',function(){ if(CUR==='arm'&&$('grip')) armDraw(); });
+
+/* 엿치기 — 세 판 두 번 먼저 이기면 끝 · 진 쪽 벌칙 */
+var Y={}, YB='ttak';
+chips($('yeotBet'),function(){ return $('yeotStage'); },function(k){ YB=k; });
+function holes(){ var a=[], n=2+Math.floor(Math.random()*4), tot=0; for(var i=0;i<n;i++){ var r=4+Math.random()*(i===0?24:11), ang=Math.random()*6.283, d=Math.random()*(44-r); a.push({x:Math.cos(ang)*d,y:Math.sin(ang)*d,r:r}); tot+=r*r; } return {h:a,score:Math.round(tot/10)}; }
+function drawCut(cv,H){ var x=cv.getContext('2d'), W=cv.width; x.clearRect(0,0,W,W); x.save(); x.translate(W/2,W/2); x.scale(W/132,W/132);
+  x.fillStyle='#D9A75E'; x.beginPath(); x.arc(0,0,58,0,6.283); x.fill(); x.fillStyle='#EDC680'; x.beginPath(); x.arc(0,0,51,0,6.283); x.fill();
+  x.fillStyle='#FFF6E2'; H.h.forEach(function(o){ x.beginPath(); x.ellipse(o.x,o.y,o.r,o.r*.82,o.x*.05,0,6.283); x.fill(); }); x.restore(); }
+function yStage(){ $('yeotStage').onpointerdown=null; $('yeotStage').innerHTML='<div class="yeots" id="yeots"><div class="yeot" data-i="0"><b>①</b></div><div class="yeot" data-i="1"><b>②</b></div><div class="yeot" data-i="2"><b>③</b></div></div><div class="cuts" id="cuts"><div class="cut"><canvas id="cutA" width="248" height="248"></canvas><span style="color:var(--blu)">내 엿</span></div><div class="cut"><canvas id="cutB" width="248" height="248"></canvas><span style="color:var(--red)">사장님 엿</span></div></div>'; }
+function yeotStart(){ Y={w:[0,0],round:1,over:false}; $('yeotBet').style.display=''; col('l',{sc:0,un:'승'}); col('r',{sc:0,un:'승'}); yRound(); }
+function yRound(){ Y.pick=-1; Y.cpu=-1; Y.done=false; Y.hold=false; Y.p=0; Y.next=false; yStage(); $('yeotGo').disabled=true; $('yeotGo').textContent='엿을 골라 주세요'; $('bend').firstChild.style.width='0';
+  $('yeotSay').innerHTML='<b>'+Y.round+'판</b> · 엿을 하나 고르세요 · 똑 부러뜨려 <em>가운데 구멍이 큰 쪽</em>이 이겨요 (두 번 먼저 이기면 끝)';
+  setTimeout(function(){ if(CUR==='yeot'&&$('yeots')) point($('yeots'),'엿을 하나 고르세요',.5,.75); },60); }
+$('yeotStage').addEventListener('click',function(e){ var b=e.target.closest('.yeot'); if(!b||Y.done||Y.pick>=0||Y.over) return; ac(); unpoint(); $('yeotBet').style.display='none'; Y.pick=+b.dataset.i; b.classList.add('pick'); SFX.tick();
+  var rest=[0,1,2].filter(function(i){ return i!==Y.pick; }); Y.cpu=rest[Math.floor(Math.random()*2)];
+  setTimeout(function(){ if(!$('yeots')) return; $('yeots').children[Y.cpu].classList.add('cpu'); $('yeotSay').innerHTML='사장님은 <em>'+'①②③'[Y.cpu]+'</em> · 아래 단추를 <b>꾹 눌러 휘었다가 놓으면 「뚝!」</b>'; $('yeotGo').disabled=false; $('yeotGo').textContent='꾹 눌러 휘기 → 놓으면 뚝!'; point($('yeotGo'),'여길 꾹 누르고 있다가 놓으세요',.5,.75); },450); });
+var yraf=0;
+$('yeotGo').addEventListener('pointerdown',function(e){ if(this.disabled||Y.over||Y.done||Y.pick<0) return; e.preventDefault(); ac(); unpoint(); Y.hold=true; var t0=performance.now(); this.textContent='휘는 중… 이제 놓으세요!';
+  (function lp(){ if(!Y.hold) return; Y.p=Math.min(1,(performance.now()-t0)/1100); $('bend').firstChild.style.width=(Y.p*100)+'%'; col('l',{pw:Y.p,on:true}); var el=$('yeots')&&$('yeots').children[Y.pick]; if(el) el.style.transform='translateY(-10px) rotate('+(Y.p*9)+'deg)'; yraf=requestAnimationFrame(lp); })(); });
+function ysnap(){ if(!Y.hold) return; Y.hold=false; cancelAnimationFrame(yraf);
+  if(Y.p<.3){ $('yeotSay').innerHTML='덜 휘었어요! <b>더 꾹</b> 눌렀다 놓으세요'; $('yeotGo').textContent='꾹 눌러 휘기 → 놓으면 뚝!'; $('bend').firstChild.style.width='0'; col('l',{pw:0}); point($('yeotGo'),'더 오래 꾹!',.5,.75); return; }
+  Y.done=true; $('yeotGo').disabled=true; SFX.snap(); fx($('yeotStage'),'뚝!'); var a=holes(), b=holes(); if(a.score===b.score) b.score+=1;
+  setTimeout(function(){ if(!$('yeots')) return; $('yeots').style.display='none'; $('cuts').classList.add('on'); drawCut($('cutA'),a); drawCut($('cutB'),{h:[]}); col('l',{pw:0,on:false}); $('yeotSay').innerHTML='내 엿 구멍 <b>'+a.score+'</b> · 사장님도 휘는 중…';
+    var t0=performance.now(); (function lp(){ var q=Math.min(1,(performance.now()-t0)/900); col('r',{pw:q,on:true}); if(q<1){ requestAnimationFrame(lp); return; }
+      if(!$('cutB')) return; SFX.snap(); fx($('yeotStage'),'뚝!'); drawCut($('cutB'),b); col('r',{pw:0,on:false}); var me=a.score>b.score; Y.w[me?0:1]++; col('l',{sc:Y.w[0]}); col('r',{sc:Y.w[1]});
+      $('yeotSay').innerHTML='구멍 '+a.score+' : '+b.score+' · '+(me?'<b>이번 판은 내가 이겼다!</b>':'<em>이번 판은 사장님!</em>')+' · 판수 '+Y.w[0]+' : '+Y.w[1];
+      if(Y.w[0]>=2||Y.w[1]>=2){ Y.over=true; var meWin=Y.w[0]>=2; setTimeout(function(){ if(CUR!=='yeot') return;
+          if(YB==='none'){ $('yeotSay').innerHTML=meWin?'<b>이겼어요!</b> → 결과 카드 · 선물':'<em>아쉽게 졌어요</em> → 결과 카드 · 참가 선물'; $('yeotGo').disabled=false; $('yeotGo').textContent='새 판'; return; }
+          $('yeotSay').innerHTML=meWin?'<b>이겼다!</b> 사장님께 '+PEN.name(YB)+'!':'<em>졌다…</em> 사장님한테 '+PEN.name(YB)+' 😣'; $('yeotGo').disabled=true; $('yeotGo').textContent='벌칙 중…'; $('bend').firstChild.style.width='0';
+          PEN.run($('yeotStage'),YB,meWin?'cpu':'me',function(){ $('yeotSay').innerHTML='벌칙 끝! → 실제 화면에선 여기서 <b>결과 카드 · 선물 받기</b>'; col('l',{sc:Y.w[0],un:'승'}); col('r',{sc:Y.w[1],un:'승'}); $('yeotGo').disabled=false; $('yeotGo').textContent='새 판'; }); },1300); }
+      else { $('yeotGo').disabled=false; $('yeotGo').textContent='다음 판'; Y.next=true; point($('yeotGo'),'다음 판으로',.5,.75); } })(); },300); }
+$('yeotGo').addEventListener('pointerup',ysnap); $('yeotGo').addEventListener('pointercancel',ysnap); $('yeotGo').addEventListener('pointerleave',ysnap);
+$('yeotGo').addEventListener('click',function(){ if(Y.over&&this.textContent==='새 판'){ yeotStart(); return; } if(Y.next){ Y.next=false; Y.round++; unpoint(); yRound(); } });
+
+setTimeout(start,80);
+})();
+</script>
+</body></html>
