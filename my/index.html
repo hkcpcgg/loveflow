@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ my/index.html · v6 · 261116 · [696 홈 화면 아이콘 · 대표 OK 261116 19:22] 홈 화면 아이콘 /rec/apple-icon-180.png(우리 이야기 폴더) → 사랑흐름 자기 파일 /apple-touch-icon.png. [무손] 그 밖 v5 전부. -->
+<!-- ★ 현재 버전 ▶ my/index.html · v7 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
+<!-- (이전) my/index.html · v6 · 261116 · [696 홈 화면 아이콘 · 대표 OK 261116 19:22] 홈 화면 아이콘 /rec/apple-icon-180.png(우리 이야기 폴더) → 사랑흐름 자기 파일 /apple-touch-icon.png. [무손] 그 밖 v5 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ my/index.html · v5 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) my/index.html · v4 · 261111 · [공사 칸 ⑥ 입구 · 대표 OK 18:36 · 579 · 599] ①상품 단추 앞 그림 — 🗺 ✉️ ✍️ → 그 상품의 결과물 견본(lf/thumb.js · 만든 사람만 알아보는 그림 대신) ②본부 발급 그림 — /my/#cards=(본부 「발급 목록」이 만든 목록) 이면 서버를 부르지 않고 탑승권 그림만 차례로 그려 「이미지 저장」(QR 은 /reenter.html?id= · 열쇠 없이) ③남은 편 0(다 씀)인 상품 바로 아래에만 「○○을 더 쓰시려면」 + [구매하기] [🎁 선물하기] 같은 크기(마음 여행편지는 마음여행으로) — 옛 셈(source old)이면 두지 않음 · 막지 않음(보기 단추는 그대로) ④frame.js ?v=24. [무손] 그 밖 v3 전부. -->
 <!-- (이전) my/index.html · v3 · 261111 · [대표 15:46 「카드로 직접 샀는데 왜 ○○ 외 한 분이 선물하신이 나와」 → OK 15:50] ①「외 1분」 대신 이름 그대로 — 「박서윤 님이 선물하신」 · 「박서윤 · 이민정 님이 함께 선물하신」(넷 이상만 「… 님 외 n분」) · 탑승권 그림 「선물 · GIFT FROM」 칸도 같은 줄 ②선물로만 받은 사랑흐름 여권일 때만 맨 위 선물 상자 · 직접 산 사랑흐름 여권(서버 gift v5 own)에 선물이 더해졌으면 맨 위는 「○○ 님의 사랑흐름 여권」 그대로 + 아래 「🎁 박서윤 님이 보낸 선물 · 마음여행 3편」 줄 · 안내 글도 「○○ 님의 사랑흐름 여권으로 여행하시려면」. [무손] 그 밖 v2 전부. -->
@@ -124,13 +125,7 @@ button{font-family:inherit;cursor:pointer}
   function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
   function ls(k, v) { try { if (v === undefined) { return localStorage.getItem(k) || ''; } localStorage.setItem(k, v); } catch (e) { } return ''; }
   function toast(t) { var el = $('toast'); el.textContent = t; el.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(function () { el.classList.remove('on'); }, 2200); }
-  function ding() {
-    try {
-      var C = window.AudioContext || window.webkitAudioContext; if (!C) { return; }
-      var a = new C(), t = a.currentTime;
-      [880, 1318.5].forEach(function (f, i) { var o = a.createOscillator(), g = a.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.setValueAtTime(0.0001, t + i * 0.12); g.gain.exponentialRampToValueAtTime(0.08, t + i * 0.12 + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + i * 0.12 + 0.5); o.connect(g); g.connect(a.destination); o.start(t + i * 0.12); o.stop(t + i * 0.12 + 0.55); });
-    } catch (e) { }
-  }
+  function ding() { try { if (window.LFFx && LFFx.soft) { LFFx.soft([880, 1318.5]); } } catch (e) { } }
 
   /* ── 열쇠 — 주소(?k=) 먼저, 없으면 이 휴대폰이 기억한 것 ── */
   function keyOf() {
@@ -397,5 +392,6 @@ button{font-family:inherit;cursor:pointer}
 </script>
 <script src="/lf-foot.js" defer></script>
 <script src="/lf/frame.js?v=24"></script>
+<script src="/lf/fx.js?v=3" defer></script>
 </body>
 </html>

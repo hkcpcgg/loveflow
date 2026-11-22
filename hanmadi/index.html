@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ hanmadi/index.html · v17 · 261121 · [884 함께 · 110차] 방문 통계에 손님이 적은 「부를 이름」(state.who)이 가던 것 — 고른 갈래(어머니 · 배우자 등 state.target)만 보냄(보내기 · 다 씀 두 곳). [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ hanmadi/index.html · v18 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
+<!-- (이전) hanmadi/index.html · v17 · 261121 · [884 함께 · 110차] 방문 통계에 손님이 적은 「부를 이름」(state.who)이 가던 것 — 고른 갈래(어머니 · 배우자 등 state.target)만 보냄(보내기 · 다 씀 두 곳). [무손] 그 밖 전부. -->
 <!-- (이전) hanmadi/index.html · v16 · 261121 · [대표 261121 16:40 「진지는 옛날 말 · 울타리 안 씀」] 「오늘도 진지 꼭 챙겨 드세요」 → 「오늘도 식사 꼭 챙겨 드세요」 · 「든든한 울타리가 되어 드릴게요」 → 「든든한 힘이 되어 드릴게요」. [무손] 그 밖 v15. -->
 <!-- (이전) hanmadi/index.html · v15 · 261121 · [877 다듬기 · 대표 261121 16:33 「부모님께는 사 드릴게요 · 오늘의 저를 만들어 주셨어요 · 날짜 잡자 같은 말 안 씀 · 어휘 다듬기」] 부모님 한마디를 높임말로(진지 · 죄송해요 · 고맙습니다 · 사 드리러 갈게요 · 끓여 주시던) · 「평생 저를 키웠어요」 → 「오늘의 저를 만들어 주셨어요. 고맙습니다」 · 친구 「이번엔 진짜 날짜 잡자」 → 「진짜 보고 싶다, 친구야! 우리 꼭 한번 보자」 · 그 밖 몇 줄 어휘 손질. [무손] 그 밖 v14. -->
 <!-- (이전) hanmadi/index.html · v14 · 261121 · [877 · 대표 261121 16:11 「짧은 단문은 재미없음 · 감동적으로 마중물을」 · 16:19 「결정해서 쭉 가세요」] 3단계 「한마디 고르기」 추천 한마디를 모두 다시 씀(부모님 · 배우자 · 친구 · 공통 · 심정 열둘 × 셋) — 한 줄 단문 → 장면 · 약속이 담긴 두 문장(예: 「{n} 덕분에 이만큼 잘 컸어요. 이번 주말엔 제가 따끈한 칼국수 살게요!」) · 담백하게 · 다정하게 · 유쾌하게 결은 그대로 · 아래 풀이 말은 그대로 · 머리 말 「어머니에게 · 아버지에게 · 스승·은인에게」 → 「…께」(다른 화면 josaKke 와 같게). [무손] 그 밖 v13. -->
@@ -831,7 +832,7 @@ window.addEventListener('load',function(){
 /* ===== 피아노 사운드 (보존) ===== */
 var actx=null,soundOn=true;
 function initAudio(){if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}if(actx&&actx.state==='suspended'){actx.resume();}}
-function play(freq){if(!soundOn)return;initAudio();if(!actx)return;var t=actx.currentTime;var o=actx.createOscillator(),o2=actx.createOscillator(),g=actx.createGain();o.type='triangle';o2.type='sine';o.frequency.value=freq;o2.frequency.value=freq*2.005;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(0.05,t+0.008);g.gain.exponentialRampToValueAtTime(0.0008,t+0.85);o.connect(g);o2.connect(g);g.connect(actx.destination);o.start(t);o2.start(t);o.stop(t+0.9);o2.stop(t+0.9);}
+function play(freq){if(!soundOn)return;try{if(window.LFFx&&LFFx.soft){LFFx.soft(freq);}}catch(e){}}
 function toggleSound(){soundOn=!soundOn;var btn=document.getElementById('soundBtn');btn.textContent=soundOn?'🔊':'🔇';btn.classList.toggle('on',soundOn);if(soundOn){initAudio();play(392.00);}}
 
 var SRC={
@@ -1594,5 +1595,5 @@ if (document.readyState === 'loading') {
 .lfx-slot #soundBtn.on{background:#C9A96E!important}
 </style>
 <script src="/lf/frame.js?v=17"></script>
-<script src="/lf/fx.js?v=1"></script>
+<script src="/lf/fx.js?v=3"></script>
 </body></html>

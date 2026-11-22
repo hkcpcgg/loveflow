@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ index.html · v96 · 261121 · [883 · 이사회 110차 GPT 6-5] 방문 통계(GA4)에 주소 뒤 꼬리(?id=사랑흐름 여권번호 · ?no=주문번호 · paymentKey · ?t=선물 열쇠 · ?k= 등)가 함께 가던 것 — 주소는 앞부분(경로)만 보내게. gtag config · lf/step.js ?v=3. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ index.html · v97 · 261122 · [대표 261122 15:40 · 16:06 「소리 중저음 · 볼륨 중하」] 「누가 계셨나요?」 열두 칸 소리를 공용 lf/fx.js v3 중저음으로(LFFx.soft) · lf/step.js ?v=4(fx.js v3). [무손] 그 밖 전부. -->
+<!-- (이전) index.html · v96 · 261121 · [883 · 이사회 110차 GPT 6-5] 방문 통계(GA4)에 주소 뒤 꼬리(?id=사랑흐름 여권번호 · ?no=주문번호 · paymentKey · ?t=선물 열쇠 · ?k= 등)가 함께 가던 것 — 주소는 앞부분(경로)만 보내게. gtag config · lf/step.js ?v=3. [무손] 그 밖 전부. -->
 <!-- (이전)  index.html · v95 · 261121 · [865] 그 시절 곳 · 때를 고르면 이 기기에 남김(lf_era_pick — 곳 · 때만 · 이름 · 번호 없음) → 한 편의 기록 첫 화면에서 고르는 칸 없이 바로 그 시절 이야기. [무손] 그 밖 전부. -->
 <!-- (이전) index.html · v94 · 261121 · /lf/step.js?v=1 → ?v=2(소리 포인트 · 대표 16:56). [무손] 그 밖 전부. -->
 <!-- (이전) index.html · v93 · 261121 · [855 · 108차] 단계별 익명 숫자 부품 /lf/step.js 붙임(누가 · 무엇을 썼는지는 안 보냄 · 애널리틱스 lf_step). [무손] 그 밖 전부. -->
@@ -345,7 +346,7 @@ a.fb,a.tt,a.more{text-decoration:none;cursor:pointer}a.more{text-align:center}  
   /* ★688 마음 한마디 사람 아홉 칸 — hanmadi 와 같은 사람 · 같은 소리 · 고르면 단추 → /hanmadi/?to= (2단계 지금 심정부터) */
   var T=[['어머니','🌷',130.81],['아버지','🌰',146.83],['배우자·연인','💞',164.81],['자녀','🐣',196.00],['형제·자매','🌿',220.00],['친구','🫧',261.63],['나 자신','🧭',293.66],['스승·은인','🌟',329.63],['동네 친구','🏘️',440.00],['이웃','🏡',493.88],['함께 일하던 분','🤝',523.25],['그리운 누구','✨',392.00]];
   var ac=null, pick='';
-  function play(f){ try{ if(!ac){ ac=new (window.AudioContext||window.webkitAudioContext)(); } if(ac.state==='suspended'){ ac.resume(); } var t=ac.currentTime, o=ac.createOscillator(), o2=ac.createOscillator(), g=ac.createGain(); o.type='triangle'; o2.type='sine'; o.frequency.value=f; o2.frequency.value=f*2.005; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(0.05,t+0.008); g.gain.exponentialRampToValueAtTime(0.0008,t+0.85); o.connect(g); o2.connect(g); g.connect(ac.destination); o.start(t); o2.start(t); o.stop(t+0.9); o2.stop(t+0.9); }catch(e){} }
+  function play(f){ try{ if(window.LFFx&&LFFx.soft){ LFFx.soft(f); } }catch(e){} }
   function kke(n){ return (n==='어머니'||n==='아버지'||n==='스승·은인')?'께':'에게'; }
   T.forEach(function(x){ var b=document.createElement('button'); b.type='button'; b.className='k'; b.innerHTML='<span class="em">'+x[1]+'</span><span class="nm">'+x[0]+'</span>';
     b.addEventListener('touchstart',function(){ b.classList.add('hit'); setTimeout(function(){ b.classList.remove('hit'); },130); },{passive:true});
@@ -382,6 +383,6 @@ setTimeout(function(){$('nways').scrollIntoView({behavior:'smooth',block:'neares
 [].forEach.call(document.querySelectorAll('#nways .way'),function(b){b.onclick=function(){var w=b.getAttribute('data-w');if(w==='h'){$('hGo').click();return}var nm=document.querySelector('#ks .sel .nm');location.href=(w==='c'?'/compass.html':'/draw/')+(nm?'?to='+encodeURIComponent(nm.textContent):'')}});
 $('only').onclick=function(){location.href='/draw/'};
 </script>
-<script src="/lf/step.js?v=3" defer></script>
+<script src="/lf/step.js?v=4" defer></script>
 </body>
 </html>
