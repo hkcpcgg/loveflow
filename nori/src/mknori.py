@@ -9,7 +9,7 @@ head='''<!-- ★ 현재 버전 ▶ nori/index.html · v1 · 261122 · [놀이] �
 <link rel="manifest" href="/nori/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/nori/icon-192.png">
 <meta name="apple-mobile-web-app-title" content="그때 그 놀이">
-<meta name="theme-color" content="#16181D">
+<meta name="theme-color" content="#FFC93C">
 <meta property="og:title" content="그때 그 놀이">
 <meta property="og:description" content="옛날 놀이 한 판! 다복에서 준비한 푸짐한 선물 받아가세요">
 <meta property="og:image" content="https://www.loveflow.ai.kr/nori/icon-512.png">
@@ -20,7 +20,7 @@ assert h.count('<head>')==1
 h=h.replace('<head>','<head>\n'+head,1)
 h=h.replace('<script src="https://www.loveflow.ai.kr/lf-foot.js" defer></script>','<script src="/lf-foot.js" defer></script>')
 open(OUT+'/index.html','w',encoding='utf-8').write(h)
-man={"name":"그때 그 놀이","short_name":"그때 그 놀이","start_url":"/nori/","scope":"/nori/","display":"standalone","background_color":"#F7F1E3","theme_color":"#16181D","lang":"ko",
+man={"name":"그때 그 놀이","short_name":"그때 그 놀이","start_url":"/nori/","scope":"/nori/","display":"standalone","background_color":"#FFF8E6","theme_color":"#FFC93C","lang":"ko",
      "icons":[{"src":"/nori/icon-192.png","sizes":"192x192","type":"image/png"},{"src":"/nori/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}
 open(OUT+'/manifest.webmanifest','w',encoding='utf-8').write(json.dumps(man,ensure_ascii=False,indent=1))
 for n in (192,512):

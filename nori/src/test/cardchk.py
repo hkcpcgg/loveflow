@@ -12,10 +12,12 @@ async def main():
       await pg.goto('http://localhost:8765/nori/'); await pg.wait_for_timeout(700)
       await pg.evaluate("k=>document.querySelector('.g[data-go='+k+']').click()",k); await pg.wait_for_timeout(1200)
       fr=pg.frames[-1]
-      try: await fr.locator('[data-v=cpu1]:visible').first.click(timeout=1200)
+      try: await fr.locator('#naGo:visible, [data-v=cpu1]:visible').first.click(timeout=1200)
       except Exception: pass
       for i in range(60):
         if await fr.evaluate(CHK): break
+        if await fr.evaluate("()=>!!document.querySelector('.pn-sc')"):
+          b=await fr.locator('.pn-st').bounding_box(); await pg.mouse.move(b['x']+b['width']/2,b['y']+b['height']/2); await pg.mouse.down(); await pg.wait_for_timeout(900); await pg.mouse.up(); await pg.wait_for_timeout(1200); continue
         try:
           if k=='om':
             b=await fr.locator('#oB').bounding_box(); import random

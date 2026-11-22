@@ -114,6 +114,14 @@ html='''<!DOCTYPE html>
 <script>
 '''+open('gift.js',encoding='utf-8').read()+'''
 </script>
+<script>
+'''+open('pre.js',encoding='utf-8').read()+'''
+/* 디자인 A: 오른쪽 위 「🔈 소리」 · 맨 아래 사장님 줄(관리자 창 · 홈 화면에 추가 — ☰ 대신) */
+(function(){ var r=document.querySelector('.top .topr'); if(r){ NA.sndBtn(r); }
+  [].forEach.call(document.querySelectorAll('.own [data-own]'),function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); var k=b.getAttribute('data-own');
+    if(k==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { NA.toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요'); } return; }
+    var m=document.querySelector('.menu [data-m='+k+']'); if(m){ m.click(); } }); }); })();
+</script>
 <script src="https://www.loveflow.ai.kr/lf-foot.js" defer></script>
 </body>
 </html>

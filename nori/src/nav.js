@@ -16,13 +16,26 @@
      +'body.nside-on{padding-left:38px!important;padding-right:38px!important}body.ncard-on .nside{display:none}'
      +'.act .spd>span{display:none!important}.act .spd button{white-space:nowrap}'
      +'.nside-hide{display:none!important}.vs.nside-mid{grid-template-columns:1fr!important}.vs.nside-mid .p{display:none!important}';
+    if(window.NORI_A){ css.textContent+='.nside{bottom:auto;width:26px;border-radius:13px;padding:7px 0;gap:4px;overflow:hidden}'
+      +'.nside.l{left:7px;background:#E6EDFC;color:#2F64E0}.nside.r{right:7px;background:#FCE8E8;color:#E04848}.nside.l.on{background:#2F64E0;color:#fff}.nside.r.on{background:#E04848;color:#fff}'
+      +'.nside .nm{font-size:10.5px}.nside .sc{font-size:16px}.nside .un{font-size:10px;margin-top:-2px}.nside .ex{font-size:10px}'
+      +'.nside .tn{margin-top:4px;font-size:10px;letter-spacing:.06em}.nside .bat{position:relative;margin-top:auto;width:10px;flex:0 0 40%;border-radius:6px;background:rgba(255,255,255,.8);overflow:hidden}'
+      +'.nside .bat i{position:absolute;left:0;right:0;bottom:0;height:0;border-radius:4px;transition:height .06s linear}.nside.l .bat i{background:#2F64E0}.nside.r .bat i{background:#E04848}.nside.on .bat i{background:#FFC21A}'
+      +'.nside.na-gone{visibility:hidden}'; }
     d.head.appendChild(css);
-    function col(c){ var e=d.createElement('div'); e.className='nside '+c; e.innerHTML='<span class="nm"></span><b class="sc"></b><span class="un"></span><span class="ex"></span><span class="tn"></span>'; d.body.appendChild(e); return e; }
+    function col(c){ var e=d.createElement('div'); e.className='nside '+c; e.innerHTML='<span class="nm"></span><b class="sc"></b><span class="un"></span><span class="ex"></span><span class="tn"></span>'+(window.NORI_A?'<div class="bat"><i></i></div>':''); d.body.appendChild(e); return e; }
     st={l:col('l'),r:col('r')}; d.body.classList.add('nside-on');
+    if(window.NORI_A){ setInterval(align,400); }
     var mo=new MutationObserver(function(){ paint(); });
     [].slice.call(d.querySelectorAll('.vs,#aC1,#aC2,#cnt')).forEach(function(v){ mo.observe(v,{childList:true,subtree:true,characterData:true}); });
-    window.addEventListener('resize',paint);
+    window.addEventListener('resize',paint); window.addEventListener('resize',align);
     return st; }
+  /* A: 기둥은 놀이판 높이만큼만 · 놀이판 양옆에 붙임 (모든 놀이 같은 너비) */
+  function align(){ if(!st||!window.NORI_A) return; var b=d.querySelector(window.NORI_BOARD||'.board'), r=b&&b.getBoundingClientRect();
+    if(!r||!r.height){ st.l.classList.add('na-gone'); st.r.classList.add('na-gone'); return; } st.l.classList.remove('na-gone'); st.r.classList.remove('na-gone');
+    [st.l,st.r].forEach(function(c){ c.style.top=r.top+'px'; c.style.height=r.height+'px'; });
+    st.l.style.left=Math.max(2,r.left-26-6)+'px'; st.r.style.right='auto'; st.r.style.left=Math.min(innerWidth-28,r.right+6)+'px'; }
+  var OVR={l:null,r:null};
   function q(el,s){ return el?el.querySelector(s):null; }
   function part(c,side,def){
     var nm=q(side,'span'), em=q(side,'em'), t=em?em.textContent:'', main=t.split('·')[0].trim(), ex=(t.split('·')[1]||'').trim(), m=main.match(/(-?\d+)\s*([^\d\s]*)\s*$/);
@@ -40,10 +53,12 @@
     else if(txt('aC1')!==null){ st.l.querySelector('.nm').textContent='나'; st.r.querySelector('.nm').textContent=opp(); setSc(st.l,txt('aC1'),'알'); setSc(st.r,txt('aC2')||'','알'); st.l.querySelector('.ex').textContent=''; st.r.querySelector('.ex').textContent=''; }
     else if(txt('cnt')!==null){ var mm=(txt('cnt')||'').match(/(\d+)/); st.l.querySelector('.nm').textContent='나'; st.r.querySelector('.nm').textContent=opp(); setSc(st.l,mm?mm[1]:'','장'); setSc(st.r,'',''); st.l.querySelector('.ex').textContent=''; st.r.querySelector('.ex').textContent=''; }
     else { st.l.querySelector('.nm').textContent='나'; st.r.querySelector('.nm').textContent=opp(); ['sc','un','ex'].forEach(function(k){ st.l.querySelector('.'+k).textContent=''; st.r.querySelector('.'+k).textContent=''; }); }
-    st.l.classList.toggle('on',W===0); st.r.classList.toggle('on',W===1);
+    st.l.classList.toggle('on',OVR.l!=null?OVR.l:W===0); st.r.classList.toggle('on',OVR.r!=null?OVR.r:W===1); align();
     st.l.querySelector('.tn').textContent=W===0?(LAB||'내 차례'):''; st.r.querySelector('.tn').textContent=W===1?(LAB||'상대 차례'):''; }
   window.noriSide=function(w,lab){ init(); W=(w===0||w===1)?w:null; LAB=lab||''; if(W===1&&LAB&&!/^내 /.test(LAB)){ RN=LAB.replace(/\s*차례$/,''); } paint(); };
   window.noriSideInit=function(){ init(); paint(); };
+  /* 벌칙 · 힘: 기둥 불 · 배터리 (on:null 이면 차례 표시로 되돌림) */
+  window.noriCol=function(s,o){ init(); var c=st[s]; if(!c) return; if('on' in o){ OVR[s]=o.on; paint(); } if('pw' in o){ var i=c.querySelector('.bat i'); if(i) i.style.height=Math.max(0,Math.min(1,o.pw||0))*100+'%'; } };
 })();
 window.noriNav=function(o){
   /* 261122 v5 — 아래 막대 「놀이 방법 · 그때 그 놀이(홈, 가운데) · 새 판」, 「다른 놀이」 창 없앰. 끝 화면: 선물 받기 · 이야기방에 남기기 · 다시 하기 · 그때 그 놀이(홈) */
@@ -67,9 +82,17 @@ window.noriNav=function(o){
    +'.nrule h3{margin:0 0 10px;text-align:center;font-family:"Song Myung",serif;font-weight:400;font-size:24px;color:#1B1A1F}.nrule p{margin:0 0 16px;font-size:16px;line-height:1.6;color:#1B1A1F;word-break:keep-all}'
    +'.nrule button{width:100%;min-height:48px;border:0;border-radius:14px;background:#16181D;color:#fff;font:800 16px "Noto Sans KR",sans-serif}'
    +'body{padding-bottom:calc(60px + env(safe-area-inset-bottom,0px));padding-left:16px!important;padding-right:16px!important}body.nside-on{padding-left:38px!important;padding-right:38px!important}';
+  if(window.NORI_A){ css.textContent+='.nbar{background:#fff;padding:6px 8px calc(8px + env(safe-area-inset-bottom,0px))}.nbar>div{grid-template-columns:1fr 1.15fr 1fr}'
+     +'.nbar button{background:transparent;color:#7A6E55;font-size:11.5px;flex-direction:column;gap:2px;min-height:48px}.nbar button svg{width:21px;height:21px;stroke:currentColor;stroke-width:2}'
+     +'.nbar button.home{background:#FFC21A;color:#1C1D21}.nbar button.home svg{width:26px;height:26px;stroke:#1C1D21}'
+     +'body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}'
+     +'.nrule{background:rgba(28,29,33,.3);z-index:72}.nrule>div{background:#fff;border-radius:24px 24px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px))}.nrule h3{font-family:"Noto Sans KR",sans-serif;font-weight:900;font-size:17px}.nrule p{font-size:15px}.nrule button{background:#F6F1E6;color:#1C1D21}'; }
   document.head.appendChild(css);
   var IH='<svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5M10 20v-6h4v6"/></svg>';
   var bar=document.createElement('div'); bar.className='nbar';
+  if(window.NORI_A){ bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg><span>게임 방법</span></button>'
+    +'<button type="button" data-a="list" class="home" aria-label="그때 그 놀이 처음 화면">'+IH+'</button>'
+    +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg><span>다시</span></button></div>'; } else
   bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg>놀이 방법</button>'
     +'<button type="button" data-a="list" class="home">'+IH+'그때 그 놀이</button>'
     +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>새 판</button></div>';
@@ -110,6 +133,10 @@ window.noriNav=function(o){
    +'.ncard .bt2{max-width:440px;margin:0 auto}.ncard .bt2 button{display:flex;align-items:center;justify-content:center;width:100%;border:0;border-radius:14px;min-height:48px;font:800 16px "Noto Sans KR",sans-serif;margin-top:8px;cursor:pointer}'
    +'.ncard .bt2 .gift{background:#E1262D;color:#fff;font-size:17px}.ncard .bt2 .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ncard .bt2 .row button{background:#EFEAE0;color:#1B1A1F;font-size:14.5px}'
    +'.ncard .tip{max-width:440px;margin:8px auto 0;font-size:11.5px;color:#8A7A50;text-align:center;line-height:1.5}';
+  if(window.NORI_A){ hide.textContent+='.ncard{top:calc(48px + env(safe-area-inset-top,0px));bottom:calc(62px + env(safe-area-inset-bottom,0px));color:#1C1D21}'
+     +'.ncard{padding-top:10px}.ncard .ph{height:clamp(96px,19vh,200px)!important;margin:8px 0}.ncard .sc em{font-size:30px}.ncard .res{font-size:18px;margin:2px 0 6px}.ncard .lure{margin-top:6px;font-size:12.5px}.ncard .bt2 button{min-height:46px;margin-top:6px}.ncard .hd{color:#7A6E55}.ncard .gn{color:#7A6E55}.ncard .ph{background:#F6F1E6;color:#7A6E55}.ncard .sc .a{color:#2F64E0}.ncard .sc .b{color:#E04848}.ncard .sc .c{color:#C9BFA8}'
+     +'.ncard .res.win{color:#E04848}.ncard .res.lose{color:#7A6E55}.ncard .memo{background:#F6F1E6}.ncard .ft{color:#7A6E55}'
+     +'.ncard .lure{color:#7A6E55}.ncard .lure b{color:#E04848}.ncard .bt2 .gift{background:#FFC21A;color:#1C1D21;font-weight:900}.ncard .bt2 .row button{background:#F6F1E6;color:#1C1D21}.ncard .tip{color:#9A8E70}'; }
   document.head.appendChild(hide);
   /* 결과에 카드 번호(확인 번호)를 붙여 선물 기록과 맞춰 볼 수 있게 */
   var _nr=window.noriResult;
@@ -127,7 +154,7 @@ window.noriNav=function(o){
     if(r.sc){ return '<div class="big">'+esc2(r.detail.split(' · 카드')[0])+'</div>'; }
     return '<div class="big">'+esc2(String(r.detail||'').split(' · 카드')[0])+'</div>'; }
   function openCard(){ var r=window.__noriLast; if(!r){ return; } R=r; photo=null;
-    cd.innerHTML='<div class="cd"><div class="hd"><b>그때 그 놀이 · '+esc2(shop())+'</b><span>'+when(r.t)+'</span></div><div class="gn">'+esc2(r.gname||'')+'</div>'
+    cd.innerHTML='<div class="cd"><div class="hd"><b>그때 그 놀이 · '+esc2(shop())+'</b><span>'+when(r.t)+'</span></div><div class="gn">'+esc2((r.gname||'')+(window.__noriBetName?' · '+window.__noriBetName:''))+'</div>'
       +'<label class="ph"><input type="file" accept="image/*"><img alt="현장 사진"><i>📷</i>눌러서 현장 사진 넣기<small>사진은 이 폰 안에서만 카드에 합쳐요 · 서버로 보내지 않아요</small><span class="re">사진 바꾸기</span></label>'
       +scoreHTML(r)+'<div class="res '+outOf(r)+'">'+esc2(resText(r))+'</div>'
       +'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름·전화번호는 쓰지 마세요)">'
@@ -140,7 +167,7 @@ window.noriNav=function(o){
     cd.classList.add('on'); document.body.classList.add('ncard-on'); cd.scrollTop=0; setNew(true);
     try{ if(window.SND&&SND.tap){} }catch(e){} }
   function closeCard(){ cd.classList.remove('on'); document.body.classList.remove('ncard-on'); setNew(false); }
-  function setNew(on){ var b=bar.querySelector('[data-a=new]'); b.lastChild.textContent= on?'다시 하기':'새 판'; }
+  function setNew(on){ if(window.NORI_A) return; var b=bar.querySelector('[data-a=new]'); b.lastChild.textContent= on?'다시 하기':'새 판'; }
   /* 카드 그림 만들기 (1080×1440) — 폰 안에서만 */
   function rr(x,c,X,Y,W,H,R2){ x.beginPath(); x.moveTo(X+R2,Y); x.arcTo(X+W,Y,X+W,Y+H,R2); x.arcTo(X+W,Y+H,X,Y+H,R2); x.arcTo(X,Y+H,X,Y,R2); x.arcTo(X,Y,X+W,Y,R2); x.closePath(); x.fillStyle=c; x.fill(); }
   function draw(cb){ var r=R, W=1080, H=1440, c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d'), F='"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif';

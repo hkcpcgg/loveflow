@@ -43,13 +43,18 @@ def restructure(scr):
       + sec('여럿이 함께', '행사용 · 곧 열려요', [soon('sg'), soon('db'), soon('sb')])
       + '@@ROOM@@'
       + '<div class="fam-h">함께하는 곳</div>@@FAM@@'
+      + '<p class="own"><button type="button" data-own="admin">사장님 관리자 창</button><span>·</span><button type="button" data-own="home">홈 화면에 추가</button></p>'
       + '</div><div id="lfFoot" data-refund="0"></div>'
       + '<nav class="fbar" aria-label="아래 막대"><div>'
         '<button type="button" id="fGift"><svg viewBox="0 0 24 24"><rect x="3.5" y="9" width="17" height="11" rx="1.5"/><path d="M2.5 9h19V6h-19zM12 6v14"/></svg>내 선물함</button>'
-        '<button type="button" id="fHome" class="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5M10 20v-6h4v6"/></svg>홈</button>'
+        '<button type="button" id="fHome" class="home" aria-label="맨 위로"><svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5M10 20v-6h4v6"/></svg></button>'
         '<button type="button" id="fShare"><svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="2.6"/><circle cx="6" cy="12" r="2.6"/><circle cx="18" cy="19" r="2.6"/><path d="M8.3 10.8l7.4-4.4M8.3 13.2l7.4 4.4"/></svg>공유하기</button>'
         '</div></nav>')
     room = re.search(r'<a class="room".*?</a>', scr, re.S).group(0)
+    # 디자인 A (261122): 이야기방 칸 = 그림 칸 · 두 줄 · 오른쪽 ›
+    href = re.search(r'href="([^"]+)"', room).group(1)
+    room = ('<a class="room" href="%s" target="_blank" rel="noopener"><span class="ri" aria-hidden="true">📖</span>'
+            '<span class="rt"><b><span class="shopN">다복</span> 이야기방</b><small>오늘 놀이 추억을 남겨요</small></span><span class="rv" aria-hidden="true">›</span></a>') % href
     fam = re.search(r'<div class="fam">.*?</div>', scr, re.S).group(0)
     body = body.replace('@@ROOM@@', room).replace('@@FAM@@', fam)
     a = scr.index('<div class="body">')
@@ -96,4 +101,46 @@ button:active{filter:brightness(.93)}
 .fbar button svg{width:18px;height:18px;fill:none;stroke:#FFC21A;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .fbar button.home{background:#FFC21A;color:#16181D;font-size:16px}
 .fbar button.home svg{stroke:#16181D}
+'''
+
+# ══ 디자인 A (대표 확정 261122 22:26 · 22:47) — 밝은 크림 · 진한 노랑 머리 막대(#FFC93C) · 오른쪽 위 「🔈 소리」 · 아래 막대 밝게 ══
+HOME_CSS += '''
+html,body{background:#E6E1D7}
+.app{background:#FFF8E6;color:#1C1D21}
+.top{position:sticky;height:48px;background:#FFC93C!important;color:#1C1D21;justify-content:center;padding:0 10px}
+.top::after{display:none!important}
+.top .logo,.top .burger,.top #sndslot{display:none!important}
+.top .ttl{flex:none;font-family:var(--brand),serif;font-size:21px;letter-spacing:.02em;color:#1C1D21}
+.top .ttl i{color:#1C1D21}
+.top .topr{position:absolute;right:8px;top:calc(7px + env(safe-area-inset-top,0px))}
+.mq{display:none!important}
+.body{padding:4px 14px 0!important;gap:0!important}
+.lure{font-family:var(--body)!important;font-size:15px!important;font-weight:700;color:#1C1D21!important;margin:12px 0 4px!important;letter-spacing:0}
+.lure b{font-weight:700!important;color:#E04848!important}.lure b.shopN{color:#1C1D21!important}
+.grp{margin-top:12px;gap:8px}
+.grp h2{font-family:var(--body);font-weight:800;font-size:15px;letter-spacing:0;color:#1C1D21}
+.grp h2 small{font-size:11.5px;color:#7A6E55}
+.g{background:#fff!important;border-radius:16px!important;min-height:96px;padding:8px 4px 9px!important;justify-content:center}
+.g b{font-weight:800!important;font-size:13px!important;color:#1C1D21}
+.g.soon{background:#fff!important;box-shadow:none!important;opacity:.5}
+.g.soon svg.pic{opacity:1;filter:grayscale(.5)}
+.g.soon b{color:#7A6E55}.g.soon small{color:#9A8E70}
+.room{display:flex!important;align-items:center;gap:10px;margin:16px 0 0!important;padding:12px!important;min-height:0;border-radius:16px;background:#fff!important;color:#1C1D21;text-decoration:none}
+.room .ri{width:38px;height:38px;border-radius:12px;background:#FFF1C7;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.room .rt b{display:block;font-size:14px;font-weight:800}.room .rt small{display:block;font-size:11.5px;color:#7A6E55;font-weight:600}
+.room .rv{margin-left:auto;font-size:22px;color:#7A6E55}
+.fam-h{margin-top:16px!important;font-size:12px;color:#7A6E55}
+.fam{margin-top:8px}
+.fam a{background:#F2EBDB!important;color:#1C1D21;font-weight:800;font-size:12.5px;padding:6px 12px 6px 8px}
+.own{display:flex;justify-content:center;align-items:center;gap:6px;margin:14px 0 2px;font-size:11.5px;color:#B3A889}
+.own button{border:0;background:none;padding:6px 2px;font:700 11.5px var(--body);color:#9A8E70;cursor:pointer}
+#lfFoot{margin:14px -14px 0!important}
+.app{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}
+.fbar{background:#fff;padding:6px 8px calc(8px + env(safe-area-inset-bottom,0px))}
+.fbar>div{grid-template-columns:1fr 1.15fr 1fr;gap:8px}
+.fbar button{background:transparent;color:#7A6E55;font-size:11.5px;flex-direction:column;gap:2px;min-height:48px;border-radius:12px}
+.fbar button svg{width:21px;height:21px;stroke:currentColor;stroke-width:2}
+.fbar button.home{background:#FFC21A;color:#1C1D21}
+.fbar button.home svg{width:26px;height:26px;stroke:#1C1D21}
+.toast{background:rgba(28,29,33,.88)}
 '''

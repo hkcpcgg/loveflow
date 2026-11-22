@@ -3,11 +3,16 @@ from playwright.async_api import async_playwright
 GAMES=['rp','hj','mj','br','dt','th','pt','bw','tk','mb','om','ak','rd']
 VP=[tuple(map(int,sys.argv[1].split('x')))]
 CHECK="""()=>{const W=innerWidth,H=innerHeight,d=document.documentElement;
- const done=[...document.querySelectorAll('.done')].find(x=>x.classList.contains('on')&&x.getBoundingClientRect().height>0&&getComputedStyle(x).display!=='none');
+ const done=document.querySelector('.ncard.on')||[...document.querySelectorAll('.done')].find(x=>x.classList.contains('on')&&x.getBoundingClientRect().height>0&&getComputedStyle(x).display!=='none');
  const homes=[...document.querySelectorAll('.nhome,.nbar .home')].filter(x=>{const r=x.getBoundingClientRect();return r.width>0&&r.bottom>0&&r.top<H}).length;
  const over=[...document.querySelectorAll('body *')].filter(x=>{const r=x.getBoundingClientRect();return r.width>0&&(r.right>W+1||r.left<-1)&&getComputedStyle(x).position!=='fixed'}).slice(0,5).map(x=>(x.id||x.className||x.tagName).toString().slice(0,30));
  return {done:!!done, homes, scrollW:d.scrollWidth>W+1, scrollH:d.scrollHeight-H, over};}"""
 async def step(fr,pg,k,i):
+    # 디자인 A 시작 전 창 「무엇을 걸까요?」(261122) · 벌칙 중이면 놀이판 꾹 → 떼기
+    if await fr.locator('#naGo:visible').count(): await fr.locator('#naGo').click(timeout=1500); return 'pre'
+    if await fr.evaluate("()=>!!document.querySelector('.pn-sc')"):
+        b=await fr.locator('.pn-st').bounding_box()
+        if b: await pg.mouse.move(b['x']+b['width']/2,b['y']+b['height']/2); await pg.mouse.down(); await pg.wait_for_timeout(1300); await pg.mouse.up(); return 'pen'
     # 우선 고르기 창
     for s in ['[data-v=cpu1]','.pick.on [data-v=cpu1]']:
         el=fr.locator(s+':visible')
@@ -18,7 +23,7 @@ async def step(fr,pg,k,i):
     if k=='om':
         b=await fr.locator('#oB').bounding_box()
         if b: await pg.mouse.click(b['x']+b['width']*(0.3+0.4*random.random()), b['y']+b['height']*(0.3+0.4*random.random())); return 'omok'
-    for s in ['#act button:visible:not([disabled])','#fire:visible:not([disabled])','#go:visible:not([disabled])','#grab:visible:not([disabled])','.bt:visible:not([disabled])']:
+    for s in ['#act button.h:visible:not([disabled])','#act button:visible:not([disabled]):not(#micB)','#fire:visible:not([disabled])','#go:visible:not([disabled])','#grab:visible:not([disabled])','.bt:visible:not([disabled])']:
         el=fr.locator(s)
         n=await el.count()
         if n: await el.nth(random.randrange(n)).click(timeout=1500); return s
