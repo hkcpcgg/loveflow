@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>윷놀이 · 그때 그 놀이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+/* 그때그놀이-057 · 윷놀이 (261123 시안) · t052 틀 그대로 · 디자인 A · 시작 전 「무엇을 걸까요?」(사장님과 / 친구와) · 벌칙 · 결과 카드
+   ★첫째 원칙: 테두리 · 음영 없음 · 빨간 방사형 · 빨간 원 금지 · 힘은 옆 기둥 · 말판은 면 색만 */
+:root{--ink:#1C1D21;--blu:#2F64E0;--red:#E04848;--yel:#FFC21A;--sub:#7A6E55;--chip:#F2EBDB;--btn:#F6F1E6;--skin:#F6C99B;
+  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--sign:"Black Han Sans";--brand:"Song Myung"}
+*{box-sizing:border-box}
+html,body{margin:0;background:#FFF8E6;color:var(--ink);font-family:var(--body);-webkit-tap-highlight-color:transparent;overflow:hidden}
+.app{max-width:480px;margin:0 auto;height:calc(100vh - 62px - env(safe-area-inset-bottom,0px));height:calc(100dvh - 62px - env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
+.top{flex:none;height:48px;display:flex;align-items:center;justify-content:center;position:relative;background:#FFC93C;color:var(--ink);font-family:var(--brand),serif;font-size:20px;padding-top:env(safe-area-inset-top,0px);box-sizing:content-box;margin:0 -38px}
+.dk{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px;padding:6px 6px 8px}
+#vs{display:none!important}
+.strip{flex:none;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 -30px}
+.strip span{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--chip);color:var(--sub);white-space:nowrap}
+.say{flex:none;text-align:center;font-size:13.5px;line-height:1.45;font-weight:700;color:var(--sub);word-break:keep-all;min-height:20px}
+.say b{color:var(--blu)}.say em{font-style:normal;color:var(--red)}
+.board{flex:1;min-height:180px;border-radius:18px;background:#fff;position:relative;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.act{flex:none;display:flex;flex-direction:column;gap:6px}
+.tap{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tap button,.big{font:inherit;border:0;border-radius:16px;min-height:62px;font-weight:900;font-size:18px;color:#fff;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none}
+.tap .a{background:var(--blu)}.tap .b{background:var(--red)}.tap button:disabled,.big:disabled{background:var(--chip);color:var(--sub)}
+.big{width:100%;background:var(--blu);font-size:16px;min-height:52px}
+.sbrow{display:flex;gap:8px}.sbrow .big{flex:1}.redo{flex:none;font:inherit;border:0;border-radius:16px;min-height:52px;padding:0 14px;font-weight:900;font-size:14px;background:var(--btn);color:var(--ink);cursor:pointer}
+button:active{filter:brightness(.93)}
+.pow{position:absolute;left:50%;top:30%;font-family:var(--sign),sans-serif;opacity:0;pointer-events:none;white-space:nowrap;z-index:5}.pow.go{animation:pw .75s ease forwards}
+@keyframes pw{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}65%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-62%) scale(1)}}
+.board.shake{animation:sh .36s ease}@keyframes sh{0%,100%{transform:none}20%{transform:translate(-8px,4px)}40%{transform:translate(7px,-4px)}60%{transform:translate(-5px,2px)}80%{transform:translate(3px,-1px)}}
+/* 윷놀이 */
+.ynb{position:absolute;z-index:1}
+.ynb svg{position:absolute;left:0;top:0;width:100%;height:100%}
+.ynp{position:absolute;width:28px;height:28px;margin:-14px 0 0 -14px;border-radius:50%;color:#fff;font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:3;transition:left .14s linear,top .14s linear,transform .14s;pointer-events:none}
+.ynp.a{background:var(--blu)}.ynp.b{background:var(--red)}
+.ynp.two{width:34px;height:34px;margin:-17px 0 0 -17px;font-size:11px}
+.ynp.can{pointer-events:auto;cursor:pointer;animation:ynp .7s ease-in-out infinite}@keyframes ynp{50%{transform:scale(1.18)}}
+.ynp.off{opacity:0;transform:scale(.3)}
+.yndst{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:rgba(46,158,79,.38);z-index:2;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:900;color:#1E6B34;animation:tgp 1.2s ease-in-out infinite}
+.yndst.home{width:auto;height:24px;margin:-12px 0 0 -30px;padding:0 8px;border-radius:12px;white-space:nowrap}
+.ynrow{position:absolute;left:4px;right:4px;display:flex;justify-content:space-between;gap:6px;font-size:11.5px;font-weight:800;color:var(--sub);z-index:2}
+.ynrow>span{display:flex;align-items:center;gap:4px;padding:3px 9px;border-radius:999px;background:var(--chip);white-space:nowrap}
+.ynrow i{display:inline-block;width:11px;height:11px;border-radius:50%}.ynrow .a i{background:var(--blu)}.ynrow .b i{background:var(--red)}.ynrow i.on{opacity:.25}.ynrow i.dn{opacity:.25}
+.ynrow b{font-size:12.5px;color:var(--ink)}
+.ynrow>span.now.a{background:#DCE6FA;color:var(--blu)}.ynrow>span.now.b{background:#F8DCDC;color:#C23434}
+.ynmat{position:absolute;left:6px;right:6px;bottom:6px;border-radius:16px;background:#EAD9B0;overflow:visible}
+.ynmat>small{position:absolute;left:10px;top:6px;font-size:10.5px;font-weight:800;color:#8A7146;opacity:.8}
+.ynsticks{position:absolute;left:50%;top:50%;width:0;height:0;z-index:4}
+.yst{position:absolute;width:17px;border-radius:9px;background:#B98A4E}
+.yst.f{background:#F7E8C6 repeating-linear-gradient(180deg,transparent 0 30%,#B98A4E 30% 34%,transparent 34% 50%)}
+.ynres{position:absolute;right:12px;top:50%;transform:translateY(-50%);text-align:right;z-index:5;pointer-events:none;line-height:1.05}
+.ynres b{display:block;font-family:var(--sign),sans-serif;font-weight:400;font-size:34px;color:var(--ink)}.ynres small{font-size:11.5px;font-weight:800;color:var(--sub)}
+.ynres.a b{color:var(--blu)}.ynres.b b{color:var(--red)}
+.ynwho{position:absolute;left:12px;top:50%;transform:translateY(-50%);padding:4px 11px;border-radius:999px;font-size:13px;font-weight:900;color:#fff;white-space:nowrap;z-index:5}
+.ynwho.a{background:var(--blu)}.ynwho.b{background:var(--red)}
+.ynopt{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ynopt button{font:inherit;border:0;border-radius:16px;min-height:52px;font-weight:900;font-size:15px;color:#fff;background:#2E9E4F;cursor:pointer;line-height:1.2}
+.ynopt button small{display:block;font-size:11.5px;font-weight:800;opacity:.85}
+.ynopt.one{grid-template-columns:1fr}
+.big.press{filter:brightness(.85)}
+@keyframes tgp{50%{background:rgba(46,158,79,.6)}}
+.hsheet{position:fixed;inset:0;z-index:72;background:rgba(28,29,33,.3);display:none;align-items:flex-end;justify-content:center}.hsheet.on{display:flex}
+.hsheet .sheet{width:100%;max-width:480px;background:#fff;border-radius:24px 24px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
+.hsheet h3{margin:0;text-align:center;font-size:17px;font-weight:900}.rl{background:#FFF8E6;border-radius:14px;padding:10px 12px 10px 4px;font-size:14px;line-height:1.55}.rl ol{margin:0;padding-left:24px}.rl b{color:#C23434}
+.ok{font:inherit;min-height:50px;border:0;border-radius:14px;background:var(--btn);color:var(--ink);font-weight:800;font-size:16px;cursor:pointer}
+.done{display:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><button type="button" id="helpBtn" hidden>?</button><span class="ttl" id="ttl">윷놀이</span></div>
+  <div class="dk">
+    <div class="vs nside-hide" id="vs"></div>
+    <div class="strip"><span id="stBet"></span><span id="stRule"></span></div>
+    <div class="say" id="say"></div>
+    <div class="board" id="board"></div>
+    <div class="act" id="act"></div>
+  </div>
+</div>
+<div class="hsheet" id="help" role="dialog"><div class="sheet"><h3 id="helpT">놀이 방법</h3><div class="rl" id="helpB"></div><button type="button" class="ok" data-x="1">알겠어요</button></div></div>
+<div class="done" id="done"><button type="button" id="again">다시 하기</button></div>
+<script>window.NORI_A=1;window.NORI_BOARD='.board';window.NORI_PEN_SELF=1;</script>
+<script>
+__SND__
+</script>
+<script>
+__PRE__
+</script>
+<script>
+__PEN__
+</script>
+<script>
+__NAV__
+</script>
+<script>
+__EMIT__
+</script>
+<script>
+var $=function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function shopName(){ try{ var v=JSON.parse(localStorage.getItem('nori-shop')||'null'); if(v&&v.s) return v.s; }catch(e){} return '다복'; }
+var S={k:'yut',mode:'cpu1',bet:NA.bet(),gen:0,sc:[0,0],over:true,u:'말'};
+function two(){ return S.mode==='two'; }
+function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
+function snd(k,v){ try{ SND[k](v); }catch(e){} }
+var GN={yut:'윷놀이'}, MID={yut:'말 둘을 먼저 다 내보내면 이김'}, CODE={yut:'yn'};
+var RULE={yut:['아래 <b>「윷 던지기」</b>를 <b>꾹</b> 누르면 옆 기둥에 힘이 차올라요. <b style="color:#1E6B34">초록</b>일 때 떼면 윷가락이 멍석에 떨어져요.','너무 세게 던지면 멍석 밖으로 나가 <b>낙</b>(차례가 넘어감) · 너무 살살이면 다시 던져요. 윷가락이 어떻게 떨어지는지는 <b>던진 힘 그대로</b>예요.','납작한 면이 위로 나온 수: 1개 <b>도</b>(한 칸) · 2개 <b>개</b> · 3개 <b>걸</b> · 4개 <b>윷</b>(네 칸) · 0개 <b>모</b>(다섯 칸). <b>윷 · 모는 한 번 더</b>.','움직일 말이 둘이면 초록 단추나 반짝이는 말을 눌러 골라요. <b>모서리 · 한가운데에 딱 멈추면 지름길</b>로 가요.','상대 말이 있는 자리에 멈추면 <b>잡아요</b>(한 번 더). 내 말끼리 만나면 <b>업고</b> 같이 가요. 말 둘을 먼저 한 바퀴 돌려 내보내면 이겨요.']};
+function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
+  $('stBet').textContent='걸린 것 · '+NA.betName(S.bet); $('stRule').textContent=MID[S.k]; if(window.noriSide) noriSide(on==null?null:on, on===0?'내 차례':(on===1?nm(1)+' 차례':'')); }
+function fx(word,size){ var b=$('board'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); var p=b.querySelector('.pow'); if(!p){ p=document.createElement('div'); p.className='pow'; b.appendChild(p); } p.textContent=word; p.style.fontSize=(size||(word.length>3?38:60))+'px'; p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }
+function col(s,o){ if(window.noriCol) noriCol(s,o); }
+/* 끝: 기록 → 벌칙 → 결과 카드 (손놀이와 같은 흐름) */
+function finish(meWin,a,b){ S.over=true; S.sc=[a,b]; vs(null); col('l',{pw:0,on:null,good:null}); col('r',{pw:0,on:null,good:null}); NA.unpoint();
+  noriResult({game:CODE[S.k],gname:GN[S.k],opp:two()?'친구':nm(1),lv:two()?'':'cpu1',win:!two()&&meWin,detail:a+' 대 '+b,sc:[a,b],u:S.u,out:meWin?'win':'lose'});
+  if(meWin||two()) snd('win'); else snd('lose');
+  var g=S.gen, lw=meWin?0:1;
+  if(S.bet==='none'||!PEN.has(S.bet)){ setTimeout(function(){ if(g===S.gen) $('done').classList.add('on'); },900); return; }
+  var o2= two() ? {me:true,victim:lw===0?'친구':'나',side:lw===0?'l':'r'} : (lw===0?{me:true,victim:nm(1),side:'l'}:{me:false,victim:'나',side:'r'});
+  $('say').innerHTML= two() ? (lw===0?'<b>내가 이겼다!</b> 친구에게 ':'<em>친구 이겼다!</em> 나에게 ')+PEN.name(S.bet)+'!' : (lw===0?'<b>이겼다!</b> 이제 '+esc(nm(1))+'께 '+PEN.name(S.bet)+'!':'<em>졌다…</em> '+esc(nm(1))+'한테 '+PEN.name(S.bet)+' 😣');
+  setTimeout(function(){ if(g!==S.gen) return; $('act').innerHTML=''; PEN.run($('board'),S.bet,o2,function(){ if(g===S.gen) $('done').classList.add('on'); }); },1300); }
+
+/* ───────── 윷놀이 (261123 시안) ─────────
+   던지기 = 「윷 던지기」 꾹 → 옆 기둥 힘이 차오름 → 초록에서 떼기. 너무 세면 멍석 밖 「낙」(차례 넘어감) · 너무 살살이면 다시.
+   ★049 원칙 3: 윷가락 넷이 공중에서 도는 횟수가 「뗀 순간의 힘」 하나로 정해짐(같은 힘이면 같은 모양) — 던진 뒤에 무작위로 뒤집지 않음.
+     힘을 1/2000 단위로 재기 때문에 사람 손으로는 고를 수 없음 → 운은 「떨어지는 모양」에서만.
+   납작한 면 위로 나온 수: 1 도 · 2 개 · 3 걸 · 4 윷 · 0 모 — 윷 · 모 · 잡기는 한 번 더. 빽도는 시안에서 뺌(헷갈림).
+   말판: 바깥 20자리 + 지름길 둘(모서리 · 한가운데에 딱 멈추면 지름길) · 말 둘씩(가게에서 짧게 한 판) · 업기 · 잡기.
+   사장님: 같은 단추를 같은 방식으로 꾹 → 뗌(기둥이 차오르는 게 보임) · 초록 안에 떼는 비율 BOSS.yut.in · 말 고르기가 좋은 수일 비율 BOSS.yut.smart */
+var YN={N:2,LO:.3,HI:.82,HOLD:1.5};
+var RT={o:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,0],
+        a:[0,1,2,3,4,5,20,21,22,23,24,15,16,17,18,19,0],
+        b:[0,1,2,3,4,5,6,7,8,9,10,25,26,22,27,28,0],
+        c:[0,1,2,3,4,5,20,21,22,27,28,0]};
+var NP={0:[1,1],1:[1,.8],2:[1,.6],3:[1,.4],4:[1,.2],5:[1,0],6:[.8,0],7:[.6,0],8:[.4,0],9:[.2,0],10:[0,0],11:[0,.2],12:[0,.4],13:[0,.6],14:[0,.8],15:[0,1],16:[.2,1],17:[.4,1],18:[.6,1],19:[.8,1],
+        20:[5/6,1/6],21:[4/6,2/6],22:[.5,.5],23:[2/6,4/6],24:[1/6,5/6],25:[1/6,1/6],26:[2/6,2/6],27:[4/6,4/6],28:[5/6,5/6]};
+var YNAME=['모','도','개','걸','윷'], YSTEP=[5,1,2,3,4];
+var Y={}, yraf=0;
+function ynGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight, side=Math.max(150,Math.min(w-10,h-138)), x0=(w-side)/2, y0=4, pad=side*.075;
+  return {w:w,h:h,side:side,x0:x0,y0:y0,pad:pad,row:y0+side+4,mt:y0+side+32}; }
+function ynXY(n){ var G=ynGeo(), p=NP[n], s=G.side-2*G.pad; return {x:G.x0+G.pad+p[0]*s,y:G.y0+G.pad+p[1]*s}; }
+function yutStart(){ Y={gen:S.gen,turn:0,ph:'wait',pcs:[[],[]],tip:0,tip2:0,loop:0};
+  for(var p=0;p<2;p++) for(var i=0;i<YN.N;i++) Y.pcs[p].push({r:'o',i:0,d:false});
+  S.u='말'; S.sc=[0,0];
+  $('board').innerHTML='<div class="ynb" id="ynb"></div><div id="ynlay"></div><div class="ynrow" id="ynrow"></div><div class="ynmat" id="ynmat"><small>멍석</small><div class="ynwho" id="ynwho"></div><div class="ynsticks" id="ynsticks"></div><div class="ynres" id="ynres"></div></div>';
+  $('act').innerHTML='<button class="big" type="button" id="ynGo">윷 던지기 · 꾹 눌렀다 떼기</button>';
+  var go=$('ynGo'); go.addEventListener('pointerdown',ynDown); ['pointerup','pointercancel','pointerleave'].forEach(function(t){ go.addEventListener(t,ynUp); });
+  ynLay(); vs(null); setTimeout(function(){ if(Y.gen===S.gen) ynTurn(); },500); }
+function ynLay(){ var G=ynGeo(), b=$('ynb'); if(!b) return; b.style.left=G.x0+'px'; b.style.top=G.y0+'px'; b.style.width=G.side+'px'; b.style.height=G.side+'px';
+  var s=G.side, P=function(n){ var q=ynXY(n); return [q.x-G.x0,q.y-G.y0]; }, c=P(0), t1=P(5), t2=P(10), t3=P(15), m=P(22), h='';
+  /* 판: 면 색만(테두리 · 음영 없음) · 길은 연한 띠 */
+  h+='<svg viewBox="0 0 '+s+' '+s+'" aria-hidden="true"><rect x="0" y="0" width="'+s+'" height="'+s+'" rx="18" fill="#F3E6C8"/>';
+  h+='<g stroke="#E3CF9F" stroke-width="5" stroke-linecap="round" fill="none"><path d="M'+c+'L'+t1+'L'+t2+'L'+t3+'Z"/><path d="M'+t1+'L'+t3+'M'+t2+'L'+c+'"/></g>';
+  for(var n=0;n<=28;n++){ var q=P(n), big=(n===0||n===5||n===10||n===15||n===22); h+='<circle cx="'+q[0]+'" cy="'+q[1]+'" r="'+(big?12:7.5)+'" fill="'+(n===0?'#FFC21A':(big?'#E2C98F':'#FFFDF6'))+'"/>'; }
+  h+='<text x="'+(c[0]-16)+'" y="'+(c[1]-14)+'" text-anchor="end" font-family="Noto Sans KR,sans-serif" font-size="11" font-weight="800" fill="#8A7146">출발 · 도착</text>';
+  h+='<text x="'+m[0]+'" y="'+(m[1]-17)+'" text-anchor="middle" font-family="Noto Sans KR,sans-serif" font-size="10" font-weight="800" fill="#B39A68">지름길</text></svg>';
+  b.innerHTML=h; var r=$('ynrow'); r.style.top=G.row+'px'; var mt=$('ynmat'); mt.style.top=G.mt+'px'; ynSticks(null); ynDraw(); }
+/* 말 그리기: 같은 자리 내 말은 하나로(업음) */
+function ynNode(pc){ return (pc.d||pc.i===0)?-1:RT[pc.r][pc.i]; }
+function ynDraw(){ var L=$('ynlay'); if(!L) return; var h='';
+  for(var p=0;p<2;p++){ var seen={};
+    Y.pcs[p].forEach(function(pc,i){ var n=ynNode(pc); if(n<0) return; (seen[n]=seen[n]||[]).push(i); });
+    Object.keys(seen).forEach(function(n){ var ids=seen[n], q=ynXY(+n), off=(p===1&&Y.pcs[0].some(function(x){ return ynNode(x)===+n; }))?8:0;
+      h+='<div class="ynp '+(p===0?'a':'b')+(ids.length>1?' two':'')+'" data-p="'+p+'" data-n="'+n+'" style="left:'+(q.x+off)+'px;top:'+(q.y-off)+'px">'+ids.map(function(i){ return i+1; }).join('·')+'</div>'; }); }
+  L.innerHTML=h; ynRow(); var dn=[0,1].map(function(p){ return Y.pcs[p].filter(function(x){ return x.d; }).length; }); S.sc=dn;
+  col('l',{pw:ynProg(0)}); col('r',{pw:ynProg(1)}); }
+function ynProg(p){ var t=0; Y.pcs[p].forEach(function(pc){ var R=RT[pc.r]; t+=pc.d?1:pc.i/(R.length-1); }); return t/YN.N; }
+function ynRow(){ var r=$('ynrow'); if(!r) return; var h='';
+  for(var p=0;p<2;p++){ var w=0,d=0,dots=''; Y.pcs[p].forEach(function(pc){ if(pc.d){ d++; dots+='<i class="dn"></i>'; } else if(pc.i===0){ w++; dots+='<i></i>'; } else dots+='<i class="on"></i>'; });
+    h+='<span class="'+(p===0?'a':'b')+(Y.turn===p&&!S.over?' now':'')+'">'+(p===0?'나':esc(nm(1)))+' '+dots+' 나감 <b>'+d+'</b></span>'; }
+  r.innerHTML=h; }
+/* 윷가락: 뗀 힘 q 하나로 네 가락이 도는 반 바퀴 수가 정해짐(같은 q = 같은 모양) */
+function ynFr(x){ return x-Math.floor(x); }
+function ynFlips(q,i){ return 2+Math.floor(ynFr(Math.sin((Math.round(q*2000)+i*131)*12.9898)*43758.5453)*6); }
+function ynSticks(st){ var box=$('ynsticks'), mt=$('ynmat'); if(!box||!mt) return; var hh=Math.max(40,Math.min(66,mt.clientHeight-30)), h='';
+  for(var i=0;i<4;i++){ var f=st?st[i]:0; h+='<div class="yst'+(f?' f':'')+'" id="yst'+i+'" style="height:'+hh+'px;left:'+((i-1.5)*26-8.5)+'px;top:'+(-hh/2)+'px"></div>'; }
+  box.innerHTML=h; Y.sh=hh; }
+function ynWho(){ var w=$('ynwho'); if(!w) return; w.className='ynwho '+(Y.turn===0?'a':'b'); w.textContent=(Y.turn===0?'내':esc(nm(1)))+' 차례'; }
+function ynHuman(){ return Y.turn===0||two(); }
+function ynTurn(){ if(S.over) return; var g=S.gen; NA.unpoint(); Y.ph='throw'; Y.hold=false; Y.opts=null; vs(Y.turn); ynRow(); ynWho(); $('ynres').innerHTML='';
+  var pc=Y.turn===0?'l':'r'; col('l',{on:Y.turn===0,good:Y.turn===0?[YN.LO,YN.HI]:null}); col('r',{on:Y.turn===1,good:Y.turn===1?[YN.LO,YN.HI]:null});
+  $('act').innerHTML='<button class="big" type="button" id="ynGo"></button>'; var go=$('ynGo'); go.addEventListener('pointerdown',ynDown); ['pointerup','pointercancel','pointerleave'].forEach(function(t){ go.addEventListener(t,ynUp); });
+  var who=Y.turn===0?'<b>내 차례</b>':'<em>'+esc(nm(1))+' 차례</em>', more=Y.more?' · <b>한 번 더!</b>':'';
+  if(ynHuman()){ go.disabled=false; go.textContent=(two()?(Y.turn===0?'나':'친구')+' · ':'')+'윷 던지기 · 꾹 눌렀다 떼기'; go.style.background=Y.turn===0?'':'var(--red)';
+    $('say').innerHTML=who+more+' · 꾹 눌러 옆 기둥이 <b style="color:#1E6B34">초록</b>일 때 떼기';
+    if(Y.tip<2&&Y.turn===0){ Y.tip++; setTimeout(function(){ if(g===S.gen&&Y.ph==='throw'&&$('ynGo')) NA.point($('ynGo'),'꾹 누르고 · 기둥이 초록일 때 떼기',.5,.4); },300); } }
+  else { go.disabled=true; go.textContent=nm(1)+' 던지는 중…'; go.style.background=''; $('say').innerHTML=who+more; setTimeout(function(){ if(g===S.gen) ynCpu(); },900); } }
+function ynDown(e){ if(this.disabled||S.over||Y.ph!=='throw'||!ynHuman()) return; e.preventDefault(); NA.unpoint(); ynHold(null); }
+function ynUp(){ if(!Y.hold||Y.cpuHold) return; ynLet(); }
+/* 꾹: 힘이 1.5초에 끝까지 차오름 · 끝까지 가면 저절로 던져짐(= 너무 셈) */
+function ynHold(target){ var g=S.gen, t0=performance.now(), pc=Y.turn===0?'l':'r', id=++Y.loop; Y.hold=true; Y.cpuHold=target!=null; Y.q=0; snd('clack',.25);
+  var go=$('ynGo'); if(go&&target==null) go.textContent='초록일 때 떼기!';
+  cancelAnimationFrame(yraf); (function lp(){ if(g!==S.gen||id!==Y.loop||!Y.hold) return; var q=(performance.now()-t0)/1000/YN.HOLD; Y.q=q; col(pc,{pw:Math.min(1,q),on:true});
+    var bx=$('ynsticks'); if(bx) bx.style.transform='translateY('+(-Math.min(1,q)*6)+'px) rotate('+(Math.sin(q*30)*2)+'deg)';
+    if(target!=null&&q>=target){ Y.q=target; ynLet(); return; }
+    if(q>=1.08){ ynLet(); return; } yraf=requestAnimationFrame(lp); })(); }
+function ynLet(){ if(!Y.hold) return; Y.hold=false; Y.cpuHold=false; cancelAnimationFrame(yraf); NA.unpoint(); var q=Y.q||0; ynThrow(q); }
+/* 던지기: 공중에서 각 가락이 반 바퀴씩 돌다 내려앉음 · 홀수 번이면 납작한 면이 위 */
+function ynThrow(q){ var g=S.gen, go=$('ynGo'); if(go) go.disabled=true; Y.ph='fly'; var bx=$('ynsticks'); if(bx) bx.style.transform='';
+  var weak=q<YN.LO, nak=q>YN.HI, n=[0,1,2,3].map(function(i){ return weak?0:ynFlips(q,i); }), face=n.map(function(v){ return v%2; });
+  var mt=$('ynmat'), up=weak?14:30+Math.min(1,q)*70, T=weak?.45:.95, t0=performance.now(), id=++Y.loop; snd('flick',.5);
+  var dx=[0,1,2,3].map(function(i){ return weak?0:(ynFr(Math.sin((Math.round(q*2000)+i*57)*7.31)*9871.3)-.5)*9; }), dr=[0,1,2,3].map(function(i){ return weak?0:(ynFr(Math.sin((Math.round(q*2000)+i*91)*3.17)*5413.7)-.5)*18; });
+  (function lp(){ if(g!==S.gen||id!==Y.loop) return; var k=Math.min(1,(performance.now()-t0)/1000/T), e=1-Math.pow(1-k,2);
+    for(var i=0;i<4;i++){ var el=$('yst'+i); if(!el) continue; var a=Math.PI*n[i]*e, y=nak?-(up+k*k*mt.clientHeight*1.6):-up*Math.sin(Math.PI*k);
+      el.className='yst'+((Math.floor(a/Math.PI+1e-6)%2)?' f':''); el.style.transform='translate('+(dx[i]*k)+'px,'+y+'px) rotate('+(dr[i]*k)+'deg) scaleX('+Math.max(.14,Math.abs(Math.cos(a)))+')'; if(nak) el.style.opacity=String(1-k); }
+    if(k<1){ requestAnimationFrame(lp); return; }
+    snd(nak?'miss':'clack',nak?.6:.8); setTimeout(function(){ if(g===S.gen) ynLand(weak,nak,face); },nak?150:260); })(); }
+function ynLand(weak,nak,face){ var g=S.gen, who=Y.turn===0?'':esc(nm(1))+' ';
+  col('l',{pw:ynProg(0),good:null}); col('r',{pw:ynProg(1),good:null});
+  if(weak){ fx('살살~',36); $('say').innerHTML='<em>'+who+'너무 살살 던졌어요</em> · 다시 · 기둥이 <b style="color:#1E6B34">초록</b>까지 올라오면 떼기'; setTimeout(function(){ if(g===S.gen){ ynSticks(null); ynTurn(); } },1200); return; }
+  if(nak){ fx('낙!',56); ynSticks(null); $('ynres').innerHTML='<b>낙</b><small>멍석 밖</small>'; Y.more=false;
+    $('say').innerHTML='<em>'+who+'너무 세게 던졌어요</em> · 멍석 밖 <b>낙</b> · 이제 '+(Y.turn===0?esc(nm(1)):'나')+' 차례';
+    setTimeout(function(){ if(g!==S.gen) return; Y.turn=1-Y.turn; ynSticks(null); ynTurn(); },1500); return; }
+  var f=face.reduce(function(a,b){ return a+b; },0), r=YNAME[f], st=YSTEP[f]; Y.more=(f===0||f===4);
+  $('ynres').className='ynres '+(Y.turn===0?'a':'b'); $('ynres').innerHTML='<b>'+r+'!</b><small>'+st+'칸'+(Y.more?' · 한 번 더':'')+'</small>'; fx(r+'!',r.length>1?44:62);
+  setTimeout(function(){ if(g===S.gen) ynPick(st); },700); }
+/* 움직일 말 고르기 */
+function ynDest(pc,n){ var R=RT[pc.r], ni=pc.i+n, path=[]; for(var k=pc.i+1;k<=Math.min(ni,R.length-1);k++) path.push(R[k]);
+  if(ni>=R.length-1) return {d:true,path:path,r:pc.r,i:R.length-1,node:-1};
+  var node=R[ni], r=pc.r; if(r==='o'&&node===5) r='a'; else if(r==='o'&&node===10) r='b'; else if(r==='a'&&node===22) r='c'; return {d:false,path:path,r:r,i:ni,node:node}; }
+function ynOpts(p,n){ var res=[], seen={};
+  Y.pcs[p].forEach(function(pc,i){ if(pc.d) return; if(pc.i===0){ if(seen.w) return; seen.w=1; res.push({w:true,ids:[i]}); return; } var nd=ynNode(pc); if(seen[nd]){ seen[nd].ids.push(i); return; } var o={w:false,ids:[i],node:nd}; seen[nd]=o; res.push(o); });
+  res.forEach(function(o){ o.to=ynDest(Y.pcs[p][o.ids[0]],n); o.cap=!o.to.d&&Y.pcs[1-p].some(function(x){ return ynNode(x)===o.to.node; }); }); return res; }
+function ynLabel(o){ return o.w?'새 말 내기':(o.ids.map(function(i){ return i+1; }).join('·')+'번 말'+(o.ids.length>1?' (업음)':'')); }
+function ynPick(n){ if(S.over) return; var g=S.gen, os=ynOpts(Y.turn,n); Y.opts=os; Y.ph='pick';
+  if(os.length===1||!ynHuman()){ var o=os.length===1?os[0]:ynCpuPick(os); if(ynHuman()) $('say').innerHTML=(Y.turn===0?'<b>':'<em>')+ynLabel(o)+(Y.turn===0?'</b>':'</em>')+' · '+n+'칸 갑니다'; setTimeout(function(){ if(g===S.gen) ynMove(o); },ynHuman()?450:800); return; }
+  /* 둘 중 고르기: 초록 단추 · 반짝이는 말 · 초록 도착 자리 어디를 눌러도 됨 */
+  var L=$('ynlay'), h='<div class="ynopt">';
+  os.forEach(function(o,k){ var t=o.to, ds=t.d?'나가요!':(o.cap?'잡아요!':([5,10,22].indexOf(t.node)>=0?'지름길':'')); h+='<button type="button" data-o="'+k+'">'+ynLabel(o)+'<small>'+n+'칸'+(ds?' · '+ds:'')+'</small></button>';
+    var q=t.d?ynXY(0):ynXY(t.node), m=document.createElement('div'); m.className='yndst'+(t.d?' home':''); m.style.left=(q.x+(t.d?0:0))+'px'; m.style.top=(q.y+(t.d?24:0))+'px'; m.textContent=t.d?(o.w?'':'')+ynLabel(o).replace(' (업음)','')+' 나감':(o.w?'새':o.ids.map(function(i){ return i+1; }).join('·')); m.setAttribute('data-o',k); L.appendChild(m);
+    if(!o.w){ var pe=L.querySelector('.ynp[data-p="'+Y.turn+'"][data-n="'+o.node+'"]'); if(pe){ pe.classList.add('can'); pe.setAttribute('data-o',k); } } });
+  $('act').innerHTML=h+'</div>';
+  [].forEach.call(document.querySelectorAll('[data-o]'),function(b){ b.addEventListener('click',function(e){ e.preventDefault(); if(Y.ph!=='pick'||g!==S.gen) return; ynMove(os[+b.getAttribute('data-o')]); }); });
+  $('say').innerHTML=(Y.turn===0?'<b>어느 말을 움직일까요?</b>':'<em>친구 · 어느 말을 움직일까요?</em>')+' · 초록 단추나 반짝이는 말을 톡';
+  if(Y.tip2<1&&Y.turn===0){ Y.tip2++; NA.point(document.querySelector('.ynopt button'),'움직일 말 고르기',.5,.4); } }
+/* 말 옮기기: 한 칸씩 톡톡 · 잡기 · 업기 · 나감 */
+function ynMove(o){ var g=S.gen, p=Y.turn, t=o.to, i=0; Y.ph='move'; NA.unpoint(); $('act').innerHTML='<button class="big" type="button" id="ynGo" disabled>'+(ynHuman()?'말 가는 중…':esc(nm(1))+' 말 가는 중…')+'</button>';
+  [].forEach.call(document.querySelectorAll('.yndst'),function(x){ x.remove(); });
+  var L=$('ynlay'), el;
+  if(o.w){ el=document.createElement('div'); el.className='ynp '+(p===0?'a':'b'); var q0=ynXY(0); el.style.left=q0.x+'px'; el.style.top=q0.y+'px'; el.textContent=o.ids.map(function(k){ return k+1; }).join('·'); L.appendChild(el); }
+  else { el=L.querySelector('.ynp[data-p="'+p+'"][data-n="'+o.node+'"]'); if(el) el.classList.remove('can'); }
+  [].forEach.call(L.querySelectorAll('.ynp.can'),function(x){ x.classList.remove('can'); });
+  (function hop(){ if(g!==S.gen) return; if(i>=t.path.length){ done(); return; } var q=ynXY(t.path[i]); if(el){ el.style.left=q.x+'px'; el.style.top=q.y+'px'; } snd('stone',.35+.04*i); i++; setTimeout(hop,190); })();
+  function done(){ var cap=0, own=[];
+    if(!t.d){ Y.pcs[1-p].forEach(function(x){ if(ynNode(x)===t.node){ x.r='o'; x.i=0; cap++; } }); Y.pcs[p].forEach(function(x,k){ if(o.ids.indexOf(k)<0&&ynNode(x)===t.node) own.push(k); }); }
+    o.ids.concat(own).forEach(function(k){ var x=Y.pcs[p][k]; x.r=t.r; x.i=t.i; x.d=t.d; });
+    if(t.d&&el) el.classList.add('off');
+    var who=p===0?'':esc(nm(1))+' ';
+    if(cap){ fx('잡았다!',44); snd('slap',.9); Y.more=true; }
+    else if(t.d){ fx('나갔다!',40); snd('ding',.6); }
+    else if(own.length){ fx('업었다!',40); snd('clack',.6); }
+    else if([5,10,22].indexOf(t.node)>=0){ $('say').innerHTML='<b>'+who+'지름길 자리!</b> 다음엔 안쪽으로 가요'; }
+    setTimeout(function(){ if(g!==S.gen) return; ynDraw();
+      var dn=Y.pcs[p].filter(function(x){ return x.d; }).length;
+      if(dn>=YN.N){ var meWin=p===0; fx(meWin?'다 나갔다!':(two()?'친구 다 나갔다!':'졌다…'),36); var a=Y.pcs[0].filter(function(x){ return x.d; }).length, b=Y.pcs[1].filter(function(x){ return x.d; }).length; setTimeout(function(){ if(g===S.gen) finish(meWin,a,b); },900); return; }
+      if(cap) $('say').innerHTML=(p===0?'<b>잡았다!</b>':'<em>'+who+'잡았어요</em>')+' · 잡힌 말은 처음으로 · <b>한 번 더</b>';
+      else if(t.d) $('say').innerHTML=(p===0?'<b>한 말 나갔다!</b>':'<em>'+who+'한 말 나갔어요</em>');
+      else if(own.length) $('say').innerHTML=(p===0?'<b>업었다!</b> 이제 같이 가요':'<em>'+who+'말을 업었어요</em>');
+      var keep=Y.more; setTimeout(function(){ if(g!==S.gen) return; if(!keep) Y.turn=1-Y.turn; Y.more=keep; ynSticks(null); ynTurn(); },cap?1300:900); },cap?500:250); } }
+/* 사장님: 같은 단추로 꾹 → 뗌 · 말 고르기 */
+function ynCpu(){ if(S.over) return; var C=(window.BOSS&&BOSS.yut)||{in:.9}, go=$('ynGo'), ok=Math.random()<C.in, q=ok?YN.LO+.04+Math.random()*(YN.HI-YN.LO-.08):YN.HI+.05+Math.random()*.12;
+  if(go){ go.classList.add('press'); go.textContent=nm(1)+' 꾹…'; } ynHold(q); }
+function ynCpuPick(os){ var C=(window.BOSS&&BOSS.yut)||{smart:.85};
+  if(Math.random()>C.smart) return os[Math.floor(Math.random()*os.length)];
+  var best=null, bs=-1e9; os.forEach(function(o){ var t=o.to, s=0; if(o.cap) s+=100; if(t.d) s+=60; if(!t.d&&[5,10,22].indexOf(t.node)>=0) s+=30;
+    if(!t.d&&Y.pcs[1].some(function(x,k){ return o.ids.indexOf(k)<0&&ynNode(x)===t.node; })) s+=15; s+=t.i*.5+(o.w?5:0); if(s>bs){ bs=s; best=o; } }); return best; }
+
+window.addEventListener('resize',function(){ if(S.k==='yut'&&$('ynb')&&!S.over) ynLay(); });
+
+/* ───────── 고르기 · 시작 ───────── */
+function setGame(k){ S.gen++; try{ PEN.stop(); }catch(e){} NA.unpoint(); S.k=k; S.over=true; S.sc=[0,0]; $('done').classList.remove('on'); $('ttl').textContent=GN[k]; document.title=GN[k]+' · 그때 그 놀이';
+  $('board').innerHTML=''; $('act').innerHTML=''; $('say').innerHTML=''; vs(null);
+  NA.pre({who:true, opp:shopName()+' 사장님', onGo:function(bet,who){ S.bet=bet; S.mode=who==='two'?'two':'cpu1'; window.__naTwo=two(); window.__noriBetName=bet==='none'?'':NA.betName(bet); snd('stone',.6); start(); },
+    onCancel:function(){ if(window.noriHome) noriHome(); }}); }
+function start(){ S.gen++; try{ PEN.stop(); }catch(e){} S.over=false; S.sc=[0,0]; $('done').classList.remove('on'); col('l',{pw:0,on:null,good:null}); col('r',{pw:0,on:null,good:null}); yutStart(); }
+(function(){
+  $('again').addEventListener('click',function(){ setGame(S.k); });
+  $('helpBtn').addEventListener('click',function(){ $('helpT').textContent=GN[S.k]+' · 놀이 방법'; $('helpB').innerHTML=rules(S.k); $('help').classList.add('on'); });
+  $('help').addEventListener('click',function(e){ if(e.target.id==='help'||e.target.closest('[data-x]')) $('help').classList.remove('on'); });
+  noriNav({here:function(){ return CODE[S.k]; }, onNew:function(){ $('done').classList.remove('on'); setGame(S.k); },
+    onOpen:function(){ if(S.over&&!document.querySelector('.ncard.on')&&!document.querySelector('.pn-sc')) setGame(S.k); }});
+})();
+function solo(k){ if(GN[k]) setGame(k); }
+setGame('yut');
+</script>
+</body>
+</html>

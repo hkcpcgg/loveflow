@@ -28,6 +28,9 @@ SHORT = {'mg':'무궁화꽃'}
 NEW_PICS['jg']=_svg('<g><rect x="30" y="6" width="7" height="34" rx="3.5" fill="#FFC21A" transform="rotate(-10 33 40)"/><rect x="38" y="4" width="7" height="36" rx="3.5" fill="#2E9E4F"/><rect x="46" y="6" width="7" height="34" rx="3.5" fill="#2F64E0" transform="rotate(10 50 40)"/></g><ellipse cx="42" cy="46" rx="15" ry="8" fill="#B98A3E"/><rect x="38" y="42" width="8" height="6" fill="#7A5A24"/><rect x="28" y="60" width="28" height="6" rx="3" fill="#3B3F4A"/>')
 NEW_PICS['gg']=_svg('<ellipse cx="42" cy="12" rx="8" ry="7" fill="#8A5A36"/><rect x="6" y="40" width="72" height="26" rx="8" fill="#F3E6C8"/><g fill="#C98A5A"><ellipse cx="20" cy="52" rx="8" ry="7"/><ellipse cx="36" cy="58" rx="8" ry="7"/><ellipse cx="52" cy="50" rx="8" ry="7"/><ellipse cx="66" cy="58" rx="8" ry="7"/></g><path d="M42 22v12" stroke="#C9B48A" stroke-width="2" stroke-dasharray="3 3"/>')
 
+# 윷놀이 칸 그림 (261123): 면 색만(선 · 그림자 없음) — 납작한 면(연한 색 · 가로 무늬) 둘 · 둥근 등(진한 색) 둘
+NEW_PICS['yn']=_svg('<g><rect x="12" y="8" width="11" height="52" rx="5.5" fill="#B98A4E"/><rect x="28" y="8" width="11" height="52" rx="5.5" fill="#F3DFB4"/><rect x="45" y="8" width="11" height="52" rx="5.5" fill="#B98A4E"/><rect x="61" y="8" width="11" height="52" rx="5.5" fill="#F3DFB4"/></g><g fill="#B98A4E"><rect x="28" y="22" width="11" height="2.5"/><rect x="28" y="44" width="11" height="2.5"/><rect x="61" y="22" width="11" height="2.5"/><rect x="61" y="44" width="11" height="2.5"/></g>')
+
 def restructure(scr):
     # 지금 칸(그림) 모으기 — 「새」 표시는 뺌
     tiles = {}
@@ -43,7 +46,7 @@ def restructure(scr):
     body = ('<div class="body">'
       '<p class="lure"><b class="shopN">다복</b>에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
       + sec('혼자서 바로', '사장님과 한 판', [newt('rp'), newt('hj'), newt('mj'), newt('br'), newt('aw'), newt('yt'), tiles['dt'], tiles['th'], tiles['pt'], tiles['bw'], newt('jg'), newt('gg'), newt('mg')])
-      + sec('둘이서 겨루기', '폰 하나로 번갈아', [tiles['om'], tiles['ak'], tiles['tk'], tiles['rd'], tiles['mb'], soon('yn')])
+      + sec('둘이서 겨루기', '폰 하나로 번갈아', [tiles['om'], tiles['ak'], tiles['tk'], tiles['rd'], tiles['mb'], newt('yn')])
       + sec('여럿이 함께', '폰 하나로 돌려 가며', [newt('sb'), newt('sg'), soon('db')])
       + '<script>/* 261123 대표 지적: 손 그림 칸이 한데 몰림 → 열 때마다 칸 섞기 · 닮은 그림 칸끼리 옆·위아래로 붙지 않게 · 「준비 중」은 맨 끝 */(function(){var L={rp:\'h\',hj:\'h\',mj:\'h\',br:\'h\',aw:\'h\',dt:\'t\',bw:\'t\',om:\'s\',ak:\'s\',tk:\'d\',rd:\'d\'},C=3;function lk(b){return L[b.getAttribute(\'data-go\')]||b.getAttribute(\'data-go\')||\'x\';}function ok(a){for(var i=0;i<a.length;i++){var k=lk(a[i]);if(i%C<C-1&&i+1<a.length&&lk(a[i+1])===k)return false;if(i+C<a.length&&lk(a[i+C])===k)return false;}return true;}function mix(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}var gs=document.querySelectorAll(\'.grp .games\');for(var g=0;g<gs.length;g++){var box=gs[g],all=[].slice.call(box.children),on=[],off=[];for(var i=0;i<all.length;i++){(all[i].classList.contains(\'soon\')?off:on).push(all[i]);}var a=on.slice();for(var n=0;n<3000;n++){mix(a);if(ok(a))break;}if(!ok(a))a=on;a=a.concat(off);for(var i=0;i<a.length;i++)box.appendChild(a[i]);}})();</script>'
       + '@@ROOM@@'
