@@ -266,7 +266,8 @@ function fillCard(d, again){
   $('envTo').textContent = c.to ? c.to : t('dear');
   $('envFrom').textContent = c.from ? t('from')(c.from.replace(/\s*드림$/,'')) : '';
   var to = $('to'); to.innerHTML='';
-  if (h.to) { to.appendChild(handImg(h.to)); } else { to.textContent = c.to ? c.to : t('dear'); }
+  var g1=(c.greeting||'').split('\n')[0]; to.style.display='';
+  if (h.to) { to.appendChild(handImg(h.to)); } else if (/(께|에게)$/.test(g1)) { to.style.display='none'; } else { to.textContent = c.to ? c.to : t('dear'); }
   $('msg').textContent = c.greeting || '';
   var eh = $('endHand'); eh.innerHTML=''; if (h.end) { eh.appendChild(handImg(h.end)); }
   var sg = $('sign'); sg.innerHTML=''; if (h.me) { sg.appendChild(handImg(h.me)); }
