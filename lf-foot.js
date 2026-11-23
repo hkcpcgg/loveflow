@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v12 · 261123 · [대표 261123 18:43 패밀리 사이트 메모 · 21:55 「쭉쭉 박차」] 메뉴 줄 끝 「패밀리 사이트 ↗」(우리 이야기로만 가던 것) → 「패밀리 사이트 ▾」 단추. 누르면 메뉴 줄 바로 아래로 여섯이 펼쳐짐: 사랑흐름 · 우리 이야기 · 디지털 명함 만들기 · 마음 카드 보내기 · 그때 그 놀이 · 통합 솔루션(준비 중). 지금 보는 곳은 「지금 여기」. 닫혀 있을 때 푸터 네 줄은 그대로. 목록은 FAM 한 곳만 고치면 모든 화면이 같이 바뀜. uriyagi.kr 에서 부를 때(O 있음)는 v11 처럼 안 붙음 — 우리 이야기 방이 같은 부품을 쓰도록 총괄-016 으로 알림.
+   현재 버전 ▶ lf-foot.js · v13 · 261123 · [대표 OK 261123 22:28 · 총괄-016 길 2] 「패밀리 사이트 ▾」를 다른 주소(uriyagi.kr 등)에서 불러도 붙임 · uriyagi.kr 에서 「지금 여기」= /card/ 아래는 디지털 명함 만들기, 그 밖은 우리 이야기 · 같은 주소 링크는 같은 창, 다른 주소는 새 창
+  (이전) lf-foot.js · v12 · 261123 · [대표 261123 18:43 패밀리 사이트 메모 · 21:55 「쭉쭉 박차」] 메뉴 줄 끝 「패밀리 사이트 ↗」(우리 이야기로만 가던 것) → 「패밀리 사이트 ▾」 단추. 누르면 메뉴 줄 바로 아래로 여섯이 펼쳐짐: 사랑흐름 · 우리 이야기 · 디지털 명함 만들기 · 마음 카드 보내기 · 그때 그 놀이 · 통합 솔루션(준비 중). 지금 보는 곳은 「지금 여기」. 닫혀 있을 때 푸터 네 줄은 그대로. 목록은 FAM 한 곳만 고치면 모든 화면이 같이 바뀜. uriyagi.kr 에서 부를 때(O 있음)는 v11 처럼 안 붙음 — 우리 이야기 방이 같은 부품을 쓰도록 총괄-016 으로 알림.
    (이전) lf-foot.js · v11 · 261117 · [우리 이야기 흔적 걷기 · 대표 OK 261117 13:24] 사랑흐름 화면(O 가 빈 때)에서만 메뉴 줄 맨 끝에 「패밀리 사이트 ↗」(uriyagi.kr · 새 창) — 아래 띠 · ☰ · 메인의 우리 이야기 길을 걷고 남긴 하나뿐인 길. uriyagi.kr 에서 부를 때는 안 붙음. [무손] 그 밖 v10.
    (이전) lf-foot.js · v10 · 261117 · [700 · 대표 OK 261117 07:36] 사업자 정보 양쪽 맞춤(줄이 넘치면 글자 사이가 벌어짐) → 왼쪽부터 이어 쓰기 · 글꼴이 온 뒤 · 화면을 다 연 뒤 · 2.5초 뒤 글자 크기를 다시 맞춤(실폰 결제 화면 세 줄 · © 줄 잘림). [무손] 그 밖 v9 전부.
    (이전) lf-foot.js · v9 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 본부 바로가기 → /hq/?hq=1. [무손] 그 밖 v8 전부.
@@ -66,10 +67,13 @@
     { k: 'nori', ic: '🪁', bg: '#E9F5EC', nm: '그때 그 놀이',       ds: '옛날 놀이를 휴대폰으로',          u: 'https://www.loveflow.ai.kr/nori/' },
     { k: 'sol',  ic: '🧩', bg: '#F1F1F1', nm: '통합 솔루션',        ds: '',                               u: '', soon: 1 }
   ];
-  function famHere(){ var p = location.pathname || '/'; if (/^\/card\//.test(p)) return 'card'; if (/^\/nori\//.test(p)) return 'nori'; return 'lf'; }
+  function famHere(){ var p = location.pathname || '/', hn = ''; try { hn = location.hostname || ''; } catch (e) {}
+    if (/(^|\.)uriyagi\.kr$/.test(hn)) { return /^\/card\//.test(p) ? 'nc' : 'uri'; }   /* ★v13 우리 이야기 쪽 */
+    if (/^\/card\//.test(p)) return 'card'; if (/^\/nori\//.test(p)) return 'nori'; return 'lf'; }
+  function famSame(u){ try { return !!u && new URL(u).hostname === location.hostname; } catch (e) { return false; } }
   function famHtml(){ var h = famHere(), out = '';
     for (var i = 0; i < FAM.length; i++) { var f = FAM[i], here = f.k === h, cls = here ? 'here' : (f.soon ? 'soon' : '');
-      out += '<a class="' + cls + '" href="' + (here || f.soon ? '#' : f.u) + '"' + (here || f.soon || /^https:\/\/www\.loveflow/.test(f.u) ? '' : ' target="_blank" rel="noopener"') + '><span class="lfam-i" style="background:' + f.bg + '">' + f.ic + '</span><span class="lfam-t"><span class="lfam-n">' + f.nm + '</span>' + (f.ds ? '<span class="lfam-d">' + f.ds + '</span>' : '') + '</span><span class="lfam-g">' + (here ? '지금 여기' : (f.soon ? '준비 중' : '›')) + '</span></a>'; }
+      out += '<a class="' + cls + '" href="' + (here || f.soon ? '#' : f.u) + '"' + (here || f.soon || famSame(f.u) ? '' : ' target="_blank" rel="noopener"') + '><span class="lfam-i" style="background:' + f.bg + '">' + f.ic + '</span><span class="lfam-t"><span class="lfam-n">' + f.nm + '</span>' + (f.ds ? '<span class="lfam-d">' + f.ds + '</span>' : '') + '</span><span class="lfam-g">' + (here ? '지금 여기' : (f.soon ? '준비 중' : '›')) + '</span></a>'; }
     return out; }
   document.addEventListener('click', function(e){ var t = e.target; if (!t || !t.closest) return;
     var b = t.closest('.lfft .fam'); if (b) { var box = b.closest('.lfft').querySelector('.lfft-fam'); if (box) { box.classList.toggle('on'); b.textContent = box.classList.contains('on') ? '패밀리 사이트 ▴' : '패밀리 사이트 ▾'; } return; }
@@ -90,9 +94,9 @@
     +     '<a class="pv" href="' + O + '/trust.html#privacy">개인정보처리방침</a>'
     +     '<a href="' + O + '/trust.html#refund">환불정책</a>'
     +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">문의</a>'
-    +   (O ? '' : '<button type="button" class="fam">패밀리 사이트 ▾</button>')   /* ★v12 */
+    +   '<button type="button" class="fam">패밀리 사이트 ▾</button>'   /* ★v13 어느 주소에서나 */
     +   '</div>'
-    +   (O ? '' : '<div class="lfft-fam">' + famHtml() + '</div>')
+    +   '<div class="lfft-fam">' + famHtml() + '</div>'
     +   '<div class="lfft-biz"><span>' + BIZ_ITEMS.join('</span> &middot; <span>') + '</span></div>'
     +   '<div class="lfft-c">&copy; 2026 사랑흐름 &middot; LFRI&trade; &middot; 무단 복제 &middot; 상업적 이용 금지 &middot; Unauthorized use prohibited.</div>'
     + '</div>';
