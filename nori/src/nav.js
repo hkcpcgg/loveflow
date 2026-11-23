@@ -21,9 +21,9 @@
       +'.nside .nm{font-size:10.5px}.nside .sc{font-size:16px}.nside .un{font-size:10px;margin-top:-2px}.nside .ex{font-size:10px}'
       +'.nside .tn{margin-top:4px;font-size:10px;letter-spacing:.06em}.nside .bat{position:relative;margin-top:auto;width:10px;flex:0 0 40%;border-radius:6px;background:rgba(255,255,255,.8);overflow:hidden}'
       +'.nside .bat i{position:absolute;left:0;right:0;bottom:0;height:0;border-radius:4px;transition:height .06s linear}.nside.l .bat i{background:#2F64E0}.nside.r .bat i{background:#E04848}.nside.on .bat i{background:#FFC21A}'
-      +'.nside.na-gone{visibility:hidden}'; }
+      +'.nside.na-gone{visibility:hidden}.nside .bat .gz{position:absolute;left:0;right:0;background:rgba(46,158,79,.55);display:none;z-index:1;border-radius:3px}.nside .bat i{z-index:0}'; }
     d.head.appendChild(css);
-    function col(c){ var e=d.createElement('div'); e.className='nside '+c; e.innerHTML='<span class="nm"></span><b class="sc"></b><span class="un"></span><span class="ex"></span><span class="tn"></span>'+(window.NORI_A?'<div class="bat"><i></i></div>':''); d.body.appendChild(e); return e; }
+    function col(c){ var e=d.createElement('div'); e.className='nside '+c; e.innerHTML='<span class="nm"></span><b class="sc"></b><span class="un"></span><span class="ex"></span><span class="tn"></span>'+(window.NORI_A?'<div class="bat"><b class="gz"></b><i></i></div>':''); d.body.appendChild(e); return e; }
     st={l:col('l'),r:col('r')}; d.body.classList.add('nside-on');
     if(window.NORI_A){ setInterval(align,400); }
     var mo=new MutationObserver(function(){ paint(); });
@@ -59,7 +59,8 @@
   window.noriSide=function(w,lab){ init(); W=(w===0||w===1)?w:null; LAB=lab||''; if(W===1&&LAB&&!/^내 /.test(LAB)){ RN=LAB.replace(/\s*차례$/,''); } paint(); };
   window.noriSideInit=function(){ init(); paint(); };
   /* 벌칙 · 힘: 기둥 불 · 배터리 (on:null 이면 차례 표시로 되돌림) */
-  window.noriCol=function(s,o){ init(); var c=st[s]; if(!c) return; if('on' in o){ OVR[s]=o.on; paint(); } if('pw' in o){ var i=c.querySelector('.bat i'); if(i) i.style.height=Math.max(0,Math.min(1,o.pw||0))*100+'%'; } };
+  window.noriCol=function(s,o){ init(); var c=st[s]; if(!c) return; if('on' in o){ OVR[s]=o.on; paint(); } if('pw' in o){ var i=c.querySelector('.bat i'); if(i) i.style.height=Math.max(0,Math.min(1,o.pw||0))*100+'%'; }
+    if('good' in o){ var gz=c.querySelector('.bat .gz'); if(gz){ if(o.good){ gz.style.display='block'; gz.style.bottom=(o.good[0]*100)+'%'; gz.style.height=((o.good[1]-o.good[0])*100)+'%'; } else { gz.style.display='none'; } } } };
 })();
 window.noriNav=function(o){
   /* 261122 v5 — 아래 막대 「놀이 방법 · 그때 그 놀이(홈, 가운데) · 새 판」, 「다른 놀이」 창 없앰. 끝 화면: 선물 받기 · 이야기방에 남기기 · 다시 하기 · 그때 그 놀이(홈) */
@@ -174,18 +175,19 @@ window.noriNav=function(o){
   /* 카드 그림 만들기 (1080×1440) — 폰 안에서만 */
   function rr(x,c,X,Y,W,H,R2){ x.beginPath(); x.moveTo(X+R2,Y); x.arcTo(X+W,Y,X+W,Y+H,R2); x.arcTo(X+W,Y+H,X,Y+H,R2); x.arcTo(X,Y+H,X,Y,R2); x.arcTo(X,Y,X+W,Y,R2); x.closePath(); x.fillStyle=c; x.fill(); }
   function draw(cb){ var r=R, W=1080, H=1440, c=document.createElement('canvas'); c.width=W; c.height=H; var x=c.getContext('2d'), F='"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+    var CB=window.NORI_A?'#2F64E0':'#2457D6', CR=window.NORI_A?'#E04848':'#E1262D', CS=window.NORI_A?'#7A6E55':'#6B5A30', CP=window.NORI_A?'#F6F1E6':'#EFEAE0';
     x.fillStyle='#FFF8E6'; x.fillRect(0,0,W,H); rr(x,'#fff',40,40,W-80,H-80,40);
     x.fillStyle='#16181D'; x.font='900 46px '+F; x.textBaseline='alphabetic'; x.textAlign='left'; x.fillText('그때 그 놀이 · '+shop(),84,118);
-    x.fillStyle='#6B5A30'; x.font='700 30px '+F; x.textAlign='right'; x.fillText(when(r.t),W-84,116); x.textAlign='left'; x.font='800 32px '+F; x.fillText(r.gname||'',84,166);
-    var PX=84,PY=196,PW=W-168,PH=720; x.save(); rr(x,'#EFEAE0',PX,PY,PW,PH,28); x.clip();
+    x.fillStyle=CS; x.font='700 30px '+F; x.textAlign='right'; x.fillText(when(r.t),W-84,116); x.textAlign='left'; x.font='800 32px '+F; x.fillText(r.gname||'',84,166);
+    var PX=84,PY=196,PW=W-168,PH=720; x.save(); rr(x,CP,PX,PY,PW,PH,28); x.clip();
     if(photo){ var iw=photo.naturalWidth, ih=photo.naturalHeight, s2=Math.max(PW/iw,PH/ih), dw=iw*s2, dh=ih*s2; x.drawImage(photo,PX+(PW-dw)/2,PY+(PH-dh)/2,dw,dh); }
     else { x.fillStyle='#A8996F'; x.font='800 40px '+F; x.textAlign='center'; x.fillText('그때 그 놀이 한 판',W/2,PY+PH/2); }
     x.restore(); x.textAlign='center';
     var y=PY+PH+130;
-    if(r.sc&&r.sc[1]!=null){ x.font='900 128px '+F; x.fillStyle='#2457D6'; x.fillText(String(r.sc[0]),W*0.27,y); x.fillStyle='#E1262D'; x.fillText(String(r.sc[1]),W*0.73,y); x.fillStyle='#B9A67A'; x.font='900 80px '+F; x.fillText(':',W/2,y-14);
-      x.font='800 34px '+F; x.fillStyle='#2457D6'; x.fillText('나'+(r.u?' · '+r.u:''),W*0.27,y+52); x.fillStyle='#E1262D'; x.fillText((r.opp||'상대')+(r.u?' · '+r.u:''),W*0.73,y+52); y+=128; }
+    if(r.sc&&r.sc[1]!=null){ x.font='900 128px '+F; x.fillStyle=CB; x.fillText(String(r.sc[0]),W*0.27,y); x.fillStyle=CR; x.fillText(String(r.sc[1]),W*0.73,y); x.fillStyle='#B9A67A'; x.font='900 80px '+F; x.fillText(':',W/2,y-14);
+      x.font='800 34px '+F; x.fillStyle=CB; x.fillText('나'+(r.u?' · '+r.u:''),W*0.27,y+52); x.fillStyle=CR; x.fillText((r.opp||'상대')+(r.u?' · '+r.u:''),W*0.73,y+52); y+=128; }
     else { x.font='900 76px '+F; x.fillStyle='#16181D'; x.fillText(String(r.detail||'').split(' · 카드')[0],W/2,y-30); y+=60; }
-    var o2=outOf(r); x.font='900 58px '+F; x.fillStyle=o2==='win'?'#E1262D':(o2==='lose'?'#4B4F58':'#6B5A30'); x.fillText(resText(r),W/2,y); y+=70;
+    var o2=outOf(r); x.font='900 58px '+F; x.fillStyle=o2==='win'?CR:(o2==='lose'?CS:CS); x.fillText(resText(r),W/2,y); y+=70;
     var m=(cd.querySelector('.memo')||{}).value||''; if(m){ x.font='700 36px '+F; x.fillStyle='#1B1A1F'; x.fillText('“'+m+'”',W/2,y); }
     x.font='700 28px '+F; x.fillStyle='#8A7A50'; x.textAlign='left'; x.fillText('확인 번호 '+(r.card||''),84,H-76); x.textAlign='right'; x.fillText('loveflow.ai.kr/nori',W-84,H-76);
     c.toBlob(function(b){ cb(b,m); },'image/png'); }
@@ -238,6 +240,7 @@ window.noriNav=function(o){
    +'.top{background:#FFC93C!important;color:#1C1D21!important;height:48px!important}.top::after,.top::before{display:none!important}.top .ttl{font-family:"Song Myung",serif;font-size:20px;letter-spacing:0;color:#1C1D21}'
    +'.top .snd{display:none!important}.top .na-snd{position:absolute;right:8px;top:calc(7px + env(safe-area-inset-top,0px));z-index:3}'
    +'#pick{display:none!important}'
+   +'.who span.now{background:#FFC21A!important;color:#1C1D21!important}.rules button[aria-pressed=true]{background:#FFC21A!important;color:#1C1D21!important}'
    +'.na-strip{display:flex;justify-content:center;gap:6px;padding:6px 0 0;flex:none}.na-strip span{font:800 11.5px "Noto Sans KR",sans-serif;padding:4px 10px;border-radius:999px;background:#F2EBDB;color:#7A6E55;white-space:nowrap}'
    +'.top .na-strip.in{position:absolute;left:8px;top:calc(11px + env(safe-area-inset-top,0px));padding:0}.top .na-strip.in span{background:rgba(255,255,255,.5);color:#1C1D21;padding:5px 9px;font-size:11px}'
    +'.na-penl{position:fixed;z-index:19;left:40px;right:40px;display:flex;flex-direction:column;gap:6px;font-family:"Noto Sans KR",sans-serif}'

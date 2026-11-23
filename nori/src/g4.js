@@ -42,7 +42,7 @@ function banner(c,txt,col){ if(!S.over||!(S.n[0]+S.n[1])) return; txt='끝!'; co
 function meter(c,x,y,w,h,v,good){ c.fillStyle='rgba(22,24,29,.85)'; c.fillRect(x-2,y-2,w+4,h+4); if(good){ c.fillStyle='rgba(111,211,106,.45)'; c.fillRect(x+w*good[0],y,w*(good[1]-good[0]),h); }
   var g=c.createLinearGradient(x,0,x+w,0); g.addColorStop(0,'#6FD36A'); g.addColorStop(.6,'#FFC21A'); g.addColorStop(1,'#FF6A3D'); c.fillStyle=g; c.fillRect(x,y,w*v,h); c.fillStyle='#fff'; c.fillRect(x+w*v-1.5,y-4,3,h+8); }
 /* 오른쪽 세로 배터리 — 아래에서 위로 참 · 알맞은 칸 초록 테두리 */
-function vbat(c,v,good,lab){ var x=W-30, y=78, w=20, h=H-130, n=12, gap=2, ch=(h-gap*(n-1))/n;
+function vbat(c,v,good,lab){ if(window.NORI_A&&window.noriCol){ var sd=S.who?'r':'l'; noriCol(sd,{pw:v,good:good}); noriCol(sd==='r'?'l':'r',{pw:0,good:null}); return; } var x=W-30, y=78, w=20, h=H-130, n=12, gap=2, ch=(h-gap*(n-1))/n;
   c.fillStyle='rgba(22,24,29,.82)'; rr(c,x-4,y-22,w+8,h+30,8); c.fill(); c.fillStyle='#16181D'; c.fillRect(x+6,y-27,w-12,6);
   c.fillStyle='#fff'; c.font='800 10px "Noto Sans KR",sans-serif'; c.textAlign='center'; c.fillText(lab||'힘',x+w/2,y-8);
   for(var i=0;i<n;i++){ var lo=i/n, cy=y+h-(i+1)*ch-i*gap, on=v>lo+.001, g=good&&lo+1/n>good[0]&&lo<good[1];

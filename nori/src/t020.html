@@ -219,25 +219,30 @@ function gauge(c,x,y,label,frac,heat,dir,word,warn){
   c.textBaseline='alphabetic'; c.textAlign='left';
 }
 /* 위 눈금 띠 — 두 줄: 윗줄은 이름, 아랫줄은 칸. 왼쪽 반 = 방향(화살표) + 세기, 오른쪽 반 = 힘 */
+var HP={bg:'#16181D',ln:'rgba(255,255,255,.7)',off:'rgba(255,255,255,.14)',lab:'#BFC3CC',word:'rgba(255,255,255,.8)',ring:'rgba(255,255,255,.55)',dot:'rgba(255,255,255,.6)',arrow:'#FFC21A',mid:'rgba(255,255,255,.12)'};
+/* 디자인 A(261123): 위 띠를 밝은 색으로 · 힘은 모든 놀이 같은 옆 기둥 배터리에 */
+function hpA(){ if(window.NORI_A){ HP={bg:'#F2EBDB',ln:'rgba(28,29,33,.45)',off:'rgba(28,29,33,.10)',lab:'#7A6E55',word:'#1C1D21',ring:'rgba(28,29,33,.45)',dot:'rgba(28,29,33,.5)',arrow:'#2F64E0',mid:'rgba(28,29,33,.12)'}; } }
 function cellBox(c,x,y,w,frac,heat,warn,word){
   var n=10, cw=(w-4)/n, v=Math.round(Math.max(0,Math.min(1,frac))*n);
-  c.strokeStyle='rgba(255,255,255,.7)'; c.lineWidth=1; c.strokeRect(x-1.5,y-8,w-2,16);
-  c.fillStyle='rgba(255,255,255,.7)'; c.fillRect(x+w-3.5,y-3.5,2.5,7);
+  c.strokeStyle=HP.ln; c.lineWidth=1; c.strokeRect(x-1.5,y-8,w-2,16);
+  c.fillStyle=HP.ln; c.fillRect(x+w-3.5,y-3.5,2.5,7);
   for(var i=0;i<n;i++){ var k=i/(n-1), col= warn?'#E1262D' : (heat ? (k<.45?'#6FD36A':(k<.75?'#FFC21A':'#FF6A3D')) : '#7FC8FF');
-    c.fillStyle= i<v ? col : 'rgba(255,255,255,.14)'; c.fillRect(x+i*cw,y-5.5,cw-1.6,11); }
-  if(word){ c.fillStyle='rgba(255,255,255,.8)'; c.font='700 10px "Noto Sans KR",sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(word,x+(w-4)/2,y); }
+    c.fillStyle= i<v ? col : HP.off; c.fillRect(x+i*cw,y-5.5,cw-1.6,11); }
+  if(word){ c.fillStyle=HP.word; c.font='700 10px "Noto Sans KR",sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(word,x+(w-4)/2,y); }
 }
-function hud(c,W,HH,o){
-  c.fillStyle='#16181D'; c.fillRect(0,0,W,HH);
-  c.fillStyle='rgba(255,255,255,.12)'; c.fillRect(W/2-.5,6,1,HH-12);
-  c.font='700 9.5px "Noto Sans KR",sans-serif'; c.textBaseline='middle'; c.fillStyle='#BFC3CC';
+function hud(c,W,HH,o){ hpA();
+  c.fillStyle=HP.bg; c.fillRect(0,0,W,HH);
+  c.fillStyle=HP.mid; c.fillRect(W/2-.5,6,1,HH-12);
+  c.font='700 9.5px "Noto Sans KR",sans-serif'; c.textBaseline='middle'; c.fillStyle=HP.lab;
   c.textAlign='left'; c.fillText(o.dirLabel,8,13); c.fillText(o.amtLabel,76,13); c.fillText(o.powLabel,W/2+10,13);
   /* 방향 — 둥근 나침반 안 화살표 */
-  var cx=34, cy=33; c.strokeStyle='rgba(255,255,255,.55)'; c.lineWidth=1.2; c.beginPath(); c.arc(cx,cy,10.5,0,6.2832); c.stroke();
-  if(o.dir!==null){ c.save(); c.translate(cx,cy); c.rotate(o.dir); c.fillStyle='#FFC21A'; c.beginPath(); c.moveTo(9,0); c.lineTo(-6,-6.5); c.lineTo(-2,0); c.lineTo(-6,6.5); c.closePath(); c.fill(); c.restore(); }
-  else { c.fillStyle='rgba(255,255,255,.6)'; c.beginPath(); c.arc(cx,cy,2,0,6.3); c.fill(); }
+  var cx=34, cy=33; c.strokeStyle=HP.ring; c.lineWidth=1.2; c.beginPath(); c.arc(cx,cy,10.5,0,6.2832); c.stroke();
+  if(o.dir!==null){ c.save(); c.translate(cx,cy); c.rotate(o.dir); c.fillStyle=HP.arrow; c.beginPath(); c.moveTo(9,0); c.lineTo(-6,-6.5); c.lineTo(-2,0); c.lineTo(-6,6.5); c.closePath(); c.fill(); c.restore(); }
+  else { c.fillStyle=HP.dot; c.beginPath(); c.arc(cx,cy,2,0,6.3); c.fill(); }
   cellBox(c,76,33,W/2-82,o.amt,false,false,o.amtWord);
-  cellBox(c,W/2+10,33,W/2-16,o.pow,true,o.warn,o.powWord);
+  if(window.NORI_A&&window.noriCol){ noriCol(o.side||'l',{pw:o.pow||0}); noriCol(o.side==='r'?'l':'r',{pw:0});
+    c.fillStyle=HP.word; c.font='700 10.5px "Noto Sans KR",sans-serif'; c.textAlign='center'; c.fillText(o.powWord||(o.warn?'너무 세요!':(o.pow?'힘은 옆 기둥에서 보세요':'')),W*3/4,33); }
+  else { cellBox(c,W/2+10,33,W/2-16,o.pow,true,o.warn,o.powWord); }
   c.textBaseline='alphabetic'; c.textAlign='left';
 }
 function PUT_ON(){ var p=document.getElementById('pP'); return !!(p&&p.classList.contains('on')); }
@@ -294,7 +299,7 @@ window.PUT=(function(){
     /* 위 눈금 띠: 왼쪽 기울기(방향 · 세기) · 오른쪽 치는 힘 — 같은 폭 */
     var sl=Math.hypot(h.sl[0],h.sl[1]);
     var A0=aim||drag, pw=lastP; if(A0){ pw=Math.min(Math.hypot(b.x-A0.px,b.y-A0.py),110)/110; }
-    hud(ctx,W,HUD,{dirLabel:'기울기 방향',amtLabel:'기울기 세기',powLabel:'치는 힘 (백스윙)',dir:sl?Math.atan2(h.sl[1],h.sl[0]):null,amt:Math.min(1,sl/.008),amtWord:sl?null:'평평해요',pow:pw,powWord:(!A0&&!pw)?'공을 뒤로 당기면 차요':null,warn:pw>.92});
+    hud(ctx,W,HUD,{side:who?'r':'l',dirLabel:'기울기 방향',amtLabel:'기울기 세기',powLabel:'치는 힘 (백스윙)',dir:sl?Math.atan2(h.sl[1],h.sl[0]):null,amt:Math.min(1,sl/.008),amtWord:sl?null:'평평해요',pow:pw,powWord:(!A0&&!pw)?'공을 뒤로 당기면 차요':null,warn:pw>.92});
     ctx.translate(0,HUD);
     ctx.fillStyle='#7A4E25'; ctx.fillRect(0,0,W,H);
     ctx.fillStyle='#5E3A18'; ctx.fillRect(GX0-6,GY0-6,GX1-GX0+12,GY1-GY0+12);
@@ -463,7 +468,7 @@ window.BOW=(function(){
   function scene(){
     ctx.setTransform(cv.width/W,0,0,cv.height/(H+HUD),0,0); ctx.clearRect(0,0,W,H+HUD);
     var hs=hold?(performance.now()-held0)/1000:0;
-    hud(ctx,W,HUD,{dirLabel:'바람 방향',amtLabel:'바람 세기',powLabel:'당기는 힘',dir:wind?(wind>0?0:Math.PI):null,amt:Math.abs(wind)/4,amtWord:wind?null:'잔잔해요',pow:hold?Math.min(1,hs/1.3):0,powWord:hold?(hs<1.3?null:(hs<2.4?'만작':'팔이 떨려요')):'누르면 당겨요',warn:hs>2.4});
+    hud(ctx,W,HUD,{side:who?'r':'l',dirLabel:'바람 방향',amtLabel:'바람 세기',powLabel:'당기는 힘',dir:wind?(wind>0?0:Math.PI):null,amt:Math.abs(wind)/4,amtWord:wind?null:'잔잔해요',pow:hold?Math.min(1,hs/1.3):0,powWord:hold?(hs<1.3?null:(hs<2.4?'만작':'팔이 떨려요')):'누르면 당겨요',warn:hs>2.4});
     ctx.translate(0,HUD);
     world(1);
     function world(zz){
