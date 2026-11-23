@@ -21,7 +21,8 @@ NEW_PICS = {
 # 261122 손놀이 칸 = 이모지 손 (대표 확정)
 def _em(t, n): return '<span class="pic em n%d" aria-hidden="true">%s</span>' % (n, t)
 NEW_PICS.update({'rp': _em('✌️✊✋',3), 'hj': _em('🤲',1), 'mj': _em('👊✌️✋',3), 'br': _em('🤲👊',2)})
-NAMES = {'rp':'가위바위보','hj':'구슬 홀짝','mj':'묵찌빠','br':'쌀보리','mg':'무궁화 꽃이 피었습니다','yn':'윷놀이','sg':'수건돌리기','db':'다방구','sb':'사방치기'}
+NEW_PICS.update({'aw': _em('💪',1), 'yt': _svg('<g fill="#E8C98E"><rect x="22" y="8" width="11" height="52" rx="5.5"/><rect x="37" y="8" width="11" height="52" rx="5.5" fill="#F0CB8A"/><rect x="52" y="8" width="11" height="52" rx="5.5"/></g>')})
+NAMES = {'aw':'팔씨름','yt':'엿치기','rp':'가위바위보','hj':'구슬 홀짝','mj':'묵찌빠','br':'쌀보리','mg':'무궁화 꽃이 피었습니다','yn':'윷놀이','sg':'수건돌리기','db':'다방구','sb':'사방치기'}
 SHORT = {'mg':'무궁화꽃'}
 
 def restructure(scr):
@@ -38,7 +39,7 @@ def restructure(scr):
         return ('<section class="grp"><h2>%s<small>%s</small></h2><div class="games">' % (title, sub)) + ''.join(items) + '</div></section>'
     body = ('<div class="body">'
       '<p class="lure"><b class="shopN">다복</b>에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
-      + sec('혼자서 바로', '사장님과 한 판', [newt('rp'), newt('hj'), newt('mj'), newt('br'), tiles['dt'], tiles['th'], tiles['pt'], tiles['bw'], soon('mg')])
+      + sec('혼자서 바로', '사장님과 한 판', [newt('rp'), newt('hj'), newt('mj'), newt('br'), newt('aw'), newt('yt'), tiles['dt'], tiles['th'], tiles['pt'], tiles['bw'], soon('mg')])
       + sec('둘이서 겨루기', '폰 하나로 번갈아', [tiles['om'], tiles['ak'], tiles['tk'], tiles['rd'], tiles['mb'], soon('yn')])
       + sec('여럿이 함께', '행사용 · 곧 열려요', [soon('sg'), soon('db'), soon('sb')])
       + '@@ROOM@@'

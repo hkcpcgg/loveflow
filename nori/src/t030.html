@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>팔씨름 · 엿치기 · 그때 그 놀이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+/* 그때그놀이-030 · 팔씨름 · 엿치기 v1 (261123 · 3차) — 시안 v5.1 에서 옮김 · 디자인 A · 시작 전 「무엇을 걸까요?」 · 벌칙 · 결과 카드
+   ★첫째 원칙: 테두리 · 음영 없음 · 빨간 방사형 · 빨간 원 금지 · 힘은 옆 기둥 */
+:root{--ink:#1C1D21;--blu:#2F64E0;--red:#E04848;--yel:#FFC21A;--sub:#7A6E55;--chip:#F2EBDB;--btn:#F6F1E6;--skin:#F6C99B;
+  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--sign:"Black Han Sans";--brand:"Song Myung"}
+*{box-sizing:border-box}
+html,body{margin:0;background:#FFF8E6;color:var(--ink);font-family:var(--body);-webkit-tap-highlight-color:transparent;overflow:hidden}
+.app{max-width:480px;margin:0 auto;height:calc(100vh - 62px - env(safe-area-inset-bottom,0px));height:calc(100dvh - 62px - env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
+.top{flex:none;height:48px;display:flex;align-items:center;justify-content:center;position:relative;background:#FFC93C;color:var(--ink);font-family:var(--brand),serif;font-size:20px;padding-top:env(safe-area-inset-top,0px);box-sizing:content-box;margin:0 -38px}
+.dk{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px;padding:6px 6px 8px}
+#vs{display:none!important}
+.strip{flex:none;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 -30px}
+.strip span{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--chip);color:var(--sub);white-space:nowrap}
+.say{flex:none;text-align:center;font-size:13.5px;line-height:1.45;font-weight:700;color:var(--sub);word-break:keep-all;min-height:20px}
+.say b{color:var(--blu)}.say em{font-style:normal;color:var(--red)}
+.board{flex:1;min-height:180px;border-radius:18px;background:#fff;position:relative;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.act{flex:none;display:flex;flex-direction:column;gap:6px}
+.tap{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tap button,.big{font:inherit;border:0;border-radius:16px;min-height:62px;font-weight:900;font-size:18px;color:#fff;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none}
+.tap .a{background:var(--blu)}.tap .b{background:var(--red)}.tap button:disabled,.big:disabled{background:var(--chip);color:var(--sub)}
+.big{width:100%;background:var(--blu);font-size:16px;min-height:52px}
+button:active{filter:brightness(.93)}
+.pow{position:absolute;left:50%;top:30%;font-family:var(--sign),sans-serif;opacity:0;pointer-events:none;white-space:nowrap;z-index:5}.pow.go{animation:pw .75s ease forwards}
+@keyframes pw{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}65%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-62%) scale(1)}}
+.board.shake{animation:sh .36s ease}@keyframes sh{0%,100%{transform:none}20%{transform:translate(-8px,4px)}40%{transform:translate(7px,-4px)}60%{transform:translate(-5px,2px)}80%{transform:translate(3px,-1px)}}
+/* 팔씨름 */
+.table{position:absolute;left:10px;right:10px;bottom:16px;height:16px;border-radius:8px;background:#C9A26A}
+.fore{position:absolute;height:30px;border-radius:15px;transform-origin:0 50%}
+.fore.a{background:linear-gradient(90deg,var(--blu) 0 36%,var(--skin) 36%)}.fore.b{background:linear-gradient(90deg,var(--red) 0 36%,var(--skin) 36%)}
+.grip{position:absolute;width:64px;height:64px;margin:-32px 0 0 -32px;font-size:52px;line-height:64px;text-align:center;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif}
+.elb{position:absolute;bottom:26px;width:34px;height:20px;border-radius:10px;background:#B78C56}
+.mark{position:absolute;top:10px;font-size:12px;font-weight:800}.mark.a{left:12px;color:var(--blu)}.mark.b{right:12px;color:var(--red)}
+/* 엿치기 */
+.yeots{position:absolute;left:0;right:0;top:50%;display:flex;justify-content:center;gap:16px;transform:translateY(-50%)}
+.yeot{position:relative;width:50px;height:min(176px,52vh);border-radius:25px;background:linear-gradient(90deg,#D9A75E,#F0CB8A 45%,#D9A75E);cursor:pointer;transition:transform .15s,opacity .2s}
+.yeot.pick{transform:translateY(-10px)}.yeot.cpu{opacity:.4}
+.yeot b{position:absolute;left:0;right:0;bottom:-24px;text-align:center;font-size:13px;color:var(--sub)}
+.cuts{position:absolute;inset:0;display:none;align-items:center;justify-content:space-around;padding:0 4px}.cuts.on{display:flex}
+.cut{display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:800;font-size:13.5px}
+.cut canvas{width:min(124px,34vw);height:min(124px,34vw)}
+.hsheet{position:fixed;inset:0;z-index:72;background:rgba(28,29,33,.3);display:none;align-items:flex-end;justify-content:center}.hsheet.on{display:flex}
+.hsheet .sheet{width:100%;max-width:480px;background:#fff;border-radius:24px 24px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
+.hsheet h3{margin:0;text-align:center;font-size:17px;font-weight:900}.rl{background:#FFF8E6;border-radius:14px;padding:10px 12px 10px 4px;font-size:14px;line-height:1.55}.rl ol{margin:0;padding-left:24px}.rl b{color:#C23434}
+.ok{font:inherit;min-height:50px;border:0;border-radius:14px;background:var(--btn);color:var(--ink);font-weight:800;font-size:16px;cursor:pointer}
+.done{display:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><button type="button" id="helpBtn" hidden>?</button><span class="ttl" id="ttl">팔씨름</span></div>
+  <div class="dk">
+    <div class="vs nside-hide" id="vs"></div>
+    <div class="strip"><span id="stBet"></span><span id="stRule"></span></div>
+    <div class="say" id="say"></div>
+    <div class="board" id="board"></div>
+    <div class="act" id="act"></div>
+  </div>
+</div>
+<div class="hsheet" id="help" role="dialog"><div class="sheet"><h3 id="helpT">놀이 방법</h3><div class="rl" id="helpB"></div><button type="button" class="ok" data-x="1">알겠어요</button></div></div>
+<div class="done" id="done"><button type="button" id="again">다시 하기</button></div>
+<script>window.NORI_A=1;window.NORI_BOARD='.board';window.NORI_PEN_SELF=1;</script>
+<script>
+__SND__
+</script>
+<script>
+__PRE__
+</script>
+<script>
+__PEN__
+</script>
+<script>
+__NAV__
+</script>
+<script>
+__EMIT__
+</script>
+<script>
+var $=function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function shopName(){ try{ var v=JSON.parse(localStorage.getItem('nori-shop')||'null'); if(v&&v.s) return v.s; }catch(e){} return '다복'; }
+var S={k:'arm',mode:'cpu1',bet:NA.bet(),gen:0,sc:[0,0],over:true,u:'판'};
+function two(){ return S.mode==='two'; }
+function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
+function snd(k,v){ try{ SND[k](v); }catch(e){} }
+var GN={arm:'팔씨름',yeot:'엿치기'}, MID={arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝'};
+var RULE={arm:['두 팔이 맞잡고 시작합니다. <b>「힘!」 단추를 꾹 누르면 힘이 차고, 빨리빨리 누르면 더 세집니다.</b>','양옆 기둥이 각자의 힘입니다. 힘이 센 쪽으로 손이 넘어갑니다.','상대 손등을 탁자까지 넘기면 이깁니다. 친구와 할 때는 한 폰으로 동시에 누릅니다.'],
+  yeot:['엿 세 개 중 하나를 고릅니다. 상대는 남은 것 중 하나를 고릅니다.','아래 단추를 <b>꾹 눌러 엿을 휘었다가 놓으면 「뚝!」</b> 부러집니다. 덜 휘면 다시.','부러진 단면의 <b>구멍이 큰 쪽</b>이 이깁니다. <b>두 번 먼저 이기면</b> 끝.']};
+function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
+  $('stBet').textContent='걸린 것 · '+NA.betName(S.bet); $('stRule').textContent=MID[S.k]; if(window.noriSide) noriSide(on==null?null:on, on===0?'내 차례':(on===1?nm(1)+' 차례':'')); }
+function fx(word,size){ var b=$('board'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); var p=b.querySelector('.pow'); if(!p){ p=document.createElement('div'); p.className='pow'; b.appendChild(p); } p.textContent=word; p.style.fontSize=(size||(word.length>3?38:60))+'px'; p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }
+function col(s,o){ if(window.noriCol) noriCol(s,o); }
+/* 끝: 기록 → 벌칙 → 결과 카드 (손놀이와 같은 흐름) */
+function finish(meWin,a,b){ S.over=true; S.sc=[a,b]; vs(null); col('l',{pw:0,on:null}); col('r',{pw:0,on:null}); NA.unpoint();
+  noriResult({game:S.k==='arm'?'aw':'yt',gname:GN[S.k],opp:two()?'친구':nm(1),lv:two()?'':'cpu1',win:!two()&&meWin,detail:a+' 대 '+b,sc:[a,b],u:S.u,out:meWin?'win':'lose'});
+  if(meWin||two()) snd('win'); else snd('lose');
+  var g=S.gen, lw=meWin?0:1;
+  if(S.bet==='none'||!PEN.has(S.bet)){ setTimeout(function(){ if(g===S.gen) $('done').classList.add('on'); },900); return; }
+  var o2= two() ? {me:true,victim:lw===0?'친구':'나',side:lw===0?'l':'r'} : (lw===0?{me:true,victim:nm(1),side:'l'}:{me:false,victim:'나',side:'r'});
+  $('say').innerHTML= two() ? (lw===0?'<b>내가 이겼다!</b> 친구에게 ':'<em>친구 이겼다!</em> 나에게 ')+PEN.name(S.bet)+'!' : (lw===0?'<b>이겼다!</b> 이제 '+esc(nm(1))+'께 '+PEN.name(S.bet)+'!':'<em>졌다…</em> '+esc(nm(1))+'한테 '+PEN.name(S.bet)+' 😣');
+  setTimeout(function(){ if(g!==S.gen) return; $('act').innerHTML=''; PEN.run($('board'),S.bet,o2,function(){ if(g===S.gen) $('done').classList.add('on'); }); },1300); }
+
+/* ───────── 팔씨름 ───────── */
+var A={}, HOLD={a:false,b:false};
+function armDraw(){ var st=$('board'), w=st.clientWidth, h=st.clientHeight, ey=h-36, lift=A.x*A.x*h*.22, gx=w/2+A.x*(w*.30), gy=h*.40+lift, g=$('grip'); if(!g) return;
+  var ea={x:w*.17,y:ey}, eb={x:w*.83,y:ey}; $('elbA').style.left=(ea.x-17)+'px'; $('elbB').style.left=(eb.x-17)+'px';
+  function fore(el,e){ var dx=gx-e.x, dy=gy-e.y, L=Math.hypot(dx,dy); el.style.left=e.x+'px'; el.style.top=(e.y-15)+'px'; el.style.width=L+'px'; el.style.transform='rotate('+Math.atan2(dy,dx)+'rad)'; }
+  fore($('foreA'),ea); fore($('foreB'),eb); g.style.left=gx+'px'; g.style.top=gy+'px'; g.style.transform='rotate('+(A.x*60)+'deg)'; }
+function armStart(){ A={on:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,gen:S.gen}; HOLD={a:false,b:false}; S.u='판';
+  $('board').innerHTML='<span class="mark a">나</span><span class="mark b">'+esc(nm(1))+'</span><div class="table"></div><div class="elb" id="elbA"></div><div class="elb" id="elbB"></div><div class="fore a" id="foreA"></div><div class="fore b" id="foreB"></div><div class="grip" id="grip">🤝</div>';
+  $('act').innerHTML='<div class="tap"><button class="a" type="button" id="armA">나 · 힘!</button><button class="b" type="button" id="armB"'+(two()?'':' disabled')+'>'+(two()?'친구 · 힘!':'사장님 (자동)')+'</button></div>';
+  $('say').innerHTML=two()?'<b>둘이 동시에 「힘!」</b> · 꾹 누르고 빨리빨리 또 누르기':'<b>「힘!」 꾹 누르고 빨리빨리 또 누르기</b> · 왼쪽 기둥이 내 힘';
+  requestAnimationFrame(armDraw); vs(0);
+  function down(side){ return function(e){ e.preventDefault(); if(S.over) return; NA.unpoint(); HOLD[side]=true; armPush(side); }; }
+  function up(side){ return function(){ HOLD[side]=false; }; }
+  var ba=$('armA'), bb=$('armB'); ba.addEventListener('pointerdown',down('a')); bb.addEventListener('pointerdown',function(e){ if(two()) down('b')(e); });
+  ['pointerup','pointercancel','pointerleave'].forEach(function(t){ ba.addEventListener(t,up('a')); bb.addEventListener(t,up('b')); });
+  setTimeout(function(){ if(!A.on&&$('armA')) NA.point($('armA'),'꾹 누르고 · 빨리빨리 또 누르기',.5,.4); },150); }
+function armPush(side){ if(!$('grip')) return; if(!A.on){ A.on=true; A.last=performance.now(); A.raf=requestAnimationFrame(armLoop); } if(side==='a') A.pa=Math.min(1,A.pa+.09); else A.pb=Math.min(1,A.pb+.09); snd('clack',.35); }
+function armLoop(){ if(A.gen!==S.gen) return; var now=performance.now(), dt=Math.min(.05,(now-A.last)/1000); A.last=now;
+  if(!two()){ A.cpuT+=dt; if(A.cpuT>.12+Math.random()*.08){ A.cpuT=0; A.pb=Math.min(1,A.pb+.105); } }
+  if(HOLD.a) A.pa=Math.min(1,A.pa+dt*.75); if(HOLD.b) A.pb=Math.min(1,A.pb+dt*.75);
+  A.pa=Math.max(0,A.pa-dt*.55); A.pb=Math.max(0,A.pb-dt*.55); col('l',{pw:A.pa,on:A.pa>A.pb}); col('r',{pw:A.pb,on:A.pb>A.pa});
+  A.x+=(A.pb-A.pa)*dt*.9; A.x=Math.max(-1,Math.min(1,A.x)); armDraw();
+  if(Math.abs(A.x)>=1){ A.on=false; var meWin=A.x<=-1; snd('thud',1); fx(meWin?'쾅! 이겼다':(two()?'쾅! 친구 승':'쾅! 졌다'),38);
+    var bs=$('act').querySelectorAll('button'); for(var i=0;i<bs.length;i++) bs[i].disabled=true;
+    finish(meWin,meWin?1:0,meWin?0:1); return; }
+  A.raf=requestAnimationFrame(armLoop); }
+window.addEventListener('resize',function(){ if(S.k==='arm'&&$('grip')) armDraw(); });
+
+/* ───────── 엿치기 ───────── */
+var Y={}, yraf=0;
+function holes(){ var a=[], n=2+Math.floor(Math.random()*4), tot=0; for(var i=0;i<n;i++){ var r=4+Math.random()*(i===0?24:11), ang=Math.random()*6.283, d=Math.random()*(44-r); a.push({x:Math.cos(ang)*d,y:Math.sin(ang)*d,r:r}); tot+=r*r; } return {h:a,score:Math.round(tot/10)}; }
+function drawCut(cv,H){ var x=cv.getContext('2d'), W=cv.width; x.clearRect(0,0,W,W); x.save(); x.translate(W/2,W/2); x.scale(W/132,W/132);
+  x.fillStyle='#D9A75E'; x.beginPath(); x.arc(0,0,58,0,6.283); x.fill(); x.fillStyle='#EDC680'; x.beginPath(); x.arc(0,0,51,0,6.283); x.fill();
+  x.fillStyle='#FFF6E2'; H.h.forEach(function(o){ x.beginPath(); x.ellipse(o.x,o.y,o.r,o.r*.82,o.x*.05,0,6.283); x.fill(); }); x.restore(); }
+function yeotStart(){ Y={w:[0,0],round:1,gen:S.gen}; S.u='승'; yRound(); }
+function yRound(){ Y.pick=-1; Y.cpu=-1; Y.done=false; Y.hold=false; Y.p=0; Y.next=false; vs(0); S.sc=[Y.w[0],Y.w[1]];
+  $('board').innerHTML='<div class="yeots" id="yeots"><div class="yeot" data-i="0"><b>①</b></div><div class="yeot" data-i="1"><b>②</b></div><div class="yeot" data-i="2"><b>③</b></div></div><div class="cuts" id="cuts"><div class="cut"><canvas id="cutA" width="248" height="248"></canvas><span style="color:var(--blu)">내 엿</span></div><div class="cut"><canvas id="cutB" width="248" height="248"></canvas><span style="color:var(--red)">'+esc(nm(1))+' 엿</span></div></div>';
+  $('act').innerHTML='<button class="big" type="button" id="yeotGo" disabled>엿을 골라 주세요</button>';
+  $('say').innerHTML='<b>'+Y.round+'판</b> · 엿을 하나 고르세요 · 부러뜨려 <em>구멍이 큰 쪽</em>이 이겨요';
+  $('yeots').addEventListener('click',yPick); var go=$('yeotGo');
+  go.addEventListener('pointerdown',yHold); ['pointerup','pointercancel','pointerleave'].forEach(function(t){ go.addEventListener(t,ysnap); });
+  go.addEventListener('click',function(){ if(Y.next){ Y.next=false; Y.round++; NA.unpoint(); yRound(); } });
+  if(Y.round===1) setTimeout(function(){ if($('yeots')&&Y.pick<0) NA.point($('yeots'),'엿을 하나 고르세요',.5,.75); },150); }
+function yPick(e){ var b=e.target.closest('.yeot'); if(!b||Y.done||Y.pick>=0||S.over) return; NA.unpoint(); Y.pick=+b.getAttribute('data-i'); b.classList.add('pick'); snd('clack',.4);
+  var rest=[0,1,2].filter(function(i){ return i!==Y.pick; }); Y.cpu=rest[Math.floor(Math.random()*2)]; var g=Y.gen;
+  setTimeout(function(){ if(g!==S.gen||!$('yeots')) return; $('yeots').children[Y.cpu].classList.add('cpu'); $('say').innerHTML=esc(nm(1))+'은 <em>'+'①②③'[Y.cpu]+'</em> · 아래 단추를 <b>꾹 눌러 휘었다가 놓으면 「뚝!」</b>';
+    var go=$('yeotGo'); go.disabled=false; go.textContent='꾹 눌러 휘기 · 놓으면 뚝!'; if(Y.round===1) NA.point(go,'꾹 누르고 있다가 놓으세요',.5,.4); },450); }
+function yHold(e){ if(this.disabled||S.over||Y.done||Y.pick<0) return; e.preventDefault(); NA.unpoint(); Y.hold=true; var t0=performance.now(), me=this; me.textContent='휘는 중… 이제 놓으세요!';
+  (function lp(){ if(!Y.hold) return; Y.p=Math.min(1,(performance.now()-t0)/1100); col('l',{pw:Y.p,on:true}); var el=$('yeots')&&$('yeots').children[Y.pick]; if(el) el.style.transform='translateY(-10px) rotate('+(Y.p*9)+'deg)'; yraf=requestAnimationFrame(lp); })(); }
+function ysnap(){ if(!Y.hold) return; Y.hold=false; cancelAnimationFrame(yraf); var go=$('yeotGo'), g=Y.gen;
+  if(Y.p<.3){ $('say').innerHTML='덜 휘었어요! <b>더 오래 꾹</b> 눌렀다 놓으세요'; go.textContent='꾹 눌러 휘기 · 놓으면 뚝!'; col('l',{pw:0}); return; }
+  Y.done=true; go.disabled=true; snd('slap',.9); fx('뚝!'); var a=holes(), b=holes(); if(a.score===b.score) b.score+=1;
+  setTimeout(function(){ if(g!==S.gen||!$('yeots')) return; $('yeots').style.display='none'; $('cuts').classList.add('on'); drawCut($('cutA'),a); drawCut($('cutB'),{h:[]}); col('l',{pw:0,on:false}); $('say').innerHTML='내 엿 구멍 <b>'+a.score+'</b> · '+esc(nm(1))+'도 휘는 중…';
+    var t0=performance.now(); (function lp(){ if(g!==S.gen) return; var q=Math.min(1,(performance.now()-t0)/900); col('r',{pw:q,on:true}); if(q<1){ requestAnimationFrame(lp); return; }
+      if(!$('cutB')) return; snd('slap',.9); fx('뚝!'); drawCut($('cutB'),b); col('r',{pw:0,on:false}); var me=a.score>b.score; Y.w[me?0:1]++; S.sc=[Y.w[0],Y.w[1]]; vs(0);
+      $('say').innerHTML='구멍 '+a.score+' : '+b.score+' · '+(me?'<b>이번 판은 내가 이겼다!</b>':'<em>이번 판은 '+esc(nm(1))+'!</em>');
+      if(Y.w[0]>=2||Y.w[1]>=2){ var meWin=Y.w[0]>=2; setTimeout(function(){ if(g===S.gen) finish(meWin,Y.w[0],Y.w[1]); },1100); }
+      else { go.disabled=false; go.textContent='다음 판'; Y.next=true; } })(); },300); }
+
+/* ───────── 고르기 · 시작 ───────── */
+function setGame(k){ S.gen++; try{ PEN.stop(); }catch(e){} NA.unpoint(); S.k=k; S.over=true; S.sc=[0,0]; $('done').classList.remove('on'); $('ttl').textContent=GN[k]; document.title=GN[k]+' · 그때 그 놀이';
+  $('board').innerHTML=''; $('act').innerHTML=''; $('say').innerHTML=''; vs(null);
+  NA.pre({who:k==='arm', opp:shopName()+' 사장님', onGo:function(bet,who){ S.bet=bet; S.mode=(k==='arm'&&who==='two')?'two':'cpu1'; window.__noriBetName=bet==='none'?'':NA.betName(bet); snd('stone',.6); start(); },
+    onCancel:function(){ if(window.noriHome) noriHome(); }}); }
+function start(){ S.gen++; try{ PEN.stop(); }catch(e){} S.over=false; S.sc=[0,0]; $('done').classList.remove('on'); col('l',{pw:0,on:null}); col('r',{pw:0,on:null}); if(S.k==='arm') armStart(); else yeotStart(); }
+(function(){
+  $('again').addEventListener('click',function(){ setGame(S.k); });
+  $('helpBtn').addEventListener('click',function(){ $('helpT').textContent=GN[S.k]+' · 놀이 방법'; $('helpB').innerHTML=rules(S.k); $('help').classList.add('on'); });
+  $('help').addEventListener('click',function(e){ if(e.target.id==='help'||e.target.closest('[data-x]')) $('help').classList.remove('on'); });
+  noriNav({here:function(){ return S.k==='arm'?'aw':'yt'; }, onNew:function(){ $('done').classList.remove('on'); setGame(S.k); },
+    onOpen:function(){ if(S.over&&!document.querySelector('.ncard.on')&&!document.querySelector('.pn-sc')) setGame(S.k); }});
+})();
+function solo(k){ if(GN[k]) setGame(k); }
+setGame(GN[(location.hash||'').slice(1)]?(location.hash||'').slice(1):'arm');
+</script>
+</body>
+</html>

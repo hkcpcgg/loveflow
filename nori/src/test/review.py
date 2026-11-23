@@ -1,8 +1,8 @@
 # 13종 × 휴대폰 크기 — 시작 직후 화면: 겹침 · 넘침 · 잘린 글씨 · 오류
 import asyncio,sys,json
 from playwright.async_api import async_playwright
-G=['rp','hj','mj','br','dt','th','pt','bw','tk','mb','om','ak','rd']
-SIZES=[(360,640),(375,667)]
+G=['rp','hj','mj','br','aw','yt','dt','th','pt','bw','tk','mb','om','ak','rd']
+SIZES=[(360,640),(375,667),(412,915)]
 CHK="""()=>{const W=innerWidth,H=innerHeight,R=e=>e&&e.getBoundingClientRect(),vis=e=>{if(!e)return false;const r=R(e);return r.width>0&&r.height>0&&getComputedStyle(e).visibility!=='hidden'};
  const iss=[]; const ov=(a,b)=>a&&b&&!(a.right<=b.left||b.right<=a.left||a.bottom<=b.top||b.bottom<=a.top);
  const t=document.querySelector('.top .ttl,#ttl'), tr=document.querySelector('.na-tr'), st=document.querySelector('.top .na-strip.in');
