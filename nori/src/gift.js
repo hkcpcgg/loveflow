@@ -83,11 +83,11 @@ window.GIFT=(function(){
   /* ── 놀이가 끝났을 때 받는 결과 ── */
   function result(r){ r.id='r'+Date.now(); r.claimed=false; last=r; playLog(r); }
   /* 판 기록 (049 · 승률 보기용): 이기든 지든 모든 판을 짧게 남김 — 놀이 · 이김/짐 · 상대 · 매장 · 기기 · 시각 (이름 · 사진 없음).
-     선물 장부와 따로(025 원칙). 서버 「판 기록」 칸은 대표 승인 뒤 — 그 전에는 이 폰에만 쌓아 둠(최근 300판). 승인 뒤 window.NORI_PLAYLOG=1 이면 서버 'play' 로 보냄 */
+     선물 장부와 따로(025 원칙). 대표 승인 261123 21:40 → 손님 화면에서는 서버 'play' 로도 보냄(서버에 play 가 없으면 조용히 넘어감 · 끄려면 window.NORI_PLAYLOG=0). 시험판(lab)은 서버 주소가 비어 안 보냄 */
   function playLog(r){ try{ var dev=load('nori-dev',''); if(!dev){ dev='d'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); save('nori-dev',dev); }
-    var p={t:Date.now(),g:r.game||'',o:r.out||'',vs:r.lv||'two',sc:(r.sc||[]).join(':'),shop:(load('nori-shop',{}).s||''),dev:dev,lv:(window.BOSS&&BOSS.cur)?Math.round(BOSS.cur*100)/100:''};
+    var p={v:'nori3.0',t:Date.now(),g:r.game||'',o:r.out||'',vs:r.lv||'two',sc:(r.sc||[]).join(':'),shop:(load('nori-shop',{}).s||''),dev:dev,lv:(window.BOSS&&BOSS.cur)?Math.round(BOSS.cur*100)/100:''};
     var L=load('nori-plays',[]); L.push(p); if(L.length>300) L=L.slice(-300); save('nori-plays',L);
-    if(window.NORI_PLAYLOG&&CL){ run('play',[p],function(){},function(){}); } }catch(e){} }
+    if(window.NORI_PLAYLOG!==0&&CL){ run('play',[p],function(){},function(){}); } }catch(e){} }
 
   /* ── 선물 받기: 이름 · 자리 적고 쿠폰 받기 ── */
   function claim(){
