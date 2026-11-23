@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf-foot.js · v11 · 261117 · [우리 이야기 흔적 걷기 · 대표 OK 261117 13:24] 사랑흐름 화면(O 가 빈 때)에서만 메뉴 줄 맨 끝에 「패밀리 사이트 ↗」(uriyagi.kr · 새 창) — 아래 띠 · ☰ · 메인의 우리 이야기 길을 걷고 남긴 하나뿐인 길. uriyagi.kr 에서 부를 때는 안 붙음. [무손] 그 밖 v10.
+   현재 버전 ▶ lf-foot.js · v12 · 261123 · [대표 261123 18:43 패밀리 사이트 메모 · 21:55 「쭉쭉 박차」] 메뉴 줄 끝 「패밀리 사이트 ↗」(우리 이야기로만 가던 것) → 「패밀리 사이트 ▾」 단추. 누르면 메뉴 줄 바로 아래로 여섯이 펼쳐짐: 사랑흐름 · 우리 이야기 · 디지털 명함 만들기 · 마음 카드 보내기 · 그때 그 놀이 · 통합 솔루션(준비 중). 지금 보는 곳은 「지금 여기」. 닫혀 있을 때 푸터 네 줄은 그대로. 목록은 FAM 한 곳만 고치면 모든 화면이 같이 바뀜. uriyagi.kr 에서 부를 때(O 있음)는 v11 처럼 안 붙음 — 우리 이야기 방이 같은 부품을 쓰도록 총괄-016 으로 알림.
+   (이전) lf-foot.js · v11 · 261117 · [우리 이야기 흔적 걷기 · 대표 OK 261117 13:24] 사랑흐름 화면(O 가 빈 때)에서만 메뉴 줄 맨 끝에 「패밀리 사이트 ↗」(uriyagi.kr · 새 창) — 아래 띠 · ☰ · 메인의 우리 이야기 길을 걷고 남긴 하나뿐인 길. uriyagi.kr 에서 부를 때는 안 붙음. [무손] 그 밖 v10.
    (이전) lf-foot.js · v10 · 261117 · [700 · 대표 OK 261117 07:36] 사업자 정보 양쪽 맞춤(줄이 넘치면 글자 사이가 벌어짐) → 왼쪽부터 이어 쓰기 · 글꼴이 온 뒤 · 화면을 다 연 뒤 · 2.5초 뒤 글자 크기를 다시 맞춤(실폰 결제 화면 세 줄 · © 줄 잘림). [무손] 그 밖 v9 전부.
    (이전) lf-foot.js · v9 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 본부 바로가기 → /hq/?hq=1. [무손] 그 밖 v8 전부.
    (이전) lf-foot.js · v8 · 261116 · [우리이야기-소통-020 요청 2] 다른 도메인(uriyagi.kr 등)에서 부르면 메뉴 줄 링크(소개 · 이용약관 · 개인정보처리방침 · 환불정책) 앞에 https://www.loveflow.ai.kr 를 붙임 · 사랑흐름 화면(loveflow.ai.kr · 시험 환경)은 그대로. [무손] 그 밖 v7 전부.
@@ -44,7 +45,35 @@
     + ".lfft-biz{font-size:8.6px;line-height:1.75;margin-top:4px;text-align:left;word-break:keep-all}"
     + ".lfft-biz span{white-space:nowrap}"
     + ".lfft-biz a{color:#9d8f80;text-decoration:none}"
-    + ".lfft-c{font-size:8.6px;line-height:1.75;margin-top:1px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:clip}";
+    + ".lfft-c{font-size:8.6px;line-height:1.75;margin-top:1px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:clip}"
+    + ".lfft-links button.fam{border:0;background:none;font:inherit;font-size:11px;color:#7d6f60;font-weight:700;cursor:pointer;margin:0 5px;padding:0;white-space:nowrap}"
+    + ".lfft-fam{display:none;max-width:360px;margin:8px auto 6px;background:#fff;border:1px solid #E6DCCB;border-radius:12px;overflow:hidden;text-align:left}"
+    + ".lfft-fam.on{display:block}"
+    + ".lfft-fam a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-top:1px solid #F3EDE3;text-decoration:none;color:#2b2321}"
+    + ".lfft-fam a:first-child{border-top:0}"
+    + ".lfft-fam .lfam-i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:16px;flex-shrink:0}"
+    + ".lfft-fam .lfam-n{font-size:13px;font-weight:700;display:block}"
+    + ".lfft-fam .lfam-d{font-size:11px;color:#9d8f80;display:block}"
+    + ".lfft-fam .lfam-t{flex:1;min-width:0}.lfft-fam .lfam-g{margin-left:auto;flex-shrink:0;font-size:14px;color:#b5a796;background:none;border:0;padding:0;width:auto;height:auto;border-radius:0;box-shadow:none}"
+    + ".lfft-fam a.here{background:#F8F3EA}.lfft-fam a.here .lfam-g,.lfft-fam a.soon .lfam-g{font-size:10.5px;font-weight:700;background:#ECE3D4;color:#7d6f60;border-radius:999px;padding:2px 8px}"
+    + ".lfft-fam a.soon{opacity:.55;pointer-events:none}";
+  /* ★v12 패밀리 사이트 — 이 목록 하나만 고치면 모든 화면이 같이 바뀜 */
+  var FAM = [
+    { k: 'lf',   ic: '❤️', bg: '#FDEBEC', nm: '사랑흐름',          ds: '자서전 · 편지 · 여행지도',        u: 'https://www.loveflow.ai.kr/' },
+    { k: 'uri',  ic: '🍇', bg: '#F0EAF8', nm: '우리 이야기',        ds: '모임 · 가게 · 마을의 사진과 기억', u: 'https://uriyagi.kr/' },
+    { k: 'nc',   ic: '🪪', bg: '#E8F0F8', nm: '디지털 명함 만들기', ds: '종이 명함 사진으로 시작해요',      u: 'https://uriyagi.kr/card/new/' },
+    { k: 'card', ic: '💌', bg: '#FDEEE6', nm: '마음 카드 보내기',   ds: '고마운 분께 마음 한 장',          u: 'https://www.loveflow.ai.kr/card/' },
+    { k: 'nori', ic: '🪁', bg: '#E9F5EC', nm: '그때 그 놀이',       ds: '옛날 놀이를 휴대폰으로',          u: 'https://www.loveflow.ai.kr/nori/' },
+    { k: 'sol',  ic: '🧩', bg: '#F1F1F1', nm: '통합 솔루션',        ds: '',                               u: '', soon: 1 }
+  ];
+  function famHere(){ var p = location.pathname || '/'; if (/^\/card\//.test(p)) return 'card'; if (/^\/nori\//.test(p)) return 'nori'; return 'lf'; }
+  function famHtml(){ var h = famHere(), out = '';
+    for (var i = 0; i < FAM.length; i++) { var f = FAM[i], here = f.k === h, cls = here ? 'here' : (f.soon ? 'soon' : '');
+      out += '<a class="' + cls + '" href="' + (here || f.soon ? '#' : f.u) + '"' + (here || f.soon || /^https:\/\/www\.loveflow/.test(f.u) ? '' : ' target="_blank" rel="noopener"') + '><span class="lfam-i" style="background:' + f.bg + '">' + f.ic + '</span><span class="lfam-t"><span class="lfam-n">' + f.nm + '</span>' + (f.ds ? '<span class="lfam-d">' + f.ds + '</span>' : '') + '</span><span class="lfam-g">' + (here ? '지금 여기' : (f.soon ? '준비 중' : '›')) + '</span></a>'; }
+    return out; }
+  document.addEventListener('click', function(e){ var t = e.target; if (!t || !t.closest) return;
+    var b = t.closest('.lfft .fam'); if (b) { var box = b.closest('.lfft').querySelector('.lfft-fam'); if (box) { box.classList.toggle('on'); b.textContent = box.classList.contains('on') ? '패밀리 사이트 ▴' : '패밀리 사이트 ▾'; } return; }
+    var a = t.closest('.lfft-fam a.here'); if (a) { e.preventDefault(); } });
 
   /* ★v6 사업자 정보 = 두 줄 꽉 채움 · 글자 크기는 푸터 폭에 맞춰(412px 폭 = 8.6px · 넓은 화면은 11px 까지) */
   var BIZ_ITEMS = [
@@ -61,8 +90,9 @@
     +     '<a class="pv" href="' + O + '/trust.html#privacy">개인정보처리방침</a>'
     +     '<a href="' + O + '/trust.html#refund">환불정책</a>'
     +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">문의</a>'
-    +   (O ? '' : '<a class="fam" href="https://uriyagi.kr/" target="_blank" rel="noopener">패밀리 사이트 ↗</a>')   /* ★v11 */
+    +   (O ? '' : '<button type="button" class="fam">패밀리 사이트 ▾</button>')   /* ★v12 */
     +   '</div>'
+    +   (O ? '' : '<div class="lfft-fam">' + famHtml() + '</div>')
     +   '<div class="lfft-biz"><span>' + BIZ_ITEMS.join('</span> &middot; <span>') + '</span></div>'
     +   '<div class="lfft-c">&copy; 2026 사랑흐름 &middot; LFRI&trade; &middot; 무단 복제 &middot; 상업적 이용 금지 &middot; Unauthorized use prohibited.</div>'
     + '</div>';
