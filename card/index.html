@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- ★ 현재 버전 ▶ card/index.html · v3 · 261123 · [art.js v2] 그림 꼬리표 ?v=2(옛 연하장 걷고 복주머니). [무손] 그 밖 v2.
+<!-- ★ 현재 버전 ▶ card/index.html · v3.3 · 261123 · [대표 261123 21:05 「무료로 마음을 전하는 전 단계 서비스 링크 다 걸어야」 · 받는 사람 화면 기본 링크 규칙] 카드 아래 「사랑흐름 둘러보기」 상자: 마음 한마디 · 삐뚤빼뚤 마음 도화지 · 여행의 기록. 그 밖 v3.2 그대로.
+     (이전) card/index.html · v3 · 261123 · [art.js v2] 그림 꼬리표 ?v=2(옛 연하장 걷고 복주머니). [무손] 그 밖 v2.
 (이전) card/index.html · v2 · 261123 · [만들기 붙임] 번호 없이 열면 만들기(make.html)로 · 카드 모양을 만들기 미리보기와 같게(그림 열셋 card/art.js · 크리스마스 줄무늬 테두리 · 봉투 색 · 날짜와 보내는 분). [무손] 그 밖 v1.
 (이전) card/index.html · v1 · 261123 · [마음 카드 보내기 최소판 · 설계서 261122 · 대표 OK 261123] 받은 카드 화면 첫 판. 주소 하나: /card/?c=카드번호 면 받은 카드, 번호 없으면 만들기(만들기 화면은 3.1판 받은 뒤 붙임 · 지금은 안내만). 서버 = 「사랑흐름 마음 카드」 Code.gs 3 버전(대표 hkcpcgg 계정). 봉투 열기 · 손글씨 셋 · 사진과 목소리는 카드가 뜬 뒤 따로 받음 · 영상은 링크 · 단추 주소 검사(모르는 곳은 「○○ 사이트로 이동해요」) · 신고 · 보관 끝 · 한국어 · English. 보내는 분 기기에 고침열쇠가 있으면 「처음 열어 본 때」를 보여 주고 열어 본 횟수는 세지 않음. 문지기 · 위 띠 · 공용 푸터는 다른 받은 화면(m/)과 같은 한 벌. -->
 <script>(function(){var q=new URLSearchParams(location.search);if(!q.get('c')){location.replace('/card/make.html'+location.search+location.hash);}})();</script>
@@ -98,6 +99,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:linear-gradient(#10294a,#1
 .cfoot{border-top:1px dashed #eadfce;margin-top:18px;padding-top:12px;text-align:center;font-size:13px;color:#8a7a6a;line-height:1.7}
 .cfoot a{color:#7d1520;font-weight:600;text-decoration:none}
 .rep{display:inline-block;margin-top:6px;background:none;border:0;color:#b5a796;font:12px 'Noto Sans KR',sans-serif;cursor:pointer;padding:4px 8px}
+.tour{max-width:460px;margin:18px auto 0;background:rgba(255,255,255,.94);border-radius:16px;padding:12px 14px 6px;box-shadow:0 8px 22px rgba(0,0,0,.22)}.tour .tt{font-size:13px;font-weight:700;color:#8a7a6a;text-align:center;margin-bottom:4px}.tour a{display:flex;align-items:center;gap:10px;padding:10px 4px;border-top:1px solid #f0e7da;text-decoration:none;color:#2b2321;font-size:15px;font-weight:600}.tour a:first-of-type{border-top:0}.tour a .i{font-size:18px}.tour a b{margin-left:auto;color:#b5a796}
 .mine{margin:14px auto 0;max-width:460px;background:rgba(255,255,255,.14);color:#fff;border-radius:14px;padding:12px 16px;font-size:14px;line-height:1.7;text-align:center}
 
 /* 바닥 시트 */
@@ -173,6 +175,11 @@ body{font-family:'Noto Sans KR',sans-serif;background:linear-gradient(#10294a,#1
       </div>
     </div></div>
     <div class="mine" id="mineBox" style="display:none"></div>
+    <div class="tour"><div class="tt" data-t="tour">사랑흐름 둘러보기</div>
+      <a href="/hanmadi/"><span class="i">💬</span><span data-t="f1">마음 한마디</span><b>›</b></a>
+      <a href="/draw/"><span class="i">🎨</span><span data-t="f2">삐뚤빼뚤 마음 도화지</span><b>›</b></a>
+      <a href="/showroom.html"><span class="i">📖</span><span data-t="f3">여행의 기록</span><b>›</b></a>
+    </div>
   </div>
 </main>
 
@@ -211,7 +218,7 @@ var T = {
       from:function(n){return n+' 님이 보낸 카드예요';},dear:'소중한 분께',voice:'목소리 인사 듣기',voiceLoad:'목소리를 꺼내는 중이에요',video:'영상 보기',
       photoWait:'사진을 꺼내는 중이에요',leaveP:function(h){return h+' 사이트로 이동해요. 보낸 분이 넣은 주소예요.';},
       opened:function(t){return '받는 분이 '+t+'에 처음 열어 보셨어요 🎉';},notYet:'아직 받는 분이 열어 보지 않으셨어요.',mineT:'보내신 분께만 보이는 칸이에요',
-      art:'Merry Christmas',art2:'따뜻한 연말 보내세요'},
+      art:'Merry Christmas',art2:'따뜻한 연말 보내세요',tour:'사랑흐름 둘러보기',f1:'마음 한마디',f2:'삐뚤빼뚤 마음 도화지',f3:'여행의 기록'},
   en:{loc:'Heart Card',loading:'Taking out your card',tap:'Tap to open',brand:'Loveflow Heart Card',mine:'Send a card too',report:'Report',
       leaveT:'You are leaving this site',cancel:'Cancel',go:'Go',repT:'Report this card',repP:'Tell us if anything here feels wrong. Loveflow will review it and hide it if needed.',
       repPh:'Reason',repGo:'Report',repDone:'Thank you. Your report was received.',fail:'Connection trouble. Please try again soon.',
@@ -221,7 +228,7 @@ var T = {
       from:function(n){return 'A card from '+n;},dear:'To someone dear',voice:'Play voice greeting',voiceLoad:'Loading the voice greeting',video:'Watch the video',
       photoWait:'Loading the photo',leaveP:function(h){return 'You are going to '+h+'. The sender added this address.';},
       opened:function(t){return 'First opened on '+t+' 🎉';},notYet:'Not opened yet.',mineT:'Only you, the sender, can see this',
-      art:'Merry Christmas',art2:'Warm wishes for the season'}
+      art:'Merry Christmas',art2:'Warm wishes for the season',tour:'Explore Loveflow',f1:'A word from the heart',f2:'Heart doodle',f3:'Travel stories'}
 };
 var L = 'ko'; try{ if(localStorage.getItem('lfCardLang')==='en') L='en'; }catch(e){}
 function t(k){ return T[L][k]; }
