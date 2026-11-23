@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- ★ 현재 버전 ▶ card/make.html · v1 · 261123 · [대표 OK 261123 · 마음 카드 실제로 보내기] 시험판 3.1판을 그대로 옮겨 실제 서버(「사랑흐름 마음 카드」 Code.gs 3 버전)에 저장. 더한 것: 사진 · 목소리 · 영상 칸(손글씨 다음 한 화면 · 서버 2 버전 대표 OK) · 「카드 보내기」 저장 뒤 「카톡으로 보내기」 · 「주소 복사」 · 고쳐도 같은 주소(고침열쇠는 이 기기 lfCardKeys) · 그림 열셋은 card/art.js 로 떼어 받은 카드 화면과 같이 씀 · 위 띠 · ☰ · 「← ⌂ →」(단계 앞뒤로 움직임) · 공용 푸터. 「견본」 띠 걷음. [무손] 3.1판 차례 · 말 · 물음 · 그림 · 손글씨 · 서명 저장 · 단추 열하나 · 봉투 · 소리. -->
+<!-- (이전) 시험판 v3-1 · 261122 · 비공개 저장소 loveflow-server/prototypes/card/ -->
+<script src="/lf/pass.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>마음 카드 만들기 · 사랑흐름</title>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="사랑흐름">
+<meta property="og:title" content="사랑흐름 마음 카드">
+<meta property="og:description" content="고마운 분께 마음 한 장, 손글씨로 보내 볼까요?">
+<meta property="og:image" content="https://www.loveflow.ai.kr/card/og.jpg?v=1">
+<meta property="og:url" content="https://www.loveflow.ai.kr/card/">
+<!-- 시험판 v3-1 · 261122 · 대표 21:29 「마음도 직접 쓰기 · 두 길은 견본을 보고 고르게 · 단추 말 쉽게 + 예시 · 손글씨가 카드에 · 날짜와 보내는 분 · 푸터에 사랑흐름 링크(모양 그대로) · 카드 크게 · 크리스마스답게 빨강 하양 화려하게」 -->
+<!-- (이전) 시험판 v3 · 261122 · 대표 20:32 · 20:45 · 21:03 승인 「캐묻지 말고 감정이 생기게 · 서비스 일 하는 20대 여성의 다정한 말투 · 짜잔」 · 여는 화면 + 마음 고르기(날과 마음을 하나로) + 받는 분 + 두 갈래(이대로 / 더 담기) + 끝인사는 손글씨 자리 + 음식 물음 (GPT 113 회신 반영) -->
+<!-- (이전) 시험판 v2.3 · 261122 · 대표 20:19 「받는 분은 엄마 · 아빠 · 배우자 · 자녀 · 친구 · 선생님 · 고객 · 직접 넣기만. 두 줄 설명 빼기. 아이콘 화려하게 재미나게」 -->
+<!-- (이전) 시험판 v2.2 · 261122 · 대표 19:57 「서명을 한 번 저장해 두고 불러오기」 · 내 이름 손글씨 저장 + 다음 카드에서 저절로 불러오기 + 불러오기 · 지우기 단추 -->
+<!-- (이전) 시험판 v2.1 · 261122 · 대표 18:39 「목록에 없는 받는 분은 직접 적거나 고르게」 · 받는 분 직접 적기 + 말씨 고르기(높여서 · 편하게 · 손님께) -->
+<!-- (이전) 시험판 v2 · 261122 · 대표 261122 18:30 「디지털 카드의 차별화는 링크 · 상대 목적에 맞게 이어 주기 · 명함 · 미니 홈페이지 함께 붙이기」 + 113차 회신 넷(손글씨 셋 자리 · 소리 끄기 · 가게 갈래) · 받는 분 + 그림 + 물음 셋 + 인사말 + 손글씨 셋 + 연결 단추 + 봉투 -->
+<!-- (이전) 시험판 v1 · 261122 · 대표 261122 18:15 「내용이 강해야 · 그다음 비주얼 · 쐐기는 손글씨 · 열 가지 골라 개인 맞춤으로 좁혀 들어가기」 · 받는 분 → 그림 → 물음 셋 → 인사말 → 손글씨 → 봉투 -->
+<style>
+:root{--ink:#1D2433;--sub:#667085;--bg:#F4F2EE;--line:#E4E0D8;--navy:#1B2C47}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;-webkit-tap-highlight-color:transparent}
+.top{position:sticky;top:0;z-index:5;background:var(--navy);color:#fff;text-align:center;padding:13px 10px;font-weight:800;font-size:16px}
+.sample{background:#FFF4D6;color:#6B5200;text-align:center;font-size:12.5px;padding:6px}
+.wrap{max-width:520px;margin:0 auto;padding:14px 14px 30px}
+.dots{display:flex;justify-content:center;gap:6px;margin:4px 0 12px}.dots i{width:7px;height:7px;border-radius:50%;background:#D6D1C7}.dots i.on{background:var(--navy);width:20px;border-radius:4px}
+.step{display:none;animation:in .35s ease}.step.on{display:block}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.ey{text-align:center;font-size:12.5px;font-weight:800;color:#A07C3B}
+h2{text-align:center;font-size:21px;line-height:1.45;margin:6px 0 14px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.opt{border:1.5px solid var(--line);background:#fff;border-radius:14px;padding:13px 10px;font:inherit;font-size:15px;font-weight:700;color:var(--ink);cursor:pointer;text-align:center}
+.opt small{display:block;font-weight:500;font-size:12px;color:var(--sub);margin-top:3px}
+.opt.on{border-color:var(--navy);background:#EEF2F8}
+.opt.wide{grid-column:1/-1}
+#who{grid-template-columns:repeat(4,1fr);gap:8px}
+.wt{padding:12px 2px 10px;font-size:14px;border-radius:16px;opacity:0;animation:pop .5s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:var(--d)}
+.wt .ic{display:grid;place-items:center;width:46px;height:46px;margin:0 auto 7px;border-radius:50%;font-size:24px;box-shadow:inset 0 -3px 0 rgba(0,0,0,.06);transition:transform .25s}
+.wt:hover .ic{transform:rotate(-8deg) scale(1.08)}
+.wt.on{border-color:var(--navy);background:#fff;box-shadow:0 6px 16px rgba(27,44,71,.16)}.wt.on .ic{animation:boing .5s ease}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.85)}to{opacity:1;transform:none}}
+@keyframes boing{0%{transform:scale(1)}35%{transform:scale(1.25) rotate(8deg)}65%{transform:scale(.92)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.wt{animation:none;opacity:1}}
+.arts{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.art{border:2px solid transparent;border-radius:14px;overflow:hidden;padding:0;cursor:pointer;background:#fff;font:inherit;text-align:left}
+.art .pic{height:96px}.art b{display:block;font-size:13px;padding:7px 9px 9px}
+.art.on{border-color:var(--navy)}
+.free{display:none;margin-top:8px}.free.on{display:block}
+.free input{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:15px}
+.go{display:block;width:100%;margin-top:12px;border:0;border-radius:24px;padding:14px;font:inherit;font-size:16px;font-weight:800;background:var(--navy);color:#fff;cursor:pointer}
+.go.line{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+textarea{width:100%;min-height:170px;border:1.5px solid var(--line);border-radius:14px;padding:14px;font:inherit;font-size:15.5px;line-height:1.75;resize:vertical}
+.hint{font-size:12.5px;color:var(--sub);text-align:center;margin:6px 0 0}
+.pad{background:#fff;border:1.5px dashed #C9C2B4;border-radius:14px;position:relative}
+canvas{display:block;width:100%;height:170px;touch-action:none}
+.pad .ph{position:absolute;inset:0;display:grid;place-items:center;color:#B5AE9F;font-size:15px;pointer-events:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nav{display:flex;justify-content:center;gap:18px;margin:22px 0 8px}.nav button{width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:#fff;font-size:17px;color:var(--navy);cursor:pointer}
+.tabs{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px}.tabs button{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:9px 4px;font:inherit;font-size:13px;font-weight:700;color:var(--sub);cursor:pointer}.tabs button.on{border-color:var(--navy);color:var(--navy);background:#EEF2F8}.tabs button.has::after{content:" ✓";color:#2F7D4F}
+.lk{display:grid;grid-template-columns:1fr 1fr;gap:8px}.lk .opt{font-size:14px;padding:11px 8px}.lk .opt.rec::before{content:"추천";display:block;font-size:10.5px;color:#A07C3B;font-weight:800;margin-bottom:2px}
+.lin{display:none;margin-top:6px}.lin.on{display:block}.lin label{display:block;font-size:12.5px;font-weight:700;color:var(--sub);margin:8px 2px 4px}.lin input{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:11px;font:inherit;font-size:14.5px}
+.box{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin:12px 0 0;font-size:13px;line-height:1.7;color:var(--sub)}.box b{color:var(--ink)}
+.big{font-size:26px;margin-top:4px}.lead{text-align:center;font-size:16.5px;line-height:1.8;color:#3B4252;margin:0 0 22px}
+.hero{position:relative;height:150px;margin:6px auto 4px;max-width:300px;border-radius:24px;overflow:hidden;background:linear-gradient(170deg,#1B2C47,#3C5A8F)}
+.heroic{position:absolute;left:50%;top:50%;font-size:64px;transform:translate(-50%,-50%);animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translate(-50%,-58%) rotate(-4deg)}}
+.snowfx i{position:absolute;top:-8px;width:5px;height:5px;border-radius:50%;background:#fff;opacity:.85;animation:fall2 linear infinite}@keyframes fall2{to{transform:translateY(170px)}}
+.moods{display:grid;gap:9px}.mood{display:flex;align-items:center;gap:12px;border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:14px;font:inherit;font-size:15.5px;font-weight:700;color:var(--ink);cursor:pointer;text-align:left;opacity:0;animation:pop .45s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:var(--d,0ms)}
+.mood .mi{display:grid;place-items:center;flex:0 0 42px;height:42px;border-radius:50%;background:#FFF3E3;font-size:22px}
+.mood.on{border-color:var(--navy);box-shadow:0 6px 16px rgba(27,44,71,.16)}.mood.on .mi{animation:boing .5s ease}
+.tada{color:#fff;text-align:center;font-size:18px;font-weight:800;margin:0;animation:in .6s ease}
+.full .close{font-size:15.5px;line-height:1.85;color:#2F3645;margin:0 0 6px}
+@media (prefers-reduced-motion:reduce){.mood{animation:none;opacity:1}.heroic,.snowfx i{animation:none}}
+.foot{text-align:center;font-size:11px;color:#8A90A0;margin-top:14px;line-height:1.7}
+/* 봉투 · 카드 */
+.ov{position:fixed;inset:0;z-index:1550;background:rgba(12,16,28,.8);display:none;align-items:center;justify-content:center;padding:18px;overflow:auto}.ov.on{display:flex}
+.stage{width:100%;max-width:440px;perspective:1100px;margin:0 auto}
+.env{position:relative;height:250px;margin:120px auto 0;width:100%;max-width:420px;cursor:pointer}
+.env .back{position:absolute;inset:0;border-radius:10px;background:var(--e1)}
+.env .card{position:absolute;left:14px;right:14px;top:14px;height:200px;border-radius:8px;overflow:hidden;transition:transform .9s cubic-bezier(.2,.8,.2,1) .35s}
+.env .front{position:absolute;left:0;right:0;bottom:0;height:150px;border-radius:0 0 10px 10px;background:var(--e2);clip-path:polygon(0 0,50% 46%,100% 0,100% 100%,0 100%);z-index:3}
+.env .flap{position:absolute;left:0;right:0;top:0;height:128px;background:var(--e3);clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform .6s ease;z-index:4}
+.env .to{position:absolute;left:0;right:0;bottom:22px;text-align:center;z-index:5;color:#F3E7CF;font-size:15px;font-weight:700}.env .to small{display:block;font-size:11.5px;font-weight:500;opacity:.8;margin-bottom:3px}
+.env .seal{position:absolute;left:50%;top:104px;width:46px;height:46px;margin-left:-23px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#C46A7E,#7E2A43);z-index:6;display:grid;place-items:center;color:#FBE7EC;font-size:18px;transition:opacity .3s}
+.env.open .flap{transform:rotateX(180deg);z-index:1}.env.open .seal{opacity:0}.env.open .card{transform:translateY(-120px)}
+.openbtn{display:block;margin:22px auto 0;border:0;border-radius:24px;padding:12px 26px;font:inherit;font-size:15px;font-weight:700;background:#fff;color:var(--navy);cursor:pointer}
+.full{display:none;width:100%;max-width:460px;margin:0 auto;border-radius:16px;overflow:hidden;background:#FFFDF8;box-shadow:0 10px 40px rgba(0,0,0,.4);animation:in .6s ease}
+.full .pic{height:290px;position:relative;overflow:hidden}
+.full .bd{padding:18px}.full .to2{font-size:13px;color:var(--sub);margin-bottom:8px}
+.full p{margin:0 0 10px;font-size:16.5px;line-height:1.85;color:#2F3645;white-space:pre-line}
+.full .sig{text-align:right;margin-top:6px}.full .sig img{height:64px;max-width:70%}
+.full .from{text-align:right;font-size:13px;color:var(--sub)}
+.full .line1{margin:4px 0 2px}.full .line1 img{height:58px;max-width:100%}
+.full .acts{display:grid;gap:8px;margin:14px 0 2px}.full .acts a{display:flex;align-items:center;justify-content:space-between;text-decoration:none;border-radius:12px;padding:12px 14px;font-size:14.5px;font-weight:800;background:var(--navy);color:#fff}.full .acts a.sub{background:#F1EDE5;color:var(--navy)}.full .acts a small{font-weight:500;font-size:12px;opacity:.8}
+.env .to img{display:block;margin:0 auto;height:40px;max-width:80%;filter:invert(1) brightness(2)}
+.full.xmas{border:7px solid transparent;background:linear-gradient(#FFFDF8,#FFFDF8) padding-box,repeating-linear-gradient(45deg,#C8202F 0 12px,#fff 12px 24px) border-box}
+.full .toimg img{height:46px;max-width:70%;display:block}
+.full .meta{text-align:right;font-size:13.5px;color:#5B6273;margin-top:8px;line-height:1.6}
+.full .brand a{color:inherit;text-decoration:none}
+.tw{animation:tw 1.6s ease-in-out infinite}.tw2{animation:tw 1.6s ease-in-out .8s infinite}@keyframes tw{50%{opacity:.25}}
+.pv{margin:10px 0 2px;background:#FBF8F2;border:1px dashed #D9D1C2;border-radius:12px;padding:10px 12px;font-size:13.5px;line-height:1.75;color:#3B4252;white-space:pre-line;font-weight:500}
+.pv b{color:#C8202F;font-weight:700}.pv .ex{display:block;font-size:11.5px;color:#A07C3B;font-weight:800;margin-bottom:2px}
+.pathc{display:block;width:100%;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:16px;padding:14px;margin-bottom:10px;cursor:pointer;font:inherit;color:var(--ink)}
+.pathc .t{font-size:16px;font-weight:800}.pathc.on{border-color:var(--navy);box-shadow:0 6px 16px rgba(27,44,71,.16)}
+.pathc .pick{display:block;margin-top:10px;text-align:center;border-radius:20px;padding:10px;background:var(--navy);color:#fff;font-weight:800;font-size:14.5px}
+.lkpv{margin:12px 0 4px;border-radius:14px;background:#FFFDF8;border:1.5px solid var(--line);padding:12px}.lkpv .cap{font-size:12px;color:#A07C3B;font-weight:800;margin-bottom:6px}
+.lkpv a{display:flex;justify-content:space-between;align-items:center;border-radius:12px;padding:10px 12px;margin-top:6px;background:var(--navy);color:#fff;font-weight:800;font-size:14px;text-decoration:none}.lkpv a.sub{background:#F1EDE5;color:var(--navy)}.lkpv a small{font-weight:500;font-size:11.5px;opacity:.85}
+.meta2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.meta2 label{font-size:12.5px;font-weight:700;color:var(--sub);display:block;margin:0 2px 4px}.meta2 input{width:100%;border:1.5px solid var(--line);border-radius:12px;padding:10px;font:inherit;font-size:14px}
+.full .brand{border-top:1px solid #EEE9E1;padding:10px 16px;display:flex;justify-content:space-between;font-size:12px;color:#7A8194}.full .brand b{color:var(--navy)}
+.cbar{display:none;justify-content:center;gap:8px;margin:14px 0 4px}.cbar button{border:0;border-radius:20px;padding:9px 16px;font:inherit;font-size:13.5px;background:rgba(255,255,255,.14);color:#fff;cursor:pointer}
+/* ── 사이트 틀 (m/ · card/ 와 같은 한 벌) ── */
+.lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;background:#1E4A76;border-bottom:1px solid #163A5C;padding:10px 14px}
+.lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:15px;text-decoration:none}
+.lf-nav-logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block;flex-shrink:0}
+.lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px;font-family:inherit}
+.lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.lf-nav-burger{background:none;border:none;cursor:pointer;color:#fff;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px;margin-left:auto;font-family:inherit}
+.lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;overflow-y:auto}
+.lf-menu.open{transform:translateX(0)}
+.lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#163A5C;margin-bottom:6px}
+.lf-menu-head .t{color:#fff;font-weight:800;font-size:15px}
+.lf-menu-close{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1;font-family:inherit}
+.lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
+.lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+.lf-backdrop.open{opacity:1;visibility:visible}
+/* ── 사진 · 목소리 · 영상 ── */
+.mx{display:grid;gap:10px}
+.mxc{background:#fff;border:1.5px solid var(--line);border-radius:16px;padding:14px}
+.mxc .t{display:flex;align-items:center;gap:10px;font-size:15.5px;font-weight:800}
+.mxc .t i{font-style:normal;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:#FFF3E3;font-size:19px}
+.mxc .t .ok{margin-left:auto;font-size:12.5px;color:#2F7D4F}
+.mxc .go{margin-top:10px}
+.mxc .row2 .go{margin-top:10px}
+.mxc img{display:block;width:100%;border-radius:12px;margin-top:10px}
+.mxc audio{width:100%;margin-top:10px}
+.mxc input[type=url]{width:100%;margin-top:10px;border:1.5px solid var(--line);border-radius:12px;padding:12px;font:inherit;font-size:14.5px}
+.rec{display:none;align-items:center;justify-content:center;gap:10px;margin-top:10px;font-weight:800;color:#C8202F}
+.rec.on{display:flex}.rec b{display:inline-block;width:12px;height:12px;border-radius:50%;background:#C8202F;animation:tw 1s infinite}
+.vfile{display:none}
+/* ── 보내기 ── */
+.sendp{display:none;max-width:460px;margin:14px auto 0;background:#fff;border-radius:18px;padding:18px;text-align:center}
+.sendp.on{display:block}
+.sendp h3{margin:0 0 6px;font-size:18px}
+.sendp .url{font-size:13px;color:var(--sub);word-break:break-all;background:#F6F3EE;border-radius:10px;padding:9px 10px;margin:8px 0 4px}
+.sendp .kko{background:#FEE500;color:#191919}
+.sendp .small{font-size:12.5px;color:var(--sub);margin-top:10px;line-height:1.6}
+.cbar .send{background:#C8202F;font-weight:800}
+.full .voicebtn{display:flex;align-items:center;gap:10px;width:100%;margin:12px 0 0;background:#FFF3E6;border:1.5px solid #F0D2B4;border-radius:12px;padding:11px 12px;font:inherit;font-size:14.5px;font-weight:800;color:#7D1520;cursor:pointer}
+.full .pic img.ph{width:100%;height:auto;display:block}
+.full .pic.hp{height:auto}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:#222;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.3s;z-index:1660;max-width:90vw;text-align:center;pointer-events:none}
+.toast.on{opacity:1;transform:translateX(-50%)}
+.snow i{position:absolute;top:-10px;width:5px;height:5px;border-radius:50%;background:#fff;opacity:.8;animation:fall linear infinite}@keyframes fall{to{transform:translateY(240px)}}
+@media (prefers-reduced-motion:reduce){.snow i{animation:none}}
+</style>
+</head>
+<body>
+<div class="lf-nav">
+  <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
+  <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
+  <span class="lf-nav-loc">마음 카드 만들기</span>
+  <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+</div>
+<div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+<nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+  <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+  <a href="/">홈</a>
+  <a href="/hanmadi/">마음 한마디</a>
+  <a href="/draw/">삐뚤빼뚤 마음 도화지</a>
+  <a href="/card/">마음 카드</a>
+  <a href="/journey/">여행지도 보기</a>
+  <a href="/l/">편지</a>
+  <a href="/memoir/">자서전</a>
+  <a href="/reenter.html">여권으로 입장</a>
+  <a href="/showroom.html">여행의 기록</a>
+</nav>
+<div class="wrap">
+  <div class="dots" id="dots"></div>
+
+  <section class="step on" data-s="8">
+    <div class="hero"><div class="heroic">💌</div><div class="snowfx" id="heroSnow"></div></div>
+    <h2 class="big">올해도 벌써<br>12월이에요</h2>
+    <p class="lead">한 해 동안 고마웠던 얼굴,<br>하나쯤 떠오르시죠?<br>그분께 마음 한 장 보내 볼까요?</p>
+    <button class="go" type="button" data-next="9">네, 보내 볼래요</button>
+  </section>
+
+  <section class="step" data-s="9">
+<h2>이번 카드엔<br>어떤 마음을 담아 볼까요?</h2>
+    <div class="moods" id="moods"></div>
+    <div class="free" id="fm"><input id="im" maxlength="40" placeholder="예) 이번에 이사 잘 마쳐서 고마워요"><button class="go" type="button" id="fmGo">좋아요</button></div>
+  </section>
+
+  <section class="step" data-s="0">
+<h2>이 마음, 누구한테<br>제일 먼저 전하고 싶으세요?</h2>
+    <div class="opts" id="who"></div>
+    <div class="free" id="fw0">
+      <input id="iw" maxlength="12" placeholder="어떻게 부르세요?  예) 이모, 할머니">
+      <p class="hint" style="text-align:left;margin:10px 2px 6px">말은 어떻게 건넬까요?</p>
+      <div class="opts" id="tone3"><button class="opt" type="button" data-h="1">공손하게</button><button class="opt" type="button" data-h="0">다정하고 편하게</button><button class="opt wide" type="button" data-h="b">고객님께</button></div>
+    </div>
+  </section>
+
+  <section class="step" data-s="10">
+<h2 id="pathH">카드,<br>어떻게 만들어 볼까요?</h2>
+    <div class="pathc" id="pFast" role="button" tabindex="0"><span class="t">✨ 이대로 예쁘게 보낼래요</span><div class="pv" id="pvFast"></div><span class="pick">이렇게 보낼래요</span></div>
+    <div class="pathc" id="pDeep" role="button" tabindex="0"><span class="t">💬 우리 얘기 조금 더 담을래요</span><div class="pv" id="pvDeep"></div><span class="pick">우리 얘기 담을래요</span></div>
+  </section>
+
+  <section class="step" data-s="1">
+<h2 id="artH">어울리는 그림,<br>하나 골라 볼까요?</h2>
+    <div class="arts" id="arts"></div>
+  </section>
+
+  <section class="step" data-s="2">
+<h2 id="q1"></h2><p class="hint" style="margin:-6px 0 12px">딱 떠오르는 게 없어도 괜찮아요.<br>하나만 골라 주시면 제가 예쁘게 엮어 드릴게요.</p>
+    <div class="opts" id="o1"></div><div class="free" id="f1"><input id="i1" maxlength="40" placeholder="예) 같이 김장하던 날"><button class="go" type="button" data-next="3">좋아요</button></div>
+  </section>
+
+  <section class="step" data-s="3">
+<h2 id="q2"></h2>
+    <div class="opts" id="o2"></div><div class="free" id="f2"><input id="i2" maxlength="30" placeholder="예) 차 조심해라"><button class="go" type="button" data-next="4">좋아요</button></div>
+  </section>
+
+  <section class="step" data-s="4">
+<h2 id="q3"></h2>
+    <div class="opts" id="o3"></div><div class="free" id="f3"><input id="i3" maxlength="40" placeholder="예) 같이 고향에 가 보기"><button class="go" type="button" data-next="5">좋아요</button></div>
+  </section>
+
+  <section class="step" data-s="5">
+<h2>이렇게 엮어 봤어요,<br>어떠세요?</h2>
+    <textarea id="msg"></textarea><p class="hint">마음에 안 드는 곳은 콕 눌러서 고쳐 주세요.<br>끝인사 자리는 비워 뒀어요. 다음에 손으로 써 주시면 돼요.</p>
+    <button class="go" type="button" data-next="6">이제 손글씨 써 볼까요</button>
+  </section>
+
+  <section class="step" data-s="6">
+<h2>이제 진짜 마음을<br>담을 차례예요</h2>
+    <div class="tabs" id="tabs"><button type="button" data-t="to" class="on">받는 분 이름</button><button type="button" data-t="line">끝인사 한마디</button><button type="button" data-t="sig">내 이름</button></div>
+    <div class="pad"><canvas id="cv"></canvas><div class="ph" id="ph"></div></div>
+    <p class="hint" id="hwHint">손으로 한 번 써 주세요. 조금 삐뚤어도 그게 더 좋아요.</p>
+    <div class="row2" id="sigbar" style="display:none;margin-top:8px"><button class="go line" type="button" id="sigLoad">서명 불러오기</button><button class="go line" type="button" id="sigDel">서명 지우기</button></div>
+    <div class="meta2"><div><label for="from">보내는 분</label><input id="from" maxlength="20" placeholder="예) 막내딸 지수"></div><div><label for="dt">날짜</label><input id="dt" maxlength="20"></div></div>
+    <div class="row2" style="margin-top:10px"><button class="go line" type="button" id="clr">다시 쓰기</button><button class="go" type="button" data-next="11">다음으로</button></div>
+  </section>
+
+  <section class="step" data-s="11">
+<h2>사진이랑 목소리도<br>함께 담아 볼까요?</h2>
+    <div class="mx">
+      <div class="mxc"><div class="t"><i>📷</i>함께 찍은 사진 한 장<span class="ok" id="okP"></span></div>
+        <img id="pvP" alt="고른 사진" style="display:none">
+        <input class="vfile" id="fileP" type="file" accept="image/*">
+        <div class="row2"><button class="go line" type="button" id="pickP">사진 고르기</button><button class="go line" type="button" id="delP" style="display:none">사진 빼기</button></div>
+      </div>
+      <div class="mxc"><div class="t"><i>🎙️</i>목소리 인사 (1분까지)<span class="ok" id="okV"></span></div>
+        <div class="rec" id="recOn"><b></b><span id="recT">0:00</span> 녹음하는 중이에요</div>
+        <audio id="pvV" controls style="display:none"></audio>
+        <input class="vfile" id="fileV" type="file" accept="audio/*" capture>
+        <div class="row2"><button class="go line" type="button" id="recBtn">녹음 시작</button><button class="go line" type="button" id="delV" style="display:none">목소리 빼기</button></div>
+      </div>
+      <div class="mxc"><div class="t"><i>🎬</i>영상 주소 (유튜브)<span class="ok" id="okY"></span></div>
+        <input type="url" id="vid" maxlength="300" placeholder="예) https://youtu.be/…">
+      </div>
+    </div>
+    <button class="go" type="button" data-next="7">다음으로</button>
+  </section>
+
+  <section class="step" data-s="7">
+<h2>카드 맨 아래에<br>누르는 단추를 달아 드려요</h2>
+    <p class="hint" id="lkH" style="margin:-6px 0 12px"></p>
+    <div class="lk" id="lk"></div>
+    <div class="lkpv"><div class="cap">카드 맨 아래엔 이렇게 보여요</div><div id="lkpv"></div></div>
+    <div id="lins"></div>
+    <div class="box"><b>명함이나 모바일 홈페이지 있으시면</b> 같이 붙여 주세요. 카드 받으신 분이 바로 놀러 오실 수 있어요.</div>
+    <button class="go" type="button" id="done">짜잔, 카드 보기</button>
+  </section>
+
+</div>
+<div id="lfFoot"></div>
+
+<div class="ov" id="ov"><div style="width:100%;padding-bottom:90px">
+  <div class="stage" id="stage"><p class="tada" id="tada"></p><div class="env" id="env"><div class="back"></div><div class="card" id="mini"></div><div class="front"></div><div class="flap"></div><div class="seal">♥</div><div class="to" id="envTo"></div></div><button class="openbtn" id="openBtn" type="button">봉투 열어 보기</button></div>
+  <div class="full" id="full"></div>
+  <div class="cbar" id="cbar"><button id="again" type="button">한 번 더 열어 보기</button><button id="edit" type="button">조금 고칠래요</button><button id="mute" type="button">소리 끄기</button></div>
+  <div class="cbar" id="cbar2" style="display:none"><button class="send" id="sendBtn" type="button">💌 이 카드 보내기</button></div>
+  <div class="sendp" id="sendp">
+    <h3>카드가 준비됐어요 🎉</h3>
+    <div class="url" id="sendUrl"></div>
+    <button class="go kko" type="button" id="kkoBtn">카카오톡으로 보내기</button>
+    <button class="go line" type="button" id="copyBtn">주소 복사</button>
+    <button class="go line" type="button" id="newBtn">새 카드 만들기</button>
+    <p class="small">고치고 다시 보내셔도 주소는 그대로예요.<br>받는 분이 열어 보시면 이 주소에서 알려 드려요.</p>
+  </div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<script src="/lf-foot.js" defer></script>
+<script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"></script>
+<script src="art.js?v=1"></script>
+<script>
+function lfMenuOpen(){document.getElementById('lfMenu').classList.add('open');document.getElementById('lfBackdrop').classList.add('open');}
+function lfMenuClose(){document.getElementById('lfMenu').classList.remove('open');document.getElementById('lfBackdrop').classList.remove('open');}
+try{ if(window.Kakao && !Kakao.isInitialized()){ Kakao.init('0c7493c2a8668712a43ccb9cf17387c8'); } }catch(e){}
+</script>
+<script>
+var $=function(i){return document.getElementById(i)};
+/* 받는 분 — 부르는 말 · 봉투 글 · 존대 */
+var WHO=[
+ {k:'엄마',ic:'🌷',c:'#FFE1E8',to:'사랑하는 엄마께',call:'엄마',nm:'엄마',hon:1},{k:'아빠',ic:'🌰',c:'#F6E7D2',to:'사랑하는 아빠께',call:'아빠',nm:'아빠',hon:1},
+ {k:'배우자',ic:'💛',c:'#FFF1C2',to:'사랑하는 당신에게',call:'여보',nm:'여보',hon:0},{k:'자녀',ic:'🐣',c:'#FFF6C9',to:'사랑하는 우리 아이에게',call:'우리 아이',nm:'우리 아이',hon:0},
+ {k:'친구',ic:'🌿',c:'#DDF3E2',to:'오랜 친구에게',call:'친구야',nm:'친구',hon:0},{k:'선생님',ic:'🍎',c:'#FFE0D9',to:'존경하는 선생님께',call:'선생님',nm:'선생님',hon:1},
+ {k:'고객',ic:'🎁',c:'#E3E9FF',to:'고마운 고객님께',call:'고객님',nm:'고객님',hon:1,biz:1}];
+/* 물음 셋 — 고르면 문장 조각이 됨 */
+var Q1=[['같이 밥 먹던 날','올해 함께 밥상에 앉았던 날들이 참 따뜻했어요'],['병원 같이 가던 길','병원 가던 길에 나란히 걷던 날이 오래 기억에 남아요'],['같이 다녀온 나들이','같이 다녀온 나들이가 아직도 눈에 선해요'],['늦은 밤 전화 한 통','힘들던 밤에 걸려 온 전화 한 통이 큰 위로였어요']];
+var Q2=[['「밥은 먹었니」','밥은 먹었니'],['「몸 조심해라」','몸 조심해라'],['「괜찮다, 다 잘될 거다」','괜찮다, 다 잘될 거다'],['「너만 잘 지내면 됐다」','너만 잘 지내면 됐다']];
+var Q3=[['더 자주 찾아뵙기','새해에는 제가 더 자주 찾아갈게요'],['함께 여행 가기','새해에는 꼭 같이 여행 한번 가요'],['함께 사진 찍기','새해에는 같이 사진도 많이 남겨요'],['옛날 이야기 듣기','새해에는 옛날 이야기도 더 많이 들려주세요']];
+var Q2b=[['「고마워」','고마워'],['「오늘도 수고했어」','오늘도 수고했어'],['「괜찮아, 내가 있잖아」','괜찮아, 내가 있잖아'],['「밥 먹었어?」','밥 먹었어?']];
+var Q3b=[['더 자주 얼굴 보기','새해에는 더 자주 얼굴 보자'],['함께 여행 가기','새해에는 꼭 같이 여행 한번 가요'],['함께 사진 찍기','새해에는 같이 사진도 많이 남겨요'],['맛있는 것 먹으러 가기','새해에는 맛있는 거 먹으러 자주 가요']];
+/* 마음 — 날과 마음을 하나로. o: 여는 말, c: 끝인사(손글씨 한마디가 없을 때만) [공손, 편하게] */
+var MOOD=[
+ {k:'xmas',ic:'🎄',t:'메리 크리스마스, 같이 설레고 싶어요',o:['메리 크리스마스!','메리 크리스마스!'],c:['따뜻하고 행복한 성탄 보내세요','따뜻하고 행복한 성탄 보내']},
+ {k:'thanks',ic:'🙏',t:'올 한 해, 정말 고마웠어요',o:['올 한 해 정말 고마웠어요','올 한 해 정말 고마웠어'],c:['따뜻하고 건강한 겨울 보내세요','따뜻한 겨울 보내']},
+ {k:'newyear',ic:'🌅',t:'새해에도 우리 잘 지내요',o:['한 해가 또 이렇게 저무네요','한 해가 또 이렇게 저무네'],c:['새해 복 많이 받으세요','새해 복 많이 받아']},
+ {k:'bday',ic:'🎂',t:'생일 정말 축하해요',o:['생일 정말 축하드려요','생일 정말 축하해'],c:['오늘 하루 제일 행복하세요','오늘 하루 제일 행복해']},
+ {k:'miss',ic:'💌',t:'그냥, 문득 보고 싶었어요',o:['그냥, 문득 보고 싶었어요','그냥, 문득 보고 싶었어'],c:['곧 얼굴 뵈어요','곧 얼굴 보자']},
+ {k:'joy',ic:'🎉',t:'좋은 일, 같이 기뻐하고 싶어요',o:['좋은 소식 들었어요. 정말 축하드려요','좋은 소식 들었어. 정말 축하해'],c:['앞으로도 좋은 일만 가득하세요','앞으로도 좋은 일만 가득하길']}];
+(function(){var d=new Date();if(d.getMonth()===11&&d.getDate()>=26){var n=MOOD.splice(2,1)[0];MOOD.unshift(n)}})();
+var QF=['해 주시던 음식 맛','올해도 해 주신 음식이 세상에서 제일 맛있었어요'];
+/* 가게 · 일터 갈래 물음 */
+var Q1c=[['처음 오신 날','처음 문을 열고 들어오시던 날이 아직 기억나요'],['늘 앉으시던 창가 자리','늘 앉으시던 창가 자리를 보면 손님 생각이 나요'],['가족과 함께 오신 날','가족분들과 함께 오신 날, 가게가 참 환했어요'],['힘든 철에 들러 주신 날','힘든 철에도 잊지 않고 들러 주셔서 큰 힘이 됐어요']];
+var Q2c=[['「오늘도 반가워요」','오늘도 반가워요'],['「늘 드시던 걸로요?」','늘 드시던 걸로요?'],['「조심히 들어가세요」','조심히 들어가세요'],['「덕분에 힘이 납니다」','덕분에 힘이 납니다']];
+var Q3c=[['새 맛 보여 드리기','새해에는 새로 준비한 맛도 꼭 보여 드릴게요'],['더 편한 자리 마련','새해에는 더 편히 쉬어 가실 자리를 마련할게요'],['가족과 함께 오시기','새해에는 가족분들과 함께 꼭 들러 주세요'],['늘 같은 맛 지키기','새해에도 늘 같은 맛으로 기다릴게요']];
+/* 이어지는 단추 — 디지털 카드의 차별화. in: 넣을 값(t 전화 · p 장소 · u 주소) */
+var LF='https://www.loveflow.ai.kr';
+var LINK={
+ reply:{n:'답장 카드 쓰기',d:'마음 담아 답장해 주세요'},
+ tel:{n:'전화 걸기',in:'t',ph:'예) 010 1234 5678',d:'목소리 들려주세요'},
+ map:{n:'만나러 가는 길',in:'p',ph:'예) 창원 상남시장',d:'만나러 와 주세요'},
+ photo:{n:'함께 본 사진',in:'u',ph:'사진 모음 주소',d:'같이 찍은 사진 보러 가요'},
+ memoir:{n:'그 시절 이야기 들려주기',d:'옛날 이야기 들려주세요',go:LF+'/memoir/'},
+ hanmadi:{n:'마음 한마디로 답하기',d:'짧게 한마디 남겨 주세요',go:LF+'/hanmadi/'},
+ nori:{n:'그때 그 놀이 한 판',d:'옛날 놀이 한 판 해요',go:LF+'/nori/'},
+ card:{n:'제 명함 보기',in:'u',ph:'디지털 명함 주소',d:'제 명함 구경해 주세요'},
+ home:{n:'우리 이야기 방 구경하기',in:'u',ph:'모바일 홈페이지 주소',d:'놀러 와 주세요'},
+ book:{n:'예약하기',in:'u',ph:'예약 주소 또는 전화번호',d:'자리 잡아 드릴게요'},
+ menu:{n:'새해 차림 보기',in:'u',ph:'메뉴 · 소식 주소',d:'새로 준비한 것 보러 오세요'}};
+var REC={0:['reply','tel','memoir'],1:['reply','tel','memoir'],2:['reply','photo','map'],3:['reply','photo','nori'],4:['reply','nori','map'],5:['reply','tel','card'],6:['book','map','home']};
+function custom(name,h){var biz=h==='b',hon=h!=='0';WHO[7]={k:name,ic:'✏️',c:'#EFE7FF',to:biz?'고마운 '+name+'께':hon?'사랑하는 '+name+'께':'사랑하는 '+name+'에게',call:name,nm:name,hon:hon?1:0,biz:biz?1:0};REC[7]=biz?['book','map','home']:hon?['reply','tel','card']:['reply','photo','map']}
+(function(){var d=new Date();window.__dt=d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일'})();
+var ST={w:null,a:null,m:null,fast:false,s1:'',s2:'',s3:'',hw:{to:'',line:'',sig:''},lk:[],mute:false},cur=8;
+function ORD(){return [8,9,0,10,1].concat(ST.fast?[]:[2,3,4,5]).concat([6,11,7])}
+function dots(){var o=ORD();$('dots').innerHTML=o.map(function(x){return '<i class="'+(x===cur?'on':'')+'"></i>'}).join('')}
+function go(n){if(cur===6)saveHW();cur=n;[].forEach.call(document.querySelectorAll('.step'),function(s){s.classList.toggle('on',+s.dataset.s===cur)});dots();window.scrollTo({top:0,behavior:'smooth'});if(cur===5){$('msg').value=compose()}if(cur===6){fit();sigUI()}if(cur===7){links()}}
+function pickRow(box,list,key,next,free){var h=list.map(function(x,i){return '<button class="opt" type="button" data-i="'+i+'">'+x[0]+'</button>'}).join('')+'<button class="opt wide" type="button" data-i="f">직접 쓸래요</button>';$(box).innerHTML=h;
+ [].forEach.call($(box).children,function(b){b.onclick=function(){[].forEach.call($(box).children,function(x){x.classList.remove('on')});b.classList.add('on');tone(196,0,.2);
+  if(b.dataset.i==='f'){$(free).classList.add('on');$(free).querySelector('input').focus();ST[key]='';return}$(free).classList.remove('on');ST[key]=list[+b.dataset.i][1];setTimeout(function(){go(next)},380)}})}
+/* 조사 — 받침에 따라 */
+function jb(w){var c=w.charCodeAt(w.length-1);return c>=0xAC00&&c<=0xD7A3&&(c-0xAC00)%28>0}
+function J(w,a,b){return w+(jb(w)?b:a)}
+function W(){return WHO[ST.w==null?0:ST.w]}
+function moodOf(){if(ST.mf){var t=ST.mf.replace(/[.!]$/,'');return {k:'free',o:[t,t],c:['따뜻하고 건강한 겨울 보내세요','따뜻한 겨울 보내']}}return MOOD[ST.m==null?0:ST.m]}
+function closeLine(){var w=W(),m=moodOf();return w.hon?m.c[0]:m.c[1]}
+/* 인사말 엮기 — 받는 분에 따라 존대 · 반말 */
+function compose(){var w=WHO[ST.w==null?0:ST.w],c=w.call,t1=($('i1').value||'').trim(),t2=($('i2').value||'').trim(),t3=($('i3').value||'').trim();
+ var s1=ST.s1||(t1?'올해 '+t1+', 그날이 오래 기억에 남아요':''),s2=ST.s2||t2,s3=ST.s3||(t3?'새해에는 '+t3+', 꼭 같이 해요':'');
+ function low(x){return x.replace(/제가/g,'내가').replace(/주세요$/,'줘').replace(/가요$/,'가자').replace(/남겨요$/,'남기자').replace(/요$/,'')}
+ var L=[c+','];
+ L.push(w.hon?moodOf().o[0]:moodOf().o[1]);
+ if(s1)L.push(w.hon?s1:low(s1));
+ if(s2)L.push(w.biz?'「'+s2+'」 하고 맞던 그 인사, 새해에도 그대로 드릴게요':w.hon?'「'+s2+'」 하시던 그 말이 올해도 저를 붙잡아 주었어요':'「'+s2+'」 그 한마디가 올해도 큰 힘이 됐어');
+ if(s3)L.push(w.hon?s3:low(s3));
+ return L.map(function(x,i){return i===0||/[.!?]$/.test(x)?x:x+'.'}).join('\n')}
+/* 소리 — 사랑흐름 중저음 · 크기 중하 */
+var ac=null;function tone(f,at,len){if(ST.mute)return;try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();var t=ac.currentTime+at,g=ac.createGain(),o=ac.createOscillator(),b=ac.createOscillator(),gb=ac.createGain();o.type='sine';o.frequency.value=f;b.type='sine';b.frequency.value=f/2;gb.gain.value=.5;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.05,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+len);o.connect(g);b.connect(gb);gb.connect(g);g.connect(ac.destination);o.start(t);b.start(t);o.stop(t+len+.05);b.stop(t+len+.05)}catch(e){}}
+function cheer(){tone(196,0,.4);tone(246.94,.1,.4);tone(293.66,.2,.4);tone(392,.32,.9)}
+/* 손글씨 */
+var cv=$('cv'),cx=cv.getContext('2d'),drawn=false,dn=false;
+function fit(){var r=cv.getBoundingClientRect(),d=window.devicePixelRatio||1;if(cv.width===Math.round(r.width*d))return;cv.width=Math.round(r.width*d);cv.height=Math.round(r.height*d);cx.scale(d,d);cx.lineCap='round';cx.lineJoin='round';cx.lineWidth=3.2;cx.strokeStyle='#1D2433'}
+function pt(e){var r=cv.getBoundingClientRect(),p=e.touches?e.touches[0]:e;return[p.clientX-r.left,p.clientY-r.top]}
+cv.addEventListener('pointerdown',function(e){dn=true;var p=pt(e);cx.beginPath();cx.moveTo(p[0],p[1]);if(!drawn){drawn=true;$('ph').style.display='none'}});
+cv.addEventListener('pointermove',function(e){if(!dn)return;var p=pt(e);cx.lineTo(p[0],p[1]);cx.stroke()});
+window.addEventListener('pointerup',function(){dn=false});
+/* 서명 저장 · 불러오기 — 이 휴대폰에 한 번 저장 (실제 서비스에서는 회원 계정에 저장해 어느 기기에서나) */
+var SK='lf_card_sig_v1';function getSig(){try{return localStorage.getItem(SK)||''}catch(e){return ''}}function setSig(v){try{if(v)localStorage.setItem(SK,v);else localStorage.removeItem(SK)}catch(e){}}
+function sigUI(){var on=HT==='sig',has=!!getSig();$('sigbar').style.display=on?'grid':'none';$('sigLoad').style.display=has?'block':'none';$('sigDel').style.display=has?'block':'none';$('sigbar').style.gridTemplateColumns=has?'1fr 1fr':'1fr';
+ $('hwHint').textContent=on?(has?(ST.hw.sig===getSig()?'저장해 둔 서명 불러왔어요. 새로 쓰고 싶으시면 다시 쓰기 눌러 주세요.':'저장해 둔 서명 있어요. 불러오기 눌러 주세요.'):'한 번 써 두시면 제가 기억해 둘게요. 다음 카드부턴 안 쓰셔도 돼요.'):HT==='line'?'여기 쓰신 한마디가 카드의 끝인사가 돼요.':'손으로 한 번 써 주세요. 조금 삐뚤어도 그게 더 좋아요.'}
+if(getSig())ST.hw.sig=getSig();
+var HT='to',PH={to:'받는 분 이름을 크게 써 주세요',line:'끝인사 한마디  예) 사랑해요',sig:'내 이름을 써 주세요'};
+function saveHW(){ST.hw[HT]=drawn?cv.toDataURL('image/png'):'';if(HT==='sig'&&ST.hw.sig)setSig(ST.hw.sig);[].forEach.call($('tabs').children,function(b){b.classList.toggle('has',!!ST.hw[b.dataset.t])})}
+function loadHW(t){HT=t;var r=cv.getBoundingClientRect();cx.clearRect(0,0,r.width,r.height);drawn=!!ST.hw[t];$('ph').textContent=PH[t];$('ph').style.display=drawn?'none':'grid';if(drawn){var im=new Image();im.onload=function(){cx.drawImage(im,0,0,r.width,r.height)};im.src=ST.hw[t]}sigUI()}
+[].forEach.call($('tabs').children,function(b){b.onclick=function(){saveHW();[].forEach.call($('tabs').children,function(x){x.classList.toggle('on',x===b)});loadHW(b.dataset.t)}});
+$('dt').value=window.__dt;$('ph').textContent=PH.to;[].forEach.call($('tabs').children,function(b){b.classList.toggle('has',!!ST.hw[b.dataset.t])});
+$('sigLoad').onclick=function(){ST.hw.sig=getSig();loadHW('sig');[].forEach.call($('tabs').children,function(b){b.classList.toggle('has',!!ST.hw[b.dataset.t])});tone(196,0,.2)};
+$('sigDel').onclick=function(){setSig('');sigUI()};
+$('clr').onclick=function(){var r=cv.getBoundingClientRect();cx.clearRect(0,0,r.width,r.height);drawn=false;$('ph').style.display='grid';ST.hw[HT]='';saveHW()};
+/* 차례 */
+$('who').innerHTML=WHO.slice(0,7).map(function(w,i){return '<button class="opt wt" type="button" data-i="'+i+'" style="--d:'+(i*60)+'ms"><span class="ic" style="background:'+w.c+'">'+w.ic+'</span>'+w.k+'</button>'}).join('')+'<button class="opt wt" type="button" id="whoFree" style="--d:420ms"><span class="ic" style="background:#EFE7FF">✏️</span>직접 넣기</button>';
+[].forEach.call($('who').querySelectorAll('[data-i]'),function(b){b.onclick=function(){[].forEach.call($('who').children,function(x){x.classList.remove('on')});$('whoFree').classList.remove('on');$('fw0').classList.remove('on');b.classList.add('on');pickWho(+b.dataset.i)}});
+function pickWho(i){ST.w=i;tone(196,0,.2);ST.s1='';ST.s2='';ST.s3='';var w=WHO[i],el=w.hon,bz=w.biz,n=w.nm;ST.lk=REC[i].slice();
+ pickRow('o1',bz?Q1c:el?Q1.concat([QF]):Q1,'s1',3,'f1');pickRow('o2',bz?Q2c:el?Q2:Q2b,'s2',4,'f2');pickRow('o3',bz?Q3c:el?Q3:Q3b,'s3',5,'f3');
+ $('pathH').innerHTML=J(n,'한테','한테')+' 보낼 카드,<br>어떻게 만들어 볼까요?';
+ $('artH').innerHTML=J(n,'랑','이랑')+' 어울리는 그림,<br>하나 골라 볼까요?';
+ $('q1').innerHTML='올해 '+J(n,'랑','이랑')+' 있었던 일 중에,<br>문득 생각나는 장면 있으세요?';
+ $('q2').innerHTML=bz?J(n,'','')+' 맞을 때<br>늘 하던 인사 있잖아요':el?J(n,'가','이')+' 자주 해 주시던 말,<br>혹시 기억나세요?':'둘이 자주 주고받던 말<br>있잖아요';
+ $('q3').innerHTML=bz?'내년엔 '+n+'께<br>어떤 약속 드리고 싶으세요?':'내년엔 '+J(n,'랑','이랑')+'<br>뭐 하고 싶으세요?';
+ $('lkH').innerHTML=J(n,'가','이')+' 카드를 다 읽고 단추를 누르면<br>바로 전화가 걸리거나, 답장을 쓰거나, 길 안내가 떠요.<br>세 개까지 골라 주세요. 아래에서 미리 보여 드릴게요.';
+ pathPv();
+ PH.to=n+', 하고 크게 써 주세요';if(HT==='to')$('ph').textContent=PH.to;
+ setTimeout(function(){go(10)},380)}
+$('whoFree').onclick=function(){[].forEach.call($('who').children,function(x){x.classList.remove('on')});this.classList.add('on');$('fw0').classList.add('on');$('iw').focus()};
+[].forEach.call($('tone3').children,function(b){b.onclick=function(){var n=$('iw').value.trim();if(!n){$('iw').focus();$('iw').placeholder='먼저 부르는 말을 적어 주세요';return}[].forEach.call($('tone3').children,function(x){x.classList.toggle('on',x===b)});custom(n,b.dataset.h);pickWho(7)}});
+$('moods').innerHTML=MOOD.map(function(m,i){return '<button class="mood" type="button" data-i="'+i+'" style="--d:'+(i*70)+'ms"><span class="mi">'+m.ic+'</span>'+m.t+'</button>'}).join('')+'<button class="mood" type="button" data-i="f" style="--d:'+(MOOD.length*70)+'ms"><span class="mi">✏️</span>내 마음, 직접 쓸래요</button>';
+[].forEach.call($('moods').children,function(b){b.onclick=function(){[].forEach.call($('moods').children,function(x){x.classList.toggle('on',x===b)});tone(196,0,.2);
+ if(b.dataset.i==='f'){$('fm').classList.add('on');$('im').focus();return}$('fm').classList.remove('on');ST.m=+b.dataset.i;ST.mf='';setTimeout(function(){go(0)},420)}});
+$('fmGo').onclick=function(){var t=$('im').value.trim();if(!t){$('im').focus();return}ST.mf=t;ST.m=null;go(0)};
+(function(){var h='';for(var i=0;i<16;i++)h+='<i style="left:'+(Math.random()*100)+'%;animation-duration:'+(4+Math.random()*5)+'s;animation-delay:'+(-Math.random()*6)+'s"></i>';$('heroSnow').innerHTML=h})();
+function pathPv(){var w=W(),c=w.call,m=moodOf(),o=w.hon?m.o[0]:m.o[1],cl=w.hon?m.c[0]:m.c[1];
+ var q1=(w.biz?Q1c:Q1)[0][1],q2=(w.biz?Q2c:w.hon?Q2:Q2b)[0][1],q3=(w.biz?Q3c:w.hon?Q3:Q3b)[0][1];
+ function pd(x){return /[.!?]$/.test(x)?x:x+'.'}
+ function low(x){return w.hon?x:x.replace(/제가/g,'내가').replace(/주세요$/,'줘').replace(/가요$/,'가자').replace(/남겨요$/,'남기자').replace(/요$/,'')}
+ $('pvFast').innerHTML='<span class="ex">이렇게 도착해요</span>'+esc(c)+',\n'+esc(pd(o))+'\n'+esc(pd(cl));
+ var l2=w.biz?'「'+q2+'」 하고 맞던 그 인사, 새해에도 그대로 드릴게요':w.hon?'「'+q2+'」 하시던 그 말이 올해도 저를 붙잡아 주었어요':'「'+q2+'」 그 한마디가 올해도 큰 힘이 됐어';
+ $('pvDeep').innerHTML='<span class="ex">예를 들면 이렇게 더 담겨요 (물음 세 개에 답하면)</span>'+esc(c)+',\n'+esc(pd(o))+'\n<b>＋ '+esc(low(q1))+'.</b>\n<b>＋ '+esc(l2)+'.</b>\n<b>＋ '+esc(low(q3))+'.</b>\n'+esc(pd(cl))}
+function pickPath(f){ST.fast=f;$('pFast').classList.toggle('on',f);$('pDeep').classList.toggle('on',!f);tone(196,0,.2);setTimeout(function(){go(1)},380)}
+$('pFast').onclick=function(){pickPath(true)};$('pDeep').onclick=function(){pickPath(false)};
+$('arts').innerHTML=ART.map(function(a,i){return '<button class="art" type="button" data-i="'+i+'"><div class="pic" style="background:'+a.bg+'">'+art(a.k,a.a)+'</div><b>'+a.n+'</b></button>'}).join('');
+[].forEach.call($('arts').children,function(b){b.onclick=function(){[].forEach.call($('arts').children,function(x){x.classList.remove('on')});b.classList.add('on');ST.a=+b.dataset.i;tone(196,0,.2);setTimeout(function(){go(ST.fast?6:2)},380)}});
+pickRow('o1',Q1,'s1',3,'f1');pickRow('o2',Q2,'s2',4,'f2');pickRow('o3',Q3,'s3',5,'f3');
+[].forEach.call(document.querySelectorAll('[data-next]'),function(b){b.onclick=function(){go(+b.dataset.next)}});
+function step(d){var o=ORD(),i=o.indexOf(cur);i=Math.max(0,Math.min(o.length-1,i+d));go(o[i])}
+/* 「← ⌂ →」(공용 틀) — 만드는 중에는 단계 앞뒤로 · 첫 화면에서 ← 는 원래대로 */
+window.LF_WAY={back:function(){if($('ov').classList.contains('on')){$('ov').classList.remove('on');return true}var o=ORD();if(o.indexOf(cur)>0){step(-1);return true}return false},
+ fwd:function(){var o=ORD();if(o.indexOf(cur)<o.length-1){step(1);return true}return false}};
+function links(){var rec=REC[ST.w==null?0:ST.w],keys=rec.concat(Object.keys(LINK).filter(function(k){return rec.indexOf(k)<0}));
+ $('lk').innerHTML=keys.map(function(k){return '<button class="opt'+(rec.indexOf(k)>=0?' rec':'')+(ST.lk.indexOf(k)>=0?' on':'')+'" type="button" data-k="'+k+'">'+LINK[k].n+'</button>'}).join('');
+ var old={};[].forEach.call(document.querySelectorAll('#lins input'),function(i){old[i.dataset.k]=i.value});
+ $('lins').innerHTML=keys.filter(function(k){return LINK[k].in}).map(function(k){return '<div class="lin'+(ST.lk.indexOf(k)>=0?' on':'')+'" data-k="'+k+'"><label>'+LINK[k].n+'</label><input data-k="'+k+'" placeholder="'+LINK[k].ph+'" value="'+(old[k]||'').replace(/"/g,'&quot;')+'"></div>'}).join('');
+ [].forEach.call($('lk').children,function(b){b.onclick=function(){var k=b.dataset.k,i=ST.lk.indexOf(k);if(i>=0)ST.lk.splice(i,1);else{if(ST.lk.length>=3)ST.lk.shift();ST.lk.push(k)}tone(196,0,.2);
+  [].forEach.call($('lk').children,function(x){x.classList.toggle('on',ST.lk.indexOf(x.dataset.k)>=0)});[].forEach.call(document.querySelectorAll('.lin'),function(x){x.classList.toggle('on',ST.lk.indexOf(x.dataset.k)>=0)});lkpv()}})
+ lkpv()}
+function lkpv(){$('lkpv').innerHTML=ST.lk.length?ST.lk.map(function(k,i){return '<a class="'+(i?'sub':'')+'"><span>'+LINK[k].n+'<br><small>'+LINK[k].d+'</small></span><span>›</span></a>'}).join(''):'<p class="hint" style="margin:4px 0">단추 없이 보내셔도 괜찮아요.</p>'}
+function val(k){var i=document.querySelector('#lins input[data-k="'+k+'"]');return i?i.value.trim():''}
+function href(k){var L=LINK[k],v=val(k);if(L.go)return L.go;if(k==='reply')return LF+'/card/';
+ if(L.in==='t'||(k==='book'&&/^[0-9 ]{8,}$/.test(v)))return v?'tel:'+v.replace(/[^0-9]/g,''):'';
+ if(L.in==='p')return v?'https://map.naver.com/p/search/'+encodeURIComponent(v):'';
+ if(!v)return '';return /^https?:\/\//.test(v)?v:'https://'+v}
+function esc(x){return String(x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+$('done').onclick=show;
+function show(){$('sendp').classList.remove('on');$('cbar2').style.display='none';var a=ART[ST.a==null?0:ST.a],w=WHO[ST.w==null?0:ST.w],e=$('env');e.className='env';e.style.setProperty('--e1',a.e[0]);e.style.setProperty('--e2',a.e[1]);e.style.setProperty('--e3',a.e[2]);
+ $('mini').style.background=a.bg;$('mini').innerHTML=art(a.k,a.a);if(ST.fast||!$('msg').value)$('msg').value=compose();$('tada').textContent='짜잔, '+J(w.nm,'한테','한테')+'는 이렇게 도착해요';$('envTo').innerHTML='<small>To.</small>'+(ST.hw.to?'<img alt="받는 분 이름 손글씨" src="'+ST.hw.to+'">':w.to);$('stage').style.display='block';$('openBtn').style.display='block';$('full').style.display='none';$('cbar').style.display='none';$('ov').classList.add('on')}
+function openIt(){var a=ART[ST.a==null?0:ST.a],w=WHO[ST.w==null?0:ST.w];$('env').classList.add('open');$('openBtn').style.display='none';cheer();
+ setTimeout(function(){$('stage').style.display='none';var f=$('full');f.innerHTML='<div class="pic'+(MX.photo?' hp':'')+'" style="background:'+a.bg+'">'+(MX.photo?'<img class="ph" alt="함께 찍은 사진" src="'+MX.photo+'">':art(a.k,a.a))+(a.snow?snow():'')+'</div><div class="bd"><div class="to2">'+(ST.hw.to?'<div class="toimg"><img alt="받는 분 이름 손글씨" src="'+ST.hw.to+'"></div>':w.to)+'</div><p></p>'+(ST.hw.line?'<div class="line1"><img alt="끝인사 손글씨" src="'+ST.hw.line+'"></div>':'<p class="close">'+esc(closeLine())+'.</p>')+(ST.hw.sig?'<div class="sig"><img alt="보내는 분 이름 손글씨" src="'+ST.hw.sig+'"></div>':'')+'<div class="meta">'+esc($('dt').value||'')+(($('from').value||'').trim()?'<br>'+esc($('from').value.trim())+' 드림':'')+'</div>'+(MX.voice?'<button class="voicebtn" type="button" id="pvPlay">▶ 목소리 인사 듣기</button>':'')+acts()+'</div><div class="brand"><a href="'+LF+'" target="_blank" rel="noopener"><b>사랑흐름</b> 카드</a><a href="'+LF+'" target="_blank" rel="noopener">나도 카드 보내기 ›</a></div>';f.querySelector('p').textContent=$('msg').value;f.classList.toggle('xmas',moodOf().k==='xmas'||/^x/.test(ART[ST.a==null?0:ST.a].k));f.style.display='block';$('cbar').style.display='flex';$('cbar2').style.display='flex';var pp=$('pvPlay');if(pp)pp.onclick=function(){var au=new Audio(MX.voice);au.play().catch(function(){})}},1500)}
+function acts(){var vu=vidUrl(),h0=vu?'<a class="sub" href="'+esc(vu)+'" target="_blank" rel="noopener"><span>영상 보기<br><small>함께 보고 싶은 영상이에요</small></span><span>›</span></a>':'';var h=ST.lk.map(function(k,i){var u=href(k);if(!u)return '';var ext=/^https?:/.test(u)&&u.indexOf(location.host||'#')<0;return '<a class="'+(i?'sub':'')+'" href="'+esc(u)+'"'+(ext?' target="_blank" rel="noopener"':'')+'><span>'+LINK[k].n+'<br><small>'+LINK[k].d+'</small></span><span>›</span></a>'}).join('')+h0;return h?'<div class="acts">'+h+'</div>':''}
+$('mute').onclick=function(){ST.mute=!ST.mute;$('mute').textContent=ST.mute?'소리 켜기':'소리 끄기'};
+$('openBtn').onclick=openIt;$('env').onclick=function(){if(!$('env').classList.contains('open'))openIt()};
+$('again').onclick=function(){$('sendp').classList.remove('on');show()};$('edit').onclick=function(){$('ov').classList.remove('on');go(ST.fast?6:5)};
+
+/* ── 사진 · 목소리 · 영상 ── */
+var MX={photo:'',voice:''};
+function toast(m){var e=$('toast');e.textContent=m;e.classList.add('on');clearTimeout(e.__h);e.__h=setTimeout(function(){e.classList.remove('on')},2600)}
+$('pickP').onclick=function(){$('fileP').click()};
+$('fileP').onchange=function(){var f=this.files&&this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var M=1600,w=im.width,h=im.height,s=Math.min(1,M/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.round(w*s);c.height=Math.round(h*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);MX.photo=c.toDataURL('image/jpeg',.85);paintMx();tone(196,0,.2)};im.onerror=function(){toast('이 사진은 열 수 없어요. 다른 사진을 골라 주세요')};im.src=r.result};r.readAsDataURL(f);this.value=''};
+$('delP').onclick=function(){MX.photo='';paintMx()};
+var mr=null,chunks=[],recTm=null,recS=0;
+function canRec(){return !!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia&&window.MediaRecorder)}
+$('recBtn').onclick=function(){
+ if(mr&&mr.state==='recording'){mr.stop();return}
+ if(!canRec()){$('fileV').click();return}
+ navigator.mediaDevices.getUserMedia({audio:true}).then(function(st){
+  chunks=[];var mt=['audio/webm;codecs=opus','audio/webm','audio/mp4','audio/aac'].filter(function(t){return MediaRecorder.isTypeSupported&&MediaRecorder.isTypeSupported(t)})[0];
+  mr=mt?new MediaRecorder(st,{mimeType:mt}):new MediaRecorder(st);
+  mr.ondataavailable=function(e){if(e.data&&e.data.size)chunks.push(e.data)};
+  mr.onstop=function(){clearInterval(recTm);st.getTracks().forEach(function(t){t.stop()});$('recOn').classList.remove('on');$('recBtn').textContent='다시 녹음';
+   var b=new Blob(chunks,{type:(mr.mimeType||'audio/webm').split(';')[0]});var r=new FileReader();r.onload=function(){MX.voice=r.result;paintMx()};r.readAsDataURL(b)};
+  mr.start();recS=0;$('recT').textContent='0:00';$('recOn').classList.add('on');$('recBtn').textContent='녹음 마치기';
+  recTm=setInterval(function(){recS++;$('recT').textContent='0:'+(recS<10?'0':'')+recS;if(recS>=60&&mr.state==='recording')mr.stop()},1000);
+ }).catch(function(){$('fileV').click()})};
+$('fileV').onchange=function(){var f=this.files&&this.files[0];if(!f)return;if(f.size>2100000){toast('1분 안쪽 목소리로 골라 주세요');this.value='';return}var r=new FileReader();r.onload=function(){MX.voice=r.result;paintMx()};r.readAsDataURL(f);this.value=''};
+$('delV').onclick=function(){MX.voice='';$('recBtn').textContent='녹음 시작';paintMx()};
+function vidUrl(){var v=($('vid').value||'').trim();if(!v)return '';if(!/^https?:\/\//i.test(v))v='https://'+v;return /^https?:\/\/([^\/]+\.)?(youtube\.com|youtu\.be|uriyagi\.kr|loveflow\.ai\.kr)(\/|$)/i.test(v)?v:''}
+$('vid').oninput=function(){var v=($('vid').value||'').trim();$('okY').textContent=!v?'':vidUrl()?'✓ 담았어요':'유튜브 주소를 붙여 주세요'};
+function paintMx(){$('pvP').style.display=MX.photo?'block':'none';if(MX.photo)$('pvP').src=MX.photo;$('delP').style.display=MX.photo?'block':'none';$('pickP').textContent=MX.photo?'다른 사진 고르기':'사진 고르기';$('okP').textContent=MX.photo?'✓ 담았어요':'';
+ $('pvV').style.display=MX.voice?'block':'none';if(MX.voice)$('pvV').src=MX.voice;$('delV').style.display=MX.voice?'block':'none';$('okV').textContent=MX.voice?'✓ 담았어요':''}
+if(!canRec())$('recBtn').textContent='목소리 파일 고르기';
+
+/* ── 보내기 · 「사랑흐름 마음 카드」 서버 (Code.gs 3 버전) ── */
+var CARD_API='https://script.google.com/macros/s/AKfycby0RS9OH3NeQI3uuG7HemoGfcNOA_LK0cdpGfvrreP-FaS3837qQ5O4R194R42PYzC7/exec';
+var SENT={c:'',k:'',url:''};
+function keys(){try{return JSON.parse(localStorage.getItem('lfCardKeys')||'{}')}catch(e){return {}}}
+function keep(c,k){try{var o=keys();o[c]=k;localStorage.setItem('lfCardKeys',JSON.stringify(o))}catch(e){}}
+function buttonsOut(){return ST.lk.map(function(k){var u=href(k);if(!u)return null;var L=LINK[k];if(/^tel:/.test(u))return {type:'tel',label:L.n,value:u.slice(4)};return {type:/map\.naver\.com/.test(u)?'map':'url',label:L.n,value:u}}).filter(Boolean).slice(0,3)}
+function cardOut(){var a=ART[ST.a==null?0:ST.a],w=W(),m=moodOf(),msg=$('msg').value||compose();
+ if(!ST.hw.line)msg=msg+'\n'+closeLine()+'.';
+ var fr=($('from').value||'').trim();
+ return {mood:m.k==='free'?ST.mf:m.k,to:w.to,tone:w.biz?'고객':w.hon?'공손':'편하게',way:ST.fast?'이대로':'우리 얘기',art:a.k,greeting:msg,date:$('dt').value||'',from:fr?fr+' 드림':'',buttons:buttonsOut(),video:vidUrl()}}
+$('sendBtn').onclick=function(){var b=this;if(b.disabled)return;b.disabled=true;b.textContent='카드를 담는 중이에요…';
+ var body={a:'save',card:cardOut(),hands:{to:ST.hw.to||'',end:ST.hw.line||'',me:ST.hw.sig||''},media:{photo:MX.photo||'',voice:MX.voice||''}};
+ if(SENT.c){body.c=SENT.c;body.k=SENT.k}
+ fetch(CARD_API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body)}).then(function(r){return r.json()}).then(function(d){
+  if(!d||!d.ok){toast(d&&d.msg?d.msg:'앗, 보낼 준비가 잘 안 됐어요. 잠시 뒤에 다시 눌러 주세요');return}
+  SENT={c:d.c,k:d.k,url:d.url};keep(d.c,d.k);cheer();
+  $('sendUrl').textContent=d.url;$('cbar2').style.display='none';$('sendp').classList.add('on');
+  setTimeout(function(){$('sendp').scrollIntoView({behavior:'smooth',block:'center'})},100);
+ }).catch(function(){toast('앗, 연결이 잠깐 끊겼어요. 잠시 뒤에 다시 눌러 주세요')}).then(function(){b.disabled=false;b.textContent='💌 이 카드 보내기'})};
+$('kkoBtn').onclick=function(){if(!SENT.url)return;var w=W(),fr=($('from').value||'').trim();
+ if(!window.Kakao||!Kakao.Share){toast('카카오톡 여는 중이에요. 잠시 뒤에 다시 눌러 주세요');return}
+ try{Kakao.Share.sendDefault({objectType:'feed',content:{title:w.to+', 마음 카드가 도착했어요 🎄',description:fr?fr+' 님이 보낸 카드예요':'눌러서 봉투를 열어 보세요',imageUrl:'https://www.loveflow.ai.kr/card/og.jpg?v=1',link:{mobileWebUrl:SENT.url,webUrl:SENT.url}},buttons:[{title:'카드 열어 보기',link:{mobileWebUrl:SENT.url,webUrl:SENT.url}}]})}catch(e){toast('카카오톡을 열지 못했어요. 주소 복사로 보내 주세요')}};
+$('copyBtn').onclick=function(){if(!SENT.url)return;var u=SENT.url;function ok(){toast('주소를 복사했어요. 카톡이나 문자에 붙여 보내 주세요')}
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(u).then(ok,function(){fallback()})}else fallback();
+ function fallback(){try{var t=document.createElement('textarea');t.value=u;t.style.position='fixed';t.style.left='-9999px';document.body.appendChild(t);t.select();document.execCommand('copy');document.body.removeChild(t);ok()}catch(e){toast(u)}}};
+$('newBtn').onclick=function(){location.href=location.pathname};
+dots();
+</script>
+<script src="/lf/frame.js?v=17"></script>
+</body>
+</html>

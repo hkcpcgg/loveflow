@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- ★ 현재 버전 ▶ card/index.html · v1 · 261123 · [마음 카드 보내기 최소판 · 설계서 261122 · 대표 OK 261123] 받은 카드 화면 첫 판. 주소 하나: /card/?c=카드번호 면 받은 카드, 번호 없으면 만들기(만들기 화면은 3.1판 받은 뒤 붙임 · 지금은 안내만). 서버 = 「사랑흐름 마음 카드」 Code.gs 3 버전(대표 hkcpcgg 계정). 봉투 열기 · 손글씨 셋 · 사진과 목소리는 카드가 뜬 뒤 따로 받음 · 영상은 링크 · 단추 주소 검사(모르는 곳은 「○○ 사이트로 이동해요」) · 신고 · 보관 끝 · 한국어 · English. 보내는 분 기기에 고침열쇠가 있으면 「처음 열어 본 때」를 보여 주고 열어 본 횟수는 세지 않음. 문지기 · 위 띠 · 공용 푸터는 다른 받은 화면(m/)과 같은 한 벌. -->
+<!-- ★ 현재 버전 ▶ card/index.html · v2 · 261123 · [만들기 붙임] 번호 없이 열면 만들기(make.html)로 · 카드 모양을 만들기 미리보기와 같게(그림 열셋 card/art.js · 크리스마스 줄무늬 테두리 · 봉투 색 · 날짜와 보내는 분). [무손] 그 밖 v1.
+(이전) card/index.html · v1 · 261123 · [마음 카드 보내기 최소판 · 설계서 261122 · 대표 OK 261123] 받은 카드 화면 첫 판. 주소 하나: /card/?c=카드번호 면 받은 카드, 번호 없으면 만들기(만들기 화면은 3.1판 받은 뒤 붙임 · 지금은 안내만). 서버 = 「사랑흐름 마음 카드」 Code.gs 3 버전(대표 hkcpcgg 계정). 봉투 열기 · 손글씨 셋 · 사진과 목소리는 카드가 뜬 뒤 따로 받음 · 영상은 링크 · 단추 주소 검사(모르는 곳은 「○○ 사이트로 이동해요」) · 신고 · 보관 끝 · 한국어 · English. 보내는 분 기기에 고침열쇠가 있으면 「처음 열어 본 때」를 보여 주고 열어 본 횟수는 세지 않음. 문지기 · 위 띠 · 공용 푸터는 다른 받은 화면(m/)과 같은 한 벌. -->
+<script>(function(){var q=new URLSearchParams(location.search);if(!q.get('c')){location.replace('/card/make.html'+location.search+location.hash);}})();</script>
 <script src="/lf/pass.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
@@ -68,7 +70,12 @@ body{font-family:'Noto Sans KR',sans-serif;background:linear-gradient(#10294a,#1
 .frame{padding:10px;border-radius:20px;background:repeating-linear-gradient(45deg,#c62b34 0 14px,#fff 14px 28px);max-width:460px;margin:0 auto;box-shadow:0 18px 40px rgba(0,0,0,.35)}
 .frame.plain{background:linear-gradient(135deg,#f6dc8e,#b8862b 40%,#f3d27a 60%,#a97721);padding:6px}
 .card{background:#fffaf2;border-radius:12px;overflow:hidden}
-.pic{position:relative;background:linear-gradient(160deg,#dbe8f4,#f6f9fc 55%,#e7eef6);min-height:200px}
+.pic{position:relative;background:linear-gradient(160deg,#dbe8f4,#f6f9fc 55%,#e7eef6);height:290px;overflow:hidden}
+.pic img.ph{width:100%;height:auto}
+.pic.hp{height:auto}
+.snow i{position:absolute;top:-10px;width:5px;height:5px;border-radius:50%;background:#fff;opacity:.8;animation:fall linear infinite}@keyframes fall{to{transform:translateY(300px)}}
+.tw{animation:tw 1.6s ease-in-out infinite}.tw2{animation:tw 1.6s ease-in-out .8s infinite}@keyframes tw{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.snow i,.tw,.tw2{animation:none}}
 .pic img{width:100%}
 .pic .art{display:grid;place-items:center;height:240px;text-align:center;color:#b3242c;font-family:'Gowun Batang',serif;font-size:26px;font-weight:700;line-height:1.5}
 .pic .art small{display:block;font-size:15px;color:#1f5a3c}
@@ -80,7 +87,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:linear-gradient(#10294a,#1
 .endhand{margin-top:12px}
 .sign{text-align:right;margin-top:12px;font-family:'Nanum Pen Script',cursive;font-size:32px;color:#b3242c;line-height:1.1;overflow-wrap:anywhere}
 .sign .hand{max-height:64px;margin-left:auto;display:block}
-.date{text-align:right;font-size:13px;color:#8a7a6a;margin-top:4px}
+.date{text-align:right;font-size:13.5px;color:#5b6273;margin-top:8px;line-height:1.6}
 .voice{display:flex;align-items:center;gap:10px;width:100%;margin-top:16px;background:#fff3e6;border:1.5px solid #f0d2b4;border-radius:14px;padding:12px 14px;font:600 15px 'Noto Sans KR',sans-serif;color:#7d1520;cursor:pointer;text-align:left}
 .voice .ic{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#b3242c;color:#fff;font-size:15px;flex-shrink:0}
 .btns{display:flex;flex-direction:column;gap:9px;margin-top:18px}
@@ -188,6 +195,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:linear-gradient(#10294a,#1
 function lfMenuOpen(){document.getElementById('lfMenu').classList.add('open');document.getElementById('lfBackdrop').classList.add('open');}
 function lfMenuClose(){document.getElementById('lfMenu').classList.remove('open');document.getElementById('lfBackdrop').classList.remove('open');}
 </script>
+<script src="art.js?v=1"></script>
 <script>
 /* ── 마음 카드 서버 · 「사랑흐름 마음 카드」 Code.gs 3 버전 (hkcpcgg 계정 · 시트 「사랑흐름 마음 카드 대장」) ── */
 var CARD_API = 'https://script.google.com/macros/s/AKfycby0RS9OH3NeQI3uuG7HemoGfcNOA_LK0cdpGfvrreP-FaS3837qQ5O4R194R42PYzC7/exec';
@@ -255,19 +263,20 @@ function handImg(src, cls){ var i=new Image(); i.src=src; i.alt=''; i.className=
 function fillCard(d, again){
   var c = d.card || {}, h = d.hands || {};
   $('envTo').textContent = c.to ? c.to : t('dear');
-  $('envFrom').textContent = c.from ? t('from')(c.from) : '';
+  $('envFrom').textContent = c.from ? t('from')(c.from.replace(/\s*드림$/,'')) : '';
   var to = $('to'); to.innerHTML='';
   if (h.to) { to.appendChild(handImg(h.to)); } else { to.textContent = c.to ? c.to : t('dear'); }
   $('msg').textContent = c.greeting || '';
   var eh = $('endHand'); eh.innerHTML=''; if (h.end) { eh.appendChild(handImg(h.end)); }
-  var sg = $('sign'); sg.innerHTML=''; if (h.me) { sg.appendChild(handImg(h.me)); } else if (c.from) { sg.textContent = c.from; }
-  $('date').textContent = c.date || '';
+  var sg = $('sign'); sg.innerHTML=''; if (h.me) { sg.appendChild(handImg(h.me)); }
+  var dt = $('date'); dt.textContent=''; if (c.date) { dt.appendChild(document.createTextNode(c.date)); } if (c.from) { if (c.date) dt.appendChild(document.createElement('br')); dt.appendChild(document.createTextNode(c.from)); }
+  if (!again) { paintFrame(c); }
   if (!again) {
     var pic = $('pic'); pic.innerHTML='';
     if (d.has && d.has.photo) {
       var w=document.createElement('div'); w.className='art'; w.style.height='220px'; w.textContent='';
       var wt=document.createElement('div'); wt.className='wait'; wt.textContent=t('photoWait'); pic.appendChild(w); pic.appendChild(wt);
-      api({a:'media', c:CID, m:'photo'}).then(function(r){ if(r&&r.ok&&r.data){ pic.innerHTML=''; var im=new Image(); im.alt=''; im.src=r.data; pic.appendChild(im); } else { drawArt(); } }).catch(drawArt);
+      api({a:'media', c:CID, m:'photo'}).then(function(r){ if(r&&r.ok&&r.data){ pic.innerHTML=''; var im=new Image(); im.alt=''; im.className='ph'; im.src=r.data; pic.classList.add('hp'); pic.style.background='#fff'; pic.appendChild(im); } else { drawArt(); } }).catch(drawArt);
     } else { drawArt(); }
   }
   var vb = $('voiceBox'); vb.innerHTML='';
@@ -301,11 +310,18 @@ function fillCard(d, again){
   if (d.mine) { mb.style.display='block'; mb.textContent = t('mineT')+' · '+(d.opened ? t('opened')(d.opened) : t('notYet')); } else { mb.style.display='none'; }
 }
 
+function artOf(){ var k=(window.__card&&window.__card.card&&window.__card.card.art)||''; for(var i=0;i<ART.length;i++){ if(ART[i].k===k) return ART[i]; } return null; }
 function drawArt(){
-  var pic=$('pic'); pic.innerHTML='';
+  var pic=$('pic'); pic.innerHTML=''; var A=artOf();
+  if (A) { pic.style.background=A.bg; pic.innerHTML=art(A.k,A.a)+(A.snow?snow():''); return; }
   var a=document.createElement('div'); a.className='art';
   var s1=document.createElement('div'); s1.textContent='❄ '+t('art')+' ❄'; var s2=document.createElement('small'); s2.textContent=t('art2');
   s1.appendChild(s2); a.appendChild(s1); pic.appendChild(a);
+}
+function paintFrame(c){
+  var A=artOf(), x=(c.mood==='xmas')||(A&&A.k.charAt(0)==='x');
+  $('frame').classList.toggle('plain', !x);
+  if (A) { var env=$('env'); env.querySelector('.back').style.background='linear-gradient(135deg,'+A.e[1]+','+A.e[2]+')'; env.querySelector('.flap path').setAttribute('fill', A.e[0]); }
 }
 
 function askLeave(url){
