@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- ★ 현재 버전 ▶ card/sample.html · v1 · 261123 · [대표 261123 19:20 · 19:51 OK] 사랑흐름 마음 카드 견본 · 정형화 템플릿. 처음 화면 = 무료 · 유료 표 + 견본 단추 둘 · #free · #pro 따로 열림(봉투 저절로 열림). 유료: 네 언어 · 손글씨 세 칸 · 목소리 인사 · 배경 소리 · 사진 더 보기 · 매장 안내 · 명함 C-1001 · 모바일 홈페이지 home/C-1003. 카드 내용은 main 스크립트의 D 묶음만 갈아 끼움. -->
+<script src="/lf/pass.js"></script>
+<meta name="description" content="사랑흐름 마음 카드 견본">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="사랑흐름">
+<meta property="og:title" content="사랑흐름 마음 카드 견본">
+<meta property="og:image" content="https://www.loveflow.ai.kr/card/og.jpg?v=1">
+<meta property="og:url" content="https://www.loveflow.ai.kr/card/sample.html">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사랑흐름 마음 카드 · 견본</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+img{max-width:100%;height:auto;display:block}
+body{font-family:'Noto Sans KR',sans-serif;background:linear-gradient(#10294a,#1d4a6e 45%,#2c5f86);color:#2b2321;min-height:100vh;display:flex;flex-direction:column}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:0}
+.lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;background:#1E4A76;border-bottom:1px solid #163A5C;padding:10px 14px}
+.lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:15px;text-decoration:none}
+.lf-nav-logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block;flex-shrink:0}
+.lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px;font-family:inherit}
+.lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.lf-nav-burger{background:none;border:none;cursor:pointer;color:#fff;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px;margin-left:auto;font-family:inherit}
+.lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;overflow-y:auto}
+.lf-menu.open{transform:translateX(0)}
+.lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#163A5C;margin-bottom:6px}
+.lf-menu-head .t{color:#fff;font-weight:800;font-size:15px}
+.lf-menu-close{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1;font-family:inherit}
+.lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
+.lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+.lf-backdrop.open{opacity:1;visibility:visible}
+
+.stage{position:relative;z-index:1;flex:1;width:100%;max-width:500px;margin:0 auto;padding:22px 16px 34px}
+.lang{width:max-content;margin:0 auto 18px;display:flex;background:rgba(255,255,255,.92);border-radius:999px;padding:3px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.lang button{border:0;background:none;font:600 13px 'Noto Sans KR',sans-serif;padding:7px 14px;border-radius:999px;color:#555;cursor:pointer}
+.lang button.on{background:#b3242c;color:#fff}
+
+.state{text-align:center;color:#eef4fa;padding:70px 10px;font-size:16px;line-height:1.8}
+.state .big{font-family:'Gowun Batang',serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.state a{color:#ffd98a;font-weight:600;text-decoration:none}
+.dot{display:inline-block;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* 봉투 */
+.env{position:relative;max-width:460px;margin:0 auto;aspect-ratio:1.3/1;cursor:pointer;perspective:1200px;transition:transform .5s ease,opacity .5s ease}
+.env .back{position:absolute;inset:0;background:linear-gradient(135deg,#c2313a,#8e1b24);border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.env .flap{position:absolute;left:0;right:0;top:0;height:58%;transform-origin:top;transition:transform .9s ease,opacity .35s ease .55s;z-index:3}
+.env .flap svg{width:100%;height:100%;display:block}
+.env .front{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:0 20px 24px;color:#fff;text-align:center}
+.env .seal{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:radial-gradient(#e7c873,#b88a2c);display:grid;place-items:center;font-size:26px;z-index:4;box-shadow:0 3px 8px rgba(0,0,0,.35);transition:opacity .4s}
+.env .whom{font-family:'Gowun Batang',serif;font-size:21px;font-weight:700;word-break:keep-all}
+.env .from{font-size:14px;opacity:.92;margin-top:4px}
+.env .hint{font-size:13px;margin-top:10px;background:rgba(255,255,255,.2);padding:5px 14px;border-radius:999px}
+.env.open .flap{transform:rotateX(180deg);opacity:0}
+.env.open .seal{opacity:0}
+.env.gone{transform:translateY(-12px) scale(.96);opacity:0;pointer-events:none;position:absolute;left:16px;right:16px}
+
+/* 카드 */
+.cardwrap{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+.cardwrap.show{opacity:1;transform:none}
+.frame{padding:10px;border-radius:20px;background:repeating-linear-gradient(45deg,#c62b34 0 14px,#fff 14px 28px);max-width:460px;margin:0 auto;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.frame.plain{background:linear-gradient(135deg,#f6dc8e,#b8862b 40%,#f3d27a 60%,#a97721);padding:6px}
+.card{background:#fffaf2;border-radius:12px;overflow:hidden}
+.pic{position:relative;background:linear-gradient(160deg,#dbe8f4,#f6f9fc 55%,#e7eef6);height:290px;overflow:hidden}
+.pic img.ph{width:100%;height:auto}
+.pic.hp{height:auto}
+.snow i{position:absolute;top:-10px;width:5px;height:5px;border-radius:50%;background:#fff;opacity:.8;animation:fall linear infinite}@keyframes fall{to{transform:translateY(300px)}}
+.tw{animation:tw 1.6s ease-in-out infinite}.tw2{animation:tw 1.6s ease-in-out .8s infinite}@keyframes tw{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.snow i,.tw,.tw2{animation:none}}
+.pic img{width:100%}
+.pic .art{display:grid;place-items:center;height:240px;text-align:center;color:#b3242c;font-family:'Gowun Batang',serif;font-size:26px;font-weight:700;line-height:1.5}
+.pic .art small{display:block;font-size:15px;color:#1f5a3c}
+.pic .wait{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:13px;color:#5b6b7b}
+.body{padding:22px 22px 18px}
+.to{font-family:'Gowun Batang',serif;font-size:19px;font-weight:700;color:#7d1520;margin-bottom:12px;word-break:keep-all;overflow-wrap:anywhere}
+.hand{max-height:56px;width:auto;display:inline-block;vertical-align:middle}
+.msg{font-family:'Gowun Batang',serif;font-size:17px;line-height:1.85;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
+.endhand{margin-top:12px}
+.sign{text-align:right;margin-top:12px;font-family:'Nanum Pen Script',cursive;font-size:32px;color:#b3242c;line-height:1.1;overflow-wrap:anywhere}
+.sign .hand{max-height:64px;margin-left:auto;display:block}
+.date{text-align:right;font-size:13.5px;color:#5b6273;margin-top:8px;line-height:1.6}
+.voice{display:flex;align-items:center;gap:10px;width:100%;margin-top:16px;background:#fff3e6;border:1.5px solid #f0d2b4;border-radius:14px;padding:12px 14px;font:600 15px 'Noto Sans KR',sans-serif;color:#7d1520;cursor:pointer;text-align:left}
+.voice .ic{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#b3242c;color:#fff;font-size:15px;flex-shrink:0}
+.btns{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+.btn{display:block;width:100%;text-align:center;text-decoration:none;font:600 16px 'Noto Sans KR',sans-serif;border-radius:12px;padding:13px;border:0;cursor:pointer}
+.btn.main{background:#b3242c;color:#fff}
+.btn.sub{background:#fff;color:#7d1520;border:1.5px solid #e4cfc2}
+.cfoot{border-top:1px dashed #eadfce;margin-top:18px;padding-top:12px;text-align:center;font-size:13px;color:#8a7a6a;line-height:1.7}
+.cfoot a{color:#7d1520;font-weight:600;text-decoration:none}
+.rep{display:inline-block;margin-top:6px;background:none;border:0;color:#b5a796;font:12px 'Noto Sans KR',sans-serif;cursor:pointer;padding:4px 8px}
+.mine{margin:14px auto 0;max-width:460px;background:rgba(255,255,255,.14);color:#fff;border-radius:14px;padding:12px 16px;font-size:14px;line-height:1.7;text-align:center}
+
+/* 바닥 시트 */
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1650;display:none;align-items:flex-end;justify-content:center}
+.sheet-bg.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:500px;border-radius:20px 20px 0 0;padding:22px 20px calc(26px + env(safe-area-inset-bottom))}
+.sheet h3{font-size:18px;margin-bottom:8px}
+.sheet p{font-size:15px;color:#555;line-height:1.7;word-break:break-all}
+.sheet textarea{width:100%;margin-top:12px;border:1.5px solid #ddd;border-radius:12px;padding:12px;font:15px 'Noto Sans KR',sans-serif;min-height:90px;resize:vertical}
+.sheet .row{display:flex;gap:10px;margin-top:16px}
+.sheet .row .btn{flex:1}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:#222;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.3s;z-index:1660;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%)}
+#lfFoot{position:relative;z-index:1}
+body{display:block;word-break:keep-all}
+.top{max-width:500px;margin:0 auto;padding:26px 16px 6px;text-align:center;color:#fff}
+.top .tag{display:inline-block;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:5px 14px;font-size:13px}
+.top h1{font-family:'Gowun Batang',serif;font-size:25px;margin:12px 0 6px;line-height:1.35}
+.top p{font-size:14px;opacity:.85;line-height:1.6}
+.jump{display:flex;gap:8px;justify-content:center;margin:16px 0 4px}
+.jump a{flex:1;max-width:150px;text-align:center;text-decoration:none;font-weight:600;font-size:14px;border-radius:12px;padding:11px 6px;background:rgba(255,255,255,.95);color:#7d1520}
+.jump a.gold{background:linear-gradient(135deg,#f6dc8e,#c99a3b);color:#3a2700}
+.box{background:#fffaf2;border-radius:18px;max-width:468px;margin:18px auto 0;padding:18px 14px;box-shadow:0 14px 34px rgba(0,0,0,.3)}
+.box h2{font-family:'Gowun Batang',serif;font-size:19px;text-align:center;margin-bottom:12px;color:#2b2321}
+table.cmp{width:100%;border-collapse:collapse;font-size:13px;line-height:1.45}
+.cmp th,.cmp td{border-bottom:1px solid #eadfce;padding:8px 5px;text-align:center;vertical-align:middle}
+.cmp th{font-size:13px;color:#fff}
+.cmp th.f{background:#2c5f86;border-radius:10px 0 0 0}
+.cmp th.p{background:linear-gradient(135deg,#b8862b,#e0b85a);border-radius:0 10px 0 0}
+.cmp th.k{background:none;color:#8a7a6a}
+.cmp td.k{text-align:left;font-weight:600;color:#2b2321;width:36%}
+.cmp td.p{background:#fff6e2}
+.no{color:#c9bcae}
+.new{display:inline-block;font-size:11px;background:#e9f1f8;color:#2c5f86;border-radius:6px;padding:1px 6px;margin-top:2px}
+.legend{font-size:12px;color:#8a7a6a;text-align:center;margin-top:10px;line-height:1.7}
+.sect{max-width:500px;margin:0 auto;padding:30px 16px 6px;text-align:center;color:#fff}
+.sect .lbl{display:inline-block;font-size:14px;font-weight:700;border-radius:999px;padding:6px 16px;background:#fff;color:#2c5f86}
+.sect .lbl.gold{background:linear-gradient(135deg,#f6dc8e,#c99a3b);color:#3a2700}
+.sect p{font-size:13px;opacity:.85;margin-top:8px;line-height:1.6}
+.ribbon{position:absolute;top:10px;right:-4px;z-index:6;background:#fff;color:#b3242c;font-size:12px;font-weight:800;padding:3px 10px;border-radius:6px 0 0 6px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.sample{position:relative}
+.sample .stage{padding-top:10px}
+/* 유료: 금빛 봉투 */
+.pro .env .back{background:linear-gradient(135deg,#1c2b4a,#0f1a30)}
+.pro .env .seal{background:radial-gradient(#f6e3a4,#b8862b);box-shadow:0 0 0 3px rgba(246,220,142,.35),0 3px 8px rgba(0,0,0,.4)}
+.pro .env .front{color:#f6e3a4}
+.pro .env .whom{font-size:22px}
+.pro .frame{background:linear-gradient(135deg,#f6dc8e,#b8862b 40%,#f3d27a 60%,#a97721);padding:6px}
+.pro .card{background:#fffdf7}
+.more{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:14px}
+.more img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:8px;cursor:pointer}
+.moreT{font-size:13px;color:#8a7a6a;margin-top:14px;text-align:center}
+.kakao{max-width:300px;margin:0 auto 18px;background:#b2c7da;border-radius:16px;padding:12px}
+.kakao .who{font-size:12px;color:#3c4a57;margin-bottom:5px}
+.kakao .bub{background:#fff;border-radius:4px 14px 14px 14px;overflow:hidden;box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.kakao .bub img{width:100%;height:120px;object-fit:cover;display:block}
+.kakao .bub .t{padding:8px 10px 2px;font-size:13px;font-weight:700;color:#222}
+.kakao .bub .d{padding:0 10px 9px;font-size:12px;color:#777}
+.kakao .cap{font-size:11px;color:#3c4a57;text-align:center;margin-top:7px}
+.big{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:50;display:none;flex-direction:column;align-items:center;justify-content:center;padding:16px}
+.big.on{display:flex}
+.big img{max-width:100%;max-height:78vh;border-radius:10px}
+.big button{margin-top:14px;border:0;border-radius:12px;padding:11px 22px;font:600 15px 'Noto Sans KR',sans-serif;background:#fff;color:#7d1520;cursor:pointer}
+.again{display:block;margin:14px auto 0;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:8px 16px;font:600 13px 'Noto Sans KR',sans-serif;cursor:pointer}
+.endnote{max-width:468px;margin:26px auto 30px;color:#fff;opacity:.8;font-size:12px;text-align:center;line-height:1.7;padding:0 16px}
+.cmp td.k small{display:block;font-weight:400;color:#8a7a6a;font-size:12px}
+.cmp tr.gap td{border:0;padding:6px}
+.cmp td.sep{background:#eef3f8;color:#2c5f86;font-weight:700;border-radius:8px}
+.sect .home{display:inline-block;margin:0 0 12px;color:#fff;text-decoration:none;font-size:14px;font-weight:600;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:7px 16px;background:rgba(255,255,255,.12)}
+.sect .lbl{display:block;width:max-content;margin:0 auto}
+.lang4{width:auto;max-width:100%;flex-wrap:wrap;justify-content:center}
+.lang4 button{padding:7px 11px}
+.hl{font-family:'Nanum Pen Script',cursive;color:#7d1520;line-height:1.1}
+.hl.to{font-size:34px;margin-bottom:6px}
+.hl.end{font-size:30px;text-align:right;margin-top:8px}
+.extra{display:flex;gap:8px;margin-top:10px}
+.extra .voice{flex:1;margin:0}
+.grp{font-size:12px;color:#8a7a6a;text-align:center;margin:16px 0 2px}
+.extra .voice{font-size:14px;padding:10px 12px;white-space:nowrap;gap:8px}.extra .voice .ic{width:28px;height:28px;font-size:13px}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<div class="lf-nav">
+  <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
+  <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
+  <span class="lf-nav-loc" data-t="loc">마음 카드</span>
+  <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+</div>
+<div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+<nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+  <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+  <a href="/">홈</a>
+  <a href="/hanmadi/">마음 한마디</a>
+  <a href="/draw/">삐뚤빼뚤 마음 도화지</a>
+  <a href="/card/">마음 카드</a>
+  <a href="/journey/">여행지도 보기</a>
+  <a href="/l/">편지</a>
+  <a href="/memoir/">자서전</a>
+  <a href="/reenter.html">여권으로 입장</a>
+  <a href="/showroom.html">여행의 기록</a>
+</nav>
+<div style="position:relative;z-index:1">
+
+<div id="vHome">
+<header class="top">
+  <span class="tag">견본</span>
+  <h1>사랑흐름 마음 카드</h1>
+  <div class="jump"><a href="#free">무료 견본 보기</a><a class="gold" href="#pro">유료 견본 보기</a></div>
+</header>
+<section class="box">
+  <table class="cmp">
+    <tr><th class="k"></th><th class="f">무료</th><th class="p">유료</th></tr>
+    <tr><td class="k">카드 그림 디자인</td><td>준비된 그림</td><td class="p">내가 그린 그림<br>내 사진</td></tr>
+    <tr><td class="k">봉투</td><td>빨간 봉투</td><td class="p">금빛 봉투</td></tr>
+    <tr><td class="k">받는 분</td><td>한 분</td><td class="p">단체<br>파일 올리기</td></tr>
+    <tr><td class="k">마음 글</td><td>✓</td><td class="p">✓</td></tr>
+    <tr><td class="k">손글씨</td><td>이름 한 칸</td><td class="p">이름 · 끝인사 · 서명</td></tr>
+    <tr><td class="k">목소리 인사</td><td class="no">없음</td><td class="p">✓</td></tr>
+    <tr><td class="k">배경 소리</td><td class="no">없음</td><td class="p">✓</td></tr>
+    <tr><td class="k">언어</td><td>한국어</td><td class="p">한국어 · 영어<br>일본어 · 중국어</td></tr>
+    <tr><td class="k">보내기<br><small>카톡 · 문자 · 이메일</small></td><td>✓</td><td class="p">✓</td></tr>
+    <tr><td class="k">함께 전하는 마음<br><small>답장 · 사랑흐름 선물 · 전화 걸기</small></td><td>✓</td><td class="p">✓</td></tr>
+    <tr><td class="k">매장 안내<br><small>예약 · 오시는 길</small></td><td class="no">없음</td><td class="p">✓</td></tr>
+    <tr><td class="k">카톡 미리보기</td><td>사랑흐름 그림</td><td class="p">내 사진</td></tr>
+    <tr class="gap"><td colspan="3"></td></tr>
+    <tr><td class="k">디지털 명함</td><td colspan="2" class="sep">별도 제작</td></tr>
+    <tr><td class="k">모바일 홈페이지</td><td colspan="2" class="sep">별도 제작</td></tr>
+  </table>
+</section>
+</div>
+
+<div id="vFree" class="view" style="display:none">
+  <div class="sect"><a class="home" href="#">⌂ 처음 화면</a><span class="lbl">무료 견본</span></div>
+  <div class="sample" data-k="free"></div>
+  <div class="sect"><a class="home" href="#pro">유료 견본 보기 ›</a></div>
+</div>
+
+<div id="vPro" class="view" style="display:none">
+  <div class="sect"><a class="home" href="#">⌂ 처음 화면</a><span class="lbl gold">유료 견본</span></div>
+  <div class="sample pro" data-k="pro"></div>
+  <div class="sect"><a class="home" href="#free">‹ 무료 견본 보기</a></div>
+</div>
+
+</div>
+<div id="lfFoot"></div>
+<div class="big" id="big"><img id="bigImg" alt=""><button type="button" id="bigX">사진 닫기</button></div>
+<div class="toast" id="toast"></div>
+<script>
+/* ★ 현재 버전 ▶ card/art.js · v2 · 261123 · [대표 261123 13:44 「일장기 · 근하신년 같은 일본 표현 쓰지 말 것」] 옛 연하장(謹賀新年 · 붉은 동그라미) 걷고 복주머니로. (이전 v1) 마음 카드 그림 열셋과 그리는 함수(시험판 3.1판 그대로 옮김) · 만들기(make.html)와 받은 카드(index.html)가 같이 씀. */
+var ART=[
+ {k:'xtree',n:'반짝이는 트리',bg:'linear-gradient(170deg,#B3121F,#E0323F)',a:'#FFD45C',e:['#9E1420','#B81A27','#86101B'],snow:1},
+ {k:'xsanta',n:'산타 모자와 선물',bg:'linear-gradient(170deg,#FFFFFF,#F3E9E4)',a:'#C8202F',e:['#A3141F','#BE1B28','#8A111A']},
+ {k:'xdeer',n:'눈밭의 꽃사슴',bg:'linear-gradient(180deg,#0F2A4A,#1F4E7A)',a:'#E8B04A',e:['#18375C','#21466F','#12294A'],snow:1},
+ {k:'xwreath',n:'빨간 리본 리스',bg:'linear-gradient(170deg,#FBF6EE,#F1E6D6)',a:'#C8202F',e:['#1E5B3A','#246B45','#174A2F']},
+ {k:'xsnowman',n:'눈사람과 목도리',bg:'linear-gradient(180deg,#1B3A6B,#3E6FB0)',a:'#E23A3A',e:['#213F70','#2A4C83','#18305A'],snow:1},
+ {k:'village',n:'눈 내린 골목',bg:'linear-gradient(180deg,#14213D,#3C5A8F)',a:'#C9A96E',e:['#24365A','#2E4570','#1C2C4A'],snow:1},
+ {k:'gyul',n:'귤 바구니',bg:'linear-gradient(170deg,#1F2A22,#3A4A33)',a:'#F0A33A',e:['#283526','#334431','#1D271C']},
+ {k:'bung',n:'붕어빵 봉지',bg:'linear-gradient(170deg,#2B1F18,#523A2A)',a:'#E2A85A',e:['#3A2A20','#4A3527','#281C15'],snow:1},
+ {k:'yeon',n:'연탄과 털장갑',bg:'linear-gradient(170deg,#1C1C22,#34343F)',a:'#D85A4A',e:['#26262E','#30303A','#1A1A20'],snow:1},
+ {k:'crayon',n:'크레파스 트리',bg:'linear-gradient(170deg,#F6F1E6,#EAE2D2)',a:'#2F7D4F',e:['#5E5546','#6C6252','#4C4538']},
+ {k:'bok',n:'복주머니',bg:'linear-gradient(170deg,#FBF3E4,#F1E2C6)',a:'#C8202F',e:['#8E1B24','#A8222C','#7A161E']},
+ {k:'candle',n:'촛불 두 개',bg:'linear-gradient(160deg,#2A1730,#6B3352)',a:'#E6C17A',e:['#3A1F35','#4D2A45','#2D1729']},
+ {k:'sunrise',n:'새해 해돋이',bg:'linear-gradient(175deg,#132235,#22405F 55%,#C98B5E)',a:'#F4D3A6',e:['#1F3550','#284364','#16273C']}];
+/* 그림 */
+function artX(k,a){var o='';
+ if(k==='xtree')o='<g><path d="M150 30l-46 64h22l-38 52h26l-36 46h144l-36-46h26l-38-52h22z" fill="#1F7A43"/><path d="M150 30l-46 64h22l-38 52h26l-36 46h144l-36-46h26l-38-52h22z" fill="none" stroke="#0F5A2E" stroke-width="2"/><rect x="140" y="192" width="20" height="10" fill="#7A4A22"/>'
+  +'<path d="M150 14l5 11 12 1-9 8 3 12-11-6-11 6 3-12-9-8 12-1z" fill="'+a+'" class="tw"/>'
+  +'<g><circle cx="134" cy="84" r="5" fill="#fff" class="tw"/><circle cx="166" cy="96" r="5" fill="'+a+'" class="tw2"/><circle cx="124" cy="128" r="5.5" fill="#E8F2FF" class="tw2"/><circle cx="156" cy="138" r="5.5" fill="'+a+'" class="tw"/><circle cx="182" cy="150" r="5" fill="#fff" class="tw"/><circle cx="112" cy="170" r="6" fill="'+a+'" class="tw2"/><circle cx="148" cy="174" r="6" fill="#fff" class="tw"/><circle cx="190" cy="178" r="5" fill="#E8F2FF" class="tw2"/></g>'
+  +'<path d="M118 112q32 14 66-6M106 158q44 18 92-6" fill="none" stroke="#fff" stroke-width="2.5" stroke-dasharray="2 5" stroke-linecap="round"/>'
+  +'<rect x="70" y="178" width="34" height="24" rx="2" fill="#fff"/><rect x="84" y="178" width="6" height="24" fill="#C8202F"/><rect x="196" y="182" width="30" height="20" rx="2" fill="'+a+'"/><rect x="208" y="182" width="6" height="20" fill="#fff"/></g>';
+ if(k==='xsanta')o='<g><path d="M70 150c10-60 70-100 140-70 30 14 40 40 36 52-30-6-50-30-70-34-24-4-60 20-106 52z" fill="#C8202F"/><rect x="60" y="140" width="170" height="30" rx="15" fill="#fff" stroke="#EADBD5"/><circle cx="252" cy="138" r="17" fill="#fff" stroke="#EADBD5"/>'
+  +'<rect x="92" y="172" width="54" height="30" rx="3" fill="#1F7A43"/><rect x="114" y="172" width="10" height="30" fill="'+a+'"/><rect x="156" y="164" width="44" height="38" rx="3" fill="'+a+'"/><rect x="173" y="164" width="10" height="38" fill="#fff"/><path d="M178 164c-10-12-22-4-10 2M178 164c10-12 22-4 10 2" fill="none" stroke="#fff" stroke-width="3"/></g>'
+  +'<g fill="'+a+'" opacity=".5"><circle cx="40" cy="40" r="3" class="tw"/><circle cx="270" cy="60" r="3" class="tw2"/><circle cx="30" cy="110" r="2.5" class="tw2"/></g>';
+ if(k==='xdeer')o='<circle cx="245" cy="45" r="16" fill="#F6E7B8"/><path d="M0 200v-26c60-14 120-14 180-4s90 6 120 0v30z" fill="#EAF2FB"/>'
+  +'<g><ellipse cx="150" cy="140" rx="46" ry="24" fill="#B9773E"/><rect x="118" y="152" width="8" height="34" fill="#9A5F2E"/><rect x="134" y="154" width="8" height="34" fill="#9A5F2E"/><rect x="160" y="154" width="8" height="34" fill="#9A5F2E"/><rect x="176" y="152" width="8" height="34" fill="#9A5F2E"/>'
+  +'<path d="M186 130l14-34 16 4-8 34z" fill="#B9773E"/><ellipse cx="214" cy="96" rx="16" ry="12" fill="#B9773E"/><circle cx="228" cy="98" r="4" fill="#3A2416"/><circle cx="214" cy="92" r="2" fill="#2A1A10"/>'
+  +'<path d="M206 86c-6-14-2-24 6-30M206 72l-8-6M210 62l6-8M220 86c4-14 12-22 22-24M232 70l8 2M228 76l2-10" fill="none" stroke="#6B4423" stroke-width="3.5" stroke-linecap="round"/>'
+  +'<g fill="#F3E3CF"><circle cx="136" cy="134" r="3"/><circle cx="152" cy="128" r="3"/><circle cx="166" cy="138" r="3"/><circle cx="144" cy="146" r="2.5"/></g><path d="M196 112q8 8 18 2" stroke="#C8202F" stroke-width="5" fill="none"/><circle cx="205" cy="118" r="4" fill="'+a+'" class="tw"/></g>';
+ if(k==='xwreath')o='<g><circle cx="150" cy="104" r="62" fill="none" stroke="#1F7A43" stroke-width="26"/><circle cx="150" cy="104" r="62" fill="none" stroke="#2E9A58" stroke-width="10" stroke-dasharray="6 10"/>'
+  +'<g fill="#C8202F"><circle cx="110" cy="62" r="6"/><circle cx="196" cy="76" r="6"/><circle cx="96" cy="128" r="6"/><circle cx="204" cy="136" r="6"/><circle cx="150" cy="166" r="6"/></g>'
+  +'<g fill="'+a+'"><path d="M150 150l-34 22 8-30z"/><path d="M150 150l34 22-8-30z"/><path d="M146 150l-14 46 14-8 4 10 6-48z"/><circle cx="150" cy="150" r="10"/></g>'
+  +'<g fill="#E8B04A"><circle cx="128" cy="48" r="4" class="tw"/><circle cx="172" cy="48" r="4" class="tw2"/><circle cx="90" cy="96" r="4" class="tw2"/><circle cx="210" cy="104" r="4" class="tw"/></g></g>';
+ if(k==='xsnowman')o='<path d="M0 200v-22c80-10 200-10 300 0v22z" fill="#F4F8FF"/><g><circle cx="150" cy="160" r="38" fill="#fff"/><circle cx="150" cy="100" r="28" fill="#fff"/>'
+  +'<rect x="128" y="62" width="44" height="8" rx="2" fill="#1D2433"/><rect x="134" y="34" width="32" height="30" rx="3" fill="#1D2433"/><rect x="134" y="54" width="32" height="6" fill="#C8202F"/>'
+  +'<circle cx="140" cy="96" r="3" fill="#1D2433"/><circle cx="160" cy="96" r="3" fill="#1D2433"/><path d="M150 102l16 4-16 3z" fill="#F08A24"/>'
+  +'<path d="M122 122q28 12 56 0v10q-28 10-56 0z" fill="'+a+'"/><rect x="160" y="128" width="12" height="30" rx="3" fill="'+a+'"/><path d="M160 158h12" stroke="#fff" stroke-width="3"/>'
+  +'<g fill="#1D2433"><circle cx="150" cy="148" r="3"/><circle cx="150" cy="164" r="3"/><circle cx="150" cy="180" r="3"/></g>'
+  +'<path d="M114 150l-30-20M186 150l30-22" stroke="#6B4423" stroke-width="4" stroke-linecap="round"/></g>';
+ return o}
+function art(k,a){if(k.charAt(0)==='x')return '<svg viewBox="0 0 300 200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">'+artX(k,a)+'</svg>';var W='<svg viewBox="0 0 300 200" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">',o='',st='<g fill="'+a+'" opacity=".85"><circle cx="40" cy="30" r="1.4"/><circle cx="250" cy="22" r="1.2"/><circle cx="200" cy="48" r="1"/><circle cx="90" cy="18" r="1"/></g>';
+ if(k==='village')o=st+'<circle cx="240" cy="40" r="14" fill="'+a+'"/><g fill="#0E1830"><path d="M0 200V150l30-22 30 22v50z"/><path d="M50 200v-62l40-30 40 30v62z"/><path d="M120 200v-48l28-20 28 20v48z"/><path d="M170 200v-70l45-32 45 32v70z"/><path d="M250 200v-44l25-18 25 18v44z"/></g><g fill="'+a+'"><rect x="80" y="160" width="10" height="12"/><rect x="205" y="150" width="10" height="12"/></g><path d="M0 196h300v4H0z" fill="#fff" opacity=".85"/>';
+ if(k==='gyul')o='<path d="M70 150h160l-16 40H86z" fill="#8B6A3E"/><path d="M70 150h160" stroke="#6E5230" stroke-width="6"/><g fill="'+a+'"><circle cx="110" cy="138" r="20"/><circle cx="150" cy="130" r="22"/><circle cx="190" cy="138" r="20"/><circle cx="130" cy="112" r="17"/><circle cx="172" cy="110" r="17"/></g><g fill="#3E7A3A"><path d="M150 108c6-8 16-8 20-4-6 6-14 6-20 4z"/><path d="M130 95c5-6 12-6 15-3-5 5-11 5-15 3z"/></g>';
+ if(k==='bung')o='<path d="M95 70h110l-10 120H105z" fill="#D8C7A8"/><path d="M95 70h110" stroke="#BFA97F" stroke-width="5"/><g fill="'+a+'"><path d="M118 98c18-14 46-14 62 0-16 14-44 14-62 0z"/><path d="M118 130c18-14 46-14 62 0-16 14-44 14-62 0z"/></g><g fill="#B57A30"><circle cx="170" cy="96" r="2.5"/><circle cx="170" cy="128" r="2.5"/></g><g fill="none" stroke="#F6E3CF" stroke-width="2.5" stroke-linecap="round" opacity=".75"><path d="M135 60c-6-10 6-14 0-24"/><path d="M160 60c-6-10 6-14 0-24"/></g>';
+ if(k==='yeon')o='<g fill="#2A2A2A" stroke="#555" stroke-width="2"><rect x="70" y="110" width="56" height="70" rx="6"/><rect x="132" y="110" width="56" height="70" rx="6"/></g><g fill="#555"><circle cx="86" cy="130" r="4"/><circle cx="110" cy="130" r="4"/><circle cx="98" cy="150" r="4"/><circle cx="148" cy="130" r="4"/><circle cx="172" cy="130" r="4"/><circle cx="160" cy="150" r="4"/></g><g fill="'+a+'"><path d="M205 100c0-18 30-18 30 0v40h-30z"/><rect x="200" y="138" width="40" height="12" rx="4" fill="#F3E7CF"/><path d="M200 112c-12-4-14 14-2 16" /></g>';
+ if(k==='crayon')o='<g stroke-linecap="round" stroke-linejoin="round" fill="none"><path d="M150 40l-40 60h22l-34 46h28l-30 40h108l-30-40h28l-34-46h22z" stroke="'+a+'" stroke-width="6"/><path d="M150 186v10" stroke="#8B5A2B" stroke-width="10"/><path d="M150 28l5 10 11 1-8 7 3 11-11-6-10 6 3-11-8-7 11-1z" stroke="#E0A800" stroke-width="4" fill="#F5C842"/></g><g fill="#D2453B"><circle cx="135" cy="110" r="5"/><circle cx="168" cy="140" r="5"/></g><g fill="#2F6FB5"><circle cx="160" cy="98" r="5"/><circle cx="128" cy="160" r="5"/></g>';
+ if(k==='bok')o='<g fill="'+a+'" opacity=".35"><circle cx="50" cy="40" r="3" class="tw"/><circle cx="250" cy="34" r="3" class="tw2"/><circle cx="262" cy="150" r="2.5" class="tw"/><circle cx="38" cy="150" r="2.5" class="tw2"/></g><path d="M150 70c-40 0-72 34-72 74 0 34 26 50 72 50s72-16 72-50c0-40-32-74-72-74z" fill="'+a+'"/><path d="M118 70c8-14 56-14 64 0l-8 10h-48z" fill="#E8B04A"/><path d="M112 82h76" stroke="#E8B04A" stroke-width="6" stroke-linecap="round"/><path d="M150 84c-10 12-24 16-34 12M150 84c10 12 24 16 34 12" fill="none" stroke="#E8B04A" stroke-width="4" stroke-linecap="round"/><circle cx="150" cy="140" r="24" fill="none" stroke="#F6D98A" stroke-width="3"/><text x="150" y="151" text-anchor="middle" font-size="30" font-weight="700" fill="#F6D98A" font-family="serif">복</text><g fill="#F6D98A" opacity=".55"><circle cx="104" cy="170" r="3"/><circle cx="196" cy="170" r="3"/><circle cx="150" cy="182" r="3"/></g>';
+ if(k==='candle')o=st+'<rect x="118" y="100" width="22" height="80" rx="3" fill="#F3E6D8"/><rect x="160" y="88" width="22" height="92" rx="3" fill="#F3E6D8"/><path d="M129 98c-7-10 0-20 0-26 0 6 7 16 0 26z" fill="'+a+'"/><path d="M171 86c-7-10 0-20 0-26 0 6 7 16 0 26z" fill="'+a+'"/><circle cx="129" cy="82" r="22" fill="'+a+'" opacity=".15"/><circle cx="171" cy="70" r="22" fill="'+a+'" opacity=".15"/>';
+ if(k==='sunrise')o='<circle cx="150" cy="170" r="46" fill="'+a+'"/><g stroke="'+a+'" stroke-width="2" opacity=".6"><path d="M150 108v-20M110 124l-12-14M190 124l12-14"/></g><g fill="#132235"><path d="M0 200v-26l40-18 40 18v26z"/><path d="M200 200v-34l50-22 50 22v34z"/></g>';
+ return W+o+'</svg>'}
+function snow(){var h='<div class="snow">';for(var i=0;i<14;i++)h+='<i style="left:'+(Math.random()*100)+'%;animation-duration:'+(5+Math.random()*6)+'s;animation-delay:'+(-Math.random()*8)+'s"></i>';return h+'</div>'}
+/* 사랑흐름 마음 카드 견본 · 정형화 템플릿: 카드마다 D 안의 한 묶음만 바꾸면 됨 */
+var D={
+ free:{art:'xtree', langs:['ko'],
+  t:{ko:{whom:'홍길동 대표님께',from:'김사랑 님이 보낸 카드예요',tap:'눌러서 열어 보세요',
+   msg:'늘 고마운 홍길동 대표님께\n올 한 해 곁에서 힘이 되어 주셔서 든든했어요.\n따뜻한 연말 보내시고, 새해에도 웃는 날 가득하시길 바라요.',
+   sign:'김사랑',date:'2026년 12월',brand:'사랑흐름 마음 카드',mine:'나도 카드 보내기',rep:'신고',
+   btns:[{l:'답장 쓰기'},{l:'🎁 선물 열어 보기'},{l:'📞 전화 걸기'}]}}},
+ pro:{photo:'/card/img/santa1.jpg', more:['/card/img/santa2.jpg','/card/img/santa3.jpg','/card/img/santa4.jpg','/card/img/santa5.jpg'], langs:['ko','en','ja','zh'],
+  t:{
+  ko:{lang:'한국어',whom:'소중한 분께',from:'황규찬 님이 보낸 카드예요',tap:'눌러서 열어 보세요',hto:'사랑하는 그대에게',
+   msg:'올 한 해 함께해 주셔서 참 고마웠습니다.\n산타 모자 쓰고 마음을 담아 보내요.\n2027년에도 웃음 가득한 날들 되시길 바랍니다.',
+   hend:'메리 크리스마스!',sign:'황규찬',date:'2026년 12월',voice:'목소리 인사',bgm:'배경 소리',more:'사진 더 보기',
+   g1:'함께 전하는 마음',g2:'매장 안내',g3:'명함 · 홈페이지',
+   btns:[{l:'답장 쓰기',g:1},{l:'🎁 선물 열어 보기',g:1},{l:'📞 전화 걸기',g:1},{l:'📅 예약하기',g:2,u:'home'},{l:'📍 오시는 길',g:2,u:'home'},{l:'황규찬 명함 보기 ›',g:3,u:'card'},{l:'모바일 홈페이지 가기 ›',g:3,u:'home'}],
+   brand:'사랑흐름 마음 카드',mine:'나도 카드 보내기',rep:'신고',kT:'황규찬 님이 마음 카드를 보냈어요',kD:'눌러서 열어 보세요 · 사랑흐름',kC:'카톡으로 받으면 이렇게 보여요',noV:'견본에는 목소리를 담지 않았어요',sam:'견본이라 눌러도 넘어가지 않아요'},
+  en:{lang:'English',whom:'To someone dear',from:'A card from Hwang Gyuchan',tap:'Tap to open',hto:'To you, with love',
+   msg:'Thank you so much for being with me this year.\nI put on my Santa hat and send you my heart.\nWishing you a 2027 full of laughter.',
+   hend:'Merry Christmas!',sign:'황규찬',date:'December 2026',voice:'Voice greeting',bgm:'Music',more:'More photos',
+   g1:'Sent with love',g2:'Store info',g3:'Card · Homepage',
+   btns:[{l:'Write a reply',g:1},{l:'🎁 Open your gift',g:1},{l:'📞 Call',g:1},{l:'📅 Book',g:2,u:'home'},{l:'📍 Directions',g:2,u:'home'},{l:'Business card ›',g:3,u:'card'},{l:'Mobile homepage ›',g:3,u:'home'}],
+   brand:'Loveflow Heart Card',mine:'Send a card too',rep:'Report',kT:'Hwang Gyuchan sent you a Heart Card',kD:'Tap to open · Loveflow',kC:'This is how it looks in KakaoTalk',noV:'No voice in this sample',sam:'This is a sample'},
+  ja:{lang:'日本語',whom:'大切なあなたへ',from:'黄圭燦さんからのカードです',tap:'タップして開いてください',hto:'愛するあなたへ',
+   msg:'今年も一緒に過ごしてくださり、本当にありがとうございました。\nサンタの帽子をかぶって、心を込めて送ります。\n2027年も笑顔あふれる毎日になりますように。',
+   hend:'メリークリスマス！',sign:'황규찬',date:'2026年12月',voice:'声のメッセージ',bgm:'BGM',more:'写真をもっと見る',
+   g1:'一緒に届ける気持ち',g2:'店舗案内',g3:'名刺・ホームページ',
+   btns:[{l:'返信する',g:1},{l:'🎁 プレゼントを開く',g:1},{l:'📞 電話する',g:1},{l:'📅 予約する',g:2,u:'home'},{l:'📍 アクセス',g:2,u:'home'},{l:'名刺を見る ›',g:3,u:'card'},{l:'モバイルホームページ ›',g:3,u:'home'}],
+   brand:'Loveflow ハートカード',mine:'私もカードを送る',rep:'通報',kT:'黄圭燦さんからハートカードが届きました',kD:'タップして開く · Loveflow',kC:'カカオトークではこう表示されます',noV:'見本には声が入っていません',sam:'見本のため移動しません'},
+  zh:{lang:'中文',whom:'致珍贵的你',from:'黄圭燦寄来的卡片',tap:'点击打开',hto:'致亲爱的你',
+   msg:'感谢你这一年来的陪伴。\n我戴上圣诞帽，把心意寄给你。\n愿你的2027年充满欢笑。',
+   hend:'圣诞快乐！',sign:'황규찬',date:'2026年12月',voice:'语音问候',bgm:'背景音乐',more:'更多照片',
+   g1:'一起传递的心意',g2:'店铺介绍',g3:'名片 · 主页',
+   btns:[{l:'写回信',g:1},{l:'🎁 打开礼物',g:1},{l:'📞 拨打电话',g:1},{l:'📅 预约',g:2,u:'home'},{l:'📍 怎么走',g:2,u:'home'},{l:'查看名片 ›',g:3,u:'card'},{l:'移动主页 ›',g:3,u:'home'}],
+   brand:'Loveflow 心意卡',mine:'我也寄卡片',rep:'举报',kT:'黄圭燦给你寄来了心意卡',kD:'点击打开 · Loveflow',kC:'在 KakaoTalk 中会这样显示',noV:'样本中没有语音',sam:'这是样本'}},
+  url:{card:'https://uriyagi.kr/card/C-1001/',home:'https://uriyagi.kr/home/C-1003/'}}
+};
+function el(t,c,h){var e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e;}
+function esc(s){return String(s).replace(/[&<>"]/g,function(m){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m];});}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');clearTimeout(t._h);t._h=setTimeout(function(){t.classList.remove('on');},2200);}
+var FLAP='<svg viewBox="0 0 100 58" preserveAspectRatio="none"><path d="M0 0 H100 L50 56 Z" fill="#a8222c"/><path d="M0 0 L50 56 L100 0" fill="none" stroke="#e7c873" stroke-width=".6"/></svg>';
+function artOf(k){var A=null;ART.forEach(function(x){if(x.k===k)A=x;});return A;}
+var AC=null, BG=null;
+function bgm(btn){ /* 견본 배경 소리: 은은한 방울 소리 */
+  if(BG){ clearInterval(BG); BG=null; btn.querySelector('.ic').textContent='♪'; return; }
+  try{ AC=AC||new (window.AudioContext||window.webkitAudioContext)(); }catch(e){ return; }
+  var notes=[659,587,523,587,659,659,659], i=0;
+  function ring(){ var o=AC.createOscillator(), g=AC.createGain(); o.type='sine'; o.frequency.value=notes[i++%notes.length];
+    g.gain.setValueAtTime(.0001,AC.currentTime); g.gain.exponentialRampToValueAtTime(.12,AC.currentTime+.02); g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+.9);
+    o.connect(g); g.connect(AC.destination); o.start(); o.stop(AC.currentTime+1); }
+  ring(); BG=setInterval(ring,520); btn.querySelector('.ic').textContent='❚❚';
+}
+function build(root){
+  var k=root.getAttribute('data-k'), d=D[k], L=d.langs[0], pro=k==='pro';
+  if(BG){ clearInterval(BG); BG=null; }
+  root.innerHTML='';
+  var st=el('main','stage'); st.style.position='relative'; root.appendChild(st);
+  var lg=null, ka=null;
+  if(pro){
+    lg=el('div','lang lang4'); d.langs.forEach(function(c,i){ var b=el('button',i===0?'on':'',d.t[c].lang); b.setAttribute('data-l',c); lg.appendChild(b); }); st.appendChild(lg);
+    ka=el('div','kakao'); st.appendChild(ka);
+  }
+  var eb=el('div'); eb.style.position='relative'; st.appendChild(eb);
+  var env=el('div','env','<div class="back"></div><div class="flap">'+FLAP+'</div><div class="seal">'+(pro?'✨':'🎄')+'</div><div class="front"><div class="whom"></div><div class="from"></div><div class="hint"></div></div>');
+  env.setAttribute('role','button'); env.tabIndex=0; eb.appendChild(env); eb.appendChild(el('span','ribbon','견본'));
+  if(pro){ env.querySelector('.flap path').setAttribute('fill','#162544'); env.querySelector('.flap path+path').setAttribute('stroke','#f6dc8e'); }
+  else { var A=artOf(d.art); env.querySelector('.back').style.background='linear-gradient(135deg,'+A.e[1]+','+A.e[2]+')'; env.querySelector('.flap path').setAttribute('fill',A.e[0]); }
+  var cw=el('div','cardwrap'); cw.style.display='none'; st.appendChild(cw);
+  var fr=el('div','frame'+(pro?' plain':'')); cw.appendChild(fr);
+  var cd=el('div','card'); fr.appendChild(cd);
+  var pic=el('div','pic'); cd.appendChild(pic);
+  if(pro){ pic.classList.add('hp'); pic.style.background='#fff'; pic.innerHTML='<img class="ph" src="'+d.photo+'" alt="">'; }
+  else { var A2=artOf(d.art); pic.style.background=A2.bg; pic.innerHTML=art(A2.k,A2.a)+(A2.snow?snow():''); }
+  var bd=el('div','body'); cd.appendChild(bd);
+  var hto=el('div','hl to'), msg=el('div','msg'), hend=el('div','hl end'), sg=el('div','sign'), dt=el('div','date'), vb=el('div'), mr=el('div'), bx=el('div','btns'), ft=el('div','cfoot');
+  [hto,msg,hend,sg,dt,vb,mr,bx,ft].forEach(function(x){bd.appendChild(x);});
+  sg.style.cssText='font-family:"Nanum Pen Script",cursive;font-size:40px;color:#b3242c;text-align:right;line-height:1.1;margin-top:8px';
+  var again=el('button','again','봉투 다시 보기'); again.type='button'; st.appendChild(again); again.style.display='none';
+  function paint(){
+    var t=d.t[L];
+    env.querySelector('.whom').textContent=t.whom; env.querySelector('.from').textContent=t.from; env.querySelector('.hint').textContent=t.tap;
+    hto.textContent=t.hto||''; hto.style.display=t.hto?'':'none';
+    msg.textContent=t.msg; hend.textContent=t.hend||''; hend.style.display=t.hend?'':'none';
+    sg.textContent=t.sign; dt.textContent=t.date;
+    vb.innerHTML=''; mr.innerHTML=''; bx.innerHTML='';
+    if(pro){
+      var ex=el('div','extra');
+      var b=el('button','voice','<span class="ic">▶</span><span>'+esc(t.voice)+'</span>'); b.type='button'; b.onclick=function(){ toast(t.noV); };
+      var m=el('button','voice','<span class="ic">♪</span><span>'+esc(t.bgm)+'</span>'); m.type='button'; m.onclick=function(){ bgm(m); };
+      ex.appendChild(b); ex.appendChild(m); vb.appendChild(ex);
+      mr.appendChild(el('div','moreT',esc(t.more)));
+      var gr=el('div','more'); d.more.forEach(function(s){ var im=new Image(); im.src=s; im.alt=''; im.onclick=function(){ document.getElementById('bigImg').src=s; document.getElementById('big').classList.add('on'); }; gr.appendChild(im); }); mr.appendChild(gr);
+      ka.innerHTML='<div class="who">'+esc(t.sign)+'</div><div class="bub"><img src="'+d.photo+'" alt=""><div class="t">'+esc(t.kT)+'</div><div class="d">'+esc(t.kD)+'</div></div><div class="cap">'+esc(t.kC)+'</div>';
+    }
+    var lastG=0, first=true;
+    t.btns.forEach(function(x){
+      if(pro && x.g!==lastG){ bx.appendChild(el('div','grp',esc(t['g'+x.g]))); lastG=x.g; }
+      var a=el('a','btn '+(first?'main':'sub')); first=false; a.textContent=x.l;
+      if(x.u){ a.href=d.url[x.u]; a.target='_blank'; a.rel='noopener'; }
+      else { a.href='#'; a.onclick=function(e){ e.preventDefault(); toast(t.sam||'견본이라 눌러도 넘어가지 않아요'); }; }
+      bx.appendChild(a);
+    });
+    ft.innerHTML=esc(t.brand)+' · <a href="/card/make.html">'+esc(t.mine)+'</a><br><button class="rep" type="button">'+esc(t.rep)+'</button>';
+  }
+  paint();
+  if(lg){ lg.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ L=b.getAttribute('data-l'); lg.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);}); paint(); }; }); }
+  function open(){ if(env.classList.contains('open')) return; env.classList.add('open');
+    setTimeout(function(){ cw.style.display='block'; env.classList.add('gone'); eb.style.display='none'; again.style.display='block'; requestAnimationFrame(function(){ cw.classList.add('show'); }); },700); }
+  env.onclick=open; env.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();open();} };
+  again.onclick=function(){ build(root); };
+  root._open=open;
+}
+function route(){
+  var h=location.hash.replace('#','');
+  document.getElementById('vHome').style.display=(h==='free'||h==='pro')?'none':'';
+  document.getElementById('vFree').style.display=h==='free'?'':'none';
+  document.getElementById('vPro').style.display=h==='pro'?'':'none';
+  window.scrollTo(0,0);
+  if(h==='free'||h==='pro'){ var r=document.querySelector('.sample[data-k='+h+']'); build(r); setTimeout(function(){ r._open(); },1200); }
+  else if(BG){ clearInterval(BG); BG=null; }
+}
+addEventListener('hashchange',route); route();
+document.getElementById('bigX').onclick=function(){ document.getElementById('big').classList.remove('on'); };
+(function(){
+  var c=document.getElementById('snow'), x=c.getContext('2d'), W, H, f=[], still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){ W=c.width=innerWidth; H=c.height=innerHeight; } size(); addEventListener('resize', size);
+  for (var i=0;i<50;i++) f.push({x:Math.random()*W, y:Math.random()*H, r:1+Math.random()*2.2, s:.3+Math.random()*.7, d:Math.random()*6});
+  function tick(){ x.clearRect(0,0,W,H); x.fillStyle='rgba(255,255,255,.7)';
+    f.forEach(function(p){ x.beginPath(); x.arc(p.x,p.y,p.r,0,7); x.fill(); if(!still){ p.y+=p.s; p.x+=Math.sin((p.y+p.d*50)/60)*.3; if(p.y>H+5){ p.y=-5; p.x=Math.random()*W; } } });
+    if(!still) requestAnimationFrame(tick); }
+  tick();
+})();
+
+</script>
+<script>
+function lfMenuOpen(){document.getElementById('lfMenu').classList.add('open');document.getElementById('lfBackdrop').classList.add('open');}
+function lfMenuClose(){document.getElementById('lfMenu').classList.remove('open');document.getElementById('lfBackdrop').classList.remove('open');}
+</script>
+<script>window.LF_WAY={home:function(){location.href='/card/make.html';return true}};</script>
+<script src="/lf-foot.js" defer></script>
+<script src="/lf/frame.js?v=17"></script>
+</body>
+</html>
