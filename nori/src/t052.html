@@ -52,11 +52,13 @@ button:active{filter:brightness(.93)}
 .kgs.glow::after{background:#E9A06A;animation:kg .7s ease-in-out infinite}@keyframes kg{50%{transform:scale(1.15)}}
 .kgs.got{visibility:hidden}
 .kgup{position:absolute;width:26px;height:22px;margin:-11px 0 0 -13px;border-radius:48% 52% 45% 55%;background:#8A5A36;z-index:3;display:none}.kgup.on,.kgup.fall{display:block}.kgup.fall{opacity:.35}
-.kgst{position:absolute;left:8px;top:8px;display:flex;gap:4px;align-items:center;font-size:12px;font-weight:800;color:var(--sub)}
+.kgst{position:absolute;left:0;right:0;top:46px;justify-content:center;display:flex;gap:4px;align-items:center;font-size:12px;font-weight:800;color:var(--sub)}
 .kgst b{font-size:15px;color:var(--ink);margin-right:2px}.kgst span{padding:2px 7px;border-radius:999px;background:var(--chip)}.kgst span.ok{background:#DCE6FA;color:var(--blu)}.kgst span.now{background:#BFE8C8;color:#1E6B34}
 .kgrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .kgb{font:inherit;border:0;border-radius:16px;min-height:58px;font-weight:900;font-size:19px;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;background:var(--chip);color:#B3A588;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .15s,color .15s}
-.kgb small{font-size:14px;opacity:.8}.kgb:disabled{cursor:default}
+.kgb small{font-size:14px;opacity:.8}.kgb em{font-style:normal;font-size:12px;font-weight:800;opacity:.85}
+.kgh.me{background:#DCE6FA}.kgh.me span{color:var(--blu)}.kgh.op{background:#F8DCDC}.kgh.op span{color:#C23434}
+.kgwho{position:absolute;left:50%;transform:translateX(-50%);top:8px;padding:5px 14px;border-radius:999px;font-size:16px;font-weight:900;color:#fff;white-space:nowrap;z-index:2}.kgwho.me{background:var(--blu)}.kgwho.op{background:var(--red)}.kgb:disabled{cursor:default}
 .kgb.th.on{background:var(--blu);color:#fff}.kgb.ca.on{background:#2E9E4F;color:#fff}
 .kgb.ca.blink,.kgh.blink{animation:kb .32s steps(2,start) infinite}@keyframes kb{to{background:#FFC21A;color:#16181D}}
 .kgb.press{filter:brightness(.85);transform:scale(.97)}
@@ -115,7 +117,7 @@ function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
 function snd(k,v){ try{ SND[k](v); }catch(e){} }
 var GN={jegi:'제기차기',gong:'공기놀이',mugung:'무궁화 꽃이 피었습니다'}, MID={jegi:'두 번씩 차서 많이 찬 쪽이 이김',gong:'4단까지 먼저 마치면 이김',mugung:'술래를 치면 이김 · 두 번 걸리면 짐'}, CODE={jegi:'jg',gong:'gg',mugung:'mg'};
 var RULE={jegi:['제기가 위에서 떨어져요. 발 위 <b style="color:#1E6B34">초록 띠</b> 안에 왔을 때 <b>「차기!」</b>(놀이판 아무 데나 톡 해도 돼요).','차면 다시 올라가요. <b>찰수록 빨리 떨어지고 좌우로 더 흔들려요.</b>','초록 띠에 오기 전에 차면 <b>헛발</b>, 띠를 지나치면 <b>떨어져요</b>. 그러면 상대 차례.','나 → 사장님 → 나 → 사장님, <b>두 번씩</b> 차서 모두 더한 횟수가 많은 쪽이 이겨요. 같으면 한 번씩 더.'],
-  gong:['<b>1단</b> 한 알씩 네 번 → <b>2단</b> 두 알씩 두 번 → <b>3단</b> 세 알 · 한 알 → <b>4단</b> 네 알 한꺼번에. 먼저 4단을 마치면 이겨요.','단추가 둘이에요. <b>왼쪽 ① 던지기 · 오른쪽 ② 받기</b>. 지금 누를 단추만 색이 켜져요.','왼쪽 <b>「던지기」</b>를 누르면 돌 하나가 위로 떠요. 떠 있는 동안 바닥에서 <b>반짝이는 돌</b>을 톡톡 주워요(이번에 주울 만큼).','떠 있던 돌이 내려와 <b style="color:#1E6B34">손바닥 띠</b>에 오면 띠와 오른쪽 <b>「받기」가 깜빡깜빡</b> — 그때 「받기」! 깜빡이기 전에 누르면 헛손이에요.','못 줍거나 · 너무 일찍 받거나 · 놓치면 상대 차례예요. 하던 단계는 그대로 남아요.'],
+  gong:['<b>1단</b> 한 알씩 네 번 → <b>2단</b> 두 알씩 두 번 → <b>3단</b> 세 알 · 한 알 → <b>4단</b> 네 알 한꺼번에. 먼저 4단을 마치면 이겨요.','단추가 둘이에요. <b>왼쪽 ① 던지기 · 오른쪽 ② 받기</b>. 지금 누를 단추만 색이 켜져요.','왼쪽 <b>「던지기」</b>를 누르면 돌 하나가 위로 떠요. 떠 있는 동안 바닥에서 <b>반짝이는 돌</b>을 톡톡 주워요(이번에 주울 만큼).','떠 있던 돌이 내려와 <b style="color:#1E6B34">손바닥 띠</b>에 오면 띠와 오른쪽 <b>「받기」가 깜빡깜빡</b> — 그때 「받기」! 바닥 돌을 다 주워야 「받기」가 켜져요.','못 줍거나 · 너무 일찍 받거나 · 놓치면 상대 차례예요. 하던 단계는 그대로 남아요.'],
   mugung:['술래(사장님)가 돌아서서 <b>「무 궁 화 꽃 이 피 었 습 니 다」</b>를 외요. 글자가 하나씩 켜져요.','글자가 켜지는 동안 <b>「앞으로!」</b>를 톡톡 — 한 번에 한 걸음.','<b>「다」</b>가 켜지면 술래가 돌아봐요. 그때 누르면 <b>걸려요</b>(다섯 걸음 뒤로). 외는 빠르기가 들쭉날쭉하니 조심!','술래가 <b>다섯 번</b> 외는 안에 술래까지 가면 이겨요. <b>두 번 걸리면</b> 져요.']};
 function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
@@ -192,9 +194,9 @@ function jgDrop(why){ var g=S.gen, G=jgGeo(); J.ph='down'; cancelAnimationFrame(
    한 번 집기 = ① 왼쪽 「던지기」 → 돌이 떠 있는 동안 바닥의 반짝이는 돌을 톡톡 줍기 → ② 돌이 손바닥 띠에 와서 깜빡이면 오른쪽 「받기」.
    못 줍거나 · 깜빡이기 전에 받거나 · 놓치면 차례가 넘어감(하던 단계는 그대로). 사장님도 같은 단추를 똑같이 누름(누르는 단추가 켜져 보임). */
 var K={}, kraf=0, KST=[[1,1,1,1],[2,2],[3,1],[4]];
-function kgGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight; return {w:w,h:h,top:34,ht:h*.44,hb:h*.44+40,fl:h*.62,fb:h-26}; }
+function kgGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight; return {w:w,h:h,top:86,ht:h*.44,hb:h*.44+40,fl:h*.62,fb:h-26}; }
 function gongStart(){ K={gen:S.gen,st:[[0,0],[0,0]],turn:0,ph:'wait'}; S.u='단'; S.sc=[1,1];
-  $('board').innerHTML='<div class="kgh" id="kgh"><span id="kghT">손바닥 · 여기서 받아요</span></div><div class="kgfl"></div><div id="kgs"></div><div class="kgup" id="kgup"></div><div class="kgst" id="kgst"></div>';
+  $('board').innerHTML='<div class="kgwho" id="kgwho"></div><div class="kgh" id="kgh"><span id="kghT">손바닥 · 여기서 받아요</span></div><div class="kgfl"></div><div id="kgs"></div><div class="kgup" id="kgup"></div><div class="kgst" id="kgst"></div>';
   $('act').innerHTML='<div class="kgrow"><button class="kgb th" type="button" id="kgT"><small>①</small>던지기</button><button class="kgb ca" type="button" id="kgC"><small>②</small>받기</button></div>';
   $('kgT').addEventListener('pointerdown',function(e){ e.preventDefault(); if(K.turn===0) kgThrowBtn(); });
   $('kgC').addEventListener('pointerdown',function(e){ e.preventDefault(); if(K.turn===0) kgCatchBtn(); });
@@ -203,22 +205,24 @@ function kgLay(){ var G=kgGeo(), h=$('kgh'); if(!h) return; h.style.top=G.ht+'px
 function kgDone(p){ var s=K.st[p], n=0; for(var i=0;i<s[0];i++) n+=KST[i].length; return n+s[1]; }
 function kgName(p){ return (K.st[p][0]+1)+'단'; }
 /* 단추 모양: 지금 누를 단추만 켬 · cpu 차례엔 사장님이 누르는 단추가 켜져 보임 */
-function kgBtns(t,c,blink){ var T=$('kgT'), C=$('kgC'); if(!T) return; T.className='kgb th'+(t?' on':''); C.className='kgb ca'+(c?' on':'')+(blink?' blink':''); T.disabled=K.turn!==0; C.disabled=K.turn!==0;
-  var h=$('kgh'); if(h) h.className='kgh'+(blink?' blink':''); var ht=$('kghT'); if(ht) ht.textContent=blink?'지금 받아요!':'손바닥 · 여기서 받아요'; }
+function kgBtns(t,c,blink){ var T=$('kgT'), C=$('kgC'); if(!T) return; var left=(K.ph==='air'&&K.picked)?K.need-K.picked.length:0;
+  C.innerHTML=left>0?'<small>②</small>받기 <em>돌 '+left+'알 먼저</em>':'<small>②</small>받기'; T.className='kgb th'+(t?' on':''); C.className='kgb ca'+(c?' on':'')+(blink?' blink':''); T.disabled=K.turn!==0; C.disabled=K.turn!==0;
+  var h=$('kgh'); if(h) h.className='kgh '+(K.turn===0?'me':'op')+(blink?' blink':''); var ht=$('kghT'); if(ht) ht.textContent=blink?'지금 받아요!':(K.turn===0?'내 손바닥 · 여기서 받아요':esc(nm(1))+' 손바닥');
+  var w=$('kgwho'); if(w){ w.className='kgwho '+(K.turn===0?'me':'op'); w.innerHTML='🖐 '+(K.turn===0?'내 차례':esc(nm(1))+' 차례'); } }
 function kgStones(){ var G=kgGeo(), box=$('kgs'), h='', pts=[], s=K.st[K.turn], used=0; for(var i=0;i<s[1];i++) used+=KST[s[0]][i]; var need=4-used;
   for(var i=0;i<need;i++){ var x, y, ok, n=0; do{ x=G.w*.14+Math.random()*G.w*.72; y=G.fl+16+Math.random()*(G.fb-G.fl-30); ok=pts.every(function(p){ return Math.hypot(p.x-x,p.y-y)>58; }); n++; }while(!ok&&n<80); pts.push({x:x,y:y}); }
   K.pts=pts; pts.forEach(function(p,i){ h+='<button type="button" class="kgs" data-i="'+i+'" style="left:'+p.x+'px;top:'+p.y+'px" aria-label="공깃돌"></button>'; }); box.innerHTML=h;
   [].forEach.call(box.querySelectorAll('.kgs'),function(b){ b.addEventListener('pointerdown',function(e){ e.preventDefault(); e.stopPropagation(); kgPick(+b.getAttribute('data-i'),0); }); }); }
-function kgShow(){ var s=K.st[K.turn], el=$('kgst'); if(!el) return; var h='<b>'+(K.turn===0?'나':esc(nm(1)))+' · '+(s[0]+1)+'단</b> ';
+function kgShow(){ var s=K.st[K.turn], el=$('kgst'); if(!el) return; var h='<b>'+(s[0]+1)+'단</b> ';
   KST[s[0]].forEach(function(n,i){ h+='<span class="'+(i<s[1]?'ok':(i===s[1]?'now':''))+'">'+n+'알</span>'; }); el.innerHTML=h; }
-function kgTurn(){ if(S.over) return; var g=S.gen; K.ph='ready'; K.picked=[]; S.sc=[K.st[0][0]+1,K.st[1][0]+1]; vs(K.turn); kgStones(); kgShow();
+function kgTurn(){ if(S.over) return; var g=S.gen; NA.unpoint(); K.ph='ready'; K.picked=[]; S.sc=[K.st[0][0]+1,K.st[1][0]+1]; vs(K.turn); kgStones(); kgShow();
   col('l',{pw:kgDone(0)/9,on:K.turn===0}); col('r',{pw:kgDone(1)/9,on:K.turn===1});
   var up=$('kgup'), G=kgGeo(); up.className='kgup'; var s=K.st[K.turn], n=KST[s[0]][s[1]];
   kgBtns(true,false,false);
   if(K.turn===0){ $('say').innerHTML='<b>내 차례</b> · '+kgName(0)+' · <b>'+n+'알</b> 줍기 · 먼저 <b>왼쪽 「던지기」</b>';
     if(!K.tip){ K.tip=1; setTimeout(function(){ if(g===S.gen&&K.ph==='ready') NA.point($('kgT'),'먼저 던지기',.5,.4); },300); } }
   else { $('say').innerHTML='<em>'+esc(nm(1))+' 차례</em> · '+kgName(1)+' · <b>'+n+'알</b> 줍기'; setTimeout(function(){ if(g===S.gen) kgCpu(); },1000); } }
-function kgAir(n){ return .9+.38*n; }   /* 위로 던진 돌이 떠 있는 초 — 주울 돌이 많을수록 길지만 빠듯함 */
+function kgAir(n){ return 1.2+.45*n; }   /* 위로 던진 돌이 떠 있는 초 — 주울 돌이 많을수록 길지만 빠듯함 */
 function kgThrowBtn(){ if(S.over||K.ph!=='ready') return; NA.unpoint(); kgThrow(); }
 function kgCatchBtn(){ if(S.over) return; NA.unpoint();
   if(K.ph==='ready'){ $('say').innerHTML='<em>아직 안 던졌어요</em> · 먼저 <b>왼쪽 「던지기」</b>'; return; }   /* 던지기 전에 받기 → 벌점 없이 알려만 줌 */
@@ -228,25 +232,25 @@ function kgCatchBtn(){ if(S.over) return; NA.unpoint();
 function kgThrow(){ var g=S.gen, G=kgGeo(), s=K.st[K.turn], n=KST[s[0]][s[1]], T=kgAir(n), up=$('kgup'), t0=performance.now();
   K.ph='air'; K.need=n; K.picked=[]; K.blink=false; snd('flick',.5); up.className='kgup on'; up.style.left=(G.w/2)+'px'; kgBtns(false,false,false);
   [].forEach.call(document.querySelectorAll('#kgs .kgs'),function(b){ b.classList.add('glow'); });
-  if(K.turn===0){ $('say').innerHTML='<b>지금!</b> 반짝이는 바닥 돌 <b>'+n+'알</b> 톡톡 → 손바닥 띠가 깜빡이면 <b>오른쪽 「받기」</b>'; if(!K.tip2){ K.tip2=1; var st=document.querySelector('#kgs .kgs'); if(st) NA.point(st,'돌 줍기 톡',.5,.5); } }
+  if(K.turn===0){ $('say').innerHTML='<b>지금!</b> 반짝이는 바닥 돌 <b>'+n+'알</b>을 손가락으로 톡톡 → 그다음 <b>오른쪽 「받기」</b>'; K.tip2=(K.tip2||0)+1; if(K.tip2<=3){ var st=document.querySelector('#kgs .kgs'); if(st) NA.point(st,'바닥 돌을 톡!',.5,.5); } }
   var y0=G.hb+6, id=K.loop=(K.loop||0)+1; cancelAnimationFrame(kraf); (function lp(){ if(g!==S.gen||id!==K.loop||K.ph!=='air') return; var t=(performance.now()-t0)/1000, u=t/T, y;
     y= u<.5 ? y0-(y0-G.top)*(1-Math.pow(1-u*2,2)) : G.top+(G.hb+30-G.top)*Math.pow((u-.5)*2,1.5); K.y=y; K.u=u; up.style.top=y+'px';
-    var inB=u>.5&&y>=G.ht&&y<=G.hb+4; if(inB!==K.blink){ K.blink=inB; kgBtns(false,inB&&K.picked.length>=K.need,inB); }
+    var inB=u>.5&&y>=G.ht&&y<=G.hb+4; if(inB!==K.blink){ K.blink=inB; kgBtns(false,K.picked.length>=K.need,inB); }
     if(y>G.hb+4&&u>.5){ kgFail('late'); return; }
     if(K.turn===1&&K.cpu){ K.cpu(y,u); if(K.ph!=='air') return; }
     kraf=requestAnimationFrame(lp); })(); }
 function kgPick(i,p){ if(S.over||K.ph!=='air'||p!==K.turn) return; if(K.picked.indexOf(i)>=0||K.picked.length>=K.need) return; NA.unpoint();
-  var b=document.querySelector('#kgs .kgs[data-i="'+i+'"]'); if(b){ b.classList.add('got'); } K.picked.push(i); snd('clack',.45);
-  if(K.picked.length>=K.need){ [].forEach.call(document.querySelectorAll('#kgs .kgs:not(.got)'),function(x){ x.classList.remove('glow'); }); kgBtns(false,K.blink,K.blink);
+  var b=document.querySelector('#kgs .kgs[data-i="'+i+'"]'); if(b){ b.classList.add('got'); } K.picked.push(i); snd('clack',.45); if(K.picked.length<K.need) kgBtns(false,false,K.blink);
+  if(K.picked.length>=K.need){ [].forEach.call(document.querySelectorAll('#kgs .kgs:not(.got)'),function(x){ x.classList.remove('glow'); }); kgBtns(false,true,K.blink);
     if(K.turn===0) $('say').innerHTML='<b>다 주웠어요!</b> 기다렸다가 <b>「받기」가 깜빡이면</b> 그때 톡'; } }
-function kgCatch(){ var G=kgGeo(); if(!K.blink){ kgFail('early'); return; }
+function kgCatch(){ var G=kgGeo(); if(!K.blink){ if(K.turn===1){ kgFail('early'); return; } if(K.lock) return; K.lock=1; setTimeout(function(){ K.lock=0; },500); fx('아직!',40); snd('miss',.3); $('say').innerHTML='<em>아직이에요!</em> 「받기」가 <b>깜빡일 때</b> 누르세요'; return; }
   K.ph='wait'; cancelAnimationFrame(kraf); var g=S.gen, up=$('kgup'); up.className='kgup'; snd('stone',.8); fx('착!',48); kgBtns(false,false,false);
   var s=K.st[K.turn]; s[1]++; if(s[1]>=KST[s[0]].length){ s[0]++; s[1]=0; }
   col(K.turn===0?'l':'r',{pw:kgDone(K.turn)/9,on:true});
   if(s[0]>=KST.length){ var meWin=K.turn===0; fx(meWin?'4단 끝!':'졌다…',40); setTimeout(function(){ if(g===S.gen) finish(meWin,Math.min(4,K.st[0][0]),Math.min(4,K.st[1][0])); },900); return; }
   $('say').innerHTML=(K.turn===0?'<b>잘 받았다!</b>':'<em>'+esc(nm(1))+' 받았다</em>')+' · 이어서 '+kgName(K.turn);
   setTimeout(function(){ if(g===S.gen) kgTurn(); },K.turn===0?700:900); }
-function kgFail(why){ var g=S.gen; K.ph='wait'; cancelAnimationFrame(kraf); var up=$('kgup'); up.className='kgup fall'; kgBtns(false,false,false); snd(why==='early'?'miss':'thud',.6);
+function kgFail(why){ var g=S.gen; NA.unpoint(); K.ph='wait'; cancelAnimationFrame(kraf); var up=$('kgup'); up.className='kgup fall'; kgBtns(false,false,false); snd(why==='early'?'miss':'thud',.6);
   var who=K.turn===0?'':esc(nm(1))+' ', m= why==='early'?'<em>'+who+'너무 일찍 받았어요</em> · 손바닥 띠가 깜빡일 때':(K.picked.length<K.need?'<em>'+who+'다 못 주웠어요</em> · 더 빨리 톡톡':'<em>'+who+'놓쳤어요</em> · 깜빡일 때 받기');
   fx(why==='early'?'헛손!':'떨어졌다',38); $('say').innerHTML=m+' · 이제 '+(K.turn===0?esc(nm(1)):'나')+' 차례 ('+kgName(K.turn)+'은 그대로)';
   setTimeout(function(){ if(g!==S.gen) return; K.turn=1-K.turn; kgTurn(); },1800); }
