@@ -39,7 +39,9 @@ button:active{filter:brightness(.93)}
 .jgfoot{position:absolute;left:50%;width:58px;height:22px;margin-left:-29px;border-radius:11px 11px 6px 6px;background:#3B3F4A}
 .jgr{position:absolute;left:0;right:0;bottom:0;height:18px;background:#E9DCC0}
 .jegi{position:absolute;width:40px;height:52px;z-index:3;pointer-events:none}
-.jgcnt{position:absolute;right:14px;top:12px;text-align:right;color:var(--ink);line-height:1}.jgcnt b{font-family:var(--sign),sans-serif;font-size:44px;font-weight:400}.jgcnt small{font-size:13px;font-weight:800;color:var(--sub);margin-left:2px}
+.jgfoot.kick{animation:kk .22s ease}.jgfoot.b{background:#7A3B3B}@keyframes kk{40%{transform:translateY(-16px) rotate(-14deg)}}
+.jgtot{position:absolute;left:8px;top:8px;display:flex;flex-direction:column;gap:3px;font-size:12px;font-weight:800;color:var(--sub)}.jgtot span{padding:2px 8px;border-radius:999px;background:var(--chip);align-self:flex-start}.jgtot .a b{color:var(--blu)}.jgtot .b b{color:var(--red)}.jgtot b{font-size:15px}.jgtot em{font-style:normal;font-size:10.5px}
+.jgcnt{position:absolute;right:14px;top:12px;text-align:right;color:var(--ink);line-height:1}.jgcnt small:first-child{display:block;font-size:11px;margin-bottom:2px}.jgcnt b{font-family:var(--sign),sans-serif;font-size:44px;font-weight:400}.jgcnt small{font-size:13px;font-weight:800;color:var(--sub);margin-left:2px}
 .jgcnt.pop b{animation:cp .25s ease}@keyframes cp{50%{transform:scale(1.25)}}
 /* 공기놀이 */
 .kgh{position:absolute;left:14%;right:14%;border-radius:14px;background:#BFE8C8;display:flex;align-items:center;justify-content:center}
@@ -52,7 +54,12 @@ button:active{filter:brightness(.93)}
 .kgup{position:absolute;width:26px;height:22px;margin:-11px 0 0 -13px;border-radius:48% 52% 45% 55%;background:#8A5A36;z-index:3;display:none}.kgup.on,.kgup.fall{display:block}.kgup.fall{opacity:.35}
 .kgst{position:absolute;left:8px;top:8px;display:flex;gap:4px;align-items:center;font-size:12px;font-weight:800;color:var(--sub)}
 .kgst b{font-size:15px;color:var(--ink);margin-right:2px}.kgst span{padding:2px 7px;border-radius:999px;background:var(--chip)}.kgst span.ok{background:#DCE6FA;color:var(--blu)}.kgst span.now{background:#BFE8C8;color:#1E6B34}
-.big.catch{background:#1E6B34}.big.catch:disabled{background:var(--chip);color:var(--sub)}
+.kgrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kgb{font:inherit;border:0;border-radius:16px;min-height:58px;font-weight:900;font-size:19px;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;background:var(--chip);color:#B3A588;display:flex;align-items:center;justify-content:center;gap:6px;transition:background .15s,color .15s}
+.kgb small{font-size:14px;opacity:.8}.kgb:disabled{cursor:default}
+.kgb.th.on{background:var(--blu);color:#fff}.kgb.ca.on{background:#2E9E4F;color:#fff}
+.kgb.ca.blink,.kgh.blink{animation:kb .32s steps(2,start) infinite}@keyframes kb{to{background:#FFC21A;color:#16181D}}
+.kgb.press{filter:brightness(.85);transform:scale(.97)}
 /* 무궁화 꽃이 피었습니다 */
 .mgtrack{position:absolute;left:50%;top:70px;bottom:18px;width:64px;margin-left:-32px;border-radius:32px;background:#F3E6C8}
 .mgit{position:absolute;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;background:#5B4A3A;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;z-index:3;transition:background .15s}
@@ -108,7 +115,7 @@ function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
 function snd(k,v){ try{ SND[k](v); }catch(e){} }
 var GN={jegi:'제기차기',gong:'공기놀이',mugung:'무궁화 꽃이 피었습니다'}, MID={jegi:'두 번씩 차서 많이 찬 쪽이 이김',gong:'4단까지 먼저 마치면 이김',mugung:'술래를 치면 이김 · 두 번 걸리면 짐'}, CODE={jegi:'jg',gong:'gg',mugung:'mg'};
 var RULE={jegi:['제기가 위에서 떨어져요. 발 위 <b style="color:#1E6B34">초록 띠</b> 안에 왔을 때 <b>「차기!」</b>(놀이판 아무 데나 톡 해도 돼요).','차면 다시 올라가요. <b>찰수록 빨리 떨어지고 좌우로 더 흔들려요.</b>','초록 띠에 오기 전에 차면 <b>헛발</b>, 띠를 지나치면 <b>떨어져요</b>. 그러면 상대 차례.','나 → 사장님 → 나 → 사장님, <b>두 번씩</b> 차서 모두 더한 횟수가 많은 쪽이 이겨요. 같으면 한 번씩 더.'],
-  gong:['<b>1단</b> 한 알씩 네 번 → <b>2단</b> 두 알씩 두 번 → <b>3단</b> 세 알 · 한 알 → <b>4단</b> 네 알 한꺼번에. 먼저 4단을 마치면 이겨요.','<b>① 던지기</b>를 누르면 돌 하나가 위로 떠요.','돌이 떠 있는 동안 바닥에서 <b>반짝이는 돌</b>을 톡톡 주워요(이번에 주울 만큼).','떠 있던 돌이 내려와 <b style="color:#1E6B34">손바닥 띠</b>에 오면 <b>② 받기!</b>','못 줍거나 · 너무 일찍 받거나 · 놓치면 상대 차례예요. 하던 단계는 그대로 남아요.'],
+  gong:['<b>1단</b> 한 알씩 네 번 → <b>2단</b> 두 알씩 두 번 → <b>3단</b> 세 알 · 한 알 → <b>4단</b> 네 알 한꺼번에. 먼저 4단을 마치면 이겨요.','단추가 둘이에요. <b>왼쪽 ① 던지기 · 오른쪽 ② 받기</b>. 지금 누를 단추만 색이 켜져요.','왼쪽 <b>「던지기」</b>를 누르면 돌 하나가 위로 떠요. 떠 있는 동안 바닥에서 <b>반짝이는 돌</b>을 톡톡 주워요(이번에 주울 만큼).','떠 있던 돌이 내려와 <b style="color:#1E6B34">손바닥 띠</b>에 오면 띠와 오른쪽 <b>「받기」가 깜빡깜빡</b> — 그때 「받기」! 깜빡이기 전에 누르면 헛손이에요.','못 줍거나 · 너무 일찍 받거나 · 놓치면 상대 차례예요. 하던 단계는 그대로 남아요.'],
   mugung:['술래(사장님)가 돌아서서 <b>「무 궁 화 꽃 이 피 었 습 니 다」</b>를 외요. 글자가 하나씩 켜져요.','글자가 켜지는 동안 <b>「앞으로!」</b>를 톡톡 — 한 번에 한 걸음.','<b>「다」</b>가 켜지면 술래가 돌아봐요. 그때 누르면 <b>걸려요</b>(다섯 걸음 뒤로). 외는 빠르기가 들쭉날쭉하니 조심!','술래가 <b>다섯 번</b> 외는 안에 술래까지 가면 이겨요. <b>두 번 걸리면</b> 져요.']};
 function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
@@ -134,7 +141,7 @@ function jgGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight; return
 function jegiStart(){ J={gen:S.gen,tot:[0,0],turn:0,ti:0,order:[0,1,0,1],n:0,ph:'wait'}; S.u='번'; S.sc=[0,0];
   $('board').innerHTML='<div class="jgz" id="jgz"><span>여기서 차기</span></div><div class="jgfoot" id="jgfoot"></div><div class="jgr"></div>'
     +'<div class="jegi" id="jegi"><svg viewBox="0 0 40 52" width="40" height="52" aria-hidden="true"><g><rect x="11" y="3" width="6" height="28" rx="3" fill="#FFC21A" transform="rotate(-10 14 31)"/><rect x="17" y="1" width="6" height="30" rx="3" fill="#2E9E4F"/><rect x="23" y="3" width="6" height="28" rx="3" fill="#2F64E0" transform="rotate(10 26 31)"/></g><ellipse cx="20" cy="38" rx="12" ry="7" fill="#B98A3E"/><rect x="17" y="35" width="6" height="5" fill="#7A5A24"/></svg></div>'
-    +'<div class="jgcnt" id="jgcnt"></div>';
+    +'<div class="jgcnt" id="jgcnt"></div><div class="jgtot" id="jgtot"></div>';
   $('act').innerHTML='<button class="big" type="button" id="jgGo">차기!</button>';
   $('jgGo').addEventListener('pointerdown',function(e){ e.preventDefault(); jgKick(0); });
   var bd=$('board'); if(!bd.__jg){ bd.__jg=1; bd.addEventListener('pointerdown',function(e){ if(S.k!=='jegi'||S.over) return; e.preventDefault(); jgKick(0); }); }
@@ -143,7 +150,8 @@ function jgLay(){ var G=jgGeo(), z=$('jgz'), f=$('jgfoot'); if(!z) return; z.sty
 function jgFall(n){ return Math.max(.75,1.4*Math.pow(.955,n)); }   /* 떨어지는 데 걸리는 초 — 찰수록 짧아짐 */
 function jgSway(n,G){ return Math.min(G.w*.3,4+n*5); }              /* 좌우 흔들림 폭 — 찰수록 커짐 */
 function jgPos(x,y,rot){ var j=$('jegi'); if(!j) return; j.style.left=x+'px'; j.style.top=y+'px'; j.style.transform='translate(-50%,-50%) rotate('+(rot||0)+'deg)'; }
-function jgCnt(){ var c=$('jgcnt'); if(c) c.innerHTML='<b>'+J.n+'</b><small>번</small>'; }
+function jgCnt(){ var c=$('jgcnt'); if(c) c.innerHTML='<small>'+(J.turn===0?'내':esc(nm(1)))+' 이번 차례</small><b>'+J.n+'</b><small>번</small>';
+  var t=$('jgtot'); if(t) t.innerHTML='<span class="a">나 <b>'+J.tot[0]+'</b>번</span><span class="b">'+esc(nm(1))+' <b>'+J.tot[1]+'</b>번</span><em>더한 횟수가 많은 쪽이 이겨요</em>'; }
 function jgTurn(){ if(S.over) return; var g=S.gen; J.turn=J.order[J.ti]; J.n=0; J.ph='wait'; jgCnt(); vs(J.turn); S.sc=[J.tot[0],J.tot[1]];
   var G=jgGeo(); jgPos(G.w/2,G.foot-30,0); var go=$('jgGo');
   var lab=(J.ti<2?'첫째':(J.ti<4?'둘째':'한 번 더'))+' 차례';
@@ -153,89 +161,101 @@ function jgTurn(){ if(S.over) return; var g=S.gen; J.turn=J.order[J.ti]; J.n=0; 
   setTimeout(function(){ if(g!==S.gen) return; snd('flick',.4); jgLaunch(); },900); }
 /* 한 번 띄움: 올라감(0.38초) → 떨어짐(jgFall) */
 function jgLaunch(){ var g=S.gen, G=jgGeo(), n=J.n, x0=parseFloat($('jegi').style.left)||G.w/2, A=jgSway(n,G), ph=Math.random()*6.283, up=.38, fall=jgFall(n), apex=G.top+Math.random()*30, y0=(G.zt+G.zb)/2, t0=performance.now();
-  J.ph='rise'; J.fly={g:g,t0:t0,up:up,fall:fall,apex:apex,y0:y0,x0:x0,A:A,ph:ph,cx:G.w/2};
-  cancelAnimationFrame(jraf); (function lp(){ if(g!==S.gen||J.ph==='down'||J.ph==='wait') return; var t=(performance.now()-t0)/1000, f=J.fly, x, y;
+  J.ph='rise'; J.fly={g:g,t0:t0,up:up,fall:fall,apex:apex,y0:y0,x0:x0,A:A,ph:ph,cx:G.w/2}; var id=J.loop=(J.loop||0)+1;
+  /* 261123 고침: 사장님이 찰 때 옛 반복이 같이 돌아 제기가 튀고 혼자 떨어지던 것 — 반복은 늘 하나만 */
+  cancelAnimationFrame(jraf); (function lp(){ if(g!==S.gen||id!==J.loop||J.ph==='down'||J.ph==='wait') return; var t=(performance.now()-t0)/1000, f=J.fly, x, y;
     if(t<up){ var k=t/up; y=f.y0+(f.apex-f.y0)*(1-(1-k)*(1-k)); x=f.x0+(f.cx-f.x0)*k; }
     else { if(J.ph==='rise') J.ph='fall'; var u=(t-up)/fall; y=f.apex+(G.gr-f.apex)*Math.pow(u,1.4); x=f.cx+f.A*Math.sin(f.ph+(t-up)*5.2); }
     J.y=y; jgPos(x,y,(x-f.cx)*.6);
+    if(J.turn===1&&J.ph==='fall'&&J.n<J.cpuK&&y>=G.zt+(G.zb-G.zt)*.3){ jgKick(1); return; }   /* 사장님도 손님과 똑같이 초록 띠 안에서만 참 */
     if(J.ph==='fall'&&y>G.zb){ jgDrop('late'); return; }
-    if(J.turn===1&&J.ph==='fall'&&y>=(G.zt+G.zb)/2-2){ if(J.n<J.cpuK){ jgKick(1); } }
     jraf=requestAnimationFrame(lp); })(); }
 function jgKick(p){ if(S.over||J.ph==='wait'||J.ph==='down') return; if(p!==J.turn) return; NA.unpoint(); var G=jgGeo();
   if(J.ph==='rise') return;                                  /* 올라가는 중 톡은 그냥 넘김 */
   if(J.y<G.zt){ jgDrop('early'); return; }
-  J.n++; jgCnt(); snd('putt',.7); var c=$('jgcnt'); if(c){ c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); }
+  J.n++; jgCnt(); snd('putt',.7); var ft=$('jgfoot'); if(ft){ ft.classList.remove('kick'); void ft.offsetWidth; ft.classList.add('kick'); ft.classList.toggle('b',J.turn===1); } var c=$('jgcnt'); if(c){ c.classList.remove('pop'); void c.offsetWidth; c.classList.add('pop'); }
   col(J.turn===0?'l':'r',{pw:Math.min(1,J.n/20),on:true}); jgLaunch(); }
 function jgDrop(why){ var g=S.gen, G=jgGeo(); J.ph='down'; cancelAnimationFrame(jraf); var j=$('jegi'), x=parseFloat(j.style.left)||G.w/2;
   if(why==='early'){ fx('헛발!',44); snd('miss',.6); } else { jgPos(x,G.gr-8,70); fx('툭…',44); snd('thud',.5); }
   J.tot[J.turn]+=J.n; S.sc=[J.tot[0],J.tot[1]]; vs(null);
   var who=J.turn===0?'나':esc(nm(1)), msg=why==='early'?'<em>'+who+' 헛발</em> · 제기가 초록 띠에 오기 전에 찼어요':(J.turn===0?'<em>떨어졌어요</em> · 초록 띠를 지나기 전에 차요':'<em>'+who+' 떨어뜨렸어요</em>');
-  $('say').innerHTML=msg+' · <b>'+J.n+'번</b> (모두 '+J.tot[J.turn]+'번)';
+  jgCnt(); $('say').innerHTML=msg+' · 이번에 <b>'+J.n+'번</b> 찼어요';
   setTimeout(function(){ if(g!==S.gen) return; col('l',{pw:0,on:null}); col('r',{pw:0,on:null}); J.ti++;
     if(J.ti>=J.order.length){ if(J.tot[0]===J.tot[1]){ J.order.push(0,1); $('say').innerHTML='<b>비겼어요!</b> 한 번씩 더'; setTimeout(function(){ if(g===S.gen) jgTurn(); },1200); return; }
-      var meWin=J.tot[0]>J.tot[1]; fx(meWin?'이겼다!':'졌다…',40); $('jgGo').disabled=true; setTimeout(function(){ if(g===S.gen) finish(meWin,J.tot[0],J.tot[1]); },700); return; }
+      var meWin=J.tot[0]>J.tot[1], gap=Math.abs(J.tot[0]-J.tot[1]); fx(meWin?'이겼다!':'졌다…',40);
+      $('say').innerHTML='나 <b>'+J.tot[0]+'번</b> · '+esc(nm(1))+' <b>'+J.tot[1]+'번</b> — '+(meWin?'<b>내가 '+gap+'번 더 찼어요!</b>':'<em>'+esc(nm(1))+'이 '+gap+'번 더 찼어요</em>'); $('jgGo').disabled=true; setTimeout(function(){ if(g===S.gen) finish(meWin,J.tot[0],J.tot[1]); },1600); return; }
     jgTurn(); },1500); }
 
-/* ───────── 공기놀이 (261123 시안) ─────────
+/* ───────── 공기놀이 (261123 v2 · 대표 의견 21:18) ─────────
+   단추 둘로 나눔: 왼쪽 「던지기」 · 오른쪽 「받기」 — 지금 누를 단추만 색이 켜지고, 받을 때가 되면 「받기」와 손바닥 띠가 깜빡깜빡.
    1단(한 알씩 네 번) → 2단(두 알씩 두 번) → 3단(세 알 · 한 알) → 4단(네 알 한꺼번에) — 먼저 4단을 마치면 이김.
-   한 번 집기 = ① 「던지기」 → 돌이 떠 있는 동안 바닥의 반짝이는 돌을 톡톡 줍기 → ② 돌이 손바닥 띠에 오면 「받기!」.
-   못 줍거나 · 일찍 받거나 · 놓치면 차례가 넘어감(하던 단계는 그대로 남음). 줍는 돌이 많을수록 떠 있는 시간이 빠듯해짐(보이는 어려움). */
+   한 번 집기 = ① 왼쪽 「던지기」 → 돌이 떠 있는 동안 바닥의 반짝이는 돌을 톡톡 줍기 → ② 돌이 손바닥 띠에 와서 깜빡이면 오른쪽 「받기」.
+   못 줍거나 · 깜빡이기 전에 받거나 · 놓치면 차례가 넘어감(하던 단계는 그대로). 사장님도 같은 단추를 똑같이 누름(누르는 단추가 켜져 보임). */
 var K={}, kraf=0, KST=[[1,1,1,1],[2,2],[3,1],[4]];
 function kgGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight; return {w:w,h:h,top:34,ht:h*.44,hb:h*.44+40,fl:h*.62,fb:h-26}; }
 function gongStart(){ K={gen:S.gen,st:[[0,0],[0,0]],turn:0,ph:'wait'}; S.u='단'; S.sc=[1,1];
-  $('board').innerHTML='<div class="kgh" id="kgh"><span>손바닥 · 여기서 받기</span></div><div class="kgfl"></div><div id="kgs"></div><div class="kgup" id="kgup"></div><div class="kgst" id="kgst"></div>';
-  $('act').innerHTML='<button class="big" type="button" id="kgGo">① 던지기</button>';
-  $('kgGo').addEventListener('pointerdown',function(e){ e.preventDefault(); kgBtn(0); });
+  $('board').innerHTML='<div class="kgh" id="kgh"><span id="kghT">손바닥 · 여기서 받아요</span></div><div class="kgfl"></div><div id="kgs"></div><div class="kgup" id="kgup"></div><div class="kgst" id="kgst"></div>';
+  $('act').innerHTML='<div class="kgrow"><button class="kgb th" type="button" id="kgT"><small>①</small>던지기</button><button class="kgb ca" type="button" id="kgC"><small>②</small>받기</button></div>';
+  $('kgT').addEventListener('pointerdown',function(e){ e.preventDefault(); if(K.turn===0) kgThrowBtn(); });
+  $('kgC').addEventListener('pointerdown',function(e){ e.preventDefault(); if(K.turn===0) kgCatchBtn(); });
   kgLay(); vs(null); kgTurn(); }
 function kgLay(){ var G=kgGeo(), h=$('kgh'); if(!h) return; h.style.top=G.ht+'px'; h.style.height=(G.hb-G.ht)+'px'; }
-function kgDone(p){ var s=K.st[p], n=0; for(var i=0;i<s[0];i++) n+=KST[i].length; return n+s[1]; }   /* 지금까지 집은 번수(모두 9번) */
-function kgName(p){ var s=K.st[p]; return (s[0]+1)+'단'; }
-function kgStones(){ var G=kgGeo(), box=$('kgs'), h='', pts=[], s=K.st[K.turn], need=4; /* 단마다 바닥 돌 넷을 새로 흩음 · 앞서 주운 만큼 뺌 */
-  var used=0; for(var i=0;i<s[1];i++) used+=KST[s[0]][i]; need=4-used;
+function kgDone(p){ var s=K.st[p], n=0; for(var i=0;i<s[0];i++) n+=KST[i].length; return n+s[1]; }
+function kgName(p){ return (K.st[p][0]+1)+'단'; }
+/* 단추 모양: 지금 누를 단추만 켬 · cpu 차례엔 사장님이 누르는 단추가 켜져 보임 */
+function kgBtns(t,c,blink){ var T=$('kgT'), C=$('kgC'); if(!T) return; T.className='kgb th'+(t?' on':''); C.className='kgb ca'+(c?' on':'')+(blink?' blink':''); T.disabled=K.turn!==0; C.disabled=K.turn!==0;
+  var h=$('kgh'); if(h) h.className='kgh'+(blink?' blink':''); var ht=$('kghT'); if(ht) ht.textContent=blink?'지금 받아요!':'손바닥 · 여기서 받아요'; }
+function kgStones(){ var G=kgGeo(), box=$('kgs'), h='', pts=[], s=K.st[K.turn], used=0; for(var i=0;i<s[1];i++) used+=KST[s[0]][i]; var need=4-used;
   for(var i=0;i<need;i++){ var x, y, ok, n=0; do{ x=G.w*.14+Math.random()*G.w*.72; y=G.fl+16+Math.random()*(G.fb-G.fl-30); ok=pts.every(function(p){ return Math.hypot(p.x-x,p.y-y)>58; }); n++; }while(!ok&&n<80); pts.push({x:x,y:y}); }
   K.pts=pts; pts.forEach(function(p,i){ h+='<button type="button" class="kgs" data-i="'+i+'" style="left:'+p.x+'px;top:'+p.y+'px" aria-label="공깃돌"></button>'; }); box.innerHTML=h;
   [].forEach.call(box.querySelectorAll('.kgs'),function(b){ b.addEventListener('pointerdown',function(e){ e.preventDefault(); e.stopPropagation(); kgPick(+b.getAttribute('data-i'),0); }); }); }
-function kgShow(){ var s=K.st[K.turn], el=$('kgst'); if(!el) return; var row=KST[s[0]], h='<b>'+(s[0]+1)+'단</b> ';
-  row.forEach(function(n,i){ h+='<span class="'+(i<s[1]?'ok':(i===s[1]?'now':''))+'">'+n+'알</span>'; }); el.innerHTML=h; }
+function kgShow(){ var s=K.st[K.turn], el=$('kgst'); if(!el) return; var h='<b>'+(K.turn===0?'나':esc(nm(1)))+' · '+(s[0]+1)+'단</b> ';
+  KST[s[0]].forEach(function(n,i){ h+='<span class="'+(i<s[1]?'ok':(i===s[1]?'now':''))+'">'+n+'알</span>'; }); el.innerHTML=h; }
 function kgTurn(){ if(S.over) return; var g=S.gen; K.ph='ready'; K.picked=[]; S.sc=[K.st[0][0]+1,K.st[1][0]+1]; vs(K.turn); kgStones(); kgShow();
   col('l',{pw:kgDone(0)/9,on:K.turn===0}); col('r',{pw:kgDone(1)/9,on:K.turn===1});
-  var up=$('kgup'), G=kgGeo(); up.className='kgup'; up.style.left=(G.w/2)+'px'; up.style.top=(G.hb+6)+'px';
-  var s=K.st[K.turn], n=KST[s[0]][s[1]], go=$('kgGo');
-  if(K.turn===0){ $('say').innerHTML='<b>내 차례</b> · '+kgName(0)+' · <b>'+n+'알</b> 줍기'; go.disabled=false; go.textContent='① 던지기'; go.className='big';
-    if(!K.tip){ K.tip=1; setTimeout(function(){ if(g===S.gen&&K.ph==='ready') NA.point($('kgGo'),'먼저 던지고 → 돌이 떠 있을 때 바닥 돌 톡 → 받기',.5,.4); },300); } }
-  else { $('say').innerHTML='<em>'+esc(nm(1))+' 차례</em> · '+kgName(1); go.disabled=true; go.textContent=nm(1)+' 하는 중…'; setTimeout(function(){ if(g===S.gen) kgCpu(); },900); } }
-function kgAir(n){ return .62+.34*n; }   /* 위로 던진 돌이 떠 있는 초 — 주울 돌이 많을수록 길지만 빠듯함 */
-function kgBtn(p){ if(S.over||p!==K.turn) return; NA.unpoint(); if(K.ph==='ready') kgThrow(); else if(K.ph==='air') kgCatch(); }
-function kgThrow(){ var g=S.gen, G=kgGeo(), s=K.st[K.turn], n=KST[s[0]][s[1]], T=kgAir(n), up=$('kgup'), t0=performance.now(), go=$('kgGo');
-  K.ph='air'; K.need=n; K.picked=[]; snd('flick',.5); up.className='kgup on'; go.textContent='② 받기! (먼저 '+n+'알 줍기)'; go.disabled=true; go.className='big catch';
+  var up=$('kgup'), G=kgGeo(); up.className='kgup'; var s=K.st[K.turn], n=KST[s[0]][s[1]];
+  kgBtns(true,false,false);
+  if(K.turn===0){ $('say').innerHTML='<b>내 차례</b> · '+kgName(0)+' · <b>'+n+'알</b> 줍기 · 먼저 <b>왼쪽 「던지기」</b>';
+    if(!K.tip){ K.tip=1; setTimeout(function(){ if(g===S.gen&&K.ph==='ready') NA.point($('kgT'),'먼저 던지기',.5,.4); },300); } }
+  else { $('say').innerHTML='<em>'+esc(nm(1))+' 차례</em> · '+kgName(1)+' · <b>'+n+'알</b> 줍기'; setTimeout(function(){ if(g===S.gen) kgCpu(); },1000); } }
+function kgAir(n){ return .9+.38*n; }   /* 위로 던진 돌이 떠 있는 초 — 주울 돌이 많을수록 길지만 빠듯함 */
+function kgThrowBtn(){ if(S.over||K.ph!=='ready') return; NA.unpoint(); kgThrow(); }
+function kgCatchBtn(){ if(S.over) return; NA.unpoint();
+  if(K.ph==='ready'){ $('say').innerHTML='<em>아직 안 던졌어요</em> · 먼저 <b>왼쪽 「던지기」</b>'; return; }   /* 던지기 전에 받기 → 벌점 없이 알려만 줌 */
+  if(K.ph!=='air') return;
+  if(K.picked.length<K.need){ $('say').innerHTML='<em>바닥 돌을 먼저 주워요</em> · 반짝이는 돌 <b>'+(K.need-K.picked.length)+'알</b> 더 톡'; return; }   /* 덜 주웠을 때 받기 → 알려만 줌 */
+  kgCatch(); }
+function kgThrow(){ var g=S.gen, G=kgGeo(), s=K.st[K.turn], n=KST[s[0]][s[1]], T=kgAir(n), up=$('kgup'), t0=performance.now();
+  K.ph='air'; K.need=n; K.picked=[]; K.blink=false; snd('flick',.5); up.className='kgup on'; up.style.left=(G.w/2)+'px'; kgBtns(false,false,false);
   [].forEach.call(document.querySelectorAll('#kgs .kgs'),function(b){ b.classList.add('glow'); });
-  if(K.turn===0) $('say').innerHTML='<b>지금!</b> 바닥 돌 <b>'+n+'알</b> 톡 → 돌이 손바닥 띠에 오면 <b>받기!</b>';
-  var y0=G.hb+6; cancelAnimationFrame(kraf); (function lp(){ if(g!==S.gen||K.ph!=='air') return; var t=(performance.now()-t0)/1000, u=t/T, y;
+  if(K.turn===0){ $('say').innerHTML='<b>지금!</b> 반짝이는 바닥 돌 <b>'+n+'알</b> 톡톡 → 손바닥 띠가 깜빡이면 <b>오른쪽 「받기」</b>'; if(!K.tip2){ K.tip2=1; var st=document.querySelector('#kgs .kgs'); if(st) NA.point(st,'돌 줍기 톡',.5,.5); } }
+  var y0=G.hb+6, id=K.loop=(K.loop||0)+1; cancelAnimationFrame(kraf); (function lp(){ if(g!==S.gen||id!==K.loop||K.ph!=='air') return; var t=(performance.now()-t0)/1000, u=t/T, y;
     y= u<.5 ? y0-(y0-G.top)*(1-Math.pow(1-u*2,2)) : G.top+(G.hb+30-G.top)*Math.pow((u-.5)*2,1.5); K.y=y; K.u=u; up.style.top=y+'px';
+    var inB=u>.5&&y>=G.ht&&y<=G.hb+4; if(inB!==K.blink){ K.blink=inB; kgBtns(false,inB&&K.picked.length>=K.need,inB); }
     if(y>G.hb+4&&u>.5){ kgFail('late'); return; }
-    if(K.turn===1&&K.cpu) K.cpu(y,u);
+    if(K.turn===1&&K.cpu){ K.cpu(y,u); if(K.ph!=='air') return; }
     kraf=requestAnimationFrame(lp); })(); }
-function kgPick(i,p){ if(S.over||K.ph!=='air'||p!==K.turn) return; if(K.picked.indexOf(i)>=0||K.picked.length>=K.need) return;
+function kgPick(i,p){ if(S.over||K.ph!=='air'||p!==K.turn) return; if(K.picked.indexOf(i)>=0||K.picked.length>=K.need) return; NA.unpoint();
   var b=document.querySelector('#kgs .kgs[data-i="'+i+'"]'); if(b){ b.classList.add('got'); } K.picked.push(i); snd('clack',.45);
-  var go=$('kgGo'); if(K.picked.length>=K.need){ go.disabled=K.turn!==0; go.textContent='② 받기!'; [].forEach.call(document.querySelectorAll('#kgs .kgs:not(.got)'),function(x){ x.classList.remove('glow'); }); }
-  else go.textContent='② 받기! ('+(K.need-K.picked.length)+'알 더)'; }
-function kgCatch(){ var G=kgGeo(); if(K.picked.length<K.need) return; if(K.u<.5||K.y<G.ht){ kgFail('early'); return; }
-  K.ph='wait'; cancelAnimationFrame(kraf); var g=S.gen, up=$('kgup'); up.className='kgup'; snd('stone',.8); fx('착!',48);
+  if(K.picked.length>=K.need){ [].forEach.call(document.querySelectorAll('#kgs .kgs:not(.got)'),function(x){ x.classList.remove('glow'); }); kgBtns(false,K.blink,K.blink);
+    if(K.turn===0) $('say').innerHTML='<b>다 주웠어요!</b> 기다렸다가 <b>「받기」가 깜빡이면</b> 그때 톡'; } }
+function kgCatch(){ var G=kgGeo(); if(!K.blink){ kgFail('early'); return; }
+  K.ph='wait'; cancelAnimationFrame(kraf); var g=S.gen, up=$('kgup'); up.className='kgup'; snd('stone',.8); fx('착!',48); kgBtns(false,false,false);
   var s=K.st[K.turn]; s[1]++; if(s[1]>=KST[s[0]].length){ s[0]++; s[1]=0; }
   col(K.turn===0?'l':'r',{pw:kgDone(K.turn)/9,on:true});
-  if(s[0]>=KST.length){ var meWin=K.turn===0; S.sc=[K.st[0][0]+(meWin?0:1),K.st[1][0]+(meWin?1:0)]; fx(meWin?'4단 끝!':'졌다…',40); $('kgGo').disabled=true; setTimeout(function(){ if(g===S.gen) finish(meWin,Math.min(4,K.st[0][0]),Math.min(4,K.st[1][0])); },800); return; }
+  if(s[0]>=KST.length){ var meWin=K.turn===0; fx(meWin?'4단 끝!':'졌다…',40); setTimeout(function(){ if(g===S.gen) finish(meWin,Math.min(4,K.st[0][0]),Math.min(4,K.st[1][0])); },900); return; }
   $('say').innerHTML=(K.turn===0?'<b>잘 받았다!</b>':'<em>'+esc(nm(1))+' 받았다</em>')+' · 이어서 '+kgName(K.turn);
-  setTimeout(function(){ if(g===S.gen) kgTurn(); },K.turn===0?650:800); }
-function kgFail(why){ var g=S.gen; K.ph='wait'; cancelAnimationFrame(kraf); var up=$('kgup'); up.className='kgup fall'; $('kgGo').disabled=true; snd(why==='early'?'miss':'thud',.6);
-  var who=K.turn===0?'':esc(nm(1))+' ', m= why==='early'?'<em>'+who+'너무 일찍 받았어요</em> · 돌이 손바닥 띠에 왔을 때':(K.picked.length<K.need?'<em>'+who+'다 못 주웠어요</em> · 더 빨리 톡톡':'<em>'+who+'놓쳤어요</em> · 손바닥 띠에서 받기');
+  setTimeout(function(){ if(g===S.gen) kgTurn(); },K.turn===0?700:900); }
+function kgFail(why){ var g=S.gen; K.ph='wait'; cancelAnimationFrame(kraf); var up=$('kgup'); up.className='kgup fall'; kgBtns(false,false,false); snd(why==='early'?'miss':'thud',.6);
+  var who=K.turn===0?'':esc(nm(1))+' ', m= why==='early'?'<em>'+who+'너무 일찍 받았어요</em> · 손바닥 띠가 깜빡일 때':(K.picked.length<K.need?'<em>'+who+'다 못 주웠어요</em> · 더 빨리 톡톡':'<em>'+who+'놓쳤어요</em> · 깜빡일 때 받기');
   fx(why==='early'?'헛손!':'떨어졌다',38); $('say').innerHTML=m+' · 이제 '+(K.turn===0?esc(nm(1)):'나')+' 차례 ('+kgName(K.turn)+'은 그대로)';
-  setTimeout(function(){ if(g!==S.gen) return; K.turn=1-K.turn; kgTurn(); },1600); }
-/* 사장님: 성공 비율 BOSS.gong(단계마다 조금씩 내려감) — 하는 것이 다 보이게 (던지고 · 하나씩 줍고 · 받기) */
-function kgCpu(){ var s=K.st[1], ok=Math.random()<BOSS.gong*(1-.04*s[0]), kind=ok?'ok':['slow','early','late'][Math.floor(Math.random()*3)], G=kgGeo(), step=0;
+  setTimeout(function(){ if(g!==S.gen) return; K.turn=1-K.turn; kgTurn(); },1800); }
+/* 사장님: 성공 비율 BOSS.gong(단계마다 조금씩 내려감) — 손님과 같은 단추를 같은 순서로 누름(던지기 → 줍기 → 깜빡일 때 받기) */
+function kgCpu(){ var s=K.st[1], ok=Math.random()<BOSS.gong*(1-.04*s[0]), kind=ok?'ok':['slow','early','late'][Math.floor(Math.random()*3)], G=kgGeo();
   K.cpu=function(y,u){ var need=K.need;
-    if(K.picked.length<need&&u>.08+.12*K.picked.length&&!(kind==='slow'&&K.picked.length===need-1)){ kgPick(K.picked.length,1); }
-    if(K.picked.length>=need){ if(kind==='early'&&u>.3){ K.cpu=null; kgCatch(); } else if(kind==='ok'&&y>=(G.ht+G.hb)/2&&u>.5){ K.cpu=null; kgCatch(); } } };
-  kgThrow(); }
+    if(K.picked.length<need&&u>.12+.14*K.picked.length&&!(kind==='slow'&&K.picked.length===need-1)){ kgPick(K.picked.length,1); }
+    if(K.picked.length>=need){ if(kind==='early'&&u>.5&&y<G.ht-30){ K.cpu=null; kgCatch(); } else if(kind==='ok'&&K.blink&&y>=(G.ht+G.hb)/2-4){ K.cpu=null; kgCatch(); } } };
+  var T=$('kgT'); if(T){ T.classList.add('press'); setTimeout(function(){ T.classList.remove('press'); },220); } kgThrow(); }
 
 /* ───────── 무궁화 꽃이 피었습니다 (261123 시안) ─────────
    술래(사장님)가 돌아서서 「무 궁 화 꽃 이 피 었 습 니 다」를 외는 동안 「앞으로!」를 톡톡 → 한 번에 한 걸음.

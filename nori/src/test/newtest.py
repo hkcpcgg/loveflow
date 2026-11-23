@@ -25,16 +25,17 @@ async def main():
           if shot==0 and st['n']>=3: await pg.screenshot(path=f'shots/new_{K}_{W}_play.png'); shot=1
           await pg.wait_for_timeout(120)
       elif K=='gg':
-        st=await fr.evaluate("()=>{var G=kgGeo();return {ph:K.ph,turn:K.turn,y:K.y,u:K.u,ht:G.ht,hb:G.hb,need:K.need,picked:(K.picked||[]).length}}")
+        st=await fr.evaluate("()=>{var G=kgGeo();return {ph:K.ph,turn:K.turn,y:K.y,u:K.u,ht:G.ht,hb:G.hb,need:K.need,picked:(K.picked||[]).length,bl:!!K.blink}}")
         if st['turn']==0:
-          if st['ph']=='ready': await fr.locator('#kgGo').dispatch_event('pointerdown'); acts+=1; await pg.wait_for_timeout(60)
+          if st['ph']=='ready': await fr.locator('#kgT').dispatch_event('pointerdown'); acts+=1; await pg.wait_for_timeout(60)
           elif st['ph']=='air':
             if st['picked']<st['need']:
               if random.random()<MISS*0.05: await pg.wait_for_timeout(700)
               await fr.locator('#kgs .kgs:not(.got)').first.dispatch_event('pointerdown'); await pg.wait_for_timeout(110)
               if shot==0: await pg.screenshot(path=f'shots/new_{K}_{W}_play.png'); shot=1
-            elif st['u'] and st['u']>.5 and st['y']>=st['ht']+8:
-              await fr.locator('#kgGo').dispatch_event('pointerdown')
+            elif st['bl']:
+              if shot==1: await pg.screenshot(path=f'shots/new_{K}_{W}_blink.png'); shot=2
+              await fr.locator('#kgC').dispatch_event('pointerdown')
       else:
         st=await fr.evaluate("()=>({ph:M.ph,lit:[...document.querySelectorAll('#mgw span.on')].length})")
         if st['ph']=='say' and st['lit']<(7 if random.random()>MISS else 10):
