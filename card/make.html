@@ -33,7 +33,8 @@ img{max-width:100%}
 .lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
 .lf-backdrop.open{opacity:1;visibility:visible}
 
-.wrap{max-width:520px;margin:0 auto;padding:14px 14px 30px}
+.wrap{max-width:520px;margin:0 auto;padding:14px 14px 110px}
+.attc .buy{display:inline-block;margin-top:8px;font-size:13px;font-weight:800;color:var(--navy);text-decoration:underline}
 .dots{display:flex;justify-content:center;gap:6px;margin:4px 0 12px}.dots i{width:7px;height:7px;border-radius:50%;background:#D6D1C7}.dots i.on{background:var(--navy);width:20px;border-radius:4px}
 .step{display:none;animation:in .35s ease}.step.on{display:block}@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 h2{text-align:center;font-size:21px;line-height:1.45;margin:6px 0 14px}
@@ -353,7 +354,6 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
     <h2>함께 전하고 싶은 것</h2>
     <p class="hint" style="margin:-6px 0 12px">있으면 골라 주세요. 카드 맨 아래 단추로 붙어요 (세 개까지).</p>
     <div class="att" id="att"></div>
-    <div class="attc" id="vidBox" style="margin-top:8px;cursor:default"><div class="h"><i>🎬</i>함께 볼 영상 (유튜브 주소)<span class="ok" id="okY" style="margin-left:auto;font-size:12.5px;color:#2F7D4F;font-weight:700"></span></div><input type="url" id="vid" maxlength="300" placeholder="예) https://youtu.be/…" style="margin-top:8px"></div>
     <div class="gift" id="giftBox">
       <div class="h">🎁 함께 선물하기</div>
       <div class="d">카드 안에 사랑흐름 여권이 담겨요. 받으신 분은 「선물 열기」를 누르면 바로 시작해요.</div>
@@ -416,11 +416,10 @@ var MORE={
       ['새해 약속',[['새 맛 보여 드리기','새해에는 새로 준비한 맛도 꼭 보여 드릴게요'],['늘 같은 맛 지키기','새해에도 늘 같은 맛으로 기다릴게요'],['함께 걸어가기','새해에도 늘 곁에서 함께하겠습니다']]]]};
 /* 덧붙이기 다섯 — 모두 펼쳐 둠 */
 var ATT=[
+ {k:'gift',ic:'🎁',n:'사랑흐름 선물 보내기',d:'선물함에서 받은 선물 주소를 넣어 주세요',f:[['gurl','선물 주소  예) loveflow.ai.kr/g/…']],x:'<a class="buy" href="/pay.html?mode=gift" target="_blank" rel="noopener">선물 고르러 가기 ›</a>'},
  {k:'reply',ic:'✉️',n:'답장 받기',d:'받으신 분이 바로 답장 카드를 써요'},
- {k:'tel',ic:'📞',n:'전화 받기',d:'받으신 분이 누르면 바로 전화가 와요',f:[['tel','전화번호  예) 010 1234 5678']]},
  {k:'card',ic:'🪪',n:'내 명함 보내기',d:'받으신 분이 누르면 명함이 열려요',f:[['shop','가게 · 이름  예) 다복'],['url','명함 주소  예) uriyagi.kr/card/C-1001']]},
- {k:'map',ic:'📍',n:'오시는 길',d:'받으신 분이 누르면 지도가 열려요',f:[['shop','가게 이름  예) 다복'],['place','지도에서 찾을 이름  예) 파주 다복 복어']]},
- {k:'link',ic:'🔗',n:'내 링크 넣기',d:'모바일 홈페이지 · 예약 주소 등',f:[['label','단추 이름'],['url2','주소']]}];
+ {k:'map',ic:'📍',n:'오시는 길',d:'받으신 분이 누르면 지도가 열려요',f:[['shop','가게 이름  예) 다복'],['place','지도에서 찾을 이름  예) 파주 다복 복어']]}];
 var GIFT=[
  {k:'journey',ic:'🧭',n:'마음 여행지도',d:'카드와 함께 마음 여행지도를 선물해요. 받으신 분이 바로 시작할 수 있어요.'}];
 
@@ -547,17 +546,17 @@ function pt(e){var r=cv.getBoundingClientRect();return[e.clientX-r.left,e.client
 cv.addEventListener('pointerdown',function(e){dn=true;var p=pt(e);cx.beginPath();cx.moveTo(p[0],p[1]);if(!drawn){drawn=true;$('ph').style.display='none'}});
 cv.addEventListener('pointermove',function(e){if(!dn)return;var p=pt(e);cx.lineTo(p[0],p[1]);cx.stroke()});
 window.addEventListener('pointerup',function(){if(dn){dn=false;saveHW()}});
-var HK={line:'lf_card_line_v1',sig:'lf_card_sig_v1'};
+var HK={to:'lf_card_to_v1',line:'lf_card_line_v1',sig:'lf_card_sig_v1'},HN={to:['받는 분 이름을','받는 분 이름이'],line:['끝인사를','끝인사가'],sig:['서명을','서명이']};
 var HT='to',PH={to:'받는 분 이름을 손으로 써 주세요  예) 사랑하는 지수에게',line:'끝인사 한마디  예) 사랑해요',sig:'내 이름을 써 주세요'};
 function autoFill(){['line','sig'].forEach(function(k){if(!ST.hw[k]&&ls(HK[k]))ST.hw[k]=ls(HK[k])});markTabs()}
 function markTabs(){each($('tabs').children,function(b){b.classList.toggle('has',!!ST.hw[b.dataset.t])})}
 function saveHW(){ST.hw[HT]=drawn?cv.toDataURL('image/png'):'';markTabs()}
 function loadHW(t){HT=t;var r=cv.getBoundingClientRect();cx.clearRect(0,0,r.width,r.height);drawn=!!ST.hw[t];$('ph').textContent=PH[t];$('ph').style.display=drawn?'none':'grid';
  if(drawn){var im=new Image();im.onload=function(){cx.drawImage(im,0,0,r.width,r.height)};im.src=ST.hw[t]}
- $('hwsave').classList.toggle('on',t!=='to');}
+ $('hwsave').classList.add('on');}
 each($('tabs').children,function(b){b.onclick=function(){saveHW();each($('tabs').children,function(x){x.classList.toggle('on',x===b)});loadHW(b.dataset.t)}});
-$('hwSave').onclick=function(){saveHW();if(!ST.hw.line&&!ST.hw.sig){toast('끝인사나 서명을 먼저 써 주세요');return}var n=[];if(ST.hw.line){ls(HK.line,ST.hw.line);n.push('끝인사')}if(ST.hw.sig){ls(HK.sig,ST.hw.sig);n.push('서명')}tick();toast((n.length>1?'끝인사와 서명을':n[0]==='서명'?'서명을':'끝인사를')+' 저장했어요. 다음 카드부터 저절로 채워져요');loadHW(HT)};
-$('hwLoad').onclick=function(){if(!ls(HK.line)&&!ls(HK.sig)){toast('저장한 끝인사와 서명이 아직 없어요');return}if(ls(HK.line))ST.hw.line=ls(HK.line);if(ls(HK.sig))ST.hw.sig=ls(HK.sig);loadHW(HT);markTabs();tick()};
+$('hwSave').onclick=function(){saveHW();if(!ST.hw[HT]){toast('먼저 손으로 써 주세요');return}ls(HK[HT],ST.hw[HT]);tick();toast(HN[HT][0]+' 저장했어요. 다음에 불러오기로 꺼내 쓰세요');loadHW(HT)};
+$('hwLoad').onclick=function(){if(!ls(HK[HT])){toast('저장한 '+HN[HT][1]+' 아직 없어요');return}ST.hw[HT]=ls(HK[HT]);loadHW(HT);markTabs();tick()};
 $('clr').onclick=function(){var r=cv.getBoundingClientRect();cx.clearRect(0,0,r.width,r.height);drawn=false;$('ph').style.display='grid';ST.hw[HT]='';markTabs()};
 (function(){var d=new Date();$('dt').value=d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일'})();
 var mr=null,chunks=[],recTm=null,recS=0;
@@ -573,15 +572,16 @@ $('delV').onclick=function(){MX.voice='';$('recBtn').textContent='🎙️ 녹음
 function paintV(){$('vBox').style.display=MX.voice?'block':'none';if(MX.voice)$('pvV').src=MX.voice;$('vHint').textContent=MX.voice?'✓ 목소리를 담았어요':'목소리를 녹음하거나, 녹음 파일을 올릴 수 있어요 (1분까지).'}
 
 /* ── 5 덧붙이기 · 함께 선물하기 ── */
-function drawAtt(){$('att').innerHTML=ATT.map(function(a){var on=ST.att.indexOf(a.k)>=0;return '<div class="attc'+(on?' on':'')+'" data-k="'+a.k+'"><div class="h"><i>'+a.ic+'</i><span>'+a.n+'<div class="d">'+a.d+'</div></span><span class="ck">✓</span></div>'+(a.f?'<div class="in">'+a.f.map(function(f){return '<input type="text" data-f="'+f[0]+'" placeholder="'+f[1]+'" value="'+esc(ST.av[f[0]]||'')+'">'}).join('')+'</div>':'')+'</div>'}).join('');
+function drawAtt(){$('att').innerHTML=ATT.map(function(a){var on=ST.att.indexOf(a.k)>=0;return '<div class="attc'+(on?' on':'')+'" data-k="'+a.k+'"><div class="h"><i>'+a.ic+'</i><span>'+a.n+'<div class="d">'+a.d+'</div></span><span class="ck">✓</span></div>'+(a.f?'<div class="in">'+a.f.map(function(f){return '<input type="text" data-f="'+f[0]+'" placeholder="'+f[1]+'" value="'+esc(ST.av[f[0]]||'')+'">'}).join('')+(a.x||'')+'</div>':'')+'</div>'}).join('');
  each($('att').children,function(c){c.querySelector('.h').onclick=function(){var k=c.dataset.k,i=ST.att.indexOf(k);if(i>=0)ST.att.splice(i,1);else{if(ST.att.length>=3){toast('단추는 세 개까지예요. 하나를 빼고 골라 주세요');return}ST.att.push(k)}tick();drawAtt()};
   each(c.querySelectorAll('input'),function(e){e.oninput=function(){ST.av[e.dataset.f]=e.value.trim()}})});
  $('gp').innerHTML=GIFT.map(function(g){return '<button type="button" data-g="'+g.k+'" class="'+(ST.gift===g.k?'on':'')+'"><i>'+g.ic+'</i><span><b>'+g.n+'</b><small>'+g.d+'</small></span></button>'}).join('');
  each($('gp').children,function(b){b.onclick=function(){ST.gift=ST.gift===b.dataset.g?'':b.dataset.g;tick();drawAtt()}})}
-function vidUrl(){var v=($('vid').value||'').trim();if(!v)return '';if(!/^https?:\/\//i.test(v))v='https://'+v;return /^https?:\/\/([^\/]+\.)?(youtube\.com|youtu\.be|uriyagi\.kr|loveflow\.ai\.kr)(\/|$)/i.test(v)?v:''}
-$('vid').oninput=function(){var v=($('vid').value||'').trim();$('okY').textContent=!v?'':vidUrl()?'✓ 담았어요':'유튜브 주소를 붙여 주세요'};
+function vidUrl(){if(!$('vid'))return '';var v=($('vid').value||'').trim();if(!v)return '';if(!/^https?:\/\//i.test(v))v='https://'+v;return /^https?:\/\/([^\/]+\.)?(youtube\.com|youtu\.be|uriyagi\.kr|loveflow\.ai\.kr)(\/|$)/i.test(v)?v:''}
+
 function full(u){u=(u||'').trim();if(!u)return '';return /^https?:\/\//i.test(u)?u:'https://'+u}
 function buttonsOut(){var out=[];ST.att.forEach(function(k){var v=ST.av;
+ if(k==='gift'&&v.gurl)out.push({type:'url',label:'🎁 선물 열어 보기',value:full(v.gurl)});
  if(k==='reply')out.push({type:'url',label:'답장 쓰기',value:LF+'/card/'});
  if(k==='tel'&&v.tel)out.push({type:'tel',label:'전화하기',value:v.tel.replace(/[^0-9+]/g,'')});
  if(k==='card'&&v.url)out.push({type:'url',label:(v.shop?v.shop+' ':'제 ')+'명함 보기',value:full(v.url)});
@@ -649,7 +649,7 @@ function drawSent(){var fr=($('from').value||'').trim();$('sendp').classList.add
    if(DEMO&&(w==='sms'||w==='mail')){ev.preventDefault();toast('시안이에요. 실제 화면에서는 '+(w==='sms'?'문자':'메일')+' 앱이 열려요')}
    row.classList.add('done');s.done=1;try{sessionStorage.setItem('lf_card_sent',JSON.stringify(SENT))}catch(e){}})})});
  setTimeout(function(){$('sendp').scrollIntoView({behavior:'smooth',block:'start'})},100)}
-if(!DEMO){$('giftBox').style.display='none'}   /* 선물 결제가 붙기 전까지 실제 화면에서는 감춤 */
+$('giftBox').style.display='none';   /* 선물 결제가 붙기 전까지 실제 화면에서는 감춤 */
 dots();
 </script>
 <script src="/lf/frame.js?v=17"></script>
