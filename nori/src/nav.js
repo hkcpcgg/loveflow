@@ -1,5 +1,20 @@
 /* 그때 그 놀이 · 아래 막대(모든 놀이 공통) — 「놀이 방법」 「그때 그 놀이(홈, 가운데)」 「새 판」 (261122 v5)
    손님 입구 안에서 열렸으면 입구에게 알리고, 따로 열렸으면 그 놀이 주소로 옮김 */
+/* ★ 사장님 세기 설정표 (049 원칙 · 261123) — 놀이마다 사장님 세기는 여기 한 곳에서만 고침.
+   lv: 0 하수 · 1 중수 · 2 고수 — 손님 화면 사장님 = 「중상급」 1.5(중수와 고수 사이) · 판마다 컨디션 ±sway 로 조금씩 들쭉날쭉(손님은 모름).
+   손님 승률 목표 약 45% · 운 놀이(가위바위보 · 홀짝 · 엿치기)는 50% 그대로. 승률 기록이 쌓이면 아래 숫자만 조금씩 맞춤. */
+window.BOSS=window.BOSS||{lv:1.5, sway:.2,
+  arm:[6,7],        /* 팔씨름: 사장님이 1초에 두드리는 횟수(최소 · 최대) */
+  sab:.72,          /* 사방치기: 사장님이 던져 칸에 넣는 비율 */
+  sugLap:1.8,       /* 수건돌리기: 술래 한 바퀴 초 */
+  jegi:[9,16],      /* 제기차기: 사장님 연속 차기(최소 · 최대) */
+  gong:.80,         /* 공기놀이: 사장님이 한 번 줍고 받기에 성공하는 비율(단계마다 조금씩 내려감) */
+  mugung:{say:[1.0,3.0],cyc:5,need:30}   /* 무궁화꽃: 술래가 한 번 외는 초(최소 · 최대) · 외는 횟수 · 술래까지 걸음 */
+  };
+(function(){ function pick(){ BOSS.cur=Math.max(1,Math.min(2,BOSS.lv+(Math.random()*2-1)*BOSS.sway)); } pick(); BOSS.pick=pick;
+  document.addEventListener('click',function(e){ var b=e.target&&e.target.closest&&e.target.closest('button[data-a=new]'); if(b) pick(); },true); })();
+/* 세기 표(하수 · 중수 · 고수 세 값)에서 지금 사장님 값 고르기 — 중수(1) 자리는 그 판 컨디션(1~2)으로 사이 값을 씀 */
+window.bossV=function(arr,L){ if(L!==1||!BOSS.cur) return arr[L]; var x=BOSS.cur, i=Math.min(arr.length-2,Math.floor(x)), f=x-i; return arr[i]+(arr[i+1]-arr[i])*f; };
 /* 좌우 점수 기둥 (261122 v5) — 나·내 편 = 왼쪽 파랑, 사장님·친구 = 오른쪽 빨강. 위 점수줄(.vs)의 이름·점수를 옮겨 보이고 그 줄은 숨김. 차례인 쪽이 진하게 */
 (function(){
   var d=document, st=null, W=null, LAB='', RN='';

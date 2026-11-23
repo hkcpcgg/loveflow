@@ -28,6 +28,7 @@ html,body{margin:0;background:#FFF8E6;color:var(--ink);font-family:var(--body);-
 .tap button,.big{font:inherit;border:0;border-radius:16px;min-height:62px;font-weight:900;font-size:18px;color:#fff;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none}
 .tap .a{background:var(--blu)}.tap .b{background:var(--red)}.tap button:disabled,.big:disabled{background:var(--chip);color:var(--sub)}
 .big{width:100%;background:var(--blu);font-size:16px;min-height:52px}
+.sbrow{display:flex;gap:8px}.sbrow .big{flex:1}.redo{flex:none;font:inherit;border:0;border-radius:16px;min-height:52px;padding:0 14px;font-weight:900;font-size:14px;background:var(--btn);color:var(--ink);cursor:pointer}
 button:active{filter:brightness(.93)}
 .pow{position:absolute;left:50%;top:30%;font-family:var(--sign),sans-serif;opacity:0;pointer-events:none;white-space:nowrap;z-index:5}.pow.go{animation:pw .75s ease forwards}
 @keyframes pw{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}65%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-62%) scale(1)}}
@@ -113,7 +114,7 @@ function snd(k,v){ try{ SND[k](v); }catch(e){} }
 var GN={arm:'팔씨름',yeot:'엿치기',sab:'사방치기',sug:'수건돌리기'}, MID={arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝',sab:'8번까지 먼저 다녀오면 이김',sug:'3점 먼저 내면 이김'}, CODE={arm:'aw',yeot:'yt',sab:'sb',sug:'sg'};
 var RULE={arm:['두 사람이 손을 맞잡아요. <b>「준비 … 시작!」</b> 하면 힘을 써요.','<b>힘 주는 법: 단추를 빠르게 톡톡톡 두드려요.</b> 빨리 칠수록 힘이 세져요. 꾹 누르고만 있으면 힘이 안 들어가요.','양옆 기둥이 각자의 힘이에요(나 = 왼쪽 파랑). 힘이 센 쪽으로 손이 넘어가요.','상대 손등을 탁자까지 넘기면 이겨요. 친구와 할 때는 한 폰으로 각자 자기 단추를 두드려요.'],
   sab:['<b>번호 순서대로 던져요.</b> 1번 칸 → 2번 칸 → … → 8번 칸. 이번에 던질 칸은 <b style="color:#1E6B34">초록 「여기!」</b> 칸이에요.','<b>① 방향:</b> 초록 줄이 왼쪽 오른쪽으로 흔들려요. 줄이 초록 칸을 가리킬 때 단추를 톡 눌러 멈춰요.','<b>② 힘:</b> 단추를 꾹 누르고 있으면 흐린 돌이 줄을 따라 앞으로 가요. 돌이 초록 칸 안에 오면 손을 떼요. 그러면 돌이 날아가요.','돌이 칸 안에 쏙 들어가면 깡충깡충 하늘까지 다녀와요(저절로). 그리고 다음 번호를 또 던져요. 빗나가면 상대 차례예요.','<b>8번 칸까지 먼저 다녀오면 이겨요!</b>'],
-  sug:['둥글게 앉은 자리 둘레를 <b>술래가 수건을 들고</b> 돕니다.','술래가 <b>몰래 수건을 떨어뜨립니다.</b> 내 자리 뒤에 떨어졌으면 술래가 한 바퀴 돌아오기 전에 <b>「내 뒤에 수건!」</b>을 누르세요.','알아채면 1점 · 놓치거나 괜히 누르면 상대 1점. <b>3점 먼저</b> 내면 이깁니다.'],
+  sug:['둥글게 앉은 자리 둘레를 <b>술래가 수건을 들고</b> 빠르게 돕니다.','자리는 모두 같은 색이에요. 시작할 때 <b>파란불이 켜진 자리가 나</b>예요. 중간에 <b>자리가 빙글 섞이니</b> 내 자리를 눈으로 따라가요.','술래가 <b>몰래 수건을 떨어뜨립니다.</b> 내 자리 뒤에 떨어졌으면 술래가 한 바퀴 돌아오기 전에 <b>「내 뒤에 수건!」</b>을 누르세요.','알아채면 1점 · 놓치거나 괜히 누르면 상대 1점. <b>3점 먼저</b> 내면 이깁니다.'],
   yeot:['엿 세 개 중 하나를 고릅니다. 상대는 남은 것 중 하나를 고릅니다.','아래 단추를 <b>꾹 눌러 엿을 휘었다가 놓으면 「뚝!」</b> 부러집니다. 덜 휘면 다시.','부러진 단면의 <b>구멍이 큰 쪽</b>이 이깁니다. <b>두 번 먼저 이기면</b> 끝.']};
 function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
@@ -137,8 +138,8 @@ function armDraw(){ var st=$('board'), w=st.clientWidth, h=st.clientHeight, ey=h
   function fore(el,e){ var dx=gx-e.x, dy=gy-e.y, L=Math.hypot(dx,dy); el.style.left=e.x+'px'; el.style.top=(e.y-15)+'px'; el.style.width=L+'px'; el.style.transform='rotate('+Math.atan2(dy,dx)+'rad)'; }
   fore($('foreA'),ea); fore($('foreB'),eb); g.style.left=gx+'px'; g.style.top=gy+'px'; g.style.transform='rotate('+(A.x*60)+'deg)'; }
 /* 팔씨름 v3 (261123 19:13 대표 결정): 힘 = 빠르게 톡톡톡 두드리기(한 번 칠 때마다 확실히 잡힘) · 「꾹」 말 모두 뺌
-   흐름: 미리 보기(3.5초 · 건너뛰기) → 손 맞잡고 「준비…」(팔 떨림) → 「시작!」 → 그때부터 두드리기 · 누르고만 있으면 바로 알려 줌 · 사장님 1초에 4.5~6번 */
-function armStart(){ A={on:false,ready:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,t:0,cr:4.5+Math.random()*1.5,gen:S.gen,lastTap:{a:0,b:0},holdT:{a:0,b:0},warn:0}; HOLD={a:false,b:false}; S.u='판';
+   흐름: 미리 보기(3.5초 · 건너뛰기) → 손 맞잡고 「준비…」(팔 떨림) → 「시작!」 → 그때부터 두드리기 · 누르고만 있으면 바로 알려 줌 · 사장님 1초에 6~7번(중상급 · 설정표 BOSS.arm) */
+function armStart(){ A={on:false,ready:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,t:0,cr:(window.BOSS?BOSS.arm[0]+Math.random()*(BOSS.arm[1]-BOSS.arm[0]):6.5),gen:S.gen,lastTap:{a:0,b:0},holdT:{a:0,b:0},warn:0}; HOLD={a:false,b:false}; S.u='판';
   $('board').innerHTML='<span class="mark a">나</span><span class="mark b">'+esc(nm(1))+'</span><div class="table"></div><div class="elb" id="elbA"></div><div class="elb" id="elbB"></div><div class="fore a" id="foreA"></div><div class="fore b" id="foreB"></div><div class="grip" id="grip">🤝</div>';
   $('act').innerHTML='<div class="tap"><button class="a" type="button" id="armA">나 · 톡톡톡!</button><button class="b" type="button" id="armB"'+(two()?'':' disabled')+'>'+(two()?'친구 · 톡톡톡!':'사장님 (자동)')+'</button></div>';
   requestAnimationFrame(armDraw); vs(0);
@@ -218,7 +219,8 @@ function ysnap(){ if(!Y.hold) return; Y.hold=false; cancelAnimationFrame(yraf); 
 var B={}, sraf=0, ROWOF=[0,1,2,3,3,4,5,5];
 function sabStart(){ B={st:[0,0],turn:0,busy:true,hold:false,ph:'dir',ang:0,gen:S.gen,R:{},tipd:0,tipp:0}; S.u='칸'; S.sc=[0,0];
   $('board').innerHTML='<div class="sb" id="sbg"></div><div class="aimline" id="sbaim"></div><div class="stone" id="stone"></div><div class="hop" id="hop"></div>';
-  $('act').innerHTML='<button class="big" type="button" id="sbGo">① 방향 멈추기</button>';
+  $('act').innerHTML='<div class="sbrow"><button class="big" type="button" id="sbGo">① 방향 멈추기</button><button class="redo" type="button" id="sbRe" hidden>방향 다시</button></div>';
+  $('sbRe').addEventListener('click',sabRedo);
   var go=$('sbGo'); go.addEventListener('pointerdown',sabDown); ['pointerup','pointercancel','pointerleave'].forEach(function(t){ go.addEventListener(t,sabLet); });
   sabLay(); sabDemo(function(){ sabTurn(); }); }
 function sabGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight, gw=Math.min(w*.62,220), rh=Math.min((h-84)/7.4,60), x0=(w-gw)/2, base=h-26; return {w:w,h:h,gw:gw,rh:rh,x0:x0,base:base}; }
@@ -241,9 +243,9 @@ function cellPt(n){ var r=B.R[n]; return r?{x:r.x+r.w/2,y:r.y+r.h/2}:{x:0,y:0}; 
 function hitN(p){ for(var k in B.R){ var r=B.R[k]; if(p.x>=r.x+2&&p.x<=r.x+r.w-2&&p.y>=r.y+2&&p.y<=r.y+r.h-2) return k; } return null; }
 function stoneAt(x,y,b){ var s=$('stone'); if(!s) return; s.className='stone'+(b?' b':''); s.style.left=x+'px'; s.style.top=y+'px'; }
 function aimDraw(a,show){ var el=$('sbaim'); if(!el) return; var G=sabGeo(), o=S0(G), L=Dmax(G); el.style.display=show?'block':'none'; el.style.left=o.x+'px'; el.style.top=(o.y-L)+'px'; el.style.height=L+'px'; el.style.transform='rotate('+a+'rad)'; }
-function swingA(t){ return .42*Math.sin(t*6.283/1.9); }   /* 1.9초에 한 번 왕복 */
+function swingA(t){ return .42*Math.sin(t*6.283/3); }   /* 3초에 한 번 왕복 (049) */
 function goTxt(t){ var go=$('sbGo'); if(go) go.textContent=(two()?(B.turn===0?'나':'친구')+' · ':'')+t; }
-function sabTurn(){ if(S.over) return; B.busy=false; B.ph='dir'; B.hold=false; sabMark(); vs(B.turn); S.sc=[B.st[0],B.st[1]];
+function sabTurn(){ if(S.over) return; B.busy=false; B.ph='dir'; B.hold=false; var re=$('sbRe'); if(re) re.hidden=true; sabMark(); vs(B.turn); S.sc=[B.st[0],B.st[1]];
   var G=sabGeo(), s=$('stone'); s.style.transition='none'; stoneAt(G.w/2,G.base+18,B.turn===1); void s.offsetWidth; s.style.transition='';
   var who=B.turn===0?'<b style="color:var(--blu)">내 차례</b>':'<em>'+esc(nm(1))+' 차례</em>';
   $('say').innerHTML=who+' · <b style="color:#1E6B34">'+tgtN()+'번 칸</b>에 던져요 <small style="display:block;font-size:12px">① 줄이 초록 칸을 가리킬 때 톡 → ② 꾹 눌렀다 떼기</small>';
@@ -252,11 +254,15 @@ function sabTurn(){ if(S.over) return; B.busy=false; B.ph='dir'; B.hold=false; s
   if(B.turn===1&&!two()){ go.disabled=true; go.textContent=nm(1)+' 던지는 중…'; setTimeout(function(){ if(g===S.gen) sabCpu(); },600); }
   else { go.disabled=false; goTxt('① 방향 멈추기'); if(!B.tipd&&B.turn===0){ B.tipd=1; setTimeout(function(){ if(B.ph==='dir'&&$('sbGo')) NA.point($('sbGo'),'줄이 초록 칸을 가리킬 때 누르기',.5,.4); },200); } } }
 function sabDown(e){ if(this.disabled||S.over||B.busy) return; if(B.turn===1&&!two()) return; e.preventDefault(); NA.unpoint();
-  if(B.ph==='dir'){ B.ph='pow'; cancelAnimationFrame(sraf); aimDraw(B.ang,true); snd('clack',.3); goTxt('② 꾹 누르기 → 떼면 던지기');
+  if(B.ph==='dir'){ B.ph='pow'; cancelAnimationFrame(sraf); aimDraw(B.ang,true); snd('clack',.3); goTxt('② 꾹 눌렀다 떼기'); var re=$('sbRe'); if(re) re.hidden=false;
     if(!B.tipp&&B.turn===0){ B.tipp=1; NA.point($('sbGo'),'꾹 누르고 · 돌이 초록 칸에 오면 떼기',.5,.4); } return; }
-  if(B.ph!=='pow') return; B.hold=true; var t0=performance.now(), G=sabGeo(), pc=B.turn===0?'l':'r', s=$('stone');
+  if(B.ph!=='pow') return; B.hold=true; var re0=$('sbRe'); if(re0) re0.hidden=true; var t0=performance.now(), G=sabGeo(), pc=B.turn===0?'l':'r', s=$('stone');
   (function lp(){ if(!B.hold) return; var q=(performance.now()-t0)/2600; if(q>=1){ B.q=1.06; sabLet(); return; } B.q=q; var p=ptAt(G,B.ang,q);
     s.style.transition='none'; stoneAt(p.x,p.y,B.turn===1); s.classList.add('aim'); col(pc,{pw:q,on:true}); sraf=requestAnimationFrame(lp); })(); }
+/* 방향 다시 (049): 방향을 멈춘 뒤 꾹 누르기 전이면 몇 번이든 줄을 다시 흔듦 */
+function sabRedo(e){ if(e) e.preventDefault(); if(S.over||B.busy||B.ph!=='pow'||B.hold) return; if(B.turn===1&&!two()) return; snd('clack',.2); B.ph='dir'; this&&this.hidden!==undefined&&(this.hidden=true);
+  var re=$('sbRe'); if(re) re.hidden=true; goTxt('① 방향 멈추기'); var g=S.gen, t0=performance.now()-Math.asin(Math.max(-1,Math.min(1,B.ang/.42)))*3/6.283*1000;
+  (function sw(){ if(g!==S.gen||B.ph!=='dir'||B.busy||B.cpu) return; B.ang=swingA((performance.now()-t0)/1000); aimDraw(B.ang,true); sraf=requestAnimationFrame(sw); })(); }
 function sabLet(){ if(!B.hold) return; B.hold=false; cancelAnimationFrame(sraf); NA.unpoint(); sabThrow(B.ang,B.q||0); }
 /* 날아가기: 출발선 → 떨어질 자리 (돌이 떴다 내려앉듯 커졌다 작아짐) */
 function sabThrow(a,q,cb){ B.busy=true; B.ph='fly'; var go=$('sbGo'); if(go) go.disabled=true; aimDraw(a,false); var G=sabGeo(), o=S0(G), p=ptAt(G,a,q), s=$('stone'), t0=performance.now(), g=S.gen;
@@ -271,7 +277,7 @@ function sabLand(p){ var n=tgtN(), r=B.R[n], h=hitN(p), hit=String(h)===String(n
       if(n>=8){ var meWin=B.turn===0; fx(meWin?'다 갔다!':(two()?'친구 다 갔다!':'졌다…'),36); if(go) go.disabled=true; setTimeout(function(){ if(g===S.gen) finish(meWin,B.st[0],B.st[1]); },700); return; }
       $('say').innerHTML='<b>'+n+'번 칸 다녀왔다!</b> 이제 <b style="color:#1E6B34">'+(n+1)+'번 칸</b> · 한 번 더'; setTimeout(function(){ if(g===S.gen) sabTurn(); },900); }); },380); }
 /* 사장님: 줄을 흔들다 멈추고 → 꾹 → 던짐 (하는 것이 다 보이게) */
-function sabCpu(){ if(S.over) return; B.cpu=1; var G=sabGeo(), n=tgtN(), r=B.R[n], o=S0(G), hit=Math.random()<.55, x=r.x+r.w*(.35+Math.random()*.3), y=r.y+r.h*(.3+Math.random()*.4);
+function sabCpu(){ if(S.over) return; B.cpu=1; var G=sabGeo(), n=tgtN(), r=B.R[n], o=S0(G), hit=Math.random()<(window.BOSS?BOSS.sab:.72), x=r.x+r.w*(.35+Math.random()*.3), y=r.y+r.h*(.3+Math.random()*.4);
   if(!hit){ var m=Math.floor(Math.random()*3); if(m===0) y=r.y+r.h+10; else if(m===1) y=r.y-10; else x=(Math.random()<.5)?r.x-12:r.x+r.w+12; }
   var a=Math.atan2(x-o.x,o.y-y), q=Math.hypot(x-o.x,o.y-y)/Dmax(G), g=S.gen, t0=performance.now(), s=$('stone');
   (function sw(){ if(g!==S.gen) return; var t=(performance.now()-t0)/1000; if(t<1.1){ aimDraw(swingA(t)*(1-t/1.1)+a*(t/1.1),true); requestAnimationFrame(sw); return; } aimDraw(a,true); var t1=performance.now();
@@ -298,41 +304,57 @@ function sabHops(n,done){ var hp=$('hop'), G=sabGeo(), path=[], g=S.gen; for(var
     var c=path[k++], pt=c==='sky'?{x:G.w/2,y:rowY(G,6)}:cellPt(c); hp.style.left=pt.x+'px'; hp.style.top=pt.y+'px'; snd('clack',.25); setTimeout(step,k<=path.length/2?95:80); })(); }
 
 
-/* ───────── 수건돌리기 (261123 시안) ─────────
-   자리 여섯이 둥글게 · 나(파랑) · 상대(빨강 — 친구 모드) · 나머지는 동네 아이(자동). 술래는 사장님(자동)이 3초에 한 바퀴.
-   한 바퀴 ~ 두 바퀴 돌다 몰래 떨굼 → 떨어진 자리 사람이 술래가 그 자리로 돌아오기 전에 누르면 1점, 놓치면 상대 1점, 괜히 누르면 상대 1점. 3점 먼저. */
+/* ───────── 수건돌리기 (261123 v2 · 049 원칙) ─────────
+   자리 여섯이 모두 같은 회색 · 판이 시작될 때 내 자리에만 파란불 0.5초(친구 모드면 친구 자리 빨간불) → 기억해야 함.
+   판 중간에 자리가 빙글 섞임(한 판에 두세 번) — 내 자리를 눈으로 따라가야 함. 술래는 한 바퀴 1.8초(설정표 BOSS.sugLap).
+   떨어진 자리 사람이 술래가 한 바퀴 돌아오기 전에 누르면 1점 · 놓치거나 괜히 누르면 상대 1점 · 3점 먼저. */
 var G2={}, graf=0;
-function sugStart(){ G2={sc:[0,0],gen:S.gen,on:false}; S.u='점'; S.sc=[0,0];
+function sugLapT(){ return (window.BOSS&&BOSS.sugLap)||1.8; }
+function sugStart(){ G2={sc:[0,0],gen:S.gen,on:false,slot:[0,1,2,3,4,5],mix:0,mixN:2+Math.floor(Math.random()*2),round:0}; S.u='점'; S.sc=[0,0];
   var me=0, op=two()?3:-1; G2.me=me; G2.op=op;
-  var h='<div id="sgring">'; for(var i=0;i<6;i++) h+='<div class="sgseat'+(i===me?' a':(i===op?' b':''))+'" data-i="'+i+'">'+(i===me?'나':(i===op?'친구':''))+'</div>'; h+='</div><div class="sgit" id="sgit">술래</div><div class="towel" id="towel"></div>';
+  var h='<div id="sgring">'; for(var i=0;i<6;i++) h+='<div class="sgseat" data-i="'+i+'"></div>'; h+='</div><div class="sgit" id="sgit">술래</div><div class="towel" id="towel"></div>';
   $('board').innerHTML=h;
   $('act').innerHTML=two()?'<div class="tap"><button class="a" type="button" id="sgA">나 · 내 뒤!</button><button class="b" type="button" id="sgB">친구 · 내 뒤!</button></div>':'<button class="big" type="button" id="sgA">내 뒤에 수건!</button>';
   $('sgA').addEventListener('pointerdown',function(e){ e.preventDefault(); sugTap(0); }); if($('sgB')) $('sgB').addEventListener('pointerdown',function(e){ e.preventDefault(); sugTap(1); });
-  sugLay(); vs(null); sugRound(); setTimeout(function(){ if($('sgA')) NA.point($('sgA'),'내 뒤에 떨어지면 누르세요',.5,.4); },150); }
+  sugLay(); vs(null); sugRound(); setTimeout(function(){ if($('sgA')) NA.point($('sgA'),'파란불 켜진 자리가 나 · 내 뒤에 떨어지면 누르기',.5,.4); },150); }
 function sugGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight, R=Math.min(w,h)*.30; return {cx:w/2,cy:h/2,R:R,Ro:R+Math.min(w,h)*.12}; }
-function seatAng(i){ return Math.PI/2+i*Math.PI/3; }   /* 0 = 맨 아래(나) · 시계 반대 방향 */
-function sugLay(){ var g=sugGeo(), ss=document.querySelectorAll('#sgring .sgseat'); for(var i=0;i<ss.length;i++){ var a=seatAng(i); ss[i].style.left=(g.cx+Math.cos(a)*g.R)+'px'; ss[i].style.top=(g.cy+Math.sin(a)*g.R)+'px'; } }
+function seatAng(k){ return Math.PI/2+k*Math.PI/3; }   /* 자리 칸 k: 0 = 맨 아래 · 시계 반대 방향 */
+function sugSeatEl(i){ return document.querySelector('#sgring .sgseat[data-i="'+i+'"]'); }
+function sugLay(){ var g=sugGeo(); for(var i=0;i<6;i++){ var el=sugSeatEl(i); if(!el) continue; var a=G2.angs?G2.angs[i]:seatAng(G2.slot[i]); el.style.left=(g.cx+Math.cos(a)*g.R)+'px'; el.style.top=(g.cy+Math.sin(a)*g.R)+'px'; } }
 function sugPos(el,ang,r){ var g=sugGeo(); el.style.left=(g.cx+Math.cos(ang)*r)+'px'; el.style.top=(g.cy+Math.sin(ang)*r)+'px'; }
-function sugRound(){ if(S.over) return; var g=S.gen; G2.drop=-1; G2.dropAng=0; G2.done=false; G2.t0=performance.now(); G2.a0=Math.random()*6.283;
+/* 불 켜기: 내 자리 파랑(친구 자리 빨강) — ms 동안만 */
+function sugLight(ms,txt){ var a=sugSeatEl(G2.me), b=G2.op>=0?sugSeatEl(G2.op):null; if(a){ a.classList.add('a'); a.textContent='나'; } if(b){ b.classList.add('b'); b.textContent='친구'; }
+  clearTimeout(G2.lt); G2.lt=setTimeout(function(){ if(a){ a.classList.remove('a'); a.textContent=''; } if(b){ b.classList.remove('b'); b.textContent=''; } },ms); }
+/* 자리 빙글 섞기: 모두 같은 쪽으로 돌면서 서로 자리 바꿈 (0.9초) */
+function sugMix(done){ var g=S.gen, from=G2.slot.slice(), to=from.slice(), n=0; do{ for(var i=to.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)), t=to[i]; to[i]=to[j]; to[j]=t; } n++; }while(n<50&&(to[G2.me]===from[G2.me]||(G2.op>=0&&to[G2.op]===from[G2.op])));
+  var spin=6.283*(Math.random()<.5?1:-1)*.5, t0=performance.now(); G2.mixing=true; snd('clack',.2); $('say').innerHTML='<b>자리가 섞여요!</b> 내 자리를 눈으로 따라가요';
+  (function lp(){ if(g!==S.gen) return; var k=Math.min(1,(performance.now()-t0)/900), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; G2.angs=[];
+    for(var i=0;i<6;i++){ var a0=seatAng(from[i]), a1=seatAng(to[i]), d=((a1-a0)%6.283+9.425)%6.283-3.1416; G2.angs[i]=a0+(d+spin)*e - spin*e + spin*Math.sin(Math.PI*e)*.35; }
+    sugLay(); if(k<1){ requestAnimationFrame(lp); return; } G2.angs=null; G2.slot=to; sugLay(); G2.mixing=false; G2.mix++; $('say').innerHTML=two()?'술래가 돕니다 · <b>각자 자리 뒤</b>를 보세요':'술래가 돕니다 · <b>내 자리 뒤</b>를 보세요'; done&&done(); })(); }
+function sugRound(){ if(S.over) return; var g=S.gen, lap=sugLapT(); G2.drop=-1; G2.dropAng=0; G2.done=false; G2.round++; G2.a0=Math.random()*6.283;
   /* 떨굴 자리: 나 40% · 친구 모드면 친구 40% · 나머지 아이 */
   var r=Math.random(); G2.who= r<.4?G2.me:(two()&&r<.8?G2.op:[1,2,4,5][Math.floor(Math.random()*4)]);
-  G2.dropAt=1.2+Math.random()*2.6; var tw=$('towel'); tw.className='towel';
-  $('say').innerHTML=two()?'술래가 돕니다 · <b>각자 자리 뒤</b>를 보세요':'술래가 돕니다 · <b>내 자리 뒤</b>를 보세요';
-  cancelAnimationFrame(graf); (function lp(){ if(g!==S.gen||G2.done) return; var t=(performance.now()-G2.t0)/1000, ang=G2.a0+t*2.094, gg=sugGeo(); /* 3초에 한 바퀴 */
+  /* 이번 판에 자리를 섞을까: 한 판(3점 먼저)에 두세 번 — 첫 차례는 안 섞고, 둘째부터 */
+  var left=G2.mixN-G2.mix; G2.mixAt= (G2.round>1&&left>0&&(Math.random()<.6||G2.round>=3)) ? .5+Math.random()*.5 : -1;
+  G2.dropAt=(G2.mixAt>0?G2.mixAt+1.2:.9)+Math.random()*lap*1.2; var tw=$('towel'); tw.className='towel';
+  $('say').innerHTML='<b>파란불</b>이 내 자리 · 잘 기억해요'; sugLight(500); setTimeout(function(){ if(g===S.gen&&!G2.done&&!G2.mixing) $('say').innerHTML=two()?'술래가 돕니다 · <b>각자 자리 뒤</b>를 보세요':'술래가 돕니다 · <b>내 자리 뒤</b>를 보세요'; },900);
+  G2.t0=performance.now(); G2.pause=0;
+  cancelAnimationFrame(graf); (function lp(){ if(g!==S.gen||G2.done) return; var t=(performance.now()-G2.t0)/1000, ang=G2.a0+t*6.283/lap, gg=sugGeo();
     sugPos($('sgit'),ang,gg.Ro);
-    if(G2.drop<0){ sugPos(tw,ang+.18,gg.Ro); if(t>=G2.dropAt&&sugNear(ang,G2.who)){ G2.drop=G2.who; G2.dropT=t; tw.className='towel down'; sugPos(tw,seatAng(G2.who),gg.Ro-4); snd('clack',.15); NA.unpoint(); } }
-    else if(t-G2.dropT>2.9){ sugMiss(); return; }   /* 한 바퀴 돌아옴 */
+    if(G2.mixAt>0&&t>=G2.mixAt&&!G2.mixing&&G2.drop<0){ G2.mixAt=-1; sugMix(); }
+    if(G2.drop<0){ sugPos(tw,ang+.18,gg.Ro); if(!G2.mixing&&t>=G2.dropAt&&sugNear(ang,G2.slot[G2.who])){ G2.drop=G2.who; G2.dropT=t; tw.className='towel down'; sugPos(tw,seatAng(G2.slot[G2.who]),gg.Ro-4); snd('clack',.15); NA.unpoint(); } }
+    else if(t-G2.dropT>lap*.97){ sugMiss(); return; }   /* 한 바퀴 돌아옴 */
     graf=requestAnimationFrame(lp); })(); }
-function sugNear(ang,i){ var d=((ang-seatAng(i))%6.283+6.283)%6.283; return d<.12; }
-function sugTap(p){ if(S.over||G2.done) return; NA.unpoint(); var seat=p===0?G2.me:G2.op;
+function sugNear(ang,k){ var d=((ang-seatAng(k))%6.283+6.283)%6.283; return d<.2; }
+function sugTap(p){ if(S.over||G2.done||G2.mixing) return; NA.unpoint(); var seat=p===0?G2.me:G2.op;
   if(G2.drop===seat){ G2.done=true; G2.sc[p]++; fx('잡았다!',44); snd('slap',.8); sugNext(p===0?'<b>내가 알아챘다!</b>':'<em>친구가 알아챘다!</em>'); }
-  else { G2.done=true; G2.sc[1-p]++; fx('헛짚음!',40); snd('thud',.6); sugNext((p===0?'나':'친구')+' 괜히 눌렀어요 · 상대 1점'); } }
+  else { G2.done=true; G2.sc[1-p]++; fx('헛짚음!',40); snd('thud',.6); sugNext((p===0?'나':'친구')+' 괜히 눌렀어요 · 상대 1점 <small style="display:block;font-size:12px">파란불이 내 자리였어요</small>'); } }
 function sugMiss(){ G2.done=true; var p= G2.drop===G2.me?0:(G2.drop===G2.op?1:-1);
   if(p<0){ fx('통과',36); sugNext('다른 아이 자리였어요 · 점수 없음'); return; }
   G2.sc[1-p]++; fx('놓쳤다!',40); snd('thud',.6); sugNext((p===0?'<em>내 뒤였는데 놓쳤어요</em>':'친구 뒤였는데 놓쳤어요')+' · 상대 1점'); }
-function sugNext(msg){ var g=S.gen; S.sc=[G2.sc[0],G2.sc[1]]; vs(null); $('say').innerHTML=msg;
+function sugNext(msg){ var g=S.gen; S.sc=[G2.sc[0],G2.sc[1]]; vs(null); $('say').innerHTML=msg; sugLight(1100);   /* 끝나면 내 자리를 다시 보여 줌 */
   if(G2.sc[0]>=3||G2.sc[1]>=3){ var meWin=G2.sc[0]>=3; var bs=$('act').querySelectorAll('button'); for(var i=0;i<bs.length;i++) bs[i].disabled=true; setTimeout(function(){ if(g===S.gen) finish(meWin,G2.sc[0],G2.sc[1]); },900); return; }
-  setTimeout(function(){ if(g===S.gen) sugRound(); },1500); }
+  setTimeout(function(){ if(g===S.gen) sugRound(); },1600); }
 
 /* ───────── 고르기 · 시작 ───────── */
 function setGame(k){ S.gen++; try{ PEN.stop(); }catch(e){} NA.unpoint(); S.k=k; S.over=true; S.sc=[0,0]; $('done').classList.remove('on'); $('ttl').textContent=GN[k]; document.title=GN[k]+' · 그때 그 놀이';

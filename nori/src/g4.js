@@ -64,13 +64,13 @@ var TTAK={key:'tk',name:'딱지치기',unit:'장',max:5,how:'상대 딱지 <b>�
   /* 칠 자리 점수: 모서리 1 · 중간 .5 · 한가운데 .15 · 딱지 밖 0 */
   spotQ:function(x,y){ var ux=Math.abs(x-150)/54, uy=Math.abs(y-250)/48, u=Math.max(ux,uy); if(u>1.15) return 0; if(u>.62) return 1; if(u>.32) return .5; return .15; },
   hit:function(x,y,v,p){ var self=this, g=this.good, q=this.spotQ(x,y), inG=v>=g[0]&&v<=g[1], over=v>g[1]+.1, prob;
-    if(q===0) prob=0; else if(inG) prob=.15+.8*q; else if(over) prob=.08*q; else prob=v>g[0]-.12?.25*q:.03;
-    var ok=Math.random()<prob; this.ph='anim'; this.anim={t:performance.now(),ok:ok,v:v,x:x,y:y}; SND.flip(.6);
+    /* 049 원칙 3: 운으로 갈리지 않게 — 모서리 + 초록 칸이면 반드시 넘어감 · 중간 자리는 초록 칸 한가운데 힘일 때만 · 한가운데 · 밖 · 초록 칸 밖은 안 넘어감 */
+    var mid=(g[0]+g[1])/2, core=Math.abs(v-mid)<=(g[1]-g[0])/4, ok= inG && (q===1 || (q===.5 && core)); prob=ok?1:0; this.ph='anim'; this.anim={t:performance.now(),ok:ok,v:v,x:x,y:y}; SND.flip(.6);
     setTimeout(function(){ SND.slap(.4+v*.6); },330);
-    var why=q===0?'딱지 밖을 쳤어요':(ok?'':(inG?(q<.5?'한가운데는 잘 안 넘어가요 · 모서리를 노려요':'아깝다! 안 넘어갔네'):(v<g[0]?'힘이 모자라요':'너무 세서 바람만 일었어요')));
+    var why=q===0?'딱지 밖을 쳤어요':(ok?'':(inG?(q<.5?'한가운데는 잘 안 넘어가요 · 모서리를 노려요':'아깝다! 조금 더 모서리로 · 또는 초록 칸 한가운데 힘으로'):(v<g[0]?'힘이 모자라요':'너무 세서 바람만 일었어요')));
     setTimeout(function(){ if(ok){ SND.glass(.6); } report(ok?1:0, ok?'<b>탁! 뒤집었다!</b> '+esc(nm(p))+' 한 장 땄어요':esc(nm(p))+' · '+why); },1050); },
-  cpu:function(L){ var g=this.good, good=Math.random()<[.4,.55,.72][L], v=good?g[0]+Math.random()*(g[1]-g[0]):(Math.random()<.5?g[0]-.08-Math.random()*.2:g[1]+.05+Math.random()*.15),
-      edge=Math.random()<[.4,.6,.8][L], sx=Math.random()<.5?-1:1, sy=Math.random()<.5?-1:1, x=150+(edge?sx*(38+Math.random()*16):(Math.random()*2-1)*18), y=250+(edge?sy*(32+Math.random()*14):(Math.random()*2-1)*14);
+  cpu:function(L){ var g=this.good, good=Math.random()<bossV([.4,.55,.72],L), v=good?g[0]+Math.random()*(g[1]-g[0]):(Math.random()<.5?g[0]-.08-Math.random()*.2:g[1]+.05+Math.random()*.15),
+      edge=Math.random()<bossV([.4,.6,.8],L), sx=Math.random()<.5?-1:1, sy=Math.random()<.5?-1:1, x=150+(edge?sx*(38+Math.random()*16):(Math.random()*2-1)*18), y=250+(edge?sy*(32+Math.random()*14):(Math.random()*2-1)*14);
     var self=this; this.cpuAim={x:x,y:y,t:performance.now(),v:Math.max(0,Math.min(1,v))}; setTimeout(function(){ self.cpuAim=null; self.hit(x,y,Math.max(0,Math.min(1,v)),1); },900); },
   pull:function(){ return this.drag?Math.max(0,Math.min(1,(this.drag.cy-this.drag.y)/170)):0; },
   down:function(p){ if(this.ph!=='idle') return; this.drag={x:p.x,y:p.y,cy:p.y}; },
@@ -112,7 +112,7 @@ var TUHO={key:'th',name:'투호',unit:'개',max:5,how:'<b>누르고 있으면</b
   throwIt:function(aim,pw,p){ var j=this.jar(), self=this; SND.flick(.6); this.ph='fly'; this.fly={t:performance.now(),aim:aim,pw:pw,p:p};
     setTimeout(function(){ var dErr=Math.abs(pw-self.dist), xErr=Math.abs(aim); var ok=dErr<.08&&xErr<9; if(ok){ SND.pong(); } else { SND.thud(.4); }
       self.fly.res=ok; report(ok?1:0, ok?'<b>퐁! 들어갔어요</b> · '+esc(nm(p)):esc(nm(p))+' · '+(pw<self.dist-.08?'짧아요':(pw>self.dist+.08?'길어요':(aim<0?'왼쪽으로 빗나감':'오른쪽으로 빗나감')))); },900); },
-  cpu:function(L){ var good=Math.random()<[.22,.38,.55][L], ax, pw;
+  cpu:function(L){ var good=Math.random()<bossV([.22,.38,.55],L), ax, pw;
     if(good){ ax=(Math.random()*2-1)*6; pw=this.dist+(Math.random()*2-1)*.05; }
     else if(Math.random()<.5){ ax=(Math.random()<.5?-1:1)*(10+Math.random()*12); pw=this.dist+(Math.random()*2-1)*.06; }
     else { ax=(Math.random()*2-1)*6; pw=this.dist+(Math.random()<.5?-1:1)*(.1+Math.random()*.12); }
@@ -161,7 +161,7 @@ var MARB={key:'mb',name:'구슬치기',unit:'알',max:5,how:'<b>누르고 있으
     setTimeout(function(){ var ok=hit>=0; if(ok){ SND.glass(); var e=path[path.length-1]; self.knock={t:performance.now(),dx:(self.tg.x-e.x)||1,dy:(self.tg.y-e.y)||-1}; }
       var end=path[path.length-1], dd=Math.hypot(end.x-self.O.x,end.y-self.O.y), td=Math.hypot(self.tg.x-self.O.x,self.tg.y-self.O.y);
       self.ph='done'; report(ok?1:0, ok?'<b>딱! 맞혔다</b> · '+esc(nm(p))+' 한 알 땄어요':esc(nm(p))+' · '+(dd<td-22?'짧았어요':(dd>td+22?'멀리 갔어요':'옆으로 빗나갔어요'))); },path.length*22+120); },
-  cpu:function(L){ var good=Math.random()<[.25,.4,.58][L], da=good?(Math.random()*2-1)*.025:(Math.random()<.5?-1:1)*(.07+Math.random()*.1), v=this.need+(good?(Math.random()*2-1)*.03:(Math.random()*2-1)*.18);
+  cpu:function(L){ var good=Math.random()<bossV([.25,.4,.58],L), da=good?(Math.random()*2-1)*.025:(Math.random()<.5?-1:1)*(.07+Math.random()*.1), v=this.need+(good?(Math.random()*2-1)*.03:(Math.random()*2-1)*.18);
     var self=this; this.aimC=this.base+da; setTimeout(function(){ self.aimC=null; self.throwIt(self.base+da,Math.max(0,Math.min(1,v)),1); },700); },
   down:function(p){ if(this.ph!=='idle') return; this.hold=true; this.h0=performance.now(); this.bx=p.x; this.ba=this.aim; },
   move:function(p){ if(!this.hold) return; this.aim=Math.max(-.6,Math.min(.6,this.ba+(p.x-this.bx)*.006)); },
@@ -202,7 +202,7 @@ var DART={key:'dt',name:'원판 다트',unit:'점',max:5,seq:true,how:'원하는
     setTimeout(function(){ var a=self.ang, i=self.sectorAt(a), pts=self.SEC[i]; SND.dart(); self.darts.push({rel:-Math.PI/2-a+(Math.random()*2-1)*.12,p:p}); self.log[p].push(pts); self.fly=null; self.ph='stuck';
       report(pts,'<b>'+pts+'점!</b> '+esc(nm(p))+(pts===100?' · 한가운데 대박!':'')); },350); },
   cpu:function(L){ var self=this, n=this.SEC.length, st=Math.PI*2/n, tries=0;
-    (function wait(){ var a=self.ang+self.speed*.35*(1/1)*0, ahead=self.ang+self.speed*0.35; var i=self.sectorAt(ahead), want=Math.random()<[.2,.35,.55][L]; tries++;
+    (function wait(){ var a=self.ang+self.speed*.35*(1/1)*0, ahead=self.ang+self.speed*0.35; var i=self.sectorAt(ahead), want=Math.random()<bossV([.2,.35,.55],L); tries++;
       if((want&&self.SEC[i]>=50)||(!want&&Math.random()<.04)||tries>140){ self.throwIt(1); } else { setTimeout(wait,30); } })(); },
   down:function(){ if(this.ph!=='idle') return; this.throwIt(S.who); },
   draw:function(c){ var t=performance.now(); if(this.lt){ var dt=(t-this.lt)/1000; this.ang+=this.speed*dt*(this.ph==='stuck'?.3:1); } this.lt=t;
