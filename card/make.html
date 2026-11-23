@@ -375,7 +375,7 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
     <div class="sendlist" id="sendList"></div>
     <p class="hint" style="margin-top:12px">고쳐서 다시 보내도 주소는 그대로예요.</p>
     <button class="go" type="button" id="allDone" style="margin-top:12px">다 보냈어요</button>
-    <div class="fin" id="fin"><div class="fh">마음이 잘 전해질 거예요 💌</div><button class="go" type="button" id="oneMore">카드 한 장 더 만들기</button><a class="go line" id="goHome" href="/">홈으로</a></div>
+    <div class="fin" id="fin"><div class="fh">마음이 잘 전해질 거예요 💌</div><a class="go" id="goHome" href="/card/make.html">홈으로</a></div>
   </div>
 </div></div>
 <div class="toast" id="toast"></div>
@@ -430,7 +430,7 @@ function dots(){$('dots').innerHTML=ORD.map(function(x){return '<i class="'+(x==
 function go(n){if(cur===4)saveHW();cur=n;each('.step',function(s){s.classList.toggle('on',+s.dataset.s===cur)});dots();window.scrollTo({top:0,behavior:'smooth'});
  if(cur===2)envPaint();if(cur===3)enterMsg();if(cur===4){fit();var t=one()?'to':(HT==='to'?'line':HT);each($('tabs').children,function(x){x.style.display=(x.dataset.t==='to'&&!one())?'none':'';x.classList.toggle('on',x.dataset.t===t)});autoFill();loadHW(t)}if(cur===5)drawAtt()}
 each('[data-next]',function(b){b.onclick=function(){go(+b.dataset.next)}});
-window.LF_WAY={back:function(){if($('ov').classList.contains('on')){$('ov').classList.remove('on');return true}if(cur>0){go(cur-1);return true}return false},
+window.LF_WAY={home:function(){location.href='/card/make.html';return true},back:function(){if($('ov').classList.contains('on')){$('ov').classList.remove('on');return true}if(cur>0){go(cur-1);return true}return false},
  fwd:function(){if(cur<5&&nextOk()){go(cur+1);return true}return false}};
 function nextOk(){if(cur===1)return ST.cover!=null;if(cur===2)return wmOk();return true}
 var ac=null;function tone(f,at,len){if(ST.mute)return;try{if(!ac)ac=new(window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();var t=ac.currentTime+at,g=ac.createGain(),o=ac.createOscillator(),b=ac.createOscillator(),gb=ac.createGain();o.type='sine';o.frequency.value=f;b.type='sine';b.frequency.value=f/2;gb.gain.value=.5;g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.05,t+.03);g.gain.exponentialRampToValueAtTime(.0001,t+len);o.connect(g);b.connect(gb);gb.connect(g);g.connect(ac.destination);o.start(t);b.start(t);o.stop(t+len+.05);b.stop(t+len+.05)}catch(e){}}
@@ -615,7 +615,7 @@ $('done').onclick=show;$('openBtn').onclick=openIt;$('env').onclick=function(){i
 $('again').onclick=show;
 $('ovx').onclick=function(){$('ov').classList.remove('on')};
 $('allDone').onclick=function(){$('fin').classList.add('on');this.style.display='none';cheer();setTimeout(function(){$('fin').scrollIntoView({block:'center',behavior:'smooth'})},50)};
-$('oneMore').onclick=function(){location.href=location.pathname};$('edit').onclick=function(){$('ov').classList.remove('on');go(3)};
+$('edit').onclick=function(){$('ov').classList.remove('on');go(3)};
 $('mute').onclick=function(){ST.mute=!ST.mute;$('mute').textContent=ST.mute?'소리 켜기':'소리 끄기'};
 
 /* ── 보내기: 이름마다 한 장 · 카톡 · 문자 · 이메일 · 주소 복사 ── */
