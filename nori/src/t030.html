@@ -115,7 +115,7 @@ function armDraw(){ var st=$('board'), w=st.clientWidth, h=st.clientHeight, ey=h
   var ea={x:w*.17,y:ey}, eb={x:w*.83,y:ey}; $('elbA').style.left=(ea.x-17)+'px'; $('elbB').style.left=(eb.x-17)+'px';
   function fore(el,e){ var dx=gx-e.x, dy=gy-e.y, L=Math.hypot(dx,dy); el.style.left=e.x+'px'; el.style.top=(e.y-15)+'px'; el.style.width=L+'px'; el.style.transform='rotate('+Math.atan2(dy,dx)+'rad)'; }
   fore($('foreA'),ea); fore($('foreB'),eb); g.style.left=gx+'px'; g.style.top=gy+'px'; g.style.transform='rotate('+(A.x*60)+'deg)'; }
-function armStart(){ A={on:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,gen:S.gen}; HOLD={a:false,b:false}; S.u='판';
+function armStart(){ A={on:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,t:0,cr:5.6+Math.random()*1.6,gen:S.gen}; HOLD={a:false,b:false}; S.u='판';
   $('board').innerHTML='<span class="mark a">나</span><span class="mark b">'+esc(nm(1))+'</span><div class="table"></div><div class="elb" id="elbA"></div><div class="elb" id="elbB"></div><div class="fore a" id="foreA"></div><div class="fore b" id="foreB"></div><div class="grip" id="grip">🤝</div>';
   $('act').innerHTML='<div class="tap"><button class="a" type="button" id="armA">나 · 힘!</button><button class="b" type="button" id="armB"'+(two()?'':' disabled')+'>'+(two()?'친구 · 힘!':'사장님 (자동)')+'</button></div>';
   $('say').innerHTML=two()?'<b>둘이 동시에 「힘!」</b> · 꾹 누르고 빨리빨리 또 누르기':'<b>「힘!」 꾹 누르고 빨리빨리 또 누르기</b> · 왼쪽 기둥이 내 힘';
@@ -125,12 +125,13 @@ function armStart(){ A={on:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,gen:S.gen}; H
   var ba=$('armA'), bb=$('armB'); ba.addEventListener('pointerdown',down('a')); bb.addEventListener('pointerdown',function(e){ if(two()) down('b')(e); });
   ['pointerup','pointercancel','pointerleave'].forEach(function(t){ ba.addEventListener(t,up('a')); bb.addEventListener(t,up('b')); });
   setTimeout(function(){ if(!A.on&&$('armA')) NA.point($('armA'),'꾹 누르고 · 빨리빨리 또 누르기',.5,.4); },150); }
-function armPush(side){ if(!$('grip')) return; if(!A.on){ A.on=true; A.last=performance.now(); A.raf=requestAnimationFrame(armLoop); } if(side==='a') A.pa=Math.min(1,A.pa+.09); else A.pb=Math.min(1,A.pb+.09); snd('clack',.35); }
+function armPush(side){ if(!$('grip')) return; if(!A.on){ A.on=true; A.last=performance.now(); A.raf=requestAnimationFrame(armLoop); } if(side==='a') A.pa=Math.min(1,A.pa+.12); else A.pb=Math.min(1,A.pb+.12); snd('clack',.35); }
 function armLoop(){ if(A.gen!==S.gen) return; var now=performance.now(), dt=Math.min(.05,(now-A.last)/1000); A.last=now;
-  if(!two()){ A.cpuT+=dt; if(A.cpuT>.12+Math.random()*.08){ A.cpuT=0; A.pb=Math.min(1,A.pb+.105); } }
-  if(HOLD.a) A.pa=Math.min(1,A.pa+dt*.75); if(HOLD.b) A.pb=Math.min(1,A.pb+dt*.75);
-  A.pa=Math.max(0,A.pa-dt*.55); A.pb=Math.max(0,A.pb-dt*.55); col('l',{pw:A.pa,on:A.pa>A.pb}); col('r',{pw:A.pb,on:A.pb>A.pa});
-  A.x+=(A.pb-A.pa)*dt*.9; A.x=Math.max(-1,Math.min(1,A.x)); armDraw();
+  /* 힘 = 누르는 빠르기(누를 때마다 +.12, 힘은 늘 빠져나감) · 꾹 누르기만 하면 바닥 힘 .15 뿐 — 둘 다 꽉 차서 비기는 일이 없게(261123 고침) */
+  A.t+=dt; if(!two()){ A.cpuT+=dt; if(A.cpuT>1/A.cr*(.8+Math.random()*.4)){ A.cpuT=0; A.pb=Math.min(1,A.pb+.12); } }
+  A.pa=Math.max(HOLD.a?.15:0,A.pa-A.pa*dt*1.5); A.pb=Math.max((HOLD.b||!two())?.15:0,A.pb-A.pb*dt*1.5); col('l',{pw:A.pa,on:A.pa>A.pb}); col('r',{pw:A.pb,on:A.pb>A.pa});
+  /* 8초가 지나면 앞선 쪽으로 조금씩 더 기움(지쳐 무너짐) · 20초면 기운 쪽 승 */
+  A.x+=(A.pb-A.pa)*dt*1.6 + (A.t>8?A.x*dt*.5+(Math.random()-.5)*dt*.25:0); A.x=Math.max(-1,Math.min(1,A.x)); if(A.t>20&&Math.abs(A.x)<1) A.x=A.x<=0?-1:1; armDraw();
   if(Math.abs(A.x)>=1){ A.on=false; var meWin=A.x<=-1; snd('thud',1); fx(meWin?'쾅! 이겼다':(two()?'쾅! 친구 승':'쾅! 졌다'),38);
     var bs=$('act').querySelectorAll('button'); for(var i=0;i<bs.length;i++) bs[i].disabled=true;
     finish(meWin,meWin?1:0,meWin?0:1); return; }

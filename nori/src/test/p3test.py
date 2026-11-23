@@ -23,7 +23,12 @@ async def arm_win(pg,fr,i):
   if not b: await pg.wait_for_timeout(500); return
   await pg.mouse.move(b['x']+20,b['y']+20)
   for j in range(6): await pg.mouse.down(); await pg.wait_for_timeout(60); await pg.mouse.up(); await pg.wait_for_timeout(40)
-async def arm_idle(pg,fr,i): await pg.wait_for_timeout(600)
+async def arm_idle(pg,fr,i):
+  # 한 번만 누르고 쉼 — 한 번도 안 누르면 판이 시작되지 않음(261123 고침)
+  if i==0:
+    b=await fr.locator('#armA').bounding_box()
+    if b: await pg.mouse.move(b['x']+20,b['y']+20); await pg.mouse.down(); await pg.wait_for_timeout(60); await pg.mouse.up()
+  await pg.wait_for_timeout(600)
 async def arm_two(pg,fr,i):
   b=await fr.locator('#armB').bounding_box()
   if not b: await pg.wait_for_timeout(500); return
