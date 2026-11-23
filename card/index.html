@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- ★ 현재 버전 ▶ card/index.html · v1 · 261123 · [마음 카드 보내기 최소판 · 설계서 261122 · 대표 OK 261123] 받은 카드 화면 첫 판. 주소 하나: /card/?c=카드번호 면 받은 카드, 번호 없으면 만들기(만들기 화면은 3.1판 받은 뒤 붙임 · 지금은 안내만). 서버 = 「사랑흐름 마음 카드」 Code.gs 3 버전(대표 hkcpcgg 계정). 봉투 열기 · 손글씨 셋 · 사진과 목소리는 카드가 뜬 뒤 따로 받음 · 영상은 링크 · 단추 주소 검사(모르는 곳은 「○○ 사이트로 이동해요」) · 신고 · 보관 끝 · 한국어 · English. 보내는 분 기기에 고침열쇠가 있으면 「처음 열어 본 때」를 보여 주고 열어 본 횟수는 세지 않음. 문지기 · 위 띠 · 공용 푸터는 다른 받은 화면(m/)과 같은 한 벌. -->
+<script src="/lf/pass.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>마음 카드가 도착했어요 · 사랑흐름</title>
+<meta name="description" content="사랑흐름 마음 카드가 도착했어요. 눌러서 열어 보세요.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="사랑흐름">
+<meta property="og:title" content="마음 카드가 도착했어요 🎄">
+<meta property="og:description" content="눌러서 봉투를 열어 보세요 · 사랑흐름 마음 카드">
+<meta property="og:image" content="https://www.loveflow.ai.kr/card/og.jpg?v=1">
+<meta property="og:url" content="https://www.loveflow.ai.kr/card/">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Nanum+Pen+Script&family=Noto+Sans+KR:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+img{max-width:100%;height:auto;display:block}
+body{font-family:'Noto Sans KR',sans-serif;background:linear-gradient(#10294a,#1d4a6e 45%,#2c5f86);color:#2b2321;min-height:100vh;display:flex;flex-direction:column}
+#snow{position:fixed;inset:0;pointer-events:none;z-index:0}
+.lf-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:8px;background:#1E4A76;border-bottom:1px solid #163A5C;padding:10px 14px}
+.lf-nav-home{display:inline-flex;align-items:center;gap:6px;color:#fff;font-weight:800;font-size:15px;text-decoration:none}
+.lf-nav-logo{height:34px;width:34px;object-fit:contain;background:#fff;border-radius:8px;padding:2px;display:block;flex-shrink:0}
+.lf-nav-back{background:none;border:none;cursor:pointer;color:#fff;font-size:24px;line-height:1;padding:2px 8px;font-family:inherit}
+.lf-nav-loc{position:absolute;left:50%;transform:translateX(-50%);font-size:13px;font-weight:800;color:#fff;white-space:nowrap;pointer-events:none}
+.lf-nav-burger{background:none;border:none;cursor:pointer;color:#fff;font-size:20px;line-height:1;padding:4px 10px;border-radius:8px;margin-left:auto;font-family:inherit}
+.lf-menu{position:fixed;top:0;right:0;height:100%;width:min(80vw,300px);background:#fff;box-shadow:-8px 0 28px rgba(0,0,0,.16);transform:translateX(100%);transition:transform .25s ease;z-index:1100;display:flex;flex-direction:column;overflow-y:auto}
+.lf-menu.open{transform:translateX(0)}
+.lf-menu-head{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;background:#163A5C;margin-bottom:6px}
+.lf-menu-head .t{color:#fff;font-weight:800;font-size:15px}
+.lf-menu-close{background:none;border:none;font-size:24px;color:#fff;cursor:pointer;line-height:1;font-family:inherit}
+.lf-menu a{display:flex;align-items:center;gap:11px;padding:13px 20px;color:#1E2A3A;text-decoration:none;font-size:15px;font-weight:600}
+.lf-backdrop{position:fixed;inset:0;background:rgba(0,0,0,.35);opacity:0;visibility:hidden;transition:.25s;z-index:1050}
+.lf-backdrop.open{opacity:1;visibility:visible}
+
+.stage{position:relative;z-index:1;flex:1;width:100%;max-width:500px;margin:0 auto;padding:22px 16px 34px}
+.lang{width:max-content;margin:0 auto 18px;display:flex;background:rgba(255,255,255,.92);border-radius:999px;padding:3px;box-shadow:0 4px 12px rgba(0,0,0,.25)}
+.lang button{border:0;background:none;font:600 13px 'Noto Sans KR',sans-serif;padding:7px 14px;border-radius:999px;color:#555;cursor:pointer}
+.lang button.on{background:#b3242c;color:#fff}
+
+.state{text-align:center;color:#eef4fa;padding:70px 10px;font-size:16px;line-height:1.8}
+.state .big{font-family:'Gowun Batang',serif;font-size:22px;font-weight:700;margin-bottom:8px}
+.state a{color:#ffd98a;font-weight:600;text-decoration:none}
+.dot{display:inline-block;animation:blink 1.2s infinite}
+@keyframes blink{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* 봉투 */
+.env{position:relative;max-width:460px;margin:0 auto;aspect-ratio:1.3/1;cursor:pointer;perspective:1200px;transition:transform .5s ease,opacity .5s ease}
+.env .back{position:absolute;inset:0;background:linear-gradient(135deg,#c2313a,#8e1b24);border-radius:16px;box-shadow:0 18px 40px rgba(0,0,0,.4)}
+.env .flap{position:absolute;left:0;right:0;top:0;height:58%;transform-origin:top;transition:transform .9s ease,opacity .35s ease .55s;z-index:3}
+.env .flap svg{width:100%;height:100%;display:block}
+.env .front{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;padding:0 20px 24px;color:#fff;text-align:center}
+.env .seal{position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:50%;background:radial-gradient(#e7c873,#b88a2c);display:grid;place-items:center;font-size:26px;z-index:4;box-shadow:0 3px 8px rgba(0,0,0,.35);transition:opacity .4s}
+.env .whom{font-family:'Gowun Batang',serif;font-size:21px;font-weight:700;word-break:keep-all}
+.env .from{font-size:14px;opacity:.92;margin-top:4px}
+.env .hint{font-size:13px;margin-top:10px;background:rgba(255,255,255,.2);padding:5px 14px;border-radius:999px}
+.env.open .flap{transform:rotateX(180deg);opacity:0}
+.env.open .seal{opacity:0}
+.env.gone{transform:translateY(-12px) scale(.96);opacity:0;pointer-events:none;position:absolute;left:16px;right:16px}
+
+/* 카드 */
+.cardwrap{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+.cardwrap.show{opacity:1;transform:none}
+.frame{padding:10px;border-radius:20px;background:repeating-linear-gradient(45deg,#c62b34 0 14px,#fff 14px 28px);max-width:460px;margin:0 auto;box-shadow:0 18px 40px rgba(0,0,0,.35)}
+.frame.plain{background:linear-gradient(135deg,#f6dc8e,#b8862b 40%,#f3d27a 60%,#a97721);padding:6px}
+.card{background:#fffaf2;border-radius:12px;overflow:hidden}
+.pic{position:relative;background:linear-gradient(160deg,#dbe8f4,#f6f9fc 55%,#e7eef6);min-height:200px}
+.pic img{width:100%}
+.pic .art{display:grid;place-items:center;height:240px;text-align:center;color:#b3242c;font-family:'Gowun Batang',serif;font-size:26px;font-weight:700;line-height:1.5}
+.pic .art small{display:block;font-size:15px;color:#1f5a3c}
+.pic .wait{position:absolute;left:0;right:0;bottom:10px;text-align:center;font-size:13px;color:#5b6b7b}
+.body{padding:22px 22px 18px}
+.to{font-family:'Gowun Batang',serif;font-size:19px;font-weight:700;color:#7d1520;margin-bottom:12px;word-break:keep-all;overflow-wrap:anywhere}
+.hand{max-height:56px;width:auto;display:inline-block;vertical-align:middle}
+.msg{font-family:'Gowun Batang',serif;font-size:17px;line-height:1.85;white-space:pre-wrap;word-break:keep-all;overflow-wrap:anywhere}
+.endhand{margin-top:12px}
+.sign{text-align:right;margin-top:12px;font-family:'Nanum Pen Script',cursive;font-size:32px;color:#b3242c;line-height:1.1;overflow-wrap:anywhere}
+.sign .hand{max-height:64px;margin-left:auto;display:block}
+.date{text-align:right;font-size:13px;color:#8a7a6a;margin-top:4px}
+.voice{display:flex;align-items:center;gap:10px;width:100%;margin-top:16px;background:#fff3e6;border:1.5px solid #f0d2b4;border-radius:14px;padding:12px 14px;font:600 15px 'Noto Sans KR',sans-serif;color:#7d1520;cursor:pointer;text-align:left}
+.voice .ic{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#b3242c;color:#fff;font-size:15px;flex-shrink:0}
+.btns{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+.btn{display:block;width:100%;text-align:center;text-decoration:none;font:600 16px 'Noto Sans KR',sans-serif;border-radius:12px;padding:13px;border:0;cursor:pointer}
+.btn.main{background:#b3242c;color:#fff}
+.btn.sub{background:#fff;color:#7d1520;border:1.5px solid #e4cfc2}
+.cfoot{border-top:1px dashed #eadfce;margin-top:18px;padding-top:12px;text-align:center;font-size:13px;color:#8a7a6a;line-height:1.7}
+.cfoot a{color:#7d1520;font-weight:600;text-decoration:none}
+.rep{display:inline-block;margin-top:6px;background:none;border:0;color:#b5a796;font:12px 'Noto Sans KR',sans-serif;cursor:pointer;padding:4px 8px}
+.mine{margin:14px auto 0;max-width:460px;background:rgba(255,255,255,.14);color:#fff;border-radius:14px;padding:12px 16px;font-size:14px;line-height:1.7;text-align:center}
+
+/* 바닥 시트 */
+.sheet-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1650;display:none;align-items:flex-end;justify-content:center}
+.sheet-bg.on{display:flex}
+.sheet{background:#fff;width:100%;max-width:500px;border-radius:20px 20px 0 0;padding:22px 20px calc(26px + env(safe-area-inset-bottom))}
+.sheet h3{font-size:18px;margin-bottom:8px}
+.sheet p{font-size:15px;color:#555;line-height:1.7;word-break:break-all}
+.sheet textarea{width:100%;margin-top:12px;border:1.5px solid #ddd;border-radius:12px;padding:12px;font:15px 'Noto Sans KR',sans-serif;min-height:90px;resize:vertical}
+.sheet .row{display:flex;gap:10px;margin-top:16px}
+.sheet .row .btn{flex:1}
+.toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(20px);background:#222;color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:.3s;z-index:1660;max-width:90vw;text-align:center}
+.toast.on{opacity:1;transform:translateX(-50%)}
+#lfFoot{position:relative;z-index:1}
+</style>
+</head>
+<body>
+<canvas id="snow"></canvas>
+<div class="lf-nav">
+  <a class="lf-nav-home" href="/"><img class="lf-nav-logo" src="https://raw.githubusercontent.com/hkcpcgg/loveflow/main/logo.png" alt=""><span>사랑흐름</span></a>
+  <button class="lf-nav-back" onclick="history.back()" aria-label="뒤로">&lsaquo;</button>
+  <span class="lf-nav-loc" data-t="loc">마음 카드</span>
+  <button class="lf-nav-burger" onclick="lfMenuOpen()" aria-label="메뉴">&#9776;</button>
+</div>
+<div class="lf-backdrop" id="lfBackdrop" onclick="lfMenuClose()"></div>
+<nav class="lf-menu" id="lfMenu" aria-label="사이트 메뉴">
+  <div class="lf-menu-head"><span class="t">사랑흐름</span><button class="lf-menu-close" onclick="lfMenuClose()" aria-label="닫기">&times;</button></div>
+  <a href="/">홈</a>
+  <a href="/hanmadi/">마음 한마디</a>
+  <a href="/draw/">삐뚤빼뚤 마음 도화지</a>
+  <a href="/card/">마음 카드</a>
+  <a href="/journey/">여행지도 보기</a>
+  <a href="/l/">편지</a>
+  <a href="/memoir/">자서전</a>
+  <a href="/reenter.html">여권으로 입장</a>
+  <a href="/showroom.html">여행의 기록</a>
+</nav>
+
+<main class="stage">
+  <div class="lang" role="group" aria-label="언어"><button data-l="ko" class="on">한국어</button><button data-l="en">English</button></div>
+
+  <div id="load" class="state"><span data-t="loading">카드를 꺼내는 중이에요</span><span class="dot">…</span></div>
+  <div id="err" class="state" style="display:none"></div>
+
+  <div id="envBox" style="display:none;position:relative">
+    <div class="env" id="env" role="button" tabindex="0" aria-label="봉투 열기">
+      <div class="back"></div>
+      <div class="flap"><svg viewBox="0 0 100 58" preserveAspectRatio="none"><path d="M0 0 H100 L50 56 Z" fill="#a8222c"/><path d="M0 0 L50 56 L100 0" fill="none" stroke="#e7c873" stroke-width=".6"/></svg></div>
+      <div class="seal">🎄</div>
+      <div class="front">
+        <div class="whom" id="envTo"></div>
+        <div class="from" id="envFrom"></div>
+        <div class="hint" data-t="tap">눌러서 열어 보세요</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cardwrap" id="cardWrap" style="display:none">
+    <div class="frame" id="frame"><div class="card">
+      <div class="pic" id="pic"></div>
+      <div class="body">
+        <div class="to" id="to"></div>
+        <div class="msg" id="msg"></div>
+        <div class="endhand" id="endHand"></div>
+        <div class="sign" id="sign"></div>
+        <div class="date" id="date"></div>
+        <div id="voiceBox"></div>
+        <div class="btns" id="btns"></div>
+        <div class="cfoot">
+          <span data-t="brand">사랑흐름 마음 카드</span> · <a href="/card/" data-t="mine">나도 카드 보내기</a><br>
+          <button class="rep" id="repBtn" type="button" data-t="report">신고</button>
+        </div>
+      </div>
+    </div></div>
+    <div class="mine" id="mineBox" style="display:none"></div>
+  </div>
+</main>
+
+<div class="sheet-bg" id="leaveSheet"><div class="sheet">
+  <h3 data-t="leaveT">다른 사이트로 이동해요</h3>
+  <p id="leaveHost"></p>
+  <div class="row"><button class="btn sub" type="button" id="leaveNo" data-t="cancel">취소</button><a class="btn main" id="leaveGo" href="#" target="_blank" rel="noopener noreferrer" data-t="go">이동</a></div>
+</div></div>
+
+<div class="sheet-bg" id="repSheet"><div class="sheet">
+  <h3 data-t="repT">이 카드를 신고해요</h3>
+  <p data-t="repP">불편한 내용이 있으면 알려 주세요. 사랑흐름이 살펴보고 필요하면 가려 둘게요.</p>
+  <textarea id="repWhy" maxlength="200" data-tp="repPh" placeholder="신고 사유"></textarea>
+  <div class="row"><button class="btn sub" type="button" id="repNo" data-t="cancel">취소</button><button class="btn main" type="button" id="repGo" data-t="repGo">신고하기</button></div>
+</div></div>
+
+<div class="toast" id="toast"></div>
+<div id="lfFoot"></div>
+<script src="/lf-foot.js" defer></script>
+<script>
+function lfMenuOpen(){document.getElementById('lfMenu').classList.add('open');document.getElementById('lfBackdrop').classList.add('open');}
+function lfMenuClose(){document.getElementById('lfMenu').classList.remove('open');document.getElementById('lfBackdrop').classList.remove('open');}
+</script>
+<script>
+/* ── 마음 카드 서버 · 「사랑흐름 마음 카드」 Code.gs 3 버전 (hkcpcgg 계정 · 시트 「사랑흐름 마음 카드 대장」) ── */
+var CARD_API = 'https://script.google.com/macros/s/AKfycby0RS9OH3NeQI3uuG7HemoGfcNOA_LK0cdpGfvrreP-FaS3837qQ5O4R194R42PYzC7/exec';
+
+var T = {
+  ko:{loc:'마음 카드',loading:'카드를 꺼내는 중이에요',tap:'눌러서 열어 보세요',brand:'사랑흐름 마음 카드',mine:'나도 카드 보내기',report:'신고',
+      leaveT:'다른 사이트로 이동해요',cancel:'취소',go:'이동',repT:'이 카드를 신고해요',repP:'불편한 내용이 있으면 알려 주세요. 사랑흐름이 살펴보고 필요하면 가려 둘게요.',
+      repPh:'신고 사유',repGo:'신고하기',repDone:'신고가 접수됐어요. 고마워요',fail:'잠시 연결이 어려워요. 조금 뒤에 다시 해 주세요',
+      none:'카드를 찾을 수 없어요',noneP:'주소가 맞는지 한 번 더 봐 주세요.',hidden:'이 카드는 지금 볼 수 없어요',hiddenP:'신고가 들어와 잠시 가려 두었어요.',
+      expired:'보관 기간이 지났어요',expiredP:'마음 카드는 보낸 날부터 1년 동안 보관해요.',err:'카드를 불러오지 못했어요',errP:'잠시 뒤에 다시 열어 주세요.',
+      make:'마음 카드 만들기는 곧 열려요',makeP:'12월에 사랑흐름 마음 카드로 고마운 분께 마음을 전해 보세요.',goHome:'사랑흐름 둘러보기 ›',
+      from:function(n){return n+' 님이 보낸 카드예요';},dear:'소중한 분께',voice:'목소리 인사 듣기',voiceLoad:'목소리를 꺼내는 중이에요',video:'영상 보기',
+      photoWait:'사진을 꺼내는 중이에요',leaveP:function(h){return h+' 사이트로 이동해요. 보낸 분이 넣은 주소예요.';},
+      opened:function(t){return '받는 분이 '+t+'에 처음 열어 보셨어요 🎉';},notYet:'아직 받는 분이 열어 보지 않으셨어요.',mineT:'보내신 분께만 보이는 칸이에요',
+      art:'Merry Christmas',art2:'따뜻한 연말 보내세요'},
+  en:{loc:'Heart Card',loading:'Taking out your card',tap:'Tap to open',brand:'Loveflow Heart Card',mine:'Send a card too',report:'Report',
+      leaveT:'You are leaving this site',cancel:'Cancel',go:'Go',repT:'Report this card',repP:'Tell us if anything here feels wrong. Loveflow will review it and hide it if needed.',
+      repPh:'Reason',repGo:'Report',repDone:'Thank you. Your report was received.',fail:'Connection trouble. Please try again soon.',
+      none:'Card not found',noneP:'Please check the address once more.',hidden:'This card is not available now',hiddenP:'It has been hidden for review after a report.',
+      expired:'This card has expired',expiredP:'Heart Cards are kept for one year from the day they were sent.',err:'Could not load the card',errP:'Please open it again in a moment.',
+      make:'Making Heart Cards opens soon',makeP:'This December, send your heart to someone dear with a Loveflow Heart Card.',goHome:'Explore Loveflow ›',
+      from:function(n){return 'A card from '+n;},dear:'To someone dear',voice:'Play voice greeting',voiceLoad:'Loading the voice greeting',video:'Watch the video',
+      photoWait:'Loading the photo',leaveP:function(h){return 'You are going to '+h+'. The sender added this address.';},
+      opened:function(t){return 'First opened on '+t+' 🎉';},notYet:'Not opened yet.',mineT:'Only you, the sender, can see this',
+      art:'Merry Christmas',art2:'Warm wishes for the season'}
+};
+var L = 'ko'; try{ if(localStorage.getItem('lfCardLang')==='en') L='en'; }catch(e){}
+function t(k){ return T[L][k]; }
+function $(id){ return document.getElementById(id); }
+function paintLang(){
+  document.documentElement.lang = L;
+  document.querySelectorAll('[data-t]').forEach(function(e){ var v=T[L][e.dataset.t]; if(typeof v==='string') e.textContent=v; });
+  document.querySelectorAll('[data-tp]').forEach(function(e){ e.placeholder=T[L][e.dataset.tp]; });
+  document.querySelectorAll('.lang button').forEach(function(b){ b.classList.toggle('on', b.dataset.l===L); });
+  if (window.__card) { fillCard(window.__card, true); }
+  if (window.__state) { showState(window.__state); }
+}
+document.querySelectorAll('.lang button').forEach(function(b){ b.addEventListener('click', function(){ L=b.dataset.l; try{localStorage.setItem('lfCardLang',L);}catch(e){} paintLang(); }); });
+
+function toast(m){ var el=$('toast'); el.textContent=m; el.classList.add('on'); clearTimeout(el.__h); el.__h=setTimeout(function(){el.classList.remove('on');},2600); }
+
+function showState(code){
+  window.__state = code;
+  $('load').style.display='none'; $('envBox').style.display='none'; $('cardWrap').style.display='none';
+  var map = {none:['none','noneP'],hidden:['hidden','hiddenP'],expired:['expired','expiredP'],err:['err','errP'],make:['make','makeP']};
+  var m = map[code] || map.err, box = $('err');
+  box.innerHTML=''; var big=document.createElement('div'); big.className='big'; big.textContent=t(m[0]);
+  var p=document.createElement('div'); p.textContent=t(m[1]);
+  var a=document.createElement('a'); a.href='/'; a.textContent=t('goHome'); a.style.display='inline-block'; a.style.marginTop='14px';
+  box.appendChild(big); box.appendChild(p); box.appendChild(a); box.style.display='block';
+}
+
+/* 보내는 분 기기에 남은 고침열쇠 (만들기 화면이 저장할 때 lfCardKeys 에 넣음) */
+function myKey(c){ try{ var o=JSON.parse(localStorage.getItem('lfCardKeys')||'{}'); return o[c]||''; }catch(e){ return ''; } }
+
+var Q = new URLSearchParams(location.search), CID = (Q.get('c')||'').trim(), PV = Q.get('pv')==='1';
+
+function api(params){
+  var u = CARD_API + '?' + Object.keys(params).map(function(k){ return k+'='+encodeURIComponent(params[k]); }).join('&');
+  return fetch(u).then(function(r){ return r.json(); });
+}
+
+function handImg(src, cls){ var i=new Image(); i.src=src; i.alt=''; i.className=cls||'hand'; return i; }
+
+function fillCard(d, again){
+  var c = d.card || {}, h = d.hands || {};
+  $('envTo').textContent = c.to ? c.to : t('dear');
+  $('envFrom').textContent = c.from ? t('from')(c.from) : '';
+  var to = $('to'); to.innerHTML='';
+  if (h.to) { to.appendChild(handImg(h.to)); } else { to.textContent = c.to ? c.to : t('dear'); }
+  $('msg').textContent = c.greeting || '';
+  var eh = $('endHand'); eh.innerHTML=''; if (h.end) { eh.appendChild(handImg(h.end)); }
+  var sg = $('sign'); sg.innerHTML=''; if (h.me) { sg.appendChild(handImg(h.me)); } else if (c.from) { sg.textContent = c.from; }
+  $('date').textContent = c.date || '';
+  if (!again) {
+    var pic = $('pic'); pic.innerHTML='';
+    if (d.has && d.has.photo) {
+      var w=document.createElement('div'); w.className='art'; w.style.height='220px'; w.textContent='';
+      var wt=document.createElement('div'); wt.className='wait'; wt.textContent=t('photoWait'); pic.appendChild(w); pic.appendChild(wt);
+      api({a:'media', c:CID, m:'photo'}).then(function(r){ if(r&&r.ok&&r.data){ pic.innerHTML=''; var im=new Image(); im.alt=''; im.src=r.data; pic.appendChild(im); } else { drawArt(); } }).catch(drawArt);
+    } else { drawArt(); }
+  }
+  var vb = $('voiceBox'); vb.innerHTML='';
+  if (d.has && d.has.voice) {
+    var b=document.createElement('button'); b.type='button'; b.className='voice';
+    var ic=document.createElement('span'); ic.className='ic'; ic.textContent='▶'; var tx=document.createElement('span'); tx.textContent=t('voice');
+    b.appendChild(ic); b.appendChild(tx); vb.appendChild(b);
+    var au=null;
+    b.addEventListener('click', function(){
+      if (au) { if (au.paused) { au.play(); ic.textContent='❚❚'; } else { au.pause(); ic.textContent='▶'; } return; }
+      tx.textContent=t('voiceLoad');
+      api({a:'media', c:CID, m:'voice'}).then(function(r){
+        tx.textContent=t('voice'); if(!r||!r.ok){ toast(t('fail')); return; }
+        au=new Audio(r.data); au.onended=function(){ ic.textContent='▶'; };
+        au.play().then(function(){ ic.textContent='❚❚'; }).catch(function(){ toast(t('fail')); });
+      }).catch(function(){ tx.textContent=t('voice'); toast(t('fail')); });
+    });
+  }
+  var bx = $('btns'); bx.innerHTML='';
+  var list = (c.buttons||[]).slice(0,3);
+  if (c.video) { list.push({type:'video', label:t('video'), value:c.video, safe:true}); }
+  list.forEach(function(x, i){
+    var a=document.createElement('a'); a.className='btn '+(i===0?'main':'sub');
+    a.textContent = x.label || (x.type==='tel' ? x.value : t('go'));
+    if (x.type==='tel') { a.href='tel:'+x.value; }
+    else { a.href=x.value; a.target='_blank'; a.rel='noopener noreferrer';
+      if (!x.safe) { a.addEventListener('click', function(e){ e.preventDefault(); askLeave(x.value); }); } }
+    bx.appendChild(a);
+  });
+  var mb=$('mineBox');
+  if (d.mine) { mb.style.display='block'; mb.textContent = t('mineT')+' · '+(d.opened ? t('opened')(d.opened) : t('notYet')); } else { mb.style.display='none'; }
+}
+
+function drawArt(){
+  var pic=$('pic'); pic.innerHTML='';
+  var a=document.createElement('div'); a.className='art';
+  var s1=document.createElement('div'); s1.textContent='❄ '+t('art')+' ❄'; var s2=document.createElement('small'); s2.textContent=t('art2');
+  s1.appendChild(s2); a.appendChild(s1); pic.appendChild(a);
+}
+
+function askLeave(url){
+  var host=''; try{ host=new URL(url).hostname; }catch(e){ host=url; }
+  $('leaveHost').textContent = t('leaveP')(host);
+  $('leaveGo').href = url; $('leaveSheet').classList.add('on');
+}
+$('leaveNo').onclick=function(){ $('leaveSheet').classList.remove('on'); };
+$('leaveGo').addEventListener('click', function(){ setTimeout(function(){ $('leaveSheet').classList.remove('on'); }, 300); });
+$('repBtn').onclick=function(){ $('repSheet').classList.add('on'); };
+$('repNo').onclick=function(){ $('repSheet').classList.remove('on'); };
+$('repGo').onclick=function(){
+  var why=$('repWhy').value; $('repGo').disabled=true;
+  fetch(CARD_API, {method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify({a:'report', c:CID, why:why})})
+    .then(function(r){ return r.json(); }).then(function(r){ $('repSheet').classList.remove('on'); toast(r&&r.ok ? t('repDone') : t('fail')); })
+    .catch(function(){ toast(t('fail')); }).then(function(){ $('repGo').disabled=false; });
+};
+
+function openEnv(){
+  var env=$('env'); if (env.classList.contains('open')) return;
+  env.classList.add('open');
+  if (window.LFFx && LFFx.twinkle) { try{ LFFx.twinkle(); }catch(e){} }
+  setTimeout(function(){ $('cardWrap').style.display='block'; env.classList.add('gone');
+    requestAnimationFrame(function(){ $('cardWrap').classList.add('show'); }); }, 700);
+}
+$('env').addEventListener('click', openEnv);
+$('env').addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openEnv(); } });
+
+(function start(){
+  paintLang();
+  if (!CID) { showState('make'); return; }
+  if (!/^[a-z0-9]{6,20}$/.test(CID)) { showState('none'); return; }
+  var k = myKey(CID), p = {a:'get', c:CID};
+  if (k) p.k = k; if (PV) p.pv = '1';
+  api(p).then(function(d){
+    if (!d || !d.ok) { showState(d && d.code ? d.code : 'err'); return; }
+    window.__card = d; window.__state = null;
+    fillCard(d, false);
+    $('load').style.display='none'; $('envBox').style.display='block';
+  }).catch(function(){ showState('err'); });
+})();
+
+/* 은은한 눈 · 한 화면 한 움직임 */
+(function(){
+  var c=$('snow'), x=c.getContext('2d'), W, H, f=[], still=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){ W=c.width=innerWidth; H=c.height=innerHeight; } size(); addEventListener('resize', size);
+  for (var i=0;i<60;i++) f.push({x:Math.random()*W, y:Math.random()*H, r:1+Math.random()*2.2, s:.3+Math.random()*.7, d:Math.random()*6});
+  function tick(){ x.clearRect(0,0,W,H); x.fillStyle='rgba(255,255,255,.7)';
+    f.forEach(function(p){ x.beginPath(); x.arc(p.x,p.y,p.r,0,7); x.fill(); if(!still){ p.y+=p.s; p.x+=Math.sin((p.y+p.d*50)/60)*.3; if(p.y>H+5){ p.y=-5; p.x=Math.random()*W; } } });
+    if(!still) requestAnimationFrame(tick); }
+  tick();
+})();
+</script>
+<script src="/lf/fx.js?v=4" defer></script>
+<script src="/lf/frame.js?v=17"></script>
+</body>
+</html>
