@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>팔씨름 · 엿치기 · 사방치기 · 그때 그 놀이</title>
+<title>팔씨름 · 엿치기 · 사방치기 · 수건돌리기 · 그때 그 놀이</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
@@ -56,6 +56,12 @@ button:active{filter:brightness(.93)}
 .stone.b{background:#9A6A5A}
 .hop{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;z-index:4;display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:900}
 .hop.on{display:flex}.hop.a{background:var(--blu)}.hop.b{background:var(--red)}
+/* 수건돌리기 (261123 시안) */
+.sgseat{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;background:#E4DCCB;color:#8A7C60;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900}
+.sgseat.a{background:var(--blu);color:#fff}.sgseat.b{background:var(--red);color:#fff}
+.sgit{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;background:var(--ink);color:#fff;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;z-index:3}
+.towel{position:absolute;width:22px;height:12px;margin:-6px 0 0 -11px;border-radius:4px;background:#F2B53A;z-index:4}
+.towel.down{opacity:.6;z-index:2}
 .hsheet{position:fixed;inset:0;z-index:72;background:rgba(28,29,33,.3);display:none;align-items:flex-end;justify-content:center}.hsheet.on{display:flex}
 .hsheet .sheet{width:100%;max-width:480px;background:#fff;border-radius:24px 24px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
 .hsheet h3{margin:0;text-align:center;font-size:17px;font-weight:900}.rl{background:#FFF8E6;border-radius:14px;padding:10px 12px 10px 4px;font-size:14px;line-height:1.55}.rl ol{margin:0;padding-left:24px}.rl b{color:#C23434}
@@ -100,9 +106,10 @@ var S={k:'arm',mode:'cpu1',bet:NA.bet(),gen:0,sc:[0,0],over:true,u:'판'};
 function two(){ return S.mode==='two'; }
 function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
 function snd(k,v){ try{ SND[k](v); }catch(e){} }
-var GN={arm:'팔씨름',yeot:'엿치기',sab:'사방치기'}, MID={arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝',sab:'8칸 먼저 가면 이김'}, CODE={arm:'aw',yeot:'yt',sab:'sb'};
+var GN={arm:'팔씨름',yeot:'엿치기',sab:'사방치기',sug:'수건돌리기'}, MID={arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝',sab:'8칸 먼저 가면 이김',sug:'3점 먼저 내면 이김'}, CODE={arm:'aw',yeot:'yt',sab:'sb',sug:'sg'};
 var RULE={arm:['두 팔이 맞잡고 시작합니다. <b>「힘!」 단추를 꾹 누르면 힘이 차고, 빨리빨리 누르면 더 세집니다.</b>','양옆 기둥이 각자의 힘입니다. 힘이 센 쪽으로 손이 넘어갑니다.','상대 손등을 탁자까지 넘기면 이깁니다. 친구와 할 때는 한 폰으로 동시에 누릅니다.'],
   sab:['땅에 그린 칸 1~8. 내 차례에 <b>돌을 칸에 던지고</b>, 들어가면 깨금발로 다녀옵니다.','아래 단추를 <b>꾹 누르면 돌이 칸을 오르내립니다. 노란 칸에 왔을 때 놓으세요.</b>','넣으면 다음 칸으로 · 계속 던집니다. 못 넣으면 차례가 넘어갑니다. <b>8칸 먼저 다 가면</b> 이깁니다.'],
+  sug:['둥글게 앉은 자리 둘레를 <b>술래가 수건을 들고</b> 돕니다.','술래가 <b>몰래 수건을 떨어뜨립니다.</b> 내 자리 뒤에 떨어졌으면 술래가 한 바퀴 돌아오기 전에 <b>「내 뒤에 수건!」</b>을 누르세요.','알아채면 1점 · 놓치거나 괜히 누르면 상대 1점. <b>3점 먼저</b> 내면 이깁니다.'],
   yeot:['엿 세 개 중 하나를 고릅니다. 상대는 남은 것 중 하나를 고릅니다.','아래 단추를 <b>꾹 눌러 엿을 휘었다가 놓으면 「뚝!」</b> 부러집니다. 덜 휘면 다시.','부러진 단면의 <b>구멍이 큰 쪽</b>이 이깁니다. <b>두 번 먼저 이기면</b> 끝.']};
 function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
@@ -146,7 +153,7 @@ function armLoop(){ if(A.gen!==S.gen) return; var now=performance.now(), dt=Math
     var bs=$('act').querySelectorAll('button'); for(var i=0;i<bs.length;i++) bs[i].disabled=true;
     finish(meWin,meWin?1:0,meWin?0:1); return; }
   A.raf=requestAnimationFrame(armLoop); }
-window.addEventListener('resize',function(){ if(S.k==='arm'&&$('grip')) armDraw(); if(S.k==='sab'&&$('sbg')) sabLay(); });
+window.addEventListener('resize',function(){ if(S.k==='arm'&&$('grip')) armDraw(); if(S.k==='sab'&&$('sbg')) sabLay(); if(S.k==='sug'&&$('sgring')) sugLay(); });
 
 /* ───────── 엿치기 ───────── */
 var Y={}, yraf=0;
@@ -230,12 +237,49 @@ function sabHops(n,done){ var hp=$('hop'), G=sabGeo(), path=[], g=S.gen; for(var
   (function step(){ if(g!==S.gen) return; if(k>=path.length){ hp.className='hop'; stoneAt(G.w/2,G.base+18,B.turn===1); done(); return; }
     var c=path[k++], pt=c==='sky'?{x:G.w/2,y:rowY(G,6)}:cellPt(c); hp.style.left=pt.x+'px'; hp.style.top=pt.y+'px'; snd('clack',.25); setTimeout(step,k<=path.length/2?95:80); })(); }
 
+
+/* ───────── 수건돌리기 (261123 시안) ─────────
+   자리 여섯이 둥글게 · 나(파랑) · 상대(빨강 — 친구 모드) · 나머지는 동네 아이(자동). 술래는 사장님(자동)이 3초에 한 바퀴.
+   한 바퀴 ~ 두 바퀴 돌다 몰래 떨굼 → 떨어진 자리 사람이 술래가 그 자리로 돌아오기 전에 누르면 1점, 놓치면 상대 1점, 괜히 누르면 상대 1점. 3점 먼저. */
+var G2={}, graf=0;
+function sugStart(){ G2={sc:[0,0],gen:S.gen,on:false}; S.u='점'; S.sc=[0,0];
+  var me=0, op=two()?3:-1; G2.me=me; G2.op=op;
+  var h='<div id="sgring">'; for(var i=0;i<6;i++) h+='<div class="sgseat'+(i===me?' a':(i===op?' b':''))+'" data-i="'+i+'">'+(i===me?'나':(i===op?'친구':''))+'</div>'; h+='</div><div class="sgit" id="sgit">술래</div><div class="towel" id="towel"></div>';
+  $('board').innerHTML=h;
+  $('act').innerHTML=two()?'<div class="tap"><button class="a" type="button" id="sgA">나 · 내 뒤!</button><button class="b" type="button" id="sgB">친구 · 내 뒤!</button></div>':'<button class="big" type="button" id="sgA">내 뒤에 수건!</button>';
+  $('sgA').addEventListener('pointerdown',function(e){ e.preventDefault(); sugTap(0); }); if($('sgB')) $('sgB').addEventListener('pointerdown',function(e){ e.preventDefault(); sugTap(1); });
+  sugLay(); vs(null); sugRound(); setTimeout(function(){ if($('sgA')) NA.point($('sgA'),'내 뒤에 떨어지면 누르세요',.5,.4); },150); }
+function sugGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight, R=Math.min(w,h)*.30; return {cx:w/2,cy:h/2,R:R,Ro:R+Math.min(w,h)*.12}; }
+function seatAng(i){ return Math.PI/2+i*Math.PI/3; }   /* 0 = 맨 아래(나) · 시계 반대 방향 */
+function sugLay(){ var g=sugGeo(), ss=document.querySelectorAll('#sgring .sgseat'); for(var i=0;i<ss.length;i++){ var a=seatAng(i); ss[i].style.left=(g.cx+Math.cos(a)*g.R)+'px'; ss[i].style.top=(g.cy+Math.sin(a)*g.R)+'px'; } }
+function sugPos(el,ang,r){ var g=sugGeo(); el.style.left=(g.cx+Math.cos(ang)*r)+'px'; el.style.top=(g.cy+Math.sin(ang)*r)+'px'; }
+function sugRound(){ if(S.over) return; var g=S.gen; G2.drop=-1; G2.dropAng=0; G2.done=false; G2.t0=performance.now(); G2.a0=Math.random()*6.283;
+  /* 떨굴 자리: 나 40% · 친구 모드면 친구 40% · 나머지 아이 */
+  var r=Math.random(); G2.who= r<.4?G2.me:(two()&&r<.8?G2.op:[1,2,4,5][Math.floor(Math.random()*4)]);
+  G2.dropAt=1.2+Math.random()*2.6; var tw=$('towel'); tw.className='towel';
+  $('say').innerHTML=two()?'술래가 돕니다 · <b>각자 자리 뒤</b>를 보세요':'술래가 돕니다 · <b>내 자리 뒤</b>를 보세요';
+  cancelAnimationFrame(graf); (function lp(){ if(g!==S.gen||G2.done) return; var t=(performance.now()-G2.t0)/1000, ang=G2.a0+t*2.094, gg=sugGeo(); /* 3초에 한 바퀴 */
+    sugPos($('sgit'),ang,gg.Ro);
+    if(G2.drop<0){ sugPos(tw,ang+.18,gg.Ro); if(t>=G2.dropAt&&sugNear(ang,G2.who)){ G2.drop=G2.who; G2.dropT=t; tw.className='towel down'; sugPos(tw,seatAng(G2.who),gg.Ro-4); snd('clack',.15); NA.unpoint(); } }
+    else if(t-G2.dropT>2.9){ sugMiss(); return; }   /* 한 바퀴 돌아옴 */
+    graf=requestAnimationFrame(lp); })(); }
+function sugNear(ang,i){ var d=((ang-seatAng(i))%6.283+6.283)%6.283; return d<.12; }
+function sugTap(p){ if(S.over||G2.done) return; NA.unpoint(); var seat=p===0?G2.me:G2.op;
+  if(G2.drop===seat){ G2.done=true; G2.sc[p]++; fx('잡았다!',44); snd('slap',.8); sugNext(p===0?'<b>내가 알아챘다!</b>':'<em>친구가 알아챘다!</em>'); }
+  else { G2.done=true; G2.sc[1-p]++; fx('헛짚음!',40); snd('thud',.6); sugNext((p===0?'나':'친구')+' 괜히 눌렀어요 · 상대 1점'); } }
+function sugMiss(){ G2.done=true; var p= G2.drop===G2.me?0:(G2.drop===G2.op?1:-1);
+  if(p<0){ fx('통과',36); sugNext('다른 아이 자리였어요 · 점수 없음'); return; }
+  G2.sc[1-p]++; fx('놓쳤다!',40); snd('thud',.6); sugNext((p===0?'<em>내 뒤였는데 놓쳤어요</em>':'친구 뒤였는데 놓쳤어요')+' · 상대 1점'); }
+function sugNext(msg){ var g=S.gen; S.sc=[G2.sc[0],G2.sc[1]]; vs(null); $('say').innerHTML=msg;
+  if(G2.sc[0]>=3||G2.sc[1]>=3){ var meWin=G2.sc[0]>=3; var bs=$('act').querySelectorAll('button'); for(var i=0;i<bs.length;i++) bs[i].disabled=true; setTimeout(function(){ if(g===S.gen) finish(meWin,G2.sc[0],G2.sc[1]); },900); return; }
+  setTimeout(function(){ if(g===S.gen) sugRound(); },1500); }
+
 /* ───────── 고르기 · 시작 ───────── */
 function setGame(k){ S.gen++; try{ PEN.stop(); }catch(e){} NA.unpoint(); S.k=k; S.over=true; S.sc=[0,0]; $('done').classList.remove('on'); $('ttl').textContent=GN[k]; document.title=GN[k]+' · 그때 그 놀이';
   $('board').innerHTML=''; $('act').innerHTML=''; $('say').innerHTML=''; vs(null);
   NA.pre({who:k!=='yeot', opp:shopName()+' 사장님', onGo:function(bet,who){ S.bet=bet; S.mode=(k!=='yeot'&&who==='two')?'two':'cpu1'; window.__noriBetName=bet==='none'?'':NA.betName(bet); snd('stone',.6); start(); },
     onCancel:function(){ if(window.noriHome) noriHome(); }}); }
-function start(){ S.gen++; try{ PEN.stop(); }catch(e){} S.over=false; S.sc=[0,0]; $('done').classList.remove('on'); col('l',{pw:0,on:null}); col('r',{pw:0,on:null}); if(S.k==='arm') armStart(); else if(S.k==='sab') sabStart(); else yeotStart(); }
+function start(){ S.gen++; try{ PEN.stop(); }catch(e){} S.over=false; S.sc=[0,0]; $('done').classList.remove('on'); col('l',{pw:0,on:null}); col('r',{pw:0,on:null}); if(S.k==='arm') armStart(); else if(S.k==='sab') sabStart(); else if(S.k==='sug') sugStart(); else yeotStart(); }
 (function(){
   $('again').addEventListener('click',function(){ setGame(S.k); });
   $('helpBtn').addEventListener('click',function(){ $('helpT').textContent=GN[S.k]+' · 놀이 방법'; $('helpB').innerHTML=rules(S.k); $('help').classList.add('on'); });
