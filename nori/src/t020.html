@@ -183,7 +183,7 @@ function shopName(){ return ($('shop').value.trim()||'우리 가게'); }
 function opName(){ return shopName()+' '+$('ho').value; }
 (function(){ try{ var v=JSON.parse(localStorage.getItem('nori-shop')||'null'); if(v){ $('shop').value=v.s||'다복'; $('ho').value='사장님'; } }catch(e){} })();
 var LVNAME={}, LVTAG={}, LVN={cpu0:0,cpu1:1,cpu2:2};
-function names(mode){ return mode==='two' ? ['첫째','둘째'] : ['나', LVNAME[mode] ? shopName()+' '+LVNAME[mode] : opName()]; }
+function names(mode){ return mode==='two' ? ['나','친구'] : ['나', LVNAME[mode] ? shopName()+' '+LVNAME[mode] : opName()]; }
 function lvTag(mode){ return LVTAG[mode]||''; }
 function relabel(){
   var pn=document.querySelectorAll('.pn'); for(var q2=0;q2<pn.length;q2++){ var k=pn[q2].getAttribute('data-k'); pn[q2].textContent= LVNAME[k]? shopName()+' '+LVNAME[k] : opName(); }

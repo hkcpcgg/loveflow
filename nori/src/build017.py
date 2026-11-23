@@ -53,7 +53,9 @@ def guest(path, extra_css, extra_js=''):
     h=h.replace('</style>',extra_css+'\n</style>',1)
     h=h.replace('</body>','<script>'+extra_js+'</script>\n</body>',1)
     return base64.b64encode(h.encode('utf-8')).decode()
-T13=guest('그때그놀이-013_동그란딱지시험판_261121.html','.shop{display:none!important}.note{display:none}.top .ttl{padding:0 46px}')
+T13=guest('그때그놀이-013_동그란딱지시험판_261121.html','.shop{display:none!important}.note{display:none}.top .ttl{padding:0 46px}'
+  # 작은 폰(360x640)에서 「딱지 내기」가 아래 막대에 가리던 것 (261123 기술 이사 점검)
+  +'@media (max-height:700px){h3{font-size:22px!important;margin:4px 0!important}.flip{width:min(100%,120px)!important}.pile{min-height:20px!important}}')
 T18=guest('그때그놀이-020_골프·활쏘기시안v6_261121.html','.shopset{display:none!important}.note{display:none}')
 T22=guest('그때그놀이-022_딱지치기·투호·구슬치기·원판다트_261121.html','.note{display:none}')
 T24=guest('그때그놀이-024_손놀이_가위바위보·구슬홀짝·묵찌빠·보리쌀_261122.html','')

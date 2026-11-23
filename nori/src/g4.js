@@ -4,7 +4,7 @@ function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&am
 function shopName(){ try{ var v=JSON.parse(localStorage.getItem('nori-shop')||'null'); if(v&&v.s) return v.s; }catch(e){} return '다복'; }
 function hoName(){ return '사장님'; }
 var LVNAME={}, LVTAG={}, LVN={cpu0:0,cpu1:1,cpu2:2};
-function opp(m){ return m==='two'?'둘째':shopName()+' '+(LVNAME[m]||hoName()); }
+function opp(m){ return m==='two'?'친구':shopName()+' '+(LVNAME[m]||hoName()); }
 var W=300, H=400, cv=$('cv'), ctx=cv.getContext('2d');
 function fit(){ window.__nfx=0; fit0(); var ov=document.documentElement.scrollHeight-(window.innerHeight||700); if(ov>2){ window.__nfx=ov+16; fit0(); } }
 /* 한 화면에 맞춤: 넘치면 넘친 만큼 판을 줄여 다시 (261122) */
@@ -12,7 +12,7 @@ function fit0(){ var cs=getComputedStyle(cv.parentNode), pw=(cv.parentNode.clien
   cv.style.width=ww+'px'; cv.style.height=(ww*H/W)+'px'; cv.width=Math.round(ww*d); cv.height=Math.round(ww*H/W*d); ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0); }
 var S={g:null,mode:'cpu2',who:0,sc:[0,0],n:[0,0],max:5,over:true,busy:false,sud:false};
 var COL=['#2457D6','#E1262D'];
-function nm(p){ return p===0?(S.mode==='two'?'첫째':'나'):opp(S.mode); }
+function nm(p){ return p===0?'나':opp(S.mode); }
 function tl(p){ return (p===0&&S.mode!=='two')?'내 차례':nm(p)+' 차례'; }
 function cpuTurn(){ return S.who===1&&S.mode!=='two'; }
 function vs(){ var h='';

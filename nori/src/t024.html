@@ -291,7 +291,6 @@ var HJ={key:'hj',name:'구슬 홀짝',rounds:6,
   guessUI:function(){ var self=this, mb=this.maxBet; this.bet=Math.min(this.bet,mb)||1;
     $('act').innerHTML='<div class="lab">몇 개 걸까요</div><div class="grid5">'+[1,2,3,4,5].map(function(x){ return '<button class="bt o n" type="button" data-b="'+x+'" aria-pressed="'+(x===self.bet)+'"'+(x>mb?' disabled':'')+'>'+x+'</button>'; }).join('')+'</div><div class="row"><button class="bt red" type="button" data-g="1">홀</button><button class="bt" type="button" data-g="0">짝</button></div>';
     $('act').querySelectorAll('[data-b]').forEach(function(b){ b.onclick=function(){ self.bet=+b.getAttribute('data-b'); $('act').querySelectorAll('[data-b]').forEach(function(x){ x.setAttribute('aria-pressed',String(x===b)); }); SND.clack(.35); }; });
-    aim($('act').querySelector('.row'),'홀 · 짝 중 하나를 누르세요');
     $('act').querySelectorAll('[data-g]').forEach(function(b){ b.onclick=function(){ if(S.busy) return; S.taught=true; NA.unpoint(); self.reveal(+b.getAttribute('data-g')===1,self.bet); }; }); },
   cpuGuess:function(){ var bet=Math.max(1,Math.min(this.maxBet,2+rnd(2))), self=this; later(function(){ self.reveal(Math.random()<.5,bet); },1000); },
   reveal:async function(odd,bet){ S.busy=true; lock(true); var hid=this.hid, gs=1-hid, n=this.n, isOdd=n%2===1, ok=odd===isOdd;

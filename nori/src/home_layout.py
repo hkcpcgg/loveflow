@@ -113,7 +113,13 @@ html,body{background:#E6E1D7}
 .top .ttl{flex:none;font-family:var(--brand),serif;font-size:21px;letter-spacing:.02em;color:#1C1D21}
 .top .ttl i{color:#1C1D21}
 .top .topr{position:absolute;right:8px;top:calc(7px + env(safe-area-inset-top,0px))}
-.mq{display:none!important}
+/* 흐르는 선물 띠 — 대표 261123: 「푸짐한 선물」 띠가 있어야 효과가 있다 → A 색으로 되살림(내용은 관리자 선물 설정에서 자동) */
+.mq{display:flex!important;margin:0!important;height:32px!important;background:#FFF1C7!important;position:sticky;top:48px;z-index:4}
+.mq-in{animation:flow 24s linear infinite!important;padding-left:100%!important}
+.mq span{font-size:13px!important;color:#6A4D00!important;font-weight:600}
+.mq b{color:#C23434!important}
+.mq .tag{background:#E04848!important;color:#fff!important;border-radius:999px!important;padding:2px 9px!important}
+@media (prefers-reduced-motion:reduce){.mq-in{animation:none!important;padding-left:0!important}}
 .body{padding:4px 14px 0!important;gap:0!important}
 .lure{font-family:var(--body)!important;font-size:15px!important;font-weight:700;color:#1C1D21!important;margin:12px 0 4px!important;letter-spacing:0}
 .lure b{font-weight:700!important;color:#E04848!important}.lure b.shopN{color:#1C1D21!important}

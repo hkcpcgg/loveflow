@@ -47,7 +47,7 @@ async def main():
                 pg=await br.new_page(viewport={'width':w,'height':h},device_scale_factor=2,has_touch=False)
                 await pg.route('**/*',lambda r: r.abort() if ('googleapis' in r.request.url or 'gstatic' in r.request.url or 'script.google' in r.request.url) else r.continue_())
                 errs=[]; pg.on('pageerror',lambda e:errs.append(str(e)[:120]))
-                await pg.goto('http://localhost:8765/nori/'); await pg.wait_for_timeout(900)
+                await pg.goto('http://localhost:8765/nori/lab/'); await pg.wait_for_timeout(900)
                 await pg.evaluate("k=>document.querySelector('.g[data-go='+k+']').click()",k); await pg.wait_for_timeout(1400)
                 fr=pg.frames[-1]; log=[]; first=None
                 for i in range(int(sys.argv[2]) if len(sys.argv)>2 else 60):

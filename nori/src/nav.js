@@ -3,7 +3,7 @@
 /* 좌우 점수 기둥 (261122 v5) — 나·내 편 = 왼쪽 파랑, 사장님·친구 = 오른쪽 빨강. 위 점수줄(.vs)의 이름·점수를 옮겨 보이고 그 줄은 숨김. 차례인 쪽이 진하게 */
 (function(){
   var d=document, st=null, W=null, LAB='', RN='';
-  function opp(){ if(RN) return RN; var s=d.querySelector('.shopN'); return (s&&s.textContent.trim()?s.textContent.trim():'다복')+' 사장님'; }
+  function opp(){ if(RN) return RN; if(window.__naTwo) return '친구'; var s=d.querySelector('.shopN'); return (s&&s.textContent.trim()?s.textContent.trim():'다복')+' 사장님'; }
   function init(){ if(st) return st;
     var css=d.createElement('style');
     css.textContent='.nside{position:fixed;top:10px;bottom:calc(66px + env(safe-area-inset-bottom,0px));width:32px;z-index:20;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 0;pointer-events:none;font-family:"Noto Sans KR",system-ui,sans-serif;transition:background .2s,color .2s}'
@@ -234,6 +234,7 @@ window.noriNav=function(o){
   var ac=document.createElement('style');
   ac.textContent='html,body{background:#FFF8E6!important}.app{background:transparent!important}body *{box-shadow:none!important;text-shadow:none!important}'
    +'body.nside-on .app>.top{margin-left:-38px;margin-right:-38px}'
+   +'@media (max-height:700px){.say{font-size:13px!important;line-height:1.45!important;padding:6px 10px!important}}'
    +'.top{background:#FFC93C!important;color:#1C1D21!important;height:48px!important}.top::after,.top::before{display:none!important}.top .ttl{font-family:"Song Myung",serif;font-size:20px;letter-spacing:0;color:#1C1D21}'
    +'.top .snd{display:none!important}.top .na-snd{position:absolute;right:8px;top:calc(7px + env(safe-area-inset-top,0px));z-index:3}'
    +'#pick{display:none!important}'
@@ -247,13 +248,14 @@ window.noriNav=function(o){
   document.head.appendChild(ac);
   var strip=null; if(tp&&tp.parentNode){ strip=document.createElement('div'); strip.className='na-strip'; tp.parentNode.insertBefore(strip,tp.nextSibling); }
   /* 화면이 한 장을 넘으면(골프 · 활쏘기 작은 폰) 「걸린 것」을 머리 막대 왼쪽으로 올림 */
-  function fitStrip(){ if(!strip||!tp||strip.classList.contains('in')) return; if(document.documentElement.scrollHeight-innerHeight>0){ strip.classList.add('in'); tp.appendChild(strip); try{ window.dispatchEvent(new Event('resize')); }catch(e2){} } }
+  function hidden2(){ var bt=bar.getBoundingClientRect().top; return [].slice.call(document.querySelectorAll('.btn,#go,#fire,#act button,.act button')).some(function(e){ var r=e.getBoundingClientRect(); return r.height>0&&r.bottom>bt+1; }); }
+  function fitStrip(){ if(!strip||!tp||strip.classList.contains('in')) return; if(document.documentElement.scrollHeight-innerHeight>0||hidden2()){ strip.classList.add('in'); tp.appendChild(strip); try{ window.dispatchEvent(new Event('resize')); }catch(e2){} } }
   [400,1200,2500].forEach(function(ms){ setTimeout(fitStrip,ms); }); window.addEventListener('resize',function(){ setTimeout(fitStrip,50); });
   function setBet(b){ window.__noriBet=b; window.__noriBetName=b==='none'?'':NA.betName(b); if(strip){ strip.innerHTML='<span>걸린 것 · '+NA.betName(b)+'</span>'; } }
   setBet(NA.bet());
   var pk=document.getElementById('pick'), asked=false;
   function oppName(){ var e=pk&&pk.querySelector('[data-v=cpu1] b'); return e&&e.textContent.trim()?e.textContent.trim():shop()+' 사장님'; }
-  function ask(){ NA.pre({who:!!pk, opp:oppName(), onGo:function(b,w){ asked=true; setBet(b); if(pk){ var x=pk.querySelector('[data-v='+(w==='two'?'two':'cpu1')+']'); if(x) x.click(); } try{ window.dispatchEvent(new Event('resize')); }catch(e2){} },
+  function ask(){ NA.pre({who:!!pk, opp:oppName(), onGo:function(b,w){ asked=true; window.__naTwo=(w==='two'); setBet(b); if(pk){ var x=pk.querySelector('[data-v='+(w==='two'?'two':'cpu1')+']'); if(x) x.click(); } try{ window.dispatchEvent(new Event('resize')); }catch(e2){} },
     onCancel:function(){ asked=false; goHome(); }}); }
   if(pk){ new MutationObserver(function(){ if(pk.classList.contains('on')&&!cd.classList.contains('on')){ asked=false; ask(); } }).observe(pk,{attributes:true,attributeFilter:['class']}); if(pk.classList.contains('on')){ ask(); } }
   else { setTimeout(function(){ if(!asked) ask(); },250); }
