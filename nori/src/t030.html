@@ -50,11 +50,12 @@ button:active{filter:brightness(.93)}
 /* 사방치기 (261123 시안) — 칸은 면 색만, 선 · 그림자 없음 */
 .sb{position:absolute;left:50%;transform:translateX(-50%)}
 .sbc{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#F3E6C8;color:#B59A66;font-weight:900;font-size:17px;transition:background .2s}
-.sbc.tg{background:#FFE08A;color:var(--ink)}.sbc.sky{border-radius:50% 50% 8px 8px;font-size:13px;letter-spacing:.1em}
+.sbc.tg{background:#BFE8C8;color:#1E6B34;flex-direction:column;line-height:1.05}.sbc.tg small{font-size:11px;font-weight:900}.sbc.dn{background:#DCE6FA;color:#2F64E0}.sbc.dn.b{background:#F8DCDC;color:#C23434}
+.aimline{position:absolute;width:4px;margin-left:-2px;transform-origin:50% 100%;z-index:2;background:repeating-linear-gradient(to top,#1E6B34 0 9px,transparent 9px 15px);opacity:.7;display:none}.sbc.sky{border-radius:50% 50% 8px 8px;font-size:13px;letter-spacing:.1em}
 .sbline{position:absolute;height:3px;border-radius:2px;background:#C9A26A}
 .stone{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#8C8578;z-index:3;transition:left .45s cubic-bezier(.3,.7,.4,1),top .45s cubic-bezier(.3,.7,.4,1)}
 .stone.b{background:#9A6A5A}.stone.aim{opacity:.45}
-.sbc.tg{animation:tgp 1.2s ease-in-out infinite}@keyframes tgp{50%{background:#FFD45C}}
+.sbc.tg{animation:tgp 1.2s ease-in-out infinite}@keyframes tgp{50%{background:#9FDCAD}}
 .sbtip{position:absolute;left:8px;right:8px;top:8px;z-index:6;text-align:center;font-size:14px;font-weight:800;line-height:1.45;color:var(--ink);background:#FFF1C2;border-radius:12px;padding:8px 10px;word-break:keep-all}
 .sbtip small{display:block;font-size:12px;font-weight:700;color:var(--sub)}
 .hop{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;z-index:4;display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:900}
@@ -110,8 +111,8 @@ function two(){ return S.mode==='two'; }
 function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
 function snd(k,v){ try{ SND[k](v); }catch(e){} }
 var GN={arm:'팔씨름',yeot:'엿치기',sab:'사방치기',sug:'수건돌리기'}, MID={arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝',sab:'8번까지 먼저 다녀오면 이김',sug:'3점 먼저 내면 이김'}, CODE={arm:'aw',yeot:'yt',sab:'sb',sug:'sg'};
-var RULE={arm:['두 팔이 맞잡고 시작합니다. <b>「힘!」 단추를 꾹 누르면 힘이 차고, 빨리빨리 누르면 더 세집니다.</b>','양옆 기둥이 각자의 힘입니다. 힘이 센 쪽으로 손이 넘어갑니다.','상대 손등을 탁자까지 넘기면 이깁니다. 친구와 할 때는 한 폰으로 동시에 누릅니다.'],
-  sab:['<b>돌은 「이번에 다녀올 칸」 표시</b>입니다. 1번 칸부터 차례로 돌을 넣고, 넣으면 깡충깡충 하늘까지 다녀옵니다(돌 든 칸은 건너뜀).','<b>던지는 법:</b> 단추를 꾹 누르고 있으면 흐린 돌이 출발선에서 앞으로 나아갑니다. 오래 누를수록 멀리 갑니다. <b>흐린 돌이 노란 칸 안에 들어왔을 때 손을 떼면</b> 그 자리에 떨어집니다. 하늘 끝까지 가도록 누르고 있으면 넘칩니다.','1번에 넣으면 다음은 2번, 3번 … <b>8번까지</b> 차례로. 넣으면 계속 던지고, 빗나가면 차례가 넘어갑니다. <b>8번까지 먼저 다 다녀오면</b> 이깁니다.'],
+var RULE={arm:['두 사람이 손을 맞잡아요. <b>「준비 … 시작!」</b> 하면 힘을 써요.','<b>힘 주는 법: 단추를 빠르게 톡톡톡 두드려요.</b> 빨리 칠수록 힘이 세져요. 꾹 누르고만 있으면 힘이 안 들어가요.','양옆 기둥이 각자의 힘이에요(나 = 왼쪽 파랑). 힘이 센 쪽으로 손이 넘어가요.','상대 손등을 탁자까지 넘기면 이겨요. 친구와 할 때는 한 폰으로 각자 자기 단추를 두드려요.'],
+  sab:['<b>번호 순서대로 던져요.</b> 1번 칸 → 2번 칸 → … → 8번 칸. 이번에 던질 칸은 <b style="color:#1E6B34">초록 「여기!」</b> 칸이에요.','<b>① 방향:</b> 초록 줄이 왼쪽 오른쪽으로 흔들려요. 줄이 초록 칸을 가리킬 때 단추를 톡 눌러 멈춰요.','<b>② 힘:</b> 단추를 꾹 누르고 있으면 흐린 돌이 줄을 따라 앞으로 가요. 돌이 초록 칸 안에 오면 손을 떼요. 그러면 돌이 날아가요.','돌이 칸 안에 쏙 들어가면 깡충깡충 하늘까지 다녀와요(저절로). 그리고 다음 번호를 또 던져요. 빗나가면 상대 차례예요.','<b>8번 칸까지 먼저 다녀오면 이겨요!</b>'],
   sug:['둥글게 앉은 자리 둘레를 <b>술래가 수건을 들고</b> 돕니다.','술래가 <b>몰래 수건을 떨어뜨립니다.</b> 내 자리 뒤에 떨어졌으면 술래가 한 바퀴 돌아오기 전에 <b>「내 뒤에 수건!」</b>을 누르세요.','알아채면 1점 · 놓치거나 괜히 누르면 상대 1점. <b>3점 먼저</b> 내면 이깁니다.'],
   yeot:['엿 세 개 중 하나를 고릅니다. 상대는 남은 것 중 하나를 고릅니다.','아래 단추를 <b>꾹 눌러 엿을 휘었다가 놓으면 「뚝!」</b> 부러집니다. 덜 휘면 다시.','부러진 단면의 <b>구멍이 큰 쪽</b>이 이깁니다. <b>두 번 먼저 이기면</b> 끝.']};
 function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
@@ -135,21 +136,42 @@ function armDraw(){ var st=$('board'), w=st.clientWidth, h=st.clientHeight, ey=h
   var ea={x:w*.17,y:ey}, eb={x:w*.83,y:ey}; $('elbA').style.left=(ea.x-17)+'px'; $('elbB').style.left=(eb.x-17)+'px';
   function fore(el,e){ var dx=gx-e.x, dy=gy-e.y, L=Math.hypot(dx,dy); el.style.left=e.x+'px'; el.style.top=(e.y-15)+'px'; el.style.width=L+'px'; el.style.transform='rotate('+Math.atan2(dy,dx)+'rad)'; }
   fore($('foreA'),ea); fore($('foreB'),eb); g.style.left=gx+'px'; g.style.top=gy+'px'; g.style.transform='rotate('+(A.x*60)+'deg)'; }
-function armStart(){ A={on:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,t:0,cr:5.6+Math.random()*1.6,gen:S.gen}; HOLD={a:false,b:false}; S.u='판';
+/* 팔씨름 v3 (261123 19:13 대표 결정): 힘 = 빠르게 톡톡톡 두드리기(한 번 칠 때마다 확실히 잡힘) · 「꾹」 말 모두 뺌
+   흐름: 미리 보기(3.5초 · 건너뛰기) → 손 맞잡고 「준비…」(팔 떨림) → 「시작!」 → 그때부터 두드리기 · 누르고만 있으면 바로 알려 줌 · 사장님 1초에 4.5~6번 */
+function armStart(){ A={on:false,ready:false,x:0,pa:0,pb:0,raf:0,last:0,cpuT:0,t:0,cr:4.5+Math.random()*1.5,gen:S.gen,lastTap:{a:0,b:0},holdT:{a:0,b:0},warn:0}; HOLD={a:false,b:false}; S.u='판';
   $('board').innerHTML='<span class="mark a">나</span><span class="mark b">'+esc(nm(1))+'</span><div class="table"></div><div class="elb" id="elbA"></div><div class="elb" id="elbB"></div><div class="fore a" id="foreA"></div><div class="fore b" id="foreB"></div><div class="grip" id="grip">🤝</div>';
-  $('act').innerHTML='<div class="tap"><button class="a" type="button" id="armA">나 · 힘!</button><button class="b" type="button" id="armB"'+(two()?'':' disabled')+'>'+(two()?'친구 · 힘!':'사장님 (자동)')+'</button></div>';
-  $('say').innerHTML=two()?'<b>둘이 동시에 「힘!」</b> · 꾹 누르고 빨리빨리 또 누르기':'<b>「힘!」 꾹 누르고 빨리빨리 또 누르기</b> · 왼쪽 기둥이 내 힘';
+  $('act').innerHTML='<div class="tap"><button class="a" type="button" id="armA">나 · 톡톡톡!</button><button class="b" type="button" id="armB"'+(two()?'':' disabled')+'>'+(two()?'친구 · 톡톡톡!':'사장님 (자동)')+'</button></div>';
   requestAnimationFrame(armDraw); vs(0);
-  function down(side){ return function(e){ e.preventDefault(); if(S.over) return; NA.unpoint(); HOLD[side]=true; armPush(side); }; }
+  function down(side){ return function(e){ e.preventDefault(); if(S.over) return; NA.unpoint(); HOLD[side]=true; A.holdT[side]=performance.now(); armPush(side); }; }
   function up(side){ return function(){ HOLD[side]=false; }; }
   var ba=$('armA'), bb=$('armB'); ba.addEventListener('pointerdown',down('a')); bb.addEventListener('pointerdown',function(e){ if(two()) down('b')(e); });
   ['pointerup','pointercancel','pointerleave'].forEach(function(t){ ba.addEventListener(t,up('a')); bb.addEventListener(t,up('b')); });
-  setTimeout(function(){ if(!A.on&&$('armA')) NA.point($('armA'),'꾹 누르고 · 빨리빨리 또 누르기',.5,.4); },150); }
-function armPush(side){ if(!$('grip')) return; if(!A.on){ A.on=true; A.last=performance.now(); A.raf=requestAnimationFrame(armLoop); } if(side==='a') A.pa=Math.min(1,A.pa+.12); else A.pb=Math.min(1,A.pb+.12); snd('clack',.35); }
+  armDemo(armReady); }
+/* 미리 보기: 손가락이 톡톡톡 → 내 기둥이 올라가고 → 팔이 넘어감 */
+function armDemo(done){ var g=S.gen, bd=$('board'), tip=document.createElement('div'), stopped=false; tip.className='sbtip'; bd.appendChild(tip);
+  tip.innerHTML=(two()?'각자 자기 단추를 <b>빠르게 톡톡톡</b> 두드려요':'파란 단추를 <b>빠르게 톡톡톡</b> 두드려요')+'<small>빨리 칠수록 힘이 세져요 · 꾹 누르고만 있으면 힘이 안 들어가요</small>';
+  $('say').innerHTML='<b>미리 보기</b> · 화면을 누르면 건너뛰어요';
+  function end(){ if(stopped) return; stopped=true; bd.removeEventListener('pointerdown',end); if(tip.parentNode) tip.remove(); A.x=0; A.pa=0; col('l',{pw:0,on:null}); armDraw(); if(g===S.gen) done(); }
+  bd.addEventListener('pointerdown',end); NA.point($('armA'),'여기를 빠르게 톡톡톡!',.5,.4);
+  var t0=performance.now(), k=0; (function lp(){ if(stopped||g!==S.gen) return; var t=(performance.now()-t0)/1000;
+    if(t*7>k){ k++; A.pa=Math.min(1,A.pa+.12); snd('clack',.2); var b=$('armA'); if(b){ b.style.filter='brightness(.85)'; setTimeout(function(){ if(b) b.style.filter=''; },60); } }
+    A.pa=Math.max(0,A.pa-A.pa*.016*1.5); A.x=Math.max(-.55,-t*.18); col('l',{pw:A.pa,on:true}); armDraw(); if(t<3.6) requestAnimationFrame(lp); else { NA.unpoint(); end(); } })(); }
+/* 준비 … 시작! — 손 맞잡고 팔이 부르르 떨다가 시작 */
+function armReady(){ var g=S.gen, t0=performance.now(); A.ready=false; $('say').innerHTML='손 맞잡고 … <b>준비</b>'; fx('준비',44); snd('stone',.5);
+  (function lp(){ if(g!==S.gen) return; var t=(performance.now()-t0)/1000; A.x=Math.sin(t*40)*.025; armDraw();
+    if(t<1.6){ requestAnimationFrame(lp); return; } A.x=0; armDraw(); A.ready=true; fx('시작!',56); snd('thud',.8);
+    $('say').innerHTML=two()?'<b>둘 다 자기 단추를 빠르게 톡톡톡!</b> · 빨리 칠수록 힘이 세져요':'<b>파란 단추를 빠르게 톡톡톡!</b> · 빨리 칠수록 왼쪽 기둥(내 힘)이 올라가요';
+    A.on=true; A.last=performance.now(); A.raf=requestAnimationFrame(armLoop); NA.point($('armA'),'빠르게 톡톡톡!',.5,.4); setTimeout(function(){ NA.unpoint(); },1600); })(); }
+function armPush(side){ if(!$('grip')) return;
+  if(!A.ready){ $('say').innerHTML='<em>아직이에요!</em> 「시작!」 하면 두드려요'; return; }
+  A.lastTap[side]=performance.now(); if(side==='a') A.pa=Math.min(1,A.pa+.12); else A.pb=Math.min(1,A.pb+.12); snd('clack',.35); }
 function armLoop(){ if(A.gen!==S.gen) return; var now=performance.now(), dt=Math.min(.05,(now-A.last)/1000); A.last=now;
-  /* 힘 = 누르는 빠르기(누를 때마다 +.12, 힘은 늘 빠져나감) · 꾹 누르기만 하면 바닥 힘 .15 뿐 — 둘 다 꽉 차서 비기는 일이 없게(261123 고침) */
+  /* 힘 = 두드리는 빠르기(칠 때마다 +.12, 힘은 늘 조금씩 빠져나감) · 누르고만 있으면 힘이 안 들어감 */
   A.t+=dt; if(!two()){ A.cpuT+=dt; if(A.cpuT>1/A.cr*(.8+Math.random()*.4)){ A.cpuT=0; A.pb=Math.min(1,A.pb+.12); } }
-  A.pa=Math.max(HOLD.a?.15:0,A.pa-A.pa*dt*1.5); A.pb=Math.max((HOLD.b||!two())?.15:0,A.pb-A.pb*dt*1.5); col('l',{pw:A.pa,on:A.pa>A.pb}); col('r',{pw:A.pb,on:A.pb>A.pa});
+  A.pa=Math.max(0,A.pa-A.pa*dt*1.5); A.pb=Math.max(0,A.pb-A.pb*dt*1.5); col('l',{pw:A.pa,on:A.pa>A.pb}); col('r',{pw:A.pb,on:A.pb>A.pa});
+  /* 누르고만 있으면 바로 알려 줌 (0.6초 넘게 누른 채 새로 안 침) */
+  ['a','b'].forEach(function(sd){ if(HOLD[sd]&&now-A.lastTap[sd]>600&&now-A.warn>2000){ A.warn=now; $('say').innerHTML='<em>'+(sd==='a'?(two()?'나':''):'친구')+' 누르고만 있으면 힘이 안 들어가요!</em> <b>떼었다 붙였다 톡톡톡!</b>'; } });
+  if(now-A.warn>2200&&A.warn){ A.warn=0; $('say').innerHTML=two()?'<b>둘 다 자기 단추를 빠르게 톡톡톡!</b>':'<b>파란 단추를 빠르게 톡톡톡!</b> · 왼쪽 기둥이 내 힘'; }
   /* 8초가 지나면 앞선 쪽으로 조금씩 더 기움(지쳐 무너짐) · 20초면 기운 쪽 승 */
   A.x+=(A.pb-A.pa)*dt*1.6 + (A.t>8?A.x*dt*.5+(Math.random()-.5)*dt*.25:0); A.x=Math.max(-1,Math.min(1,A.x)); if(A.t>20&&Math.abs(A.x)<1) A.x=A.x<=0?-1:1; armDraw();
   if(Math.abs(A.x)>=1){ A.on=false; var meWin=A.x<=-1; snd('thud',1); fx(meWin?'쾅! 이겼다':(two()?'쾅! 친구 승':'쾅! 졌다'),38);
@@ -190,68 +212,84 @@ function ysnap(){ if(!Y.hold) return; Y.hold=false; cancelAnimationFrame(yraf); 
       else { go.disabled=false; go.textContent='다음 판'; Y.next=true; } })(); },300); }
 
 
-/* ───────── 사방치기 (261123 시안) ─────────
-   칸 줄: 1 · 2 · 3 · 4|5 · 6 · 7|8 · 하늘 (아래에서 위로). 돌 던지기 = 꾹 누르면 돌이 오르내리고(1.5초 왕복) 놓은 곳에 떨어짐.
-   과녁 칸(노랑)에 들어가면 깨금발로 다녀오고 다음 칸 · 계속 던짐 · 못 넣으면 차례 넘김 · 8칸 먼저 끝내면 승. 사장님 넣을 확률 55%(중수). */
+/* ───────── 사방치기 (261123 시안 · 18:49 대표 의견 반영 v2) ─────────
+   칸 줄: 1 · 2 · 3 · 4|5 · 6 · 7|8 · 하늘. 던지기 = ① 방향(초록 줄이 좌우로 흔들림 → 톡 눌러 멈춤) ② 힘(꾹 누르면 흐린 돌이 줄 따라 나감 → 떼면 날아감).
+   떨어진 자리가 정확히 그 번호 칸 안이어야 성공(4 · 5 도 따로). 과녁 = 초록 「여기!」(홈 단추 노랑과 구분). 사장님 넣을 확률 55%(중수). */
 var B={}, sraf=0, ROWOF=[0,1,2,3,3,4,5,5];
-function sabStart(){ B={st:[0,0],turn:0,busy:false,hold:false,g:0,gen:S.gen}; S.u='칸'; S.sc=[0,0];
-  $('board').innerHTML='<div class="sb" id="sbg"></div><div class="stone" id="stone"></div><div class="hop" id="hop"></div>';
-  $('act').innerHTML='<button class="big" type="button" id="sbGo">꾹 누르기 · 노란 칸에서 놓기</button>';
-  var go=$('sbGo'); go.addEventListener('pointerdown',sabHold); ['pointerup','pointercancel','pointerleave'].forEach(function(t){ go.addEventListener(t,sabLet); });
-  sabLay(); sabDemo(function(){ sabTurn(); setTimeout(function(){ if($('sbGo')&&!B.busy&&B.turn===0) NA.point($('sbGo'),'꾹 누르고 · 노란 칸에서 떼기',.5,.4); },150); }); }
+function sabStart(){ B={st:[0,0],turn:0,busy:true,hold:false,ph:'dir',ang:0,gen:S.gen,R:{},tipd:0,tipp:0}; S.u='칸'; S.sc=[0,0];
+  $('board').innerHTML='<div class="sb" id="sbg"></div><div class="aimline" id="sbaim"></div><div class="stone" id="stone"></div><div class="hop" id="hop"></div>';
+  $('act').innerHTML='<button class="big" type="button" id="sbGo">① 방향 멈추기</button>';
+  var go=$('sbGo'); go.addEventListener('pointerdown',sabDown); ['pointerup','pointercancel','pointerleave'].forEach(function(t){ go.addEventListener(t,sabLet); });
+  sabLay(); sabDemo(function(){ sabTurn(); }); }
 function sabGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight, gw=Math.min(w*.62,220), rh=Math.min((h-84)/7.4,60), x0=(w-gw)/2, base=h-26; return {w:w,h:h,gw:gw,rh:rh,x0:x0,base:base}; }
-function rowY(G,r){ return G.base-(r+.5)*G.rh; }   /* r=-1 줄 앞 · 0~5 칸 줄 · 6 하늘 */
-function sabLay(){ var G=sabGeo(), g=$('sbg'); if(!g) return; var h='', gap=4, half=(G.gw-gap)/2;
-  function cell(n,x,y,wd,cls){ h+='<div class="sbc'+(cls||'')+'" data-n="'+n+'" style="left:'+x+'px;top:'+y+'px;width:'+wd+'px;height:'+(G.rh-gap)+'px">'+(n==='sky'?'하늘':n)+'</div>'; }
+function rowY(G,r){ return G.base-(r+.5)*G.rh; }
+function S0(G){ return {x:G.w/2,y:G.base+18}; }
+function Dmax(G){ return G.base+18-(G.base-7*G.rh); }
+function ptAt(G,a,q){ var o=S0(G), d=q*Dmax(G); return {x:o.x+Math.sin(a)*d,y:o.y-Math.cos(a)*d}; }
+function sabLay(){ var G=sabGeo(), g=$('sbg'); if(!g) return; var h='', gap=4, half=(G.gw-gap)/2; B.R={};
+  function cell(n,x,y,wd,cls){ B.R[n]={x:x,y:y,w:wd,h:G.rh-gap}; h+='<div class="sbc'+(cls||'')+'" data-n="'+n+'" style="left:'+x+'px;top:'+y+'px;width:'+wd+'px;height:'+(G.rh-gap)+'px">'+(n==='sky'?'하늘':n)+'</div>'; }
   var rows=[[1],[2],[3],[4,5],[6],[7,8]];
   rows.forEach(function(r,i){ var y=G.base-(i+1)*G.rh+gap/2; if(r.length===1) cell(r[0],G.x0+G.gw*.2,y,G.gw*.6); else { cell(r[0],G.x0,y,half); cell(r[1],G.x0+half+gap,y,half); } });
   cell('sky',G.x0+G.gw*.15,G.base-7*G.rh+gap/2,G.gw*.7,' sky');
   h+='<div class="sbline" style="left:'+(G.x0-10)+'px;width:'+(G.gw+20)+'px;top:'+(G.base+6)+'px"></div>';
   g.style.cssText='left:0;top:0;width:'+G.w+'px;height:'+G.h+'px;transform:none'; g.innerHTML=h; sabMark(); }
 function tgtN(){ return B.st[B.turn]+1; }
-function sabMark(){ var cs=document.querySelectorAll('#sbg .sbc'); for(var i=0;i<cs.length;i++) cs[i].classList.toggle('tg', +cs[i].getAttribute('data-n')===tgtN()); }
-function cellPt(n){ var G=sabGeo(), r=ROWOF[n-1], x=G.w/2; if(n===4||n===7) x=G.x0+G.gw*.25; if(n===5||n===8) x=G.x0+G.gw*.75; return {x:x,y:rowY(G,r)}; }
+function sabMark(){ var cs=document.querySelectorAll('#sbg .sbc'), t=tgtN(), done=B.st[B.turn]||0;
+  for(var i=0;i<cs.length;i++){ var n=+cs[i].getAttribute('data-n'), on=n===t; if(isNaN(n)) continue;
+    cs[i].className='sbc'+(on?' tg':(n<=done?' dn'+(B.turn===1?' b':''):'')); cs[i].innerHTML=on?n+'<small>여기!</small>':(n<=done?n+'✓':n); } }
+function cellPt(n){ var r=B.R[n]; return r?{x:r.x+r.w/2,y:r.y+r.h/2}:{x:0,y:0}; }
+function hitN(p){ for(var k in B.R){ var r=B.R[k]; if(p.x>=r.x+2&&p.x<=r.x+r.w-2&&p.y>=r.y+2&&p.y<=r.y+r.h-2) return k; } return null; }
 function stoneAt(x,y,b){ var s=$('stone'); if(!s) return; s.className='stone'+(b?' b':''); s.style.left=x+'px'; s.style.top=y+'px'; }
-function sabTurn(){ if(S.over) return; B.busy=false; sabMark(); vs(B.turn); S.sc=[B.st[0],B.st[1]];
-  var G=sabGeo(); var s=$('stone'); s.style.transition='none'; stoneAt(G.w/2,G.base+18,B.turn===1); void s.offsetWidth; s.style.transition='';
-  var who=B.turn===0?'<b>내 차례</b>':'<em>'+esc(nm(1))+' 차례</em>';
-  $('say').innerHTML=who+' · 돌을 <b>'+tgtN()+'번 칸</b>(노랑)에 넣기 <small style="display:block;font-size:12px">꾹 누르면 흐린 돌이 나아가요 · 노란 칸 안에서 떼기</small>';
-  var go=$('sbGo'); if(!go) return;
-  if(B.turn===1&&!two()){ go.disabled=true; go.textContent=nm(1)+' 던지는 중…'; var g=S.gen; setTimeout(function(){ if(g===S.gen) sabCpu(); },900); }
-  else { go.disabled=false; go.textContent=(two()?(B.turn===0?'나':'친구')+' · ':'')+'꾹 누르기 · 노란 칸에서 놓기'; } }
-/* 오르내림: 0 = 줄 앞(못 미침) · 1~6 = 칸 줄 · 7 = 하늘(넘침) — 8구간 */
-function aimY(G,q){ return G.base+18-q*(G.base+18-(G.base-7*G.rh)); }   /* q 0 = 출발선 · 1 = 하늘 끝 */
-function rowFromY(G,y){ if(y>G.base) return -1; return Math.min(7,Math.floor((G.base-y)/G.rh)); }   /* 보이는 자리 그대로 판정 (261123 고침 — 전에는 어긋남) · 7 = 하늘 넘침 */
-function sabHold(e){ if(this.disabled||S.over||B.busy) return; if(B.turn===1&&!two()) return; e.preventDefault(); NA.unpoint(); B.hold=true; var t0=performance.now(), G=sabGeo(), pc=B.turn===0?'l':'r';
-  (function lp(){ if(!B.hold) return; var q=(performance.now()-t0)/2600; if(q>=1){ B.q=1; sabLet(); return; } B.q=q; var y=aimY(G,q);   /* 꾹 = 힘 모음 · 2.6초면 하늘 끝 — 되돌아오지 않음(261123 고침) */
-    var s=$('stone'); if(s){ s.style.transition='none'; stoneAt(G.w/2,y,B.turn===1); s.classList.add('aim'); } col(pc,{pw:q,on:true}); sraf=requestAnimationFrame(lp); })(); }
-function sabLet(){ if(!B.hold) return; B.hold=false; cancelAnimationFrame(sraf); var s=$('stone'); if(s) s.style.transition=''; var G=sabGeo(), r=B.q>=1?7:rowFromY(G,aimY(G,B.q||0)); sabLand(r); }
-function sabCpu(){ if(S.over) return; var want=ROWOF[tgtN()-1], hit=Math.random()<.55, r=hit?want:want+(Math.random()<.5?-1:1); r=Math.max(-1,Math.min(7,r));
-  /* 사장님도 흐린 돌이 나아가는 것을 보여 주고 던짐 */
-  var G=sabGeo(), t0=performance.now(), endQ=Math.min(1,Math.max(.03,(G.base+18-rowY(G,Math.min(6,r)))/(G.base+18-(G.base-7*G.rh)))), g=S.gen, s=$('stone');
-  (function lp(){ if(g!==S.gen) return; var q=Math.min(endQ,(performance.now()-t0)/2600); if(s){ s.style.transition='none'; stoneAt(G.w/2,aimY(G,q),true); s.classList.add('aim'); } col('r',{pw:q,on:true}); if(q<endQ){ requestAnimationFrame(lp); return; } if(s) s.style.transition=''; sabLand(r); })(); }
-function sabLand(r){ B.busy=true; var go=$('sbGo'); if(go) go.disabled=true; var G=sabGeo(), n=tgtN(), want=ROWOF[n-1], hit=r===want, p=hit?cellPt(n):{x:G.w/2+(Math.random()-.5)*G.gw*.4,y:r>=7?G.base-7*G.rh+8:rowY(G,r)};
-  stoneAt(p.x,p.y,B.turn===1); snd('stone',.7); col('l',{pw:0,on:B.turn===0?false:null}); col('r',{pw:0,on:B.turn===1?false:null}); var g=S.gen;
+function aimDraw(a,show){ var el=$('sbaim'); if(!el) return; var G=sabGeo(), o=S0(G), L=Dmax(G); el.style.display=show?'block':'none'; el.style.left=o.x+'px'; el.style.top=(o.y-L)+'px'; el.style.height=L+'px'; el.style.transform='rotate('+a+'rad)'; }
+function swingA(t){ return .42*Math.sin(t*6.283/1.9); }   /* 1.9초에 한 번 왕복 */
+function goTxt(t){ var go=$('sbGo'); if(go) go.textContent=(two()?(B.turn===0?'나':'친구')+' · ':'')+t; }
+function sabTurn(){ if(S.over) return; B.busy=false; B.ph='dir'; B.hold=false; sabMark(); vs(B.turn); S.sc=[B.st[0],B.st[1]];
+  var G=sabGeo(), s=$('stone'); s.style.transition='none'; stoneAt(G.w/2,G.base+18,B.turn===1); void s.offsetWidth; s.style.transition='';
+  var who=B.turn===0?'<b style="color:var(--blu)">내 차례</b>':'<em>'+esc(nm(1))+' 차례</em>';
+  $('say').innerHTML=who+' · <b style="color:#1E6B34">'+tgtN()+'번 칸</b>에 던져요 <small style="display:block;font-size:12px">① 줄이 초록 칸을 가리킬 때 톡 → ② 꾹 눌렀다 떼기</small>';
+  var go=$('sbGo'); if(!go) return; var g=S.gen, t0=performance.now();
+  (function sw(){ if(g!==S.gen||B.ph!=='dir'||B.busy||B.cpu) return; B.ang=swingA((performance.now()-t0)/1000); aimDraw(B.ang,true); sraf=requestAnimationFrame(sw); })();
+  if(B.turn===1&&!two()){ go.disabled=true; go.textContent=nm(1)+' 던지는 중…'; setTimeout(function(){ if(g===S.gen) sabCpu(); },600); }
+  else { go.disabled=false; goTxt('① 방향 멈추기'); if(!B.tipd&&B.turn===0){ B.tipd=1; setTimeout(function(){ if(B.ph==='dir'&&$('sbGo')) NA.point($('sbGo'),'줄이 초록 칸을 가리킬 때 누르기',.5,.4); },200); } } }
+function sabDown(e){ if(this.disabled||S.over||B.busy) return; if(B.turn===1&&!two()) return; e.preventDefault(); NA.unpoint();
+  if(B.ph==='dir'){ B.ph='pow'; cancelAnimationFrame(sraf); aimDraw(B.ang,true); snd('clack',.3); goTxt('② 꾹 누르기 → 떼면 던지기');
+    if(!B.tipp&&B.turn===0){ B.tipp=1; NA.point($('sbGo'),'꾹 누르고 · 돌이 초록 칸에 오면 떼기',.5,.4); } return; }
+  if(B.ph!=='pow') return; B.hold=true; var t0=performance.now(), G=sabGeo(), pc=B.turn===0?'l':'r', s=$('stone');
+  (function lp(){ if(!B.hold) return; var q=(performance.now()-t0)/2600; if(q>=1){ B.q=1.06; sabLet(); return; } B.q=q; var p=ptAt(G,B.ang,q);
+    s.style.transition='none'; stoneAt(p.x,p.y,B.turn===1); s.classList.add('aim'); col(pc,{pw:q,on:true}); sraf=requestAnimationFrame(lp); })(); }
+function sabLet(){ if(!B.hold) return; B.hold=false; cancelAnimationFrame(sraf); NA.unpoint(); sabThrow(B.ang,B.q||0); }
+/* 날아가기: 출발선 → 떨어질 자리 (돌이 떴다 내려앉듯 커졌다 작아짐) */
+function sabThrow(a,q,cb){ B.busy=true; B.ph='fly'; var go=$('sbGo'); if(go) go.disabled=true; aimDraw(a,false); var G=sabGeo(), o=S0(G), p=ptAt(G,a,q), s=$('stone'), t0=performance.now(), g=S.gen;
+  s.className='stone'+(B.turn===1?' b':''); s.style.transition='none'; col('l',{pw:0,on:B.turn===0?false:null}); col('r',{pw:0,on:B.turn===1?false:null}); snd('stone',.5);
+  (function fl(){ if(g!==S.gen) return; var k=Math.min(1,(performance.now()-t0)/520), e=1-Math.pow(1-k,2); s.style.left=(o.x+(p.x-o.x)*e)+'px'; s.style.top=(o.y+(p.y-o.y)*e)+'px'; s.style.transform='scale('+(1+.8*Math.sin(Math.PI*k))+')';
+    if(k<1){ requestAnimationFrame(fl); return; } s.style.transform=''; s.style.transition=''; if(cb) cb(p); else sabLand(p); })(); }
+function sabLand(p){ var n=tgtN(), r=B.R[n], h=hitN(p), hit=String(h)===String(n), g=S.gen, go=$('sbGo'); snd('stone',.8);
   setTimeout(function(){ if(g!==S.gen) return;
-    if(!hit){ fx(r<want?'모자라!':'넘쳤다!',34); $('say').innerHTML=(r<want?'<em>덜 갔어요</em> · 조금 더 오래 누르세요':'<em>더 갔어요</em> · 조금 일찍 떼세요')+' · 차례가 넘어갑니다'; setTimeout(function(){ if(g!==S.gen) return; B.turn=1-B.turn; sabTurn(); },1100); return; }
+    if(!hit){ var why= p.y>r.y+r.h ? ['모자라!','<em>덜 갔어요</em> · 다음엔 조금 더 오래 꾹'] : (p.y<r.y ? ['넘쳤다!','<em>너무 멀리 갔어요</em> · 다음엔 조금 일찍 떼기'] : ['옆으로!','<em>옆으로 빗나갔어요</em> · 줄을 초록 칸에 더 잘 맞추기']);
+      fx(why[0],34); $('say').innerHTML=why[1]+' · 이제 '+(B.turn===0?esc(two()?'친구':nm(1)):'나')+' 차례'; setTimeout(function(){ if(g!==S.gen) return; B.turn=1-B.turn; sabTurn(); },1400); return; }
     fx('쏙!',48); sabHops(n,function(){ if(g!==S.gen) return; B.st[B.turn]=n; S.sc=[B.st[0],B.st[1]]; vs(B.turn);
       if(n>=8){ var meWin=B.turn===0; fx(meWin?'다 갔다!':(two()?'친구 다 갔다!':'졌다…'),36); if(go) go.disabled=true; setTimeout(function(){ if(g===S.gen) finish(meWin,B.st[0],B.st[1]); },700); return; }
-      $('say').innerHTML='<b>'+n+'번 칸 다녀왔다!</b> 이제 '+(n+1)+'번 칸 · 한 번 더'; setTimeout(function(){ if(g===S.gen) sabTurn(); },900); }); },520); }
-
-/* 미리 보기 (261123 대표 「이해를 시키고 할 수 있게」) — 판 시작 전 한 번 저절로 · 건너뛰기 */
-function sabDemo(done){ var g=S.gen, G=sabGeo(), bd=$('board'), go=$('sbGo'), tip=document.createElement('div'), steps, i=0, stopped=false; tip.className='sbtip'; bd.appendChild(tip);
-  B.busy=true; go.disabled=false; go.textContent='건너뛰기 · 바로 하기'; vs(null);
-  $('say').innerHTML='<b>미리 보기</b> · 어떻게 하는지 먼저 보여 드려요';
-  function end(){ if(stopped) return; stopped=true; go.removeEventListener('click',skip); if(tip.parentNode) tip.remove(); var hp=$('hop'); if(hp) hp.className='hop'; B.busy=false; if(g===S.gen) done(); }
+      $('say').innerHTML='<b>'+n+'번 칸 다녀왔다!</b> 이제 <b style="color:#1E6B34">'+(n+1)+'번 칸</b> · 한 번 더'; setTimeout(function(){ if(g===S.gen) sabTurn(); },900); }); },380); }
+/* 사장님: 줄을 흔들다 멈추고 → 꾹 → 던짐 (하는 것이 다 보이게) */
+function sabCpu(){ if(S.over) return; B.cpu=1; var G=sabGeo(), n=tgtN(), r=B.R[n], o=S0(G), hit=Math.random()<.55, x=r.x+r.w*(.35+Math.random()*.3), y=r.y+r.h*(.3+Math.random()*.4);
+  if(!hit){ var m=Math.floor(Math.random()*3); if(m===0) y=r.y+r.h+10; else if(m===1) y=r.y-10; else x=(Math.random()<.5)?r.x-12:r.x+r.w+12; }
+  var a=Math.atan2(x-o.x,o.y-y), q=Math.hypot(x-o.x,o.y-y)/Dmax(G), g=S.gen, t0=performance.now(), s=$('stone');
+  (function sw(){ if(g!==S.gen) return; var t=(performance.now()-t0)/1000; if(t<1.1){ aimDraw(swingA(t)*(1-t/1.1)+a*(t/1.1),true); requestAnimationFrame(sw); return; } aimDraw(a,true); var t1=performance.now();
+    (function pw(){ if(g!==S.gen) return; var k=Math.min(q,(performance.now()-t1)/2600), p=ptAt(G,a,k); s.style.transition='none'; stoneAt(p.x,p.y,true); s.classList.add('aim'); col('r',{pw:k,on:true}); if(k<q){ requestAnimationFrame(pw); return; } B.cpu=0; sabThrow(a,q); })(); })(); }
+/* 미리 보기 — 판 시작 전 한 번 저절로 · 건너뛰기 (초등학생도 알게) */
+function sabDemo(done){ var g=S.gen, G=sabGeo(), bd=$('board'), go=$('sbGo'), tip=document.createElement('div'), i=0, stopped=false; tip.className='sbtip'; bd.appendChild(tip);
+  B.busy=true; go.disabled=false; go.textContent='건너뛰기 · 바로 하기'; vs(null); $('say').innerHTML='<b>미리 보기</b> · 어떻게 하는지 먼저 보여 줄게요';
+  function end(){ if(stopped) return; stopped=true; go.removeEventListener('click',skip); if(tip.parentNode) tip.remove(); var hp=$('hop'); if(hp) hp.className='hop'; aimDraw(0,false); if(g===S.gen) done(); }
   function skip(e){ e.preventDefault(); end(); } go.addEventListener('click',skip);
-  var s=$('stone');
-  steps=[
-   [1600,'① 돌은 「이번에 다녀올 칸」 표시예요<small>1번 칸부터 차례로 · 노란 칸이 이번 칸</small>',function(){ s.style.transition='none'; stoneAt(G.w/2,G.base+18,false); }],
-   [2000,'② 단추를 꾹 누르면 흐린 돌이 앞으로 나가요<small>오래 누를수록 멀리 · 하늘 끝까지 가면 넘쳐요</small>',function(){ var t0=performance.now(), endQ=(G.base+18-rowY(G,0))/(G.base+18-(G.base-7*G.rh)); (function lp(){ if(stopped||g!==S.gen) return; var q=Math.min(endQ,(performance.now()-t0)/2600); s.style.transition='none'; stoneAt(G.w/2,aimY(G,q),false); s.classList.add('aim'); col('l',{pw:q,on:true}); if(q<endQ) requestAnimationFrame(lp); })(); }],
-   [1500,'③ 노란 칸 안에서 손을 떼면 「쏙!」',function(){ s.style.transition=''; var p=cellPt(1); stoneAt(p.x,p.y,false); col('l',{pw:0,on:false}); snd('stone',.7); fx('쏙!',48); }],
-   [2600,'④ 깡충깡충 하늘까지 갔다 돌아와요<small>돌 든 칸은 건너뛰고 · 저절로 뛰어요</small>',function(){ B.turn=0; sabHops(1,function(){}); }],
-   [2200,'⑤ 다음엔 2번, 3번 … 8번까지<small>넣으면 계속 · 빗나가면 상대 차례 · 8번까지 먼저 다녀오면 이겨요</small>',function(){ var hp=$('hop'); if(hp) hp.className='hop'; s.style.transition='none'; stoneAt(G.w/2,G.base+18,false); }]];
-  (function nx(){ if(stopped||g!==S.gen) return; if(i>=steps.length){ tip.innerHTML='이제 해 보세요!'; setTimeout(end,900); return; } var st=steps[i++]; tip.innerHTML=st[1]; st[2](); setTimeout(nx,st[0]); })(); }
+  var s=$('stone'), o=S0(G), c1=cellPt(1), a1=Math.atan2(c1.x-o.x,o.y-c1.y), q1=Math.hypot(c1.x-o.x,o.y-c1.y)/Dmax(G);
+  var steps=[
+   [2200,'① 번호 순서대로 던져요<small>1번 → 2번 → … → 8번 · 이번 칸은 초록 「여기!」</small>',function(){ s.style.transition='none'; stoneAt(o.x,o.y,false); }],
+   [2600,'② 초록 줄이 왼쪽 오른쪽으로 흔들려요<small>줄이 초록 칸을 가리킬 때 단추를 톡!</small>',function(){ var t0=performance.now(); (function sw(){ if(stopped||g!==S.gen) return; var t=(performance.now()-t0)/1000; if(t<2.2){ aimDraw(swingA(t)*(1-t/2.2)+a1*(t/2.2),true); requestAnimationFrame(sw); } else aimDraw(a1,true); })(); }],
+   [2400,'③ 단추를 꾹 누르면 돌이 줄 따라 나가요<small>돌이 초록 칸에 오면 손을 떼요</small>',function(){ var t0=performance.now(); (function lp(){ if(stopped||g!==S.gen) return; var q=Math.min(q1,(performance.now()-t0)/2600), p=ptAt(G,a1,q); s.style.transition='none'; stoneAt(p.x,p.y,false); s.classList.add('aim'); col('l',{pw:q,on:true}); if(q<q1) requestAnimationFrame(lp); })(); }],
+   [1300,'④ 손을 떼면 휙 — 쏙!',function(){ s.className='stone'; col('l',{pw:0,on:false}); aimDraw(a1,false); stoneAt(c1.x,c1.y,false); snd('stone',.7); fx('쏙!',48); }],
+   [2700,'⑤ 깡충깡충 하늘까지 다녀와요<small>돌 있는 칸은 건너뛰어요 · 저절로 뛰어요</small>',function(){ B.turn=0; sabHops(1,function(){}); }],
+   [2400,'⑥ 이제 2번 칸 · 8번까지 먼저 다녀오면 이겨요!<small>빗나가면 상대 차례</small>',function(){ var hp=$('hop'); if(hp) hp.className='hop'; s.style.transition='none'; stoneAt(o.x,o.y,false); }]];
+  (function nx(){ if(stopped||g!==S.gen) return; if(i>=steps.length){ tip.innerHTML='자, 해 봐요!'; setTimeout(end,900); return; } var st=steps[i++]; tip.innerHTML=st[1]; st[2](); setTimeout(nx,st[0]); })(); }
 /* 깨금발: 1번부터 과녁 칸 앞까지 콩콩 → 하늘 → 되돌아옴(돌 주우며) — 칸마다 「톡」 */
 function sabHops(n,done){ var hp=$('hop'), G=sabGeo(), path=[], g=S.gen; for(var i=1;i<=8;i++) if(i!==n) path.push(i); path.push('sky');
   var back=path.slice(0,-1).reverse(); path=path.concat(back);
