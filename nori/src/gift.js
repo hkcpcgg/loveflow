@@ -12,9 +12,11 @@ window.GIFT=(function(){
     /* /nori/ 손님 화면 → Apps Script(뒤) — 사랑흐름-총괄-002 결정 ② */
     fetch(API,{method:'POST',body:JSON.stringify({fn:fn,args:args||[]})}).then(function(x){ return x.json(); }).then(function(j){ if(!j||!j.ok) throw 0; ok&&ok(j.res); }).catch(function(){ bad(); }); }
   function push(){ if(!CL) return; REC.forEach(function(r){ if(!apin && mine.indexOf(r.id)<0) return; var j=JSON.stringify(r); if(sent[r.id]!==j){ sent[r.id]=j; run('put',[r]); } }); }
-  var DEF={prizes:{p1:'음료 한 잔',p0:'사탕 하나',sp:''}, cond:'a', staffPin:'1234', adminPin:'0000'};
+  /* plan: 무료 · 유료를 가를 칸 (총괄-009 지시 5, 261123) — 지금은 모두 'free'. 결제하면 'paid' 로 켜짐 */
+  var DEF={prizes:{p1:'음료 한 잔',p0:'사탕 하나',sp:''}, cond:'a', staffPin:'1234', adminPin:'0000', plan:'free'};
   var PRESET=['음료 한 잔','식혜 한 잔','반찬 하나 더','떡볶이 한 접시','뻥튀기 한 봉','사탕 하나','10% 할인','다음 방문 쿠폰'];
   var SET=load('nori-gift-set',DEF); SET.prizes=SET.prizes||DEF.prizes; if(SET.prizes.p2!=null&&SET.prizes.sp==null){ SET.prizes={p1:SET.prizes.p1||DEF.prizes.p1,p0:SET.prizes.p0||DEF.prizes.p0,sp:''}; }
+  window.noriPlan=function(){ return (SET&&SET.plan)||'free'; };
   var REC=load('nori-recs',[]), last=null, mine=load('nori-mine',[]);
   function shop(){ var v=load('nori-shop',null); return (v&&v.s)||'다복'; }
   var TIER={p1:'이긴 선물',p0:'참가 선물'};
