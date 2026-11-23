@@ -11,7 +11,7 @@ async def main():
     await pg.evaluate("()=>document.querySelector('.g[data-go=sb]').click()"); await pg.wait_for_timeout(1300)
     fr=pg.frames[-1]
     await fr.click(f'#naBets [data-b={BET}]'); await fr.click(f'#naWho [data-w={WHO}]'); await fr.click('#naGo'); await pg.wait_for_timeout(800)
-    await pg.screenshot(path=f'shots/sab_{W}_{WHO}_start.png')
+    await pg.wait_for_timeout(5200); await pg.screenshot(path=f'shots/sab_{W}_{WHO}_demo.png')
     throws=0
     for i in range(400):
       if await fr.evaluate("()=>!!document.querySelector('.ncard.on')"): break
@@ -22,7 +22,7 @@ async def main():
       bb=await fr.locator('#sbGo').bounding_box(); await pg.mouse.move(bb['x']+bb['width']/2,bb['y']+bb['height']/2); await pg.mouse.down()
       miss=random.random()<MISS; tgt=st['want']+(1 if miss else 0)
       for j in range(200):
-        r=await fr.evaluate("()=>gaugeRow(B.q||0)")
+        r=await fr.evaluate("()=>{var G=sabGeo();return rowFromY(G,aimY(G,B.q||0))}")
         if r==tgt and j>2: break
         await pg.wait_for_timeout(15)
       await pg.mouse.up(); throws+=1
