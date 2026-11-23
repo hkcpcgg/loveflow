@@ -41,7 +41,7 @@ def restructure(scr):
       '<p class="lure"><b class="shopN">다복</b>에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
       + sec('혼자서 바로', '사장님과 한 판', [newt('rp'), newt('hj'), newt('mj'), newt('br'), newt('aw'), newt('yt'), tiles['dt'], tiles['th'], tiles['pt'], tiles['bw'], soon('mg')])
       + sec('둘이서 겨루기', '폰 하나로 번갈아', [tiles['om'], tiles['ak'], tiles['tk'], tiles['rd'], tiles['mb'], soon('yn')])
-      + sec('여럿이 함께', '행사용 · 곧 열려요', [soon('sg'), soon('db'), soon('sb')])
+      + sec('여럿이 함께', '폰 하나로 돌려 가며', [newt('sb'), soon('sg'), soon('db')])
       + '@@ROOM@@'
       + '<div class="fam-h">함께하는 곳</div>@@FAM@@'
       + '<p class="own"><button type="button" data-own="admin">사장님 관리자 창</button><span>·</span><button type="button" data-own="home">홈 화면에 추가</button></p>'

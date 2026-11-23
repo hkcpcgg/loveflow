@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>팔씨름 · 엿치기 · 그때 그 놀이</title>
+<title>팔씨름 · 엿치기 · 사방치기 · 그때 그 놀이</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
@@ -47,6 +47,15 @@ button:active{filter:brightness(.93)}
 .cuts{position:absolute;inset:0;display:none;align-items:center;justify-content:space-around;padding:0 4px}.cuts.on{display:flex}
 .cut{display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:800;font-size:13.5px}
 .cut canvas{width:min(124px,34vw);height:min(124px,34vw)}
+/* 사방치기 (261123 시안) — 칸은 면 색만, 선 · 그림자 없음 */
+.sb{position:absolute;left:50%;transform:translateX(-50%)}
+.sbc{position:absolute;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#F3E6C8;color:#B59A66;font-weight:900;font-size:17px;transition:background .2s}
+.sbc.tg{background:#FFE08A;color:var(--ink)}.sbc.sky{border-radius:50% 50% 8px 8px;font-size:13px;letter-spacing:.1em}
+.sbline{position:absolute;height:3px;border-radius:2px;background:#C9A26A}
+.stone{position:absolute;width:18px;height:18px;margin:-9px 0 0 -9px;border-radius:50%;background:#8C8578;z-index:3;transition:left .45s cubic-bezier(.3,.7,.4,1),top .45s cubic-bezier(.3,.7,.4,1)}
+.stone.b{background:#9A6A5A}
+.hop{position:absolute;width:26px;height:26px;margin:-13px 0 0 -13px;border-radius:50%;z-index:4;display:none;align-items:center;justify-content:center;color:#fff;font-size:11px;font-weight:900}
+.hop.on{display:flex}.hop.a{background:var(--blu)}.hop.b{background:var(--red)}
 .hsheet{position:fixed;inset:0;z-index:72;background:rgba(28,29,33,.3);display:none;align-items:flex-end;justify-content:center}.hsheet.on{display:flex}
 .hsheet .sheet{width:100%;max-width:480px;background:#fff;border-radius:24px 24px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
 .hsheet h3{margin:0;text-align:center;font-size:17px;font-weight:900}.rl{background:#FFF8E6;border-radius:14px;padding:10px 12px 10px 4px;font-size:14px;line-height:1.55}.rl ol{margin:0;padding-left:24px}.rl b{color:#C23434}
@@ -91,8 +100,9 @@ var S={k:'arm',mode:'cpu1',bet:NA.bet(),gen:0,sc:[0,0],over:true,u:'판'};
 function two(){ return S.mode==='two'; }
 function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
 function snd(k,v){ try{ SND[k](v); }catch(e){} }
-var GN={arm:'팔씨름',yeot:'엿치기'}, MID={arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝'};
+var GN={arm:'팔씨름',yeot:'엿치기',sab:'사방치기'}, MID={arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝',sab:'8칸 먼저 가면 이김'}, CODE={arm:'aw',yeot:'yt',sab:'sb'};
 var RULE={arm:['두 팔이 맞잡고 시작합니다. <b>「힘!」 단추를 꾹 누르면 힘이 차고, 빨리빨리 누르면 더 세집니다.</b>','양옆 기둥이 각자의 힘입니다. 힘이 센 쪽으로 손이 넘어갑니다.','상대 손등을 탁자까지 넘기면 이깁니다. 친구와 할 때는 한 폰으로 동시에 누릅니다.'],
+  sab:['땅에 그린 칸 1~8. 내 차례에 <b>돌을 칸에 던지고</b>, 들어가면 깨금발로 다녀옵니다.','아래 단추를 <b>꾹 누르면 돌이 칸을 오르내립니다. 노란 칸에 왔을 때 놓으세요.</b>','넣으면 다음 칸으로 · 계속 던집니다. 못 넣으면 차례가 넘어갑니다. <b>8칸 먼저 다 가면</b> 이깁니다.'],
   yeot:['엿 세 개 중 하나를 고릅니다. 상대는 남은 것 중 하나를 고릅니다.','아래 단추를 <b>꾹 눌러 엿을 휘었다가 놓으면 「뚝!」</b> 부러집니다. 덜 휘면 다시.','부러진 단면의 <b>구멍이 큰 쪽</b>이 이깁니다. <b>두 번 먼저 이기면</b> 끝.']};
 function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
@@ -101,7 +111,7 @@ function fx(word,size){ var b=$('board'); b.classList.remove('shake'); void b.of
 function col(s,o){ if(window.noriCol) noriCol(s,o); }
 /* 끝: 기록 → 벌칙 → 결과 카드 (손놀이와 같은 흐름) */
 function finish(meWin,a,b){ S.over=true; S.sc=[a,b]; vs(null); col('l',{pw:0,on:null}); col('r',{pw:0,on:null}); NA.unpoint();
-  noriResult({game:S.k==='arm'?'aw':'yt',gname:GN[S.k],opp:two()?'친구':nm(1),lv:two()?'':'cpu1',win:!two()&&meWin,detail:a+' 대 '+b,sc:[a,b],u:S.u,out:meWin?'win':'lose'});
+  noriResult({game:CODE[S.k],gname:GN[S.k],opp:two()?'친구':nm(1),lv:two()?'':'cpu1',win:!two()&&meWin,detail:a+' 대 '+b,sc:[a,b],u:S.u,out:meWin?'win':'lose'});
   if(meWin||two()) snd('win'); else snd('lose');
   var g=S.gen, lw=meWin?0:1;
   if(S.bet==='none'||!PEN.has(S.bet)){ setTimeout(function(){ if(g===S.gen) $('done').classList.add('on'); },900); return; }
@@ -136,7 +146,7 @@ function armLoop(){ if(A.gen!==S.gen) return; var now=performance.now(), dt=Math
     var bs=$('act').querySelectorAll('button'); for(var i=0;i<bs.length;i++) bs[i].disabled=true;
     finish(meWin,meWin?1:0,meWin?0:1); return; }
   A.raf=requestAnimationFrame(armLoop); }
-window.addEventListener('resize',function(){ if(S.k==='arm'&&$('grip')) armDraw(); });
+window.addEventListener('resize',function(){ if(S.k==='arm'&&$('grip')) armDraw(); if(S.k==='sab'&&$('sbg')) sabLay(); });
 
 /* ───────── 엿치기 ───────── */
 var Y={}, yraf=0;
@@ -169,17 +179,68 @@ function ysnap(){ if(!Y.hold) return; Y.hold=false; cancelAnimationFrame(yraf); 
       if(Y.w[0]>=2||Y.w[1]>=2){ var meWin=Y.w[0]>=2; setTimeout(function(){ if(g===S.gen) finish(meWin,Y.w[0],Y.w[1]); },1100); }
       else { go.disabled=false; go.textContent='다음 판'; Y.next=true; } })(); },300); }
 
+
+/* ───────── 사방치기 (261123 시안) ─────────
+   칸 줄: 1 · 2 · 3 · 4|5 · 6 · 7|8 · 하늘 (아래에서 위로). 돌 던지기 = 꾹 누르면 돌이 오르내리고(1.5초 왕복) 놓은 곳에 떨어짐.
+   과녁 칸(노랑)에 들어가면 깨금발로 다녀오고 다음 칸 · 계속 던짐 · 못 넣으면 차례 넘김 · 8칸 먼저 끝내면 승. 사장님 넣을 확률 55%(중수). */
+var B={}, sraf=0, ROWOF=[0,1,2,3,3,4,5,5];
+function sabStart(){ B={st:[0,0],turn:0,busy:false,hold:false,g:0,gen:S.gen}; S.u='칸'; S.sc=[0,0];
+  $('board').innerHTML='<div class="sb" id="sbg"></div><div class="stone" id="stone"></div><div class="hop" id="hop"></div>';
+  $('act').innerHTML='<button class="big" type="button" id="sbGo">꾹 누르기 · 노란 칸에서 놓기</button>';
+  var go=$('sbGo'); go.addEventListener('pointerdown',sabHold); ['pointerup','pointercancel','pointerleave'].forEach(function(t){ go.addEventListener(t,sabLet); });
+  sabLay(); sabTurn(); setTimeout(function(){ if($('sbGo')&&!B.busy&&B.turn===0) NA.point($('sbGo'),'꾹 누르고 · 노란 칸에서 놓으세요',.5,.4); },150); }
+function sabGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight, gw=Math.min(w*.62,220), rh=Math.min((h-44)/7.6,64), x0=(w-gw)/2, base=h-26; return {w:w,h:h,gw:gw,rh:rh,x0:x0,base:base}; }
+function rowY(G,r){ return G.base-(r+.5)*G.rh; }   /* r=-1 줄 앞 · 0~5 칸 줄 · 6 하늘 */
+function sabLay(){ var G=sabGeo(), g=$('sbg'); if(!g) return; var h='', gap=4, half=(G.gw-gap)/2;
+  function cell(n,x,y,wd,cls){ h+='<div class="sbc'+(cls||'')+'" data-n="'+n+'" style="left:'+x+'px;top:'+y+'px;width:'+wd+'px;height:'+(G.rh-gap)+'px">'+(n==='sky'?'하늘':n)+'</div>'; }
+  var rows=[[1],[2],[3],[4,5],[6],[7,8]];
+  rows.forEach(function(r,i){ var y=G.base-(i+1)*G.rh+gap/2; if(r.length===1) cell(r[0],G.x0+G.gw*.2,y,G.gw*.6); else { cell(r[0],G.x0,y,half); cell(r[1],G.x0+half+gap,y,half); } });
+  cell('sky',G.x0+G.gw*.15,G.base-7*G.rh+gap/2,G.gw*.7,' sky');
+  h+='<div class="sbline" style="left:'+(G.x0-10)+'px;width:'+(G.gw+20)+'px;top:'+(G.base+6)+'px"></div>';
+  g.style.cssText='left:0;top:0;width:'+G.w+'px;height:'+G.h+'px;transform:none'; g.innerHTML=h; sabMark(); }
+function tgtN(){ return B.st[B.turn]+1; }
+function sabMark(){ var cs=document.querySelectorAll('#sbg .sbc'); for(var i=0;i<cs.length;i++) cs[i].classList.toggle('tg', +cs[i].getAttribute('data-n')===tgtN()); }
+function cellPt(n){ var G=sabGeo(), r=ROWOF[n-1], x=G.w/2; if(n===4||n===7) x=G.x0+G.gw*.25; if(n===5||n===8) x=G.x0+G.gw*.75; return {x:x,y:rowY(G,r)}; }
+function stoneAt(x,y,b){ var s=$('stone'); if(!s) return; s.className='stone'+(b?' b':''); s.style.left=x+'px'; s.style.top=y+'px'; }
+function sabTurn(){ if(S.over) return; B.busy=false; sabMark(); vs(B.turn); S.sc=[B.st[0],B.st[1]];
+  var G=sabGeo(); var s=$('stone'); s.style.transition='none'; stoneAt(G.w/2,G.base+18,B.turn===1); void s.offsetWidth; s.style.transition='';
+  var who=B.turn===0?'<b>내 차례</b>':'<em>'+esc(nm(1))+' 차례</em>';
+  $('say').innerHTML=who+' · '+tgtN()+'번 칸에 던지기 · 나 '+B.st[0]+'칸 : '+esc(nm(1))+' '+B.st[1]+'칸';
+  var go=$('sbGo'); if(!go) return;
+  if(B.turn===1&&!two()){ go.disabled=true; go.textContent=nm(1)+' 던지는 중…'; var g=S.gen; setTimeout(function(){ if(g===S.gen) sabCpu(); },900); }
+  else { go.disabled=false; go.textContent=(two()?(B.turn===0?'나':'친구')+' · ':'')+'꾹 누르기 · 노란 칸에서 놓기'; } }
+/* 오르내림: 0 = 줄 앞(못 미침) · 1~6 = 칸 줄 · 7 = 하늘(넘침) — 8구간 */
+function gaugeRow(q){ return Math.min(7,Math.floor(q*8))-1; }
+function sabHold(e){ if(this.disabled||S.over||B.busy) return; if(B.turn===1&&!two()) return; e.preventDefault(); NA.unpoint(); B.hold=true; var t0=performance.now(), G=sabGeo(), pc=B.turn===0?'l':'r';
+  (function lp(){ if(!B.hold) return; var ph=((performance.now()-t0)/1500)%1, q=ph<.5?ph*2:2-ph*2; B.q=q; var y=G.base+18-(q*(G.base+18-(G.base-7*G.rh)));
+    var s=$('stone'); if(s){ s.style.transition='none'; stoneAt(G.w/2,y,B.turn===1); } col(pc,{pw:q,on:true}); sraf=requestAnimationFrame(lp); })(); }
+function sabLet(){ if(!B.hold) return; B.hold=false; cancelAnimationFrame(sraf); var s=$('stone'); if(s) s.style.transition=''; sabLand(gaugeRow(B.q||0)); }
+function sabCpu(){ if(S.over) return; var want=ROWOF[tgtN()-1], hit=Math.random()<.55, r=hit?want:want+(Math.random()<.5?-1:1); sabLand(Math.max(-1,Math.min(6,r))); }
+function sabLand(r){ B.busy=true; var go=$('sbGo'); if(go) go.disabled=true; var G=sabGeo(), n=tgtN(), want=ROWOF[n-1], hit=r===want, p=hit?cellPt(n):{x:G.w/2+(Math.random()-.5)*G.gw*.4,y:rowY(G,r)};
+  stoneAt(p.x,p.y,B.turn===1); snd('stone',.7); col('l',{pw:0,on:B.turn===0?false:null}); col('r',{pw:0,on:B.turn===1?false:null}); var g=S.gen;
+  setTimeout(function(){ if(g!==S.gen) return;
+    if(!hit){ fx(r<want?'모자라!':(r>=6?'넘쳤다!':'선 밟음!'),34); $('say').innerHTML=(r<want?'덜 갔어요':'더 갔어요')+' · 차례가 넘어갑니다'; setTimeout(function(){ if(g!==S.gen) return; B.turn=1-B.turn; sabTurn(); },1100); return; }
+    fx('쏙!',48); sabHops(n,function(){ if(g!==S.gen) return; B.st[B.turn]=n; S.sc=[B.st[0],B.st[1]]; vs(B.turn);
+      if(n>=8){ var meWin=B.turn===0; fx(meWin?'다 갔다!':(two()?'친구 다 갔다!':'졌다…'),36); if(go) go.disabled=true; setTimeout(function(){ if(g===S.gen) finish(meWin,B.st[0],B.st[1]); },700); return; }
+      $('say').innerHTML='<b>'+n+'번 칸 성공!</b> 한 번 더'; setTimeout(function(){ if(g===S.gen) sabTurn(); },700); }); },520); }
+/* 깨금발: 1번부터 과녁 칸 앞까지 콩콩 → 하늘 → 되돌아옴(돌 주우며) — 칸마다 「톡」 */
+function sabHops(n,done){ var hp=$('hop'), G=sabGeo(), path=[], g=S.gen; for(var i=1;i<=8;i++) if(i!==n) path.push(i); path.push('sky');
+  var back=path.slice(0,-1).reverse(); path=path.concat(back);
+  hp.className='hop on '+(B.turn===0?'a':'b'); hp.textContent=B.turn===0?'나':(two()?'친':'사'); var k=0;
+  (function step(){ if(g!==S.gen) return; if(k>=path.length){ hp.className='hop'; stoneAt(G.w/2,G.base+18,B.turn===1); done(); return; }
+    var c=path[k++], pt=c==='sky'?{x:G.w/2,y:rowY(G,6)}:cellPt(c); hp.style.left=pt.x+'px'; hp.style.top=pt.y+'px'; snd('clack',.25); setTimeout(step,k<=path.length/2?95:80); })(); }
+
 /* ───────── 고르기 · 시작 ───────── */
 function setGame(k){ S.gen++; try{ PEN.stop(); }catch(e){} NA.unpoint(); S.k=k; S.over=true; S.sc=[0,0]; $('done').classList.remove('on'); $('ttl').textContent=GN[k]; document.title=GN[k]+' · 그때 그 놀이';
   $('board').innerHTML=''; $('act').innerHTML=''; $('say').innerHTML=''; vs(null);
-  NA.pre({who:k==='arm', opp:shopName()+' 사장님', onGo:function(bet,who){ S.bet=bet; S.mode=(k==='arm'&&who==='two')?'two':'cpu1'; window.__noriBetName=bet==='none'?'':NA.betName(bet); snd('stone',.6); start(); },
+  NA.pre({who:k!=='yeot', opp:shopName()+' 사장님', onGo:function(bet,who){ S.bet=bet; S.mode=(k!=='yeot'&&who==='two')?'two':'cpu1'; window.__noriBetName=bet==='none'?'':NA.betName(bet); snd('stone',.6); start(); },
     onCancel:function(){ if(window.noriHome) noriHome(); }}); }
-function start(){ S.gen++; try{ PEN.stop(); }catch(e){} S.over=false; S.sc=[0,0]; $('done').classList.remove('on'); col('l',{pw:0,on:null}); col('r',{pw:0,on:null}); if(S.k==='arm') armStart(); else yeotStart(); }
+function start(){ S.gen++; try{ PEN.stop(); }catch(e){} S.over=false; S.sc=[0,0]; $('done').classList.remove('on'); col('l',{pw:0,on:null}); col('r',{pw:0,on:null}); if(S.k==='arm') armStart(); else if(S.k==='sab') sabStart(); else yeotStart(); }
 (function(){
   $('again').addEventListener('click',function(){ setGame(S.k); });
   $('helpBtn').addEventListener('click',function(){ $('helpT').textContent=GN[S.k]+' · 놀이 방법'; $('helpB').innerHTML=rules(S.k); $('help').classList.add('on'); });
   $('help').addEventListener('click',function(e){ if(e.target.id==='help'||e.target.closest('[data-x]')) $('help').classList.remove('on'); });
-  noriNav({here:function(){ return S.k==='arm'?'aw':'yt'; }, onNew:function(){ $('done').classList.remove('on'); setGame(S.k); },
+  noriNav({here:function(){ return CODE[S.k]; }, onNew:function(){ $('done').classList.remove('on'); setGame(S.k); },
     onOpen:function(){ if(S.over&&!document.querySelector('.ncard.on')&&!document.querySelector('.pn-sc')) setGame(S.k); }});
 })();
 function solo(k){ if(GN[k]) setGame(k); }
