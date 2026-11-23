@@ -34,7 +34,7 @@ async def main():
       ok=await fr.evaluate(CHK)
       await pg.wait_for_timeout(400); await pg.screenshot(path=f'card_{k}.png')
       if ok:
-        await fr.locator('.ncard input[type=file]').set_input_files('test_photo.jpg'); await pg.wait_for_timeout(500)
+        await fr.locator('.ncard input[type=file]').first.set_input_files('test_photo.jpg'); await pg.wait_for_timeout(500)
         await fr.locator('.ncard .memo').fill('사장님을 처음 이겼다!')
         await pg.screenshot(path=f'card_{k}_photo.png')
         async with pg.expect_download(timeout=8000) as dl:

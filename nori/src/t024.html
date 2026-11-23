@@ -166,8 +166,9 @@ var S={mode:'cpu1',sc:[0,0],who:0,over:true,busy:false,g:null,gen:0,bet:NA.bet()
 function later(fn,ms){ var g=S.gen; return setTimeout(function(){ if(g===S.gen) fn(); },ms); }
 function wait(ms){ var g=S.gen; return new Promise(function(r){ setTimeout(function(){ if(g===S.gen) r(); },ms); }); }
 function two(){ return S.mode==='two'; }
-function nm(p){ return p===0?(two()?'첫째':'나'):(two()?'둘째':shopName()+' '+hoName()); }
-function tl(p){ return (p===0&&!two())?'내 차례':nm(p)+' 차례'; }
+function nm(p){ return p===0?'나':(two()?'친구':shopName()+' '+hoName()); }
+function tl(p){ return p===0?'내 차례':nm(p)+' 차례'; }
+function ga(p){ return p===0?'내가':(two()?'친구가':shopName()+' '+hoName()+'이'); }
 function rnd(n){ return Math.floor(Math.random()*n); }
 function vs(mid){ $('vs').innerHTML='<div class="p a"><span>'+esc(nm(0))+'</span><em id="s0">'+S.sc[0]+'</em></div><div class="mid">'+(mid==null?S.g.mid():mid)+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em id="s1">'+S.sc[1]+'</em></div>';
   if(window.noriSide){ noriSide(S.over?null:S.who, tl(S.who)); }
@@ -197,7 +198,7 @@ function word(t,c){ var w=$('word'); if(w){ w.className='word '+(c||''); w.textC
 function bob(id){ var e=$(id); e.classList.remove('bob'); void e.offsetWidth; e.classList.add('bob'); }
 function setH(id,k){ var e=$(id); e.textContent=E[k]; e.classList.remove('pop'); void e.offsetWidth; e.classList.add('pop'); }
 /* 고르는 단추: order = 보여 줄 차례, names = 이름 */
-function choose(lab,order,names,sub,cb){ var MIC=S.micRe&&NA.micOn()&&!two();
+function choose(lab,order,names,sub,cb){ var MIC=false; /* 말로 내기 뺌 (대표 261123) */
   $('act').innerHTML=(two()?'<div class="lab">'+lab+'</div>':'')+'<div class="row">'+order.map(function(k){ return '<button class="bt o h" type="button" data-k="'+k+'"><span class="e">'+E[k]+'</span>'+names[k]+(sub?'<small>'+sub[k]+'</small>':'')+'</button>'; }).join('')+'</div>'
     +(MIC?'<button class="bt mic" type="button" id="micB">🎤 말로 내기 · '+(S.micRe.w.length?'「'+S.micRe.w.join('! ')+'!」 다음에 외치기':'갑자기 「묵!」 「찌!」 「빠!」')+'</button>':'');
   $('act').querySelectorAll('[data-k]').forEach(function(b){ b.addEventListener('click',function(){ if(S.busy) return; S.taught=true; NA.unpoint(); cb(b.getAttribute('data-k')); }); });
@@ -230,7 +231,12 @@ async function shout(a,b,att){ S.busy=true; lock(true); $('hA').textContent=E.ro
   var k=att===0?a:b; word(MJN[k]+'!', att===0?'win':'lose'); setH('hA',a); setH('hB',b); SND.slap(.8); await wait(650); }
 /* 둘이서: 첫째가 몰래 고른 뒤 둘째 */
 function pickBoth(lab,order,names,sub,go){ if(!two()){ choose(lab,order,names,sub,function(k){ go(k,null); }); return; }
-  choose(esc(nm(0))+' · 몰래 고르기',order,names,sub,function(k){ S.who=1; vs(); bub(esc(nm(0))+'는 화면을 보지 마세요','b'); choose(esc(nm(1))+' · 몰래 고르기',order,names,sub,function(k2){ go(k,k2); }); }); }
+  bub('<b>내 차례</b> · 친구는 잠깐 보지 마세요','a');
+  choose('나 · 몰래 고르기',order,names,sub,function(k){ S.who=1; vs(); handOver(function(){ choose('친구 · 몰래 고르기',order,names,sub,function(k2){ go(k,k2); }); }); }); }
+/* 대표 261123: 「첫째는 화면을 보지 마세요」가 무슨 말인지 모름 · 계속 비김(같은 자리 단추가 바로 다시 그려져 한 번 더 눌림) → 폰을 건네는 단계를 따로 둠 */
+function handOver(next){ NA.unpoint(); S.busy=true; bub('이제 <b>친구 차례</b> · 폰을 친구에게 건네주세요','b');
+  $('act').innerHTML='<button class="bt red" type="button" id="hand" style="min-height:64px;font-family:var(--body);font-size:17px;font-weight:900">친구가 폰을 받았어요</button>';
+  var g=S.gen; setTimeout(function(){ if(g!==S.gen) return; S.busy=false; var b=$('hand'); if(b) b.onclick=function(){ bub('<b>친구 차례</b> · 나는 보지 않기','b'); next(); }; },500); }
 
 /* ───────── 1. 가위바위보 — 세 번 먼저 이기면 ───────── */
 var RP={key:'rp',name:'가위바위보',goal:3,
@@ -276,11 +282,11 @@ var HJ={key:'hj',name:'구슬 홀짝',rounds:6,
   turn:function(){ var self=this, hid=this.r%2===0?1:0, gs=1-hid; S.busy=false; this.hid=hid; S.who=hid; vs();
     var maxN=Math.min(10,S.sc[hid]), maxBet=Math.min(5,S.sc[gs],S.sc[hid]); this.maxBet=maxBet;
     if(hid===1&&!two()){ this.n=1+rnd(maxN); S.who=0; vs(); this.scene(1,esc(nm(1))+'이 구슬을 쥐었어요 · 홀일까 짝일까?','b',0,1); this.guessUI(); return; }
-    this.scene(hid,(hid===0&&!two()?'내가':esc(nm(hid))+'가')+' 쥘 차례 · 몇 개 쥘까요?','a');
+    this.scene(hid,ga(hid)+' 쥘 차례 · 몇 개 쥘까요?','a');
     $('act').innerHTML='<div class="lab">주먹에 쥘 구슬 수 (누르면 바로 쥠)'+(two()?' · 상대는 보지 마세요':'')+'</div><div class="grid5">'+Array.from({length:10},function(_,i){ return '<button class="bt o n" type="button" data-n="'+(i+1)+'"'+(i+1>maxN?' disabled':'')+'>'+(i+1)+'</button>'; }).join('')+'</div>';
     aim($('act').querySelector('.grid5'),'몇 개 쥘지 누르세요');
     $('act').querySelectorAll('[data-n]').forEach(function(b){ b.onclick=function(){ if(S.busy) return; S.taught=true; NA.unpoint(); self.n=+b.getAttribute('data-n'); SND.stone(.5);
-      if(two()){ S.who=gs; vs(); self.scene(hid,esc(nm(hid))+'가 구슬을 쥐었어요 · '+esc(tl(gs)),'b',0,1); self.guessUI(); }
+      if(two()){ S.who=gs; vs(); self.scene(hid,ga(hid)+' 구슬을 쥐었어요 · '+esc(tl(gs)),'b',0,1); self.guessUI(); }
       else { self.scene(0,'내가 '+self.n+'개 쥐었어요 · '+esc(nm(1))+'이 맞히는 중…','a',self.n); lock(true); self.cpuGuess(); } }; }); },
   guessUI:function(){ var self=this, mb=this.maxBet; this.bet=Math.min(this.bet,mb)||1;
     $('act').innerHTML='<div class="lab">몇 개 걸까요</div><div class="grid5">'+[1,2,3,4,5].map(function(x){ return '<button class="bt o n" type="button" data-b="'+x+'" aria-pressed="'+(x===self.bet)+'"'+(x>mb?' disabled':'')+'>'+x+'</button>'; }).join('')+'</div><div class="row"><button class="bt red" type="button" data-g="1">홀</button><button class="bt" type="button" data-g="0">짝</button></div>';
@@ -292,7 +298,7 @@ var HJ={key:'hj',name:'구슬 홀짝',rounds:6,
     bub(esc(nm(gs))+' · <b>'+(odd?'홀':'짝')+'</b>에 '+bet+'개!', gs===0?'a':'b'); SND.stone(.5); await wait(700);
     var h=$('hH'); h.textContent=E.open; h.classList.add('pop'); $('open').innerHTML=mbs(n); SND.glass(.6);
     var w=ok?gs:hid; S.sc[w]+=bet; S.sc[1-w]-=bet; vs(); bump(w);
-    word(n+'개 · '+(isOdd?'홀':'짝')+'!', w===0?'win':'lose'); bub(esc(nm(w))+(w===0&&!two()?'가':'이')+' 구슬 '+bet+'개를 가져가요', w===0?'a':'b'); SND[w===0?'ding':'thud'](.6);
+    word(n+'개 · '+(isOdd?'홀':'짝')+'!', w===0?'win':'lose'); bub(ga(w)+' 구슬 '+bet+'개를 가져가요', w===0?'a':'b'); SND[w===0?'ding':'thud'](.6);
     await wait(1600); this.r++;
     if(this.r>=this.rounds||S.sc[0]<=0||S.sc[1]<=0){ return finish(S.sc[0]>S.sc[1],'구슬 '+S.sc[0]+'개 대 '+S.sc[1]+'개',S.sc[0]===S.sc[1]); } this.turn(); }};
 

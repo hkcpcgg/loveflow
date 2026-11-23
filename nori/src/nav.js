@@ -149,22 +149,24 @@ window.noriNav=function(o){
   var cd=document.createElement('div'); cd.className='ncard'; cd.setAttribute('role','dialog'); cd.setAttribute('aria-label','결과 카드'); document.body.appendChild(cd);
   var R=null, photo=null, againBtn=null;
   function outOf(r){ if(r.out) return r.out; return r.win?'win':'lose'; }
-  function resText(r){ var o2=outOf(r); if(r.opp==='친구'){ return o2==='draw'?'비겼어요':(o2==='win'?'나(왼쪽) 이겼어요!':'친구 이겼어요!'); } return OUT[o2]; }
+  function resText(r){ var o2=outOf(r); if(r.opp==='친구'){ return o2==='draw'?'비겼어요':(o2==='win'?'내가 이겼어요!':'친구 이겼어요!'); } return OUT[o2]; }
   function scoreHTML(r){ var u=r.u?'<u>'+esc2(r.u)+'</u>':'';
     if(r.sc&&r.sc[1]!=null){ return '<div class="sc"><div class="a"><em>'+esc2(r.sc[0])+u+'</em><small>나</small></div><div class="c">:</div><div class="b"><em>'+esc2(r.sc[1])+u+'</em><small>'+esc2(r.opp||'상대')+'</small></div></div>'; }
     if(r.sc){ return '<div class="big">'+esc2(r.detail.split(' · 카드')[0])+'</div>'; }
     return '<div class="big">'+esc2(String(r.detail||'').split(' · 카드')[0])+'</div>'; }
   function openCard(){ var r=window.__noriLast; if(!r){ return; } R=r; photo=null;
     cd.innerHTML='<div class="cd"><div class="hd"><b>그때 그 놀이 · '+esc2(shop())+'</b><span>'+when(r.t)+'</span></div><div class="gn">'+esc2((r.gname||'')+(window.__noriBetName?' · '+window.__noriBetName:''))+'</div>'
-      +'<label class="ph"><input type="file" accept="image/*"><img alt="현장 사진"><i>📷</i>눌러서 현장 사진 넣기<small>사진은 이 폰 안에서만 카드에 합쳐요 · 서버로 보내지 않아요</small><span class="re">사진 바꾸기</span></label>'
+      +'<div class="ph"><img alt="현장 사진"><i>📷</i>현장 사진 넣기<div class="pb"><label>📷 지금 찍기<input type="file" accept="image/*" capture="environment"></label><label>🖼 앨범에서<input type="file" accept="image/*"></label></div><small>사진은 이 폰 안에서만 카드에 합쳐요 · 서버로 보내지 않아요</small><label class="re">사진 바꾸기<input type="file" accept="image/*"></label></div>'
       +scoreHTML(r)+'<div class="res '+outOf(r)+'">'+esc2(resText(r))+'</div>'
       +'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름·전화번호는 쓰지 마세요)">'
       +'<div class="ft"><span>확인 번호</span><b>'+esc2(r.card||'')+'</b></div></div>'
       +'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
       +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장 · 보내기</button><button type="button" data-c="story">이야기방에 올리기</button></div></div>'
       +'<p class="tip">「이야기방에 올리기」를 누르면 카드가 폰에 저장되고 다복 이야기방 올리기 창이 열려요. 방금 저장된 카드 사진을 골라 올려 주세요.</p>';
-    var inp=cd.querySelector('input[type=file]'), ph=cd.querySelector('.ph'), im=ph.querySelector('img');
-    inp.addEventListener('change',function(){ var f=inp.files&&inp.files[0]; if(!f) return; var u=URL.createObjectURL(f); im.onload=function(){ photo=im; ph.classList.add('has'); }; im.src=u; });
+    var ph=cd.querySelector('.ph'), im=ph.querySelector('img');
+    im.onload=function(){ photo=im; ph.classList.add('has'); };
+    [].forEach.call(ph.querySelectorAll('input[type=file]'),function(inp){ inp.addEventListener('change',function(){ var f=inp.files&&inp.files[0]; if(!f) return; im.src=URL.createObjectURL(f); }); });
+    if(window.__noriPhoto){ im.src=window.__noriPhoto; }
     cd.classList.add('on'); document.body.classList.add('ncard-on'); cd.scrollTop=0; setNew(true);
     try{ if(window.SND&&SND.tap){} }catch(e){} }
   function closeCard(){ cd.classList.remove('on'); document.body.classList.remove('ncard-on'); setNew(false); }
@@ -215,7 +217,18 @@ window.noriNav=function(o){
   bar.addEventListener('click',function(e){ var b=e.target.closest('button[data-a=new]'); if(!b||!cd.classList.contains('on')) return; var a=againOf()||againBtn; closeCard(); if(a){ a.click(); } else if(o.onNew){ o.onNew(); } },true);
   /* ══ 디자인 A 공통 (261122 2차) ══ */
   if(!window.NORI_A||!window.NA) return;
-  var tp=document.querySelector('.top'); if(tp&&!tp.querySelector('.na-snd')){ NA.sndBtn(tp); }
+  var tp=document.querySelector('.top'), tr=null;
+  if(tp&&!tp.querySelector('.na-tr')){ tr=document.createElement('span'); tr.className='na-tr'; tp.appendChild(tr);
+    /* 대표 261123: 놀이 중에도 바로 찍어서 남기기 · 앨범에서만 고르는 게 아니라 */
+    var cam=document.createElement('label'); cam.className='na-cam'; cam.setAttribute('aria-label','현장 사진 찍기');
+    cam.innerHTML='<input type="file" accept="image/*" capture="environment"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
+    cam.querySelector('input').addEventListener('change',function(){ var f=this.files&&this.files[0]; if(!f) return; try{ if(window.__noriPhoto) URL.revokeObjectURL(window.__noriPhoto); }catch(x){} window.__noriPhoto=URL.createObjectURL(f); cam.classList.add('has'); NA.toast('📷 사진을 담았어요<br>결과 카드에 들어가요'); this.value=''; });
+    tr.appendChild(cam); NA.sndBtn(tr);
+    var cc=document.createElement('style'); cc.textContent='.top .na-tr{position:absolute;right:8px;top:calc(7px + env(safe-area-inset-top,0px));display:flex;gap:6px;z-index:3}.top .na-tr .na-snd{position:static!important}'
+      +'.na-cam{height:34px;width:34px;border-radius:50%;background:rgba(255,255,255,.5);color:#1C1D21;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:"Noto Sans KR",sans-serif}.na-cam input{position:absolute;opacity:0;width:1px;height:1px}'
+      +'.na-cam svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linejoin:round}.na-cam small{font:700 11.5px "Noto Sans KR",sans-serif;opacity:.6}.na-cam.has{background:#fff}.na-cam.has small{opacity:1}'
+      +'.ncard .ph .pb{display:flex;gap:8px;margin-top:6px}.ncard .ph .pb label{position:relative;display:flex;align-items:center;gap:4px;background:#fff;color:#1C1D21;border-radius:999px;padding:7px 12px;font-size:13px;font-weight:800;cursor:pointer}.ncard .ph .pb input{position:absolute;opacity:0;width:1px;height:1px}.ncard .ph.has .pb{display:none}';
+    document.head.appendChild(cc); }
   window.addEventListener('message',function(e){ if(e.data==='nori-open'){ if(o.onOpen){ o.onOpen(); } else if(window.__naOpen){ window.__naOpen(); } } });
   if(window.NORI_PEN_SELF) return;
   var ac=document.createElement('style');
@@ -255,7 +268,7 @@ window.noriNav=function(o){
     var t0=(tp?tp.getBoundingClientRect().bottom:0)+10;
     PD=document.createElement('div'); PD.className='na-pdim'; PD.style.top=(tp?tp.getBoundingClientRect().bottom:0)+'px'; document.body.appendChild(PD);
     PL=document.createElement('div'); PL.className='na-penl'; PL.style.top=t0+'px'; PL.style.bottom='calc(70px + env(safe-area-inset-bottom,0px))';
-    PL.innerHTML='<div class="na-penh">'+(two?(won?'<b>나(왼쪽) 이겼다!</b> 친구에게 ':'<em>친구 이겼다!</em> 나에게 '):(won?'<b>이겼다!</b> 이제 '+esc2(who)+'께 ':'<em>졌다…</em> '+esc2(who)+'한테 '))+PEN.name(b)+(won||two?'!':' 😣')+'</div><div class="na-pens"></div>';
+    PL.innerHTML='<div class="na-penh">'+(two?(won?'<b>내가 이겼다!</b> 친구에게 ':'<em>친구 이겼다!</em> 나에게 '):(won?'<b>이겼다!</b> 이제 '+esc2(who)+'께 ':'<em>졌다…</em> '+esc2(who)+'한테 '))+PEN.name(b)+(won||two?'!':' 😣')+'</div><div class="na-pens"></div>';
     document.body.appendChild(PL); try{ window.dispatchEvent(new Event('resize')); }catch(e2){}
     PEN.run(PL.querySelector('.na-pens'),b,o2,function(){ penOff(); next(); }); };
   bar.addEventListener('click',function(){ penOff(); },true);

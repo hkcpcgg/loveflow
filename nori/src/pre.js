@@ -7,7 +7,7 @@ window.NA=(function(){
   var d=document, $=function(id){ return d.getElementById(id); };
   var OPT={sfx:true,voice:false,mic:false};
   try{ var o=JSON.parse(localStorage.getItem('nori-opt')||'null'); if(o){ OPT.sfx=o.sfx!==false; OPT.voice=!!o.voice; OPT.mic=!!o.mic; } else if(window.SND&&SND.isOn){ OPT.sfx=SND.isOn(); } }catch(e){}
-  OPT.voice=false; /* 구령 소리는 뺌 (대표 261123) — 효과음만 */
+  OPT.voice=false; OPT.mic=false; /* 구령 소리 · 말로 내기 뺌 (대표 261123) — 효과음만. 🔈 단추가 바로 켜기 · 끄기 */
   var SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   function keep(){ try{ localStorage.setItem('nori-opt',JSON.stringify(OPT)); }catch(e){} try{ if(window.SND&&SND.set&&SND.isOn()!==OPT.sfx){ SND.set(OPT.sfx); } }catch(e){} }
   keep();
@@ -57,7 +57,7 @@ window.NA=(function(){
   function close(byDim){ if(cur){ cur.classList.remove('on'); } cur=null; if(dim) dim.classList.remove('on'); var f=onClose; onClose=null; if(byDim&&f){ f(); } }
   /* 소리 설정 */
   var ss=null, btns=[];
-  function muted(){ return !OPT.sfx&&!OPT.voice&&!OPT.mic; }
+  function muted(){ return !OPT.sfx; }
   function paint(){ if(ss){ [].forEach.call(ss.querySelectorAll('[data-o]'),function(b){ var k=b.getAttribute('data-o'); b.classList.toggle('on', k==='mute'?muted():!!OPT[k]); b.setAttribute('aria-pressed',b.classList.contains('on')?'true':'false'); }); }
     btns.forEach(function(b){ b.classList.toggle('off',muted()); }); }
   function soundSheet(){ if(!ss){ ss=sheet('<h3>소리</h3><p class="sub">식사 중이면 「모두 끄기」를 켜 주세요</p><div class="na-opts">'
@@ -75,7 +75,8 @@ window.NA=(function(){
         try{ window.dispatchEvent(new Event('na-opt')); }catch(x){} }); }
     paint(); open(ss); }
   function sndBtn(parent){ var b=el('<button type="button" class="na-snd" aria-label="소리 설정"><svg viewBox="0 0 24 24"><path d="M4 9h4l5-4v14l-5-4H4z"/><path class="w" d="M17 9a4 4 0 0 1 0 6"/><path class="x" d="M17 10l4 4M21 10l-4 4"/></svg><small>소리</small></button>');
-    b.addEventListener('click',function(e){ e.stopPropagation(); soundSheet(); }); parent.appendChild(b); btns.push(b); paint();
+    b.addEventListener('click',function(e){ e.stopPropagation(); OPT.sfx=!OPT.sfx; keep(); paint(); b.querySelector('small').textContent=OPT.sfx?'소리':'꺼짐'; if(OPT.sfx&&window.SND){ try{ SND.stone(.7); }catch(x){} } toast(OPT.sfx?'🔈 소리를 켰어요':'🔇 소리를 껐어요'); });
+    parent.appendChild(b); btns.push(b); paint(); b.querySelector('small').textContent=OPT.sfx?'소리':'꺼짐';
     d.addEventListener('pointerdown',function(){ if(OPT.sfx&&window.SND){ try{ SND.set(true); }catch(x){} } },{once:true}); return b; }
   /* 시작 전: 무엇을 걸까요? */
   var ps=null, P=null, BET='ttak', WHO='cpu';
