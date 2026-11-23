@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <!-- ★ 현재 버전 ▶ card/make.html · v2 · 261123 · [대표 261123 13:44 ~ 14:41 다시 짜기 · 시안 2] ① 겉 먼저(준비된 카드 · 사진 올리기 + 그림 열셋 + 카드 모양 다섯: 기본 · 줄무늬 · 금빛 테두리 · 사진 편지 · 꽉 채움) ② 여는 말 감성 + 문 여는 단추 하나 + 준비물 다섯 ③ 받는 분 「한 분께 · 여러 분께 · 모두에게 한 장」: 명단 붙여 넣기 · 표 · 엑셀 · CSV(AI 없이 규칙으로 단체 · 이름 · 직함 · 존칭 나눔), 존칭 모두 같게, 명단 저장(이 휴대폰에만) ④ 속: 짧게 · 조금 더 · 직접 쓰기, 글칸 위 「추가로 전할 마음을 적어 보세요」, 글 저장 · 불러오기, 여러 분이면 첫 줄 부르는 말이 이름마다 바뀜 ⑤ 손글씨: 끝인사 · 서명 저장해 두면 다음부터 저절로 채움, 「다시 쓰기 · 🎙️ 녹음 또는 파일」 한 줄 ⑥ 덧붙이기 다섯(답장 쓰기 · 전화하기 · 제 명함 보기(단추 뒤에 숨김) · ○○ 오시는 길 · 내 링크 넣기), 영상, 🎁 함께 선물하기(마음 여행지도 · 편지 · 한 편의 기록) ⑦ 보내기: 이름마다 한 장, 카톡 · 문자 · 이메일 · 주소 복사. 걷은 것: 「이대로 예쁘게 보낼래요」, 「우리 얘기」, 강제 물음 셋, 뜻 없는 단추(함께 본 사진 · 그 시절 이야기 · 마음 한마디로 답하기 · 그때 그 놀이 · 만나러 가는 길 · 우리 이야기 방 구경하기 · 예약하기), 옛 연하장 그림.
-     [고침 261123 16:21 대표] 겉 화면: 카드 모양 다섯 걷음(크리스마스면 줄무늬가 저절로) · 겉면 아래 이름 띠 걷음 · 「먼저, 카드 겉면을 골라 주세요」 대신 그림 칸 바로 위 「그림을 고르거나, 준비된 카드 · 사진을 넣어 주세요」 한 줄 · 「이 카드로 할게요」 대신 「다음」 · 명함 단추에 상호(「다복 명함 보기」) · 🎁 함께 선물하기는 결제가 붙기 전까지 실제 화면에서 감춤(시안에서만 보임).
+     [고침 261123 16:21 대표] 겉 화면: 카드 모양 다섯 걷음(크리스마스면 줄무늬가 저절로) · 겉면 아래 이름 띠 걷음 · 위쪽 빈 자리(점선) 가운데 「준비된 카드나 사진을 넣어 주세요 · 아래 그림에서 골라도 돼요」(누르면 사진 고르기) · 고르면 그 자리에 그대로 채워짐(화면을 끌어올리지 않음) · 사진은 잘리지 않고 통째로 · 「이 카드로 할게요」 대신 「다음」 · 명함 단추에 상호(「다복 명함 보기」) · 🎁 함께 선물하기는 결제가 붙기 전까지 실제 화면에서 감춤(시안에서만 보임).
      (이전) card/make.html · v1 · 261123 · 시험판 3.1판 바탕 · 사진 · 목소리 · 영상 · 카톡으로 보내기 · 주소 복사. -->
 <script src="/lf/pass.js"></script>
 <meta charset="UTF-8">
@@ -72,7 +72,8 @@ textarea{min-height:190px;line-height:1.8;resize:vertical;font-size:16px}
 /* 겉 */
 .cover{border-radius:16px;overflow:hidden;background:#fff;box-shadow:0 10px 28px rgba(27,44,71,.14);margin:0 auto 4px;max-width:460px;position:relative}
 .cover .pic{height:240px;position:relative;overflow:hidden}
-.cover .pic.hp{height:auto}.cover .pic img{display:block;width:100%}
+.cover .pic{height:250px;display:grid;place-items:center}.cover .pic svg{width:100%;height:100%}.cover .pic img{display:block;max-width:100%;max-height:250px;width:auto;height:auto;margin:0 auto}
+.cover .empty{width:100%;height:100%;display:grid;place-items:center;text-align:center;border:2px dashed #CFC8BA;border-radius:14px;background:#FBF9F5;color:#8A8374;font-size:15.5px;line-height:1.8;cursor:pointer}.cover .empty b{display:block;font-size:30px;margin-bottom:4px}
 .cover .cap{padding:10px 14px;font-size:13.5px;color:var(--sub);display:flex;justify-content:space-between}
 .cover.xmas{border:7px solid transparent;background:linear-gradient(#fff,#fff) padding-box,repeating-linear-gradient(45deg,#C8202F 0 12px,#fff 12px 24px) border-box}
 .arts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
@@ -258,8 +259,7 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
 
   <!-- 1 겉 -->
   <section class="step" data-s="1">
-    <div class="cover" id="cover" style="display:none"><div class="pic" id="coverPic"></div></div>
-    <h2 style="margin-top:10px">그림을 고르거나,<br>준비된 카드 · 사진을 넣어 주세요</h2>
+    <div class="cover" id="cover"><div class="pic" id="coverPic"></div></div>
     <div class="arts" id="arts"></div>
     <input class="vfile" id="fileP" type="file" accept="image/*">
     <button class="go" type="button" id="coverGo" disabled>다음</button>
@@ -429,15 +429,16 @@ function tick(){tone(196,0,.2)}function cheer(){tone(196,0,.4);tone(246.94,.1,.4
 function coverArt(){return ST.cover==='photo'?null:ART[ST.cover==null?0:ST.cover]}
 function coverInner(h){var a=coverArt();if(!a)return '<img alt="" src="'+MX.photo+'" style="display:block;width:100%">';return art(a.k,a.a)+(a.snow&&!h?snow():'')}
 function autoShape(){var a=coverArt();ST.shape=((a&&a.k.charAt(0)==='x')||(ST.m!=null&&MOOD[ST.m].k==='xmas'))?'stripe':'basic'}
-function paintCover(){var p=$('coverPic'),cv=$('cover');autoShape();p.className='pic';p.style.background='';cv.style.display=ST.cover==null?'none':'block';cv.className='cover'+(ST.shape==='stripe'?' xmas':'');
- if(ST.cover==='photo'&&MX.photo){p.classList.add('hp');p.innerHTML=coverInner()}
+function paintCover(){var p=$('coverPic'),cv=$('cover');autoShape();p.className='pic';p.style.background='';cv.className='cover'+(ST.cover!=null&&ST.shape==='stripe'?' xmas':'');cv.style.boxShadow=ST.cover==null?'none':'';cv.style.background=ST.cover==null?'transparent':'';
+ if(ST.cover==='photo'&&MX.photo){p.style.background='#fff';p.innerHTML='<img alt="" src="'+MX.photo+'">'}
  else if(ST.cover!=null){var a=coverArt();p.style.background=a.bg;p.innerHTML=coverInner()}
+ else{p.innerHTML='<div class="empty" id="emptyPick"><span><b>🖼️</b>준비된 카드나 사진을 넣어 주세요<br><small style="font-size:13px">아래 그림에서 골라도 돼요</small></span></div>';$('emptyPick').onclick=function(){$('fileP').click()}}
  $('coverGo').disabled=ST.cover==null}
 function drawArts(){var h='<button class="art mine" type="button" data-i="photo"><div class="pic">'+(MX.photo?'<img alt="" src="'+MX.photo+'">':'📷')+'</div><b>'+(MX.photo?'다른 것 올리기':'준비된 카드 · 사진')+'</b></button>';
  h+=ART.map(function(a,i){return '<button class="art" type="button" data-i="'+i+'"><div class="pic" style="background:'+a.bg+'">'+art(a.k,a.a)+'</div><b>'+a.n+'</b></button>'}).join('');$('arts').innerHTML=h;
  each($('arts').children,function(b){b.classList.toggle('on',String(ST.cover)===b.dataset.i);b.onclick=function(){if(b.dataset.i==='photo'){$('fileP').click();return}
-  ST.cover=+b.dataset.i;tick();each($('arts').children,function(x){x.classList.toggle('on',x===b)});paintCover();$('cover').scrollIntoView({behavior:'smooth',block:'start'})}})}
-$('fileP').onchange=function(){var f=this.files&&this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var M=1600,w=im.width,h=im.height,s=Math.min(1,M/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.round(w*s);c.height=Math.round(h*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);MX.photo=c.toDataURL('image/jpeg',.85);ST.cover='photo';tick();drawArts();paintCover();$('cover').scrollIntoView({behavior:'smooth',block:'start'})};im.onerror=function(){toast('이 그림은 열 수 없어요. 다른 것을 골라 주세요')};im.src=r.result};r.readAsDataURL(f);this.value=''};
+  ST.cover=+b.dataset.i;tick();each($('arts').children,function(x){x.classList.toggle('on',x===b)});paintCover()}})}
+$('fileP').onchange=function(){var f=this.files&&this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var M=1600,w=im.width,h=im.height,s=Math.min(1,M/Math.max(w,h)),c=document.createElement('canvas');c.width=Math.round(w*s);c.height=Math.round(h*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);MX.photo=c.toDataURL('image/jpeg',.85);ST.cover='photo';tick();drawArts();paintCover()};im.onerror=function(){toast('이 그림은 열 수 없어요. 다른 것을 골라 주세요')};im.src=r.result};r.readAsDataURL(f);this.value=''};
 $('coverGo').onclick=function(){go(2)};
 drawArts();paintCover();
 
