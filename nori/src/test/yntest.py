@@ -1,7 +1,7 @@
-# 윷놀이 한 판 끝까지(lab). 사용: yntest.py 크기 벌칙 cpu|two 실수율
+# 윷놀이 한 판 끝까지(lab). 사용: yntest.py 크기 벌칙 cpu|two 실수율 [말수 2|4] [빽도 0|1]
 import asyncio,sys,random
 from playwright.async_api import async_playwright
-W,H=map(int,sys.argv[1].split('x')); BET=sys.argv[2]; MODE=sys.argv[3]; MISS=float(sys.argv[4])
+W,H=map(int,sys.argv[1].split('x')); BET=sys.argv[2]; MODE=sys.argv[3]; MISS=float(sys.argv[4]); YNN=sys.argv[5] if len(sys.argv)>5 else '2'; YBD=sys.argv[6] if len(sys.argv)>6 else '0'
 async def main():
   async with async_playwright() as p:
     br=await p.chromium.launch(); pg=await br.new_page(viewport={'width':W,'height':H},device_scale_factor=2)
@@ -12,7 +12,8 @@ async def main():
     fr=pg.frames[-1]
     fr.on('pageerror',lambda e:errs.append(str(e)[:200]))
     if MODE=='two': await fr.click('#naWho [data-w=two]')
-    await fr.click(f'#naBets [data-b={BET}]'); await fr.click('#naGo'); await pg.wait_for_timeout(900)
+    await fr.click(f'#naBets [data-b={BET}]'); await fr.click('#naGo'); await pg.wait_for_timeout(500)
+    await fr.click(f'#ynSet [data-k=n] [data-v="{YNN}"]'); await fr.click(f'#ynSet [data-k=bd] [data-v="{YBD}"]'); await pg.screenshot(path=f'shots/yn_{W}_{MODE}_set.png'); await fr.click('#ynSet .go'); await pg.wait_for_timeout(900)
     await pg.screenshot(path=f'shots/yn_{W}_{MODE}_start.png')
     shot=0; th=0; nak=0; picks=0; res={}
     for i in range(3000):

@@ -5,7 +5,7 @@ API='https://script.google.com/macros/s/AKfycbzufDLToOhtkx8_i_bfgyIi-v8QSr0MCnTa
 OUT='loveflow/nori'
 os.makedirs(OUT,exist_ok=True)
 h=open('그때그놀이-017_다복손님용놀이입구_261121.html',encoding='utf-8').read()
-head='''<!-- ★ 현재 버전 ▶ nori/index.html · v3.0 · 261123 대표 승인 21:40(전부) — 첫 화면 칸 섞기 · 사장님 세기 설정표(중상급) · 수건돌리기 · 사방치기 · 팔씨름 고침 · 새 혼자 놀이 셋(제기차기 · 공기놀이 · 무궁화꽃) · 판 기록 · 놀이 18종 · (이전 v2.1: 팔씨름 · 엿치기 더함 · 디자인 A · 벌칙 · 결과 카드) (v1 261122) · [놀이] 그때 그 놀이 손님 화면 — 사랑흐름-총괄-002 결정 ② www.loveflow.ai.kr/nori/ · Apps Script 는 뒤(기록 · 번호 확인)만 · 카톡 바깥 브라우저 · 홈 화면에 추가 = /lf/frame.js(틀은 그리지 않음) · 푸터 = /lf-foot.js · 테두리 · 음영 없음 -->
+head='''<!-- ★ 현재 버전 ▶ nori/index.html · v3.1 · 261124 대표 승인 21:48 — 통합 표준 v0.2 말 · 화면 틀 색(가 안 · 놀이판 안 색 그대로) · 결과 카드 「카드 저장」「공유하기」 · 진행 중 나가기 확인 창 · 누르는 곳 48 · 윷놀이(말 둘 · 넷 · 빽도 고르기) · 번데기 돌림판 · 놀이 20종 · (이전 v3.0 · 261123 대표 승인 21:40(전부) — 첫 화면 칸 섞기 · 사장님 세기 설정표(중상급) · 수건돌리기 · 사방치기 · 팔씨름 고침 · 새 혼자 놀이 셋(제기차기 · 공기놀이 · 무궁화꽃) · 판 기록 · 놀이 18종 · (이전 v2.1: 팔씨름 · 엿치기 더함 · 디자인 A · 벌칙 · 결과 카드) (v1 261122) · [놀이] 그때 그 놀이 손님 화면 — 사랑흐름-총괄-002 결정 ② www.loveflow.ai.kr/nori/ · Apps Script 는 뒤(기록 · 번호 확인)만 · 카톡 바깥 브라우저 · 홈 화면에 추가 = /lf/frame.js(틀은 그리지 않음) · 푸터 = /lf-foot.js · 테두리 · 음영 없음 -->
 <link rel="manifest" href="/nori/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/nori/icon-192.png">
 <meta name="apple-mobile-web-app-title" content="그때 그 놀이">

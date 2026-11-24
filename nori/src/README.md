@@ -10,7 +10,7 @@ python3 mkall.py && python3 mknori.py          # → loveflow/nori/index.html
 cp loveflow/nori/index.html ../nori/index.html
 ```
 261122 확인: 이 폴더만으로 다시 만든 결과가 운영 중인 nori/index.html 과 바이트까지 같음.
-**261123 21:40 대표 승인 → 손님 화면 nori/index.html v3.0 = 원본 그대로(lab 과 같은 내용 · 서버 주소 · 판 기록만 다름).** 이전 메모: 원본은 디자인 A 1차(첫 화면 + 손놀이 넷) + 2차(나머지 아홉 놀이 틀 · 벌칙 — build017.py 의 askin 이 pre.js · pen.js 를 넣고 nav.js 가 덧씌움)까지 들어가 있어 운영 /nori/(v1.3.1)보다 앞섭니다.** 대표 승인 전에는 `nori/index.html` 을 덮지 말고 시험판만 만듭니다:
+**261124 21:48 대표 승인 → 손님 화면 nori/index.html v3.1 = 원본 그대로(lab 과 같은 내용 · 서버 주소 · 판 기록만 다름).** (이전: 261123 v3.0) 이전 메모: 원본은 디자인 A 1차(첫 화면 + 손놀이 넷) + 2차(나머지 아홉 놀이 틀 · 벌칙 — build017.py 의 askin 이 pre.js · pen.js 를 넣고 nav.js 가 덧씌움)까지 들어가 있어 운영 /nori/(v1.3.1)보다 앞섭니다.** 대표 승인 전에는 `nori/index.html` 을 덮지 말고 시험판만 만듭니다:
 ```
 python3 mkall.py && python3 mknori.py && python3 mklab.py   # → loveflow/nori/lab/index.html (기록 서버로 안 보냄) · lab/v5/ = 시안 v5.1
 cp loveflow/nori/lab/index.html ../nori/lab/index.html

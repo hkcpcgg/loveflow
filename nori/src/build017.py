@@ -51,7 +51,7 @@ def askin(h):
     return h[:j]+A_HEAD+h[j:]
 # 통합 표준 v0.2 화면 틀 색 · 누르는 곳 48 (대표 승인 261124 21:29 · 가 안) — 틀(위 띠 · 바탕 · 글자 · 아래 띠 홈 · 결과 카드)만 바꾸고 놀이판 안 색은 그대로(그때 그 놀이 정체성)
 V02_GAME=(':root{--ink:#2E3A46;--sub:#4A525C;--chip:#F4EEE4;--btn:#F4EEE4}html,body{background:#FFFCF7!important}'
-  '.top{background:#1E4A76!important;color:#fff!important}.top .ttl,.top>span{color:#fff!important}.top button{background:rgba(255,255,255,.14)!important;color:#fff!important;min-height:48px!important;min-width:48px!important}'
+  '.top{background:#1E4A76!important;color:#fff!important}.top .ttl,.top>span{color:#fff!important}.top button{background:rgba(255,255,255,.14)!important;color:#fff!important}.na-snd,.na-cam,html body .top .na-tr .na-snd,html body .top .na-tr .na-cam{position:relative!important}.na-snd::before,.na-cam::before{content:"";position:absolute;left:-4px;right:-4px;top:-7px;bottom:-7px}'
   '.nbar .home{background:#C9A96E!important}.ncard{background:#FFFCF7!important}.ncard .bt2 .gift{background:#C9A96E!important;color:#1E4A76!important}'
   '.kgs{width:48px!important;height:48px!important;margin:-24px 0 0 -24px!important}.kgs::after{left:11px!important;top:13px!important}'
   '.grid5 .bt,.spd button,.rules button,#oUndo,.ncard .bt2 button{min-height:48px!important}')
