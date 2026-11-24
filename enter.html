@@ -1,5 +1,6 @@
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
-<!-- ★ 현재 버전 ▶ enter.html · v5-23 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- ★ 현재 버전 ▶ enter.html · v5-24 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+   (이전) enter.html · v5-23 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) enter.html · v5-22 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
 <!-- (이전) enter.html · v5-21 · 261010 · [기기 열쇠 · 편지 서버 v38 · 63차] 편지 이어가기 주소를 구글 편지 화면 → 사랑흐름 편지 화면(/letter/)으로 바꿈. 구글 화면은 휴대폰 기기 열쇠를 읽지 못함. 그 밖 무손. -->
 <!-- ★ (이전) enter.html · v5-20 · 261005 · [작업 v5-20 · 한 바퀴 점검] 「나의 여권번호」 → 「나의 사랑흐름 여권번호」. [무손] 그 밖 전부. -->
@@ -98,7 +99,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#FFFBF5;--card:#FFFFFF;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;
---navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59;--coral-d:#F0644A;
+--navy:#1E4A76;--gold:#C9A96E;--coral:#FF7A59;--coral-d:#F0644A;
 --naver:#03C75A;--kakao:#FEE500;--acct:#1D9E75;
 --sans:'Noto Sans KR',system-ui,sans-serif}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -183,7 +184,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .step{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;flex:1;max-width:78px}
 .step .dot{width:14px;height:14px;border-radius:50%;background:#E3DAC5;z-index:2}
 .step.done .dot{background:var(--navy)}
-.step.now .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.25)}
+.step.now .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(201,169,110,.25)}
 .step .lb{font-size:10.5px;font-weight:700;color:var(--sub)}
 .step.done .lb{color:var(--navy)}
 .step.now .lb{color:#9A6F0B;font-weight:800}
@@ -196,7 +197,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .ehero h1{font-size:22px;font-weight:900;line-height:1.4;color:var(--navy);margin:0 0 20px}
 .hsub{font-size:13.5px;color:var(--sub);font-weight:600;margin-top:8px;line-height:1.6}
 .cert{position:relative;background:linear-gradient(165deg,#1E4A76 0%,#16395C 55%,#102A45 100%);border:2px solid var(--gold);border-radius:16px;padding:30px 24px 22px;margin-bottom:14px;box-shadow:0 14px 40px rgba(16,42,69,0.4);overflow:hidden}
-.cert::before{content:'';position:absolute;inset:7px;border:1px solid rgba(212,175,55,0.4);border-radius:11px;pointer-events:none}
+.cert::before{content:'';position:absolute;inset:7px;border:1px solid rgba(201,169,110,0.4);border-radius:11px;pointer-events:none}
 .cert-corner{position:absolute;width:18px;height:18px;border:2px solid var(--gold);opacity:0.7}
 .cert-corner.tl{top:13px;left:13px;border-right:none;border-bottom:none}
 .cert-corner.tr{top:13px;right:13px;border-left:none;border-bottom:none}
@@ -206,26 +207,26 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .cert-en{font-size:9px;color:var(--gold);letter-spacing:0.34em;font-weight:700;margin-bottom:14px}
 .cert-desc{font-size:12.5px;color:rgba(255,255,255,0.82);line-height:1.7;margin-bottom:16px}
 .cert-desc-en{font-size:10px;color:rgba(255,255,255,0.5);font-style:italic;letter-spacing:0.02em}
-.cert-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.6),transparent);margin:0 0 16px}
-.cert-label{font-size:9.5px;color:rgba(212,175,55,0.92);font-weight:700;letter-spacing:0.18em;margin-bottom:9px}
+.cert-divider{height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,0.6),transparent);margin:0 0 16px}
+.cert-label{font-size:9.5px;color:rgba(201,169,110,0.92);font-weight:700;letter-spacing:0.18em;margin-bottom:9px}
 .cert .pp-no{font-family:'Nanum Myeongjo',serif;font-size:clamp(32px,10vw,42px);font-weight:800;color:var(--gold);letter-spacing:0.1em;margin-bottom:10px}
 .cert-date{font-size:10.5px;color:rgba(255,255,255,0.6);margin-bottom:16px;letter-spacing:0.05em}
 .cert-note{font-size:11px;color:rgba(255,255,255,0.72);line-height:1.65;margin-bottom:18px}
 .cert-note-en{font-size:9.5px;color:rgba(255,255,255,0.45);font-style:italic}
-.cert-divider2{height:1px;background:linear-gradient(90deg,transparent,rgba(212,175,55,0.4),transparent);margin:4px 0 16px}
+.cert-divider2{height:1px;background:linear-gradient(90deg,transparent,rgba(201,169,110,0.4),transparent);margin:4px 0 16px}
 .cert-issuer-c{text-align:center;margin-bottom:16px}
 .ci-ko-wrap{position:relative;display:inline-block;margin-bottom:13px}
 .ci-ko{font-size:18px;font-weight:900;color:var(--gold);letter-spacing:0.03em}
 .ci-ko .tm{font-size:9px;vertical-align:super}
-.ci-en{font-size:9px;color:rgba(212,175,55,0.7);letter-spacing:0.16em;font-weight:700}
+.ci-en{font-size:9px;color:rgba(201,169,110,0.7);letter-spacing:0.16em;font-weight:700}
 .cert-stamp-sq{position:absolute;right:-14px;top:50%;transform:translateY(-50%) rotate(-15deg);display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;width:48px;height:48px;border:3.5px solid #C0392B;border-radius:6px;color:#C0392B;opacity:0.85;padding:3px;background:rgba(192,57,43,0.04)}
 .cert-stamp-sq .sq-l1,.cert-stamp-sq .sq-l2{font-size:7px;font-weight:900;letter-spacing:0.01em;line-height:1.15}
 .cert-stamp-sq .sq-l3{font-size:9px;font-weight:900;margin-top:1px;letter-spacing:0.08em}
 .cert-legal{font-size:8.5px;color:rgba(255,255,255,0.4);letter-spacing:0.02em;line-height:1.6;text-align:center}
 /* 통일 여권: 번호칸 아래 복사버튼(입장·조회 공용) */
 .cert .pp-no{display:block}
-.pc-copy{background:transparent;color:#E8CE7E;border:1px solid rgba(212,175,55,.55);border-radius:8px;padding:7px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin:0 0 4px}
-.pc-copy:active{transform:scale(.96);background:rgba(212,175,55,.12)}
+.pc-copy{background:transparent;color:#E8CE7E;border:1px solid rgba(201,169,110,.55);border-radius:8px;padding:7px 20px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin:0 0 4px}
+.pc-copy:active{transform:scale(.96);background:rgba(201,169,110,.12)}
 .brand{text-align:center;margin-top:24px}
 .brand img{height:34px;width:34px;object-fit:contain}
 .brand-name{font-size:17px;font-weight:900;color:var(--navy);margin-top:6px;letter-spacing:.02em}

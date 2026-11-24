@@ -1,5 +1,6 @@
 <!-- ★ 현재 버전 ▶ share.html · 261117 · [700 · 대표 OK 261117 07:36] 따로 쓰던 사업자 푸터 → 공용 푸터(lf-foot.js) — 전 화면 같은 4줄. [무손] 그 밖 전부. -->
-<!-- ★ 현재 버전 ▶ share.html · v1 · 261112 · [포털 검색 ④ · 713 · 대표 OK 19:32] 검색 제외(noindex) 한 줄만 — 옛 · 시험 · 기관 내부 자료라 검색에 내보내지 않음 · 화면 그대로 -->
+<!-- ★ 현재 버전 ▶ share.html · v2 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로) · 옛 크림 #FDF6E3 → #FFFCF7 · 진한 글자 #0A162B → #2E3A46.
+   (이전) share.html · v1 · 261112 · [포털 검색 ④ · 713 · 대표 OK 19:32] 검색 제외(noindex) 한 줄만 — 옛 · 시험 · 기관 내부 자료라 검색에 내보내지 않음 · 화면 그대로 -->
 <!DOCTYPE html>
 <!-- 사랑흐름 share.html v8 · 폰트 비차단 로딩(페북/카톡 인앱 새창에서 폰트 못받아도 즉시 렌더 → 멈춤 해결, preconnect+media swap+시스템폰트 폴백) · 가운데 계절이모지→대상별 직관 SVG아이콘(엄마/아빠/연인하트/친구/나) 골드라인, 인드라망과 톤통일 · 흐름 부드럽게(fade+살짝 떠오름 0.9s)+상단 토글 하이라이트 자동연동(카드 흐름따라 툭툭 이동) · og:image=og-share_v1_260627 지정(카톡 썸네일 연결) · 나눠주기 버튼 추가(문득 떠오르는 사람이 있나요 → 그 사람에게 보내기, 네이비 아웃라인=무료버튼보다 약하게) · 설명박스 제거+사업자/저작권 추가 · 친구만장일치 반영: 카피강화(A①읽어줍니다)+버튼강화(B①5분무료확인)+QR제거→관계초대장 · 영문 악센트 소량 추가(계절 영문라벨 토글연동·시그니처·브랜드 LOVE FLOW) — 떡칠 금지 · 경로안내+설득 버튼 추가(다번: 내 관계는 어떤 계절일까·무료로 보기 → /compass) · 2026.06.27 · 계절 질문형(친구 6/20 결론: "엄마와의 관계는 지금 어떤 계절?") + 관계대상 토글 · 카톡/인스타 공유용 · [독립시안] -->
 <html lang="ko"><head><meta charset="utf-8">
@@ -16,7 +17,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap" media="print" onload="this.media='all'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;700&display=swap"></noscript>
 <style>
-:root{--navy:#102543;--navy2:#1E4A76;--gold:#D4AF37;--gold2:#C9A24B;--cream:#FDF6E3;--ink:#1A1A2E}
+:root{--navy:#102543;--navy2:#1E4A76;--gold:#C9A96E;--gold2:#C9A24B;--cream:#FFFCF7;--ink:#1A1A2E}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;background:#EDEAE0;padding:30px 16px;color:var(--ink)}
 .wrap{max-width:400px;margin:0 auto}
@@ -32,13 +33,13 @@ body{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif
 /* 계절 별·인드라망 분위기 */
 .stars{position:absolute;inset:0;opacity:.5}
 .card-in{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:36px 28px;color:#fff}
-.sig-en{font-size:9.5px;letter-spacing:.34em;color:rgba(212,175,55,.75);font-weight:700;margin-bottom:20px}
+.sig-en{font-size:9.5px;letter-spacing:.34em;color:rgba(201,169,110,.75);font-weight:700;margin-bottom:20px}
 .season-en{font-family:'Nanum Myeongjo','Noto Serif KR',serif;font-size:11px;letter-spacing:.22em;color:rgba(255,255,255,.55);margin:8px 0 16px;font-weight:400}
 .card-in .q,.card-in .sub,.card-in .season-emoji,.card-in .sig-en{transition:opacity .9s ease, transform .9s ease}
 .card-in.fade .q,.card-in.fade .sub,.card-in.fade .season-emoji,.card-in.fade .sig-en{opacity:0;transform:translateY(10px)}
-.season-emoji{line-height:1;margin-bottom:16px;display:flex;justify-content:center;align-items:center;height:62px;filter:drop-shadow(0 4px 16px rgba(212,175,55,.4))}
+.season-emoji{line-height:1;margin-bottom:16px;display:flex;justify-content:center;align-items:center;height:62px;filter:drop-shadow(0 4px 16px rgba(201,169,110,.4))}
 .q{font-family:'Nanum Myeongjo','Noto Serif KR',serif;font-size:25px;font-weight:800;line-height:1.5;color:#F4ECD6}
-.q .who{color:var(--gold);border-bottom:2px solid rgba(212,175,55,.5)}
+.q .who{color:var(--gold);border-bottom:2px solid rgba(201,169,110,.5)}
 .sub{margin-top:22px;font-size:13.5px;color:rgba(255,255,255,.7);line-height:1.7;font-weight:500}
 .sub b{color:#EBD9A8;font-weight:700}
 .brand{position:absolute;left:0;right:0;bottom:0;z-index:3;padding:16px;display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(0deg,rgba(8,16,30,.85),transparent);font-size:12px;color:rgba(255,255,255,.75)}
@@ -46,9 +47,9 @@ body{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif
 .brand .dot{color:var(--gold)}
 
 /* QR 자리 */
-.invite{position:absolute;top:16px;right:16px;z-index:3;padding:7px 12px;border-radius:999px;border:1px solid rgba(212,175,55,.6);background:rgba(212,175,55,.12);font-family:'Nanum Myeongjo','Noto Serif KR',serif;font-size:10px;font-weight:700;color:#EBD9A8;text-align:center;line-height:1.35;letter-spacing:.04em}
+.invite{position:absolute;top:16px;right:16px;z-index:3;padding:7px 12px;border-radius:999px;border:1px solid rgba(201,169,110,.6);background:rgba(201,169,110,.12);font-family:'Nanum Myeongjo','Noto Serif KR',serif;font-size:10px;font-weight:700;color:#EBD9A8;text-align:center;line-height:1.35;letter-spacing:.04em}
 
-.cta-btn{display:block;margin:18px 6px 0;text-align:center;background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#0A162B;font-size:16.5px;font-weight:800;padding:18px;border-radius:15px;text-decoration:none;box-shadow:0 10px 26px rgba(201,162,75,.5)}
+.cta-btn{display:block;margin:18px 6px 0;text-align:center;background:linear-gradient(135deg,#E8C46A,#C9A24B);color:#2E3A46;font-size:16.5px;font-weight:800;padding:18px;border-radius:15px;text-decoration:none;box-shadow:0 10px 26px rgba(201,162,75,.5)}
 .cta-cap{text-align:center;font-size:11.5px;color:#8A8270;margin-top:9px;line-height:1.6}
 .note{background:#fff;border:1px solid #E6E2D7;border-radius:14px;padding:16px;margin-top:20px;font-size:13px;color:#5A5648;line-height:1.8}
 .note b{color:var(--navy2)}
@@ -69,7 +70,7 @@ body{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif
   <div class="card">
     <svg class="stars" viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
       <g fill="#fff"><circle cx="50" cy="60" r="1.3"/><circle cx="120" cy="40" r="1"/><circle cx="320" cy="70" r="1.4"/><circle cx="360" cy="130" r="1"/><circle cx="40" cy="160" r="1.1"/><circle cx="280" cy="200" r="1"/><circle cx="90" cy="430" r="1.2"/><circle cx="340" cy="400" r="1"/><circle cx="200" cy="470" r="1.1"/><circle cx="160" cy="100" r=".9"/></g>
-      <g stroke="rgba(212,175,55,.25)" stroke-width="1"><line x1="200" y1="250" x2="120" y2="180"/><line x1="200" y1="250" x2="300" y2="190"/><line x1="200" y1="250" x2="250" y2="350"/></g>
+      <g stroke="rgba(201,169,110,.25)" stroke-width="1"><line x1="200" y1="250" x2="120" y2="180"/><line x1="200" y1="250" x2="300" y2="190"/><line x1="200" y1="250" x2="250" y2="350"/></g>
       <circle cx="120" cy="180" r="4" fill="rgba(111,207,151,.6)"/><circle cx="300" cy="190" r="4" fill="rgba(111,168,201,.6)"/><circle cx="250" cy="350" r="4" fill="rgba(224,168,90,.6)"/>
       <circle cx="200" cy="250" r="6" fill="var(--gold)" opacity=".7"/>
     </svg>
@@ -80,7 +81,7 @@ body{font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif
       <div class="q" id="cQ">요즘,<br><span class="who">엄마</span> 생각이 나시나요?</div>
       <div class="sub" id="cSub">사랑하지 않아서가 아니라,<br>서로의 계절이 달랐을지도 모릅니다.</div>
     </div>
-    <div class="brand"><span class="logo">사랑흐름</span><span style="font-size:9px;letter-spacing:.18em;color:rgba(212,175,55,.8)">LOVE FLOW</span><span class="dot">·</span><span>loveflow.ai.kr</span></div>
+    <div class="brand"><span class="logo">사랑흐름</span><span style="font-size:9px;letter-spacing:.18em;color:rgba(201,169,110,.8)">LOVE FLOW</span><span class="dot">·</span><span>loveflow.ai.kr</span></div>
   </div>
 
   <a class="cta-btn" href="/compass.html" onclick="try{gtag('event','click_compass',{from:'sharecard'});}catch(e){}">🧭 우리 관계의 계절 · 5분 무료로 확인 →</a>

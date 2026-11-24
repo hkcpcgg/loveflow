@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ pay.html · v14-70 · 261123 · [대표 261123 21:05 · 21:23 「카드가 주인 · 선물은 고른 분께만 아래로 · 결제 창으로 갈 때 양해」] 카드 안 선물 모드(?mode=gift&in=card · 마음 카드 만들기 화면 안 틀로 열릴 때만): 사이트 띠 · 아래 띠 감춤 · 선물하기 / 구매하기 고르기 · 몇 명 · 받는 분 · 보내는 글 · 그 시절 이야기 칸 감춤(카드가 그 일을 함) · 몇 명 = 카드 받는 분 수 · 받는 분 이름을 선물 줄에 · 보내는 분 = 카드의 보내는 분 · 오픈마켓 감춤 · 계좌이체 접수 뒤 선물함으로 넘어가지 않고 카드 화면에 선물 번호를 넘김 · 카드 결제는 주문을 적은 뒤 카드 화면이 양해 안내를 띄우고 토스 결제 창을 엶 · 결제 승인(&back=card)이 끝나면 선물함 대신 카드 만들기로 돌아감. 그 밖 v14-69 그대로. -->
+<!-- ★ 현재 버전 ▶ pay.html · v14-71 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+   (이전) pay.html · v14-70 · 261123 · [대표 261123 21:05 · 21:23 「카드가 주인 · 선물은 고른 분께만 아래로 · 결제 창으로 갈 때 양해」] 카드 안 선물 모드(?mode=gift&in=card · 마음 카드 만들기 화면 안 틀로 열릴 때만): 사이트 띠 · 아래 띠 감춤 · 선물하기 / 구매하기 고르기 · 몇 명 · 받는 분 · 보내는 글 · 그 시절 이야기 칸 감춤(카드가 그 일을 함) · 몇 명 = 카드 받는 분 수 · 받는 분 이름을 선물 줄에 · 보내는 분 = 카드의 보내는 분 · 오픈마켓 감춤 · 계좌이체 접수 뒤 선물함으로 넘어가지 않고 카드 화면에 선물 번호를 넘김 · 카드 결제는 주문을 적은 뒤 카드 화면이 양해 안내를 띄우고 토스 결제 창을 엶 · 결제 승인(&back=card)이 끝나면 선물함 대신 카드 만들기로 돌아감. 그 밖 v14-69 그대로. -->
 <!-- (이전) pay.html · v14-69 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 공용 소리 lf/fx.js ?v=1 → ?v=3(솔 바탕 중저음 · 크기 중하). [무손] 그 밖 전부. -->
 <!-- (이전) pay.html · v14-68 · 261121 · [889 · 환불 v3 제2조의2] 선물로 결제할 때 「시작 전 알아두실 사항」 끝에 한 줄 — 「받으시는 분이 열지 않으신 편은 1년 안에 돌려 드려요. 받으신 분이 무엇을 여셨는지는 알려 드리지 않아요.」(일반 결제에는 안 나옴). 결제 화면 1년 줄(D12)은 토스 확인 뒤. [무손] 그 밖 전부. -->
 <!-- (이전)  pay.html · v14-67 · 261121 · [884 · 이사회 110차 D10] 결제 끝 방문 통계(purchase)에 주문번호(transaction_id)를 보내지 않음 — 금액 · 상품만(일반 결제 · 선물 두 곳). [무손] 그 밖 전부. -->
@@ -152,7 +153,7 @@
 <script src="https://js.tosspayments.com/v2/standard"></script>
 <style>
 :root{--bg:#FFFBF5;--card:#FFFFFF;--ink:#2E3A46;--sub:#7C8794;--line:#EEE9DF;
---navy:#1E4A76;--gold:#D4AF37;--coral:#FF7A59;--coral-d:#F0644A;
+--navy:#1E4A76;--gold:#C9A96E;--coral:#FF7A59;--coral-d:#F0644A;
 --naver:#03C75A;--kakao:#FEE500;--acct:#1D9E75;
 --sans:'Noto Sans KR',system-ui,sans-serif}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
@@ -265,7 +266,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .step{display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;flex:1;max-width:78px}
 .step .dot{width:14px;height:14px;border-radius:50%;background:#E3DAC5;z-index:2}
 .step.done .dot{background:var(--navy)}
-.step.now .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(212,175,55,.25)}
+.step.now .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(201,169,110,.25)}
 .step .lb{font-size:10.5px;font-weight:700;color:var(--sub)}
 .step.done .lb{color:var(--navy)}
 .step.now .lb{color:#9A6F0B;font-weight:800}
@@ -299,7 +300,7 @@ body{background:#E7E1D6;font-family:var(--sans);color:var(--ink);min-height:100v
 .choice-exit button{flex:1;padding:12px 8px;border-radius:12px;border:1px solid #C7D6E6;background:#fff;color:#5A6B7E;font-size:13px;font-weight:500;font-family:inherit;cursor:pointer;word-break:keep-all;line-height:1.35}
 .ways{display:flex;flex-direction:column;gap:8px;margin:18px 30px 6px}
 .ways .way{width:100%;height:44px;border-radius:22px;border:1px solid #C7D6E6;background:#fff;color:#5A6B7E;font-size:14px;font-weight:500;font-family:inherit;cursor:pointer}
-.ways .way-gold{border-color:#D4AF37;color:#8a6510;background:#FBF7EC}
+.ways .way-gold{border-color:#C9A96E;color:#8a6510;background:#FBF7EC}
 .way-row{display:flex;gap:10px}
 .way-row .way{flex:1;width:auto}
 .way-share{display:flex;align-items:center;justify-content:center;margin:6px auto 0;width:42px;height:42px;border-radius:50%;border:1px solid #C7D6E6;background:#fff;cursor:pointer;padding:0}

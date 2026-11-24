@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/ident.js · v4 · 261109 — ★[541 · 대표 지적 261109 16:03] 연락처 「010 ▾ + 뒷번호」 → 한 칸(예시 010-1234-5678 · 숫자만 쳐도 「-」 자동) · 서버로 가는 값(contact · phone4)은 그대로. [무손] 성명 · 동의 · 그 밖 전부.
+   현재 버전 ▶ lf/ident.js · v5 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+   (이전) lf/ident.js · v4 · 261109 — ★[541 · 대표 지적 261109 16:03] 연락처 「010 ▾ + 뒷번호」 → 한 칸(예시 010-1234-5678 · 숫자만 쳐도 「-」 자동) · 서버로 가는 값(contact · phone4)은 그대로. [무손] 성명 · 동의 · 그 밖 전부.
    ── 이전 ── v3 · 261005 — ★[약관 확정 · 대표 ok 261005] 동의 기록 버전 draft-261001 → v2-261012 · 「문구 초안」 표시 걷음.
    ── 이전 ── v2 · 261002 — ★문구를 사랑흐름 말로(대표 지적 261002): 「성함」→「성명」, 「여권」을 앞말 없이 쓰던 자리 → 「사랑흐름 여권번호」, 연락처 앞자리는 번호만(02 · 031 … 070), 연락처 밑 안내 글 삭제, 알림 문구를 한 틀로(성명을 적어 주세요 · 연락처를 적어 주세요 · 연락처를 다시 확인해 주세요 · 개인정보 수집·이용 동의에 체크해 주세요). 칸 모양은 그 화면에 원래 있는 칸 클래스를 넘겨받아 같게(labelClass · inputClass · selectClass). — v1 · 261001 — ★새 부품 (자서전 공사 칸 11)
    성명 + 연락처(앞자리 고르기 + 뒷번호) + 개인정보 필수 동의 — 한 곳에서 그립니다.
@@ -31,7 +32,7 @@
     + '.lfi-l{font-size:13px;font-weight:700;color:#1E4A76;margin:12px 0 6px}'
     + '.lfi-in,.lfi-sel{box-sizing:border-box;height:46px;border:1.5px solid #D9D4C7;border-radius:12px;background:#fff;'
     +   'font-size:16px;color:#1E4A76;padding:0 12px;font-family:inherit;outline:none}'
-    + '.lfi-in:focus,.lfi-sel:focus{border-color:#D4AF37}'
+    + '.lfi-in:focus,.lfi-sel:focus{border-color:#C9A96E}'
     + '.lfi-name{width:100%}'
     + '.lfi-row{display:flex;gap:6px}'
     + '.lfi-row .lfi-sel{flex:0 0 112px!important;width:112px!important;min-width:0!important;padding:0 28px 0 12px!important;text-align:left!important;'

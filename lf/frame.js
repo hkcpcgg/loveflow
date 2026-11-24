@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v36 · 261122 · [놀이-총괄-002 요청 2 · 총괄-002 결정 ②] ☰ 「마음 전하기 (무료)」 맨 아래에 「그때 그 놀이」 한 줄(→ /nori/). [무손] 그 밖 v35 전부.
+   현재 버전 ▶ lf/frame.js · v37 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 카톡에서 바깥으로 넘기기 전 한 줄 안내(LFKakaoOut · 이유 · 돌아오는 길 · 막히면 「휴대폰 기본 앱에서 열기」) · 「브라우저 메뉴」 → 「메뉴」 · 넘기는 동작은 그대로(533).
+   (이전) lf/frame.js · v36 · 261122 · [놀이-총괄-002 요청 2 · 총괄-002 결정 ②] ☰ 「마음 전하기 (무료)」 맨 아래에 「그때 그 놀이」 한 줄(→ /nori/). [무손] 그 밖 v35 전부.
    (이전) lf/frame.js · v35 · 261119 · [827 · 829] 인쇄 · PDF — 화면 위 · 아래 띠 자리(padding 52px · 72px)를 인쇄에서 0 으로(앞 규칙은 !important 가 없어 안 먹혔음) → 책 · 지도 결과 · 편지 등 인쇄할 때 첫 장이 밀려 빈 쪽이 끼던 것. [무손] 화면 모습 · 그 밖 v34 전부.
    (이전) lf/frame.js · v34 · 261118 · [740 · 742 · 대표 OK 261118 17:4x 「권고안대로」] 떠 있는 공유 · 위로 동그라미 — ① 44 → 36 · 오른쪽 끝(6px) · 반투명 ② 내려 보는 동안 숨고 손을 멈추면(0.7초) 다시 나타남 ③ 아래 고정 띠(.dock · [data-lf-dock])가 있는 화면은 띠 위로 올림. [무손] 그 밖 전부.
    (이전) lf/frame.js · v33 · 261117 · [대표 261117 19:41 「우리 이야기 가는 링크 · ☰ 안내 메뉴 왜 다 없어졌어 · 상호 연계가 돼야」] v32 에서 걷었던 것 되돌림 — 아래 띠 다섯째 「우리 이야기」 칸 · ☰ 맨 위 「우리 이야기 · 기록관」 묶음(마당 · 이야기방 만들기 · 기록관 만들기 → uriyagi.kr) · 그 아래 「기관 · 단체 제안」 자리 · /rec/ 불 켜기 줄. 내용은 v31 그대로. [무손] 그 밖 전부.
@@ -50,6 +51,27 @@
    [색] 딥네이비 = 틀 · 누르는 곳 / 골드 = 소중한 것 / 오렌지(살구) = 지금 여기 · 새것
    [원칙] 백틱 금지 · 문자열 연결(+)만 · 아이콘은 모두 동그라미 · 이모지 대신 선 아이콘
    ═══════════════════════════════════════════════════════════════════ */
+/* ★v37 통합 표준 v0.2 6장 2 · 대표 261124 21:12 — 카톡에서 바깥으로 넘기기 전에 한 줄 안내(이유 · 돌아오는 길) 뒤 넘김.
+   넘김이 막히면 판에 「휴대폰 기본 앱에서 열기」 단추가 남음(대체 경로). 넘기는 동작 자체는 그대로(533). */
+window.LFKakaoOut = function (u, auto) {
+  var go = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(u);
+  function paint() {
+    try {
+      if (document.getElementById('lfKkOut')) { return; }
+      var d = document.createElement('div'); d.id = 'lfKkOut';
+      d.setAttribute('style', 'position:fixed;inset:0;z-index:2147483600;background:rgba(255,252,247,.97);display:flex;align-items:center;justify-content:center;padding:24px;font:16px/1.6 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;color:#2E3A46');
+      d.innerHTML = '<div style="max-width:340px;width:100%;text-align:center">'
+        + '<div style="width:52px;height:52px;margin:0 auto 14px;border-radius:50%;background:#1E4A76;color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px">↗</div>'
+        + '<p style="margin:0 0 6px;font-weight:700;color:#1E4A76;font-size:17px">휴대폰 기본 앱에서 열어요</p>'
+        + '<p style="margin:0 0 18px;color:#4A525C;font-size:15px">카카오톡 안에서는 저장 · 결제가 막히는 곳이 있어요. 이용을 마치면 카카오톡으로 돌아오시면 돼요.</p>'
+        + '<a href="' + go + '" style="display:block;min-height:52px;line-height:52px;border-radius:12px;background:#1E4A76;color:#fff;font-weight:700;text-decoration:none">휴대폰 기본 앱에서 열기</a>'
+        + '</div>';
+      (document.body || document.documentElement).appendChild(d);
+    } catch (e) {}
+  }
+  if (document.body) { paint(); } else { document.addEventListener('DOMContentLoaded', paint); }
+  setTimeout(function () { try { location.replace(go); } catch (e) {} }, auto ? 1400 : 900);
+};
 /* ★v18 533 카톡 안에서 열리면 바로 바깥 브라우저로 — 한 창에 한 번 · ?kk=0 이면 안 넘김 */
 (function () {
   try {
@@ -64,7 +86,7 @@
       if (pp && /^\/(memoir|letter|l|journey|m|draw|hanmadi)\//.test(location.pathname) && !/[?&]id=/.test(u)) { u += (u.indexOf('?') > -1 ? '&' : '?') + 'id=' + encodeURIComponent(String(pp).trim().toUpperCase()); }
     } catch (e2) {}
     window.__lfOut = u;
-    location.replace('kakaotalk://web/openExternal?url=' + encodeURIComponent(u));
+    window.LFKakaoOut(u, true);
   } catch (e) {}
 })();
 (function () {
@@ -616,14 +638,14 @@
         + '<div class="lfh-step"><b>□↑</b>공유 단추(화면 아래)</div>' + A + '<div class="lfh-step"><b>＋</b>홈 화면에 추가</div>' + A + '<div class="lfh-step"><b>추가</b>오른쪽 위</div>');
     } else {
       sheet('<h2>📲 홈 화면에 추가</h2><p>아래 순서대로 한 번만 눌러 주세요.</p>'
-        + '<div class="lfh-step"><b>⋮</b>브라우저 메뉴(오른쪽 위)</div>' + A + '<div class="lfh-step"><b>＋</b>홈 화면에 추가</div>' + A + '<div class="lfh-step"><b>추가</b>확인</div>'
+        + '<div class="lfh-step"><b>⋮</b>메뉴(오른쪽 위)</div>' + A + '<div class="lfh-step"><b>＋</b>홈 화면에 추가</div>' + A + '<div class="lfh-step"><b>추가</b>확인</div>'
         + '<p style="font-size:13px;color:#6B7785;margin:10px 0 0">삼성 인터넷은 ≡ 메뉴 → 현재 페이지 추가 → 홈 화면</p>');
     }
   }
   function add() {
     if (inRec && typeof window.pwaGo === 'function') { window.pwaGo(); return; }
     if (standalone()) { sheet('<h2>이미 홈 화면에 있습니다</h2><p>이미 아이콘으로 열고 계십니다.</p>'); return; }
-    if (inKakao) { location.href = 'kakaotalk://web/openExternal?url=' + encodeURIComponent(location.href.split('#')[0]); return; }
+    if (inKakao) { window.LFKakaoOut(location.href.split('#')[0], false); return; }
     if (EV) { var ev = EV; EV = null; try { ev.prompt(); ev.userChoice.then(function (c) { if (c && c.outcome !== 'accepted') { EV = ev; } })['catch'](function () {}); } catch (e) { guide(); } return; }
     guide();
   }

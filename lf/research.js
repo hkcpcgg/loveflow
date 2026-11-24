@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/research.js · v4 · 261121 · [대표 261121 16:33 같은 뜻] % 숫자도 세어 올라가지 않고 처음부터 그 숫자로(세는 도중 91% 가 54% 로 읽힘) · 고리 움직임은 그대로.
+   현재 버전 ▶ lf/research.js · v5 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+   (이전) lf/research.js · v4 · 261121 · [대표 261121 16:33 같은 뜻] % 숫자도 세어 올라가지 않고 처음부터 그 숫자로(세는 도중 91% 가 54% 로 읽힘) · 고리 움직임은 그대로.
    (이전) lf/research.js · v3 · 261121 · [대표 261121 16:33 「3:1 · 5:1 숫자가 다르게 보임」] 5:1(Gottman) 비율은 0에서 세어 올라가지 않고 처음부터 5:1 로 — 세어 올라가는 동안 3:1 처럼 다른 숫자로 읽히던 것 · 고리 움직임 · % 숫자 세기는 그대로.
    (이전) lf/research.js · v2 · 261118 · [735 · 대표 261118 16:51 「타이틀 · 내용에 맞게 · 알아서」] 상품 칸 머리글 영어(WHY A MAP 등) → 「관련 연구 · 학술 근거」(상품 다섯 · youth 포함). 그 밖 v1 그대로.
    (이전) lf/research.js · v1 · 261118 · [734 · 대표 OK 261118 15:33 「나머지 작업은 오케이」 · 시안 research_preview 261118]
@@ -22,13 +23,13 @@
     /* main — v14 */
     + '.lfr-sb{border-radius:18px;overflow:hidden;box-shadow:0 8px 28px rgba(10,22,43,.14);text-align:left}'
     + '.lfr-sh{background:linear-gradient(180deg,#16294A,#0A162B);color:#fff;padding:24px 22px;cursor:pointer;-webkit-tap-highlight-color:transparent}'
-    + '.lfr-eye{font-size:11px;letter-spacing:.2em;color:#D4AF37;font-weight:700;text-align:center}'
+    + '.lfr-eye{font-size:11px;letter-spacing:.2em;color:#C9A96E;font-weight:700;text-align:center}'
     + '.lfr-tt{font-size:22px;font-weight:800;text-align:center;margin:8px 0 10px;display:flex;align-items:center;justify-content:center;gap:10px;color:#fff}'
-    + '.lfr-ar{font-size:13px;color:#D4AF37;transition:.3s}.lfr-sb.open .lfr-ar{transform:rotate(180deg)}'
+    + '.lfr-ar{font-size:13px;color:#C9A96E;transition:.3s}.lfr-sb.open .lfr-ar{transform:rotate(180deg)}'
     + '.lfr-ds{font-size:13.5px;color:rgba(255,255,255,.82);text-align:center;line-height:1.7}'
     + '.lfr-x5{display:flex;justify-content:center;gap:10px;margin-top:14px}'
     + '.lfr-x5 span{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.08);display:flex;align-items:center;justify-content:center;font-size:18px;opacity:.55;transform:scale(.85);transition:.45s}'
-    + '.lfr-sb.open .lfr-x5 span{opacity:1;transform:none;background:rgba(212,175,55,.18)}'
+    + '.lfr-sb.open .lfr-x5 span{opacity:1;transform:none;background:rgba(201,169,110,.18)}'
     + '.lfr-sb.open .lfr-x5 span:nth-child(2){transition-delay:.08s}.lfr-sb.open .lfr-x5 span:nth-child(3){transition-delay:.16s}.lfr-sb.open .lfr-x5 span:nth-child(4){transition-delay:.24s}.lfr-sb.open .lfr-x5 span:nth-child(5){transition-delay:.32s}'
     + '.lfr-bd{background:#fff;max-height:0;overflow:hidden;transition:max-height .5s ease}.lfr-sb.open .lfr-bd{max-height:2600px}'
     + '.lfr-bi{padding:18px 16px}'
