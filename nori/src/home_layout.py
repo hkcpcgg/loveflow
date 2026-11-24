@@ -22,14 +22,17 @@ NEW_PICS = {
 def _em(t, n): return '<span class="pic em n%d" aria-hidden="true">%s</span>' % (n, t)
 NEW_PICS.update({'rp': _em('✌️✊✋',3), 'hj': _em('🤲',1), 'mj': _em('👊✌️✋',3), 'br': _em('🤲👊',2)})
 NEW_PICS.update({'aw': _em('💪',1), 'yt': _svg('<g fill="#E8C98E"><rect x="22" y="8" width="11" height="52" rx="5.5"/><rect x="37" y="8" width="11" height="52" rx="5.5" fill="#F0CB8A"/><rect x="52" y="8" width="11" height="52" rx="5.5"/></g>')})
-NAMES = {'jg':'제기차기','gg':'공기놀이','aw':'팔씨름','yt':'엿치기','rp':'가위바위보','hj':'구슬 홀짝','mj':'묵찌빠','br':'쌀보리','mg':'무궁화 꽃이 피었습니다','yn':'윷놀이','sg':'수건돌리기','db':'다방구','sb':'사방치기'}
-SHORT = {'mg':'무궁화꽃'}
+NAMES = {'jg':'제기차기','gg':'공기놀이','aw':'팔씨름','yt':'엿치기','rp':'가위바위보','hj':'구슬 홀짝','mj':'묵찌빠','br':'쌀보리','mg':'무궁화 꽃이 피었습니다','yn':'윷놀이','sg':'수건돌리기','db':'다방구','sb':'사방치기','bn':'번데기 돌림판'}
+SHORT = {'mg':'무궁화꽃','bn':'번데기 뽑기'}
 # 새 혼자 놀이 (261123): 제기차기 · 공기놀이 그림 — 면 색만, 선 · 그림자 없음
 NEW_PICS['jg']=_svg('<g><rect x="30" y="6" width="7" height="34" rx="3.5" fill="#FFC21A" transform="rotate(-10 33 40)"/><rect x="38" y="4" width="7" height="36" rx="3.5" fill="#2E9E4F"/><rect x="46" y="6" width="7" height="34" rx="3.5" fill="#2F64E0" transform="rotate(10 50 40)"/></g><ellipse cx="42" cy="46" rx="15" ry="8" fill="#B98A3E"/><rect x="38" y="42" width="8" height="6" fill="#7A5A24"/><rect x="28" y="60" width="28" height="6" rx="3" fill="#3B3F4A"/>')
 NEW_PICS['gg']=_svg('<ellipse cx="42" cy="12" rx="8" ry="7" fill="#8A5A36"/><rect x="6" y="40" width="72" height="26" rx="8" fill="#F3E6C8"/><g fill="#C98A5A"><ellipse cx="20" cy="52" rx="8" ry="7"/><ellipse cx="36" cy="58" rx="8" ry="7"/><ellipse cx="52" cy="50" rx="8" ry="7"/><ellipse cx="66" cy="58" rx="8" ry="7"/></g><path d="M42 22v12" stroke="#C9B48A" stroke-width="2" stroke-dasharray="3 3"/>')
 
 # 윷놀이 칸 그림 (261123): 면 색만(선 · 그림자 없음) — 납작한 면(연한 색 · 가로 무늬) 둘 · 둥근 등(진한 색) 둘
 NEW_PICS['yn']=_svg('<g><rect x="12" y="8" width="11" height="52" rx="5.5" fill="#B98A4E"/><rect x="28" y="8" width="11" height="52" rx="5.5" fill="#F3DFB4"/><rect x="45" y="8" width="11" height="52" rx="5.5" fill="#B98A4E"/><rect x="61" y="8" width="11" height="52" rx="5.5" fill="#F3DFB4"/></g><g fill="#B98A4E"><rect x="28" y="22" width="11" height="2.5"/><rect x="28" y="44" width="11" height="2.5"/><rect x="61" y="22" width="11" height="2.5"/><rect x="61" y="44" width="11" height="2.5"/></g>')
+
+# 번데기 돌림판 칸 그림 (261124): 나무판 · 미색 칸 · 못 바늘 — 화려하지 않게
+NEW_PICS['bn']=_svg('<circle cx="42" cy="36" r="31" fill="#B98A4E"/><path d="M42 36L42.0 9.0A27 27 0 0 1 62.7 18.6Z" fill="#E3DACB"/><path d="M42 36L62.7 18.6A27 27 0 0 1 68.9 38.4Z" fill="#F6ECD6"/><path d="M42 36L68.9 38.4A27 27 0 0 1 64.1 51.5Z" fill="#EBD7AE"/><path d="M42 36L64.1 51.5A27 27 0 0 1 60.4 55.7Z" fill="#F6ECD6"/><path d="M42 36L60.4 55.7A27 27 0 0 1 38.7 62.8Z" fill="#E3DACB"/><path d="M42 36L38.7 62.8A27 27 0 0 1 28.1 59.1Z" fill="#F6ECD6"/><path d="M42 36L28.1 59.1A27 27 0 0 1 15.8 42.5Z" fill="#EBD7AE"/><path d="M42 36L15.8 42.5A27 27 0 0 1 20.2 20.1Z" fill="#E3DACB"/><path d="M42 36L20.2 20.1A27 27 0 0 1 31.0 11.3Z" fill="#EBD7AE"/><path d="M42 36L31.0 11.3A27 27 0 0 1 36.4 9.6Z" fill="#F6ECD6"/><path d="M42 36L36.4 9.6A27 27 0 0 1 42.0 9.0Z" fill="#EBD7AE"/><circle cx="42" cy="36" r="4" fill="#55493C"/><rect x="39" y="0" width="6" height="9" rx="2" fill="#55493C"/><rect x="41" y="6" width="2" height="10" fill="#3B3229"/>')
 
 def restructure(scr):
     # 지금 칸(그림) 모으기 — 「새」 표시는 뺌
@@ -45,10 +48,10 @@ def restructure(scr):
         return ('<section class="grp"><h2>%s<small>%s</small></h2><div class="games">' % (title, sub)) + ''.join(items) + '</div></section>'
     body = ('<div class="body">'
       '<p class="lure"><b class="shopN">다복</b>에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
-      + sec('혼자서 바로', '사장님과 한 판', [newt('rp'), newt('hj'), newt('mj'), newt('br'), newt('aw'), newt('yt'), tiles['dt'], tiles['th'], tiles['pt'], tiles['bw'], newt('jg'), newt('gg'), newt('mg')])
+      + sec('혼자서 바로', '사장님과 한 판', [newt('rp'), newt('hj'), newt('mj'), newt('br'), newt('aw'), newt('yt'), tiles['dt'], tiles['th'], tiles['pt'], tiles['bw'], newt('jg'), newt('gg'), newt('mg'), newt('bn')])
       + sec('둘이서 겨루기', '폰 하나로 번갈아', [tiles['om'], tiles['ak'], tiles['tk'], tiles['rd'], tiles['mb'], newt('yn')])
       + sec('여럿이 함께', '폰 하나로 돌려 가며', [newt('sb'), newt('sg'), soon('db')])
-      + '<script>/* 261123 대표 지적: 손 그림 칸이 한데 몰림 → 열 때마다 칸 섞기 · 닮은 그림 칸끼리 옆·위아래로 붙지 않게 · 「준비 중」은 맨 끝 */(function(){var L={rp:\'h\',hj:\'h\',mj:\'h\',br:\'h\',aw:\'h\',dt:\'t\',bw:\'t\',om:\'s\',ak:\'s\',tk:\'d\',rd:\'d\'},C=3;function lk(b){return L[b.getAttribute(\'data-go\')]||b.getAttribute(\'data-go\')||\'x\';}function ok(a){for(var i=0;i<a.length;i++){var k=lk(a[i]);if(i%C<C-1&&i+1<a.length&&lk(a[i+1])===k)return false;if(i+C<a.length&&lk(a[i+C])===k)return false;}return true;}function mix(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}var gs=document.querySelectorAll(\'.grp .games\');for(var g=0;g<gs.length;g++){var box=gs[g],all=[].slice.call(box.children),on=[],off=[];for(var i=0;i<all.length;i++){(all[i].classList.contains(\'soon\')?off:on).push(all[i]);}var a=on.slice();for(var n=0;n<3000;n++){mix(a);if(ok(a))break;}if(!ok(a))a=on;a=a.concat(off);for(var i=0;i<a.length;i++)box.appendChild(a[i]);}})();</script>'
+      + '<script>/* 261123 대표 지적: 손 그림 칸이 한데 몰림 → 열 때마다 칸 섞기 · 닮은 그림 칸끼리 옆·위아래로 붙지 않게 · 「준비 중」은 맨 끝 */(function(){var L={rp:\'h\',hj:\'h\',mj:\'h\',br:\'h\',aw:\'h\',dt:\'t\',bw:\'t\',bn:\'t\',om:\'s\',ak:\'s\',tk:\'d\',rd:\'d\'},C=3;function lk(b){return L[b.getAttribute(\'data-go\')]||b.getAttribute(\'data-go\')||\'x\';}function ok(a){for(var i=0;i<a.length;i++){var k=lk(a[i]);if(i%C<C-1&&i+1<a.length&&lk(a[i+1])===k)return false;if(i+C<a.length&&lk(a[i+C])===k)return false;}return true;}function mix(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}var gs=document.querySelectorAll(\'.grp .games\');for(var g=0;g<gs.length;g++){var box=gs[g],all=[].slice.call(box.children),on=[],off=[];for(var i=0;i<all.length;i++){(all[i].classList.contains(\'soon\')?off:on).push(all[i]);}var a=on.slice();for(var n=0;n<3000;n++){mix(a);if(ok(a))break;}if(!ok(a))a=on;a=a.concat(off);for(var i=0;i<a.length;i++)box.appendChild(a[i]);}})();</script>'
       + '@@ROOM@@'
       + '<div class="fam-h">함께하는 곳</div>@@FAM@@'
       + '<p class="own"><button type="button" data-own="admin">사장님 관리자 창</button><span>·</span><button type="button" data-own="home">홈 화면에 추가</button></p>'

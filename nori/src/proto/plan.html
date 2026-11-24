@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>「그때 이야기」 설계 · 자서전 연결 계획서 · 그때 그 놀이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+/* 그때그놀이-060 · 「그때 이야기」 설계 · 자서전 연결 계획서 (261124) — 회의 자료(대표 · 그때 그 놀이 이사 · 자서전 담당 이사)
+   ★첫째 원칙: 테두리 · 음영 없음 · 가운데 맞춤 · 옆으로 가는 굵은 화살표만 */
+:root{--ink:#1C1D21;--sub:#6F6550;--chip:#F2EBDB;--blu:#2F64E0;--red:#E04848;--grn:#2E9E4F;--yel:#FFC21A;--pur:#5B3E86;
+  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo",sans-serif;--brand:"Song Myung"}
+*{box-sizing:border-box}
+body{margin:0;background:#FFF8E6;color:var(--ink);font-family:var(--body);line-height:1.65;word-break:keep-all}
+.top{background:#FFC93C;text-align:center;padding:18px 16px 14px}
+.top small{display:block;font-size:12px;font-weight:800;color:#6A5420}
+.top h1{margin:4px 0 0;font-family:var(--brand),serif;font-weight:400;font-size:24px;line-height:1.35}
+.top p{margin:6px 0 0;font-size:13px;font-weight:700;color:#5E4B1C}
+main{max-width:760px;margin:0 auto;padding:10px 14px 50px}
+section{background:#fff;border-radius:20px;padding:18px 16px;margin-top:14px}
+h2{margin:0 0 10px;font-size:18px;text-align:center}
+h2 i{font-style:normal;display:inline-block;min-width:26px;height:26px;line-height:26px;border-radius:13px;background:var(--ink);color:#fff;font-size:13px;margin-right:6px;vertical-align:2px}
+h3{margin:14px 0 6px;font-size:15px}
+p{margin:6px 0}
+.lead{text-align:center;font-size:19px;font-weight:900;margin:4px 0 2px}
+.lead b{color:#B4532A}
+.muted{color:var(--sub);font-size:13px;text-align:center}
+.flow{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;margin:12px 0 4px}
+.flow .st{background:var(--chip);border-radius:14px;padding:9px 10px;text-align:center;font-size:13px;font-weight:800;min-width:96px}
+.flow .st small{display:block;font-size:11px;font-weight:700;color:var(--sub)}
+.flow .st.g{background:#E3F1E6}.flow .st.p{background:#EFE8F7;color:var(--pur)}
+.flow .ar{font-size:20px;font-weight:900;color:#B3A588}
+@media (max-width:620px){.flow{flex-direction:column;gap:4px}.flow .st{width:220px}.flow .ar{transform:rotate(90deg);line-height:1}}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+th,td{padding:8px 8px;text-align:left;vertical-align:top}
+th{background:var(--chip);font-size:12.5px}
+tr:nth-child(even) td{background:#FBF7EE}
+td b{color:#8A4B12}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.two{grid-template-columns:1fr}}
+.box{background:#FBF7EE;border-radius:14px;padding:12px}
+.box h4{margin:0 0 4px;font-size:14px}
+.no{color:#A33;text-decoration:line-through}
+.say{background:#FFF3D6;border-radius:12px;padding:8px 10px;margin:6px 0;font-size:14px}
+.opt{border-radius:16px;padding:12px;margin-top:8px;background:#FBF7EE}
+.opt.rec{background:#E3F1E6}
+.opt h4{margin:0 0 4px;font-size:15px}
+.opt h4 em{font-style:normal;font-size:11.5px;background:var(--grn);color:#fff;border-radius:999px;padding:2px 8px;margin-left:6px;vertical-align:2px}
+.opt ul{margin:4px 0 0;padding-left:18px;font-size:13.5px}
+ol.q{padding-left:22px;margin:6px 0}ol.q li{margin:6px 0}
+.msg{background:#16181D;color:#F3F0E8;border-radius:16px;padding:14px;font-size:13.5px;line-height:1.75;white-space:pre-wrap}
+.msg b{color:#FFC93C}
+.copy{display:block;margin:8px auto 0;font:inherit;border:0;border-radius:12px;background:var(--yel);font-weight:900;font-size:14px;padding:10px 18px;cursor:pointer}
+.steps{counter-reset:s;list-style:none;padding:0;margin:6px 0}
+.steps li{counter-increment:s;position:relative;padding:8px 10px 8px 42px;margin:6px 0;background:#FBF7EE;border-radius:12px;font-size:14px}
+.steps li::before{content:counter(s);position:absolute;left:10px;top:8px;width:24px;height:24px;border-radius:12px;background:var(--ink);color:#fff;font-size:12.5px;font-weight:900;text-align:center;line-height:24px}
+.links{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.links a{background:var(--ink);color:#fff;text-decoration:none;border-radius:999px;padding:8px 14px;font-weight:800;font-size:13px}
+.todo li{margin:6px 0}
+</style>
+</head>
+<body>
+<div class="top">
+  <small>그때그놀이-060 · 2026.11.24 · 회의 자료</small>
+  <h1>「그때 이야기」 설계 ·<br>자서전 연결 계획서</h1>
+  <p>보는 분: 대표 · 그때 그 놀이 이사 · 자서전 담당 이사</p>
+</div>
+<main>
+
+<section>
+  <h2><i>0</i>이 문서로 할 일</h2>
+  <p class="muted">짜는 것보다 <b>소통이 먼저</b>입니다(대표 261124). 이 계획서는 코드가 아니라, 세 자리가 같이 보고 「어떻게 잇느냐」를 정하기 위한 자료입니다. 정해지기 전에는 자서전 쪽과 이어지는 것을 만들지 않습니다.</p>
+</section>
+
+<section>
+  <h2><i>1</i>취지</h2>
+  <p class="lead">놀이는 <b>입구</b> · 기억은 <b>본론</b> · 자서전은 <b>도착지</b></p>
+  <p class="muted">지금은 놀고, 선물 받고, 끝입니다. 놀다 보면 「그때」가 떠오르는 순간이 있는데 담을 그릇이 없습니다.<br>그 순간을 짧게 세 번 건드려 한 줄을 남기게 하고, 한 줄이 모여 자서전 한 쪽이 되게 합니다.</p>
+  <div class="flow">
+    <div class="st">① 시작 전<small>「그때는…」 두세 줄</small></div><span class="ar">→</span>
+    <div class="st">② 놀이 중<small>그 시절 소리</small></div><span class="ar">→</span>
+    <div class="st g">③ 끝 카드<small>놀이별 질문 한 줄</small></div><span class="ar">→</span>
+    <div class="st">④ 이야기방<small>카드 그대로 올림</small></div><span class="ar">→</span>
+    <div class="st p">⑤ 자서전<small>한 쪽 쓰기</small></div>
+  </div>
+  <p class="muted">①~④는 그때 그 놀이 안에서 할 수 있는 일 · ⑤는 자서전 쪽과 정해야 하는 일</p>
+</section>
+
+<section>
+  <h2><i>2</i>말투 기준 (대표 261124)</h2>
+  <p style="text-align:center"><b>30대 중반 · 서비스업에서 일하는 여성 · 세련되고 품위 있게 · 세상을 알 만큼 아는 사람</b></p>
+  <div class="two">
+    <div class="box"><h4>이렇게 씁니다</h4>
+      · 「~셨어요?」 「~셨나요?」로 여쭘<br>· 「~했지요」 「~였어요」로 들려줌<br>· 짧게, 한 번에 하나만 여쭘<br>· 모르는 건 「동네마다 달랐다고 해요」로</div>
+    <div class="box"><h4>이렇게 안 씁니다</h4>
+      · <span class="no">당신</span> · <span class="no">너</span> · <span class="no">어르신</span> 같은 부름말<br>· 아이 말투 · 반말 · 느낌표 남발<br>· 가르치는 말(「~해야 합니다」)<br>· 지어낸 옛이야기</div>
+  </div>
+  <h3>고친 예</h3>
+  <table>
+    <tr><th style="width:50%">전</th><th>후</th></tr>
+    <tr><td><span class="no">당신 동네는?</span></td><td>판에 적힌 글씨는 동네마다 달랐다고 해요. 기억나시는 칸이 있으세요?</td></tr>
+    <tr><td><span class="no">공기는 누구랑, 어디서 했나요?</span></td><td>공기는 누구와, 어디서 하셨어요?</td></tr>
+    <tr><td><span class="no">한 줄 쓰면 카드 사진에 같이 박혀요</span></td><td>한 줄 적으시면 카드 사진에 함께 담겨요</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2><i>3</i>화면 설계 — 어디에, 얼마나</h2>
+  <table>
+    <tr><th>자리</th><th>무엇</th><th>길이 · 지킬 것</th></tr>
+    <tr><td><b>① 시작 전 창</b> 맨 위</td><td>「그때는」 두세 줄 + 그 시절 소리 한 줄 + 여쭙는 한 줄</td><td>다섯 초 안에 읽힘 · 아래 고르기 · 시작은 지금 그대로 · 놀이를 막지 않음</td></tr>
+    <tr><td><b>② 놀이 중</b></td><td>지금 있는 효과음(딱 · 탁 · 따르륵)</td><td>새로 더하는 것 없음(구령 목소리는 261123 결정대로 뺌)</td></tr>
+    <tr><td><b>③ 끝 카드</b></td><td>「추억 한 줄」 칸 → 놀이마다 다른 질문</td><td>질문 하나 · 쓰면 카드 사진에 담김 · <b>폰 안에서만, 서버로 안 보냄</b></td></tr>
+    <tr><td><b>④ 이야기방</b></td><td>지금 길 그대로(카드 저장 → 다복 이야기방 올리기)</td><td>공사 없음</td></tr>
+    <tr><td><b>⑤ 자서전 단추</b></td><td>「이 기억으로 내 이야기 한 쪽 쓰기」</td><td>자서전 쪽과 정한 뒤 켬 · 지금은 자리만</td></tr>
+  </table>
+  <p class="muted">글은 모든 놀이에 씁니다. 널리 알려진 것만 쓰고, 동네마다 달랐던 것은 질문으로 돌립니다.</p>
+  <div class="links"><a href="../">① · ③ 화면 시안 보기</a><a href="../../">lab 놀이(번데기 돌림판 포함)</a></div>
+</section>
+
+<section>
+  <h2><i>4</i>자서전과 잇는 길 — 셋 중 하나</h2>
+  <p class="muted">공통 원칙: 그때 그 놀이는 <b>기억을 꺼내는 데까지</b>. 자서전을 받아서 엮고 보관하는 일은 <b>자서전 쪽</b>. 놀이 서버는 손님 글 · 사진을 받지 않습니다(기존 원칙).</p>
+  <div class="opt rec"><h4>가. 단추 하나로 넘겨 주기<em>추천</em></h4>
+    <ul><li>손님이 적은 한 줄(들)을 폰 안에 모아 둠(최근 것 몇 줄).</li>
+    <li>⑤ 단추를 누르면 자서전 첫 화면이 열리고, 그 한 줄들이 <b>첫 칸에 미리 채워져</b> 있음.</li>
+    <li>넘기는 방법: 자서전 주소 뒤 「#」에 실어 보냄 → 이 부분은 <b>어느 서버에도 가지 않고</b> 손님 폰 안에서만 건너감.</li>
+    <li>자서전 쪽 할 일: 「#」로 받은 글을 첫 칸에 넣어 주는 몇 줄 · 손님이 지우거나 고칠 수 있게.</li></ul></div>
+  <div class="opt"><h4>나. 복사해서 붙여 넣기</h4>
+    <ul><li>⑤ 단추 = 「내 기억 줄 복사」 + 자서전 주소 열기 → 손님이 붙여 넣음.</li>
+    <li>자서전 쪽 공사 없음. 대신 손님 손이 한 번 더 감(나이 드신 분께는 문턱).</li></ul></div>
+  <div class="opt"><h4>다. 서버끼리 주고받기</h4>
+    <ul><li>놀이 서버에 손님 기억을 저장했다가 자서전 서버로 보냄.</li>
+    <li>「손님 글 · 사진 받지 않음」 원칙과 부딪힘 · 개인정보 처리 범위가 커짐 → <b>지금은 하지 않음</b>.</li></ul></div>
+  <p class="muted">「가」가 안 되면 「나」로 먼저 열고, 자서전 쪽 준비가 되면 「가」로 바꿉니다(놀이 쪽은 단추 하나만 바뀜).</p>
+</section>
+
+<section>
+  <h2><i>5</i>역할 나누기</h2>
+  <table>
+    <tr><th>누가</th><th>하는 일</th><th>안 하는 일</th></tr>
+    <tr><td><b>그때 그 놀이 이사</b></td><td>① · ③ 글과 화면 · 놀이별 질문 · 한 줄 모아 두기 · ⑤ 단추와 넘겨 주기</td><td>자서전 화면 · 자서전 서버 · 회원 처리</td></tr>
+    <tr><td><b>자서전 담당 이사</b></td><td>받는 입구(주소) · 받은 글 첫 칸에 넣기 · 말 사전 확인 · 자서전 목차와 질문 맞추기</td><td>놀이 화면</td></tr>
+    <tr><td><b>대표</b></td><td>취지 · 말투 · 잇는 길(가/나/다) 최종 판단 · 두 방 사이 전달</td><td>—</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2><i>6</i>자서전 담당 이사께 여쭐 것</h2>
+  <ol class="q">
+    <li><b>받는 입구</b>: 손님이 처음 들어갈 자서전 주소는 어디인가요?</li>
+    <li><b>「가」 가능 여부</b>: 주소 뒤 「#」로 받은 글 몇 줄을 첫 칸에 미리 채워 줄 수 있나요? 된다면 형식(한 줄씩 · 놀이 이름 붙여서 등)은?</li>
+    <li><b>첫 문턱</b>: 가입 · 여권번호 없이 한 쪽을 써 볼 수 있나요? 안 되면 손님이 처음 해야 할 일은?</li>
+    <li><b>만 14세 미만</b>: 아이가 논 기억은 어떻게 받나요(놀이 쪽은 보호자 폰으로 남기게 안내 중)?</li>
+    <li><b>말 사전</b>: 단추 이름 「이 기억으로 내 이야기 한 쪽 쓰기」가 사랑흐름 말 사전에 맞나요?</li>
+    <li><b>목차 맞추기</b>: 놀이별 질문을 자서전 목차(예: 어린 시절 · 동네 · 친구)에 맞춰 드리면 받기 쉬우실까요?</li>
+  </ol>
+</section>
+
+<section>
+  <h2><i>7</i>진행 순서 — 회의 방식</h2>
+  <ol class="steps">
+    <li>대표님이 이 계획서를 보고 취지 · 말투 · 「가」 추천에 의견을 주심.</li>
+    <li>대표님이 아래 메시지를 <b>자서전 담당 이사 방</b>에 그대로 전달.</li>
+    <li>자서전 이사 회신(6장 질문 답)을 대표님이 이 방에 전달 → 놀이 이사가 정리해 다음 문서로 올림.</li>
+    <li>엇갈리는 점이 있으면 <b>세 자리 함께 판단</b>(대표님이 양쪽 정리본을 번갈아 전달 · 결정은 대표님).</li>
+    <li>정해지면 개요 확정 → 화면 → 기능 → 경로 순서로 만듦. 그 전에는 ① · ③만 lab에서 다듬음.</li>
+  </ol>
+</section>
+
+<section>
+  <h2><i>8</i>자서전 담당 이사 방에 보낼 메시지</h2>
+  <div class="msg" id="msg"><b>수신</b> 자서전 담당 이사 (사랑흐름 방)
+<b>발신</b> 그때 그 놀이 이사
+<b>회신</b> 대표님께 한 번에 — 대표님이 그때 그 놀이 방에 그대로 전달
+
+대표님 지시(261124)로 「그때 이야기」를 설계하고 있습니다. 옛날 놀이를 하고 나면 결과 카드에 그 놀이에 맞춘 질문 하나(예: 「공기는 누구와, 어디서 하셨어요?」)가 뜨고, 손님이 한 줄을 적습니다. 그 한 줄들이 모이면 「이 기억으로 내 이야기 한 쪽 쓰기」 단추로 자서전 쪽에 넘기려 합니다. 놀이는 기억을 꺼내는 데까지만 하고, 받아서 엮는 일은 그쪽 몫으로 생각합니다. 놀이 서버는 손님 글을 저장하지 않습니다.
+
+놀이 쪽 추천 방법은 이렇습니다. 단추를 누르면 자서전 첫 화면이 열리고, 적어 둔 한 줄들이 첫 칸에 미리 채워져 있게 합니다. 주소 뒤 「#」에 실어 보내기 때문에 어느 서버에도 가지 않습니다.
+
+여쭙는 것 여섯 가지입니다.
+1. 손님이 처음 들어갈 자서전 주소는 어디인가요?
+2. 주소 뒤 「#」로 받은 글 몇 줄을 첫 칸에 미리 채워 주실 수 있나요? 된다면 형식은 어떻게 할까요?
+3. 가입이나 여권번호 없이 한 쪽을 써 볼 수 있나요? 안 되면 손님이 처음 해야 할 일은 무엇인가요?
+4. 만 14세 미만 손님의 기억은 어떻게 받으시나요?
+5. 단추 이름 「이 기억으로 내 이야기 한 쪽 쓰기」가 말 사전에 맞나요?
+6. 놀이별 질문을 자서전 목차(어린 시절 · 동네 · 친구 등)에 맞춰 드리면 받기 쉬우실까요?
+
+2번이 어려우시면 「복사해서 붙여 넣기」로 먼저 열겠습니다. 번호대로 짧게 답해 주시면 됩니다.</div>
+  <button class="copy" type="button" id="cp">메시지 복사</button>
+</section>
+
+<section>
+  <h2><i>9</i>함께 올린 것 — 번데기 돌림판 (lab)</h2>
+  <p>대표님 기억대로: <b>꽝이 있고</b>, <b>높은 상일수록 칸이 좁고</b>, 판은 화려하지 않게(나무 테 · 미색 칸 · 짙은 밤색 글씨).</p>
+  <table>
+    <tr><th>칸</th><th>개수</th><th>넓이(한 칸)</th></tr>
+    <tr><td>꽝</td><td>3</td><td>50° (가장 넓음)</td></tr>
+    <tr><td>한 고깔</td><td>2</td><td>45°</td></tr>
+    <tr><td>두 고깔</td><td>2</td><td>30°</td></tr>
+    <tr><td>세 고깔</td><td>1</td><td>24°</td></tr>
+    <tr><td>한 번 더</td><td>2</td><td>13°</td></tr>
+    <tr><td>다섯 고깔</td><td>1</td><td>10° (가장 좁음)</td></tr>
+  </table>
+  <p class="muted">「돌리기」 꾹 → 떼면 돎 · 도는 양은 뗀 힘 그대로(멈춘 뒤 뒤집지 않음) · 못 지날 때 「딱딱」 · 사장님(또는 친구)과 동전 세 닢씩 번갈아, 고깔 많이 모은 쪽이 이김 · 첫 화면 「혼자서 바로」의 「번데기 뽑기」 칸</p>
+</section>
+
+<section>
+  <h2><i>10</i>대표 할 일</h2>
+  <ol class="todo">
+    <li>이 계획서 보시고 의견 한 마디(취지 · 말투 · 「가」 추천).</li>
+    <li>8장 메시지를 자서전 담당 이사 방에 전달(수신 방이 다르면 「수신」 줄만 바꿔 주세요).</li>
+    <li>폰으로 lab에서 번데기 돌림판 · 윷놀이 한 판씩.</li>
+    <li>(어제 것) 판 기록 서버 v3 붙이기 — 056 4장.</li>
+  </ol>
+</section>
+</main>
+<script>
+document.getElementById('cp').addEventListener('click',function(){ var t=document.getElementById('msg').innerText, b=this;
+  function ok(){ b.textContent='복사했어요'; setTimeout(function(){ b.textContent='메시지 복사'; },1500); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(t).then(ok,function(){}); }
+  else { var a=document.createElement('textarea'); a.value=t; document.body.appendChild(a); a.select(); try{ document.execCommand('copy'); ok(); }catch(e){} a.remove(); } });
+</script>
+</body>
+</html>
