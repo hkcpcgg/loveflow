@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/index.html · v57 · 261118 · [750 · 대표 OK 261118 20:11] 「벗」 → 「친구」(750 · 같은 결 전부). [무손] 그 밖 v56 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/index.html · v58 · 261124 · [통합 표준 v0.2 단추 말 · 대표 261124 21:04 「글은 그냥 고치시고」] 번호 확인. 모양 · 동작은 그대로.
+   (이전) memoir/index.html · v57 · 261118 · [750 · 대표 OK 261118 20:11] 「벗」 → 「친구」(750 · 같은 결 전부). [무손] 그 밖 v56 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/index.html · v56 · 261116 · [카톡 첫인상 그림 교체 · 대표 OK 261116 17:39 「B로 가자」] og-image.png 새 그림(1200×630 · 나를 가운데 둔 관계망 · 「서로의 언어를 알면, 사랑은 더욱 깊어집니다」 · 「MBTI와 사랑흐름 LFRI™로 두 사람 사이를 이어갑니다」) — 그림 주소에 ?v=261116 붙임(카카오 · 네이버가 새 그림을 받게). [무손] 그 밖 v55 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/index.html · v55 · 261112 · [포털 검색 ⑥ · 704] 자서전 견본 그림 여섯 칸 — 원문에 그림 주소(/memoir/samples/cover · ch1 · ch2 · ch3.png)를 바로 적고 그림마다 무엇인지 설명(alt) · 안 뜨면 예전처럼 안에 담은 그림 · 화면 모양 그대로. [무손] 그 밖 v54 전부 -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/index.html · v54 · 261112 · [포털 검색 ① · 700 · 703 · 대표 OK 261112 11:13] 화면은 그대로 · 머리말만 — 대표 주소(canonical) · 설명 · og · 사이트 이름 「사랑흐름」 · 아이콘(favicon) 붙임 -->
@@ -319,8 +320,8 @@ body{background:#E7E1D6 !important}
 <section class="cta2" id="miTop" style="padding:18px 16px 22px">
 <div class="midoor" id="miDoor">
   <div class="mid-t">사랑흐름 여권번호를 넣어 주세요</div>
-  <div class="mid-row"><input id="miIn" class="mid-in" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" enterkeyhint="go" onkeydown="if(event.key==='Enter'){miEnter();}" oninput="miNote_('')"><button type="button" class="mid-ok" onclick="miEnter()">확인</button></div>
-  <div class="mid-n" id="miNote">확인을 누르시면 내 이야기 목록이 열립니다</div>
+  <div class="mid-row"><input id="miIn" class="mid-in" placeholder="LF-XXXXX" autocomplete="off" autocapitalize="characters" enterkeyhint="go" onkeydown="if(event.key==='Enter'){miEnter();}" oninput="miNote_('')"><button type="button" class="mid-ok" onclick="miEnter()">번호 확인</button></div>
+  <div class="mid-n" id="miNote">번호 확인을 누르면 내 이야기 목록이 열려요</div>
   <a class="mid-other" id="miOther" style="display:none" onclick="miOther()">다른 번호로 들어가기</a>
 </div>
 </section>
@@ -606,7 +607,7 @@ function miGo(where){
 
 /* ★v30 입구 하나 — 번호 → 확인 → 바로 맞는 문 (이슈 31). 쓰는 중이면 그 이야기 질문으로, 아니면 이야기 고르기(여는 의식)로. */
 var MI_GAS='https://script.google.com/macros/s/AKfycbxJSELNi3T6YXJP5qGuGcMAFPZBXsUOejNFNFLw0RDWX0qFJlOtVhV38QXWCTKTv6yA/exec';
-function miNote_(t, bad){ var n=document.getElementById('miNote'); if(!n){ return; } n.textContent = t || '확인을 누르시면 내 이야기 목록이 열립니다'; n.className='mid-n'+(bad?' bad':''); }
+function miNote_(t, bad){ var n=document.getElementById('miNote'); if(!n){ return; } n.textContent = t || '번호 확인을 누르면 내 이야기 목록이 열려요'; n.className='mid-n'+(bad?' bad':''); }
 function miSame_(a,b){ a=String(a||'').trim().split(' ')[0]; b=String(b||'').trim().split(' ')[0]; return !!a && a===b; }
 function miW_(k,a){ try{ if(window.LFM && LFM.wait && LFM.wait[k]){ LFM.wait[k](a); } }catch(e){} }
 function miEnter(){
@@ -651,7 +652,7 @@ function miOther(){
 }
 function miPaint(){   /* ★v30 기억된 번호가 있으면 칸에 채우고 「다른 번호로 들어가기」 */
   var pp=miPass(), inp=document.getElementById('miIn'), o=document.getElementById('miOther');
-  if(pp && inp && !inp.value){ inp.value=pp; if(o){ o.style.display='inline-block'; } miNote_(pp+' 로 들어오셨어요 · 확인을 누르시면 내 이야기 목록이 열립니다'); }
+  if(pp && inp && !inp.value){ inp.value=pp; if(o){ o.style.display='inline-block'; } miNote_(pp+' 로 들어오셨어요 · 번호 확인을 누르면 내 이야기 목록이 열려요'); }
 }
 if(document.readyState==='loading'){ document.addEventListener('DOMContentLoaded', miPaint); } else { miPaint(); }
 function gOpenMenu(){var d=document.getElementById('gdrawer');if(d)d.classList.add('on');}

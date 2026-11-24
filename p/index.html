@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ p/index.html · v6 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 「⌂ 본부로」 · 본부 로그인 안내 · ⌂ → /hq/?hq=1 (카카오 돌아올 주소 KREDIR · qr.js 는 /rec/ 그대로). [무손] 그 밖 v5 전부. -->
+<!-- ★ 현재 버전 ▶ p/index.html · v7 · 261124 · [통합 표준 v0.2 단추 말 · 대표 261124 21:04 「글은 그냥 고치시고」] 수정. 모양 · 동작은 그대로.
+   (이전) p/index.html · v6 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 「⌂ 본부로」 · 본부 로그인 안내 · ⌂ → /hq/?hq=1 (카카오 돌아올 주소 KREDIR · qr.js 는 /rec/ 그대로). [무손] 그 밖 v5 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ p/index.html · v5 · 261112 · [604 · 605 · 81차 · 대표 OK 261112 01:02] 본부 맨 위 「제안서 서랍」 — 제안 화면 모음(region · proposal · kit 넷 · 열기 · 링크) · 받는 곳별 제안(＋ 새 제안 · 대상 · 자리 · 주력 · 보조 단추 · 회차 · 날짜 · 담당 · 표지 제목 · 이번 제안 → region.html?to=열쇠 · 받는 쪽 화면 보기 · 링크 복사 · QR · 고치기 · 내리기) · ★우리 이야기 서버 ③본부 v39 · ⑥시험 v69 와 짝 · 아래 교육생 모집은 그대로 -->
 <!-- (이전) p/index.html · v4 · 261105 · [534 대표 14:32] 수정 요청 칸에 「수정할 내용 없음」 단추(요청 보내기와 나란히 · 누르면 확인 완료와 같음 · 날짜 · 장소가 없으면 먼저 적으라고 알림) -->
 <!-- (이전) p/index.html · v3 · 261105 · [534 대표 14:27 「본부에서 바로 보는 링크」] 본부 목록 「사무국 화면 보기」(/p/?hq=1&view=방 번호 — 사무국 관리 화면 그대로 · 「로그인 전 화면」 · 단추는 눌리지 않음) · 「공간 화면 보기」(&pv=회차) — 본부 로그인만으로 봄 -->
@@ -217,7 +218,7 @@ function drawGuest(d,t){
       if(q.type==='text'){ h+='<textarea class="t" data-q="'+esc(q.id)+'" maxlength="300" placeholder="'+esc(q.hint||'')+'">'+esc((mine.ans||{})[q.id]||'')+'</textarea>'; }
       else{ var cur=(mine.ans||{})[q.id]; h+='<div class="opts" data-q="'+esc(q.id)+'" data-t="'+q.type+'">'+q.opts.map(function(o){ var on=q.type==='many'?(cur&&cur.indexOf&&cur.indexOf(o)>-1):(cur===o); return '<button type="button" class="chip'+(on?' on':'')+'" data-o="'+esc(o)+'">'+esc(o)+'</button>'; }).join('')+'</div>'; }
     });
-    h+='<p class="note" style="margin-top:12px">상호만 받습니다. 연락처는 받지 않습니다.</p><button type="button" class="btn" id="fGo" style="margin-top:8px"'+(pv?' disabled':'')+'>'+(mine.shop?'신청 내용 고치기':'신청하기')+'</button><div class="msg" id="fMsg"></div></div>';
+    h+='<p class="note" style="margin-top:12px">상호만 받습니다. 연락처는 받지 않습니다.</p><button type="button" class="btn" id="fGo" style="margin-top:8px"'+(pv?' disabled':'')+'>'+(mine.shop?'신청 내용 수정':'신청하기')+'</button><div class="msg" id="fMsg"></div></div>';
   }
   if(g.after){ h+='<p class="note" style="margin-top:12px;text-align:center">'+esc(g.after)+'</p>'; }
   PP.innerHTML=h;
@@ -237,7 +238,7 @@ function drawGuest(d,t){
       try{ localStorage.setItem('lf_p_'+Q.get('a'),JSON.stringify({shop:shop,ans:ans})); }catch(e){}
       var go=ans.q1&&ans.q1.indexOf('참석합니다')===0;
       $('fMsg').className='msg ok'; $('fMsg').innerHTML=(r.again?'신청 내용을 고쳤습니다.':'신청되었습니다.')+(go&&d.date?'<br>'+esc(d.date)+(d.time?' '+esc(d.time):'')+(d.place?' · '+esc(d.place):'')+'에서 뵙겠습니다.':'');
-      $('fGo').textContent='신청 내용 고치기';
+      $('fGo').textContent='신청 내용 수정';
     },'신청을 보내는 중입니다');
   }; }
 }
@@ -281,7 +282,7 @@ function drawOffice(){
   /* 제안서 */
   h+='<h2>제안서</h2><div class="card doc"><p class="note">차례 — '+esc((o.toc||[]).join(' · '))+'</p>'+(o.sections||[]).map(function(s){ return '<div class="sec"><h3>'+esc(s.h)+'</h3>'+(s.p||[]).map(function(x){ return '<p>'+esc(fill(x,info))+'</p>'; }).join('')+(s.list?'<ul class="d">'+s.list.map(function(x){ return '<li>'+esc(fill(x,info))+'</li>'; }).join('')+'</ul>':'')+'</div>'; }).join('')+'<button type="button" class="btn line noprint" id="oPr">'+ic('print')+' 제안서 인쇄 · PDF 저장</button></div>';
   /* 교육 정보 · 수정 요청 · 고친 기록 */
-  if(r.date&&r.place&&st!==ST.done){ h+='<h2>교육 정보 고치기</h2><div class="card">'+infoForm(r)+'</div>'; }
+  if(r.date&&r.place&&st!==ST.done){ h+='<h2>교육 정보 수정</h2><div class="card">'+infoForm(r)+'</div>'; }
   h+='<h2>수정 요청</h2><div class="card"><p class="note">제안서나 공간 안내에서 고칠 곳을 적어 주십시오. 사랑흐름 대표에게 바로 전해지고, 고치면 아래 「고친 기록」에 올립니다.</p><label class="f" for="aWho">보내는 분</label><input class="t" id="aWho" maxlength="30" placeholder="예) 사무국 ○○○" value="'+esc(r.who||'')+'"><label class="f" for="aTx">고칠 곳</label><textarea class="t" id="aTx" maxlength="800" placeholder="예) 공간 안내 첫 줄을 이렇게 바꿔 주세요"></textarea>'+((st===ST.open||st===ST.done)?'<button type="button" class="btn" id="aGo" style="margin-top:10px">요청 보내기</button>':'<div class="row2" style="margin-top:10px"><button type="button" class="btn line" id="aNo">'+ic('check')+' 수정할 내용 없음</button><button type="button" class="btn" id="aGo">요청 보내기</button></div>')+'<div class="msg" id="aMsg"></div>'+
     (r.asks.length?'<h3>보낸 요청</h3>'+r.asks.slice().reverse().map(function(a){ return '<div class="ask"><b>'+esc(a.who)+'</b> <span class="note">'+esc(a.at)+'</span><br>'+esc(a.text)+'</div>'; }).join(''):'')+'</div>';
   h+='<h2>고친 기록</h2><div class="card">'+(r.fixes.length?r.fixes.slice().reverse().map(function(f){ return '<div class="fx"><time>'+esc(f.at)+'</time><b>'+esc(f.by)+'</b> · '+esc(f.what)+'</div>'; }).join(''):'<p class="note">아직 없습니다.</p>')+'</div>';
@@ -361,7 +362,7 @@ function psToday(){ var d=new Date(); return d.getFullYear()+'. '+(d.getMonth()+
 function psChips(id,list,cur,none){ var h='<div class="chips" data-ps="'+id+'">'; if(none){ h+='<button type="button" class="chip'+(cur===''||cur===null||cur===undefined?' on':'')+'" data-v="">'+esc(none)+'</button>'; }
   list.forEach(function(x,i){ var v=Array.isArray(x)?x[0]:String(i), t=Array.isArray(x)?x[1]:x; h+='<button type="button" class="chip'+(String(cur)===v?' on':'')+'" data-v="'+esc(v)+'">'+esc(t)+'</button>'; }); return h+'</div>'; }
 function psForm(it){ it=it||{}; var nw=!it.no;
-  return '<div class="form" id="psForm"><b>'+(nw?'새 제안':esc(it.org)+' · 고치기')+'</b>'
+  return '<div class="form" id="psForm"><b>'+(nw?'새 제안':esc(it.org)+' · 수정')+'</b>'
   +'<label class="f">받는 곳 (표지 「○○ 귀중」)</label><input class="t" id="psOrg" maxlength="60" value="'+esc(it.org||'')+'" placeholder="예) 사회적협동조합 마음담기">'
   +'<label class="f">대상</label>'+psChips('role',PS_ROLES,it.role||'')
   +'<label class="f">귀 기관의 자리</label>'+psChips('seat',PS_SEATS,it.seat||'')
@@ -381,7 +382,7 @@ function psHtml(){
   PS.items.forEach(function(it){ var off=it.st==='내림';
     h+='<div class="rnd"><div class="top"><b>'+esc(it.org)+'</b><span class="tag'+(off?' g':' j')+'">'+esc(it.no)+' · '+(off?'내림':esc(it.round))+'</span></div>';
     h+='<p class="note">'+esc(psName(PS_ROLES,it.role))+' · '+esc(psName(PS_SEATS,it.seat))+' · 주력 '+esc(PS_MENU[it.main]||'')+(it.sub!=null?' · 보조 '+esc(PS_MENU[it.sub]||''):'')+(it.fixed?' · 고친 날 '+esc(it.fixed):' · 만든 날 '+esc(it.made))+'</p>';
-    h+='<div class="acts"><a class="btn sm" href="'+esc(it.link)+'" target="_blank" rel="noopener">'+ic('eye')+' 받는 쪽 화면 보기</a><button type="button" class="btn sm line" data-cp="'+esc(it.link)+'">'+ic('copy')+' 링크 복사</button><button type="button" class="btn sm line" data-psqr="'+esc(it.no)+'">'+ic('qr')+' QR</button><button type="button" class="btn sm line" data-psed="'+esc(it.no)+'">'+ic('edit')+' 고치기</button><button type="button" class="btn sm line" data-psoff="'+esc(it.no)+'">'+(off?'다시 열기':'내리기')+'</button></div>';
+    h+='<div class="acts"><a class="btn sm" href="'+esc(it.link)+'" target="_blank" rel="noopener">'+ic('eye')+' 받는 쪽 화면 보기</a><button type="button" class="btn sm line" data-cp="'+esc(it.link)+'">'+ic('copy')+' 링크 복사</button><button type="button" class="btn sm line" data-psqr="'+esc(it.no)+'">'+ic('qr')+' QR</button><button type="button" class="btn sm line" data-psed="'+esc(it.no)+'">'+ic('edit')+' 수정</button><button type="button" class="btn sm line" data-psoff="'+esc(it.no)+'">'+(off?'다시 열기':'내리기')+'</button></div>';
     h+='<div id="psQr_'+esc(it.no)+'" hidden style="text-align:center;padding:10px 0"></div>';
     if(PS.edit===it.no){ h+=psForm(it); }
     h+='</div>'; });

@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/invite.html · v16 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/invite.html · v17 · 261124 · [통합 표준 v0.2 단추 말 · 대표 261124 21:04 「글은 그냥 고치시고」] 쓴 글 수정 · 쓴 글 삭제 · 삭제. 모양 · 동작은 그대로.
+   (이전) memoir/invite.html · v16 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/invite.html · v15 · 261120 · [출구 점검 ① · 대표 OK 22:51] 「초대장을 찾지 못했어요」에 갈 곳이 없던 것 — 「사랑흐름 둘러보기 ›」 단추(세 자리 모두). [무손] 그 밖 v14 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/invite.html · v14 · 261117 · [692 · 693 · 대표 261117 13:03 「다음 작업 진행」 · 말 사전] 초대 칸 이름 「성함」 → 「성명」. [무손] 그 밖 v13 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/invite.html · v13 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「쓴 글 거두기」→「쓴 글 지우기」 · 「쓴 글을 거둘까요?」→「쓴 글을 지울까요?」 · 「거두시면 들려주신 글이」→「지우시면 들려주신 글이」 · 「기록은 거둘 수 없어요」→「기록은 지울 수 없어요」 · 「">거두기</button」→「">지우기</button」 · 「글을 거두었어요」→「글을 지웠어요」 외. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
@@ -190,8 +191,8 @@ function first(){
   h+='<div class="card">'+whoBox();
   if(D.state==='받음'){
     h+='<p style="margin-top:14px;text-align:center;font-weight:700;color:#2f8a4c"><span class="ii"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>들려주신 기억이 '+f+' 님께 닿아 있어요'+(D.edited?' · '+esc(fmtDay(D.edited)):'')+'</p>'
-     +'<button class="btn" onclick="toWrite()">더하거나 고치기</button>'
-     +'<button class="lk" onclick="dropAsk()">쓴 글 지우기</button>';
+     +'<button class="btn" onclick="toWrite()">쓴 글 수정</button>'
+     +'<button class="lk" onclick="dropAsk()">쓴 글 삭제</button>';
   } else {
     h+='<label class="age"><input type="checkbox" id="ag" '+(ST.age?'checked':'')+' onchange="ST.age=this.checked;$(\'go1\').disabled=!this.checked"><span>만 14세 이상입니다</span></label>'
      +'<div class="small">'+(YT()?'만 14세가 되지 않으셨다면 이 초대장에는 글을 남기실 수 없어요.':'만 14세가 되지 않으셨다면, 보호자와 함께 종이 물음지로 들려주실 수 있어요. '+f+' 님께 말씀해 주세요.')+'</div>'
@@ -267,7 +268,7 @@ function toCheck(){
    +'<p class="small" style="margin-top:12px">다른 분의 이름이나 사적인 이야기가 나온다면 그분을 배려해 적어 주세요.</p>'
    +'<label class="ok"><input type="checkbox" id="agr" onchange="$(\'go4\').disabled=!this.checked"><span>쓴 글을 '+esc(D.from||'보내신 분')+' 님의 사랑흐름 기록에 싣는 데 동의합니다</span></label>'
    +'<div class="err" id="er4"></div>'
-   +'<button class="btn" id="go4" disabled onclick="send()">보내기</button><button class="lk" onclick="toWrite()">다시 고치기</button></div>';
+   +'<button class="btn" id="go4" disabled onclick="send()">보내기</button><button class="lk" onclick="toWrite()">쓴 글 수정</button></div>';
   draw(h);
 }
 function send(){
@@ -295,13 +296,13 @@ function thanks(){
   draw(bar(5)+'<div class="card thanks"><div class="big"><span class="lf-ci c-green" style="width:56px;height:56px"><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span></div><h2>고맙습니다</h2>'
    +'<p>들려주신 '+(YT()?'응원이':'기억이')+' '+f+' 님께 닿았습니다.</p>'
    +'<p class="small" style="margin-top:8px">같은 링크로 다시 오시면 더하거나 고칠 수 있어요.'+(D.deadline?' ('+esc(fmtDay(D.deadline))+'까지)':'')+'</p>'
-   +'<button class="btn line" onclick="toWrite()">더하거나 고치기</button></div>'
+   +'<button class="btn line" onclick="toWrite()">쓴 글 수정</button></div>'
    +myLinkBox()
    +'<div class="card"><div class="lf-ilist" style="margin:0"><div class="lf-row" style="cursor:pointer" onclick="try{LFG.open(\'고맙습니다 화면\')}catch(e){}"><span class="lf-ci c-navy"><svg viewBox="0 0 24 24"><path d="M5 4h10a2 2 0 012 2v14H7a2 2 0 01-2-2z"/><path d="M8 8h6M8 11h6"/></svg></span><span><b>저도 제 이야기를 남겨 보고 싶어요</b><small>휴대폰이 낯설어도 괜찮아요 · 안내 가이드북을 보내 드려요</small></span></div></div></div>');
 }
 function dropAsk(){
   draw('<div class="card"><h2>쓴 글을 지울까요?</h2><p>지우시면 들려주신 글이 지워지고, '+esc(D.from||'보내신 분')+' 님의 기록에서도 빠집니다. 이미 종이로 나간 기록은 지울 수 없어요.</p>'
-   +'<button class="btn" onclick="dropGo()">지우기</button><button class="lk" onclick="first()">그대로 두기</button></div>');
+   +'<button class="btn" onclick="dropGo()">삭제</button><button class="lk" onclick="first()">그대로 두기</button></div>');
 }
 function dropGo(){
   jsonp({ action:'memDrop', key:KEY }, function(d){

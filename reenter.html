@@ -1,5 +1,6 @@
 <!-- ★ 261023 · [할일 418 · 휴대폰 비밀번호 창] 여권번호 칸(LF-XXXXX)을 한 줄 textarea 로 — 크롬 · 삼성 휴대폰 비밀번호 창은 input 칸에만 붙음 · Enter = 자판 닫기 -->
-<!-- ★ 현재 버전 ▶ reenter.html · v2-29 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
+<!-- ★ 현재 버전 ▶ reenter.html · v2-30 · 261124 · [통합 표준 v0.2 단추 말 · 대표 261124 21:04 「글은 그냥 고치시고」] 번호 확인. 모양 · 동작은 그대로.
+   (이전) reenter.html · v2-29 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) reenter.html · v2-28 · 261111 · [공사 칸 ⑥ 입구 · 577 · 579 · 대표 OK 18:36] ①번호를 확인한 뒤 입장 단추 아래 「사랑흐름 여권 화면 보기 ›」 — 누르면 연락처 뒤 4자리 칸 + [확인](/my/ 에 지난 편지 글이 보여 번호만으로는 열지 않음 · 유료여행지도 ⑦ gift v6 giftPassKey → /my/?k=) · 「사랑흐름 여권 찾기」로 찾으셨으면 그때 넣은 뒤 4자리를 그대로 써서 칸 없이 바로 ②한 편의 기록을 다 쓰신 분(남은 편 0) — 「n편을 마치셨어요.」 아래 [구매하기] [🎁 선물하기](lf/thumb.js) ③frame.js ?v=24. [무손] 그 밖 v2-27 전부. -->
 <!-- (이전) reenter.html · v2-27 · 261109 · [540 · 대표 지적 261109 16:03] 번호 칸 밑에 「사랑흐름 여권 확인하기」 단추 · 누르거나 번호를 다 치면 「사랑흐름 여권번호를 확인하고 있습니다」 + 움직이는 점 · 8초 넘으면 「조금 더 걸리고 있어요」 · 28초 넘거나 실패하면 「다시 확인하기」(아무 말 없이 끝나던 것) · 답이 오면 고르는 상자로 화면이 내려감. [무손] 그 밖 v2-26 전부. -->
 <!-- (이전) reenter.html · v2-26 · 261027 · [본부 ③ 칸 2 · 대표 OK 261027 13:05] 결제가 취소된 여권(조회 답 expired)을 넣으면 아무것도 안 가진 빈 상자가 뜨던 것 → 안내 판(/lf/canceled.js · 닫기 있음). [무손] 그 밖 v2-25 전부. -->
@@ -989,7 +990,7 @@ function lfMyOpen(){
   a.style.display='block';
   a.innerHTML='<div style="font-size:14.5px;font-weight:700;color:#1E4A76;margin-bottom:8px">사랑흐름 여권을 받을 때 적으신 연락처 뒤 4자리</div>'
     +'<div style="display:flex;gap:8px;justify-content:center"><input id="lfMyP4" inputmode="numeric" maxlength="4" autocomplete="off" style="width:120px;font-size:20px;text-align:center;letter-spacing:.2em;padding:10px;border:1.5px solid #CFC6E8;border-radius:12px" placeholder="0000">'
-    +'<button type="button" id="lfMyOk" style="border:0;border-radius:12px;padding:0 20px;font-size:16px;font-weight:800;color:#fff;background:#1E4A76" onclick="lfMyGo()">확인</button></div>'
+    +'<button type="button" id="lfMyOk" style="border:0;border-radius:12px;padding:0 20px;font-size:16px;font-weight:800;color:#fff;background:#1E4A76" onclick="lfMyGo()">번호 확인</button></div>'
     +'<div id="lfMyErr" style="font-size:13.5px;color:#C0392B;margin-top:8px;min-height:18px"></div>';
   var i=document.getElementById('lfMyP4'); if(i){ i.focus(); i.onkeydown=function(e){ if(e.key==='Enter'){ lfMyGo(); } }; }
 }
@@ -1000,7 +1001,7 @@ function lfMyGo(p4){
   if(b){ b.disabled=true; b.textContent='여는 중'; }
   if(err){ err.textContent='사랑흐름 여권 화면을 여는 중입니다'; err.style.color='#1E4A76'; }
   var cb='lfmy_cb_'+Date.now(), done=false;
-  function back(m){ if(b){ b.disabled=false; b.textContent='확인'; } if(err){ err.style.color='#C0392B'; err.textContent=m||'잠시 후 다시 시도해 주세요'; } else { showToast(m||'잠시 후 다시 시도해 주세요'); } try{ delete window[cb]; }catch(e){} }
+  function back(m){ if(b){ b.disabled=false; b.textContent='번호 확인'; } if(err){ err.style.color='#C0392B'; err.textContent=m||'잠시 후 다시 시도해 주세요'; } else { showToast(m||'잠시 후 다시 시도해 주세요'); } try{ delete window[cb]; }catch(e){} }
   window[cb]=function(r){ if(done){ return; } done=true;
     if(r&&r.status==='ok'&&r.k){ try{ localStorage.setItem('lf_my_k', r.k); }catch(e){} location.href='/my/?k='+encodeURIComponent(r.k); return; }
     if(!document.getElementById('lfMyP4')){ LFMY_P4=''; lfMyOpen(); }
