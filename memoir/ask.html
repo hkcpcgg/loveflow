@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ memoir/ask.html · v118 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 「임시 저장」 → 「지금 저장」(단추 유지) · 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+<!-- ★ 현재 버전 ▶ memoir/ask.html · v119 · 261124 · [통합 표준 v0.2 4장 4 · 대표 OK 261124 21:37] 360 너비에서 질문 아래 단추 셋(질문 듣기 · 지금 저장 · 쓴 글 보기)이 화면 밖으로 16px 넘치던 것 — 400 이하에서 단추 안 여백 · 간격 · 글자 조금 줄임 · 340 이하에선 동그라미 그림을 걷고 글만. 누르는 높이 48 그대로. [무손] 그 밖 v118 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/ask.html · v118 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 「임시 저장」 → 「지금 저장」(단추 유지) · 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
    (이전) memoir/ask.html · v117 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/ask.html · v116 · 261121 · [대표 17:26 단추 말] 「문서 스캔」 → 「사진으로 옮기기」 · 아이콘 문서 → 카메라 · kit.js ?v=19. [880 · 대표 17:13 「몇 년생 묻지 말고 · 편가르기 말고」 · OK 17:20] 「새 이야기」 그 시절 칸 — 「몇 년생이세요?」 · 연도 · 서울·대도시/지방 도시/농촌 → 메인과 같은 물음 · 단추(「그 기억이 묻어 있는 곳은 어디인가요?」 들과 산 · 바다와 섬 · 골목과 장터 → 「그 기억은 언제쯤인가요?」 50~2000년대) · 고른 것은 이 기기 lf_era_pick(메인 · 내 이야기 첫 화면과 같은 칸 — 이미 고르셨으면 묻지 않음) · 「🕰 그 시절 떠올려 보기」는 그 곳 · 때로 eraOne(서버 e5 그대로 · 서버 파일 손대지 않음) 한 편씩 · 「다른 이야기 ›」. 전에 태어난 해를 남기신 분(by)은 지금 길 그대로(eraCues). [무손] 그 밖 v115 전부. -->
 <!-- (이전) memoir/ask.html · v115 · 261120 · [출구 점검 · 대표 OK 22:51] 나가는 길이 첫 화면에 안 보이던 곳 — ② 새 이야기 큰 문 안 「‹ 처음 화면」 ③ 한 걸음 더 「다른 질문 고르기」 ④ 새 이야기 쓴 글 보기 맨 위 「‹ 다른 질문 고르기」 ⑤ 옛 질문지 글로 쓰기 「임시 저장」 옆 「쓴 글 보기」(저장하고 엶) ⑥ 「이어서 하시겠어요?」 창 「내 이야기 목록」. [무손] 그 밖 v114 전부. -->
@@ -2057,6 +2058,10 @@ function askAi_(){
 .tool.listen .ic{background:rgba(255,255,255,.18);color:#fff}
 .tool.save .ic{background:#EAF1F8;color:var(--navy)}
 .tool.save.done .ic{background:rgba(255,255,255,.18);color:#fff}
+/* v119 · 좁은 휴대폰(400 이하)에서 단추 셋이 한 줄에 들어가게 · 누르는 높이 48 유지 */
+.tool{min-width:0;white-space:nowrap;min-height:48px}
+@media(max-width:400px){.tools{gap:6px}.tool{padding:11px 4px;gap:4px;font-size:14px}.tool .ic{width:24px;height:24px;flex-basis:24px}}
+@media(max-width:340px){.tool .ic{display:none}}
 .aids{display:grid !important;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:11px}   /* ★v93 542 맞춤법 보기 걷음 — 셋 한 줄 */
 .aids .aid,.aids .aid.scan{flex-direction:column;justify-content:center !important;text-align:center;gap:5px;font-size:13.5px !important;padding:10px 4px !important}
 .aids .aid,.aids .aid.scan{width:auto;margin:0;padding:10px 8px;justify-content:flex-start;background:#fff;color:var(--navy);border:1px solid #E6DCCD;border-radius:12px;font-size:14.5px}
