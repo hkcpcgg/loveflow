@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<!-- ★ 현재 버전 ▶ poster/index.html · v1 · 261124 · [디지털 포스터 1단계 · 대표 OK 20:18 가안 · GPT 조율 회신 · 대표 22:22 「지어 봅시다」] 포스터 보는 화면. 주소 하나: /poster/?p=번호. 번호 없이 열면 만들기로. 만든 분이 고른 기능만 단추로(신청하기 · 길찾기 · 전화하기 · 문자 보내기 · 홈페이지 보기). 바깥으로 나가는 단추는 먼저 안내 판(v0.2 6장 2). 날짜가 지나면 「지난 행사」 · 신청하기 내려감. 만든 분(이 휴대폰에 열쇠)에게만 포스터 수정 · QR 내려받기 · 열어 본 횟수. 서버 = 마음 카드 서버 5 버전(a=pget · pmedia · preport). -->
+<script>(function(){var q=new URLSearchParams(location.search);if(!q.get('p')){location.replace('/poster/make.html');}})();</script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>디지털 포스터 · 사랑흐름</title>
+<meta name="description" content="사랑흐름 디지털 포스터">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="사랑흐름">
+<meta property="og:title" content="사랑흐름 디지털 포스터">
+<meta property="og:description" content="눌러서 행사 소식을 확인해 보세요">
+<meta property="og:image" content="https://www.loveflow.ai.kr/card/og.jpg?v=1">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;600;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/poster/poster.css?v=1">
+<style>
+.acts{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.mine{margin-bottom:14px;background:var(--card);border:1px solid #D9E2EC;border-radius:14px;padding:12px 14px}
+.mine .t{font-size:14px;color:var(--ink2);margin-bottom:10px;text-align:center}
+.rep{display:block;margin:14px auto 0;min-height:44px;background:none;border:0;color:#8A8F96;font:13px 'Noto Sans KR',sans-serif;cursor:pointer;padding:0 12px}
+</style>
+</head>
+<body data-lf-fab="off">
+<main class="stage" id="stage">
+  <div id="load" class="state">포스터를 불러오고 있어요…</div>
+  <div id="err" class="state" style="display:none"></div>
+  <div id="view" style="display:none">
+    <div class="mine" id="mine" style="display:none">
+      <div class="t" id="mineT">내가 만든 포스터예요</div>
+      <div class="row2"><a class="btn sub" id="editBtn" href="#">포스터 수정</a><button class="btn sub" type="button" onclick="qrDown()">QR 내려받기</button></div>
+    </div>
+    <div id="posterBox"></div>
+    <div class="note soft" id="pastNote" style="display:none;margin-top:12px">이 행사는 지났어요. 함께해 주셔서 고마워요.</div>
+    <div class="acts" id="acts"></div>
+    <section class="box" id="links"></section>
+    <section class="box">
+      <h3>사랑흐름 둘러보기</h3>
+      <div class="free"><a href="/hanmadi/">마음 한마디</a><a href="/draw/">마음 도화지</a><a href="/showroom.html">여행의 기록</a></div>
+    </section>
+    <button class="rep" type="button" onclick="openSheet('rep')">신고</button>
+  </div>
+</main>
+
+<div class="sheet-bg" id="sheetBg" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div id="sheetOut">
+      <h3 id="outT"></h3><p id="outP"></p>
+      <div class="row2"><button class="btn sub" type="button" onclick="closeSheet()">취소</button><button class="btn main" type="button" id="outGo"></button></div>
+    </div>
+    <div id="sheetRep" style="display:none">
+      <h3>이 포스터를 신고해요</h3>
+      <p>어떤 점이 문제인지 적어 주시면 사랑흐름이 확인해요.</p>
+      <textarea id="repWhy" maxlength="200" placeholder="예: 다른 사람의 사진을 허락 없이 썼어요"></textarea>
+      <div class="row2"><button class="btn sub" type="button" onclick="closeSheet()">취소</button><button class="btn main" type="button" onclick="sendRep()">신고</button></div>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="lfFoot"></div>
+
+<script src="/my/qrcode.js?v=1"></script>
+<script src="/poster/art.js?v=1"></script>
+<script>
+var L=window.LFPoster, e=L.esc;
+function $(i){return document.getElementById(i);}
+var Q=new URLSearchParams(location.search), PID=Q.get('p')||'', PV=Q.get('pv')==='1', DATA=null, PHOTO='';
+var URL0=L.SITE+'?p='+PID;
+var tT=null;
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('on');},2400);}
+function myKey(p){try{var o=JSON.parse(localStorage.getItem('lfPosterKeys')||'{}');return (o[p]&&o[p].k)||'';}catch(x){return '';}}
+
+function state(code){
+  var M={none:['포스터를 찾지 못했어요','주소를 한 번 더 확인해 주세요.'],hidden:['지금은 볼 수 없는 포스터예요','신고가 들어와 사랑흐름이 확인하고 있어요.'],
+    expired:['보관 기간이 지난 포스터예요','보관 기간이 지나 내용을 볼 수 없어요.'],
+    bad:['포스터 보기를 준비하고 있어요','잠시 뒤 다시 열어 주세요.'],err:['포스터를 불러오지 못했어요','인터넷 연결을 확인한 뒤 다시 열어 주세요.']};
+  var m=M[code]||M.err;
+  $('load').style.display='none'; var x=$('err'); x.style.display='block';
+  x.innerHTML='<b>'+m[0]+'</b>'+m[1]+'<div style="margin-top:22px"><a class="btn sub" href="/poster/make.html">포스터 만들기</a></div>';
+}
+
+function paint(){
+  var p=DATA.poster, mine=!!DATA.mine;
+  $('posterBox').innerHTML=L.render(p,{photo:PHOTO,qr:L.qr(URL0,3)});
+  var past=L.past(p);
+  $('stage').classList.toggle('is-past',past); $('pastNote').style.display=past?'block':'none';
+  /* 주 행동 · 보조: 만든 분이 고른 것만 */
+  var a='';
+  if(p.applyUrl && !past){ a+='<button class="btn main" type="button" onclick="goOut(\'apply\')">신청하기</button>'; }
+  var two=[];
+  if(p.mapOn){ two.push('<button class="btn sub" type="button" onclick="goOut(\'map\')">길찾기</button>'); }
+  if(p.telOn && p.tel){ two.push('<a class="btn sub" href="tel:'+e(p.tel)+'">전화하기</a>'); }
+  if(p.smsOn && p.tel){ two.push('<a class="btn sub" href="sms:'+e(p.tel)+'">문자 보내기</a>'); }
+  for(var i=0;i<two.length;i+=2){ a+='<div class="row2">'+two[i]+(two[i+1]||'')+'</div>'; }
+  a+='<div class="row2"><button class="btn sub" type="button" onclick="shareIt()">공유하기</button><button class="btn sub" type="button" onclick="copyLink()">링크 복사</button></div>';
+  $('acts').innerHTML=a;
+  var l='';
+  if(p.home){ l+='<button class="go" type="button" onclick="goOut(\'home\')"><span>홈페이지 보기<small>'+e(hostOf(p.home))+'</small></span><span class="ar">›</span></button>'; }
+  l+='<a class="go" href="/poster/make.html"><span>포스터 만들기<small>가입 없이 5분이면 만들어요</small></span><span class="ar">›</span></a>';
+  $('links').innerHTML=l;
+  if(mine){ $('mine').style.display='block'; $('mineT').textContent='내가 만든 포스터예요 · 열어 본 횟수 '+(DATA.opens||0)+'번'; $('editBtn').href='/poster/make.html?p='+PID; }
+  document.title=(p.title||'디지털 포스터')+' · 사랑흐름';
+}
+function hostOf(u){var m=/^https?:\/\/([^\/?#]+)/i.exec(u||'');return m?m[1].replace(/^www\./,''):'';}
+
+/* 바깥으로 나가기 전 안내 (v0.2 6장 2) */
+var OUT=null;
+function goOut(which){
+  var p=DATA.poster, url='', t='', d='';
+  if(which==='map'){ var q=p.addr||p.place; url='https://map.naver.com/p/search/'+encodeURIComponent(q); t='네이버 지도에서 열어요'; d='「'+q+'」 위치를 지도에서 보여 드려요. 지도는 새 창으로 열리고, 이 포스터는 그대로 남아 있어요.'; }
+  if(which==='apply'){ url=p.applyUrl; t='신청 페이지로 이동해요'; d='만든 분이 연결해 둔 신청 페이지('+hostOf(url)+')가 새 창으로 열려요. 이 포스터는 그대로 남아 있어요.'; }
+  if(which==='home'){ url=p.home; t='홈페이지로 이동해요'; d=hostOf(url)+' 페이지가 새 창으로 열려요. 이 포스터는 그대로 남아 있어요.'; }
+  OUT=url; $('outT').textContent=t; $('outP').textContent=d; $('outGo').textContent=which==='map'?'지도 열기':which==='apply'?'신청 페이지 열기':'홈페이지 열기';
+  $('sheetOut').style.display='block'; $('sheetRep').style.display='none'; $('sheetBg').classList.add('on');
+}
+$('outGo').onclick=function(){ if(OUT){ window.open(OUT,'_blank','noopener'); } closeSheet(); };
+function openSheet(){ $('sheetOut').style.display='none'; $('sheetRep').style.display='block'; $('sheetBg').classList.add('on'); }
+function closeSheet(){ $('sheetBg').classList.remove('on'); }
+function sendRep(){
+  var why=$('repWhy').value.trim();
+  fetch(L.API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({a:'preport',p:PID,why:why})})
+    .then(function(r){return r.json();}).then(function(d){ closeSheet(); toast(d&&d.ok?'신고가 접수됐어요. 고마워요.':'신고를 보내지 못했어요. 잠시 뒤 다시 해 주세요.'); })
+    .catch(function(){ toast('신고를 보내지 못했어요. 잠시 뒤 다시 해 주세요.'); });
+}
+function copyLink(){
+  function ok(){toast('링크를 복사했어요');} function fail(){toast('링크를 복사하지 못했어요');}
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(URL0).then(ok,fail);return;} }catch(x){}
+  try{var a=document.createElement('textarea');a.value=URL0;document.body.appendChild(a);a.select();var r=document.execCommand('copy');a.remove();r?ok():fail();}catch(x){fail();}
+}
+function shareIt(){ var d={title:(DATA&&DATA.poster.title||'디지털 포스터')+' · 사랑흐름',url:URL0}; if(navigator.share){navigator.share(d).catch(function(){});}else{copyLink();} }
+function qrDown(){
+  try{ var q=qrcode(0,'M'); q.addData(URL0); q.make();
+    var n=q.getModuleCount(), cell=12, pad=4*cell, c=document.createElement('canvas'); c.width=c.height=n*cell+pad*2;
+    var x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.fillStyle='#000';
+    for(var r=0;r<n;r++){for(var k=0;k<n;k++){ if(q.isDark(r,k)){ x.fillRect(pad+k*cell,pad+r*cell,cell,cell); } }}
+    var a=document.createElement('a'); a.href=c.toDataURL('image/png'); a.download='사랑흐름_포스터_QR_'+PID+'.png'; document.body.appendChild(a); a.click(); a.remove();
+    toast('QR 그림을 내려받았어요');
+  }catch(x){ toast('QR을 내려받지 못했어요'); }
+}
+
+(function start(){
+  if(!/^[a-z0-9]{6,20}$/.test(PID)){ state('none'); return; }
+  var k=myKey(PID), u=L.API+'?a=pget&p='+encodeURIComponent(PID)+(k?'&k='+encodeURIComponent(k):'')+(PV?'&pv=1':'');
+  fetch(u).then(function(r){return r.json();}).then(function(d){
+    if(!d||!d.ok){ state(d&&d.code?d.code:'err'); return; }
+    DATA=d; $('load').style.display='none'; $('view').style.display='block'; paint();
+    if(d.has&&d.has.photo){ fetch(L.API+'?a=pmedia&p='+encodeURIComponent(PID)).then(function(r){return r.json();}).then(function(m){ if(m&&m.ok){ PHOTO=m.data; paint(); } }).catch(function(){}); }
+  }).catch(function(){ state('err'); });
+})();
+</script>
+<script src="/lf-foot.js" defer></script>
+<script src="/lf/frame.js?v=17"></script>
+</body>
+</html>
