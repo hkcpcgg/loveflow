@@ -110,7 +110,7 @@ function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
 function snd(k,v){ try{ SND[k](v); }catch(e){} }
 var GN={yut:'윷놀이'}, MID={yut:'말 둘을 먼저 다 내보내면 이김'}, CODE={yut:'yn'};
 var RULE={yut:['아래 <b>「윷 던지기」</b>를 <b>꾹</b> 누르면 옆 기둥에 힘이 차올라요. <b style="color:#1E6B34">초록</b>일 때 떼면 윷가락이 멍석에 떨어져요.','너무 세게 던지면 멍석 밖으로 나가 <b>낙</b>(차례가 넘어감) · 너무 살살이면 다시 던져요. 윷가락이 어떻게 떨어지는지는 <b>던진 힘 그대로</b>예요.','납작한 면이 위로 나온 수: 1개 <b>도</b>(한 칸) · 2개 <b>개</b> · 3개 <b>걸</b> · 4개 <b>윷</b>(네 칸) · 0개 <b>모</b>(다섯 칸). <b>윷 · 모는 한 번 더</b>.','움직일 말이 둘이면 초록 단추나 반짝이는 말을 눌러 골라요. <b>모서리 · 한가운데에 딱 멈추면 지름길</b>로 가요.','상대 말이 있는 자리에 멈추면 <b>잡아요</b>(한 번 더). 내 말끼리 만나면 <b>업고</b> 같이 가요. 말 둘을 먼저 한 바퀴 돌려 내보내면 이겨요.']};
-function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받아요. 「선물만」이면 벌칙 없이 마쳐요.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
   $('stBet').textContent='걸린 것 · '+NA.betName(S.bet); $('stRule').textContent=MID[S.k]; if(window.noriSide) noriSide(on==null?null:on, on===0?'내 차례':(on===1?nm(1)+' 차례':'')); }
 function fx(word,size){ var b=$('board'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); var p=b.querySelector('.pow'); if(!p){ p=document.createElement('div'); p.className='pow'; b.appendChild(p); } p.textContent=word; p.style.fontSize=(size||(word.length>3?38:60))+'px'; p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }
@@ -228,7 +228,7 @@ function ynOpts(p,n){ var res=[], seen={};
   res.forEach(function(o){ o.to=ynDest(Y.pcs[p][o.ids[0]],n); o.cap=!o.to.d&&Y.pcs[1-p].some(function(x){ return ynNode(x)===o.to.node; }); }); return res; }
 function ynLabel(o){ return o.w?'새 말 내기':(o.ids.map(function(i){ return i+1; }).join('·')+'번 말'+(o.ids.length>1?' (업음)':'')); }
 function ynPick(n){ if(S.over) return; var g=S.gen, os=ynOpts(Y.turn,n); Y.opts=os; Y.ph='pick';
-  if(os.length===1||!ynHuman()){ var o=os.length===1?os[0]:ynCpuPick(os); if(ynHuman()) $('say').innerHTML=(Y.turn===0?'<b>':'<em>')+ynLabel(o)+(Y.turn===0?'</b>':'</em>')+' · '+n+'칸 갑니다'; setTimeout(function(){ if(g===S.gen) ynMove(o); },ynHuman()?450:800); return; }
+  if(os.length===1||!ynHuman()){ var o=os.length===1?os[0]:ynCpuPick(os); if(ynHuman()) $('say').innerHTML=(Y.turn===0?'<b>':'<em>')+ynLabel(o)+(Y.turn===0?'</b>':'</em>')+' · '+n+'칸 가요'; setTimeout(function(){ if(g===S.gen) ynMove(o); },ynHuman()?450:800); return; }
   /* 둘 중 고르기: 초록 단추 · 반짝이는 말 · 초록 도착 자리 어디를 눌러도 됨 */
   var L=$('ynlay'), h='<div class="ynopt">';
   os.forEach(function(o,k){ var t=o.to, ds=t.d?'나가요!':(o.cap?'잡아요!':([5,10,22].indexOf(t.node)>=0?'지름길':'')); h+='<button type="button" data-o="'+k+'">'+ynLabel(o)+'<small>'+n+'칸'+(ds?' · '+ds:'')+'</small></button>';

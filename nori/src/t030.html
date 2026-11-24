@@ -111,12 +111,12 @@ var S={k:'arm',mode:'cpu1',bet:NA.bet(),gen:0,sc:[0,0],over:true,u:'판'};
 function two(){ return S.mode==='two'; }
 function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
 function snd(k,v){ try{ SND[k](v); }catch(e){} }
-var GN={arm:'팔씨름',yeot:'엿치기',sab:'사방치기',sug:'수건돌리기'}, MID={arm:'끝까지 넘기면 이김',yeot:'두 번 먼저 이기면 끝',sab:'8번까지 먼저 다녀오면 이김',sug:'3점 먼저 내면 이김'}, CODE={arm:'aw',yeot:'yt',sab:'sb',sug:'sg'};
+var GN={arm:'팔씨름',yeot:'엿치기',sab:'사방치기',sug:'수건돌리기'}, MID={arm:'다 넘기면 이김',yeot:'두 번 먼저 이기면 이김',sab:'8번까지 먼저 다녀오면 이김',sug:'3점 먼저 내면 이김'}, CODE={arm:'aw',yeot:'yt',sab:'sb',sug:'sg'};
 var RULE={arm:['두 사람이 손을 맞잡아요. <b>「준비 … 시작!」</b> 하면 힘을 써요.','<b>힘 주는 법: 단추를 빠르게 톡톡톡 두드려요.</b> 빨리 칠수록 힘이 세져요. 꾹 누르고만 있으면 힘이 안 들어가요.','양옆 기둥이 각자의 힘이에요(나 = 왼쪽 파랑). 힘이 센 쪽으로 손이 넘어가요.','상대 손등을 탁자까지 넘기면 이겨요. 친구와 할 때는 한 폰으로 각자 자기 단추를 두드려요.'],
   sab:['<b>번호 순서대로 던져요.</b> 1번 칸 → 2번 칸 → … → 8번 칸. 이번에 던질 칸은 <b style="color:#1E6B34">초록 「여기!」</b> 칸이에요.','<b>① 방향:</b> 초록 줄이 왼쪽 오른쪽으로 흔들려요. 줄이 초록 칸을 가리킬 때 단추를 톡 눌러 멈춰요.','<b>② 힘:</b> 단추를 꾹 누르고 있으면 흐린 돌이 줄을 따라 앞으로 가요. 돌이 초록 칸 안에 오면 손을 떼요. 그러면 돌이 날아가요.','돌이 칸 안에 쏙 들어가면 깡충깡충 하늘까지 다녀와요(저절로). 그리고 다음 번호를 또 던져요. 빗나가면 상대 차례예요.','<b>8번 칸까지 먼저 다녀오면 이겨요!</b>'],
-  sug:['둥글게 앉은 자리 둘레를 <b>술래가 수건을 들고</b> 빠르게 돕니다.','자리는 모두 같은 색이에요. 시작할 때 <b>파란불이 켜진 자리가 나</b>예요. 중간에 <b>자리가 빙글 섞이니</b> 내 자리를 눈으로 따라가요.','술래가 <b>몰래 수건을 떨어뜨립니다.</b> 내 자리 뒤에 떨어졌으면 술래가 한 바퀴 돌아오기 전에 <b>「내 뒤에 수건!」</b>을 누르세요.','알아채면 1점 · 놓치거나 괜히 누르면 상대 1점. <b>3점 먼저</b> 내면 이깁니다.'],
-  yeot:['엿 세 개 중 하나를 고릅니다. 상대는 남은 것 중 하나를 고릅니다.','아래 단추를 <b>꾹 눌러 엿을 휘었다가 놓으면 「뚝!」</b> 부러집니다. 덜 휘면 다시.','부러진 단면의 <b>구멍이 큰 쪽</b>이 이깁니다. <b>두 번 먼저 이기면</b> 끝.']};
-function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+  sug:['둥글게 앉은 자리 둘레를 <b>술래가 수건을 들고</b> 빠르게 돌아요.','자리는 모두 같은 색이에요. 시작할 때 <b>파란불이 켜진 자리가 나</b>예요. 중간에 <b>자리가 빙글 섞이니</b> 내 자리를 눈으로 따라가요.','술래가 <b>몰래 수건을 떨어뜨려요.</b> 내 자리 뒤에 떨어졌으면 술래가 한 바퀴 돌아오기 전에 <b>「내 뒤에 수건!」</b>을 누르세요.','알아채면 1점 · 놓치거나 괜히 누르면 상대 1점. <b>3점 먼저</b> 내면 이겨요.'],
+  yeot:['엿 세 개 중 하나를 골라요. 상대는 남은 것 중 하나를 골라요.','아래 단추를 <b>꾹 눌러 엿을 휘었다가 놓으면 「뚝!」</b> 부러져요. 덜 휘면 다시.','부러진 단면의 <b>구멍이 큰 쪽</b>이 이겨요. <b>두 번 먼저 이기면</b> 이겨요.']};
+function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받아요. 「선물만」이면 벌칙 없이 마쳐요.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
   $('stBet').textContent='걸린 것 · '+NA.betName(S.bet); $('stRule').textContent=MID[S.k]; if(window.noriSide) noriSide(on==null?null:on, on===0?'내 차례':(on===1?nm(1)+' 차례':'')); }
 function fx(word,size){ var b=$('board'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); var p=b.querySelector('.pow'); if(!p){ p=document.createElement('div'); p.className='pow'; b.appendChild(p); } p.textContent=word; p.style.fontSize=(size||(word.length>3?38:60))+'px'; p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }
@@ -330,14 +330,14 @@ function sugMix(done){ var g=S.gen, from=G2.slot.slice(), to=from.slice(), n=0; 
   var spin=6.283*(Math.random()<.5?1:-1)*.5, t0=performance.now(); G2.mixing=true; snd('clack',.2); $('say').innerHTML='<b>자리가 섞여요!</b> 내 자리를 눈으로 따라가요';
   (function lp(){ if(g!==S.gen) return; var k=Math.min(1,(performance.now()-t0)/900), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2; G2.angs=[];
     for(var i=0;i<6;i++){ var a0=seatAng(from[i]), a1=seatAng(to[i]), d=((a1-a0)%6.283+9.425)%6.283-3.1416; G2.angs[i]=a0+(d+spin)*e - spin*e + spin*Math.sin(Math.PI*e)*.35; }
-    sugLay(); if(k<1){ requestAnimationFrame(lp); return; } G2.angs=null; G2.slot=to; sugLay(); G2.mixing=false; G2.mix++; $('say').innerHTML=two()?'술래가 돕니다 · <b>각자 자리 뒤</b>를 보세요':'술래가 돕니다 · <b>내 자리 뒤</b>를 보세요'; done&&done(); })(); }
+    sugLay(); if(k<1){ requestAnimationFrame(lp); return; } G2.angs=null; G2.slot=to; sugLay(); G2.mixing=false; G2.mix++; $('say').innerHTML=two()?'술래가 돌아요 · <b>각자 자리 뒤</b>를 보세요':'술래가 돌아요 · <b>내 자리 뒤</b>를 보세요'; done&&done(); })(); }
 function sugRound(){ if(S.over) return; var g=S.gen, lap=sugLapT(); G2.drop=-1; G2.dropAng=0; G2.done=false; G2.round++; G2.a0=Math.random()*6.283;
   /* 떨굴 자리: 나 40% · 친구 모드면 친구 40% · 나머지 아이 */
   var r=Math.random(); G2.who= r<.4?G2.me:(two()&&r<.8?G2.op:[1,2,4,5][Math.floor(Math.random()*4)]);
   /* 이번 판에 자리를 섞을까: 한 판(3점 먼저)에 두세 번 — 첫 차례는 안 섞고, 둘째부터 */
   var left=G2.mixN-G2.mix; G2.mixAt= (G2.round>1&&left>0&&(Math.random()<.6||G2.round>=3)) ? .5+Math.random()*.5 : -1;
   G2.dropAt=(G2.mixAt>0?G2.mixAt+1.2:.9)+Math.random()*lap*1.2; var tw=$('towel'); tw.className='towel';
-  $('say').innerHTML='<b>파란불</b>이 내 자리 · 잘 기억해요'; sugLight(500); setTimeout(function(){ if(g===S.gen&&!G2.done&&!G2.mixing) $('say').innerHTML=two()?'술래가 돕니다 · <b>각자 자리 뒤</b>를 보세요':'술래가 돕니다 · <b>내 자리 뒤</b>를 보세요'; },900);
+  $('say').innerHTML='<b>파란불</b>이 내 자리 · 잘 기억해요'; sugLight(500); setTimeout(function(){ if(g===S.gen&&!G2.done&&!G2.mixing) $('say').innerHTML=two()?'술래가 돌아요 · <b>각자 자리 뒤</b>를 보세요':'술래가 돌아요 · <b>내 자리 뒤</b>를 보세요'; },900);
   G2.t0=performance.now(); G2.pause=0;
   cancelAnimationFrame(graf); (function lp(){ if(g!==S.gen||G2.done) return; var t=(performance.now()-G2.t0)/1000, ang=G2.a0+t*6.283/lap, gg=sugGeo();
     sugPos($('sgit'),ang,gg.Ro);

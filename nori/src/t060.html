@@ -93,7 +93,7 @@ function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
 function snd(k,v){ try{ SND[k](v); }catch(e){} }
 var GN={bun:'번데기 돌림판'}, MID={bun:'동전 세 닢 · 고깔 많이 모은 쪽이 이김'}, CODE={bun:'bn'};
 var RULE={bun:['아래 <b>「돌리기」</b>를 <b>꾹</b> 누르고 떼면 판이 돌아요. 오래 누를수록 세게 돌아요.','판이 멈췄을 때 <b>바늘이 가리키는 칸</b>만큼 번데기 고깔을 담아요. <b>꽝</b>은 빈 고깔 · <b>한 번 더</b>는 동전 없이 한 번 더.','좋은 상일수록 <b>칸이 좁아요</b>. 다섯 고깔 칸이 제일 좁아요.','너무 살살 돌리면(한 바퀴도 못 돌면) 동전은 그대로 두고 다시 돌려요. 멈출 자리는 <b>돌린 힘 그대로</b> — 정해 놓고 뒤집지 않아요.','사장님과 번갈아 <b>동전 세 닢씩</b>. 고깔을 더 많이 모은 쪽이 이겨요(같으면 한 번씩 더).']};
-function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받아요. 「선물만」이면 벌칙 없이 마쳐요.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
   $('stBet').textContent='걸린 것 · '+NA.betName(S.bet); $('stRule').textContent=MID[S.k]; if(window.noriSide) noriSide(on==null?null:on, on===0?'내 차례':(on===1?nm(1)+' 차례':'')); }
 function fx(word,size){ var b=$('board'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); var p=b.querySelector('.pow'); if(!p){ p=document.createElement('div'); p.className='pow'; b.appendChild(p); } p.textContent=word; p.style.fontSize=(size||(word.length>3?38:60))+'px'; p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }

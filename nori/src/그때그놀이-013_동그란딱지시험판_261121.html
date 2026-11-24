@@ -128,7 +128,7 @@ button:active{filter:brightness(.93)}
     <button class="btn play" id="go" type="button"><svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z" fill="currentColor"/></svg><span id="gol">딱지 내기</span></button>
     <div class="done" id="done">
       <div class="big" id="big"></div>
-      <p class="lure">다복에서 <b>푸짐한 선물</b>을 드립니다</p>
+      <p class="lure">다복에서 <b>푸짐한 선물</b>을 드려요</p>
       <button class="btn gift" type="button">선물 받기</button>
       <div class="pair"><button class="btn half" type="button" id="again">다시 하기</button><button class="btn half" type="button">이야기방에 남기기</button></div>
     </div>
@@ -256,9 +256,9 @@ window.bossV=function(arr,L){ if(L!==1||!BOSS.cur) return arr[L]; var x=BOSS.cur
 window.noriNav=function(o){
   /* 261122 v5 — 아래 막대 「놀이 방법 · 그때 그 놀이(홈, 가운데) · 새 판」, 「다른 놀이」 창 없앰. 끝 화면: 선물 받기 · 이야기방에 남기기 · 다시 하기 · 그때 그 놀이(홈) */
   var HOME='https://www.loveflow.ai.kr/nori/', STORY='https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e';
-  var RULE={om:'가로·세로·대각선 어느 쪽이든 내 돌 다섯 개를 먼저 한 줄로 이으면 이깁니다. 한 수 무르기는 세 번까지 됩니다.',
-    ak:'내 알을 손가락으로 끌었다 놓아 튕깁니다. 상대 알을 판 밖으로 쳐내고, 상대 알을 먼저 다 떨어뜨리면 이깁니다.',
-    rd:'서로 딱지를 한 장씩 냅니다. 정한 기준(글자 많기 · 숫자 높기)으로 센 쪽이 딱지를 가져가고, 다섯 판 뒤 많이 딴 사람이 이깁니다.'};
+  var RULE={om:'가로·세로·대각선 어느 쪽이든 내 돌 다섯 개를 먼저 한 줄로 이으면 이겨요. 한 수 무르기는 세 번까지 돼요.',
+    ak:'내 알을 손가락으로 끌었다 놓아 튕겨요. 상대 알을 판 밖으로 쳐내고, 상대 알을 먼저 다 떨어뜨리면 이겨요.',
+    rd:'서로 딱지를 한 장씩 내요. 정한 기준(글자 많기 · 숫자 높기)으로 센 쪽이 딱지를 가져가고, 다섯 판 뒤 많이 딴 사람이 이겨요.'};
   var framed=false; try{ framed=window.parent!==window; }catch(e){ framed=true; }
   function goHome(){ if(framed){ try{ window.parent.postMessage('nori-close','*'); return; }catch(e2){} } try{ window.open(HOME,'_top'); }catch(e3){ location.href=HOME; } }
   function goStory(){ if(framed){ try{ window.parent.postMessage({nori:'story'},'*'); return; }catch(e){} } try{ window.open(STORY,'_blank'); }catch(e2){ location.href=STORY; } }
@@ -283,9 +283,9 @@ window.noriNav=function(o){
   document.head.appendChild(css);
   var IH='<svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5M10 20v-6h4v6"/></svg>';
   var bar=document.createElement('div'); bar.className='nbar';
-  if(window.NORI_A){ bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg><span>게임 방법</span></button>'
+  if(window.NORI_A){ bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg><span>놀이 방법</span></button>'
     +'<button type="button" data-a="list" class="home" aria-label="그때 그 놀이 처음 화면">'+IH+'</button>'
-    +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg><span>다시</span></button></div>'; } else
+    +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg><span>다시 하기</span></button></div>'; } else
   bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg>놀이 방법</button>'
     +'<button type="button" data-a="list" class="home">'+IH+'그때 그 놀이</button>'
     +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>새 판</button></div>';
@@ -296,7 +296,7 @@ window.noriNav=function(o){
     if(o.onHelp){ o.onHelp(); return; }
     var c=[document.getElementById('helpBtn')].concat([].slice.call(document.querySelectorAll('.hb'))).filter(Boolean);
     for(var i=0;i<c.length;i++){ var p=c[i].closest('.pane,[role=tabpanel]'); if(!p||p.offsetParent!==null){ c[i].click(); return; } }
-    var t=RULE[o.here&&o.here()]||'사장님 또는 친구와 번갈아 한 판씩 겨룹니다. 이기면 선물, 져도 참가 선물이 있어요.';
+    var t=RULE[o.here&&o.here()]||'사장님 또는 친구와 번갈아 한 판씩 겨뤄요. 이기면 선물, 져도 참가 선물이 있어요.';
     rs.innerHTML='<div><h3>놀이 방법</h3><p>'+t+'</p><button type="button">알겠어요</button></div>'; rs.classList.add('on'); }
   rs.addEventListener('click',function(e){ if(e.target===rs||e.target.tagName==='BUTTON'){ rs.classList.remove('on'); } });
   bar.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var a=b.getAttribute('data-a');
@@ -474,7 +474,7 @@ window.noriNav=function(o){
 
 /* 그때 그 놀이 · 소리 묶음 v1 (261121) — 녹음 파일 없이 폰에서 바로 만들어 내는 소리(저작권 걱정 없음).
    stone 바둑돌 「탁」 · clack 알끼리 「딱」 · flick 손가락 튕김 · fall 판 밖으로 · slap 딱지 「팍」 · flip 딱지 뒤집힘
-   glass 유리구슬 「팅」 · win 이김 · lose 짐. 첫 손대기 뒤에 소리가 납니다(폰 규칙). */
+   glass 유리구슬 「팅」 · win 이김 · lose 짐. 첫 손대기 뒤에 소리가 나요(폰 규칙). */
 var SND=(function(){
   var ctx=null, master=null, nb=null, on=true, lastT=0;
   try{ on=localStorage.getItem('nori-snd')!=='0'; }catch(e){}
@@ -717,7 +717,7 @@ var DDAK = (function(){
   var draft={n:'다복 사랑해요',s:5,v:999,c:COLS[0],img:''};
   function deck(){ return DDAK.CARDS.concat(ST.mine); }
   function opName(){ return ($('opn').value.trim()||'상대'); }
-  function intro(){ say.innerHTML='딱지를 내면 두 장이 함께 뒤집힙니다.<br><b>'+RULE[rule].w+'</b>이 두 장을 다 가져가요.'; }
+  function intro(){ say.innerHTML='딱지를 내면 두 장이 함께 뒤집혀요.<br><b>'+RULE[rule].w+'</b>이 두 장을 다 가져가요.'; }
   function layout(){
     total=parseInt($('rounds').value,10); $('rl').textContent=(NUMK[total]||total)+' 판';
     var h=''; for(var i=0;i<total;i++){ h+='<i></i>'; } $('dots').innerHTML=h;

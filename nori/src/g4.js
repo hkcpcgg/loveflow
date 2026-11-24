@@ -52,10 +52,10 @@ function rr(c,x,y,w,h,r){ c.beginPath(); if(c.roundRect){ c.roundRect(x,y,w,h,r)
 
 /* ───────── 1. 딱지치기 — 힘 눈금이 초록 칸일 때 내리치면 뒤집힘 ───────── */
 var RULE={
- ttak:['바닥에 놓인 <b>상대 딱지</b>를 내 딱지로 내리쳐 <b>뒤집으면</b> 그 딱지를 한 장 땁니다.','칠 자리를 <b>누른 채 아래로 당기면</b> 내 딱지가 들리고 오른쪽 <b>힘 배터리</b>가 찹니다. 놓으면 그 자리를 내리칩니다.','<b>모서리</b>(초록 점선 사이)를 치면 잘 넘어가고, 한가운데는 잘 안 넘어갑니다.','상대 딱지가 <b>얇은 · 보통 · 두꺼운</b> 딱지로 바뀝니다. 배터리의 <b>초록 칸</b>만큼 당기세요. 너무 세면 바람만 입니다.','다섯 번씩 쳐서 <b>많이 딴 사람</b>이 이깁니다.'],
- tuho:['멀리 있는 <b>항아리 입구</b>에 화살을 던져 넣습니다.','화면을 <b>누르고 있으면</b> 오른쪽 <b>힘 배터리</b>가 오르내립니다. 누른 채 <b>좌우로 밀면</b> 겨누는 곳이 움직입니다.','배터리가 <b>초록 칸</b>(알맞은 거리)에 올 때 손을 떼세요.','다섯 번씩 던져 <b>많이 넣은 사람</b>이 이깁니다. 같으면 한 번씩 더 던집니다.'],
- marble:['<b>내 구슬</b>(내 색 테두리)을 던져 <b>맞힐 구슬</b>에 닿으면 그 구슬을 땁니다. 한 알 = 1점.','화면을 <b>누르고 있으면</b> 오른쪽 <b>힘 배터리</b>가 오르내립니다. 누른 채 <b>좌우로 밀면</b> 던지는 방향이 바뀝니다.','오른쪽 <b>힘 배터리</b>가 <b>초록 칸</b>일 때 놓으면 알맞게 날아가 <b>통통 튀다</b> 멈춥니다. 약하면 짧고, 세면 넘어갑니다.','다섯 번씩 쳐서 <b>많이 딴 사람</b>이 이깁니다.'],
- dart:['빙글빙글 도는 판에 다트를 던져 <b>▼ 화살표 아래 칸</b>의 점수를 얻습니다.','아래에서 <b>판 빠르기</b>(느리게 · 보통 · 빠르게)를 고르세요.','원하는 칸이 ▼ 아래로 올 때 <b>던지기</b>를 누르세요. 화면을 톡 해도 됩니다.','<b>한 사람이 다섯 개를 다 던진 뒤</b> 상대가 던집니다. 점수 합이 높은 사람이 이깁니다.']
+ ttak:['바닥에 놓인 <b>상대 딱지</b>를 내 딱지로 내리쳐 <b>뒤집으면</b> 그 딱지를 한 장 따요.','칠 자리를 <b>누른 채 아래로 당기면</b> 내 딱지가 들리고 오른쪽 <b>힘 배터리</b>가 차요. 놓으면 그 자리를 내리쳐요.','<b>모서리</b>(초록 점선 사이)를 치면 잘 넘어가고, 한가운데는 잘 안 넘어가요.','상대 딱지가 <b>얇은 · 보통 · 두꺼운</b> 딱지로 바뀌어요. 배터리의 <b>초록 칸</b>만큼 당기세요. 너무 세면 바람만 일어요.','다섯 번씩 쳐서 <b>많이 딴 사람</b>이 이겨요.'],
+ tuho:['멀리 있는 <b>항아리 입구</b>에 화살을 던져 넣어요.','화면을 <b>누르고 있으면</b> 오른쪽 <b>힘 배터리</b>가 오르내려요. 누른 채 <b>좌우로 밀면</b> 겨누는 곳이 움직여요.','배터리가 <b>초록 칸</b>(알맞은 거리)에 올 때 손을 떼세요.','다섯 번씩 던져 <b>많이 넣은 사람</b>이 이겨요. 같으면 한 번씩 더 던져요.'],
+ marble:['<b>내 구슬</b>(내 색 테두리)을 던져 <b>맞힐 구슬</b>에 닿으면 그 구슬을 따요. 한 알 = 1점.','화면을 <b>누르고 있으면</b> 오른쪽 <b>힘 배터리</b>가 오르내려요. 누른 채 <b>좌우로 밀면</b> 던지는 방향이 바뀌어요.','오른쪽 <b>힘 배터리</b>가 <b>초록 칸</b>일 때 놓으면 알맞게 날아가 <b>통통 튀다</b> 멈춰요. 약하면 짧고, 세면 넘어가요.','다섯 번씩 쳐서 <b>많이 딴 사람</b>이 이겨요.'],
+ dart:['빙글빙글 도는 판에 다트를 던져 <b>▼ 화살표 아래 칸</b>의 점수를 얻어요.','아래에서 <b>판 빠르기</b>(느리게 · 보통 · 빠르게)를 고르세요.','원하는 칸이 ▼ 아래로 올 때 <b>던지기</b>를 누르세요. 화면을 톡 해도 돼요.','<b>한 사람이 다섯 개를 다 던진 뒤</b> 상대가 던져요. 점수 합이 높은 사람이 이겨요.']
 };
 var TTAK={key:'tk',name:'딱지치기',unit:'장',max:5,how:'상대 딱지 <b>모서리를 누른 채 아래로 당겼다 놓기</b>',
   KIND:[['얇은 딱지',[.30,.52]],['보통 딱지',[.48,.70]],['두꺼운 딱지',[.64,.86]]],
@@ -123,7 +123,7 @@ var TUHO={key:'th',name:'투호',unit:'개',max:5,how:'<b>누르고 있으면</b
   draw:function(c){ var t=performance.now(), j=this.jar();
     var g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#F4E7C7'); g.addColorStop(.45,'#E8D4A6'); g.addColorStop(1,'#C9A86A'); c.fillStyle=g; c.fillRect(0,0,W,H);
     c.fillStyle='rgba(122,84,40,.15)'; for(var i=0;i<8;i++){ c.fillRect(0,110+i*36,W,2); }
-    banner(c, S.over?'끝!':(nm(S.who)+(cpuTurn()?' 던집니다':' 차례')), S.who?'#E1262D':'#2457D6');
+    banner(c, S.over?'끝!':(nm(S.who)+(cpuTurn()?' 던져요':' 차례')), S.who?'#E1262D':'#2457D6');
     /* 항아리 */
     c.save(); c.translate(j.x,j.y); c.scale(j.s,j.s);
     c.fillStyle='rgba(0,0,0,.18)'; c.beginPath(); c.ellipse(0,40,26,6,0,0,6.3); c.fill();
@@ -207,7 +207,7 @@ var DART={key:'dt',name:'원판 다트',unit:'점',max:5,seq:true,how:'원하는
   down:function(){ if(this.ph!=='idle') return; this.throwIt(S.who); },
   draw:function(c){ var t=performance.now(); if(this.lt){ var dt=(t-this.lt)/1000; this.ang+=this.speed*dt*(this.ph==='stuck'?.3:1); } this.lt=t;
     var g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#F7EFD8'); g.addColorStop(1,'#E9DDBA'); c.fillStyle=g; c.fillRect(0,0,W,H);
-    banner(c, S.over?'끝!':(nm(S.who)+(cpuTurn()?' 던집니다':' 차례')), S.who?'#E1262D':'#2457D6');
+    banner(c, S.over?'끝!':(nm(S.who)+(cpuTurn()?' 던져요':' 차례')), S.who?'#E1262D':'#2457D6');
     var cx=150, cy=200, R=110, n=this.SEC.length, st=Math.PI*2/n, cols=['#E1262D','#FFF3D2','#2457D6','#FFF3D2','#FFC21A','#FFF3D2','#FF7A1A','#FFF3D2'];
     c.strokeStyle='#7A4E25'; c.lineWidth=8; c.beginPath(); c.moveTo(cx-40,cy+R); c.lineTo(cx-60,H-20); c.moveTo(cx+40,cy+R); c.lineTo(cx+60,H-20); c.stroke();
     c.fillStyle='#8B5A2B'; c.beginPath(); c.arc(cx,cy,R+10,0,6.3); c.fill();

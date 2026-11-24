@@ -132,7 +132,7 @@ html,body{background:#FFF8E6;color:#1C1D21}
   <div class="rl" id="pickRule"></div>
   <h3 id="pickT">누구랑 할까요?</h3>
   <button type="button" class="pk" data-v="cpu1"><span><b class="pn" data-k="cpu1">다복 사장님</b><small>이 가게 사장님과 한 판</small></span></button>
-  <button type="button" class="pk" data-v="two"><span><b>친구와 같이 하기</b><small>폰 하나로 번갈아 합니다</small></span></button>
+  <button type="button" class="pk" data-v="two"><span><b>친구와 같이 하기</b><small>폰 하나로 번갈아 해요</small></span></button>
 </div></div>
 <div class="done" id="done"><div class="sheet">
   <div class="res" id="res"></div>
@@ -240,8 +240,8 @@ function handOver(next){ NA.unpoint(); S.busy=true; bub('이제 <b>친구 차례
 
 /* ───────── 1. 가위바위보 — 세 번 먼저 이기면 ───────── */
 var RP={key:'rp',name:'가위바위보',goal:3,
-  rule:['아래 <b>가위 · 바위 · 보</b> 중 하나를 누르면 「가위 · 바위 · 보!」 하고 함께 냅니다.','바위는 가위를, 가위는 보를, 보는 바위를 이깁니다. 같으면 다시.','<b>세 번 먼저 이기는 사람</b>이 이깁니다.'],
-  mid:function(){ return '3번 먼저 이기면 끝'; },
+  rule:['아래 <b>가위 · 바위 · 보</b> 중 하나를 누르면 「가위 · 바위 · 보!」 하고 함께 내요.','바위는 가위를, 가위는 보를, 보는 바위를 이겨요. 같으면 다시.','<b>세 번 먼저 이기는 사람</b>이 이겨요.'],
+  mid:function(){ return '3번 먼저 이기면 이김'; },
   start:function(){ HIST=[]; this.turn(); },
   turn:function(){ var self=this; S.busy=false; S.who=0; S.micRe=MIC_RPS; duel(esc(tl(0))+' · 무엇을 낼까요?','a'); vs();
     pickBoth('가위 · 바위 · 보',['scissors','rock','paper'],NM,null,function(a,b){ self.go(a,b==null?cpuPick():b); }); },
@@ -252,8 +252,8 @@ var RP={key:'rp',name:'가위바위보',goal:3,
 
 /* ───────── 2. 묵찌빠 — 1 공격 정하기 → 2 묵찌빠 ───────── */
 var MJ={key:'mj',name:'묵찌빠',goal:2,
-  rule:['<b>1단계 공격 정하기</b> — 먼저 가위바위보를 합니다. 이긴 사람이 <b>공격</b>합니다.','<b>2단계 묵찌빠</b> — 공격하는 사람이 가만히 있다가 <b>갑자기</b> 「묵!」 「찌!」 「빠!」 중 하나를 외치며 냅니다. 상대는 그 기합에 끌려가지 않게 다른 걸 내야 해요. 묵 = 주먹, 찌 = 가위, 빠 = 보.','둘이 <b>같은 걸 내면 공격한 사람이 한 판</b>을 이깁니다. 다르면 그 판을 이긴 쪽이 공격을 이어 갑니다.','<b>두 판 먼저 이기는 사람</b>이 이깁니다.'],
-  mid:function(){ return '2판 먼저 이기면 끝'; },
+  rule:['<b>1단계 공격 정하기</b> — 먼저 가위바위보를 해요. 이긴 사람이 <b>공격</b>해요.','<b>2단계 묵찌빠</b> — 공격하는 사람이 가만히 있다가 <b>갑자기</b> 「묵!」 「찌!」 「빠!」 중 하나를 외치며 내요. 상대는 그 기합에 끌려가지 않게 다른 걸 내야 해요. 묵 = 주먹, 찌 = 가위, 빠 = 보.','둘이 <b>같은 걸 내면 공격한 사람이 한 판</b>을 이겨요. 다르면 그 판을 이긴 쪽이 공격을 이어 가요.','<b>두 판 먼저 이기는 사람</b>이 이겨요.'],
+  mid:function(){ return '2판 먼저 이기면 이김'; },
   start:function(){ HIST=[]; this.att=null; this.turn(); },
   steps:function(){ return '<div class="steps"><span'+(this.att==null?' class="on"':'')+'>1 공격 정하기</span><span'+(this.att!=null?' class="on"':'')+'>2 묵찌빠</span></div>'; },
   turn:function(){ var self=this; S.busy=false; S.who=0;
@@ -274,7 +274,7 @@ var MJ={key:'mj',name:'묵찌빠',goal:2,
 var MC=['#4E97A8','#E1262D','#2E9E4F','#FFC21A','#7A3E9D','#FF7A1A'];
 function mbs(n){ var h=''; for(var i=0;i<n;i++){ h+='<span class="mb" style="--c:'+MC[i%MC.length]+'"></span>'; } return '<div class="mbs">'+h+'</div>'; }
 var HJ={key:'hj',name:'구슬 홀짝',rounds:6,
-  rule:['둘 다 <b>구슬 10개</b>로 시작합니다. 양옆 기둥의 숫자가 지금 가진 구슬입니다.','한 사람이 주먹에 구슬을 몰래 쥐면, 다른 사람이 <b>몇 개 걸지</b> 정하고 <b>홀(1 · 3 · 5…) / 짝(2 · 4 · 6…)</b>을 고릅니다.','맞히면 건 만큼 받아 오고, 틀리면 건 만큼 내줍니다. 쥐는 사람은 번갈아 바뀝니다.','여섯 판 뒤 <b>구슬이 많은 사람</b>이 이깁니다.'],
+  rule:['둘 다 <b>구슬 10개</b>로 시작해요. 양옆 기둥의 숫자가 지금 가진 구슬이에요.','한 사람이 주먹에 구슬을 몰래 쥐면, 다른 사람이 <b>몇 개 걸지</b> 정하고 <b>홀(1 · 3 · 5…) / 짝(2 · 4 · 6…)</b>을 골라요.','맞히면 건 만큼 받아 오고, 틀리면 건 만큼 내줘요. 쥐는 사람은 번갈아 바뀌어요.','여섯 판 뒤 <b>구슬이 많은 사람</b>이 이겨요.'],
   mid:function(){ return '구슬<br>'+Math.min(this.r+1,this.rounds)+'/'+this.rounds+'판'; },
   start:function(){ S.sc=[10,10]; this.r=0; this.bet=2; this.turn(); },
   scene:function(hid,txt,c,showN,q){ var side=hid===0?'a':'b';
@@ -303,7 +303,7 @@ var HJ={key:'hj',name:'구슬 홀짝',rounds:6,
 
 /* ───────── 4. 쌀보리 — 「쌀!」에만 잡기 ───────── */
 var BR={key:'br',name:'쌀보리',tries:5,
-  rule:['한 사람이 두 손을 모아 동그랗게 만들고(🤲), 다른 사람이 주먹(👊)을 넣었다 빼며 「보리 · 보리 · 쌀!」 하고 외칩니다.','<b>「쌀!」일 때만 잡기</b>를 누르면 한 번 땁니다. 「보리」에 잡으면 한 번 잃습니다.','처음 다섯 번은 내가 잡고, 다음 다섯 번은 내가 외칩니다. <b>많이 잡은 사람</b>이 이깁니다.'],
+  rule:['한 사람이 두 손을 모아 동그랗게 만들고(🤲), 다른 사람이 주먹(👊)을 넣었다 빼며 「보리 · 보리 · 쌀!」 하고 외쳐요.','<b>「쌀!」일 때만 잡기</b>를 누르면 한 번 따요. 「보리」에 잡으면 한 번 잃어요.','처음 다섯 번은 내가 잡고, 다음 다섯 번은 내가 외쳐요. <b>많이 잡은 사람</b>이 이겨요.'],
   mid:function(){ return (this.half===0?(two()?'첫째 잡기':'내가 잡기'):(two()?'둘째 잡기':'사장님 잡기'))+'<br>'+Math.min(this.k+1,this.tries)+'/'+this.tries; },
   start:function(){ this.half=0; this.k=0; this.turn(); },
   scene:function(txt,c){ $('board').innerHTML='<div class="bub '+c+'" id="bub">'+txt+'</div><div class="word" id="word"></div><span class="emo" id="fist">'+E.fist+'</span><span class="emo" id="cup">'+E.cup+'</span>'; },
@@ -336,7 +336,7 @@ var BR={key:'br',name:'쌀보리',tries:5,
 
 /* ───────── 놀이 고르기 · 시작 ───────── */
 var GAMES={rps:RP,mjb:MJ,holjjak:HJ,bori:BR}, KEY2={rp:'rps',mj:'mjb',hj:'holjjak',br:'bori'}, CUR='rps', picked={};
-function rules(k){ return '<ol>'+(GAMES[k].rule||[]).concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>(딱밤 · 꿀밤 · 인디언밥)을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+function rules(k){ return '<ol>'+(GAMES[k].rule||[]).concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>(딱밤 · 꿀밤 · 인디언밥)을 받아요. 「선물만」이면 벌칙 없이 마쳐요.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function setGame(k){ S.gen++; try{ PEN.stop(); }catch(e){} NA.unpoint(); CUR=k; S.g=GAMES[k]; $('ttl').textContent=S.g.name; document.title=S.g.name+' · 그때 그 놀이'; S.over=true; S.sc=k==='holjjak'?[10,10]:[0,0]; S.who=0; $('done').classList.remove('on');
   $('board').innerHTML='<div class="scene"><div class="hd a"><span class="emo">'+(k==='bori'?E.cup:E.rock)+'</span></div><div class="hd b"><span class="emo">'+(k==='bori'?E.fist:E.rock)+'</span></div></div>'; $('act').innerHTML=''; vs('');
   $('pickRule').innerHTML=rules(k);

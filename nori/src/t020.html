@@ -135,7 +135,7 @@ button:active{filter:brightness(.93)}
       <div class="card" id="pCard"></div>
       <div class="done" id="pD">
         <div class="big" id="pBig"></div>
-        <p class="lure"><span class="shopN">다복</span>에서 <b>푸짐한 선물</b>을 드립니다</p>
+        <p class="lure"><span class="shopN">다복</span>에서 <b>푸짐한 선물</b>을 드려요</p>
         <button class="btn gift" type="button">선물 받기</button>
         <div class="pair"><button class="btn half" type="button" id="pAgain">다시 하기</button><button class="btn half" type="button">이야기방에 남기기</button></div>
       </div>
@@ -153,7 +153,7 @@ button:active{filter:brightness(.93)}
       <div class="card" id="bCard" style="--n:5"></div>
       <div class="done" id="bD">
         <div class="big" id="bBig"></div>
-        <p class="lure"><span class="shopN">다복</span>에서 <b>푸짐한 선물</b>을 드립니다</p>
+        <p class="lure"><span class="shopN">다복</span>에서 <b>푸짐한 선물</b>을 드려요</p>
         <button class="btn gift" type="button">선물 받기</button>
         <div class="pair"><button class="btn half" type="button" id="bAgain">다시 하기</button><button class="btn half" type="button">이야기방에 남기기</button></div>
       </div>
@@ -171,7 +171,7 @@ button:active{filter:brightness(.93)}
   <div class="rl" id="pickRule" style="font-size:13px"></div>
   <h3 id="pickT">누구랑 할까요?</h3>
   <button type="button" data-v="cpu1"><span><b class="pn" data-k="cpu1">다복 사장님</b><small>이 가게 사장님과 한 판</small></span></button>
-  <button type="button" data-v="two"><span><b>친구와 같이 하기</b><small>폰 하나로 번갈아 합니다</small></span></button>
+  <button type="button" data-v="two"><span><b>친구와 같이 하기</b><small>폰 하나로 번갈아 해요</small></span></button>
 </div></div>
 <script>
 __SND__
@@ -274,7 +274,7 @@ window.PUT=(function(){
   function cpuTurn(){ return who===1&&mode()!=='two'; }
   function turn(){
     var nm=names(mode()), h=H_(), tip=(h.sl[0]||h.sl[1])?' · 그린 위 흐르는 꺾쇠(›)와 「기울기 방향」 화살표 쪽이 내리막이라 공이 그쪽으로 휘어요':'';
-    say.innerHTML='<b>'+(extra?'연장 홀':(hole+1)+'번 홀')+'</b> · <b style="color:'+COL[who]+'">'+esc(nm[who]==='나'?'내':nm[who])+'</b> 차례'+(cpuTurn()?' · 곧 칩니다':' · <b>공을 누른 채 뒤로 당겼다(백스윙) 놓으면</b> 칩니다'+tip);
+    say.innerHTML='<b>'+(extra?'연장 홀':(hole+1)+'번 홀')+'</b> · <b style="color:'+COL[who]+'">'+esc(nm[who]==='나'?'내':nm[who])+'</b> 차례'+(cpuTurn()?' · 곧 쳐요':' · <b>공을 누른 채 뒤로 당겼다(백스윙) 놓으면</b> 쳐요'+tip);
     if(!cpuTurn()&&!balls[who].in){ var sx=h.sl[0], dirW= Math.abs(sx)>.001 ? (sx>0?'오른쪽으로 휘어요':'왼쪽으로 휘어요') : ''; caddie(dirW? '이 그린은 '+dirW : (h.bl.length?'턱을 피해서 치세요':'곧게 밀어 보세요'),2800); }
     vs(); draw();
     if(cpuTurn()){ setTimeout(cpu,900); }
@@ -458,8 +458,8 @@ window.BOW=(function(){
   }
   function turnMsg(){
     var nm=names(mode()); vs();
-    if(who===1&&mode()!=='two'){ say.innerHTML='<b style="color:#E1262D">'+esc(nm[1])+'</b> 차례 · '+(shot[1]+1)+'시째를 쏩니다'; setTimeout(cpu,1300); }
-    else { say.innerHTML='<b style="color:'+(who?'#E1262D':'#2457D6')+'">'+esc(nm[who]==='나'?'내 차례':nm[who]+' 차례')+'</b> · '+(shot[who]+1)+'시째 · <b>누르고 있으면 당기고</b>, 누른 채 손가락을 천천히 밀어 <b>조준점을 옮기고</b>, 만작에서 <b>놓으면</b> 쏩니다. 조준점은 다음 화살에도 그 자리에 남아요'; }
+    if(who===1&&mode()!=='two'){ say.innerHTML='<b style="color:#E1262D">'+esc(nm[1])+'</b> 차례 · '+(shot[1]+1)+'시째를 쏴요'; setTimeout(cpu,1300); }
+    else { say.innerHTML='<b style="color:'+(who?'#E1262D':'#2457D6')+'">'+esc(nm[who]==='나'?'내 차례':nm[who]+' 차례')+'</b> · '+(shot[who]+1)+'시째 · <b>누르고 있으면 당기고</b>, 누른 채 손가락을 천천히 밀어 <b>조준점을 옮기고</b>, 만작에서 <b>놓으면</b> 쏴요. 조준점은 다음 화살에도 그 자리에 남아요'; }
   }
   function sway(t,amp){ return {x:amp*(Math.sin(t*1.7)+.5*Math.sin(t*3.1+1)), y:amp*.7*(Math.sin(t*2.3+.5)+.4*Math.sin(t*4.3))}; }
   /* 손대지 않으면 가만히 있음. 너무 오래 버틸 때(2.4초 넘게)만 팔이 떨려 살짝 흔들림 */
@@ -535,7 +535,7 @@ window.BOW=(function(){
     ctx.lineCap='butt';
     if(!over&&!fly){ var nmB=names(mode())[who], mine=!(who===1&&mode()!=='two');
       ctx.fillStyle=who===0?'rgba(36,87,214,.92)':'rgba(225,38,45,.92)'; var bw=150; ctx.beginPath(); ctx.roundRect?ctx.roundRect(150-bw/2,10,bw,26,13):ctx.rect(150-bw/2,10,bw,26); ctx.fill();
-      ctx.fillStyle='#fff'; ctx.font='800 12.5px "Noto Sans KR",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText((nmB==='나'?'내':nmB)+(mine?' 차례':' 쏩니다'),150,23); ctx.textBaseline='alphabetic';
+      ctx.fillStyle='#fff'; ctx.font='800 12.5px "Noto Sans KR",sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText((nmB==='나'?'내':nmB)+(mine?' 차례':' 쏴요'),150,23); ctx.textBaseline='alphabetic';
       if(mine&&!hold){ ctx.fillStyle='rgba(22,24,29,.75)'; ctx.font='700 11px "Noto Sans KR",sans-serif'; ctx.fillText('누르고만 있으면 활이 당겨져요 · 누른 채 손가락으로 겨누기',150,52); } }
     /* 망원경 — 누르고 있는 동안 가운데에 둥근 렌즈, 과녁을 3배로 당겨 보여 줌 */
     if(hold&&!fly){ var sg2=sight(), LX=150, LY=166, LR=92, Z=3;
@@ -563,7 +563,7 @@ window.BOW=(function(){
   function land(f){
     var hit=Math.abs(f.x-TX)<=TW/2&&Math.abs(f.y-TY)<=TH/2, nm=names(mode());
     marks.push({x:f.x,y:f.y,h:hit,p:f.p}); hits[f.p][shot[f.p]]=hit; shot[f.p]++;
-    if(hit){ SND.target(); flagT=performance.now(); flagUntil=flagT+2200; say.innerHTML='<b>관중이오!</b> '+esc(nm[f.p])+' '+shot[f.p]+'시째 맞혔습니다'; } else { SND.miss(); say.innerHTML=esc(nm[f.p])+' · '+(Math.abs(f.x-TX)>TW/2?(f.x<TX?'왼쪽으로':'오른쪽으로'):(f.y<TY?'넘어갔네':'짧네…'))+' 빗나갔어요'; }
+    if(hit){ SND.target(); flagT=performance.now(); flagUntil=flagT+2200; say.innerHTML='<b>관중이오!</b> '+esc(nm[f.p])+' '+shot[f.p]+'시째 맞혔어요'; } else { SND.miss(); say.innerHTML=esc(nm[f.p])+' · '+(Math.abs(f.x-TX)>TW/2?(f.x<TX?'왼쪽으로':'오른쪽으로'):(f.y<TY?'넘어갔네':'짧네…'))+' 빗나갔어요'; }
     card(); vs(); setTimeout(after,900);
   }
   function cnt(p){ return hits[p].filter(function(v){return v;}).length; }
@@ -631,8 +631,8 @@ relabel();
 SND.button(document.querySelector('.top'));
 
 (function(){ var RULE=window.RULE20={
- golf:['공을 <b>누른 채 뒤로 당겼다(백스윙) 놓으면</b> 당긴 <b>반대쪽</b>으로 굴러갑니다. 많이 당길수록 셉니다.','위 막대의 <b>기울기 방향 · 세기</b>를 보세요. 그린이 기운 쪽으로 공이 휘니, 그만큼 <b>비껴서</b> 치세요.','그린 오른쪽 아래 <b>캐디 언니</b>가 말풍선으로 귀띔해 줍니다.','<b>나와 상대가 번갈아</b> 칩니다. 홀을 다 돌아 <b>타수가 적은 사람</b>이 이깁니다.'],
- bow:['화면을 <b>누르고 있는 동안</b> 활시위가 저절로 당겨집니다. 손가락으로 당길 필요는 없어요.','누른 채 손가락을 움직이면 <b>망원경 조준점</b>이 손가락을 따라갑니다. <b>위로 밀면 위로, 아래로 내리면 아래로</b> — 내 쪽으로 당기는 동작이 아닙니다.','「만작」(가득 당김)이 뜨면 <b>손을 떼서</b> 쏩니다. 오래 끌면 팔이 떨려요.','<b>바람 방향 · 세기</b>를 보고 바람 반대쪽으로 조금 겨누세요.','다섯 시씩 쏴서 과녁을 <b>많이 맞힌(관중) 사람</b>이 이깁니다.']};
+ golf:['공을 <b>누른 채 뒤로 당겼다(백스윙) 놓으면</b> 당긴 <b>반대쪽</b>으로 굴러가요. 많이 당길수록 세요.','위 막대의 <b>기울기 방향 · 세기</b>를 보세요. 그린이 기운 쪽으로 공이 휘니, 그만큼 <b>비껴서</b> 치세요.','그린 오른쪽 아래 <b>캐디 언니</b>가 말풍선으로 귀띔해 줘요.','<b>나와 상대가 번갈아</b> 쳐요. 홀을 다 돌아 <b>타수가 적은 사람</b>이 이겨요.'],
+ bow:['화면을 <b>누르고 있는 동안</b> 활시위가 저절로 당겨져요. 손가락으로 당길 필요는 없어요.','누른 채 손가락을 움직이면 <b>망원경 조준점</b>이 손가락을 따라가요. <b>위로 밀면 위로, 아래로 내리면 아래로</b> — 내 쪽으로 당기는 동작이 아니에요.','「만작」(가득 당김)이 뜨면 <b>손을 떼서</b> 쏴요. 오래 끌면 팔이 떨려요.','<b>바람 방향 · 세기</b>를 보고 바람 반대쪽으로 조금 겨누세요.','다섯 시씩 쏴서 과녁을 <b>많이 맞힌(관중) 사람</b>이 이겨요.']};
  var hp=document.getElementById('help');
  document.querySelectorAll('[data-help]').forEach(function(b){ b.addEventListener('click',function(){ var k=b.getAttribute('data-help'); document.getElementById('helpT').textContent=(k==='golf'?'골프':'활쏘기')+' · 놀이 방법'; document.getElementById('helpB').innerHTML='<ol>'+RULE[k].map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; hp.classList.add('on'); }); });
  hp.addEventListener('click',function(e){ if(e.target===hp||e.target.closest('[data-x]')){ hp.classList.remove('on'); } });

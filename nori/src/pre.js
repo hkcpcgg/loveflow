@@ -69,7 +69,7 @@ window.NA=(function(){
         var k=b.getAttribute('data-o'); if(!k) return;
         if(k==='mute'){ if(muted()){ OPT.sfx=true; } else { OPT.sfx=false; OPT.voice=false; OPT.mic=false; try{ speechSynthesis.cancel(); }catch(x){} } }
         else { OPT[k]=!OPT[k]; }
-        if(k==='mic'&&OPT.mic&&!SR){ OPT.mic=false; toast('이 브라우저는 「말로 내기」를 못 해요<br>크롬이나 사파리에서 열어 주세요'); }
+        if(k==='mic'&&OPT.mic&&!SR){ OPT.mic=false; toast('이 화면에서는 「말로 내기」를 쓸 수 없어요<br>크롬이나 사파리에서 열어 주세요'); }
         keep(); paint();
         if(k==='sfx'&&OPT.sfx&&window.SND){ SND.stone(.7); } if(k==='voice'&&OPT.voice){ beat(); speak('보'); }
         try{ window.dispatchEvent(new Event('na-opt')); }catch(x){} }); }
@@ -84,7 +84,7 @@ window.NA=(function(){
   function pre(o){ P=o||{}; if(!ps){ ps=sheet('<h3>무엇을 걸까요?</h3><p class="sub" id="naPreSub">진 쪽이 맞아요 · 이기면 선물도!</p><div class="na-bets" id="naBets">'
       +['ttak','kkul','indian','none'].map(function(k){ var B=BETS[k]; return '<button type="button" data-b="'+k+'"><i>'+B.i+'</i>'+B.n+'<small>'+B.s+'</small></button>'; }).join('')
       +'<button type="button" data-b="real" class="real"><i>💥</i>진짜 때리기<small>매장에서 직접!</small></button></div>'
-      +'<div class="na-who" id="naWho"><button type="button" data-w="cpu"><span class="pn"></span>과<small>이 가게 사장님과 한 판</small></button><button type="button" data-w="two">친구와 폰 하나로<small>번갈아 합니다</small></button></div>'
+      +'<div class="na-who" id="naWho"><button type="button" data-w="cpu"><span class="pn"></span>과<small>이 가게 사장님과 한 판</small></button><button type="button" data-w="two">친구와 폰 하나로<small>번갈아 해요</small></button></div>'
       +'<button type="button" class="na-go" id="naGo">시작!</button>');
       ps.querySelector('#naBets').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return;
         if(b.getAttribute('data-b')==='real'){ b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); try{ SND.thud(.7); }catch(x){} var sm=b.querySelector('small'); if(!sm._o) sm._o=sm.textContent; sm.textContent='화면에선 안 돼요 😆 사장님께 직접!'; clearTimeout(sm._t); sm._t=setTimeout(function(){ sm.textContent=sm._o; },2000); return; }

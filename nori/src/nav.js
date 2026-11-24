@@ -81,9 +81,9 @@ window.bossV=function(arr,L){ if(L!==1||!BOSS.cur) return arr[L]; var x=BOSS.cur
 window.noriNav=function(o){
   /* 261122 v5 — 아래 막대 「놀이 방법 · 그때 그 놀이(홈, 가운데) · 새 판」, 「다른 놀이」 창 없앰. 끝 화면: 선물 받기 · 이야기방에 남기기 · 다시 하기 · 그때 그 놀이(홈) */
   var HOME='https://www.loveflow.ai.kr/nori/', STORY='https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e';
-  var RULE={om:'가로·세로·대각선 어느 쪽이든 내 돌 다섯 개를 먼저 한 줄로 이으면 이깁니다. 한 수 무르기는 세 번까지 됩니다.',
-    ak:'내 알을 손가락으로 끌었다 놓아 튕깁니다. 상대 알을 판 밖으로 쳐내고, 상대 알을 먼저 다 떨어뜨리면 이깁니다.',
-    rd:'서로 딱지를 한 장씩 냅니다. 정한 기준(글자 많기 · 숫자 높기)으로 센 쪽이 딱지를 가져가고, 다섯 판 뒤 많이 딴 사람이 이깁니다.'};
+  var RULE={om:'가로·세로·대각선 어느 쪽이든 내 돌 다섯 개를 먼저 한 줄로 이으면 이겨요. 한 수 무르기는 세 번까지 돼요.',
+    ak:'내 알을 손가락으로 끌었다 놓아 튕겨요. 상대 알을 판 밖으로 쳐내고, 상대 알을 먼저 다 떨어뜨리면 이겨요.',
+    rd:'서로 딱지를 한 장씩 내요. 정한 기준(글자 많기 · 숫자 높기)으로 센 쪽이 딱지를 가져가고, 다섯 판 뒤 많이 딴 사람이 이겨요.'};
   var framed=false; try{ framed=window.parent!==window; }catch(e){ framed=true; }
   function goHome(){ if(framed){ try{ window.parent.postMessage('nori-close','*'); return; }catch(e2){} } try{ window.open(HOME,'_top'); }catch(e3){ location.href=HOME; } }
   function goStory(){ if(framed){ try{ window.parent.postMessage({nori:'story'},'*'); return; }catch(e){} } try{ window.open(STORY,'_blank'); }catch(e2){ location.href=STORY; } }
@@ -108,9 +108,9 @@ window.noriNav=function(o){
   document.head.appendChild(css);
   var IH='<svg viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M6 9.5V20h12V9.5M10 20v-6h4v6"/></svg>';
   var bar=document.createElement('div'); bar.className='nbar';
-  if(window.NORI_A){ bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg><span>게임 방법</span></button>'
+  if(window.NORI_A){ bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg><span>놀이 방법</span></button>'
     +'<button type="button" data-a="list" class="home" aria-label="그때 그 놀이 처음 화면">'+IH+'</button>'
-    +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg><span>다시</span></button></div>'; } else
+    +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg><span>다시 하기</span></button></div>'; } else
   bar.innerHTML='<div><button type="button" data-a="help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.6M12 17h.01"/></svg>놀이 방법</button>'
     +'<button type="button" data-a="list" class="home">'+IH+'그때 그 놀이</button>'
     +'<button type="button" data-a="new"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>새 판</button></div>';
@@ -121,7 +121,7 @@ window.noriNav=function(o){
     if(o.onHelp){ o.onHelp(); return; }
     var c=[document.getElementById('helpBtn')].concat([].slice.call(document.querySelectorAll('.hb'))).filter(Boolean);
     for(var i=0;i<c.length;i++){ var p=c[i].closest('.pane,[role=tabpanel]'); if(!p||p.offsetParent!==null){ c[i].click(); return; } }
-    var t=RULE[o.here&&o.here()]||'사장님 또는 친구와 번갈아 한 판씩 겨룹니다. 이기면 선물, 져도 참가 선물이 있어요.';
+    var t=RULE[o.here&&o.here()]||'사장님 또는 친구와 번갈아 한 판씩 겨뤄요. 이기면 선물, 져도 참가 선물이 있어요.';
     rs.innerHTML='<div><h3>놀이 방법</h3><p>'+t+'</p><button type="button">알겠어요</button></div>'; rs.classList.add('on'); }
   rs.addEventListener('click',function(e){ if(e.target===rs||e.target.tagName==='BUTTON'){ rs.classList.remove('on'); } });
   bar.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var a=b.getAttribute('data-a');

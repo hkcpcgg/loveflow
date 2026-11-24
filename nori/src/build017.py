@@ -118,7 +118,7 @@ html='''<!DOCTYPE html>
   function share(){
     var d={title:'그때 그 놀이',text:'옛날 놀이 한 판! 다복에서 준비한 푸짐한 선물 받아가세요',url:(window.NORI_URL||location.href)};
     if(navigator.share){ navigator.share(d).catch(function(){}); }
-    else if(navigator.clipboard){ navigator.clipboard.writeText(window.NORI_URL||location.href).then(function(){ say('주소를 복사했어요'); },function(){ say('주소 복사가 안 돼요'); }); }
+    else if(navigator.clipboard){ navigator.clipboard.writeText(window.NORI_URL||location.href).then(function(){ say('링크를 복사했어요'); },function(){ say('링크를 복사하지 못했어요'); }); }
   }
   document.getElementById('fShare').addEventListener('click',share);
 })();
@@ -131,7 +131,7 @@ html='''<!DOCTYPE html>
 /* 디자인 A: 오른쪽 위 「🔈 소리」 · 맨 아래 사장님 줄(관리자 창 · 홈 화면에 추가 — ☰ 대신) */
 (function(){ var r=document.querySelector('.top .topr'); if(r){ NA.sndBtn(r); }
   [].forEach.call(document.querySelectorAll('.own [data-own]'),function(b){ b.addEventListener('click',function(e){ e.stopPropagation(); var k=b.getAttribute('data-own');
-    if(k==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { NA.toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요'); } return; }
+    if(k==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { NA.toast('화면 위 메뉴(⋮ 또는 공유 단추)에서 「홈 화면에 추가」를 눌러 주세요'); } return; }
     var m=document.querySelector('.menu [data-m='+k+']'); if(m){ m.click(); } }); }); })();
 </script>
 <script src="https://www.loveflow.ai.kr/lf-foot.js" defer></script>

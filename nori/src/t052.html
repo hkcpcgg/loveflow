@@ -119,7 +119,7 @@ var GN={jegi:'제기차기',gong:'공기놀이',mugung:'무궁화 꽃이 피었�
 var RULE={jegi:['제기가 위에서 떨어져요. 발 위 <b style="color:#1E6B34">초록 띠</b> 안에 왔을 때 <b>「차기!」</b>(놀이판 아무 데나 톡 해도 돼요).','차면 다시 올라가요. <b>찰수록 빨리 떨어지고 좌우로 더 흔들려요.</b>','초록 띠에 오기 전에 차면 <b>헛발</b>, 띠를 지나치면 <b>떨어져요</b>. 그러면 상대 차례.','나 → 사장님 → 나 → 사장님, <b>두 번씩</b> 차서 모두 더한 횟수가 많은 쪽이 이겨요. 같으면 한 번씩 더.'],
   gong:['<b>1단</b> 한 알씩 네 번 → <b>2단</b> 두 알씩 두 번 → <b>3단</b> 세 알 · 한 알 → <b>4단</b> 네 알 한꺼번에. 먼저 4단을 마치면 이겨요.','단추가 둘이에요. <b>왼쪽 ① 던지기 · 오른쪽 ② 받기</b>. 지금 누를 단추만 색이 켜져요.','왼쪽 <b>「던지기」</b>를 누르면 돌 하나가 위로 떠요. 떠 있는 동안 바닥에서 <b>반짝이는 돌</b>을 톡톡 주워요(이번에 주울 만큼).','떠 있던 돌이 내려와 <b style="color:#1E6B34">손바닥 띠</b>에 오면 띠와 오른쪽 <b>「받기」가 깜빡깜빡</b> — 그때 「받기」! 바닥 돌을 다 주워야 「받기」가 켜져요.','못 줍거나 · 너무 일찍 받거나 · 놓치면 상대 차례예요. 하던 단계는 그대로 남아요.'],
   mugung:['술래(사장님)가 돌아서서 <b>「무 궁 화 꽃 이 피 었 습 니 다」</b>를 외요. 글자가 하나씩 켜져요.','글자가 켜지는 동안 <b>「앞으로!」</b>를 톡톡 — 한 번에 한 걸음.','<b>「다」</b>가 켜지면 술래가 돌아봐요. 그때 누르면 <b>걸려요</b>(다섯 걸음 뒤로). 외는 빠르기가 들쭉날쭉하니 조심!','술래가 <b>다섯 번</b> 외는 안에 술래까지 가면 이겨요. <b>두 번 걸리면</b> 져요.']};
-function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받습니다. 「선물만」이면 벌칙 없이 끝.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+function rules(k){ return '<ol>'+RULE[k].concat(['진 쪽은 시작할 때 고른 <b>벌칙</b>을 받아요. 「선물만」이면 벌칙 없이 마쳐요.']).map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
 function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
   $('stBet').textContent='걸린 것 · '+NA.betName(S.bet); $('stRule').textContent=MID[S.k]; if(window.noriSide) noriSide(on==null?null:on, on===0?'내 차례':(on===1?nm(1)+' 차례':'')); }
 function fx(word,size){ var b=$('board'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); var p=b.querySelector('.pow'); if(!p){ p=document.createElement('div'); p.className='pow'; b.appendChild(p); } p.textContent=word; p.style.fontSize=(size||(word.length>3?38:60))+'px'; p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }
@@ -292,7 +292,7 @@ function mgStep(){ if(S.over) return; NA.unpoint();
   M.step++; snd('putt',.35); mgDraw(); if(M.step>=M.need){ mgEnd(true,'touch'); } }
 function mgCaught(){ var g=S.gen; M.ph='wait'; clearTimeout(M.t); M.life--; M.step=Math.max(0,M.step-5); fx('걸렸다!',42); snd('thud',.8); mgDraw();
   if(M.life<=0){ mgEnd(false,'caught'); return; }
-  $('say').innerHTML='<em>움직여서 걸렸어요</em> · 다섯 걸음 뒤로 · 한 번 더 걸리면 끝';
+  $('say').innerHTML='<em>움직여서 걸렸어요</em> · 다섯 걸음 뒤로 · 한 번 더 걸리면 져요';
   M.t=setTimeout(function(){ if(g===S.gen) mgCycle(); },1700); }
 function mgEnd(win,why){ var g=S.gen; M.ph='wait'; clearTimeout(M.t); $('mgGo').disabled=true;
   fx(win?'찜! 쳤다':(why==='time'?'시간 끝':'졌다…'),38); if(win){ $('mgit').className='mgit got'; }

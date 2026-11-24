@@ -95,10 +95,10 @@ window.GIFT=(function(){
     if(last.claimed){ coupon(last.rec); return; }
     var t=tierOf(last), nm=load('nori-name','');
     open('<button class="x" type="button" data-c="x">닫기 ✕</button>'
-      +'<h3><b>푸짐한</b> 선물을 드립니다</h3>'
+      +'<h3><b>푸짐한</b> 선물을 드려요</h3>'
       +'<div class="sum">'+esc(last.gname)+' · '+esc(last.opp||'')+(LVTAG[last.lv]?' ('+LVTAG[last.lv]+')':'')+'<br>'+(last.win?'<b>이겼어요!</b> ':'수고하셨어요 · ')+esc(last.detail||'')+'<br>받을 선물: <b>'+TIER[t]+' · '+esc(prizeName(t))+'</b></div>'
       +'<div class="row2"><label>이름이나 별명<input id="gN" maxlength="10" value="'+esc(nm)+'" placeholder="예: 김다복"></label><label>자리(선택)<input id="gS" maxlength="6" placeholder="예: 3번"></label></div>'
-      +'<p class="note">사장님이 누구에게 드릴지 알 수 있게 이름(별명)만 적습니다. 전화번호는 받지 않습니다.</p>'
+      +'<p class="note">사장님이 누구에게 드릴지 알 수 있게 이름(별명)만 적어요. 전화번호는 받지 않아요.</p>'
       +'<button class="go" type="button" data-c="ok">선물 받기</button>');
     gs.querySelector('[data-c=ok]').addEventListener('click',function(){
       var n=$('gN').value.trim(); if(!n){ $('gN').focus(); $('gN').style.borderColor='#E1262D'; return; }
@@ -117,7 +117,7 @@ window.GIFT=(function(){
   function find(id){ for(var i=0;i<REC.length;i++){ if(REC[i].id===id) return REC[i]; } return null; }
   function coupon(rec){
     rec=find(rec.id)||rec; var st=ST[rec.status], how='';
-    if(rec.status==='ready'){ how='<p class="note" style="text-align:center">계산대 직원에게 이 화면을 보여 주세요. 받으시면 직원이 아래에 번호를 넣어 「전달 완료」를 누릅니다.</p>'; }
+    if(rec.status==='ready'){ how='<p class="note" style="text-align:center">계산대 직원에게 이 화면을 보여 주세요. 받으시면 직원이 아래에 번호를 넣어 「전달 완료」를 눌러요.</p>'; }
     if(rec.status==='wait'){ how='<p class="note" style="text-align:center">직원이 확인하면 선물을 드려요. 이 화면을 직원에게 보여 주세요.</p>'; }
     if(rec.status==='story'){ how='<p class="note" style="text-align:center">'+esc(shop())+' 이야기방에 한 줄 남기시면 선물이 열려요.</p>'
       +'<a class="go dark" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e" target="_blank" rel="noopener">이야기방에 남기러 가기</a>'
@@ -143,14 +143,14 @@ window.GIFT=(function(){
   function myBox(){
     var list=REC.filter(function(r){ return mine.indexOf(r.id)>=0; }), h='';
     list.forEach(function(r){ var st=ST[r.status]; h+='<div class="mi"><b>'+TIER[r.tier]+' · '+esc(r.prize)+'</b><small>'+esc(r.gname)+' · '+hm(r.t)+' · <span style="color:'+st[1]+';font-weight:900">'+st[0]+'</span></small><button type="button" data-id="'+r.id+'">쿠폰 보기</button></div>'; });
-    open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>내 선물함</h3>'+(h?'<div class="mlist">'+h+'</div>':'<div class="sum">아직 받은 선물이 없어요. 놀이를 마치면 <b>푸짐한 선물</b>을 드립니다!</div>'));
+    open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>내 선물함</h3>'+(h?'<div class="mlist">'+h+'</div>':'<div class="sum">아직 받은 선물이 없어요. 놀이를 마치면 <b>푸짐한 선물</b>을 드려요!</div>'));
     gs.querySelector('[data-c=x]').addEventListener('click',close);
     gs.querySelectorAll('.mi button').forEach(function(b){ b.addEventListener('click',function(){ coupon(find(b.getAttribute('data-id'))); }); });
   }
 
   /* ── 관리자 창 ── */
   function adminLogin(){
-    open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>관리자 창</h3><label>관리자 번호<input id="aP" inputmode="numeric" maxlength="8" placeholder="처음 번호 0000"></label><button class="go dark" type="button" data-c="in">들어가기</button><p class="note">시험판 처음 번호는 0000 입니다. 들어가서 바꾸세요.</p>');
+    open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>관리자 창</h3><label>관리자 번호<input id="aP" inputmode="numeric" maxlength="8" placeholder="처음 번호 0000"></label><button class="go dark" type="button" data-c="in">들어가기</button><p class="note">시험판 처음 번호는 0000이에요. 들어가서 바꾸세요.</p>');
     gs.querySelector('[data-c=x]').addEventListener('click',close);
     gs.querySelector('[data-c=in]').addEventListener('click',function(){ var p=$('aP').value.trim();
       if(CL){ run('list',[p],function(r){ if(r&&r.ok){ apin=p; REC=r.recs; REC.forEach(function(x){ sent[x.id]=JSON.stringify(x); }); try{ localStorage.setItem('nori-recs',JSON.stringify(REC)); }catch(e){} admin('rec'); } else { $('aP').value=''; $('aP').placeholder='번호가 달라요'; $('aP').style.borderColor='#E1262D'; } }); return; }
@@ -162,9 +162,9 @@ window.GIFT=(function(){
       var today=new Date(); today.setHours(0,0,0,0);
       var td=REC.filter(function(r){ return r.t>=today.getTime(); }), wait=td.filter(function(r){ return r.status!=='given'; }).length;
       body='<div class="stat"><div><b>'+td.length+'</b>오늘 손님</div><div><b>'+td.filter(function(r){return r.win;}).length+'</b>이긴 손님</div><div><b>'+wait+'</b>줄 선물</div><div><b>'+td.filter(function(r){return r.status==='given';}).length+'</b>전달 완료</div></div><div class="mlist">';
-      if(!REC.length){ body+='<div class="sum">아직 기록이 없어요. 손님이 놀이를 마치고 「선물 받기」를 누르면 여기에 쌓입니다.</div>'; }
+      if(!REC.length){ body+='<div class="sum">아직 기록이 없어요. 손님이 놀이를 마치고 「선물 받기」를 누르면 여기에 쌓여요.</div>'; }
       REC.forEach(function(r){ var st=ST[r.status]; body+='<div class="mi"><b>'+esc(r.name)+(r.seat?' · '+esc(r.seat):'')+' — '+TIER[r.tier]+' '+esc(r.prize)+'</b><small>'+hm(r.t)+' · '+esc(r.gname)+' · '+esc(r.opp||'')+(LVTAG[r.lv]?'('+LVTAG[r.lv]+')':'')+' · '+(r.win?'이김':'짐')+' · '+esc(r.detail||'')+' · 번호 '+esc(r.code)+' · <span style="color:'+st[1]+';font-weight:900">'+st[0]+'</span></small><button type="button" data-g="'+r.id+'"'+(r.status==='given'?' disabled':'')+'>'+(r.status==='given'?'전달함':'전달하기')+'</button></div>'; });
-      body+='</div>'+(REC.length?'<button class="go light" type="button" data-c="clr">기록 모두 지우기</button>':'');
+      body+='</div>'+(REC.length?'<button class="go light" type="button" data-c="clr">이 폰 기록 삭제</button>':'');
     }
     if(tab==='gift'){
       function sel(id,v){ var inList=PRESET.indexOf(v)>=0; return '<select id="'+id+'">'+PRESET.map(function(x){ return '<option'+(x===v?' selected':'')+'>'+esc(x)+'</option>'; }).join('')+'<option value="__own"'+(inList?'':' selected')+'>직접 쓰기</option></select><input id="'+id+'o" placeholder="선물 이름 쓰기" value="'+(inList?'':esc(v))+'" style="'+(inList?'display:none':'')+'">'; }
@@ -182,13 +182,13 @@ window.GIFT=(function(){
         +'<div class="sum">놀이 상대 이름: <b>'+esc((sp.s||'다복')+' 사장님')+'</b></div>'
         +'<button class="go dark" type="button" data-c="svs">저장</button>';
     }
-    open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>관리자 창</h3>'+tabs+body+'<p class="note">'+(CL?'기록은 구글 시트 「손님기록」에 함께 모입니다. 「기록 모두 지우기」는 이 폰 화면만 비웁니다(시트는 그대로).':'시험판: 기록은 이 폰에만 남습니다. 본 서비스에서는 손님 폰 기록이 구글 시트로 모여 주인장 폰에서 함께 봅니다.')+'</p>');
+    open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>관리자 창</h3>'+tabs+body+'<p class="note">'+(CL?'기록은 구글 시트 「손님기록」에 함께 모여요. 「이 폰 기록 삭제」는 이 폰 화면만 비워요(시트는 그대로).':'시험판: 기록은 이 폰에만 남아요. 본 서비스에서는 손님 폰 기록이 구글 시트로 모여 주인장 폰에서 함께 봐요.')+'</p>');
     gs.querySelector('[data-c=x]').addEventListener('click',close);
     gs.querySelectorAll('.tabs2 button').forEach(function(b){ b.addEventListener('click',function(){ admin(b.getAttribute('data-t')); }); });
     gs.querySelectorAll('[data-g]').forEach(function(b){ b.addEventListener('click',function(){ var r=find(b.getAttribute('data-g'));
       if(CL){ run('give',[r.id,apin],function(x){ if(x&&x.ok){ r.status='given'; r.givenAt=Date.now(); sent[r.id]=JSON.stringify(r); save('nori-recs',REC); admin('rec'); } }); return; }
       r.status='given'; r.givenAt=Date.now(); save('nori-recs',REC); admin('rec'); }); });
-    var c=gs.querySelector('[data-c=clr]'); if(c){ c.addEventListener('click',function(){ if(c.getAttribute('data-sure')){ REC=[]; mine=[]; save('nori-recs',REC); save('nori-mine',mine); admin('rec'); } else { c.setAttribute('data-sure','1'); c.textContent='한 번 더 누르면 지워집니다'; } }); }
+    var c=gs.querySelector('[data-c=clr]'); if(c){ c.addEventListener('click',function(){ if(c.getAttribute('data-sure')){ REC=[]; mine=[]; save('nori-recs',REC); save('nori-mine',mine); admin('rec'); } else { c.setAttribute('data-sure','1'); c.textContent='한 번 더 누르면 지워져요'; } }); }
     ['s1','s0'].forEach(function(id){ var e=$(id); if(e){ e.addEventListener('change',function(){ $(id+'o').style.display=e.value==='__own'?'':'none'; }); } });
     function pv(id){ var e=$(id); return e.value==='__own'?$(id+'o').value.trim():e.value; }
     var v=gs.querySelector('[data-c=sv]'); if(v){ v.addEventListener('click',function(){ SET.prizes={p1:pv('s1')||DEF.prizes.p1,p0:pv('s0')||DEF.prizes.p0,sp:$('sS').value.trim()}; var r=gs.querySelector('input[name=cd]:checked'); SET.cond=r?r.value:'a'; var sp=$('sP').value.trim(), sa=$('sA').value.trim();
