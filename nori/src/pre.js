@@ -81,7 +81,7 @@ window.NA=(function(){
   /* 시작 전: 무엇을 걸까요? */
   var ps=null, P=null, BET='ttak', WHO='cpu';
   try{ BET=localStorage.getItem('nori-bet')||'ttak'; if(!BETS[BET]) BET='ttak'; }catch(e){}
-  function pre(o){ P=o||{}; if(!ps){ ps=sheet('<h3>무엇을 걸까요?</h3><p class="sub" id="naPreSub">진 쪽이 맞아요 · 이기면 선물도!</p><div class="na-bets" id="naBets">'
+  function pre(o){ P=o||{}; window.__noriPlaying=false; if(!ps){ ps=sheet('<h3>무엇을 걸까요?</h3><p class="sub" id="naPreSub">진 쪽이 맞아요 · 이기면 선물도!</p><div class="na-bets" id="naBets">'
       +['ttak','kkul','indian','none'].map(function(k){ var B=BETS[k]; return '<button type="button" data-b="'+k+'"><i>'+B.i+'</i>'+B.n+'<small>'+B.s+'</small></button>'; }).join('')
       +'<button type="button" data-b="real" class="real"><i>💥</i>진짜 때리기<small>매장에서 직접!</small></button></div>'
       +'<div class="na-who" id="naWho"><button type="button" data-w="cpu"><span class="pn"></span>과<small>이 가게 사장님과 한 판</small></button><button type="button" data-w="two">친구와 폰 하나로<small>번갈아 해요</small></button></div>'
@@ -90,7 +90,7 @@ window.NA=(function(){
         if(b.getAttribute('data-b')==='real'){ b.classList.remove('nope'); void b.offsetWidth; b.classList.add('nope'); try{ SND.thud(.7); }catch(x){} var sm=b.querySelector('small'); if(!sm._o) sm._o=sm.textContent; sm.textContent='화면에선 안 돼요 😆 사장님께 직접!'; clearTimeout(sm._t); sm._t=setTimeout(function(){ sm.textContent=sm._o; },2000); return; }
         BET=b.getAttribute('data-b'); try{ localStorage.setItem('nori-bet',BET); }catch(x){} paintPre(); try{ SND.clack(.35); }catch(x){} });
       ps.querySelector('#naWho').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; WHO=b.getAttribute('data-w'); paintPre(); });
-      ps.querySelector('#naGo').addEventListener('click',function(){ close(); var f=P.onGo; if(f) f(BET,WHO); }); }
+      ps.querySelector('#naGo').addEventListener('click',function(){ close(); window.__noriPlaying=true; var f=P.onGo; if(f) f(BET,WHO); }); }
     if(P.who===false){ WHO='cpu'; } else if(P.whoDefault){ WHO=P.whoDefault; }
     ps.querySelector('#naWho').style.display=P.who===false?'none':'';
     [].forEach.call(ps.querySelectorAll('.pn'),function(e){ e.textContent=P.opp||'다복 사장님'; });

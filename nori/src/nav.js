@@ -86,6 +86,11 @@ window.noriNav=function(o){
     rd:'서로 딱지를 한 장씩 내요. 정한 기준(글자 많기 · 숫자 높기)으로 센 쪽이 딱지를 가져가고, 다섯 판 뒤 많이 딴 사람이 이겨요.'};
   var framed=false; try{ framed=window.parent!==window; }catch(e){ framed=true; }
   function goHome(){ if(framed){ try{ window.parent.postMessage('nori-close','*'); return; }catch(e2){} } try{ window.open(HOME,'_top'); }catch(e3){ location.href=HOME; } }
+  /* 나가기 확인 창 (v0.2 6장 4 · 3장 4 · 대표 승인 261124) — 판이 진행 중일 때만 · 「취소 / 나가기」 */
+  window.noriAskExit=function(){ if(document.getElementById('nExit')) return; var o=document.createElement('div'); o.id='nExit';
+    o.style.cssText='position:fixed;inset:0;z-index:95;background:rgba(46,58,70,.35);display:flex;align-items:center;justify-content:center;font-family:"Noto Sans KR",system-ui,sans-serif';
+    o.innerHTML='<div style="background:#fff;border-radius:20px;padding:20px 16px 14px;width:min(300px,86vw);text-align:center"><b style="font-size:17px;color:#2E3A46">놀이에서 나갈까요?</b><p style="margin:8px 0 14px;font-size:14px;line-height:1.6;color:#4A525C">나가면 진행 중인 판은 처음부터 다시 시작해요.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button type="button" data-x="no" style="min-height:48px;border:0;border-radius:14px;background:#F4EEE4;font:800 15px \'Noto Sans KR\',sans-serif;color:#2E3A46;cursor:pointer">취소</button><button type="button" data-x="go" style="min-height:48px;border:0;border-radius:14px;background:#1E4A76;font:800 15px \'Noto Sans KR\',sans-serif;color:#fff;cursor:pointer">나가기</button></div></div>';
+    document.body.appendChild(o); o.addEventListener('click',function(e){ var b=e.target.closest('[data-x]'); if(!b&&e.target!==o) return; var go=b&&b.getAttribute('data-x')==='go'; o.remove(); if(go){ window.__noriPlaying=false; goHome(); } }); };
   function goStory(){ if(framed){ try{ window.parent.postMessage({nori:'story'},'*'); return; }catch(e){} } try{ window.open(STORY,'_blank'); }catch(e2){ location.href=STORY; } }
   window.noriHome=goHome;
   var css=document.createElement('style');
@@ -125,7 +130,7 @@ window.noriNav=function(o){
     rs.innerHTML='<div><h3>놀이 방법</h3><p>'+t+'</p><button type="button">알겠어요</button></div>'; rs.classList.add('on'); }
   rs.addEventListener('click',function(e){ if(e.target===rs||e.target.tagName==='BUTTON'){ rs.classList.remove('on'); } });
   bar.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; var a=b.getAttribute('data-a');
-    if(a==='list'){ goHome(); } else if(a==='help'){ help(); } else if(a==='new'){ if(cd.classList.contains('on')) return; if(o.onNew) o.onNew(); } });
+    if(a==='list'){ if(window.__noriPlaying&&!cd.classList.contains('on')) noriAskExit(); else goHome(); } else if(a==='help'){ help(); } else if(a==='new'){ if(cd.classList.contains('on')) return; if(o.onNew) o.onNew(); } });
   if(window.noriSideInit){ noriSideInit(); }
   window.__nhere=o.here;
   [300,1200].forEach(function(ms){ setTimeout(function(){ try{ window.dispatchEvent(new Event('resize')); }catch(e){} },ms); });
@@ -158,7 +163,7 @@ window.noriNav=function(o){
   document.head.appendChild(hide);
   /* 결과에 카드 번호(확인 번호)를 붙여 선물 기록과 맞춰 볼 수 있게 */
   var _nr=window.noriResult;
-  if(_nr&&!_nr.__w){ window.noriResult=function(r){ try{ if(r&&!r.card){ r.card='K'+(Date.now()%60466176).toString(36).toUpperCase().padStart(5,'0'); r.t=Date.now(); r.detail=String(r.detail||'')+' · 카드 '+r.card; } }catch(e){} return _nr.apply(this,arguments); }; window.noriResult.__w=1; }
+  if(_nr&&!_nr.__w){ window.noriResult=function(r){ window.__noriPlaying=false; try{ if(r&&!r.card){ r.card='K'+(Date.now()%60466176).toString(36).toUpperCase().padStart(5,'0'); r.t=Date.now(); r.detail=String(r.detail||'')+' · 카드 '+r.card; } }catch(e){} return _nr.apply(this,arguments); }; window.noriResult.__w=1; }
   function esc2(t){ return String(t==null?'':t).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
   function shop(){ var e=document.querySelector('.shopN'); return e&&e.textContent.trim()?e.textContent.trim():'다복'; }
   function when(t){ var d=new Date(t||Date.now()), W='일월화수목금토'; function p(n){ return (n<10?'0':'')+n; } return d.getFullYear()+'.'+p(d.getMonth()+1)+'.'+p(d.getDate())+' ('+W[d.getDay()]+') '+p(d.getHours())+':'+p(d.getMinutes()); }
@@ -178,7 +183,7 @@ window.noriNav=function(o){
       +'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름·전화번호는 쓰지 마세요)">'
       +'<div class="ft"><span>확인 번호</span><b>'+esc2(r.card||'')+'</b></div></div>'
       +'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
-      +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장 · 보내기</button><button type="button" data-c="story">이야기방에 올리기</button></div></div>'
+      +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장</button><button type="button" data-c="share">공유하기</button></div><div class="row one"><button type="button" data-c="story">이야기방에 올리기</button></div></div>'
       +'<p class="tip">「이야기방에 올리기」를 누르면 카드가 폰에 저장되고 다복 이야기방 올리기 창이 열려요. 방금 저장된 카드 사진을 골라 올려 주세요.</p>';
     var ph=cd.querySelector('.ph'), im=ph.querySelector('img');
     im.onload=function(){ photo=im; ph.classList.add('has'); };
@@ -209,14 +214,17 @@ window.noriNav=function(o){
     c.toBlob(function(b){ cb(b,m); },'image/png'); }
   function fname(){ return 'geuttae-nori-'+(R&&R.card||Date.now())+'.png'; }
   function dl(b){ var u=URL.createObjectURL(b), a=document.createElement('a'); a.href=u; a.download=fname(); document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); },4000); }
-  function save(){ var txt=shop()+'에서 그때 그 놀이 한 판! '+(R&&R.gname?R.gname+' ':'')+(R?resText(R):'')+' · 나도 해 보기 → '+HOME;
+  function toast2(m){ try{ (window.NA&&NA.toast)?NA.toast(m):alert(m); }catch(e2){} }
+  function stxt(){ return shop()+'에서 그때 그 놀이 한 판! '+(R&&R.gname?R.gname+' ':'')+(R?resText(R):'')+' · 나도 해 보기 '+HOME; }
+  /* 카드 저장: 카드 그림을 이 폰에 저장만 함 */
+  function save(){ draw(function(b){ dl(b); toast2('카드를 폰에 저장했어요'); }); }
+  /* 공유하기: 휴대폰 공유 창(그림을 함께 보낼 수 있으면 그림까지) · 공유 창이 없으면 링크 복사 */
+  function share(){ var txt=stxt();
     draw(function(b){ var f=null; try{ f=new File([b],fname(),{type:'image/png'}); }catch(e){}
       if(f&&navigator.canShare&&navigator.canShare({files:[f],text:txt})){ navigator.share({files:[f],title:'그때 그 놀이 결과 카드',text:txt}).catch(function(){}); return; }
-      dl(b); /* 그림을 바로 못 보내는 곳: 그림은 폰에 저장, 글과 링크는 복사 */
-      var done=function(m){ try{ (window.NA&&NA.toast)?NA.toast(m):alert(m); }catch(e2){} };
-      if(navigator.share){ navigator.share({title:'그때 그 놀이',text:txt,url:HOME}).catch(function(){}); }
-      else if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(function(){ done('카드 그림은 폰에 저장했어요<br>글과 링크는 복사했어요 — 카톡에 붙여 넣으세요'); },function(){ done('카드 그림은 폰에 저장했어요'); }); }
-      else { done('카드 그림은 폰에 저장했어요'); } }); }
+      if(navigator.share){ navigator.share({title:'그때 그 놀이',text:txt,url:HOME}).catch(function(){}); return; }
+      if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(function(){ toast2('링크를 복사했어요<br>카톡에 붙여 넣어 보내 주세요'); },function(){ toast2('링크를 복사하지 못했어요'); }); }
+      else { toast2('링크를 복사하지 못했어요'); } }); }
   function story(){ var r=R, ttl=('그때 그 놀이 · '+(r.gname||'')+(r.sc&&r.sc[1]!=null?' '+r.sc[0]+':'+r.sc[1]:'')+' '+resText(r)).slice(0,60);
     var w=null; try{ w=window.open('about:blank','_blank'); }catch(e){}
     draw(function(b,m){ dl(b); var t=((m?m+' — ':'')+shop()+' · '+when(r.t)+' · 확인 번호 '+(r.card||'')).slice(0,3000);
@@ -224,7 +232,7 @@ window.noriNav=function(o){
       if(w){ try{ w.location.href=u; }catch(e){ w=window.open(u,'_blank'); } } else { w=window.open(u,'_blank'); }
       /* 우리 이야기가 받을 준비가 되면 카드 그림을 바로 넘김 (우리 이야기 쪽 받는 입구가 생기면 작동 · 없으면 아무 일 없음) */
       try{ var fr=new FileReader(); fr.onload=function(){ var n=0, iv=setInterval(function(){ n++; try{ w&&w.postMessage({uriyagi:'card-image',name:fname(),type:'image/png',data:fr.result,title:ttl,text:t},'https://uriyagi.kr'); }catch(e){} if(n>24) clearInterval(iv); },500); }; fr.readAsDataURL(b); }catch(e){} }); }
-  cd.addEventListener('click',function(e){ var b=e.target.closest('button[data-c]'); if(!b) return; var c=b.getAttribute('data-c'); if(c==='save') save(); else if(c==='story') story(); });
+  cd.addEventListener('click',function(e){ var b=e.target.closest('button[data-c]'); if(!b) return; var c=b.getAttribute('data-c'); if(c==='save') save(); else if(c==='share') share(); else if(c==='story') story(); });
   function againOf(){ var ds=[].slice.call(document.querySelectorAll('.done.on')); for(var i=0;i<ds.length;i++){ var bs=ds[i].querySelectorAll('button'); for(var j=0;j<bs.length;j++){ if(/다시/.test(bs[j].textContent)) return bs[j]; } } return null; }
   /* 옛 끝 화면이 열리면(.done.on) 결과 카드를 엶 */
   var penning=false;
@@ -250,10 +258,10 @@ window.noriNav=function(o){
   window.addEventListener('message',function(e){ if(e.data==='nori-open'){ if(o.onOpen){ o.onOpen(); } else if(window.__naOpen){ window.__naOpen(); } } });
   if(window.NORI_PEN_SELF) return;
   var ac=document.createElement('style');
-  ac.textContent='html,body{background:#FFF8E6!important}.app{background:transparent!important}body *{box-shadow:none!important;text-shadow:none!important}'
+  ac.textContent='html,body{background:#FFFCF7!important}.app{background:transparent!important}body *{box-shadow:none!important;text-shadow:none!important}'
    +'body.nside-on .app>.top{margin-left:-38px;margin-right:-38px}'
    +'@media (max-height:700px){.say{font-size:13px!important;line-height:1.45!important;padding:6px 10px!important}}'
-   +'.top{background:#FFC93C!important;color:#1C1D21!important;height:48px!important}.top::after,.top::before{display:none!important}.top .ttl{font-family:"Song Myung",serif;font-size:20px;letter-spacing:0;color:#1C1D21}'
+   +'.top{background:#1E4A76!important;color:#fff!important;height:48px!important}.top .ttl,.top>span{color:#fff!important}.top::after,.top::before{display:none!important}.top .ttl{font-family:"Song Myung",serif;font-size:20px;letter-spacing:0;color:#fff}'
    +'.top .snd{display:none!important}.top .na-snd{position:absolute;right:8px;top:calc(7px + env(safe-area-inset-top,0px));z-index:3}'
    +'#pick{display:none!important}'
    +'.who span.now{background:#FFC21A!important;color:#1C1D21!important}.rules button[aria-pressed=true]{background:#FFC21A!important;color:#1C1D21!important}'
@@ -263,7 +271,7 @@ window.noriNav=function(o){
    +'.na-penl .na-penh{flex:none;text-align:center;font-size:14px;font-weight:800;color:#7A6E55}.na-penl .na-penh b{color:#2F64E0}.na-penl .na-penh em{font-style:normal;color:#E04848}'
    +'.na-penl .na-pens{flex:1;min-height:0;position:relative;background:#fff;border-radius:18px;overflow:hidden}'
    +'.na-pdim{position:fixed;left:0;right:0;bottom:0;z-index:18;background:#FFF8E6}'
-   +'.ncard .bt2 .row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;flex-direction:row!important}.ncard .bt2 .row button{margin-top:6px}';
+   +'.ncard .bt2 .row{display:grid!important;grid-template-columns:1fr 1fr!important;gap:8px!important;flex-direction:row!important}.ncard .bt2 .row.one{grid-template-columns:1fr!important}.ncard .bt2 .row button{margin-top:6px}';
   document.head.appendChild(ac);
   var strip=null; if(tp&&tp.parentNode){ strip=document.createElement('div'); strip.className='na-strip'; tp.parentNode.insertBefore(strip,tp.nextSibling); }
   /* 화면이 한 장을 넘으면(골프 · 활쏘기 작은 폰) 「걸린 것」을 머리 막대 왼쪽으로 올림 */

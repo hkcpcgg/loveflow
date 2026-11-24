@@ -112,6 +112,7 @@ button:active{filter:brightness(.93)}
 .fbar button svg{width:18px;height:18px;fill:none;stroke:#FFC21A;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
 .fbar button.home{background:#FFC21A;color:#16181D;font-size:16px}
 .fbar button.home svg{stroke:#16181D}
+
 '''
 
 # ══ 디자인 A (대표 확정 261122 22:26 · 22:47) — 밝은 크림 · 진한 노랑 머리 막대(#FFC93C) · 오른쪽 위 「🔈 소리」 · 아래 막대 밝게 ══
@@ -160,4 +161,15 @@ html,body{background:#E6E1D7}
 .fbar button.home{background:#FFC21A;color:#1C1D21}
 .fbar button.home svg{width:26px;height:26px;stroke:#1C1D21}
 .toast{background:rgba(28,29,33,.88)}
+'''
+
+# 통합 표준 v0.2 (대표 승인 261124 · 가 안) — 첫 화면 CSS 맨 끝에 붙음(build017)
+V02_HOME = '''
+/* 통합 표준 v0.2 화면 틀 색 · 누르는 곳 48 (대표 승인 261124 · 가 안) — 흐르는 「푸짐한 선물」 띠 · 놀이 칸 그림은 그대로 */
+html,body,.app,.body{background:#FFFCF7!important}
+.top{background:#1E4A76!important;color:#fff!important}.top .ttl,.top .ttl i{color:#fff!important}.top button{background:rgba(255,255,255,.14)!important;color:#fff!important;min-height:48px!important}
+.lure{color:#2E3A46!important}.lure b{color:#7A3520!important}.lure b.shopN{color:#2E3A46!important}
+.grp h2{color:#2E3A46!important}.grp h2 small{color:#4A525C!important}.g b{color:#2E3A46!important}
+.fbar{background:#1E4A76!important}.fbar button{color:#fff!important}.fbar button svg{stroke:#C9A96E!important}.fbar .home{background:#C9A96E!important;color:#1E4A76!important}.fbar .home svg{stroke:#1E4A76!important}
+.fam a,.own button{min-height:48px!important;display:inline-flex!important;align-items:center;justify-content:center}
 '''

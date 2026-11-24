@@ -42,15 +42,22 @@ a.room{color:inherit;text-decoration:none}
 .ov .back svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
 '''
 css+=HOME_CSS
+css+=V02_HOME
 # 디자인 A 2차 (261122): 손놀이(024, 이미 A) 말고 모든 놀이에 A 공통(pre.js · pen.js)을 아래 막대 스크립트 앞에 넣음 → nav.js 가 A 틀 · 시작 전 창 · 벌칙을 덧씌움
 A_HEAD=('<script>window.NORI_A=1;window.NORI_BOARD=".brd,#oB,.board";</script>\n<script>\n'+open('pre.js',encoding='utf-8').read()+'\n</script>\n<script>\n'+open('pen.js',encoding='utf-8').read()+'\n</script>\n')
 def askin(h):
     if 'window.NORI_A=1' in h: return h
     i=h.index('/* 그때 그 놀이 · 아래 막대'); j=h.rfind('<script>',0,i); assert j>0
     return h[:j]+A_HEAD+h[j:]
+# 통합 표준 v0.2 화면 틀 색 · 누르는 곳 48 (대표 승인 261124 21:29 · 가 안) — 틀(위 띠 · 바탕 · 글자 · 아래 띠 홈 · 결과 카드)만 바꾸고 놀이판 안 색은 그대로(그때 그 놀이 정체성)
+V02_GAME=(':root{--ink:#2E3A46;--sub:#4A525C;--chip:#F4EEE4;--btn:#F4EEE4}html,body{background:#FFFCF7!important}'
+  '.top{background:#1E4A76!important;color:#fff!important}.top .ttl,.top>span{color:#fff!important}.top button{background:rgba(255,255,255,.14)!important;color:#fff!important;min-height:48px!important;min-width:48px!important}'
+  '.nbar .home{background:#C9A96E!important}.ncard{background:#FFFCF7!important}.ncard .bt2 .gift{background:#C9A96E!important;color:#1E4A76!important}'
+  '.kgs{width:48px!important;height:48px!important;margin:-24px 0 0 -24px!important}.kgs::after{left:11px!important;top:13px!important}'
+  '.grid5 .bt,.spd button,.rules button,#oUndo,.ncard .bt2 button{min-height:48px!important}')
 def guest(path, extra_css, extra_js=''):
     h=askin(open(path,encoding='utf-8').read())
-    h=h.replace('</style>',extra_css+'\n</style>',1)
+    h=h.replace('</style>',extra_css+V02_GAME+'\n</style>',1)
     h=h.replace('</body>','<script>'+extra_js+'</script>\n</body>',1)
     return base64.b64encode(h.encode('utf-8')).decode()
 T13=guest('그때그놀이-013_동그란딱지시험판_261121.html','.shop{display:none!important}.note{display:none}.top .ttl{padding:0 46px}'
@@ -102,7 +109,7 @@ html='''<!DOCTYPE html>
   /* 홈: 놀이 창을 바로 닫고 첫 화면 맨 위로. 놀이 안 주소 바뀜(#)이 뒤로가기 기록을 먹어 history.back 이 안 먹던 문제 고침 (261122) */
   function home(){ close(); try{ if(history.state&&history.state.nori){ history.replaceState(null,''); } }catch(x){} window.scrollTo(0,0); }
   document.getElementById('ovBack').addEventListener('click',home);
-  window.addEventListener('popstate',close);
+  window.addEventListener('popstate',function(){ try{ var w=fr.contentWindow; if(ov.classList.contains('on')&&w&&w.__noriPlaying&&w.noriAskExit){ history.pushState({nori:cur},''); w.noriAskExit(); return; } }catch(e){} close(); });
   /* 놀이 안 아래 막대가 보내는 말: 놀이 목록 / 다른 놀이로 */
   window.addEventListener('message',function(e){ var d=e.data; if(d==='nori-close'){ home(); } else if(d&&d.nori==='story'){ try{ window.open('https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e','_blank'); }catch(x){} } else if(d&&d.nori==='go'&&d.k){ cur=''; open(d.k); } });
   var tt=0, toast=document.getElementById('toast');
