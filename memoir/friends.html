@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ memoir/friends.html · v18 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
+<!-- ★ 현재 버전 ▶ memoir/friends.html · v19 · 261124 · [통합 표준 v0.2 3장 1 · 대표 OK 261124 21:37 · 합본 F 자서전 묶음] 손님 안내 · 알림 · 상태 · 단추 글의 끝을 「~요」로(예: 저장했어요 · 다시 해 주세요 · 돼요). 「지우기」는 「삭제」로. 그대로 둔 것: 결과물 본문 · 견본 자서전 글 · 자서전 질문 · 본인 확인 체크 문장 · 친구에게 보내는 초대 글 · 종이 물음지 · 큰 제목. kit.js 꼬리표 ?v=20. -->
+<!-- (이전) ★ 현재 버전 ▶ memoir/friends.html · v18 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
 <!-- (이전) memoir/friends.html · v17 · 261117 · [683 가-2 · 대표 OK 261117 12:50 「손글씨 받아들이기는 생략」] 「종이 불러오기」(물음지 사진 → 글자) 단추 둘 걷음 · 종이 칸 안내 「받으신 물음지를 보며 옮겨 적어 주세요.」 · 옮겨 적기 · 서버(scanImage)는 그대로. [무손] 그 밖 v16 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ memoir/friends.html · v16 · 261110 · [대표 지적 261110 09:36 「발견하면 즉각 전부」] 공용 푸터 부품(lf-foot.js)은 불러오는데 앉을 자리(<div id="lfFoot">)가 없어 사업자 정보 · 저작권이 화면에 안 나오던 것 — 자리 한 줄 넣음. [무손] 그 밖 v15 전부. -->
 <!-- (이전) memoir/friends.html · v15 · 261105 · [536 · 대표 OK 21:21 「손볼 때 한 번에」] 화면 말 바로잡기(읽고 바로 아는 말) — 「이 칸 담기」→「이 칸 저장」. [무손] 배관 · 서버 · 저장 길 · 옛 이력 주석. -->
@@ -19,7 +20,7 @@
 <title>사랑흐름 · 나를 기억하는 사람들</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
-<script src="/memoir/kit.js?v=15"></script>
+<script src="/memoir/kit.js?v=20"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#FDFBF5;color:#2b2b2b;font-family:'Noto Sans KR',system-ui,sans-serif;font-size:16px;line-height:1.65}
@@ -232,9 +233,9 @@ function part1(){
   if(!from){ from=(L&&L.writer)||(BK&&BK.name)||''; }
   if(FORM.from){ from=FORM.from; }
   var h=Y()
-   ? '<div class="card"><h2>① 나를 응원하는 글</h2><p class="lead">응원을 받고 싶은 어른께 한 분에 한 링크씩 보내요. 받으신 분이 그 링크로 들어와 응원을 남겨 주십니다.</p>'
+   ? '<div class="card"><h2>① 나를 응원하는 글</h2><p class="lead">응원을 받고 싶은 어른께 한 분에 한 링크씩 보내요. 받으신 분이 그 링크로 들어와 응원을 남기실 수 있어요.</p>'
      +'<div class="yhint">가족 · 선생님 같은 <b>어른께만</b> 보내세요. 보호자와 함께 보내면 더 좋아요.</div>'
-   : '<div class="card"><h2>① 사람들이 기억하는 나</h2><p class="lead">미리 전화로 말씀하신 뒤, 한 분께 한 링크씩 보내 드리세요. 받으신 분이 그 링크로 들어와 기억을 들려주십니다.</p>';
+   : '<div class="card"><h2>① 사람들이 기억하는 나</h2><p class="lead">미리 전화로 말씀하신 뒤, 한 분께 한 링크씩 보내 드리세요. 받으신 분이 그 링크로 들어와 기억을 들려주실 수 있어요.</p>';
   if(!signed() && !(L&&L.closed)){
     h+='<label class="f">'+(Y()?'누구에게 응원을 받고 싶으세요?':'누구에게 묻고 싶으세요?')+'</label><div class="note" style="margin-top:0">갈래를 누르면 단추가 펼쳐져요 · 떠오르는 분을 한 분씩</div>'+relBoardHtml()
      +'<label class="f" for="toIn">받는 분 호칭</label><input class="t" id="toIn" maxlength="30" value="'+esc(FORM.to)+'" oninput="FORM.to=this.value" placeholder="'+(Y()?'예: 담임 선생님 · 이모':'예: 고향 친구 철수 · 큰딸 · 김 선생님')+'">'
@@ -319,11 +320,11 @@ function madeBox(m){
   var txt=kakaoText(m.to, m.from, inviteUrl(m.key), TONE, m.relG);
   return '<div class="made"><b style="color:#163a5e">'+esc(m.to)+(/님$/.test(m.to)?'께':' 님께')+' 보낼 초대장'+(m.again?' (전에 만든 링크 그대로)':'')+'</b>'
    +(Y()?'':'<div class="tabs"><button class="'+(TONE==='높임'?'on':'')+'" onclick="tone(\'높임\')">높임말</button><button class="'+(TONE==='친구'?'on':'')+'" onclick="tone(\'친구\')">친구 사이</button></div>')
-   +'<textarea class="msgbox" id="kt">'+esc(txt)+'</textarea><div class="note" style="margin-top:2px">글은 고쳐서 보내셔도 됩니다. 링크 줄만 그대로 두세요.</div>'
+   +'<textarea class="msgbox" id="kt">'+esc(txt)+'</textarea><div class="note" style="margin-top:2px">글은 고쳐서 보내셔도 돼요. 링크 줄만 그대로 두세요.</div>'
    +(navigator.share?'<button class="btn line" onclick="shareMsg()">카카오톡 · 문자로 보내기</button>':'')
    +'<button class="btn gold" onclick="copyMsg()">글과 링크 함께 복사</button>'
    +'<div class="okm" id="cpOk"></div>'
-   +'<div class="note">카카오톡에 붙이면 사랑흐름 「초대장」 그림이 함께 보입니다. 받는 분 전화번호는 사랑흐름에 남지 않아요.</div></div>';
+   +'<div class="note">카카오톡에 붙이면 사랑흐름 「초대장」 그림이 함께 보여요. 받는 분 전화번호는 사랑흐름에 남지 않아요.</div></div>';
 }
 function tone(t){ TONE=t; draw(); }
 function make(){
@@ -382,7 +383,7 @@ function secCard(s, S){
 }
 function togSec(s){ OPEN.sec=(OPEN.sec===s)?-1:s; var y=window.scrollY; draw(); window.scrollTo(0,y); }
 function part2(){
-  var S=secs(), h='<div class="card"><h2>'+(Y()?'② 내가 쓰는 칸':'② 내가 기억하는 한 분')+'</h2><p class="lead">'+(Y()?'떠오르는 대로 들려주세요. 쓰고 싶은 칸만 쓰셔도 됩니다.':'내 삶에 오래 남은 한 분을 떠올리며 들려주세요. 쓰고 싶은 칸만 쓰셔도 됩니다.')+'</p>';
+  var S=secs(), h='<div class="card"><h2>'+(Y()?'② 내가 쓰는 칸':'② 내가 기억하는 한 분')+'</h2><p class="lead">'+(Y()?'떠오르는 대로 들려주세요. 쓰고 싶은 칸만 쓰셔도 돼요.':'내 삶에 오래 남은 한 분을 떠올리며 들려주세요. 쓰고 싶은 칸만 쓰셔도 돼요.')+'</p>';
   if(!S.length){ return h+'<div class="lockd">물음을 불러오지 못했어요.</div></div>'; }
   for(var s=0;s<4 && s<S.length;s++){ h+=secCard(s,S[s]); }
   return h+'</div>';
@@ -424,7 +425,7 @@ function printPaper(){
   var f=fromName(), qs=memQs(), w=window.open('','_blank'); if(!w){ alert('팝업이 막혀 있어요. 팝업을 허용해 주세요.'); return; }
   var h='<!doctype html><html lang="ko"><head><meta charset="utf-8"><title>추억록 물음지</title><style>@page{size:A4;margin:14mm}body{font-family:"Noto Sans KR",sans-serif;color:#3f3328;font-size:12pt;line-height:1.6}h1{font-family:"Noto Serif KR",serif;font-size:19pt;text-align:center;margin:4mm 0 1mm;color:#5a3e2b}.s{text-align:center;color:#8a7a68;font-size:10.5pt}.top{text-align:center}.top img{width:18mm;height:18mm}.f{display:flex;gap:6mm;margin:5mm 0 2mm}.f div{flex:1;border-bottom:.3mm solid #9a8a78;padding-bottom:1mm;font-size:10.5pt;color:#8a7a68}.q{margin-top:5mm;font-weight:700;color:#5a3e2b}.ln{border-bottom:.25mm dotted #bba;height:8.5mm}.g{margin-top:7mm;border:.4mm solid #E8CDB5;border-radius:3mm;padding:3mm 4mm;font-size:10.5pt}.ft{margin-top:6mm;text-align:center;color:#9a8a78;font-size:9pt}.pb{page-break-before:always}</style></head><body>'
    +'<div class="top"><img src="'+location.origin+'/logo.png"></div><h1>'+esc(f)+' 님을 기억하는 추억록</h1>'
-   +'<div class="s">'+esc(f)+' 님이 삶의 여정을 글로 남기고 있습니다. 함께 나눈 웃음과 고마운 순간들을 들려주세요.<br>마음 가는 물음부터 들려주세요.</div>'
+   +'<div class="s">'+esc(f)+' 님이 삶의 여정을 글로 남기고 있어요. 함께 나눈 웃음과 고마운 순간들을 들려주세요.<br>마음 가는 물음부터 들려주세요.</div>'
    +'<div class="f"><div>성명</div><div>'+esc(f)+' 님과의 관계</div><div>결과물에 보일 이름</div></div>';
   for(var i=0;i<qs.length;i++){
     var n=(i===qs.length-1)?6:(i===0?2:4);
@@ -492,7 +493,7 @@ function groupBox(){
   }
   h+='<div style="margin:8px 0 4px;font-weight:700;color:#163a5e">'+esc(g.name)+' · '+(g.closed?'<span class="tag t-drop">닫힘</span>':'<span class="tag t-got">받는 중</span>')+' · 들어오신 분 '+(g.joined||0)+'</div>';
   if(!g.closed){
-    h+='<textarea class="msgbox" id="gkt">'+esc(groupText(g))+'</textarea><div class="note" style="margin-top:2px">글은 고쳐서 보내셔도 됩니다. 링크 줄만 그대로 두세요.</div>'
+    h+='<textarea class="msgbox" id="gkt">'+esc(groupText(g))+'</textarea><div class="note" style="margin-top:2px">글은 고쳐서 보내셔도 돼요. 링크 줄만 그대로 두세요.</div>'
      +(navigator.share?'<button class="btn line" onclick="groupShare()">카카오톡 · 문자로 보내기</button>':'')
      +'<button class="btn gold" onclick="groupCopy()">글과 링크 함께 복사</button>'
      +'<div class="okm" id="gOk"></div>';

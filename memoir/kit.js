@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ memoir/kit.js · v19 · 261121 — [대표 17:26 「문서 스캔」이 거부감] 창 제목 「문서 스캔」 → 「사진으로 옮기기」(ask v116 단추와 같은 말). 그 밖 무손.
+   현재 버전 ▶ memoir/kit.js · v20 · 261124 — [통합 표준 v0.2 3장 1 · 합본 F] 안내 글 끝 「~요」 · 「지웠습니다」 › 「삭제했어요」. 확인 체크 문장 · AI 답 거르는 낱말은 그대로.
+   (이전) memoir/kit.js · v19 · 261121 — [대표 17:26 「문서 스캔」이 거부감] 창 제목 「문서 스캔」 → 「사진으로 옮기기」(ask v116 단추와 같은 말). 그 밖 무손.
    (이전) memoir/kit.js · v18 · 261115 — [대표 21:38 단추 말] 「종이 불러오기」 → 「문서 스캔」. 그 밖 무손.
    (이전) memoir/kit.js · v17 · 261112 — [612 · 대표 08:49 「확인한 대로 작업해」] 상품 · 결과물 이름 역할을 하던 「삶의 여정」 → 「자서전」 · 셈 기준 여덟 → 열(「열 이야기 가운데 ○ 이야기까지」 · 열 편을 마치면 「○○○ 선생님의 자서전」). 설명 문장 속 「삶의 여정」(초대장 · 친구 화면 · about)은 그대로. kit.js 꼬리표 ?v=17. [무손] 값 · 서버 · 그 밖 전부.
    (이전) memoir/kit.js · v16 · 261109 — ★[542 · 대표 지적 261109 16:03 「닫는 창 버튼도 없고」] 이 부품이 띄우는 창(문서 스캔 · 맞춤법 등 #lfScan) 오른쪽 위에 늘 「✕ 닫기」 — 어느 걸음에서든 빠져나감. (맞춤법 보기 단추는 자서전 물음 화면 ask v93 에서 걷음 · 이 부품 안 LFM.aifix 는 남겨 둠 — 504 AI 도움 때 다시 씀.) [무손] 그 밖 v15 전부.
@@ -185,8 +186,8 @@
     kCss();
     var old = document.getElementById('lfkg'); if (old) { old.parentNode.removeChild(old); }
     var d = document.createElement('div'); d.id = 'lfkg'; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true');
-    d.innerHTML = '<div class="gx"><div class="ic">🗂️</div><div class="t">보관 기간이 지나 기록을 지웠습니다</div><div class="pp">' + kEsc(pp) + '</div>'
-      + '<div class="s">완성하신 날부터 90일 동안 보관한 뒤 약관에 따라 지웠습니다. 궁금하신 점은 연락 주세요.</div>'
+    d.innerHTML = '<div class="gx"><div class="ic">🗂️</div><div class="t">보관 기간이 지나 기록을 삭제했어요</div><div class="pp">' + kEsc(pp) + '</div>'
+      + '<div class="s">완성하신 날부터 90일 동안 보관한 뒤 약관에 따라 삭제했어요. 궁금하신 점은 연락 주세요.</div>'
       + '<a class="tel" href="tel:' + KTEL.replace(/-/g, '') + '">' + KTEL + '</a>'
       + '<button type="button" class="b" id="lfkgHome">⌂ 홈으로</button></div>';
     document.body.appendChild(d);
@@ -516,7 +517,7 @@
     if (!/^https:\/\//.test(u)) { return ''; }
     return '<a class="vid" href="' + scEsc(u) + '" target="_blank" rel="noopener">▶ 따라 하기 영상</a>';
   }
-  var SC_TWO = '종이에 손으로 쓰신 글도, 만들어 두신 문서도 사진 한 장으로 글자를 불러올 수 있습니다.<br>인쇄된 글은 그대로 불러오고, 손글씨는 초안으로 불러와 고쳐 쓰실 수 있습니다.';
+  var SC_TWO = '종이에 손으로 쓰신 글도, 만들어 두신 문서도 사진 한 장으로 글자를 불러올 수 있어요.<br>인쇄된 글은 그대로 불러오고, 손글씨는 초안으로 불러와 고쳐 쓰실 수 있어요.';
 
   function scOpen(o){
     scCss(); SC = { o: o || {}, rot: 0, crop: [0.04, 0.04, 0.92, 0.92] };
@@ -524,7 +525,7 @@
     scBox('<div class="big">' + kIc('cam') + '</div><h3>사진으로 옮기기</h3><div class="s">종이에 쓰신 글, 책 · 수첩 · 문서를 사진으로 찍어 글자로 옮겨요</div>'
       + (who ? '<div class="who">' + who + '</div>' : '')
       + '<label class="ck"><input type="checkbox" id="scAg" onchange="LFM.scan._ag(this.checked)"><span>옮긴 글을 원본과 비교해 확인하고, 고칠 곳은 고친 뒤 올리겠습니다.</span></label>'
-      + '<div class="s" style="text-align:left;padding:0 4px">올린 글은 직접 쓰신 글과 같게 담깁니다. 사진과 문서는 글자를 옮긴 뒤 바로 지웁니다.</div>'
+      + '<div class="s" style="text-align:left;padding:0 4px">올린 글은 직접 쓰신 글과 같게 담겨요. 사진과 문서는 글자를 옮긴 뒤 바로 삭제해요.</div>'
       + '<button class="b l" id="scPdfB" disabled onclick="document.getElementById(\'scPdf\').click()">' + kIc('doc', 's') + '문서(PDF) 고르기</button>'
       + '<button class="b" id="scImgB" disabled onclick="document.getElementById(\'scImg\').click()">' + kIc('cam', 's') + '사진 찍기 · 고르기</button>'
       + '<input type="file" id="scImg" accept="image/*" style="display:none" onchange="LFM.scan._img(this)">'
@@ -726,7 +727,7 @@
   function afStep1(){
     scBox(afDots(1) + '<div class="big">' + kIc('copy') + '</div><h3>① 살펴볼 글 복사하기</h3>'
       + '<div class="big1">복사 단추를 누르세요</div>'
-      + '<div class="s">쓰신 글 위에 「맞춤법만 바로잡아 주세요」 한 줄이 붙어 복사됩니다</div>'
+      + '<div class="s">쓰신 글 위에 「맞춤법만 바로잡아 주세요」 한 줄이 붙어 복사돼요</div>'
       + '<div class="mk" style="max-height:18vh">' + scEsc(AF_ASK) + '\n\n' + scEsc(AF.orig) + '</div>'
       + '<button class="b" onclick="LFM.aifix._copy()">' + kIc('copy', 's') + '복사하기</button><div class="s" id="afOk" style="color:#2f8a4c;min-height:1em"></div>'
       + vidBtn('af1')
@@ -738,17 +739,17 @@
     if (AF.o.youth) {
       h += '<li>쓰는 AI를 여세요<small>휴대폰 앱이나 인터넷 창</small></li>';
     } else {
-      h += '<li>아래 AI 단추 하나를 누르세요<small>예시 · 권하는 것이 아닙니다</small><div class="ais">';
+      h += '<li>아래 AI 단추 하나를 누르세요<small>예시 · 권하는 것은 아니에요</small><div class="ais">';
       var list = afShuffle(AF_AI);
       for (var i = 0; i < list.length; i++) { h += '<a href="' + list[i][1] + '" target="_blank" rel="noopener">' + scEsc(list[i][0]) + '</a>'; }
       h += '</div></li>';
     }
-    h += '<li>로그인하세요<small>처음이면 「가입」을 누르세요. 쓰시는 구글 · 네이버 · 카카오 계정 단추가 보이면 그것을 누르세요. 휴대폰에 그 AI 앱이 있으면 앱이 열립니다.</small></li>'
+    h += '<li>로그인하세요<small>처음이면 「가입」을 누르세요. 쓰시는 구글 · 네이버 · 카카오 계정 단추가 보이면 그것을 누르세요. 휴대폰에 그 AI 앱이 있으면 앱이 열려요.</small></li>'
       + '<li>대화 칸을 길게 눌러 「붙여넣기」 → 보내기를 누르세요</li>'
       + '<li>고친 글을 길게 눌러 「복사」 → 이 창으로 돌아오세요</li></ol>'
       + vidBtn('af2')
       + (AF.o.youth ? '<div class="warn">' + kIc('warn', 's') + '그 AI의 이용 나이와 보호자 동의를 먼저 확인하세요</div>' : '')
-      + '<div class="warn">' + kIc('warn', 's') + '가족 이름 · 연락처 · 건강 이야기는 빼고 넣으세요<br>' + kIc('warn', 's') + 'AI 회사 약관에 따라 넣은 글이 저장될 수 있습니다</div>'
+      + '<div class="warn">' + kIc('warn', 's') + '가족 이름 · 연락처 · 건강 이야기는 빼고 넣으세요<br>' + kIc('warn', 's') + 'AI 회사 약관에 따라 넣은 글이 저장될 수 있어요</div>'
       + '<div class="help">로그인이 어려우면 안내자에게 말씀하세요</div>'
       + '<button class="b" onclick="LFM.aifix._s3()">고친 글을 복사했어요</button>'
       + '<button class="x" onclick="LFM.aifix._s1()">‹ 다시 복사하기</button>';
@@ -821,7 +822,7 @@
       + '<div class="big1">노란 곳을 꼭 읽으세요 · 다르면 눌러서 되돌리세요</div>'
       + '<div class="s" id="afSum"></div>'
       + '<div class="df" id="afDf"></div>'
-      + '<div class="leg"><span style="background:#E7F5EC">초록</span>바뀐 곳 · <span style="background:#FFE7A8">노랑</span>숫자 · 날짜 · 「안」「못」 · <del>빨간 줄</del> 처음 글<br>바뀐 곳을 누르면 처음 글로 돌아갑니다. 한 번 더 누르면 고친 글로.</div>'
+      + '<div class="leg"><span style="background:#E7F5EC">초록</span>바뀐 곳 · <span style="background:#FFE7A8">노랑</span>숫자 · 날짜 · 「안」「못」 · <del>빨간 줄</del> 처음 글<br>바뀐 곳을 누르면 처음 글로 돌아가요. 한 번 더 누르면 고친 글로.</div>'
       + '<button class="b l" onclick="LFM.aifix.close()">처음 글 그대로 두기</button>'
       + '<button class="b" onclick="LFM.aifix._use()">이대로 바꾸기</button>'
       + vidBtn('af4')
