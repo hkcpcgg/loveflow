@@ -1,7 +1,8 @@
 <!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ poster/make.html · v2 · 261125 · [대표 261124 19:39 「직접 사진을 찍어 올리는 기능이 빠졌다」] 사진 넣는 칸을 누르면 「📷 사진 찍기 · 🖼️ 앨범에서 고르기」를 먼저 고름(/lf/photo-pick.js v1 · 안드로이드 새 사진 창에 카메라가 없어서 · 아이폰은 기본 메뉴라 그대로). 홈(⌂)은 사랑흐름 메인이 아니라 포스터 만들기 첫 단계로(대표 22:49). 1단계는 갈래를 누르면 바로 넘어가므로 아래 「이전 · 다음」 줄을 감춤(반쪽 「다음」 단추가 떠 보이던 것). -->
 <html lang="ko">
 <head>
-<!-- ★ 현재 버전 ▶ poster/make.html · v1 · 261124 · [디지털 포스터 1단계 · GPT 조율 회신 9장 다섯 단계 · 대표 22:22 「지어 봅시다」] 포스터 만드는 화면. ① 포스터 고르기(갈래 여덟) ② 그림 고르기(내 사진 · 사랑흐름 그림 · 그림 없이) ③ 내용 넣기(제목만 꼭 · 나머지 건너뛰어도 됨) ④ 연결 고르기(전화하기 · 문자 보내기 · 길찾기 · 신청하기 · 홈페이지 보기 — 고른 것만 포스터에 단추로) ⑤ 미리보기 › 만들기 › 주소 · QR. 단계마다 이전 · 다음 · 이 휴대폰에 저절로 저장(저장됨 · 시각). 수정: ?p=번호(이 휴대폰에 열쇠가 있을 때). 서버 = 마음 카드 서버 5 버전(a=psave). 서버가 5 버전 전이면 미리보기까지만. 가입 없음. -->
+<!-- (이전) ★ 현재 버전 ▶ poster/make.html · v1 · 261124 · [디지털 포스터 1단계 · GPT 조율 회신 9장 다섯 단계 · 대표 22:22 「지어 봅시다」] 포스터 만드는 화면. ① 포스터 고르기(갈래 여덟) ② 그림 고르기(내 사진 · 사랑흐름 그림 · 그림 없이) ③ 내용 넣기(제목만 꼭 · 나머지 건너뛰어도 됨) ④ 연결 고르기(전화하기 · 문자 보내기 · 길찾기 · 신청하기 · 홈페이지 보기 — 고른 것만 포스터에 단추로) ⑤ 미리보기 › 만들기 › 주소 · QR. 단계마다 이전 · 다음 · 이 휴대폰에 저절로 저장(저장됨 · 시각). 수정: ?p=번호(이 휴대폰에 열쇠가 있을 때). 서버 = 마음 카드 서버 5 버전(a=psave). 서버가 5 버전 전이면 미리보기까지만. 가입 없음. -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>포스터 만들기 · 사랑흐름</title>
@@ -248,7 +249,7 @@ function show(n){
   [].forEach.call(document.querySelectorAll('#wiz section'),function(s){ s.hidden=(+s.getAttribute('data-s')!==n); });
   [].forEach.call($('dots').children,function(d,i){ d.classList.toggle('on',i<n); });
   $('stepN').textContent='단계 '+n+' / 5 · '+TITLES[n-1];
-  $('prevBtn').style.visibility=n===1?'hidden':'visible';
+  $('nav2').style.display=n===1?'none':'flex';
   $('nextBtn').textContent=n===5?(EDIT?'저장':'만들기'):'다음';
   $('nextBtn').disabled=(n===5&&!SRV);
   if(n===1){ drawKinds(); }
@@ -344,6 +345,8 @@ function drawMine(){
 })();
 </script>
 <script src="/lf-foot.js" defer></script>
+<script src="/lf/photo-pick.js?v=1"></script><script>LFPhotoPick.wrap(document.getElementById('file'));</script>
+<script>window.LF_WAY={home:function(){location.href='/poster/make.html';return true}};</script>
 <script src="/lf/frame.js?v=17"></script>
 </body>
 </html>
