@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ admin.html · v27 · 261125 · [코딩 차례 4 · 짝꿍 게시판 Code.gs v5-30] 입금 확인 · 주문 확인 창에 「증빙(꼭 · 한 줄)」 · 「사유(있을 때만)」 칸 — 서버가 APPLY T~W 에 확인자 · 때와 함께 남김 · 발급된 줄에 증빙 · 확인자 보임 · 대량 발급에 「이용 기간(개월)」 칸. [무손] 그 밖 v26 전부. -->
+<!-- ★ 현재 버전 ▶ admin.html · v28 · 261125 · [대표 19:15 · 사랑흐름-총괄-035 파일 올리기 공통 꼴 · 짝꿍 게시판 Code.gs v5-32] 안내자 탭 맨 위 「안내자 파일 올리기」 — 안내자 내려받기(엑셀 · 연락처는 가림) · 파일 올리기(xlsx · csv · txt) · 안내자 붙여 넣기 · 서버 미리 보기 「빈칸 채움 · 새로 더함 · 다른 값 · 못 맞춘 줄」 · 「다른 값은 파일대로」 · 확인자 · 「안내자 올리기」 한 번에(POST · 요청 키). 한 분 고치기는 그 아래 그대로. [무손] 그 밖 v27 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ admin.html · v27 · 261125 · [코딩 차례 4 · 짝꿍 게시판 Code.gs v5-30] 입금 확인 · 주문 확인 창에 「증빙(꼭 · 한 줄)」 · 「사유(있을 때만)」 칸 — 서버가 APPLY T~W 에 확인자 · 때와 함께 남김 · 발급된 줄에 증빙 · 확인자 보임 · 대량 발급에 「이용 기간(개월)」 칸. [무손] 그 밖 v26 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ admin.html · v26 · 261117 · [551 · 79차 · 대표 OK 261116 20:29] 「자서전 진행」 탭 맨 위 「오늘의 입구」 — 입구를 골라 정하기 · 풀기(게시판 서버 v5-29 adminTodayDoor). 대표 = 받는 곳을 골라 · 기관 담당자 = 자기 소속만. 그날만 참여자 첫 화면에 「📌 오늘의 주제」(자서전 서버 v54 · ask v101). [무손] 그 밖 v25 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ admin.html · v25 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 「⌂ 본부로」 · 본부 로그인 · 본부로 돌아가기 → /hq/?hq=1. [무손] 그 밖 v24 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ admin.html · v24 · 261116 · [550 · 79차 · 대표 OK 261116 09:39] 새 탭 「자서전 진행」 — 사람 · 편마다 이야기별 쓴 수 · 빈 이야기 · 안내자 실명(번호) · 글은 보이지 않음(수만) · 대표 = 전체 검색 · 기관 담당자 = 자기 소속만. 짝꿍 — 게시판 Code.gs v5-28(adminMemoirProgress). [무손] 그 밖 v23 전부. -->
@@ -677,6 +678,22 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
     </div>
 
     <div id="guideView" style="display:none">
+      <!-- ★v28 안내자 파일 올리기 (공통 꼴 사랑흐름-총괄-035) -->
+      <div class="g-sec bk" id="gfBox">
+        <div class="g-h">안내자 파일 올리기</div>
+        <div class="hint" style="margin:0 0 10px">안내자가 여럿이면 한 분씩 넣지 말고 파일로 올려요. 「안내자 내려받기」로 지금 대장을 엑셀로 받아 빈칸을 채우고 새 줄을 더해 다시 올려 주세요. 엑셀(.xlsx) · CSV · 메모장(.txt) · 붙여 넣은 표를 읽어요. 옛 엑셀(.xls) · 한글 · 워드 파일은 표를 복사해 「안내자 붙여 넣기」로 넣어 주세요.</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" class="run" style="flex:1;min-width:140px;background:#fff;color:var(--navy);border:1.5px solid var(--line)" id="gfDl">안내자 내려받기</button>
+          <button type="button" class="run" style="flex:1;min-width:140px" id="gfPick">안내자 파일 올리기</button>
+          <button type="button" class="run" style="flex:1;min-width:140px;background:#fff;color:var(--navy);border:1.5px solid var(--line)" id="gfPasteOn">안내자 붙여 넣기</button>
+          <input type="file" id="gfFile" accept=".xlsx,.xls,.csv,.txt,text/csv,text/plain" hidden>
+        </div>
+        <div id="gfPasteBox" hidden style="margin-top:10px"><textarea id="gfPaste" rows="5" style="width:100%;box-sizing:border-box;font:inherit;border:1.5px solid var(--line);border-radius:11px;padding:10px" placeholder="엑셀 · 한글 · 워드 · 카톡의 표를 머리 줄(번호 · 성명 …)까지 복사해 붙여 넣어 주세요"></textarea>
+          <button type="button" class="run" id="gfPasteGo">붙여 넣은 표 읽기</button></div>
+        <div class="row" style="margin-top:10px"><label>확인자</label><input id="gfWho" maxlength="20" placeholder="넣는 분 이름"></div>
+        <div class="hint">맞추는 차례: 번호 › 번호가 없으면 성명(연락처를 적으면 끝 넷 자리까지). 빈칸만 채우고, 이미 값이 있는데 다르면 바꾸지 않고 모아 보여 드려요. 새 분은 번호를 비우면 다음 번호가 붙어요. 팀장은 번호나 성명으로 찾을 때만 붙이고, 이미 계신 분의 팀장 · 「끝」은 아래 한 분 고치기에서만 바꿔요. 주민등록번호 · 계좌 칸은 올리지 않아요. 내려받은 파일의 연락처는 가려져 있어 다시 올려도 바뀌지 않아요.</div>
+        <div id="gfRes" class="out"></div>
+      </div>
       <div class="state" id="gState">불러오는 중입니다…</div>
       <div id="gBody"></div>
     </div>
@@ -1887,6 +1904,70 @@ function gLink(no,btn){
   try{ if(navigator.clipboard&&window.isSecureContext){ navigator.clipboard.writeText(u).then(ok,function(){ prompt('안내자 주소',u); }); return; } }catch(e){}
   prompt('안내자 주소',u);
 }
+
+/* ═════ ★v28 안내자 파일 올리기 — 읽기는 화면 · 맞추기는 서버 미리 보기 · 넣기는 한 번에(POST · 요청 키) ═════ */
+var GF = { rows:null, name:'', req:'' };
+function gfPost(body, done, fail){
+  function go(){ body.key = KEY;
+    fetch(GAS, { method:'POST', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(body) })
+      .then(function(r){ return r.json(); }).then(done).catch(function(){ fail('서버에 닿지 않아요. 잠시 뒤 다시 해 주세요.'); }); }
+  if(passOld()){ getPass(function(ok, msg, login){ if(!ok){ hqNeed(msg, login); return; } go(); }); return; }
+  go();
+}
+function gfLoadX(cb){ if(window.XLSX){ return cb(); } var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; s.onload=function(){ cb(); }; s.onerror=function(){ cb(new Error('x')); }; document.head.appendChild(s); }
+function gfSplit(t){ t=String(t||'').replace(/^﻿/,'').replace(/\r\n?/g,'\n'); var L=t.split('\n').filter(function(x){ return x.trim(); }); if(!L.length){ return []; }
+  var top=L.slice(0,10), d=top.some(function(x){ return x.indexOf('\t')>=0; })?'\t':(top.some(function(x){ return x.indexOf(',')>=0; })?',':(top.some(function(x){ return x.indexOf('|')>=0; })?'|':null));
+  return L.map(function(x){ if(!d){ return x.trim().split(/\s{2,}/); } if(d!==','){ return x.split(d).map(function(c){ return c.trim(); }); }
+    var o=[],c='',q=false; for(var i=0;i<x.length;i++){ var ch=x[i]; if(q){ if(ch==='"'&&x[i+1]==='"'){ c+='"'; i++; } else if(ch==='"'){ q=false; } else { c+=ch; } } else if(ch==='"'){ q=true; } else if(ch===','){ o.push(c.trim()); c=''; } else { c+=ch; } } o.push(c.trim()); return o; }); }
+function gfPreview(rows, name){ GF.rows=rows; GF.name=name; GF.req='G'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+  document.getElementById('gfRes').innerHTML='<div class="hint">맞춰 보는 중이에요…</div>';
+  gfPost({ action:'adminGuideFile', rows:rows, dry:true, file:name }, gfShow, function(m){ document.getElementById('gfRes').innerHTML='<div class="hint">'+gEsc(m)+'</div>'; }); }
+function gfShow(d){ var R=document.getElementById('gfRes');
+  if(!d || d.status!=='ok'){ R.innerHTML='<div class="hint" style="color:#B3261E">'+gEsc((d&&d.msg)||'읽지 못했어요')+'</div>'; return; }
+  var h='<div class="oh">'+gEsc(GF.name)+' · '+d.rows+'줄 · 읽은 칸: '+gEsc(d.head.join(' · '))+'</div>';
+  if(d.refused && d.refused.length){ h+='<div class="hint" style="color:#B3261E">이 칸은 올리지 않아요: '+gEsc(d.refused.join(' · '))+'</div>'; }
+  h+='<div style="font-size:15px;font-weight:900;color:var(--navy);margin:8px 0">빈칸 채움 '+d.fill+' · 새로 더함 '+d.add+' · 다른 값 '+d.diff+'곳 · 못 맞춘 줄 '+d.miss+'개</div>';
+  if(d.done){ h+='<div class="hint">'+(d.again?'이미 넣은 파일이에요(한 번만 넣었어요).':'넣었어요. 안내자 대장에 바로 보여요.')+'</div>'; R.innerHTML=h; return; }
+  if(d.diff){ h+='<label style="display:flex;gap:8px;align-items:center;font-weight:400;margin:6px 0"><input type="checkbox" id="gfOver" style="width:auto"> 다른 값 '+d.diff+'곳은 파일대로</label>'; }
+  h+='<button type="button" class="run" id="gfGo"'+((d.fill+d.add+d.diff)?'':' disabled')+'>안내자 올리기</button><button type="button" class="run" style="background:#fff;color:var(--navy);border:1.5px solid var(--line)" id="gfCancel">그만두기</button>';
+  function few(list,n,f){ return list.slice(0,n).map(f).join('')+(list.length>n?'<details><summary class="hint">더 보기 ('+(list.length-n)+')</summary>'+list.slice(n).map(f).join('')+'</details>':''); }
+  if(d.made && d.made.length){ h+='<div class="oh" style="margin-top:12px">새로 더할 분</div>'+few(d.made,5,function(x){ return '<div class="hint">'+x.line+'째 줄 · '+gEsc(x.name)+' › '+gEsc(x.no)+'</div>'; }); }
+  if(d.diffs.length){ h+='<div class="oh" style="margin-top:12px">다른 값</div>'+few(d.diffs,5,function(x){ return '<div class="hint">'+x.line+'째 줄 · '+gEsc(x.name)+' · '+gEsc(x.col)+': 지금 「'+gEsc(x.old)+'」 › 파일 「'+gEsc(x.now)+'」</div>'; }); }
+  if(d.misses.length){ h+='<div class="oh" style="margin-top:12px">못 맞춘 줄</div>'+few(d.misses,5,function(x){ return '<div class="hint" style="color:#B3261E">'+x.line+'째 줄 · '+gEsc(x.name||'이름 없음')+' · '+gEsc(x.why)+'</div>'; }); }
+  if(d.notes.length){ h+='<div class="oh" style="margin-top:12px">넣지 않은 칸</div>'+few(d.notes,5,function(x){ return '<div class="hint">'+x.line+'째 줄 · '+gEsc(x.msg)+'</div>'; }); }
+  R.innerHTML=h;
+  document.getElementById('gfCancel').onclick=function(){ GF.rows=null; R.innerHTML=''; };
+  document.getElementById('gfGo').onclick=function(){ var who=document.getElementById('gfWho').value.trim();
+    if(!who){ document.getElementById('gfWho').focus(); alertBox('「확인자」 칸에 넣는 분 이름을 적어 주세요.'); return; }
+    try{ localStorage.setItem('lfAdminWho', who); }catch(e){}
+    var b=this; b.disabled=true; b.textContent='넣는 중이에요…';
+    var ov=document.getElementById('gfOver');
+    gfPost({ action:'adminGuideFile', rows:GF.rows, dry:false, over:!!(ov&&ov.checked), req:GF.req, by:who, file:GF.name }, function(r){
+      if(!r || r.status!=='ok'){ b.disabled=false; b.textContent='안내자 올리기'; alertBox((r&&r.msg)||'넣지 못했어요'); return; }
+      gfShow(r); gLoad(); }, function(m){ b.disabled=false; b.textContent='안내자 올리기'; alertBox(m); }); };
+}
+function alertBox(m){ var R=document.getElementById('gfRes'), x=document.createElement('div'); x.className='hint'; x.style.color='#B3261E'; x.textContent=m; R.insertBefore(x, R.firstChild); }
+(function(){
+  try{ document.getElementById('gfWho').value = localStorage.getItem('lfAdminWho') || ''; }catch(e){}
+  document.getElementById('gfPick').onclick=function(){ document.getElementById('gfFile').click(); };
+  document.getElementById('gfPasteOn').onclick=function(){ var bx=document.getElementById('gfPasteBox'); bx.hidden=!bx.hidden; if(!bx.hidden){ document.getElementById('gfPaste').focus(); } };
+  document.getElementById('gfPasteGo').onclick=function(){ var r=gfSplit(document.getElementById('gfPaste').value); if(!r.length){ alertBox('붙여 넣은 표가 없어요'); return; } gfPreview(r,'붙여 넣은 표'); };
+  document.getElementById('gfFile').onchange=function(){ var f=this.files&&this.files[0]; if(!f){ return; } var nm=f.name, lo=nm.toLowerCase(); this.value='';
+    if(/\.xls$/.test(lo)){ alertBox('옛 엑셀(.xls)은 읽지 못해요. 표를 복사해 「안내자 붙여 넣기」로 넣어 주세요'); return; }
+    if(/\.(hwp|hwpx|doc|docx)$/.test(lo)){ alertBox('한글 · 워드 파일은 읽지 못해요. 표를 복사해 「안내자 붙여 넣기」로 넣어 주세요'); return; }
+    if(/\.xlsx$/.test(lo)){ gfLoadX(function(err){ if(err){ alertBox('엑셀을 여는 도구를 불러오지 못했어요. CSV로 저장해 올려 주세요'); return; }
+      var r=new FileReader(); r.onload=function(){ try{ var wb=XLSX.read(r.result,{type:'array',cellDates:true}), ws=wb.Sheets[wb.SheetNames[0]];
+        gfPreview(XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:'',dateNF:'yyyy-mm-dd'}), nm); }catch(e){ alertBox('이 파일은 열 수 없어요. CSV로 저장해 올려 주세요'); } }; r.readAsArrayBuffer(f); }); return; }
+    var r=new FileReader(); r.onload=function(){ var t=String(r.result||''); if(/�/.test(t.slice(0,2000))){ var r2=new FileReader(); r2.onload=function(){ gfPreview(gfSplit(r2.result), nm); }; r2.readAsText(f,'euc-kr'); return; } gfPreview(gfSplit(t), nm); }; r.readAsText(f,'utf-8'); };
+  document.getElementById('gfDl').onclick=function(){ if(!G.d){ alertBox('대장을 먼저 불러와 주세요'); return; }
+    var head=['번호','성명','연락처','역할','팀장 번호','인증일','상태','메모'];
+    var rows=[head].concat(G.d.guides.map(function(g){ return [g.no,g.name,g.tel,g.roles,g.team,g.cert,g.state,g.memo]; }));
+    var d=new Date(), nm='사랑흐름_안내자대장_'+String(d.getFullYear()).slice(2)+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2);
+    function save(blob, ext){ var a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=nm+ext; document.body.appendChild(a); a.click(); a.remove(); }
+    gfLoadX(function(err){ try{ if(err){ throw err; } var ws=XLSX.utils.aoa_to_sheet(rows), wb=XLSX.utils.book_new(); ws['!cols']=head.map(function(h){ return {wch:h==='메모'?30:14}; }); XLSX.utils.book_append_sheet(wb,ws,'안내자');
+        save(new Blob([XLSX.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}), '.xlsx'); }
+      catch(e){ save(new Blob(['﻿'+rows.map(function(r){ return r.map(function(c){ c=String(c==null?'':c); return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c; }).join(','); }).join('\n')],{type:'text/csv'}), '.csv'); } }); };
+})();
 </script>
 </body>
 </html>
