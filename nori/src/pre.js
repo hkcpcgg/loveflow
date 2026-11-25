@@ -1,5 +1,7 @@
 /* 「그때 이야기」 (261125 · 대표 승인 · 사랑흐름-놀이-003) — 놀이마다 ① 시작 전 「그때는」(p 두세 줄 · s 그 시절 소리 · a 여쭙는 말) ③ 결과 카드 물음(q) · 자서전 이야기 번호(n: 1 어린 날 · 골목 / 2 곁의 사람)
    말투: 30대 중반 서비스업 여성 · 「~요」 · 「당신」 안 씀 · 널리 알려진 것만 쓰고 동네마다 달랐던 것은 여쭘 */
+/* 손님 화면에서 「그때 이야기」를 잠시 끄는 스위치 (261125 · GPT 검토 · 대표 결정 전까지 손님 화면은 끔) — 바깥 화면의 NORI_STORY_OFF 를 놀이 안에서도 봄 */
+window.noriStoryOff=function(){ try{ if(window.NORI_STORY_OFF) return true; if(window.parent&&window.parent!==window&&window.parent.NORI_STORY_OFF) return true; }catch(e){} return false; };
 window.NORI_STORY={
  rp:{g:'가위바위보',i:'✌️',p:'누가 먼저 할지, 누가 술래를 할지<br>무엇이든 <b>가위바위보</b>로 정했지요.',s:'가위 · 바위 · 보!',a:'가위바위보로 정하던 일 중에 기억나는 게 있으세요?',q:'가위바위보는 주로 누구와 하셨어요?',n:2},
  hj:{g:'구슬 홀짝',i:'🤲',p:'주먹 속 구슬이 몇 개인지 맞히는 놀이.<br>「홀!」 「짝!」 한마디에 구슬이 오갔지요.',s:'홀? 짝?',a:'모은 구슬은 어디에 두셨어요?',q:'구슬을 제일 많이 모았던 때, 기억나세요?',n:1},
@@ -119,7 +121,7 @@ window.NA=(function(){
         BET=b.getAttribute('data-b'); try{ localStorage.setItem('nori-bet',BET); }catch(x){} paintPre(); try{ SND.clack(.35); }catch(x){} });
       ps.querySelector('#naWho').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; WHO=b.getAttribute('data-w'); paintPre(); });
       ps.querySelector('#naGo').addEventListener('click',function(){ close(); window.__noriPlaying=true; var f=P.onGo; if(f) f(BET,WHO); }); }
-    (function(){ var k=''; try{ k=window.__nhere?window.__nhere():''; }catch(x){} var T=window.NORI_STORY&&window.NORI_STORY[k], box=ps.querySelector('#naThen');
+    (function(){ var k=''; try{ k=window.__nhere?window.__nhere():''; }catch(x){} var T=!window.noriStoryOff()&&window.NORI_STORY&&window.NORI_STORY[k], box=ps.querySelector('#naThen');
       if(!box){ box=document.createElement('div'); box.className='na-then'; box.id='naThen'; var h=ps.querySelector('h3'); h.parentNode.insertBefore(box,h); }
       if(T){ box.innerHTML='<div class="k">'+T.i+' 그때는</div><p>'+T.p+'</p><div class="s">'+T.s+'</div><div class="a">'+T.a+'</div>'; box.style.display=''; } else { box.style.display='none'; } })();
     if(P.who===false){ WHO='cpu'; } else if(P.whoDefault){ WHO=P.whoDefault; }

@@ -172,4 +172,6 @@ html,body,.app,.body{background:#FFFCF7!important}
 .grp h2{color:#2E3A46!important}.grp h2 small{color:#4A525C!important}.g b{color:#2E3A46!important}
 .fbar{background:#1E4A76!important}.fbar button{color:#fff!important}.fbar button svg{stroke:#C9A96E!important}.fbar .home{background:#C9A96E!important;color:#1E4A76!important}.fbar .home svg{stroke:#1E4A76!important}
 .fam a,.own button{min-height:48px!important;display:inline-flex!important;align-items:center;justify-content:center}
+/* 흐르는 「푸짐한 선물」 띠: 띠는 그대로 · 색만 v0.2 (대표 결정 261125 14:47 · 사랑흐름-놀이-004) */
+.mq{background:#F4EEE4!important}.mq .tag{background:#7A3520!important;color:#fff!important}
 '''

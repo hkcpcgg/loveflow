@@ -181,21 +181,21 @@ window.noriNav=function(o){
     cd.innerHTML='<div class="cd"><div class="hd"><span class="pl" data-plan="paid" hidden></span><b>그때 그 놀이 · '+esc2(shop())+'</b><span>'+when(r.t)+'</span></div><div class="gn">'+esc2((r.gname||'')+(window.__noriBetName?' · '+window.__noriBetName:''))+'</div>'
       +'<div class="ph"><img alt="현장 사진"><i>📷</i>현장 사진 넣기<div class="pb"><label>📷 지금 찍기<input type="file" accept="image/*" capture="environment"></label><label>🖼 앨범에서<input type="file" accept="image/*"></label></div><small>사진은 이 폰 안에서만 카드에 합쳐요 · 서버로 보내지 않아요</small><label class="re">사진 바꾸기<input type="file" accept="image/*"></label></div>'
       +scoreHTML(r)+'<div class="res '+outOf(r)+'">'+esc2(resText(r))+'</div>'
-      +(function(){ var T=window.NORI_STORY&&window.NORI_STORY[r.game]; return T?'<div class="mq">✏ '+esc2(T.q)+'</div><input class="memo" maxlength="40" placeholder="여기에 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">':'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">'; })()
+      +(function(){ var T=!(window.noriStoryOff&&noriStoryOff())&&window.NORI_STORY&&window.NORI_STORY[r.game]; return T?'<div class="mq">✏ '+esc2(T.q)+'</div><input class="memo" maxlength="40" placeholder="떠오르는 대로 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">':'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">'; })()
       +'<div class="ft"><span>확인 번호</span><b>'+esc2(r.card||'')+'</b></div></div>'
       +'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
-      +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장</button><button type="button" data-c="share">공유하기</button></div><div class="row one"><button type="button" data-c="story">이야기방에 올리기</button></div><div class="row one nmemo" hidden><button type="button" data-c="memoir">자서전 둘러보기</button></div></div><p class="tip nmemo" hidden>적어 주신 한 줄은 이 폰에만 남아요. 「자서전 둘러보기」를 누르면 사랑흐름 자서전 소개 화면이 새 창으로 열려요.</p>'
+      +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장</button><button type="button" data-c="share">공유하기</button></div><div class="row one"><button type="button" data-c="story">이야기방에 올리기</button></div><div class="row one nmemo" hidden><button type="button" data-c="memoir">자서전 둘러보기</button></div></div><p class="tip nmemo" hidden>적어 주신 한 줄은 이 폰에만 남아요. 「자서전 둘러보기」를 누르면 사랑흐름 자서전 소개 화면이 새 창으로 열려요. 다 보신 뒤 그 창을 닫으시면 돼요.'+(/KAKAOTALK/i.test(navigator.userAgent)?' 카카오톡 안에서는 휴대폰 기본 앱으로 넘겨 열어요. 기본 앱에서 적으신 기억만 자서전에서 불러올 수 있어요.':'')+'</p>'
       +'<p class="tip">「이야기방에 올리기」를 누르면 카드가 폰에 저장되고 다복 이야기방 올리기 창이 열려요. 방금 저장된 카드 사진을 골라 올려 주세요.</p>';
     var ph=cd.querySelector('.ph'), im=ph.querySelector('img');
     im.onload=function(){ photo=im; ph.classList.add('has'); };
     [].forEach.call(ph.querySelectorAll('input[type=file]'),function(inp){ inp.addEventListener('change',function(){ var f=inp.files&&inp.files[0]; if(!f) return; im.src=URL.createObjectURL(f); }); });
     if(window.__noriPhoto){ im.src=window.__noriPhoto; }
-    MEMO_AT=-1; var mi=cd.querySelector('.memo'); if(mi){ mi.addEventListener('input',function(){ var on=!!mi.value.trim(); [].forEach.call(cd.querySelectorAll('.nmemo'),function(x){ x.hidden=!on; }); }); mi.addEventListener('change',memoKeep); }
+    MEMO_AT=-1; var mi=cd.querySelector('.memo'); if(mi){ mi.addEventListener('input',function(){ var on=!!mi.value.trim()&&!(window.noriStoryOff&&noriStoryOff()); [].forEach.call(cd.querySelectorAll('.nmemo'),function(x){ x.hidden=!on; }); }); mi.addEventListener('change',memoKeep); }
     cd.classList.add('on'); document.body.classList.add('ncard-on'); cd.scrollTop=0; setNew(true);
     try{ if(window.SND&&SND.tap){} }catch(e){} }
   /* 「그때 이야기」 한 줄을 이 폰에 적어 둠 (사랑흐름-놀이-003 · 자서전이 나중에 불러옴 · 서버로 보내지 않음) */
   var MEMO_AT=-1;
-  function memoKeep(){ try{ var inp=cd.querySelector('.memo'), a=inp?inp.value.trim():'', T=window.NORI_STORY&&R&&window.NORI_STORY[R.game]; if(!T) return;
+  function memoKeep(){ try{ var inp=cd.querySelector('.memo'), a=inp?inp.value.trim():'', T=!(window.noriStoryOff&&noriStoryOff())&&window.NORI_STORY&&R&&window.NORI_STORY[R.game]; if(!T) return;
       var L=JSON.parse(localStorage.getItem('lfNoriMemo')||'[]'); if(!Array.isArray(L)) L=[];
       var d=new Date(), at=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2), it={g:T.g,q:T.q,a:a,s:T.n,at:at};
       if(MEMO_AT>=0&&L[MEMO_AT]&&L[MEMO_AT].g===it.g&&L[MEMO_AT].q===it.q){ if(a) L[MEMO_AT]=it; else { L.splice(MEMO_AT,1); MEMO_AT=-1; } }
@@ -242,7 +242,7 @@ window.noriNav=function(o){
       if(w){ try{ w.location.href=u; }catch(e){ w=window.open(u,'_blank'); } } else { w=window.open(u,'_blank'); }
       /* 우리 이야기가 받을 준비가 되면 카드 그림을 바로 넘김 (우리 이야기 쪽 받는 입구가 생기면 작동 · 없으면 아무 일 없음) */
       try{ var fr=new FileReader(); fr.onload=function(){ var n=0, iv=setInterval(function(){ n++; try{ w&&w.postMessage({uriyagi:'card-image',name:fname(),type:'image/png',data:fr.result,title:ttl,text:t},'https://uriyagi.kr'); }catch(e){} if(n>24) clearInterval(iv); },500); }; fr.readAsDataURL(b); }catch(e){} }); }
-  cd.addEventListener('click',function(e){ var b=e.target.closest('button[data-c]'); if(!b) return; var c=b.getAttribute('data-c'); memoKeep(); if(c==='save') save(); else if(c==='share') share(); else if(c==='story') story(); else if(c==='memoir'){ try{ window.open('https://www.loveflow.ai.kr/memoir/','_blank'); }catch(x){} } });
+  cd.addEventListener('click',function(e){ var b=e.target.closest('button[data-c]'); if(!b) return; var c=b.getAttribute('data-c'); memoKeep(); if(c==='save') save(); else if(c==='share') share(); else if(c==='story') story(); else if(c==='memoir'){ var mu='https://www.loveflow.ai.kr/memoir/'; try{ var kk=/KAKAOTALK/i.test(navigator.userAgent), top2=window.parent||window; if(kk&&top2.LFKakaoOut){ top2.LFKakaoOut(mu); } else { window.open(mu,'_blank'); } }catch(x){ try{ window.open(mu,'_blank'); }catch(y){} } } });
   function againOf(){ var ds=[].slice.call(document.querySelectorAll('.done.on')); for(var i=0;i<ds.length;i++){ var bs=ds[i].querySelectorAll('button'); for(var j=0;j<bs.length;j++){ if(/다시/.test(bs[j].textContent)) return bs[j]; } } return null; }
   /* 옛 끝 화면이 열리면(.done.on) 결과 카드를 엶 */
   var penning=false;
