@@ -10,6 +10,7 @@ window.BOSS=window.BOSS||{lv:1.5, sway:.2,
   jegi:[9,16],      /* 제기차기: 사장님 연속 차기(최소 · 최대) */
   gong:.75,         /* 공기놀이: 사장님이 한 번 줍고 받기에 성공하는 비율(단계마다 조금씩 내려감) */
   mugung:{say:[1.0,3.0],cyc:5,need:30},  /* 무궁화꽃: 술래가 한 번 외는 초(최소 · 최대) · 외는 횟수 · 술래까지 걸음 */
+  run:[6.0,7.0],    /* 운동회 달리기: 사장님이 1초에 내딛는 걸음(최소 · 최대) · 마흔 걸음 = 100m · 승률 기록 보고 맞춤 */
   yut:{in:.9,smart:.85}  /* 윷놀이: 사장님이 초록 안에서 떼는 비율(나머지는 낙) · 말 고를 때 좋은 수를 두는 비율 */
   };
 (function(){ function pick(){ BOSS.cur=Math.max(1,Math.min(2,BOSS.lv+(Math.random()*2-1)*BOSS.sway)); } pick(); BOSS.pick=pick;
