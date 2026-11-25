@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ settle/index.html · v2.3 · 261125 · 판매자 상태 「끝(거래를 마침)」 · 정리함 / 정리 기다림 표시(정산 서버 2-3 새벽 정리 · 처리방침 v3.1 제3조).
+<!-- ★ 현재 버전 ▶ settle/index.html · v2.4 · 261125 · [대표 19:15 · 사랑흐름-총괄-035 파일 올리기 공통 꼴] 판매자 탭 맨 위 「판매자 파일 올리기」(판매자 내려받기 엑셀 · 파일 올리기 xlsx · csv · txt · 판매자 붙여 넣기 · 서버 미리 보기 「빈칸 채움 · 새로 더함 · 다른 값 · 못 맞춘 줄」 · 「다른 값은 파일대로」 · 「판매자 올리기」 한 번에 · 요청 키) · 한 줄 등록은 그 아래 보조(「판매자 한 줄 등록 · 고치기」). 정산 서버 2-4 와 짝. [무손] 그 밖 v2.3 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ settle/index.html · v2.3 · 261125 · 판매자 상태 「끝(거래를 마침)」 · 정리함 / 정리 기다림 표시(정산 서버 2-3 새벽 정리 · 처리방침 v3.1 제3조).
      (이전 v2.2) · [대표 18:28] 판매자 탭 「판매자 화면 보이기」 — 항목 넷(예상 수수료 · 활동 몫 · 지난 명세서 · 판매 링크와 QR)마다 기본값 단추 · 판매자를 골라(여럿) 보이기 · 보이지 않기 · 기본 따름 · 판매자 화면 링크 단추. 서버 = 정산 서버 2-2.
      (이전 v2.1) · [대표 17:41 「선택만 두지 말고 직접 입력을 꼭 둘 것」] 원장 직접 넣기에 「✎ 직접 적기 · 더하기 / 빼기」와 항목 이름 칸(장려금 · 시상금 등) · 세금 기준에 넣지 않음 체크 · 판매자 종류도 직접 적기. 서버 = 정산 서버 2-1 버전.
      (이전 v2) 정산 관리 화면(대표님만 · 컴퓨터 중심). 서버 = 정산 서버 2 버전.
@@ -153,8 +154,23 @@ td.n,th.n{text-align:right;white-space:nowrap}
     </div>
 
     <div class="pane" data-p="sellers">
+      <section class="box" id="fileBox">
+        <h3>판매자 파일 올리기</h3>
+        <p class="hint">판매자가 여럿이면 한 줄씩 넣지 말고 파일로 올려요. 「판매자 내려받기」로 지금 대장을 엑셀로 받아 빈칸을 채우고 새 줄을 더해 다시 올려 주세요. 엑셀(.xlsx) · CSV · 메모장(.txt) · 붙여 넣은 표를 읽어요. 옛 엑셀(.xls) · 한글 · 워드 파일은 표를 복사해 「판매자 붙여 넣기」로 넣어 주세요.</p>
+        <div class="row">
+          <button class="btn sub" type="button" id="fDl">판매자 내려받기</button>
+          <button class="btn" type="button" id="fPick">판매자 파일 올리기</button>
+          <button class="btn sub" type="button" id="fPasteOn">판매자 붙여 넣기</button>
+          <input type="file" id="fFile" accept=".xlsx,.xls,.csv,.txt,text/csv,text/plain" hidden>
+        </div>
+        <div id="fPasteBox" hidden><textarea id="fPaste" rows="5" style="width:100%;font:inherit;border:1.5px solid #C9D6E4;border-radius:10px;padding:8px" placeholder="엑셀 · 한글 · 워드 · 카톡의 표를 머리 줄(판매자 번호 · 이름 …)까지 복사해 붙여 넣어 주세요"></textarea>
+          <div class="row"><button class="btn" type="button" id="fPasteGo">붙여 넣은 표 읽기</button></div></div>
+        <p class="hint">맞추는 차례: 판매자 번호 › 번호가 없으면 이름(연락처를 적으면 끝 넷 자리까지). 빈칸만 채우고, 이미 값이 있는데 다르면 바꾸지 않고 모아 보여 드려요. 새 판매자는 판매자 번호(ORG-)가 있어야 더해요. 주민등록번호 · 계좌 칸은 올리지 않아요(계좌는 판매자가 등록 링크로 직접). 상태 「끝」은 아래 한 줄 고치기에서만.</p>
+        <div id="fRes"></div>
+      </section>
+
       <section class="box">
-        <h3>판매자 등록 · 고치기</h3>
+        <h3>판매자 한 줄 등록 · 고치기</h3>
         <div class="row">
           <label>판매자 번호<input id="sNo" placeholder="ORG-…" style="width:150px"></label>
           <label>이름(회사 · 사람)<input id="sName" style="width:180px"></label>
@@ -379,6 +395,50 @@ $('yGo').onclick=function(){call({a:'report',y:$('ySel').value}).then(function(d
 (function(){ $('who').value=ls('lfSettleWho'); $('mSel').value=ym(); $('cSel').value=lastYm(); $('ySel').value=new Date().getFullYear();
   ['lDay','aDay','vDay','rFrom','kFrom','tFrom'].forEach(function(i){$(i).value=today();});
   if(!API||!KEY){ $('setup').style.display='block'; return; } load(); })();
+
+/* v2.4 · 판매자 파일 올리기 (공통 꼴 사랑흐름-총괄-035) — 읽기는 화면 · 맞추기는 서버 미리 보기 · 넣기는 한 번에 */
+var FROWS=null,FNAME='',FREQ='';
+function loadXlsx(cb){if(window.XLSX)return cb();var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=cb;s.onerror=function(){cb(new Error('x'));};document.head.appendChild(s);}
+function splitText(t){t=String(t||'').replace(/^﻿/,'').replace(/\r\n?/g,'\n');var L=t.split('\n').filter(function(x){return x.trim();});if(!L.length)return [];
+  var d=L.slice(0,10).some(function(x){return x.indexOf('\t')>=0;})?'\t':(L.slice(0,10).some(function(x){return x.indexOf(',')>=0;})?',':(L.slice(0,10).some(function(x){return x.indexOf('|')>=0;})?'|':null));
+  return L.map(function(x){if(!d)return x.trim().split(/\s{2,}/);if(d!==',')return x.split(d).map(function(c){return c.trim();});
+    var o=[],c='',q=false;for(var i=0;i<x.length;i++){var ch=x[i];if(q){if(ch==='"'&&x[i+1]==='"'){c+='"';i++;}else if(ch==='"'){q=false;}else{c+=ch;}}else if(ch==='"'){q=true;}else if(ch===','){o.push(c.trim());c='';}else{c+=ch;}}o.push(c.trim());return o;});}
+function fPreview(rows,name){FROWS=rows;FNAME=name;FREQ='F'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);$('fRes').innerHTML='<p class="hint">맞춰 보는 중이에요…</p>';
+  call({a:'sellerFile',rows:rows,dry:true,file:name}).then(fShow).catch(function(){$('fRes').innerHTML='';toast('서버에 닿지 않아요');});}
+function fShow(d){var R=$('fRes');if(!d||!d.ok){R.innerHTML='<p class="hint minus">'+esc((d&&d.msg)||'읽지 못했어요')+'</p>';return;}
+  var h='<p><b>'+esc(FNAME)+'</b> · '+d.rows+'줄 · 읽은 칸: '+esc(d.head.join(' · '))+'</p>';
+  if(d.refused&&d.refused.length)h+='<p class="hint minus">이 칸은 올리지 않아요: '+esc(d.refused.join(' · '))+'</p>';
+  h+='<p style="font-size:16px"><b>빈칸 채움 '+d.fill+' · 새로 더함 '+d.add+' · 다른 값 '+d.diff+'곳 · 못 맞춘 줄 '+d.miss+'개</b></p>';
+  if(d.done){h+='<p class="hint">'+(d.again?'이미 넣은 파일이에요(한 번만 넣었어요).':'넣었어요. 판매자 대장에 바로 보여요.')+'</p>';R.innerHTML=h;return;}
+  if(d.diff)h+='<label style="display:flex;gap:8px;align-items:center;margin:6px 0"><input type="checkbox" id="fOver"> 다른 값 '+d.diff+'곳은 파일대로</label>';
+  h+='<div class="row"><button class="btn" type="button" id="fGo"'+((d.fill+d.add+d.diff)?'':' disabled')+'>판매자 올리기</button><button class="btn sub" type="button" id="fCancel">그만두기</button></div>';
+  function few(list,n,f){return list.slice(0,n).map(f).join('')+(list.length>n?'<details><summary class="hint">더 보기 ('+(list.length-n)+')</summary>'+list.slice(n).map(f).join('')+'</details>':'');}
+  if(d.diffs.length)h+='<h4>다른 값</h4>'+few(d.diffs,5,function(x){return '<p class="hint">'+x.line+'째 줄 · '+esc(x.name)+' · '+esc(x.col)+': 지금 「'+esc(x.old)+'」 › 파일 「'+esc(x.now)+'」</p>';});
+  if(d.misses.length)h+='<h4>못 맞춘 줄</h4>'+few(d.misses,5,function(x){return '<p class="hint minus">'+x.line+'째 줄 · '+esc(x.name||'이름 없음')+' · '+esc(x.why)+'</p>';});
+  if(d.notes.length)h+='<h4>넣지 않은 칸</h4>'+few(d.notes,5,function(x){return '<p class="hint">'+x.line+'째 줄 · '+esc(x.msg)+'</p>';});
+  R.innerHTML=h;
+  $('fCancel').onclick=function(){FROWS=null;R.innerHTML='';};
+  $('fGo').onclick=function(){if(!needWho())return;var b=this;b.disabled=true;b.textContent='넣는 중이에요…';
+    call({a:'sellerFile',rows:FROWS,dry:false,over:!!($('fOver')&&$('fOver').checked),req:FREQ,by:WHO(),file:FNAME}).then(function(r){
+      if(!r||!r.ok){b.disabled=false;b.textContent='판매자 올리기';toast((r&&r.msg)||'넣지 못했어요');return;}fShow(r);toast('판매자 파일을 넣었어요');load();})
+    .catch(function(){b.disabled=false;b.textContent='판매자 올리기';toast('서버에 닿지 않아요');});};}
+$('fPick').onclick=function(){$('fFile').click();};
+$('fPasteOn').onclick=function(){$('fPasteBox').hidden=!$('fPasteBox').hidden;if(!$('fPasteBox').hidden)$('fPaste').focus();};
+$('fPasteGo').onclick=function(){var r=splitText($('fPaste').value);if(!r.length){toast('붙여 넣은 표가 없어요');return;}fPreview(r,'붙여 넣은 표');};
+$('fFile').onchange=function(){var f=this.files&&this.files[0];if(!f)return;var nm=f.name,lo=nm.toLowerCase();this.value='';
+  if(/\.xls$/.test(lo)){toast('옛 엑셀(.xls)은 읽지 못해요. 표를 복사해 「판매자 붙여 넣기」로 넣어 주세요');return;}
+  if(/\.(hwp|hwpx|doc|docx)$/.test(lo)){toast('한글 · 워드 파일은 읽지 못해요. 표를 복사해 「판매자 붙여 넣기」로 넣어 주세요');return;}
+  if(/\.xlsx$/.test(lo)){loadXlsx(function(err){if(err){toast('엑셀을 여는 도구를 불러오지 못했어요. CSV로 저장해 올려 주세요');return;}
+    var r=new FileReader();r.onload=function(){try{var wb=XLSX.read(r.result,{type:'array',cellDates:true}),ws=wb.Sheets[wb.SheetNames[0]];
+      fPreview(XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:'',dateNF:'yyyy-mm-dd'}),nm);}catch(e){toast('이 파일은 열 수 없어요. CSV로 저장해 올려 주세요');}};r.readAsArrayBuffer(f);});return;}
+  var r=new FileReader();r.onload=function(){var t=String(r.result||'');if(/�/.test(t.slice(0,2000))){var r2=new FileReader();r2.onload=function(){fPreview(splitText(r2.result),nm);};r2.readAsText(f,'euc-kr');return;}fPreview(splitText(t),nm);};r.readAsText(f,'utf-8');};
+$('fDl').onclick=function(){if(!D){toast('대장을 먼저 불러와 주세요');return;}
+  var head=['판매자 번호','이름','종류','신분','담당자','연락처','계약 시작','계약 끝','상태','보류 사유','메모'];
+  var rows=[head].concat(D.sellers.filter(function(s){return !s.gone;}).map(function(s){return [s.s,s.name,s.kind,s.status,s.who,s.tel,s.from,s.to,s.state,s.hold,s.memo];}));
+  var d=new Date(),nm='사랑흐름_판매자_'+String(d.getFullYear()).slice(2)+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2);
+  loadXlsx(function(err){try{if(err)throw err;var ws=XLSX.utils.aoa_to_sheet(rows),wb=XLSX.utils.book_new();ws['!cols']=head.map(function(h){return {wch:h==='메모'||h==='보류 사유'?30:14};});XLSX.utils.book_append_sheet(wb,ws,'판매자');var buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));a.download=nm+'.xlsx';document.body.appendChild(a);a.click();a.remove();toast('판매자 대장을 엑셀로 내려받았어요');}
+    catch(e){var csv='﻿'+rows.map(function(r){return r.map(function(c){c=String(c==null?'':c);return /[",\n]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c;}).join(',');}).join('\n');
+      var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=nm+'.csv';document.body.appendChild(a);a.click();a.remove();toast('엑셀 도구가 없어 CSV로 내려받았어요');}});};
 </script>
 </body>
 </html>
