@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/frame.js · v37 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 카톡에서 바깥으로 넘기기 전 한 줄 안내(LFKakaoOut · 이유 · 돌아오는 길 · 막히면 「휴대폰 기본 앱에서 열기」) · 「브라우저 메뉴」 → 「메뉴」 · 넘기는 동작은 그대로(533).
+   현재 버전 ▶ lf/frame.js · v38 · 261125 · [통합 표준 v0.2 단추 말 · 우리이야기-총괄-018 4장에서 찾음] 공유가 안 될 때 뜨는 말 「주소를 복사했습니다 · 주소를 복사해 주세요」 › 「링크를 복사했어요 · 링크를 복사해 주세요」. 그 밖 v37 그대로.
+   (이전) lf/frame.js · v37 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 카톡에서 바깥으로 넘기기 전 한 줄 안내(LFKakaoOut · 이유 · 돌아오는 길 · 막히면 「휴대폰 기본 앱에서 열기」) · 「브라우저 메뉴」 → 「메뉴」 · 넘기는 동작은 그대로(533).
    (이전) lf/frame.js · v36 · 261122 · [놀이-총괄-002 요청 2 · 총괄-002 결정 ②] ☰ 「마음 전하기 (무료)」 맨 아래에 「그때 그 놀이」 한 줄(→ /nori/). [무손] 그 밖 v35 전부.
    (이전) lf/frame.js · v35 · 261119 · [827 · 829] 인쇄 · PDF — 화면 위 · 아래 띠 자리(padding 52px · 72px)를 인쇄에서 0 으로(앞 규칙은 !important 가 없어 안 먹혔음) → 책 · 지도 결과 · 편지 등 인쇄할 때 첫 장이 밀려 빈 쪽이 끼던 것. [무손] 화면 모습 · 그 밖 v34 전부.
    (이전) lf/frame.js · v34 · 261118 · [740 · 742 · 대표 OK 261118 17:4x 「권고안대로」] 떠 있는 공유 · 위로 동그라미 — ① 44 → 36 · 오른쪽 끝(6px) · 반투명 ② 내려 보는 동안 숨고 손을 멈추면(0.7초) 다시 나타남 ③ 아래 고정 띠(.dock · [data-lf-dock])가 있는 화면은 띠 위로 올림. [무손] 그 밖 전부.
@@ -360,9 +361,9 @@ window.LFKakaoOut = function (u, auto) {
   function shareFallback(H) {
     try {
       if (navigator.share) { navigator.share({ title: '사랑흐름', text: '마음을 잇고, 이야기를 남기다 — 사랑흐름', url: H })['catch'](function () {}); return; }
-      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(H).then(function () { alert('주소를 복사했습니다'); }, function () { prompt('주소를 복사해 주세요', H); }); return; }
+      if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(H).then(function () { alert('링크를 복사했어요'); }, function () { prompt('링크를 복사해 주세요', H); }); return; }
     } catch (e) {}
-    prompt('주소를 복사해 주세요', H);
+    prompt('링크를 복사해 주세요', H);
   }
   function share() {
     var H = 'https://www.loveflow.ai.kr/';
