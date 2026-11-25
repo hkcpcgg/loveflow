@@ -10,7 +10,7 @@ python3 mkall.py && python3 mknori.py          # → loveflow/nori/index.html
 cp loveflow/nori/index.html ../nori/index.html
 ```
 261122 확인: 이 폴더만으로 다시 만든 결과가 운영 중인 nori/index.html 과 바이트까지 같음.
-**261125 17:44 손님 화면 v3.5 대표 승인 (운동회 달리기 · 박 터뜨리기 · 그때 이야기 켬 · 결과 사진 저장 · 한 화면 점검 · 함께하는 곳 사랑흐름 먼저) · 박 터뜨리기 원본: bak_logic.js + mk074.py(t071 틀에서 t074.html · mkall 이 부름) · 시험 test/bktest.py · test/fit23.py(24가지 · 세 크기) · test/educhk.py.** **261125 손님 화면 v3.2 (「그때 이야기」는 손님 화면만 꺼 둠 · mknori 의 NORI_STORY_OFF · mklab 은 지움) · 261124 21:48 대표 승인 → 손님 화면 nori/index.html v3.1 = 원본 그대로(lab 과 같은 내용 · 서버 주소 · 판 기록만 다름).** (이전: 261123 v3.0) 이전 메모: 원본은 디자인 A 1차(첫 화면 + 손놀이 넷) + 2차(나머지 아홉 놀이 틀 · 벌칙 — build017.py 의 askin 이 pre.js · pen.js 를 넣고 nav.js 가 덧씌움)까지 들어가 있어 운영 /nori/(v1.3.1)보다 앞섭니다.** 대표 승인 전에는 `nori/index.html` 을 덮지 말고 시험판만 만듭니다:
+**261125 19:29 손님 화면 v3.6 대표 승인(고무줄놀이 · 가게 번호 주소 ?c= · 우리 가게 QR · qr.js) · 261125 17:44 손님 화면 v3.5 대표 승인 (운동회 달리기 · 박 터뜨리기 · 그때 이야기 켬 · 결과 사진 저장 · 한 화면 점검 · 함께하는 곳 사랑흐름 먼저) · 박 터뜨리기 원본: bak_logic.js + mk074.py(t071 틀에서 t074.html · mkall 이 부름) · 시험 test/bktest.py · test/fit23.py(24가지 · 세 크기) · test/educhk.py.** **261125 손님 화면 v3.2 (「그때 이야기」는 손님 화면만 꺼 둠 · mknori 의 NORI_STORY_OFF · mklab 은 지움) · 261124 21:48 대표 승인 → 손님 화면 nori/index.html v3.1 = 원본 그대로(lab 과 같은 내용 · 서버 주소 · 판 기록만 다름).** (이전: 261123 v3.0) 이전 메모: 원본은 디자인 A 1차(첫 화면 + 손놀이 넷) + 2차(나머지 아홉 놀이 틀 · 벌칙 — build017.py 의 askin 이 pre.js · pen.js 를 넣고 nav.js 가 덧씌움)까지 들어가 있어 운영 /nori/(v1.3.1)보다 앞섭니다.** 대표 승인 전에는 `nori/index.html` 을 덮지 말고 시험판만 만듭니다:
 ```
 python3 mkall.py && python3 mknori.py && python3 mklab.py   # → loveflow/nori/lab/index.html (기록 서버로 안 보냄) · lab/v5/ = 시안 v5.1
 cp loveflow/nori/lab/index.html ../nori/lab/index.html
