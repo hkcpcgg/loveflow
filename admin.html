@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ admin.html · v26 · 261117 · [551 · 79차 · 대표 OK 261116 20:29] 「자서전 진행」 탭 맨 위 「오늘의 입구」 — 입구를 골라 정하기 · 풀기(게시판 서버 v5-29 adminTodayDoor). 대표 = 받는 곳을 골라 · 기관 담당자 = 자기 소속만. 그날만 참여자 첫 화면에 「📌 오늘의 주제」(자서전 서버 v54 · ask v101). [무손] 그 밖 v25 전부. -->
+<!-- ★ 현재 버전 ▶ admin.html · v27 · 261125 · [코딩 차례 4 · 짝꿍 게시판 Code.gs v5-30] 입금 확인 · 주문 확인 창에 「증빙(꼭 · 한 줄)」 · 「사유(있을 때만)」 칸 — 서버가 APPLY T~W 에 확인자 · 때와 함께 남김 · 발급된 줄에 증빙 · 확인자 보임 · 대량 발급에 「이용 기간(개월)」 칸. [무손] 그 밖 v26 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ admin.html · v26 · 261117 · [551 · 79차 · 대표 OK 261116 20:29] 「자서전 진행」 탭 맨 위 「오늘의 입구」 — 입구를 골라 정하기 · 풀기(게시판 서버 v5-29 adminTodayDoor). 대표 = 받는 곳을 골라 · 기관 담당자 = 자기 소속만. 그날만 참여자 첫 화면에 「📌 오늘의 주제」(자서전 서버 v54 · ask v101). [무손] 그 밖 v25 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ admin.html · v25 · 261116 · [우리이야기-소통-021 · 022 · 대표 261116 17:49 「저쪽 방에 필요한 거 모두 승인」] 「⌂ 본부로」 · 본부 로그인 · 본부로 돌아가기 → /hq/?hq=1. [무손] 그 밖 v24 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ admin.html · v24 · 261116 · [550 · 79차 · 대표 OK 261116 09:39] 새 탭 「자서전 진행」 — 사람 · 편마다 이야기별 쓴 수 · 빈 이야기 · 안내자 실명(번호) · 글은 보이지 않음(수만) · 대표 = 전체 검색 · 기관 담당자 = 자기 소속만. 짝꿍 — 게시판 Code.gs v5-28(adminMemoirProgress). [무손] 그 밖 v23 전부. -->
 <!-- (이전) admin.html · v23 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
@@ -602,6 +603,12 @@ html.emb.m-pay .bar{display:flex!important;padding:8px 18px}
         </div>
 
         <div class="row">
+          <label>이용 기간 (개월)</label>
+          <input id="bPeriod" class="num" type="number" inputmode="numeric" min="1" max="60" step="1" placeholder="비우면 12">
+          <div class="hint">「발급 허가」에 근거로 남습니다. 비우시면 12개월(지금까지와 같음).</div>
+        </div>
+
+        <div class="row">
           <label>몇 명에게</label>
           <input id="bQty" type="number" inputmode="numeric" value="1" min="1" step="1">
           <div class="hint" id="bQtyHint">한 장에 5초쯤 걸립니다. 뽑는 동안 이 창을 닫지 마십시오.</div>
@@ -1097,7 +1104,8 @@ function doBulk(over, why){   /* ★v16 over · why = 증액 승인 */
   jsonp({ action:'adminBulk', key:KEY, org:org, orgNo:orgNo, item:item, qty:qty,
           channel:ch, batch:batch,                        /* ★v10 */
           qset:(q ? q.v : ''), pieces:(mem ? pieces : ''),     /* ★v13 */
-          req:BULK_REQ, over:(over || ''), why:(why || '') },  /* ★v16 */
+          req:BULK_REQ, over:(over || ''), why:(why || ''),  /* ★v16 */
+          period:(document.getElementById('bPeriod') ? document.getElementById('bPeriod').value : '') },   /* ★v27 이용 기간 */
     function(res){
       btn.disabled = false;
       btn.textContent = '사랑흐름 여권 발급';
@@ -1459,6 +1467,7 @@ function render(){
     if(r.paid){
       h += '<span class="dim2">' + esc(r.state || '') + '</span>';
       h += '<span class="pp">' + esc(r.pp || '-') + '</span>';
+      if(r.proof){ h += '<span class="dim2" style="display:block">증빙 ' + esc(r.proof) + (r.checker ? ' · 확인 ' + esc(r.checker) : '') + (r.checkWhy ? ' · ' + esc(r.checkWhy) : '') + '</span>'; }   /* ★v27 */
     }else{
       if(mk){
         h += '<div class="r2">';
@@ -1534,6 +1543,10 @@ function askPaid(no){
   b +=   '<div class="r"><span class="k">받은 금액</span><span class="v big">' + won(amount) + '원</span></div>';
   b +=   '<div class="r"><span class="k">드릴 여행</span><span class="v">' + esc(name) + '</span></div>';
   b += '</div>';
+  b += '<div class="dl" style="margin-top:10px">';
+  b +=   '<div class="r" style="display:block"><span class="k">증빙 (꼭 · 한 줄)</span><input id="pProof" maxlength="100" style="width:100%;min-height:44px;border:1.5px solid #D9DEE5;border-radius:8px;padding:0 10px;font:inherit;margin-top:4px" placeholder="예: 농협 문자 11.25 14:02 홍길동 79,000"></div>';
+  b +=   '<div class="r" style="display:block"><span class="k">사유 (있을 때만)</span><input id="pWhy" maxlength="100" style="width:100%;min-height:44px;border:1.5px solid #D9DEE5;border-radius:8px;padding:0 10px;font:inherit;margin-top:4px" placeholder="예: 입금자명이 다름 · 손님 전화로 확인"></div>';
+  b += '</div>';
   b += '<div class="mm">확인을 누르면 <b>사랑흐름 여권</b>이 발급됩니다.<br>문자는 보내지 않습니다. 손님이 접수번호로 찾아갑니다.</div>';
 
   document.getElementById('mTitle').textContent = '입금을 확인하셨습니까?';
@@ -1558,6 +1571,10 @@ function askMarket(no, r){
   b +=   '<div class="r"><span class="k">성명</span><span class="v">' + esc(r.name || '-') + '</span></div>';
   b +=   '<div class="r"><span class="k">연락처 뒤 4자리</span><span class="v">' + esc(r.phone4 || '-') + '</span></div>';
   b +=   '<div class="r"><span class="k">신청시각</span><span class="v">' + esc(r.when || '-') + '</span></div>';
+  b += '</div>';
+  b += '<div class="dl" style="margin-top:10px">';
+  b +=   '<div class="r" style="display:block"><span class="k">증빙 (꼭 · 한 줄)</span><input id="pProof" maxlength="100" style="width:100%;min-height:44px;border:1.5px solid #D9DEE5;border-radius:8px;padding:0 10px;font:inherit;margin-top:4px" placeholder="예: 네이버 주문 확인 11.25 결제 완료"></div>';
+  b +=   '<div class="r" style="display:block"><span class="k">사유 (있을 때만)</span><input id="pWhy" maxlength="100" style="width:100%;min-height:44px;border:1.5px solid #D9DEE5;border-radius:8px;padding:0 10px;font:inherit;margin-top:4px" placeholder="예: 입금자명이 다름 · 손님 전화로 확인"></div>';
   b += '</div>';
   b += '<div class="mm">확인을 누르면 <b>사랑흐름 여권</b>이 발급됩니다.<br>보낼 글을 복사해 카카오톡 · 문자로 보내 주세요.</div>';
   document.getElementById('mTitle').textContent = '주문을 확인하셨습니까?';
@@ -1599,11 +1616,14 @@ function endModal(ok, title, html){
 
 function doPaid(){
   if(!PENDING) return;
+  var pfEl = document.getElementById('pProof'), pwEl = document.getElementById('pWhy');
+  var proof = pfEl ? pfEl.value.trim() : '', pwhy = pwEl ? pwEl.value.trim() : '';
+  if(pfEl && proof.length < 2){ pfEl.style.borderColor = '#B42318'; pfEl.focus(); return; }   /* ★v27 증빙 한 줄 */
   var ok = document.getElementById('mOk');
   ok.disabled = true; ok.textContent = '발급 중…';
   document.getElementById('mNo').disabled = true;
 
-  jsonp({ action:'adminPaid', key:KEY, orderNo:PENDING.no, amount:PENDING.amount },
+  jsonp({ action:'adminPaid', key:KEY, orderNo:PENDING.no, amount:PENDING.amount, proof:proof, why:pwhy },
     function(res){
       if(res && res.status === 'ok' && res.gift){   /* ★v22 선물 — 사랑흐름 여권이 아니라 선물함이 확정됨 */
         endModal(ok, '🎁 선물을 확정했습니다',
