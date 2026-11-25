@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ journey/result.html · v1-25 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+<!-- ★ 현재 버전 ▶ journey/result.html · v1-26 · 261125 · [통합 표준 v0.2 F 말투 · 대표 지시 261125 18:59 「다음 작업 진도 나가세요」] 손님 안내 글만 「~요」 · 전달 · 여권 발급 · 저장 · 불러오는 중 안내 「~요」. 여행자 유형 · 결과 글은 그대로. [무손] 그 밖 v1-25 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ journey/result.html · v1-25 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
    (이전) journey/result.html · v1-24 · 261124 · [통합 표준 v0.2 단추 말 · 대표 261124 21:04 「글은 그냥 고치시고」] 단추 「휴대폰 기본 앱에서 열기」 (카톡 메뉴 이름 안내는 그대로). 모양 · 동작은 그대로.
    (이전) journey/result.html · v1-23 · 261119 · [829 · 97차 모인 것 8] 신뢰를 깎는 말 걷음 — ①마음 흐름 막대 옆 숫자(0% 포함) 걷음 · 막대는 그대로(0 이어도 빈 막대로 보이지 않게 가장 짧게 8) ②편지 다리 「그 마음은, 아직 그분은 모르고 있어요」 걷음(돌아가신 분께 사실처럼 읽힘) ③「엄마과(와)」 → 받침 보고 「엄마와의 · 아버지와의 · 남편과의」. [무손] 그 밖 v1-22 전부.
 <!-- (이전) ★ 현재 버전 ▶ journey/result.html · v1-22 · 261119 · [견본 운전 · 박성호] 관계가 어머니가 아니면 결과가 견본 글(「엄마 · 우산 · 자랑스러웠어요」)로 남던 고장 — 서버가 관계를 순번(1 = 아버지)으로 돌려주어 그리다 멈춤 → 순번을 이름으로 바꿈 · 견본을 먼저 그리지 않고 「여행 기록을 불러오는 중입니다」 · 그리다 막히면 안내. [무손] 그 밖 v1-21 전부. -->
@@ -448,7 +449,7 @@ function confirmJourney(){
   if (box) {
     box.classList.add('done');
     box.innerHTML = '<div class="sb-done">🌸 여행 도장이 찍혔어요'
-                  + '<small>오늘의 기록이 잘 전달된 것으로 남겨두었습니다</small></div>';
+                  + '<small>오늘의 기록이 잘 전달된 것으로 남겨두었어요</small></div>';
   }
 }
 
@@ -524,7 +525,7 @@ function render(D){
      260707 확정 세계관 문구는 위에 그대로 둡니다("아직 함께 걸어보지 못한 분들이…").
      여기서 파는 말투를 쓰면 세계관이 깨집니다. 사실만 담담히. */
   h+='<button class="go" onclick="goUniverse()">+ 다른 분과 여행하기</button>'
-    +'<div class="go-note">한 분과의 여행마다, 새로운 사랑흐름 여권이 발급됩니다</div>'
+    +'<div class="go-note">한 분과의 여행마다, 새로운 사랑흐름 여권이 발급돼요</div>'
     +'</div>';
   /* 13 더보기 */
   /* [v3] 삭제: "또 여행"(뜻을 모르겠는 말·다른 분과 여행하기와 겹침)
@@ -592,7 +593,7 @@ var LINK={home:'/',letter:''};
 function saveResult(){
   tone(196.00, 0.5, 0.08, 'triangle');
   if (window.lfIsKakao && window.lfIsKakao()) { var _b=document.getElementById('lfKakaoBar'); if(_b){ _b.style.display='block'; try{_b.scrollIntoView({behavior:'smooth'});}catch(e){} } alert('카카오톡 안에서는 저장이 제한돼요.\n\n우측 위 ⋯ → 다른 브라우저로 열기 후 저장해 주세요.'); return; }
-  var ok = confirm('이 여행일지를 저장할까요?\n\n인쇄 화면이 열립니다. 거기서 PDF로 저장하시면 됩니다.');
+  var ok = confirm('이 여행일지를 저장할까요?\n\n인쇄 화면이 열려요. 거기서 PDF로 저장하시면 돼요.');
   if (!ok) { return; }
   window.print();
 }
@@ -791,14 +792,14 @@ function showNotFound(){
   var box = document.createElement('div');
   box.style.cssText = 'margin:16px 20px;padding:16px;background:#FFF7FA;border:1px solid #F3B8CC;border-radius:14px;font-size:13.5px;line-height:1.75;color:#2A3542';
   box.innerHTML = '아직 여행 기록을 불러오지 못했어요.<br>'
-    + '<span style="color:#8A8580">잠시 뒤 새로고침하시거나, 여행을 다시 마치고 오시면 펼쳐집니다.</span>';
+    + '<span style="color:#8A8580">잠시 뒤 새로고침하시거나, 여행을 다시 마치고 오시면 펼쳐져요.</span>';
   host.insertBefore(box, host.firstChild);
 }
 
 /* [v1-22 · 261119] 견본(D)을 먼저 그리던 것을 뺌 — 서버가 늦거나 막히면
    다른 사람의 견본 글(「엄마 · 우산 · 자랑스러웠어요」)이 손님 기록처럼 보였음.
    기다리는 동안은 지금 하는 일을 글로 보입니다. */
-document.getElementById('stage').innerHTML = '<div class="opening"><div class="pin">🌸</div><h1>여행 기록을 불러오는 중입니다</h1></div>';
+document.getElementById('stage').innerHTML = '<div class="opening"><div class="pin">🌸</div><h1>여행 기록을 불러오는 중이에요</h1></div>';
 loadResult();     /* 그다음 실제 여행 기록으로 덮어씁니다 */
 setTimeout(function(){ try{arriveChord();}catch(e){} }, 350);
 </script>
