@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>공 굴리기 · 그때 그 놀이</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<style>
+/* 그때그놀이-081 · 공 굴리기 운동회 큰 공 (261125 시안) · t071 틀 그대로 · 디자인 A · 시작 전 「무엇을 걸까요?」(사장님과 / 친구와) · 벌칙 · 결과 카드
+   ★첫째 원칙: 테두리 · 음영 없음 · 빨간 방사형 · 빨간 원 금지 · 힘은 옆 기둥 · 말판은 면 색만 */
+:root{--ink:#1C1D21;--blu:#2F64E0;--red:#E04848;--yel:#FFC21A;--sub:#7A6E55;--chip:#F2EBDB;--btn:#F6F1E6;--skin:#F6C99B;
+  --body:"Noto Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;--sign:"Black Han Sans";--brand:"Song Myung"}
+*{box-sizing:border-box}
+html,body{margin:0;background:#FFF8E6;color:var(--ink);font-family:var(--body);-webkit-tap-highlight-color:transparent;overflow:hidden}
+.app{max-width:480px;margin:0 auto;height:calc(100vh - 62px - env(safe-area-inset-bottom,0px));height:calc(100dvh - 62px - env(safe-area-inset-bottom,0px));display:flex;flex-direction:column}
+.top{flex:none;height:48px;display:flex;align-items:center;justify-content:center;position:relative;background:#FFC93C;color:var(--ink);font-family:var(--brand),serif;font-size:20px;padding-top:env(safe-area-inset-top,0px);box-sizing:content-box;margin:0 -38px}
+.dk{flex:1;min-height:0;display:flex;flex-direction:column;gap:6px;padding:6px 6px 8px}
+#vs{display:none!important}
+.strip{flex:none;display:flex;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 -30px}
+.strip span{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;background:var(--chip);color:var(--sub);white-space:nowrap}
+.say{flex:none;text-align:center;font-size:13.5px;line-height:1.45;font-weight:700;color:var(--sub);word-break:keep-all;min-height:20px}
+.say b{color:var(--blu)}.say em{font-style:normal;color:var(--red)}
+.board{flex:1;min-height:180px;border-radius:18px;background:#fff;position:relative;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
+.act{flex:none;display:flex;flex-direction:column;gap:6px}
+.tap{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tap button,.big{font:inherit;border:0;border-radius:16px;min-height:62px;font-weight:900;font-size:18px;color:#fff;cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none}
+.tap .a{background:var(--blu)}.tap .b{background:var(--red)}.tap button:disabled,.big:disabled{background:var(--chip);color:var(--sub)}
+.big{width:100%;background:var(--blu);font-size:16px;min-height:52px}
+.sbrow{display:flex;gap:8px}.sbrow .big{flex:1}.redo{flex:none;font:inherit;border:0;border-radius:16px;min-height:52px;padding:0 14px;font-weight:900;font-size:14px;background:var(--btn);color:var(--ink);cursor:pointer}
+button:active{filter:brightness(.93)}
+.pow{position:absolute;left:50%;top:30%;font-family:var(--sign),sans-serif;opacity:0;pointer-events:none;white-space:nowrap;z-index:5}.pow.go{animation:pw .75s ease forwards}
+@keyframes pw{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}25%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}65%{opacity:1;transform:translate(-50%,-50%) scale(1)}100%{opacity:0;transform:translate(-50%,-62%) scale(1)}}
+.board.shake{animation:sh .36s ease}@keyframes sh{0%,100%{transform:none}20%{transform:translate(-8px,4px)}40%{transform:translate(7px,-4px)}60%{transform:translate(-5px,2px)}80%{transform:translate(3px,-1px)}}
+/* 공 굴리기 — 흙 운동장 · 흰 줄 · 청군 파란 공 · 백군 흰 공 · 뒤에서 미는 아이 · 빨간 원 · 빛살 · 테두리 · 음영 없음 */
+.board.ball{background:#E4CFA6;overflow:hidden}
+.blclk{position:absolute;left:50%;top:4px;transform:translateX(-50%);z-index:3;padding:2px 12px;border-radius:999px;background:rgba(255,255,255,.75);font-weight:900;font-size:14px;font-variant-numeric:tabular-nums;color:var(--ink)}
+.blv{position:absolute;width:3px;background:rgba(255,255,255,.9);z-index:1}
+.blfin{position:absolute;height:6px;z-index:1;background:repeating-linear-gradient(90deg,#fff 0 10px,#3B3229 10px 20px)}
+.blt{position:absolute;height:2px;background:rgba(255,255,255,.45);z-index:1}.blt.st{height:3px;background:rgba(255,255,255,.9)}
+.blm{position:absolute;z-index:1;font-size:11px;font-weight:900;color:#fff;transform:translateX(-50%);white-space:nowrap}.blm.s{transform:none;font-size:10.5px;color:rgba(255,255,255,.95)}
+.bllab{position:absolute;z-index:2;transform:translateX(-50%);font-size:11.5px;font-weight:900;padding:2px 8px;border-radius:999px;color:#fff;white-space:nowrap}
+.bllab.a{background:var(--blu)}.bllab.b{background:#8C7B5C}
+.blb,.blk{position:absolute;left:0;top:0;will-change:transform}.blb{z-index:4}.blk{z-index:3}
+.blb svg,.blk svg{width:100%;height:100%;display:block;overflow:visible}
+.blb.out svg{animation:blout .9s ease}@keyframes blout{0%,100%{opacity:1}25%,75%{opacity:.35}50%{opacity:.8}}
+.blk.push svg{animation:blpush .18s ease-out}@keyframes blpush{0%,100%{transform:none}45%{transform:translateY(-12%)}}
+.blb.won svg{animation:blhop .5s ease 2}@keyframes blhop{0%,100%{transform:none}50%{transform:translateY(-8px)}}
+.feet{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.feet.four{grid-template-columns:1fr 1fr 1fr 1fr;gap:6px}
+.feet button{font:inherit;border:0;border-radius:16px;min-height:64px;font-weight:900;font-size:17px;color:#fff;background:var(--blu);cursor:pointer;touch-action:none;user-select:none;-webkit-user-select:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;line-height:1.1}
+.feet button small{font-size:11px;font-weight:800;opacity:.9}
+.feet.four button{font-size:15px;min-height:64px}
+.feet button.b{background:#8C7B5C}
+.feet button.hit{filter:brightness(.85)}
+.feet button:disabled{background:var(--chip);color:var(--sub)}
+.hsheet{position:fixed;inset:0;z-index:72;background:rgba(28,29,33,.3);display:none;align-items:flex-end;justify-content:center}.hsheet.on{display:flex}
+.hsheet .sheet{width:100%;max-width:480px;background:#fff;border-radius:24px 24px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:10px}
+.hsheet h3{margin:0;text-align:center;font-size:17px;font-weight:900}.rl{background:#FFF8E6;border-radius:14px;padding:10px 12px 10px 4px;font-size:14px;line-height:1.55}.rl ol{margin:0;padding-left:24px}.rl b{color:#C23434}
+.ok{font:inherit;min-height:50px;border:0;border-radius:14px;background:var(--btn);color:var(--ink);font-weight:800;font-size:16px;cursor:pointer}
+.done{display:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top"><button type="button" id="helpBtn" hidden>?</button><span class="ttl" id="ttl">공 굴리기</span></div>
+  <div class="dk">
+    <div class="vs nside-hide" id="vs"></div>
+    <div class="strip"><span id="stBet"></span><span id="stRule"></span></div>
+    <div class="say" id="say"></div>
+    <div class="board" id="board"></div>
+    <div class="act" id="act"></div>
+  </div>
+</div>
+<div class="hsheet" id="help" role="dialog"><div class="sheet"><h3 id="helpT">놀이 방법</h3><div class="rl" id="helpB"></div><button type="button" class="ok" data-x="1">알겠어요</button></div></div>
+<div class="done" id="done"><button type="button" id="again">다시 하기</button></div>
+<script>window.NORI_A=1;window.NORI_BOARD='.board';window.NORI_PEN_SELF=1;</script>
+<script>
+__SND__
+</script>
+<script>
+__PRE__
+</script>
+<script>
+__PEN__
+</script>
+<script>
+__NAV__
+</script>
+<script>
+__EMIT__
+</script>
+<script>
+var $=function(id){ return document.getElementById(id); };
+function esc(s){ return String(s).replace(/[&<>"]/g,function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function shopName(){ try{ var v=JSON.parse(localStorage.getItem('nori-shop')||'null'); if(v&&v.s) return v.s; }catch(e){} return '다복'; }
+var S={k:'ball',mode:'cpu1',bet:NA.bet(),gen:0,sc:[0,0],over:true,u:'m'};
+function two(){ return S.mode==='two'; }
+function nm(p){ return p===0?'나':(two()?'친구':shopName()+' 사장님'); }
+function snd(k,v){ try{ SND[k](v); }catch(e){} }
+var GN={ball:'공 굴리기'}, MID={ball:'30m 한 번 · 먼저 결승선에 닿는 쪽이 이김'}, CODE={ball:'gl'};
+var RULE={ball:['「탕!」 소리가 나면 아래 <b>◀</b> · <b>▶</b> 단추로 큰 공을 밀어요. 가운데서 밀면 한 번에 1m 앞으로.','운동장이 울퉁불퉁해 공이 저절로 옆으로 쏠려요. <b>◀ 는 왼쪽 · ▶ 는 오른쪽</b>으로 밀며 나가요.','공이 쏠린 <b>반대쪽</b>을 눌러 가운데로 붙잡아 두세요. 공이 한쪽으로 쏠릴수록 덜 나가고, 줄 밖으로 나가면 잠깐 멈춰요.','「탕!」 전에 누르면 <b>부정 출발</b> · 처음부터 다시 서요.','나는 <b>청군</b>(파란 공) · 상대는 <b>백군</b>(흰 공). <b>먼저 결승선</b>에 닿는 쪽이 이겨요.','친구와 할 때는 폰을 가운데 두고, 나는 왼쪽 두 단추 · 친구는 오른쪽 두 단추를 함께 눌러요.']};
+function rules(k){ return '<ol>'+RULE[k].map(function(x){ return '<li>'+x+'</li>'; }).join('')+'</ol>'; }
+function vs(on){ $('vs').innerHTML='<div class="p a"><span>나</span><em>'+S.sc[0]+' '+S.u+'</em></div><div class="mid">'+MID[S.k]+'</div><div class="p b"><span>'+esc(nm(1))+'</span><em>'+S.sc[1]+' '+S.u+'</em></div>';
+  $('stBet').textContent='걸린 것 · '+NA.betName(S.bet); $('stRule').textContent=MID[S.k]; if(window.noriSide) noriSide(on==null?null:on, on===0?'내 차례':(on===1?nm(1)+' 차례':'')); }
+function fx(word,size){ var b=$('board'); b.classList.remove('shake'); void b.offsetWidth; b.classList.add('shake'); var p=b.querySelector('.pow'); if(!p){ p=document.createElement('div'); p.className='pow'; b.appendChild(p); } p.textContent=word; p.style.fontSize=(size||(word.length>3?38:60))+'px'; p.classList.remove('go'); void p.offsetWidth; p.classList.add('go'); }
+function col(s,o){ if(window.noriCol) noriCol(s,o); }
+/* 끝: 기록 → 벌칙 → 결과 카드 (손놀이와 같은 흐름) */
+function finish(meWin,a,b,det){ S.over=true; S.sc=[a,b]; vs(null); col('l',{pw:0,on:null,good:null}); col('r',{pw:0,on:null,good:null}); NA.unpoint();
+  noriResult({game:CODE[S.k],gname:GN[S.k],opp:two()?'친구':nm(1),lv:two()?'':'cpu1',win:!two()&&meWin,detail:det||(a+' 대 '+b),sc:[a,b],u:S.u,out:meWin?'win':'lose'});
+  if(meWin||two()) snd('win'); else snd('lose');
+  var g=S.gen, lw=meWin?0:1;
+  if(S.bet==='none'||!PEN.has(S.bet)){ setTimeout(function(){ if(g===S.gen) $('done').classList.add('on'); },900); return; }
+  var o2= two() ? {me:true,victim:lw===0?'친구':'나',side:lw===0?'l':'r'} : (lw===0?{me:true,victim:nm(1),side:'l'}:{me:false,victim:'나',side:'r'});
+  $('say').innerHTML= two() ? (lw===0?'<b>내가 이겼다!</b> 친구에게 ':'<em>친구 이겼다!</em> 나에게 ')+PEN.name(S.bet)+'!' : (lw===0?'<b>이겼다!</b> 이제 '+esc(nm(1))+'께 '+PEN.name(S.bet)+'!':'<em>졌다…</em> '+esc(nm(1))+'한테 '+PEN.name(S.bet)+' 😣');
+  setTimeout(function(){ if(g!==S.gen) return; $('act').innerHTML=''; PEN.run($('board'),S.bet,o2,function(){ if(g===S.gen) $('done').classList.add('on'); }); },1300); }
+
+
+/* ───────── 공 굴리기 · 운동회 큰 공 (261125 시안 · 학교 놀이 뒤로 뺀 것 둘째) ─────────
+   청군 · 백군이 제 줄에서 큰 공을 밀어 30m 결승까지. 「탕!」 뒤 ◀ · ▶ 를 누를 때마다 공을 한 번 밀어 1m 앞으로.
+   울퉁불퉁한 운동장이라 공이 저절로 옆으로 쏠림 — ◀ 는 왼쪽으로 · ▶ 는 오른쪽으로 밀며 앞으로. 쏠린 반대쪽을 눌러 줄 안에 붙잡아 둠.
+   공이 가운데서 벗어날수록 한 번에 덜 나감(줄에 닿으면 0.55m). 공이 줄 밖으로 나가면 「줄 밖!」 0.9초 멈춤 · 가운데로 다시. 「탕!」 전에 누름 = 부정 출발(처음부터 다시 · 벌 없음).
+   먼저 결승에 닿는 쪽이 이김. 사장님: BOSS.ball.r 1초에 미는 횟수 · BOSS.ball.ok 맞는 쪽을 누르는 비율(판마다 그 안에서 하나).
+   친구와: 폰 하나에 단추 넷(왼쪽 둘 = 나 · 오른쪽 둘 = 친구) · 둘이 함께 누름. */
+var BL={NEED:30, SHIFT:.12, KICK:.6, DAMP:.35, STUN:900}, Bl={}, blraf=0;
+function blGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight, L=Math.max(36,w*.1), R=w-Math.max(36,w*.1), lw=(R-L)/2, r=Math.max(18,Math.min(30,lw*.26)), fin=58;
+  return {w:w,h:h,L:L,R:R,lw:lw,r:r,fin:fin,y0:h-8-r*2.55,y1:fin+r*.95}; }
+function blBall(c,seam,id){ return '<svg viewBox="-50 -50 100 100" aria-hidden="true"><defs><clipPath id="'+id+'c"><circle r="47"/></clipPath></defs><circle r="47" fill="'+c+'"/><g clip-path="url(#'+id+'c)"><g id="'+id+'s" fill="'+seam+'"><rect x="-50" y="-62" width="100" height="10"/><rect x="-50" y="-6" width="100" height="10"/><rect x="-50" y="50" width="100" height="10"/></g></g></svg>'; }
+function blKid(band){ return '<svg viewBox="-20 -4 40 46" aria-hidden="true"><path d="M-9 10L-13 -1M9 10L13 -1" stroke="#F0C79A" stroke-width="5" stroke-linecap="round"/><rect x="-10" y="8" width="20" height="18" rx="6" fill="#FBF8F1"/><circle cx="0" cy="13" r="7.5" fill="#3B3229"/><path d="M-7.5 11h15" stroke="'+band+'" stroke-width="3.5"/><rect x="-9" y="25" width="18" height="8" rx="3" fill="#2A3A66"/><path d="M-5 33v8M5 33v8" stroke="#F0C79A" stroke-width="5" stroke-linecap="round"/></svg>'; }
+function blStart(){ Bl={gen:S.gen,pos:[0,0],shown:[0,0],x:[0,0],vx:[0,0],gv:[0,0],gt:[0,0],roll:[0,0],stun:[0,0],ph:'set',t0:0,fs:0,tip:0,last:0,end:false,
+    cpuRate:BOSS.ball?BOSS.ball.r[0]+Math.random()*(BOSS.ball.r[1]-BOSS.ball.r[0]):4.8, cpuOk:BOSS.ball?BOSS.ball.ok[0]+Math.random()*(BOSS.ball.ok[1]-BOSS.ball.ok[0]):.9, cpuNext:0};
+  var adj=1+((BOSS.cur||1.5)-1.5)*.06; Bl.cpuRate*=adj; S.u='m'; S.sc=[0,0];
+  var bd=$('board'); bd.classList.add('ball');
+  bd.innerHTML='<div class="blclk" id="blclk">0.00초</div><div id="bltr"></div>'
+    +'<div class="blk" id="blKA">'+blKid('#2F64E0')+'</div><div class="blk" id="blKB">'+blKid('#FFFFFF')+'</div>'
+    +'<div class="blb" id="blA">'+blBall('#2F64E0','rgba(255,255,255,.55)','blA')+'</div><div class="blb" id="blB">'+blBall('#FBF8F1','#D9C9A8','blB')+'</div>';
+  var f=two();
+  $('act').innerHTML= f ? '<div class="feet four"><button type="button" data-p="0" data-s="-1">◀<small>나</small></button><button type="button" data-p="0" data-s="1">▶<small>나</small></button><button type="button" class="b" data-p="1" data-s="-1">◀<small>친구</small></button><button type="button" class="b" data-p="1" data-s="1">▶<small>친구</small></button></div>'
+    : '<div class="feet"><button type="button" data-p="0" data-s="-1">◀ 왼쪽</button><button type="button" data-p="0" data-s="1">오른쪽 ▶</button></div>';
+  [].forEach.call($('act').querySelectorAll('.feet button'),function(btn){ btn.addEventListener('pointerdown',function(e){ e.preventDefault(); blTap(+btn.getAttribute('data-p'),+btn.getAttribute('data-s'),btn); }); });
+  blLay(); vs(null); blSet(); }
+function blLay(){ var G=blGeo(), tr=$('bltr'); if(!tr) return; var m=(G.L+G.R)/2, top=G.fin, bot=G.h-6, h='';
+  h+='<i class="blv" style="left:'+(G.L-1.5)+'px;top:'+top+'px;height:'+(bot-top)+'px"></i><i class="blv" style="left:'+(m-1.5)+'px;top:'+top+'px;height:'+(bot-top)+'px"></i><i class="blv" style="left:'+(G.R-1.5)+'px;top:'+top+'px;height:'+(bot-top)+'px"></i>';
+  h+='<i class="blfin" style="left:'+G.L+'px;width:'+(G.R-G.L)+'px;top:'+(top-3)+'px"></i>';
+  for(var k=10;k<BL.NEED;k+=10){ var y=G.y0-(G.y0-G.y1)*k/BL.NEED; h+='<i class="blt" style="left:'+G.L+'px;width:'+(G.R-G.L)+'px;top:'+y+'px"></i><b class="blm s" style="left:'+(G.R+4)+'px;top:'+(y-7)+'px">'+k+'m</b>'; }
+  h+='<i class="blt st" style="left:'+G.L+'px;width:'+(G.R-G.L)+'px;top:'+(G.y0+G.r+2)+'px"></i>';
+  h+='<b class="bllab a" style="left:'+(G.L+G.lw/2)+'px;top:'+(top-27)+'px">청군 · 나</b><b class="bllab b" style="left:'+(m+G.lw/2)+'px;top:'+(top-27)+'px">백군 · '+(two()?'친구':'사장님')+'</b>';
+  tr.innerHTML=h;
+  ['blA','blB'].forEach(function(k){ var e=$(k); e.style.width=e.style.height=(G.r*2)+'px'; });
+  ['blKA','blKB'].forEach(function(k){ var e=$(k); e.style.width=(G.r*1.3)+'px'; e.style.height=(G.r*1.3*46/40)+'px'; });
+  blDraw(); }
+function blDraw(){ var G=blGeo(); if(!$('blA')) return; var half=G.lw/2-G.r;
+  for(var p=0;p<2;p++){ var cx=G.L+G.lw*(p+.5)+Math.max(-1.25,Math.min(1.25,Bl.x[p]))*half, cy=G.y0-(G.y0-G.y1)*Math.min(1,Bl.shown[p]/BL.NEED);
+    var b=$(p===0?'blA':'blB'), k=$(p===0?'blKA':'blKB'), kw=G.r*1.3;
+    b.style.transform='translate('+(cx-G.r).toFixed(1)+'px,'+(cy-G.r).toFixed(1)+'px)';
+    k.style.transform='translate('+(cx-kw/2-Math.max(-1,Math.min(1,Bl.x[p]))*G.r*.25).toFixed(1)+'px,'+(cy+G.r*.86).toFixed(1)+'px)';
+    var s=$(p===0?'blAs':'blBs'); if(s) s.setAttribute('transform','translate(0 '+((Bl.roll[p]%56)).toFixed(1)+')'); } }
+function blSet(){ var g=S.gen, id=++Bl.fs; Bl.ph='set'; Bl.pos=[0,0]; Bl.shown=[0,0]; Bl.x=[0,0]; Bl.vx=[0,0]; Bl.gv=[0,0]; Bl.gt=[0,0]; Bl.stun=[0,0]; S.sc=[0,0]; vs(null); $('blclk').textContent='0.00초'; blDraw();
+  ['blA','blB'].forEach(function(k){ $(k).classList.remove('out','won'); }); col('l',{pw:0,on:true,good:null}); col('r',{pw:0,on:true,good:null}); if(window.noriSide) noriSide(null,'');
+  [].forEach.call($('act').querySelectorAll('button'),function(b){ b.disabled=false; });
+  $('say').innerHTML='<b>제자리에…</b>'; snd('stone',.4);
+  setTimeout(function(){ if(g!==S.gen||id!==Bl.fs) return; $('say').innerHTML='<b>준비…</b> · 「탕!」 소리가 나면 밀어요';
+    setTimeout(function(){ if(g!==S.gen||id!==Bl.fs||Bl.ph!=='set') return; blGo(); },1100+Math.random()*1300); },900); }
+function blGust(p,now){ Bl.gv[p]=(Math.random()<.5?-1:1)*(1.5+Math.random()*.9)*(1+.35*Math.min(1,Bl.pos[p]/BL.NEED)); Bl.gt[p]=now+1000+Math.random()*1000; }
+function blGo(){ var g=S.gen; Bl.ph='go'; Bl.t0=performance.now(); Bl.last=Bl.t0; Bl.cpuNext=Bl.t0+(220+Math.random()*140); blGust(0,Bl.t0); blGust(1,Bl.t0);
+  snd('slap',.95); fx('탕!',64); $('say').innerHTML='<b>밀어요!</b> · 공이 쏠린 <b>반대쪽</b>을 톡톡';
+  if(Bl.tip<1&&!two()){ Bl.tip++; NA.point($('act').querySelector('.feet button'),'쏠린 반대쪽을 톡',.5,.4); }
+  cancelAnimationFrame(blraf); (function lp(){ if(g!==S.gen||Bl.ph!=='go') return; var now=performance.now(), dt=Math.min(.05,(now-Bl.last)/1000); Bl.last=now;
+    if(!two()) while(now>=Bl.cpuNext&&Bl.ph==='go'){ blCpu(now); Bl.cpuNext+=1000/Bl.cpuRate*(.85+Math.random()*.3); }
+    for(var p=0;p<2&&Bl.ph==='go';p++){ if(now<Bl.stun[p]) continue;
+      if(now>=Bl.gt[p]) blGust(p,now);
+      var spd=Math.max(0,Bl.pos[p]-Bl.shown[p]);
+      Bl.vx[p]+=(Bl.gv[p]-Bl.vx[p])*Math.min(1,dt*2.5); Bl.x[p]+=Bl.vx[p]*dt*(.45+Math.min(1,spd*1.2)*.75);
+      if(Math.abs(Bl.x[p])>1) blOut(p,now); }
+    for(var q=0;q<2;q++){ var d=(Bl.pos[q]-Bl.shown[q])*.3; Bl.shown[q]+=d; Bl.roll[q]+=d*60; }
+    $('blclk').textContent=((now-Bl.t0)/1000).toFixed(2)+'초'; blDraw(); if(Bl.ph==='go') blraf=requestAnimationFrame(lp); })(); }
+function blOut(p,now){ var g=S.gen; Bl.stun[p]=now+BL.STUN; Bl.x[p]=Bl.x[p]>0?1.2:-1.2; Bl.vx[p]=0; var b=$(p===0?'blA':'blB'); b.classList.add('out');
+  if(p===0||two()){ snd('thud',.5); $('say').innerHTML='<em>'+(two()?(p===0?'청군 ':'백군 '):'')+'줄 밖!</em> · 공을 가운데로 다시 · 쏠린 <b>반대쪽</b>을 눌러요'; }
+  setTimeout(function(){ if(g!==S.gen||Bl.ph!=='go') return; Bl.x[p]=0; Bl.vx[p]=0; Bl.gt[p]=0; b.classList.remove('out'); if(p===0||two()) $('say').innerHTML='<b>다시 밀어요!</b> · 쏠린 반대쪽을 톡톡'; },BL.STUN); }
+function blTap(p,s,btn){ if(S.over||Bl.ph==='end') return; if(p===1&&!two()) return; if(btn){ btn.classList.add('hit'); setTimeout(function(){ btn.classList.remove('hit'); },70); }
+  if(Bl.ph==='set'){ Bl.ph='fs'; NA.unpoint(); var g=S.gen; fx('부정 출발!',34); snd('miss',.6); $('say').innerHTML='<em>'+(p===0?(two()?'청군 ':''):'백군 ')+'부정 출발!</em> · 「탕!」을 듣고 다시';
+    setTimeout(function(){ if(g===S.gen) blSet(); },1500); return; }
+  if(Bl.ph!=='go') return; NA.unpoint(); var now=performance.now(); if(now<Bl.stun[p]) return; blPush(p,s,now); }
+function blPush(p,s,now){ if(Bl.ph!=='go') return; Bl.pos[p]+=1-.45*Math.min(1,Math.abs(Bl.x[p])); Bl.x[p]+=s*BL.SHIFT; Bl.vx[p]=Bl.vx[p]*BL.DAMP+s*BL.KICK; if(p===0||two()) snd('thud',.22);
+  var k=$(p===0?'blKA':'blKB'); k.classList.remove('push'); void k.offsetWidth; k.classList.add('push');
+  col(p===0?'l':'r',{pw:Math.min(1,Bl.pos[p]/BL.NEED),on:true}); S.sc=[Math.floor(Math.min(BL.NEED,Bl.pos[0])),Math.floor(Math.min(BL.NEED,Bl.pos[1]))]; vs(null);
+  if(Math.abs(Bl.x[p])>1){ blOut(p,now); return; }
+  if(Bl.pos[p]>=BL.NEED) blEnd(p,now); }
+/* 사장님: 1초에 cpuRate 번 · 공이 갈 자리(지금 + 쏠림)를 보고 반대쪽을 cpuOk 비율로 맞게 누름 · 줄 밖이면 쉼 */
+function blCpu(now){ if(now<Bl.stun[1]) return; var xp=Bl.x[1]+Bl.vx[1]*.25, s=xp>0?-1:1; if(Math.abs(xp)<.08) s=Math.random()<.5?-1:1; if(Math.random()>Bl.cpuOk) s=-s; blPush(1,s,now); }
+function blEnd(w,now){ var g=S.gen; Bl.ph='end'; cancelAnimationFrame(blraf); var t=((now-Bl.t0)/1000), m=[Math.floor(Math.min(BL.NEED,Bl.pos[0])),Math.floor(Math.min(BL.NEED,Bl.pos[1]))];
+  Bl.shown=[Bl.pos[0],Bl.pos[1]]; blDraw(); $('blclk').textContent=t.toFixed(2)+'초'; [].forEach.call($('act').querySelectorAll('button'),function(b){ b.disabled=true; }); NA.unpoint();
+  $(w===0?'blA':'blB').classList.add('won');
+  var meWin=w===0; fx(meWin?(two()?'청군 이겼다!':'1등!'):(two()?'백군 이겼다!':'졌다…'),meWin?54:38);
+  $('say').innerHTML=(w===0?'<b>청군</b>':'<em>백군</em>')+' 먼저 결승! · '+t.toFixed(2)+'초';
+  S.sc=[m[0],m[1]]; vs(null); setTimeout(function(){ if(g===S.gen) finish(meWin,m[0],m[1],(w===0?'나':(two()?'친구':nm(1)))+' 먼저 결승 · '+t.toFixed(2)+'초 · '+m[0]+'m 대 '+m[1]+'m'); },1300); }
+window.addEventListener('resize',function(){ if($('bltr')&&!S.over) blLay(); });
+/* ───────── 고르기 · 시작 ───────── */
+function setGame(k){ S.gen++; try{ PEN.stop(); }catch(e){} NA.unpoint(); S.k=k; S.over=true; S.sc=[0,0]; $('done').classList.remove('on'); $('ttl').textContent=GN[k]; document.title=GN[k]+' · 그때 그 놀이';
+  $('board').innerHTML=''; $('board').classList.remove('ball'); $('act').innerHTML=''; $('say').innerHTML=''; vs(null);
+  NA.pre({who:true, opp:shopName()+' 사장님', onGo:function(bet,who){ S.bet=bet; S.mode=who==='two'?'two':'cpu1'; window.__naTwo=two(); window.__noriBetName=bet==='none'?'':NA.betName(bet); snd('stone',.6); start(); },
+    onCancel:function(){ if(window.noriHome) noriHome(); }}); }
+function start(){ S.gen++; try{ PEN.stop(); }catch(e){} S.over=false; S.sc=[0,0]; $('done').classList.remove('on'); col('l',{pw:0,on:null,good:null}); col('r',{pw:0,on:null,good:null}); blStart(); }
+(function(){
+  $('again').addEventListener('click',function(){ setGame(S.k); });
+  $('helpBtn').addEventListener('click',function(){ $('helpT').textContent=GN[S.k]+' · 놀이 방법'; $('helpB').innerHTML=rules(S.k); $('help').classList.add('on'); });
+  $('help').addEventListener('click',function(e){ if(e.target.id==='help'||e.target.closest('[data-x]')) $('help').classList.remove('on'); });
+  noriNav({here:function(){ return CODE[S.k]; }, onNew:function(){ $('done').classList.remove('on'); setGame(S.k); },
+    onOpen:function(){ if(S.over&&!document.querySelector('.ncard.on')&&!document.querySelector('.pn-sc')) setGame(S.k); }});
+})();
+function solo(k){ if(GN[k]) setGame(k); }
+setGame('ball');
+</script>
+</body>
+</html>

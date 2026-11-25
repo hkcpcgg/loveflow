@@ -74,6 +74,7 @@ T71=guest('그때그놀이-071_운동회달리기_261125.html','')
 T74=guest('그때그놀이-074_박터뜨리기_261125.html','')
 T76=guest('그때그놀이-076_고무줄놀이_261125.html','')
 T80=guest('그때그놀이-080_굴렁쇠_261125.html','')
+T81=guest('그때그놀이-081_공굴리기_261125.html','')
 T15=guest('그때그놀이-015_오목·알까기시험판_261121.html','.shopset{display:none!important}.note{display:none}')
 html='''<!DOCTYPE html>
 <html lang="ko">
@@ -99,12 +100,12 @@ html='''<!DOCTYPE html>
 <script>
 '''+m[m.index('<script>')+8:m.index('</script>')]+'''
 (function(){
-  var T={rd:"'''+T13+'''", om:"'''+T15+'''", pt:"'''+T18+'''", g4:"'''+T22+'''", hd:"'''+T24+'''", pa:"'''+T30+'''", jm:"'''+T52+'''", yn:"'''+T57+'''", bn:"'''+T60+'''", ru:"'''+T71+'''", bk:"'''+T74+'''", gm:"'''+T76+'''", gr:"'''+T80+'''"};
+  var T={rd:"'''+T13+'''", om:"'''+T15+'''", pt:"'''+T18+'''", g4:"'''+T22+'''", hd:"'''+T24+'''", pa:"'''+T30+'''", jm:"'''+T52+'''", yn:"'''+T57+'''", bn:"'''+T60+'''", ru:"'''+T71+'''", bk:"'''+T74+'''", gm:"'''+T76+'''", gr:"'''+T80+'''", gl:"'''+T81+'''"};
   function dec(b){ var s=atob(b), u=new Uint8Array(s.length); for(var i=0;i<s.length;i++){ u[i]=s.charCodeAt(i); } return new TextDecoder().decode(u); }
   var ov=document.getElementById('ov'), fr=document.getElementById('ovF'), cur='';
   function open(k){
-    var key= k==='rd'?'rd':(k==='pt'||k==='bw'?'pt':((k==='tk'||k==='th'||k==='mb'||k==='dt')?'g4':((k==='rp'||k==='hj'||k==='mj'||k==='br')?'hd':((k==='aw'||k==='yt'||k==='sb'||k==='sg')?'pa':((k==='jg'||k==='gg'||k==='mg')?'jm':(k==='yn'?'yn':(k==='bn'?'bn':(k==='ru'?'ru':(k==='bk'?'bk':(k==='gm'?'gm':(k==='gr'?'gr':'om'))))))))))), doc=dec(T[key]);
-    var solo={om:'omok',ak:'alkkagi',pt:'putt',bw:'bow',tk:'ttak',th:'tuho',mb:'marble',dt:'dart',rp:'rps',hj:'holjjak',mj:'mjb',br:'bori',aw:'arm',yt:'yeot',sb:'sab',sg:'sug',jg:'jegi',gg:'gong',mg:'mugung',yn:'yut',bn:'bun',ru:'run',bk:'bak',gm:'gomu',gr:'gul'}[k]; if(solo){ doc=doc.replace('</body>','<script>solo("'+solo+'");<\\/script></body>'); }
+    var key= k==='rd'?'rd':(k==='pt'||k==='bw'?'pt':((k==='tk'||k==='th'||k==='mb'||k==='dt')?'g4':((k==='rp'||k==='hj'||k==='mj'||k==='br')?'hd':((k==='aw'||k==='yt'||k==='sb'||k==='sg')?'pa':((k==='jg'||k==='gg'||k==='mg')?'jm':(k==='yn'?'yn':(k==='bn'?'bn':(k==='ru'?'ru':(k==='bk'?'bk':(k==='gm'?'gm':(k==='gr'?'gr':(k==='gl'?'gl':'om')))))))))))), doc=dec(T[key]);
+    var solo={om:'omok',ak:'alkkagi',pt:'putt',bw:'bow',tk:'ttak',th:'tuho',mb:'marble',dt:'dart',rp:'rps',hj:'holjjak',mj:'mjb',br:'bori',aw:'arm',yt:'yeot',sb:'sab',sg:'sug',jg:'jegi',gg:'gong',mg:'mugung',yn:'yut',bn:'bun',ru:'run',bk:'bak',gm:'gomu',gr:'gul',gl:'ball'}[k]; if(solo){ doc=doc.replace('</body>','<script>solo("'+solo+'");<\\/script></body>'); }
     
     if(cur!==k){ fr.srcdoc=doc; cur=k; } else { try{ fr.contentWindow.postMessage('nori-open','*'); }catch(e){} }
     ov.classList.add('on'); document.body.style.overflow='hidden';

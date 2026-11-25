@@ -37,6 +37,10 @@ open('그때그놀이-076_고무줄놀이_261125.html','w',encoding='utf-8').wri
 subprocess.run(['python3','mk080.py'],check=True)
 t=open('t080.html',encoding='utf-8').read().replace('__PRE__',pre).replace('__PEN__',pen).replace('__SND__',snd).replace('__NAV__',nav).replace('__EMIT__',emit)
 open('그때그놀이-080_굴렁쇠_261125.html','w',encoding='utf-8').write(t)
+# 공 굴리기 (261125 시안 · 혼자서 바로) — t081 은 mk081.py 가 t071 틀에서 만듦
+subprocess.run(['python3','mk081.py'],check=True)
+t=open('t081.html',encoding='utf-8').read().replace('__PRE__',pre).replace('__PEN__',pen).replace('__SND__',snd).replace('__NAV__',nav).replace('__EMIT__',emit)
+open('그때그놀이-081_공굴리기_261125.html','w',encoding='utf-8').write(t)
 pat=re.compile(r"/\* 그때 그 놀이 · 아래 막대.*?\n\};\n",re.S)
 pat2=re.compile(r"/\* 그때 그 놀이 · 아래 막대.*?/\* 아래 막대 끝 \*/\n",re.S)
 for f in ['그때그놀이-013_동그란딱지시험판_261121.html','그때그놀이-015_오목·알까기시험판_261121.html']:
