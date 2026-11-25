@@ -38,7 +38,7 @@ function finish(){ S.over=true; vs(); var two=S.mode==='two', a=S.sc[0], b=S.sc[
   if(two){ h=esc(a>b?nm(0):nm(1))+' <em>이겼어요!</em>'; SND.win(); }
   else if(a>b){ h='<em>'+a+u+'</em>로 이겼어요!'; SND.win(); } else { h='아이고, <em>'+a+u+'</em> 대 '+b+u; SND.lose(); }
   $('big').innerHTML=h; say(esc(nm(0))+' '+a+u+' · '+esc(nm(1))+' '+b+u); $('done').classList.add('on'); }
-function banner(c,txt,col){ if(!S.over||!(S.n[0]+S.n[1])) return; txt='끝!'; col='#16181D'; c.fillStyle=col; c.beginPath(); if(c.roundRect){ c.roundRect(75,8,150,26,13); } else { c.rect(75,8,150,26); } c.fill(); c.fillStyle='#fff'; c.font='800 12.5px "Noto Sans KR",sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(txt,150,21); c.textBaseline='alphabetic'; }
+function banner(c,txt,col){ if(!S.over||!(S.n[0]+S.n[1])) return; txt='판 완료'; col='#16181D'; c.fillStyle=col; c.beginPath(); if(c.roundRect){ c.roundRect(75,8,150,26,13); } else { c.rect(75,8,150,26); } c.fill(); c.fillStyle='#fff'; c.font='800 12.5px "Noto Sans KR",sans-serif'; c.textAlign='center'; c.textBaseline='middle'; c.fillText(txt,150,21); c.textBaseline='alphabetic'; }
 function meter(c,x,y,w,h,v,good){ c.fillStyle='rgba(22,24,29,.85)'; c.fillRect(x-2,y-2,w+4,h+4); if(good){ c.fillStyle='rgba(111,211,106,.45)'; c.fillRect(x+w*good[0],y,w*(good[1]-good[0]),h); }
   var g=c.createLinearGradient(x,0,x+w,0); g.addColorStop(0,'#6FD36A'); g.addColorStop(.6,'#FFC21A'); g.addColorStop(1,'#FF6A3D'); c.fillStyle=g; c.fillRect(x,y,w*v,h); c.fillStyle='#fff'; c.fillRect(x+w*v-1.5,y-4,3,h+8); }
 /* 오른쪽 세로 배터리 — 아래에서 위로 참 · 알맞은 칸 초록 테두리 */
@@ -123,7 +123,7 @@ var TUHO={key:'th',name:'투호',unit:'개',max:5,how:'<b>누르고 있으면</b
   draw:function(c){ var t=performance.now(), j=this.jar();
     var g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#F4E7C7'); g.addColorStop(.45,'#E8D4A6'); g.addColorStop(1,'#C9A86A'); c.fillStyle=g; c.fillRect(0,0,W,H);
     c.fillStyle='rgba(122,84,40,.15)'; for(var i=0;i<8;i++){ c.fillRect(0,110+i*36,W,2); }
-    banner(c, S.over?'끝!':(nm(S.who)+(cpuTurn()?' 던져요':' 차례')), S.who?'#E1262D':'#2457D6');
+    banner(c, S.over?'판 완료':(nm(S.who)+(cpuTurn()?' 던져요':' 차례')), S.who?'#E1262D':'#2457D6');
     /* 항아리 */
     c.save(); c.translate(j.x,j.y); c.scale(j.s,j.s);
     c.fillStyle='rgba(0,0,0,.18)'; c.beginPath(); c.ellipse(0,40,26,6,0,0,6.3); c.fill();
@@ -207,7 +207,7 @@ var DART={key:'dt',name:'원판 다트',unit:'점',max:5,seq:true,how:'원하는
   down:function(){ if(this.ph!=='idle') return; this.throwIt(S.who); },
   draw:function(c){ var t=performance.now(); if(this.lt){ var dt=(t-this.lt)/1000; this.ang+=this.speed*dt*(this.ph==='stuck'?.3:1); } this.lt=t;
     var g=c.createLinearGradient(0,0,0,H); g.addColorStop(0,'#F7EFD8'); g.addColorStop(1,'#E9DDBA'); c.fillStyle=g; c.fillRect(0,0,W,H);
-    banner(c, S.over?'끝!':(nm(S.who)+(cpuTurn()?' 던져요':' 차례')), S.who?'#E1262D':'#2457D6');
+    banner(c, S.over?'판 완료':(nm(S.who)+(cpuTurn()?' 던져요':' 차례')), S.who?'#E1262D':'#2457D6');
     var cx=150, cy=200, R=110, n=this.SEC.length, st=Math.PI*2/n, cols=['#E1262D','#FFF3D2','#2457D6','#FFF3D2','#FFC21A','#FFF3D2','#FF7A1A','#FFF3D2'];
     c.strokeStyle='#7A4E25'; c.lineWidth=8; c.beginPath(); c.moveTo(cx-40,cy+R); c.lineTo(cx-60,H-20); c.moveTo(cx+40,cy+R); c.lineTo(cx+60,H-20); c.stroke();
     c.fillStyle='#8B5A2B'; c.beginPath(); c.arc(cx,cy,R+10,0,6.3); c.fill();

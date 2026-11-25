@@ -1,3 +1,30 @@
+/* 「그때 이야기」 (261125 · 대표 승인 · 사랑흐름-놀이-003) — 놀이마다 ① 시작 전 「그때는」(p 두세 줄 · s 그 시절 소리 · a 여쭙는 말) ③ 결과 카드 물음(q) · 자서전 이야기 번호(n: 1 어린 날 · 골목 / 2 곁의 사람)
+   말투: 30대 중반 서비스업 여성 · 「~요」 · 「당신」 안 씀 · 널리 알려진 것만 쓰고 동네마다 달랐던 것은 여쭘 */
+window.NORI_STORY={
+ rp:{g:'가위바위보',i:'✌️',p:'누가 먼저 할지, 누가 술래를 할지<br>무엇이든 <b>가위바위보</b>로 정했지요.',s:'가위 · 바위 · 보!',a:'가위바위보로 정하던 일 중에 기억나는 게 있으세요?',q:'가위바위보는 주로 누구와 하셨어요?',n:2},
+ hj:{g:'구슬 홀짝',i:'🤲',p:'주먹 속 구슬이 몇 개인지 맞히는 놀이.<br>「홀!」 「짝!」 한마디에 구슬이 오갔지요.',s:'홀? 짝?',a:'모은 구슬은 어디에 두셨어요?',q:'구슬을 제일 많이 모았던 때, 기억나세요?',n:1},
+ mj:{g:'묵찌빠',i:'👊',p:'가위바위보에서 이긴 쪽이 「묵! 찌! 빠!」로 몰아붙이고,<br>같은 걸 내면 이기는 놀이. 막는 쪽은 손이 떨렸지요.',s:'묵! 찌! 빠!',a:'묵찌빠 잘하는 친구가 꼭 한 명씩 있었지요?',q:'묵찌빠 하면 떠오르는 얼굴이 있으세요?',n:2},
+ br:{g:'쌀보리',i:'🤲',p:'두 손을 오므린 사람 앞에서 「보리, 보리…」 하다가<br>갑자기 <b>「쌀!」</b> 손이 확 오므라들면 웃음이 터졌지요.',s:'보리 · 보리 · 쌀!',a:'쌀보리는 어디서 하셨어요?',q:'쌀보리 하며 같이 웃던 사람은 누구였어요?',n:2},
+ aw:{g:'팔씨름',i:'💪',p:'책상 위에 팔꿈치를 대고 손을 맞잡으면<br>둘러선 친구들이 숨을 죽였지요.<br>반에서 팔씨름 일등은 모두가 알았어요.',s:'으라차차!',a:'팔씨름 일등은 누구였어요?',q:'팔씨름으로 겨뤄 본 사람 중 기억나는 분이 있으세요?',n:2},
+ yt:{g:'엿치기',i:'🍬',p:'엿장수 가위 소리가 들리면 아이들이 모였지요.<br>가락엿을 똑 부러뜨려 <b>구멍이 큰 쪽</b>이 이기는 놀이예요.',s:'철컥철컥 가위 소리',a:'엿은 무엇과 바꿔 드셨어요?',q:'엿장수 아저씨가 오던 골목, 기억나세요?',n:1},
+ dt:{g:'원판 다트',i:'🎯',p:'장터나 유원지에서 빙글 도는 원판에 화살을 던지면<br>맞힌 칸만큼 선물을 받았지요.',s:'탁!',a:'장터나 유원지에서 받은 선물, 기억나세요?',q:'어릴 적 장터나 유원지에는 누구와 가셨어요?',n:2},
+ th:{g:'투호',i:'🏺',p:'항아리에 화살을 던져 넣는 <b>투호</b>.<br>옛 궁궐에서도 즐기던 놀이가 지금은 명절 놀이로 남았지요.',s:'퐁!',a:'명절에 투호를 던져 보신 적 있으세요?',q:'명절이면 누구와 어디에 모이셨어요?',n:2},
+ pt:{g:'골프',i:'⛳',p:'골프는 몰라도, 흙바닥에 구멍을 파고<br>구슬이나 공을 굴려 넣는 놀이는 골목마다 있었지요.',s:'떼구르르',a:'공터나 골목에서 제일 오래 한 놀이는 뭐였어요?',q:'해 질 때까지 놀던 공터, 어디였어요?',n:1},
+ bw:{g:'활쏘기',i:'🏹',p:'대나무를 휘어 실을 매고 수수깡 화살을 쏘던 활.<br>활 하나면 하루가 금방 갔지요.',s:'슝!',a:'활은 누가 만들어 주셨어요?',q:'손수 만든 장난감 중에 기억나는 게 있으세요?',n:1},
+ jg:{g:'제기차기',i:'🪶',p:'구멍 난 쇠붙이에 종이나 비닐을 꽂아<br><b>손수 만든 제기</b>.<br>설 무렵이면 골목마다 숫자 세는 소리가 들렸지요.',s:'하나 · 둘 · 셋…',a:'제기는 무엇으로 만드셨어요?',q:'제기는 누가 만들어 주셨어요?',n:2},
+ gg:{g:'공기놀이',i:'🪨',p:'작은 돌 다섯 알이면 하루가 금방 갔지요.<br>마루 한쪽이나 교실 뒤에 쪼그려 앉아<br><b>매끈한 돌 고르는 것부터</b>가 놀이였어요.',s:'한 알 · 두 알 · 세 알…',a:'공깃돌은 주로 어디서 고르셨어요?',q:'공기는 누구와, 어디서 하셨어요?',n:2},
+ mg:{g:'무궁화 꽃이 피었습니다',i:'🌸',p:'술래가 벽에 얼굴을 대고 외치는 동안 살금살금,<br>돌아보는 순간 <b>얼음</b>이 되어야 했지요.',s:'무궁화 꽃이 피었습니다!',a:'술래를 자주 하셨어요, 아니면 잘 피하셨어요?',q:'무궁화 꽃이 피었습니다, 어느 골목에서 하셨어요?',n:1},
+ bn:{g:'번데기 돌림판',i:'🎡',p:'「번데기~」 소리가 들리면 아이들이 우르르 모였지요.<br>동전 한 닢 내고 판을 돌리면 <b>따르르륵…</b><br>멈춘 칸만큼 종이 고깔에 담아 주셨대요.',s:'따르르르륵',a:'판에 적힌 글씨는 동네마다 달랐다고 해요. 기억나시는 칸이 있으세요?',q:'번데기 아저씨는 어느 골목에 오셨어요?',n:1},
+ om:{g:'오목',i:'⚫',p:'바둑판과 바둑돌만 있으면 둘이 마주 앉아 한참을 두었지요.<br>바둑은 몰라도 오목은 누구나 했어요.',s:'탁!',a:'오목은 누구와 두셨어요?',q:'오목 두며 마주 앉던 사람이 있으세요?',n:2},
+ ak:{g:'알까기',i:'⚪',p:'바둑판 위에서 손가락으로 알을 튕겨<br>상대 알을 밖으로 떨어뜨리는 놀이.<br>「딱!」 소리에 환호성이 났지요.',s:'딱!',a:'알까기 잘하는 비법이 있으셨어요?',q:'알까기 하며 웃고 다투던 친구는 누구였어요?',n:2},
+ tk:{g:'딱지치기',i:'🟥',p:'달력이나 공책 종이를 접어 만든 딱지를 내리쳐<br>뒤집으면 내 것이 되지요. 두꺼운 딱지 하나가 보물이었어요.',s:'팍!',a:'딱지는 무슨 종이로 접으셨어요?',q:'딱지를 제일 많이 따 본 날, 기억나세요?',n:1},
+ rd:{g:'동그란 딱지',i:'⭐',p:'그림이 그려진 동그란 딱지를 문방구에서 사 모았지요.<br>별이나 숫자를 대 보고 센 쪽이 가져갔어요.',s:'짝!',a:'학교 앞 문방구, 어떤 곳이었어요?',q:'학교 앞 문방구에서 제일 자주 산 건 뭐였어요?',n:1},
+ mb:{g:'구슬치기',i:'🔵',p:'흙바닥에 금을 긋고 구슬을 튕겨 맞히면 내 구슬이 되지요.<br>손톱 밑이 까매지도록 놀았어요.',s:'딱!',a:'아끼던 구슬이 있으셨어요?',q:'구슬치기 하던 골목은 어디였어요?',n:1},
+ yn:{g:'윷놀이',i:'🪵',p:'설날이면 멍석을 깔고 온 식구가 윷을 던졌지요.<br>「윷이야!」 「모야!」 소리에 집 안이 들썩였어요.',s:'윷이야! 모야!',a:'윷놀이 하면 누가 먼저 떠오르세요?',q:'설날 윷놀이는 누구와 하셨어요?',n:2},
+ sb:{g:'사방치기',i:'🪨',p:'땅바닥에 금을 그어 칸을 만들고 돌을 던져<br>깨금발로 뛰던 놀이. 나뭇가지 하나면 충분했지요.',s:'콩 · 콩 · 콩',a:'사방치기 칸은 무엇으로 그리셨어요?',q:'사방치기 하던 마당이나 골목, 기억나세요?',n:1},
+ sg:{g:'수건돌리기',i:'🧣',p:'둥글게 앉은 친구들 뒤를 술래가 돌며 수건을 몰래 내려놓지요.<br>뒤를 돌아볼까 말까, 가슴이 콩닥거렸어요.',s:'빙글빙글',a:'수건돌리기는 소풍이나 운동회에서 하셨어요?',q:'수건돌리기 하던 날, 함께 둘러앉은 사람들이 기억나세요?',n:2}
+};
+
 /* 그때 그 놀이 · 디자인 A 공통 (261122 v1) — 첫 화면과 놀이가 같이 씀
    NA.sndBtn(자리)  오른쪽 위 「🔈 소리」 → 소리 설정 창(효과음 · 말로 내기 · 모두 끄기 — 구령 소리는 261123 뺌)
    NA.pre({...})    시작 전 창 「무엇을 걸까요?」(벌칙 · 누구랑)
@@ -21,6 +48,7 @@ window.NA=(function(){
    +'.na-sh.on{transform:none;visibility:visible;transition:transform .22s ease}.na-sh *{box-sizing:border-box}'
    +'.na-sh h3{margin:0 0 2px;text-align:center;font-size:17px;font-weight:900}.na-sh .sub{text-align:center;font-size:12px;color:#7A6E55;margin:0 0 12px}'
    +'.na-sh button{font-family:inherit;-webkit-tap-highlight-color:transparent}'
+   +'.na-then{background:#F4EEE4;border-radius:16px;padding:10px 12px 9px;margin:0 0 10px;text-align:center;font-family:"Noto Sans KR",sans-serif}.na-then .k{font-size:12px;font-weight:900;color:#7A3520;margin-bottom:3px}.na-then p{margin:0;font-size:13.5px;line-height:1.6;color:#2E3A46;word-break:keep-all}.na-then p b{color:#7A3520}.na-then .s{margin-top:4px;font-weight:900;font-size:14px;color:#7A3520;letter-spacing:.04em}.na-then .a{margin-top:3px;font-size:12px;font-weight:700;color:#4A525C}@media (max-height:700px){.na-then{padding:7px 10px 6px;margin-bottom:6px}.na-then .k{margin-bottom:1px}.na-then p{font-size:12.5px;line-height:1.5}.na-then .s{margin-top:2px;font-size:13px}.na-then .a{display:none}.na-bets button small{display:none}}'
    +'.na-bets{display:grid;grid-template-columns:1fr 1fr;gap:8px}'
    +'.na-bets button{border:0;border-radius:14px;background:#F6F1E6;padding:10px 8px;text-align:center;font-weight:800;font-size:13.5px;color:#1C1D21;cursor:pointer}'
    +'.na-bets button i{display:block;font-style:normal;font-size:26px;line-height:1.2}.na-bets button small{display:block;font-size:11px;color:#7A6E55;font-weight:700}'
@@ -91,6 +119,9 @@ window.NA=(function(){
         BET=b.getAttribute('data-b'); try{ localStorage.setItem('nori-bet',BET); }catch(x){} paintPre(); try{ SND.clack(.35); }catch(x){} });
       ps.querySelector('#naWho').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; WHO=b.getAttribute('data-w'); paintPre(); });
       ps.querySelector('#naGo').addEventListener('click',function(){ close(); window.__noriPlaying=true; var f=P.onGo; if(f) f(BET,WHO); }); }
+    (function(){ var k=''; try{ k=window.__nhere?window.__nhere():''; }catch(x){} var T=window.NORI_STORY&&window.NORI_STORY[k], box=ps.querySelector('#naThen');
+      if(!box){ box=document.createElement('div'); box.className='na-then'; box.id='naThen'; var h=ps.querySelector('h3'); h.parentNode.insertBefore(box,h); }
+      if(T){ box.innerHTML='<div class="k">'+T.i+' 그때는</div><p>'+T.p+'</p><div class="s">'+T.s+'</div><div class="a">'+T.a+'</div>'; box.style.display=''; } else { box.style.display='none'; } })();
     if(P.who===false){ WHO='cpu'; } else if(P.whoDefault){ WHO=P.whoDefault; }
     ps.querySelector('#naWho').style.display=P.who===false?'none':'';
     [].forEach.call(ps.querySelectorAll('.pn'),function(e){ e.textContent=P.opp||'다복 사장님'; });

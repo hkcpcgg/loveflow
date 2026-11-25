@@ -159,6 +159,7 @@ window.noriNav=function(o){
   if(window.NORI_A){ hide.textContent+='.ncard{top:calc(48px + env(safe-area-inset-top,0px));bottom:calc(62px + env(safe-area-inset-bottom,0px));color:#1C1D21}'
      +'.ncard{padding-top:10px}.ncard .ph{height:clamp(96px,19vh,200px)!important;margin:8px 0}.ncard .sc em{font-size:30px}.ncard .res{font-size:18px;margin:2px 0 6px}.ncard .lure{margin-top:6px;font-size:12.5px}.ncard .bt2 button{min-height:46px;margin-top:6px}.ncard .hd{color:#7A6E55}.ncard .gn{color:#7A6E55}.ncard .ph{background:#F6F1E6;color:#7A6E55}.ncard .sc .a{color:#2F64E0}.ncard .sc .b{color:#E04848}.ncard .sc .c{color:#C9BFA8}'
      +'.ncard .res.win{color:#E04848}.ncard .res.lose{color:#7A6E55}.ncard .memo{background:#F6F1E6}.ncard .ft{color:#7A6E55}'
+     +'.ncard .mq{font-size:13.5px;font-weight:800;color:#7A3520;margin:4px 2px 6px;text-align:center;word-break:keep-all}.ncard .row.nmemo[hidden],.ncard .tip.nmemo[hidden]{display:none!important}'
      +'.ncard .lure{color:#7A6E55}.ncard .lure b{color:#E04848}.ncard .bt2 .gift{background:#FFC21A;color:#1C1D21;font-weight:900}.ncard .bt2 .row button{background:#F6F1E6;color:#1C1D21}.ncard .tip{color:#9A8E70}'; }
   document.head.appendChild(hide);
   /* 결과에 카드 번호(확인 번호)를 붙여 선물 기록과 맞춰 볼 수 있게 */
@@ -180,17 +181,26 @@ window.noriNav=function(o){
     cd.innerHTML='<div class="cd"><div class="hd"><span class="pl" data-plan="paid" hidden></span><b>그때 그 놀이 · '+esc2(shop())+'</b><span>'+when(r.t)+'</span></div><div class="gn">'+esc2((r.gname||'')+(window.__noriBetName?' · '+window.__noriBetName:''))+'</div>'
       +'<div class="ph"><img alt="현장 사진"><i>📷</i>현장 사진 넣기<div class="pb"><label>📷 지금 찍기<input type="file" accept="image/*" capture="environment"></label><label>🖼 앨범에서<input type="file" accept="image/*"></label></div><small>사진은 이 폰 안에서만 카드에 합쳐요 · 서버로 보내지 않아요</small><label class="re">사진 바꾸기<input type="file" accept="image/*"></label></div>'
       +scoreHTML(r)+'<div class="res '+outOf(r)+'">'+esc2(resText(r))+'</div>'
-      +'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름·전화번호는 쓰지 마세요)">'
+      +(function(){ var T=window.NORI_STORY&&window.NORI_STORY[r.game]; return T?'<div class="mq">✏ '+esc2(T.q)+'</div><input class="memo" maxlength="40" placeholder="여기에 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">':'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">'; })()
       +'<div class="ft"><span>확인 번호</span><b>'+esc2(r.card||'')+'</b></div></div>'
       +'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
-      +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장</button><button type="button" data-c="share">공유하기</button></div><div class="row one"><button type="button" data-c="story">이야기방에 올리기</button></div></div>'
+      +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장</button><button type="button" data-c="share">공유하기</button></div><div class="row one"><button type="button" data-c="story">이야기방에 올리기</button></div><div class="row one nmemo" hidden><button type="button" data-c="memoir">자서전 둘러보기</button></div></div><p class="tip nmemo" hidden>적어 주신 한 줄은 이 폰에만 남아요. 「자서전 둘러보기」를 누르면 사랑흐름 자서전 소개 화면이 새 창으로 열려요.</p>'
       +'<p class="tip">「이야기방에 올리기」를 누르면 카드가 폰에 저장되고 다복 이야기방 올리기 창이 열려요. 방금 저장된 카드 사진을 골라 올려 주세요.</p>';
     var ph=cd.querySelector('.ph'), im=ph.querySelector('img');
     im.onload=function(){ photo=im; ph.classList.add('has'); };
     [].forEach.call(ph.querySelectorAll('input[type=file]'),function(inp){ inp.addEventListener('change',function(){ var f=inp.files&&inp.files[0]; if(!f) return; im.src=URL.createObjectURL(f); }); });
     if(window.__noriPhoto){ im.src=window.__noriPhoto; }
+    MEMO_AT=-1; var mi=cd.querySelector('.memo'); if(mi){ mi.addEventListener('input',function(){ var on=!!mi.value.trim(); [].forEach.call(cd.querySelectorAll('.nmemo'),function(x){ x.hidden=!on; }); }); mi.addEventListener('change',memoKeep); }
     cd.classList.add('on'); document.body.classList.add('ncard-on'); cd.scrollTop=0; setNew(true);
     try{ if(window.SND&&SND.tap){} }catch(e){} }
+  /* 「그때 이야기」 한 줄을 이 폰에 적어 둠 (사랑흐름-놀이-003 · 자서전이 나중에 불러옴 · 서버로 보내지 않음) */
+  var MEMO_AT=-1;
+  function memoKeep(){ try{ var inp=cd.querySelector('.memo'), a=inp?inp.value.trim():'', T=window.NORI_STORY&&R&&window.NORI_STORY[R.game]; if(!T) return;
+      var L=JSON.parse(localStorage.getItem('lfNoriMemo')||'[]'); if(!Array.isArray(L)) L=[];
+      var d=new Date(), at=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2), it={g:T.g,q:T.q,a:a,s:T.n,at:at};
+      if(MEMO_AT>=0&&L[MEMO_AT]&&L[MEMO_AT].g===it.g&&L[MEMO_AT].q===it.q){ if(a) L[MEMO_AT]=it; else { L.splice(MEMO_AT,1); MEMO_AT=-1; } }
+      else if(a){ L.push(it); while(L.length>50) L.shift(); MEMO_AT=L.length-1; }
+      localStorage.setItem('lfNoriMemo',JSON.stringify(L)); }catch(e){} }
   function closeCard(){ cd.classList.remove('on'); document.body.classList.remove('ncard-on'); setNew(false); }
   function setNew(on){ if(window.NORI_A) return; var b=bar.querySelector('[data-a=new]'); b.lastChild.textContent= on?'다시 하기':'새 판'; }
   /* 카드 그림 만들기 (1080×1440) — 폰 안에서만 */
@@ -232,7 +242,7 @@ window.noriNav=function(o){
       if(w){ try{ w.location.href=u; }catch(e){ w=window.open(u,'_blank'); } } else { w=window.open(u,'_blank'); }
       /* 우리 이야기가 받을 준비가 되면 카드 그림을 바로 넘김 (우리 이야기 쪽 받는 입구가 생기면 작동 · 없으면 아무 일 없음) */
       try{ var fr=new FileReader(); fr.onload=function(){ var n=0, iv=setInterval(function(){ n++; try{ w&&w.postMessage({uriyagi:'card-image',name:fname(),type:'image/png',data:fr.result,title:ttl,text:t},'https://uriyagi.kr'); }catch(e){} if(n>24) clearInterval(iv); },500); }; fr.readAsDataURL(b); }catch(e){} }); }
-  cd.addEventListener('click',function(e){ var b=e.target.closest('button[data-c]'); if(!b) return; var c=b.getAttribute('data-c'); if(c==='save') save(); else if(c==='share') share(); else if(c==='story') story(); });
+  cd.addEventListener('click',function(e){ var b=e.target.closest('button[data-c]'); if(!b) return; var c=b.getAttribute('data-c'); memoKeep(); if(c==='save') save(); else if(c==='share') share(); else if(c==='story') story(); else if(c==='memoir'){ try{ window.open('https://www.loveflow.ai.kr/memoir/','_blank'); }catch(x){} } });
   function againOf(){ var ds=[].slice.call(document.querySelectorAll('.done.on')); for(var i=0;i<ds.length;i++){ var bs=ds[i].querySelectorAll('button'); for(var j=0;j<bs.length;j++){ if(/다시/.test(bs[j].textContent)) return bs[j]; } } return null; }
   /* 옛 끝 화면이 열리면(.done.on) 결과 카드를 엶 */
   var penning=false;

@@ -54,7 +54,7 @@ V02_GAME=(':root{--ink:#2E3A46;--sub:#4A525C;--chip:#F4EEE4;--btn:#F4EEE4}html,b
   '.top{background:#1E4A76!important;color:#fff!important}.top .ttl,.top>span{color:#fff!important}.top button{background:rgba(255,255,255,.14)!important;color:#fff!important}.na-snd,.na-cam,html body .top .na-tr .na-snd,html body .top .na-tr .na-cam{position:relative!important}.na-snd::before,.na-cam::before{content:"";position:absolute;left:-4px;right:-4px;top:-7px;bottom:-7px}'
   '.nbar .home{background:#C9A96E!important}.ncard{background:#FFFCF7!important}.ncard .bt2 .gift{background:#C9A96E!important;color:#1E4A76!important}'
   '.kgs{width:48px!important;height:48px!important;margin:-24px 0 0 -24px!important}.kgs::after{left:11px!important;top:13px!important}'
-  '.grid5 .bt,.spd button,.rules button,#oUndo,.ncard .bt2 button{min-height:48px!important}')
+  '.grid5 .bt,.spd button,.rules button,#oUndo,.ncard .bt2 button{min-height:48px!important}html body .ncard .bt2 .row.one{grid-template-columns:1fr!important}')
 def guest(path, extra_css, extra_js=''):
     h=askin(open(path,encoding='utf-8').read())
     h=h.replace('</style>',extra_css+V02_GAME+'\n</style>',1)

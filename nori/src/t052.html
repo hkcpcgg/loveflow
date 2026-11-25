@@ -247,7 +247,7 @@ function kgCatch(){ var G=kgGeo(); if(!K.blink){ if(K.turn===1){ kgFail('early')
   K.ph='wait'; cancelAnimationFrame(kraf); var g=S.gen, up=$('kgup'); up.className='kgup'; snd('stone',.8); fx('착!',48); kgBtns(false,false,false);
   var s=K.st[K.turn]; s[1]++; if(s[1]>=KST[s[0]].length){ s[0]++; s[1]=0; }
   col(K.turn===0?'l':'r',{pw:kgDone(K.turn)/9,on:true});
-  if(s[0]>=KST.length){ var meWin=K.turn===0; fx(meWin?'4단 끝!':'졌다…',40); setTimeout(function(){ if(g===S.gen) finish(meWin,Math.min(4,K.st[0][0]),Math.min(4,K.st[1][0])); },900); return; }
+  if(s[0]>=KST.length){ var meWin=K.turn===0; fx(meWin?'4단 성공!':'졌다…',40); setTimeout(function(){ if(g===S.gen) finish(meWin,Math.min(4,K.st[0][0]),Math.min(4,K.st[1][0])); },900); return; }
   $('say').innerHTML=(K.turn===0?'<b>잘 받았다!</b>':'<em>'+esc(nm(1))+' 받았다</em>')+' · 이어서 '+kgName(K.turn);
   setTimeout(function(){ if(g===S.gen) kgTurn(); },K.turn===0?700:900); }
 function kgFail(why){ var g=S.gen; NA.unpoint(); K.ph='wait'; cancelAnimationFrame(kraf); var up=$('kgup'); up.className='kgup fall'; kgBtns(false,false,false); snd(why==='early'?'miss':'thud',.6);
@@ -295,7 +295,7 @@ function mgCaught(){ var g=S.gen; M.ph='wait'; clearTimeout(M.t); M.life--; M.st
   $('say').innerHTML='<em>움직여서 걸렸어요</em> · 다섯 걸음 뒤로 · 한 번 더 걸리면 져요';
   M.t=setTimeout(function(){ if(g===S.gen) mgCycle(); },1700); }
 function mgEnd(win,why){ var g=S.gen; M.ph='wait'; clearTimeout(M.t); $('mgGo').disabled=true;
-  fx(win?'찜! 쳤다':(why==='time'?'시간 끝':'졌다…'),38); if(win){ $('mgit').className='mgit got'; }
+  fx(win?'찜! 쳤다':(why==='time'?'시간 다 됐어요':'졌다…'),38); if(win){ $('mgit').className='mgit got'; }
   $('say').innerHTML=win?'<b>술래를 쳤어요!</b>':(why==='time'?'<em>술래까지 못 갔어요</em> · 외는 동안 더 많이 톡톡':'<em>두 번 걸렸어요</em>');
   setTimeout(function(){ if(g===S.gen) finish(win,win?1:0,win?0:1); },800); }
 
