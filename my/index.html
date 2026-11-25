@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ my/index.html · v8 · 261124 · [통합 표준 v0.2 단추 말 · 대표 261124 21:04 「글은 그냥 고치시고」] 「브라우저」 걷음. 모양 · 동작은 그대로.
+<!-- ★ 현재 버전 ▶ my/index.html · v9 · 261125 · [통합 표준 v0.2 F 말투 · 대표 지시 261125 18:59 「다음 작업 진도 나가세요」] 손님 안내 글만 「~요」 · 여는 중 · 연결 늦음 · 링크 안내 · 복사 알림 · 홈 화면 안내 · 그림 글 「~요」. 선물 머리 「사랑흐름 여권입니다」는 그대로. [무손] 그 밖 v8 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ my/index.html · v8 · 261124 · [통합 표준 v0.2 단추 말 · 대표 261124 21:04 「글은 그냥 고치시고」] 「브라우저」 걷음. 모양 · 동작은 그대로.
    (이전) my/index.html · v7 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
 <!-- (이전) my/index.html · v6 · 261116 · [696 홈 화면 아이콘 · 대표 OK 261116 19:22] 홈 화면 아이콘 /rec/apple-icon-180.png(우리 이야기 폴더) → 사랑흐름 자기 파일 /apple-touch-icon.png. [무손] 그 밖 v5 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ my/index.html · v5 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
@@ -97,7 +98,7 @@ button{font-family:inherit;cursor:pointer}
 </head>
 <body data-lf-title="사랑흐름 여권">
 <div class="wrap" id="my">
-  <div class="state" id="stLoad"><b>사랑흐름 여권</b>사랑흐름 여권을 여는 중입니다<div class="wave"><span></span><span></span><span></span></div></div>
+  <div class="state" id="stLoad"><b>사랑흐름 여권</b>사랑흐름 여권을 여는 중이에요<div class="wave"><span></span><span></span><span></span></div></div>
 </div>
 <div id="lfFoot"></div>
 <div class="toast" id="toast"></div>
@@ -160,7 +161,7 @@ button{font-family:inherit;cursor:pointer}
   function cards() {
     var m = /^#cards=(.+)$/.exec(location.hash || ''); if (!m) { return false; }
     var L = []; try { L = JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/-/g, '+').replace(/_/g, '/'))))); } catch (e) { L = []; }
-    if (!L.length) { stateBox('🖼', '그림을 만들지 못했습니다', '본부 발급 목록에서 다시 눌러 주세요.'); return true; }
+    if (!L.length) { stateBox('🖼', '그림을 만들지 못했어요', '본부 발급 목록에서 다시 눌러 주세요.'); return true; }
     var PT = { map: ['map'], set: ['map', 'letter'], memoir: ['memoir'], life: ['map', 'letter', 'memoir'] };
     var h = '<div class="zone">🖼 사랑흐름 여권 그림 ' + L.length + '장 · 그림을 꾹 누르거나 「이미지 저장」</div>';
     L.forEach(function (x, i) { h += '<div class="passWrap" style="margin-bottom:10px"><canvas id="cv' + i + '" width="1080" height="1880" role="img" aria-label="사랑흐름 여권 ' + esc(x.p) + '"></canvas></div><a class="again" id="sv' + i + '" download="사랑흐름여권_' + esc(x.p) + '.png" style="display:block;text-align:center;margin:0 0 22px">이미지 저장 · ' + esc(x.p) + '</a>'; });
@@ -180,23 +181,23 @@ button{font-family:inherit;cursor:pointer}
     if (cards()) { return; }   /* ★v4 */
     K = keyOf();
     if (!K) {
-      stateBox('🔑', '사랑흐름 여권 화면', '이 휴대폰에서 연 적이 없는 사랑흐름 여권입니다.<br>사랑흐름 여권번호로 찾으시면 바로 열립니다.',
+      stateBox('🔑', '사랑흐름 여권 화면', '이 휴대폰에서 연 적이 없는 사랑흐름 여권이에요.<br>사랑흐름 여권번호로 찾으시면 바로 열려요.',
         '<br><a class="again" href="/find/">사랑흐름 여권 찾기</a>');
       return;
     }
     jsonp({ action: 'passOpen', k: K }, function (r) {
       if (!r) {
-        stateBox('📶', '연결이 잠시 늦어지고 있습니다', '조금 뒤에 다시 열어 주세요.', '<br><button type="button" class="again" id="reBtn">다시 열기</button>');
-        $('reBtn').onclick = function () { $('my').innerHTML = '<div class="state"><b>사랑흐름 여권</b>사랑흐름 여권을 여는 중입니다<div class="wave"><span></span><span></span><span></span></div></div>'; open(); };
+        stateBox('📶', '연결이 잠시 늦어지고 있어요', '조금 뒤에 다시 열어 주세요.', '<br><button type="button" class="again" id="reBtn">다시 열기</button>');
+        $('reBtn').onclick = function () { $('my').innerHTML = '<div class="state"><b>사랑흐름 여권</b>사랑흐름 여권을 여는 중이에요<div class="wave"><span></span><span></span><span></span></div></div>'; open(); };
         return;
       }
       if (r.status === 'expired') {
-        stateBox('🧾', '결제가 취소된 사랑흐름 여권입니다', '궁금하신 점은 아래 카카오톡 문의로 알려 주세요.');
+        stateBox('🧾', '결제가 취소된 사랑흐름 여권이에요', '궁금하신 점은 아래 카카오톡 문의로 알려 주세요.');
         return;
       }
       if (r.status !== 'ok') {
         if (ls(MEM_K) === K) { try { localStorage.removeItem(MEM_K); } catch (e) { } }
-        stateBox('🔑', '열리지 않는 링크입니다', '링크가 바뀌었거나 끝까지 복사되지 않았습니다.<br>사랑흐름 여권번호로 찾으시면 바로 열립니다.',
+        stateBox('🔑', '열리지 않는 링크예요', '링크가 바뀌었거나 끝까지 복사되지 않았어요.<br>사랑흐름 여권번호로 찾으시면 바로 열려요.',
           '<br><a class="again" href="/find/">사랑흐름 여권 찾기</a>');
         return;
       }
@@ -257,7 +258,7 @@ button{font-family:inherit;cursor:pointer}
     /* ④ 다 본 뒤 — 여행하기(입장) */
     h += '<div class="goBox" id="goBox">';
     h += '<div class="goT">' + (go1 ? '🎁 ' + esc(gl + gw) + ' 사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요.' : '✈️ ' + esc(nm ? nm + '의 ' : '') + '사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요.') + '</div>';
-    h += '<div class="goS">누르시면 사랑흐름 여권번호 <b>' + esc(D.passport) + '</b> 가 자동으로 입력되어 바로 들어갑니다.</div>';
+    h += '<div class="goS">누르시면 사랑흐름 여권번호 <b>' + esc(D.passport) + '</b> 가 자동으로 입력되어 바로 들어가요.</div>';
     h += '<div class="main" id="mainBtns">';
     var first = true, any = false;
     ORDER.forEach(function (k) {
@@ -271,7 +272,7 @@ button{font-family:inherit;cursor:pointer}
       h += '<button type="button" class="partBtn ' + cls + '" data-k="' + k + '" data-st="' + st + '"><span class="pth" data-lf-thumb="' + k + '"></span><span class="ptx">' + label + ' ›<span class="left">' + line + '</span></span></button>';   /* ★v4 */
       if (st === 2 && D.source !== 'old' && window.LFThumb) { h += '<div class="more1">' + LFThumb.pair(k, MORE[k]) + '</div>'; }   /* ★v4 579 남은 편 0 */
     });
-    if (!any) { h += '<div class="memo">이 사랑흐름 여권의 구성을 아직 찾지 못했습니다. 아래 카카오톡 문의로 알려 주시면 바로 확인해 드립니다.</div>'; }
+    if (!any) { h += '<div class="memo">이 사랑흐름 여권의 구성을 아직 찾지 못했어요. 아래 카카오톡 문의로 알려 주시면 바로 확인해 드려요.</div>'; }
     h += '</div></div>';
 
     h += '<div class="zone">📲 이 휴대폰에 두기</div>';
@@ -281,7 +282,7 @@ button{font-family:inherit;cursor:pointer}
       + '<button type="button" class="tool" id="tImg"><i>🖼</i>이미지<br>저장</button>'
       + '<button type="button" class="tool" id="tCopy"><i>📋</i>사랑흐름<br>여권번호 복사</button>'
       + '</div>';
-    h += '<div class="memo">사랑흐름 여권번호를 외우지 않으셔도 됩니다.<br>「홈 화면에 추가」를 누르시면 휴대폰 첫 화면에 사랑흐름 아이콘이 생깁니다.</div>';
+    h += '<div class="memo">사랑흐름 여권번호를 외우지 않으셔도 돼요.<br>「홈 화면에 추가」를 누르시면 휴대폰 첫 화면에 사랑흐름 아이콘이 생겨요.</div>';
     $('my').innerHTML = h;
     try { LFThumb.fill($('my')); } catch (e) { }   /* ★v4 */
 
@@ -315,17 +316,17 @@ button{font-family:inherit;cursor:pointer}
     function fb() { var a = document.createElement('textarea'); a.value = t; a.setAttribute('readonly', ''); a.style.cssText = 'position:fixed;left:-9999px;top:-9999px'; document.body.appendChild(a); a.select(); var r = false; try { r = document.execCommand('copy'); } catch (e) { } document.body.removeChild(a); toast(r ? ok : '길게 눌러 복사해 주세요'); }
     try { if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(t).then(function () { toast(ok); }, fb); } else { fb(); } } catch (e) { fb(); }
   }
-  function copyNo() { copyText(D.passport, '사랑흐름 여권번호 ' + D.passport + ' 를 복사했습니다'); }
+  function copyNo() { copyText(D.passport, '사랑흐름 여권번호 ' + D.passport + ' 를 복사했어요'); }
   function sendSelf() {
     var u = myUrl(), t = (D.name ? D.name + ' 님의 ' : '') + '사랑흐름 여권';
-    if (navigator.share) { navigator.share({ title: t, text: t + ' — 누르시면 바로 열립니다', url: u })['catch'](function () { }); return; }
-    copyText(u, '주소를 복사했습니다 · 카카오톡 「나와의 채팅」에 붙여 넣으세요');
+    if (navigator.share) { navigator.share({ title: t, text: t + ' — 누르시면 바로 열려요', url: u })['catch'](function () { }); return; }
+    copyText(u, '주소를 복사했어요 · 카카오톡 「나와의 채팅」에 붙여 넣으세요');
   }
   function saveImg() {
     try {
       var url = $('cv').toDataURL('image/png');
       $('ovImg').src = url; $('ovDown').href = url; $('ov').classList.add('on');
-    } catch (e) { toast('이미지를 만들지 못했습니다'); }
+    } catch (e) { toast('이미지를 만들지 못했어요'); }
   }
   $('ovX').onclick = function () { $('ov').classList.remove('on'); };
 
@@ -378,7 +379,7 @@ button{font-family:inherit;cursor:pointer}
     c.strokeStyle = 'rgba(233,210,154,.45)'; c.lineWidth = 3; c.setLineDash([16, 12]); c.beginPath(); c.moveTo(70, py); c.lineTo(W - 70, py); c.stroke(); c.setLineDash([]);
     c.textAlign = 'center'; c.font = '500 23px ' + SANS; c.fillStyle = '#A9A3C9'; spaced(c, '사랑흐름 여권번호 · PASSPORT NO.', W / 2, 1262, 3, 'center');
     c.font = '800 112px ' + SANS; c.fillStyle = champ(c, W / 2 - 330, W / 2 + 330); c.shadowColor = 'rgba(0,0,0,.35)'; c.shadowBlur = 10; spaced(c, D.passport, W / 2, 1376, 12, 'center'); c.shadowColor = 'transparent';
-    c.font = '500 25px ' + SANS; c.fillStyle = '#CFC9EA'; c.textAlign = 'center'; c.fillText('이 사랑흐름 여권번호로 언제든 다시 들어오실 수 있습니다', W / 2, 1424);
+    c.font = '500 25px ' + SANS; c.fillStyle = '#CFC9EA'; c.textAlign = 'center'; c.fillText('이 사랑흐름 여권번호로 언제든 다시 들어오실 수 있어요', W / 2, 1424);
     var qs = 250, qx = W / 2 - qs / 2, qy = 1448; c.fillStyle = '#fff'; rr(c, qx, qy, qs, qs, 22); c.fill();
     try { var q = qrcode(0, 'M'); q.addData(myUrl()); q.make(); var n = q.getModuleCount(), pad = 20, cell = Math.floor((qs - pad * 2) / n), off = (qs - cell * n) / 2; c.fillStyle = '#0E1736'; for (var i = 0; i < n; i++) { for (var j = 0; j < n; j++) { if (q.isDark(i, j)) { c.fillRect(qx + off + j * cell, qy + off + i * cell, cell, cell); } } } } catch (e) { }
     c.font = '700 22px ' + SANS; c.fillStyle = 'rgba(233,210,154,.9)'; spaced(c, '바로 입장 · SCAN TO ENTER', W / 2, 1736, 3, 'center');

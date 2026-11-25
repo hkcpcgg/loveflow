@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ find/index.html · v14 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+<!-- ★ 현재 버전 ▶ find/index.html · v15 · 261125 · [통합 표준 v0.2 F 말투 · 대표 지시 261125 18:59 「다음 작업 진도 나가세요」] 손님 안내 글만 「~요」 · 연결 예정 · 여는 중 · 기기 안내 「~요」. [무손] 그 밖 v14 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ find/index.html · v14 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
    (이전) find/index.html · v13 · 261111 · [공사 칸 ⑦ 말 · 577~579 · 점검표 말 사전 v1] 손님 화면 말 — 「마음 여행여권 · 관계 여권 · 마음관리청 · 앞말 없는 여권(여권번호)」 → 「사랑흐름 여권 · 사랑흐름 여권번호」 · 「바탕화면에 두기」 → 「홈 화면에 추가」 · 「장수」 → 「몇 명에게」 · 「담긴 여행」 → 「구성」 · 시트 칸 이름(여권번호)과 본부 표 머리 · 짧은 칩은 그대로 -->
 <!-- (이전) find/index.html · v12 · 261111 · [공사 칸 ⑥ 입구 · 577 · 대표 OK 18:36] 찾은 사랑흐름 여권마다 「사랑흐름 여권 화면 보기 ›」 — 찾을 때 넣으신 연락처 뒤 4자리로 서버(유료여행지도 ⑦ gift v6 giftPassKey)에서 열쇠를 받아 /my/?k= 로(열쇠가 없던 옛 사랑흐름 여권도) · 손님이 더 넣을 칸 없음 · frame.js ?v=24. [무손] 그 밖 v11 전부. -->
 <!-- (이전) find/index.html · v11 · 261024 · [칸 4 · 433 · 454 · 대표 OK 261024 21:16] 73차 결정 6 — 「예매」 → 결제로 가는 단추 「구매하기」 · 진열로 가는 길 「사랑흐름 여행 자세히 보기」 · 진열 이름 「여행 고르기」 · frame.js ?v=16. [무손] 그 밖 전부. -->
@@ -378,7 +379,7 @@
 var GAS='https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A/exec';
 var LINK={home:'/',journey:'/journey/',letter:'/l/'   /* [v21·260713] ★옛 GAS 주소(script.google.com) → /l/. 눌러도 옛 빈칸 편지로 가던 것 */,find:'/find/',reenter:'/reenter.html',about:'/about.html',trust:'/trust.html'};
 function goHome(){location.href=LINK.home;}
-function go(k){var u=LINK[k];if(u){location.href=u;}else{toast('연결 예정입니다');}}
+function go(k){var u=LINK[k];if(u){location.href=u;}else{toast('연결 예정이에요');}}
 function openMenu(){document.getElementById('drawer').classList.add('on');}
 function closeMenu(){document.getElementById('drawer').classList.remove('on');}
 function toast(m){var t=document.getElementById('toast');t.textContent=m;t.style.opacity=1;t.style.transform='translateX(-50%) translateY(0)';setTimeout(function(){t.style.opacity=0;t.style.transform='translateX(-50%) translateY(20px)';},2500);}
@@ -436,7 +437,7 @@ function render(list,byIdent){
 /* ★v12 사랑흐름 여권 화면(/my/) — 번호 + 연락처 뒤 4자리로 열쇠 받기 */
 function goMy(pp,b){
   if(!/^\d{4}$/.test(FP4)){toast('연락처를 다시 넣고 찾아 주세요');return;}
-  var t=b.textContent;b.disabled=true;b.textContent='사랑흐름 여권 화면을 여는 중입니다';
+  var t=b.textContent;b.disabled=true;b.textContent='사랑흐름 여권 화면을 여는 중이에요';
   var cb='pk_cb_'+Date.now(),done=false;
   function back(){b.disabled=false;b.textContent=t;try{delete window[cb];}catch(e){}}
   window[cb]=function(r){if(done)return;done=true;
@@ -821,7 +822,7 @@ function lfResCheck(){
        ★"거기 가면 있다"고 알려줘야 합니다. 담아둔 것은 그 기기 안에 있습니다. */
     document.getElementById('lfResMsg').innerHTML =
       '이 기기엔 담아둔 게 없어요.<br>'
-    + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
+    + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어져요.</span><br>'
     + '이 사랑흐름 여권으로 여행지도를 새로 펼쳐볼까요?';
     document.getElementById('lfResGo').textContent = '여행지도 펼치기';
     f.classList.add('on');

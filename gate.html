@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ gate.html · v52 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+<!-- ★ 현재 버전 ▶ gate.html · v53 · 261125 · [통합 표준 v0.2 F 말투 · 대표 지시 261125 18:59 「다음 작업 진도 나가세요」] 손님 안내 글만 「~요」 · 번호 설명 · 「여권이 나왔어요」 · 확인 중 · 보내는 중 · 홈 화면 안내 「~요」. [무손] 그 밖 v52 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ gate.html · v52 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
    (이전) gate.html · v51 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 공용 소리 lf/fx.js ?v=1 → ?v=3(솔 바탕 중저음 · 크기 중하). [무손] 그 밖 전부. -->
 <!-- (이전) gate.html · v50 · 261121 · [883 · 이사회 110차 GPT 6-5] 방문 통계(GA4)에 주소 뒤 꼬리(?id=사랑흐름 여권번호 · ?no=주문번호 · paymentKey · ?t=선물 열쇠 · ?k= 등)가 함께 가던 것 — 주소는 앞부분(경로)만 보내게. gtag config. [무손] 그 밖 전부. -->
 <!-- (이전)  gate.html · v49 · 261118 · [743 마] 사랑흐름 여권 발급 끝 — 여권번호 아래 날짜 자리에 「♥ 발급 · 날짜」 도장이 쾅 찍히고(상자가 살짝 흔들림) 띵동 — 날짜 글줄은 도장이 대신함. 공용 lf/fx.js v1. [무손] issue() 발급엔진 · 서버 호출 · 그 밖 전부. -->
@@ -349,7 +350,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
              · gate-sub "구입하신 곳의 정보를 입력해 주세요" → 삭제(바로 아래 칸들이 다 말합니다)
              · item-note "결제하신 금액으로 골라 주세요" → 라벨 안으로 흡수
              [남김] 결제번호 안내(noHint) — 이건 몰라서 놓치는 것이라 사족이 아닙니다. -->
-        <div class="pp-explain">여행을 구매하시면 발급되는, 나만의 번호입니다.</div>
+        <div class="pp-explain">여행을 구매하시면 발급되는, 나만의 번호예요.</div>
 
         <!-- [v10] 초록 상자(store-box) 폐기 — 흰 카드 안에 또 상자, 그 밑에 또 상자였습니다. 이제 상자 없이 칸만. -->
         <div class="store-box">
@@ -453,14 +454,14 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
       <div class="issued" id="issuedView">
         <div class="isd">
           <div class="isd-ic">🎫</div>
-          <div class="isd-t">사랑흐름 여권이 나왔습니다</div>
+          <div class="isd-t">사랑흐름 여권이 나왔어요</div>
           <div class="isd-l">사랑흐름 여권번호</div>
           <div class="pp-no" id="ppNo">LF-—</div>
           <div class="isd-d" id="ppDate">— 발급</div>
         </div>
         <div class="isd-go" id="isdGo" style="display:none"></div>
         <button class="go-btn" id="btnMy" onclick="goMy()">사랑흐름 여권 화면 열기 →</button>
-        <div class="isd-memo" id="isdMemo">사랑흐름 여권 화면에서 바로 여행을 시작하고, 홈 화면에 추가해 두실 수 있습니다.</div>
+        <div class="isd-memo" id="isdMemo">사랑흐름 여권 화면에서 바로 여행을 시작하고, 홈 화면에 추가해 두실 수 있어요.</div>
         <div class="cert-actions">
           <button type="button" class="cert-act-btn" id="btnCopyPp" onclick="copyPassportNumber()">📋 사랑흐름 여권번호 복사</button>
         </div>
@@ -651,7 +652,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     if(!lfDirect(channel)){ marketApply(channel, item, no, who, exPp); return; }
 
     var btn=document.getElementById('btnIssue');
-    btn.disabled=true; setMsg('확인 중입니다…', false);
+    btn.disabled=true; setMsg('확인 중이에요…', false);
 
     var cb = 'lfissue' + Date.now();
     var done = false;
@@ -729,7 +730,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
         var who = ''; try{ var rd = window.LFIdent ? LFIdent.read() : null; who = (rd && rd.name) ? String(rd.name) : ''; }catch(e){}
         who = who.replace(/[<>&"']/g, '');
         var hh = '<div class="isd-goT">✈️ ' + (who ? who + ' 님의 ' : '') + '사랑흐름 여권으로 여행하시려면 아래 단추를 누르세요.</div>'
-          + '<div class="isd-goS">누르시면 사랑흐름 여권번호 <b>' + pp + '</b> 가 자동으로 입력되어 바로 들어갑니다.</div>';
+          + '<div class="isd-goS">누르시면 사랑흐름 여권번호 <b>' + pp + '</b> 가 자동으로 입력되어 바로 들어가요.</div>';
         ps.forEach(function(k, i){ hh += '<a class="isd-btn' + (i ? ' s' : '') + '" href="' + GO[k] + encodeURIComponent(pp) + '" style="display:flex;align-items:center;gap:12px;text-align:left"><span data-lf-thumb="' + k + '" style="flex:0 0 40px;width:40px;height:54px;border-radius:7px;overflow:hidden;display:block;box-shadow:0 2px 6px rgba(0,0,0,.18)"></span><span style="flex:1">' + NAME[k] + (k === 'memoir' ? '으로' : '로') + ' 입장하기 ›</span></a>'; });   /* ★v48 그림 */
         g.innerHTML = hh; g.style.display = ''; try{ LFThumb.fill(g); }catch(e){}
         var bm = document.getElementById('btnMy'); if(bm){ bm.className = 'go-sub'; bm.textContent = '사랑흐름 여권 화면 열기 (탑승권 · 홈 화면에 추가)'; }
@@ -745,7 +746,7 @@ body{margin:0;background:#E7E1D6;font-family:'Noto Sans KR',-apple-system,BlinkM
     if(em && !/^[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']+$/.test(em)){ setMsg('이메일을 다시 확인해 주세요.', true); return; }
     var pcs = (item === 'memoir') ? (document.getElementById('pieces').value || '1') : '1';
     var btn=document.getElementById('btnIssue');
-    btn.disabled=true; setMsg('신청을 보내는 중입니다…', false);
+    btn.disabled=true; setMsg('신청을 보내는 중이에요…', false);
     var cb = 'lfmk' + Date.now();
     var done = false;
     var timer = setTimeout(function(){
@@ -1190,7 +1191,7 @@ function lfResCheck(){
        ★"거기 가면 있다"고 알려줘야 합니다. 담아둔 것은 그 기기 안에 있습니다. */
     document.getElementById('lfResMsg').innerHTML =
       '이 기기엔 담아둔 게 없어요.<br>'
-    + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
+    + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어져요.</span><br>'
     + '이 사랑흐름 여권으로 마음 여행지도를 새로 펼쳐 볼까요?';
     document.getElementById('lfResGo').textContent = '마음 여행지도 펼치기';
     f.classList.add('on');
