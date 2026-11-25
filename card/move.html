@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ card/move.html · v1 · 261125 · [착수 차례 5-3 옮기기 번호] 로그인 없이 이 휴대폰의 마음 카드 · 디지털 포스터 고침열쇠를 다른 휴대폰 · 다른 앱(카카오톡 안 화면 · 기본 앱 · 컴퓨터)으로 옮김.
+     보내기: 「옮기기 번호 받기」 › 여섯 자리 번호 + QR(10분 · 한 번만). 받기: 번호 넣고 「확인」 또는 QR로 열면 번호가 저절로 들어감.
+     서버 = 마음 카드 서버 9 버전(a=mvput · a=mvget · 시트에 적지 않음). 이 휴대폰의 열쇠는 지우지 않고 더하기만 함. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>다른 기기로 옮기기 · 사랑흐름</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="/poster/poster.css?v=1">
+<style>
+.lead{text-align:center;font-size:14.5px;line-height:1.6;color:var(--ink2);word-break:keep-all;margin-bottom:6px}
+.cnt{text-align:center;font-size:14px;color:var(--ink2);margin:4px 0 10px}
+.code{font:800 38px/1.2 'Noto Sans KR',sans-serif;letter-spacing:8px;text-align:center;color:var(--navy);margin:8px 0 4px}
+.left{text-align:center;font-size:13.5px;color:var(--ink2);margin-bottom:6px}
+.mvqr{width:170px;height:170px;margin:6px auto 10px;background:#fff;padding:6px}
+.mvqr svg{width:100%;height:100%;display:block}
+.inrow{display:flex;gap:8px}
+.inrow input{flex:1;min-width:0;min-height:52px;border:1.5px solid #D9DEE5;border-radius:12px;padding:0 12px;font:700 22px 'Noto Sans KR',sans-serif;letter-spacing:6px;text-align:center;color:var(--ink)}
+.inrow input:focus{outline:none;border-color:var(--navy)}
+.inrow .btn{width:96px;flex:0 0 96px}
+.hint{font-size:13px;color:var(--ink2);line-height:1.6;margin-top:8px;word-break:keep-all}
+.go2{display:flex;gap:8px;margin-top:10px}.go2 .btn{flex:1}
+</style>
+</head>
+<body data-lf-fab="off" data-lf-title="다른 기기로 옮기기">
+<main class="stage">
+  <p class="lead">만든 마음 카드 · 포스터를 다른 휴대폰이나 다른 앱에서도 이어서 볼 수 있게 옮겨요. 로그인은 없어요.</p>
+
+  <section class="box">
+    <h3>이 기기에서 보내기</h3>
+    <p class="cnt" id="have"></p>
+    <button class="btn main" type="button" id="putBtn">옮기기 번호 받기</button>
+    <div id="putBox" style="display:none">
+      <div class="code" id="code"></div>
+      <div class="left" id="left"></div>
+      <div class="mvqr" id="mvqr"></div>
+      <p class="hint">옮길 기기에서 이 화면을 열어 번호를 넣거나, 위 QR을 찍어 주세요. 이 기기에 있는 것은 그대로 남아요.</p>
+    </div>
+  </section>
+
+  <section class="box" id="getBox">
+    <h3>이 기기로 받기</h3>
+    <div class="inrow"><input id="mIn" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="000000" aria-label="옮기기 번호 여섯 자리"><button class="btn main" type="button" id="mGo">확인</button></div>
+    <p class="hint">다른 기기에서 받은 옮기기 번호 여섯 자리를 넣어 주세요.</p>
+    <div id="gotBox" style="display:none">
+      <div class="note" style="background:var(--donebg);color:var(--done);font-weight:600;margin-top:10px" id="gotMsg"></div>
+      <div class="go2"><a class="btn sub" href="/card/make.html">마음 카드 만들기</a><a class="btn sub" href="/poster/make.html">포스터 만들기</a></div>
+    </div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="lfFoot"></div>
+<script src="/my/qrcode.js?v=1"></script>
+<script>
+var API='https://script.google.com/macros/s/AKfycby0RS9OH3NeQI3uuG7HemoGfcNOA_LK0cdpGfvrreP-FaS3837qQ5O4R194R42PYzC7/exec';
+var SITE='https://www.loveflow.ai.kr/card/move.html';
+function $(i){return document.getElementById(i);}
+var tT=null;
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('on');},2600);}
+function rd(k){try{return JSON.parse(localStorage.getItem(k)||'{}')||{};}catch(e){return {};}}
+function wr(k,o){try{localStorage.setItem(k,JSON.stringify(o));return true;}catch(e){return false;}}
+function post(b){return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)}).then(function(r){return r.json();});}
+
+function paintHave(){
+  var c=Object.keys(rd('lfCardKeys')).length, p=Object.keys(rd('lfPosterKeys')).length;
+  $('have').textContent=(c||p)?('이 기기에 마음 카드 '+c+'장 · 포스터 '+p+'장이 있어요'):'이 기기에서 만든 마음 카드 · 포스터가 없어요';
+  $('putBtn').disabled=!(c||p); $('putBtn').style.opacity=(c||p)?'':'.5';
+}
+
+/* 보내기 */
+var tick=null;
+$('putBtn').onclick=function(){
+  var b=this; b.disabled=true; b.textContent='번호를 만드는 중이에요…';
+  post({a:'mvput',cards:rd('lfCardKeys'),posters:rd('lfPosterKeys')}).then(function(d){
+    b.disabled=false; b.textContent='옮기기 번호 다시 받기';
+    if(!d||!d.ok){ toast(d&&d.code==='empty'?'옮길 것이 없어요':'번호를 만들지 못했어요. 잠시 뒤 다시 해 주세요'); return; }
+    $('putBox').style.display='block'; $('code').textContent=d.m;
+    try{ var q=qrcode(0,'M'); q.addData(SITE+'?m='+d.m); q.make(); $('mvqr').innerHTML=q.createSvgTag(4,0); }catch(e){ $('mvqr').style.display='none'; }
+    var end=Date.now()+(d.sec||600)*1000; clearInterval(tick);
+    function show(){ var s=Math.max(0,Math.round((end-Date.now())/1000));
+      $('left').textContent=s?('남은 시간 '+Math.floor(s/60)+':'+('0'+(s%60)).slice(-2)+' · 한 번만 쓸 수 있어요'):'시간이 지났어요. 번호를 다시 받아 주세요';
+      if(!s){ clearInterval(tick); $('code').style.opacity='.35'; } }
+    $('code').style.opacity=''; show(); tick=setInterval(show,1000);
+  }).catch(function(){ b.disabled=false; b.textContent='옮기기 번호 받기'; toast('번호를 만들지 못했어요. 인터넷 연결을 확인해 주세요'); });
+};
+
+/* 받기 */
+function take(){
+  var m=($('mIn').value||'').replace(/[^0-9]/g,'');
+  if(m.length!==6){ toast('옮기기 번호 여섯 자리를 넣어 주세요'); $('mIn').focus(); return; }
+  var b=$('mGo'); b.disabled=true; b.textContent='받는 중…';
+  post({a:'mvget',m:m}).then(function(d){
+    b.disabled=false; b.textContent='확인';
+    if(!d||!d.ok){ toast(d&&d.code==='busy'?'잠시 뒤 다시 해 주세요':'번호가 맞지 않거나 시간이 지났어요. 보내는 기기에서 번호를 다시 받아 주세요'); return; }
+    var ck=rd('lfCardKeys'), pk=rd('lfPosterKeys'), nc=0, np=0, x;
+    for(x in d.cards){ if(!ck[x]){nc++;} ck[x]=d.cards[x]; }
+    for(x in d.posters){ if(!pk[x]){np++;} pk[x]=d.posters[x]; }
+    if(!wr('lfCardKeys',ck)||!wr('lfPosterKeys',pk)){ toast('이 기기에 담지 못했어요. 다른 앱에서 열어 주세요'); return; }
+    $('gotBox').style.display='block';
+    $('gotMsg').textContent='옮겼어요 · 마음 카드 '+Object.keys(d.cards).length+'장 · 포스터 '+Object.keys(d.posters).length+'장';
+    $('mIn').value=''; paintHave();
+  }).catch(function(){ b.disabled=false; b.textContent='확인'; toast('받지 못했어요. 인터넷 연결을 확인해 주세요'); });
+}
+$('mGo').onclick=take;
+$('mIn').addEventListener('keydown',function(e){ if(e.key==='Enter'){ take(); } });
+$('mIn').addEventListener('input',function(){ this.value=this.value.replace(/[^0-9]/g,'').slice(0,6); });
+
+(function start(){
+  paintHave();
+  var m=(new URLSearchParams(location.search).get('m')||'').replace(/[^0-9]/g,'');
+  if(location.hash==='#get'){ setTimeout(function(){ $('getBox').scrollIntoView({block:'center'}); $('mIn').focus(); },200); }
+  if(m.length===6){ $('mIn').value=m; $('getBox').scrollIntoView({block:'center'});
+    /* 카카오톡 안에서 열리면 틀(frame.js)이 기본 앱으로 넘겨 줌 — 받기는 넘어간 쪽에서(만들기 화면도 거기서 열리므로) */
+    var kk=/KAKAOTALK/i.test(navigator.userAgent||'')&&!/[?&]kk=0/.test(location.search); var out=''; try{out=sessionStorage.getItem('lf_kk_out')||'';}catch(e){}
+    if(kk&&out!=='1'){ return; }
+    try{history.replaceState(null,'',location.pathname);}catch(e){} take(); }
+})();
+</script>
+<script src="/lf-foot.js" defer></script>
+<script>window.LF_WAY={home:function(){location.href='/card/make.html';return true}};</script>
+<script src="/lf/frame.js?v=17"></script>
+</body>
+</html>
