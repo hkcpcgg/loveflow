@@ -114,7 +114,7 @@ function finish(meWin,a,b){ S.over=true; S.sc=[a,b]; vs(null); col('l',{pw:0,on:
    칸(나무판 위 글씨): 꽝 셋(넓음) · 한 고깔 둘 · 두 고깔 둘 · 세 고깔 하나 · 다섯 고깔 하나(가장 좁음) · 한 번 더 둘(좁음).
    사장님과 번갈아 동전 세 닢씩 — 고깔을 더 많이 모은 쪽이 이김(같으면 한 번씩 더). 운 놀이라 사장님 세기 없음(049: 운 놀이는 50%). */
 var BW=[['꽝',50,0],['한 고깔',45,1],['두 고깔',30,2],['한 번 더',13,-1],['꽝',50,0],['세 고깔',24,3],['한 고깔',45,1],['꽝',50,0],['두 고깔',30,2],['다섯 고깔',10,5],['한 번 더',13,-1]];
-var BN={LO:.22,HOLD:1.4,A:330}, N={}, nraf=0;
+var BN={LO:.22,HOLD:1.4,A:120}   /* 261125 대표: 너무 빨라 글씨가 안 보임 · 천천히 멈추며 칸 글씨가 보이게(처음 빠르기 300~820 · 느려지는 정도 330을 120으로) */, N={}, nraf=0;
 (function(){ var a=0; BW.forEach(function(w){ w.s=a; a+=w[1]; w.e=a; }); })();
 function bnGeo(){ var bd=$('board'), w=bd.clientWidth, h=bd.clientHeight, d=Math.max(160,Math.min(w-16,h-84)); return {w:w,h:h,d:d,top:Math.max(40,(h-d)/2+4)}; }
 function bnAt(R){ var p=((-R)%360+360)%360; for(var i=0;i<BW.length;i++){ if(p>=BW[i].s&&p<BW[i].e) return i; } return 0; }
@@ -157,7 +157,7 @@ function bnLet(){ if(!N.hold) return; N.hold=false; N.cpuHold=false; cancelAnima
 function bnSpin(q){ var g=S.gen, go=$('bnGo'); if(go) go.disabled=true; N.ph='turn'; var pc=N.turn===0?'l':'r'; col(pc,{pw:0,good:null});
   if(q<BN.LO){ var R0=N.R, t0=performance.now(); snd('clack',.3); (function nb(){ if(g!==S.gen) return; var k=Math.min(1,(performance.now()-t0)/500); bnRot(R0+Math.sin(Math.PI*k)*14); if(k<1){ requestAnimationFrame(nb); return; }
       fx('살살~',36); $('say').innerHTML='<em>너무 살살 돌렸어요</em> · 판이 한 바퀴는 돌아야 해요 · 동전은 그대로, 다시'; setTimeout(function(){ if(g===S.gen) bnTurn(); },1300); })(); return; }
-  var w0=Math.round((520+q*880)*4)/4, A=BN.A, T=w0/A, R0=N.R-q*8, t0=performance.now(), id=++N.loop, last=bnAt(R0), nl=$('bnnail'), lt=0;
+  var w0=Math.round((300+q*520)*4)/4, A=BN.A, T=w0/A, R0=N.R-q*8, t0=performance.now(), id=++N.loop, last=bnAt(R0), nl=$('bnnail'), lt=0;
   (function lp(){ if(g!==S.gen||id!==N.loop) return; var t=Math.min(T,(performance.now()-t0)/1000), R=R0+w0*t-A*t*t/2; bnRot(R); var i=bnAt(R);
     if(i!==last){ last=i; var now=performance.now(); if(now-lt>45){ lt=now; snd('clack',.22); } if(nl){ nl.classList.add('tk'); clearTimeout(nl.__t); nl.__t=setTimeout(function(){ nl.classList.remove('tk'); },60); } }
     if(t<T){ nraf=requestAnimationFrame(lp); return; } N.R=R; bnStop(i); })(); }
