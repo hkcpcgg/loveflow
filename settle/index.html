@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ settle/index.html · v2 · 261125 · 정산 관리 화면(대표님만 · 컴퓨터 중심). 서버 = 정산 서버 2 버전.
+<!-- ★ 현재 버전 ▶ settle/index.html · v2.1 · 261125 · [대표 17:41 「선택만 두지 말고 직접 입력을 꼭 둘 것」] 원장 직접 넣기에 「✎ 직접 적기 · 더하기 / 빼기」와 항목 이름 칸(장려금 · 시상금 등) · 세금 기준에 넣지 않음 체크 · 판매자 종류도 직접 적기. 서버 = 정산 서버 2-1 버전.
+     (이전 v2) 정산 관리 화면(대표님만 · 컴퓨터 중심). 서버 = 정산 서버 2 버전.
      원장(가져오기 · 직접 넣기 · 환수) · 활동(강사료 · 수행비) · 선지급 · 월 마감(말일 › 다음 달 20일 · 이월 · 보류) · 명세서 · 지급함 ·
      판매자(신분 · 보류) · 약정(갈래 · 기준 · 환수 기간) · 환산율(상품별 인정 비율) · 세금 기준 · 신고용 내려받기 · 계좌 등록 링크.
      처음 한 번만 서버 주소 · 관리 열쇠를 넣으면 이 기기에 기억. 확인자 이름도 이 기기에 기억(모든 넣기 · 마감 · 지급에 함께 남음). -->
@@ -82,6 +83,8 @@ td.n,th.n{text-align:right;white-space:nowrap}
           <label id="lAmtL">금액(원)<input type="number" id="lAmt" min="0" style="width:130px"></label>
           <label>주문번호 · 계약번호<input id="lOrder" style="width:170px"></label>
         </div>
+        <div class="row"><label style="flex:1" id="lNameL">항목 이름(직접 적기 · 예: 연말 시상금 · 성과 장려금 · 행사 진행비)<input id="lName" maxlength="30" style="width:100%" placeholder="비우면 고른 갈래 이름으로 남아요"></label>
+          <label id="lNoTaxL" style="flex-direction:row;align-items:center;gap:6px;min-height:42px"><input type="checkbox" id="lNoTax">세금 기준에 넣지 않음(실비 · 비용처럼)</label></div>
         <div class="row"><label style="flex:1">근거(무엇을 보고 넣는지 · 꼭)<input id="lWhy" style="width:100%" placeholder="예) 네이버 주문 2026112512345 · 예) ○○기관 계약 · 1편 쓰고 해지 · 9편 환불"></label>
           <button class="btn" type="button" id="lGo">넣기</button></div>
         <p class="hint" id="lHint"></p>
@@ -153,7 +156,7 @@ td.n,th.n{text-align:right;white-space:nowrap}
         <div class="row">
           <label>판매자 번호<input id="sNo" placeholder="ORG-…" style="width:150px"></label>
           <label>이름(회사 · 사람)<input id="sName" style="width:180px"></label>
-          <label>종류<select id="sKind"></select></label>
+          <label>종류(고르거나 직접 적기)<input id="sKind" list="sKindL" maxlength="20" style="width:150px"><datalist id="sKindL"></datalist></label>
           <label>신분(세금)<select id="sStatus"></select></label>
           <label>담당자<input id="sWho" style="width:110px"></label>
           <label>연락처<input id="sTel" style="width:140px"></label>
@@ -250,23 +253,23 @@ function load(m){
     D=d; $('setup').style.display='none'; $('app').style.display='block';
     var sl=d.sellers.map(function(s){return [s.s,s.s+' · '+s.name];});
     ['lS','aS','vS','rS'].forEach(function(i){var v=$(i).value;opts(i,sl,v);});
-    opts('lCode',codeList(function(k){return ['M2','P7','M7'].indexOf(k)<0;}),$('lCode').value||'P1');
+    opts('lCode',[['X+','✎ 직접 적기 · 더하기'],['X-','✎ 직접 적기 · 빼기']].concat(codeList(function(k){return ['M2','P7','M7'].indexOf(k)<0;})),$('lCode').value||'P1');
     opts('lItem',itemList(false,true)); opts('rItem',itemList(true)); opts('kItem',itemList(true));
     opts('rCode',codeList(function(k){return /^P[1-6]$/.test(k);}),$('rCode').value||'P1');
     opts('rHow',d.hows.map(function(h){return [h,h];}),$('rHow').value||'율'); opts('rBasis',d.bases.map(function(h){return [h,h==='수납액'?'실제 수납액(기본)':h==='공급가액'?'공급가액(÷1.1)':'수납액 − 결제 수수료'];}),$('rBasis').value||'수납액');
-    opts('sKind',d.kinds.map(function(k){return [k,k];})); opts('sStatus',d.statuses.map(function(k){return [k,k];})); opts('tStatus',d.statuses.filter(function(k){return k!=='확인 안 됨';}).map(function(k){return [k,k];}));
+    $('sKindL').innerHTML=d.kinds.map(function(k){return '<option value="'+esc(k)+'">';}).join(''); opts('sStatus',d.statuses.map(function(k){return [k,k];})); opts('tStatus',d.statuses.filter(function(k){return k!=='확인 안 됨';}).map(function(k){return [k,k];}));
     opts('tCode',[['*','모든 갈래']].concat(codeList(function(k){return /^P/.test(k);})));
     opts('vKind',d.advKinds.map(function(k){return [k,k];}),$('vKind').value); opts('vWay',d.advWays.map(function(k){return [k,k];}),$('vWay').value);
     lHint(); drawLed(); drawSellers(); drawRates(); drawConv(); drawTax(); drawAdv(); drawCloses(); drawCarry();
   }).catch(function(){ toast('서버에 닿지 않아요. 주소를 확인해 주세요'); $('setup').style.display='block'; });
 }
-function lHint(){var c=$('lCode').value,h={P1:'판매 수수료: 실제 수납액을 넣으면 약정 · 환산율로 수수료를 셈해요.',M1:'환수: 원래 주문 · 계약번호와 환불 금액을 넣으면 그 주문 수수료에서 환불 비율만큼 셈해요. 약정에 환수 기간이 있고 지났으면 0원으로 남아요.'}[c]||(c.charAt(0)==='M'?'빼기: 금액을 넣으면 그만큼 빼요.':'더하기: 금액을 그대로 더해요.');
+function lHint(){var c0=$('lCode').value,cx=(c0==='X+'||c0==='X-');$('lNoTaxL').style.display=cx?'':'none';$('lNameL').firstChild.textContent=cx?'항목 이름(꼭 · 예: 연말 시상금 · 성과 장려금 · 행사 진행비)':'항목 이름(직접 적기 · 비우면 고른 갈래 이름)';if(cx){$('lHint').textContent=(c0==='X+'?'더하기':'빼기')+': 목록에 없는 항목을 이름을 적어 넣어요. 금액 그대로 '+(c0==='X+'?'더하고':'빼고')+', 명세서에도 적은 이름으로 나와요. 마감한 달은 고치지 않고, 넣은 줄은 다음 마감에 들어가요.';$('lAmtL').firstChild.textContent='금액(원)';return;}var c=c0,h={P1:'판매 수수료: 실제 수납액을 넣으면 약정 · 환산율로 수수료를 셈해요.',M1:'환수: 원래 주문 · 계약번호와 환불 금액을 넣으면 그 주문 수수료에서 환불 비율만큼 셈해요. 약정에 환수 기간이 있고 지났으면 0원으로 남아요.'}[c]||(c.charAt(0)==='M'?'빼기: 금액을 넣으면 그만큼 빼요.':'더하기: 금액을 그대로 더해요.');
   $('lHint').textContent=h+' 마감한 달은 고치지 않고, 넣은 줄은 다음 마감에 들어가요.';$('lAmtL').firstChild.textContent=c==='P1'?'수납액(원)':c==='M1'?'환불 금액(원)':'금액(원)';}
 function drawLed(){
   var r=D.lines; if(!r.length){$('ledT').innerHTML='<p class="hint">이 달 줄이 없어요.</p>';return;}
   var sum=0;r.forEach(function(x){sum+=x.amount;});
   $('ledT').innerHTML=tbl(['날짜','판매자','갈래','주문 · 계약','상품','.수납액','.환산','.인정 실적','방식','.금액','출처','근거 · 확인자','마감'],
-    r.map(function(x){return '<tr><td>'+esc(x.day)+'</td><td>'+sCell(x.s)+'</td><td>'+esc(x.code)+' '+esc(D.codes[x.code]||'')+'</td><td>'+esc(x.order)+'</td><td>'+esc(D.items[x.item]||x.item)+'</td>'+nC(x.paid)+'<td class="n">'+(x.conv===''?'':esc(x.conv)+'%')+'</td>'+nC(x.recog)+'<td>'+esc(x.how)+'</td>'+nC(x.amount)+'<td>'+esc(x.from)+'</td><td><small>'+esc(x.why)+(x.who?' · '+esc(x.who):'')+'</small></td><td>'+esc(x.closed||'')+'</td></tr>';})
+    r.map(function(x){return '<tr><td>'+esc(x.day)+'</td><td>'+sCell(x.s)+'</td><td>'+esc(x.code)+' '+esc(x.name||D.codes[x.code]||'')+'</td><td>'+esc(x.order)+'</td><td>'+esc(D.items[x.item]||x.item)+'</td>'+nC(x.paid)+'<td class="n">'+(x.conv===''?'':esc(x.conv)+'%')+'</td>'+nC(x.recog)+'<td>'+esc(x.how)+'</td>'+nC(x.amount)+'<td>'+esc(x.from)+'</td><td><small>'+esc(x.why)+(x.who?' · '+esc(x.who):'')+'</small></td><td>'+esc(x.closed||'')+'</td></tr>';})
     .concat(['<tr><th colspan="9">이 달 금액 합계</th><th class="n">'+won(sum)+'</th><th colspan="3"></th></tr>']));
 }
 function drawSellers(){
@@ -314,8 +317,8 @@ $('lCode').onchange=lHint;
 function done(d,ok){if(!d||!d.ok){toast(d&&d.msg||'넣지 못했어요');return false;}toast(ok);load();return true;}
 $('pullGo').onclick=function(){var b=this;b.disabled=true;b.textContent='가져오는 중이에요…';call({a:'pull'}).then(function(d){b.disabled=false;b.textContent='실적 가져오기';
   if(!d||!d.ok){toast('가져오지 못했어요');return;}toast('새 실적 '+d.added+'건 · 환수 '+d.minus+'건'+(d.skipped?' · 대장에 없는 번호 '+d.skipped+'건 건너뜀':''));load();}).catch(function(){b.disabled=false;b.textContent='실적 가져오기';toast('서버에 닿지 않아요');});};
-$('lGo').onclick=function(){if(!needWho())return;call({a:'line',code:$('lCode').value,s:$('lS').value,day:$('lDay').value,item:$('lItem').value,pieces:$('lPc').value,amount:$('lAmt').value,order:$('lOrder').value.trim(),why:$('lWhy').value.trim()}).then(function(d){
-  if(done(d,'넣었어요 · '+won(d&&d.fee)+'원')){$('lAmt').value='';$('lWhy').value='';$('lOrder').value='';}});};
+$('lGo').onclick=function(){if(!needWho())return;var c0=$('lCode').value,nm=$('lName').value.trim(),code=c0;if(c0==='X+'||c0==='X-'){if(!nm){toast('항목 이름을 적어 주세요');$('lName').focus();return;}code=c0==='X+'?($('lNoTax').checked?'P6':'P9'):($('lNoTax').checked?'M5':'M9');}call({a:'line',code:code,name:nm,s:$('lS').value,day:$('lDay').value,item:$('lItem').value,pieces:$('lPc').value,amount:$('lAmt').value,order:$('lOrder').value.trim(),why:$('lWhy').value.trim()}).then(function(d){
+  if(done(d,'넣었어요 · '+won(d&&d.fee)+'원')){$('lAmt').value='';$('lWhy').value='';$('lOrder').value='';$('lName').value='';}});};
 $('aGo').onclick=function(){if(!needWho())return;call({a:'act',code:$('aCode').value,s:$('aS').value,day:$('aDay').value,org:$('aOrg').value.trim(),ses:$('aSes').value,hrs:$('aHrs').value,ppl:$('aPpl').value,amount:$('aAmt').value,what:$('aWhat').value.trim(),proof:$('aProof').value.trim(),why:$('aWhy').value.trim()||'활동'}).then(function(d){
   if(done(d,'넣었어요 · '+won(d&&d.fee)+'원')){$('aWhat').value='';$('aProof').value='';$('aAmt').value='';}});};
 $('vGo').onclick=function(){if(!needWho())return;if(!confirm('선지급을 넣을까요? 지급 대장에도 이체 한 줄이 남아요.'))return;call({a:'adv',s:$('vS').value,day:$('vDay').value,amount:$('vAmt').value,kind:$('vKind').value,way:$('vWay').value,wv:$('vWv').value,why:$('vWhy').value.trim()}).then(function(d){
