@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ card/make.html · v3.9 · 261125 · [착수 차례 5-3] 「고쳐서 다시 보내도 주소는 그대로예요.」 옆에 「다른 기기로 옮기기 ›」(/card/move.html). 그 밖 v3.8 그대로.
+<!-- ★ 현재 버전 ▶ card/make.html · v4.0 · 261125 · [대표 19:15 · 사랑흐름-총괄-035 파일 올리기 공통 꼴] 받는 분 명단 — 파일 · 붙여 넣기로 올리면 이름(+소속)이 같은 줄은 빈칸만 채움(다른 값은 표에 있던 대로) · 없으면 새로 더함 · 같은 이름이 여럿 · 이름 없는 줄은 「못 맞춘 줄」 · 표 아래 결과 한 줄 「빈칸 채움 · 새로 더함 · 다른 값 · 못 맞춘 줄」 + 「되돌리기」 · 「양식 내려받기」 › 「명단 내려받기」(지금 명단을 엑셀로 · 비었으면 양식 · 엑셀 도구가 없으면 CSV) · 머리 줄은 앞 10줄에서 찾음 · 칸 이름 「소속」도 받음. [무손] 그 밖 v3.9 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ card/make.html · v3.9 · 261125 · [착수 차례 5-3] 「고쳐서 다시 보내도 주소는 그대로예요.」 옆에 「다른 기기로 옮기기 ›」(/card/move.html). 그 밖 v3.8 그대로.
      (이전) card/make.html · v3.8 · 261125 · [착수 차례 5-2 유료 기능 잠금 · 대표 OK 14:18] 판매 스위치(결제 서버 값)가 켜졌을 때만: 유료 기능 옆에 작은 「유료」 표시(준비된 카드 · 사진 · 끝인사 한마디 · 내 서명 · 녹음 또는 파일 · 단체로 보내기 · 오시는 길) · 유료 기능을 넣은 카드에만 결제 상자 + 「결제하지 않으시면 받는 분께는 이 기능이 빠진 무료 카드로 보여요」 한 줄. 막지 않음(만들기 · 보내기는 그대로). 스위치가 꺼져 있으면(지금) v3.7 과 똑같음. 짝꿍: 마음 카드 서버 Code.gs 8 · lf/pay-one.js v2.
      (이전) card/make.html · v3.7 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기] 「카드가 준비됐어요」 아래에 유료 결제 상자(/lf/pay-one.js v1). 값이 결제 서버에 없으면(지금) 상자가 아예 안 보임 = 화면은 v3.6 그대로. 값이 들어가면: 동의 한 줄 › 결제 창 양해 › 토스(주문번호 LF-CARD-12자리 · 이번에 만든 카드 한 벌 = 결제 한 번) › 돌아오면 만들던 카드 · 보낼 목록을 그대로 되살리고 승인 › 마음 카드 서버 a=pay(장마다 유료 · 주소 그대로). 짝꿍: 결제 서버 tossConfirm v6 · 마음 카드 서버 Code.gs 7.
      (이전) card/make.html · v3.6 · 261125 · [대표 261124 19:39 「직접 사진을 찍어 올리는 기능이 빠졌다」] 사진 넣는 칸을 누르면 「📷 사진 찍기 · 🖼️ 앨범에서 고르기」를 먼저 고름(/lf/photo-pick.js v1 · 안드로이드 새 사진 창에 카메라가 없어서 · 아이폰은 기본 메뉴라 그대로). -->
@@ -286,6 +287,7 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
 .srec.done .nm::after{content:" · 보냄 ✓";color:#2F7D4F;font-size:12.5px}
 .ovx{position:fixed;top:12px;right:12px;z-index:1600;border:0;border-radius:999px;background:rgba(255,255,255,.92);color:var(--navy);font:inherit;font-size:13.5px;font-weight:800;padding:8px 14px;box-shadow:0 4px 12px rgba(0,0,0,.2);cursor:pointer}
 .fin{display:none;margin-top:14px;text-align:center}.fin.on{display:block}.fin .fh{font-weight:800;font-size:16px;margin-bottom:10px}.fin .go{margin-top:8px;display:block;text-decoration:none;text-align:center}
+.lres{display:none;margin:8px 0 0;padding:10px 12px;border-radius:12px;background:#F5F1E8;font-size:13px;line-height:1.7;color:#4a4438}.lres.on{display:block}.lres b{color:var(--navy)}.lres button{border:0;background:none;color:var(--navy);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;padding:0 0 0 4px}
 </style>
 </head>
 <body>
@@ -338,7 +340,8 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
         <div class="ex">이렇게 붙여도 알아서 나눠요<br>다복, 김철수, 대표<br>박영희 선생님<br>이모</div>
         <button class="go line" type="button" id="pasteGo" style="margin-top:8px">표에 넣기</button></div>
       <input class="vfile" id="fileList" type="file" accept=".csv,.txt,.xlsx,.xls,text/csv">
-      <p class="hint">파일 칸: 소속 · 이름 · 직함 · 존칭 <button type="button" id="formDl" style="border:0;background:none;color:var(--navy);font:inherit;font-size:12.5px;font-weight:700;text-decoration:underline;cursor:pointer">양식 내려받기</button></p>
+      <p class="hint">파일 칸: 소속 · 이름 · 직함 · 존칭 <button type="button" id="formDl" style="border:0;background:none;color:var(--navy);font:inherit;font-size:12.5px;font-weight:700;text-decoration:underline;cursor:pointer">명단 내려받기</button></p>
+      <div class="lres" id="listRes"></div>
       <div class="cnt" id="cnt"></div>
     </div>
 
@@ -493,10 +496,12 @@ function splitOne(s){s=s.trim().replace(/\s+/g,' ');if(!s)return null;var hon='�
  var t=s.split(' '),title='';var last=t[t.length-1].replace(/님$/,'');
  if(t.length>1&&TITLES.indexOf(last)>=0){title=last==='님'?'':last;t.pop()}else if(t.length===1&&/님$/.test(t[0])&&TITLES.indexOf(t[0].replace(/님$/,''))<0){t[0]=t[0].replace(/님$/,'')}
  var name=t.pop()||'',org=t.join(' ');return {org:org,name:name,title:title,hon:hon}}
-function parseRows(text){var lines=String(text).replace(/\r/g,'').split('\n'),out=[],head=null;
+var PMISS=[];   /* v4.0 못 맞춘 줄(머리 줄이 있는데 이름 칸이 빈 줄) */
+function parseRows(text){var lines=String(text).replace(/\r/g,'').split('\n'),out=[],head=null;PMISS=[];
  lines.forEach(function(L,li){if(!L.trim())return;var c=L.indexOf('\t')>=0?L.split('\t'):L.split(',');c=c.map(function(x){return x.replace(/^"|"$/g,'').trim()});
-  if(li===0&&c.some(function(x){return /^(이름|성명)$/.test(x)})){head=c;return}
-  if(head){var g=function(re){var i=-1;head.forEach(function(h,j){if(i<0&&re.test(h))i=j});return i>=0?(c[i]||''):''};var r={org:g(/단체|기관|회사|상호/),name:g(/이름|성명/),title:g(/직함|직위|직책/),hon:g(/존칭/)||'님께'};if(r.name)out.push(r);return}
+  if(!head&&li<10&&c.some(function(x){return /^(이름|성명)$/.test(x.replace(/\s/g,''))})){head=c.map(function(x){return x.replace(/\s/g,'')});out=[];return}   /* v4.0 앞 10줄에서 머리 줄 */
+  if(head){var g=function(re){var i=-1;head.forEach(function(h,j){if(i<0&&re.test(h))i=j});return i>=0?(c[i]||''):''};var r={org:g(/소속|단체|기관|회사|상호/),name:g(/^(이름|성명)$/),title:g(/직함|직위|직책/),hon:g(/존칭/)||'님께'};
+   if(!/^(님께|께|귀하|에게)$/.test(r.hon))r.hon='님께';if(r.name)out.push(r);else if(c.some(function(x){return x}))PMISS.push((li+1)+'째 줄 · 이름 없음');return}
   c=c.filter(function(x){return x!==''});
   if(c.length>=3)out.push({org:c[0],name:c[1],title:c[2].replace(/님$/,''),hon:/^(님께|께|귀하|에게)$/.test(c[3]||'')?c[3]:'님께'});
   else if(c.length===2){var a=splitOne(c[1]);if(TITLES.indexOf(c[1].replace(/님$/,''))>=0)out.push({org:'',name:c[0],title:c[1].replace(/님$/,''),hon:'님께'});else out.push({org:c[0],name:a?a.name:c[1],title:a?a.title:'',hon:a?a.hon:'님께'})}
@@ -512,8 +517,19 @@ function drawTable(){var tb=$('tbody');tb.innerHTML=LIST.map(function(r,i){retur
  each(tb.querySelectorAll('[data-x]'),function(b){b.onclick=function(){LIST.splice(+b.dataset.x,1);drawTable()}});countL()}
 function countL(){var n=LIST.filter(function(r){return r.name}).length;$('cnt').textContent=n?'받으실 분 '+n+'명':'';ST.msgFor=null;wmCheck()}
 $('pasteBtn').onclick=function(){$('pasteWrap').classList.toggle('on');if($('pasteWrap').classList.contains('on'))$('pasteBox').focus()};
-function merge(rows){LIST=LIST.filter(function(r){return r.name}).concat(rows);if(LIST.length<3)blankRows(3-LIST.length)}
-$('pasteGo').onclick=function(){var rows=parseRows($('pasteBox').value);if(!rows.length){toast('붙여 넣은 명단이 비어 있어요');return}merge(rows);drawTable();tick();$('pasteWrap').classList.remove('on');$('pasteBox').value='';toast(rows.length+'분을 표에 넣었어요. 표에서 고쳐 주세요')};
+/* v4.0 공통 꼴(사랑흐름-총괄-035) — 이름(+소속)이 같으면 그 줄의 빈칸만 채움 · 다른 값은 그대로 두고 셈 · 없으면 새로 더함 · 같은 이름이 여럿이면 새 줄로 두지 않고 셈 */
+var LUNDO=null;
+function merge(rows){LUNDO=JSON.stringify(LIST);var cur=LIST.filter(function(r){return r.name}),st={fill:0,add:0,diff:0,miss:PMISS.slice()};
+ rows.forEach(function(r){var nk=r.name.replace(/\s/g,''),c=cur.filter(function(x){return x.name.replace(/\s/g,'')===nk});
+  if(r.org){var c1=c.filter(function(x){return (x.org||'')===r.org});c=c1.length?c1:c.filter(function(x){return !x.org})}
+  if(c.length>1){st.miss.push(r.name+' · 같은 이름이 여럿');return}
+  if(!c.length){cur.push(r);st.add++;return}
+  var x=c[0];['org','title'].forEach(function(k){if(!r[k]||r[k]===x[k])return;if(!x[k]){x[k]=r[k];st.fill++}else st.diff++})});
+ LIST=cur;if(LIST.length<3)blankRows(3-LIST.length);return st}
+function mergeSay(st){var h='빈칸 채움 '+st.fill+' · 새로 더함 '+st.add+' · 다른 값 '+st.diff+'곳 · 못 맞춘 줄 '+st.miss.length+'개';
+ var el=$('listRes');el.innerHTML='<b>'+h+'</b>'+(st.diff?'<br>다른 값은 표에 있던 대로 두었어요. 표에서 고쳐 주세요.':'')+(st.miss.length?'<br>'+st.miss.slice(0,5).map(esc).join('<br>')+(st.miss.length>5?'<br>외 '+(st.miss.length-5)+'줄':''):'')+' <button type="button" id="listUndo">되돌리기</button>';el.classList.add('on');
+ $('listUndo').onclick=function(){if(!LUNDO)return;try{LIST=JSON.parse(LUNDO)}catch(e){}LUNDO=null;drawTable();tick();el.classList.remove('on');toast('올리기 전으로 되돌렸어요')}}
+$('pasteGo').onclick=function(){var rows=parseRows($('pasteBox').value);if(!rows.length){toast('붙여 넣은 명단이 비어 있어요');return}var st=merge(rows);drawTable();tick();$('pasteWrap').classList.remove('on');$('pasteBox').value='';mergeSay(st)};
 $('rowAdd').onclick=function(){blankRows(1);drawTable();var ins=$('tbody').querySelectorAll('input[data-c="name"]');if(ins.length)ins[ins.length-1].focus()};
 $('honAll').onchange=function(){var h=this.value;if(!h)return;LIST.forEach(function(r){r.hon=h});drawTable();this.value=''};
 $('listSave').onclick=function(){ls('lf_card_list_v1',JSON.stringify(LIST.filter(function(r){return r.name})));tick();toast('이 휴대폰에 명단을 저장했어요')};
@@ -522,9 +538,12 @@ $('fileListBtn').onclick=function(){$('fileList').click()};
 $('fileList').onchange=function(){var f=this.files&&this.files[0];if(!f)return;var nm=f.name.toLowerCase();this.value='';
  if(/\.(xlsx|xls)$/.test(nm)){loadXlsx(function(){var r=new FileReader();r.onload=function(){try{var wb=XLSX.read(r.result,{type:'array'}),csv=XLSX.utils.sheet_to_csv(wb.Sheets[wb.SheetNames[0]]);takeFile(csv)}catch(e){toast('이 파일은 열 수 없어요. CSV로 저장해 올려 주세요')}};r.readAsArrayBuffer(f)});return}
  var r=new FileReader();r.onload=function(){takeFile(r.result)};r.readAsText(f,'utf-8')};
-function takeFile(t){var rows=parseRows(t);if(!rows.length){toast('명단을 찾지 못했어요. 양식 칸을 확인해 주세요');return}merge(rows);drawTable();tick();toast(rows.length+'분을 표에 넣었어요')}
-function loadXlsx(cb){if(window.XLSX)return cb();var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=cb;s.onerror=function(){toast('엑셀을 여는 도구를 불러오지 못했어요. CSV로 올려 주세요')};document.head.appendChild(s)}
-$('formDl').onclick=function(){var csv='﻿단체,이름,직함,존칭\n다복,김철수,대표,님께\n,박영희,선생님,님께\n,이모,,께\n';try{var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='마음카드_받으실분_명단_양식.csv';document.body.appendChild(a);a.click();a.remove();toast('양식을 내려받았어요')}catch(e){toast('이 화면에서는 내려받기가 어려워요')}};
+function takeFile(t){var rows=parseRows(t);if(!rows.length){toast('명단을 찾지 못했어요. 「명단 내려받기」로 받은 양식에 채워 올려 주세요');return}var st=merge(rows);drawTable();tick();mergeSay(st)}
+function loadXlsx(cb){if(window.XLSX)return cb();var s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';s.onload=cb;s.onerror=function(){cb()};document.head.appendChild(s)}   /* v4.0 못 불러와도 cb — 부른 곳이 XLSX 가 없으면 CSV 로 */
+$('formDl').onclick=function(){var have=LIST.filter(function(r){return r.name}),rows=[['소속','이름','직함','존칭']].concat(have.length?have.map(function(r){return [r.org||'',r.name,r.title||'',r.hon||'님께']}):[['다복','김철수','대표','님께'],['','박영희','선생님','님께'],['','이모','','께']]);
+ var nm=have.length?'마음카드_받으실분_명단':'마음카드_받으실분_명단_양식';
+ loadXlsx(function(){try{if(!window.XLSX)throw 0;var ws=XLSX.utils.aoa_to_sheet(rows),wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,ws,'명단');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([XLSX.write(wb,{bookType:'xlsx',type:'array'})],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'}));a.download=nm+'.xlsx';document.body.appendChild(a);a.click();a.remove();toast(have.length?'지금 명단을 엑셀로 내려받았어요':'양식을 내려받았어요')}catch(e){csvDl()}})};
+function csvDl(){var csv='﻿소속,이름,직함,존칭\n다복,김철수,대표,님께\n,박영희,선생님,님께\n,이모,,께\n';try{var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='마음카드_받으실분_명단_양식.csv';document.body.appendChild(a);a.click();a.remove();toast('양식을 내려받았어요')}catch(e){toast('이 화면에서는 내려받기가 어려워요')}};
 /* 마음 */
 $('moods').innerHTML=MOOD.map(function(m,i){return '<button class="mood" type="button" data-i="'+i+'"><span class="mi">'+m.ic+'</span>'+m.t+'</button>'}).join('');
 each($('moods').children,function(b){b.onclick=function(){each($('moods').children,function(x){x.classList.toggle('on',x===b)});tick();
