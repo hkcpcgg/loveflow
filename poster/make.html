@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ poster/make.html · v2 · 261125 · [대표 261124 19:39 「직접 사진을 찍어 올리는 기능이 빠졌다」] 사진 넣는 칸을 누르면 「📷 사진 찍기 · 🖼️ 앨범에서 고르기」를 먼저 고름(/lf/photo-pick.js v1 · 안드로이드 새 사진 창에 카메라가 없어서 · 아이폰은 기본 메뉴라 그대로). 홈(⌂)은 사랑흐름 메인이 아니라 포스터 만들기 첫 단계로(대표 22:49). 1단계는 갈래를 누르면 바로 넘어가므로 아래 「이전 · 다음」 줄을 감춤(반쪽 「다음」 단추가 떠 보이던 것). -->
+<!-- ★ 현재 버전 ▶ poster/make.html · v3 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기] 「포스터를 만들었어요」 아래에 유료 결제 상자(/lf/pay-one.js v1). 값이 결제 서버에 없으면(지금) 상자가 안 보임 = 화면은 v2 그대로. 값이 들어가면: 동의 한 줄 › 결제 창 양해 › 토스(주문번호 LF-POSTER-12자리) › 돌아오면 만든 포스터 주소 · QR 화면을 그대로 되살리고 승인 › 마음 카드 서버 a=pay(유료 · 주소 · QR 그대로). 짝꿍: 결제 서버 tossConfirm v6 · 마음 카드 서버 Code.gs 7.
+     (이전) poster/make.html · v2 · 261125 · [대표 261124 19:39 「직접 사진을 찍어 올리는 기능이 빠졌다」] 사진 넣는 칸을 누르면 「📷 사진 찍기 · 🖼️ 앨범에서 고르기」를 먼저 고름(/lf/photo-pick.js v1 · 안드로이드 새 사진 창에 카메라가 없어서 · 아이폰은 기본 메뉴라 그대로). 홈(⌂)은 사랑흐름 메인이 아니라 포스터 만들기 첫 단계로(대표 22:49). 1단계는 갈래를 누르면 바로 넘어가므로 아래 「이전 · 다음」 줄을 감춤(반쪽 「다음」 단추가 떠 보이던 것). -->
 <html lang="ko">
 <head>
 <!-- (이전) ★ 현재 버전 ▶ poster/make.html · v1 · 261124 · [디지털 포스터 1단계 · GPT 조율 회신 9장 다섯 단계 · 대표 22:22 「지어 봅시다」] 포스터 만드는 화면. ① 포스터 고르기(갈래 여덟) ② 그림 고르기(내 사진 · 사랑흐름 그림 · 그림 없이) ③ 내용 넣기(제목만 꼭 · 나머지 건너뛰어도 됨) ④ 연결 고르기(전화하기 · 문자 보내기 · 길찾기 · 신청하기 · 홈페이지 보기 — 고른 것만 포스터에 단추로) ⑤ 미리보기 › 만들기 › 주소 · QR. 단계마다 이전 · 다음 · 이 휴대폰에 저절로 저장(저장됨 · 시각). 수정: ?p=번호(이 휴대폰에 열쇠가 있을 때). 서버 = 마음 카드 서버 5 버전(a=psave). 서버가 5 버전 전이면 미리보기까지만. 가입 없음. -->
@@ -172,6 +173,7 @@ h2.st{font-family:'Gowun Batang',serif;font-size:22px;color:var(--ink);margin-bo
       <div class="row2"><button class="btn sub" type="button" onclick="shareIt()">공유하기</button><button class="btn sub" type="button" onclick="copyLink()">링크 복사</button></div>
       <button class="btn sub" type="button" onclick="qrDown()">QR 내려받기</button>
     </div>
+    <div id="payOne"></div>
     <p class="willshow" style="margin-top:14px;text-align:center">수정은 이 휴대폰에서 할 수 있어요.</p>
   </div>
 
@@ -182,6 +184,7 @@ h2.st{font-family:'Gowun Batang',serif;font-size:22px;color:var(--ink);margin-bo
 
 <script src="/my/qrcode.js?v=1"></script>
 <script src="/poster/art.js?v=1"></script>
+<script src="/lf/pay-one.js?v=1"></script>
 <script>
 var L=window.LFPoster, e=L.esc;
 function $(i){return document.getElementById(i);}
@@ -295,10 +298,25 @@ function submit(){
       if(!d||!d.ok){ btn.disabled=false; btn.textContent=EDIT?'저장':'만들기';
         toast(d&&d.msg?d.msg:d&&d.code==='key'?'이 휴대폰에서 만든 포스터만 수정할 수 있어요':'저장하지 못했어요. 쓰던 내용은 그대로 있어요. 잠시 뒤 다시 해 주세요.'); return; }
       keep(d.p,d.k,S.p.title); try{localStorage.removeItem(DKEY);}catch(x){}
-      DONE=L.SITE+'?p='+d.p; $('wiz').style.display='none'; $('lead').style.display='none'; $('resumeNote').style.display='none';
-      $('done').style.display='block'; $('doneUrl').textContent=DONE; $('bigQr').innerHTML=L.qr(DONE,4); $('doneView').href='/poster/?p='+d.p;
-      drawMine(); window.scrollTo(0,0);
+      showDone(d.p,d.k,S.p.title);
     }).catch(function(){ btn.disabled=false; btn.textContent=EDIT?'저장':'만들기'; toast('저장하지 못했어요. 쓰던 내용은 그대로 있어요. 인터넷 연결을 확인한 뒤 다시 해 주세요.'); });
+}
+function showDone(p,k,title){
+  DONE=L.SITE+'?p='+p; $('wiz').style.display='none'; $('lead').style.display='none'; $('resumeNote').style.display='none';
+  $('done').style.display='block'; $('doneUrl').textContent=DONE; $('bigQr').innerHTML=L.qr(DONE,4); $('doneView').href='/poster/?p='+p;
+  if(title){ S.p.title=title; }
+  drawMine(); window.scrollTo(0,0);
+  /* 유료 결제 — 결제 서버에 값이 있을 때만 상자가 보임(/lf/pay-one.js) */
+  if(window.LFPayOne&&k){ LFPayOne.render($('payOne'),{kind:'poster',ver:'3-0',back:'/poster/make.html',items:[{id:p,k:k}],name:'디지털 포스터 한 장',extra:{p:p,t:title||''}}); }
+}
+function payBack(r){
+  if(!r){return;} var x=(r.pend&&r.pend.extra)||null, pk=function(){ return (keys()[x.p]||{}).k||((r.pend.items||[])[0]||{}).k||''; };
+  if(x&&x.p){ showDone(x.p,pk(),x.t); }
+  if(r.state==='paid'){ toast('결제가 끝났어요. 유료 포스터가 됐어요'); }
+  else if(r.state==='linkfail'){ toast('결제는 끝났어요. 유료 포스터로 바꾸는 중이에요');
+    var n=0; (function again(){ if(++n>3){ toast('유료 포스터로 바꾸지 못했어요. 카카오톡으로 알려 주세요'); return; }
+      setTimeout(function(){ LFPayOne.relink(r.pend,function(y){ if(y.state==='paid'){ if(x&&x.p){ showDone(x.p,pk(),x.t); } toast('유료 포스터가 됐어요'); } else { again(); } }); },4000); })(); }
+  else { toast(r.msg||'결제가 끝나지 않았어요'); }
 }
 function copyLink(){
   function ok(){toast('링크를 복사했어요');} function fail(){toast('링크를 복사하지 못했어요');}
@@ -323,6 +341,7 @@ function drawMine(){
 
 /* ── 시작 ── */
 (function start(){
+  if(window.LFPayOne){ LFPayOne.resume('poster',payBack); }
   fetch(L.API+'?a=ping').then(function(r){return r.json();}).then(function(d){ SRV=!!(d&&d.poster); if(!SRV){ $('srvNote').style.display='block'; } if(S.step===5){ $('nextBtn').disabled=!SRV; } })
     .catch(function(){ SRV=false; $('srvNote').style.display='block'; });
   var dr=null; try{ dr=JSON.parse(localStorage.getItem(DKEY)||'null'); }catch(x){}

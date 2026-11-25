@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ card/make.html · v3.6 · 261125 · [대표 261124 19:39 「직접 사진을 찍어 올리는 기능이 빠졌다」] 사진 넣는 칸을 누르면 「📷 사진 찍기 · 🖼️ 앨범에서 고르기」를 먼저 고름(/lf/photo-pick.js v1 · 안드로이드 새 사진 창에 카메라가 없어서 · 아이폰은 기본 메뉴라 그대로). -->
+<!-- ★ 현재 버전 ▶ card/make.html · v3.7 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기] 「카드가 준비됐어요」 아래에 유료 결제 상자(/lf/pay-one.js v1). 값이 결제 서버에 없으면(지금) 상자가 아예 안 보임 = 화면은 v3.6 그대로. 값이 들어가면: 동의 한 줄 › 결제 창 양해 › 토스(주문번호 LF-CARD-12자리 · 이번에 만든 카드 한 벌 = 결제 한 번) › 돌아오면 만들던 카드 · 보낼 목록을 그대로 되살리고 승인 › 마음 카드 서버 a=pay(장마다 유료 · 주소 그대로). 짝꿍: 결제 서버 tossConfirm v6 · 마음 카드 서버 Code.gs 7.
+     (이전) card/make.html · v3.6 · 261125 · [대표 261124 19:39 「직접 사진을 찍어 올리는 기능이 빠졌다」] 사진 넣는 칸을 누르면 「📷 사진 찍기 · 🖼️ 앨범에서 고르기」를 먼저 고름(/lf/photo-pick.js v1 · 안드로이드 새 사진 창에 카메라가 없어서 · 아이폰은 기본 메뉴라 그대로). -->
 <html lang="ko">
 <head>
 <!-- (이전) ★ 현재 버전 ▶ card/make.html · v3.5 · 261124 · [통합 표준 v0.2 단추 말 · 대표 261124 21:04 「글은 그냥 고치시고」] 링크 복사. 모양 · 동작은 그대로.
@@ -394,6 +395,7 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
   <div class="sendp" id="sendp">
     <h3 id="sendH">카드가 준비됐어요 🎉</h3>
     <p class="hint" id="sendSub"></p>
+    <div id="payOne"></div>
     <div class="sendlist" id="sendList"></div>
     <p class="hint" style="margin-top:12px">고쳐서 다시 보내도 주소는 그대로예요.</p>
     <button class="go" type="button" id="allDone" style="margin-top:12px">다 보냈어요</button>
@@ -405,6 +407,7 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
 <script src="/lf-foot.js" defer></script>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"></script>
 <script src="art.js?v=2"></script>
+<script src="/lf/pay-one.js?v=1"></script>
 <script>
 function lfMenuOpen(){document.getElementById('lfMenu').classList.add('open');document.getElementById('lfBackdrop').classList.add('open');}
 function lfMenuClose(){document.getElementById('lfMenu').classList.remove('open');document.getElementById('lfBackdrop').classList.remove('open');}
@@ -662,7 +665,20 @@ function drawSent(){var fr=($('from').value||'').trim();$('sendp').classList.add
    if(w==='copy'){var u=s.url;var ok=function(){toast('주소를 복사했어요')};if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(u).then(ok,function(){toast(u)});else toast(u)}
    if(DEMO&&(w==='sms'||w==='mail')){ev.preventDefault();toast('시안이에요. 실제 화면에서는 '+(w==='sms'?'문자':'메일')+' 앱이 열려요')}
    row.classList.add('done');s.done=1;try{sessionStorage.setItem('lf_card_sent',JSON.stringify(SENT))}catch(e){}})})});
+ payBox();
  setTimeout(function(){$('sendp').scrollIntoView({behavior:'smooth',block:'start'})},100)}
+/* ── 유료 결제 (판매 스위치: 결제 서버에 값이 있을 때만 보임 · /lf/pay-one.js) ── */
+function payBox(){if(DEMO||!window.LFPayOne||!SENT.length)return;
+ LFPayOne.render($('payOne'),{kind:'card',ver:'3-7',back:'/card/make.html',items:SENT.map(function(s){return {id:s.c,k:s.k}}),extra:{sent:SENT},
+  beforeLeave:function(done){draftSave(done)}})}
+function payBack(r){if(!r)return;var p=r.pend||{},sent=p.extra&&p.extra.sent;
+ function after(){if(r.state==='paid'){cheer();toast('결제가 끝났어요. 유료 카드가 됐어요')}
+  else if(r.state==='linkfail'){toast('결제는 끝났어요. 유료 카드로 바꾸는 중이에요');var tries=0;(function again(){if(++tries>3){toast('유료 카드로 바꾸지 못했어요. 카카오톡으로 알려 주세요');return}setTimeout(function(){LFPayOne.relink(p,function(x){if(x.state==='paid'){payBox();cheer();toast('유료 카드가 됐어요')}else again()})},4000)})()}
+  else toast(r.msg||'결제가 끝나지 않았어요')}
+ if(!sent||!sent.length){after();return}
+ draftLoad(function(o){if(o&&o.ST){draftApply(o);idb(function(db){try{db.transaction('d','readwrite').objectStore('d').delete('draft')}catch(e){}})}
+  SENT=sent;$('ov').classList.add('on');$('stage').style.display='none';$('full').style.display='none';$('cbar').style.display='none';drawSent();after()})}
+if(window.LFPayOne)LFPayOne.resume('card',payBack);
 /* ── 사랑흐름 선물 (선택) · 카드가 주인 — 고른 분께만 아래로 펼침 ── */
 var GPAY='https://script.google.com/macros/s/AKfycbxLIG_LRAZD3AMJH26gPhefdkwLbXmA5ip_UurBfQ-53bxgq2T63dSre6YO9j4hxBZM1A/exec',TOSS_CK='live_ck_nRQoOaPz8LEovWPx0WGN3y47BMw6',GTOSS=null;
 function jsonp(base,params,done){var cb='lfcg'+Date.now()+Math.floor(Math.random()*1000),fin=false,sc=document.createElement('script');var tm=setTimeout(function(){if(fin)return;fin=true;cl();done(null)},25000);
