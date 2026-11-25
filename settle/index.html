@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ settle/index.html · v2.2 · 261125 · [대표 18:28] 판매자 탭 「판매자 화면 보이기」 — 항목 넷(예상 수수료 · 활동 몫 · 지난 명세서 · 판매 링크와 QR)마다 기본값 단추 · 판매자를 골라(여럿) 보이기 · 보이지 않기 · 기본 따름 · 판매자 화면 링크 단추. 서버 = 정산 서버 2-2.
+<!-- ★ 현재 버전 ▶ settle/index.html · v2.3 · 261125 · 판매자 상태 「끝(거래를 마침)」 · 정리함 / 정리 기다림 표시(정산 서버 2-3 새벽 정리 · 처리방침 v3.1 제3조).
+     (이전 v2.2) · [대표 18:28] 판매자 탭 「판매자 화면 보이기」 — 항목 넷(예상 수수료 · 활동 몫 · 지난 명세서 · 판매 링크와 QR)마다 기본값 단추 · 판매자를 골라(여럿) 보이기 · 보이지 않기 · 기본 따름 · 판매자 화면 링크 단추. 서버 = 정산 서버 2-2.
      (이전 v2.1) · [대표 17:41 「선택만 두지 말고 직접 입력을 꼭 둘 것」] 원장 직접 넣기에 「✎ 직접 적기 · 더하기 / 빼기」와 항목 이름 칸(장려금 · 시상금 등) · 세금 기준에 넣지 않음 체크 · 판매자 종류도 직접 적기. 서버 = 정산 서버 2-1 버전.
      (이전 v2) 정산 관리 화면(대표님만 · 컴퓨터 중심). 서버 = 정산 서버 2 버전.
      원장(가져오기 · 직접 넣기 · 환수) · 활동(강사료 · 수행비) · 선지급 · 월 마감(말일 › 다음 달 20일 · 이월 · 보류) · 명세서 · 지급함 ·
@@ -163,11 +164,11 @@ td.n,th.n{text-align:right;white-space:nowrap}
           <label>연락처<input id="sTel" style="width:140px"></label>
           <label>계약 시작<input type="date" id="sFrom"></label>
           <label>계약 끝<input type="date" id="sTo"></label>
-          <label>상태<select id="sState"><option>사용</option><option>보류</option><option>중지</option></select></label>
+          <label>상태<select id="sState"><option>사용</option><option>보류</option><option>중지</option><option value="끝">끝(거래를 마침)</option></select></label>
         </div>
         <div class="row"><label style="flex:1">보류 사유(보류일 때 꼭)<input id="sHold" style="width:100%" placeholder="예) 서류 미비 · 분쟁 · 지급 정지 요청"></label></div>
         <div class="row"><label style="flex:1">메모<input id="sMemo" style="width:100%"></label><button class="btn" type="button" id="sGo">저장</button></div>
-        <p class="hint">판매자 번호는 안내자 번호와 같은 ORG- 꼴이에요. 판매 링크는 www.loveflow.ai.kr/?lf=그 번호 예요. 판매자는 자기가 판 건 · 자기가 한 일에서만 받아요(다른 판매자 몫 없음).</p>
+        <p class="hint">판매자 번호는 안내자 번호와 같은 ORG- 꼴이에요. 판매 링크는 www.loveflow.ai.kr/?lf=그 번호 예요. 판매자는 자기가 판 건 · 자기가 한 일에서만 받아요(다른 판매자 몫 없음).<br>「끝(거래를 마침)」으로 두면, 남은 지급 · 보류 · 이월이 모두 끝난 다음 날 새벽에 계좌번호(끝 네 자리만 남김) · 통장 사본 · 연락처 · 담당자를 지우고 링크를 닫아요. 이름 · 지급 · 세무 기록은 남아요(처리방침 제3조).</p>
       </section>
       <section class="box">
         <h3>판매자 화면 보이기</h3>
@@ -286,7 +287,7 @@ function drawLed(){
     .concat(['<tr><th colspan="9">이 달 금액 합계</th><th class="n">'+won(sum)+'</th><th colspan="3"></th></tr>']));
 }
 function drawSellers(){
-  $('sellT').innerHTML=tbl(['','번호','이름','종류','신분','담당자 · 연락처','계약','상태','계좌','판매자 화면',''],D.sellers.map(function(s){return '<tr><td><input type="checkbox" class="shPick" value="'+esc(s.s)+'"></td><td>'+esc(s.s)+'</td><td>'+esc(s.name)+'</td><td>'+esc(s.kind)+'</td><td>'+(s.status==='확인 안 됨'?'<span class="minus">확인 안 됨</span>':esc(s.status))+'</td><td>'+esc(s.who)+' '+esc(s.tel)+'</td><td>'+esc(s.from)+' ~ '+esc(s.to)+'</td><td>'+esc(s.state)+(s.hold?'<br><small>'+esc(s.hold)+'</small>':'')+'</td><td>'+(s.bank?esc(s.bank):'<span class="minus">없음</span>')+'</td><td><small>'+showTxt(s)+'</small></td><td style="white-space:nowrap"><button class="btn sub" type="button" data-e="'+esc(s.s)+'">고치기</button> <button class="btn sub" type="button" data-l="'+esc(s.s)+'">계좌 등록 링크</button> <button class="btn sub" type="button" data-m="'+esc(s.s)+'">판매자 화면 링크</button></td></tr>';}));
+  $('sellT').innerHTML=tbl(['','번호','이름','종류','신분','담당자 · 연락처','계약','상태','계좌','판매자 화면',''],D.sellers.map(function(s){return '<tr><td><input type="checkbox" class="shPick" value="'+esc(s.s)+'"></td><td>'+esc(s.s)+'</td><td>'+esc(s.name)+'</td><td>'+esc(s.kind)+'</td><td>'+(s.status==='확인 안 됨'?'<span class="minus">확인 안 됨</span>':esc(s.status))+'</td><td>'+esc(s.who)+' '+esc(s.tel)+'</td><td>'+esc(s.from)+' ~ '+esc(s.to)+'</td><td>'+esc(s.state)+(s.gone?'<br><small>정리함 '+esc(s.gone)+'</small>':(s.state==='끝'?'<br><small>정리 기다림</small>':''))+(s.hold?'<br><small>'+esc(s.hold)+'</small>':'')+'</td><td>'+(s.bank?esc(s.bank):'<span class="minus">없음</span>')+'</td><td><small>'+showTxt(s)+'</small></td><td style="white-space:nowrap"><button class="btn sub" type="button" data-e="'+esc(s.s)+'">고치기</button> <button class="btn sub" type="button" data-l="'+esc(s.s)+'">계좌 등록 링크</button> <button class="btn sub" type="button" data-m="'+esc(s.s)+'">판매자 화면 링크</button></td></tr>';}));
   [].forEach.call($('sellT').querySelectorAll('[data-e]'),function(b){b.onclick=function(){var s=D.sellers.filter(function(x){return x.s===b.getAttribute('data-e');})[0];
     $('sNo').value=s.s;$('sName').value=s.name;$('sKind').value=s.kind;$('sStatus').value=s.status;$('sWho').value=s.who;$('sTel').value=s.tel;$('sFrom').value=s.from;$('sTo').value=s.to;$('sState').value=s.state;$('sHold').value=s.hold;$('sMemo').value=s.memo;window.scrollTo(0,0);};});
   [].forEach.call($('sellT').querySelectorAll('[data-m]'),function(b){b.onclick=function(){call({a:'regLink',s:b.getAttribute('data-m')}).then(function(d){
