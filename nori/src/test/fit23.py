@@ -5,7 +5,7 @@ import asyncio,sys,json,os
 PFX=os.environ.get('PFX','fit')
 from playwright.async_api import async_playwright
 PATH=sys.argv[1] if len(sys.argv)>1 else '/nori/lab/'
-ALL='rp hj mj br dt th tk mb pt bw om ak rd sb sg aw yt jg gg mg yn bn ru bk'.split()
+ALL='rp hj mj br dt th tk mb pt bw om ak rd sb sg aw yt jg gg mg yn bn ru bk gm'.split()
 KS=sys.argv[2].split(',') if len(sys.argv)>2 and sys.argv[2] else ALL
 SZ=[tuple(map(int,s.split('x'))) for s in (sys.argv[3] if len(sys.argv)>3 else '360x640,375x667').split(',')]
 MEAS="""()=>{var H=innerHeight,W=innerWidth,d=document.documentElement,b=document.body;
