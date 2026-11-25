@@ -55,9 +55,9 @@ window.NA=(function(){
    +'.na-bets button{border:0;border-radius:14px;background:#F6F1E6;padding:10px 8px;text-align:center;font-weight:800;font-size:13.5px;color:#1C1D21;cursor:pointer}'
    +'.na-bets button i{display:block;font-style:normal;font-size:26px;line-height:1.2}.na-bets button small{display:block;font-size:11px;color:#7A6E55;font-weight:700}'
    +'.na-bets button.on{background:#2F64E0;color:#fff}.na-bets button.on small{color:#fff;opacity:.85}'
-   +'.na-bets .real{grid-column:1/-1;background:#FFE9A6;display:flex;align-items:center;justify-content:center;gap:8px;animation:naWob 2.4s ease-in-out infinite}.na-bets .real i{display:inline;font-size:22px;animation:naBoom 1.2s ease-in-out infinite}.na-bets .real small{display:inline}'
+   +'.na-bets .real{grid-column:1/-1;background:#FFE9A6;display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:visible}.na-bets .real>span,.na-bets .real>small{display:inline-block;animation:naTok 2.4s ease-out infinite}.na-bets .real::before,.na-bets .real::after{content:"";position:absolute;inset:0;border-radius:inherit;background:rgba(201,169,110,.45);z-index:-1;opacity:0;pointer-events:none;animation:naRip 2.4s ease-out infinite}.na-bets .real::after{animation-delay:.3s}.na-bets .real i{display:inline;font-size:22px;transform-origin:70% 70%;animation:naFlick 2.4s ease-out infinite}.na-bets .real small{display:inline}'
    +'.na-bets .real.nope{animation:naNope .5s ease}'
-   +'@keyframes naWob{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-4deg)}90%{transform:rotate(4deg)}95%{transform:rotate(-2deg)}}@keyframes naBoom{50%{transform:scale(1.3)}}'
+   +'@keyframes naWob{0%,80%,100%{transform:rotate(0)}85%{transform:rotate(-4deg)}90%{transform:rotate(4deg)}95%{transform:rotate(-2deg)}}@keyframes naTok{0%,10%,22%,100%{transform:none}4%{transform:scale(1.06,.86)}16%{transform:scale(1.04,.9)}}@keyframes naRip{0%{opacity:0;transform:none}4%{opacity:.8;transform:none}40%{opacity:0;transform:scaleX(1.12) scaleY(1.22)}100%{opacity:0}}@keyframes naFlick{0%,10%,22%,100%{transform:none}3%{transform:rotate(-22deg) scale(1.15)}15%{transform:rotate(-14deg) scale(1.08)}}@keyframes naBoom{50%{transform:scale(1.3)}}'
    +'@keyframes naNope{0%,100%{transform:translateX(0)}20%{transform:translateX(-12px) rotate(-3deg)}40%{transform:translateX(10px) rotate(3deg)}60%{transform:translateX(-7px)}80%{transform:translateX(4px)}}'
    +'.na-who{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}'
    +'.na-who button{border:0;border-radius:12px;background:#F6F1E6;padding:11px 6px;font-weight:800;font-size:13px;color:#1C1D21;cursor:pointer;line-height:1.3}.na-who button small{display:block;font-size:10.5px;font-weight:700;color:#7A6E55}.na-who button.on{background:#2F64E0;color:#fff}.na-who button.on small{color:#fff;opacity:.85}'
@@ -113,7 +113,7 @@ window.NA=(function(){
   try{ BET=localStorage.getItem('nori-bet')||'ttak'; if(!BETS[BET]) BET='ttak'; }catch(e){}
   function pre(o){ P=o||{}; window.__noriPlaying=false; if(!ps){ ps=sheet('<h3>무엇을 걸까요?</h3><p class="sub" id="naPreSub">진 쪽이 맞아요 · 이기면 선물도!</p><div class="na-bets" id="naBets">'
       +['ttak','kkul','indian','none'].map(function(k){ var B=BETS[k]; return '<button type="button" data-b="'+k+'"><i>'+B.i+'</i>'+B.n+'<small>'+B.s+'</small></button>'; }).join('')
-      +'<button type="button" data-b="real" class="real"><i>💥</i>진짜 때리기<small>매장에서 직접!</small></button></div>'
+      +'<button type="button" data-b="real" class="real"><i>💥</i><span>진짜 때리기</span><small>매장에서 직접!</small></button></div>'
       +'<div class="na-who" id="naWho"><button type="button" data-w="cpu"><span class="pn"></span>과<small>이 가게 사장님과 한 판</small></button><button type="button" data-w="two">친구와 폰 하나로<small>번갈아 해요</small></button></div>'
       +'<button type="button" class="na-go" id="naGo">시작!</button>');
       ps.querySelector('#naBets').addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return;
