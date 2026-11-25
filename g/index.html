@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ g/index.html · v7 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 공용 부품 꼬리표 올림(ident v5 · research v5) .
+<!-- ★ 현재 버전 ▶ g/index.html · v8 · 261125 · [합본 F 2묶음 결제 · 통합 표준 v0.2 3장 1] 받는 분 화면 상태 · 안내 끝 「~요」(찾지 못함 · 늦어짐 · 이미 받음 · 열림 · 만드는 중 · 더함 등). 그대로 둔 것: 큰 제목 「선물이 도착했습니다」 · 탭 이름 · 미리보기 글. [무손] 그 밖 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ g/index.html · v7 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 공용 부품 꼬리표 올림(ident v5 · research v5) .
    (이전) g/index.html · v6 · 261123 · [마음 카드에 사랑흐름 선물 · 대표 OK 261123 21:05 · 21:23 · gift.gs v9 짝] 결제(입금) 확인 전 링크(case wait) — 「선물을 준비하고 있어요」 + 보내신 분 이름 + 「조금 뒤에 이 링크를 다시 열어 주세요」. 그 밖 v5 그대로. -->
 <!-- (이전) g/index.html · v5 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 이 화면이 따로 짓던 높은 소리를 공용 lf/fx.js v3 중저음(솔 바탕 · 크기 중하)으로 — LFFx.soft 로 같은 가락을 옥타브 내려 냄 · fx.js 못 부르면 소리 없이 넘어감. [무손] 그 밖 전부. -->
 <!-- (이전) g/index.html · v4 · 261121 · [860 · 108차] 보내신 분이 그 시절 이야기를 골라 보냈으면(giftOpen 의 era — gift.gs v7 짝) 「💌 보내는 글」 아래 「🕰 함께 보낸 그 시절 이야기」 한 편(메인과 같은 eraOne) · 그 곳 · 때를 받는 분 기기에 남김(lf_era_pick → 한 편의 기록 첫 화면에서 바로 그 시절). era 가 없으면 지금 그대로. ★편지 모양(대표 17:43 · 17:45) — 보내는 분이 적은 그대로(「사랑하는 딸 민지가 보낸 선물입니다」 · 끝 서명 「— 사랑하는 딸 민지가」 · 이름만이면 「○○ 님이」) · 받기 칸 「성명」 → 「받는 분」 · 안내 「받는 분과 연락처를 넣고」 · 연락처 아래 「사랑흐름 여권번호를 잊으셨을 때 이 번호로 찾아 드려요」. [무손] 그 밖 v3 전부. -->
@@ -70,7 +71,7 @@ button{font-family:inherit;cursor:pointer}
 </head>
 <body data-lf-title="선물">
 <div class="wrap" id="g">
-  <div class="state"><b>선물</b>선물을 여는 중입니다<div class="wave"><span></span><span></span><span></span></div></div>
+  <div class="state"><b>선물</b>선물을 여는 중이에요<div class="wave"><span></span><span></span><span></span></div></div>
 </div>
 <div id="lfFoot"></div>
 <div class="toast" id="toast"></div>
@@ -109,7 +110,7 @@ button{font-family:inherit;cursor:pointer}
   function fromSubj() { var g = String(D.giver || '').trim(); return /(가|이|께서|로부터|으로부터)$/.test(g) ? g : g + ' 님이'; }
   function fromSign() { var g = soloG(); return g ? g : names(); }
   function giftWord() { var ns = [D.giver].concat(D.tog || []).filter(function (x) { return String(x || '').trim(); }); return ns.length > 1 ? '이 함께 선물하신' : '이 선물하신'; }
-  function fromLine() { if (soloG()) { var f = fromSubj(); return f + (/로부터$/.test(f) ? ' 온' : ' 보낸') + ' 선물입니다'; } var n = names(); return n ? n + giftWord() + ' 사랑흐름 여권입니다' : '마음을 담은 사랑흐름 여권입니다'; }
+  function fromLine() { if (soloG()) { var f = fromSubj(); return f + (/로부터$/.test(f) ? ' 온' : ' 보낸') + ' 선물이에요'; } var n = names(); return n ? n + giftWord() + ' 사랑흐름 여권이에요' : '마음을 담은 사랑흐름 여권이에요'; }
   function md(d) { var p = String(d || '').split('-'); return p.length === 3 ? (+p[1]) + '월 ' + (+p[2]) + '일' : d; }
 
   function state(icon, title, text, extra) {
@@ -137,20 +138,20 @@ button{font-family:inherit;cursor:pointer}
   function open() {
     var q = new URLSearchParams(location.search);
     T = String(q.get('t') || '').trim();
-    if (!/^[A-Za-z0-9]{7}$/.test(T)) { state('🎁', '선물을 찾지 못했습니다', '받으신 링크를 끝까지 눌러 다시 열어 주세요.'); return; }
+    if (!/^[A-Za-z0-9]{7}$/.test(T)) { state('🎁', '선물을 찾지 못했어요', '받으신 링크를 끝까지 눌러 다시 열어 주세요.'); return; }
     jsonp({ action: 'giftOpen', t: T }, function (r) {
       if (!r || r.status !== 'ok') {
-        state('📶', '연결이 잠시 늦어지고 있습니다', '조금 뒤에 다시 열어 주세요.', '<br><button type="button" class="again" id="re">다시 열기</button>');
+        state('📶', '연결이 잠시 늦어지고 있어요', '조금 뒤에 다시 열어 주세요.', '<br><button type="button" class="again" id="re">다시 열기</button>');
         $('re').onclick = function () { location.reload(); };
         return;
       }
       D = r;
       var c = r['case'];
-      if (c === 'none')    { state('🎁', '선물을 찾지 못했습니다', '받으신 링크를 끝까지 눌러 다시 열어 주세요.'); return; }
+      if (c === 'none')    { state('🎁', '선물을 찾지 못했어요', '받으신 링크를 끝까지 눌러 다시 열어 주세요.'); return; }
       if (c === 'wait')    { state('🎁', '선물을 준비하고 있어요', (r.giver ? esc(r.giver) + ' 님이 보내신 선물이 곧 열려요.<br>' : '선물이 곧 열려요.<br>') + '조금 뒤에 이 링크를 다시 열어 주세요.'); return; }   /* ★v6 */
-      if (c === 'old')     { state('🎁', '새 링크로 다시 보내 드린 선물입니다', '보내신 분께 받으신 새 링크로 열어 주세요.'); return; }
-      if (c === 'taken')   { state('🎁', '이미 받으신 선물입니다', esc(fromLine()) + '.', myBtn()); return; }
-      if (c === 'refused') { state('🎁', '열리지 않는 선물입니다', '보내신 분께 새 링크를 받아 열어 주세요.'); return; }
+      if (c === 'old')     { state('🎁', '새 링크로 다시 보내 드린 선물이에요', '보내신 분께 받으신 새 링크로 열어 주세요.'); return; }
+      if (c === 'taken')   { state('🎁', '이미 받으신 선물이에요', esc(fromLine()) + '.', myBtn()); return; }
+      if (c === 'refused') { state('🎁', '열리지 않는 선물이에요', '보내신 분께 새 링크를 받아 열어 주세요.'); return; }
       paint(c);
     });
   }
@@ -158,10 +159,10 @@ button{font-family:inherit;cursor:pointer}
   function paint(c) {
     var h = '<div class="giftTop"><i>🎁</i><b>' + esc(D.name ? D.name + ' 님께 ' : '') + '선물이 도착했습니다</b><span>' + esc(fromLine()) + '</span>'
       + (D.sample ? '<span class="sample">견본</span>' : '')
-      + (c === 'rsv' ? '<span class="lock">🔒 ' + esc(md(D.date)) + '에 열립니다</span>' : '')
+      + (c === 'rsv' ? '<span class="lock">🔒 ' + esc(md(D.date)) + '에 열려요</span>' : '')
       + '</div>';
     if (c === 'rsv') {
-      h += '<div class="state" style="padding:24px 10px">그날 이 링크를 다시 누르시면 선물이 열립니다.</div>';
+      h += '<div class="state" style="padding:24px 10px">그날 이 링크를 다시 누르시면 선물이 열려요.</div>';
       $('g').innerHTML = h; ding(); return;
     }
     /* ② 보내는 글 · 붙인 그림 · 함께하신 분들 한마디 */
@@ -180,7 +181,7 @@ button{font-family:inherit;cursor:pointer}
     /* ④ 받기 */
     h += '<div class="take" id="takeBox">'
       + '<div class="h">선물을 받으시려면 받는 분과 연락처를 넣고 「선물 받기」를 누르세요.</div>'
-      + '<div class="s">받으시면 사랑흐름 여권이 바로 열리고, 그 화면에서 여행을 시작하실 수 있습니다.</div>'
+      + '<div class="s">받으시면 사랑흐름 여권이 바로 열리고, 그 화면에서 여행을 시작하실 수 있어요.</div>'
       + '<div id="lfIdent"></div>'
       + '<div class="err" id="err"></div>'
       + '<button type="button" class="bigBtn" id="takeBtn">🎁 선물 받기</button>'
@@ -211,17 +212,17 @@ button{font-family:inherit;cursor:pointer}
     if (!r.ok) { $('err').textContent = String(r.msg || '').replace('성명을 적어 주세요', '받는 분을 적어 주세요'); LFIdent.focus(r.field); return; }
     $('err').textContent = '';
     busy = true;
-    var b = $('takeBtn'); b.disabled = true; b.textContent = '사랑흐름 여권을 만드는 중입니다…';
+    var b = $('takeBtn'); b.disabled = true; b.textContent = '사랑흐름 여권을 만드는 중이에요…';
     jsonp({ action: 'giftTake', t: T, name: r.name, contact: r.contact, agree: r.agree, termsVer: r.termsVer, add: add ? '1' : '' }, function (res) {
       busy = false; b.disabled = false; b.textContent = '🎁 선물 받기';
-      if (!res) { $('err').textContent = '연결이 늦어지고 있습니다. 다시 눌러 주세요. 두 번 받아지지 않습니다.'; return; }
+      if (!res) { $('err').textContent = '연결이 늦어지고 있어요. 다시 눌러 주세요. 두 번 받아지지 않아요.'; return; }
       if (res.status === 'has') {
-        $('takeBox').innerHTML = '<div class="h">이미 사랑흐름 여권을 가지고 계십니다.</div>'
+        $('takeBox').innerHTML = '<div class="h">이미 사랑흐름 여권을 가지고 계세요.</div>'
           + '<div class="s">이 선물(' + esc(res.gus || D.gus || '') + ')을 가지고 계신 사랑흐름 여권에 더해 드릴까요?</div>'
           + '<div class="err" id="err"></div>'
           + '<button type="button" class="bigBtn" id="addBtn">가지고 계신 사랑흐름 여권에 더하기</button>';
         $('addBtn').onclick = function () {
-          var ab = $('addBtn'); ab.disabled = true; ab.textContent = '더하는 중입니다…';
+          var ab = $('addBtn'); ab.disabled = true; ab.textContent = '더하는 중이에요…';
           jsonp({ action: 'giftTake', t: T, name: r.name, contact: r.contact, agree: r.agree, termsVer: r.termsVer, add: '1' }, function (r2) {
             ab.disabled = false; ab.textContent = '가지고 계신 사랑흐름 여권에 더하기';
             done(r2, r);
@@ -233,7 +234,7 @@ button{font-family:inherit;cursor:pointer}
     }, 30000);
   }
   function done(res, who) {
-    if (!res) { $('err').textContent = '연결이 늦어지고 있습니다. 다시 눌러 주세요. 두 번 받아지지 않습니다.'; return; }
+    if (!res) { $('err').textContent = '연결이 늦어지고 있어요. 다시 눌러 주세요. 두 번 받아지지 않아요.'; return; }
     if (res.status !== 'ok') { $('err').textContent = res.msg || '잠시 후 다시 시도해 주세요.'; return; }
     ding();
     if (!res.attached && /^[A-Za-z0-9]{10}$/.test(String(res.key || ''))) {
@@ -244,18 +245,18 @@ button{font-family:inherit;cursor:pointer}
     }
     /* ★v3 829 운5 — 이 기기에 마지막으로 쓴 사랑흐름 여권(남의 것일 수 있음)을 열지 않음.
        방금 넣으신 성명 · 연락처로 「사랑흐름 여권 찾기」와 같은 길(findPassport → giftPassKey)을 밟아 더한 그 여권을 보이고 엶. */
-    state('🎁', '가지고 계신 사랑흐름 여권에 더했습니다', esc(res.gus || D.gus || '') + '<div id="addPp" style="margin-top:10px;color:#6B6458;font-size:14px">더한 사랑흐름 여권을 찾고 있습니다…</div>', '<div id="addGo"></div>');
+    state('🎁', '가지고 계신 사랑흐름 여권에 더했어요', esc(res.gus || D.gus || '') + '<div id="addPp" style="margin-top:10px;color:#6B6458;font-size:14px">더한 사랑흐름 여권을 찾고 있어요…</div>', '<div id="addGo"></div>');
     var toFind = '<br><a class="again" href="/find/">사랑흐름 여권 찾기</a>';
     if (!who || !who.name || !who.contact) { $('addPp').innerHTML = ''; $('addGo').innerHTML = toFind; return; }
     var p4 = String(who.contact).replace(/\D/g, '').slice(-4);
     jsonp({ action: 'findPassport', name: who.name, contact: who.contact }, function (f) {
       var c = (f && f.candidates) || [];
-      if (c.length !== 1 || !c[0].passport) { $('addPp').innerHTML = '늘 쓰시던 사랑흐름 여권으로 들어가시면 바로 쓰실 수 있습니다.'; $('addGo').innerHTML = toFind; return; }
+      if (c.length !== 1 || !c[0].passport) { $('addPp').innerHTML = '늘 쓰시던 사랑흐름 여권으로 들어가시면 바로 쓰실 수 있어요.'; $('addGo').innerHTML = toFind; return; }
       var pp = String(c[0].passport);
       $('addPp').innerHTML = '사랑흐름 여권번호 <b style="color:#163a5e">' + esc(pp) + '</b>';
       $('addGo').innerHTML = '<br><a class="again" href="#" id="addOpen">이 사랑흐름 여권 화면 열기</a>';
       $('addOpen').onclick = function (ev) {
-        ev.preventDefault(); var a = this; a.textContent = '사랑흐름 여권 화면을 여는 중입니다';
+        ev.preventDefault(); var a = this; a.textContent = '사랑흐름 여권 화면을 여는 중이에요';
         jsonp({ action: 'giftPassKey', no: pp, p4: p4 }, function (k) {
           if (k && k.status === 'ok' && k.k) { ls(MEM_K, k.k); try { sessionStorage.setItem('lf_passport', pp); localStorage.setItem('lf_passport', pp); } catch (e) { } location.href = '/my/?k=' + encodeURIComponent(k.k); return; }
           a.textContent = '이 사랑흐름 여권 화면 열기'; $('addGo').innerHTML += toFind;

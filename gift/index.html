@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ gift/index.html · v2 · 261111 · [공사 칸 ⑥ · 대표 19:34 → OK 19:38 「1분 · 2분은 시간 같아」] 「한 편의 기록 · 3편 · 5분께」 → 「한 편의 기록 · 3편씩 · 5명」 · 내 선물함 줄 「n분께」 → 「n명」 · frame.js ?v=24. [무손] 그 밖 v1 전부. -->
+<!-- ★ 현재 버전 ▶ gift/index.html · v3 · 261125 · [합본 F 2묶음 결제 · 통합 표준 v0.2 3장 1] 선물함 상태 · 안내 끝 「~요」. 그대로 둔 것: 받는 분께 보내는 글(복사해 보내는 글). [무손] 그 밖 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ gift/index.html · v2 · 261111 · [공사 칸 ⑥ · 대표 19:34 → OK 19:38 「1분 · 2분은 시간 같아」] 「한 편의 기록 · 3편 · 5분께」 → 「한 편의 기록 · 3편씩 · 5명」 · 내 선물함 줄 「n분께」 → 「n명」 · frame.js ?v=24. [무손] 그 밖 v1 전부. -->
 <!-- (이전) gift/index.html · v1 · 261111 · [공사 칸 ⑤ · 대표 OK 261111 17:07 「개인 간 소통에 간섭하지 말 것 · 복잡한 것 빼기」] 새 화면 — 선물함(보내는 분만 · 받는 분께 링크를 보내는 곳 하나).
      · 여는 길: 결제 화면이 결제 뒤 /gift/?no=G-0000&k=열쇠 로 보냄 → 이 휴대폰이 기억(lf_gift_boxes) → 다시 열면 그대로.
        다른 기기 · 기억이 없으면 「카카오 로그인 · 내 선물함」(588 리다이렉트 URI https://www.loveflow.ai.kr/gift/ · https://loveflow.ai.kr/gift/).
@@ -72,7 +73,7 @@ button{font-family:inherit;cursor:pointer}
 </head>
 <body data-lf-title="선물함">
 <div class="wrap" id="box">
-  <div class="state"><b>선물함</b>선물함을 여는 중입니다<div class="wave"><span></span><span></span><span></span></div></div>
+  <div class="state"><b>선물함</b>선물함을 여는 중이에요<div class="wave"><span></span><span></span><span></span></div></div>
 </div>
 <div id="lfFoot"></div>
 <div class="dim" id="dim"></div>
@@ -127,14 +128,14 @@ button{font-family:inherit;cursor:pointer}
     location.href = 'https://kauth.kakao.com/oauth/authorize?client_id=' + KAKAO_REST + '&redirect_uri=' + encodeURIComponent(HERE) + '&response_type=code&state=gift&scope=profile_nickname';
   }
   function kakaoBack(code) {
-    loading('내 선물함을 여는 중입니다');
+    loading('내 선물함을 여는 중이에요');
     var kk = lsGet(KK), no = '', k = '';
     if (kk && kk.indexOf('|') > 0) { no = kk.split('|')[0]; k = kk.split('|')[1]; }
     lsSet(KK, null);
     try { history.replaceState(null, '', '/gift/'); } catch (e) { }
     jsonp({ action: 'giftKakao', code: code, redirect: HERE, no: no, k: k }, function (r) {
       if (!r || r.status !== 'ok') {
-        state('🗂', '카카오 로그인을 다시 해 주세요', (r && r.msg) ? esc(r.msg) : '연결이 잠시 늦어지고 있습니다.', '<button type="button" class="kakao" id="kBtn">카카오 로그인 · 내 선물함</button>');
+        state('🗂', '카카오 로그인을 다시 해 주세요', (r && r.msg) ? esc(r.msg) : '연결이 잠시 늦어지고 있어요.', '<button type="button" class="kakao" id="kBtn">카카오 로그인 · 내 선물함</button>');
         $('kBtn').onclick = kakao; return;
       }
       mine(r.list || []);
@@ -143,7 +144,7 @@ button{font-family:inherit;cursor:pointer}
   function mine(list) {
     list = list.filter(function (x) { return x.kind !== '구매'; });
     if (!list.length) {
-      state('🗂', '내 선물함', '이 카카오 계정으로 이어 둔 선물이 아직 없습니다.<br>선물을 결제하신 휴대폰에서 선물함을 연 뒤 「내 선물함」을 누르시면 이어집니다.',
+      state('🗂', '내 선물함', '이 카카오 계정으로 이어 둔 선물이 아직 없어요.<br>선물을 결제하신 휴대폰에서 선물함을 연 뒤 「내 선물함」을 누르시면 이어져요.',
         '<br><a class="again" href="/pay.html?mode=gift">🎁 선물하기</a>');
       return;
     }
@@ -162,14 +163,14 @@ button{font-family:inherit;cursor:pointer}
   function go(no, k) {
     NO = no; K = k;
     try { history.replaceState(null, '', '/gift/?no=' + encodeURIComponent(no) + '&k=' + encodeURIComponent(k)); } catch (e) { }
-    loading('선물함을 여는 중입니다');
+    loading('선물함을 여는 중이에요');
     jsonp({ action: 'giftBox', no: no, k: k }, function (r) {
       if (!r) {
-        state('📶', '연결이 잠시 늦어지고 있습니다', '조금 뒤에 다시 열어 주세요.', '<br><button type="button" class="again" id="re">다시 열기</button>');
+        state('📶', '연결이 잠시 늦어지고 있어요', '조금 뒤에 다시 열어 주세요.', '<br><button type="button" class="again" id="re">다시 열기</button>');
         $('re').onclick = function () { go(no, k); }; return;
       }
       if (r.status !== 'ok') {
-        state('🗂', '선물함을 열 수 없습니다', '카카오 로그인으로 「내 선물함」을 열어 주세요.', '<button type="button" class="kakao" id="kBtn">카카오 로그인 · 내 선물함</button>');
+        state('🗂', '선물함을 열 수 없어요', '카카오 로그인으로 「내 선물함」을 열어 주세요.', '<button type="button" class="kakao" id="kBtn">카카오 로그인 · 내 선물함</button>');
         $('kBtn').onclick = function () { NO = ''; K = ''; kakao(); }; return;
       }
       B = r; remember(no, k); paint();
@@ -188,10 +189,10 @@ button{font-family:inherit;cursor:pointer}
     var open = (B.state === '확정' || B.state === '견본');
     if (!open) {
       if (B.way === '계좌') {
-        h += '<div class="zone">🏦 입금</div><div class="wait">입금을 확인하고 있습니다.<br>확인되면 받는 분께 보내실 수 있습니다.'
+        h += '<div class="zone">🏦 입금</div><div class="wait">입금을 확인하고 있어요.<br>확인되면 받는 분께 보내실 수 있어요.'
           + '<button type="button" class="kakao" style="background:linear-gradient(135deg,#2A2370,#1E4A76);color:#fff" id="paidBtn">입금 확인하기</button></div>';
       } else {
-        h += '<div class="zone">💳 결제</div><div class="wait">결제가 확인되지 않은 선물입니다.<br>카드에서 돈이 나갔다면 아래 카카오톡 문의로 알려 주세요.</div>';
+        h += '<div class="zone">💳 결제</div><div class="wait">결제가 확인되지 않은 선물이에요.<br>카드에서 돈이 나갔다면 아래 카카오톡 문의로 알려 주세요.</div>';
       }
     } else {
       var sm = sentMap(), first = true;
@@ -213,11 +214,11 @@ button{font-family:inherit;cursor:pointer}
     Array.prototype.forEach.call(document.querySelectorAll('.send'), function (b) { b.onclick = function () { sendSheet(Number(b.getAttribute('data-n'))); }; });
     if ($('paidBtn')) {
       $('paidBtn').onclick = function () {
-        var pb = $('paidBtn'); pb.disabled = true; pb.textContent = '확인하는 중입니다…';
+        var pb = $('paidBtn'); pb.disabled = true; pb.textContent = '확인하는 중이에요…';
         jsonp({ action: 'giftPaid', no: B.no }, function (r) {
           pb.disabled = false; pb.textContent = '입금 확인하기';
           if (r && r.status === 'ok') { go(NO, K); return; }
-          toast('아직 입금이 확인되지 않았습니다');
+          toast('아직 입금이 확인되지 않았어요');
         });
       };
     }
@@ -248,14 +249,14 @@ button{font-family:inherit;cursor:pointer}
       + '<button type="button" class="x" id="xBtn">닫기</button>';
     $('dim').classList.add('on'); $('sheet').classList.add('on');
     $('xBtn').onclick = closeSheet;
-    $('copyBtn').onclick = function () { copyText(m, '보낼 글을 복사했습니다 · 카카오톡에 붙여 넣으세요'); markSent(B.no, n); paint(); };
+    $('copyBtn').onclick = function () { copyText(m, '보낼 글을 복사했어요 · 카카오톡에 붙여 넣어 주세요'); markSent(B.no, n); paint(); };
     $('shareBtn').onclick = function () {
       markSent(B.no, n);
       if (navigator.share) {
         navigator.share({ text: m })['catch'](function () { });
         closeSheet(); paint(); return;
       }
-      copyText(m, '보낼 글을 복사했습니다 · 카카오톡에 붙여 넣으세요'); paint();
+      copyText(m, '보낼 글을 복사했어요 · 카카오톡에 붙여 넣어 주세요'); paint();
     };
   }
 
@@ -268,7 +269,7 @@ button{font-family:inherit;cursor:pointer}
     if (okNo(no) && okK(k)) { go(no, k); return; }
     var a = lsJson(MEM, []);
     if (a.length && okNo(a[0].no) && okK(a[0].k)) { go(a[0].no, a[0].k); return; }
-    state('🗂', '선물함', '보내신 선물은 카카오 로그인으로 여실 수 있습니다.', '<button type="button" class="kakao" id="kBtn">카카오 로그인 · 내 선물함</button><br><a class="again" href="/pay.html?mode=gift">🎁 선물하기</a>');
+    state('🗂', '선물함', '보내신 선물은 카카오 로그인으로 여실 수 있어요.', '<button type="button" class="kakao" id="kBtn">카카오 로그인 · 내 선물함</button><br><a class="again" href="/pay.html?mode=gift">🎁 선물하기</a>');
     $('kBtn').onclick = kakao;
   }
   window.LF_GIFT = { boot: boot, data: function () { return B; } };   /* 견본 시험용 */

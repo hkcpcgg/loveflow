@@ -1,4 +1,5 @@
-<!-- ★ 현재 버전 ▶ pay.html · v14-71 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
+<!-- ★ 현재 버전 ▶ pay.html · v14-72 · 261125 · [합본 F 2묶음 결제 · 통합 표준 v0.2 3장 1] 결제 화면 손님 안내 · 상태 끝을 「~요」로(개인정보 안내 · 선물 확정 · 편 설명 · 결제 완료 / 안 됨 / 확인 중 · 연결 예정 · 이어짐). 그대로 둔 것: 동의 체크 문장 · 선물 글 기본값 · 예시 글. [무손] 그 밖 전부. -->
+<!-- (이전) ★ 현재 버전 ▶ pay.html · v14-71 · 261124 · [통합 표준 v0.2 겉모습 · 대표 승인 261124 21:12] 골드 #D4AF37 → #C9A96E(다섯 축 그래프 색은 그대로).
    (이전) pay.html · v14-70 · 261123 · [대표 261123 21:05 · 21:23 「카드가 주인 · 선물은 고른 분께만 아래로 · 결제 창으로 갈 때 양해」] 카드 안 선물 모드(?mode=gift&in=card · 마음 카드 만들기 화면 안 틀로 열릴 때만): 사이트 띠 · 아래 띠 감춤 · 선물하기 / 구매하기 고르기 · 몇 명 · 받는 분 · 보내는 글 · 그 시절 이야기 칸 감춤(카드가 그 일을 함) · 몇 명 = 카드 받는 분 수 · 받는 분 이름을 선물 줄에 · 보내는 분 = 카드의 보내는 분 · 오픈마켓 감춤 · 계좌이체 접수 뒤 선물함으로 넘어가지 않고 카드 화면에 선물 번호를 넘김 · 카드 결제는 주문을 적은 뒤 카드 화면이 양해 안내를 띄우고 토스 결제 창을 엶 · 결제 승인(&back=card)이 끝나면 선물함 대신 카드 만들기로 돌아감. 그 밖 v14-69 그대로. -->
 <!-- (이전) pay.html · v14-69 · 261122 · [대표 261122 16:06 「소리 중저음 · 볼륨 중하」] 공용 소리 lf/fx.js ?v=1 → ?v=3(솔 바탕 중저음 · 크기 중하). [무손] 그 밖 전부. -->
 <!-- (이전) pay.html · v14-68 · 261121 · [889 · 환불 v3 제2조의2] 선물로 결제할 때 「시작 전 알아두실 사항」 끝에 한 줄 — 「받으시는 분이 열지 않으신 편은 1년 안에 돌려 드려요. 받으신 분이 무엇을 여셨는지는 알려 드리지 않아요.」(일반 결제에는 안 나옴). 결제 화면 1년 줄(D12)은 토스 확인 뒤. [무손] 그 밖 전부. -->
@@ -512,7 +513,7 @@ html.incard .phone{min-height:0!important;height:auto!important;box-shadow:none!
   <!-- ★[v14-41] [필수] 개인정보 동의 — 네 상품 모두 -->
   <div class="magree hidden" id="privAgree">
     <label class="magree-chk" style="border-top:0;padding-top:0"><input type="checkbox" id="privChk" onchange="onAgree()"> <span><b style="color:#B0412E">[필수]</b> 만 14세 이상이며, 개인정보 수집·이용에 동의합니다.</span></label>
-    <div class="magree-sub" style="margin:6px 0 0 22px">성명과 연락처는 사랑흐름 여권번호를 잊으셨을 때 찾아 드리고, 쓰시던 기록을 이어 드리는 데만 씁니다. 지워 달라고 하시면 바로 지웁니다.</div>
+    <div class="magree-sub" style="margin:6px 0 0 22px">성명과 연락처는 사랑흐름 여권번호를 잊으셨을 때 찾아 드리고, 쓰시던 기록을 이어 드리는 데만 써요. 지워 달라고 하시면 바로 지워요.</div>
   </div>
   <div class="choice" id="choice">
     <div class="choice-row2">
@@ -536,7 +537,7 @@ html.incard .phone{min-height:0!important;height:auto!important;box-shadow:none!
     <span class="pathback" onclick="resetPath()">‹ 다시 고르기</span>
     <div class="sec-t">바로 결제하기</div>
     <p class="g" id="tossLead">카드·간편결제로 지금 바로 결제하실 수 있어요.</p>
-    <div class="gsure hidden" id="giftSure">아래 결제하기를 누르시면 선물이 확정됩니다.</div>
+    <div class="gsure hidden" id="giftSure">아래 결제하기를 누르시면 선물이 확정돼요.</div>
     <button class="btn btn-navy" id="tossPayBtn" onclick="payWithToss()">카드로 결제하기</button>
     <p class="g" style="margin-top:10px" id="tossAfter">카드 결제 창에서 결제를 마치시면 이 화면으로 돌아와 바로 사랑흐름 여권번호를 받으실 수 있어요.</p>
     <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
@@ -732,7 +733,7 @@ var LF_KNUM = ['하나','둘','셋','넷','다섯','여섯','일곱','여덟','�
 function paintWhat(){
   var w = document.getElementById('pWhat'); if (!w) return;
   if (ITEM === 'memoir') {
-    var h = '<b>한 편 = 내 삶의 이야기 하나.</b> 열 편이 모이면 한 사람의 삶이 담긴 자서전이 됩니다.<ul class="pten">';
+    var h = '<b>한 편 = 내 삶의 이야기 하나.</b> 열 편이 모이면 한 사람의 삶이 담긴 자서전이 돼요.<ul class="pten">';
     for (var i = 0; i < LF_TEN.length; i++) { h += '<li' + (i >= 8 ? ' class="sp"' : '') + '><i>' + (i + 1) + '</i>' + LF_TEN[i] + '</li>'; }
     h += '</ul><div class="pw-s">어느 이야기부터 쓸지는 쓰실 때 고르세요.</div>';
     w.innerHTML = h;
@@ -877,7 +878,7 @@ function go(k){
     }
     location.href = u;
   }
-  else { showToast('연결 예정입니다'); }
+  else { showToast('연결 예정이에요'); }
 }
 
 /* ===== 토스페이먼츠 결제창 (v14-10) =====
@@ -950,7 +951,7 @@ function lfPaidBox(html){
 }
 function lfPayEsc(t){ return String(t == null ? '' : t).replace(/[&<>"']/g, function(c){ return '&#' + c.charCodeAt(0) + ';'; }); }
 function lfPayFail(msg){
-  lfPaidBox('<div class="sec-t">결제가 완료되지 않았습니다</div>'
+  lfPaidBox('<div class="sec-t">결제가 완료되지 않았어요</div>'
     + '<p class="g">' + lfPayEsc(msg || '잠시 후 다시 시도해 주세요.') + '</p>'
     + '<a class="btn btn-navy" href="' + lfUrl() + '">다시 결제하기</a>'   /* ★[v14-56] 선물이면 선물하기로 */
     + '<a class="kakao-mini" href="' + LINK.kakao + '" target="_blank" rel="noopener">카카오톡으로 문의하기</a>');
@@ -960,7 +961,7 @@ function lfPayDone(res){
          + '&no=' + encodeURIComponent(res.orderId)
          + '&item=' + encodeURIComponent(res.item || ITEM)
          + '&agree=1';
-  lfPaidBox('<div class="sec-t">결제가 완료되었습니다</div>'
+  lfPaidBox('<div class="sec-t">결제가 완료됐어요</div>'
     + '<p class="g">' + lfPayEsc(P ? P.name : '') + (res.pieces > 1 ? ' ' + res.pieces + '편' : '')
     + ' · ' + Number(res.amount || 0).toLocaleString() + '원<br>주문번호 ' + lfPayEsc(res.orderId) + '</p>'
     + '<a class="btn btn-navy" href="' + go + '">사랑흐름 여권 발급받기</a>'
@@ -974,7 +975,7 @@ function lfPayDone(res){
     var pk = _q.get('paymentKey') || '', oid = _q.get('orderId') || '', amt = _q.get('amount') || '';
     setTimeout(function(){
       if (!pk || !oid || !amt) { lfPayFail('결제 정보를 받지 못했어요. 카드에서 돈이 나갔다면 카카오톡으로 알려 주세요.'); return; }
-      lfPaidBox('<div class="sec-t">결제를 확인하는 중입니다…</div><div id="lfPayWait"></div>');
+      lfPaidBox('<div class="sec-t">결제를 확인하는 중이에요…</div><div id="lfPayWait"></div>');
       try { if (window.LFFlow) { LFFlow.wave(document.getElementById('lfPayWait')); } } catch (e) { }
       var cb = 'lfpay' + Date.now(), done = false;
       var timer = setTimeout(function(){
@@ -1465,7 +1466,7 @@ function lfResCheck(){
        ★"거기 가면 있다"고 알려줘야 합니다. 담아둔 것은 그 기기 안에 있습니다. */
     document.getElementById('lfResMsg').innerHTML =
       '이 기기엔 담아둔 게 없어요.<br>'
-    + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어집니다.</span><br>'
+    + '<span style="color:#8C8880;font-size:11.5px">폰에서 쓰신 여행은 폰에서, 컴퓨터에서 쓰신 여행은 컴퓨터에서 이어져요.</span><br>'
     + '이 사랑흐름 여권으로 여행지도를 새로 펼쳐볼까요?';
     document.getElementById('lfResGo').textContent = '여행지도 펼치기';
     f.classList.add('on');
