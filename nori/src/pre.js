@@ -159,3 +159,19 @@ window.NA=(function(){
     sndBtn:sndBtn, soundSheet:soundSheet, pre:pre, close:close, point:point, unpoint:unpoint, toast:toast, speak:speak, beat:beat, vib:vib, mic:mic, ac:ac,
     micOn:function(){ return !!(OPT.mic&&SR); }};
 })();
+/* 261125 한 화면 점검: 화면이 낮은 폰(브라우저 주소창 포함 약 620px 아래)에서 시작 전 창이 넘치지 않게 · 「시작!」은 늘 창 바닥에 붙음 */
+(function(){ var st=document.createElement('style'); st.textContent=
+  '.na-sh #naGo{position:sticky;bottom:0;z-index:2}'
+ +'.na-sh #naGo::after{content:"";position:absolute;left:-14px;right:-14px;top:100%;height:40px;background:#fff;z-index:-1}'
+ +'@media (max-height:620px){'
+ +'.na-sh{padding-top:10px!important}'
+ +'.na-sh h3{font-size:15.5px}.na-sh .sub{display:none}'
+ +'.na-then{padding:6px 10px 5px!important;margin-bottom:6px!important}.na-then p{font-size:12px!important;line-height:1.45!important}.na-then .s{font-size:12.5px!important;margin-top:1px!important}.na-then .a{display:none!important}'
+ +'.na-bets{gap:6px!important;margin-top:6px}'
+ +'.na-bets button{display:flex!important;align-items:center;justify-content:center;gap:6px;padding:8px 6px!important;min-height:42px}'
+ +'.na-bets button i{display:inline!important;font-size:19px!important;line-height:1!important}.na-bets button small{display:none!important}'
+ +'.na-bets .real{min-height:40px}.na-bets .real small{display:inline!important}'
+ +'.na-who{margin:6px 0!important;gap:6px!important}.na-who button{padding:7px 6px!important}'
+ +'.na-go{min-height:46px!important}'
+ +'}';
+  document.head.appendChild(st); })();

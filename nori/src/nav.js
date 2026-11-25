@@ -319,3 +319,18 @@ window.noriNav=function(o){
   /* 「누구랑」 창이 없는 놀이(동그란 딱지): 다시 → 시작 전 창 */
   if(!pk){ bar.addEventListener('click',function(e){ var b=e.target.closest('button[data-a=new]'); if(b){ setTimeout(function(){ asked=false; ask(); },250); } }); }
 };
+/* 261125 한 화면 점검: 화면이 낮은 폰에서 결과 카드가 한 화면에 들도록 줄임 (사진 칸 · 글자 사이 · 단추 한 줄) */
+(function(){ var st=document.createElement('style'); st.textContent='@media (max-height:700px){'
+ +'.ncard.on{padding:8px 12px 10px!important}.ncard.on .cd{padding:10px 12px!important}'
+ +'.ncard.on .gn{margin:0!important}.ncard.on .hd{flex-direction:row!important;flex-wrap:nowrap!important;white-space:nowrap}.ncard.on .hd b{font-size:13.5px!important}.ncard.on .hd>span:last-child{font-size:11px}'
+ +'.ncard.on .ph{height:clamp(84px,17vh,140px)!important;margin:6px 0!important}.ncard.on .ph>i{font-size:26px!important}.ncard.on .ph small{display:none!important}'
+ +'.ncard.on .big{font-size:24px!important;margin:2px 0!important}.ncard.on .sc em{font-size:28px!important}.ncard.on .sc .c{padding-bottom:16px!important}'
+ +'.ncard.on .res{font-size:17px!important;margin:2px 0 4px!important}'
+ +'.ncard.on .mq{font-size:12.5px!important;margin:2px 0 4px!important}.ncard.on .memo{padding:8px 10px!important}'
+ +'.ncard.on .ft{margin-top:4px!important}'
+ +'.ncard.on .lure{margin:6px auto 0!important;font-size:12.5px!important}'
+ +'.ncard.on .bt2{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:6px}.ncard.on .bt2 .row{display:contents!important}.ncard.on .bt2 button{margin-top:6px!important;font-size:14px!important}.ncard.on .bt2 .gift{font-size:15px!important}'
+ +'.ncard.on .nlinks{margin:0!important}.ncard.on .nlinks button{min-height:40px!important}.ncard.on .tip{margin:0 auto!important;font-size:11px!important}.ncard.on .bt2:not(:has(.gift)){grid-template-columns:1fr 1fr}'
+ +'}@media (max-height:600px){.ncard.on .ph{height:72px!important;flex-direction:row!important;gap:10px!important;padding:0 10px!important}.ncard.on .ph>i{font-size:22px!important}.ncard.on .lure{margin-top:4px!important}.ncard.on .tip{display:none!important}'
+ +'}';
+  document.head.appendChild(st); })();

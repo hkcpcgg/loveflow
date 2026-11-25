@@ -68,6 +68,10 @@ def restructure(scr):
     room = ('<a class="room" href="%s" target="_blank" rel="noopener"><span class="ri" aria-hidden="true">📖</span>'
             '<span class="rt"><b><span class="shopN">다복</span> 이야기방</b><small>오늘 놀이 추억을 남겨요</small></span><span class="rv" aria-hidden="true">›</span></a>') % href
     fam = re.search(r'<div class="fam">.*?</div>', scr, re.S).group(0)
+    # 261125 대표: 함께하는 곳은 사랑흐름이 메인이라 항상 먼저 (016 원본에서 가져온 뒤 순서만 바꿈)
+    fa = re.findall(r'<a [^>]*>.*?</a>', fam, re.S)
+    fa.sort(key=lambda x: 0 if 'loveflow.ai.kr' in x else 1)
+    fam = '<div class="fam">\n              ' + '\n              '.join(fa) + '\n            </div>'
     body = body.replace('@@ROOM@@', room).replace('@@FAM@@', fam)
     a = scr.index('<div class="body">')
     head = scr[:a]

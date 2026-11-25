@@ -8,7 +8,7 @@ function opp(m){ return m==='two'?'친구':shopName()+' '+(LVNAME[m]||hoName());
 var W=300, H=400, cv=$('cv'), ctx=cv.getContext('2d');
 function fit(){ window.__nfx=0; fit0(); var ov=document.documentElement.scrollHeight-(window.innerHeight||700); if(ov>2){ window.__nfx=ov+16; fit0(); } }
 /* 한 화면에 맞춤: 넘치면 넘친 만큼 판을 줄여 다시 (261122) */
-function fit0(){ var cs=getComputedStyle(cv.parentNode), pw=(cv.parentNode.clientWidth||300)-parseFloat(cs.paddingLeft||0)-parseFloat(cs.paddingRight||0), top=cv.getBoundingClientRect().top+(window.scrollY||0), act=$('act'), ah=act?act.offsetHeight+10:0, avail=(window.innerHeight||700)-top-84-10-ah-(window.__nfx||0), ww=Math.max(220,Math.min(pw,avail*W/H)), d=Math.max(1,Math.min(3,window.devicePixelRatio||1));
+function fit0(){ var cs=getComputedStyle(cv.parentNode), pw=(cv.parentNode.clientWidth||300)-parseFloat(cs.paddingLeft||0)-parseFloat(cs.paddingRight||0), top=cv.getBoundingClientRect().top+(window.scrollY||0), act=$('act'), ah=act?act.offsetHeight+10:0, avail=(window.innerHeight||700)-top-84-10-ah-(window.__nfx||0), ww=Math.max(150,Math.min(pw,avail*W/H)), d=Math.max(1,Math.min(3,window.devicePixelRatio||1));
   cv.style.width=ww+'px'; cv.style.height=(ww*H/W)+'px'; cv.width=Math.round(ww*d); cv.height=Math.round(ww*H/W*d); ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0); }
 var S={g:null,mode:'cpu2',who:0,sc:[0,0],n:[0,0],max:5,over:true,busy:false,sud:false};
 var COL=['#2457D6','#E1262D'];
