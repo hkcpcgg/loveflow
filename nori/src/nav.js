@@ -181,15 +181,15 @@ window.noriNav=function(o){
     return '<div class="big">'+esc2(String(r.detail||'').split(' · 카드')[0])+'</div>'; }
   function openCard(){ var r=window.__noriLast; if(!r){ return; } R=r; photo=null;
     cd.innerHTML='<div class="cd"><div class="hd"><span class="pl" data-plan="paid" hidden></span><b>그때 그 놀이 · '+esc2(shop())+'</b><span>'+when(r.t)+'</span></div><div class="gn">'+esc2((r.gname||'')+(window.__noriBetName?' · '+window.__noriBetName:''))+'</div>'
-      +'<div class="ph"><img alt="현장 사진"><i>📷</i>현장 사진 넣기<div class="pb"><label>📷 지금 찍기<input type="file" accept="image/*" capture="environment"></label><label>🖼 앨범에서<input type="file" accept="image/*"></label></div><small>사진은 이 폰 안에서만 카드에 합쳐요 · 서버로 보내지 않아요</small><label class="re">사진 바꾸기<input type="file" accept="image/*"></label></div>'
+      +'<div class="ph"><img alt="현장 사진"><i>📷</i>현장 사진 넣기<div class="pb"><label>📷 지금 찍기<input type="file" accept="image/*" capture="environment"></label><label>🖼 앨범에서<input type="file" accept="image/*"></label></div><small>사진은 이 폰 안에서만 결과 사진에 합쳐요 · 서버로 보내지 않아요</small><label class="re">사진 바꾸기<input type="file" accept="image/*"></label></div>'
       +scoreHTML(r)+'<div class="res '+outOf(r)+'">'+esc2(resText(r))+'</div>'
       +(function(){ var T=!(window.noriStoryOff&&noriStoryOff())&&window.NORI_STORY&&window.NORI_STORY[r.game]; return T?'<div class="mq">✏ '+esc2(T.q)+'</div><input class="memo" maxlength="40" placeholder="떠오르는 사람이나 장소를 한 줄로 적어 보세요">':'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">'; })()
       +'<div class="ft"><span>확인 번호</span><b>'+esc2(r.card||'')+'</b></div></div>'
       +(noriEdu()?'':'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>')
-      +'<div class="bt2">'+(noriEdu()?'':'<button type="button" class="gift">선물 받기</button>')+'<div class="row"><button type="button" data-c="save">카드 저장</button><button type="button" data-c="share">공유하기</button></div></div>'
+      +'<div class="bt2">'+(noriEdu()?'':'<button type="button" class="gift">선물 받기</button>')+'<div class="row"><button type="button" data-c="save">결과 사진 저장</button><button type="button" data-c="share">공유하기</button></div></div>'
       /* 사랑흐름-놀이-005 (GPT · 총괄 · 261125): 큰 단추는 셋까지 · 「이야기방에 올리기」 「사랑흐름 둘러보기」는 맨 아래 작은 글줄 · 「자서전 둘러보기」 걷음 */
       +'<p class="nlinks"><button type="button" data-c="story">이야기방에 올리기 ›</button>'+(noriEdu()?'':'<button type="button" data-c="lf">사랑흐름 둘러보기 ›</button>')+'</p>'
-      +'<p class="tip">이야기방에는 저장된 카드 사진을 골라 올려 주세요.</p>';
+      +'<p class="tip">이야기방에는 저장된 결과 사진을 골라 올려 주세요.</p>';
     var ph=cd.querySelector('.ph'), im=ph.querySelector('img');
     im.onload=function(){ photo=im; ph.classList.add('has'); };
     [].forEach.call(ph.querySelectorAll('input[type=file]'),function(inp){ inp.addEventListener('change',function(){ var f=inp.files&&inp.files[0]; if(!f) return; im.src=URL.createObjectURL(f); }); });
@@ -232,11 +232,11 @@ window.noriNav=function(o){
   function toast2(m){ try{ (window.NA&&NA.toast)?NA.toast(m):alert(m); }catch(e2){} }
   function stxt(){ return shop()+'에서 그때 그 놀이 한 판! '+(R&&R.gname?R.gname+' ':'')+(R?resText(R):'')+' · 나도 해 보기 '+HOME; }
   /* 카드 저장: 카드 그림을 이 폰에 저장만 함 */
-  function save(){ draw(function(b){ dl(b); toast2('카드를 폰에 저장했어요'); }); }
+  function save(){ draw(function(b){ dl(b); toast2('결과 사진을 폰에 저장했어요'); }); }
   /* 공유하기: 휴대폰 공유 창(그림을 함께 보낼 수 있으면 그림까지) · 공유 창이 없으면 링크 복사 */
   function share(){ var txt=stxt();
     draw(function(b){ var f=null; try{ f=new File([b],fname(),{type:'image/png'}); }catch(e){}
-      if(f&&navigator.canShare&&navigator.canShare({files:[f],text:txt})){ navigator.share({files:[f],title:'그때 그 놀이 결과 카드',text:txt}).catch(function(){}); return; }
+      if(f&&navigator.canShare&&navigator.canShare({files:[f],text:txt})){ navigator.share({files:[f],title:'그때 그 놀이 결과 사진',text:txt}).catch(function(){}); return; }
       if(navigator.share){ navigator.share({title:'그때 그 놀이',text:txt,url:HOME}).catch(function(){}); return; }
       if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(function(){ toast2('링크를 복사했어요<br>카톡에 붙여 넣어 보내 주세요'); },function(){ toast2('링크를 복사하지 못했어요'); }); }
       else { toast2('링크를 복사하지 못했어요'); } }); }
@@ -263,7 +263,7 @@ window.noriNav=function(o){
     /* 대표 261123: 놀이 중에도 바로 찍어서 남기기 · 앨범에서만 고르는 게 아니라 */
     var cam=document.createElement('label'); cam.className='na-cam'; cam.setAttribute('aria-label','현장 사진 찍기');
     cam.innerHTML='<input type="file" accept="image/*" capture="environment"><svg viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg>';
-    cam.querySelector('input').addEventListener('change',function(){ var f=this.files&&this.files[0]; if(!f) return; try{ if(window.__noriPhoto) URL.revokeObjectURL(window.__noriPhoto); }catch(x){} window.__noriPhoto=URL.createObjectURL(f); cam.classList.add('has'); NA.toast('📷 사진을 담았어요<br>결과 카드에 들어가요'); this.value=''; });
+    cam.querySelector('input').addEventListener('change',function(){ var f=this.files&&this.files[0]; if(!f) return; try{ if(window.__noriPhoto) URL.revokeObjectURL(window.__noriPhoto); }catch(x){} window.__noriPhoto=URL.createObjectURL(f); cam.classList.add('has'); NA.toast('📷 사진을 담았어요<br>결과 사진에 들어가요'); this.value=''; });
     tr.appendChild(cam); NA.sndBtn(tr);
     var cc=document.createElement('style'); cc.textContent='.top .na-tr{position:absolute;right:8px;top:calc(7px + env(safe-area-inset-top,0px));display:flex;gap:6px;z-index:3}.top .na-tr .na-snd{position:static!important}'
       +'.na-cam{height:34px;width:34px;border-radius:50%;background:rgba(255,255,255,.5);color:#1C1D21;display:flex;align-items:center;justify-content:center;cursor:pointer;font-family:"Noto Sans KR",sans-serif}.na-cam input{position:absolute;opacity:0;width:1px;height:1px}'
@@ -329,8 +329,8 @@ window.noriNav=function(o){
  +'.ncard.on .mq{font-size:12.5px!important;margin:2px 0 4px!important}.ncard.on .memo{padding:8px 10px!important}'
  +'.ncard.on .ft{margin-top:4px!important}'
  +'.ncard.on .lure{margin:6px auto 0!important;font-size:12.5px!important}'
- +'.ncard.on .bt2{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:6px}.ncard.on .bt2 .row{display:contents!important}.ncard.on .bt2 button{margin-top:6px!important;font-size:14px!important}.ncard.on .bt2 .gift{font-size:15px!important}'
+ +'.ncard.on .bt2{display:grid;grid-template-columns:1.15fr 1fr 1fr;gap:6px}.ncard.on .bt2 .row{display:contents!important}.ncard.on .bt2 button{margin-top:6px!important;font-size:13.5px!important;white-space:nowrap;padding:0 4px!important;letter-spacing:-.02em}.ncard.on .bt2 .gift{font-size:15px!important}'
  +'.ncard.on .nlinks{margin:0!important}.ncard.on .nlinks button{min-height:40px!important}.ncard.on .tip{margin:0 auto!important;font-size:11px!important}.ncard.on .bt2:not(:has(.gift)){grid-template-columns:1fr 1fr}'
- +'}@media (max-height:600px){.ncard.on .ph{height:72px!important;flex-direction:row!important;gap:10px!important;padding:0 10px!important}.ncard.on .ph>i{font-size:22px!important}.ncard.on .lure{margin-top:4px!important}.ncard.on .tip{display:none!important}'
+ +'}@media (max-height:600px){.ncard.on .ph{height:72px!important;flex-direction:row!important;gap:8px!important;padding:0 10px!important;white-space:nowrap;font-size:13.5px!important}.ncard.on .ph .pb{gap:6px!important}.ncard.on .ph .pb label{padding:7px 10px!important;font-size:13px!important;white-space:nowrap}.ncard.on .ph>i{font-size:22px!important}.ncard.on .lure{margin-top:4px!important}.ncard.on .tip{display:none!important}'
  +'}';
   document.head.appendChild(st); })();
