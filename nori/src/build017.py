@@ -80,6 +80,7 @@ html='''<!DOCTYPE html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Song+Myung&family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap">
+<script>window.NORI_EDU=/[?&]edu=1(&|$)/.test(location.search);if(window.NORI_EDU){document.documentElement.classList.add('edu');}</script>
 <style>'''+css.replace('/* 그때그놀이-016 · 메인 화면 7차','/* 그때그놀이-017 · 다복 손님용 놀이 입구(링크 하나로 바로 놂) — 016 메인 7차 바탕')+'''</style>
 </head>
 <body>

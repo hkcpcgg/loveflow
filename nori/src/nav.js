@@ -183,8 +183,8 @@ window.noriNav=function(o){
       +scoreHTML(r)+'<div class="res '+outOf(r)+'">'+esc2(resText(r))+'</div>'
       +(function(){ var T=!(window.noriStoryOff&&noriStoryOff())&&window.NORI_STORY&&window.NORI_STORY[r.game]; return T?'<div class="mq">✏ '+esc2(T.q)+'</div><input class="memo" maxlength="40" placeholder="떠오르는 대로 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">':'<input class="memo" maxlength="40" placeholder="✏ 추억 한 줄 (이름 · 전화번호는 빼고 적어 주세요)">'; })()
       +'<div class="ft"><span>확인 번호</span><b>'+esc2(r.card||'')+'</b></div></div>'
-      +'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>'
-      +'<div class="bt2"><button type="button" class="gift">선물 받기</button><div class="row"><button type="button" data-c="save">카드 저장</button><button type="button" data-c="share">공유하기</button></div><div class="row one"><button type="button" data-c="story">이야기방에 올리기</button></div><div class="row one nmemo" hidden><button type="button" data-c="memoir">자서전 둘러보기</button></div></div><p class="tip nmemo" hidden>적어 주신 한 줄은 이 폰에만 남아요. 「자서전 둘러보기」를 누르면 사랑흐름 자서전 소개 화면이 새 창으로 열려요. 다 보신 뒤 그 창을 닫으시면 돼요.'+(/KAKAOTALK/i.test(navigator.userAgent)?' 카카오톡 안에서는 휴대폰 기본 앱으로 넘겨 열어요. 기본 앱에서 적으신 기억만 자서전에서 불러올 수 있어요.':'')+'</p>'
+      +(noriEdu()?'':'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>')
+      +'<div class="bt2">'+(noriEdu()?'':'<button type="button" class="gift">선물 받기</button>')+'<div class="row"><button type="button" data-c="save">카드 저장</button><button type="button" data-c="share">공유하기</button></div><div class="row one"><button type="button" data-c="story">이야기방에 올리기</button></div><div class="row one nmemo" hidden><button type="button" data-c="memoir">자서전 둘러보기</button></div></div><p class="tip nmemo" hidden>적어 주신 한 줄은 이 폰에만 남아요. 「자서전 둘러보기」를 누르면 사랑흐름 자서전 소개 화면이 새 창으로 열려요. 다 보신 뒤 그 창을 닫으시면 돼요.'+(/KAKAOTALK/i.test(navigator.userAgent)?' 카카오톡 안에서는 휴대폰 기본 앱으로 넘겨 열어요. 기본 앱에서 적으신 기억만 자서전에서 불러올 수 있어요.':'')+'</p>'
       +'<p class="tip">「이야기방에 올리기」를 누르면 카드가 폰에 저장되고 다복 이야기방 올리기 창이 열려요. 방금 저장된 카드 사진을 골라 올려 주세요.</p>';
     var ph=cd.querySelector('.ph'), im=ph.querySelector('img');
     im.onload=function(){ photo=im; ph.classList.add('has'); };
@@ -201,6 +201,7 @@ window.noriNav=function(o){
       if(MEMO_AT>=0&&L[MEMO_AT]&&L[MEMO_AT].g===it.g&&L[MEMO_AT].q===it.q){ if(a) L[MEMO_AT]=it; else { L.splice(MEMO_AT,1); MEMO_AT=-1; } }
       else if(a){ L.push(it); while(L.length>50) L.shift(); MEMO_AT=L.length-1; }
       localStorage.setItem('lfNoriMemo',JSON.stringify(L)); }catch(e){} }
+  function noriEdu(){ try{ return !!(window.NORI_EDU||(window.parent&&window.parent!==window&&window.parent.NORI_EDU)); }catch(e){ return false; } }
   function closeCard(){ cd.classList.remove('on'); document.body.classList.remove('ncard-on'); setNew(false); }
   function setNew(on){ if(window.NORI_A) return; var b=bar.querySelector('[data-a=new]'); b.lastChild.textContent= on?'다시 하기':'새 판'; }
   /* 카드 그림 만들기 (1080×1440) — 폰 안에서만 */
