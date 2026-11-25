@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ settle/me.html · v1 · 261125 · [코딩 차례 6 · 대표 261125 18:28] 판매자 · 외부 안내자 「내 판매 · 정산」 화면.
+     ?t=등록 열쇠 &g=정산 서버 배포 번호 (계좌 등록 링크와 같은 열쇠 · 자기 것만) · 정산 서버 2-2 (a=me · mePaper).
+     보이는 칸은 정산 관리 화면의 「판매자 화면 보이기」 설정대로(예상 수수료 · 활동 몫 · 지난 명세서 · 판매 링크와 QR).
+     손님 이름 · 연락처는 오지 않음 · 주문번호는 끝 여섯 자리만. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>내 판매 · 정산 · 사랑흐름</title>
+<link rel="stylesheet" href="/poster/poster.css?v=1">
+<style>
+.lead{text-align:center;font-size:14.5px;line-height:1.6;color:var(--ink2);word-break:keep-all;margin-bottom:12px}
+.sec{margin-bottom:14px}.sec h3{font-size:16px;margin:0 0 8px;color:var(--navy)}
+.big{font-size:22px;font-weight:700;color:var(--navy)}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #EEE8DD;font-size:14.5px}
+.kv:last-child{border-bottom:0}.kv b{font-weight:700}
+.minus{color:#B42318}
+.hint{font-size:12.5px;color:var(--ink2);line-height:1.6;margin-top:6px;word-break:keep-all}
+.ln{font-size:13.5px;padding:7px 0;border-bottom:1px solid #F1ECE3;display:flex;justify-content:space-between;gap:8px}
+.ln small{color:var(--ink2)}
+.qr{display:flex;justify-content:center;margin:10px 0}
+.qr canvas{width:180px;height:180px}
+.url{font-size:13px;word-break:break-all;background:#F7F3EC;border-radius:8px;padding:8px 10px;text-align:center}
+.row2{display:flex;gap:8px;margin-top:8px}.row2 .btn{flex:1}
+.mrow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #EEE8DD}
+.mrow a{white-space:nowrap}
+</style>
+</head>
+<body data-lf-fab="off" data-lf-title="내 판매 · 정산">
+<main class="stage">
+  <p class="lead" id="lead">불러오는 중이에요…</p>
+  <div id="app" style="display:none">
+    <section class="box sec" id="secLink" style="display:none">
+      <h3>내 판매 링크</h3>
+      <div class="url" id="url"></div>
+      <div class="qr"><canvas id="qr" width="360" height="360"></canvas></div>
+      <div class="row2"><button class="btn main" type="button" id="cp">링크 복사</button><button class="btn" type="button" id="qrSave">QR 사진 저장</button></div>
+      <p class="hint">이 링크나 QR로 들어온 손님이 결제하면 내 판매로 셈해요.</p>
+    </section>
+    <section class="box sec" id="secNow" style="display:none">
+      <h3 id="nowT">이번 달</h3>
+      <div id="nowSum"></div>
+      <p class="hint">말일 마감 뒤에 정해져요. 취소나 환불이 있으면 바뀔 수 있어요.</p>
+      <div id="nowLines"></div>
+    </section>
+    <section class="box sec" id="secPaper" style="display:none">
+      <h3>지난 명세서</h3>
+      <div id="papers"></div>
+      <p class="hint">매달 말일에 마감하고 다음 달 20일에 보내 드려요.</p>
+    </section>
+    <section class="box sec">
+      <h3>내 계좌</h3>
+      <div id="bank"></div>
+      <div class="row2"><a class="btn main" id="bankGo" style="text-align:center;text-decoration:none">계좌 등록 · 변경</a></div>
+    </section>
+  </div>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div id="lfFoot"></div>
+<script src="/my/qrcode.js?v=1"></script>
+<script>
+function $(i){return document.getElementById(i);}
+function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function won(n){if(n===''||n==null)return '';n=Number(n)||0;return (n<0?'-':'')+Math.abs(n).toLocaleString('ko-KR');}
+var tT=null;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('on');},2600);}
+var q=new URLSearchParams(location.search), T=q.get('t')||'', G=(q.get('g')||'').replace(/[^A-Za-z0-9_\-]/g,'');
+var API=G?'https://script.google.com/macros/s/'+G+'/exec':'';
+function post(b){return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)}).then(function(r){return r.json();});}
+function kv(k,v,cls){return '<div class="kv"><span>'+k+'</span><b class="'+(cls||'')+'">'+v+'</b></div>';}
+function drawQr(u){
+  try{ var c=$('qr'),x=c.getContext('2d'),qq=qrcode(0,'M'); qq.addData(u); qq.make(); var n=qq.getModuleCount(),pad=24,cell=Math.floor((360-pad*2)/n),off=(360-cell*n)/2;
+    x.fillStyle='#fff';x.fillRect(0,0,360,360);x.fillStyle='#0E1736';
+    for(var i=0;i<n;i++){for(var j=0;j<n;j++){if(qq.isDark(i,j))x.fillRect(off+j*cell,off+i*cell,cell,cell);}} }catch(e){}
+}
+function show(d){
+  $('lead').innerHTML='<b>'+esc(d.name)+'</b> 님 ('+esc(d.s)+')'+(d.state==='보류'?'<br>지금 지급이 잠시 보류돼 있어요. 사랑흐름에 문의해 주세요.':'');
+  $('app').style.display='block';
+  if(d.link){ $('secLink').style.display='block'; $('url').textContent=d.link; drawQr(d.link);
+    $('cp').onclick=function(){ try{navigator.clipboard.writeText(d.link).then(function(){toast('링크를 복사했어요');},function(){toast('링크를 복사해 주세요');});}catch(e){toast('링크를 복사해 주세요');} };
+    $('qrSave').onclick=function(){ var a=document.createElement('a'); a.href=$('qr').toDataURL('image/png'); a.download='사랑흐름_판매QR_'+d.s+'.png'; document.body.appendChild(a); a.click(); a.remove(); };
+  }
+  if(d.now){
+    $('secNow').style.display='block';
+    var s=d.now.sum, mo=Number(String(d.m).slice(5,7));
+    $('nowT').textContent=mo+'월 (마감 전)';
+    var h='';
+    if(d.show.est){ h+=kv('판매 건수',s.n+'건')+kv('인정 실적',won(s.recog)+'원')+kv('예상 판매 수수료',won(s.fee)+'원')+(s.plus?kv('그 밖 더하기(장려금 등)',won(s.plus)+'원'):'')+(s.minus?kv('빼기(환수 등)',won(s.minus)+'원','minus'):''); }
+    if(d.show.act){ h+=kv('활동 몫(강사료 · 수행비)',won(s.act)+'원'); }
+    $('nowSum').innerHTML=h;
+    $('nowLines').innerHTML=d.now.lines.length?d.now.lines.map(function(l){return '<div class="ln"><span>'+esc(l.day.slice(5))+' · '+esc(l.name)+(l.item?' · '+esc(l.item):'')+(l.order?' <small>'+esc(l.order)+'</small>':'')+'</span><b class="'+(l.amount<0?'minus':'')+'">'+won(l.amount)+'원</b></div>';}).join(''):'<p class="hint">이번 달 줄이 아직 없어요.</p>';
+  }
+  if(d.closes){
+    $('secPaper').style.display='block';
+    $('papers').innerHTML=d.closes.length?d.closes.map(function(c){var y=c.m.slice(0,4),mo=Number(c.m.slice(5,7));
+      return '<div class="mrow"><span>'+y+'년 '+mo+'월 · <b>'+won(c.pay)+'원</b><br><small>'+esc(c.state)+' · 지급 예정일 '+esc(c.payDay)+'</small></span><a class="btn" href="/settle/paper.html?m='+encodeURIComponent(c.m)+'&t='+encodeURIComponent(T)+'&g='+encodeURIComponent(G)+'" target="_blank">명세서</a></div>';}).join(''):'<p class="hint">아직 마감한 달이 없어요.</p>';
+  }
+  $('bank').innerHTML=d.bank?kv('받는 계좌',esc(d.bank.bank)+' · 끝 '+esc(d.bank.tail)):'<p class="hint" style="color:#B42318">계좌가 아직 없어요. 계좌를 등록하셔야 보내 드릴 수 있어요.</p>';
+  $('bankGo').href='/settle/reg.html?t='+encodeURIComponent(T)+'&g='+encodeURIComponent(G);
+}
+(function(){
+  if(!T||!API){$('lead').textContent='이 링크는 열리지 않아요. 사랑흐름에 링크를 다시 받아 주세요.';return;}
+  post({a:'me',t:T}).then(function(d){ if(!d||!d.ok){$('lead').textContent=(d&&d.msg)||'이 링크는 열리지 않아요.';return;} show(d); })
+  .catch(function(){$('lead').textContent='서버에 닿지 않아요. 잠시 뒤 다시 열어 주세요.';});
+})();
+</script>
+<script src="/lf-foot.js" defer></script>
+<script src="/lf/frame.js?v=38"></script>
+</body>
+</html>

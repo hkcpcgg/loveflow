@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ settle/reg.html · v2 · 261125 · 수수료 · 강사료 받을 계좌 · 서류 등록(판매자 본인 · 등록 링크로만 열림).
+<!-- ★ 현재 버전 ▶ settle/reg.html · v2.1 · 261125 · 「내 판매 · 정산 보기 ›」 글줄(me.html) · (이전 v2) 수수료 · 강사료 받을 계좌 · 서류 등록(판매자 본인 · 등록 링크로만 열림).
      ?t=등록 열쇠 &g=정산 서버 배포 번호 · 은행 · 계좌번호 · 예금주 · 개인/사업자(등록번호 · 등록증 사본 · 세금계산서) · 통장 사본 · 동의 한 줄. 정산 서버 2 버전(a=reg).
      주민등록번호는 이 화면에서 받지 않음(GPT 회신 · 동의만으로 받지 않음). -->
 <html lang="ko">
@@ -38,6 +38,7 @@
     <button class="btn main" type="button" id="go" style="margin-top:8px">등록하기</button>
   </section>
   <div class="note" id="done" style="display:none;background:var(--donebg);color:var(--done);font-weight:600">계좌를 등록했어요. 고마워요.</div>
+  <p style="text-align:center;margin-top:14px"><a id="meGo" href="#" style="font-size:14.5px;color:var(--navy)">내 판매 · 정산 보기 ›</a></p>
 </main>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div id="lfFoot"></div>
@@ -63,6 +64,7 @@ $('go').onclick=function(){var b=this;
     $('form').style.display='none';$('done').style.display='block';$('had').style.display='none';window.scrollTo(0,0);
   }).catch(function(){b.disabled=false;b.textContent='등록하기';toast('등록하지 못했어요. 인터넷 연결을 확인해 주세요');});};
 (function(){
+  try{ document.getElementById('meGo').href='/settle/me.html?t='+encodeURIComponent(T)+'&g='+encodeURIComponent(G); }catch(e){}
   if(!T||!API){$('lead').textContent='이 링크는 열리지 않아요. 사랑흐름에 링크를 다시 받아 주세요.';return;}
   post({a:'regInfo',t:T}).then(function(d){
     if(!d||!d.ok){$('lead').textContent='이 링크는 열리지 않아요. 사랑흐름에 링크를 다시 받아 주세요.';return;}

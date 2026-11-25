@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ settle/paper.html · v2 · 261125 · 정산 명세서 한 장(마감월 · 판매자) · 더하기 · 빼기 · 세금 · 이월 · 보류 · 실지급 · 정산 서버 2 버전. 정산 관리 화면에서 엶 · 인쇄 · PDF 저장.
+<!-- ★ 현재 버전 ▶ settle/paper.html · v2.1 · 261125 · 판매자 화면(me.html)에서 열쇠로도 열림(?t=&g= · 주문번호 끝 여섯 자리) · (이전 v2) 정산 명세서 한 장(마감월 · 판매자) · 더하기 · 빼기 · 세금 · 이월 · 보류 · 실지급 · 정산 서버 2 버전. 정산 관리 화면에서 엶 · 인쇄 · PDF 저장.
      손님 이름 · 연락처는 싣지 않음(주문번호 · 상품 · 금액만) · 계좌는 은행 · 끝 네 자리만. -->
 <html lang="ko">
 <head>
@@ -39,9 +39,11 @@ function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return
 function won(n){if(n===''||n==null)return '';n=Number(n)||0;return (n<0?'-':'')+Math.abs(n).toLocaleString('ko-KR');}
 var q=new URLSearchParams(location.search), API='', KEY='';
 try{API=localStorage.getItem('lfSettleApi')||'';KEY=localStorage.getItem('lfSettleKey')||'';}catch(e){}
+var TK=q.get('t')||'', GG=(q.get('g')||'').replace(/[^A-Za-z0-9_\-]/g,'');   /* v2.1 판매자 화면에서 열 때(등록 열쇠) */
+if(TK&&GG){API='https://script.google.com/macros/s/'+GG+'/exec';KEY='';}
 function show(h){document.getElementById('out').innerHTML=h;}
-if(!API||!KEY){show('<p class="msg">정산 관리 화면에서 처음 한 번 설정한 기기에서 열어 주세요.</p>');}
-else fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({a:'paper',key:KEY,m:q.get('m'),s:q.get('s')})}).then(function(r){return r.json();}).then(function(d){
+if(!API||(!KEY&&!TK)){show('<p class="msg">정산 관리 화면에서 처음 한 번 설정한 기기에서 열어 주세요.</p>');}
+else fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(TK?{a:'mePaper',t:TK,m:q.get('m')}:{a:'paper',key:KEY,m:q.get('m'),s:q.get('s')})}).then(function(r){return r.json();}).then(function(d){
   if(!d||!d.ok){show('<p class="msg">'+esc(d&&d.msg||'명세서를 불러오지 못했어요.')+'</p>');return;}
   var y=d.m.slice(0,4), mo=Number(d.m.slice(5,7)), s=d.sum;
   var plus=d.rows.filter(function(r){return r.code.charAt(0)==='P';}), minus=d.rows.filter(function(r){return r.code.charAt(0)==='M';});

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ settle/index.html · v2.1 · 261125 · [대표 17:41 「선택만 두지 말고 직접 입력을 꼭 둘 것」] 원장 직접 넣기에 「✎ 직접 적기 · 더하기 / 빼기」와 항목 이름 칸(장려금 · 시상금 등) · 세금 기준에 넣지 않음 체크 · 판매자 종류도 직접 적기. 서버 = 정산 서버 2-1 버전.
+<!-- ★ 현재 버전 ▶ settle/index.html · v2.2 · 261125 · [대표 18:28] 판매자 탭 「판매자 화면 보이기」 — 항목 넷(예상 수수료 · 활동 몫 · 지난 명세서 · 판매 링크와 QR)마다 기본값 단추 · 판매자를 골라(여럿) 보이기 · 보이지 않기 · 기본 따름 · 판매자 화면 링크 단추. 서버 = 정산 서버 2-2.
+     (이전 v2.1) · [대표 17:41 「선택만 두지 말고 직접 입력을 꼭 둘 것」] 원장 직접 넣기에 「✎ 직접 적기 · 더하기 / 빼기」와 항목 이름 칸(장려금 · 시상금 등) · 세금 기준에 넣지 않음 체크 · 판매자 종류도 직접 적기. 서버 = 정산 서버 2-1 버전.
      (이전 v2) 정산 관리 화면(대표님만 · 컴퓨터 중심). 서버 = 정산 서버 2 버전.
      원장(가져오기 · 직접 넣기 · 환수) · 활동(강사료 · 수행비) · 선지급 · 월 마감(말일 › 다음 달 20일 · 이월 · 보류) · 명세서 · 지급함 ·
      판매자(신분 · 보류) · 약정(갈래 · 기준 · 환수 기간) · 환산율(상품별 인정 비율) · 세금 기준 · 신고용 내려받기 · 계좌 등록 링크.
@@ -168,6 +169,18 @@ td.n,th.n{text-align:right;white-space:nowrap}
         <div class="row"><label style="flex:1">메모<input id="sMemo" style="width:100%"></label><button class="btn" type="button" id="sGo">저장</button></div>
         <p class="hint">판매자 번호는 안내자 번호와 같은 ORG- 꼴이에요. 판매 링크는 www.loveflow.ai.kr/?lf=그 번호 예요. 판매자는 자기가 판 건 · 자기가 한 일에서만 받아요(다른 판매자 몫 없음).</p>
       </section>
+      <section class="box">
+        <h3>판매자 화면 보이기</h3>
+        <p class="hint">판매자가 자기 링크로 여는 「내 판매 · 정산」 화면에 무엇을 보여 줄지 정해요. 처음에는 아래 기본값을 모든 판매자에게 써요. 판매자마다 따로 정하면 그 판매자는 기본값 대신 정한 대로 보여요.</p>
+        <div id="showDef"></div>
+        <div class="row" style="margin-top:10px">
+          <label>항목<select id="shKey"></select></label>
+          <label>어떻게<select id="shVal"><option value="1">보이기</option><option value="0">보이지 않기</option><option value="">기본 따름</option></select></label>
+          <button class="btn" type="button" id="shGo">고른 판매자에게 적용</button>
+          <button class="btn sub" type="button" id="shAll">모두 고르기</button>
+        </div>
+        <p class="hint">아래 판매자 대장 왼쪽 칸에 체크한 판매자에게 한 번에 적용해요.</p>
+      </section>
       <section class="box"><h3>판매자 대장</h3><div class="tw" id="sellT"></div><div id="regOut"></div></section>
     </div>
 
@@ -260,7 +273,7 @@ function load(m){
     $('sKindL').innerHTML=d.kinds.map(function(k){return '<option value="'+esc(k)+'">';}).join(''); opts('sStatus',d.statuses.map(function(k){return [k,k];})); opts('tStatus',d.statuses.filter(function(k){return k!=='확인 안 됨';}).map(function(k){return [k,k];}));
     opts('tCode',[['*','모든 갈래']].concat(codeList(function(k){return /^P/.test(k);})));
     opts('vKind',d.advKinds.map(function(k){return [k,k];}),$('vKind').value); opts('vWay',d.advWays.map(function(k){return [k,k];}),$('vWay').value);
-    lHint(); drawLed(); drawSellers(); drawRates(); drawConv(); drawTax(); drawAdv(); drawCloses(); drawCarry();
+    lHint(); drawLed(); drawShow(); drawSellers(); drawRates(); drawConv(); drawTax(); drawAdv(); drawCloses(); drawCarry();
   }).catch(function(){ toast('서버에 닿지 않아요. 주소를 확인해 주세요'); $('setup').style.display='block'; });
 }
 function lHint(){var c0=$('lCode').value,cx=(c0==='X+'||c0==='X-');$('lNoTaxL').style.display=cx?'':'none';$('lNameL').firstChild.textContent=cx?'항목 이름(꼭 · 예: 연말 시상금 · 성과 장려금 · 행사 진행비)':'항목 이름(직접 적기 · 비우면 고른 갈래 이름)';if(cx){$('lHint').textContent=(c0==='X+'?'더하기':'빼기')+': 목록에 없는 항목을 이름을 적어 넣어요. 금액 그대로 '+(c0==='X+'?'더하고':'빼고')+', 명세서에도 적은 이름으로 나와요. 마감한 달은 고치지 않고, 넣은 줄은 다음 마감에 들어가요.';$('lAmtL').firstChild.textContent='금액(원)';return;}var c=c0,h={P1:'판매 수수료: 실제 수납액을 넣으면 약정 · 환산율로 수수료를 셈해요.',M1:'환수: 원래 주문 · 계약번호와 환불 금액을 넣으면 그 주문 수수료에서 환불 비율만큼 셈해요. 약정에 환수 기간이 있고 지났으면 0원으로 남아요.'}[c]||(c.charAt(0)==='M'?'빼기: 금액을 넣으면 그만큼 빼요.':'더하기: 금액을 그대로 더해요.');
@@ -273,9 +286,16 @@ function drawLed(){
     .concat(['<tr><th colspan="9">이 달 금액 합계</th><th class="n">'+won(sum)+'</th><th colspan="3"></th></tr>']));
 }
 function drawSellers(){
-  $('sellT').innerHTML=tbl(['번호','이름','종류','신분','담당자 · 연락처','계약','상태','계좌',''],D.sellers.map(function(s){return '<tr><td>'+esc(s.s)+'</td><td>'+esc(s.name)+'</td><td>'+esc(s.kind)+'</td><td>'+(s.status==='확인 안 됨'?'<span class="minus">확인 안 됨</span>':esc(s.status))+'</td><td>'+esc(s.who)+' '+esc(s.tel)+'</td><td>'+esc(s.from)+' ~ '+esc(s.to)+'</td><td>'+esc(s.state)+(s.hold?'<br><small>'+esc(s.hold)+'</small>':'')+'</td><td>'+(s.bank?esc(s.bank):'<span class="minus">없음</span>')+'</td><td style="white-space:nowrap"><button class="btn sub" type="button" data-e="'+esc(s.s)+'">고치기</button> <button class="btn sub" type="button" data-l="'+esc(s.s)+'">계좌 등록 링크</button></td></tr>';}));
+  $('sellT').innerHTML=tbl(['','번호','이름','종류','신분','담당자 · 연락처','계약','상태','계좌','판매자 화면',''],D.sellers.map(function(s){return '<tr><td><input type="checkbox" class="shPick" value="'+esc(s.s)+'"></td><td>'+esc(s.s)+'</td><td>'+esc(s.name)+'</td><td>'+esc(s.kind)+'</td><td>'+(s.status==='확인 안 됨'?'<span class="minus">확인 안 됨</span>':esc(s.status))+'</td><td>'+esc(s.who)+' '+esc(s.tel)+'</td><td>'+esc(s.from)+' ~ '+esc(s.to)+'</td><td>'+esc(s.state)+(s.hold?'<br><small>'+esc(s.hold)+'</small>':'')+'</td><td>'+(s.bank?esc(s.bank):'<span class="minus">없음</span>')+'</td><td><small>'+showTxt(s)+'</small></td><td style="white-space:nowrap"><button class="btn sub" type="button" data-e="'+esc(s.s)+'">고치기</button> <button class="btn sub" type="button" data-l="'+esc(s.s)+'">계좌 등록 링크</button> <button class="btn sub" type="button" data-m="'+esc(s.s)+'">판매자 화면 링크</button></td></tr>';}));
   [].forEach.call($('sellT').querySelectorAll('[data-e]'),function(b){b.onclick=function(){var s=D.sellers.filter(function(x){return x.s===b.getAttribute('data-e');})[0];
     $('sNo').value=s.s;$('sName').value=s.name;$('sKind').value=s.kind;$('sStatus').value=s.status;$('sWho').value=s.who;$('sTel').value=s.tel;$('sFrom').value=s.from;$('sTo').value=s.to;$('sState').value=s.state;$('sHold').value=s.hold;$('sMemo').value=s.memo;window.scrollTo(0,0);};});
+  [].forEach.call($('sellT').querySelectorAll('[data-m]'),function(b){b.onclick=function(){call({a:'regLink',s:b.getAttribute('data-m')}).then(function(d){
+    if(!d||!d.ok){toast('링크를 만들지 못했어요');return;}
+    var g=(API.match(/\/macros\/s\/([^\/]+)\/exec/)||[])[1]||'';
+    var u='https://www.loveflow.ai.kr/settle/me.html?t='+d.t+'&g='+encodeURIComponent(g);
+    $('regOut').innerHTML='<div class="link"><b>'+esc(b.getAttribute('data-m'))+' 판매자 화면 링크</b> · 이 판매자에게만 보내 주세요(계좌 등록도 이 화면에서 들어가요)<br>'+esc(u)+'</div>';
+    try{navigator.clipboard.writeText(u).then(function(){toast('링크를 복사했어요');},function(){toast('링크를 복사해 주세요');});}catch(e){toast('링크를 복사해 주세요');}
+  });};});
   [].forEach.call($('sellT').querySelectorAll('[data-l]'),function(b){b.onclick=function(){call({a:'regLink',s:b.getAttribute('data-l')}).then(function(d){
     if(!d||!d.ok){toast('링크를 만들지 못했어요');return;}
     var g=(API.match(/\/macros\/s\/([^\/]+)\/exec/)||[])[1]||'';
@@ -283,6 +303,14 @@ function drawSellers(){
     $('regOut').innerHTML='<div class="link"><b>'+esc(b.getAttribute('data-l'))+' 계좌 등록 링크</b> · 이 판매자에게만 보내 주세요<br>'+esc(u)+'</div>';
     try{navigator.clipboard.writeText(u).then(function(){toast('링크를 복사했어요');},function(){toast('링크를 복사해 주세요');});}catch(e){toast('링크를 복사해 주세요');}
   });};});
+}
+function showOf(s){var r={};for(var k in D.showKeys){var o=s.showOwn||{};r[k]=(o[k]===0||o[k]===1)?{v:o[k],own:1}:{v:D.showDef[k],own:0};}return r;}
+function showTxt(s){var r=showOf(s),a=[];for(var k in D.showKeys){a.push((r[k].v?'○ ':'✕ ')+D.showKeys[k].replace(/\(.*\)/,'')+(r[k].own?' (따로)':''));}return a.join('<br>');}
+function drawShow(){
+  opts('shKey',Object.keys(D.showKeys).map(function(k){return [k,D.showKeys[k]];}),$('shKey').value);
+  $('showDef').innerHTML=Object.keys(D.showKeys).map(function(k){var on=D.showDef[k];
+    return '<div class="row" style="align-items:center"><span style="min-width:230px">'+esc(D.showKeys[k])+' · 기본값</span><button type="button" class="btn'+(on?'':' sub')+'" data-dk="'+k+'" data-dv="1">보이기</button><button type="button" class="btn'+(on?' sub':'')+'" data-dk="'+k+'" data-dv="0">보이지 않기</button></div>';}).join('');
+  [].forEach.call($('showDef').querySelectorAll('[data-dk]'),function(b){b.onclick=function(){if(!needWho())return;call({a:'showDef',what:b.getAttribute('data-dk'),val:Number(b.getAttribute('data-dv'))}).then(function(d){done(d,'기본값을 바꿨어요');});};});
 }
 function valTxt(how,v){return how==='율'?v+'%':won(v)+'원';}
 function drawRates(){
@@ -323,6 +351,10 @@ $('aGo').onclick=function(){if(!needWho())return;call({a:'act',code:$('aCode').v
   if(done(d,'넣었어요 · '+won(d&&d.fee)+'원')){$('aWhat').value='';$('aProof').value='';$('aAmt').value='';}});};
 $('vGo').onclick=function(){if(!needWho())return;if(!confirm('선지급을 넣을까요? 지급 대장에도 이체 한 줄이 남아요.'))return;call({a:'adv',s:$('vS').value,day:$('vDay').value,amount:$('vAmt').value,kind:$('vKind').value,way:$('vWay').value,wv:$('vWv').value,why:$('vWhy').value.trim()}).then(function(d){
   if(done(d,'선지급을 넣었어요')){$('vAmt').value='';$('vWhy').value='';}});};
+$('shAll').onclick=function(){var b=document.querySelectorAll('.shPick'),all=[].every.call(b,function(x){return x.checked;});[].forEach.call(b,function(x){x.checked=!all;});};
+$('shGo').onclick=function(){if(!needWho())return;var list=[].filter.call(document.querySelectorAll('.shPick'),function(x){return x.checked;}).map(function(x){return x.value;});
+  if(!list.length){toast('판매자 대장에서 판매자를 골라 주세요');return;}
+  var v=$('shVal').value;call({a:'show',list:list,what:$('shKey').value,val:v===''?'':Number(v)}).then(function(d){done(d,(d&&d.n||0)+'명에게 적용했어요');});};
 $('sGo').onclick=function(){call({a:'seller',by:WHO(),s:$('sNo').value.trim(),name:$('sName').value.trim(),kind:$('sKind').value,status:$('sStatus').value,who:$('sWho').value.trim(),tel:$('sTel').value.trim(),from:$('sFrom').value,to:$('sTo').value,state:$('sState').value,hold:$('sHold').value.trim(),memo:$('sMemo').value.trim()}).then(function(d){done(d,'저장했어요');});};
 $('rGo').onclick=function(){if(!needWho())return;call({a:'rate',s:$('rS').value,code:$('rCode').value,item:$('rItem').value,how:$('rHow').value,val:$('rVal').value,basis:$('rBasis').value,pg:$('rPg').value,back:$('rBack').value,from:$('rFrom').value,to:$('rTo').value,why:$('rWhy').value.trim()}).then(function(d){
   if(done(d,'약정을 더했어요'))$('rVal').value='';});};
