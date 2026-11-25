@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- ★ 현재 버전 ▶ card/index.html · v3.3 · 261123 · [대표 261123 21:05 「무료로 마음을 전하는 전 단계 서비스 링크 다 걸어야」 · 받는 사람 화면 기본 링크 규칙] 카드 아래 「사랑흐름 둘러보기」 상자: 마음 한마디 · 삐뚤빼뚤 마음 도화지 · 여행의 기록. 그 밖 v3.2 그대로.
+<!-- ★ 현재 버전 ▶ card/index.html · v3.4 · 261125 · [착수 차례 5-2 유료 기능 잠금] 잠금은 마음 카드 서버 8 버전이 함(판매 스위치가 켜지고 무료 카드면 유료 기능을 빼고 보냄 · 화면은 받은 대로 그림). 보내신 분 칸에만 「넣으신 유료 기능은 결제하면 받는 분께 보여요.」 한 줄(잠겨서 뺀 것이 있을 때). 그 밖 v3.3 그대로.
+     (이전) card/index.html · v3.3 · 261123 · [대표 261123 21:05 「무료로 마음을 전하는 전 단계 서비스 링크 다 걸어야」 · 받는 사람 화면 기본 링크 규칙] 카드 아래 「사랑흐름 둘러보기」 상자: 마음 한마디 · 삐뚤빼뚤 마음 도화지 · 여행의 기록. 그 밖 v3.2 그대로.
      (이전) card/index.html · v3 · 261123 · [art.js v2] 그림 꼬리표 ?v=2(옛 연하장 걷고 복주머니). [무손] 그 밖 v2.
 (이전) card/index.html · v2 · 261123 · [만들기 붙임] 번호 없이 열면 만들기(make.html)로 · 카드 모양을 만들기 미리보기와 같게(그림 열셋 card/art.js · 크리스마스 줄무늬 테두리 · 봉투 색 · 날짜와 보내는 분). [무손] 그 밖 v1.
 (이전) card/index.html · v1 · 261123 · [마음 카드 보내기 최소판 · 설계서 261122 · 대표 OK 261123] 받은 카드 화면 첫 판. 주소 하나: /card/?c=카드번호 면 받은 카드, 번호 없으면 만들기(만들기 화면은 3.1판 받은 뒤 붙임 · 지금은 안내만). 서버 = 「사랑흐름 마음 카드」 Code.gs 3 버전(대표 hkcpcgg 계정). 봉투 열기 · 손글씨 셋 · 사진과 목소리는 카드가 뜬 뒤 따로 받음 · 영상은 링크 · 단추 주소 검사(모르는 곳은 「○○ 사이트로 이동해요」) · 신고 · 보관 끝 · 한국어 · English. 보내는 분 기기에 고침열쇠가 있으면 「처음 열어 본 때」를 보여 주고 열어 본 횟수는 세지 않음. 문지기 · 위 띠 · 공용 푸터는 다른 받은 화면(m/)과 같은 한 벌. -->
@@ -217,7 +218,7 @@ var T = {
       make:'마음 카드 만들기는 곧 열려요',makeP:'12월에 사랑흐름 마음 카드로 고마운 분께 마음을 전해 보세요.',goHome:'사랑흐름 둘러보기 ›',
       from:function(n){return n+' 님이 보낸 카드예요';},dear:'소중한 분께',voice:'목소리 인사 듣기',voiceLoad:'목소리를 꺼내는 중이에요',video:'영상 보기',
       photoWait:'사진을 꺼내는 중이에요',leaveP:function(h){return h+' 사이트로 이동해요. 보낸 분이 넣은 주소예요.';},
-      opened:function(t){return '받는 분이 '+t+'에 처음 열어 보셨어요 🎉';},notYet:'아직 받는 분이 열어 보지 않으셨어요.',mineT:'보내신 분께만 보이는 칸이에요',
+      opened:function(t){return '받는 분이 '+t+'에 처음 열어 보셨어요 🎉';},notYet:'아직 받는 분이 열어 보지 않으셨어요.',lockT:'넣으신 유료 기능은 결제하면 받는 분께 보여요.',mineT:'보내신 분께만 보이는 칸이에요',
       art:'Merry Christmas',art2:'따뜻한 연말 보내세요',tour:'사랑흐름 둘러보기',f1:'마음 한마디',f2:'삐뚤빼뚤 마음 도화지',f3:'여행의 기록'},
   en:{loc:'Heart Card',loading:'Taking out your card',tap:'Tap to open',brand:'Loveflow Heart Card',mine:'Send a card too',report:'Report',
       leaveT:'You are leaving this site',cancel:'Cancel',go:'Go',repT:'Report this card',repP:'Tell us if anything here feels wrong. Loveflow will review it and hide it if needed.',
@@ -227,7 +228,7 @@ var T = {
       make:'Making Heart Cards opens soon',makeP:'This December, send your heart to someone dear with a Loveflow Heart Card.',goHome:'Explore Loveflow ›',
       from:function(n){return 'A card from '+n;},dear:'To someone dear',voice:'Play voice greeting',voiceLoad:'Loading the voice greeting',video:'Watch the video',
       photoWait:'Loading the photo',leaveP:function(h){return 'You are going to '+h+'. The sender added this address.';},
-      opened:function(t){return 'First opened on '+t+' 🎉';},notYet:'Not opened yet.',mineT:'Only you, the sender, can see this',
+      opened:function(t){return 'First opened on '+t+' 🎉';},notYet:'Not opened yet.',lockT:'Paid features you added will show after payment.',mineT:'Only you, the sender, can see this',
       art:'Merry Christmas',art2:'Warm wishes for the season',tour:'Explore Loveflow',f1:'A word from the heart',f2:'Heart doodle',f3:'Travel stories'}
 };
 var L = 'ko'; try{ if(localStorage.getItem('lfCardLang')==='en') L='en'; }catch(e){}
@@ -316,7 +317,7 @@ function fillCard(d, again){
     bx.appendChild(a);
   });
   var mb=$('mineBox');
-  if (d.mine) { mb.style.display='block'; mb.textContent = t('mineT')+' · '+(d.opened ? t('opened')(d.opened) : t('notYet')); } else { mb.style.display='none'; }
+  if (d.mine) { mb.style.display='block'; mb.textContent = t('mineT')+' · '+(d.opened ? t('opened')(d.opened) : t('notYet'))+(d.locked ? ' '+t('lockT') : ''); } else { mb.style.display='none'; }
 }
 
 function artOf(){ var k=(window.__card&&window.__card.card&&window.__card.card.art)||''; for(var i=0;i<ART.length;i++){ if(ART[i].k===k) return ART[i]; } return null; }

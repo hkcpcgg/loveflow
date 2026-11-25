@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/pay-one.js · v1 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기]
+   현재 버전 ▶ lf/pay-one.js · v2 · 261125 · [착수 차례 5-2 유료 기능 잠금] render 에 note(넣은 유료 기능 · 결제하지 않으면 어떻게 보이는지) 한 줄. 그 밖 v1 그대로.
+   (이전) lf/pay-one.js · v1 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기]
    마음 카드 · 디지털 포스터를 다 만든 화면에 붙는 「유료 결제」 상자 하나.
 
    ─ 판매 스위치 ─ 값은 결제 서버(유료여행지도 tossConfirm v6 · op=price)가 서버 보관함 CARD_PRICE · POSTER_PRICE 를 읽어 알려 줌.
@@ -131,6 +132,7 @@
       var nm = o.name || (W.n + ' ' + left.length + W.one);
       el.innerHTML = '<div class="lfpo"><h4>' + W.up + '로 보내기</h4>'
         + '<div class="sum">' + esc(nm) + ' · <b>' + won(n) + '</b></div>'
+        + (o.note ? '<p class="s" style="margin:0 0 6px;color:#1D2433">' + esc(o.note) + '</p>' : '')
         + (W.sample ? '<a class="cmp" href="' + W.sample + '" target="_blank" rel="noopener">무료 · 유료 비교 보기 ›</a>' : '')
         + '<label><input type="checkbox" class="ag"> 결제 내용을 확인했고 결제에 동의해요</label>'
         + '<p class="s">디지털 콘텐츠 · 만든 날부터 1년 보관 · 환불은 <a href="/trust.html#refund" target="_blank" rel="noopener">환불정책</a>을 따라요</p>'

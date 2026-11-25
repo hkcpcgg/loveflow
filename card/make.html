@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ card/make.html · v3.7 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기] 「카드가 준비됐어요」 아래에 유료 결제 상자(/lf/pay-one.js v1). 값이 결제 서버에 없으면(지금) 상자가 아예 안 보임 = 화면은 v3.6 그대로. 값이 들어가면: 동의 한 줄 › 결제 창 양해 › 토스(주문번호 LF-CARD-12자리 · 이번에 만든 카드 한 벌 = 결제 한 번) › 돌아오면 만들던 카드 · 보낼 목록을 그대로 되살리고 승인 › 마음 카드 서버 a=pay(장마다 유료 · 주소 그대로). 짝꿍: 결제 서버 tossConfirm v6 · 마음 카드 서버 Code.gs 7.
+<!-- ★ 현재 버전 ▶ card/make.html · v3.8 · 261125 · [착수 차례 5-2 유료 기능 잠금 · 대표 OK 14:18] 판매 스위치(결제 서버 값)가 켜졌을 때만: 유료 기능 옆에 작은 「유료」 표시(준비된 카드 · 사진 · 끝인사 한마디 · 내 서명 · 녹음 또는 파일 · 단체로 보내기 · 오시는 길) · 유료 기능을 넣은 카드에만 결제 상자 + 「결제하지 않으시면 받는 분께는 이 기능이 빠진 무료 카드로 보여요」 한 줄. 막지 않음(만들기 · 보내기는 그대로). 스위치가 꺼져 있으면(지금) v3.7 과 똑같음. 짝꿍: 마음 카드 서버 Code.gs 8 · lf/pay-one.js v2.
+     (이전) card/make.html · v3.7 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기] 「카드가 준비됐어요」 아래에 유료 결제 상자(/lf/pay-one.js v1). 값이 결제 서버에 없으면(지금) 상자가 아예 안 보임 = 화면은 v3.6 그대로. 값이 들어가면: 동의 한 줄 › 결제 창 양해 › 토스(주문번호 LF-CARD-12자리 · 이번에 만든 카드 한 벌 = 결제 한 번) › 돌아오면 만들던 카드 · 보낼 목록을 그대로 되살리고 승인 › 마음 카드 서버 a=pay(장마다 유료 · 주소 그대로). 짝꿍: 결제 서버 tossConfirm v6 · 마음 카드 서버 Code.gs 7.
      (이전) card/make.html · v3.6 · 261125 · [대표 261124 19:39 「직접 사진을 찍어 올리는 기능이 빠졌다」] 사진 넣는 칸을 누르면 「📷 사진 찍기 · 🖼️ 앨범에서 고르기」를 먼저 고름(/lf/photo-pick.js v1 · 안드로이드 새 사진 창에 카메라가 없어서 · 아이폰은 기본 메뉴라 그대로). -->
 <html lang="ko">
 <head>
@@ -230,6 +231,7 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
 .gok b{display:block;font-size:14.5px}
 .gok button{margin-top:8px;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 12px;font:inherit;font-size:12.5px;color:var(--sub);cursor:pointer}
 .attc.off{opacity:.55;cursor:default}
+.paytag{display:inline-block;font-size:10.5px;font-weight:700;color:#667085;border:1px solid #C9CED6;border-radius:6px;padding:0 4px;margin-left:4px;line-height:1.5;vertical-align:1px}
 .gleave{position:fixed;inset:0;z-index:2000;background:rgba(15,20,30,.55);display:none;align-items:flex-end;justify-content:center}
 .gleave.on{display:flex}
 .gleave .bx{width:100%;max-width:480px;background:#fff;border-radius:20px 20px 0 0;padding:22px 20px 26px;text-align:center}
@@ -407,7 +409,7 @@ canvas{display:block;width:100%;height:160px;touch-action:none}
 <script src="/lf-foot.js" defer></script>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.4/kakao.min.js"></script>
 <script src="art.js?v=2"></script>
-<script src="/lf/pay-one.js?v=1"></script>
+<script src="/lf/pay-one.js?v=2"></script>
 <script>
 function lfMenuOpen(){document.getElementById('lfMenu').classList.add('open');document.getElementById('lfBackdrop').classList.add('open');}
 function lfMenuClose(){document.getElementById('lfMenu').classList.remove('open');document.getElementById('lfBackdrop').classList.remove('open');}
@@ -466,7 +468,7 @@ function paintCover(){var p=$('coverPic'),cv=$('cover');autoShape();p.className=
  else if(ST.cover!=null){var a=coverArt();p.style.background=a.bg;p.innerHTML=coverInner()}
  else{p.innerHTML='<div class="empty" id="emptyPick"><span><b>🖼️</b>준비된 카드나 사진을 넣어 주세요<br><small style="font-size:13px">아래 그림에서 골라도 돼요</small></span></div>';$('emptyPick').onclick=function(){$('fileP').click()}}
  $('coverGo').disabled=ST.cover==null}
-function drawArts(){var h='<button class="art mine" type="button" data-i="photo"><div class="pic">'+(MX.photo?'<img alt="" src="'+MX.photo+'">':'📷')+'</div><b>'+(MX.photo?'다른 것 올리기':'준비된 카드 · 사진')+'</b></button>';
+function drawArts(){var h='<button class="art mine" type="button" data-i="photo"><div class="pic">'+(MX.photo?'<img alt="" src="'+MX.photo+'">':'📷')+'</div><b>'+(MX.photo?'다른 것 올리기':'준비된 카드 · 사진')+PT()+'</b></button>';
  h+=ART.map(function(a,i){return '<button class="art" type="button" data-i="'+i+'"><div class="pic" style="background:'+a.bg+'">'+art(a.k,a.a)+'</div><b>'+a.n+'</b></button>'}).join('');$('arts').innerHTML=h;
  each($('arts').children,function(b){b.classList.toggle('on',String(ST.cover)===b.dataset.i);b.onclick=function(){if(b.dataset.i==='photo'){$('fileP').click();return}
   ST.cover=+b.dataset.i;tick();each($('arts').children,function(x){x.classList.toggle('on',x===b)});paintCover()}})}
@@ -593,7 +595,7 @@ $('delV').onclick=function(){MX.voice='';$('recBtn').textContent='🎙️ 녹음
 function paintV(){$('vBox').style.display=MX.voice?'block':'none';if(MX.voice)$('pvV').src=MX.voice;$('vHint').textContent=MX.voice?'✓ 목소리를 담았어요':'목소리를 녹음하거나, 녹음 파일을 올릴 수 있어요 (1분까지).'}
 
 /* ── 5 덧붙이기 · 함께 선물하기 ── */
-function drawAtt(){$('att').innerHTML=ATT.map(function(a){var on=ST.att.indexOf(a.k)>=0;return '<div class="attc'+(on?' on':'')+'" data-k="'+a.k+'"><div class="h"><i>'+a.ic+'</i><span>'+a.n+'<div class="d">'+a.d+'</div></span><span class="ck">✓</span></div>'+(a.f?'<div class="in">'+a.f.map(function(f){return '<input type="text" data-f="'+f[0]+'" placeholder="'+f[1]+'" value="'+esc(ST.av[f[0]]||'')+'">'}).join('')+(a.x||'')+'</div>':'')+'</div>'}).join('');
+function drawAtt(){$('att').innerHTML=ATT.map(function(a){var on=ST.att.indexOf(a.k)>=0;return '<div class="attc'+(on?' on':'')+'" data-k="'+a.k+'"><div class="h"><i>'+a.ic+'</i><span>'+a.n+(a.k==='map'?PT():'')+'<div class="d">'+a.d+'</div></span><span class="ck">✓</span></div>'+(a.f?'<div class="in">'+a.f.map(function(f){return '<input type="text" data-f="'+f[0]+'" placeholder="'+f[1]+'" value="'+esc(ST.av[f[0]]||'')+'">'}).join('')+(a.x||'')+'</div>':'')+'</div>'}).join('');
  each($('att').children,function(c){c.querySelector('.h').onclick=function(){var k=c.dataset.k,i=ST.att.indexOf(k);if(i>=0)ST.att.splice(i,1);else{ST.att.push(k)}tick();drawAtt()};
   each(c.querySelectorAll('input'),function(e){e.oninput=function(){ST.av[e.dataset.f]=e.value.trim()}})});
 }
@@ -668,8 +670,14 @@ function drawSent(){var fr=($('from').value||'').trim();$('sendp').classList.add
  payBox();
  setTimeout(function(){$('sendp').scrollIntoView({behavior:'smooth',block:'start'})},100)}
 /* ── 유료 결제 (판매 스위치: 결제 서버에 값이 있을 때만 보임 · /lf/pay-one.js) ── */
-function payBox(){if(DEMO||!window.LFPayOne||!SENT.length)return;
- LFPayOne.render($('payOne'),{kind:'card',ver:'3-7',back:'/card/make.html',items:SENT.map(function(s){return {id:s.c,k:s.k}}),extra:{sent:SENT},
+var PAYON=false;
+function PT(){return PAYON?'<span class="paytag">유료</span>':''}
+function paidUsed(){var u=[];if(ST.cover==='photo')u.push('내 사진');if(MX.voice)u.push('목소리');if(ST.hw.line)u.push('끝인사 손글씨');if(ST.hw.sig)u.push('서명');if(ST.att.indexOf('map')>=0)u.push('오시는 길');if(ST.rmode==='group')u.push('단체로 보내기');return u}
+function payTags(){if(!PAYON)return;[$('tabs').querySelector('[data-t="line"]'),$('tabs').querySelector('[data-t="sig"]'),$('recBtn')].forEach(function(b){if(b&&!b.querySelector('.paytag'))b.insertAdjacentHTML('beforeend',PT())});
+ var g=$('rmode').querySelector('[data-r="group"] small');if(g&&!$('rmode').querySelector('.paytag'))g.insertAdjacentHTML('beforebegin',PT());drawArts();if(cur===5)drawAtt()}
+if(!DEMO&&window.LFPayOne)LFPayOne.price('card',function(n){PAYON=n>0;payTags()});
+function payBox(){if(DEMO||!window.LFPayOne||!SENT.length)return;var used=paidUsed();if(!used.length){$('payOne').innerHTML='';return}
+ LFPayOne.render($('payOne'),{kind:'card',ver:'3-8',back:'/card/make.html',items:SENT.map(function(s){return {id:s.c,k:s.k}}),extra:{sent:SENT},note:'넣으신 유료 기능: '+used.join(' · ')+'. 결제하지 않으시면 받는 분께는 이 기능이 빠진 무료 카드로 보여요.',
   beforeLeave:function(done){draftSave(done)}})}
 function payBack(r){if(!r)return;var p=r.pend||{},sent=p.extra&&p.extra.sent;
  function after(){if(r.state==='paid'){cheer();toast('결제가 끝났어요. 유료 카드가 됐어요')}
