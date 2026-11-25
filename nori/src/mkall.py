@@ -25,6 +25,10 @@ open('그때그놀이-060_번데기돌림판_261124.html','w',encoding='utf-8').
 # 운동회 달리기 (261125 시안 · 혼자서 바로 · 청군 백군)
 t=open('t071.html',encoding='utf-8').read().replace('__PRE__',pre).replace('__PEN__',pen).replace('__SND__',snd).replace('__NAV__',nav).replace('__EMIT__',emit)
 open('그때그놀이-071_운동회달리기_261125.html','w',encoding='utf-8').write(t)
+# 박 터뜨리기 · 오재미 (261125 시안 · 여럿이 함께 · 다방구 자리) — t074 는 mk074.py 가 t071 틀에서 만듦
+subprocess.run(['python3','mk074.py'],check=True)
+t=open('t074.html',encoding='utf-8').read().replace('__PRE__',pre).replace('__PEN__',pen).replace('__SND__',snd).replace('__NAV__',nav).replace('__EMIT__',emit)
+open('그때그놀이-074_박터뜨리기_261125.html','w',encoding='utf-8').write(t)
 pat=re.compile(r"/\* 그때 그 놀이 · 아래 막대.*?\n\};\n",re.S)
 for f in ['그때그놀이-013_동그란딱지시험판_261121.html','그때그놀이-015_오목·알까기시험판_261121.html']:
     s=open(f,encoding='utf-8').read(); n=len(pat.findall(s)); assert n==1,(f,n)
