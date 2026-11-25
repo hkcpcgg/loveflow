@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ settle/reg.html · v1 · 261125 · 판매자 수수료 받을 계좌 등록(판매자 본인 · 등록 링크로만 열림).
-     ?t=등록 열쇠 &g=정산 서버 배포 번호 · 은행 · 계좌번호 · 예금주 · 개인/사업자 · 통장 사본(선택) · 동의 한 줄. 정산 서버 1 버전(a=reg). -->
+<!-- ★ 현재 버전 ▶ settle/reg.html · v2 · 261125 · 수수료 · 강사료 받을 계좌 · 서류 등록(판매자 본인 · 등록 링크로만 열림).
+     ?t=등록 열쇠 &g=정산 서버 배포 번호 · 은행 · 계좌번호 · 예금주 · 개인/사업자(등록번호 · 등록증 사본 · 세금계산서) · 통장 사본 · 동의 한 줄. 정산 서버 2 버전(a=reg).
+     주민등록번호는 이 화면에서 받지 않음(GPT 회신 · 동의만으로 받지 않음). -->
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>수수료 받을 계좌 등록 · 사랑흐름</title>
+<title>정산 받을 계좌 등록 · 사랑흐름</title>
 <link rel="stylesheet" href="/poster/poster.css?v=1">
 <style>
 .lead{text-align:center;font-size:14.5px;line-height:1.6;color:var(--ink2);word-break:keep-all;margin-bottom:12px}
@@ -19,18 +20,21 @@
 .chk input{width:22px;height:22px;flex:0 0 22px;accent-color:var(--navy)}
 </style>
 </head>
-<body data-lf-fab="off" data-lf-title="수수료 받을 계좌 등록">
+<body data-lf-fab="off" data-lf-title="정산 받을 계좌 등록">
 <main class="stage">
-  <p class="lead" id="lead">사랑흐름 수수료를 받으실 계좌를 넣어 주세요.<br>매달 말일에 마감하고 다음 달 20일에 이 계좌로 보내 드려요.</p>
+  <p class="lead" id="lead">사랑흐름 수수료 · 강사료를 받으실 계좌를 넣어 주세요.<br>매달 말일에 마감하고 다음 달 20일에 이 계좌로 보내 드려요.</p>
   <div class="note" id="had" style="display:none;margin-bottom:12px"></div>
   <section class="box" id="form" style="display:none">
     <div class="fld"><label>구분</label><div class="seg" id="biz"><button type="button" data-v="개인" class="on">개인</button><button type="button" data-v="사업자">사업자</button></div></div>
-    <div class="fld" id="bizNoF" style="display:none"><label for="bizNo">사업자 등록번호</label><input id="bizNo" inputmode="numeric" maxlength="12" placeholder="000-00-00000"></div>
+    <div id="bizNoF" style="display:none"><div class="fld"><label for="bizNo">사업자 등록번호</label><input id="bizNo" inputmode="numeric" maxlength="12" placeholder="000-00-00000"></div>
+      <div class="fld"><label for="bizCopy">사업자 등록증 사본</label><input id="bizCopy" type="file" accept="image/*,application/pdf"><p class="hint">사진이나 PDF로 올려 주세요. 나중에 보내 주셔도 돼요.</p></div>
+      <label class="chk"><input type="checkbox" id="inv"> 매달 받을 금액만큼 세금계산서를 발행할게요.</label></div>
     <div class="fld"><label for="bank">은행</label><input id="bank" maxlength="20" placeholder="예) 농협"></div>
     <div class="fld"><label for="acct">계좌번호</label><input id="acct" inputmode="numeric" maxlength="30" placeholder="- 없이 넣어도 돼요"></div>
     <div class="fld"><label for="holder">예금주</label><input id="holder" maxlength="30"></div>
     <div class="fld"><label for="copy">통장 사본</label><input id="copy" type="file" accept="image/*,application/pdf"><p class="hint">계좌번호를 확인할 때 써요. 사진이나 PDF로 올려 주세요.</p></div>
-    <label class="chk"><input type="checkbox" id="agree"> 수수료 지급과 세금 신고를 위해 위 계좌 정보를 사랑흐름이 보관하는 데 동의해요.</label>
+    <p class="hint" style="font-size:12.5px;color:var(--ink2);line-height:1.6;margin:0 0 8px">주민등록번호는 이 화면에서 받지 않아요. 세금 신고에 꼭 필요할 때만 사랑흐름이 따로 알려 드리고 받아요.</p>
+    <label class="chk"><input type="checkbox" id="agree"> 수수료 · 강사료 지급과 세금 처리를 위해 위 정보를 사랑흐름이 보관하는 데 동의해요. 거래를 마치면 지우고, 지급 · 세무 기록은 법이 정한 기간 동안만 남겨요.</label>
     <button class="btn main" type="button" id="go" style="margin-top:8px">등록하기</button>
   </section>
   <div class="note" id="done" style="display:none;background:var(--donebg);color:var(--done);font-weight:600">계좌를 등록했어요. 고마워요.</div>
@@ -41,17 +45,19 @@
 function $(i){return document.getElementById(i);}
 var tT=null;function toast(m){var t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(tT);tT=setTimeout(function(){t.classList.remove('on');},2600);}
 var q=new URLSearchParams(location.search), T=q.get('t')||'', G=(q.get('g')||'').replace(/[^A-Za-z0-9_\-]/g,'');
-var API=G?'https://script.google.com/macros/s/'+G+'/exec':'', BIZ='개인', COPY='';
+var API=G?'https://script.google.com/macros/s/'+G+'/exec':'', BIZ='개인', COPY='', BCOPY='';
 function post(b){return fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(b)}).then(function(r){return r.json();});}
 $('biz').onclick=function(e){var b=e.target.closest('button');if(!b)return;BIZ=b.getAttribute('data-v');[].forEach.call(this.children,function(x){x.classList.toggle('on',x===b);});$('bizNoF').style.display=BIZ==='사업자'?'block':'none';};
-$('copy').onchange=function(){var f=this.files&&this.files[0];COPY='';if(!f)return;
-  if(f.type==='application/pdf'){ if(f.size>2800000){toast('PDF가 커요. 사진으로 올려 주세요');this.value='';return;} var r0=new FileReader();r0.onload=function(){COPY=r0.result;};r0.readAsDataURL(f);return; }
-  var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var M=1600,s=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);COPY=c.toDataURL('image/jpeg',.85);};im.src=r.result;};r.readAsDataURL(f);};
+function readFile(inp,set){var f=inp.files&&inp.files[0];set('');if(!f)return;
+  if(f.type==='application/pdf'){ if(f.size>2800000){toast('PDF가 커요. 사진으로 올려 주세요');inp.value='';return;} var r0=new FileReader();r0.onload=function(){set(r0.result);};r0.readAsDataURL(f);return; }
+  var r=new FileReader();r.onload=function(){var im=new Image();im.onload=function(){var M=1600,s=Math.min(1,M/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*s);c.height=Math.round(im.height*s);c.getContext('2d').drawImage(im,0,0,c.width,c.height);set(c.toDataURL('image/jpeg',.85));};im.src=r.result;};r.readAsDataURL(f);}
+$('copy').onchange=function(){readFile(this,function(v){COPY=v;});};
+$('bizCopy').onchange=function(){readFile(this,function(v){BCOPY=v;});};
 $('go').onclick=function(){var b=this;
   if(!$('bank').value.trim()||$('acct').value.replace(/[^0-9]/g,'').length<8||!$('holder').value.trim()){toast('은행 · 계좌번호 · 예금주를 넣어 주세요');return;}
   if(!$('agree').checked){toast('동의에 체크해 주세요');return;}
   b.disabled=true;b.textContent='등록하는 중이에요…';
-  post({a:'reg',t:T,biz:BIZ,bizNo:$('bizNo').value.trim(),bank:$('bank').value.trim(),acct:$('acct').value.trim(),holder:$('holder').value.trim(),copy:COPY,agree:true}).then(function(d){
+  post({a:'reg',t:T,biz:BIZ,bizNo:$('bizNo').value.trim(),bank:$('bank').value.trim(),acct:$('acct').value.trim(),holder:$('holder').value.trim(),copy:COPY,bizCopy:BIZ==='사업자'?BCOPY:'',inv:BIZ==='사업자'&&$('inv').checked,agree:true}).then(function(d){
     b.disabled=false;b.textContent='등록하기';
     if(!d||!d.ok){toast(d&&d.msg||'등록하지 못했어요. 잠시 뒤 다시 해 주세요');return;}
     $('form').style.display='none';$('done').style.display='block';$('had').style.display='none';window.scrollTo(0,0);
@@ -60,7 +66,7 @@ $('go').onclick=function(){var b=this;
   if(!T||!API){$('lead').textContent='이 링크는 열리지 않아요. 사랑흐름에 링크를 다시 받아 주세요.';return;}
   post({a:'regInfo',t:T}).then(function(d){
     if(!d||!d.ok){$('lead').textContent='이 링크는 열리지 않아요. 사랑흐름에 링크를 다시 받아 주세요.';return;}
-    $('lead').innerHTML='<b>'+String(d.name).replace(/[&<>"]/g,'')+'</b> 님, 사랑흐름 수수료를 받으실 계좌를 넣어 주세요.<br>매달 말일에 마감하고 다음 달 20일에 이 계좌로 보내 드려요.';
+    $('lead').innerHTML='<b>'+String(d.name).replace(/[&<>"]/g,'')+'</b> 님, 사랑흐름 수수료 · 강사료를 받으실 계좌를 넣어 주세요.<br>매달 말일에 마감하고 다음 달 20일에 이 계좌로 보내 드려요.';
     if(d.has){$('had').style.display='block';$('had').textContent='지금 등록된 계좌: '+d.bank+' · 끝 '+d.tail+' · 바꾸시려면 아래에 새로 넣어 주세요.';}
     $('form').style.display='block';
   }).catch(function(){$('lead').textContent='서버에 닿지 않아요. 잠시 뒤 다시 열어 주세요.';});

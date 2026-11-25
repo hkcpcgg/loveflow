@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ settle/paper.html · v1 · 261125 · 판매자 수수료 명세서 한 장(마감월 · 판매자). 정산 관리 화면에서 엶 · 인쇄 · PDF 저장.
+<!-- ★ 현재 버전 ▶ settle/paper.html · v2 · 261125 · 정산 명세서 한 장(마감월 · 판매자) · 더하기 · 빼기 · 세금 · 이월 · 보류 · 실지급 · 정산 서버 2 버전. 정산 관리 화면에서 엶 · 인쇄 · PDF 저장.
      손님 이름 · 연락처는 싣지 않음(주문번호 · 상품 · 금액만) · 계좌는 은행 · 끝 네 자리만. -->
 <html lang="ko">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>수수료 명세서 · 사랑흐름</title>
+<title>정산 명세서 · 사랑흐름</title>
 <style>
 @page{size:A4;margin:16mm}
 *{box-sizing:border-box}body{margin:0;background:#F4F2EE;color:#2E3A46;font:12pt/1.6 -apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
@@ -18,7 +18,7 @@ th,td{border:1px solid #C9CED6;padding:6px 8px;text-align:left}
 th{background:#F1F3F6;font-weight:700}
 td.n,th.n{text-align:right;white-space:nowrap}
 .minus{color:#B42318}
-.meta td:first-child{width:22%;background:#F7F8FA;font-weight:700}
+.meta td:first-child{width:40%;background:#F7F8FA;font-weight:700}
 .sum td{font-weight:700}
 .big{font-size:14pt}
 h2{font-size:12pt;margin:22px 0 8px;color:#1E3A5F}
@@ -36,7 +36,7 @@ h2{font-size:12pt;margin:22px 0 8px;color:#1E3A5F}
 <div id="out"><p class="msg">명세서를 불러오는 중이에요…</p></div>
 <script>
 function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
-function won(n){n=Number(n)||0;return (n<0?'-':'')+Math.abs(n).toLocaleString('ko-KR');}
+function won(n){if(n===''||n==null)return '';n=Number(n)||0;return (n<0?'-':'')+Math.abs(n).toLocaleString('ko-KR');}
 var q=new URLSearchParams(location.search), API='', KEY='';
 try{API=localStorage.getItem('lfSettleApi')||'';KEY=localStorage.getItem('lfSettleKey')||'';}catch(e){}
 function show(h){document.getElementById('out').innerHTML=h;}
@@ -44,17 +44,25 @@ if(!API||!KEY){show('<p class="msg">정산 관리 화면에서 처음 한 번 �
 else fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({a:'paper',key:KEY,m:q.get('m'),s:q.get('s')})}).then(function(r){return r.json();}).then(function(d){
   if(!d||!d.ok){show('<p class="msg">'+esc(d&&d.msg||'명세서를 불러오지 못했어요.')+'</p>');return;}
   var y=d.m.slice(0,4), mo=Number(d.m.slice(5,7)), s=d.sum;
-  var h='<div class="sheet"><h1>수수료 명세서</h1><div class="sub">'+y+'년 '+mo+'월 마감분</div>'+
-    '<table class="meta"><tr><td>받는 분</td><td>'+esc(d.name)+' ('+esc(d.s)+') · '+esc(d.kind)+'</td></tr>'+
-    '<tr><td>지급 예정일</td><td>'+esc(d.payDay)+(d.paidAt?' · 지급함 '+esc(d.paidAt):'')+'</td></tr>'+
+  var plus=d.rows.filter(function(r){return r.code.charAt(0)==='P';}), minus=d.rows.filter(function(r){return r.code.charAt(0)==='M';});
+  function lines(list,isPlus){ if(!list.length)return '<p style="color:#4A525C;font-size:10.5pt">없음</p>';
+    var tot=0; list.forEach(function(r){tot+=r.amount;});
+    return '<table><tr><th>날짜</th><th>갈래</th><th>주문 · 계약 · 활동</th><th>상품</th><th class="n">'+(isPlus?'수납액':'환불 · 금액')+'</th><th class="n">환산</th><th class="n">인정 실적</th><th>약정</th><th class="n">금액</th></tr>'+
+      list.map(function(r){return '<tr><td>'+esc(r.day)+'</td><td>'+esc(r.code)+' '+esc(r.name)+'</td><td>'+esc(r.order)+(r.code==='M1'&&/환수 기간/.test(r.why)?'<br><small>'+esc(r.why.replace(/^.*(환수 기간)/,'$1'))+'</small>':'')+'</td><td>'+esc(r.item)+(r.pieces?(r.item?' · ':'')+r.pieces+(/^P[23]$/.test(r.code)?'회기':'편'):'')+'</td><td class="n'+(Number(r.paid)<0?' minus':'')+'">'+won(r.paid)+'</td><td class="n">'+(r.conv===''?'':esc(r.conv)+'%')+'</td><td class="n">'+won(r.recog)+'</td><td>'+(r.how==='율'?r.val+'%':/^(건당|편당|회기당|시간당|정액)$/.test(r.how)?esc(r.how)+' '+won(r.val)+'원':esc(r.how))+'</td><td class="n'+(r.amount<0?' minus':'')+'">'+won(r.amount)+'</td></tr>';}).join('')+
+      '<tr class="sum"><td colspan="8">합계</td><td class="n'+(tot<0?' minus':'')+'">'+won(tot)+'</td></tr></table>'; }
+  var row=function(k,v,cls){return '<tr'+(cls?' class="'+cls+'"':'')+'><td>'+k+'</td><td class="n'+(Number(v)<0?' minus':'')+'">'+won(v)+'원</td></tr>';};
+  var h='<div class="sheet"><h1>정산 명세서</h1><div class="sub">'+y+'년 '+mo+'월 마감분</div>'+
+    '<table class="meta"><tr><td>받는 분</td><td>'+esc(d.name)+' ('+esc(d.s)+') · '+esc(d.kind)+' · '+esc(d.status)+'</td></tr>'+
+    '<tr><td>지급 예정일</td><td>'+esc(d.payDay)+(d.paidAt?' · 지급함 '+esc(d.paidAt):'')+(s.hold>0?' · <b>보류</b>':'')+'</td></tr>'+
     '<tr><td>받는 계좌</td><td>'+(d.bank?esc(d.bank.bank)+' · 끝 '+esc(d.bank.tail)+' · 예금주 '+esc(d.bank.holder):'등록 전')+'</td></tr></table>'+
-    '<h2>합계</h2><table><tr><th class="n">판매 건수</th><th class="n">판매 금액</th><th class="n">수수료</th><th class="n">차감</th><th class="n">지급액(세전)</th><th class="n">세금</th><th class="n">실지급액</th></tr>'+
-    '<tr class="sum"><td class="n">'+s.n+'</td><td class="n">'+won(s.sales)+'</td><td class="n">'+won(s.fee)+'</td><td class="n minus">'+won(s.minus)+'</td><td class="n">'+won(s.gross)+'</td><td class="n">'+won(s.tax)+'</td><td class="n big">'+won(s.net)+'원</td></tr></table>'+
-    '<h2>건별 내역</h2><table><tr><th>날짜</th><th>주문 · 계약번호</th><th>상품</th><th class="n">편 수</th><th class="n">금액</th><th>약정</th><th class="n">수수료</th><th>갈래</th></tr>'+
-    d.rows.map(function(r){return '<tr><td>'+esc(r.day)+'</td><td>'+esc(r.order)+'</td><td>'+esc(r.item)+'</td><td class="n">'+(r.pieces||'')+'</td><td class="n'+(r.amount<0?' minus':'')+'">'+won(r.amount)+'</td><td>'+(r.how==='율'?r.val+'%':r.how==='건당'?won(r.val)+'원':esc(r.how))+'</td><td class="n'+(r.fee<0?' minus':'')+'">'+won(r.fee)+'</td><td>'+esc(r.kind)+'</td></tr>';}).join('')+'</table>'+
-    '<div class="foot"><div>세금은 관련 법에 따라 떼어 신고해요.<br>문의: 사랑흐름 070-4158-7786</div><div><b>사랑흐름</b></div></div>'+
+    '<h2>합계</h2><table class="meta">'+row('더하기',s.plus)+row('빼기',s.minus)+(s.carryIn?row('지난달에서 넘어온 빼기',s.carryIn):'')+
+      row('세금 (세금 기준 금액 '+won(s.taxBase)+'원)',-s.tax)+(s.m2?row('선지급 상계',s.m2):'')+(s.release?row('지난 보류분 함께 지급',s.release):'')+
+      (s.hold?row('보류로 넘김',-s.hold):'')+(s.carryOut?'<tr><td>다음 달로 넘기는 빼기</td><td class="n minus">'+won(s.carryOut)+'원</td></tr>':'')+
+      '<tr class="sum"><td>실지급액</td><td class="n big">'+won(s.pay)+'원</td></tr></table>'+
+    '<h2>더하기 내역</h2>'+lines(plus,true)+'<h2>빼기 내역</h2>'+lines(minus,false)+
+    '<div class="foot"><div>세금은 관련 법에 따라 떼어 신고해요. 보류 · 이월은 다음 마감에 함께 셈해요.<br>문의: 사랑흐름 070-4158-7786</div><div><b>사랑흐름</b></div></div>'+
     '<div class="copy">© 2026 사랑흐름 · LFRI™. 무단 복제 · 배포 · 상업적 이용 금지. Unauthorized reproduction, distribution, or commercial use is prohibited.</div></div>';
-  show(h); document.title=d.name+' 수수료 명세서 '+d.m+' · 사랑흐름';
+  show(h); document.title=d.name+' 정산 명세서 '+d.m+' · 사랑흐름';
 }).catch(function(){show('<p class="msg">서버에 닿지 않아요.</p>');});
 </script>
 </body>
