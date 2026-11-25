@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<!-- ★ 현재 버전 ▶ settle/paper.html · v1 · 261125 · 판매자 수수료 명세서 한 장(마감월 · 판매자). 정산 관리 화면에서 엶 · 인쇄 · PDF 저장.
+     손님 이름 · 연락처는 싣지 않음(주문번호 · 상품 · 금액만) · 계좌는 은행 · 끝 네 자리만. -->
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>수수료 명세서 · 사랑흐름</title>
+<style>
+@page{size:A4;margin:16mm}
+*{box-sizing:border-box}body{margin:0;background:#F4F2EE;color:#2E3A46;font:12pt/1.6 -apple-system,"Apple SD Gothic Neo","Noto Sans KR",sans-serif}
+.sheet{max-width:780px;margin:20px auto;background:#fff;padding:36px 40px;border:1px solid #E4E0D8}
+h1{font-size:20pt;text-align:center;margin:0 0 4px;color:#1E3A5F;letter-spacing:4px}
+.sub{text-align:center;color:#4A525C;margin-bottom:22px}
+table{width:100%;border-collapse:collapse;font-size:10.5pt}
+th,td{border:1px solid #C9CED6;padding:6px 8px;text-align:left}
+th{background:#F1F3F6;font-weight:700}
+td.n,th.n{text-align:right;white-space:nowrap}
+.minus{color:#B42318}
+.meta td:first-child{width:22%;background:#F7F8FA;font-weight:700}
+.sum td{font-weight:700}
+.big{font-size:14pt}
+h2{font-size:12pt;margin:22px 0 8px;color:#1E3A5F}
+.foot{margin-top:28px;display:flex;justify-content:space-between;align-items:flex-end;font-size:10pt;color:#4A525C}
+.foot b{font-size:13pt;color:#2E3A46}
+.copy{font-size:8.5pt;color:#8A9099;margin-top:14px;text-align:center}
+.bar{max-width:780px;margin:14px auto 0;display:flex;gap:8px;justify-content:flex-end}
+.bar button{min-height:44px;padding:0 18px;border:0;border-radius:10px;background:#1E4A76;color:#fff;font:inherit;font-weight:700;cursor:pointer}
+.msg{max-width:780px;margin:40px auto;text-align:center}
+@media print{body{background:#fff}.bar{display:none}.sheet{margin:0;border:0;padding:0;max-width:none}}
+</style>
+</head>
+<body>
+<div class="bar"><button type="button" onclick="window.print()">인쇄 · PDF 저장</button></div>
+<div id="out"><p class="msg">명세서를 불러오는 중이에요…</p></div>
+<script>
+function esc(x){return String(x==null?'':x).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];});}
+function won(n){n=Number(n)||0;return (n<0?'-':'')+Math.abs(n).toLocaleString('ko-KR');}
+var q=new URLSearchParams(location.search), API='', KEY='';
+try{API=localStorage.getItem('lfSettleApi')||'';KEY=localStorage.getItem('lfSettleKey')||'';}catch(e){}
+function show(h){document.getElementById('out').innerHTML=h;}
+if(!API||!KEY){show('<p class="msg">정산 관리 화면에서 처음 한 번 설정한 기기에서 열어 주세요.</p>');}
+else fetch(API,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({a:'paper',key:KEY,m:q.get('m'),s:q.get('s')})}).then(function(r){return r.json();}).then(function(d){
+  if(!d||!d.ok){show('<p class="msg">'+esc(d&&d.msg||'명세서를 불러오지 못했어요.')+'</p>');return;}
+  var y=d.m.slice(0,4), mo=Number(d.m.slice(5,7)), s=d.sum;
+  var h='<div class="sheet"><h1>수수료 명세서</h1><div class="sub">'+y+'년 '+mo+'월 마감분</div>'+
+    '<table class="meta"><tr><td>받는 분</td><td>'+esc(d.name)+' ('+esc(d.s)+') · '+esc(d.kind)+'</td></tr>'+
+    '<tr><td>지급 예정일</td><td>'+esc(d.payDay)+(d.paidAt?' · 지급함 '+esc(d.paidAt):'')+'</td></tr>'+
+    '<tr><td>받는 계좌</td><td>'+(d.bank?esc(d.bank.bank)+' · 끝 '+esc(d.bank.tail)+' · 예금주 '+esc(d.bank.holder):'등록 전')+'</td></tr></table>'+
+    '<h2>합계</h2><table><tr><th class="n">판매 건수</th><th class="n">판매 금액</th><th class="n">수수료</th><th class="n">차감</th><th class="n">지급액(세전)</th><th class="n">세금</th><th class="n">실지급액</th></tr>'+
+    '<tr class="sum"><td class="n">'+s.n+'</td><td class="n">'+won(s.sales)+'</td><td class="n">'+won(s.fee)+'</td><td class="n minus">'+won(s.minus)+'</td><td class="n">'+won(s.gross)+'</td><td class="n">'+won(s.tax)+'</td><td class="n big">'+won(s.net)+'원</td></tr></table>'+
+    '<h2>건별 내역</h2><table><tr><th>날짜</th><th>주문 · 계약번호</th><th>상품</th><th class="n">편 수</th><th class="n">금액</th><th>약정</th><th class="n">수수료</th><th>갈래</th></tr>'+
+    d.rows.map(function(r){return '<tr><td>'+esc(r.day)+'</td><td>'+esc(r.order)+'</td><td>'+esc(r.item)+'</td><td class="n">'+(r.pieces||'')+'</td><td class="n'+(r.amount<0?' minus':'')+'">'+won(r.amount)+'</td><td>'+(r.how==='율'?r.val+'%':r.how==='건당'?won(r.val)+'원':esc(r.how))+'</td><td class="n'+(r.fee<0?' minus':'')+'">'+won(r.fee)+'</td><td>'+esc(r.kind)+'</td></tr>';}).join('')+'</table>'+
+    '<div class="foot"><div>세금은 관련 법에 따라 떼어 신고해요.<br>문의: 사랑흐름 070-4158-7786</div><div><b>사랑흐름</b></div></div>'+
+    '<div class="copy">© 2026 사랑흐름 · LFRI™. 무단 복제 · 배포 · 상업적 이용 금지. Unauthorized reproduction, distribution, or commercial use is prohibited.</div></div>';
+  show(h); document.title=d.name+' 수수료 명세서 '+d.m+' · 사랑흐름';
+}).catch(function(){show('<p class="msg">서버에 닿지 않아요.</p>');});
+</script>
+</body>
+</html>
