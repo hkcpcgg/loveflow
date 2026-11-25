@@ -12,7 +12,7 @@ async def main():
       await pg.evaluate("""()=>{ var b=[...document.querySelectorAll('button')].find(x=>/관리자/.test(x.textContent)); b.click(); }""")
       await pg.wait_for_timeout(200); await pg.fill('#aP',pin); await pg.click('[data-c=in]'); await pg.wait_for_timeout(900)
       return await pg.evaluate("()=>[...document.querySelectorAll('.tabs2 button')].map(x=>x.textContent)")
-    tabs=await admin('414040'); print('대표 탭',tabs)
+    tabs=await admin('999999'); print('대표 탭',tabs)
     await pg.click('[data-t=shops]'); await pg.wait_for_timeout(300)
     await pg.screenshot(path='test/shots/sf_1_tab.png')
     async with pg.expect_download() as dl: await pg.click('[data-c=fDl]')
