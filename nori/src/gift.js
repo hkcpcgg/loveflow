@@ -7,10 +7,13 @@ window.GIFT=(function(){
   function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} if(k==='nori-recs'||k==='nori-mine'){ push(); } }
   /* ── 구글 시트 연결 (웹 앱일 때만) ── */
   var GSR=!!(window.google&&google.script&&google.script.run), API=window.NORI_API||'', CL=GSR||!!API, sent={}, apin='';
+  /* 가게 번호 (261125 · 서버 v4): /nori/?c=101 로 들어오면 그 가게 설정 · 기록 · 번호로 놂. 한 번 들어온 폰은 번호를 기억 · 공유 주소에도 붙음 */
+  var C=(function(){ var m=/[?&]c=(\d{3,4})(?:&|$)/.exec(location.search), v=m?m[1]:''; try{ if(v){ localStorage.setItem('nori-c',v); } else { v=localStorage.getItem('nori-c')||''; } }catch(e){} return v; })();
+  window.NORI_C=C; if(C&&window.NORI_URL){ window.NORI_URL=String(window.NORI_URL).replace(/[?#].*$/,'')+'?c='+C; }
   function run(fn,args,ok,bad){ if(!CL) return; bad=bad||function(){ toast('서버 연결이 잠깐 안 돼요. 다시 눌러 주세요'); };
     if(GSR){ var r=google.script.run.withSuccessHandler(ok||function(){}).withFailureHandler(bad); r[fn].apply(r,args||[]); return; }
     /* /nori/ 손님 화면 → Apps Script(뒤) — 사랑흐름-총괄-002 결정 ② */
-    fetch(API,{method:'POST',body:JSON.stringify({fn:fn,args:args||[]})}).then(function(x){ return x.json(); }).then(function(j){ if(!j||!j.ok) throw 0; ok&&ok(j.res); }).catch(function(){ bad(); }); }
+    fetch(API,{method:'POST',body:JSON.stringify({fn:fn,args:args||[],c:C})}).then(function(x){ return x.json(); }).then(function(j){ if(!j||!j.ok) throw 0; ok&&ok(j.res); }).catch(function(){ bad(); }); }
   function push(){ if(!CL) return; REC.forEach(function(r){ if(!apin && mine.indexOf(r.id)<0) return; var j=JSON.stringify(r); if(sent[r.id]!==j){ sent[r.id]=j; run('put',[r]); } }); }
   /* plan: 무료 · 유료를 가를 칸 (총괄-009 지시 5, 261123) — 지금은 모두 'free'. 결제하면 'paid' 로 켜짐 */
   var DEF={prizes:{p1:'음료 한 잔',p0:'사탕 하나',sp:''}, cond:'a', staffPin:'1234', adminPin:'0000', plan:'free'};
@@ -211,6 +214,6 @@ window.GIFT=(function(){
   document.addEventListener('click',function(){ menu.classList.remove('on'); });
   menu.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; menu.classList.remove('on'); var mm=b.getAttribute('data-m'); if(mm==='mine'){ myBox(); } else if(mm==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요'); } } else if(mm==='share'){ var f=document.getElementById('fShare'); if(f){ f.click(); } } else { adminLogin(); } });
   marquee(); shopText();
-  run('info',[],function(x){ if(!x) return; if(!window.NORI_URL){ window.NORI_URL=x.url||''; } if(x.set){ if(x.set.prizes){ SET.prizes=x.set.prizes; } if(x.set.cond){ SET.cond=x.set.cond; } if(x.set.shop){ save('nori-shop',x.set.shop); } marquee(); shopText(); } },function(){});
+  run('info',[],function(x){ if(!x) return; if(x.unknown&&C){ C=''; window.NORI_C=''; try{ localStorage.removeItem('nori-c'); }catch(e){} window.NORI_URL=String(window.NORI_URL||'').replace(/[?#].*$/,''); return; } if(!window.NORI_URL){ window.NORI_URL=x.url||''; } if(x.set){ if(x.set.prizes){ SET.prizes=x.set.prizes; } if(x.set.cond){ SET.cond=x.set.cond; } if(x.set.shop){ save('nori-shop',x.set.shop); } marquee(); shopText(); } },function(){});
   return {claim:claim, myBox:myBox, result:result};
 })();

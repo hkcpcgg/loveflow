@@ -127,7 +127,7 @@ html='''<!DOCTYPE html>
   document.getElementById('fGift').addEventListener('click',function(){ GIFT.myBox(); });
   document.getElementById('fHome').addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });
   function share(){
-    var d={title:'그때 그 놀이',text:'옛날 놀이 한 판! 다복에서 준비한 푸짐한 선물 받아가세요',url:(window.NORI_URL||location.href)};
+    var d={title:'그때 그 놀이',text:'옛날 놀이 한 판! '+((document.querySelector('.shopN')||{}).textContent||'다복')+'에서 준비한 푸짐한 선물 받아가세요',url:(window.NORI_URL||location.href)};
     if(navigator.share){ navigator.share(d).catch(function(){}); }
     else if(navigator.clipboard){ navigator.clipboard.writeText(window.NORI_URL||location.href).then(function(){ say('링크를 복사했어요'); },function(){ say('링크를 복사하지 못했어요'); }); }
   }
