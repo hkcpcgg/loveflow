@@ -183,7 +183,13 @@ window.GIFT=(function(){
       var sp=load('nori-shop',{s:'다복'});
       body='<label>상호<input id="hS" maxlength="8" value="'+esc(sp.s||'다복')+'"></label>'
         +'<div class="sum">놀이 상대 이름: <b>'+esc((sp.s||'다복')+' 사장님')+'</b></div>'
-        +'<button class="go dark" type="button" data-c="svs">저장</button>';
+        +'<button class="go dark" type="button" data-c="svs">저장</button>'
+        /* 261125 우리 가게 QR — 포스터 · 현수막 · 탁자 위에 붙일 QR. 주소에 가게 번호(?c=)가 들어감 */
+        +'<h3 style="margin:14px 0 0;font-size:16px">우리 가게 QR</h3>'
+        +'<div class="sum">손님이 이 QR 로 들어오면 <b>'+esc(sp.s||'다복')+'</b> 놀이 · 선물 · 기록으로 이어져요.<br><span style="font-size:12.5px;word-break:break-all;color:#6B5A30">'+esc(qrURL())+'</span></div>'
+        +'<img id="qrP" alt="우리 가게 QR 포스터" style="display:block;width:100%;max-width:300px;margin:0 auto;border-radius:12px">'
+        +'<div class="row2"><button class="go dark" type="button" data-c="qrs">QR 사진 저장</button><button class="go light" type="button" data-c="qru">주소 복사</button></div>'
+        +'<p class="note" style="margin:0">저장이 안 되면 그림을 길게 눌러 저장하세요. 인쇄는 A4 한 장에 크게 뽑으면 돼요.</p>';
     }
     open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>관리자 창</h3>'+tabs+body+'<p class="note">'+(CL?'기록은 구글 시트 「손님기록」에 함께 모여요. 「이 폰 기록 삭제」는 이 폰 화면만 비워요(시트는 그대로).':'시험판: 기록은 이 폰에만 남아요. 본 서비스에서는 손님 폰 기록이 구글 시트로 모여 주인장 폰에서 함께 봐요.')+'</p>');
     gs.querySelector('[data-c=x]').addEventListener('click',close);
@@ -199,7 +205,31 @@ window.GIFT=(function(){
       SET.staffPin=sp||'1234'; SET.adminPin=sa||'0000'; save('nori-gift-set',SET); marquee(); v.textContent='저장했어요 ✓'; }); }
     var vs=gs.querySelector('[data-c=svs]'); if(vs){ vs.addEventListener('click',function(){ var shp={s:$('hS').value.trim()||'다복',h:'사장님'}; save('nori-shop',shp); shopText();
       if(CL){ run('setSettings',[apin,{prizes:SET.prizes,cond:SET.cond,shop:shp},'',''],function(){ admin('shop'); }); return; } admin('shop'); }); }
+    var qp=$('qrP'); if(qp){ var png=qrPoster(); if(png){ qp.src=png; }
+      gs.querySelector('[data-c=qrs]').addEventListener('click',function(){ var a=document.createElement('a'); a.href=qp.src; a.download='우리가게QR_'+(C||'기본')+'.png'; document.body.appendChild(a); a.click(); a.remove(); });
+      gs.querySelector('[data-c=qru]').addEventListener('click',function(){ var u=qrURL(), b=this; function ok(){ b.textContent='복사했어요 ✓'; }
+        if(navigator.clipboard){ navigator.clipboard.writeText(u).then(ok,function(){ prompt('주소',u); }); } else { prompt('주소',u); } }); }
   }
+  /* ── 우리 가게 QR (261125) ── 가게 번호가 있으면 ?c=번호 · 없으면 기본 주소 */
+  function qrURL(){ var b=String(window.NORI_URL||'https://www.loveflow.ai.kr/nori/').replace(/[?#].*$/,''); return C?b+'?c='+C:b; }
+  function qrPoster(){ if(typeof qrcode!=='function') return '';
+    var q=qrcode(0,'M'); q.addData(qrURL()); q.make(); var n=q.getModuleCount();
+    var W=1080,H=1440, cv=document.createElement('canvas'); cv.width=W; cv.height=H; var g=cv.getContext('2d'); if(!g) return '';
+    var F='"Pretendard","Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",sans-serif';
+    g.fillStyle='#FFFFFF'; g.fillRect(0,0,W,H);
+    g.fillStyle='#16181D'; g.fillRect(0,0,W,190);
+    g.textAlign='center'; g.textBaseline='middle';
+    g.fillStyle='#FFC21A'; g.font='900 92px '+F; g.fillText('그때 그 놀이',W/2,98);
+    g.fillStyle='#16181D'; g.font='900 64px '+F; g.fillText(shop()+'에서 옛날 놀이 한 판!',W/2,292);
+    var sz=720, cell=Math.floor(sz/(n+8)), qs=cell*(n+8), x0=Math.round((W-qs)/2), y0=370;
+    g.fillStyle='#FFFFFF'; g.fillRect(x0,y0,qs,qs); g.fillStyle='#000000';
+    for(var r=0;r<n;r++){ for(var c=0;c<n;c++){ if(q.isDark(r,c)){ g.fillRect(x0+(c+4)*cell,y0+(r+4)*cell,cell,cell); } } }
+    var yb=y0+qs+40;
+    g.fillStyle='#16181D'; g.font='800 48px '+F; g.fillText('휴대폰 카메라로 비춰 보세요',W/2,yb+20);
+    g.fillStyle='#E1262D'; g.font='900 54px '+F; g.fillText('이기면 '+(SET.prizes.p1||'선물'),W/2,yb+110);
+    g.fillStyle='#6B5A30'; g.font='700 40px '+F; g.fillText('가입 · 앱 설치 없이 바로 놀아요',W/2,yb+190);
+    g.fillStyle='#9A8B66'; g.font='600 28px '+F; g.fillText(qrURL().replace(/^https?:\/\//,''),W/2,H-50);
+    try{ return cv.toDataURL('image/png'); }catch(e){ return ''; } }
 
   /* ── 메인 화면에 선물 · 상호 반영 ── */
   function marquee(){ var m=document.querySelector('.mq-in'); if(!m) return;

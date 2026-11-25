@@ -135,6 +135,9 @@ html='''<!DOCTYPE html>
 })();
 </script>
 <script>
+'''+open('qr.js',encoding='utf-8').read()+'''
+</script>
+<script>
 '''+open('gift.js',encoding='utf-8').read()+'''
 </script>
 <script>

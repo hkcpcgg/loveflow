@@ -336,3 +336,4 @@ window.noriNav=function(o){
  +'}@media (max-height:600px){.ncard.on .ph{height:72px!important;flex-direction:row!important;gap:8px!important;padding:0 10px!important;white-space:nowrap;font-size:13.5px!important}.ncard.on .ph .pb{gap:6px!important}.ncard.on .ph .pb label{padding:7px 10px!important;font-size:13px!important;white-space:nowrap}.ncard.on .ph>i{font-size:22px!important}.ncard.on .lure{margin-top:4px!important}.ncard.on .tip{display:none!important}'
  +'}';
   document.head.appendChild(st); })();
+/* 아래 막대 끝 */
