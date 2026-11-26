@@ -157,6 +157,7 @@ html,body{margin:0;background:var(--cream);font-family:'Noto Sans KR',sans-serif
 .act .a1{background:var(--navy);color:#fff;border:1.5px solid var(--navy)}
 .act .ob{background:linear-gradient(135deg,#C0872E,#C9A96E);border:0;color:#fff;white-space:nowrap}
 .ob2{border:1.5px solid #C0872E;background:#fff;color:#9A6A1E;font:inherit;font-size:13px;font-weight:800;border-radius:10px;padding:4px 10px;margin-left:4px;cursor:pointer}
+.cgo{border:0;background:none;font:inherit;font-weight:800;color:inherit;text-decoration:underline;cursor:pointer;padding:6px 4px;min-height:36px}
 </style>
 </head>
 <body data-lf-title="사랑흐름 서비스 이용">
@@ -226,7 +227,7 @@ var LF='https://www.loveflow.ai.kr',UR='https://uriyagi.kr',KK='http://pf.kakao.
 /* ② 체험 창 */
 var WIN=[
  ['디지털 명함','내 이름과 사업을 휴대폰 명함 한 장으로',null,'🪪',UR+'/card/new/','#F4EEE4'],
- ['모바일 홈페이지','사업을 소개하는 작은 홈페이지',LF+'/rec/seed/dabok/d05.jpg',null,UR+'/home/C-1003/'],
+ ['모바일 홈페이지','사업을 소개하는 작은 홈페이지',LF+'/rec/seed/dabok/d05.jpg',null,UR+'/home/'],
  ['시즌 카드','계절 인사를 카드 한 장에',LF+'/card/img/santa3.jpg',null,LF+'/card/sample.html'],
  ['디지털 포스터','행사 · 할인 소식을 한 장에',null,'📣',LF+'/card/poster-sample.html','#EEF2F8'],
  ['우리 이야기방','함께 쌓는 사진과 이야기',LF+'/promo/still/정지_3_한송이가차오르다.png',null,UR+'/?plaza=1'],
@@ -243,7 +244,7 @@ win(1);
 /* 서비스: [이름, 표, 그림(사진 또는 기호), 한 줄, 무엇, 누가, 준비, 받는 것, 무료로는, 유료로는, 직접 안 되면, 버튼 말, 버튼 주소, 견본 주소] */
 var V={
  name:['디지털 명함','free','🪪','내 이름과 사업을 알리는 첫 번째 도구예요.','연락처 · 소개 · 사업 정보를 휴대폰 명함 한 장에 담아요.','가게 사장님 · 프리랜서 · 영업하는 분','얼굴이나 가게 사진 한 장, 상호, 하는 일, 연락처','명함 링크와 QR. 카카오톡 · 문자로 바로 건넬 수 있어요.','직접 만드는 명함 한 장','없어요','막히는 곳이 있으면 문의하기','무료 이용',UR+'/card/new/',null,'주문제작 신청'],
- home:['모바일 홈페이지','make','IMG:'+LF+'/rec/seed/dabok/d05.jpg','명함에서 한 걸음 더, 사업을 소개하는 공간이에요.','서비스 · 사진 · 위치 · 사업 소개를 한 화면에 모아요.','손님께 가게를 더 자세히 알리고 싶은 분','가게 사진 몇 장, 하는 일과 값 안내, 위치','홈페이지 링크. 명함과 서로 이어져요.','없어요','없어요','주문제작 신청을 남겨 주세요',null,null,UR+'/home/C-1003/','주문제작 신청'],
+ home:['모바일 홈페이지','make','IMG:'+LF+'/rec/seed/dabok/d05.jpg','명함에서 한 걸음 더, 사업을 소개하는 공간이에요.','서비스 · 사진 · 위치 · 사업 소개를 한 화면에 모아요.','손님께 가게를 더 자세히 알리고 싶은 분','가게 사진 몇 장, 하는 일과 값 안내, 위치','홈페이지 링크. 명함과 서로 이어져요.','없어요','없어요','주문제작 신청을 남겨 주세요',null,null,UR+'/home/','주문제작 신청'],
  scard:['시즌 카드','free','IMG:'+LF+'/card/img/santa1.jpg','손님께 다시 인사하고 관계를 이어 가요.','연말 · 명절 같은 날에 가게 이름으로 카드를 보내요.','단골손님께 인사하고 싶은 분','보낼 인사말, 가게 이름','카드 링크. 받는 분이 열면 알 수 있어요.','카드 한 장 무료','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기','무료 이용',LF+'/card/make.html',LF+'/card/sample.html','주문제작 신청'],
  post:['디지털 포스터','free','📣','행사 · 할인 소식을 한 장에 알려요.','날짜 · 장소 · 내용을 넣은 포스터를 링크로 나눠요.','개업 · 할인 · 행사를 알리고 싶은 분','행사 이름, 날짜, 장소, 사진 한 장','포스터 링크와 QR','포스터 직접 만들기','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기','무료 이용',LF+'/poster/make.html',LF+'/card/poster-sample.html','주문제작 신청'],
  nori:['그때 그 놀이(매장)','make','🪀','가게에서 손님이 옛날 놀이를 즐겨요.','손님이 휴대폰으로 옛날 놀이를 하고 가게 선물을 받아요.','손님이 머물다 가는 가게','가게 이름과 드릴 선물','가게 놀이 링크와 QR','손님은 무료로 놀아요.','없어요','문의하기로 남겨 주세요','문의하기',KK,LF+'/nori/?from=use'],
@@ -255,7 +256,7 @@ var V={
  map:['마음 여행지도','paid','🗺️','나와 그분을 돌아보는 길이에요.','그분과의 기억을 따라 묻고 답하면 마음의 지도를 받아요.','소중한 한 사람을 깊이 돌아보고 싶은 분','떠올릴 그분 한 사람','마음의 지도 한 장','맛보기는 관계 나침반으로','바로 결제해 이용해요.','막히는 곳이 있으면 문의하기','주문하기',LF+'/item/map/',null],
  set:['마음여행','paid','✉️','지도와 편지로 마음을 전하는 여행이에요.','마음 여행지도에 편지를 더해 그분께 보내요.','마음을 편지로 전하고 싶은 분','떠올릴 그분 한 사람','지도와 편지','없어요','바로 결제해 이용해요.','막히는 곳이 있으면 문의하기','주문하기',LF+'/item/set/',null],
  memoir:['한 편의 기록','paid','IMG:'+LF+'/img/era/n06_hanok_room_color.jpg','살아오신 이야기를 한 권의 기록으로.','물음을 따라 말하거나 쓰면 열 편의 기록이 돼요.','내 삶을 남기고 싶은 분 · 부모님께 선물하고 싶은 분','시간 조금, 사진 몇 장','열 편의 기록 한 권','없어요','바로 결제해 이용해요.','막히는 곳이 있으면 문의하기','주문하기',LF+'/item/memoir/',null],
- ohome:['단체 모바일 홈페이지','free','🏛️','단체를 소개하고 구성원을 한곳에 보여요.','단체 소개와 회원 명함 · 이름 찾기 · 업종별 찾기를 한곳에 모아요.','협회 · 상인회 · 동호회 같은 단체','단체 소개, 대표 사진, 회원 목록','단체 홈페이지 링크','회원 100명까지 무료예요. 직접 만드는 화면은 준비 중이라 지금은 주문제작 신청으로 만들어 드려요.','회원 명단을 파일로 한꺼번에 올리기는 유료 이용이에요.','주문제작 신청을 남겨 주세요','주문제작 신청',KK,null],
+ ohome:['단체 모바일 홈페이지','free','🏛️','단체를 소개하고 구성원을 한곳에 보여요.','단체 소개와 회원 명함 · 이름 찾기 · 업종별 찾기를 한곳에 모아요.','협회 · 상인회 · 동호회 같은 단체','단체 소개, 대표 사진, 회원 목록','단체 홈페이지 링크','회원 100명까지 무료예요. 직접 만드는 화면은 준비 중이라 지금은 주문제작 신청으로 만들어 드려요.','회원 명단을 파일로 한꺼번에 올리기는 유료 이용이에요.','주문제작 신청을 남겨 주세요','주문제작 신청',KK,UR+'/home/sample-org/'],
  oroom:['우리 이야기방','free','IMG:'+LF+'/promo/still/정지_3_한송이가차오르다.png','모임의 사진과 이야기를 회원이 함께 쌓아요.','초대 링크로 회원을 불러 사진 · 이야기를 함께 올려요.','모임 · 단체','방 이름, 대표 사진','이야기방 링크','무료','없어요','막히는 곳이 있으면 문의하기','무료 이용',UR+'/',UR+'/?plaza=1'],
  ocard:['회원께 보내는 시즌 카드','free','IMG:'+LF+'/card/img/santa1.jpg','회원 모두에게 계절 인사를 보내요.','단체 이름으로 송년 · 명절 카드를 보내요.','회원께 인사하고 싶은 단체','인사말, 단체 이름','카드 링크','카드 한 장 무료','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기','무료 이용',LF+'/card/make.html',LF+'/card/sample.html','주문제작 신청'],
  opost:['디지털 포스터','free','📣','행사 · 모집 소식을 한 장에 알려요.','행사 · 모집 · 공지를 포스터로 만들어 링크로 나눠요.','행사를 여는 단체','행사 이름, 날짜, 장소, 신청 방법','포스터 링크와 QR','포스터 직접 만들기','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기','무료 이용',LF+'/poster/make.html',LF+'/card/poster-sample.html','주문제작 신청'],
@@ -275,14 +276,17 @@ var STG={
     ['교육 · 통합 솔루션','회원 교육과 단체 업무를 한곳에',['edu','sol'],null]]
 };
 var CT={
- o:[['단체 모바일 홈페이지','100명까지 (준비 중)','추가 기능','신청'],['우리 이야기방','직접 이용','',''],['시즌 카드','기본 이용','추가 기능','신청'],['디지털 포스터','직접 이용','추가 기능','신청'],['디지털 · AI 활용 교육','','','신청'],['통합 솔루션','','','신청']],
- b:[['디지털 명함','직접 이용','','신청'],['모바일 홈페이지','','','신청'],['시즌 카드','기본 이용','추가 기능','신청'],['디지털 포스터','직접 이용','추가 기능','신청'],['통합 솔루션','','','신청']],
- p:[['디지털 명함','직접 이용','','신청'],['시즌 카드','기본 이용','추가 기능','신청'],['우리 이야기방','직접 이용','','']]};
+ o:[['단체 모바일 홈페이지','100명까지 (준비 중)','추가 기능','신청','ohome'],['우리 이야기방','직접 이용','','','oroom'],['시즌 카드','기본 이용','추가 기능','신청','ocard'],['디지털 포스터','직접 이용','추가 기능','신청','opost'],['디지털 · AI 활용 교육','','','신청','edu'],['통합 솔루션','','','신청','sol']],
+ b:[['디지털 명함','직접 이용','','신청','name'],['모바일 홈페이지','','','신청','home'],['시즌 카드','기본 이용','추가 기능','신청','scard'],['디지털 포스터','직접 이용','추가 기능','신청','post'],['통합 솔루션','','','신청','sol']],
+ p:[['디지털 명함','직접 이용','','신청','pname'],['시즌 카드','기본 이용','추가 기능','신청','pcard'],['우리 이야기방','직접 이용','','','oroom']]};
 function cmp(k){var r=CT[k],h='<tr><th>서비스</th><th>무료</th><th>유료</th><th>주문제작</th></tr>';
- r.forEach(function(x){h+='<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+x[3]+'</td></tr>'});
+ r.forEach(function(x){var id=x[4];h+='<tr><td>'+x[0]+'</td><td>'+(x[1]&&id?'<button type="button" class="cgo" onclick="cfree(\''+id+'\')">'+x[1]+'</button>':x[1])+'</td><td>'+x[2]+'</td><td>'+(x[3]&&id?'<button type="button" class="cgo" onclick="cgo(\''+id+'\')">'+x[3]+'</button>':x[3])+'</td></tr>'});
  document.getElementById('cmpTb').innerHTML=h;
  [].forEach.call(document.querySelectorAll('#ctab button'),function(b){b.className=b.dataset.k===k?'on':''});}
 document.querySelectorAll('#ctab button').forEach(function(b){b.onclick=function(){cmp(b.dataset.k)}});
+/* ★v2.2 · 261126 · 우리이야기-총괄-037 · 구분표 칸을 누르면 넘어감. 무료 칸은 바로 이용(만들기 화면) 또는 무료 신청, 주문제작 칸은 디지털 명함 · 모바일 홈페이지는 우리 이야기 주문 제작 화면, 그 밖은 주문제작 신청서 */
+function cfree(id){var v=V[id];if(v[11]&&v[11]!=='주문제작 신청'&&v[11]!=='준비 중'&&v[12]){if(v[12].indexOf(LF)===0)location.href=v[12];else window.open(v[12],'_blank','noopener');return}ordOpen(id,1)}
+function cgo(id){if(id==='name'||id==='pname'){window.open(UR+'/card/new/?m=pay','_blank','noopener');return}if(id==='home'){window.open(UR+'/card/new/?m=pay&hm=1','_blank','noopener');return}ordOpen(id)}
 var ORDF=0;function ordOpen(id,fr){ORDF=fr?1:0;document.getElementById('ordH').textContent=fr?'무료 신청':'주문제작 신청';document.getElementById('ordSv').textContent=V[id][0]+(fr&&FL[id]?' · '+FL[id]:'');setTimeout(function(){document.getElementById('ordAll').value=ordTxt()},0);document.getElementById('ordMsg').textContent='';document.getElementById('ord').classList.add('on');}
 function ordClose(){document.getElementById('ord').classList.remove('on');}
 function ordTxt(){return (ORDF?'[무료 신청]':'[주문제작 신청]')+'\n서비스: '+document.getElementById('ordSv').textContent+'\n상호 · 단체 이름: '+document.getElementById('ordNm').value+'\n원하시는 내용: '+document.getElementById('ordTx').value+'\n원하시는 때: '+document.getElementById('ordWh').value}
