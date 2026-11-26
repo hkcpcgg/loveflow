@@ -387,10 +387,8 @@ function build(root){
   [hto,msg,hend,sg,dt,vb,mr,bx,ft].forEach(function(x){bd.appendChild(x);});
   sg.style.cssText='font-family:"Nanum Pen Script",cursive;font-size:40px;color:#b3242c;text-align:right;line-height:1.1;margin-top:8px';
   var again=el('button','again','봉투 다시 보기'); again.type='button'; st.appendChild(again); again.style.display='none';
-  /* ★v3 · 261126 19:08 대표 「카드 보다 갑자기 둘러보기가 왜 가운데 · 봉투 다시 보기는 위로 · 둘러보기는 밑으로 · 흐름 이어지게」: 카드 › 봉투 다시 보기 › 나도 카드 보내기 › 맨 밑 둘러보기 */
+  /* ★v3 · 261126 19:08 대표 「카드 보다 갑자기 둘러보기가 왜 가운데 · 봉투 다시 보기는 위로 · 둘러보기는 밑으로 · 흐름 이어지게」: 카드 · 봉투 다시 보기 · 나도 카드 보내기. 261126 19:11 「마음 카드 보다 왜 삐뚤빼뚤이 나오냐」 둘러보기 걷음 */
   var mineB=el('a','mineB','💌 나도 카드 보내기'); mineB.href='/card/make.html'; st.appendChild(mineB); mineB.style.display='none';
-  var tour=el('div','tour','<div class="tt">사랑흐름 둘러보기</div><a href="https://www.loveflow.ai.kr/hanmadi/" target="_blank" rel="noopener"><span class="i">💬</span><span>마음 한마디</span><b>›</b></a><a href="https://www.loveflow.ai.kr/draw/" target="_blank" rel="noopener"><span class="i">🎨</span><span>삐뚤빼뚤 마음 도화지</span><b>›</b></a><a href="https://www.loveflow.ai.kr/showroom.html" target="_blank" rel="noopener"><span class="i">📖</span><span>여행의 기록</span><b>›</b></a>');
-  st.appendChild(tour); tour.style.display='none';
   function paint(){
     var t=d.t[L];
     env.querySelector('.whom').textContent=t.whom; env.querySelector('.from').textContent=t.from; env.querySelector('.hint').textContent=t.tap;
@@ -420,7 +418,7 @@ function build(root){
   paint();
   if(lg){ lg.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ L=b.getAttribute('data-l'); lg.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);}); paint(); }; }); }
   function open(){ if(env.classList.contains('open')) return; env.classList.add('open');
-    setTimeout(function(){ cw.style.display='block'; env.classList.add('gone'); eb.style.display='none'; again.style.display='block'; mineB.style.display='block'; tour.style.display='block'; requestAnimationFrame(function(){ cw.classList.add('show'); }); },700); }
+    setTimeout(function(){ cw.style.display='block'; env.classList.add('gone'); eb.style.display='none'; again.style.display='block'; mineB.style.display='block'; requestAnimationFrame(function(){ cw.classList.add('show'); }); },700); }
   env.onclick=open; env.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();open();} };
   again.onclick=function(){ build(root); };
   root._open=open;
