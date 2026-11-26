@@ -17,7 +17,7 @@ scr=scr.replace('<div class="btn start">','<button class="btn start" type="butto
 scr=scr.replace('<div class="btn gift">','<button class="btn gift" type="button" id="bGift">').replace('선물 받기</div>','선물 받기</button>',1)
 scr=scr.replace('<div class="btn half"><svg class="i" viewBox="0 0 24 24"><circle cx="18"','<button class="btn half" type="button" id="bShare"><svg class="i" viewBox="0 0 24 24"><circle cx="18"').replace('공유하기</div>','공유하기</button>')
 scr=scr.replace('<div class="btn half"><svg class="i" viewBox="0 0 24 24"><circle cx="9"','<button class="btn half" type="button" id="bInvite"><svg class="i" viewBox="0 0 24 24"><circle cx="9"').replace('친구 초대</div>','친구 초대</button>')
-scr=scr.replace('<div class="room">','<a class="room" href="https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e" target="_blank" rel="noopener">').replace('다복 이야기방<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></div>','다복 이야기방<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></a>')
+scr=scr.replace('<div class="room">','<a class="room" href="https://uriyagi.kr/?c=C-0031" target="_blank" rel="noopener">').replace('다복 이야기방<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></div>','다복 이야기방<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></a>')
 exec(open('home_layout.py',encoding='utf-8').read())
 scr=restructure(scr)
 css=css.replace('.scr{','.scr-unused{')
@@ -75,6 +75,7 @@ T74=guest('그때그놀이-074_박터뜨리기_261125.html','')
 T76=guest('그때그놀이-076_고무줄놀이_261125.html','')
 T80=guest('그때그놀이-080_굴렁쇠_261125.html','')
 T81=guest('그때그놀이-081_공굴리기_261125.html','')
+T93=guest('그때그놀이-093_벽돌깨기_261126.html','')
 T15=guest('그때그놀이-015_오목·알까기시험판_261121.html','.shopset{display:none!important}.note{display:none}')
 html='''<!DOCTYPE html>
 <html lang="ko">
@@ -100,12 +101,12 @@ html='''<!DOCTYPE html>
 <script>
 '''+m[m.index('<script>')+8:m.index('</script>')]+'''
 (function(){
-  var T={rd:"'''+T13+'''", om:"'''+T15+'''", pt:"'''+T18+'''", g4:"'''+T22+'''", hd:"'''+T24+'''", pa:"'''+T30+'''", jm:"'''+T52+'''", yn:"'''+T57+'''", bn:"'''+T60+'''", ru:"'''+T71+'''", bk:"'''+T74+'''", gm:"'''+T76+'''", gr:"'''+T80+'''", gl:"'''+T81+'''"};
+  var T={rd:"'''+T13+'''", om:"'''+T15+'''", pt:"'''+T18+'''", g4:"'''+T22+'''", hd:"'''+T24+'''", pa:"'''+T30+'''", jm:"'''+T52+'''", yn:"'''+T57+'''", bn:"'''+T60+'''", ru:"'''+T71+'''", bk:"'''+T74+'''", gm:"'''+T76+'''", gr:"'''+T80+'''", gl:"'''+T81+'''", bc:"'''+T93+'''"};
   function dec(b){ var s=atob(b), u=new Uint8Array(s.length); for(var i=0;i<s.length;i++){ u[i]=s.charCodeAt(i); } return new TextDecoder().decode(u); }
   var ov=document.getElementById('ov'), fr=document.getElementById('ovF'), cur='';
   function open(k){
-    var key= k==='rd'?'rd':(k==='pt'||k==='bw'?'pt':((k==='tk'||k==='th'||k==='mb'||k==='dt')?'g4':((k==='rp'||k==='hj'||k==='mj'||k==='br')?'hd':((k==='aw'||k==='yt'||k==='sb'||k==='sg')?'pa':((k==='jg'||k==='gg'||k==='mg')?'jm':(k==='yn'?'yn':(k==='bn'?'bn':(k==='ru'?'ru':(k==='bk'?'bk':(k==='gm'?'gm':(k==='gr'?'gr':(k==='gl'?'gl':'om')))))))))))), doc=dec(T[key]);
-    var solo={om:'omok',ak:'alkkagi',pt:'putt',bw:'bow',tk:'ttak',th:'tuho',mb:'marble',dt:'dart',rp:'rps',hj:'holjjak',mj:'mjb',br:'bori',aw:'arm',yt:'yeot',sb:'sab',sg:'sug',jg:'jegi',gg:'gong',mg:'mugung',yn:'yut',bn:'bun',ru:'run',bk:'bak',gm:'gomu',gr:'gul',gl:'ball'}[k]; if(solo){ doc=doc.replace('</body>','<script>solo("'+solo+'");<\\/script></body>'); }
+    var key= k==='rd'?'rd':(k==='pt'||k==='bw'?'pt':((k==='tk'||k==='th'||k==='mb'||k==='dt')?'g4':((k==='rp'||k==='hj'||k==='mj'||k==='br')?'hd':((k==='aw'||k==='yt'||k==='sb'||k==='sg')?'pa':((k==='jg'||k==='gg'||k==='mg')?'jm':(k==='yn'?'yn':(k==='bn'?'bn':(k==='ru'?'ru':(k==='bk'?'bk':(k==='gm'?'gm':(k==='gr'?'gr':(k==='gl'?'gl':(k==='bc'?'bc':'om'))))))))))))), doc=dec(T[key]);
+    var solo={om:'omok',ak:'alkkagi',pt:'putt',bw:'bow',tk:'ttak',th:'tuho',mb:'marble',dt:'dart',rp:'rps',hj:'holjjak',mj:'mjb',br:'bori',aw:'arm',yt:'yeot',sb:'sab',sg:'sug',jg:'jegi',gg:'gong',mg:'mugung',yn:'yut',bn:'bun',ru:'run',bk:'bak',gm:'gomu',gr:'gul',gl:'ball',bc:'brick'}[k]; if(solo){ doc=doc.replace('</body>','<script>solo("'+solo+'");<\\/script></body>'); }
     
     if(cur!==k){ fr.srcdoc=doc; cur=k; } else { try{ fr.contentWindow.postMessage('nori-open','*'); }catch(e){} }
     ov.classList.add('on'); document.body.style.overflow='hidden';
@@ -117,7 +118,7 @@ html='''<!DOCTYPE html>
   document.getElementById('ovBack').addEventListener('click',home);
   window.addEventListener('popstate',function(){ try{ var w=fr.contentWindow; if(ov.classList.contains('on')&&w&&w.__noriPlaying&&w.noriAskExit){ history.pushState({nori:cur},''); w.noriAskExit(); return; } }catch(e){} close(); });
   /* 놀이 안 아래 막대가 보내는 말: 놀이 목록 / 다른 놀이로 */
-  window.addEventListener('message',function(e){ var d=e.data; if(d==='nori-close'){ home(); } else if(d&&d.nori==='story'){ try{ window.open('https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e','_blank'); }catch(x){} } else if(d&&d.nori==='go'&&d.k){ cur=''; open(d.k); } });
+  window.addEventListener('message',function(e){ var d=e.data; if(d==='nori-close'){ home(); } else if(d&&d.nori==='story'){ try{ if(window.NORI_ROOM) window.open(window.NORI_ROOM,'_blank'); }catch(x){} } else if(d&&d.nori==='go'&&d.k){ cur=''; open(d.k); } });
   var tt=0, toast=document.getElementById('toast');
   function say(t){ toast.textContent=t; toast.classList.add('on'); clearTimeout(tt); tt=setTimeout(function(){ toast.classList.remove('on'); },2200); }
   var gs=document.querySelectorAll('.g');

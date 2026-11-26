@@ -13,7 +13,8 @@ window.BOSS=window.BOSS||{lv:1.5, sway:.2,
   run:[6.0,7.0],    /* 운동회 달리기: 사장님이 1초에 내딛는 걸음(최소 · 최대) · 마흔 걸음 = 100m · 승률 기록 보고 맞춤 */
   bak:{t:[1.0,1.3],hit:[.5,.6]},  /* 박 터뜨리기: 사장님이 한 번 던지는 사이(초 · 최소 최대) · 맞히는 비율(판마다 그 안에서) · 여섯 번에 박 ≈ 12초 · 사람 손(한 번 1.3초 · 60%)과 비슷 · 승률 기록 보고 맞춤 */
   gul:[.99,.97,.95,.92,.88,.84],  /* 굴렁쇠: 사장님이 10m 칸마다(60m 골목 · 여섯 칸) 실수 없이 지나는 비율 · 승률 기록 보고 맞춤 */
-  ball:{r:[4.2,5.2],ok:[.86,.93]},  /* 공 굴리기: 사장님이 1초에 미는 횟수(최소 · 최대) · 쏠린 반대쪽을 맞게 누르는 비율 · 서른 번 = 30m · 승률 기록 보고 맞춤 */
+  ball:{r:[4.2,5.2],ok:[.86,.93]},
+  brick:{miss:[.14,.20]},  /* 벽돌깨기: 사장님이 공을 받으러 갈 때 놓치는 비율(최소 · 최대) · 공 세 개 · 1분 · 승률 기록 보고 맞춤 */  /* 공 굴리기: 사장님이 1초에 미는 횟수(최소 · 최대) · 쏠린 반대쪽을 맞게 누르는 비율 · 서른 번 = 30m · 승률 기록 보고 맞춤 */
   gomu:[.99,.98,.96,.93,.89,.84],  /* 고무줄놀이: 사장님이 단마다(발목 · 무릎 · 허벅지 · 허리 · 가슴 · 머리) 한 박을 맞히는 비율 · 한 단 = 여덟 박 · 승률 기록 보고 맞춤 */
   yut:{in:.9,smart:.85}  /* 윷놀이: 사장님이 초록 안에서 떼는 비율(나머지는 낙) · 말 고를 때 좋은 수를 두는 비율 */
   };
@@ -85,7 +86,7 @@ window.bossV=function(arr,L){ if(L!==1||!BOSS.cur) return arr[L]; var x=BOSS.cur
 })();
 window.noriNav=function(o){
   /* 261122 v5 — 아래 막대 「놀이 방법 · 그때 그 놀이(홈, 가운데) · 새 판」, 「다른 놀이」 창 없앰. 끝 화면: 선물 받기 · 이야기방에 남기기 · 다시 하기 · 그때 그 놀이(홈) */
-  var HOME='https://www.loveflow.ai.kr/nori/', STORY='https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e';
+  var HOME='https://www.loveflow.ai.kr/nori/', STORY=(function(){ try{ if(window.parent&&window.parent!==window&&('NORI_ROOM' in window.parent)) return window.parent.NORI_ROOM; }catch(e){} return ('NORI_ROOM' in window)?window.NORI_ROOM:'https://uriyagi.kr/?c=C-0031'; })(); /* 사랑흐름-총괄-052: 가게 자기 방 · 없으면 이야기방 단추 감춤 */
   var RULE={om:'가로·세로·대각선 어느 쪽이든 내 돌 다섯 개를 먼저 한 줄로 이으면 이겨요. 한 수 무르기는 세 번까지 돼요.',
     ak:'내 알을 손가락으로 끌었다 놓아 튕겨요. 상대 알을 판 밖으로 쳐내고, 상대 알을 먼저 다 떨어뜨리면 이겨요.',
     rd:'서로 딱지를 한 장씩 내요. 정한 기준(글자 많기 · 숫자 높기)으로 센 쪽이 딱지를 가져가고, 다섯 판 뒤 많이 딴 사람이 이겨요.'};
@@ -96,7 +97,7 @@ window.noriNav=function(o){
     o.style.cssText='position:fixed;inset:0;z-index:95;background:rgba(46,58,70,.35);display:flex;align-items:center;justify-content:center;font-family:"Noto Sans KR",system-ui,sans-serif';
     o.innerHTML='<div style="background:#fff;border-radius:20px;padding:20px 16px 14px;width:min(300px,86vw);text-align:center"><b style="font-size:17px;color:#2E3A46">놀이에서 나갈까요?</b><p style="margin:8px 0 14px;font-size:14px;line-height:1.6;color:#4A525C">나가면 진행 중인 판은 처음부터 다시 시작해요.</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><button type="button" data-x="no" style="min-height:48px;border:0;border-radius:14px;background:#F4EEE4;font:800 15px \'Noto Sans KR\',sans-serif;color:#2E3A46;cursor:pointer">취소</button><button type="button" data-x="go" style="min-height:48px;border:0;border-radius:14px;background:#1E4A76;font:800 15px \'Noto Sans KR\',sans-serif;color:#fff;cursor:pointer">나가기</button></div></div>';
     document.body.appendChild(o); o.addEventListener('click',function(e){ var b=e.target.closest('[data-x]'); if(!b&&e.target!==o) return; var go=b&&b.getAttribute('data-x')==='go'; o.remove(); if(go){ window.__noriPlaying=false; goHome(); } }); };
-  function goStory(){ if(framed){ try{ window.parent.postMessage({nori:'story'},'*'); return; }catch(e){} } try{ window.open(STORY,'_blank'); }catch(e2){ location.href=STORY; } }
+  function goStory(){ if(!STORY) return; if(framed){ try{ window.parent.postMessage({nori:'story'},'*'); return; }catch(e){} } try{ window.open(STORY,'_blank'); }catch(e2){ location.href=STORY; } }
   window.noriHome=goHome;
   var css=document.createElement('style');
   css.textContent='.nbar{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;justify-content:center;background:rgba(22,24,29,.96);padding:6px 10px calc(6px + env(safe-area-inset-bottom,0px))}'
@@ -193,8 +194,8 @@ window.noriNav=function(o){
       +'<div class="bt2">'+(noriEdu()?'':'<button type="button" class="gift">선물 받기</button>')+'<div class="row"><button type="button" data-c="save">결과 사진 저장</button><button type="button" data-c="share">공유하기</button></div></div>'
       /* 사랑흐름-놀이-005 (GPT · 총괄 · 261125): 큰 단추는 셋까지 · 「이야기방에 올리기」 「사랑흐름 둘러보기」는 맨 아래 작은 글줄 · 「자서전 둘러보기」 걷음 */
       /* 사랑흐름-총괄-050 (261126 대표 19:11): 놀이 흐름 안에 다른 서비스 칸 두지 않음 → 「사랑흐름 둘러보기」 걷음 (다른 서비스 길은 첫 화면 아래 「함께하는 곳」 · 바닥글) */
-      +'<p class="nlinks"><button type="button" data-c="story">이야기방에 올리기 ›</button></p>'
-      +'<p class="tip">이야기방에는 저장된 결과 사진을 골라 올려 주세요.</p>';
+      +(STORY?'<p class="nlinks"><button type="button" data-c="story">이야기방에 올리기 ›</button></p>'
+      +'<p class="tip">이야기방에는 저장된 결과 사진을 골라 올려 주세요.</p>':'');
     var ph=cd.querySelector('.ph'), im=ph.querySelector('img');
     im.onload=function(){ photo=im; ph.classList.add('has'); };
     [].forEach.call(ph.querySelectorAll('input[type=file]'),function(inp){ inp.addEventListener('change',function(){ var f=inp.files&&inp.files[0]; if(!f) return; im.src=URL.createObjectURL(f); }); });
@@ -251,7 +252,7 @@ window.noriNav=function(o){
   function story(){ ev('story'); var r=R, ttl=('그때 그 놀이 · '+(r.gname||'')+(r.sc&&r.sc[1]!=null?' '+r.sc[0]+':'+r.sc[1]:'')+' '+resText(r)).slice(0,60);
     var w=null; try{ w=window.open('about:blank','_blank'); }catch(e){}
     draw(function(b,m){ dl(b); var t=((m?m+' — ':'')+shop()+' · '+when(r.t)+' · 확인 번호 '+(r.card||'')).slice(0,3000);
-      var u=STORY+'&w='+encodeURIComponent('사진')+'&tt='+encodeURIComponent(ttl)+'&t='+encodeURIComponent(t);
+      if(!STORY) return; var u=STORY+(STORY.indexOf('?')<0?'?':'&')+'w='+encodeURIComponent('사진')+'&tt='+encodeURIComponent(ttl)+'&t='+encodeURIComponent(t);
       if(w){ try{ w.location.href=u; }catch(e){ w=window.open(u,'_blank'); } } else { w=window.open(u,'_blank'); }
       /* 우리 이야기가 받을 준비가 되면 카드 그림을 바로 넘김 (우리 이야기 쪽 받는 입구가 생기면 작동 · 없으면 아무 일 없음) */
       try{ var fr=new FileReader(); fr.onload=function(){ var n=0, iv=setInterval(function(){ n++; try{ w&&w.postMessage({uriyagi:'card-image',name:fname(),type:'image/png',data:fr.result,title:ttl,text:t},'https://uriyagi.kr'); }catch(e){} if(n>24) clearInterval(iv); },500); }; fr.readAsDataURL(b); }catch(e){} }); }

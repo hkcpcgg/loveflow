@@ -16,6 +16,10 @@ window.GIFT=(function(){
   window.NORI_FROM=FROM;
   /* 가게 번호 (261125 · 서버 v4): /nori/?c=101 로 들어오면 그 가게 설정 · 기록 · 번호로 놂. 한 번 들어온 폰은 번호를 기억 · 공유 주소에도 붙음 */
   var C=(function(){ var m=/[?&]c=(\d{3,4})(?:&|$)/.exec(location.search), v=m?m[1]:''; try{ if(v){ localStorage.setItem('nori-c',v); } else { v=localStorage.getItem('nori-c')||''; } }catch(e){} return v; })();
+  /* 사랑흐름-총괄-052 (261126 대표 실폰 20:53): 이야기방 = 가게 자기 방. 기본 주소(다복) = 다복 이야기 방 C-0031 · 다른 가게는 방 주소를 받기 전까지 이야기방 칸 · 단추를 감춤(빈 방 · 남의 방으로 보내지 않음) */
+  window.NORI_ROOM=C?'':'https://uriyagi.kr/?c=C-0031';
+  function roomFix(){ var r=document.querySelector('.room'); if(!r) return; if(window.NORI_ROOM){ r.setAttribute('href',window.NORI_ROOM); r.style.removeProperty('display'); } else { r.style.setProperty('display','none','important'); } }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',roomFix); else roomFix();
   window.NORI_C=C; if(C&&window.NORI_URL){ window.NORI_URL=String(window.NORI_URL).replace(/[?#].*$/,'')+'?c='+C; }
   function run(fn,args,ok,bad){ if(!CL) return; bad=bad||function(){ toast('서버 연결이 잠깐 안 돼요. 다시 눌러 주세요'); };
     if(GSR){ var r=google.script.run.withSuccessHandler(ok||function(){}).withFailureHandler(bad); r[fn].apply(r,args||[]); return; }
@@ -148,7 +152,7 @@ window.GIFT=(function(){
     if(rec.status==='ready'){ how='<p class="note" style="text-align:center">계산대 직원에게 이 화면을 보여 주세요. 받으시면 직원이 아래에 번호를 넣어 「전달 완료」를 눌러요.</p>'; }
     if(rec.status==='wait'){ how='<p class="note" style="text-align:center">직원이 확인하면 선물을 드려요. 이 화면을 직원에게 보여 주세요.</p>'; }
     if(rec.status==='story'){ how='<p class="note" style="text-align:center">'+esc(shop())+' 이야기방에 한 줄 남기시면 선물이 열려요.</p>'
-      +'<a class="go dark" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e" target="_blank" rel="noopener">이야기방에 남기러 가기</a>'
+      +'<a class="go dark" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="'+esc(window.NORI_ROOM||'https://uriyagi.kr/')+'" target="_blank" rel="noopener">이야기방에 남기러 가기</a>'
       +'<button class="go light" type="button" data-c="left">이야기방에 남겼어요</button>'; }
     var staff = rec.status!=='given' ? '<div class="row2"><label>직원 번호<input id="gP" inputmode="numeric" maxlength="6" placeholder="직원만"></label><label>&nbsp;<button class="go dark" type="button" data-c="staff" style="min-height:46px">'+(rec.status==='ready'?'전달 완료':'확인하고 전달')+'</button></label></div>' : '';
     open('<button class="x" type="button" data-c="x">닫기 ✕</button>'
@@ -324,7 +328,7 @@ window.GIFT=(function(){
   document.addEventListener('click',function(){ menu.classList.remove('on'); });
   menu.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; menu.classList.remove('on'); var mm=b.getAttribute('data-m'); if(mm==='mine'){ myBox(); } else if(mm==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요'); } } else if(mm==='share'){ var f=document.getElementById('fShare'); if(f){ f.click(); } } else { adminLogin(); } });
   marquee(); shopText();
-  run('info',[],function(x){ if(!x) return; if(x.unknown&&C){ C=''; window.NORI_C=''; try{ localStorage.removeItem('nori-c'); }catch(e){} window.NORI_URL=String(window.NORI_URL||'').replace(/[?#].*$/,''); return; } if(!window.NORI_URL){ window.NORI_URL=x.url||''; } if(x.plan){ SET.plan=x.plan; } if(x.stop){ STOP=true; } if(x.set){ if(x.set.prizes){ var xp=x.set.prizes; SET.prizes={p1:xp.p1||DEF.prizes.p1,p0:xp.p0||DEF.prizes.p0,sp:xp.sp||''}; } if(x.set.cond){ SET.cond=x.set.cond; } if(x.set.shop){ save('nori-shop',x.set.shop); } marquee(); shopText(); } },function(){});
+  run('info',[],function(x){ if(!x) return; if(x.unknown&&C){ C=''; window.NORI_C=''; try{ localStorage.removeItem('nori-c'); }catch(e){} window.NORI_URL=String(window.NORI_URL||'').replace(/[?#].*$/,''); return; } if(!window.NORI_URL){ window.NORI_URL=x.url||''; } if(x.plan){ SET.plan=x.plan; } if(x.stop){ STOP=true; } if(x.set){ if(x.set.prizes){ var xp=x.set.prizes; SET.prizes={p1:xp.p1||DEF.prizes.p1,p0:xp.p0||DEF.prizes.p0,sp:xp.sp||''}; } if(x.set.cond){ SET.cond=x.set.cond; } if(x.set.shop){ save('nori-shop',x.set.shop); } if(x.set.room&&/^https:\/\/uriyagi\.kr\//.test(x.set.room)){ window.NORI_ROOM=x.set.room; roomFix(); } marquee(); shopText(); } },function(){});
   /* 공유 주소(?from=share)로 들어온 첫 화면 — 이 창(세션)에서 한 번만 */
   try{ if(/[?&]from=share(&|$)/.test(location.search)&&!sessionStorage.getItem('nori-opened')){ sessionStorage.setItem('nori-opened','1'); setTimeout(function(){ ev('open'); },1200); } }catch(e){}
   return {claim:claim, myBox:myBox, result:result, ev:ev};
