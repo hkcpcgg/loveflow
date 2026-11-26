@@ -64,6 +64,7 @@ def restructure(scr):
       + '<script>/* 261123 대표 지적: 손 그림 칸이 한데 몰림 → 열 때마다 칸 섞기 · 닮은 그림 칸끼리 옆·위아래로 붙지 않게 · 「준비 중」은 맨 끝 */(function(){var L={rp:\'h\',hj:\'h\',mj:\'h\',br:\'h\',aw:\'h\',dt:\'t\',bw:\'t\',bn:\'t\',om:\'s\',ak:\'s\',tk:\'d\',rd:\'d\',ru:\'u\',gm:\'u\',gr:\'u\',gl:\'u\'},C=3;function lk(b){return L[b.getAttribute(\'data-go\')]||b.getAttribute(\'data-go\')||\'x\';}function ok(a){for(var i=0;i<a.length;i++){var k=lk(a[i]);if(i%C<C-1&&i+1<a.length&&lk(a[i+1])===k)return false;if(i+C<a.length&&lk(a[i+C])===k)return false;}return true;}function mix(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t;}return a;}var gs=document.querySelectorAll(\'.grp .games\');for(var g=0;g<gs.length;g++){var box=gs[g],all=[].slice.call(box.children),on=[],off=[];for(var i=0;i<all.length;i++){(all[i].classList.contains(\'soon\')?off:on).push(all[i]);}var a=on.slice();for(var n=0;n<3000;n++){mix(a);if(ok(a))break;}if(!ok(a))a=on;a=a.concat(off);for(var i=0;i<a.length;i++)box.appendChild(a[i]);}})();</script>'
       + '@@ROOM@@'
       + '<div class="fam-h">함께하는 곳</div>@@FAM@@'
+      + '<p class="fuse"><a href="https://www.loveflow.ai.kr/use/#p" target="_blank" rel="noopener">사랑흐름 서비스 이용 ›</a></p>'  # 261126 사랑흐름 총괄 47번 · 놀이 22번 v1.1
       + '<p class="own"><button type="button" data-own="admin">사장님 관리자 창</button><span>·</span><button type="button" data-own="home">홈 화면에 추가</button></p>'
       + '</div><div id="lfFoot" data-refund="0"></div>'
       + '<nav class="fbar" aria-label="아래 막대"><div>'
@@ -186,6 +187,8 @@ html,body,.app,.body{background:#FFFCF7!important}
 .grp h2{color:#2E3A46!important}.grp h2 small{color:#4A525C!important}.g b{color:#2E3A46!important}
 .fbar{background:#1E4A76!important}.fbar button{color:#fff!important}.fbar button svg{stroke:#C9A96E!important}.fbar .home{background:#C9A96E!important;color:#1E4A76!important}.fbar .home svg{stroke:#1E4A76!important}
 .fam a,.own button{min-height:48px!important;display:inline-flex!important;align-items:center;justify-content:center}
+/* 261126 사랑흐름 서비스 이용 입구 한 줄 (총괄 47번) — 글자 링크 · 누르는 곳 48 · 교육용에서는 감춤 */
+.fuse{margin:6px 0 0;text-align:center}.fuse a{display:inline-flex;align-items:center;min-height:48px;padding:0 10px;font-size:13.5px;font-weight:800;color:#1E4A76;text-decoration:none}.edu .fuse{display:none!important}
 /* 교육용 주소 /nori/?edu=1 (사랑흐름-총괄-019 · 놀이-총괄-007 · 대표 261125 15:43 진행): 선물 띠 · 선물 문구 · 내 선물함 감춤(아래 띠 가운데 맞춤은 그대로) · 판 기록 안 남김 */
 .eduN{display:none}.edu .eduN{display:block;margin:12px 0 4px;text-align:center;font-size:15px;font-weight:700;color:#2E3A46}.edu .mq,.edu .lure{display:none!important}.edu #fGift{visibility:hidden}
 /* 흐르는 「푸짐한 선물」 띠: 띠는 그대로 · 색만 v0.2 (대표 결정 261125 14:47 · 사랑흐름-놀이-004) */

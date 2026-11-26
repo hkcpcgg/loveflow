@@ -189,7 +189,9 @@ window.GIFT=(function(){
         +'<div class="sum">손님이 이 QR 로 들어오면 <b>'+esc(sp.s||'다복')+'</b> 놀이 · 선물 · 기록으로 이어져요.<br><span style="font-size:12.5px;word-break:break-all;color:#6B5A30">'+esc(qrURL())+'</span></div>'
         +'<img id="qrP" alt="우리 가게 QR 포스터" style="display:block;width:100%;max-width:300px;margin:0 auto;border-radius:12px">'
         +'<div class="row2"><button class="go dark" type="button" data-c="qrs">QR 사진 저장</button><button class="go light" type="button" data-c="qru">주소 복사</button></div>'
-        +'<p class="note" style="margin:0">저장이 안 되면 그림을 길게 눌러 저장하세요. 인쇄는 A4 한 장에 크게 뽑으면 돼요.</p>';
+        +'<p class="note" style="margin:0">저장이 안 되면 그림을 길게 눌러 저장하세요. 인쇄는 A4 한 장에 크게 뽑으면 돼요.</p>'
+        /* 261126 사랑흐름 서비스 이용 입구 (총괄 47번 · 놀이 22번 v1.1) — 「매장」 칸 맨 아래 한 줄 · 개인 사업자 칸 */
+        +'<p class="fuse" style="margin:14px 0 0;text-align:center"><a href="https://www.loveflow.ai.kr/use/#b" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;min-height:48px;padding:0 10px;font-size:14px;font-weight:800;color:#1E4A76;text-decoration:none">우리 가게를 더 알리려면 · 사랑흐름 서비스 이용 ›</a></p>';
     }
     if(tab==='shops'&&MASTER){
       body='<div class="sum">가게 <b>'+MASTER.rows.length+'곳</b> · 가게 명단은 파일 하나로 올려요. 먼저 내려받아 빈칸을 채우고 새 줄을 더해 다시 올리세요.</div>'
