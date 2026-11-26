@@ -60,6 +60,8 @@
     + ".lfft-fam a.here{background:#F8F3EA}.lfft-fam a.here .lfam-g,.lfft-fam a.soon .lfam-g{font-size:10.5px;font-weight:700;background:#ECE3D4;color:#7d6f60;border-radius:999px;padding:2px 8px}"
     + ".lfft-fam a.soon{opacity:.55;pointer-events:none}";
   /* ★v12 패밀리 사이트 — 이 목록 하나만 고치면 모든 화면이 같이 바뀜 */
+  /* ★v15 · 261126 · [대표 261126 17:53 「위에도 걸려 있고 밑에도 걸려 있으니 고쳐」] 사랑흐름 메인(/)에서는 패밀리 사이트 단추와 목록을 뺌. 메인 위 「사랑흐름 서비스」 · 「사랑흐름 즐기기」에 다 있음. 다른 화면은 그대로. */
+  var MAINPG = false; try { MAINPG = /(^|\.)loveflow\.ai\.kr$|^localhost$/.test(location.hostname) && /^\/(index\.html)?$/.test(location.pathname); } catch (e) {}
   var FAM = [
     { k: 'lf',   ic: '❤️', bg: '#FDEBEC', nm: '사랑흐름',          ds: '자서전 · 편지 · 여행지도',        u: 'https://www.loveflow.ai.kr/' },
     { k: 'uri',  ic: '🍇', bg: '#F0EAF8', nm: '우리 이야기',        ds: '모임 · 가게 · 마을의 사진과 기억', u: 'https://uriyagi.kr/' },
@@ -96,9 +98,9 @@
     +     '<a class="pv" href="' + O + '/trust.html#privacy">개인정보처리방침</a>'
     +     '<a href="' + O + '/trust.html#refund">환불정책</a>'
     +     '<a href="' + KAKAO + '" target="_blank" rel="noopener">문의</a>'
-    +   '<button type="button" class="fam">패밀리 사이트 ▾</button>'   /* ★v13 어느 주소에서나 */
+    +   (MAINPG ? '' : '<button type="button" class="fam">패밀리 사이트 ▾</button>')   /* ★v15 메인은 위에 다 있으니 뺌 */
     +   '</div>'
-    +   '<div class="lfft-fam">' + famHtml() + '</div>'
+    +   (MAINPG ? '' : '<div class="lfft-fam">' + famHtml() + '</div>')
     +   '<div class="lfft-biz"><span>' + BIZ_ITEMS.join('</span> &middot; <span>') + '</span></div>'
     +   '<div class="lfft-c">&copy; 2026 사랑흐름 &middot; LFRI&trade; &middot; 무단 복제 &middot; 상업적 이용 금지 &middot; Unauthorized use prohibited.</div>'
     + '</div>';
