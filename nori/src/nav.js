@@ -234,17 +234,20 @@ window.noriNav=function(o){
   function fname(){ return 'geuttae-nori-'+(R&&R.card||Date.now())+'.png'; }
   function dl(b){ var u=URL.createObjectURL(b), a=document.createElement('a'); a.href=u; a.download=fname(); document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(u); a.remove(); },4000); }
   function toast2(m){ try{ (window.NA&&NA.toast)?NA.toast(m):alert(m); }catch(e2){} }
-  function stxt(){ return shop()+'에서 그때 그 놀이 한 판! '+(R&&R.gname?R.gname+' ':'')+(R?resText(R):'')+' · 나도 해 보기 '+HOME; }
+  /* 261126 · 서버 v7 퍼짐 셈: 누름을 판 기록에 한 줄 (gift.js noriEv) · 공유 주소에 ?from=share (가게 번호 ?c 는 그대로) */
+  function ev(k){ try{ var f=window.noriEv||(window.parent&&window.parent!==window&&window.parent.noriEv); if(f) f(k); }catch(e){} }
+  function shareURL(){ var u=HOME; try{ u=(window.parent&&window.parent.NORI_URL)||window.NORI_URL||HOME; }catch(e){ u=window.NORI_URL||HOME; } if(!/^https:\/\/www\.loveflow\.ai\.kr\/nori\//.test(u)){ u=HOME; } u=u.replace(/#.*$/,'').replace(/([?&])from=[^&]*&?/,'$1').replace(/[?&]$/,''); return u+(u.indexOf('?')<0?'?':'&')+'from=share'; }
+  function stxt(){ return shop()+'에서 그때 그 놀이 한 판! '+(R&&R.gname?R.gname+' ':'')+(R?resText(R):'')+' · 나도 해 보기 '+shareURL(); }
   /* 카드 저장: 카드 그림을 이 폰에 저장만 함 */
-  function save(){ draw(function(b){ dl(b); toast2('결과 사진을 폰에 저장했어요'); }); }
+  function save(){ ev('save'); draw(function(b){ dl(b); toast2('결과 사진을 폰에 저장했어요'); }); }
   /* 공유하기: 휴대폰 공유 창(그림을 함께 보낼 수 있으면 그림까지) · 공유 창이 없으면 링크 복사 */
-  function share(){ var txt=stxt();
+  function share(){ ev('share'); var txt=stxt();
     draw(function(b){ var f=null; try{ f=new File([b],fname(),{type:'image/png'}); }catch(e){}
       if(f&&navigator.canShare&&navigator.canShare({files:[f],text:txt})){ navigator.share({files:[f],title:'그때 그 놀이 결과 사진',text:txt}).catch(function(){}); return; }
-      if(navigator.share){ navigator.share({title:'그때 그 놀이',text:txt,url:HOME}).catch(function(){}); return; }
+      if(navigator.share){ navigator.share({title:'그때 그 놀이',text:txt,url:shareURL()}).catch(function(){}); return; }
       if(navigator.clipboard){ navigator.clipboard.writeText(txt).then(function(){ toast2('링크를 복사했어요<br>카톡에 붙여 넣어 보내 주세요'); },function(){ toast2('링크를 복사하지 못했어요'); }); }
       else { toast2('링크를 복사하지 못했어요'); } }); }
-  function story(){ var r=R, ttl=('그때 그 놀이 · '+(r.gname||'')+(r.sc&&r.sc[1]!=null?' '+r.sc[0]+':'+r.sc[1]:'')+' '+resText(r)).slice(0,60);
+  function story(){ ev('story'); var r=R, ttl=('그때 그 놀이 · '+(r.gname||'')+(r.sc&&r.sc[1]!=null?' '+r.sc[0]+':'+r.sc[1]:'')+' '+resText(r)).slice(0,60);
     var w=null; try{ w=window.open('about:blank','_blank'); }catch(e){}
     draw(function(b,m){ dl(b); var t=((m?m+' — ':'')+shop()+' · '+when(r.t)+' · 확인 번호 '+(r.card||'')).slice(0,3000);
       var u=STORY+'&w='+encodeURIComponent('사진')+'&tt='+encodeURIComponent(ttl)+'&t='+encodeURIComponent(t);

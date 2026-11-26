@@ -6,14 +6,27 @@ window.GIFT=(function(){
   function load(k,d){ try{ var v=JSON.parse(localStorage.getItem(k)||'null'); return v==null?d:v; }catch(e){ return d; } }
   function save(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} if(k==='nori-recs'||k==='nori-mine'){ push(); } }
   /* ── 구글 시트 연결 (웹 앱일 때만) ── */
-  var GSR=!!(window.google&&google.script&&google.script.run), API=window.NORI_API||'', CL=GSR||!!API, sent={}, apin='';
+  var GSR=!!(window.google&&google.script&&google.script.run), API=window.NORI_API||'', CL=GSR||!!API, sent={}, apin='', STOP=false;
+  /* 261126 · 서버 v7 · 들어온 길 (?from 공용 이름 — 사랑흐름-총괄-047) · 없으면 ?c → qr · ?edu → edu · 아니면 direct. 한 번 들어온 뒤로는 이 창(세션) 동안 그대로 */
+  var FROM=(function(){ var q=location.search, m=/[?&]from=([a-z]+)/.exec(q), v=m?m[1]:'';
+    if(['lf','memoir','uri','nori','collab','card','share','use'].indexOf(v)<0){ v=''; }
+    try{ var k=sessionStorage.getItem('nori-from'); if(!v&&k){ v=k; } }catch(e){}
+    if(!v){ v=/[?&]c=\d/.test(q)?'qr':(/[?&]edu=1/.test(q)?'edu':'direct'); }
+    try{ sessionStorage.setItem('nori-from',v); }catch(e){} return v; })();
+  window.NORI_FROM=FROM;
   /* 가게 번호 (261125 · 서버 v4): /nori/?c=101 로 들어오면 그 가게 설정 · 기록 · 번호로 놂. 한 번 들어온 폰은 번호를 기억 · 공유 주소에도 붙음 */
   var C=(function(){ var m=/[?&]c=(\d{3,4})(?:&|$)/.exec(location.search), v=m?m[1]:''; try{ if(v){ localStorage.setItem('nori-c',v); } else { v=localStorage.getItem('nori-c')||''; } }catch(e){} return v; })();
   window.NORI_C=C; if(C&&window.NORI_URL){ window.NORI_URL=String(window.NORI_URL).replace(/[?#].*$/,'')+'?c='+C; }
   function run(fn,args,ok,bad){ if(!CL) return; bad=bad||function(){ toast('서버 연결이 잠깐 안 돼요. 다시 눌러 주세요'); };
     if(GSR){ var r=google.script.run.withSuccessHandler(ok||function(){}).withFailureHandler(bad); r[fn].apply(r,args||[]); return; }
     /* /nori/ 손님 화면 → Apps Script(뒤) — 사랑흐름-총괄-002 결정 ② */
-    fetch(API,{method:'POST',body:JSON.stringify({fn:fn,args:args||[],c:C})}).then(function(x){ return x.json(); }).then(function(j){ if(!j||!j.ok) throw 0; ok&&ok(j.res); }).catch(function(){ bad(); }); }
+    if(STOP&&(fn==='put'||fn==='play')) return;
+    var ac=null; try{ ac=new AbortController(); setTimeout(function(){ try{ ac.abort(); }catch(e){} },9000); }catch(e){}
+    fetch(API,{method:'POST',body:JSON.stringify({fn:fn,args:args||[],c:C}),signal:ac?ac.signal:undefined}).then(function(x){ return x.json(); }).then(function(j){
+      /* v7 서버: stop = 잘라내기 스위치 · full = 오늘 한도 — 다시 보내지 않음 */
+      if(j&&j.err==='stop'){ STOP=true; if(fn==='put') toast('선물은 잠시 쉬어요 · 놀이는 그대로 즐기세요'); return; }
+      if(j&&j.err==='full'){ if(fn==='put') toast('오늘 준비한 선물이 다 나갔어요'); return; }
+      if(!j||!j.ok) throw 0; ok&&ok(j.res); }).catch(function(){ bad(); }); }
   function push(){ if(!CL) return; REC.forEach(function(r){ if(!apin && mine.indexOf(r.id)<0) return; var j=JSON.stringify(r); if(sent[r.id]!==j){ sent[r.id]=j; run('put',[r]); } }); }
   /* plan: 무료 · 유료를 가를 칸 (총괄-009 지시 5, 261123) — 지금은 모두 'free'. 결제하면 'paid' 로 켜짐 */
   var DEF={prizes:{p1:'음료 한 잔',p0:'사탕 하나',sp:''}, cond:'a', staffPin:'1234', adminPin:'0000', plan:'free'};
@@ -88,12 +101,24 @@ window.GIFT=(function(){
   /* 판 기록 (049 · 승률 보기용): 이기든 지든 모든 판을 짧게 남김 — 놀이 · 이김/짐 · 상대 · 매장 · 기기 · 시각 (이름 · 사진 없음).
      선물 장부와 따로(025 원칙). 대표 승인 261123 21:40 → 손님 화면에서는 서버 'play' 로도 보냄(서버에 play 가 없으면 조용히 넘어감 · 끄려면 window.NORI_PLAYLOG=0). 시험판(lab)은 서버 주소가 비어 안 보냄 */
   function playLog(r){ if(window.NORI_EDU) return; /* 교육용 주소: 판 기록 안 남김 */ try{ var dev=load('nori-dev',''); if(!dev){ dev='d'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); save('nori-dev',dev); }
-    var p={v:'nori3.0',t:Date.now(),g:r.game||'',o:r.out||'',vs:r.lv||'two',sc:(r.sc||[]).join(':'),shop:(load('nori-shop',{}).s||''),dev:dev,lv:(window.BOSS&&BOSS.cur)?Math.round(BOSS.cur*100)/100:''};
+    var vi=visit(), p={v:'nori3.9',t:Date.now(),g:r.game||'',o:r.out||'',vs:r.lv||'two',sc:(r.sc||[]).join(':'),shop:(load('nori-shop',{}).s||''),dev:dev,lv:(window.BOSS&&BOSS.cur)?Math.round(BOSS.cur*100)/100:'',from:FROM,nw:vi.nw,gap:vi.gap};
     var L=load('nori-plays',[]); L.push(p); if(L.length>300) L=L.slice(-300); save('nori-plays',L);
     if(window.NORI_PLAYLOG!==0&&CL){ run('play',[p],function(){},function(){}); } }catch(e){} }
 
+  /* 처음 / 다시 (261126 · 서버 v7): 이 폰 안에 첫 판 날 · 마지막 날만 둠 — 오늘이 첫 날이면 first, 아니면 again + 지난번에서 며칠 만 */
+  function visit(){ var d=new Date(Date.now()+9*3600e3).toISOString().slice(0,10), V=load('nori-visit',null);
+    if(!V||!V.f){ V={f:d,l:d,p:''}; } else if(V.l!==d){ V.p=V.l; V.l=d; }
+    try{ localStorage.setItem('nori-visit',JSON.stringify(V)); }catch(e){}
+    if(V.f===d) return {nw:'first',gap:''};
+    return {nw:'again',gap:V.p?Math.max(0,Math.round((Date.parse(d)-Date.parse(V.p))/864e5)):''}; }
+  /* 퍼짐 셈 (261126 · 서버 v7): 공유하기 · 결과 사진 저장 · 이야기방 올리기 누름 · 공유 주소 첫 화면 → 판 기록 탭에 「종류」 한 줄 (이름 · 사진 없음) */
+  function ev(kind){ if(window.NORI_EDU||STOP||!CL||window.NORI_PLAYLOG===0) return; try{ var dev=load('nori-dev',''); if(!dev){ dev='d'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); save('nori-dev',dev); }
+    run('play',[{v:'nori3.9',t:Date.now(),ev:kind,dev:dev,shop:(load('nori-shop',{}).s||''),from:FROM}],function(){},function(){}); }catch(e){} }
+  window.noriEv=ev;
+
   /* ── 선물 받기: 이름 · 자리 적고 쿠폰 받기 ── */
   function claim(){
+    if(STOP){ open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>선물은 잠시 쉬어요</h3><div class="sum">지금은 선물 받기를 잠시 쉬고 있어요. 놀이는 그대로 즐기세요!</div>'); gs.querySelector('[data-c=x]').addEventListener('click',close); return; }
     if(!last){ myBox(); return; }
     if(last.claimed){ coupon(last.rec); return; }
     var t=tierOf(last), nm=load('nori-name','');
@@ -299,6 +324,8 @@ window.GIFT=(function(){
   document.addEventListener('click',function(){ menu.classList.remove('on'); });
   menu.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; menu.classList.remove('on'); var mm=b.getAttribute('data-m'); if(mm==='mine'){ myBox(); } else if(mm==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요'); } } else if(mm==='share'){ var f=document.getElementById('fShare'); if(f){ f.click(); } } else { adminLogin(); } });
   marquee(); shopText();
-  run('info',[],function(x){ if(!x) return; if(x.unknown&&C){ C=''; window.NORI_C=''; try{ localStorage.removeItem('nori-c'); }catch(e){} window.NORI_URL=String(window.NORI_URL||'').replace(/[?#].*$/,''); return; } if(!window.NORI_URL){ window.NORI_URL=x.url||''; } if(x.set){ if(x.set.prizes){ var xp=x.set.prizes; SET.prizes={p1:xp.p1||DEF.prizes.p1,p0:xp.p0||DEF.prizes.p0,sp:xp.sp||''}; } if(x.set.cond){ SET.cond=x.set.cond; } if(x.set.shop){ save('nori-shop',x.set.shop); } marquee(); shopText(); } },function(){});
-  return {claim:claim, myBox:myBox, result:result};
+  run('info',[],function(x){ if(!x) return; if(x.unknown&&C){ C=''; window.NORI_C=''; try{ localStorage.removeItem('nori-c'); }catch(e){} window.NORI_URL=String(window.NORI_URL||'').replace(/[?#].*$/,''); return; } if(!window.NORI_URL){ window.NORI_URL=x.url||''; } if(x.plan){ SET.plan=x.plan; } if(x.stop){ STOP=true; } if(x.set){ if(x.set.prizes){ var xp=x.set.prizes; SET.prizes={p1:xp.p1||DEF.prizes.p1,p0:xp.p0||DEF.prizes.p0,sp:xp.sp||''}; } if(x.set.cond){ SET.cond=x.set.cond; } if(x.set.shop){ save('nori-shop',x.set.shop); } marquee(); shopText(); } },function(){});
+  /* 공유 주소(?from=share)로 들어온 첫 화면 — 이 창(세션)에서 한 번만 */
+  try{ if(/[?&]from=share(&|$)/.test(location.search)&&!sessionStorage.getItem('nori-opened')){ sessionStorage.setItem('nori-opened','1'); setTimeout(function(){ ev('open'); },1200); } }catch(e){}
+  return {claim:claim, myBox:myBox, result:result, ev:ev};
 })();
