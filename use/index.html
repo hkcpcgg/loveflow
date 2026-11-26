@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>사랑흐름 서비스 이용</title>
+<!-- ★ 현재 버전 ▶ use/index.html · v1 · 261126 · [대표 OK 261126 16:47 「이대로 진행」] 사랑흐름 서비스 이용 첫 화면(시안 v12 그대로 · 시안 표시 · 시안 메모 걷음 · 위 띠 · ☰ · 뒤로 홈 앞으로 · 푸터는 사이트 공용 frame.js · lf-foot.js) · 대상 셋(단체 · 기관 / 개인 사업자 / 개인) · 서비스마다 이용 안내 · 무료 · 유료 · 주문제작 구분표 · 주문제작 신청서(카카오 채널 상담으로 보내기) · 패밀리 사이트 · 주소 끝 #o #b #p · #b-name 처럼 대상 · 서비스를 펼친 채 엶 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#1E4A76;--navy2:#163A5C;--gold:#C9A96E;--gold2:#C0872E;--cream:#FFFCF7;--sand:#F4EEE4;--ink:#2E3A46;--sub:#7d7465;--line:#EADFCF}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--cream);font-family:'Noto Sans KR',sans-serif;color:var(--ink);word-break:keep-all;overflow-wrap:anywhere}
+.wrap{max-width:480px;margin:0 auto}
+.phone{width:100%;background:var(--cream);padding-bottom:8px}
+.banner{background:#FFF4D6;color:#7A5A12;font-size:12.5px;text-align:center;padding:6px 10px;font-weight:700}
+/* 위 띠 (A. 상단과 이동) */
+.bar{background:#fff;border-bottom:1px solid var(--line)}
+.r1{display:flex;align-items:center;justify-content:space-between;padding:10px 14px 6px}
+.r1 .ic{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--navy);font-size:19px;border:1px solid var(--line);background:#fff;cursor:pointer}
+.r1 .logo{font-family:'Noto Serif KR',serif;font-weight:700;font-size:19px;color:var(--navy)}
+.r2{display:flex;align-items:center;justify-content:space-between;padding:2px 14px 6px}
+.r2 button{border:0;background:none;font:inherit;font-size:13.5px;font-weight:700;color:var(--navy);cursor:pointer;padding:4px 2px}
+.r2 button:disabled{color:#C9C1B4;cursor:default}
+.r2 b{font-size:15px;color:var(--navy)}
+.r3{padding:8px 14px 8px;font-size:12px;color:var(--sub)}
+.r3 em{font-style:normal;color:var(--gold2);font-weight:800}
+/* ① 정체성 */
+.cover{position:relative;height:440px;background:#2a3340 center/cover no-repeat;display:flex;align-items:flex-end;color:#fff;transition:background-image .6s}
+.cover:before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(10,20,35,0) 35%,rgba(10,20,35,.75) 100%)}
+.cover .in{position:relative;padding:0 22px 24px}
+.cover .no{font-size:12px;font-weight:800;opacity:.85}
+.cover h1{margin:8px 0 0;font-family:'Noto Serif KR',serif;font-size:26px;line-height:1.4;text-shadow:0 2px 10px rgba(0,0,0,.35)}
+.cover p{margin:10px 0 0;font-size:15px;line-height:1.65}
+/* 묶음 제목 */
+.blk{padding:26px 16px 4px}
+.blk .no{font-size:12px;font-weight:800;color:var(--gold2)}
+.blk h2{margin:4px 0 0;font-family:'Noto Serif KR',serif;font-size:20px;color:var(--navy);line-height:1.4}
+.blk p.s{margin:6px 0 0;font-size:14px;color:var(--sub);line-height:1.6}
+/* ② 큰 체험 창 */
+.win{margin:12px 16px 0;background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden}
+.win .scr{position:relative;height:360px;background:#eee center/cover no-repeat}
+.win .scr .cap{position:absolute;left:0;right:0;bottom:0;padding:30px 16px 14px;background:linear-gradient(transparent,rgba(15,25,40,.8));color:#fff}
+.win .scr .cap b{display:block;font-size:17px}.win .scr .cap small{font-size:13px;opacity:.9}
+.win .art{position:absolute;inset:0;display:grid;place-items:center}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:10px 12px}
+.chips::-webkit-scrollbar{display:none}
+.chips button{border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:8px 2px;font:inherit;font-size:12.5px;font-weight:700;color:var(--navy);cursor:pointer;white-space:nowrap}
+.chips button.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.win .open{display:block;margin:0 12px 12px;text-align:center;text-decoration:none;font-weight:800;font-size:14.5px;color:var(--navy);border:1.5px solid var(--navy);border-radius:12px;padding:10px}
+/* ③ 무엇을 해 주는지 */
+.three3{display:grid;gap:9px;margin:12px 16px 0}
+.three3 div{display:flex;gap:12px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:16px;padding:13px}
+.three3 span{flex:0 0 42px;height:42px;border-radius:14px;display:grid;place-items:center;font-size:21px}
+.three3 b{display:block;font-size:15.5px;color:var(--navy)}.three3 small{display:block;font-size:13px;color:var(--sub);line-height:1.5}
+/* ④ 대상 선택 */
+.who3{display:grid;gap:9px;margin:12px 16px 0}
+.who{display:flex;gap:12px;align-items:center;text-align:left;border:1.5px solid var(--line);background:#fff;border-radius:18px;padding:14px;font:inherit;color:var(--ink);cursor:pointer}
+.who svg{flex:0 0 40px;width:40px;height:40px;fill:none;stroke:var(--navy);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.who b{display:block;font-size:16.5px;color:var(--navy)}.who small{display:block;font-size:13px;color:var(--sub);line-height:1.5}
+.who:after{content:"";margin-left:auto;flex:0 0 8px;height:8px;border-right:2px solid var(--sub);border-bottom:2px solid var(--sub);transform:rotate(45deg)}
+.who.on{border-color:var(--navy);box-shadow:0 4px 14px rgba(30,74,118,.15)}
+.who.on:after{transform:rotate(-135deg)}
+.fold{display:none;margin:0 0 4px;padding:6px 0 2px}
+.fold.on{display:block;animation:pop .35s ease both}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* 단계 */
+.stage{position:relative;margin:14px 0 0 0;padding-left:30px}
+.stage:before{content:"";position:absolute;left:12px;top:30px;bottom:-14px;width:2px;background:#E6D8C3}
+.stage:last-child:before{display:none}
+.stage .num{position:absolute;left:0;top:0;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center}
+.stage h3{margin:2px 0 2px;font-size:16px;color:var(--navy)}
+.stage .lead{font-size:13.5px;color:var(--sub);margin:0 0 8px}
+/* 서비스 */
+.svc{background:#fff;border:1px solid var(--line);border-radius:16px;margin:0 0 10px;overflow:hidden}
+.svc .hd{display:flex;gap:12px;padding:12px}
+.svc .pv{flex:0 0 72px;height:72px;border-radius:12px;background:#eee center/cover no-repeat;display:grid;place-items:center;font-size:30px}
+.svc .hd b{display:block;font-size:16px;color:var(--navy)}
+.svc .hd p{margin:3px 0 0;font-size:13.5px;line-height:1.55}
+.tag{display:inline-block;font-size:11px;font-weight:800;border-radius:20px;padding:2px 7px;margin-left:5px;vertical-align:2px}
+.t-free{background:#E7F4EE;color:#1D7A5C}.t-paid{background:#FBF1E6;color:var(--gold2)}.t-make{background:#EEF2F8;color:var(--navy)}
+.guide{margin:0 12px;border-top:1px solid #F1E9DC}
+.guide summary{list-style:none;cursor:pointer;font-size:13.5px;font-weight:800;color:var(--navy);padding:10px 2px;display:flex}
+.guide summary::-webkit-details-marker{display:none}
+.guide summary:after{content:"";margin-left:auto;width:7px;height:7px;border-right:2px solid var(--sub);border-bottom:2px solid var(--sub);transform:rotate(45deg);margin-top:4px}
+.guide[open] summary:after{transform:rotate(-135deg)}
+.guide dl{margin:0 0 10px;font-size:13.5px;line-height:1.6}
+.guide dt{font-weight:800;color:var(--gold2);margin-top:6px}
+.guide dd{margin:0}
+.act{display:flex;gap:8px;padding:10px 12px 12px}
+.act a{flex:1;text-align:center;text-decoration:none;font-weight:800;font-size:15px;border-radius:12px;padding:11px 6px}
+.a1{background:var(--navy);color:#fff}
+.a2{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+.mk{display:block;width:calc(100% - 24px);border:0;font-family:inherit;cursor:pointer;margin:0 12px 12px;text-align:center;text-decoration:none;background:linear-gradient(135deg,#C0872E,#C9A96E);color:#fff;font-weight:800;font-size:16px;border-radius:14px;padding:12px 8px;box-shadow:0 4px 12px rgba(192,135,46,.3)}
+.mk small{display:block;font-size:12px;font-weight:500;opacity:.95;margin-top:2px}
+.cmp{margin:12px 16px 0;background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.cmp table{width:100%;border-collapse:collapse;font-size:13px}
+.cmp th:first-child{text-align:left;padding-left:12px}
+.cmp th{background:var(--navy);color:#fff;font-weight:800;padding:9px 4px;font-size:12.5px}
+.cmp th:nth-child(4){background:var(--gold2)}
+.cmp td{border-top:1px solid #F1E9DC;padding:9px 6px;text-align:center;color:#1D7A5C;font-weight:800;width:17%}
+.cmp td:first-child{text-align:left;color:var(--ink);font-weight:500;width:49%;padding-left:12px}
+.cmp td:nth-child(3){color:var(--navy)}.cmp td:nth-child(4){color:var(--gold2);background:#FFFAF1}
+.cmpn{margin:0;padding:10px 12px;font-size:12.5px;color:var(--sub);border-top:1px solid #F1E9DC}
+.cmp2{margin:12px 16px 0}
+.cmp2 .pr{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 13px;margin-bottom:8px}
+.cmp2 b{display:block;font-size:15.5px;color:var(--navy);margin-bottom:4px}
+.cmp2 p{margin:5px 0 0;font-size:13.5px;line-height:1.55;display:flex;gap:8px;align-items:flex-start}
+.cmp2 i{flex:0 0 58px;font-style:normal;font-size:11.5px;font-weight:800;text-align:center;border-radius:20px;padding:2px 0;margin-top:1px}
+.cmp2 .f{background:#E7F4EE;color:#1D7A5C}.cmp2 .p{background:#EEF2F8;color:var(--navy)}.cmp2 .m{background:#FBF1E6;color:var(--gold2)}
+.cmp td{font-size:12px;font-weight:700}
+.mkbox{margin:12px 16px 0;background:#FFFAF1;border:1.5px solid #E6C17A;border-radius:16px;padding:14px 14px 2px;text-align:center}
+.mkbox b{font-size:16px;color:var(--gold2)}.mkbox p{margin:6px 0 12px;font-size:13.5px;line-height:1.6}
+.mkbox .mk{margin:0 0 12px}
+.free1{margin:12px 16px 0;background:#E7F4EE;border:1px solid #CDE8DA;border-radius:16px;padding:16px;text-align:center}
+.free1 b{font-size:15.5px;color:#1D7A5C}.free1 p{margin:6px 0 0;font-size:14px}
+.ctab{display:flex;gap:6px;margin:12px 16px 0}.ctab button{flex:1;border:1.5px solid var(--line);background:#fff;border-radius:12px;padding:8px 2px;font:inherit;font-size:13px;font-weight:800;color:var(--navy);cursor:pointer}.ctab button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.mkbox ul{list-style:none;margin:0 0 12px;padding:0;font-size:13.5px;line-height:1.8}
+.sol{display:flex;gap:8px;margin:12px 16px 0}
+.sol select{flex:1;min-width:0;font:inherit;font-size:14.5px;padding:11px 10px;border:1.5px solid var(--line);border-radius:12px;background:#fff;color:var(--ink)}
+.sol a{flex:0 0 auto;text-decoration:none;font-weight:800;font-size:14.5px;border-radius:12px;padding:11px 14px;background:var(--navy);color:#fff}
+.soon{flex:1;text-align:center;font-weight:800;font-size:15px;border-radius:12px;padding:11px 6px;background:#EEE9E1;color:#9d8f80}
+.sheet{position:fixed;inset:0;z-index:50;background:rgba(20,28,40,.45);display:none;align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.sheet .bd{width:100%;max-width:420px;background:#fff;border-radius:22px 22px 0 0;padding:18px 18px 22px;animation:pop .25s ease both}
+.sheet h3{margin:0 0 4px;font-size:18px;color:var(--navy)}.sheet .sv{font-size:14px;color:var(--gold2);font-weight:800}
+.sheet label{display:block;font-size:13.5px;font-weight:800;color:var(--navy);margin:12px 0 5px}
+.sheet input,.sheet textarea{width:100%;font:inherit;font-size:15px;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px}
+.sheet textarea{height:88px;resize:none}
+.sheet .go{display:block;width:100%;margin-top:14px;border:0;border-radius:14px;padding:13px;font:inherit;font-size:16px;font-weight:800;background:#FEE500;color:#191919;cursor:pointer}
+.sheet .cl{display:block;width:100%;margin-top:8px;border:0;background:none;font:inherit;font-size:14px;color:var(--sub);cursor:pointer}
+.sheet .msg{font-size:13px;color:#1D7A5C;margin-top:8px;text-align:center;min-height:18px}
+.next{font-size:12.5px;color:var(--sub);margin:-2px 2px 8px;padding-left:2px}
+/* ⑤ */
+.faq{margin:10px 16px 0}
+.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;margin-bottom:8px;padding:0 13px}
+.faq summary{list-style:none;cursor:pointer;font-weight:800;font-size:14.5px;color:var(--navy);padding:12px 0}
+.faq summary::-webkit-details-marker{display:none}
+.faq p{margin:0 0 12px;font-size:13.5px;line-height:1.65}
+.pend{display:inline-block;font-size:11px;font-weight:800;color:#B0413E;background:#F6E6E6;border-radius:6px;padding:1px 6px;margin-left:4px}
+.ask{display:block;margin:10px 16px 0;text-align:center;font-size:14px;color:var(--navy);text-decoration:underline;text-underline-offset:3px}
+.nav{display:flex;justify-content:center;gap:22px;padding:22px 0 14px}
+.nav span{width:46px;height:46px;border-radius:50%;border:1.5px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--navy);font-size:19px}
+.foot{background:var(--navy2);color:#C9D3DE;padding:14px 16px 16px;font-size:11px;line-height:1.6}
+.foot .m{text-align:center;font-size:12.5px;color:#fff;margin-bottom:6px}
+.foot .c{margin-top:6px;opacity:.8}
+/* 메모 */
+</style>
+</head>
+<body data-lf-title="사랑흐름 서비스 이용">
+<div class="wrap">
+
+<div class="phone" id="top">
+
+  <!-- A. 위 띠: 메뉴 · 로고 · 홈 / 뒤로 · 화면 이름 · 앞으로 / 현재 위치 · 작업 위치 -->
+  <div class="bar">
+        <div class="r3" id="where">현재 위치: 사랑흐름 / 서비스 이용</div>
+  </div>
+
+  <!-- ① 정체성 -->
+  <div class="cover" id="cover"><div class="in">
+    <h1 style="font-size:34px;margin:0">사랑흐름</h1>
+    <p style="font-size:17px;margin-top:8px">관계와 소통, 나의 이야기와 사업을 담는 공간</p>
+  </div></div>
+
+  <!-- ② 큰 서비스 체험 창 -->
+  <div class="blk"><div class="no">이렇게 쓰여요</div><h2>사랑흐름으로 만든 것들</h2><p class="s">아래 이름을 누르면 견본이 바뀌어요</p></div>
+  <div class="win">
+    <div class="scr" id="scr"><div class="art" id="art"></div><div class="cap"><b id="capB"></b><small id="capS"></small></div></div>
+    <div class="chips" id="chips"></div>
+    <a class="open" id="open" href="#" target="_blank">견본 열어 보기</a>
+  </div>
+
+  <!-- ③ 서비스가 무엇을 해 주는지 -->
+  <div class="blk"><div class="no">무료 이용 안내</div><h2>무료로 직접 이용할 수 있어요</h2></div>
+  <div class="free1"><b>디지털 명함 · 시즌 카드 · 우리 이야기방 등</b><p>직접 이용하고, 링크로 나누세요.</p></div>
+
+  <!-- ④ 이용할 서비스 선택 -->
+  <div class="blk" id="pick"><div class="no">이용할 서비스 고르기</div><h2>나에게 맞는 서비스부터 볼까요</h2><p class="s">누르시면 그 자리에서 서비스가 펼쳐져요</p></div>
+  <div class="who3">
+    <button class="who" data-k="o"><svg viewBox="0 0 24 24"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg><span><b>단체 · 기관</b><small>구성원 소개와 소통, 기록과 운영에 필요한 서비스</small></span></button>
+    <div class="fold" id="f-o"></div>
+    <button class="who" data-k="b"><svg viewBox="0 0 24 24"><path d="M3 9l2-5h14l2 5"/><path d="M3 9h18v2a3 3 0 0 1-6 0 3 3 0 0 1-6 0 3 3 0 0 1-6 0z"/><path d="M5 13v8h14v-8"/><path d="M10 21v-5h4v5"/></svg><span><b>개인 사업자</b><small>명함부터 시작해 홈페이지와 고객 소통으로 넓혀 가요</small></span></button>
+    <div class="fold" id="f-b"></div>
+    <button class="who" data-k="p"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4.2 4.5-6 8-6s6.5 1.8 8 6"/></svg><span><b>개인</b><small>나와 가족, 친구, 소중한 관계를 위한 서비스</small></span></button>
+    <div class="fold" id="f-p"></div>
+  </div>
+
+  <!-- ⑤ 자주 묻는 질문 · 문의하기 -->
+  <div class="blk" id="cmpT"><div class="no">서비스 이용 구분</div><h2>무료 · 유료 · 주문제작</h2></div>
+  <div class="ctab" id="ctab"><button data-k="o">단체 · 기관</button><button data-k="b">개인 사업자</button><button data-k="p">개인</button></div>
+  <div class="cmp"><table id="cmpTb"></table></div>
+
+  
+
+  <div class="blk"><div class="no">패밀리 사이트</div><h2>사랑흐름의 서비스와 솔루션</h2><p class="s">고르시면 그 서비스 소개로 가요</p></div>
+  <div class="sol">
+    <select id="famSel"></select>
+    <a id="famGo" class="a1" href="#" target="_blank" rel="noopener">자세히 보기</a>
+  </div>
+  <a class="ask" href="http://pf.kakao.com/_ExndxfX/chat" target="_blank" rel="noopener">문의하기</a>
+
+  <div class="sheet" id="ord"><div class="bd">
+    <h3>주문제작 신청</h3><div class="sv" id="ordSv"></div>
+    <label for="ordNm">상호 · 단체 이름</label><input id="ordNm" placeholder="예: 헤이리 작은 책방">
+    <label for="ordTx">원하시는 내용</label><textarea id="ordTx" placeholder="예: 가게 소개 · 메뉴 · 길찾기가 들어간 홈페이지"></textarea>
+    <label for="ordWh">원하시는 때</label><input id="ordWh" placeholder="예: 12월 둘째 주">
+    <button class="go" type="button" onclick="ordSend()">카카오톡 상담으로 보내기</button>
+    <div class="msg" id="ordMsg"></div>
+    <button class="cl" type="button" onclick="ordClose()">닫기</button>
+  </div></div>
+
+  <div id="lfFoot"></div>
+</div>
+
+</div>
+
+<script>
+var LF='https://www.loveflow.ai.kr',UR='https://uriyagi.kr',KK='http://pf.kakao.com/_ExndxfX/chat';
+/* ② 체험 창 */
+var WIN=[
+ ['디지털 명함','내 이름과 사업을 휴대폰 명함 한 장으로',null,'🪪',UR+'/card/new/','#F4EEE4'],
+ ['모바일 홈페이지','사업을 소개하는 작은 홈페이지',LF+'/rec/seed/dabok/d05.jpg',null,UR+'/home/C-1001/'],
+ ['시즌 카드','계절 인사를 카드 한 장에',LF+'/card/img/santa3.jpg',null,LF+'/card/sample.html'],
+ ['디지털 포스터','행사 · 할인 소식을 한 장에',null,'📣',LF+'/card/poster-sample.html','#EEF2F8'],
+ ['우리 이야기방','함께 쌓는 사진과 이야기',LF+'/promo/still/정지_3_한송이가차오르다.png',null,UR+'/?plaza=1'],
+ ['그때 그 놀이','가게에서 즐기는 옛날 놀이',null,'🪀',LF+'/nori/','#FFF1D6']
+];
+function win(i){var w=WIN[i],s=document.getElementById('scr'),a=document.getElementById('art');
+ s.style.backgroundImage=w[2]?'url("'+w[2]+'")':'none';s.style.backgroundColor=w[5]||'#eee';a.innerHTML=w[3]?'<span style="font-size:90px">'+w[3]+'</span>':'';
+ document.getElementById('capB').textContent=w[0];document.getElementById('capS').textContent=w[1];
+ var o=document.getElementById('open');o.href=w[4];if(w[4].indexOf(LF)===0){o.removeAttribute('target')}else{o.target='_blank'}
+ [].forEach.call(document.querySelectorAll('#chips button'),function(b,j){b.className=j===i?'on':''});}
+document.getElementById('chips').innerHTML=WIN.map(function(w,i){return '<button onclick="win('+i+')">'+w[0]+'</button>'}).join('');
+win(1);
+
+/* 서비스: [이름, 표, 그림(사진 또는 기호), 한 줄, 무엇, 누가, 준비, 받는 것, 무료로는, 유료로는, 직접 안 되면, 버튼 말, 버튼 주소, 견본 주소] */
+var V={
+ name:['디지털 명함','free','🪪','내 이름과 사업을 알리는 첫 번째 도구예요.','연락처 · 소개 · 사업 정보를 휴대폰 명함 한 장에 담아요.','가게 사장님 · 프리랜서 · 영업하는 분','얼굴이나 가게 사진 한 장, 상호, 하는 일, 연락처','명함 링크와 QR. 카카오톡 · 문자로 바로 건넬 수 있어요.','직접 만드는 명함 한 장','없어요','막히는 곳이 있으면 문의하기','무료 이용',UR+'/card/new/',null,'주문제작 신청'],
+ home:['모바일 홈페이지','make','IMG:'+LF+'/rec/seed/dabok/d05.jpg','명함에서 한 걸음 더, 사업을 소개하는 공간이에요.','서비스 · 사진 · 위치 · 사업 소개를 한 화면에 모아요.','손님께 가게를 더 자세히 알리고 싶은 분','가게 사진 몇 장, 하는 일과 값 안내, 위치','홈페이지 링크. 명함과 서로 이어져요.','직접 만들기','없어요','막히는 곳이 있으면 문의하기','무료 이용',KK,UR+'/home/C-1001/','주문제작 신청'],
+ scard:['시즌 카드','free','IMG:'+LF+'/card/img/santa1.jpg','손님께 다시 인사하고 관계를 이어 가요.','연말 · 명절 같은 날에 가게 이름으로 카드를 보내요.','단골손님께 인사하고 싶은 분','보낼 인사말, 가게 이름','카드 링크. 받는 분이 열면 알 수 있어요.','카드 한 장 무료','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기','무료 이용',LF+'/card/make.html',LF+'/card/sample.html','주문제작 신청'],
+ post:['디지털 포스터','free','📣','행사 · 할인 소식을 한 장에 알려요.','날짜 · 장소 · 내용을 넣은 포스터를 링크로 나눠요.','개업 · 할인 · 행사를 알리고 싶은 분','행사 이름, 날짜, 장소, 사진 한 장','포스터 링크와 QR','견본을 먼저 보실 수 있어요.','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기',null,null,LF+'/card/poster-sample.html','주문제작 신청'],
+ nori:['그때 그 놀이','make','🪀','가게에서 손님이 옛날 놀이를 즐겨요.','손님이 휴대폰으로 옛날 놀이를 하고 가게 선물을 받아요.','손님이 머물다 가는 가게','가게 이름과 드릴 선물','가게 놀이 링크와 QR','손님은 무료로 놀아요.','없어요','문의하기로 남겨 주세요','문의하기',KK,LF+'/nori/'],
+ han:['마음 한마디','free','💬','쑥스러운 한마디를 예쁘게 담아 전해요.','전하고 싶은 한마디를 카드처럼 꾸며 보내요.','고마움 · 미안함을 전하고 싶은 분','전하고 싶은 한마디','한마디 링크','무료','없어요','막히는 곳이 있으면 문의하기','무료 이용',LF+'/hanmadi/',null],
+ draw:['삐뚤빼뚤 마음 도화지','free','🖍️','손가락으로 그린 그림에 마음을 실어요.','화면에 그림을 그려 한 줄과 함께 보내요.','그림으로 마음을 전하고 싶은 분','없어요. 손가락이면 돼요','그림 링크','무료','없어요','막히는 곳이 있으면 문의하기','무료 이용',LF+'/draw/',null],
+ comp:['관계 나침반','free','🧭','나와 그분 사이를 가볍게 비춰 봐요.','물음 몇 개에 답하면 두 사람 사이를 그려 줘요.','관계를 돌아보고 싶은 분','떠올릴 그분 한 사람','결과 한 장','무료','더 깊은 여행은 사랑흐름 여행이에요.','막히는 곳이 있으면 문의하기','무료 이용',LF+'/compass.html',null],
+ pname:['디지털 명함','free','🪪','나를 소개하는 명함 한 장이에요.','이름 · 하는 일 · 연락처를 휴대폰 명함 한 장에 담아요.','나를 소개할 일이 있는 분','얼굴 사진 한 장, 이름, 하는 일','명함 링크와 QR','직접 만드는 명함 한 장','없어요','막히는 곳이 있으면 문의하기','무료 이용',UR+'/card/new/',null,'주문제작 신청'],
+ pcard:['시즌 카드','free','IMG:'+LF+'/card/img/santa3.jpg','계절 인사 · 고마운 마음을 카드 한 장에.','가족 · 친구에게 계절 인사를 카드로 보내요.','연말 인사를 전하고 싶은 분','인사말, 사진 한 장(넣고 싶으면)','카드 링크','카드 한 장 무료','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기','무료 이용',LF+'/card/make.html',LF+'/card/sample.html','주문제작 신청'],
+ map:['마음 여행지도','paid','🗺️','나와 그분을 돌아보는 길이에요.','그분과의 기억을 따라 묻고 답하면 마음의 지도를 받아요.','소중한 한 사람을 깊이 돌아보고 싶은 분','떠올릴 그분 한 사람','마음의 지도 한 장','맛보기는 관계 나침반으로','바로 결제해 이용해요.','막히는 곳이 있으면 문의하기','주문하기',LF+'/item/map/',null],
+ set:['마음여행','paid','✉️','지도와 편지로 마음을 전하는 여행이에요.','마음 여행지도에 편지를 더해 그분께 보내요.','마음을 편지로 전하고 싶은 분','떠올릴 그분 한 사람','지도와 편지','없어요','바로 결제해 이용해요.','막히는 곳이 있으면 문의하기','주문하기',LF+'/item/set/',null],
+ memoir:['한 편의 기록','paid','IMG:'+LF+'/img/era/n06_hanok_room_color.jpg','살아오신 이야기를 한 권의 기록으로.','물음을 따라 말하거나 쓰면 열 편의 기록이 돼요.','내 삶을 남기고 싶은 분 · 부모님께 선물하고 싶은 분','시간 조금, 사진 몇 장','열 편의 기록 한 권','없어요','바로 결제해 이용해요.','막히는 곳이 있으면 문의하기','주문하기',LF+'/item/memoir/',null],
+ ohome:['단체 모바일 홈페이지','make','🏛️','단체를 소개하고 구성원을 한곳에 보여요.','단체 소개와 회원 명함 · 이름 찾기 · 업종별 찾기를 한곳에 모아요.','협회 · 상인회 · 동호회 같은 단체','단체 소개, 대표 사진, 회원 목록','단체 홈페이지 링크','회원 100명까지 무료 · 한 분씩 넣기','회원 명단을 파일로 한꺼번에 올리기는 유료 이용이에요.','주문제작 신청을 남겨 주세요','주문제작 신청',KK,null],
+ oroom:['우리 이야기방','free','IMG:'+LF+'/promo/still/정지_3_한송이가차오르다.png','모임의 사진과 이야기를 회원이 함께 쌓아요.','초대 링크로 회원을 불러 사진 · 이야기를 함께 올려요.','모임 · 단체','방 이름, 대표 사진','이야기방 링크','무료','없어요','막히는 곳이 있으면 문의하기','무료 이용',UR+'/',UR+'/?plaza=1'],
+ ocard:['회원께 보내는 시즌 카드','free','IMG:'+LF+'/card/img/santa1.jpg','회원 모두에게 계절 인사를 보내요.','단체 이름으로 송년 · 명절 카드를 보내요.','회원께 인사하고 싶은 단체','인사말, 단체 이름','카드 링크','카드 한 장 무료','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기','무료 이용',LF+'/card/make.html',LF+'/card/sample.html','주문제작 신청'],
+ opost:['디지털 포스터','free','📣','행사 · 모집 소식을 한 장에 알려요.','행사 · 모집 · 공지를 포스터로 만들어 링크로 나눠요.','행사를 여는 단체','행사 이름, 날짜, 장소, 신청 방법','포스터 링크와 QR','견본을 먼저 보실 수 있어요.','손글씨 · 내 사진 넣기는 유료 이용이에요.','막히는 곳이 있으면 문의하기',null,null,LF+'/card/poster-sample.html','주문제작 신청'],
+ sol:['통합 솔루션','make','🧩','가게 · 단체의 일을 한곳에서 하는 업무 화면이에요.','회원 · 일정 · 행사 · 회계를 한 화면에서 함께 관리해요.','가게 · 협회 · 종중 같은 단체','단체 이름과 함께 쓸 분들','우리 단체 업무 화면','준비 중이에요.','준비 중이에요.','준비 중이에요.','준비 중',null,null],
+ edu:['디지털 · AI 활용 교육','make','🎓','디지털 사용법과 AI 활용 능력을 키우는 교육이에요.','회원이 함께 모여 휴대폰 · 사랑흐름 서비스 · AI를 직접 써 봐요.','회원 교육이 필요한 단체 · 기관','교육 인원, 원하는 때','교육 한 번(90분)','없어요','교육은 신청을 받아 진행해요.','주문제작 신청을 남겨 주세요','주문제작 신청',KK,null]
+};
+var STG={
+ b:[['디지털 명함','내 이름과 사업을 알리는 첫 번째 도구',['name'],'명함을 만들고 사업을 더 자세히 알리고 싶어지면'],
+    ['모바일 홈페이지','명함에서 한 걸음 더 나아가 사업을 소개하는 공간',['home'],'홈페이지로 손님이 늘면 다시 소식을 전하고 싶어져요'],
+    ['고객 소통','손님께 다시 알리고 관계를 이어 가는 도구',['scard','post'],'가게에 손님을 더 머물게 하고 싶을 때'],
+    ['사업 확장','필요한 기능을 골라 사업 공간에 더해요',['nori','sol'],null]],
+ p:[['마음 전하기 (무료)','가볍게 마음을 전해 봐요',['han','draw','comp'],null],
+    ['나를 알리고 인사하기','명함과 카드로 관계를 이어 가요',['pname','pcard'],null],
+    ['사랑흐름 여행','소중한 관계를 깊이 돌아봐요',['map','set','memoir'],null]],
+ o:[['단체 소개와 구성원','단체를 알리고 회원을 한곳에',['ohome'],null],
+    ['소통과 기록','회원과 함께 쌓고 알려요',['oroom','ocard','opost'],null],
+    ['교육 · 통합 솔루션','회원 교육과 단체 업무를 한곳에',['edu','sol'],null]]
+};
+var CT={
+ o:[['단체 모바일 홈페이지','직접 이용','추가 기능','신청'],['우리 이야기방','직접 이용','',''],['시즌 카드','기본 이용','추가 기능','신청'],['디지털 포스터','기본 이용','추가 기능','신청'],['디지털 · AI 활용 교육','','','신청'],['통합 솔루션','','','신청']],
+ b:[['디지털 명함','직접 이용','','신청'],['모바일 홈페이지','직접 이용','','신청'],['시즌 카드','기본 이용','추가 기능','신청'],['디지털 포스터','기본 이용','추가 기능','신청'],['통합 솔루션','','','신청']],
+ p:[['디지털 명함','직접 이용','','신청'],['시즌 카드','기본 이용','추가 기능','신청'],['우리 이야기방','직접 이용','','']]};
+function cmp(k){var r=CT[k],h='<tr><th>서비스</th><th>무료</th><th>유료</th><th>주문제작</th></tr>';
+ r.forEach(function(x){h+='<tr><td>'+x[0]+'</td><td>'+x[1]+'</td><td>'+x[2]+'</td><td>'+x[3]+'</td></tr>'});
+ document.getElementById('cmpTb').innerHTML=h;
+ [].forEach.call(document.querySelectorAll('#ctab button'),function(b){b.className=b.dataset.k===k?'on':''});}
+document.querySelectorAll('#ctab button').forEach(function(b){b.onclick=function(){cmp(b.dataset.k)}});
+/* 패밀리 사이트 목록 = lf-foot.js v13 FAM 그대로(한 곳만 고치면 같이 바뀜) */
+var FAM=[['사랑흐름 · 자서전 · 편지 · 여행지도',LF+'/'],['우리 이야기 · 모임 · 가게 · 마을의 사진과 기억',UR+'/'],['디지털 명함 만들기',UR+'/card/new/'],['마음 카드 보내기',LF+'/card/'],['그때 그 놀이',LF+'/nori/'],['통합 솔루션 (준비 중)','']];
+(function(){var sel=document.getElementById('famSel'),go=document.getElementById('famGo');
+ sel.innerHTML=FAM.map(function(f,i){return '<option value="'+i+'"'+(f[1]?'':' disabled')+'>'+f[0]+'</option>'}).join('');
+ function set(){var u=FAM[sel.value][1];go.href=u;if(u.indexOf(LF)===0){go.removeAttribute('target')}else{go.target='_blank'}}sel.onchange=set;set();})();
+function ordOpen(id){document.getElementById('ordSv').textContent=V[id][0];document.getElementById('ordMsg').textContent='';document.getElementById('ord').classList.add('on');}
+function ordClose(){document.getElementById('ord').classList.remove('on');}
+function ordSend(){var t='[주문제작 신청]\n서비스: '+document.getElementById('ordSv').textContent+'\n상호 · 단체 이름: '+document.getElementById('ordNm').value+'\n원하시는 내용: '+document.getElementById('ordTx').value+'\n원하시는 때: '+document.getElementById('ordWh').value;
+ var done=function(){document.getElementById('ordMsg').textContent='신청 내용을 복사했어요. 상담 창에 붙여 넣어 보내 주세요.';try{sessionStorage.setItem('lf_use_y',String(window.scrollY))}catch(e){}setTimeout(function(){window.open(KK,'_blank')},700);};
+ try{navigator.clipboard.writeText(t).then(done,done)}catch(e){done()}}
+function tg(u){return u&&u.indexOf(LF)===0?'':' target="_blank" rel="noopener"'}
+var TG={free:['무료','t-free'],paid:null,make:null};
+var WHO={b:'개인 사업자',p:'개인',o:'단체 · 기관'};
+function svc(id){var v=V[id],t=TG[v[1]],pv=v[2].indexOf('IMG:')===0?'<div class="pv" style="background-image:url(&quot;'+v[2].slice(4)+'&quot;)"></div>':'<div class="pv" style="background:#F4EEE4">'+v[2]+'</div>';
+ var h='<div class="svc" id="v-'+id+'"><div class="hd">'+pv+'<div><b>'+v[0]+(t?'<span class="tag '+t[1]+'">'+t[0]+'</span>':'')+'</b><p>'+v[3]+'</p></div></div>';
+ h+='<details class="guide" data-id="'+id+'"><summary>이용 안내</summary><dl><dt>무엇을 해 주나요</dt><dd>'+v[4]+'</dd><dt>누가 쓰면 좋아요</dt><dd>'+v[5]+'</dd><dt>준비할 것</dt><dd>'+v[6]+'</dd><dt>받는 것</dt><dd>'+v[7]+'</dd><dt>무료로는</dt><dd>'+v[8]+'</dd><dt>유료로는</dt><dd>'+v[9]+'</dd><dt>직접 안 될 때</dt><dd>'+v[10]+'</dd></dl></details>';
+ if(v[11]==='준비 중'){h+='<div class="act"><span class="soon">준비 중</span></div></div>';return h;}
+ var mk=v[14]||(v[11]==='주문제작 신청'?v[11]:null),fr=v[11]&&v[11]!=='주문제작 신청'?v[11]:null;
+ h+='<div class="act">'+(v[13]?'<a class="a2" href="'+v[13]+'"'+tg(v[13])+'>견본 보기</a>':'')+(fr?'<a class="'+(mk?'a2':'a1')+'" href="'+v[12]+'"'+tg(v[12])+'>'+fr+'</a>':'')+'</div>';
+ if(mk)h+='<button class="mk" type="button" onclick="ordOpen(\''+id+'\')">주문제작 신청</button>';
+ h+='</div>';return h;}
+function build(k){var h='';STG[k].forEach(function(s,i){h+='<div class="stage"><span class="num">'+(i+1)+'</span><h3>'+s[0]+'</h3><p class="lead">'+s[1]+'</p>'+s[2].map(svc).join('')+''+'</div>'});return h;}
+['b','p','o'].forEach(function(k){document.getElementById('f-'+k).innerHTML=build(k)});
+
+/* 펼치기 · 위치 · 뒤로/앞으로 */
+var cur={k:'',v:''};
+function render(st){cur=st;
+ ['b','p','o'].forEach(function(k){document.getElementById('f-'+k).classList.toggle('on',k===st.k);document.querySelector('.who[data-k="'+k+'"]').classList.toggle('on',k===st.k)});
+ var w='현재 위치: 사랑흐름 / 서비스 이용';if(st.k)cmp(st.k);
+ if(st.k)w+=' / <em>'+WHO[st.k]+'</em>';
+ w+='<br>작업 위치: <em>'+(st.v&&V[st.v]?V[st.v][0]+' 이용 안내':(st.k?WHO[st.k]+' 서비스':'서비스 이용 첫 화면'))+'</em>';
+ document.getElementById('where').innerHTML=w;
+ 
+}
+function go(k,v){var st={k:k,v:v||''};history.pushState(st,'',k?'#'+k+(v?'-'+v:''):'#');render(st);
+ if(!k)window.scrollTo({top:0,behavior:'smooth'});}
+window.onpopstate=function(e){var st=e.state;if(!st){var m=(location.hash||'').match(/^#([obp])(?:-(\w+))?/);st={k:m?m[1]:'',v:m&&m[2]?m[2]:''};}render(st)};
+document.querySelectorAll('.who').forEach(function(b){b.onclick=function(){var k=b.dataset.k;go(cur.k===k?'':k);if(cur.k)b.scrollIntoView({behavior:'smooth',block:'start'})}});
+document.querySelectorAll('.guide').forEach(function(d){d.addEventListener('toggle',function(){if(d.open)go(cur.k,d.dataset.id)})});
+(function(){var m=(location.hash||'').match(/^#([obp])(?:-(\w+))?/),st={k:m?m[1]:'',v:m&&m[2]?m[2]:''};
+ history.replaceState(st,'',location.hash||'#');cmp(st.k||'o');render(st);
+ if(st.v){var d=document.querySelector('.guide[data-id="'+st.v+'"]');if(d){d.open=true;var hasY=false;try{hasY=sessionStorage.getItem('lf_use_y')!==null}catch(e){}if(!hasY)setTimeout(function(){document.getElementById('v-'+st.v).scrollIntoView({block:'start'})},120);}}
+ try{var y=sessionStorage.getItem('lf_use_y');if(y!==null){sessionStorage.removeItem('lf_use_y');setTimeout(function(){window.scrollTo(0,+y)},60);}}catch(e){}})();
+document.addEventListener('click',function(e){var a=e.target.closest('a[target="_blank"],a[href^="http"]');if(a){try{sessionStorage.setItem('lf_use_y',String(window.scrollY))}catch(x){}}});
+
+/* ① 정체성 사진: 들어올 때마다 바뀜 */
+var CV=[LF+'/hero-bg.jpg',LF+'/quote-bg.jpg',LF+'/card/img/santa1.jpg',LF+'/rec/seed/dabok/d05.jpg',LF+'/img/era/n06_hanok_room_color.jpg'],ci=Math.floor(Math.random()*CV.length),cv=document.getElementById('cover');
+function cvs(){cv.style.backgroundImage='url("'+CV[ci]+'")'}cvs();setInterval(function(){ci=(ci+1)%CV.length;cvs()},6000);
+</script>
+<script src="/lf-foot.js" defer></script>
+<script src="/lf/frame.js?v=38"></script>
+</body>
+</html>
