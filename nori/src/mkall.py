@@ -45,6 +45,14 @@ open('그때그놀이-081_공굴리기_261125.html','w',encoding='utf-8').write(
 subprocess.run(['python3','mk093.py'],check=True)
 t=open('t093.html',encoding='utf-8').read().replace('__PRE__',pre).replace('__PEN__',pen).replace('__SND__',snd).replace('__NAV__',nav).replace('__EMIT__',emit)
 open('그때그놀이-093_벽돌깨기_261126.html','w',encoding='utf-8').write(t)
+# 블록 맞추기 (261126 시안 · 혼자서 바로) — t094 은 mk094.py 가 t071 틀에서 만듦
+subprocess.run(['python3','mk094.py'],check=True)
+t=open('t094.html',encoding='utf-8').read().replace('__PRE__',pre).replace('__PEN__',pen).replace('__SND__',snd).replace('__NAV__',nav).replace('__EMIT__',emit)
+open('그때그놀이-094_블록맞추기_261126.html','w',encoding='utf-8').write(t)
+# 칠교놀이 (261126 시안 · 혼자서 바로) — t095 은 mk095.py 가 t071 틀에서 만듦
+subprocess.run(['python3','mk095.py'],check=True)
+t=open('t095.html',encoding='utf-8').read().replace('__PRE__',pre).replace('__PEN__',pen).replace('__SND__',snd).replace('__NAV__',nav).replace('__EMIT__',emit)
+open('그때그놀이-095_칠교놀이_261126.html','w',encoding='utf-8').write(t)
 pat=re.compile(r"/\* 그때 그 놀이 · 아래 막대.*?\n\};\n",re.S)
 pat2=re.compile(r"/\* 그때 그 놀이 · 아래 막대.*?/\* 아래 막대 끝 \*/\n",re.S)
 for f in ['그때그놀이-013_동그란딱지시험판_261121.html','그때그놀이-015_오목·알까기시험판_261121.html']:

@@ -130,7 +130,8 @@ function bcStart(){ Bc={gen:S.gen,who:0,ph:'wait',sc:[0,0],left:[BC.BALLS,BC.BAL
   Bc.miss*=1-((BOSS.cur||1.5)-1.5)*.15; S.u='개'; S.sc=[0,0];
   var bd=$('board'); bd.classList.add('brick');
   bd.innerHTML='<div class="bcclk" id="bcclk">1:00</div><div class="bclife" id="bclife"></div><div id="bcwall"></div><div class="bcpad" id="bcpad"></div><div class="bcball" id="bcball"></div><div class="bcmsg" id="bcmsg"></div>';
-  bcBind(bd); vs(null); bcTurn(0); }
+  bcBind(bd); vs(null); bcTurn(0);
+  try{ var lw=bd.clientWidth, lh=bd.clientHeight; new ResizeObserver(function(){ if(S.over||!Bc.bricks||(bd.clientWidth===lw&&bd.clientHeight===lh)) return; lw=bd.clientWidth; lh=bd.clientHeight; window.dispatchEvent(new Event('resize')); }).observe(bd); }catch(e){} }
 function bcBind(bd){ var mv=function(e){ if(Bc.ph!=='go'&&Bc.ph!=='ready') return; if(Bc.who===1&&!two()) return; var r=bd.getBoundingClientRect(); Bc.tx=e.clientX-r.left; NA.unpoint(); };
   bd.addEventListener('pointerdown',function(e){ e.preventDefault(); mv(e); if(Bc.ph==='ready') bcServe(); });
   bd.addEventListener('pointermove',function(e){ if(e.pointerType==='mouse'||e.buttons||e.pressure>0) mv(e); }); bd.style.touchAction='none'; }
