@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<!-- ★ 현재 버전 ▶ card/sample.html · v2 · 261123 · [대표 261123 20:10 · 20:22 · 21:05 OK] 표 먼저(서비스명 · 무료 서비스 · 유료 서비스 · 색 없이 글만) · 견본 단추는 표 아래 · 함께 전하는 마음 = 사랑흐름 선물(선택 · 무엇인지 보기) · 견본 카드 단추는 선물 · 매장 안내 · 명함 · 홈페이지만 · 카드 아래 「사랑흐름 둘러보기」(마음 한마디 · 마음 도화지 · 여행의 기록). 카드 내용은 D 묶음만 갈아 끼움.
+<!-- ★ 현재 버전 ▶ card/sample.html · v3 · 261126 · [대표 261126 19:08] 카드 바로 아래 봉투 다시 보기 · 나도 카드 보내기 큰 단추 · 둘러보기는 맨 밑 -->
+<!-- (이전) card/sample.html · v2 · 261123 · [대표 261123 20:10 · 20:22 · 21:05 OK] 표 먼저(서비스명 · 무료 서비스 · 유료 서비스 · 색 없이 글만) · 견본 단추는 표 아래 · 함께 전하는 마음 = 사랑흐름 선물(선택 · 무엇인지 보기) · 견본 카드 단추는 선물 · 매장 안내 · 명함 · 홈페이지만 · 카드 아래 「사랑흐름 둘러보기」(마음 한마디 · 마음 도화지 · 여행의 기록). 카드 내용은 D 묶음만 갈아 끼움.
      (이전) card/sample.html · v1 · 261123 · 견본 첫 꼴. -->
 <script src="/lf/pass.js"></script>
 <meta name="description" content="사랑흐름 마음 카드 견본">
@@ -157,6 +158,7 @@ table.cmp{width:100%;border-collapse:collapse;font-size:13px;line-height:1.45}
 .big.on{display:flex}
 .big img{max-width:100%;max-height:78vh;border-radius:10px}
 .big button{margin-top:14px;border:0;border-radius:12px;padding:11px 22px;font:600 15px 'Noto Sans KR',sans-serif;background:#fff;color:#7d1520;cursor:pointer}
+.mineB{display:block;max-width:460px;margin:14px auto 0;text-align:center;text-decoration:none;background:#b3242c;color:#fff;border-radius:14px;padding:13px 16px;font:800 16px 'Noto Sans KR',sans-serif;box-shadow:0 6px 16px rgba(0,0,0,.2)}
 .again{display:block;margin:14px auto 0;border:1px solid rgba(255,255,255,.5);background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:8px 16px;font:600 13px 'Noto Sans KR',sans-serif;cursor:pointer}
 .endnote{max-width:468px;margin:26px auto 30px;color:#fff;opacity:.8;font-size:12px;text-align:center;line-height:1.7;padding:0 16px}
 .cmp td.k small{display:block;font-weight:400;color:#8a7a6a;font-size:12px}
@@ -384,8 +386,11 @@ function build(root){
   var hto=el('div','hl to'), msg=el('div','msg'), hend=el('div','hl end'), sg=el('div','sign'), dt=el('div','date'), vb=el('div'), mr=el('div'), bx=el('div','btns'), ft=el('div','cfoot');
   [hto,msg,hend,sg,dt,vb,mr,bx,ft].forEach(function(x){bd.appendChild(x);});
   sg.style.cssText='font-family:"Nanum Pen Script",cursive;font-size:40px;color:#b3242c;text-align:right;line-height:1.1;margin-top:8px';
-  cw.appendChild(el('div','tour','<div class="tt">사랑흐름 둘러보기</div><a href="https://www.loveflow.ai.kr/hanmadi/" target="_blank" rel="noopener"><span class="i">💬</span><span>마음 한마디</span><b>›</b></a><a href="https://www.loveflow.ai.kr/draw/" target="_blank" rel="noopener"><span class="i">🎨</span><span>삐뚤빼뚤 마음 도화지</span><b>›</b></a><a href="https://www.loveflow.ai.kr/showroom.html" target="_blank" rel="noopener"><span class="i">📖</span><span>여행의 기록</span><b>›</b></a>'));
   var again=el('button','again','봉투 다시 보기'); again.type='button'; st.appendChild(again); again.style.display='none';
+  /* ★v3 · 261126 19:08 대표 「카드 보다 갑자기 둘러보기가 왜 가운데 · 봉투 다시 보기는 위로 · 둘러보기는 밑으로 · 흐름 이어지게」: 카드 › 봉투 다시 보기 › 나도 카드 보내기 › 맨 밑 둘러보기 */
+  var mineB=el('a','mineB','💌 나도 카드 보내기'); mineB.href='/card/make.html'; st.appendChild(mineB); mineB.style.display='none';
+  var tour=el('div','tour','<div class="tt">사랑흐름 둘러보기</div><a href="https://www.loveflow.ai.kr/hanmadi/" target="_blank" rel="noopener"><span class="i">💬</span><span>마음 한마디</span><b>›</b></a><a href="https://www.loveflow.ai.kr/draw/" target="_blank" rel="noopener"><span class="i">🎨</span><span>삐뚤빼뚤 마음 도화지</span><b>›</b></a><a href="https://www.loveflow.ai.kr/showroom.html" target="_blank" rel="noopener"><span class="i">📖</span><span>여행의 기록</span><b>›</b></a>');
+  st.appendChild(tour); tour.style.display='none';
   function paint(){
     var t=d.t[L];
     env.querySelector('.whom').textContent=t.whom; env.querySelector('.from').textContent=t.from; env.querySelector('.hint').textContent=t.tap;
@@ -415,7 +420,7 @@ function build(root){
   paint();
   if(lg){ lg.querySelectorAll('button').forEach(function(b){ b.onclick=function(){ L=b.getAttribute('data-l'); lg.querySelectorAll('button').forEach(function(x){x.classList.toggle('on',x===b);}); paint(); }; }); }
   function open(){ if(env.classList.contains('open')) return; env.classList.add('open');
-    setTimeout(function(){ cw.style.display='block'; env.classList.add('gone'); eb.style.display='none'; again.style.display='block'; requestAnimationFrame(function(){ cw.classList.add('show'); }); },700); }
+    setTimeout(function(){ cw.style.display='block'; env.classList.add('gone'); eb.style.display='none'; again.style.display='block'; mineB.style.display='block'; tour.style.display='block'; requestAnimationFrame(function(){ cw.classList.add('show'); }); },700); }
   env.onclick=open; env.onkeydown=function(e){ if(e.key==='Enter'||e.key===' '){e.preventDefault();open();} };
   again.onclick=function(){ build(root); };
   root._open=open;
