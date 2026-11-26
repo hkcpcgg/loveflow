@@ -124,7 +124,7 @@ html='''<!DOCTYPE html>
   for(var i=0;i<gs.length;i++){ gs[i].addEventListener('click',function(){
     var k=this.getAttribute('data-go');
     if(k){ var me=this; setTimeout(function(){ open(k); },140); }
-    else { say('곧 열려요! 곧 열려요!'); }
+    /* 261126 총괄-050: 「준비 중」 칸 없음(27가지 모두 열림) — 놀이 번호 없는 칸은 아무 일 없음 */
   }); }
   document.getElementById('fGift').addEventListener('click',function(){ GIFT.myBox(); });
   document.getElementById('fHome').addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });

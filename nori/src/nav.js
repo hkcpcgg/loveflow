@@ -192,7 +192,8 @@ window.noriNav=function(o){
       +(noriEdu()?'':'<p class="lure">'+esc2(shop())+'에서 준비한 <b>푸짐한 선물</b> 받아가세요</p>')
       +'<div class="bt2">'+(noriEdu()?'':'<button type="button" class="gift">선물 받기</button>')+'<div class="row"><button type="button" data-c="save">결과 사진 저장</button><button type="button" data-c="share">공유하기</button></div></div>'
       /* 사랑흐름-놀이-005 (GPT · 총괄 · 261125): 큰 단추는 셋까지 · 「이야기방에 올리기」 「사랑흐름 둘러보기」는 맨 아래 작은 글줄 · 「자서전 둘러보기」 걷음 */
-      +'<p class="nlinks"><button type="button" data-c="story">이야기방에 올리기 ›</button>'+(noriEdu()?'':'<button type="button" data-c="lf">사랑흐름 둘러보기 ›</button>')+'</p>'
+      /* 사랑흐름-총괄-050 (261126 대표 19:11): 놀이 흐름 안에 다른 서비스 칸 두지 않음 → 「사랑흐름 둘러보기」 걷음 (다른 서비스 길은 첫 화면 아래 「함께하는 곳」 · 바닥글) */
+      +'<p class="nlinks"><button type="button" data-c="story">이야기방에 올리기 ›</button></p>'
       +'<p class="tip">이야기방에는 저장된 결과 사진을 골라 올려 주세요.</p>';
     var ph=cd.querySelector('.ph'), im=ph.querySelector('img');
     im.onload=function(){ photo=im; ph.classList.add('has'); };

@@ -149,7 +149,7 @@ window.GIFT=(function(){
     if(rec.status==='wait'){ how='<p class="note" style="text-align:center">직원이 확인하면 선물을 드려요. 이 화면을 직원에게 보여 주세요.</p>'; }
     if(rec.status==='story'){ how='<p class="note" style="text-align:center">'+esc(shop())+' 이야기방에 한 줄 남기시면 선물이 열려요.</p>'
       +'<a class="go dark" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e" target="_blank" rel="noopener">이야기방에 남기러 가기</a>'
-      +'<button class="go light" type="button" data-c="left">남겼어요 (시험: 자동 확인 대신)</button>'; }
+      +'<button class="go light" type="button" data-c="left">이야기방에 남겼어요</button>'; }
     var staff = rec.status!=='given' ? '<div class="row2"><label>직원 번호<input id="gP" inputmode="numeric" maxlength="6" placeholder="직원만"></label><label>&nbsp;<button class="go dark" type="button" data-c="staff" style="min-height:46px">'+(rec.status==='ready'?'전달 완료':'확인하고 전달')+'</button></label></div>' : '';
     open('<button class="x" type="button" data-c="x">닫기 ✕</button>'
       +'<div class="cp"><div class="shop">'+esc(shop())+'</div><span class="tier">'+TIER[rec.tier]+'</span><div class="pz">'+esc(rec.prize)+'</div>'
@@ -178,7 +178,7 @@ window.GIFT=(function(){
 
   /* ── 관리자 창 ── */
   function adminLogin(){
-    open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>관리자 창</h3><label>관리자 번호<input id="aP" inputmode="numeric" maxlength="8" placeholder="처음 번호 0000"></label><button class="go dark" type="button" data-c="in">들어가기</button><p class="note">시험판 처음 번호는 0000이에요. 들어가서 바꾸세요.</p>');
+    open('<button class="x" type="button" data-c="x">닫기 ✕</button><h3>관리자 창</h3><label>관리자 번호<input id="aP" inputmode="numeric" maxlength="8" placeholder="처음 번호 0000"></label><button class="go dark" type="button" data-c="in">들어가기</button>'+(CL?'<p class="note">가게를 열 때 받은 관리자 번호를 넣으세요.</p>':'<p class="note">시험판 처음 번호는 0000이에요. 들어가서 바꾸세요.</p>'));
     gs.querySelector('[data-c=x]').addEventListener('click',close);
     gs.querySelector('[data-c=in]').addEventListener('click',function(){ var p=$('aP').value.trim();
       if(CL){ run('list',[p],function(r){ if(r&&r.ok){ apin=p; MASTER=null; if(!C){ run('shopsDl',[p],function(d){ if(d&&d.ok){ MASTER=d; var t=gs.querySelector('.tabs2'); if(t&&!t.querySelector('[data-t=shops]')){ admin(gs.querySelector('.tabs2 [aria-selected=true]').getAttribute('data-t')); } } },function(){}); } REC=r.recs; REC.forEach(function(x){ sent[x.id]=JSON.stringify(x); }); try{ localStorage.setItem('nori-recs',JSON.stringify(REC)); }catch(e){} admin('rec'); } else { $('aP').value=''; $('aP').placeholder='번호가 달라요'; $('aP').style.borderColor='#E1262D'; } }); return; }
@@ -200,7 +200,7 @@ window.GIFT=(function(){
         +'<div class="rad"><b style="font-size:13px;color:#6B5A30">선물 주는 조건</b>'
         +'<label><input type="radio" name="cd" value="a"'+(SET.cond==='a'?' checked':'')+'><span>(가) 놀이만 마치면<small>쿠폰이 바로 열림 · 직원은 전달만 확인</small></span></label>'
         +'<label><input type="radio" name="cd" value="b"'+(SET.cond==='b'?' checked':'')+'><span>(나) 직원이 확인하고<small>직원 번호를 넣어야 전달</small></span></label>'
-        +'<label><input type="radio" name="cd" value="c"'+(SET.cond==='c'?' checked':'')+'><span>(다) 이야기방에 남기면<small>자동 확인은 우리 이야기 연결 뒤 · 지금은 「남겼어요」로 시험</small></span></label></div>'
+        +'<label><input type="radio" name="cd" value="c"'+(SET.cond==='c'?' checked':'')+'><span>(다) 이야기방에 남기면<small>손님이 이야기방에 남긴 뒤 「이야기방에 남겼어요」를 누르면 쿠폰이 열림</small></span></label></div>'
         +'<div class="row2"><label>직원 번호'+(CL?' (바꿀 때만)':'')+'<input id="sP" inputmode="numeric" maxlength="6" value="'+(CL?'':esc(SET.staffPin))+'"></label><label>관리자 번호'+(CL?' (바꿀 때만)':'')+'<input id="sA" inputmode="numeric" maxlength="8" value="'+(CL?'':esc(SET.adminPin))+'"></label></div>'
         +'<button class="go dark" type="button" data-c="sv">저장</button>';
     }
