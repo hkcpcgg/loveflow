@@ -16,8 +16,8 @@ window.GIFT=(function(){
   window.NORI_FROM=FROM;
   /* 가게 번호 (261125 · 서버 v4): /nori/?c=101 로 들어오면 그 가게 설정 · 기록 · 번호로 놂. 한 번 들어온 폰은 번호를 기억 · 공유 주소에도 붙음 */
   var C=(function(){ var m=/[?&]c=(\d{3,4})(?:&|$)/.exec(location.search), v=m?m[1]:''; try{ if(v){ localStorage.setItem('nori-c',v); } else { v=localStorage.getItem('nori-c')||''; } }catch(e){} return v; })();
-  /* 사랑흐름-총괄-052 (261126 대표 실폰 20:53): 이야기방 = 가게 자기 방. 기본 주소(다복) = 다복 이야기 방 C-0031 · 다른 가게는 방 주소를 받기 전까지 이야기방 칸 · 단추를 감춤(빈 방 · 남의 방으로 보내지 않음) */
-  window.NORI_ROOM=C?'':'https://uriyagi.kr/?c=C-0031';
+  /* 이야기방 「남기기」 주소 = 11.22 18:20 대표 결정: 놀이 손님이 남기는 곳은 닫힌 방 C-0300 초대 링크(C-0031 은 보기만 되는 열린 방). 사랑흐름-총괄-053 이 052(C-0031 로 바꿈)를 거둠 → 그대로 둠. 가게마다 남기는 방이 생기면 서버 set.room 으로 바꿈 */
+  window.NORI_ROOM='https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e';
   function roomFix(){ var r=document.querySelector('.room'); if(!r) return; if(window.NORI_ROOM){ r.setAttribute('href',window.NORI_ROOM); r.style.removeProperty('display'); } else { r.style.setProperty('display','none','important'); } }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',roomFix); else roomFix();
   window.NORI_C=C; if(C&&window.NORI_URL){ window.NORI_URL=String(window.NORI_URL).replace(/[?#].*$/,'')+'?c='+C; }

@@ -86,7 +86,7 @@ window.bossV=function(arr,L){ if(L!==1||!BOSS.cur) return arr[L]; var x=BOSS.cur
 })();
 window.noriNav=function(o){
   /* 261122 v5 — 아래 막대 「놀이 방법 · 그때 그 놀이(홈, 가운데) · 새 판」, 「다른 놀이」 창 없앰. 끝 화면: 선물 받기 · 이야기방에 남기기 · 다시 하기 · 그때 그 놀이(홈) */
-  var HOME='https://www.loveflow.ai.kr/nori/', STORY=(function(){ try{ if(window.parent&&window.parent!==window&&('NORI_ROOM' in window.parent)) return window.parent.NORI_ROOM; }catch(e){} return ('NORI_ROOM' in window)?window.NORI_ROOM:'https://uriyagi.kr/?c=C-0031'; })(); /* 사랑흐름-총괄-052: 가게 자기 방 · 없으면 이야기방 단추 감춤 */
+  var HOME='https://www.loveflow.ai.kr/nori/', STORY=(function(){ try{ if(window.parent&&window.parent!==window&&('NORI_ROOM' in window.parent)) return window.parent.NORI_ROOM; }catch(e){} return ('NORI_ROOM' in window)?window.NORI_ROOM:'https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e'; })(); /* 남기기 방 C-0300 초대 링크(11.22 결정 · 총괄-053) · 바깥 NORI_ROOM 을 따름 */
   var RULE={om:'가로·세로·대각선 어느 쪽이든 내 돌 다섯 개를 먼저 한 줄로 이으면 이겨요. 한 수 무르기는 세 번까지 돼요.',
     ak:'내 알을 손가락으로 끌었다 놓아 튕겨요. 상대 알을 판 밖으로 쳐내고, 상대 알을 먼저 다 떨어뜨리면 이겨요.',
     rd:'서로 딱지를 한 장씩 내요. 정한 기준(글자 많기 · 숫자 높기)으로 센 쪽이 딱지를 가져가고, 다섯 판 뒤 많이 딴 사람이 이겨요.'};

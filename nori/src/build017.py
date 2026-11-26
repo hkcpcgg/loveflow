@@ -17,7 +17,7 @@ scr=scr.replace('<div class="btn start">','<button class="btn start" type="butto
 scr=scr.replace('<div class="btn gift">','<button class="btn gift" type="button" id="bGift">').replace('선물 받기</div>','선물 받기</button>',1)
 scr=scr.replace('<div class="btn half"><svg class="i" viewBox="0 0 24 24"><circle cx="18"','<button class="btn half" type="button" id="bShare"><svg class="i" viewBox="0 0 24 24"><circle cx="18"').replace('공유하기</div>','공유하기</button>')
 scr=scr.replace('<div class="btn half"><svg class="i" viewBox="0 0 24 24"><circle cx="9"','<button class="btn half" type="button" id="bInvite"><svg class="i" viewBox="0 0 24 24"><circle cx="9"').replace('친구 초대</div>','친구 초대</button>')
-scr=scr.replace('<div class="room">','<a class="room" href="https://uriyagi.kr/?c=C-0031" target="_blank" rel="noopener">').replace('다복 이야기방<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></div>','다복 이야기방<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></a>')
+scr=scr.replace('<div class="room">','<a class="room" href="https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e" target="_blank" rel="noopener">').replace('다복 이야기방<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></div>','다복 이야기방<span class="chev"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></span></a>')
 exec(open('home_layout.py',encoding='utf-8').read())
 scr=restructure(scr)
 css=css.replace('.scr{','.scr-unused{')
