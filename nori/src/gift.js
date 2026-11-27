@@ -16,20 +16,24 @@ window.GIFT=(function(){
   window.NORI_FROM=FROM;
   /* 가게 번호 (261125 · 서버 v4): /nori/?c=101 로 들어오면 그 가게 설정 · 기록 · 번호로 놂. 한 번 들어온 폰은 번호를 기억 · 공유 주소에도 붙음 */
   var C=(function(){ var m=/[?&]c=(\d{3,4})(?:&|$)/.exec(location.search), v=m?m[1]:''; try{ if(v){ localStorage.setItem('nori-c',v); } else { v=localStorage.getItem('nori-c')||''; } }catch(e){} return v; })();
-  /* 이야기방 「남기기」 주소 = 11.22 18:20 대표 결정: 놀이 손님이 남기는 곳은 닫힌 방 C-0300 초대 링크(C-0031 은 보기만 되는 열린 방). 사랑흐름-총괄-053 이 052(C-0031 로 바꿈)를 거둠 → 그대로 둠. 가게마다 남기는 방이 생기면 서버 set.room 으로 바꿈 */
-  window.NORI_ROOM='https://uriyagi.kr/?g=e92887ad781a49f7a3e74194e912216e';
+  /* 이야기방 「남기기」 주소 (v3.12 · 서버 v9 · 총괄 59번 · 115차 12번): 초대 링크를 이 화면에 적지 않음. 서버 info 가 돌려주는 room(가게 방 › 기본 방 NORI_ROOM_DEFAULT)을 씀 · 없으면 이야기방 단추를 감춤 */
+  window.NORI_ROOM='';
+  var ASK='https://www.loveflow.ai.kr/';
+  function devId(){ var dev=load('nori-dev',''); if(!dev){ dev='d'+Date.now().toString(36)+Math.random().toString(36).slice(2,6); save('nori-dev',dev); } return dev; }
   function roomFix(){ var r=document.querySelector('.room'); if(!r) return; if(window.NORI_ROOM){ r.setAttribute('href',window.NORI_ROOM); r.style.removeProperty('display'); } else { r.style.setProperty('display','none','important'); } }
   if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',roomFix); else roomFix();
   window.NORI_C=C; if(C&&window.NORI_URL){ window.NORI_URL=String(window.NORI_URL).replace(/[?#].*$/,'')+'?c='+C; }
-  function run(fn,args,ok,bad){ if(!CL) return; bad=bad||function(){ toast('서버 연결이 잠깐 안 돼요. 다시 눌러 주세요'); };
+  function run(fn,args,ok,bad,lim){ if(!CL) return; bad=bad||function(){ toast('서버 연결이 잠깐 안 돼요. 다시 눌러 주세요'); };
     if(GSR){ var r=google.script.run.withSuccessHandler(ok||function(){}).withFailureHandler(bad); r[fn].apply(r,args||[]); return; }
     /* /nori/ 손님 화면 → Apps Script(뒤) — 사랑흐름-총괄-002 결정 ② */
     if(STOP&&(fn==='put'||fn==='play')) return;
     var ac=null; try{ ac=new AbortController(); setTimeout(function(){ try{ ac.abort(); }catch(e){} },9000); }catch(e){}
     fetch(API,{method:'POST',body:JSON.stringify({fn:fn,args:args||[],c:C}),signal:ac?ac.signal:undefined}).then(function(x){ return x.json(); }).then(function(j){
       /* v7 서버: stop = 잘라내기 스위치 · full = 오늘 한도 — 다시 보내지 않음 */
-      if(j&&j.err==='stop'){ STOP=true; if(fn==='put') toast('선물은 잠시 쉬어요 · 놀이는 그대로 즐기세요'); return; }
-      if(j&&j.err==='full'){ if(fn==='put') toast('오늘 준비한 선물이 다 나갔어요'); return; }
+      if(j&&j.err==='stop'){ STOP=true; if(fn==='put') toast('선물은 잠시 쉬어요 · 놀이는 그대로 즐기세요'); if(lim) lim('stop'); return; }
+      if(j&&j.err==='full'){ if(fn==='put') toast('오늘 준비한 선물이 다 나갔어요'); if(lim) lim('full'); return; }
+      /* v9 서버: limit = 무료 하루 한 건 (총괄 65번) — 안내만 띄움 */
+      if(j&&j.err==='limit'){ if(lim) lim('limit'); else limitSheet(); return; }
       if(!j||!j.ok) throw 0; ok&&ok(j.res); }).catch(function(){ bad(); }); }
   function push(){ if(!CL) return; REC.forEach(function(r){ if(!apin && mine.indexOf(r.id)<0) return; var j=JSON.stringify(r); if(sent[r.id]!==j){ sent[r.id]=j; run('put',[r]); } }); }
   /* plan: 무료 · 유료를 가를 칸 (총괄-009 지시 5, 261123) — 지금은 모두 'free'. 결제하면 'paid' 로 켜짐 */
@@ -136,14 +140,31 @@ window.GIFT=(function(){
       var n=$('gN').value.trim(); if(!n){ $('gN').focus(); $('gN').style.borderColor='#E1262D'; return; }
       save('nori-name',n);
       var rec={id:last.id,t:Date.now(),name:n,seat:$('gS').value.trim(),game:last.game,gname:last.gname,opp:last.opp,lv:last.lv,win:!!last.win,detail:last.detail,tier:t,prize:prizeName(t),code:code(),
-        status: SET.cond==='a'?'ready':(SET.cond==='b'?'wait':'story')};
-      REC.unshift(rec); save('nori-recs',REC); mine.unshift(rec.id); save('nori-mine',mine);
-      last.claimed=true; last.rec=rec;
-      if(window.SND){ SND.win(.8); }
-      coupon(rec);
+        status: SET.cond==='a'?'ready':(SET.cond==='b'?'wait':'story'), dev:devId()};
+      function keep(){ REC.unshift(rec); save('nori-recs',REC); mine.unshift(rec.id); save('nori-mine',mine);
+        last.claimed=true; last.rec=rec;
+        if(window.SND){ SND.win(.8); }
+        coupon(rec); }
+      /* v3.12 · 서버가 있으면 먼저 넣어 보고(무료 하루 한 건 · 총괄 65번) 쿠폰을 보여 줌 · 연결이 안 되면 전처럼 쿠폰을 보여 주고 나중에 다시 보냄 */
+      if(CL&&!GSR){ var bt=this; bt.disabled=true; sent[rec.id]=JSON.stringify(rec);
+        run('put',[rec],function(){ bt.disabled=false; keep(); },function(){ bt.disabled=false; delete sent[rec.id]; keep(); },function(e){ bt.disabled=false; delete sent[rec.id]; if(e==='limit') limitSheet(); else close(); });
+        return; }
+      keep();
     });
     gs.querySelector('[data-c=x]').addEventListener('click',close);
   }
+
+  /* ── v3.12 · 무료 하루 한도에 닿았을 때 (총괄 65번 3장 · 네 방 같은 꼴) — 막지만 끊지 않음 · 받은 쿠폰 · 결과 사진은 그대로 ── */
+  function limitSheet(){
+    open('<button class="x" type="button" data-c="x">닫기 ✕</button>'
+      +'<div class="sum" style="text-align:center;font-size:15px">오늘 무료로 만들 수 있는 한 장을 다 쓰셨어요.<br>내일 다시 만들어 보실 수 있어요.</div>'
+      +'<a class="go dark" style="display:flex;align-items:center;justify-content:center;text-decoration:none" href="'+esc(ASK)+'" target="_blank" rel="noopener">상담하기 ›</a>');
+    gs.querySelector('[data-c=x]').addEventListener('click',close);
+  }
+  /* 이야기방에 남기기 전에 서버에 물음 (서버 v9 storyOk) — 서버가 없거나 연결이 안 되면 그냥 열어 줌 */
+  function storyOk(cb){ if(!CL||GSR||window.NORI_EDU){ cb(true); return; } var done=false; function fin(v){ if(done) return; done=true; cb(v); }
+    run('storyOk',[devId()],function(r){ fin(!(r&&r.ok===false&&r.err==='limit')); },function(){ fin(true); },function(e){ if(e==='limit'){ limitSheet(); fin(false); } else fin(true); }); }
+  window.noriStoryOk=storyOk;
 
   /* ── 쿠폰 화면 ── */
   function find(id){ for(var i=0;i<REC.length;i++){ if(REC[i].id===id) return REC[i]; } return null; }
@@ -290,7 +311,7 @@ window.GIFT=(function(){
         var rd=new FileReader(); rd.onload=function(){ try{ var wb=XLSX.read(rd.result,{type:'array'}), ws=wb.Sheets[wb.SheetNames[0]]; preview(XLSX.utils.sheet_to_json(ws,{header:1,raw:false,defval:''}),nm); }catch(e){ toast('이 파일은 열 수 없어요. CSV로 저장해 올려 주세요'); } }; rd.readAsArrayBuffer(f); }); return; }
       var rd=new FileReader(); rd.onload=function(){ var t=String(rd.result||''); if(/\uFFFD/.test(t.slice(0,2000))){ var r2=new FileReader(); r2.onload=function(){ preview(splitText(r2.result),nm); }; r2.readAsText(f,'euc-kr'); return; } preview(splitText(t),nm); }; rd.readAsText(f,'utf-8'); });
     gs.querySelector('[data-c=fDl]').addEventListener('click',function(){ var rows=[MASTER.head].concat(MASTER.rows), d=new Date(), nm='그때그놀이_가게_'+String(d.getFullYear()).slice(2)+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2);
-      loadXlsx(function(err){ try{ if(err) throw err; var ws=XLSX.utils.aoa_to_sheet(rows), wb=XLSX.utils.book_new(); ws['!cols']=MASTER.head.map(function(h){ return {wch:/주소|메모/.test(h)?34:14}; }); XLSX.utils.book_append_sheet(wb,ws,'가게'); var buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+      loadXlsx(function(err){ try{ if(err) throw err; var ws=XLSX.utils.aoa_to_sheet(rows), wb=XLSX.utils.book_new(); ws['!cols']=MASTER.head.map(function(h){ return {wch:/주소|메모|방/.test(h)?34:14}; }); XLSX.utils.book_append_sheet(wb,ws,'가게'); var buf=XLSX.write(wb,{bookType:'xlsx',type:'array'});
         var a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([buf],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'})); a.download=nm+'.xlsx'; document.body.appendChild(a); a.click(); a.remove(); toast('가게 명단을 엑셀로 내려받았어요'); }
         catch(e){ csv(nm,rows); toast('엑셀 도구가 없어 CSV로 내려받았어요'); } }); });
   }
@@ -328,8 +349,12 @@ window.GIFT=(function(){
   document.addEventListener('click',function(){ menu.classList.remove('on'); });
   menu.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; menu.classList.remove('on'); var mm=b.getAttribute('data-m'); if(mm==='mine'){ myBox(); } else if(mm==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요'); } } else if(mm==='share'){ var f=document.getElementById('fShare'); if(f){ f.click(); } } else { adminLogin(); } });
   marquee(); shopText();
-  run('info',[],function(x){ if(!x) return; if(x.unknown&&C){ C=''; window.NORI_C=''; try{ localStorage.removeItem('nori-c'); }catch(e){} window.NORI_URL=String(window.NORI_URL||'').replace(/[?#].*$/,''); return; } if(!window.NORI_URL){ window.NORI_URL=x.url||''; } if(x.plan){ SET.plan=x.plan; } if(x.stop){ STOP=true; } if(x.set){ if(x.set.prizes){ var xp=x.set.prizes; SET.prizes={p1:xp.p1||DEF.prizes.p1,p0:xp.p0||DEF.prizes.p0,sp:xp.sp||''}; } if(x.set.cond){ SET.cond=x.set.cond; } if(x.set.shop){ save('nori-shop',x.set.shop); } if(x.set.room&&/^https:\/\/uriyagi\.kr\//.test(x.set.room)){ window.NORI_ROOM=x.set.room; roomFix(); } marquee(); shopText(); } },function(){});
+  /* v3.12 · 서버 v9 info.room(남기는 방) · info.ask(상담하기 가는 곳) */
+  function roomSet(x){ if(!x) return; window.NORI_ROOM=(x.room&&/^https:\/\/uriyagi\.kr\//.test(x.room))?x.room:''; roomFix(); if(x.ask&&/^https:\/\//.test(x.ask)) ASK=x.ask; }
+  /* 시험판(lab)은 기록 서버로 보내지 않음 · 남기는 방을 보려고 info 하나만 읽음(NORI_INFO_API) */
+  if(!CL&&window.NORI_INFO_API){ try{ fetch(window.NORI_INFO_API,{method:'POST',body:JSON.stringify({fn:'info',args:[],c:C})}).then(function(r){ return r.json(); }).then(function(j){ if(j&&j.ok) roomSet(j.res); }).catch(function(){}); }catch(e){} }
+  run('info',[],function(x){ if(!x) return; if(x.unknown&&C){ C=''; window.NORI_C=''; try{ localStorage.removeItem('nori-c'); }catch(e){} window.NORI_URL=String(window.NORI_URL||'').replace(/[?#].*$/,''); run('info',[],function(y){ roomSet(y); },function(){}); return; } if(!window.NORI_URL){ window.NORI_URL=x.url||''; } if(x.plan){ SET.plan=x.plan; } if(x.stop){ STOP=true; } if(x.set){ if(x.set.prizes){ var xp=x.set.prizes; SET.prizes={p1:xp.p1||DEF.prizes.p1,p0:xp.p0||DEF.prizes.p0,sp:xp.sp||''}; } if(x.set.cond){ SET.cond=x.set.cond; } if(x.set.shop){ save('nori-shop',x.set.shop); } marquee(); shopText(); } roomSet(x); },function(){});
   /* 공유 주소(?from=share)로 들어온 첫 화면 — 이 창(세션)에서 한 번만 */
   try{ if(/[?&]from=share(&|$)/.test(location.search)&&!sessionStorage.getItem('nori-opened')){ sessionStorage.setItem('nori-opened','1'); setTimeout(function(){ ev('open'); },1200); } }catch(e){}
-  return {claim:claim, myBox:myBox, result:result, ev:ev};
+  return {claim:claim, myBox:myBox, result:result, ev:ev, storyOk:storyOk, limit:limitSheet};
 })();

@@ -5,7 +5,9 @@ import os, re, shutil
 SRC='loveflow/nori/index.html'; OUT='loveflow/nori/lab'
 h=open(SRC,encoding='utf-8').read()
 n=len(re.findall(r'window\.NORI_API="[^"]*"',h)); assert n==1,n
-h=re.sub(r'window\.NORI_API="[^"]*"','window.NORI_API=""',h)
+API=re.search(r'window\.NORI_API="([^"]*)"',h).group(1)
+# v3.12 · 남기는 방(서버 info.room)을 보려고 info 하나만 읽음 — 다른 부름(put · play · storyOk)은 보내지 않음
+h=re.sub(r'window\.NORI_API="[^"]*"','window.NORI_API="";window.NORI_INFO_API="'+API+'"',h)
 # 「그때 이야기」는 시험판에서는 켬 (손님 화면만 끔 · 261125)
 h=h.replace('window.NORI_STORY_OFF=1;','',1)
 h=h.replace('<!-- ★ 현재 버전 ▶ nori/index.html','<!-- ★ 시험판 ▶ nori/lab/index.html · 디자인 A 1차(첫 화면 + 손놀이 넷) + 2차(나머지 아홉 놀이 틀 · 벌칙) · 기록 서버로 보내지 않음 · 원본 = nori/src (mkall → mknori → mklab) ◀ 손님 화면 nori/index.html',1)

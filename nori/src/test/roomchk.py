@@ -1,5 +1,5 @@
 # 이야기방 주소 점검 (261126 · 사랑흐름-총괄-052): python3 test/roomchk.py [경로=/nori/lab/]
-# 사랑흐름-총괄-053: 남기기 방은 C-0300 초대 링크(?g=e92887…) 그대로 — 기본 · 가게 주소 모두 첫 화면 이야기방 칸 · 결과 카드 「이야기방에 올리기」가 이 링크로 감
+# v3.12 (261127 · 서버 v9): 남기는 방은 서버 info.room — 초대 링크를 화면에 적지 않음 · 흉내 서버 :8766 과 함께 python3 test/roomchk.py /nori/t9/ (기본 방 test0000base)
 import asyncio,sys
 from playwright.async_api import async_playwright
 PATH=sys.argv[1] if len(sys.argv)>1 else '/nori/lab/'
