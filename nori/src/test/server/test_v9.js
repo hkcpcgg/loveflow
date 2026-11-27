@@ -5,7 +5,7 @@ const SRC=fs.readFileSync(process.env.CODE||__dirname+'/Code_v9.gs','utf8');
 function mk(init){
  const props=Object.assign({},init||{}),cache={},books={},logs=[];let shift=0;
  class D extends Date{ constructor(...a){ if(a.length===0) super(Date.now()+shift); else super(...a); } static now(){ return Date.now()+shift; } }
- const sheet=()=>{const rows=[],bg={};return {rows,bg,appendRow:r=>rows.push(r.slice()),setFrozenRows(){},getLastRow:()=>rows.length,
+ const sheet=()=>{const rows=[],bg={};return {rows,bg,appendRow:r=>rows.push(r.slice()),setFrozenRows(){},getLastRow:()=>rows.length,getLastColumn:()=>rows.reduce((a,r)=>Math.max(a,r.length),0),
   deleteRows:(at,n)=>rows.splice(at-1,n),insertRowsBefore:(at,n)=>rows.splice(at-1,0,...Array.from({length:n},()=>[])),
   getRange:(r,c,nr=1,nc=1)=>({setFontWeight(){return this},setBackground(v){bg[r+':'+c]=v;return this},setValue(v){rows[r-1]=rows[r-1]||[];rows[r-1][c-1]=v;return this},
    getValue:()=> (rows[r-1]||[])[c-1],getValues:()=>{const o=[];for(let i=0;i<nr;i++){const x=(rows[r-1+i]||[]).slice(c-1,c-1+nc);while(x.length<nc)x.push('');o.push(x)}return o},
@@ -136,6 +136,12 @@ m.props.NORI_FREE_DAY='';
   ok(!L.rows.some(x=>/시험|test/i.test(x.join(' '))),'운영 시트에 시험 꼴 0');
   ok(!/dy0000|dt0000|김|AB/.test(JSON.stringify(L.rows)),'한 줄에 기기 · 이름 · 쿠폰 없음');
 }
+// 실제 운영 대장 머리 차례(261127 13시: 의심이 맨 끝 · 색이 9번째)에 맞춤
+{ const q=mk(Object.assign({},BASE,{OPS_SHEET_ID:'OPS'})); q.ctx.setup(); q.tab('OPS','-'); const L=q.books.OPS.insertSheet('매일 점검');
+  L.appendRow(['날짜','서비스','백업 결과','결제 대조(승인 수와 이용권 수)','멈춤 스위치','하루 선 몇 %','서버 오류 수','신고 수(가림 안 된 것)','색','적은 곳','비고','의심(한도 끝까지 쓴 날이 사흘 넘게)']);
+  q.ctx.dailyLine(); const r=L.rows[1];
+  ok(r.length===12&&r[8]==='초록'&&r[9]==='그때그놀이_손님입구 v9'&&/^어제/.test(r[10])&&r[11]==='없음'&&r[4]==='꺼짐','머리 이름으로 칸 맞춤 '+JSON.stringify(r));
+  ok(L.bg['2:9']==='#D9EAD3','색 칠은 「색」 칸(9번째)'); }
 { const q=mk(BASE); q.ctx.setup(); q.ctx.dailyLine(); ok(/OPS_SHEET_ID/.test(q.logs.slice(-1)[0]),'운영 대장 번호 없으면 알림'); }
 
 // 6 v8 그대로 (판 기록 · 멈춤 · usage)
