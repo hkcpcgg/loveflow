@@ -1,5 +1,6 @@
 /* ═══════════════════════════════════════════════════════════════
-   현재 버전 ▶ lf/pay-one.js · v2 · 261125 · [착수 차례 5-2 유료 기능 잠금] render 에 note(넣은 유료 기능 · 결제하지 않으면 어떻게 보이는지) 한 줄. 그 밖 v1 그대로.
+   현재 버전 ▶ lf/pay-one.js · v3 · 261127 · [사랑흐름 총괄 68번 · 대표 OK 12:50] 결제 창으로 가기 직전에 마음 카드 서버(12 버전 a=pend)에 「이 주문번호 = 이 장들」을 맡김 › 손님이 돌아오지 못해도 서버가 5분 안에 「유료」로 붙임. 맡기기가 늦거나 안 돼도 결제는 그대로 이어짐(8초 기다림). 그 밖 v2 그대로.
+   (이전) lf/pay-one.js · v2 · 261125 · [착수 차례 5-2 유료 기능 잠금] render 에 note(넣은 유료 기능 · 결제하지 않으면 어떻게 보이는지) 한 줄. 그 밖 v1 그대로.
    (이전) lf/pay-one.js · v1 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기]
    마음 카드 · 디지털 포스터를 다 만든 화면에 붙는 「유료 결제」 상자 하나.
 
@@ -150,7 +151,7 @@
             ls(PEND, JSON.stringify(pend));
             var to = location.origin + (o.back || location.pathname);
             to += (to.indexOf('?') < 0 ? '?' : '&');
-            toss(function(){
+            pendAhead(pend, function(){ toss(function(){
               try{
                 window.TossPayments(CK).payment({ customerKey: 'LFC-' + id.slice(-12) }).requestPayment({
                   method: 'CARD', amount: { currency: 'KRW', value: n }, orderId: id,
@@ -159,7 +160,7 @@
                   card: { useEscrow: false, flowMode: 'DEFAULT' }
                 })['catch'](function(){ back(); });
               }catch(e){ back(); tip(el, '결제 창을 열지 못했어요'); }
-            }, function(){ back(); tip(el, '결제 창을 불러오지 못했어요'); });
+            }, function(){ back(); tip(el, '결제 창을 불러오지 못했어요'); }); });
           });
         }, W);
       };
@@ -170,6 +171,18 @@
     var t = el.querySelector('.msg');
     if (!t) { t = document.createElement('p'); t.className = 'msg'; (el.querySelector('.lfpo') || el).appendChild(t); }
     t.textContent = m;
+  }
+
+  /* v3 결제 창 가기 전 맡기기 — 서버가 「이 주문번호 = 이 장들」을 알아 두면 창을 닫아도 붙일 수 있음 · 늦거나 안 돼도 결제는 이어감 */
+  function pendAhead(pend, go){
+    var done = false, tm = setTimeout(function(){ if (!done) { done = true; go(); } }, 8000);
+    function fin(){ if (done) { return; } done = true; clearTimeout(tm); go(); }
+    var body = { a: 'pend', kind: pend.kind, orderId: pend.oid };
+    if (pend.kind === 'card') { body.items = pend.items; } else { body.id = pend.items[0].id; body.k = pend.items[0].k; }
+    try{
+      fetch(CARD, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body) })
+        .then(function(){ fin(); })['catch'](function(){ fin(); });
+    }catch(e){ fin(); }
   }
 
   /* 카드 서버에 「유료」 잇기 */
