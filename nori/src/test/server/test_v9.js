@@ -147,6 +147,7 @@ m.props.NORI_FREE_DAY='';
 // 6 v8 그대로 (판 기록 · 멈춤 · usage)
 { const q=mk(BASE); q.ctx.setup(); const pl=o=>post(q.ctx,{fn:'play',args:[Object.assign({v:'v',t:Date.now(),g:'gl',o:'win',vs:'cpu',sc:'1:0',dev:'dabc1234',from:'qr',nw:'first'},o)]});
   ok(pl({}).ok&&pl({ev:'story',g:'',o:''}).ok,'판 · 이야기방 누름 그대로');
+  ok(q.tab('S1','판기록').rows[1][3]==="'1:0",'점수는 글자로(시트가 시각으로 바꾸지 않게)');
   q.props.NORI_STOP='all'; ok(pl({}).err==='stop'&&q.props.NORI_STOP_SEEN,'멈춤 stop · 처음 본 때 적음'); q.props.NORI_STOP='';
   q.props.LF_REPORT_KEY='K'; const u=post(q.ctx,{fn:'usage_count',day:q.ctx.day_(),key:'K'}); ok(u.ok&&Object.keys(u.rows[0]).pop()==='region','usage_count 그대로'); }
 console.log(n-f+'/'+n+' 통과');
