@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!-- ★ 현재 버전 ▶ card/make.html · v4.0 · 261125 · [대표 19:15 · 사랑흐름-총괄-035 파일 올리기 공통 꼴] 받는 분 명단 — 파일 · 붙여 넣기로 올리면 이름(+소속)이 같은 줄은 빈칸만 채움(다른 값은 표에 있던 대로) · 없으면 새로 더함 · 같은 이름이 여럿 · 이름 없는 줄은 「못 맞춘 줄」 · 표 아래 결과 한 줄 「빈칸 채움 · 새로 더함 · 다른 값 · 못 맞춘 줄」 + 「되돌리기」 · 「양식 내려받기」 › 「명단 내려받기」(지금 명단을 엑셀로 · 비었으면 양식 · 엑셀 도구가 없으면 CSV) · 머리 줄은 앞 10줄에서 찾음 · 칸 이름 「소속」도 받음. [무손] 그 밖 v3.9 전부. -->
+<!-- ★ 현재 버전 ▶ card/make.html · v4.1 · 261127 · [총괄 인계 3장 4번 · 마음카드 서버 11 버전 짝] 카드를 담다 서버가 「잠시 쉬고 있어요(멈춤)」 · 「오늘은 여기까지 받아요(하루 선)」로 답하면 그 말을 그대로 띄움(전에는 「연결이 끊겼어요」로만 보임). [무손] 그 밖 v4.0 전부. -->
+<!-- (이전) card/make.html · v4.0 · 261125 · [대표 19:15 · 사랑흐름-총괄-035 파일 올리기 공통 꼴] 받는 분 명단 — 파일 · 붙여 넣기로 올리면 이름(+소속)이 같은 줄은 빈칸만 채움(다른 값은 표에 있던 대로) · 없으면 새로 더함 · 같은 이름이 여럿 · 이름 없는 줄은 「못 맞춘 줄」 · 표 아래 결과 한 줄 「빈칸 채움 · 새로 더함 · 다른 값 · 못 맞춘 줄」 + 「되돌리기」 · 「양식 내려받기」 › 「명단 내려받기」(지금 명단을 엑셀로 · 비었으면 양식 · 엑셀 도구가 없으면 CSV) · 머리 줄은 앞 10줄에서 찾음 · 칸 이름 「소속」도 받음. [무손] 그 밖 v3.9 전부. -->
 <!-- (이전) ★ 현재 버전 ▶ card/make.html · v3.9 · 261125 · [착수 차례 5-3] 「고쳐서 다시 보내도 주소는 그대로예요.」 옆에 「다른 기기로 옮기기 ›」(/card/move.html). 그 밖 v3.8 그대로.
      (이전) card/make.html · v3.8 · 261125 · [착수 차례 5-2 유료 기능 잠금 · 대표 OK 14:18] 판매 스위치(결제 서버 값)가 켜졌을 때만: 유료 기능 옆에 작은 「유료」 표시(준비된 카드 · 사진 · 끝인사 한마디 · 내 서명 · 녹음 또는 파일 · 단체로 보내기 · 오시는 길) · 유료 기능을 넣은 카드에만 결제 상자 + 「결제하지 않으시면 받는 분께는 이 기능이 빠진 무료 카드로 보여요」 한 줄. 막지 않음(만들기 · 보내기는 그대로). 스위치가 꺼져 있으면(지금) v3.7 과 똑같음. 짝꿍: 마음 카드 서버 Code.gs 8 · lf/pay-one.js v2.
      (이전) card/make.html · v3.7 · 261125 · [착수 차례 5-1 손님 결제 화면 잇기] 「카드가 준비됐어요」 아래에 유료 결제 상자(/lf/pay-one.js v1). 값이 결제 서버에 없으면(지금) 상자가 아예 안 보임 = 화면은 v3.6 그대로. 값이 들어가면: 동의 한 줄 › 결제 창 양해 › 토스(주문번호 LF-CARD-12자리 · 이번에 만든 카드 한 벌 = 결제 한 번) › 돌아오면 만들던 카드 · 보낼 목록을 그대로 되살리고 승인 › 마음 카드 서버 a=pay(장마다 유료 · 주소 그대로). 짝꿍: 결제 서버 tossConfirm v6 · 마음 카드 서버 Code.gs 7.
@@ -672,8 +673,8 @@ $('sendBtn').onclick=function(){var b=this;if(b.disabled)return;
  b.disabled=true;var i=0,out=[];
  function next(){if(i>=RS.length){b.disabled=false;b.textContent='💌 다시 보내기 (주소 그대로)';SENT=out;drawSent();cheer();return}
   b.textContent='카드를 담는 중이에요… ('+(i+1)+'/'+RS.length+')';
-  saveOne(RS[i],SENT[i]).then(function(d){if(!d||!d.ok)throw new Error(d&&d.msg||'');var url=d.url||LF+'/card/?c='+d.c;keep(d.c,d.k);out.push({nm:RS[i].nm,to:RS[i].to,c:d.c,k:d.k,url:url});i++;next()})
-  .catch(function(e){b.disabled=false;b.textContent='💌 이어서 보내기';SENT=out;drawSent();toast('앗, '+(i+1)+'번째에서 연결이 끊겼어요. 다시 누르면 이어서 담아요')})}
+  saveOne(RS[i],SENT[i]).then(function(d){if(!d||!d.ok){var x=new Error(d&&d.msg||'');x.lf=1;throw x}var url=d.url||LF+'/card/?c='+d.c;keep(d.c,d.k);out.push({nm:RS[i].nm,to:RS[i].to,c:d.c,k:d.k,url:url});i++;next()})
+  .catch(function(e){b.disabled=false;b.textContent='💌 이어서 보내기';SENT=out;drawSent();var em=e&&e.lf&&e.message;toast(em?em:'앗, '+(i+1)+'번째에서 연결이 끊겼어요. 다시 누르면 이어서 담아요')})}   /* v4.1 서버 안내 말(멈춤 · 하루 선)은 그대로 */
  next()};
 function smsHref(t){return (/iPhone|iPad|iPod/.test(navigator.userAgent)?'sms:&body=':'sms:?body=')+encodeURIComponent(t)}
 function drawSent(){var fr=($('from').value||'').trim();$('sendp').classList.add('on');$('cbar2').style.display='flex';
