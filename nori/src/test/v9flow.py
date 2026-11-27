@@ -40,12 +40,17 @@ async def main():
     async def gift(pg):
       await pg.evaluate("window.postMessage({nori:'result',r:{game:'rp',gname:'가위바위보',out:'win',win:true,lv:'cpu',sc:[3,1],opp:'다복 사장님'}},'*')"); await pg.wait_for_timeout(700)
       await pg.evaluate("window.postMessage({nori:'gift'},'*')"); await pg.wait_for_timeout(600)
-      await pg.fill('#gN','김다복'); await pg.click('.gs.on [data-c=ok]'); await pg.wait_for_timeout(1200)
-      return await pg.evaluate("()=>({cp:!!document.querySelector('.gs.on .cp'),sum:(document.querySelector('.gs.on .sum')||{}).textContent||''})")
+      form=await pg.evaluate("()=>!!document.querySelector('.gs.on #gN')")
+      if form: await pg.fill('#gN','김다복'); await pg.click('.gs.on [data-c=ok]'); await pg.wait_for_timeout(1200)
+      return await pg.evaluate("()=>({cp:!!document.querySelector('.gs.on .cp'),sum:(document.querySelector('.gs.on .sum')||{}).textContent||''})")|{'form':form}
     g1=await gift(pg); ok(g1['cp'],'선물 첫 건 → 쿠폰')
     G=dump('손님기록'); ok(len(G)==2 and G[1][15:]==[] or len(G)==2,'손님기록 1줄 '+str(len(G)-1))
     await pg.evaluate("document.querySelector('.gs').classList.remove('on')")
     g2=await gift(pg); ok((not g2['cp']) and '한 장을 다 쓰셨어요' in g2['sum'],'선물 둘째 건 → 한도 안내 · 쿠폰 없음')
+    ok(not g2['form'],'둘째 건은 이름 적기 전에 안내(이름 칸 안 뜸)')
+    # 폰 기억을 지워도 서버가 막음
+    await pg.evaluate("localStorage.removeItem('nori-gday');document.querySelector('.gs').classList.remove('on')"); g3=await gift(pg)
+    ok(g3['form'] and (not g3['cp']) and '한 장을 다 쓰셨어요' in g3['sum'],'폰 기억을 지워도 서버가 막음')
     ok(len(dump('손님기록'))==2,'둘째 건은 손님기록에 안 들어감')
     mine=await pg.evaluate("JSON.parse(localStorage.getItem('nori-recs')||'[]').length"); ok(mine==1,'폰 안 선물함도 1건 '+str(mine))
     await pg.screenshot(path='/home/claude/w/shots/v9_limit_gift.png')
@@ -59,6 +64,13 @@ async def main():
     cx2=await br.new_context(viewport={'width':375,'height':667}); pg3=await page(cx2); await pg3.goto('http://localhost:8765/nori/t9/'); await pg3.wait_for_timeout(1500)
     r=await room(pg3); ok(r and not r['shown'],'서버에 방 없음 → 첫 화면 이야기방 칸 감춤')
     fr3=await card(pg3); ok(not await fr3.evaluate("()=>!!document.querySelector('.ncard.on [data-c=story]')"),'→ 결과 카드 「이야기방에 올리기」 감춤')
+    # 선물 조건 「다」(이야기방에 남기면 열림)인데 방이 없으면 직원 확인 안내
+    await pg3.evaluate("localStorage.setItem('nori-gift-set',JSON.stringify({prizes:{p1:'음료',p0:'사탕',sp:''},cond:'c',plan:'free'}))")
+    await pg3.goto('http://localhost:8765/nori/t9/'); await pg3.wait_for_timeout(1500)
+    await pg3.evaluate("window.postMessage({nori:'result',r:{game:'rp',gname:'가위바위보',out:'win',win:true,lv:'cpu',sc:[3,1],opp:'다복 사장님'}},'*')"); await pg3.wait_for_timeout(700)
+    await pg3.evaluate("window.postMessage({nori:'gift'},'*')"); await pg3.wait_for_timeout(600); await pg3.fill('#gN','이'); await pg3.click('.gs.on [data-c=ok]'); await pg3.wait_for_timeout(1200)
+    t3=await pg3.evaluate("(document.querySelector('.gs.on')||{}).textContent||''")
+    ok('직원에게 이 화면을 보여' in t3 and '남기러 가기' not in t3,'조건 다 · 방 없음 → 직원 확인 안내')
     # 7 가게 방
     setp('NORI_ROOM_DEFAULT='+urllib.parse.quote('https://uriyagi.kr/?g=test0000base'))
     setp('SHOP_101='+urllib.parse.quote(json.dumps({'admin':'1','staff':'2','room':'https://uriyagi.kr/?g=test0101shop'})))
