@@ -44,7 +44,7 @@ C.setup(); ok(m.trig.length===2,'setup 두 번 해도 예약 둘');
 ok(/아직 없는 속성: NORI_ROOM_DEFAULT, OPS_SHEET_ID/.test(m.logs.slice(-1)[0]),'없는 속성 알림');
 
 // 2 남기는 방
-let inf=post(C,{fn:'info',args:[]}).res; ok(inf.room===''&&inf.ask==='https://www.loveflow.ai.kr/'&&inf.free===1,'기본 방 없음 → 빈칸 · 상담 사랑흐름 홈 · 하루 1');
+let inf=post(C,{fn:'info',args:[]}).res; ok(inf.room===''&&inf.ask==='https://pf.kakao.com/_ExndxfX/chat'&&inf.free===1,'기본 방 없음 → 빈칸 · 상담은 카카오톡 채널 · 하루 1');
 m.props.NORI_ROOM_DEFAULT=ROOM; inf=post(C,{fn:'info',args:[]}).res; ok(inf.room===ROOM,'기본 방');
 m.props.NORI_ROOM_DEFAULT='https://evil.kr/?g=1'; ok(post(C,{fn:'info',args:[]}).res.room==='','uriyagi.kr 아니면 빈칸');
 m.props.NORI_ROOM_DEFAULT=ROOM; m.props.NORI_ASK_URL='https://www.loveflow.ai.kr/ask'; ok(post(C,{fn:'info',args:[]}).res.ask==='https://www.loveflow.ai.kr/ask','상담 주소 속성');

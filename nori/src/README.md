@@ -16,6 +16,12 @@ python3 mkall.py && python3 mknori.py && python3 mklab.py   # → loveflow/nori/
 cp loveflow/nori/lab/index.html ../nori/lab/index.html
 ```
 
+## 사용법 쪽 (261128)
+```
+python3 test/guideshot.py && python3 mkguide.py        # 흉내 서버 :8766 · nori/t9 · → loveflow/nori/lab/guide/ (올릴 때 python3 mkguide.py live → nori/guide/)
+```
+꼴은 우리 이야기 /guide/ 를 받아 씀(번호 한 편 · 짧은 글 · 화면 그림 + 노란 말풍선). ☰ 메뉴 「사용법」이 guide/ 로 감.
+
 ## 파일
 - 공통: `nav.js`(아래 막대 · 옆 기둥 · 결과 카드 — `window.NORI_A=1` 이면 디자인 A) · `pre.js`(디자인 A: 🔈소리 창 · 시작 전 「무엇을 걸까요?」 · 반투명 손가락 · 구령 · 말로 내기) · `pen.js`(벌칙: 딱밤 · 꿀밤 · 인디언밥) · `emit.js` · `gift.js` · `sound.js` · `flat.css`
 - 첫 화면: `home_layout.py` · `build017.py`(016을 바탕으로 017 손님 입구를 만듦) · `mknori.py`(/nori/ 머리 · 아이콘)

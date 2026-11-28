@@ -743,7 +743,7 @@ window.GIFT=(function(){
   var C=(function(){ var m=/[?&]c=(\d{3,4})(?:&|$)/.exec(location.search), v=m?m[1]:''; try{ if(v){ localStorage.setItem('nori-c',v); } else { v=localStorage.getItem('nori-c')||''; } }catch(e){} return v; })();
   /* 이야기방 「남기기」 주소 (v3.12 · 서버 v9 · 총괄 59번 · 115차 12번): 초대 링크를 이 화면에 적지 않음. 서버 info 가 돌려주는 room(가게 방 › 기본 방 NORI_ROOM_DEFAULT)을 씀 · 없으면 이야기방 단추를 감춤 */
   window.NORI_ROOM='';
-  var ASK='https://www.loveflow.ai.kr/', FREE=1;
+  var ASK='https://pf.kakao.com/_ExndxfX/chat', FREE=1; /* 상담하기 = 사랑흐름 서비스 이용(/use/) 「문의하기」와 같은 카카오톡 채널 상담 */
   function kday(){ return new Date(Date.now()+9*3600e3).toISOString().slice(0,10); }
   /* 이 폰이 오늘 받은 무료 선물 수 (서버가 정하고, 화면은 이름 적기 전에 미리 알려 주려고만 셈) */
   function gUsed(){ var G=load('nori-gday',{}); return G.d===kday()?(G.n||0):0; }
@@ -826,7 +826,7 @@ window.GIFT=(function(){
   document.head.appendChild(css);
   var gs=document.createElement('div'); gs.className='gs'; gs.setAttribute('role','dialog'); document.body.appendChild(gs);
   var menu=document.createElement('div'); menu.className='menu';
-  menu.innerHTML='<button type="button" data-m="mine">내 선물함</button>'+(window.NORI_API?'<button type="button" data-m="home">홈 화면에 추가</button><button type="button" data-m="share">공유하기</button>':'')+'<button type="button" data-m="admin">관리자 창 (사장님)</button>';
+  menu.innerHTML='<button type="button" data-m="mine">내 선물함</button><button type="button" data-m="guide">사용법</button>'+(window.NORI_API?'<button type="button" data-m="home">홈 화면에 추가</button><button type="button" data-m="share">공유하기</button>':'')+'<button type="button" data-m="admin">관리자 창 (사장님)</button>';
   document.body.appendChild(menu);
   function open(h){ gs.innerHTML='<div class="sh">'+h+'</div>'; gs.classList.add('on'); }
   function close(){ gs.classList.remove('on'); }
@@ -1079,7 +1079,7 @@ window.GIFT=(function(){
   var bur=document.querySelector('.burger'); if(bur){ bur.style.cursor='pointer'; bur.setAttribute('role','button'); bur.setAttribute('aria-label','메뉴'); bur.setAttribute('tabindex','0');
     bur.addEventListener('click',function(e){ e.stopPropagation(); menu.classList.toggle('on'); }); }
   document.addEventListener('click',function(){ menu.classList.remove('on'); });
-  menu.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; menu.classList.remove('on'); var mm=b.getAttribute('data-m'); if(mm==='mine'){ myBox(); } else if(mm==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요'); } } else if(mm==='share'){ var f=document.getElementById('fShare'); if(f){ f.click(); } } else { adminLogin(); } });
+  menu.addEventListener('click',function(e){ var b=e.target.closest('button'); if(!b) return; menu.classList.remove('on'); var mm=b.getAttribute('data-m'); if(mm==='mine'){ myBox(); } else if(mm==='guide'){ location.href='guide/'+(C?'?c='+C:''); } else if(mm==='home'){ if(window.LFHomeAdd){ LFHomeAdd(); } else { toast('브라우저 메뉴에서 「홈 화면에 추가」를 눌러 주세요'); } } else if(mm==='share'){ var f=document.getElementById('fShare'); if(f){ f.click(); } } else { adminLogin(); } });
   marquee(); shopText();
   /* v3.12 · 서버 v9 info.room(남기는 방) · info.ask(상담하기 가는 곳) */
   function roomSet(x){ if(!x) return; window.NORI_ROOM=(x.room&&/^https:\/\/uriyagi\.kr\//.test(x.room))?x.room:''; roomFix(); if(x.ask&&/^https:\/\//.test(x.ask)) ASK=x.ask; if(typeof x.free==='number') FREE=x.free; }
